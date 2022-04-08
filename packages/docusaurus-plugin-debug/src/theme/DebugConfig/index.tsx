@@ -12,7 +12,7 @@ import DebugJsonView from '@theme/DebugJsonView';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-function DebugMetadata(): JSX.Element {
+export default function DebugMetadata(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <DebugLayout>
@@ -21,5 +21,3 @@ function DebugMetadata(): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugMetadata;

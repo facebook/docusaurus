@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {default as build} from './commands/build';
-export {default as start} from './commands/start';
-export {default as swizzle} from './commands/swizzle';
-export {default as deploy} from './commands/deploy';
-export {default as externalCommand} from './commands/external';
-export {default as serve} from './commands/serve';
-export {default as clear} from './commands/clear';
-export {default as upgrade} from './commands/upgrade';
-export {default as writeTranslations} from './commands/writeTranslations';
-export {default as writeHeadingIds} from './commands/writeHeadingIds';
+export {build} from './commands/build';
+export {clear} from './commands/clear';
+export {deploy} from './commands/deploy';
+export {externalCommand} from './commands/external';
+export {serve} from './commands/serve';
+export {start} from './commands/start';
+export {swizzle} from './commands/swizzle';
+export {upgrade} from './commands/upgrade';
+export {writeHeadingIds} from './commands/writeHeadingIds';
+export {writeTranslations} from './commands/writeTranslations';

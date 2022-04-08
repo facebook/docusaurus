@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join, relative} from 'path';
+import {jest} from '@jest/globals';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
@@ -13,47 +14,55 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options) => {
-  const path = join(__dirname, 'fixtures', `${name}.md`);
-  const file = await vfile.read(path);
+  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)
-    .use(plugin, {...options, filePath: path})
+    .use(plugin, {...options, filePath})
     .process(file);
 
   return result.toString();
 };
 
-// avoid hardcoding absolute
-const staticDir = `./${relative(process.cwd(), join(__dirname, 'fixtures'))}`;
+const staticDirs = [
+  path.join(__dirname, '__fixtures__/static'),
+  path.join(__dirname, '__fixtures__/static2'),
+];
+
+const siteDir = path.join(__dirname, '__fixtures__');
 
 describe('transformImage plugin', () => {
-  test('fail if image does not exist', async () => {
+  it('fail if image does not exist', async () => {
     await expect(
-      processFixture('fail', {
-        staticDir,
-      }),
+      processFixture('fail', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
-  test('fail if image url is absent', async () => {
+  it('fail if image relative path does not exist', async () => {
     await expect(
-      processFixture('noUrl', {
-        staticDir,
-      }),
+      processFixture('fail2', {staticDirs}),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+  it('fail if image url is absent', async () => {
+    await expect(
+      processFixture('noUrl', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('transform md images to <img />', async () => {
-    const result = await processFixture('img', {
-      staticDir,
-    });
+  it('transform md images to <img />', async () => {
+    const result = await processFixture('img', {staticDirs, siteDir});
     expect(result).toMatchSnapshot();
   });
 
-  test('pathname protocol', async () => {
-    const result = await processFixture('pathname', {
-      staticDir,
-    });
+  it('pathname protocol', async () => {
+    const result = await processFixture('pathname', {staticDirs});
     expect(result).toMatchSnapshot();
+  });
+
+  it('does not choke on invalid image', async () => {
+    const errorMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const result = await processFixture('invalid-img', {staticDirs});
+    expect(result).toMatchSnapshot();
+    expect(errorMock).toBeCalledTimes(1);
   });
 });

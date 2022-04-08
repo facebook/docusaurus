@@ -4,22 +4,30 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import Joi from './Joi';
-import {isValidPathname} from '@docusaurus/utils';
-import type {Tag} from '@docusaurus/utils';
+import {isValidPathname, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/types';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
-  .regex(/^[a-zA-Z_-]+$/)
-  // duplicate core constant, otherwise cyclic dependency is created :(
-  .default('default');
+  .regex(/^[\w-]+$/)
+  .message(
+    'Illegal plugin ID value "{#value}": it should only contain alphanumerics, underscores, and dashes.',
+  )
+  .default(DEFAULT_PLUGIN_ID);
 
 const MarkdownPluginsSchema = Joi.array()
   .items(
-    Joi.array().ordered(Joi.function().required(), Joi.object().required()),
+    Joi.array().ordered(Joi.function().required(), Joi.any().required()),
     Joi.function(),
     Joi.object(),
   )
+  .messages({
+    'array.includes': `{#label} does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), \\{ strict: false \\}]\`, or
+- A simple module, like \`require("remark-math")\``,
+  })
   .default([]);
 
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
@@ -31,15 +39,13 @@ export const AdmonitionsSchema = Joi.object().default({});
 //  Joi is such a pain, good luck to annoying trying to improve this
 export const URISchema = Joi.alternatives(
   Joi.string().uri({allowRelative: true}),
-  // This custom validation logic is required notably because Joi does not accept paths like /a/b/c ...
+  // This custom validation logic is required notably because Joi does not
+  // accept paths like /a/b/c ...
   Joi.custom((val, helpers) => {
     try {
-      const url = new URL(val);
-      if (url) {
-        return val;
-      } else {
-        return helpers.error('any.invalid');
-      }
+      // eslint-disable-next-line no-new
+      new URL(val);
+      return val;
     } catch {
       return helpers.error('any.invalid');
     }
@@ -53,9 +59,8 @@ export const PathnameSchema = Joi.string()
   .custom((val) => {
     if (!isValidPathname(val)) {
       throw new Error();
-    } else {
-      return val;
     }
+    return val;
   })
   .message(
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
@@ -78,7 +83,7 @@ export const FrontMatterTagsSchema = JoiFrontMatter.array()
   .items(FrontMatterTagSchema)
   .messages({
     'array.base':
-      '{{#label}} does not look like a valid FrontMatter Yaml array.',
+      '{{#label}} does not look like a valid front matter Yaml array.',
   });
 
 export const FrontMatterTOCHeadingLevels = {

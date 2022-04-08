@@ -5,18 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
   Plugin,
-  HtmlTags,
   OptionValidationContext,
-  ValidationResult,
   ThemeConfig,
   ThemeConfigValidationContext,
 } from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
+import type {PluginOptions, Options} from '@docusaurus/plugin-google-gtag';
 
 export default function pluginGoogleGtag(
   context: LoadContext,
@@ -33,7 +30,7 @@ export default function pluginGoogleGtag(
     },
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './gtag')] : [];
+      return isProd ? ['./gtag'] : [];
     },
 
     injectHtmlTags() {
@@ -41,7 +38,8 @@ export default function pluginGoogleGtag(
         return {};
       }
       return {
-        // Gtag includes GA by default, so we also preconnect to google-analytics.
+        // Gtag includes GA by default, so we also preconnect to
+        // google-analytics.
         headTags: [
           {
             tagName: 'link',
@@ -75,7 +73,7 @@ export default function pluginGoogleGtag(
               anonymizeIP ? "'anonymize_ip': true" : ''
             } });`,
           },
-        ] as HtmlTags,
+        ],
       };
     },
   };
@@ -89,14 +87,14 @@ const pluginOptionsSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   return validate(pluginOptionsSchema, options);
 }
 
 export function validateThemeConfig({
   themeConfig,
-}: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
-  if (themeConfig.gtag) {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
+  if ('gtag' in themeConfig) {
     throw new Error(
       'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at https://github.com/facebook/docusaurus/pull/5832.',
     );

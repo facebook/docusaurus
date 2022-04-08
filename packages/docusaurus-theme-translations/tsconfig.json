@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "noEmit": true,
+    "checkJs": true,
+    "allowJs": true
+  },
+  "include": ["update.mjs", "src"]
+}

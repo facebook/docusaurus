@@ -5,18 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {groupBy} from 'lodash';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
-import {InitializedPlugin} from '@docusaurus/types';
+import _ from 'lodash';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import type {InitializedPlugin} from '@docusaurus/types';
 
-// It is forbidden to have 2 plugins of the same name sharing the same id
-// this is required to support multi-instance plugins without conflict
+/**
+ * It is forbidden to have 2 plugins of the same name sharing the same ID.
+ * This is required to support multi-instance plugins without conflict.
+ */
 export function ensureUniquePluginInstanceIds(
   plugins: InitializedPlugin[],
 ): void {
-  const pluginsByName = groupBy(plugins, (p) => p.name);
+  const pluginsByName = _.groupBy(plugins, (p) => p.name);
   Object.entries(pluginsByName).forEach(([pluginName, pluginInstances]) => {
-    const pluginInstancesById = groupBy(
+    const pluginInstancesById = _.groupBy(
       pluginInstances,
       (p) => p.options.id ?? DEFAULT_PLUGIN_ID,
     );

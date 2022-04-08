@@ -11,7 +11,7 @@ import DebugLayout from '@theme/DebugLayout';
 import registry from '@generated/registry';
 import styles from './styles.module.css';
 
-function DebugRegistry(): JSX.Element {
+export default function DebugRegistry(): JSX.Element {
   return (
     <DebugLayout>
       <h2>Registry</h2>
@@ -30,5 +30,3 @@ function DebugRegistry(): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugRegistry;

@@ -24,7 +24,7 @@ module.exports = {
 
 ## Swizzling components
 
-```shell
+```bash
 $ npm swizzle @docusaurus/theme-classic [component name]
 ```
 

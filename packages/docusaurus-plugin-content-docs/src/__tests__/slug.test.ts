@@ -8,102 +8,230 @@
 import getSlug from '../slug';
 
 describe('getSlug', () => {
-  test('should default to dirname/id', () => {
-    expect(getSlug({baseID: 'doc', dirName: '/dir'})).toEqual('/dir/doc');
-    expect(getSlug({baseID: 'doc', dirName: '/dir/subdir'})).toEqual(
-      '/dir/subdir/doc',
-    );
+  it('defaults to dirname/id', () => {
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/doc.md',
+        sourceDirName: '/dir',
+      }),
+    ).toBe('/dir/doc');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/doc.md',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/doc');
   });
 
-  test('can strip dir number prefixes', () => {
+  it('handles conventional doc indexes', () => {
     expect(
       getSlug({
         baseID: 'doc',
-        dirName: '/001-dir1/002-dir2',
+        source: '@site/docs/dir/subdir/index.md',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/inDEx.mdx',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/readme.md',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/reADMe.mdx',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/subdir.md',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/suBDir.mdx',
+        sourceDirName: '/dir/subdir',
+      }),
+    ).toBe('/dir/subdir/');
+  });
+
+  it('ignores conventional doc index when explicit slug front matter is provided', () => {
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/dir/subdir/index.md',
+        sourceDirName: '/dir/subdir',
+        frontMatterSlug: '/my/frontMatterSlug',
+      }),
+    ).toBe('/my/frontMatterSlug');
+  });
+
+  it('can strip dir number prefixes', () => {
+    expect(
+      getSlug({
+        baseID: 'doc',
+        source: '@site/docs/001-dir1/002-dir2/doc.md',
+        sourceDirName: '/001-dir1/002-dir2',
         stripDirNumberPrefixes: true,
       }),
-    ).toEqual('/dir1/dir2/doc');
+    ).toBe('/dir1/dir2/doc');
     expect(
       getSlug({
         baseID: 'doc',
-        dirName: '/001-dir1/002-dir2',
+        source: '@site/docs/001-dir1/002-dir2/doc.md',
+        sourceDirName: '/001-dir1/002-dir2',
         stripDirNumberPrefixes: false,
       }),
-    ).toEqual('/001-dir1/002-dir2/doc');
+    ).toBe('/001-dir1/002-dir2/doc');
   });
 
   // See https://github.com/facebook/docusaurus/issues/3223
-  test('should handle special chars in doc path', () => {
+  it('handles special chars in doc path', () => {
     expect(
-      getSlug({baseID: 'my dôc', dirName: '/dir with spâce/hey $hello'}),
-    ).toEqual('/dir with spâce/hey $hello/my dôc');
+      getSlug({
+        baseID: 'my dôc',
+        source: '@site/docs/dir with spâce/hey $hello/doc.md',
+        sourceDirName: '/dir with spâce/hey $hello',
+      }),
+    ).toBe('/dir with spâce/hey $hello/my dôc');
   });
 
-  test('should handle current dir', () => {
-    expect(getSlug({baseID: 'doc', dirName: '.'})).toEqual('/doc');
-    expect(getSlug({baseID: 'doc', dirName: '/'})).toEqual('/doc');
+  it('throws for invalid routes', () => {
+    expect(() =>
+      getSlug({
+        baseID: 'my dôc',
+        source: '@site/docs/dir with spâce/hey $hello/doc.md',
+        sourceDirName: '/dir with spâce/hey $hello',
+        frontMatterSlug: '//',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "We couldn't compute a valid slug for document with ID "my dôc" in "/dir with spâce/hey $hello" directory.
+      The slug we computed looks invalid: //.
+      Maybe your slug front matter is incorrect or there are special characters in the file path?
+      By using front matter to set a custom slug, you should be able to fix this error:
+
+      ---
+      slug: /my/customDocPath
+      ---
+      "
+    `);
   });
 
-  test('should resolve absolute slug frontmatter', () => {
+  it('handles current dir', () => {
     expect(
-      getSlug({baseID: 'any', dirName: '.', frontmatterSlug: '/abc/def'}),
-    ).toEqual('/abc/def');
+      getSlug({baseID: 'doc', source: '@site/docs/doc.md', sourceDirName: '.'}),
+    ).toBe('/doc');
     expect(
-      getSlug({baseID: 'any', dirName: './any', frontmatterSlug: '/abc/def'}),
-    ).toEqual('/abc/def');
-    expect(
-      getSlug({
-        baseID: 'any',
-        dirName: './any/any',
-        frontmatterSlug: '/abc/def',
-      }),
-    ).toEqual('/abc/def');
+      getSlug({baseID: 'doc', source: '@site/docs/doc.md', sourceDirName: '/'}),
+    ).toBe('/doc');
   });
 
-  test('should resolve relative slug frontmatter', () => {
-    expect(
-      getSlug({baseID: 'any', dirName: '.', frontmatterSlug: 'abc/def'}),
-    ).toEqual('/abc/def');
-    expect(
-      getSlug({baseID: 'any', dirName: '/dir', frontmatterSlug: 'abc/def'}),
-    ).toEqual('/dir/abc/def');
+  it('resolves absolute slug front matter', () => {
     expect(
       getSlug({
         baseID: 'any',
-        dirName: 'unslashedDir',
-        frontmatterSlug: 'abc/def',
+        source: '@site/docs/doc.md',
+        sourceDirName: '.',
+        frontMatterSlug: '/abc/def',
       }),
-    ).toEqual('/unslashedDir/abc/def');
+    ).toBe('/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: 'dir/subdir',
-        frontmatterSlug: 'abc/def',
+        source: '@site/docs/any/doc.md',
+        sourceDirName: './any',
+        frontMatterSlug: '/abc/def',
       }),
-    ).toEqual('/dir/subdir/abc/def');
-    expect(
-      getSlug({baseID: 'any', dirName: '/dir', frontmatterSlug: './abc/def'}),
-    ).toEqual('/dir/abc/def');
+    ).toBe('/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: '/dir',
-        frontmatterSlug: './abc/../def',
+        source: '@site/docs/any/any/doc.md',
+        sourceDirName: './any/any',
+        frontMatterSlug: '/abc/def',
       }),
-    ).toEqual('/dir/def');
+    ).toBe('/abc/def');
+  });
+
+  it('resolves relative slug front matter', () => {
     expect(
       getSlug({
         baseID: 'any',
-        dirName: '/dir/subdir',
-        frontmatterSlug: '../abc/def',
+        source: '@site/docs/doc.md',
+        sourceDirName: '.',
+        frontMatterSlug: 'abc/def',
       }),
-    ).toEqual('/dir/abc/def');
+    ).toBe('/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: '/dir/subdir',
-        frontmatterSlug: '../../../../../abc/../def',
+        source: '@site/docs/dir/doc.md',
+        sourceDirName: '/dir',
+        frontMatterSlug: 'abc/def',
       }),
-    ).toEqual('/def');
+    ).toBe('/dir/abc/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        source: '@site/docs/nonSlashedDir/doc.md',
+        sourceDirName: 'nonSlashedDir',
+        frontMatterSlug: 'abc/def',
+      }),
+    ).toBe('/nonSlashedDir/abc/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        source: '@site/docs/dir/subdir/doc.md',
+        sourceDirName: 'dir/subdir',
+        frontMatterSlug: 'abc/def',
+      }),
+    ).toBe('/dir/subdir/abc/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        source: '@site/docs/dir/doc.md',
+        sourceDirName: '/dir',
+        frontMatterSlug: './abc/def',
+      }),
+    ).toBe('/dir/abc/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        source: '@site/docs/dir/doc.md',
+        sourceDirName: '/dir',
+        frontMatterSlug: './abc/../def',
+      }),
+    ).toBe('/dir/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        source: '@site/docs/dir/subdir/doc.md',
+        sourceDirName: '/dir/subdir',
+        frontMatterSlug: '../abc/def',
+      }),
+    ).toBe('/dir/abc/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        source: '@site/docs/dir/subdirDoc.md',
+        sourceDirName: '/dir/subdir',
+        frontMatterSlug: '../../../../../abc/../def',
+      }),
+    ).toBe('/def');
   });
 });

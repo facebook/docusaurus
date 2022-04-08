@@ -5,55 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import shell from 'shelljs';
-
-type FileLastUpdateData = {timestamp?: number; author?: string};
-
-const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+),(.+)$/;
+import logger from '@docusaurus/logger';
+import {
+  getFileCommitDate,
+  FileNotTrackedError,
+  GitNotFoundError,
+} from '@docusaurus/utils';
 
 let showedGitRequirementError = false;
+let showedFileNotTrackedError = false;
 
 export async function getFileLastUpdate(
   filePath?: string,
-): Promise<FileLastUpdateData | null> {
+): Promise<{timestamp: number; author: string} | null> {
   if (!filePath) {
     return null;
-  }
-  function getTimestampAndAuthor(str: string): FileLastUpdateData | null {
-    if (!str) {
-      return null;
-    }
-
-    const temp = str.match(GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX);
-    return !temp || temp.length < 3
-      ? null
-      : {timestamp: +temp[1], author: temp[2]};
   }
 
   // Wrap in try/catch in case the shell commands fail
   // (e.g. project doesn't use Git, etc).
   try {
-    if (!shell.which('git')) {
-      if (!showedGitRequirementError) {
-        showedGitRequirementError = true;
-        console.warn('Sorry, the docs plugin last update options require Git.');
-      }
-
-      return null;
-    }
-
-    const result = shell.exec(`git log -1 --format=%ct,%an ${filePath}`, {
-      silent: true,
+    const result = getFileCommitDate(filePath, {
+      age: 'newest',
+      includeAuthor: true,
     });
-    if (result.code !== 0) {
-      throw new Error(
-        `Retrieval of git history failed at ${filePath} with exit code ${result.code}: ${result.stderr}`,
-      );
+    return {timestamp: result.timestamp, author: result.author};
+  } catch (err) {
+    if (err instanceof GitNotFoundError) {
+      if (!showedGitRequirementError) {
+        logger.warn('Sorry, the docs plugin last update options require Git.');
+        showedGitRequirementError = true;
+      }
+    } else if (err instanceof FileNotTrackedError) {
+      if (!showedFileNotTrackedError) {
+        logger.warn(
+          'Cannot infer the update date for some files, as they are not tracked by git.',
+        );
+        showedFileNotTrackedError = true;
+      }
+    } else {
+      logger.warn(err);
     }
-    return getTimestampAndAuthor(result.stdout.trim());
-  } catch (error) {
-    console.error(error);
+    return null;
   }
-
-  return null;
 }

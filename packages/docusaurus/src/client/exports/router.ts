@@ -5,4 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export * from 'react-router-dom';
+export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';

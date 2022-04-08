@@ -8,12 +8,12 @@
 import React from 'react';
 import type {Props} from '@theme/IconMenu';
 
-const IconMenu = ({
+export default function IconMenu({
   width = 30,
   height = 30,
   className,
   ...restProps
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   return (
     <svg
       className={className}
@@ -31,6 +31,4 @@ const IconMenu = ({
       />
     </svg>
   );
-};
-
-export default IconMenu;
+}

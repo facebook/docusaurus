@@ -12,37 +12,38 @@ import {
   customizeObject,
 } from 'webpack-merge';
 import webpack, {
-  Configuration,
-  RuleSetRule,
-  WebpackPluginInstance,
+  type Configuration,
+  type RuleSetRule,
+  type WebpackPluginInstance,
 } from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
+import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
-import chalk from 'chalk';
-import {TransformOptions} from '@babel/core';
-import {
-  ConfigureWebpackFn,
-  ConfigurePostCssFn,
+import logger from '@docusaurus/logger';
+import type {TransformOptions} from '@babel/core';
+import type {
+  Plugin,
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {
-  BABEL_CONFIG_FILE_NAME,
-  OUTPUT_STATIC_ASSETS_DIR_NAME,
-  WEBPACK_URL_LOADER_LIMIT,
-} from '../constants';
-import {memoize} from 'lodash';
+import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
   isServer: boolean,
-  cssOptions: {
+  cssOptionsArg: {
     [key: string]: unknown;
   } = {},
 ): RuleSetRule[] {
+  const cssOptions: {[key: string]: unknown} = {
+    // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
+    esModule: false,
+    ...cssOptionsArg,
+  };
+
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -98,14 +99,14 @@ export function getStyleLoaders(
   ];
 }
 
-export function getCustomBabelConfigFilePath(
+export async function getCustomBabelConfigFilePath(
   siteDir: string,
-): string | undefined {
+): Promise<string | undefined> {
   const customBabelConfigurationPath = path.join(
     siteDir,
     BABEL_CONFIG_FILE_NAME,
   );
-  return fs.existsSync(customBabelConfigurationPath)
+  return (await fs.pathExists(customBabelConfigurationPath))
     ? customBabelConfigurationPath
     : undefined;
 }
@@ -123,16 +124,13 @@ export function getBabelOptions({
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
-  } else {
-    return Object.assign(
-      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
-      {
-        babelrc: false,
-        configFile: false,
-        caller: {name: isServer ? 'server' : 'client'},
-      },
-    );
   }
+  return {
+    ...(babelOptions ?? {presets: [require.resolve('../babel/preset')]}),
+    babelrc: false,
+    configFile: false,
+    caller: {name: isServer ? 'server' : 'client'},
+  };
 }
 
 // Name is generic on purpose
@@ -163,35 +161,6 @@ export const getCustomizableJSLoader =
       ? getDefaultBabelLoader({isServer, babelOptions})
       : jsLoader(isServer);
 
-// TODO remove this before end of 2021?
-const warnBabelLoaderOnce = memoize(function () {
-  console.warn(
-    chalk.yellow(
-      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
-    ),
-  );
-});
-const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-) {
-  warnBabelLoaderOnce();
-  return getDefaultBabelLoader({isServer, babelOptions});
-};
-
-// TODO remove this before end of 2021 ?
-const warnCacheLoaderOnce = memoize(function () {
-  console.warn(
-    chalk.yellow(
-      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
-    ),
-  );
-});
-function getCacheLoaderDeprecated() {
-  warnCacheLoaderOnce();
-  return null;
-}
-
 /**
  * Helper function to modify webpack config
  * @param configureWebpack a webpack config or a function to modify config
@@ -202,7 +171,7 @@ function getCacheLoaderDeprecated() {
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: ConfigureWebpackFn,
+  configureWebpack: NonNullable<Plugin['configureWebpack']>,
   config: Configuration,
   isServer: boolean,
   jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
@@ -212,16 +181,10 @@ export function applyConfigureWebpack(
   const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
     getJSLoader: getCustomizableJSLoader(jsLoader),
-    getBabelLoader: getBabelLoaderDeprecated,
-    getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(
-      config,
-      isServer,
-      utils,
-      content,
-    );
+    const {mergeStrategy, ...res} =
+      configureWebpack(config, isServer, utils, content) ?? {};
     if (res && typeof res === 'object') {
       const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
@@ -234,14 +197,14 @@ export function applyConfigureWebpack(
 }
 
 export function applyConfigurePostCss(
-  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  configurePostCss: NonNullable<Plugin['configurePostCss']>,
   config: Configuration,
 ): Configuration {
   type LocalPostCSSLoader = unknown & {
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our use-case?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
@@ -268,16 +231,21 @@ export function applyConfigurePostCss(
   return config;
 }
 
+declare global {
+  interface Error {
+    /** @see https://webpack.js.org/api/node/#error-handling */
+    details: unknown;
+  }
+}
+
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        console.error(err.stack || err);
-        // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
+        logger.error(err.stack || err);
         if (err.details) {
-          // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
-          console.error(err.details);
+          logger.error(err.details);
         }
         reject(err);
       }
@@ -288,16 +256,14 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          console.warn(warning);
+          logger.warn(warning);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {
         if (errClose) {
-          console.error(
-            chalk.red('Error while closing Webpack compiler:', errClose),
-          );
+          logger.error(`Error while closing Webpack compiler: ${errClose}`);
           reject(errClose);
         } else {
           resolve();
@@ -305,139 +271,6 @@ export function compile(config: Configuration[]): Promise<void> {
       });
     });
   });
-}
-
-type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
-
-type FileLoaderUtils = {
-  loaders: {
-    file: (options: {folder: AssetFolder}) => RuleSetRule;
-    url: (options: {folder: AssetFolder}) => RuleSetRule;
-    inlineMarkdownImageFileLoader: string;
-    inlineMarkdownLinkFileLoader: string;
-  };
-  rules: {
-    images: () => RuleSetRule;
-    fonts: () => RuleSetRule;
-    media: () => RuleSetRule;
-    svg: () => RuleSetRule;
-    otherAssets: () => RuleSetRule;
-  };
-};
-
-// Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < urlLoaderLimit will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
-
-  // defines the path/pattern of the assets handled by webpack
-  const fileLoaderFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
-
-  const loaders: FileLoaderUtils['loaders'] = {
-    file: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`file-loader`),
-        options: {
-          name: fileLoaderFileName(options.folder),
-        },
-      };
-    },
-    url: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`url-loader`),
-        options: {
-          limit: urlLoaderLimit,
-          name: fileLoaderFileName(options.folder),
-          fallback: require.resolve(`file-loader`),
-        },
-      };
-    },
-
-    // TODO find a better solution to avoid conflicts with the ideal-image plugin
-    // TODO this may require a little breaking change for ideal-image users?
-    // Maybe with the ideal image plugin, all md images should be "ideal"?
-    // This is used to force url-loader+file-loader on markdown images
-    // https://webpack.js.org/concepts/loaders/#inline
-    inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
-      'images',
-    )}&fallback=file-loader!`,
-    inlineMarkdownLinkFileLoader: `!file-loader?name=${fileLoaderFileName(
-      'files',
-    )}!`,
-  };
-
-  const rules: FileLoaderUtils['rules'] = {
-    /**
-     * Loads image assets, inlines images via a data URI if they are below
-     * the size threshold
-     */
-    images: () => {
-      return {
-        use: [loaders.url({folder: 'images'})],
-        test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
-      };
-    },
-
-    fonts: () => {
-      return {
-        use: [loaders.url({folder: 'fonts'})],
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-      };
-    },
-
-    /**
-     * Loads audio and video and inlines them via a data URI if they are below
-     * the size threshold
-     */
-    media: () => {
-      return {
-        use: [loaders.url({folder: 'medias'})],
-        test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
-      };
-    },
-
-    svg: () => {
-      return {
-        test: /\.svg?$/,
-        oneOf: [
-          {
-            use: [
-              {
-                loader: '@svgr/webpack',
-                options: {
-                  prettier: false,
-                  svgo: true,
-                  svgoConfig: {
-                    plugins: [{removeViewBox: false}],
-                  },
-                  titleProp: true,
-                  ref: ![path],
-                },
-              },
-            ],
-            // We don't want to use SVGR loader for non-React source code
-            // ie we don't want to use SVGR for CSS files...
-            issuer: {
-              and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-            },
-          },
-          {
-            use: [loaders.url({folder: 'images'})],
-          },
-        ],
-      };
-    },
-
-    otherAssets: () => {
-      return {
-        use: [loaders.file({folder: 'files'})],
-        test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
-      };
-    },
-  };
-
-  return {loaders, rules};
 }
 
 // Ensure the certificate and key provided are valid and if not
@@ -459,9 +292,8 @@ function validateKeyAndCerts({
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate ${crtFile} is invalid.
+${err}`,
     );
   }
 
@@ -470,29 +302,28 @@ function validateKeyAndCerts({
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate key ${keyFile} is invalid.
+${err}`,
     );
   }
 }
 
 // Read file and throw an error if it doesn't exist
-function readEnvFile(file: string, type: string) {
-  if (!fs.existsSync(file)) {
+async function readEnvFile(file: string, type: string) {
+  if (!(await fs.pathExists(file))) {
     throw new Error(
-      `You specified ${chalk.cyan(
-        type,
-      )} in your env, but the file "${chalk.yellow(file)}" can't be found.`,
+      `You specified ${type} in your env, but the file "${file}" can't be found.`,
     );
   }
-  return fs.readFileSync(file);
+  return fs.readFile(file);
 }
 
-const appDirectory = fs.realpathSync(process.cwd());
 // Get the https config
 // Return cert files if provided in env, otherwise just true or false
-export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
+export async function getHttpsConfig(): Promise<
+  boolean | {cert: Buffer; key: Buffer}
+> {
+  const appDirectory = await fs.realpath(process.cwd());
   const {SSL_CRT_FILE, SSL_KEY_FILE, HTTPS} = process.env;
   const isHttps = HTTPS === 'true';
 
@@ -500,8 +331,8 @@ export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
     const crtFile = path.resolve(appDirectory, SSL_CRT_FILE);
     const keyFile = path.resolve(appDirectory, SSL_KEY_FILE);
     const config = {
-      cert: readEnvFile(crtFile, 'SSL_CRT_FILE'),
-      key: readEnvFile(keyFile, 'SSL_KEY_FILE'),
+      cert: await readEnvFile(crtFile, 'SSL_CRT_FILE'),
+      key: await readEnvFile(keyFile, 'SSL_KEY_FILE'),
     };
 
     validateKeyAndCerts({...config, keyFile, crtFile});
@@ -541,7 +372,6 @@ export function getMinimizer(
         },
         compress: {
           ecma: 5,
-          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -550,8 +380,8 @@ export function getMinimizer(
         output: {
           ecma: 5,
           comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
+          // Turned on because emoji and regex is not minified properly using
+          // default. See https://github.com/facebook/create-react-app/issues/2488
           ascii_only: true,
         },
       },
@@ -563,7 +393,7 @@ export function getMinimizer(
     minimizer.push(
       // Using the array syntax to add 2 minimizers
       // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-      new CssMinimizerPlugin({
+      new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
         minimizerOptions: [
           // CssNano options
           {
@@ -571,7 +401,6 @@ export function getMinimizer(
           },
           // CleanCss options
           {
-            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {

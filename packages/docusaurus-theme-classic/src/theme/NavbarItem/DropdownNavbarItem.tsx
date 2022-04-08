@@ -20,7 +20,7 @@ import type {
 } from '@theme/NavbarItem/DropdownNavbarItem';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-import {NavLink} from '@theme/NavbarItem/DefaultNavbarItem';
+import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import NavbarItem from '@theme/NavbarItem';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
@@ -55,7 +55,6 @@ function DropdownNavbarItemDesktop({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownMenuRef = useRef<HTMLUListElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -85,7 +84,11 @@ function DropdownNavbarItemDesktop({
         'dropdown--right': position === 'right',
         'dropdown--show': showDropdown,
       })}>
-      <NavLink
+      <NavbarNavLink
+        aria-haspopup="true"
+        aria-expanded={showDropdown}
+        role="button"
+        href={props.to ? undefined : '#'}
         className={clsx('navbar__link', className)}
         {...props}
         onClick={props.to ? undefined : (e) => e.preventDefault()}
@@ -96,8 +99,8 @@ function DropdownNavbarItemDesktop({
           }
         }}>
         {props.children ?? props.label}
-      </NavLink>
-      <ul ref={dropdownMenuRef} className="dropdown__menu">
+      </NavbarNavLink>
+      <ul className="dropdown__menu">
         {items.map((childItemProps, i) => (
           <NavbarItem
             isDropdownItem
@@ -107,7 +110,13 @@ function DropdownNavbarItemDesktop({
                 setShowDropdown(false);
                 const nextNavbarItem = dropdownRef.current!.nextElementSibling;
                 if (nextNavbarItem) {
-                  (nextNavbarItem as HTMLElement).focus();
+                  const targetItem =
+                    nextNavbarItem instanceof HTMLAnchorElement
+                      ? nextNavbarItem
+                      : // Next item is another dropdown; focus on the inner
+                        // anchor element instead so there's outline
+                        nextNavbarItem.querySelector('a');
+                  (targetItem as HTMLElement).focus();
                 }
               }
             }}
@@ -124,7 +133,7 @@ function DropdownNavbarItemDesktop({
 function DropdownNavbarItemMobile({
   items,
   className,
-  position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const localPathname = useLocalPathname();
@@ -146,16 +155,19 @@ function DropdownNavbarItemMobile({
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
-      <NavLink
+      <NavbarNavLink
         role="button"
-        className={clsx('menu__link menu__link--sublist', className)}
+        className={clsx(
+          'menu__link menu__link--sublist menu__link--sublist-caret',
+          className,
+        )}
         {...props}
         onClick={(e) => {
           e.preventDefault();
           toggleCollapsed();
         }}>
         {props.children ?? props.label}
-      </NavLink>
+      </NavbarNavLink>
       <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         {items.map((childItemProps, i) => (
           <NavbarItem
@@ -172,9 +184,10 @@ function DropdownNavbarItemMobile({
   );
 }
 
-function DropdownNavbarItem({mobile = false, ...props}: Props): JSX.Element {
+export default function DropdownNavbarItem({
+  mobile = false,
+  ...props
+}: Props): JSX.Element {
   const Comp = mobile ? DropdownNavbarItemMobile : DropdownNavbarItemDesktop;
   return <Comp {...props} />;
 }
-
-export default DropdownNavbarItem;

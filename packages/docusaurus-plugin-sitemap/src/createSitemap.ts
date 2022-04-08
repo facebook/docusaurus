@@ -6,10 +6,10 @@
  */
 
 import {SitemapStream, streamToPromise} from 'sitemap';
-import {PluginOptions} from './types';
-import {DocusaurusConfig} from '@docusaurus/types';
-import {addTrailingSlash} from '@docusaurus/utils';
+import type {PluginOptions} from '@docusaurus/plugin-sitemap';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {createMatcher} from '@docusaurus/utils';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
@@ -20,30 +20,20 @@ export default async function createSitemap(
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
-  const {changefreq, priority} = options;
+  const {changefreq, priority, ignorePatterns} = options;
 
-  const sitemapStream = new SitemapStream({
-    hostname,
-  });
+  const ignoreMatcher = createMatcher(ignorePatterns);
 
-  function applySitemapTrailingSlash(routePath: string): string {
-    // kept for retrocompatibility
-    // TODO remove deprecated trailingSlash option before 2022
-    if (options.trailingSlash) {
-      return addTrailingSlash(routePath);
-    } else {
-      return applyTrailingSlash(routePath, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      });
-    }
-  }
+  const sitemapStream = new SitemapStream({hostname});
 
   routesPaths
-    .filter((route) => !route.endsWith('404.html'))
-    .map((routePath) =>
+    .filter((route) => !route.endsWith('404.html') && !ignoreMatcher(route))
+    .forEach((routePath) =>
       sitemapStream.write({
-        url: applySitemapTrailingSlash(routePath),
+        url: applyTrailingSlash(routePath, {
+          trailingSlash: siteConfig.trailingSlash,
+          baseUrl: siteConfig.baseUrl,
+        }),
         changefreq,
         priority,
       }),
@@ -51,9 +41,7 @@ export default async function createSitemap(
 
   sitemapStream.end();
 
-  const generatedSitemap = await streamToPromise(sitemapStream).then((sm) =>
-    sm.toString(),
-  );
+  const generatedSitemap = (await streamToPromise(sitemapStream)).toString();
 
   return generatedSitemap;
 }

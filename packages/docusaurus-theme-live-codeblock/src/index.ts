@@ -5,22 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import {Plugin} from '@docusaurus/types';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 
-export default function theme(): Plugin {
+export default function themeLiveCodeblock(context: LoadContext): Plugin {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      return '../src/theme';
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'theme-live-codeblock',
+      });
     },
 
     configureWebpack() {
       return {
         resolve: {
           alias: {
-            buble: path.resolve(__dirname, './custom-buble.js'),
+            buble: require.resolve('./custom-buble.js'),
           },
         },
       };

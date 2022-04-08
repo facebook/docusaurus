@@ -9,22 +9,28 @@ import React from 'react';
 
 import routes from '@generated/routes';
 import renderRoutes from './exports/renderRoutes';
-import {BrowserContextProvider} from './exports/browserContext';
-import {DocusaurusContextProvider} from './exports/docusaurusContext';
-import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import {BrowserContextProvider} from './browserContext';
+import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
-import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
+import BaseUrlIssueBanner from './BaseUrlIssueBanner';
+import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
+import SiteMetadata from '@theme/SiteMetadata';
+
+import './clientLifecyclesDispatcher';
+
+// TODO, quick fix for CSS insertion order
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
-import './client-lifecycles-dispatcher';
-
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <ErrorBoundary fallback={Error}>
       <DocusaurusContextProvider>
         <BrowserContextProvider>
           <Root>
+            <SiteMetadataDefaults />
+            <SiteMetadata />
             <BaseUrlIssueBanner />
             <PendingNavigation routes={routes} delay={1000}>
               {renderRoutes(routes)}
@@ -35,5 +41,3 @@ function App(): JSX.Element {
     </ErrorBoundary>
   );
 }
-
-export default App;

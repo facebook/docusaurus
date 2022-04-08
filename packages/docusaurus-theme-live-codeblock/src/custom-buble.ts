@@ -10,15 +10,14 @@
 // https://github.com/FormidableLabs/react-live#what-bundle-size-can-i-expect
 import {
   transform as bubleTransform,
-  features as bubleFeatures,
-  TransformOptions,
-  TransformOutput,
+  type TransformOptions,
+  type TransformOutput,
 } from '@philpl/buble';
 
 // This file is designed to mimic what's written in
 // https://github.com/kitten/buble/blob/mini/src/index.js, with custom transforms options,
 // so that webpack can consume it correctly.
-export {bubleFeatures as features};
+export {features} from '@philpl/buble';
 
 export function transform(
   source: string,

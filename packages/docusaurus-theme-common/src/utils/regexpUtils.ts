@@ -6,7 +6,8 @@
  */
 
 /**
- * Utility to convert an optional string into a Regex case sensitive and global
+ * Matches a string regex (as provided from the config) against a target in a
+ * null-safe fashion, case insensitive and global.
  */
 export function isRegexpStringMatch(
   regexAsString?: string,

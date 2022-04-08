@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -15,7 +16,11 @@ interface Props {
   url: string;
 }
 
-function BrowserWindow({children, minHeight, url}: Props): JSX.Element {
+export default function BrowserWindow({
+  children,
+  minHeight,
+  url = 'http://localhost:3000',
+}: Props): JSX.Element {
   return (
     <div className={styles.browserWindow} style={{minHeight}}>
       <div className={styles.browserWindowHeader}>
@@ -24,7 +29,9 @@ function BrowserWindow({children, minHeight, url}: Props): JSX.Element {
           <span className={styles.dot} style={{background: '#fbbe3c'}} />
           <span className={styles.dot} style={{background: '#58cb42'}} />
         </div>
-        <div className={styles.browserWindowAddressBar}>{url}</div>
+        <div className={clsx(styles.browserWindowAddressBar, 'text--truncate')}>
+          {url}
+        </div>
         <div className={styles.browserWindowMenuIcon}>
           <div>
             <span className={styles.bar} />
@@ -38,5 +45,3 @@ function BrowserWindow({children, minHeight, url}: Props): JSX.Element {
     </div>
   );
 }
-
-export default BrowserWindow;

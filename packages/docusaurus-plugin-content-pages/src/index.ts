@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import {
   encodePath,
@@ -18,28 +18,15 @@ import {
   Globby,
   createAbsoluteFilePathMatcher,
   normalizeUrl,
-} from '@docusaurus/utils';
-import {
-  LoadContext,
-  Plugin,
-  OptionValidationContext,
-  ValidationResult,
-  ConfigureWebpackUtils,
-} from '@docusaurus/types';
-import {Configuration} from 'webpack';
-import admonitions from 'remark-admonitions';
-import {PluginOptionSchema} from './pluginOptionSchema';
-import {
   DEFAULT_PLUGIN_ID,
-  STATIC_DIR_NAME,
-} from '@docusaurus/core/lib/constants';
+  parseMarkdownString,
+} from '@docusaurus/utils';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import admonitions from 'remark-admonitions';
+import {validatePageFrontMatter} from './frontMatter';
 
-import {
-  PluginOptions,
-  LoadedContent,
-  Metadata,
-  PagesContentPaths,
-} from './types';
+import type {LoadedContent, PagesContentPaths} from './types';
+import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -48,13 +35,13 @@ export function getContentPathList(contentPaths: PagesContentPaths): string[] {
 const isMarkdownSource = (source: string) =>
   source.endsWith('.md') || source.endsWith('.mdx');
 
-export default function pluginContentPages(
+export default async function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null> {
+): Promise<Plugin<LoadedContent | null>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
   const {
@@ -84,7 +71,7 @@ export default function pluginContentPages(
     name: 'docusaurus-plugin-content-pages',
 
     getPathsToWatch() {
-      const {include = []} = options;
+      const {include} = options;
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
       );
@@ -93,7 +80,7 @@ export default function pluginContentPages(
     async loadContent() {
       const {include} = options;
 
-      if (!fs.existsSync(contentPaths.contentPath)) {
+      if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
 
@@ -117,20 +104,28 @@ export default function pluginContentPages(
           options.routeBasePath,
           encodePath(fileToPath(relativeSource)),
         ]);
-        if (isMarkdownSource(relativeSource)) {
-          // TODO: missing frontmatter validation/normalization here
-          return {
-            type: 'mdx',
-            permalink,
-            source: aliasedSourcePath,
-          };
-        } else {
+        if (!isMarkdownSource(relativeSource)) {
           return {
             type: 'jsx',
             permalink,
             source: aliasedSourcePath,
           };
         }
+        const content = await fs.readFile(source, 'utf-8');
+        const {
+          frontMatter: unsafeFrontMatter,
+          contentTitle,
+          excerpt,
+        } = parseMarkdownString(content);
+        const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+        return {
+          type: 'mdx',
+          permalink,
+          source: aliasedSourcePath,
+          title: frontMatter.title ?? contentTitle,
+          description: frontMatter.description ?? excerpt,
+          frontMatter,
+        };
       }
 
       return Promise.all(pagesFiles.map(toMetadata));
@@ -175,11 +170,7 @@ export default function pluginContentPages(
       );
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(config, isServer, {getJSLoader}) {
       const {
         rehypePlugins,
         remarkPlugins,
@@ -196,7 +187,7 @@ export default function pluginContentPages(
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
@@ -209,7 +200,10 @@ export default function pluginContentPages(
                     rehypePlugins,
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,
@@ -241,10 +235,4 @@ export default function pluginContentPages(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';
