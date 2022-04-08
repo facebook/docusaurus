@@ -44,7 +44,6 @@
     "@docusaurus/cssnano-preset": "2.0.0-beta.18",
     "@docusaurus/logger": "2.0.0-beta.18",
     "@docusaurus/mdx-loader": "2.0.0-beta.18",
-    "@docusaurus/mdx-packages": "2.0.0-beta.18",
     "@docusaurus/react-loadable": "5.5.2",
     "@docusaurus/utils": "2.0.0-beta.18",
     "@docusaurus/utils-common": "2.0.0-beta.18",

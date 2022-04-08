@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import {createCompiler} from '@docusaurus/mdx-packages/mdx';
+import {createCompiler} from '@docusaurus/core/mdx-packages/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
@@ -234,7 +234,7 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
   const code = `
 ${pragma}
 import React from 'react';
-import { mdx } from '@docusaurus/mdx-packages/react';
+import { mdx } from '@docusaurus/core/mdx-packages/react';
 
 ${exportsCode}
 ${result}
