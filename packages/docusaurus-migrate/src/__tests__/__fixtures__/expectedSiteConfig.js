@@ -37,13 +37,13 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          homePageId: 'installation',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           editUrl: 'https://github.com/facebook/docusaurus/edit/main/docs/',
         },
         blog: {},
         theme: {},
+        googleAnalytics: {trackingID: 'UA-44373548-31'},
       },
     ],
   ],
@@ -53,7 +53,7 @@ module.exports = {
       title: 'Docusaurus',
       logo: {src: 'img/docusaurus.svg'},
       items: [
-        {to: 'docs/', label: 'Docs', position: 'left'},
+        {to: 'docs/installation', label: 'Docs', position: 'left'},
         {to: 'docs/tutorial-setup', label: 'Tutorial', position: 'left'},
         {to: '/users', label: 'Users', position: 'left'},
         {
@@ -79,6 +79,5 @@ module.exports = {
       indexName: 'docusaurus',
       algoliaOptions: {facetFilters: ['language:LANGUAGE', 'version:VERSION']},
     },
-    gtag: {trackingID: 'UA-44373548-31'},
   },
 };

@@ -12,8 +12,14 @@ import {
   collectSidebarLinks,
   transformSidebarItems,
   collectSidebarsDocIds,
+  toDocNavigationLink,
+  toNavigationLink,
 } from '../utils';
 import type {Sidebar, Sidebars} from '../types';
+import type {
+  DocMetadataBase,
+  PropNavigationLink,
+} from '@docusaurus/plugin-content-docs';
 
 describe('createSidebarsUtils', () => {
   const sidebar1: Sidebar = [
@@ -21,13 +27,13 @@ describe('createSidebarsUtils', () => {
       type: 'category',
       collapsed: false,
       collapsible: true,
-      label: 'Category1',
+      label: 'S1 Category',
       items: [
         {
           type: 'category',
           collapsed: false,
           collapsible: true,
-          label: 'Subcategory 1',
+          label: 'S1 Subcategory',
           items: [{type: 'doc', id: 'doc1'}],
         },
         {type: 'doc', id: 'doc2'},
@@ -40,59 +46,262 @@ describe('createSidebarsUtils', () => {
       type: 'category',
       collapsed: false,
       collapsible: true,
-      label: 'Category2',
+      label: 'S2 Category',
       items: [
-        {type: 'doc', id: 'doc3'},
+        {type: 'doc', id: 'doc3', label: 'Doc 3'},
         {type: 'doc', id: 'doc4'},
       ],
     },
   ];
 
-  const sidebars: Sidebars = {sidebar1, sidebar2};
+  const sidebar3: Sidebar = [
+    {
+      type: 'category',
+      collapsed: false,
+      collapsible: true,
+      label: 'S3 Category',
+      link: {
+        type: 'doc',
+        id: 'doc5',
+      },
+      items: [
+        {
+          type: 'category',
+          collapsed: false,
+          collapsible: true,
+          label: 'S3 SubCategory',
+          link: {
+            type: 'generated-index',
+            slug: '/s3-subcategory-index-slug',
+            permalink: '/s3-subcategory-index-permalink',
+          },
+          items: [
+            {
+              type: 'category',
+              collapsed: false,
+              collapsible: true,
+              label: 'S3 SubSubCategory',
+              link: {
+                type: 'generated-index',
+                slug: '/s3-subsubcategory-slug',
+                permalink: '/s3-subsubcategory-index-permalink',
+              },
+              items: [
+                {type: 'doc', id: 'doc6'},
+                {type: 'doc', id: 'doc7'},
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ];
 
-  const {getFirstDocIdOfFirstSidebar, getSidebarNameByDocId, getDocNavigation} =
-    createSidebarsUtils(sidebars);
+  const sidebar4: Sidebar = [
+    {
+      type: 'category',
+      items: [
+        {type: 'link', href: 'https://facebook.com'},
+        {type: 'link', href: 'https://reactjs.org'},
+        {type: 'link', href: 'https://docusaurus.io'},
+      ],
+    },
+    {
+      type: 'category',
+      collapsed: false,
+      collapsible: true,
+      label: 'S4 Category',
+      link: {
+        type: 'generated-index',
+        slug: '/s4-category-slug',
+        permalink: '/s4-category-slug',
+      },
+      items: [
+        {type: 'doc', id: 'doc8'},
+        {type: 'doc', id: 'doc9'},
+      ],
+    },
+  ];
 
-  test('getSidebarNameByDocId', async () => {
-    expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');
+  const sidebars: Sidebars = {sidebar1, sidebar2, sidebar3, sidebar4};
+
+  const {
+    getFirstDocIdOfFirstSidebar,
+    getSidebarNameByDocId,
+    getDocNavigation,
+    getCategoryGeneratedIndexNavigation,
+    getCategoryGeneratedIndexList,
+    getFirstLink,
+  } = createSidebarsUtils(sidebars);
+
+  it('getFirstDocIdOfFirstSidebar', async () => {
+    expect(getFirstDocIdOfFirstSidebar()).toBe('doc1');
   });
 
-  test('getSidebarNameByDocId', async () => {
-    expect(getSidebarNameByDocId('doc1')).toEqual('sidebar1');
-    expect(getSidebarNameByDocId('doc2')).toEqual('sidebar1');
-    expect(getSidebarNameByDocId('doc3')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc4')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc5')).toEqual(undefined);
-    expect(getSidebarNameByDocId('doc6')).toEqual(undefined);
+  it('getSidebarNameByDocId', async () => {
+    expect(getSidebarNameByDocId('doc1')).toBe('sidebar1');
+    expect(getSidebarNameByDocId('doc2')).toBe('sidebar1');
+    expect(getSidebarNameByDocId('doc3')).toBe('sidebar2');
+    expect(getSidebarNameByDocId('doc4')).toBe('sidebar2');
+    expect(getSidebarNameByDocId('doc5')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('doc6')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('doc7')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('unknown_id')).toBeUndefined();
   });
 
-  test('getDocNavigation', async () => {
-    expect(getDocNavigation('doc1')).toEqual({
+  it('getDocNavigation', async () => {
+    expect(getDocNavigation('doc1', 'doc1', undefined)).toEqual({
       sidebarName: 'sidebar1',
-      previousId: undefined,
-      nextId: 'doc2',
+      previous: undefined,
+      next: {
+        type: 'doc',
+        id: 'doc2',
+      },
     });
-    expect(getDocNavigation('doc2')).toEqual({
+    expect(getDocNavigation('doc2', 'doc2', undefined)).toEqual({
       sidebarName: 'sidebar1',
-      previousId: 'doc1',
-      nextId: undefined,
+      previous: {
+        type: 'doc',
+        id: 'doc1',
+      },
+      next: undefined,
     });
 
-    expect(getDocNavigation('doc3')).toEqual({
+    expect(getDocNavigation('doc3', 'doc3', undefined)).toEqual({
       sidebarName: 'sidebar2',
-      previousId: undefined,
-      nextId: 'doc4',
+      previous: undefined,
+      next: {
+        type: 'doc',
+        id: 'doc4',
+      },
     });
-    expect(getDocNavigation('doc4')).toEqual({
+    expect(getDocNavigation('doc4', 'doc4', undefined)).toEqual({
       sidebarName: 'sidebar2',
-      previousId: 'doc3',
-      nextId: undefined,
+      previous: {
+        type: 'doc',
+        id: 'doc3',
+        label: 'Doc 3',
+      },
+      next: undefined,
+    });
+
+    expect(getDocNavigation('doc5', 'doc5', undefined)).toMatchObject({
+      sidebarName: 'sidebar3',
+      previous: undefined,
+      next: {
+        type: 'category',
+        label: 'S3 SubCategory',
+      },
+    });
+    expect(getDocNavigation('doc6', 'doc6', undefined)).toMatchObject({
+      sidebarName: 'sidebar3',
+      previous: {
+        type: 'category',
+        label: 'S3 SubSubCategory',
+      },
+      next: {
+        type: 'doc',
+        id: 'doc7',
+      },
+    });
+    expect(getDocNavigation('doc7', 'doc7', undefined)).toEqual({
+      sidebarName: 'sidebar3',
+      previous: {
+        type: 'doc',
+        id: 'doc6',
+      },
+      next: undefined,
+    });
+    expect(getDocNavigation('doc3', 'doc3', null)).toEqual({
+      sidebarName: undefined,
+      previous: undefined,
+      next: undefined,
+    });
+    expect(() =>
+      getDocNavigation('doc3', 'doc3', 'foo'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Doc with ID doc3 wants to display sidebar foo but a sidebar with this name doesn't exist"`,
+    );
+    expect(getDocNavigation('doc3', 'doc3', 'sidebar1')).toEqual({
+      sidebarName: 'sidebar1',
+      previous: undefined,
+      next: undefined,
+    });
+  });
+
+  it('getCategoryGeneratedIndexNavigation', async () => {
+    expect(
+      getCategoryGeneratedIndexNavigation('/s3-subcategory-index-permalink'),
+    ).toMatchObject({
+      sidebarName: 'sidebar3',
+      previous: {
+        type: 'category',
+        label: 'S3 Category',
+      },
+      next: {
+        type: 'category',
+        label: 'S3 SubSubCategory',
+      },
+    });
+
+    expect(
+      getCategoryGeneratedIndexNavigation('/s3-subsubcategory-index-permalink'),
+    ).toMatchObject({
+      sidebarName: 'sidebar3',
+      previous: {
+        type: 'category',
+        label: 'S3 SubCategory',
+      },
+      next: {
+        type: 'doc',
+        id: 'doc6',
+      },
+    });
+  });
+
+  it('getCategoryGeneratedIndexList', async () => {
+    expect(getCategoryGeneratedIndexList()).toMatchObject([
+      {
+        type: 'category',
+        label: 'S3 SubCategory',
+      },
+      {
+        type: 'category',
+        label: 'S3 SubSubCategory',
+      },
+      {
+        type: 'category',
+        label: 'S4 Category',
+      },
+    ]);
+  });
+
+  it('getFirstLink', () => {
+    expect(getFirstLink('sidebar1')).toEqual({
+      id: 'doc1',
+      type: 'doc',
+      label: 'doc1',
+    });
+    expect(getFirstLink('sidebar2')).toEqual({
+      id: 'doc3',
+      type: 'doc',
+      label: 'Doc 3',
+    });
+    expect(getFirstLink('sidebar3')).toEqual({
+      id: 'doc5',
+      type: 'doc',
+      label: 'S3 Category',
+    });
+    expect(getFirstLink('sidebar4')).toEqual({
+      type: 'generated-index',
+      permalink: '/s4-category-slug',
+      label: 'S4 Category',
     });
   });
 });
 
 describe('collectSidebarDocItems', () => {
-  test('can collect docs', async () => {
+  it('can collect docs', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -148,7 +357,7 @@ describe('collectSidebarDocItems', () => {
 });
 
 describe('collectSidebarCategories', () => {
-  test('can collect categories', async () => {
+  it('can collect categories', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -206,7 +415,7 @@ describe('collectSidebarCategories', () => {
 });
 
 describe('collectSidebarLinks', () => {
-  test('can collect links', async () => {
+  it('can collect links', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -244,7 +453,7 @@ describe('collectSidebarLinks', () => {
 });
 
 describe('collectSidebarsDocIds', () => {
-  test('can collect sidebars doc items', async () => {
+  it('can collect sidebars doc items', async () => {
     const sidebar1: Sidebar = [
       {
         type: 'category',
@@ -290,7 +499,7 @@ describe('collectSidebarsDocIds', () => {
 });
 
 describe('transformSidebarItems', () => {
-  test('can transform sidebar items', async () => {
+  it('can transform sidebar items', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -391,5 +600,168 @@ describe('transformSidebarItems', () => {
         ],
       },
     ]);
+  });
+});
+
+describe('toDocNavigationLink', () => {
+  type TestDoc = Pick<DocMetadataBase, 'permalink' | 'title' | 'frontMatter'>;
+  function testDoc(data: TestDoc) {
+    return data as DocMetadataBase;
+  }
+
+  it('with no front matter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {},
+        }),
+      ),
+    ).toEqual({
+      title: 'Doc Title',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
+  it('with pagination_label front matter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            pagination_label: 'pagination_label',
+          },
+        }),
+      ),
+    ).toEqual({
+      title: 'pagination_label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
+  it('with sidebar_label front matter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            sidebar_label: 'sidebar_label',
+          },
+        }),
+      ),
+    ).toEqual({
+      title: 'sidebar_label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
+  it('with pagination_label + sidebar_label front matter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            pagination_label: 'pagination_label',
+            sidebar_label: 'sidebar_label',
+          },
+        }),
+      ),
+    ).toEqual({
+      title: 'pagination_label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+});
+
+describe('toNavigationLink', () => {
+  type TestDoc = Pick<DocMetadataBase, 'permalink' | 'title'>;
+  function testDoc(data: TestDoc) {
+    return {...data, frontMatter: {}} as DocMetadataBase;
+  }
+
+  const docsById: {[docId: string]: DocMetadataBase} = {
+    doc1: testDoc({
+      title: 'Doc 1',
+      permalink: '/doc1',
+    }),
+    doc2: testDoc({
+      title: 'Doc 1',
+      permalink: '/doc1',
+    }),
+  };
+
+  it('with doc items', () => {
+    expect(toNavigationLink({type: 'doc', id: 'doc1'}, docsById)).toEqual(
+      toDocNavigationLink(docsById.doc1),
+    );
+    expect(toNavigationLink({type: 'doc', id: 'doc2'}, docsById)).toEqual(
+      toDocNavigationLink(docsById.doc2),
+    );
+    expect(() =>
+      toNavigationLink({type: 'doc', id: 'doc3'}, docsById),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't create navigation link: no doc found with id=doc3"`,
+    );
+  });
+
+  it('with category item and doc link', () => {
+    expect(
+      toNavigationLink(
+        {
+          type: 'category',
+          label: 'Category',
+          items: [],
+          link: {
+            type: 'doc',
+            id: 'doc1',
+          },
+          collapsed: true,
+          collapsible: true,
+        },
+        docsById,
+      ),
+    ).toEqual(toDocNavigationLink(docsById.doc1));
+    expect(() =>
+      toNavigationLink(
+        {
+          type: 'category',
+          label: 'Category',
+          items: [],
+          link: {
+            type: 'doc',
+            id: 'doc3',
+          },
+          collapsed: true,
+          collapsible: true,
+        },
+        docsById,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't create navigation link: no doc found with id=doc3"`,
+    );
+  });
+
+  it('with category item and generated-index link', () => {
+    expect(
+      toNavigationLink(
+        {
+          type: 'category',
+          label: 'Category',
+          items: [],
+          link: {
+            type: 'generated-index',
+            slug: 'slug',
+            permalink: 'generated-index-permalink',
+          },
+          collapsed: true,
+          collapsible: true,
+        },
+        docsById,
+      ),
+    ).toEqual({title: 'Category', permalink: 'generated-index-permalink'});
   });
 });

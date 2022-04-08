@@ -49,7 +49,7 @@ Docusaurus uses this component to catch errors within the theme's layout, and al
 
 :::note
 
-This component doesn't catch build-time errors, and only protects against client-side render errors that can happen when using stateful React components.
+This component doesn't catch build-time errors and only protects against client-side render errors that can happen when using stateful React components.
 
 :::
 
@@ -63,33 +63,40 @@ This reusable React component will manage all of your changes to the document he
 
 Usage Example:
 
-```jsx {2,5,10}
+```jsx
 import React from 'react';
+// highlight-next-line
 import Head from '@docusaurus/Head';
 
 const MySEO = () => (
+  // highlight-start
   <Head>
     <meta property="og:description" content="My custom description" />
     <meta charSet="utf-8" />
     <title>My Title</title>
     <link rel="canonical" href="http://mysite.com/example" />
   </Head>
+  // highlight-end
 );
 ```
 
 Nested or latter components will override duplicate usages:
 
-```jsx {2,5,8,11}
+```jsx
 <Parent>
+  {/* highlight-start */}
   <Head>
     <title>My Title</title>
     <meta name="description" content="Helmet application" />
   </Head>
+  {/* highlight-end */}
   <Child>
+    {/* highlight-start */}
     <Head>
       <title>Nested Title</title>
       <meta name="description" content="Nested component" />
     </Head>
+    {/* highlight-end */}
   </Child>
 </Parent>
 ```
@@ -111,16 +118,19 @@ The component is a wrapper around react-router’s `<Link>` component that adds 
 
 External links also work, and automatically have these props: `target="_blank" rel="noopener noreferrer"`.
 
-```jsx {2,7}
+```jsx
 import React from 'react';
+// highlight-next-line
 import Link from '@docusaurus/Link';
 
 const Page = () => (
   <div>
     <p>
+      {/* highlight-next-line */}
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
+      {/* highlight-next-line */}
       Follow me on <Link to="https://twitter.com/docusaurus">Twitter</Link>!
     </p>
   </div>
@@ -135,17 +145,25 @@ The target location to navigate to. Example: `/docs/introduction`.
 <Link to="/courses" />
 ```
 
+:::tip
+
+Prefer this component to vanilla `<a>` tags because Docusaurus does a lot of optimizations (e.g. broken path detection, prefetching, applying base URL...) if you use `<Link>`.
+
+:::
+
 ### `<Redirect/>` {#redirect}
 
-Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
+Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
 
 Example usage:
 
-```jsx {2,5}
+```jsx
 import React from 'react';
+// highlight-next-line
 import {Redirect} from '@docusaurus/router';
 
 const Home = () => {
+  // highlight-next-line
   return <Redirect to="/docs/test" />;
 };
 ```
@@ -158,11 +176,11 @@ const Home = () => {
 
 ### `<BrowserOnly/>` {#browseronly}
 
-The `<BrowserOnly>` component permits to render React components only in the browser, after the React app has hydrated.
+The `<BrowserOnly>` component permits to render React components only in the browser after the React app has hydrated.
 
 :::tip
 
-Use it for integrating with code that can't run in Node.js, because `window` or `document` objects are being accessed.
+Use it for integrating with code that can't run in Node.js, because the `window` or `document` objects are being accessed.
 
 :::
 
@@ -182,9 +200,7 @@ const MyComponent = () => {
   return (
     // highlight-start
     <BrowserOnly>
-      {() => (
-        <span>page url = {window.location.href}</span>;
-      )}
+      {() => <span>page url = {window.location.href}</span>}
     </BrowserOnly>
     // highlight-end
   );
@@ -251,20 +267,20 @@ export default function VisitMyWebsiteMessage() {
 
 When [localizing your site](./i18n/i18n-introduction.md), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage. The `<Translate>` component supports [interpolation](#interpolate).
 
-The translation strings will be extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations-sitedir) CLI and create a `code.json` translation file in `website/i18n/<locale>`.
+The translation strings will statically extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations-sitedir) CLI and a `code.json` translation file will be created in `website/i18n/[locale]`.
 
 :::note
 
 The `<Translate/>` props **must be hardcoded strings**.
 
-Apart the `values` prop used for interpolation, it is **not possible to use variables**, or the static extraction wouldn't work.
+Apart from the `values` prop used for interpolation, it is **not possible to use variables**, or the static extraction wouldn't work.
 
 :::
 
 #### Props {#translate-props}
 
 - `children`: untranslated string in the default site locale (can contain [interpolation placeholders](#interpolate))
-- `id`: optional value to use as key in JSON translation files
+- `id`: optional value to be used as the key in JSON translation files
 - `description`: optional text to help the translator
 - `values`: optional object containing interpolation placeholder values
 
@@ -304,7 +320,7 @@ export default function Home() {
 
 :::note
 
-You can even omit a children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
+You can even omit the children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
 
 ```jsx
 <Translate id="homepage.title" />
@@ -314,61 +330,70 @@ You can even omit a children prop and specify a translation string in your `code
 
 ## Hooks {#hooks}
 
-### `useDocusaurusContext` {#usedocusauruscontext}
+### `useDocusaurusContext` {#useDocusaurusContext}
 
-React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md), and some additional site metadata.
+React hook to access Docusaurus Context. The context contains the `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md) and some additional site metadata.
 
 ```ts
-type DocusaurusPluginVersionInformation =
+type PluginVersionInformation =
   | {readonly type: 'package'; readonly version?: string}
   | {readonly type: 'project'}
   | {readonly type: 'local'}
   | {readonly type: 'synthetic'};
 
-interface DocusaurusSiteMetadata {
+type SiteMetadata = {
   readonly docusaurusVersion: string;
   readonly siteVersion?: string;
-  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
-}
+  readonly pluginVersions: Record<string, PluginVersionInformation>;
+};
 
-interface I18nLocaleConfig {
+type I18nLocaleConfig = {
   label: string;
   direction: string;
-}
+};
 
-interface I18n {
+type I18n = {
   defaultLocale: string;
   locales: [string, ...string[]];
   currentLocale: string;
   localeConfigs: Record<string, I18nLocaleConfig>;
-}
+};
 
-interface DocusaurusContext {
+type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
-  siteMetadata: DocusaurusSiteMetadata;
+  siteMetadata: SiteMetadata;
   globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
-}
+};
 ```
 
 Usage example:
 
-```jsx {5,8-10}
+```jsx
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const MyComponent = () => {
+  // highlight-next-line
   const {siteConfig, siteMetadata} = useDocusaurusContext();
   return (
     <div>
+      {/* highlight-start */}
       <h1>{siteConfig.title}</h1>
       <div>{siteMetadata.siteVersion}</div>
       <div>{siteMetadata.docusaurusVersion}</div>
+      {/* highlight-end */}
     </div>
   );
 };
 ```
+
+:::note
+
+The `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). Functions, regexes, etc. would be lost on the client side.
+
+:::
 
 ### `useIsBrowser` {#useIsBrowser}
 
@@ -378,9 +403,7 @@ Returns `true` when the React app has successfully hydrated in the browser.
 
 Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
 
-The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js).
-
-Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
 
 :::
 
@@ -398,7 +421,7 @@ const MyComponent = () => {
 };
 ```
 
-### `useBaseUrl` {#usebaseurl}
+### `useBaseUrl` {#useBaseUrl}
 
 React hook to prepend your site `baseUrl` to a string.
 
@@ -448,11 +471,11 @@ Prefer a `require()` call for [assets](./guides/markdown-features/markdown-featu
 
 :::
 
-### `useBaseUrlUtils` {#usebaseurlutils}
+### `useBaseUrlUtils` {#useBaseUrlUtils}
 
 Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
 
-- `withBaseUrl`: useful if you need to add base urls to multiple urls at once.
+- `withBaseUrl`: useful if you need to add base URLs to multiple URLs at once.
 
 ```jsx
 import React from 'react';
@@ -468,15 +491,15 @@ const Component = () => {
 };
 ```
 
-### `useGlobalData` {#useglobaldata}
+### `useGlobalData` {#useGlobalData}
 
 React hook to access Docusaurus global data created by all the plugins.
 
-Global data is namespaced by plugin name, and plugin id.
+Global data is namespaced by plugin name then by plugin ID.
 
 :::info
 
-Plugin id is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
+Plugin ID is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
 
 :::
 
@@ -492,14 +515,17 @@ type GlobalData = Record<
 
 Usage example:
 
-```jsx {2,5-7}
+```jsx
 import React from 'react';
+// highlight-next-line
 import useGlobalData from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
+  // highlight-start
   const globalData = useGlobalData();
   const myPluginData = globalData['my-plugin']['default'];
   return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
 };
 ```
 
@@ -509,31 +535,34 @@ Inspect your site's global data at `./docusaurus/globalData.json`
 
 :::
 
-### `usePluginData` {#useplugindata}
+### `usePluginData` {#usePluginData}
 
 Access global data created by a specific plugin instance.
 
-This is the most convenient hook to access plugin global data, and should be used most of the time.
+This is the most convenient hook to access plugin global data and should be used most of the time.
 
 `pluginId` is optional if you don't use multi-instance plugins.
 
 ```ts
-usePluginData(pluginName: string, pluginId?: string)
+function usePluginData(pluginName: string, pluginId?: string);
 ```
 
 Usage example:
 
-```jsx {2,5-6}
+```jsx
 import React from 'react';
+// highlight-next-line
 import {usePluginData} from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
+  // highlight-start
   const myPluginData = usePluginData('my-plugin');
   return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
 };
 ```
 
-### `useAllPluginInstancesData` {#useallplugininstancesdata}
+### `useAllPluginInstancesData` {#useAllPluginInstancesData}
 
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
@@ -543,14 +572,17 @@ useAllPluginInstancesData(pluginName: string)
 
 Usage example:
 
-```jsx {2,5-7}
+```jsx
 import React from 'react';
+// highlight-next-line
 import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
+  // highlight-start
   const allPluginInstancesData = useAllPluginInstancesData('my-plugin');
   const myPluginData = allPluginInstancesData['default'];
   return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
 };
 ```
 
@@ -575,10 +607,9 @@ function interpolate(
 
 #### Example {#example-1}
 
-```jsx
-// highlight-start
+```js
+// highlight-next-line
 import {interpolate} from '@docusaurus/Interpolate';
-// highlight-end
 
 const message = interpolate('Welcome {firstName}', {firstName: 'Sébastien'});
 ```
@@ -612,17 +643,14 @@ function translate(
 import React from 'react';
 import Layout from '@theme/Layout';
 
-// highlight-start
+// highlight-next-line
 import {translate} from '@docusaurus/Translate';
-// highlight-end
 
 export default function Home() {
   return (
     <Layout
-      // highlight-start
-      title={translate({message: 'My page meta title'})}
-      // highlight-end
-    >
+      // highlight-next-line
+      title={translate({message: 'My page meta title'})}>
       <img
         src={'https://docusaurus.io/logo.png'}
         aria-label={
@@ -648,7 +676,7 @@ export default function Home() {
 
 ### `ExecutionEnvironment` {#executionenvironment}
 
-A module which exposes a few boolean variables to check the current rendering environment.
+A module that exposes a few boolean variables to check the current rendering environment.
 
 :::caution
 
@@ -658,7 +686,7 @@ For React rendering logic, use [`useIsBrowser()`](#useIsBrowser) or [`<BrowserOn
 
 Example:
 
-```jsx
+```js
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 if (ExecutionEnvironment.canUseDOM) {
@@ -677,7 +705,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 A module exposing useful constants to client-side theme code.
 
-```jsx
+```js
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 ```
 

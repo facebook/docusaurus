@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module '@philpl/buble' {
-  import type {TransformOptions as OriginalTransformOptions} from 'buble';
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  export * from 'buble';
-  export const features: string[];
-  export interface TransformOptions extends OriginalTransformOptions {
-    transforms?: OriginalTransformOptions['transforms'] & {
-      asyncAwait?: boolean;
-      getterSetter?: boolean;
-    };
+/// <reference types="@docusaurus/theme-classic" />
+/// <reference types="@docusaurus/module-type-aliases" />
+
+declare module '@theme-init/CodeBlock' {
+  import type CodeBlock, {Props as BaseProps} from '@theme/CodeBlock';
+
+  export interface Props extends BaseProps {
+    live?: boolean;
   }
+  const CodeBlockComp: typeof CodeBlock;
+  export default CodeBlockComp;
 }

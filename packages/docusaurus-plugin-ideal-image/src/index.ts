@@ -4,25 +4,45 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {LoadContext, Plugin} from '@docusaurus/types';
+
+import type {
+  LoadContext,
+  Plugin,
+  OptionValidationContext,
+} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
-import {Configuration} from 'webpack';
+import {Joi} from '@docusaurus/utils-validation';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
-import path from 'path';
-
-export default function (
-  _context: LoadContext,
+export default function pluginIdealImage(
+  context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return '../lib/theme';
     },
 
-    configureWebpack(_config: Configuration, isServer: boolean) {
-      if (process.env.NODE_ENV !== 'production') {
+    getTypeScriptThemePath() {
+      return '../src/theme';
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'plugin-ideal-image',
+      });
+    },
+
+    configureWebpack(_config, isServer) {
+      const {disableInDev, ...loaderOptions} = options;
+      if (disableInDev && process.env.NODE_ENV !== 'production') {
         return {};
       }
 
@@ -33,7 +53,7 @@ export default function (
         module: {
           rules: [
             {
-              test: /\.(png|jpe?g|gif)$/i,
+              test: /\.(?:png|jpe?g)$/i,
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
@@ -43,7 +63,7 @@ export default function (
                     // eslint-disable-next-line global-require
                     adapter: require('@docusaurus/responsive-loader/sharp'),
                     name: 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]',
-                    ...options,
+                    ...loaderOptions,
                   },
                 },
               ],
@@ -53,4 +73,14 @@ export default function (
       };
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
+  const pluginOptionsSchema = Joi.object({
+    disableInDev: Joi.boolean().default(true),
+  }).unknown();
+  return validate(pluginOptionsSchema, options);
 }

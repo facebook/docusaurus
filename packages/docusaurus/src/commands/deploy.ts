@@ -7,13 +7,13 @@
 
 import fs from 'fs-extra';
 import shell from 'shelljs';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
+import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext} from '../server';
-import build from './build';
-import {BuildCLIOptions} from '@docusaurus/types';
+import {build} from './build';
+import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
-import {buildUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str: string) {
@@ -26,52 +26,62 @@ function obfuscateGitPass(str: string) {
 function shellExecLog(cmd: string) {
   try {
     const result = shell.exec(cmd);
-    console.log(
-      `${chalk.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${chalk.cyan(
-        `(code: ${result.code})`,
-      )}`,
-    );
+    logger.info`code=${obfuscateGitPass(cmd)} subdue=${`code: ${result.code}`}`;
     return result;
-  } catch (e) {
-    console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
-    throw e;
+  } catch (err) {
+    logger.error`code=${obfuscateGitPass(cmd)}`;
+    throw err;
   }
 }
 
-export default async function deploy(
+export async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
-  const {outDir, siteConfig, siteConfigPath} = await loadContext(siteDir, {
+  const {outDir, siteConfig, siteConfigPath} = await loadContext({
+    siteDir,
     customConfigFilePath: cliOptions.config,
     customOutDir: cliOptions.outDir,
   });
 
   if (typeof siteConfig.trailingSlash === 'undefined') {
-    console.warn(
-      chalk.yellow(`
-Docusaurus recommendation:
-When deploying to GitHub Pages, it is better to use an explicit "trailingSlash" site config.
+    logger.warn(`When deploying to GitHub Pages, it is better to use an explicit "trailingSlash" site config.
 Otherwise, GitHub Pages will add an extra trailing slash to your site urls only on direct-access (not when navigation) with a server redirect.
 This behavior can have SEO impacts and create relative link issues.
-`),
-    );
+`);
   }
 
-  console.log('Deploy command invoked...');
+  logger.info('Deploy command invoked...');
   if (!shell.which('git')) {
     throw new Error('Git not installed or on the PATH!');
   }
 
-  const gitUser = process.env.GIT_USER;
-  if (!gitUser) {
-    throw new Error('Please set the GIT_USER environment variable!');
-  }
+  // Source repo is the repo from where the command is invoked
+  const sourceRepoUrl = shell
+    .exec('git config --get remote.origin.url', {silent: true})
+    .stdout.trim();
 
-  // The branch that contains the latest docs changes that will be deployed.
-  const currentBranch =
+  // The source branch; defaults to the currently checked out branch
+  const sourceBranch =
     process.env.CURRENT_BRANCH ||
-    shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
+    shell.exec('git rev-parse --abbrev-ref HEAD', {silent: true}).stdout.trim();
+
+  const gitUser = process.env.GIT_USER;
+
+  let useSSH =
+    process.env.USE_SSH !== undefined &&
+    process.env.USE_SSH.toLowerCase() === 'true';
+
+  if (!gitUser && !useSSH) {
+    // If USE_SSH is unspecified: try inferring from repo URL
+    if (process.env.USE_SSH === undefined && hasSSHProtocol(sourceRepoUrl)) {
+      useSSH = true;
+    } else {
+      throw new Error(
+        'Please set the GIT_USER environment variable, or explicitly specify USE_SSH instead!',
+      );
+    }
+  }
 
   const organizationName =
     process.env.ORGANIZATION_NAME ||
@@ -82,7 +92,7 @@ This behavior can have SEO impacts and create relative link issues.
       `Missing project organization name. Did you forget to define "organizationName" in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
-  console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
+  logger.info`organizationName: name=${organizationName}`;
 
   const projectName =
     process.env.PROJECT_NAME ||
@@ -93,7 +103,7 @@ This behavior can have SEO impacts and create relative link issues.
       `Missing project name. Did you forget to define "projectName" in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
-  console.log(`${chalk.cyan('projectName:')} ${projectName}`);
+  logger.info`projectName: name=${projectName}`;
 
   // We never deploy on pull request.
   const isPullRequest =
@@ -103,12 +113,11 @@ This behavior can have SEO impacts and create relative link issues.
     shell.exit(0);
   }
 
-  // github.io indicates organization repos that deploy via default branch. All others use gh-pages.
-  // Organization deploys looks like:
+  // github.io indicates organization repos that deploy via default branch.
+  // All others use gh-pages. Organization deploys looks like:
   // - Git repo: https://github.com/<organization>/<organization>.github.io
   // - Site url: https://<organization>.github.io
-  const isGitHubPagesOrganizationDeploy =
-    projectName.indexOf('.github.io') !== -1;
+  const isGitHubPagesOrganizationDeploy = projectName.includes('.github.io');
   if (
     isGitHubPagesOrganizationDeploy &&
     !process.env.DEPLOYMENT_BRANCH &&
@@ -121,44 +130,43 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
-  console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
+  logger.info`deploymentBranch: name=${deploymentBranch}`;
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
 
-  const gitPass: string | undefined = process.env.GIT_PASS;
-  let gitCredentials = `${gitUser}`;
-  if (gitPass) {
-    gitCredentials = `${gitCredentials}:${gitPass}`;
+  let deploymentRepoURL: string;
+  if (useSSH) {
+    deploymentRepoURL = buildSshUrl(
+      githubHost,
+      organizationName,
+      projectName,
+      githubPort,
+    );
+  } else {
+    const gitPass = process.env.GIT_PASS;
+    const gitCredentials = gitPass ? `${gitUser!}:${gitPass}` : gitUser!;
+    deploymentRepoURL = buildHttpsUrl(
+      gitCredentials,
+      githubHost,
+      organizationName,
+      projectName,
+      githubPort,
+    );
   }
 
-  const useSSH = process.env.USE_SSH;
-  const remoteBranch = buildUrl(
-    githubHost,
-    githubPort,
-    gitCredentials,
-    organizationName,
-    projectName,
-    useSSH !== undefined && useSSH.toLowerCase() === 'true',
-  );
-
-  console.log(
-    `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
-  );
+  logger.info`Remote repo URL: name=${obfuscateGitPass(deploymentRepoURL)}`;
 
   // Check if this is a cross-repo publish.
-  const currentRepoUrl = shell
-    .exec('git config --get remote.origin.url')
-    .stdout.trim();
-  const crossRepoPublish = !currentRepoUrl.endsWith(
+  const crossRepoPublish = !sourceRepoUrl.endsWith(
     `${organizationName}/${projectName}.git`,
   );
 
   // We don't allow deploying to the same branch unless it's a cross publish.
-  if (currentBranch === deploymentBranch && !crossRepoPublish) {
+  if (sourceBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
-      `You cannot deploy from this branch (${currentBranch}).` +
+      `You cannot deploy from this branch (${sourceBranch}).` +
         '\nYou will need to checkout to a different branch!',
     );
   }
@@ -172,53 +180,30 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
+    shell.cd(toPath);
+
+    // Check out deployment branch when cloning repository, and then remove all
+    // the files in the directory. If the 'clone' command fails, assume that
+    // the deployment branch doesn't exist, and initialize git in an empty
+    // directory, check out a clean deployment branch and add remote.
     if (
       shellExecLog(
-        `git clone --depth 1 --no-single-branch ${remoteBranch} ${toPath}`,
-      ).code !== 0
+        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
+      ).code === 0
     ) {
-      throw new Error(`Running "git clone" command in "${toPath}" failed.`);
+      shellExecLog('git rm -rf .');
+    } else {
+      shellExecLog('git init');
+      shellExecLog(`git checkout -b ${deploymentBranch}`);
+      shellExecLog(`git remote add origin ${deploymentRepoURL}`);
     }
 
-    shell.cd(toPath);
-
-    // If the default branch is the one we're deploying to, then we'll fail
-    // to create it. This is the case of a cross-repo publish, where we clone
-    // a github.io repo with a default branch.
-    const defaultBranch = shell
-      .exec('git rev-parse --abbrev-ref HEAD')
-      .stdout.trim();
-    if (defaultBranch !== deploymentBranch) {
-      if (shellExecLog(`git checkout origin/${deploymentBranch}`).code !== 0) {
-        if (
-          shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
-        ) {
-          throw new Error(
-            `Running "git checkout ${deploymentBranch}" command failed.`,
-          );
-        }
-      } else if (
-        shellExecLog(`git checkout -b ${deploymentBranch}`).code +
-          shellExecLog(
-            `git branch --set-upstream-to=origin/${deploymentBranch}`,
-          ).code !==
-        0
-      ) {
-        throw new Error(
-          `Running "git checkout ${deploymentBranch}" command failed.`,
-        );
-      }
-    }
-
-    shellExecLog('git rm -rf .');
     try {
       await fs.copy(fromPath, toPath);
-    } catch (error) {
-      throw new Error(
-        `Copying build assets from "${fromPath}" to "${toPath}" failed with error "${error}".`,
-      );
+    } catch (err) {
+      logger.error`Copying build assets from path=${fromPath} to path=${toPath} failed.`;
+      throw err;
     }
-    shell.cd(toPath);
     shellExecLog('git add --all');
 
     const commitMessage =
@@ -228,7 +213,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     if (
       shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
     ) {
-      throw new Error('Running "git push" command failed.');
+      throw new Error(
+        'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
+      );
     } else if (commitResults.code === 0) {
       // The commit might return a non-zero value when site is up to date.
       let websiteURL = '';
@@ -246,12 +233,12 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   };
 
   if (!cliOptions.skipBuild) {
-    // Build static html files, then push to deploymentBranch branch of specified repo.
+    // Build site, then push to deploymentBranch branch of specified repo.
     try {
       await runDeploy(await build(siteDir, cliOptions, false));
-    } catch (buildError) {
-      console.error(buildError);
-      process.exit(1);
+    } catch (err) {
+      logger.error('Deployment of the build output failed.');
+      throw err;
     }
   } else {
     // Push current build to deploymentBranch branch of specified repo.

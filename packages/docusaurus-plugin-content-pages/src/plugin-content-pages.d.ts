@@ -6,30 +6,62 @@
  */
 
 declare module '@docusaurus/plugin-content-pages' {
-  export type Options = Partial<import('./types').PluginOptions>;
+  import type {MDXOptions} from '@docusaurus/mdx-loader';
+
+  export type PluginOptions = MDXOptions & {
+    id?: string;
+    path: string;
+    routeBasePath: string;
+    include: string[];
+    exclude: string[];
+    mdxPageComponent: string;
+    admonitions: {[key: string]: unknown};
+  };
+
+  export type Options = Partial<PluginOptions>;
+
+  export type FrontMatter = {
+    readonly title?: string;
+    readonly description?: string;
+    readonly wrapperClassName?: string;
+    readonly hide_table_of_contents?: string;
+    readonly toc_min_heading_level?: number;
+    readonly toc_max_heading_level?: number;
+  };
+
+  export type JSXPageMetadata = {
+    type: 'jsx';
+    permalink: string;
+    source: string;
+  };
+
+  export type MDXPageMetadata = {
+    type: 'mdx';
+    permalink: string;
+    source: string;
+    frontMatter: FrontMatter & {[key: string]: unknown};
+    title?: string;
+    description?: string;
+  };
+
+  export type Metadata = JSXPageMetadata | MDXPageMetadata;
 }
 
 declare module '@theme/MDXPage' {
   import type {TOCItem} from '@docusaurus/types';
+  import type {
+    MDXPageMetadata,
+    FrontMatter,
+  } from '@docusaurus/plugin-content-pages';
 
   export interface Props {
     readonly content: {
-      readonly frontMatter: {
-        readonly title: string;
-        readonly description: string;
-        readonly wrapperClassName?: string;
-        /* eslint-disable camelcase */
-        readonly hide_table_of_contents?: string;
-        readonly toc_min_heading_level?: number;
-        readonly toc_max_heading_level?: number;
-        /* eslint-enable camelcase */
-      };
-      readonly metadata: {readonly permalink: string};
+      readonly frontMatter: FrontMatter;
+      readonly metadata: MDXPageMetadata;
       readonly toc: readonly TOCItem[];
       (): JSX.Element;
     };
   }
 
-  const MDXPage: (props: Props) => JSX.Element;
-  export default MDXPage;
+  export default function MDXPage(props: Props): JSX.Element;
 }

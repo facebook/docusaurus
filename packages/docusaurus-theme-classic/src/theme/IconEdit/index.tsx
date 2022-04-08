@@ -12,7 +12,10 @@ import type {Props} from '@theme/IconEdit';
 
 import styles from './styles.module.css';
 
-const IconEdit = ({className, ...restProps}: Props): JSX.Element => {
+export default function IconEdit({
+  className,
+  ...restProps
+}: Props): JSX.Element {
   return (
     <svg
       fill="currentColor"
@@ -27,6 +30,4 @@ const IconEdit = ({className, ...restProps}: Props): JSX.Element => {
       </g>
     </svg>
   );
-};
-
-export default IconEdit;
+}

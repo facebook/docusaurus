@@ -12,7 +12,7 @@ import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {
-  Props as TagsListInlineProps,
+  type Props as TagsListInlineProps,
 } from '@theme/TagsListInline';
 
 import styles from './styles.module.css';
@@ -59,7 +59,7 @@ function EditMetaRow({
   );
 }
 
-export default function DocItemFooter(props: Props): JSX.Element {
+export default function DocItemFooter(props: Props): JSX.Element | null {
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {editUrl, lastUpdatedAt, formattedLastUpdatedAt, lastUpdatedBy, tags} =
@@ -71,7 +71,7 @@ export default function DocItemFooter(props: Props): JSX.Element {
   const canDisplayFooter = canDisplayTagsRow || canDisplayEditMetaRow;
 
   if (!canDisplayFooter) {
-    return <></>;
+    return null;
   }
 
   return (

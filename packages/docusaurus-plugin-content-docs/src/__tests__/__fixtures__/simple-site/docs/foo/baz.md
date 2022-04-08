@@ -70,6 +70,6 @@ Term 2 ~ Definition 2a ~ Definition 2b
 
 This is HTML abbreviation example.
 
-It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+It converts "HTML", but keep intact partial entries like "xxxHTMLxxx" and so on.
 
 \*[HTML]: Hyper Text Markup Language

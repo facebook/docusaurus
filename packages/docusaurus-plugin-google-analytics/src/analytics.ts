@@ -7,7 +7,7 @@
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-export default (function () {
+export default (function analyticsModule() {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }

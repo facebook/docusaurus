@@ -8,7 +8,7 @@
 import React from 'react';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
-import {listTagsByLetters, TagLetterEntry} from '@docusaurus/theme-common';
+import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -28,7 +28,7 @@ function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   );
 }
 
-function TagsListByLetter({tags}: Props): JSX.Element {
+export default function TagsListByLetter({tags}: Props): JSX.Element {
   const letterList = listTagsByLetters(tags);
   return (
     <section className="margin-vert--lg">
@@ -41,5 +41,3 @@ function TagsListByLetter({tags}: Props): JSX.Element {
     </section>
   );
 }
-
-export default TagsListByLetter;

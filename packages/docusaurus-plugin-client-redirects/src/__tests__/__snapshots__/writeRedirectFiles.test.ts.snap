@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas for empty baseUrl: fileContent baseUrl=empty 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata for empty baseUrl: fileContent baseUrl=empty 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc\\">
-    <link rel=\\"canonical\\" href=\\"/abc\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=/abc">
+    <link rel="canonical" href="/abc" />
   </head>
   <script>
     window.location.href = '/abc';
@@ -16,14 +16,14 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas for root baseUrl: fileContent baseUrl=/ 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata for root baseUrl: fileContent baseUrl=/ 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc\\">
-    <link rel=\\"canonical\\" href=\\"/abc\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=/abc">
+    <link rel="canonical" href="/abc" />
   </head>
   <script>
     window.location.href = '/abc';
@@ -32,14 +32,14 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas trailingSlash=false: fileContent 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=false: fileContent 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/abc\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/abc\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/abc">
+    <link rel="canonical" href="https://docusaurus.io/abc" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/abc';
@@ -48,9 +48,9 @@ Array [
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/def.html\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/def.html\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/def.html">
+    <link rel="canonical" href="https://docusaurus.io/def.html" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/def.html';
@@ -59,9 +59,9 @@ Array [
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/">
+    <link rel="canonical" href="https://docusaurus.io/" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/';
@@ -70,14 +70,14 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas trailingSlash=true: fileContent 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=true: fileContent 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/abc\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/abc\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/abc">
+    <link rel="canonical" href="https://docusaurus.io/abc" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/abc';
@@ -86,9 +86,9 @@ Array [
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/def.html\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/def.html\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/def.html">
+    <link rel="canonical" href="https://docusaurus.io/def.html" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/def.html';
@@ -97,9 +97,9 @@ Array [
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/">
+    <link rel="canonical" href="https://docusaurus.io/" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/';
@@ -108,14 +108,14 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas trailingSlash=undefined: fileContent 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=undefined: fileContent 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/abc\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/abc\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/abc">
+    <link rel="canonical" href="https://docusaurus.io/abc" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/abc';
@@ -124,9 +124,9 @@ Array [
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/def.html\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/def.html\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/def.html">
+    <link rel="canonical" href="https://docusaurus.io/def.html" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/def.html';
@@ -135,9 +135,9 @@ Array [
   "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/\\" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/">
+    <link rel="canonical" href="https://docusaurus.io/" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/';

@@ -6,18 +6,23 @@
  */
 
 import type {LoadedVersion, LoadedContent} from './types';
-import type {Sidebar, Sidebars} from './sidebars/types';
+import type {
+  Sidebar,
+  SidebarItemCategory,
+  SidebarItemCategoryLink,
+  Sidebars,
+} from './sidebars/types';
 
-import {chain, mapValues, keyBy} from 'lodash';
+import _ from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
   collectSidebarLinks,
 } from './sidebars/utils';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
-  TranslationFiles,
+  TranslationMessage,
 } from '@docusaurus/types';
 import {mergeTranslations} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from './constants';
@@ -25,11 +30,10 @@ import {CURRENT_VERSION_NAME} from './constants';
 function getVersionFileName(versionName: string): string {
   if (versionName === CURRENT_VERSION_NAME) {
     return versionName;
-  } else {
-    // I don't like this "version-" prefix,
-    // but it's for consistency with site/versioned_docs
-    return `version-${versionName}`;
   }
+  // I don't like this "version-" prefix,
+  // but it's for consistency with site/versioned_docs
+  return `version-${versionName}`;
 }
 
 // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
@@ -50,8 +54,8 @@ function getNormalizedSidebarName({
 }
 
 /*
-// Do we need to translate doc metadatas?
-// It seems translating frontmatter labels is good enough
+// Do we need to translate doc metadata?
+// It seems translating front matter labels is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
     [`${doc.unversionedId}.title`]: {
@@ -62,7 +66,8 @@ function getDocTranslations(doc: DocMetadata): TranslationFileContent {
       ? {
           [`${doc.unversionedId}.sidebar_label`]: {
             message: doc.sidebar_label,
-            description: `The sidebar label for doc with id=${doc.unversionedId}`,
+            description:
+              `The sidebar label for doc with id=${doc.unversionedId}`,
           },
         }
       : undefined),
@@ -96,23 +101,57 @@ function getSidebarTranslationFileContent(
   sidebar: Sidebar,
   sidebarName: string,
 ): TranslationFileContent {
+  type TranslationMessageEntry = [string, TranslationMessage];
+
   const categories = collectSidebarCategories(sidebar);
-  const categoryContent: TranslationFileContent = chain(categories)
-    .keyBy((category) => `sidebar.${sidebarName}.category.${category.label}`)
-    .mapValues((category) => ({
-      message: category.label,
-      description: `The label for category ${category.label} in sidebar ${sidebarName}`,
-    }))
-    .value();
+
+  const categoryContent: TranslationFileContent = Object.fromEntries(
+    categories.flatMap((category) => {
+      const entries: TranslationMessageEntry[] = [];
+
+      entries.push([
+        `sidebar.${sidebarName}.category.${category.label}`,
+        {
+          message: category.label,
+          description: `The label for category ${category.label} in sidebar ${sidebarName}`,
+        },
+      ]);
+
+      if (category.link?.type === 'generated-index') {
+        if (category.link.title) {
+          entries.push([
+            `sidebar.${sidebarName}.category.${category.label}.link.generated-index.title`,
+            {
+              message: category.link.title,
+              description: `The generated-index page title for category ${category.label} in sidebar ${sidebarName}`,
+            },
+          ]);
+        }
+        if (category.link.description) {
+          entries.push([
+            `sidebar.${sidebarName}.category.${category.label}.link.generated-index.description`,
+            {
+              message: category.link.description,
+              description: `The generated-index page description for category ${category.label} in sidebar ${sidebarName}`,
+            },
+          ]);
+        }
+      }
+
+      return entries;
+    }),
+  );
 
   const links = collectSidebarLinks(sidebar);
-  const linksContent: TranslationFileContent = chain(links)
-    .keyBy((link) => `sidebar.${sidebarName}.link.${link.label}`)
-    .mapValues((link) => ({
-      message: link.label,
-      description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
-    }))
-    .value();
+  const linksContent: TranslationFileContent = Object.fromEntries(
+    links.map((link) => [
+      `sidebar.${sidebarName}.link.${link.label}`,
+      {
+        message: link.label,
+        description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
+      },
+    ]),
+  );
 
   return mergeTranslations([categoryContent, linksContent]);
 }
@@ -126,13 +165,39 @@ function translateSidebar({
   sidebarName: string;
   sidebarsTranslations: TranslationFileContent;
 }): Sidebar {
+  function transformSidebarCategoryLink(
+    category: SidebarItemCategory,
+  ): SidebarItemCategoryLink | undefined {
+    if (!category.link) {
+      return undefined;
+    }
+    if (category.link.type === 'generated-index') {
+      const title =
+        sidebarsTranslations[
+          `sidebar.${sidebarName}.category.${category.label}.link.generated-index.title`
+        ]?.message ?? category.link.title;
+      const description =
+        sidebarsTranslations[
+          `sidebar.${sidebarName}.category.${category.label}.link.generated-index.description`
+        ]?.message ?? category.link.description;
+      return {
+        ...category.link,
+        title,
+        description,
+      };
+    }
+    return category.link;
+  }
+
   return transformSidebarItems(sidebar, (item) => {
     if (item.type === 'category') {
+      const link = transformSidebarCategoryLink(item);
       return {
         ...item,
         label:
           sidebarsTranslations[`sidebar.${sidebarName}.category.${item.label}`]
             ?.message ?? item.label,
+        ...(link && {link}),
       };
     }
     if (item.type === 'link') {
@@ -164,22 +229,22 @@ function translateSidebars(
   version: LoadedVersion,
   sidebarsTranslations: TranslationFileContent,
 ): Sidebars {
-  return mapValues(version.sidebars, (sidebar, sidebarName) => {
-    return translateSidebar({
+  return _.mapValues(version.sidebars, (sidebar, sidebarName) =>
+    translateSidebar({
       sidebar,
       sidebarName: getNormalizedSidebarName({
         sidebarName,
         versionName: version.versionName,
       }),
       sidebarsTranslations,
-    });
-  });
+    }),
+  );
 }
 
-function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
+function getVersionTranslationFiles(version: LoadedVersion): TranslationFile[] {
   const versionTranslations: TranslationFileContent = {
     'version.label': {
-      message: version.versionLabel,
+      message: version.label,
       description: `The label for version ${version.versionName}`,
     },
   };
@@ -187,7 +252,8 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
   const sidebarsTranslations: TranslationFileContent =
     getSidebarsTranslations(version);
 
-  // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
+  // const docsTranslations: TranslationFileContent =
+  //   getDocsTranslations(version);
 
   return [
     {
@@ -202,13 +268,13 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
 }
 function translateVersion(
   version: LoadedVersion,
-  translationFiles: Record<string, TranslationFile>,
+  translationFiles: {[fileName: string]: TranslationFile},
 ): LoadedVersion {
   const versionTranslations =
-    translationFiles[getVersionFileName(version.versionName)].content;
+    translationFiles[getVersionFileName(version.versionName)]!.content;
   return {
     ...version,
-    versionLabel: versionTranslations['version.label']?.message,
+    label: versionTranslations['version.label']?.message ?? version.label,
     sidebars: translateSidebars(version, versionTranslations),
     // docs: translateDocs(version.docs, versionTranslations),
   };
@@ -216,26 +282,26 @@ function translateVersion(
 
 function getVersionsTranslationFiles(
   versions: LoadedVersion[],
-): TranslationFiles {
+): TranslationFile[] {
   return versions.flatMap(getVersionTranslationFiles);
 }
 function translateVersions(
   versions: LoadedVersion[],
-  translationFiles: Record<string, TranslationFile>,
+  translationFiles: {[fileName: string]: TranslationFile},
 ): LoadedVersion[] {
   return versions.map((version) => translateVersion(version, translationFiles));
 }
 
 export function getLoadedContentTranslationFiles(
   loadedContent: LoadedContent,
-): TranslationFiles {
+): TranslationFile[] {
   return getVersionsTranslationFiles(loadedContent.loadedVersions);
 }
 export function translateLoadedContent(
   loadedContent: LoadedContent,
   translationFiles: TranslationFile[],
 ): LoadedContent {
-  const translationFilesMap: Record<string, TranslationFile> = keyBy(
+  const translationFilesMap: {[fileName: string]: TranslationFile} = _.keyBy(
     translationFiles,
     (f) => f.path,
   );

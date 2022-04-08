@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/types",
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.18",
   "description": "Common types for Docusaurus packages.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -17,10 +17,10 @@
   },
   "dependencies": {
     "commander": "^5.1.0",
-    "joi": "^17.4.2",
-    "querystring": "0.2.0",
+    "history": "^4.9.0",
+    "joi": "^17.6.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.61.0",
+    "webpack": "^5.70.1",
     "webpack-merge": "^5.8.0"
   }
 }

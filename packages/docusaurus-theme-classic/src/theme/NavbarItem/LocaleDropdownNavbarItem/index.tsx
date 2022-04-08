@@ -11,6 +11,7 @@ import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
+import {translate} from '@docusaurus/Translate';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
 import styles from './styles.module.css';
@@ -26,10 +27,6 @@ export default function LocaleDropdownNavbarItem({
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
-  function getLocaleLabel(locale: string) {
-    return localeConfigs[locale].label;
-  }
-
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
     const to = `pathname://${alternatePageUtils.createUrl({
       locale,
@@ -38,24 +35,28 @@ export default function LocaleDropdownNavbarItem({
     })}`;
     return {
       isNavLink: true,
-      label: getLocaleLabel(locale),
+      label: localeConfigs[locale]!.label,
       to,
       target: '_self',
       autoAddBaseUrl: false,
       className: locale === currentLocale ? 'dropdown__link--active' : '',
-      style: {textTransform: 'capitalize'},
     };
   });
 
   const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
 
   // Mobile is handled a bit differently
-  const dropdownLabel = mobile ? 'Languages' : getLocaleLabel(currentLocale);
+  const dropdownLabel = mobile
+    ? translate({
+        message: 'Languages',
+        id: 'theme.navbar.mobileLanguageDropdown.label',
+        description: 'The label for the mobile language switcher dropdown',
+      })
+    : localeConfigs[currentLocale]!.label;
 
   return (
     <DropdownNavbarItem
       {...props}
-      href="#"
       mobile={mobile}
       label={
         <span>

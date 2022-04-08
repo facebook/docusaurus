@@ -1,90 +1,160 @@
-name: Tests E2E
+name: E2E Tests
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - website/**
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - website/**
 
 jobs:
   yarn-v1:
+    name: E2E — Yarn v1
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node: ['14', '16', '17']
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
         run: yarn
       - name: Generate test-website project against main branch
-        run: |
-          KEEP_CONTAINER=true yarn test:build:website -s
-          mv test-website ../test-website
+        run: yarn test:build:website -s
       - name: Install test-website project with Yarn v1
-        run: cd ../test-website && yarn install
+        run: yarn install
+        working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project
-        run: cd ../test-website && yarn start --no-open
+        run: yarn start --no-open
+        working-directory: ../test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd ../test-website && yarn build
-        env:
-          CI: true
+        run: yarn build
+        working-directory: ../test-website
 
   yarn-berry:
+    name: E2E — Yarn Berry
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['14']
         nodeLinker: [pnp, node-modules]
+        variant: [-s, -st]
+        exclude:
+          # Running tsc on PnP requires additional installations, which is not
+          # worthwhile for a simple E2E test
+          - variant: -st
+            nodeLinker: pnp
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '16'
           cache: yarn
       - name: Installation
         run: yarn
-
-      - name: Generate test-website project against main branch
-        run: |
-          KEEP_CONTAINER=true yarn test:build:website -s
-          mv test-website ../test-website
+      - name: Generate test-website project with ${{ matrix.variant }} against main branch
+        run: yarn test:build:website ${{ matrix.variant }}
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
-          cd ../test-website
-
-          # we have to switch to berry first before setting the version we want
           yarn set version berry
-          # temporary using canary for #5342
-          yarn set version canary
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
-          yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
 
+          # Make PnP as strict as possible
+          # https://yarnpkg.com/features/pnp#fallback-mode
+          yarn config set pnpFallbackMode none
+
           yarn install
+        working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
       - name: Start test-website project
-        run: cd ../test-website && yarn start --no-open
+        run: yarn start --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Type check
+        if: matrix.variant == '-st'
+        run: yarn typecheck
+        working-directory: ../test-website
+      - name: Build test-website project
+        run: yarn build
+        working-directory: ../test-website
+
+  npm:
+    name: E2E — npm
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+      - name: Install test-website project with npm
+        run: npm install
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: npm run start -- --no-open
+        working-directory: ../test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd ../test-website && yarn build
+        run: npm run build
+        working-directory: ../test-website
+
+  pnpm:
+    name: E2E — pnpm
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+      - name: Install test-website project with pnpm
+        run: |
+          curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+          pnpm install
+        working-directory: ../test-website
         env:
-          CI: true
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: pnpm run start -- --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: pnpm run build
+        working-directory: ../test-website

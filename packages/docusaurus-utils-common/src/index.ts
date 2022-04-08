@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {default as applyTrailingSlash} from './applyTrailingSlash';
-export type {ApplyTrailingSlashParams} from './applyTrailingSlash';
-
-export {default as uniq} from './uniq';
+export const blogPostContainerID = 'post-content';
+export {
+  default as applyTrailingSlash,
+  type ApplyTrailingSlashParams,
+} from './applyTrailingSlash';

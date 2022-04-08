@@ -5,29 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Too dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function flat(target: unknown): Record<string, any> {
+import type {ChunkNames} from '@docusaurus/types';
+
+type Chunk = ChunkNames[string];
+type Tree = Exclude<Chunk, string>;
+
+const isTree = (x: Chunk): x is Tree =>
+  typeof x === 'object' && !!x && Object.keys(x).length > 0;
+
+/**
+ * Takes a tree, and flattens it into a map of keyPath -> value.
+ *
+ * ```js
+ * flat({ a: { b: 1 } }) === { "a.b": 1 };
+ * flat({ a: [1, 2] }) === { "a.0": 1, "a.1": 2 };
+ * ```
+ */
+export default function flat(target: ChunkNames): {[keyPath: string]: string} {
   const delimiter = '.';
-  const output: Record<string, any> = {};
+  const output: {[keyPath: string]: string} = {};
 
-  function step(object: any, prev?: string) {
-    Object.keys(object).forEach((key) => {
-      const value = object[key];
-      const type = typeof value;
-      const isObject = type === 'object' && !!value;
-      const newKey = prev ? prev + delimiter + key : key;
+  function step(object: Tree, prefix?: string | number) {
+    Object.entries(object).forEach(([key, value]) => {
+      const newKey = prefix ? `${prefix}${delimiter}${key}` : key;
 
-      if (isObject && Object.keys(value).length) {
+      if (isTree(value)) {
         step(value, newKey);
-        return;
+      } else {
+        output[newKey] = value;
       }
-      output[newKey] = value;
     });
   }
 
   step(target);
   return output;
 }
-
-export default flat;

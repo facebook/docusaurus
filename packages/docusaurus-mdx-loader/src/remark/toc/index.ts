@@ -5,14 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {parse, ParserOptions} from '@babel/parser';
+import {parse, type ParserOptions} from '@babel/parser';
 import type {Identifier} from '@babel/types';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
-import search from './search';
-import type {Plugin, Transformer} from 'unified';
+import toString from 'mdast-util-to-string';
+import visit from 'unist-util-visit';
+import {toValue} from '../utils';
+
+import type {TOCItem} from '@docusaurus/types';
 import type {Node, Parent} from 'unist';
-import type {Literal} from 'mdast';
+import type {Heading, Literal} from 'mdast';
+import type {Transformer} from 'unified';
 
 const parseOptions: ParserOptions = {
   plugins: ['jsx'],
@@ -23,9 +27,9 @@ const isImport = (child: Node): child is Literal => child.type === 'import';
 const hasImports = (index: number) => index > -1;
 const isExport = (child: Node): child is Literal => child.type === 'export';
 
-interface PluginOptions {
+type PluginOptions = {
   name?: string;
-}
+};
 
 const isTarget = (child: Literal, name: string) => {
   let found = false;
@@ -66,22 +70,33 @@ const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
   return targetIndex;
 };
 
-const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
+export default function plugin(options: PluginOptions = {}): Transformer {
   const name = options.name || 'toc';
 
-  const transformer: Transformer = (node) => {
-    const headings = search(node);
-    const {children} = node as Parent<Literal>;
+  return (root) => {
+    const headings: TOCItem[] = [];
+
+    visit(root, 'heading', (child: Heading, index, parent) => {
+      const value = toString(child);
+
+      // depth:1 headings are titles and not included in the TOC
+      if (parent !== root || !value || child.depth < 2) {
+        return;
+      }
+
+      headings.push({
+        value: toValue(child),
+        id: child.data!.id as string,
+        level: child.depth,
+      });
+    });
+    const {children} = root as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 
-    if (headings && headings.length) {
-      children[targetIndex].value = `export const ${name} = ${stringifyObject(
+    if (headings.length) {
+      children[targetIndex]!.value = `export const ${name} = ${stringifyObject(
         headings,
       )};`;
     }
   };
-
-  return transformer;
-};
-
-export default plugin;
+}

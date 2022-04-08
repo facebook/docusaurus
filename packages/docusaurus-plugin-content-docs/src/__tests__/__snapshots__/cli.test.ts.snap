@@ -1,123 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docsVersion first time versioning 1`] = `
-Object {
-  "version-1.0.0/docs": Array [
-    Object {
-      "collapsed": true,
-      "collapsible": true,
-      "items": Array [
-        Object {
-          "collapsed": true,
-          "collapsible": true,
-          "items": Array [
-            Object {
-              "id": "version-1.0.0/foo/bar",
-              "type": "doc",
-            },
-            Object {
-              "id": "version-1.0.0/foo/baz",
-              "type": "doc",
-            },
-          ],
-          "label": "foo",
-          "type": "category",
+{
+  "docs": {
+    "Guides": [
+      "hello",
+    ],
+    "Test": [
+      {
+        "items": [
+          "foo/bar",
+          "foo/baz",
+        ],
+        "label": "foo",
+        "type": "category",
+      },
+      {
+        "items": [
+          "rootAbsoluteSlug",
+          "rootRelativeSlug",
+          "rootResolvedSlug",
+          "rootTryToEscapeSlug",
+        ],
+        "label": "Slugs",
+        "link": {
+          "type": "generated-index",
         },
-        Object {
-          "collapsed": true,
-          "collapsible": true,
-          "items": Array [
-            Object {
-              "id": "version-1.0.0/rootAbsoluteSlug",
-              "type": "doc",
-            },
-            Object {
-              "id": "version-1.0.0/rootRelativeSlug",
-              "type": "doc",
-            },
-            Object {
-              "id": "version-1.0.0/rootResolvedSlug",
-              "type": "doc",
-            },
-            Object {
-              "id": "version-1.0.0/rootTryToEscapeSlug",
-              "type": "doc",
-            },
-          ],
-          "label": "Slugs",
-          "type": "category",
-        },
-        Object {
-          "id": "version-1.0.0/headingAsTitle",
-          "type": "doc",
-        },
-        Object {
-          "href": "https://github.com",
-          "label": "Github",
-          "type": "link",
-        },
-        Object {
-          "id": "version-1.0.0/hello",
-          "type": "ref",
-        },
-      ],
-      "label": "Test",
-      "type": "category",
-    },
-    Object {
-      "collapsed": true,
-      "collapsible": true,
-      "items": Array [
-        Object {
-          "id": "version-1.0.0/hello",
-          "type": "doc",
-        },
-      ],
-      "label": "Guides",
-      "type": "category",
-    },
-  ],
+        "type": "category",
+      },
+      {
+        "id": "headingAsTitle",
+        "type": "doc",
+      },
+      {
+        "href": "https://github.com",
+        "label": "GitHub",
+        "type": "link",
+      },
+      {
+        "id": "hello",
+        "type": "ref",
+      },
+    ],
+  },
 }
 `;
 
 exports[`docsVersion not the first time versioning 1`] = `
-Object {
-  "version-2.0.0/docs": Array [
-    Object {
-      "collapsed": true,
-      "collapsible": true,
-      "items": Array [
-        Object {
-          "id": "version-2.0.0/foo/bar",
-          "type": "doc",
-        },
-      ],
-      "label": "Test",
-      "type": "category",
-    },
-    Object {
-      "collapsed": true,
-      "collapsible": true,
-      "items": Array [
-        Object {
-          "id": "version-2.0.0/hello",
-          "type": "doc",
-        },
-      ],
-      "label": "Guides",
-      "type": "category",
-    },
-  ],
+{
+  "docs": {
+    "Guides": [
+      "hello",
+    ],
+    "Test": [
+      "foo/bar",
+    ],
+  },
 }
 `;
 
 exports[`docsVersion second docs instance versioning 1`] = `
-Object {
-  "version-2.0.0/community": Array [
-    Object {
-      "id": "version-2.0.0/team",
-      "type": "doc",
-    },
+{
+  "community": [
+    "team",
   ],
 }
 `;

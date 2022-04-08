@@ -11,73 +11,67 @@ import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
 import type {Props} from '@theme/DebugContent';
 
-const PluginInstanceContent = ({
+function PluginInstanceContent({
   pluginId,
   pluginInstanceContent,
 }: {
   pluginId: string;
   pluginInstanceContent: unknown;
-}) => (
-  <section style={{marginBottom: 30}}>
-    <code>{pluginId}</code>
-    <DebugJsonView src={pluginInstanceContent} collapseDepth={2} />
-  </section>
-);
+}) {
+  return (
+    <section style={{marginBottom: 30}}>
+      <code>{pluginId}</code>
+      <DebugJsonView src={pluginInstanceContent} collapseDepth={2} />
+    </section>
+  );
+}
 
-const PluginContent = ({
+function PluginContent({
   pluginName,
   pluginContent,
 }: {
   pluginName: string;
-  pluginContent: Record<string, unknown>;
-}) => {
+  pluginContent: {[pluginId: string]: unknown};
+}) {
   return (
     <section style={{marginBottom: 60}}>
       <h3>{pluginName}</h3>
       <div>
         {Object.entries(pluginContent)
           // filter plugin instances with no content
-          .filter(
-            ([_pluginId, pluginInstanceContent]) => !!pluginInstanceContent,
-          )
-          .map(([pluginId, pluginInstanceContent]) => {
-            return (
-              <PluginInstanceContent
-                key={pluginId}
-                pluginId={pluginId}
-                pluginInstanceContent={pluginInstanceContent}
-              />
-            );
-          })}
+          .filter(([, pluginInstanceContent]) => !!pluginInstanceContent)
+          .map(([pluginId, pluginInstanceContent]) => (
+            <PluginInstanceContent
+              key={pluginId}
+              pluginId={pluginId}
+              pluginInstanceContent={pluginInstanceContent}
+            />
+          ))}
       </div>
     </section>
   );
-};
+}
 
-function DebugContent({allContent}: Props): JSX.Element {
+export default function DebugContent({allContent}: Props): JSX.Element {
   return (
     <DebugLayout>
       <h2>Plugin content</h2>
       <div>
         {Object.entries(allContent)
           // filter plugins with no content
-          .filter(([_pluginName, pluginContent]) =>
+          .filter(([, pluginContent]) =>
             Object.values(pluginContent).some(
               (instanceContent) => !!instanceContent,
             ),
           )
-          .map(([pluginName, pluginContent]) => {
-            return (
-              <PluginContent
-                key={pluginName}
-                pluginName={pluginName}
-                pluginContent={pluginContent}
-              />
-            );
-          })}
+          .map(([pluginName, pluginContent]) => (
+            <PluginContent
+              key={pluginName}
+              pluginName={pluginName}
+              pluginContent={pluginContent}
+            />
+          ))}
       </div>
     </DebugLayout>
   );
 }
-
-export default DebugContent;

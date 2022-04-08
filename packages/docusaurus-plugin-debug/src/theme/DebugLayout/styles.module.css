@@ -36,7 +36,7 @@
   font-size: clamp(12px, 4vw, 16px);
   text-align: center;
   border-radius: 4px;
-  padding: 6px 6px;
+  padding: 6px;
 }
 
 .navlink:hover {

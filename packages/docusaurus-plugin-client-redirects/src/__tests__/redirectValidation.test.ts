@@ -8,26 +8,28 @@
 import {validateRedirect} from '../redirectValidation';
 
 describe('validateRedirect', () => {
-  test('validate good redirects without throwing', () => {
-    validateRedirect({
-      from: '/fromSomePath',
-      to: '/toSomePath',
-    });
-    validateRedirect({
-      from: '/from/Some/Path',
-      to: '/toSomePath',
-    });
-    validateRedirect({
-      from: '/fromSomePath',
-      to: '/toSomePath',
-    });
-    validateRedirect({
-      from: '/fromSomePath',
-      to: '/to/Some/Path',
-    });
+  it('validate good redirects without throwing', () => {
+    expect(() => {
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath',
+      });
+      validateRedirect({
+        from: '/from/Some/Path',
+        to: '/toSomePath',
+      });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath',
+      });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/to/Some/Path',
+      });
+    }).not.toThrow();
   });
 
-  test('throw for bad redirects', () => {
+  it('throw for bad redirects', () => {
     expect(() =>
       validateRedirect({
         from: 'https://fb.com/fromSomePath',
@@ -58,7 +60,7 @@ describe('validateRedirect', () => {
 
     expect(() =>
       validateRedirect({
-        from: ['heyho'] as unknown as string,
+        from: ['hey'] as unknown as string,
         to: '/toSomePath?queryString=xyz',
       }),
     ).toThrowErrorMatchingSnapshot();

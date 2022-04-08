@@ -12,7 +12,7 @@ const postCssRemoveOverriddenCustomProperties = require('../index');
 
 const processFixture = (name) => {
   const input = vfile.readSync(
-    path.join(__dirname, 'fixtures', `${name}.css`),
+    path.join(__dirname, '__fixtures__', `${name}.css`),
     'utf8',
   );
   const output = postcss([postCssRemoveOverriddenCustomProperties]).process(
@@ -23,11 +23,11 @@ const processFixture = (name) => {
 };
 
 describe('remove-overridden-custom-properties', () => {
-  test('overridden custom properties should be removed', () => {
+  it('overridden custom properties should be removed', () => {
     expect(processFixture('normal')).toMatchSnapshot();
   });
 
-  test('overridden custom properties with `!important` rule should not be removed', () => {
+  it('overridden custom properties with `!important` rule should not be removed', () => {
     expect(processFixture('important_rule')).toMatchSnapshot();
   });
 });

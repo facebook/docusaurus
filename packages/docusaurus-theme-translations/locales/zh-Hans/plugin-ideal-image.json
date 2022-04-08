@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "未找到图片",
+  "theme.IdealImageMessage.error": "出现错误，点击重试",
+  "theme.IdealImageMessage.load": "点击加载图片{sizeMessage}",
+  "theme.IdealImageMessage.loading": "加载中……",
+  "theme.IdealImageMessage.offline": "你的浏览器处于离线状态。图片未加载"
+}

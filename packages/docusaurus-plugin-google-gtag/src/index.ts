@@ -5,38 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
-import type {ThemeConfig} from '@docusaurus/plugin-google-gtag';
+import {Joi} from '@docusaurus/utils-validation';
+import type {
+  LoadContext,
+  Plugin,
+  OptionValidationContext,
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
+import type {PluginOptions, Options} from '@docusaurus/plugin-google-gtag';
 
-export default function pluginGoogleGtag(context: LoadContext): Plugin {
-  const {
-    siteConfig: {themeConfig},
-  } = context;
-  const {gtag} = themeConfig as ThemeConfig;
-
-  if (!gtag) {
-    throw new Error(
-      `You need to specify "gtag" object in "themeConfig" with "trackingId" field in it to use docusaurus-plugin-google-gtag.`,
-    );
-  }
-
-  const {anonymizeIP, trackingID} = gtag;
-
-  if (!trackingID) {
-    throw new Error(
-      'You specified the "gtag" object in "themeConfig" but the "trackingID" field was missing. ' +
-        'Please ensure this is not a mistake.',
-    );
-  }
-
+export default function pluginGoogleGtag(
+  context: LoadContext,
+  options: PluginOptions,
+): Plugin {
+  const {anonymizeIP, trackingID} = options;
   const isProd = process.env.NODE_ENV === 'production';
 
   return {
     name: 'docusaurus-plugin-google-gtag',
 
+    async contentLoaded({actions}) {
+      actions.setGlobalData(options);
+    },
+
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './gtag')] : [];
+      return isProd ? ['./gtag'] : [];
     },
 
     injectHtmlTags() {
@@ -44,7 +38,8 @@ export default function pluginGoogleGtag(context: LoadContext): Plugin {
         return {};
       }
       return {
-        // Gtag includes GA by default, so we also preconnect to google-analytics.
+        // Gtag includes GA by default, so we also preconnect to
+        // google-analytics.
         headTags: [
           {
             tagName: 'link',
@@ -78,8 +73,31 @@ export default function pluginGoogleGtag(context: LoadContext): Plugin {
               anonymizeIP ? "'anonymize_ip': true" : ''
             } });`,
           },
-        ] as HtmlTags,
+        ],
       };
     },
   };
+}
+
+const pluginOptionsSchema = Joi.object<PluginOptions>({
+  trackingID: Joi.string().required(),
+  anonymizeIP: Joi.boolean().default(false),
+});
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
+  return validate(pluginOptionsSchema, options);
+}
+
+export function validateThemeConfig({
+  themeConfig,
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
+  if ('gtag' in themeConfig) {
+    throw new Error(
+      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
+  return themeConfig;
 }

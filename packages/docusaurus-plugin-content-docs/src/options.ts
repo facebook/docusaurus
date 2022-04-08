@@ -4,7 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {PluginOptions} from './types';
+
+import type {PluginOptions, Options} from '@docusaurus/plugin-content-docs';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -14,8 +15,8 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 
-import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
-import chalk from 'chalk';
+import type {OptionValidationContext} from '@docusaurus/types';
+import logger from '@docusaurus/logger';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
@@ -27,7 +28,6 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   tagsBasePath: 'tags', // URL Tags Route.
-  homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
   exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
@@ -36,6 +36,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   docItemComponent: '@theme/DocItem',
   docTagDocListComponent: '@theme/DocTagDocListPage',
   docTagsListComponent: '@theme/DocTagsListPage',
+  docCategoryGeneratedIndexComponent: '@theme/DocCategoryGeneratedIndexPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -51,6 +52,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   editLocalizedFiles: false,
   sidebarCollapsible: true,
   sidebarCollapsed: true,
+  breadcrumbs: true,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -65,7 +67,7 @@ const VersionsOptionsSchema = Joi.object()
   .pattern(Joi.string().required(), VersionOptionsSchema)
   .default(DEFAULT_OPTIONS.versions);
 
-export const OptionsSchema = Joi.object({
+const OptionsSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
@@ -75,7 +77,12 @@ export const OptionsSchema = Joi.object({
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
-  homePageId: Joi.string().optional(),
+  // @ts-expect-error: deprecated
+  homePageId: Joi.any().forbidden().messages({
+    'any.unknown':
+      'The docs plugin option homePageId is not supported anymore. To make a doc the "home", please add "slug: /" in its front matter. See: https://docusaurus.io/docs/next/docs-introduction#home-page-docs',
+  }),
+
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   sidebarPath: Joi.alternatives().try(
@@ -106,6 +113,9 @@ export const OptionsSchema = Joi.object({
   docTagDocListComponent: Joi.string().default(
     DEFAULT_OPTIONS.docTagDocListComponent,
   ),
+  docCategoryGeneratedIndexComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docCategoryGeneratedIndexComponent,
+  ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
@@ -128,17 +138,19 @@ export const OptionsSchema = Joi.object({
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
+  breadcrumbs: Joi.bool().default(DEFAULT_OPTIONS.breadcrumbs),
 });
 
 export function validateOptions({
   validate,
   options: userOptions,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   let options = userOptions;
 
   if (options.sidebarCollapsible === false) {
-    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't want to have the inconsistency warning
-    // We let options.sidebarCollapsible become the default value for options.sidebarCollapsed
+    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't
+    // want to have the inconsistency warning. We let options.sidebarCollapsible
+    // become the default value for options.sidebarCollapsed
     if (typeof options.sidebarCollapsed === 'undefined') {
       options = {
         ...options,
@@ -146,11 +158,7 @@ export function validateOptions({
       };
     }
     if (options.sidebarCollapsed) {
-      console.warn(
-        chalk.yellow(
-          'The docs plugin config is inconsistent. It does not make sense to use sidebarCollapsible=false and sidebarCollapsed=true at the same time. sidebarCollapsed=false will be ignored.',
-        ),
-      );
+      logger.warn`The docs plugin config is inconsistent. It does not make sense to use code=${'sidebarCollapsible: false'} and code=${'sidebarCollapsed: true'} at the same time. code=${'sidebarCollapsed: true'} will be ignored.`;
       options = {
         ...options,
         sidebarCollapsed: false,
@@ -158,17 +166,7 @@ export function validateOptions({
     }
   }
 
-  // TODO remove homePageId before end of 2020
-  // "slug: /" is better because the home doc can be different across versions
-  if (options.homePageId) {
-    console.log(
-      chalk.red(
-        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
-      ),
-    );
-  }
-
-  const normalizedOptions = validate(OptionsSchema, options);
+  const normalizedOptions = validate(OptionsSchema, options) as PluginOptions;
 
   if (normalizedOptions.admonitions) {
     normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
