@@ -154,9 +154,11 @@ export default function CodeBlock({
                           </span>
                         </>
                       ) : (
-                        lineTokens
+                        <>
+                          {lineTokens}
+                          <br />
+                        </>
                       )}
-                      <br />
                     </span>
                   );
                 })}
