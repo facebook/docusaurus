@@ -11,11 +11,11 @@ import type {
   GlobalPluginData,
   GlobalVersion,
   GlobalDoc,
-  GetActivePluginOptions,
   ActivePlugin,
   ActiveDocContext,
   DocVersionSuggestions,
 } from '@docusaurus/plugin-content-docs/client';
+import type {UseDataOptions} from '@docusaurus/types';
 
 // This code is not part of the api surface, not in ./theme on purpose
 
@@ -25,7 +25,7 @@ import type {
 export function getActivePlugin(
   allPluginData: {[pluginId: string]: GlobalPluginData},
   pathname: string,
-  options: GetActivePluginOptions = {},
+  options: UseDataOptions = {},
 ): ActivePlugin | undefined {
   const activeEntry = Object.entries(allPluginData)
     // Route sorting: '/android/foo' should match '/android' instead of '/'

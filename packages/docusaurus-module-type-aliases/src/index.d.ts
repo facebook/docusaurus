@@ -315,16 +315,18 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
-  import type {GlobalData} from '@docusaurus/types';
+  import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
   export function useAllPluginInstancesData(
     pluginName: string,
-  ): GlobalData[string];
+    options?: UseDataOptions,
+  ): GlobalData[string] | undefined;
 
   export function usePluginData(
     pluginName: string,
     pluginId?: string,
-  ): GlobalData[string][string];
+    options?: UseDataOptions,
+  ): GlobalData[string][string] | undefined;
 
   export default function useGlobalData(): GlobalData;
 }

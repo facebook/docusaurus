@@ -59,7 +59,7 @@ describe('useAllPluginInstancesData', () => {
   it('throws when plugin data not found', () => {
     expect(
       () =>
-        renderHook(() => useAllPluginInstancesData('bar'), {
+        renderHook(() => useAllPluginInstancesData('bar', {failfast: true}), {
           wrapper: ({children}) => (
             <Context.Provider
               // eslint-disable-next-line react/jsx-no-constructed-context-values
@@ -106,7 +106,7 @@ describe('usePluginData', () => {
   it('throws when plugin instance data not found', () => {
     expect(
       () =>
-        renderHook(() => usePluginData('foo', 'baz'), {
+        renderHook(() => usePluginData('foo', 'baz', {failfast: true}), {
           wrapper: ({children}) => (
             <Context.Provider
               // eslint-disable-next-line react/jsx-no-constructed-context-values
