@@ -113,5 +113,8 @@
     "stylelint-config-standard": "^25.0.0",
     "typescript": "^4.6.3",
     "unified": "^9.2.2"
+  },
+  "resolutions": {
+    "@types/react-dom": "^18.0.0"
   }
 }

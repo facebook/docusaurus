@@ -12,6 +12,7 @@ import ReactDOMServer from 'react-dom/server';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
+import {WritableAsPromise} from './writableAsPromise';
 
 import {minify} from 'html-minifier-terser';
 import path from 'path';
@@ -82,7 +83,10 @@ async function doRender(locals: Locals & {path: string}) {
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
-  const appHtml = ReactDOMServer.renderToString(
+
+  // inspired by https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/cache-dir/static-entry.js
+  const writableStream = new WritableAsPromise();
+  const {pipe} = ReactDOMServer.renderToPipeableStream(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
@@ -92,7 +96,13 @@ async function doRender(locals: Locals & {path: string}) {
         </StaticRouter>
       </HelmetProvider>
     </Loadable.Capture>,
+    {
+      onAllReady() {
+        pipe(writableStream);
+      },
+    },
   );
+  const appHtml = await writableStream;
   onLinksCollected(location, linksCollector.getCollectedLinks());
 
   const {helmet} = helmetContext as FilledContext;

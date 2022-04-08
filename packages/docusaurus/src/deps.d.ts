@@ -66,3 +66,26 @@ declare module 'webpack/lib/HotModuleReplacementPlugin' {
 
   export default HotModuleReplacementPlugin;
 }
+
+declare module 'react-dom/server' {
+  export function renderToPipeableStream(
+    element: React.ReactElement,
+    props: {
+      identifierPrefix?: string;
+      namespaceURI?: string;
+      nonce?: string;
+      bootstrapScriptContent?: string;
+      bootstrapScripts?: Array<string>;
+      bootstrapModules?: Array<string>;
+      progressiveChunkSize?: number;
+      onShellReady?: () => void;
+      onShellError?: () => void;
+      onAllReady?: () => void;
+      onError?: (error: mixed) => void;
+    },
+  ): {
+    pipe: (stream: NodeJS.WritableStream) => void;
+  };
+  export function renderToStaticMarkup(element: ReactElement): string;
+  export function renderToString(element: ReactElement): string;
+}
