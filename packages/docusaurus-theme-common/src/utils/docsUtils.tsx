@@ -259,12 +259,22 @@ export function useLayoutDocsSidebar(
  *
  * @throws This hook throws if a doc with said ID is not found.
  */
-export function useLayoutDoc(docId: string, docsPluginId?: string): GlobalDoc {
+export function useLayoutDoc(
+  docId: string,
+  docsPluginId?: string,
+): GlobalDoc | null {
   const versions = useDocsVersionCandidates(docsPluginId);
   return useMemo(() => {
     const allDocs = versions.flatMap((version) => version.docs);
     const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
     if (!doc) {
+      const isDraft = versions
+        .flatMap((version) => version.draftIds)
+        .includes(docId);
+      // drafts should be silently filtered instead of throwing
+      if (isDraft) {
+        return null;
+      }
       throw new Error(
         `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
           versions.length > 1 ? 's' : ''

@@ -26,7 +26,7 @@ import {DefaultSidebarItemsGenerator} from './generator';
 import {validateSidebars} from './validation';
 import _ from 'lodash';
 import combinePromises from 'combine-promises';
-import {isCategoryIndex} from '../docs';
+import {getDocIds, isCategoryIndex} from '../docs';
 
 function toSidebarItemsGeneratorDoc(
   doc: DocMetadataBase,
@@ -55,7 +55,8 @@ async function processSidebar(
   categoriesMetadata: {[filePath: string]: CategoryMetadataFile},
   params: SidebarProcessorParams,
 ): Promise<ProcessedSidebar> {
-  const {sidebarItemsGenerator, numberPrefixParser, docs, version} = params;
+  const {sidebarItemsGenerator, numberPrefixParser, docs, drafts, version} =
+    params;
 
   // Just a minor lazy transformation optimization
   const getSidebarItemsGeneratorDocsAndVersion = _.memoize(() => ({
@@ -81,6 +82,16 @@ async function processSidebar(
     return processItems(generatedItems);
   }
 
+  const allDraftIdsSet = new Set(drafts.flatMap(getDocIds));
+
+  function filterItem(item: NormalizedSidebarItem): boolean {
+    if (item.type === 'doc') {
+      // Remove draft items from sidebar
+      return !allDraftIdsSet.has(item.id);
+    }
+    return true;
+  }
+
   async function processItem(
     item: NormalizedSidebarItem,
   ): Promise<ProcessedSidebarItem[]> {
@@ -101,7 +112,9 @@ async function processSidebar(
   async function processItems(
     items: NormalizedSidebarItem[],
   ): Promise<ProcessedSidebarItem[]> {
-    return (await Promise.all(items.map(processItem))).flat();
+    return (
+      await Promise.all(items.filter(filterItem).map(processItem))
+    ).flat();
   }
 
   const processedSidebar = await processItems(unprocessedSidebar);

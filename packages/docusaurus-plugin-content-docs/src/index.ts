@@ -22,13 +22,12 @@ import {
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import type {
-  DocEnv} from './docs';
+import type {DocEnv} from './docs';
 import {
   readVersionDocs,
   processDocMetadata,
   addDocNavigation,
-  getMainDocId
+  getMainDocId,
 } from './docs';
 import {readVersionsMetadata} from './versions';
 import type {
@@ -60,6 +59,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
+import {partition} from 'lodash';
 
 export default async function pluginContentDocs(
   context: LoadContext,
@@ -156,14 +156,17 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs: DocMetadataBase[] = await loadVersionDocsBase(
+        const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
+
+        const [drafts, docs] = partition(docsBase, (doc) => doc.draft);
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
           numberPrefixParser: options.numberPrefixParser,
           docs,
+          drafts,
           version: versionMetadata,
           sidebarOptions: {
             sidebarCollapsed: options.sidebarCollapsed,
@@ -181,6 +184,7 @@ export default async function pluginContentDocs(
             sidebarsUtils,
             versionMetadata.sidebarFilePath as string,
           ),
+          drafts,
           sidebars,
           mainDocId: getMainDocId({docs, sidebarsUtils}),
           categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({

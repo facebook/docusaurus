@@ -40,6 +40,7 @@ export type VersionTags = {
 export type LoadedVersion = VersionMetadata & {
   mainDocId: string;
   docs: DocMetadata[];
+  drafts: DocMetadata[];
   sidebars: Sidebars;
   categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
 };

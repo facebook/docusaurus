@@ -643,6 +643,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
     path: string;
     mainDocId: string; // home doc (if docs homepage configured), or first doc
     docs: GlobalDoc[];
+    draftIds: string[];
     sidebars?: {[sidebarId: string]: GlobalSidebar};
   };
 
