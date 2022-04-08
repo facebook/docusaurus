@@ -45,7 +45,7 @@ describe('createSitemap', () => {
       [
         {path: '/', component: ''},
         {path: '/404.html', component: ''},
-        {path: '/mypage', component: ''},
+        {path: '/my-page', component: ''},
       ],
       {
         changefreq: EnumChangefreq.DAILY,
