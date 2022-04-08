@@ -97,15 +97,15 @@ const config = {
       loader: require.resolve('swc-loader'),
       options: {
         jsc: {
-          "parser": {
-            "syntax": "typescript",
-            "tsx": true
+          parser: {
+            syntax: 'typescript',
+            tsx: true,
           },
           target: 'es2017',
         },
         module: {
           type: isServer ? 'commonjs' : 'es6',
-        }
+        },
       },
     }),
   },
@@ -406,6 +406,12 @@ const config = {
             label: 'Community',
             position: 'left',
             activeBaseRegex: `/community/`,
+          },
+          {
+            type: 'doc',
+            docId: 'test-draft',
+            label: 'Tests',
+            docsPluginId: 'docs-tests',
           },
           // right
           {
