@@ -23,7 +23,7 @@ These sidebar document ids do not exist:
 
 Available document ids are:
 - doc with space
-- draft
+- doc-draft
 - foo/bar
 - foo/baz
 - headingAsTitle
@@ -270,8 +270,8 @@ exports[`simple website content 5`] = `
               "sidebar": undefined,
             },
             {
-              "id": "draft",
-              "path": "/docs/draft",
+              "id": "doc-draft",
+              "path": "/docs/doc-draft",
               "sidebar": undefined,
             },
             {
@@ -387,6 +387,21 @@ exports[`simple website content: data 1`] = `
     }
   }
 }",
+  "site-docs-doc-draft-md-584.json": "{
+  "unversionedId": "doc-draft",
+  "id": "doc-draft",
+  "title": "doc-draft",
+  "description": "This is a draft document",
+  "source": "@site/docs/doc-draft.md",
+  "sourceDirName": ".",
+  "slug": "/doc-draft",
+  "permalink": "/docs/doc-draft",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "draft": true
+  }
+}",
   "site-docs-doc-with-space-md-e90.json": "{
   "unversionedId": "doc with space",
   "id": "doc with space",
@@ -399,21 +414,6 @@ exports[`simple website content: data 1`] = `
   "tags": [],
   "version": "current",
   "frontMatter": {}
-}",
-  "site-docs-draft-md-5b1.json": "{
-  "unversionedId": "draft",
-  "id": "draft",
-  "title": "draft",
-  "description": "This is a draft document",
-  "source": "@site/docs/draft.md",
-  "sourceDirName": ".",
-  "slug": "/draft",
-  "permalink": "/docs/draft",
-  "tags": [],
-  "version": "current",
-  "frontMatter": {
-    "draft": true
-  }
 }",
   "site-docs-foo-bar-md-8c2.json": "{
   "unversionedId": "foo/bar",
@@ -909,9 +909,9 @@ exports[`simple website content: data 1`] = `
       "title": "Hoo hoo, if this path tricks you...",
       "description": ""
     },
-    "draft": {
-      "id": "draft",
-      "title": "draft",
+    "doc-draft": {
+      "id": "doc-draft",
+      "title": "doc-draft",
       "description": "This is a draft document"
     },
     "foo/bar": {
@@ -1012,8 +1012,8 @@ exports[`simple website content: global data 1`] = `
               "sidebar": undefined,
             },
             {
-              "id": "draft",
-              "path": "/docs/draft",
+              "id": "doc-draft",
+              "path": "/docs/doc-draft",
               "sidebar": undefined,
             },
             {
@@ -1193,9 +1193,9 @@ exports[`simple website content: route config 1`] = `
         "component": "@theme/DocItem",
         "exact": true,
         "modules": {
-          "content": "@site/docs/draft.md",
+          "content": "@site/docs/doc-draft.md",
         },
-        "path": "/docs/draft",
+        "path": "/docs/doc-draft",
       },
       {
         "component": "@theme/DocItem",

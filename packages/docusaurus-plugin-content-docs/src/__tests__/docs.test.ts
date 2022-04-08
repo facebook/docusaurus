@@ -217,7 +217,7 @@ describe('simple site', () => {
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
         'doc with space.md',
-        'draft.md',
+        'doc-draft.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -449,7 +449,7 @@ describe('simple site', () => {
 
     const {defaultTestUtils} = await loadSite();
 
-    await defaultTestUtils.testMeta('draft.md', null);
+    await defaultTestUtils.testMeta('doc-draft.md', null);
   });
 
   it('docs with slugs', async () => {
