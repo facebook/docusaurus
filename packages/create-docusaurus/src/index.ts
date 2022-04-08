@@ -391,17 +391,6 @@ export default async function init(
     cliOptions.skipInstall,
   );
 
-  // rename file npmrc to .npmrc
-  if (
-    !(await fs.pathExists(path.join(dest, '.npmrc'))) &&
-    (await fs.pathExists(path.join(dest, 'npmrc')))
-  ) {
-    await fs.move(path.join(dest, 'npmrc'), path.join(dest, '.npmrc'));
-  }
-  if (await fs.pathExists(path.join(dest, 'npmrc'))) {
-    await fs.remove(path.join(dest, 'npmrc'));
-  }
-
   if (!cliOptions.skipInstall) {
     shell.cd(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;

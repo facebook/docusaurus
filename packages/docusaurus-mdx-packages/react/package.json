@@ -1,0 +1,8 @@
+{
+    "name": "@mdx-js/react",
+    "main": "index.js",
+    "license": "MIT",
+    "peerDependencies": {
+        "react": ">= 16.14.0"
+    }
+}

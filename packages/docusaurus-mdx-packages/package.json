@@ -1,0 +1,8 @@
+{
+  "name": "@docusaurus/mdx-packages",
+  "version": "2.0.0-beta.18",
+  "description": "Compiled MDX 1 packages for Docusaurus 2",
+  "scripts": {
+    "build": "exit 0"
+  }
+}
