@@ -72,7 +72,7 @@ describe('resolveModuleName', () => {
     expect(() =>
       resolveModuleName('@docusaurus/plugin-content-doc', require, 'plugin'),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus was unable to resolve the \\"@docusaurus/plugin-content-doc\\" plugin. Make sure one of the following packages are installed:
+      "Docusaurus was unable to resolve the "@docusaurus/plugin-content-doc" plugin. Make sure one of the following packages are installed:
       - @docusaurus/plugin-content-doc
       - @docusaurus/docusaurus-plugin-plugin-content-doc"
     `);
@@ -81,7 +81,7 @@ describe('resolveModuleName', () => {
   it('throws good error message for shorthand', () => {
     expect(() => resolveModuleName('content-doc', require, 'plugin'))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus was unable to resolve the \\"content-doc\\" plugin. Make sure one of the following packages are installed:
+      "Docusaurus was unable to resolve the "content-doc" plugin. Make sure one of the following packages are installed:
       - content-doc
       - @docusaurus/plugin-content-doc
       - docusaurus-plugin-content-doc"

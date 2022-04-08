@@ -55,11 +55,10 @@ describe('loadSiteMetadata', () => {
         siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
       }),
     ).resolves.toMatchSnapshot();
-    // cSpell:ignore mdocusaurus
     expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(`
-      "[31m[1m[ERROR][22m Invalid [34m[1mdocusaurus-plugin-content-docs[22m[39m[31m version [33m1.0.0[39m[31m.[39m
-      [31mAll official @docusaurus/* packages should have the exact same version as @docusaurus/core ([33m<CURRENT_VERSION>[39m[31m).[39m
-      [31mMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?[39m"
+      "[ERROR] Invalid docusaurus-plugin-content-docs version 1.0.0.
+      All official @docusaurus/* packages should have the exact same version as @docusaurus/core (<CURRENT_VERSION>).
+      Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?"
     `);
   });
 });

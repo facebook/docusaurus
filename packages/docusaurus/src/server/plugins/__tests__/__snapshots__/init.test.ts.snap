@@ -5,9 +5,9 @@ exports[`initPlugins throws user-friendly error message for plugins with bad val
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
@@ -17,9 +17,9 @@ Example valid plugin config:
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],

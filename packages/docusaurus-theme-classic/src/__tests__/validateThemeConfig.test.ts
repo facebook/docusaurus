@@ -295,7 +295,7 @@ describe('themeConfig', () => {
     expect(() =>
       testValidateThemeConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"navbar.items[0].items[0].position\\" is not allowed"`,
+      `""navbar.items[0].items[0].position" is not allowed"`,
     );
   });
 
@@ -315,7 +315,7 @@ describe('themeConfig', () => {
     expect(() =>
       testValidateThemeConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"One and only one between \\"to\\" and \\"href\\" should be provided"`,
+      `"One and only one between "to" and "href" should be provided"`,
     );
   });
 
@@ -514,7 +514,7 @@ describe('themeConfig', () => {
           customCss: 42,
         }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"customCss\\" must be one of [array, string]"`,
+        `""customCss" must be one of [array, string]"`,
       );
     });
   });
@@ -624,7 +624,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.minHeadingLevel\\" must be an integer"`,
+        `""tableOfContents.minHeadingLevel" must be an integer"`,
       );
     });
 
@@ -635,7 +635,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.maxHeadingLevel\\" must be an integer"`,
+        `""tableOfContents.maxHeadingLevel" must be an integer"`,
       );
     });
 
@@ -646,7 +646,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.minHeadingLevel\\" must be greater than or equal to 2"`,
+        `""tableOfContents.minHeadingLevel" must be greater than or equal to 2"`,
       );
     });
 
@@ -657,7 +657,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+        `""tableOfContents.minHeadingLevel" must be less than or equal to ref:maxHeadingLevel"`,
       );
     });
 
@@ -668,7 +668,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.maxHeadingLevel\\" must be greater than or equal to 2"`,
+        `""tableOfContents.maxHeadingLevel" must be greater than or equal to 2"`,
       );
     });
 
@@ -679,7 +679,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.maxHeadingLevel\\" must be less than or equal to 6"`,
+        `""tableOfContents.maxHeadingLevel" must be less than or equal to 6"`,
       );
     });
 
@@ -691,7 +691,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+        `""tableOfContents.minHeadingLevel" must be less than or equal to ref:maxHeadingLevel"`,
       );
     });
   });

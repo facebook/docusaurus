@@ -69,7 +69,7 @@ describe('useAllPluginInstancesData', () => {
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus plugin global data not found for \\"bar\\" plugin."`,
+      `"Docusaurus plugin global data not found for "bar" plugin."`,
     );
   });
 });
@@ -116,7 +116,7 @@ describe('usePluginData', () => {
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus plugin global data not found for \\"foo\\" plugin with id \\"baz\\"."`,
+      `"Docusaurus plugin global data not found for "foo" plugin with id "baz"."`,
     );
   });
 });

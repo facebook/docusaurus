@@ -187,10 +187,11 @@ describe('readVersionsMetadata', () => {
               unknownVersionName2: {label: 'unknownVersionName2'},
             },
           },
+
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option \\"versions\\": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
+        `"Invalid docs option "versions": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
       );
     });
 
@@ -203,7 +204,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Docs: using \\"disableVersioning: true\\" option on a non-versioned site does not make sense."`,
+        `"Docs: using "disableVersioning: true" option on a non-versioned site does not make sense."`,
       );
     });
 
@@ -216,7 +217,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion: false\\", \\"disableVersioning: false\\"."`,
+        `"It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion: false", "disableVersioning: false"."`,
       );
     });
   });
@@ -557,10 +558,11 @@ describe('readVersionsMetadata', () => {
             includeCurrentVersion: false,
             disableVersioning: true,
           },
+
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion: false\\", \\"disableVersioning: true\\"."`,
+        `"It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion: false", "disableVersioning: true"."`,
       );
     });
 
@@ -573,10 +575,11 @@ describe('readVersionsMetadata', () => {
             ...defaultOptions,
             onlyIncludeVersions: [],
           },
+
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option \\"onlyIncludeVersions\\": an empty array is not allowed, at least one version is needed."`,
+        `"Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed."`,
       );
     });
 
@@ -589,10 +592,11 @@ describe('readVersionsMetadata', () => {
             ...defaultOptions,
             onlyIncludeVersions: ['unknownVersion1', 'unknownVersion2'],
           },
+
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option \\"onlyIncludeVersions\\": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
+        `"Invalid docs option "onlyIncludeVersions": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
       );
     });
 
@@ -606,10 +610,11 @@ describe('readVersionsMetadata', () => {
             lastVersion: '1.0.1',
             onlyIncludeVersions: ['current', '1.0.0'],
           },
+
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option \\"lastVersion\\": if you use both the \\"onlyIncludeVersions\\" and \\"lastVersion\\" options, then \\"lastVersion\\" must be present in the provided \\"onlyIncludeVersions\\" array."`,
+        `"Invalid docs option "lastVersion": if you use both the "onlyIncludeVersions" and "lastVersion" options, then "lastVersion" must be present in the provided "onlyIncludeVersions" array."`,
       );
     });
 
@@ -627,7 +632,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The versions file should contain an array of version names! Found content: {\\"invalid\\":\\"json\\"}"`,
+        `"The versions file should contain an array of version names! Found content: {"invalid":"json"}"`,
       );
       jsonMock.mockImplementationOnce(() => [1.1]);
 
@@ -637,7 +642,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Versions should be strings. Found type \\"number\\" for version \\"1.1\\"."`,
+        `"Versions should be strings. Found type "number" for version "1.1"."`,
       );
       jsonMock.mockImplementationOnce(() => ['   ']);
 
@@ -646,9 +651,7 @@ describe('readVersionsMetadata', () => {
           options: defaultOptions,
           context: defaultContext,
         }),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid version \\"   \\"."`,
-      );
+      ).rejects.toThrowErrorMatchingInlineSnapshot(`"Invalid version "   "."`);
       jsonMock.mockRestore();
     });
   });
@@ -772,10 +775,11 @@ describe('readVersionsMetadata', () => {
             includeCurrentVersion: false,
             disableVersioning: true,
           },
+
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion: false\\", \\"disableVersioning: true\\"."`,
+        `"It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion: false", "disableVersioning: true"."`,
       );
     });
   });

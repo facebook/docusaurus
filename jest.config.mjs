@@ -69,6 +69,7 @@ export default {
     'jest-serializer-react-helmet-async',
   ],
   snapshotFormat: {
+    escapeString: false,
     printBasicPrototype: false,
   },
 };

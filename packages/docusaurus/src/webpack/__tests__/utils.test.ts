@@ -335,7 +335,7 @@ describe('getHttpsConfig', () => {
     );
     process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
     await expect(getHttpsConfig()).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"You specified SSL_CRT_FILE in your env, but the file \\"<PROJECT_ROOT>/packages/docusaurus/src/webpack/__tests__/__fixtures__/nonexistent.crt\\" can't be found."`,
+      `"You specified SSL_CRT_FILE in your env, but the file "<PROJECT_ROOT>/packages/docusaurus/src/webpack/__tests__/__fixtures__/nonexistent.crt" can't be found."`,
     );
   });
 

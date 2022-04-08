@@ -82,12 +82,12 @@ describe('docsVersion', () => {
     await expect(() =>
       cliDocsVersionCommand('..', DEFAULT_OPTIONS, {siteDir: simpleSiteDir}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
+      `"[docs]: invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0."`,
     );
     await expect(() =>
       cliDocsVersionCommand('.', DEFAULT_OPTIONS, {siteDir: simpleSiteDir}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
+      `"[docs]: invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0."`,
     );
   });
 
@@ -133,7 +133,7 @@ describe('docsVersion', () => {
         i18n: {locales: ['en', 'zh-Hans'], defaultLocale: 'en'},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: no docs found in [36m[4m\\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs\\"[24m[39m."`,
+      `"[docs]: no docs found in "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs"."`,
     );
   });
 
@@ -249,7 +249,7 @@ describe('docsVersion', () => {
       ),
     );
     expect(warnMock.mock.calls[0][0]).toMatchInlineSnapshot(
-      `"[33m[1m[WARNING][22m [docs]: no docs found in [36m[4m\\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-site/i18n/zh-Hans/docusaurus-plugin-content-docs/current\\"[24m[39m[33m. Skipping.[39m"`,
+      `"[WARNING] [docs]: no docs found in "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-site/i18n/zh-Hans/docusaurus-plugin-content-docs/current". Skipping."`,
     );
 
     warnMock.mockRestore();
