@@ -5,8 +5,13 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "sideEffects": [
-    "lib/components/Details/*"
+    "lib/components/Details/*",
+    "*.css"
   ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./Details": "./lib/components/Details/index.js"
+  },
   "scripts": {
     "build": "node copyUntypedFiles.mjs && tsc",
     "watch": "node copyUntypedFiles.mjs && tsc --watch"

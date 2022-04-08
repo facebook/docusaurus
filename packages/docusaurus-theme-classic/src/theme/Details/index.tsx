@@ -7,10 +7,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {Details as DetailsGeneric} from '@docusaurus/theme-common';
+import {Details as DetailsGeneric} from '@docusaurus/theme-common/Details';
 import type {Props} from '@theme/Details';
-// Ensure that the default details style is properly overridden
-import '@docusaurus/theme-common/lib/components/Details/styles.module.css';
 import styles from './styles.module.css';
 
 // Should we have a custom details/summary comp in Infima instead of reusing
