@@ -261,7 +261,7 @@ async function processBlogSourceFile(
   const formattedDate = formatBlogPostDate(
     i18n.currentLocale,
     date,
-    i18n.localeConfigs[i18n.currentLocale].calendar,
+    i18n.localeConfigs[i18n.currentLocale]!.calendar,
   );
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
