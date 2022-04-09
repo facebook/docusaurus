@@ -113,7 +113,7 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-// docs with draft front matter are only considered draft in production
+/** Docs with draft front matter are only considered draft in production. */
 function isDraftForEnvironment({
   env,
   frontMatter,

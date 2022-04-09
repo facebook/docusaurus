@@ -393,8 +393,7 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Full URL to this doc, with base URL and version path. */
     permalink: string;
     /**
-     * Tells if this doc is a draft and should be filtered
-     * for current environment
+     * Draft docs will be excluded for production environment.
      */
     draft: boolean;
     /**
@@ -641,8 +640,10 @@ declare module '@docusaurus/plugin-content-docs/client' {
     label: string;
     isLast: boolean;
     path: string;
-    mainDocId: string; // home doc (if docs homepage configured), or first doc
+    /** Home doc (if docs homepage configured), or first doc. */
+    mainDocId: string;
     docs: GlobalDoc[];
+    /** Unversioned IDs. In development, this list is empty. */
     draftIds: string[];
     sidebars?: {[sidebarId: string]: GlobalSidebar};
   };

@@ -59,7 +59,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
-import {partition} from 'lodash';
+import _ from 'lodash';
 
 export default async function pluginContentDocs(
   context: LoadContext,
@@ -160,7 +160,7 @@ export default async function pluginContentDocs(
           versionMetadata,
         );
 
-        const [drafts, docs] = partition(docsBase, (doc) => doc.draft);
+        const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,

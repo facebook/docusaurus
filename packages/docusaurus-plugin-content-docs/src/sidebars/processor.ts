@@ -82,25 +82,18 @@ async function processSidebar(
     return processItems(generatedItems);
   }
 
-  const allDraftIdsSet = new Set(drafts.flatMap(getDocIds));
+  const draftIds = new Set(drafts.flatMap(getDocIds));
 
   const isDraftItem = (item: NormalizedSidebarItem): boolean => {
     if (item.type === 'doc' || item.type === 'ref') {
-      return allDraftIdsSet.has(item.id);
+      return draftIds.has(item.id);
     }
-    // if a category only contains draft items => it's a draft category
+    // If a category only contains draft items, it should be filtered entirely.
     if (item.type === 'category') {
       return item.items.every(isDraftItem);
     }
     return false;
   };
-
-  function itemFilter(item: NormalizedSidebarItem): boolean {
-    if (isDraftItem(item)) {
-      return false;
-    }
-    return true;
-  }
 
   async function processItem(
     item: NormalizedSidebarItem,
@@ -123,7 +116,7 @@ async function processSidebar(
     items: NormalizedSidebarItem[],
   ): Promise<ProcessedSidebarItem[]> {
     return (
-      await Promise.all(items.filter(itemFilter).map(processItem))
+      await Promise.all(items.filter((i) => !isDraftItem(i)).map(processItem))
     ).flat();
   }
 
