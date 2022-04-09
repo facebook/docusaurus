@@ -9,6 +9,10 @@
   .generatedIndexPage {
     max-width: 75% !important;
   }
+
+  .list article:nth-last-child(-n + 2) {
+    margin-bottom: 0 !important;
+  }
 }
 
 /* Duplicated from .markdown h1 */
@@ -17,6 +21,6 @@
   margin-bottom: calc(1.25 * var(--ifm-leading));
 }
 
-.list article:nth-last-child(-n + 2) {
+.list article:last-child {
   margin-bottom: 0 !important;
 }
