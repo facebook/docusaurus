@@ -234,7 +234,7 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
   const code = `
 ${pragma}
 import React from 'react';
-import { mdx } from '@docusaurus/mdx-packages/react';
+import { mdx } from '@docusaurus/mdx-packages/react/index.js';
 
 ${exportsCode}
 ${result}
