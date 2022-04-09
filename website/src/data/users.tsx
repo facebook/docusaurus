@@ -1882,6 +1882,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'Virtual Photography Kit',
+    description: 'A toolkit for virtual photography in Unreal Engine.',
+    preview: require('./showcase/virtual-photography-kit.png'),
+    website: 'https://docs.antonpalmqvist.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
