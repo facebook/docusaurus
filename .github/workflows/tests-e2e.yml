@@ -78,9 +78,9 @@ jobs:
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
 
-          # Make PnP as strict as possible
-          # https://yarnpkg.com/features/pnp#fallback-mode
-          yarn config set pnpFallbackMode none
+          # Link dependencies to node_modules to prevent issues resolving dependencies
+          # https://yarnpkg.com/configuration/yarnrc#pnpFallbackMode
+          yarn config set pnpFallbackMode all
 
           yarn install
         working-directory: ../test-website
