@@ -16,7 +16,6 @@ import Loadable from 'react-loadable';
 import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
-import routes from '@generated/routes';
 import preload from './preload';
 import App from './App';
 import {
@@ -76,7 +75,7 @@ async function doRender(locals: Locals & {path: string}) {
     noIndex,
   } = locals;
   const location = routesLocation[locals.path]!;
-  await preload(routes, location);
+  await preload(location);
   const modules = new Set<string>();
   const routerContext = {};
   const helmetContext = {};

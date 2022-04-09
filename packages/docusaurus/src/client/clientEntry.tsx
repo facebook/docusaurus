@@ -10,7 +10,6 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
-import routes from '@generated/routes';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
@@ -32,7 +31,7 @@ if (ExecutionEnvironment.canUseDOM) {
   // We also preload async component to avoid first-load loading screen.
   const renderMethod =
     process.env.NODE_ENV === 'production' ? ReactDOM.hydrate : ReactDOM.render;
-  preload(routes, window.location.pathname).then(() => {
+  preload(window.location.pathname).then(() => {
     renderMethod(
       // @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165
       <HelmetProvider>
