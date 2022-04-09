@@ -22,6 +22,7 @@
   "ignorePaths": [
     "CHANGELOG.md",
     "packages/docusaurus-theme-translations/locales",
+    "packages/docusaurus-mdx-packages",
     "package.json",
     "yarn.lock",
     "project-words.txt",
