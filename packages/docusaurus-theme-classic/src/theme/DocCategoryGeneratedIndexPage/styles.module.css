@@ -16,3 +16,7 @@
   --ifm-h1-font-size: 3rem;
   margin-bottom: calc(1.25 * var(--ifm-leading));
 }
+
+.list article:nth-last-child(-n + 2) {
+  margin-bottom: 0 !important;
+}

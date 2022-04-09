@@ -61,7 +61,7 @@ function DocCategoryGeneratedIndexPageContent({
           )}
         </header>
         <main className="margin-top--lg">
-          <DocCardList items={category.items} />
+          <DocCardList items={category.items} className={styles.list} />
         </main>
         <footer className="margin-top--lg">
           <DocPaginator

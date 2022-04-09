@@ -176,6 +176,7 @@ declare module '@theme/DocCardList' {
 
   export interface Props {
     readonly items: PropSidebarItem[];
+    readonly className?: string;
   }
 
   export default function DocCardList(props: Props): JSX.Element;
