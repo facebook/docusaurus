@@ -44,7 +44,7 @@ class PendingNavigation extends React.Component<Props, State> {
   // Intercept location update and still show current route until next route
   // is done loading.
   override shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    if (nextProps.location !== this.props.location) {
+    if (nextProps.location === this.props.location) {
       // `nextRouteHasLoaded` is false means there's a pending route transition.
       // Don't update until it's done.
       return nextState.nextRouteHasLoaded;
