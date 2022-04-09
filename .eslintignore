@@ -13,7 +13,7 @@ packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
 packages/stylelint-copyright/lib/
-packages/docusaurus-mdx-packages
+packages/docusaurus/mdx-packages
 copyUntypedFiles.mjs
 
 packages/create-docusaurus/lib/*
