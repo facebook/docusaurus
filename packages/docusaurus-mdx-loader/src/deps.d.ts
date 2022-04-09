@@ -6,7 +6,7 @@
  */
 
 // TODO Types provided by MDX 2.0 https://github.com/mdx-js/mdx/blob/main/packages/mdx/types/index.d.ts
-declare module '@docusaurus/core/mdx-packages/mdx' {
+declare module '@docusaurus/mdx-packages/mdx' {
   import type {Processor} from 'unified';
   import type {RemarkOrRehypePlugin} from '@docusaurus/mdx-loader';
 

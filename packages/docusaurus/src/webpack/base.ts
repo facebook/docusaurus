@@ -134,7 +134,7 @@ export async function createBaseConfig(
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-        '@mdx-js/react': require.resolve('@docusaurus/core/mdx-packages/react'),
+        '@mdx-js/react': require.resolve('@docusaurus/mdx-packages/react'),
         ...(await loadDocusaurusAliases()),
         ...themeAliases,
       },
