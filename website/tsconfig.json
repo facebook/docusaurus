@@ -6,6 +6,9 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "strict": true,
+    // Work around a type error in react-medium-image-zoom.
+    // https://github.com/rpearce/image-zoom/pull/303
+    "skipLibCheck": true,
     "types": ["@types/jest"]
   },
   "exclude": ["src/sw.js"]
