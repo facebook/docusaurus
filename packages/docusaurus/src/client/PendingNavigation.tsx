@@ -6,21 +6,18 @@
  */
 
 import React from 'react';
-import {Route, withRouter, type RouteComponentProps} from 'react-router-dom';
-import type {RouteConfig} from 'react-router-config';
+import {Route} from 'react-router-dom';
 import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './clientLifecyclesDispatcher';
 import preload from './preload';
-import normalizeLocation from './normalizeLocation';
 import type {Location} from 'history';
 
 import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
-type Props = RouteComponentProps & {
-  readonly routes: RouteConfig[];
+type Props = {
   readonly delay: number;
   readonly location: Location;
   readonly children: JSX.Element;
@@ -31,7 +28,7 @@ type State = {
 
 class PendingNavigation extends React.Component<Props, State> {
   private previousLocation: Location | null;
-  private progressBarTimeout: NodeJS.Timeout | null;
+  private progressBarTimeout: number | null;
 
   constructor(props: Props) {
     super(props);
@@ -46,67 +43,54 @@ class PendingNavigation extends React.Component<Props, State> {
 
   // Intercept location update and still show current route until next route
   // is done loading.
-  override shouldComponentUpdate(nextProps: Props, nextState: State) {
-    const routeDidChange = nextProps.location !== this.props.location;
-    const {routes, delay} = this.props;
-
-    // If `routeDidChange` is true, means the router is trying to navigate to a
-    // new route. We will preload the new route.
-    if (routeDidChange) {
-      const nextLocation = normalizeLocation(nextProps.location);
-      this.startProgressBar(delay);
-      // Save the location first.
-      this.previousLocation = normalizeLocation(this.props.location);
-      this.setState({
-        nextRouteHasLoaded: false,
-      });
-
-      // Load data while the old screen remains.
-      preload(routes, nextLocation.pathname)
-        .then(() => {
-          clientLifecyclesDispatcher.onRouteUpdate({
-            previousLocation: this.previousLocation,
-            location: nextLocation,
-          });
-          // Route has loaded, we can reset previousLocation.
-          this.previousLocation = null;
-          this.setState({nextRouteHasLoaded: true}, this.stopProgressBar);
-          const {hash} = nextLocation;
-          if (!hash) {
-            window.scrollTo(0, 0);
-          } else {
-            const id = decodeURIComponent(hash.substring(1));
-            const element = document.getElementById(id);
-            if (element) {
-              element.scrollIntoView();
-            }
-          }
-        })
-        .catch((e) => console.warn(e));
-      return false;
+  override shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    if (nextProps.location === this.props.location) {
+      // `nextRouteHasLoaded` is false means there's a pending route transition.
+      // Don't update until it's done.
+      return nextState.nextRouteHasLoaded;
     }
 
-    // There's a pending route transition. Don't update until it's done.
-    if (!nextState.nextRouteHasLoaded) {
-      return false;
-    }
+    // props.location being different means the router is trying to navigate to
+    // a new route. We will preload the new route.
+    const nextLocation = nextProps.location;
+    // Save the location first.
+    this.previousLocation = this.props.location;
+    this.setState({nextRouteHasLoaded: false});
+    this.startProgressBar(this.props.delay);
 
-    // Route has loaded, we can update now.
-    return true;
+    // Load data while the old screen remains.
+    preload(nextLocation.pathname)
+      .then(() => {
+        clientLifecyclesDispatcher.onRouteUpdate({
+          previousLocation: this.previousLocation,
+          location: nextLocation,
+        });
+        this.setState({nextRouteHasLoaded: true}, this.stopProgressBar);
+        const {hash} = nextLocation;
+        if (!hash) {
+          window.scrollTo(0, 0);
+        } else {
+          const id = decodeURIComponent(hash.substring(1));
+          const element = document.getElementById(id);
+          element?.scrollIntoView();
+        }
+      })
+      .catch((e) => console.warn(e));
+    return false;
   }
 
   private clearProgressBarTimeout() {
     if (this.progressBarTimeout) {
-      clearTimeout(this.progressBarTimeout);
+      window.clearTimeout(this.progressBarTimeout);
       this.progressBarTimeout = null;
     }
   }
 
   private startProgressBar(delay: number) {
     this.clearProgressBarTimeout();
-    this.progressBarTimeout = setTimeout(() => {
+    this.progressBarTimeout = window.setTimeout(() => {
       clientLifecyclesDispatcher.onRouteUpdateDelayed({
-        location: normalizeLocation(this.props.location),
+        location: this.props.location,
       });
       nprogress.start();
     }, delay);
@@ -117,12 +101,12 @@ class PendingNavigation extends React.Component<Props, State> {
     nprogress.done();
   }
 
-  override render() {
+  override render(): JSX.Element {
     const {children, location} = this.props;
-    return (
-      <Route location={normalizeLocation(location)} render={() => children} />
-    );
+    // Use a controlled <Route> to trick all descendants into rendering the old
+    // location.
+    return <Route location={location} render={() => children} />;
   }
 }
 
-export default withRouter(PendingNavigation);
+export default PendingNavigation;

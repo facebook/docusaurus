@@ -8,7 +8,9 @@
 import React from 'react';
 
 import routes from '@generated/routes';
-import renderRoutes from './exports/renderRoutes';
+import {useLocation} from '@docusaurus/router';
+import normalizeLocation from './normalizeLocation';
+import renderRoutes from '@docusaurus/renderRoutes';
 import {BrowserContextProvider} from './browserContext';
 import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
@@ -24,6 +26,8 @@ import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
 export default function App(): JSX.Element {
+  const routeElement = renderRoutes(routes);
+  const location = useLocation();
   return (
     <ErrorBoundary fallback={Error}>
       <DocusaurusContextProvider>
@@ -32,8 +36,10 @@ export default function App(): JSX.Element {
             <SiteMetadataDefaults />
             <SiteMetadata />
             <BaseUrlIssueBanner />
-            <PendingNavigation routes={routes} delay={1000}>
-              {renderRoutes(routes)}
+            <PendingNavigation
+              location={normalizeLocation(location)}
+              delay={1000}>
+              {routeElement}
             </PendingNavigation>
           </Root>
         </BrowserContextProvider>
