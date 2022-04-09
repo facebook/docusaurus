@@ -18,7 +18,5 @@ export {
   getDefaultVersionBanner,
   getVersionBadge,
   getVersionBanner,
-  getVersionsFilePath,
-  readVersionsFile,
-  readVersionNames,
 } from './versions';
+export {readVersionNames} from './versions/files';

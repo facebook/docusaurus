@@ -32,7 +32,6 @@ export const DefaultSidebars: SidebarsConfig = {
 export const DisabledSidebars: SidebarsConfig = {};
 
 // If a path is provided, make it absolute
-// use this before loadSidebars()
 export function resolveSidebarPathOption(
   siteDir: string,
   sidebarPathOption: PluginOptions['sidebarPath'],
@@ -93,7 +92,6 @@ export async function loadSidebarsFileUnsafe(
   return importFresh(sidebarFilePath);
 }
 
-// Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
   options: SidebarProcessorParams,
