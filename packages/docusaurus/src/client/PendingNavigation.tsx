@@ -56,7 +56,7 @@ class PendingNavigation extends React.Component<Props, State> {
     // Save the location first.
     this.previousLocation = this.props.location;
     this.setState({nextRouteHasLoaded: false});
-    this.startProgressBar(this.props.delay);
+    this.startProgressBar();
 
     // Load data while the old screen remains.
     preload(nextLocation.pathname)
@@ -86,14 +86,14 @@ class PendingNavigation extends React.Component<Props, State> {
     }
   }
 
-  private startProgressBar(delay: number) {
+  private startProgressBar() {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = window.setTimeout(() => {
       clientLifecyclesDispatcher.onRouteUpdateDelayed({
         location: this.props.location,
       });
       nprogress.start();
-    }, delay);
+    }, this.props.delay);
   }
 
   private stopProgressBar() {
