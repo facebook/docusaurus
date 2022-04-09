@@ -3,6 +3,9 @@
   "version": "2.0.0-beta.18",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     "./client": "./lib/client/index.js",
     ".": "./lib/index.js"

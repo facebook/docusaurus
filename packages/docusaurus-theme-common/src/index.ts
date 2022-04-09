@@ -63,8 +63,6 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
 
-export {Details, type DetailsProps} from './components/Details';
-
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,

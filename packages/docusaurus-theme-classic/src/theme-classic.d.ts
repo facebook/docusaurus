@@ -879,7 +879,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, type DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common/Details';
 
   export interface Props extends DetailsProps {}
   export default Details;
