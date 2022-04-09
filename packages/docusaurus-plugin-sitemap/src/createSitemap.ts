@@ -34,8 +34,10 @@ export default async function createSitemap(
       return false;
     }
     // https://github.com/staylor/react-helmet-async/pull/167
-    const meta = helmet[route]?.meta.toComponent() as unknown as ReactElement[];
-    return !meta.some(
+    const meta = helmet[route]?.meta.toComponent() as unknown as
+      | ReactElement[]
+      | undefined;
+    return !meta?.some(
       (tag) => tag.props.name === 'robots' && tag.props.content === 'noindex',
     );
   }
