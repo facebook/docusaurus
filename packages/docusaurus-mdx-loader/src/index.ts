@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {createCompiler} from '@docusaurus/mdx-packages/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';

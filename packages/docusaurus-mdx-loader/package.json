@@ -21,6 +21,7 @@
     "@babel/parser": "^7.17.8",
     "@babel/traverse": "^7.17.3",
     "@docusaurus/logger": "2.0.0-beta.18",
+    "@docusaurus/mdx-packages": "2.0.0-beta.18",
     "@docusaurus/utils": "2.0.0-beta.18",
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
