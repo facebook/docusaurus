@@ -21,6 +21,7 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@docusaurus/useIsBrowser": "../../../../client/exports/useIsBrowser.ts",
   "@docusaurus/useRouteContext": "../../../../client/exports/useRouteContext.tsx",
   "@generated": "../../../../../../..",
+  "@mdx-js/react": "../../../../../mdx-packages/react/index.js",
   "@site": "",
   "@theme-init/PluginThemeComponentEnhanced": "pluginThemeFolder/PluginThemeComponentEnhanced.js",
   "@theme-original/Error": "../../../../client/theme-fallback/Error/index.tsx",
