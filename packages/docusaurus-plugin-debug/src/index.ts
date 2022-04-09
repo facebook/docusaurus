@@ -9,8 +9,6 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
 import path from 'path';
 
-export const routeBasePath = '__docusaurus/debug';
-
 export default function pluginDebug({
   siteConfig: {baseUrl},
   generatedFilesDir,
@@ -42,37 +40,37 @@ export default function pluginDebug({
 
       // Home is config (duplicate for now)
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath]),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug']),
         component: '@theme/DebugConfig',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'config']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/config']),
         component: '@theme/DebugConfig',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'metadata']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/metadata']),
         component: '@theme/DebugSiteMetadata',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'registry']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/registry']),
         component: '@theme/DebugRegistry',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'routes']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/routes']),
         component: '@theme/DebugRoutes',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'content']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/content']),
         component: '@theme/DebugContent',
         exact: true,
         modules: {
@@ -81,7 +79,7 @@ export default function pluginDebug({
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'globalData']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/globalData']),
         component: '@theme/DebugGlobalData',
         exact: true,
       });

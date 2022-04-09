@@ -35,6 +35,8 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
 }
 
 declare module '@slorber/static-site-generator-webpack-plugin' {
+  import type {HelmetServerState} from 'react-helmet-async';
+
   export type Locals = {
     routesLocation: {[filePath: string]: string};
     generatedFilesDir: string;
@@ -42,6 +44,10 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     preBodyTags: string;
     postBodyTags: string;
     onLinksCollected: (staticPagePath: string, links: string[]) => void;
+    onHeadTagsCollected: (
+      staticPagePath: string,
+      tags: HelmetServerState,
+    ) => void;
     baseUrl: string;
     ssrTemplate: string;
     noIndex: boolean;

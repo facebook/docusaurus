@@ -70,6 +70,7 @@ async function doRender(locals: Locals & {path: string}) {
     preBodyTags,
     postBodyTags,
     onLinksCollected,
+    onHeadTagsCollected,
     baseUrl,
     ssrTemplate,
     noIndex,
@@ -105,6 +106,7 @@ async function doRender(locals: Locals & {path: string}) {
     helmet.link.toString(),
     helmet.script.toString(),
   ];
+  onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
 
   const {generatedFilesDir} = locals;
