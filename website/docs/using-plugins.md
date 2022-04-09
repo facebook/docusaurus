@@ -29,18 +29,18 @@ module.exports = {
 Docusaurus can also load plugins from your local directory, with something like the following:
 
 ```js title="docusaurus.config.js"
-const path = require('path');
-
 module.exports = {
   // ...
   // highlight-next-line
-  plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
+  plugins: ['./src/plugins/docusaurus-local-plugin'],
 };
 ```
 
+Paths should be absolute or relative to the config file.
+
 ## Configuring plugins {#configuring-plugins}
 
-For the most basic usage of plugins, you can provide just the plugin name or the absolute path to the plugin.
+For the most basic usage of plugins, you can provide just the plugin name or the path to the plugin.
 
 However, plugins can have options specified by wrapping the name and an options object in a two-member tuple inside your config. This style is usually called "Babel Style".
 
@@ -114,7 +114,7 @@ At most one plugin instance can be the "default plugin instance", by omitting th
 
 ## Using themes {#using-themes}
 
-Themes are loaded in the exact same way as plugins—the line between them is blurry. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./swizzling.md#theme-aliases).
+Themes are loaded in the exact same way as plugins. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./swizzling.md#theme-aliases).
 
 :::tip
 
@@ -132,101 +132,23 @@ module.exports = {
 
 ## Using presets {#using-presets}
 
-A preset is usually an npm package, so you install them like other npm packages using npm.
-
-```bash npm2yarn
-npm install --save @docusaurus/preset-classic
-```
-
-Then, add it in your site's `docusaurus.config.js`'s `presets` option:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  // ...
-  // highlight-next-line
-  presets: ['@docusaurus/preset-classic'],
-};
-```
-
-To load presets from your local directory, specify how to resolve them:
-
-```js title="docusaurus.config.js"
-const path = require('path');
-
-module.exports = {
-  // ...
-  // highlight-next-line
-  presets: [path.resolve(__dirname, '/path/to/docusaurus-local-preset')],
-};
-```
-
-Presets are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins:
-
-```js title="/path/to/docusaurus-local-preset"
-module.exports = function preset(context, opts = {}) {
-  return {
-    themes: [['docusaurus-theme-awesome', opts.theme]],
-    plugins: [
-      // Using three docs plugins at the same time!
-      // Assigning a unique ID for each without asking the user to do it
-      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
-      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
-      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
-    ],
-  };
-};
-```
-
-then in your Docusaurus config, you may configure the preset instead:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    // highlight-start
-    [
-      path.resolve(__dirname, '/path/to/docusaurus-local-preset'),
-      {
-        theme: {hello: 'world'},
-        docs1: {path: '/docs'},
-        docs2: {path: '/community'},
-        docs3: {path: '/api'},
-      },
-    ],
-    // highlight-end
-  ],
-};
-```
-
-This is equivalent of doing:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
-  plugins: [
-    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
-    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
-    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
-  ],
-};
-```
-
-This is especially useful when some plugins and themes are intended to be used together. You can even link their options together, e.g. pass one option to multiple plugins.
+Presets are bundles of plugins and themes. For example, instead of letting you register and configure `@docusaurus/plugin-content-docs`, `@docusaurus/plugin-content-blog`, etc. one after the other in the config file, we have `@docusaurus/preset-classic` preset allows you to configure them in one centralized place.
 
 ### `@docusaurus/preset-classic` {#docusauruspreset-classic}
 
-The classic preset is shipped by default to new Docusaurus website created with [`create-docusaurus`](./installation.md#scaffold-project-website). It is a set of plugins and themes.
+The classic preset is shipped by default to new Docusaurus websites created with [`create-docusaurus`](./installation.md#scaffold-project-website). It contains the following themes and plugins:
 
-| Themes | Plugins |
-| --- | --- |
-| [`@docusaurus/theme-classic`](./api/themes/theme-configuration.md) | [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.md) |
-| [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.md) | [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.md) |
-|  | [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.md) |
-|  | [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.md) |
-|  | [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.md) |
-|  | [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.md) |
-|  | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
+- [`@docusaurus/theme-classic`](./api/themes/theme-configuration.md)
+- [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.md)
+- [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.md)
+- [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.md)
+- [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.md)
+- [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.md)
+- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.md)
+- [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.md)
+- [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md)
 
-To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
+The classic preset will relay each option entry to the respective plugin/theme.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -278,13 +200,95 @@ module.exports = {
 };
 ```
 
+### Installing presets {#installing-presets}
+
+A preset is usually an npm package, so you install them like other npm packages using npm.
+
+```bash npm2yarn
+npm install --save @docusaurus/preset-classic
+```
+
+Then, add it in your site's `docusaurus.config.js`'s `presets` option:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-next-line
+  presets: ['@docusaurus/preset-classic'],
+};
+```
+
+Preset paths can be relative to the config file:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-next-line
+  presets: ['./src/presets/docusaurus-local-preset')],
+};
+```
+
+### Creating presets {#creating-presets}
+
+A preset is a function with the same shape as the [plugin constructor](./api/plugin-methods/README.md#plugin-constructor). It should return an object of `{ plugins: PluginConfig[], themes: PluginConfig[] }`, in the same as how they are accepted in the site config. For example, you can specify a preset that includes the following themes and plugins:
+
+```js title="src/presets/docusaurus-preset-multi-docs.js"
+module.exports = function preset(context, opts = {}) {
+  return {
+    themes: [['docusaurus-theme-awesome', opts.theme]],
+    plugins: [
+      // Using three docs plugins at the same time!
+      // Assigning a unique ID for each without asking the user to do it
+      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
+    ],
+  };
+};
+```
+
+Then in your Docusaurus config, you may configure the preset:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    // highlight-start
+    [
+      './src/presets/docusaurus-preset-multi-docs.js',
+      {
+        theme: {hello: 'world'},
+        docs1: {path: '/docs'},
+        docs2: {path: '/community'},
+        docs3: {path: '/api'},
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+This is equivalent of doing:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
+  plugins: [
+    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
+  ],
+};
+```
+
+This is especially useful when some plugins and themes are intended to be used together. You can even link their options together, e.g. pass one option to multiple plugins.
+
 ## Module shorthands {#module-shorthands}
 
-Docusaurus supports shorthands for plugins, themes, and presets. When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
+Docusaurus supports shorthands for plugins, themes, and presets. When it sees a plugin/theme/preset name, it tries to load one of the following, in that order:
 
-- `[name]`
-- `@docusaurus/[moduleType]-[name]`
-- `docusaurus-[moduleType]-[name]`,
+- `[name]` (like `content-docs`)
+- `@docusaurus/[moduleType]-[name]` (like `@docusaurus/plugin-content-docs`)
+- `docusaurus-[moduleType]-[name]` (like `docusaurus-plugin-content-docs`)
 
 where `moduleType` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
 
@@ -304,10 +308,10 @@ If the name is scoped (beginning with `@`), the name is first split into scope a
  scope     name
 ```
 
-If the name is not specified, `{scope}/docusaurus-{type}` is loaded. Otherwise, the following are attempted:
+If there is no name (like `@jquery`), `[scope]/docusaurus-[moduleType]` (i.e. `@jquery/docusaurus-plugin`) is loaded. Otherwise, the following are attempted:
 
-- `[scope]/[name]`
-- `[scope]/docusaurus-[moduleType]-[name]`
+- `[scope]/[name]` (like `@jquery/content-docs`)
+- `[scope]/docusaurus-[moduleType]-[name]` (like `@jquery/docusaurus-plugin-content-docs`)
 
 Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
 

@@ -47,11 +47,31 @@ declare module '@theme/BlogListPaginator' {
   export default function BlogListPaginator(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogSidebar' {
+declare module '@theme/BlogSidebar/Desktop' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
+  }
+
+  export default function BlogSidebarDesktop(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar/Mobile' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly sidebar: BlogSidebar;
+  }
+
+  export default function BlogSidebarMobile(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly sidebar?: BlogSidebar;
   }
 
   export default function BlogSidebar(props: Props): JSX.Element;
@@ -156,6 +176,7 @@ declare module '@theme/DocCardList' {
 
   export interface Props {
     readonly items: PropSidebarItem[];
+    readonly className?: string;
   }
 
   export default function DocCardList(props: Props): JSX.Element;
@@ -548,7 +569,9 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
-  } & {[tagName: string]: ComponentType<unknown>};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [tagName: string]: ComponentType<any>;
+  };
 
   const MDXComponents: MDXComponentsObject;
   export default MDXComponents;
@@ -651,6 +674,7 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly activeBaseRegex?: string;
     readonly exact?: boolean;
     readonly label?: ReactNode;
+    readonly html?: string;
     readonly prependBaseUrlToHref?: string;
   }
 
@@ -857,7 +881,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, type DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common/Details';
 
   export interface Props extends DetailsProps {}
   export default Details;
@@ -1010,7 +1034,7 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  import type {TagsListItem} from '@docusaurus/theme-common';
+  import type {TagsListItem} from '@docusaurus/types';
 
   export interface Props {
     readonly tags: readonly TagsListItem[];
@@ -1019,7 +1043,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  import type {Tag} from '@docusaurus/utils';
+  import type {Tag} from '@docusaurus/types';
 
   export interface Props {
     readonly tags: readonly Tag[];
@@ -1028,7 +1052,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@docusaurus/theme-common';
+  import type {TagsListItem} from '@docusaurus/types';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}

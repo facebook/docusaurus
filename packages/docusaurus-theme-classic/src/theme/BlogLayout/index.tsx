@@ -20,11 +20,7 @@ export default function BlogLayout(props: Props): JSX.Element {
     <Layout {...layoutProps}>
       <div className="container margin-vert--lg">
         <div className="row">
-          {hasSidebar && (
-            <aside className="col col--3">
-              <BlogSidebar sidebar={sidebar} />
-            </aside>
-          )}
+          <BlogSidebar sidebar={sidebar} />
           <main
             className={clsx('col', {
               'col--7': hasSidebar,

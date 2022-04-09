@@ -6,7 +6,10 @@
  */
 
 import {useLocation} from '@docusaurus/router';
-import useGlobalData, {usePluginData} from '@docusaurus/useGlobalData';
+import {
+  useAllPluginInstancesData,
+  usePluginData,
+} from '@docusaurus/useGlobalData';
 
 import {
   getActivePlugin,
@@ -21,25 +24,27 @@ import type {
   ActivePlugin,
   ActiveDocContext,
   DocVersionSuggestions,
-  GetActivePluginOptions,
 } from '@docusaurus/plugin-content-docs/client';
+import type {UseDataOptions} from '@docusaurus/types';
 
 // Important to use a constant object to avoid React useEffect executions etc.
 // see https://github.com/facebook/docusaurus/issues/5089
 const StableEmptyObject = {};
 
-// Not using useAllPluginInstancesData() because in blog-only mode, docs hooks
-// are still used by the theme. We need a fail-safe fallback when the docs
-// plugin is not in use
+// In blog-only mode, docs hooks are still used by the theme. We need a fail-
+// safe fallback when the docs plugin is not in use
 export const useAllDocsData = (): {[pluginId: string]: GlobalPluginData} =>
-  useGlobalData()['docusaurus-plugin-content-docs'] ?? StableEmptyObject;
+  useAllPluginInstancesData('docusaurus-plugin-content-docs') ??
+  StableEmptyObject;
 
 export const useDocsData = (pluginId: string | undefined): GlobalPluginData =>
-  usePluginData('docusaurus-plugin-content-docs', pluginId) as GlobalPluginData;
+  usePluginData('docusaurus-plugin-content-docs', pluginId, {
+    failfast: true,
+  }) as GlobalPluginData;
 
 // TODO this feature should be provided by docusaurus core
 export const useActivePlugin = (
-  options: GetActivePluginOptions = {},
+  options: UseDataOptions = {},
 ): ActivePlugin | undefined => {
   const data = useAllDocsData();
   const {pathname} = useLocation();
@@ -47,7 +52,7 @@ export const useActivePlugin = (
 };
 
 export const useActivePluginAndVersion = (
-  options: GetActivePluginOptions = {},
+  options: UseDataOptions = {},
 ):
   | undefined
   | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined} => {

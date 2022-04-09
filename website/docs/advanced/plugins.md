@@ -51,7 +51,7 @@ module.exports = {
 
 Then in the folder `my-plugin`, you can create an `index.js` such as this:
 
-```js title="my-plugin.js"
+```js title="my-plugin/index.js"
 module.exports = async function myPlugin(context, options) {
   // ...
   return {

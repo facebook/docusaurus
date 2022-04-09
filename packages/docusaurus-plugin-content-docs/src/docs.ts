@@ -254,9 +254,9 @@ function doProcessDocMetadata({
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
-      ? new Intl.DateTimeFormat(i18n.currentLocale).format(
-          lastUpdate.lastUpdatedAt * 1000,
-        )
+      ? new Intl.DateTimeFormat(i18n.currentLocale, {
+          calendar: i18n.localeConfigs[i18n.currentLocale]!.calendar,
+        }).format(lastUpdate.lastUpdatedAt * 1000)
       : undefined,
     sidebarPosition,
     frontMatter,

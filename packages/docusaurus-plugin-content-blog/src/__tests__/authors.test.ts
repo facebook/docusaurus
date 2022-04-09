@@ -200,13 +200,14 @@ describe('getBlogPostAuthors', () => {
         frontMatter: {
           authors: 'slorber',
         },
+
         authorsMap: {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key \\"slorber\\" not found in the authors map file.
+      "Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
       - jmarcey"
@@ -219,13 +220,14 @@ describe('getBlogPostAuthors', () => {
         frontMatter: {
           authors: ['yangshun', 'jmarcey', 'slorber'],
         },
+
         authorsMap: {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key \\"slorber\\" not found in the authors map file.
+      "Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
       - jmarcey"
@@ -238,13 +240,14 @@ describe('getBlogPostAuthors', () => {
         frontMatter: {
           authors: [{key: 'yangshun'}, {key: 'jmarcey'}, {key: 'slorber'}],
         },
+
         authorsMap: {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key \\"slorber\\" not found in the authors map file.
+      "Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
       - jmarcey"
@@ -372,7 +375,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must contain at least one of [name, imageURL]"`,
+      `""slorber" must contain at least one of [name, imageURL]"`,
     );
   });
 
@@ -382,7 +385,7 @@ describe('validateAuthorsMap', () => {
         slorber: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" cannot be undefined. It should be an author object containing properties like name, title, and imageURL."`,
+      `""slorber" cannot be undefined. It should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
@@ -392,7 +395,7 @@ describe('validateAuthorsMap', () => {
         slorber: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" should be an author object containing properties like name, title, and imageURL."`,
+      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
@@ -400,7 +403,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" should be an author object containing properties like name, title, and imageURL."`,
+      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
@@ -414,7 +417,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"name\\" should be an author object containing properties like name, title, and imageURL."`,
+      `""name" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
@@ -426,7 +429,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" should be an author object containing properties like name, title, and imageURL."`,
+      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 });

@@ -37,6 +37,7 @@ if (ExecutionEnvironment.canUseDOM) {
       : ReactDOM.createRoot(container).render(app);
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
+      // @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165
       <HelmetProvider>
         <BrowserRouter>
           <App />

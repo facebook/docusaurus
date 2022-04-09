@@ -11,7 +11,7 @@ import path from 'path';
 import fs from 'fs-extra';
 
 describe('readOutputHTMLFile', () => {
-  it('trailing slash undefined', async () => {
+  it('reads both files with trailing slash undefined', async () => {
     await expect(
       readOutputHTMLFile(
         '/file',
@@ -41,7 +41,7 @@ describe('readOutputHTMLFile', () => {
       ).then(String),
     ).resolves.toBe('folder\n');
   });
-  it('trailing slash true', async () => {
+  it('reads only folder with trailing slash true', async () => {
     await expect(
       readOutputHTMLFile(
         '/folder',
@@ -57,7 +57,7 @@ describe('readOutputHTMLFile', () => {
       ).then(String),
     ).resolves.toBe('folder\n');
   });
-  it('trailing slash false', async () => {
+  it('reads only file trailing slash false', async () => {
     await expect(
       readOutputHTMLFile(
         '/file',
@@ -72,6 +72,18 @@ describe('readOutputHTMLFile', () => {
         false,
       ).then(String),
     ).resolves.toBe('file\n');
+  });
+  // Can it ever happen?
+  it('throws if file does not exist', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/nonExistent',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html."`,
+    );
   });
 });
 

@@ -6,6 +6,7 @@
  */
 
 import type {BrokenMarkdownLink, ContentPaths} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/types';
 import type {BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 import type {Metadata as BlogPaginatedMetadata} from '@theme/BlogListPage';
 
@@ -16,22 +17,16 @@ export type BlogContent = {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
-  blogTagsListPath: string | null;
+  blogTagsListPath: string;
 };
 
 export type BlogTags = {
-  // TODO, the key is the tag slug/permalink
-  // This is due to legacy frontmatter: tags:
-  // [{label: "xyz", permalink: "/1"}, {label: "xyz", permalink: "/2"}]
-  // Soon we should forbid declaring permalink through frontmatter
-  [tagKey: string]: BlogTag;
+  [permalink: string]: BlogTag;
 };
 
-export type BlogTag = {
-  name: string;
+export type BlogTag = Tag & {
   /** Blog post permalinks. */
   items: string[];
-  permalink: string;
   pages: BlogPaginated[];
 };
 

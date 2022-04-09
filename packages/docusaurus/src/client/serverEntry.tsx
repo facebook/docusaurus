@@ -83,11 +83,13 @@ async function doRender(locals: Locals & {path: string}) {
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
-
+  
   // inspired by https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/cache-dir/static-entry.js
   const writableStream = new WritableAsPromise();
   const {pipe} = ReactDOMServer.renderToPipeableStream(
+    // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
+      {/* @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165 */}
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
           <LinksCollectorProvider linksCollector={linksCollector}>

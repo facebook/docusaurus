@@ -56,33 +56,27 @@ describe('validateThemeConfig', () => {
     const algolia = undefined;
     expect(() =>
       testValidateThemeConfig({algolia}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"themeConfig.algolia\\" is required"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""themeConfig.algolia" is required"`);
   });
 
   it('undefined config 2', () => {
     expect(() =>
       testValidateThemeConfig({}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"themeConfig.algolia\\" is required"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""themeConfig.algolia" is required"`);
   });
 
   it('missing indexName config', () => {
     const algolia = {apiKey: 'apiKey', appId: 'BH4D9OD16A'};
     expect(() =>
       testValidateThemeConfig({algolia}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"algolia.indexName\\" is required"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""algolia.indexName" is required"`);
   });
 
   it('missing apiKey config', () => {
     const algolia = {indexName: 'indexName', appId: 'BH4D9OD16A'};
     expect(() =>
       testValidateThemeConfig({algolia}),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"algolia.apiKey\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(`""algolia.apiKey" is required"`);
   });
 
   it('missing appId config', () => {
@@ -90,7 +84,7 @@ describe('validateThemeConfig', () => {
     expect(() =>
       testValidateThemeConfig({algolia}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"algolia.appId\\" is required. If you haven't migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration"`,
+      `""algolia.appId" is required. If you haven't migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration"`,
     );
   });
 

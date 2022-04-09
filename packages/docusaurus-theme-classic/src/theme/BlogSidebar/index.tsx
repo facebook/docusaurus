@@ -6,61 +6,19 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import {translate} from '@docusaurus/Translate';
-import {
-  NavbarSecondaryMenuFiller,
-  useWindowSize,
-} from '@docusaurus/theme-common';
+import BlogSidebarDesktop from '@theme/BlogSidebar/Desktop';
+import BlogSidebarMobile from '@theme/BlogSidebar/Mobile';
+import {useWindowSize} from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogSidebar';
-import styles from './styles.module.css';
 
-function BlogSidebarContent({
-  sidebar,
-  className,
-}: Props & {className?: string}): JSX.Element {
-  return (
-    <nav
-      className={clsx(styles.sidebar, 'thin-scrollbar', className)}
-      aria-label={translate({
-        id: 'theme.blog.sidebar.navAriaLabel',
-        message: 'Blog recent posts navigation',
-        description: 'The ARIA label for recent posts in the blog sidebar',
-      })}>
-      <div className={clsx(styles.sidebarItemTitle, 'margin-bottom--md')}>
-        {sidebar.title}
-      </div>
-      <ul className={styles.sidebarItemList}>
-        {sidebar.items.map((item) => (
-          <li key={item.permalink} className={styles.sidebarItem}>
-            <Link
-              isNavLink
-              to={item.permalink}
-              className={styles.sidebarItemLink}
-              activeClassName={styles.sidebarItemLinkActive}>
-              {item.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
-export default function BlogSidebar(props: Props): JSX.Element | null {
+export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
   const windowSize = useWindowSize();
-  if (props.sidebar.items.length === 0) {
+  if (!sidebar?.items.length) {
     return null;
   }
   // Mobile sidebar doesn't need to be server-rendered
   if (windowSize === 'mobile') {
-    return (
-      <NavbarSecondaryMenuFiller
-        component={BlogSidebarContent}
-        props={{...props, className: 'margin-left--md'}}
-      />
-    );
+    return <BlogSidebarMobile sidebar={sidebar} />;
   }
-  return <BlogSidebarContent {...props} className={styles.sidebarDesktop} />;
+  return <BlogSidebarDesktop sidebar={sidebar} />;
 }

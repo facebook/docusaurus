@@ -63,8 +63,6 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
 
-export {Details, type DetailsProps} from './components/Details';
-
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
@@ -86,7 +84,6 @@ export {
   translateTagsPageTitle,
   listTagsByLetters,
   type TagLetterEntry,
-  type TagsListItem,
 } from './utils/tagsUtils';
 
 export {useHistoryPopHandler} from './utils/historyUtils';

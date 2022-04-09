@@ -42,6 +42,9 @@
     "rtlcss": "^3.5.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-typescript": "^7.16.7",
     "@docusaurus/module-type-aliases": "2.0.0-beta.18",
     "@docusaurus/types": "2.0.0-beta.18",
     "@types/mdx-js__react": "^1.5.5",

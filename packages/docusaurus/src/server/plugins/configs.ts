@@ -17,7 +17,7 @@ import type {
 } from '@docusaurus/types';
 
 async function normalizePluginConfig(
-  pluginConfig: PluginConfig,
+  pluginConfig: Exclude<PluginConfig, false | null>,
   configPath: string,
   pluginRequire: NodeRequire,
 ): Promise<NormalizedPluginConfig> {
@@ -120,7 +120,7 @@ export async function loadPluginConfigs(
     // Site config should be the highest priority.
     ...standalonePlugins,
     ...standaloneThemes,
-  ];
+  ].filter(<T>(x: T | null | false): x is T => Boolean(x));
   return Promise.all(
     pluginConfigs.map((pluginConfig) =>
       normalizePluginConfig(

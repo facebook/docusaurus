@@ -27,6 +27,7 @@ describe('validateOptions', () => {
     const userOptions = {
       changefreq: 'yearly',
       priority: 0.9,
+      ignorePatterns: ['/search/**'],
     };
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
@@ -38,7 +39,7 @@ describe('validateOptions', () => {
     expect(() =>
       testValidate({priority: 2}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"priority\\" must be less than or equal to 1"`,
+      `""priority" must be less than or equal to 1"`,
     );
   });
 
@@ -46,7 +47,18 @@ describe('validateOptions', () => {
     expect(() =>
       testValidate({changefreq: 'annually'}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"changefreq\\" must be one of [daily, monthly, always, hourly, weekly, yearly, never]"`,
+      `""changefreq" must be one of [daily, monthly, always, hourly, weekly, yearly, never]"`,
+    );
+  });
+
+  it('rejects bad ignorePatterns inputs', () => {
+    expect(() =>
+      testValidate({ignorePatterns: '/search'}),
+    ).toThrowErrorMatchingInlineSnapshot(`""ignorePatterns" must be an array"`);
+    expect(() =>
+      testValidate({ignorePatterns: [/^\/search/]}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ignorePatterns[0]" must be a string"`,
     );
   });
 });

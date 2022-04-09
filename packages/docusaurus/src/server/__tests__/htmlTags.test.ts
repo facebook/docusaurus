@@ -99,9 +99,9 @@ describe('loadHtmlTags', () => {
     const htmlTags = loadHtmlTags([pluginHeadTags]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
-        "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
-      <meta name=\\"generator\\" content=\\"Docusaurus\\">
-      <script type=\\"text/javascript\\" src=\\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\" async data-options=\\"{&quot;prop&quot;:true}\\"></script>",
+        "headTags": "<link rel="preconnect" href="www.google-analytics.com">
+      <meta name="generator" content="Docusaurus">
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js" async data-options="{&quot;prop&quot;:true}"></script>",
         "postBodyTags": "",
         "preBodyTags": "",
       }
@@ -114,7 +114,7 @@ describe('loadHtmlTags', () => {
       {
         "headTags": "",
         "postBodyTags": "",
-        "preBodyTags": "<script type=\\"text/javascript\\">window.foo = null;</script>",
+        "preBodyTags": "<script type="text/javascript">window.foo = null;</script>",
       }
     `);
   });
@@ -139,12 +139,12 @@ describe('loadHtmlTags', () => {
     ]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
-        "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
-      <meta name=\\"generator\\" content=\\"Docusaurus\\">
-      <script type=\\"text/javascript\\" src=\\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\" async data-options=\\"{&quot;prop&quot;:true}\\"></script>",
+        "headTags": "<link rel="preconnect" href="www.google-analytics.com">
+      <meta name="generator" content="Docusaurus">
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js" async data-options="{&quot;prop&quot;:true}"></script>",
         "postBodyTags": "<div>Test content</div>
       <script>window.alert(1);</script>",
-        "preBodyTags": "<script type=\\"text/javascript\\">window.foo = null;</script>",
+        "preBodyTags": "<script type="text/javascript">window.foo = null;</script>",
       }
     `);
   });
@@ -158,9 +158,9 @@ describe('loadHtmlTags', () => {
     ]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
-        "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
-      <meta name=\\"generator\\" content=\\"Docusaurus\\">
-      <script type=\\"text/javascript\\" src=\\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\" async data-options=\\"{&quot;prop&quot;:true}\\"></script>",
+        "headTags": "<link rel="preconnect" href="www.google-analytics.com">
+      <meta name="generator" content="Docusaurus">
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js" async data-options="{&quot;prop&quot;:true}"></script>",
         "postBodyTags": "<div>Test content</div>
       <script>window.alert(1);</script>",
         "preBodyTags": "",
@@ -184,7 +184,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"tagName\\":\\"endiliey\\",\\"attributes\\":{\\"this\\":\\"is invalid\\"}}, \\"endiliey\\" is not a valid HTML tag."`,
+      `"Error loading {"tagName":"endiliey","attributes":{"this":"is invalid"}}, "endiliey" is not a valid HTML tag."`,
     );
   });
 
@@ -202,7 +202,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"{\\"tagName\\":true} is not a valid HTML tag object. \\"tagName\\" must be defined as a string."`,
+      `"{"tagName":true} is not a valid HTML tag object. "tagName" must be defined as a string."`,
     );
   });
 
@@ -218,7 +218,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"2\\" is not a valid HTML tag object."`,
+      `""2" is not a valid HTML tag object."`,
     );
   });
 });

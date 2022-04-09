@@ -49,8 +49,10 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
+  html: Joi.string(),
   className: Joi.string(),
 })
+  .nand('html', 'label')
   // We allow any unknown attributes on the links (users may need additional
   // attributes like target, aria-role, data-customAttribute...)
   .unknown();

@@ -62,7 +62,7 @@ describe('loadSidebars', () => {
     await expect(() =>
       loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Invalid sidebar items collection [36m\`\\"doc1\\"\`[39m in [36m\`items\`[39m of the category [34m[1mCategory Label[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
+      `"Invalid sidebar items collection \`"doc1"\` in \`items\` of the category Category Label: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a \`type\` property). See https://docusaurus.io/docs/sidebar/items for all valid syntaxes."`,
     );
   });
 
@@ -131,7 +131,7 @@ describe('loadSidebars', () => {
           contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" is not allowed"`);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`""foo" is not allowed"`);
     expect(consoleWarnMock).toBeCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,
