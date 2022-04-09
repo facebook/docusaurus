@@ -31,9 +31,12 @@ function useContextValue(): ContextValue {
   const [tabGroupChoices, setChoices] = useState<{
     readonly [groupId: string]: string;
   }>({});
-  const setChoiceSyncWithLocalStorage = useCallback((groupId, newChoice) => {
-    createStorageSlot(`${TAB_CHOICE_PREFIX}${groupId}`).set(newChoice);
-  }, []);
+  const setChoiceSyncWithLocalStorage = useCallback(
+    (groupId: string, newChoice: string) => {
+      createStorageSlot(`${TAB_CHOICE_PREFIX}${groupId}`).set(newChoice);
+    },
+    [],
+  );
 
   useEffect(() => {
     try {

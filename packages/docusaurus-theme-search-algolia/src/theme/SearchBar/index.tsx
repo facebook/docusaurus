@@ -14,6 +14,7 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
+import type {SearchClient} from 'algoliasearch/lite';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
@@ -145,7 +146,7 @@ function DocSearch({
   }, [setIsOpen]);
 
   const onInput = useCallback(
-    (event) => {
+    (event: KeyboardEvent) => {
       importDocSearchModalIfNeeded().then(() => {
         setIsOpen(true);
         setInitialQuery(event.key);
@@ -194,7 +195,7 @@ function DocSearch({
     );
 
   const transformSearchClient = useCallback(
-    (searchClient) => {
+    (searchClient: SearchClient) => {
       searchClient.addAlgoliaAgent(
         'docusaurus',
         siteMetadata.docusaurusVersion,

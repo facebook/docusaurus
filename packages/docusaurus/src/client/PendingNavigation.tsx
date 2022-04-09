@@ -23,6 +23,7 @@ type Props = RouteComponentProps & {
   readonly routes: RouteConfig[];
   readonly delay: number;
   readonly location: Location;
+  readonly children: JSX.Element;
 };
 type State = {
   nextRouteHasLoaded: boolean;
