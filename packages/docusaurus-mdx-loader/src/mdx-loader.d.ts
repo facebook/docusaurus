@@ -6,6 +6,7 @@
  */
 
 import type {Plugin} from 'unified';
+import type {TOCItem} from '@docusaurus/types';
 
 export type MDXPlugin =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
