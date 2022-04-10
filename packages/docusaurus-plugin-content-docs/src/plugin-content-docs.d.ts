@@ -496,7 +496,7 @@ declare module '@docusaurus/plugin-content-docs' {
 }
 
 declare module '@theme/DocItem' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     PropVersionMetadata,
     Assets,
@@ -514,14 +514,7 @@ declare module '@theme/DocItem' {
   export interface Props {
     readonly route: DocumentRoute;
     readonly versionMetadata: PropVersionMetadata;
-    readonly content: {
-      readonly frontMatter: DocFrontMatter;
-      readonly metadata: DocMetadata;
-      readonly toc: readonly TOCItem[];
-      readonly contentTitle: string | undefined;
-      readonly assets: Assets;
-      (): JSX.Element;
-    };
+    readonly content: LoadedMDXContent<DocFrontMatter, DocMetadata, Assets>;
   }
 
   export default function DocItem(props: Props): JSX.Element;
