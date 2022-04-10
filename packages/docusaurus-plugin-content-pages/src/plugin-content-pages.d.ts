@@ -6,16 +6,16 @@
  */
 
 declare module '@docusaurus/plugin-content-pages' {
-  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+  import type {MDXOptions} from '@docusaurus/mdx-loader';
 
-  export type PluginOptions = RemarkAndRehypePluginOptions & {
+  export type PluginOptions = MDXOptions & {
     id?: string;
     path: string;
     routeBasePath: string;
     include: string[];
     exclude: string[];
     mdxPageComponent: string;
-    admonitions: Record<string, unknown>;
+    admonitions: {[key: string]: unknown};
   };
 
   export type Options = Partial<PluginOptions>;
@@ -39,7 +39,7 @@ declare module '@docusaurus/plugin-content-pages' {
     type: 'mdx';
     permalink: string;
     source: string;
-    frontMatter: FrontMatter & Record<string, unknown>;
+    frontMatter: FrontMatter & {[key: string]: unknown};
     title?: string;
     description?: string;
   };
@@ -48,19 +48,14 @@ declare module '@docusaurus/plugin-content-pages' {
 }
 
 declare module '@theme/MDXPage' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     MDXPageMetadata,
     FrontMatter,
   } from '@docusaurus/plugin-content-pages';
 
   export interface Props {
-    readonly content: {
-      readonly frontMatter: FrontMatter;
-      readonly metadata: MDXPageMetadata;
-      readonly toc: readonly TOCItem[];
-      (): JSX.Element;
-    };
+    readonly content: LoadedMDXContent<FrontMatter, MDXPageMetadata>;
   }
 
   export default function MDXPage(props: Props): JSX.Element;

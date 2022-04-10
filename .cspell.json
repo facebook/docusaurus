@@ -21,12 +21,11 @@
   ],
   "ignorePaths": [
     "CHANGELOG.md",
-    "examples",
     "packages/docusaurus-theme-translations/locales",
-    "__tests__",
     "package.json",
     "yarn.lock",
     "project-words.txt",
+    "__snapshots__",
     "website/src/data/users.tsx",
     "website/src/data/tweets.tsx",
     "*.xyz",

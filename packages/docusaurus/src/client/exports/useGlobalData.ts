@@ -7,8 +7,9 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 import {DEFAULT_PLUGIN_ID} from './constants';
+import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
-export default function useGlobalData(): Record<string, unknown> {
+export default function useGlobalData(): GlobalData {
   const {globalData} = useDocusaurusContext();
   if (!globalData) {
     throw new Error('Docusaurus global data not found.');
@@ -16,29 +17,31 @@ export default function useGlobalData(): Record<string, unknown> {
   return globalData;
 }
 
-export function useAllPluginInstancesData<T = unknown>(
+export function useAllPluginInstancesData(
   pluginName: string,
-): Record<string, T> {
+  options: UseDataOptions = {},
+): GlobalData[string] | undefined {
   const globalData = useGlobalData();
   const pluginGlobalData = globalData[pluginName];
-  if (!pluginGlobalData) {
+  if (!pluginGlobalData && options.failfast) {
     throw new Error(
       `Docusaurus plugin global data not found for "${pluginName}" plugin.`,
     );
   }
-  return pluginGlobalData as Record<string, T>;
+  return pluginGlobalData;
 }
 
-export function usePluginData<T = unknown>(
+export function usePluginData(
   pluginName: string,
   pluginId: string = DEFAULT_PLUGIN_ID,
-): T {
+  options: UseDataOptions = {},
+): GlobalData[string][string] {
   const pluginGlobalData = useAllPluginInstancesData(pluginName);
-  const pluginInstanceGlobalData = pluginGlobalData[pluginId];
-  if (!pluginInstanceGlobalData) {
+  const pluginInstanceGlobalData = pluginGlobalData?.[pluginId];
+  if (!pluginInstanceGlobalData && options.failfast) {
     throw new Error(
       `Docusaurus plugin global data not found for "${pluginName}" plugin with id "${pluginId}".`,
     );
   }
-  return pluginInstanceGlobalData as T;
+  return pluginInstanceGlobalData;
 }

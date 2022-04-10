@@ -44,7 +44,7 @@ function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   headings.forEach((heading) => {
     const {parentIndex, ...rest} = heading;
     if (parentIndex >= 0) {
-      headings[parentIndex].children.push(rest);
+      headings[parentIndex]!.children.push(rest);
     } else {
       rootNodes.push(rest);
     }
@@ -52,6 +52,10 @@ function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   return rootNodes;
 }
 
+/**
+ * Takes a flat TOC list (from the MDX loader) and treeifies it into what the
+ * TOC components expect. Memoized for performance.
+ */
 export function useTreeifiedTOC(toc: TOCItem[]): readonly TOCTreeNode[] {
   return useMemo(() => treeifyTOC(toc), [toc]);
 }
@@ -87,6 +91,18 @@ function filterTOC({
   });
 }
 
+/**
+ * Takes a flat TOC list (from the MDX loader) and treeifies it into what the
+ * TOC components expect, applying the `minHeadingLevel` and `maxHeadingLevel`.
+ * Memoized for performance.
+ *
+ * **Important**: this is not the same as `useTreeifiedTOC(toc.filter(...))`,
+ * because we have to filter the TOC after it has been treeified. This is mostly
+ * to ensure that weird TOC structures preserve their semantics. For example, an
+ * h3-h2-h4 sequence should not be treeified as an "h3 > h4" hierarchy with
+ * min=3, max=4, but should rather be "[h3, h4]" (since the h2 heading has split
+ * the two headings and they are not parent-children)
+ */
 export function useFilteredAndTreeifiedTOC({
   toc,
   minHeadingLevel,
@@ -97,12 +113,7 @@ export function useFilteredAndTreeifiedTOC({
   maxHeadingLevel: number;
 }): readonly TOCTreeNode[] {
   return useMemo(
-    () =>
-      // Note: we have to filter the TOC after it has been treeified. This is
-      // mostly to ensure that weird TOC structures preserve their semantics.
-      // For example, an h3-h2-h4 sequence should not be treeified as an h3 > h4
-      // hierarchy with min=3, max=4, but should rather be [h3, h4]
-      filterTOC({toc: treeifyTOC(toc), minHeadingLevel, maxHeadingLevel}),
+    () => filterTOC({toc: treeifyTOC(toc), minHeadingLevel, maxHeadingLevel}),
     [toc, minHeadingLevel, maxHeadingLevel],
   );
 }

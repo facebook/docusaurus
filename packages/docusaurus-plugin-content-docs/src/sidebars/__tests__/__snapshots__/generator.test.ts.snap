@@ -1,0 +1,255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DefaultSidebarItemsGenerator generates complex nested sidebar 1`] = `
+[
+  {
+    "id": "intro",
+    "type": "doc",
+  },
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "tutorial1",
+        "type": "doc",
+      },
+      {
+        "id": "tutorial2",
+        "type": "doc",
+      },
+    ],
+    "label": "Tutorials",
+    "link": {
+      "id": "tutorials-index",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  {
+    "collapsed": false,
+    "collapsible": undefined,
+    "customProps": {
+      "description": "foo",
+    },
+    "items": [
+      {
+        "className": "foo",
+        "id": "guide1",
+        "type": "doc",
+      },
+      {
+        "collapsed": undefined,
+        "collapsible": undefined,
+        "items": [
+          {
+            "id": "nested-guide",
+            "type": "doc",
+          },
+        ],
+        "label": "SubGuides (metadata file label)",
+        "link": {
+          "description": "subGuides-description",
+          "slug": "subGuides-generated-index-slug",
+          "title": "subGuides-title",
+          "type": "generated-index",
+        },
+        "type": "category",
+      },
+      {
+        "id": "guide2",
+        "type": "doc",
+      },
+    ],
+    "label": "Guides",
+    "link": {
+      "id": "guides-index",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  {
+    "id": "end",
+    "type": "doc",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
+[
+  {
+    "id": "doc3",
+    "type": "doc",
+  },
+  {
+    "id": "doc4",
+    "type": "doc",
+  },
+  {
+    "id": "doc1",
+    "label": "doc1 sidebar label",
+    "type": "doc",
+  },
+  {
+    "id": "doc2",
+    "type": "doc",
+  },
+  {
+    "id": "doc5",
+    "type": "doc",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
+[
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "doc8",
+        "type": "doc",
+      },
+      {
+        "id": "doc7",
+        "type": "doc",
+      },
+    ],
+    "label": "Subsubsubfolder category label",
+    "link": {
+      "id": "doc1",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  {
+    "className": "bar",
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "doc6",
+        "type": "doc",
+      },
+    ],
+    "label": "subsubsubfolder2 (_category_.yml label)",
+    "type": "category",
+  },
+  {
+    "id": "doc1",
+    "type": "doc",
+  },
+  {
+    "id": "doc4",
+    "type": "doc",
+  },
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "doc5",
+        "type": "doc",
+      },
+    ],
+    "label": "subsubsubfolder",
+    "type": "category",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator respects custom isCategoryIndex 1`] = `
+[
+  {
+    "id": "intro",
+    "type": "doc",
+  },
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "tutorial1",
+        "type": "doc",
+      },
+      {
+        "id": "tutorial2",
+        "type": "doc",
+      },
+    ],
+    "label": "Tutorials",
+    "link": {
+      "id": "tutorials-index",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "className": "foo",
+        "id": "guide1",
+        "type": "doc",
+      },
+      {
+        "id": "guide2",
+        "type": "doc",
+      },
+      {
+        "id": "not-guides-index",
+        "type": "doc",
+      },
+    ],
+    "label": "Guides",
+    "type": "category",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator uses explicit link over the index/readme.{md,mdx} naming convention 1`] = `
+[
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "parent/doc2",
+        "type": "doc",
+      },
+      {
+        "id": "parent/doc1",
+        "type": "doc",
+      },
+    ],
+    "label": "Category label",
+    "link": {
+      "id": "parent/doc3",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "parent/doc4",
+        "type": "doc",
+      },
+      {
+        "id": "parent/doc6",
+        "type": "doc",
+      },
+      {
+        "id": "parent/doc5",
+        "type": "doc",
+      },
+    ],
+    "label": "Category 2 label",
+    "type": "category",
+  },
+]
+`;

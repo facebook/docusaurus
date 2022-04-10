@@ -335,37 +335,37 @@ You can even omit the children prop and specify a translation string in your `co
 React hook to access Docusaurus Context. The context contains the `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md) and some additional site metadata.
 
 ```ts
-type DocusaurusPluginVersionInformation =
+type PluginVersionInformation =
   | {readonly type: 'package'; readonly version?: string}
   | {readonly type: 'project'}
   | {readonly type: 'local'}
   | {readonly type: 'synthetic'};
 
-interface DocusaurusSiteMetadata {
+type SiteMetadata = {
   readonly docusaurusVersion: string;
   readonly siteVersion?: string;
-  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
-}
+  readonly pluginVersions: Record<string, PluginVersionInformation>;
+};
 
-interface I18nLocaleConfig {
+type I18nLocaleConfig = {
   label: string;
   direction: string;
-}
+};
 
-interface I18n {
+type I18n = {
   defaultLocale: string;
   locales: [string, ...string[]];
   currentLocale: string;
   localeConfigs: Record<string, I18nLocaleConfig>;
-}
+};
 
-interface DocusaurusContext {
+type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
-  siteMetadata: DocusaurusSiteMetadata;
+  siteMetadata: SiteMetadata;
   globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
-}
+};
 ```
 
 Usage example:
@@ -544,7 +544,11 @@ This is the most convenient hook to access plugin global data and should be used
 `pluginId` is optional if you don't use multi-instance plugins.
 
 ```ts
-function usePluginData(pluginName: string, pluginId?: string);
+function usePluginData(
+  pluginName: string,
+  pluginId?: string,
+  options?: {failfast?: boolean},
+);
 ```
 
 Usage example:
@@ -567,7 +571,10 @@ const MyComponent = () => {
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
 ```ts
-useAllPluginInstancesData(pluginName: string)
+function useAllPluginInstancesData(
+  pluginName: string,
+  options?: {failfast?: boolean},
+);
 ```
 
 Usage example:

@@ -9,14 +9,14 @@ import type {SwizzleConfig} from '@docusaurus/types';
 import {normalizeSwizzleConfig} from '../config';
 
 describe('normalizeSwizzleConfig', () => {
-  test(`validate no components config`, async () => {
+  it(`validate no components config`, async () => {
     const config: SwizzleConfig = {
       components: {},
     };
     expect(normalizeSwizzleConfig(config)).toEqual(config);
   });
 
-  test(`validate complete config`, async () => {
+  it(`validate complete config`, async () => {
     const config: SwizzleConfig = {
       components: {
         SomeComponent: {
@@ -38,7 +38,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(normalizeSwizzleConfig(config)).toEqual(config);
   });
 
-  test(`normalize partial config`, async () => {
+  it(`normalize partial config`, async () => {
     const config: SwizzleConfig = {
       components: {
         SomeComponent: {
@@ -56,39 +56,21 @@ describe('normalizeSwizzleConfig', () => {
         },
       },
     };
-    expect(normalizeSwizzleConfig(config)).toMatchInlineSnapshot(`
-      Object {
-        "components": Object {
-          "Other/Component": Object {
-            "actions": Object {
-              "eject": "unsafe",
-              "wrap": "forbidden",
-            },
-          },
-          "SomeComponent": Object {
-            "actions": Object {
-              "eject": "safe",
-              "wrap": "unsafe",
-            },
-            "description": "SomeComponent description",
-          },
-        },
-      }
-    `);
+    expect(normalizeSwizzleConfig(config)).toMatchSnapshot();
   });
 
-  test(`reject missing components`, async () => {
+  it(`reject missing components`, async () => {
     // @ts-expect-error: incomplete actions map
     const config: SwizzleConfig = {};
 
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: \\"components\\" is required"`,
+      `"Swizzle config does not match expected schema: "components" is required"`,
     );
   });
 
-  test(`reject invalid action name`, async () => {
+  it(`reject invalid action name`, async () => {
     const config: SwizzleConfig = {
       components: {
         MyComponent: {
@@ -105,11 +87,11 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: \\"components.MyComponent.actions.bad\\" is not allowed"`,
+      `"Swizzle config does not match expected schema: "components.MyComponent.actions.bad" is not allowed"`,
     );
   });
 
-  test(`reject invalid action status`, async () => {
+  it(`reject invalid action status`, async () => {
     const config: SwizzleConfig = {
       components: {
         MyComponent: {
@@ -125,7 +107,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: \\"components.MyComponent.actions.eject\\" must be one of [safe, unsafe, forbidden]"`,
+      `"Swizzle config does not match expected schema: "components.MyComponent.actions.eject" must be one of [safe, unsafe, forbidden]"`,
     );
   });
 });

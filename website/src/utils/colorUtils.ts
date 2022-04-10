@@ -19,15 +19,14 @@ export type ColorState = {
   shades: Shades;
 };
 
-export type Shades = Record<
-  string,
-  {
+export type Shades = {
+  [cssVar: string]: {
     adjustment: number;
     adjustmentInput: string;
     displayOrder: number;
     codeOrder: number;
-  }
->;
+  };
+};
 export const COLOR_SHADES: Shades = {
   '--ifm-color-primary': {
     adjustment: 0,
@@ -100,7 +99,7 @@ export function updateDOMColors(
   isDarkTheme: boolean,
 ): void {
   const styleSheet = Array.from(document.styleSheets).find((item) =>
-    item.href?.match(/styles(?:\.[0-9a-f]+)?\.css/),
+    item.href?.match(/styles(?:\.[\da-f]+)?\.css/),
   )!;
   const rules = Array.from(styleSheet.cssRules) as CSSStyleRule[];
   // The rule that looks the most like definition for custom theme colors

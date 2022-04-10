@@ -7,18 +7,19 @@
 
 import {
   getVersionsFilePath,
-  getVersionedDocsDirPath,
-  getVersionedSidebarsDirPath,
-} from './versions';
+  getVersionDocsDirPath,
+  getVersionSidebarsPath,
+  getDocsDirPathLocalized,
+} from './versions/files';
+import {validateVersionName} from './versions/validation';
 import fs from 'fs-extra';
 import path from 'path';
-import type {
-  PathOptions,
-  SidebarOptions,
-} from '@docusaurus/plugin-content-docs';
-import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import {loadSidebarsFileUnsafe} from './sidebars';
+import {CURRENT_VERSION_NAME} from './constants';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+import type {LoadContext} from '@docusaurus/types';
 
 async function createVersionedSidebarFile({
   siteDir,
@@ -42,14 +43,8 @@ async function createVersionedSidebarFile({
   const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
-    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
-    const newSidebarFile = path.join(
-      versionedSidebarsDir,
-      `version-${version}-sidebars.json`,
-    );
-    await fs.ensureDir(path.dirname(newSidebarFile));
-    await fs.writeFile(
-      newSidebarFile,
+    await fs.outputFile(
+      getVersionSidebarsPath(siteDir, pluginId, version),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
@@ -58,54 +53,27 @@ async function createVersionedSidebarFile({
 
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
-  version: string | null | undefined,
-  siteDir: string,
-  pluginId: string,
-  options: PathOptions & SidebarOptions,
+  version: string,
+  {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
+  {siteDir, i18n}: LoadContext,
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
   const pluginIdLogPrefix =
     pluginId === DEFAULT_PLUGIN_ID ? '[docs]' : `[${pluginId}]`;
 
-  if (!version) {
-    throw new Error(
-      `${pluginIdLogPrefix}: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0.`,
-    );
-  }
-
-  if (version.includes('/') || version.includes('\\')) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Do not include slash (/) or backslash (\\). Try something like: 1.0.0.`,
-    );
-  }
-
-  if (version.length > 32) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0.`,
-    );
-  }
-
-  // Since we are going to create `version-${version}` folder, we need to make
-  // sure it's a valid pathname.
-  // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
-    );
-  }
-
-  if (/^\.\.?$/.test(version)) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0.`,
-    );
+  try {
+    validateVersionName(version);
+  } catch (e) {
+    logger.info`${pluginIdLogPrefix}: Invalid version name provided. Try something like: 1.0.0`;
+    throw e;
   }
 
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
   if (await fs.pathExists(versionsJSONFile)) {
-    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
+    versions = await fs.readJSON(versionsJSONFile);
   }
 
   // Check if version already exists.
@@ -115,33 +83,60 @@ export async function cliDocsVersionCommand(
     );
   }
 
-  const {path: docsPath, sidebarPath} = options;
-
-  // Copy docs files.
-  const docsDir = path.join(siteDir, docsPath);
-
-  if (
-    (await fs.pathExists(docsDir)) &&
-    (await fs.readdir(docsDir)).length > 0
-  ) {
-    const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
-    const newVersionDir = path.join(versionedDir, `version-${version}`);
-    await fs.copy(docsDir, newVersionDir);
-  } else {
-    throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
+  if (i18n.locales.length > 1) {
+    logger.info`Versioned docs will be created for the following locales: name=${i18n.locales}`;
   }
+
+  await Promise.all(
+    i18n.locales.map(async (locale) => {
+      // Copy docs files.
+      const docsDir =
+        locale === i18n.defaultLocale
+          ? path.resolve(siteDir, docsPath)
+          : getDocsDirPathLocalized({
+              siteDir,
+              locale,
+              pluginId,
+              versionName: CURRENT_VERSION_NAME,
+            });
+
+      if (
+        !(await fs.pathExists(docsDir)) ||
+        (await fs.readdir(docsDir)).length === 0
+      ) {
+        if (locale === i18n.defaultLocale) {
+          throw new Error(
+            logger.interpolate`${pluginIdLogPrefix}: no docs found in path=${docsDir}.`,
+          );
+        } else {
+          logger.warn`${pluginIdLogPrefix}: no docs found in path=${docsDir}. Skipping.`;
+          return;
+        }
+      }
+
+      const newVersionDir =
+        locale === i18n.defaultLocale
+          ? getVersionDocsDirPath(siteDir, pluginId, version)
+          : getDocsDirPathLocalized({
+              siteDir,
+              locale,
+              pluginId,
+              versionName: version,
+            });
+      await fs.copy(docsDir, newVersionDir);
+    }),
+  );
 
   await createVersionedSidebarFile({
     siteDir,
     pluginId,
     version,
-    sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
+    sidebarPath,
   });
 
   // Update versions.json file.
   versions.unshift(version);
-  await fs.ensureDir(path.dirname(versionsJSONFile));
-  await fs.writeFile(
+  await fs.outputFile(
     versionsJSONFile,
     `${JSON.stringify(versions, null, 2)}\n`,
   );

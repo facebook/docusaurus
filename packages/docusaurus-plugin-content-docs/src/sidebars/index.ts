@@ -32,7 +32,6 @@ export const DefaultSidebars: SidebarsConfig = {
 export const DisabledSidebars: SidebarsConfig = {};
 
 // If a path is provided, make it absolute
-// use this before loadSidebars()
 export function resolveSidebarPathOption(
   siteDir: string,
   sidebarPathOption: PluginOptions['sidebarPath'],
@@ -49,7 +48,7 @@ async function readCategoriesMetadata(contentPath: string) {
   const categoryToFile = _.groupBy(categoryFiles, path.dirname);
   return combinePromises(
     _.mapValues(categoryToFile, async (files, folder) => {
-      const [filePath] = files;
+      const filePath = files[0]!;
       if (files.length > 1) {
         logger.warn`There are more than one category metadata files for path=${folder}: ${files.join(
           ', ',
@@ -93,21 +92,27 @@ export async function loadSidebarsFileUnsafe(
   return importFresh(sidebarFilePath);
 }
 
-// Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
   options: SidebarProcessorParams,
 ): Promise<Sidebars> {
-  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
-  const normalizedSidebars = normalizeSidebars(sidebarsConfig);
-  validateSidebars(normalizedSidebars);
-  const categoriesMetadata = await readCategoriesMetadata(
-    options.version.contentPath,
-  );
-  const processedSidebars = await processSidebars(
-    normalizedSidebars,
-    categoriesMetadata,
-    options,
-  );
-  return postProcessSidebars(processedSidebars, options);
+  try {
+    const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
+    const normalizedSidebars = normalizeSidebars(sidebarsConfig);
+    validateSidebars(normalizedSidebars);
+    const categoriesMetadata = await readCategoriesMetadata(
+      options.version.contentPath,
+    );
+    const processedSidebars = await processSidebars(
+      normalizedSidebars,
+      categoriesMetadata,
+      options,
+    );
+    return postProcessSidebars(processedSidebars, options);
+  } catch (err) {
+    logger.error`Sidebars file at path=${
+      sidebarFilePath as string
+    } failed to be loaded.`;
+    throw err;
+  }
 }

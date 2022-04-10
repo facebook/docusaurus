@@ -14,12 +14,11 @@ import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
 import type {Types, Props} from '@theme/NavbarItem';
 
-const NavbarItemComponents: Record<
-  Exclude<Types, undefined>,
+const NavbarItemComponents: {
   // Not really worth typing, as we pass all props down immediately
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  () => (props: any) => JSX.Element
-> = {
+  [type in Exclude<Types, undefined>]: () => (props: any) => JSX.Element;
+} = {
   default: () => DefaultNavbarItem,
   localeDropdown: () => LocaleDropdownNavbarItem,
   search: () => SearchNavbarItem,

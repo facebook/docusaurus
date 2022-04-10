@@ -8,39 +8,39 @@
 import isInternalUrl from '../isInternalUrl';
 
 describe('isInternalUrl', () => {
-  test('should be true for empty links', () => {
+  it('returns true for empty links', () => {
     expect(isInternalUrl('')).toBeTruthy();
   });
 
-  test('should be true for root relative links', () => {
+  it('returns true for root relative links', () => {
     expect(isInternalUrl('/foo/bar')).toBeTruthy();
   });
 
-  test('should be true for relative links', () => {
+  it('returns true for relative links', () => {
     expect(isInternalUrl('foo/bar')).toBeTruthy();
   });
 
-  test('should be false for HTTP links', () => {
+  it('returns false for HTTP links', () => {
     expect(isInternalUrl('http://foo.com')).toBeFalsy();
   });
 
-  test('should be false for HTTPS links', () => {
+  it('returns false for HTTPS links', () => {
     expect(isInternalUrl('https://foo.com')).toBeFalsy();
   });
 
-  test('should be false for whatever protocol links', () => {
+  it('returns false for whatever protocol links', () => {
     expect(isInternalUrl('//foo.com')).toBeFalsy();
   });
 
-  test('should be false for telephone links', () => {
+  it('returns false for telephone links', () => {
     expect(isInternalUrl('tel:+1234567890')).toBeFalsy();
   });
 
-  test('should be false for mailto links', () => {
+  it('returns false for mailto links', () => {
     expect(isInternalUrl('mailto:someone@example.com')).toBeFalsy();
   });
 
-  test('should be false for undefined links', () => {
+  it('returns false for undefined links', () => {
     expect(isInternalUrl(undefined)).toBeFalsy();
   });
 });

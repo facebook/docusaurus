@@ -25,8 +25,7 @@ import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import type {TransformOptions} from '@babel/core';
 import type {
-  ConfigureWebpackFn,
-  ConfigurePostCssFn,
+  Plugin,
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
@@ -172,7 +171,7 @@ export const getCustomizableJSLoader =
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: ConfigureWebpackFn,
+  configureWebpack: NonNullable<Plugin['configureWebpack']>,
   config: Configuration,
   isServer: boolean,
   jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
@@ -184,12 +183,8 @@ export function applyConfigureWebpack(
     getJSLoader: getCustomizableJSLoader(jsLoader),
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(
-      config,
-      isServer,
-      utils,
-      content,
-    );
+    const {mergeStrategy, ...res} =
+      configureWebpack(config, isServer, utils, content) ?? {};
     if (res && typeof res === 'object') {
       const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
@@ -202,7 +197,7 @@ export function applyConfigureWebpack(
 }
 
 export function applyConfigurePostCss(
-  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  configurePostCss: NonNullable<Plugin['configurePostCss']>,
   config: Configuration,
 ): Configuration {
   type LocalPostCSSLoader = unknown & {
@@ -236,15 +231,20 @@ export function applyConfigurePostCss(
   return config;
 }
 
+declare global {
+  interface Error {
+    /** @see https://webpack.js.org/api/node/#error-handling */
+    details: unknown;
+  }
+}
+
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
         logger.error(err.stack || err);
-        // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
         if (err.details) {
-          // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
           logger.error(err.details);
         }
         reject(err);

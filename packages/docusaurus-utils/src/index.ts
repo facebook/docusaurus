@@ -13,24 +13,30 @@ export {
   BABEL_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
   SRC_DIR_NAME,
-  STATIC_DIR_NAME,
+  DEFAULT_STATIC_DIR_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
   THEME_PATH,
+  I18N_DIR_NAME,
+  CODE_TRANSLATIONS_FILE_NAME,
   DEFAULT_PORT,
   DEFAULT_PLUGIN_ID,
   WEBPACK_URL_LOADER_LIMIT,
 } from './constants';
-export {generate, genChunkName, readOutputHTMLFile} from './emitUtils';
-export {getFileCommitDate, GitNotFoundError} from './gitUtils';
+export {generate, readOutputHTMLFile} from './emitUtils';
+export {
+  getFileCommitDate,
+  FileNotTrackedError,
+  GitNotFoundError,
+} from './gitUtils';
 export {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
+  localizePath,
 } from './i18nUtils';
 export {
   removeSuffix,
   removePrefix,
-  getElementsAround,
   mapAsyncSequential,
   findAsyncSequential,
   reportMessage,
@@ -45,12 +51,12 @@ export {
   addLeadingSlash,
   addTrailingSlash,
   removeTrailingSlash,
+  hasSSHProtocol,
+  buildHttpsUrl,
+  buildSshUrl,
 } from './urlUtils';
 export {
-  type Tag,
   type FrontMatterTag,
-  type TaggedItemGroup,
-  normalizeFrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,
 } from './tags';
@@ -60,12 +66,12 @@ export {
   parseFrontMatter,
   parseMarkdownContentTitle,
   parseMarkdownString,
-} from './markdownParser';
+  writeMarkdownHeadingId,
+  type WriteHeadingIDOptions,
+} from './markdownUtils';
 export {
   type ContentPaths,
   type BrokenMarkdownLink,
-  type ReplaceMarkdownLinksParams,
-  type ReplaceMarkdownLinksReturn,
   replaceMarkdownLinks,
 } from './markdownLinks';
 export {type SluggerOptions, type Slugger, createSlugger} from './slugger';

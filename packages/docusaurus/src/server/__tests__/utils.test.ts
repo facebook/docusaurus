@@ -9,7 +9,7 @@ import type {RouteConfig} from '@docusaurus/types';
 import {getAllFinalRoutes} from '../utils';
 
 describe('getAllFinalRoutes', () => {
-  test('should get final routes correctly', () => {
+  it('gets final routes correctly', () => {
     const routes: RouteConfig[] = [
       {
         path: '/docs',

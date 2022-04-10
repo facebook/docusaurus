@@ -33,7 +33,7 @@ import type {Compiler, Stats} from 'webpack';
 import path from 'path';
 import {sync as delSync} from 'del';
 
-export interface Options {
+export type Options = {
   /**
    * Write Logs to Console
    * (Always enabled when dry is true)
@@ -65,7 +65,7 @@ export interface Options {
    * default: ['**\/*']
    */
   cleanOnceBeforeBuildPatterns?: string[];
-}
+};
 
 export default class CleanWebpackPlugin {
   private readonly verbose: boolean;
@@ -176,7 +176,7 @@ export default class CleanWebpackPlugin {
       stats.toJson({
         all: false,
         assets: true,
-      }).assets || [];
+      }).assets ?? [];
     const assets = statsAssets.map((asset: {name: string}) => asset.name);
 
     /**

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import path from 'path';
 import {loadSidebars, DisabledSidebars} from '../index';
 import type {SidebarProcessorParams} from '../types';
@@ -23,23 +24,26 @@ describe('loadSidebars', () => {
         frontMatter: {},
       },
     ],
-    version: {contentPath: 'docs/foo', contentPathLocalized: 'docs/foo'},
+    version: {
+      contentPath: path.join(fixtureDir, 'docs'),
+      contentPathLocalized: path.join(fixtureDir, 'docs'),
+    },
     categoryLabelSlugger: null,
     sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
   };
-  test('sidebars with known sidebar item type', async () => {
+  it('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
     const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
-  test('sidebars with deep level of category', async () => {
+  it('sidebars with deep level of category', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-category.js');
     const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
-  test('sidebars shorthand and longform lead to exact same sidebar', async () => {
+  it('sidebars shorthand and longhand lead to exact same sidebar', async () => {
     const sidebarPath1 = path.join(fixtureDir, 'sidebars-category.js');
     const sidebarPath2 = path.join(
       fixtureDir,
@@ -50,7 +54,7 @@ describe('loadSidebars', () => {
     expect(sidebar1).toEqual(sidebar2);
   });
 
-  test('sidebars with category but category.items is not an array', async () => {
+  it('sidebars with category but category.items is not an array', async () => {
     const sidebarPath = path.join(
       fixtureDir,
       'sidebars-category-wrong-items.json',
@@ -58,11 +62,11 @@ describe('loadSidebars', () => {
     await expect(() =>
       loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Invalid sidebar items collection [36m\`\\"doc1\\"\`[39m in [36m\`items\`[39m of the category [34m[1mCategory Label[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
+      `"Invalid sidebar items collection \`"doc1"\` in \`items\` of the category Category Label: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a \`type\` property). See https://docusaurus.io/docs/sidebar/items for all valid syntaxes."`,
     );
   });
 
-  test('sidebars with first level not a category', async () => {
+  it('sidebars with first level not a category', async () => {
     const sidebarPath = path.join(
       fixtureDir,
       'sidebars-first-level-not-category.js',
@@ -71,40 +75,72 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('sidebars link', async () => {
+  it('sidebars link', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link.json');
     const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
-  test('unexisting path', async () => {
-    await expect(loadSidebars('badpath', params)).resolves.toEqual(
+  it('nonexistent path', async () => {
+    await expect(loadSidebars('bad/path', params)).resolves.toEqual(
       DisabledSidebars,
     );
   });
 
-  test('undefined path', async () => {
+  it('undefined path', async () => {
     await expect(loadSidebars(undefined, params)).resolves.toMatchSnapshot();
   });
 
-  test('literal false path', async () => {
+  it('literal false path', async () => {
     await expect(loadSidebars(false, params)).resolves.toEqual(
       DisabledSidebars,
     );
   });
 
-  test('sidebars with category.collapsed property', async () => {
+  it('sidebars with category.collapsed property', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-collapsed.json');
     const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
-  test('sidebars with category.collapsed property at first level', async () => {
+  it('sidebars with category.collapsed property at first level', async () => {
     const sidebarPath = path.join(
       fixtureDir,
       'sidebars-collapsed-first-level.json',
     );
     const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
+  });
+
+  it('duplicate category metadata files', async () => {
+    const sidebarPath = path.join(
+      fixtureDir,
+      'sidebars-collapsed-first-level.json',
+    );
+    const consoleWarnMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const consoleErrorMock = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    await expect(() =>
+      loadSidebars(sidebarPath, {
+        ...params,
+        version: {
+          contentPath: path.join(fixtureDir, 'invalid-docs'),
+          contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`""foo" is not allowed"`);
+    expect(consoleWarnMock).toBeCalledWith(
+      expect.stringMatching(
+        /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,
+      ),
+    );
+    expect(consoleErrorMock).toBeCalledWith(
+      expect.stringMatching(
+        /.*\[ERROR\].* The docs sidebar category metadata file .*foo\/_category_.json.* looks invalid!/,
+      ),
+    );
   });
 });

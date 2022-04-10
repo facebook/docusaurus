@@ -50,8 +50,11 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
 }
 function translateNavbar(
   navbar: Navbar,
-  navbarTranslations: TranslationFileContent,
+  navbarTranslations: TranslationFileContent | undefined,
 ): Navbar {
+  if (!navbarTranslations) {
+    return navbar;
+  }
   return {
     ...navbar,
     title: navbarTranslations.title?.message ?? navbar.title,
@@ -76,7 +79,7 @@ function translateNavbar(
 function isMultiColumnFooterLinks(
   links: MultiColumnFooter['links'] | SimpleFooter['links'],
 ): links is MultiColumnFooter['links'] {
-  return links.length > 0 && 'title' in links[0];
+  return links.length > 0 && 'title' in links[0]!;
 }
 
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
@@ -121,8 +124,11 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
 }
 function translateFooter(
   footer: Footer,
-  footerTranslations: TranslationFileContent,
+  footerTranslations: TranslationFileContent | undefined,
 ): Footer {
+  if (!footerTranslations) {
+    return footer;
+  }
   const links = isMultiColumnFooterLinks(footer.links)
     ? footer.links.map((link) => ({
         ...link,
@@ -178,7 +184,7 @@ export function translateThemeConfig({
   themeConfig: ThemeConfig;
   translationFiles: TranslationFile[];
 }): ThemeConfig {
-  const translationFilesMap: Record<string, TranslationFile> = _.keyBy(
+  const translationFilesMap: {[fileName: string]: TranslationFile} = _.keyBy(
     translationFiles,
     (f) => f.path,
   );
@@ -187,10 +193,10 @@ export function translateThemeConfig({
     ...themeConfig,
     navbar: translateNavbar(
       themeConfig.navbar,
-      translationFilesMap.navbar.content,
+      translationFilesMap.navbar?.content,
     ),
     footer: themeConfig.footer
-      ? translateFooter(themeConfig.footer, translationFilesMap.footer.content)
+      ? translateFooter(themeConfig.footer, translationFilesMap.footer?.content)
       : undefined,
   };
 }

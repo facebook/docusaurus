@@ -85,6 +85,9 @@ function DropdownNavbarItemDesktop({
         'dropdown--show': showDropdown,
       })}>
       <NavbarNavLink
+        aria-haspopup="true"
+        aria-expanded={showDropdown}
+        role="button"
         href={props.to ? undefined : '#'}
         className={clsx('navbar__link', className)}
         {...props}
@@ -107,7 +110,13 @@ function DropdownNavbarItemDesktop({
                 setShowDropdown(false);
                 const nextNavbarItem = dropdownRef.current!.nextElementSibling;
                 if (nextNavbarItem) {
-                  (nextNavbarItem as HTMLElement).focus();
+                  const targetItem =
+                    nextNavbarItem instanceof HTMLAnchorElement
+                      ? nextNavbarItem
+                      : // Next item is another dropdown; focus on the inner
+                        // anchor element instead so there's outline
+                        nextNavbarItem.querySelector('a');
+                  (targetItem as HTMLElement).focus();
                 }
               }
             }}
@@ -124,7 +133,7 @@ function DropdownNavbarItemDesktop({
 function DropdownNavbarItemMobile({
   items,
   className,
-  position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const localPathname = useLocalPathname();
@@ -148,7 +157,10 @@ function DropdownNavbarItemMobile({
       })}>
       <NavbarNavLink
         role="button"
-        className={clsx('menu__link menu__link--sublist', className)}
+        className={clsx(
+          'menu__link menu__link--sublist menu__link--sublist-caret',
+          className,
+        )}
         {...props}
         onClick={(e) => {
           e.preventDefault();

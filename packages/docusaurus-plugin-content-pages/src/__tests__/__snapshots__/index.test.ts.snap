@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
+[
+  {
+    "permalink": "/",
+    "source": "@site/src/pages/index.js",
+    "type": "jsx",
+  },
+  {
+    "permalink": "/typescript",
+    "source": "@site/src/pages/typescript.tsx",
+    "type": "jsx",
+  },
+  {
+    "description": "Markdown index page",
+    "frontMatter": {},
+    "permalink": "/hello/",
+    "source": "@site/src/pages/hello/index.md",
+    "title": "Index",
+    "type": "mdx",
+  },
+  {
+    "description": "my mdx page",
+    "frontMatter": {
+      "description": "my mdx page",
+      "title": "mdx page",
+    },
+    "permalink": "/hello/mdxPage",
+    "source": "@site/src/pages/hello/mdxPage.mdx",
+    "title": "mdx page",
+    "type": "mdx",
+  },
+  {
+    "permalink": "/hello/translatedJs",
+    "source": "@site/src/pages/hello/translatedJs.js",
+    "type": "jsx",
+  },
+  {
+    "description": "translated markdown page",
+    "frontMatter": {},
+    "permalink": "/hello/translatedMd",
+    "source": "@site/src/pages/hello/translatedMd.md",
+    "title": undefined,
+    "type": "mdx",
+  },
+  {
+    "permalink": "/hello/world",
+    "source": "@site/src/pages/hello/world.js",
+    "type": "jsx",
+  },
+]
+`;
+
+exports[`docusaurus-plugin-content-pages loads simple pages with french translations 1`] = `
+[
+  {
+    "permalink": "/",
+    "source": "@site/src/pages/index.js",
+    "type": "jsx",
+  },
+  {
+    "permalink": "/typescript",
+    "source": "@site/src/pages/typescript.tsx",
+    "type": "jsx",
+  },
+  {
+    "description": "Markdown index page",
+    "frontMatter": {},
+    "permalink": "/hello/",
+    "source": "@site/src/pages/hello/index.md",
+    "title": "Index",
+    "type": "mdx",
+  },
+  {
+    "description": "my mdx page",
+    "frontMatter": {
+      "description": "my mdx page",
+      "title": "mdx page",
+    },
+    "permalink": "/hello/mdxPage",
+    "source": "@site/src/pages/hello/mdxPage.mdx",
+    "title": "mdx page",
+    "type": "mdx",
+  },
+  {
+    "permalink": "/hello/translatedJs",
+    "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedJs.js",
+    "type": "jsx",
+  },
+  {
+    "description": "translated markdown page (fr)",
+    "frontMatter": {},
+    "permalink": "/hello/translatedMd",
+    "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedMd.md",
+    "title": undefined,
+    "type": "mdx",
+  },
+  {
+    "permalink": "/hello/world",
+    "source": "@site/src/pages/hello/world.js",
+    "type": "jsx",
+  },
+]
+`;

@@ -92,8 +92,7 @@ export async function writeRedirectFile(
         'The redirect plugin is not supposed to override existing files.',
       );
     }
-    await fs.ensureDir(path.dirname(file.fileAbsolutePath));
-    await fs.writeFile(
+    await fs.outputFile(
       file.fileAbsolutePath,
       file.fileContent,
       // Hard security to prevent file overrides

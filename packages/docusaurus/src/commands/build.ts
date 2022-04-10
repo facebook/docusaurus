@@ -28,7 +28,7 @@ import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
 
-export default async function build(
+export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   // When running build, we force terminate the process to prevent async
@@ -61,7 +61,8 @@ export default async function build(
       throw err;
     }
   }
-  const context = await loadContext(siteDir, {
+  const context = await loadContext({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale: cliOptions.locale,
@@ -79,7 +80,7 @@ export default async function build(
 
   // We need the default locale to always be the 1st in the list. If we build it
   // last, it would "erase" the localized sites built in sub-folders
-  const orderedLocales: string[] = [
+  const orderedLocales: [string, ...string[]] = [
     i18n.defaultLocale,
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
@@ -89,7 +90,7 @@ export default async function build(
       orderedLocales.indexOf(locale) === orderedLocales.length - 1;
     return tryToBuildLocale({locale, isLastLocale});
   });
-  return results[0];
+  return results[0]!;
 }
 
 async function buildLocale({
@@ -109,7 +110,8 @@ async function buildLocale({
   process.env.NODE_ENV = 'production';
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  const props: Props = await load(siteDir, {
+  const props: Props = await load({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale,
@@ -146,7 +148,7 @@ async function buildLocale({
     },
   );
 
-  const allCollectedLinks: Record<string, string[]> = {};
+  const allCollectedLinks: {[location: string]: string[]} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,
@@ -174,7 +176,10 @@ async function buildLocale({
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
+      clientConfig = applyConfigurePostCss(
+        configurePostCss.bind(plugin),
+        clientConfig,
+      );
     }
 
     if (configureWebpack) {

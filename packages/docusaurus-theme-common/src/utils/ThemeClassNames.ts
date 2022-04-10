@@ -5,10 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// These class names are used to style page layouts in Docusaurus
-// Those are meant to be targeted by user-provided custom CSS selectors
 // Please do not modify the classnames! This is a breaking change, and annoying
 // for users!
+
+/**
+ * These class names are used to style page layouts in Docusaurus, meant to be
+ * targeted by user-provided custom CSS selectors.
+ */
 export const ThemeClassNames = {
   page: {
     blogListPage: 'blog-list-page',
@@ -17,8 +20,8 @@ export const ThemeClassNames = {
     blogTagPostListPage: 'blog-tags-post-list-page',
 
     docsDocPage: 'docs-doc-page',
-    docsTagsListPage: 'docs-tags-list-page', // List of tags
-    docsTagDocListPage: 'docs-tags-doc-list-page', // Docs for a tag
+    docsTagsListPage: 'docs-tags-list-page',
+    docsTagDocListPage: 'docs-tags-doc-list-page',
 
     mdxPage: 'mdx-page',
   },
@@ -29,8 +32,9 @@ export const ThemeClassNames = {
     mdxPages: 'mdx-wrapper',
   },
 
-  // /!\ Please keep the naming convention consistent!
-  // Something like: "theme-{blog,doc,version,page}?-<suffix>"
+  /**
+   * Follows the naming convention "theme-{blog,doc,version,page}?-<suffix>"
+   */
   common: {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',

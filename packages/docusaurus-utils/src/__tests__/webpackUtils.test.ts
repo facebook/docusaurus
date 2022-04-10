@@ -8,7 +8,7 @@
 import {getFileLoaderUtils} from '../webpackUtils';
 
 describe('getFileLoaderUtils()', () => {
-  test('plugin svgo/removeViewBox and removeTitle should be disabled', () => {
+  it('plugin svgo/removeViewBox and removeTitle should be disabled', () => {
     const {oneOf} = getFileLoaderUtils().rules.svg();
     expect(oneOf[0].use).toContainEqual(
       expect.objectContaining({

@@ -16,12 +16,11 @@ import Loadable from 'react-loadable';
 import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
-import routes from '@generated/routes';
 import preload from './preload';
 import App from './App';
 import {
   createStatefulLinksCollector,
-  ProvideLinksCollector,
+  LinksCollectorProvider,
 } from './LinksCollector';
 import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
@@ -55,7 +54,7 @@ export default async function render(
 
     if (isNotDefinedErrorRegex.test((err as Error).message)) {
       logger.info`It looks like you are using code that should run on the client-side only.
-To get around it, try using code=${'<BrowserOnly>'} (path=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (path=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
+To get around it, try using code=${'<BrowserOnly>'} (url=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (url=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
 It might also require to wrap your client code in code=${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
     }
 
@@ -75,20 +74,22 @@ async function doRender(locals: Locals & {path: string}) {
     ssrTemplate,
     noIndex,
   } = locals;
-  const location = routesLocation[locals.path];
-  await preload(routes, location);
+  const location = routesLocation[locals.path]!;
+  await preload(location);
   const modules = new Set<string>();
-  const context = {};
+  const routerContext = {};
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
+    // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
+      {/* @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165 */}
       <HelmetProvider context={helmetContext}>
-        <StaticRouter location={location} context={context}>
-          <ProvideLinksCollector linksCollector={linksCollector}>
+        <StaticRouter location={location} context={routerContext}>
+          <LinksCollectorProvider linksCollector={linksCollector}>
             <App />
-          </ProvideLinksCollector>
+          </LinksCollectorProvider>
         </StaticRouter>
       </HelmetProvider>
     </Loadable.Capture>,
@@ -116,14 +117,14 @@ async function doRender(locals: Locals & {path: string}) {
   // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map((b) => b.file);
-  const scripts = (bundles.js || []).map((b) => b.file);
+  const stylesheets = (bundles.css ?? []).map((b) => b.file);
+  const scripts = (bundles.js ?? []).map((b) => b.file);
 
   const renderedHtml = renderSSRTemplate(ssrTemplate, {
     appHtml,
     baseUrl,
-    htmlAttributes: htmlAttributes || '',
-    bodyAttributes: bodyAttributes || '',
+    htmlAttributes,
+    bodyAttributes,
     headTags,
     preBodyTags,
     postBodyTags,

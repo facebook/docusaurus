@@ -5,10 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import normalizeLocation from '../normalizeLocation';
 
 describe('normalizeLocation', () => {
-  test('rewrite locations with index.html', () => {
+  it('rewrites locations with index.html', () => {
+    expect(
+      normalizeLocation({
+        pathname: '/index.html',
+      }),
+    ).toEqual({
+      pathname: '/',
+    });
+
     expect(
       normalizeLocation({
         pathname: '/docs/introduction/index.html',
@@ -34,7 +43,7 @@ describe('normalizeLocation', () => {
     });
   });
 
-  test('untouched pathnames', () => {
+  it('leaves pathnames untouched', () => {
     const replaceMock = jest.spyOn(String.prototype, 'replace');
 
     expect(

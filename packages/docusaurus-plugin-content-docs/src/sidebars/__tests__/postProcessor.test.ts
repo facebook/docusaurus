@@ -8,7 +8,7 @@
 import {postProcessSidebars} from '../postProcessor';
 
 describe('postProcess', () => {
-  test('transforms category without subitems', () => {
+  it('transforms category without subitems', () => {
     const processedSidebar = postProcessSidebars(
       {
         sidebar: [
@@ -34,26 +34,11 @@ describe('postProcess', () => {
       },
       {
         sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
-        version: {versionPath: 'version'},
+        version: {path: 'version'},
       },
     );
 
-    expect(processedSidebar).toMatchInlineSnapshot(`
-      Object {
-        "sidebar": Array [
-          Object {
-            "href": "version/generated/permalink",
-            "label": "Category",
-            "type": "link",
-          },
-          Object {
-            "id": "doc ID",
-            "label": "Category 2",
-            "type": "doc",
-          },
-        ],
-      }
-    `);
+    expect(processedSidebar).toMatchSnapshot();
 
     expect(() => {
       postProcessSidebars(
@@ -68,7 +53,7 @@ describe('postProcess', () => {
         },
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       );
     }).toThrowErrorMatchingInlineSnapshot(
@@ -76,7 +61,7 @@ describe('postProcess', () => {
     );
   });
 
-  test('corrects collapsed state inconsistencies', () => {
+  it('corrects collapsed state inconsistencies', () => {
     expect(
       postProcessSidebars(
         {
@@ -93,28 +78,10 @@ describe('postProcess', () => {
 
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "sidebar": Array [
-          Object {
-            "collapsed": false,
-            "collapsible": false,
-            "items": Array [
-              Object {
-                "id": "foo",
-                "type": "doc",
-              },
-            ],
-            "label": "Category",
-            "link": undefined,
-            "type": "category",
-          },
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
 
     expect(
       postProcessSidebars(
@@ -131,28 +98,10 @@ describe('postProcess', () => {
 
         {
           sidebarOptions: {sidebarCollapsed: false, sidebarCollapsible: false},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "sidebar": Array [
-          Object {
-            "collapsed": false,
-            "collapsible": false,
-            "items": Array [
-              Object {
-                "id": "foo",
-                "type": "doc",
-              },
-            ],
-            "label": "Category",
-            "link": undefined,
-            "type": "category",
-          },
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
 
     expect(
       postProcessSidebars(
@@ -168,27 +117,9 @@ describe('postProcess', () => {
 
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: false},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "sidebar": Array [
-          Object {
-            "collapsed": false,
-            "collapsible": false,
-            "items": Array [
-              Object {
-                "id": "foo",
-                "type": "doc",
-              },
-            ],
-            "label": "Category",
-            "link": undefined,
-            "type": "category",
-          },
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
 });

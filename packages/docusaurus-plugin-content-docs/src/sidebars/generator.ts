@@ -14,14 +14,12 @@ import type {
   SidebarItemCategoryLinkConfig,
 } from './types';
 import _ from 'lodash';
-import {addTrailingSlash, posixPath} from '@docusaurus/utils';
+import {addTrailingSlash} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
 import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
 
 const BreadcrumbSeparator = '/';
-// To avoid possible name clashes with a folder of the same name as the ID
-const docIdPrefix = '$doc$/';
 
 // Just an alias to the make code more explicit
 function getLocalDocId(docId: string): string {
@@ -31,16 +29,20 @@ function getLocalDocId(docId: string): string {
 export const CategoryMetadataFilenameBase = '_category_';
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
 
-type WithPosition<T> = T & {position?: number};
+type WithPosition<T> = T & {
+  position?: number;
+  /** The source is the file/folder name */
+  source?: string;
+};
 
 /**
  * A representation of the fs structure. For each object entry:
  * If it's a folder, the key is the directory name, and value is the directory
- * content; If it's a doc file, the key is the doc id prefixed with '$doc$/',
- * and value is null
+ * content; If it's a doc file, the key is the doc's source file name, and value
+ * is the doc ID
  */
 type Dir = {
-  [item: string]: Dir | null;
+  [item: string]: Dir | string;
 };
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
@@ -58,9 +60,9 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
     const doc = findDoc(docId);
     if (!doc) {
       throw new Error(
-        `Can't find any doc with id=${docId}.\nAvailable doc ids:\n- ${Object.keys(
-          docsById,
-        ).join('\n- ')}`,
+        `Can't find any doc with ID ${docId}.
+Available doc IDs:
+- ${Object.keys(docsById).join('\n- ')}`,
       );
     }
     return doc;
@@ -108,14 +110,16 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
     const treeRoot: Dir = {};
     docs.forEach((doc) => {
       const breadcrumb = getRelativeBreadcrumb(doc);
-      let currentDir = treeRoot; // We walk down the file's path to generate the fs structure
+      // We walk down the file's path to generate the fs structure
+      let currentDir = treeRoot;
       breadcrumb.forEach((dir) => {
         if (typeof currentDir[dir] === 'undefined') {
           currentDir[dir] = {}; // Create new folder.
         }
-        currentDir = currentDir[dir]!; // Go into the subdirectory.
+        currentDir = currentDir[dir] as Dir; // Go into the subdirectory.
       });
-      currentDir[`${docIdPrefix}${doc.id}`] = null; // We've walked through the file path. Register the file in this directory.
+      // We've walked through the path. Register the file in this directory.
+      currentDir[path.basename(doc.source)] = doc.id;
     });
     return treeRoot;
   }
@@ -126,8 +130,12 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
    */
   function generateSidebar(
     fsModel: Dir,
-  ): Promise<WithPosition<NormalizedSidebarItem>[]> {
-    function createDocItem(id: string): WithPosition<SidebarItemDoc> {
+  ): WithPosition<NormalizedSidebarItem>[] {
+    function createDocItem(
+      id: string,
+      fullPath: string,
+      fileName: string,
+    ): WithPosition<SidebarItemDoc> {
       const {
         sidebarPosition: position,
         frontMatter: {sidebar_label: label, sidebar_class_name: className},
@@ -136,25 +144,22 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         type: 'doc',
         id,
         position,
+        source: fileName,
         // We don't want these fields to magically appear in the generated
         // sidebar
         ...(label !== undefined && {label}),
         ...(className !== undefined && {className}),
       };
     }
-    async function createCategoryItem(
+    function createCategoryItem(
       dir: Dir,
       fullPath: string,
       folderName: string,
-    ): Promise<WithPosition<NormalizedSidebarItemCategory>> {
+    ): WithPosition<NormalizedSidebarItemCategory> {
       const categoryMetadata =
-        categoriesMetadata[posixPath(path.join(autogenDir, fullPath))];
-      const className = categoryMetadata?.className;
-      const {filename, numberPrefix} = numberPrefixParser(folderName);
-      const allItems = await Promise.all(
-        Object.entries(dir).map(([key, content]) =>
-          dirToItem(content, key, `${fullPath}/${key}`),
-        ),
+        categoriesMetadata[path.posix.join(autogenDir, fullPath)];
+      const allItems = Object.entries(dir).map(([key, content]) =>
+        dirToItem(content, key, `${fullPath}/${key}`),
       );
 
       // Try to match a doc inside the category folder,
@@ -176,59 +181,83 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         });
       }
 
-      function getCategoryLinkedDocId(): string | undefined {
-        const link = categoryMetadata?.link;
-        if (link !== undefined) {
-          if (link && link.type === 'doc') {
-            return findDocByLocalId(link.id)?.id || getDoc(link.id).id;
+      // In addition to the ID, this function also retrieves metadata of the
+      // linked doc that could be used as fallback values for category metadata
+      function getCategoryLinkedDocMetadata():
+        | {
+            id: string;
+            position?: number;
+            label?: string;
+            customProps?: {[key: string]: unknown};
+            className?: string;
           }
+        | undefined {
+        const link = categoryMetadata?.link;
+        if (link !== undefined && link?.type !== 'doc') {
           // If a link is explicitly specified, we won't apply conventions
           return undefined;
         }
-        // Apply default convention to pick index.md, README.md or
-        // <categoryName>.md as the category doc
-        return findConventionalCategoryDocLink()?.id;
+        const id = link
+          ? findDocByLocalId(link.id)?.id ?? getDoc(link.id).id
+          : findConventionalCategoryDocLink()?.id;
+        if (!id) {
+          return undefined;
+        }
+        const doc = getDoc(id);
+        return {
+          id,
+          position: doc.sidebarPosition,
+          label: doc.frontMatter.sidebar_label ?? doc.title,
+          customProps: doc.frontMatter.sidebar_custom_props,
+          className: doc.frontMatter.sidebar_class_name,
+        };
       }
-
-      const categoryLinkedDocId = getCategoryLinkedDocId();
-
+      const categoryLinkedDoc = getCategoryLinkedDocMetadata();
       const link: SidebarItemCategoryLinkConfig | null | undefined =
-        categoryLinkedDocId
+        categoryLinkedDoc
           ? {
               type: 'doc',
-              id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
+              id: categoryLinkedDoc.id, // We "remap" a potentially "local id" to a "qualified id"
             }
           : categoryMetadata?.link;
-
       // If a doc is linked, remove it from the category subItems
       const items = allItems.filter(
-        (item) => !(item.type === 'doc' && item.id === categoryLinkedDocId),
+        (item) => !(item.type === 'doc' && item.id === categoryLinkedDoc?.id),
       );
+
+      const className =
+        categoryMetadata?.className ?? categoryLinkedDoc?.className;
+      const customProps =
+        categoryMetadata?.customProps ?? categoryLinkedDoc?.customProps;
+      const {filename, numberPrefix} = numberPrefixParser(folderName);
 
       return {
         type: 'category',
-        label: categoryMetadata?.label ?? filename,
+        label: categoryMetadata?.label ?? categoryLinkedDoc?.label ?? filename,
         collapsible: categoryMetadata?.collapsible,
         collapsed: categoryMetadata?.collapsed,
-        position: categoryMetadata?.position ?? numberPrefix,
+        position:
+          categoryMetadata?.position ??
+          categoryLinkedDoc?.position ??
+          numberPrefix,
+        source: folderName,
+        ...(customProps !== undefined && {customProps}),
         ...(className !== undefined && {className}),
         items,
         ...(link && {link}),
       };
     }
-    async function dirToItem(
-      dir: Dir | null, // The directory item to be transformed.
-      itemKey: string, // For docs, it's the doc ID; for categories, it's used to generate the next `relativePath`.
+    function dirToItem(
+      dir: Dir | string, // The directory item to be transformed.
+      itemKey: string, // File/folder name; for categories, it's used to generate the next `relativePath`.
       fullPath: string, // `dir`'s full path relative to the autogen dir.
-    ): Promise<WithPosition<NormalizedSidebarItem>> {
-      return dir
+    ): WithPosition<NormalizedSidebarItem> {
+      return typeof dir === 'object'
         ? createCategoryItem(dir, fullPath, itemKey)
-        : createDocItem(itemKey.substring(docIdPrefix.length));
+        : createDocItem(dir, fullPath, itemKey);
     }
-    return Promise.all(
-      Object.entries(fsModel).map(([key, content]) =>
-        dirToItem(content, key, key),
-      ),
+    return Object.entries(fsModel).map(([key, content]) =>
+      dirToItem(content, key, key),
     );
   }
 
@@ -248,16 +277,16 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       }
       return item;
     });
-    const sortedSidebarItems = _.sortBy(
-      processedSidebarItems,
-      (item) => item.position,
-    );
-    return sortedSidebarItems.map(({position, ...item}) => item);
+    const sortedSidebarItems = _.sortBy(processedSidebarItems, [
+      'position',
+      'source',
+    ]);
+    return sortedSidebarItems.map(({position, source, ...item}) => item);
   }
   // TODO: the whole code is designed for pipeline operator
   const docs = getAutogenDocs();
   const fsModel = treeify(docs);
-  const sidebarWithPosition = await generateSidebar(fsModel);
+  const sidebarWithPosition = generateSidebar(fsModel);
   const sortedSidebar = sortItems(sidebarWithPosition);
   return sortedSidebar;
 };

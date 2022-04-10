@@ -11,6 +11,7 @@ import {
   normalizeUrl,
   docuHash,
   aliasedSitePath,
+  getContentPathList,
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
@@ -19,7 +20,7 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import {loadSidebars} from './sidebars';
+import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
   readVersionDocs,
@@ -27,17 +28,13 @@ import {
   addDocNavigation,
   getMainDocId,
 } from './docs';
-import {getDocsDirPaths, readVersionsMetadata} from './versions';
-
+import {readVersionsMetadata} from './versions';
 import type {
   LoadedContent,
   SourceToPermalink,
-  DocMetadataBase,
-  VersionMetadata,
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
-  DocFrontMatter,
 } from './types';
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
@@ -49,8 +46,12 @@ import {
 } from './translations';
 import logger from '@docusaurus/logger';
 import {createVersionRoutes} from './routes';
-import type {PluginOptions} from '@docusaurus/plugin-content-docs';
-import type {GlobalPluginData} from '@docusaurus/plugin-content-docs/client';
+import type {
+  PluginOptions,
+  DocMetadataBase,
+  VersionMetadata,
+  DocFrontMatter,
+} from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 
@@ -59,10 +60,12 @@ export default async function pluginContentDocs(
   options: PluginOptions,
 ): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
+  // Mutate options to resolve sidebar path according to siteDir
+  options.sidebarPath = resolveSidebarPathOption(siteDir, options.sidebarPath);
 
   const versionsMetadata = await readVersionsMetadata({context, options});
 
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -92,16 +95,11 @@ export default async function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersionCommand(version, siteDir, pluginId, {
-            path: options.path,
-            sidebarPath: options.sidebarPath,
-            sidebarCollapsed: options.sidebarCollapsed,
-            sidebarCollapsible: options.sidebarCollapsible,
-          });
+          cliDocsVersionCommand(version, options, context);
         });
     },
 
-    async getTranslationFiles({content}) {
+    getTranslationFiles({content}) {
       return getLoadedContentTranslationFiles(content);
     },
 
@@ -109,7 +107,7 @@ export default async function pluginContentDocs(
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
         const result = [
           ...options.include.flatMap((pattern) =>
-            getDocsDirPaths(version).map(
+            getContentPathList(version).map(
               (docsDirPath) => `${docsDirPath}/${pattern}`,
             ),
           ),
@@ -233,7 +231,7 @@ export default async function pluginContentDocs(
         ),
       );
 
-      setGlobalData<GlobalPluginData>({
+      setGlobalData({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
         versions: loadedVersions.map(toGlobalDataVersion),
         breadcrumbs,
@@ -272,7 +270,7 @@ export default async function pluginContentDocs(
       };
 
       function createMDXLoaderRule(): RuleSetRule {
-        const contentDirs = versionsMetadata.flatMap(getDocsDirPaths);
+        const contentDirs = versionsMetadata.flatMap(getContentPathList);
         return {
           test: /\.mdx?$/i,
           include: contentDirs

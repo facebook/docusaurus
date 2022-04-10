@@ -6,7 +6,10 @@
  */
 
 import {Joi} from '@docusaurus/utils-validation';
-import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
+import type {
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
 
 export const DEFAULT_CONFIG = {
   // enabled by default, as it makes sense in most cases
@@ -45,9 +48,6 @@ export const Schema = Joi.object({
 export function validateThemeConfig({
   validate,
   themeConfig,
-}: {
-  validate: Validate<ThemeConfig>;
-  themeConfig: ThemeConfig;
-}): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   return validate(Schema, themeConfig);
 }

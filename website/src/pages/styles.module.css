@@ -106,6 +106,7 @@
   float: right;
   margin-top: 20px;
   padding: 0 20px 20px;
+  height: auto;
 }
 
 .indexCtas {
@@ -171,17 +172,20 @@
   }
 }
 
-.tweetsSection {
-  margin-top: -2rem;
-}
-
-.tweetsSection > :global(.col) {
-  padding-top: 2rem;
-  margin-top: -2rem;
-}
-
 .tweetsSection > :global(.col) > * {
-  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 996px) {
+  .tweetsSection > :global(.col:last-child) > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 997px) {
+  .tweetsSection > :global(.col) > *:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* Used to test CSS insertion order */

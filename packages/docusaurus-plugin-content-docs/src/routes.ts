@@ -7,13 +7,9 @@
 
 import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
+import type {LoadedVersion, VersionTag} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
-  LoadedVersion,
-  VersionTag,
-} from './types';
-import type {
-  PropCategoryGeneratedIndex,
   PropTagsListPage,
 } from '@docusaurus/plugin-content-docs';
 import {toVersionMetadataProp, toTagDocListProp} from './props';
@@ -36,34 +32,11 @@ async function createCategoryGeneratedIndexRoutes({
   async function createCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
-    const {
-      sidebar,
-      title,
-      description,
-      slug,
-      permalink,
-      previous,
-      next,
-      image,
-      keywords,
-    } = categoryGeneratedIndex;
+    const {sidebar, ...prop} = categoryGeneratedIndex;
 
     const propFileName = slugs.slug(
-      `${version.versionPath}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
+      `${version.path}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
     );
-
-    const prop: PropCategoryGeneratedIndex = {
-      title,
-      description,
-      slug,
-      permalink,
-      image,
-      keywords,
-      navigation: {
-        previous,
-        next,
-      },
-    };
 
     const propData = await actions.createData(
       `${docuHash(`category/${propFileName}`)}.json`,
@@ -71,7 +44,7 @@ async function createCategoryGeneratedIndexRoutes({
     );
 
     return {
-      path: permalink,
+      path: categoryGeneratedIndex.permalink,
       component: docCategoryGeneratedIndexComponent,
       exact: true,
       modules: {
@@ -142,10 +115,10 @@ async function createTagsRoutes({
   const tags = Object.values(getVersionTags(version.docs));
 
   async function createTagsListPage(): Promise<RouteConfig> {
-    const tagsProp: PropTagsListPage['tags'] = tags.map((tagValue) => ({
-      name: tagValue.name,
-      permalink: tagValue.permalink,
-      count: tagValue.docIds.length,
+    const tagsProp: PropTagsListPage['tags'] = tags.map((tag) => ({
+      label: tag.label,
+      permalink: tag.permalink,
+      count: tag.docIds.length,
     }));
 
     const tagsPropPath = await actions.createData(
@@ -241,7 +214,7 @@ export async function createVersionRoutes({
     }
 
     actions.addRoute({
-      path: version.versionPath,
+      path: version.path,
       // allow matching /docs/* as well
       exact: false,
       // main docs component (DocPage)

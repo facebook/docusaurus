@@ -19,5 +19,5 @@ export const Components = {
 };
 
 export async function createTempSiteDir(): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), 'docusaurus-test-swizzle-sitedir'));
+  return fs.mkdtemp(path.join(os.tmpdir(), 'docusaurus-test-swizzle-siteDir'));
 }

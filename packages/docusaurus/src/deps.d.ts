@@ -17,8 +17,8 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
 
   export type Manifest = {
     entrypoints: string[];
-    origins: Record<string, number[]>;
-    assets: Array<Record<string, Asset[]>>;
+    origins: {[key: string]: number[]};
+    assets: Array<{[key: string]: Asset[]}>;
   };
 
   export function getBundles(
@@ -26,9 +26,9 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
     modulesToBeLoaded: string[],
   ): {js: Asset[]; css: Asset[]};
 
-  interface ReactLoadableSSRAddon {
+  type ReactLoadableSSRAddon = {
     new (props: {filename: string});
-  }
+  };
 
   const plugin: ReactLoadableSSRAddon;
   export default plugin;
@@ -36,7 +36,7 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
 
 declare module '@slorber/static-site-generator-webpack-plugin' {
   export type Locals = {
-    routesLocation: Record<string, string>;
+    routesLocation: {[filePath: string]: string};
     generatedFilesDir: string;
     headTags: string;
     preBodyTags: string;
@@ -47,22 +47,22 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     noIndex: boolean;
   };
 
-  interface StaticSiteGeneratorPlugin {
+  type StaticSiteGeneratorPlugin = {
     new (props: {
       entry: string;
       locals: Locals;
       paths: string[];
       preferFoldersOutput?: boolean;
-      globals: Record<string, unknown>;
+      globals: {[key: string]: unknown};
     });
-  }
+  };
 
   const plugin: StaticSiteGeneratorPlugin;
   export default plugin;
 }
 
 declare module 'webpack/lib/HotModuleReplacementPlugin' {
-  import {HotModuleReplacementPlugin} from 'webpack';
+  import type {HotModuleReplacementPlugin} from 'webpack';
 
   export default HotModuleReplacementPlugin;
 }

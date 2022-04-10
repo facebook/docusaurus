@@ -8,9 +8,70 @@
 import path from 'path';
 import shell from 'shelljs';
 
+/** Custom error thrown when git is not found in `PATH`. */
 export class GitNotFoundError extends Error {}
 
-export const getFileCommitDate = (
+/** Custom error thrown when the current file is not tracked by git. */
+export class FileNotTrackedError extends Error {}
+
+/**
+ * Fetches the git history of a file and returns a relevant commit date.
+ * It gets the commit date instead of author date so that amended commits
+ * can have their dates updated.
+ *
+ * @throws {GitNotFoundError} If git is not found in `PATH`.
+ * @throws {FileNotTrackedError} If the current file is not tracked by git.
+ * @throws Also throws when `git log` exited with non-zero, or when it outputs
+ * unexpected text.
+ */
+export function getFileCommitDate(
+  /** Absolute path to the file. */
+  file: string,
+  args: {
+    /**
+     * `"oldest"` is the commit that added the file, following renames;
+     * `"newest"` is the last commit that edited the file.
+     */
+    age?: 'oldest' | 'newest';
+    /** Use `includeAuthor: true` to get the author information as well. */
+    includeAuthor?: false;
+  },
+): {
+  /** Relevant commit date. */
+  date: Date;
+  /** Timestamp in **seconds**, as returned from git. */
+  timestamp: number;
+};
+/**
+ * Fetches the git history of a file and returns a relevant commit date.
+ * It gets the commit date instead of author date so that amended commits
+ * can have their dates updated.
+ *
+ * @throws {GitNotFoundError} If git is not found in `PATH`.
+ * @throws {FileNotTrackedError} If the current file is not tracked by git.
+ * @throws Also throws when `git log` exited with non-zero, or when it outputs
+ * unexpected text.
+ */
+export function getFileCommitDate(
+  /** Absolute path to the file. */
+  file: string,
+  args: {
+    /**
+     * `"oldest"` is the commit that added the file, following renames;
+     * `"newest"` is the last commit that edited the file.
+     */
+    age?: 'oldest' | 'newest';
+    includeAuthor: true;
+  },
+): {
+  /** Relevant commit date. */
+  date: Date;
+  /** Timestamp in **seconds**, as returned from git. */
+  timestamp: number;
+  /** The author's name, as returned from git. */
+  author: string;
+};
+export function getFileCommitDate(
   file: string,
   {
     age = 'oldest',
@@ -23,7 +84,7 @@ export const getFileCommitDate = (
   date: Date;
   timestamp: number;
   author?: string;
-} => {
+} {
   if (!shell.which('git')) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
@@ -35,9 +96,6 @@ export const getFileCommitDate = (
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
     );
   }
-
-  const fileBasename = path.basename(file);
-  const fileDirname = path.dirname(file);
 
   let formatArg = '--format=%ct';
   if (includeAuthor) {
@@ -52,10 +110,10 @@ export const getFileCommitDate = (
   }
 
   const result = shell.exec(
-    `git log ${extraArgs} ${formatArg} -- "${fileBasename}"`,
+    `git log ${extraArgs} ${formatArg} -- "${path.basename(file)}"`,
     {
       // cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-      cwd: fileDirname,
+      cwd: path.dirname(file),
       silent: true,
     },
   );
@@ -70,24 +128,26 @@ export const getFileCommitDate = (
   }
 
   const output = result.stdout.trim();
+
+  if (!output) {
+    throw new FileNotTrackedError(
+      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
+    );
+  }
+
   const match = output.match(regex);
 
-  if (
-    !match ||
-    !match.groups ||
-    !match.groups.timestamp ||
-    (includeAuthor && !match.groups.author)
-  ) {
+  if (!match) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with unexpected output: ${output}`,
     );
   }
 
-  const timestamp = Number(match.groups.timestamp);
+  const timestamp = Number(match.groups!.timestamp);
   const date = new Date(timestamp * 1000);
 
   if (includeAuthor) {
-    return {date, timestamp, author: match.groups.author};
+    return {date, timestamp, author: match.groups!.author!};
   }
   return {date, timestamp};
-};
+}

@@ -7,13 +7,12 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {MDXProvider} from '@mdx-js/react';
 import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {usePluralForm} from '@docusaurus/theme-common';
 import {blogPostContainerID} from '@docusaurus/utils-common';
-import MDXComponents from '@theme/MDXComponents';
+import MDXContent from '@theme/MDXContent';
 import EditThisPage from '@theme/EditThisPage';
 import type {Props} from '@theme/BlogPostItem';
 
@@ -108,14 +107,15 @@ export default function BlogPostItem(props: Props): JSX.Element {
         id={isBlogPostPage ? blogPostContainerID : undefined}
         className="markdown"
         itemProp="articleBody">
-        <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+        <MDXContent>{children}</MDXContent>
       </div>
 
       {(tagsExists || truncated) && (
         <footer
-          className={clsx('row docusaurus-mt-lg', {
-            [styles.blogPostDetailsFull]: isBlogPostPage,
-          })}>
+          className={clsx(
+            'row docusaurus-mt-lg',
+            isBlogPostPage && styles.blogPostDetailsFull,
+          )}>
           {tagsExists && (
             <div className={clsx('col', {'col--9': truncatedPost})}>
               <TagsListInline tags={tags} />

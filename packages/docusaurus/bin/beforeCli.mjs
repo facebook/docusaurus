@@ -72,8 +72,7 @@ export default async function beforeCli() {
    * @param {import('update-notifier').UpdateInfo} update
    */
   function ignoreUpdate(update) {
-    const isCanaryRelease =
-      update && update.current && update.current.startsWith('0.0.0');
+    const isCanaryRelease = update?.current?.startsWith('0.0.0');
     return isCanaryRelease;
   }
 
@@ -98,9 +97,7 @@ export default async function beforeCli() {
       .filter((p) => p.startsWith('@docusaurus'))
       .map((p) => p.concat('@latest'))
       .join(' ');
-    const isYarnUsed = await fs.pathExists(
-      path.resolve(process.cwd(), 'yarn.lock'),
-    );
+    const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
     const upgradeCommand = isYarnUsed
       ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
       : `npm i ${siteDocusaurusPackagesForUpdate}`;

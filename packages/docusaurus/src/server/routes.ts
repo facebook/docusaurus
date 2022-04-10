@@ -6,31 +6,93 @@
  */
 
 import {
-  genChunkName,
+  docuHash,
   normalizeUrl,
-  removeSuffix,
   simpleHash,
   escapePath,
+  reportMessage,
 } from '@docusaurus/utils';
-import {stringify} from 'querystring';
+import _ from 'lodash';
+import query from 'querystring';
+import {getAllFinalRoutes} from './utils';
 import type {
-  ChunkRegistry,
   Module,
   RouteConfig,
-  RouteModule,
+  RouteModules,
   ChunkNames,
+  RouteChunkNames,
+  ReportingSeverity,
 } from '@docusaurus/types';
 
-type RegistryMap = {
-  [chunkName: string]: ChunkRegistry;
+type LoadedRoutes = {
+  /** Serialized routes config that can be directly emitted into temp file. */
+  routesConfig: string;
+  /** @see {ChunkNames} */
+  routesChunkNames: RouteChunkNames;
+  /**
+   * A map from chunk name to module paths. Module paths would have backslash
+   * escaped already, so they can be directly printed.
+   */
+  registry: {
+    [chunkName: string]: string;
+  };
+  /**
+   * Collect all page paths for injecting it later in the plugin lifecycle.
+   * This is useful for plugins like sitemaps, redirects etc... Only collects
+   * "actual" pages, i.e. those without subroutes, because if a route has
+   * subroutes, it is probably a wrapper.
+   */
+  routesPaths: string[];
 };
 
+/** Indents every line of `str` by one level. */
 function indent(str: string) {
-  const spaces = '  ';
-  return `${spaces}${str.replace(/\n/g, `\n${spaces}`)}`;
+  return `  ${str.replace(/\n/g, `\n  `)}`;
 }
 
-const createRouteCodeString = ({
+const chunkNameCache = new Map<string, string>();
+
+/**
+ * Generates a unique chunk name that can be used in the chunk registry.
+ *
+ * @param modulePath A path to generate chunk name from. The actual value has no
+ * semantic significance.
+ * @param prefix A prefix to append to the chunk name, to avoid name clash.
+ * @param preferredName Chunk names default to `modulePath`, and this can supply
+ * a more human-readable name.
+ * @param shortId When `true`, the chunk name would only be a hash without any
+ * other characters. Useful for bundle size. Defaults to `true` in production.
+ */
+export function genChunkName(
+  modulePath: string,
+  prefix?: string,
+  preferredName?: string,
+  shortId: boolean = process.env.NODE_ENV === 'production',
+): string {
+  let chunkName = chunkNameCache.get(modulePath);
+  if (!chunkName) {
+    if (shortId) {
+      chunkName = simpleHash(modulePath, 8);
+    } else {
+      let str = modulePath;
+      if (preferredName) {
+        const shortHash = simpleHash(modulePath, 3);
+        str = `${preferredName}${shortHash}`;
+      }
+      const name = str === '/' ? 'index' : docuHash(str);
+      chunkName = prefix ? `${prefix}---${name}` : name;
+    }
+    chunkNameCache.set(modulePath, chunkName);
+  }
+  return chunkName;
+}
+
+/**
+ * Takes a piece of route config, and serializes it into raw JS code. The shape
+ * is the same as react-router's `RouteConfig`. Formatting is similar to
+ * `JSON.stringify` but without all the quotes.
+ */
+function serializeRouteConfig({
   routePath,
   routeHash,
   exact,
@@ -42,10 +104,10 @@ const createRouteCodeString = ({
   exact?: boolean;
   subroutesCodeStrings?: string[];
   props: {[propName: string]: unknown};
-}) => {
+}) {
   const parts = [
     `path: '${routePath}'`,
-    `component: ComponentCreator('${routePath}','${routeHash}')`,
+    `component: ComponentCreator('${routePath}', '${routeHash}')`,
   ];
 
   if (exact) {
@@ -55,202 +117,215 @@ const createRouteCodeString = ({
   if (subroutesCodeStrings) {
     parts.push(
       `routes: [
-${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
+${indent(subroutesCodeStrings.join(',\n'))}
 ]`,
     );
   }
 
   Object.entries(props).forEach(([propName, propValue]) => {
-    // Figure out how to "unquote" JS attributes that don't need to be quoted
-    // Is this lib reliable? https://github.com/armanozak/should-quote
-    const shouldQuote = true; // TODO
-    const key = shouldQuote ? `'${propName}'` : propName;
+    // Inspired by https://github.com/armanozak/should-quote/blob/main/packages/should-quote/src/lib/should-quote.ts
+    const shouldQuote = ((key: string) => {
+      // Pre-sanitation to prevent injection
+      if (/[.,;:}/\s]/.test(key)) {
+        return true;
+      }
+      try {
+        // If this key can be used in an expression like ({a:0}).a
+        // eslint-disable-next-line no-eval
+        eval(`({${key}:0}).${key}`);
+        return false;
+      } catch {
+        return true;
+      }
+    })(propName);
+    // Escape quotes as well
+    const key = shouldQuote ? JSON.stringify(propName) : propName;
     parts.push(`${key}: ${JSON.stringify(propValue)}`);
   });
 
   return `{
 ${indent(parts.join(',\n'))}
 }`;
-};
-
-const NotFoundRouteCode = `{
-  path: '*',
-  component: ComponentCreator('*')
-}`;
-
-const RoutesImportsCode = [
-  `import React from 'react';`,
-  `import ComponentCreator from '@docusaurus/ComponentCreator';`,
-].join('\n');
-
-function isModule(value: unknown): value is Module {
-  if (typeof value === 'string') {
-    return true;
-  }
-  if (
-    typeof value === 'object' &&
-    // eslint-disable-next-line no-underscore-dangle
-    (value as Record<string, unknown>)?.__import &&
-    (value as Record<string, unknown>)?.path
-  ) {
-    return true;
-  }
-  return false;
 }
 
+const isModule = (value: unknown): value is Module =>
+  typeof value === 'string' ||
+  (typeof value === 'object' &&
+    // eslint-disable-next-line no-underscore-dangle
+    !!(value as {[key: string]: unknown})?.__import);
+
+/**
+ * Takes a {@link Module} (which is nothing more than a path plus some metadata
+ * like query) and returns the string path it represents.
+ */
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {
     return target;
   }
-  const queryStr = target.query ? `?${stringify(target.query)}` : '';
+  const queryStr = target.query ? `?${query.stringify(target.query)}` : '';
   return `${target.path}${queryStr}`;
 }
 
-type LoadedRoutes = {
-  registry: {
-    [chunkName: string]: ChunkRegistry;
-  };
-  routesConfig: string;
-  routesChunkNames: {
-    [routePath: string]: ChunkNames;
-  };
-  routesPaths: string[];
-};
-
-export default async function loadRoutes(
-  pluginsRouteConfigs: RouteConfig[],
-  baseUrl: string,
-): Promise<LoadedRoutes> {
-  const registry: {
-    [chunkName: string]: ChunkRegistry;
-  } = {};
-  const routesPaths: string[] = [normalizeUrl([baseUrl, '404.html'])];
-  const routesChunkNames: {
-    [routePath: string]: ChunkNames;
-  } = {};
-
-  // This is the higher level overview of route code generation.
-  function generateRouteCode(routeConfig: RouteConfig): string {
-    const {
-      path: routePath,
-      component,
-      modules = {},
-      routes: subroutes,
-      exact,
-      priority,
-      ...props
-    } = routeConfig;
-
-    if (typeof routePath !== 'string' || !component) {
-      throw new Error(
-        `Invalid route config: path must be a string and component is required.
-${JSON.stringify(routeConfig)}`,
-      );
-    }
-
-    // Collect all page paths for injecting it later in the plugin lifecycle
-    // This is useful for plugins like sitemaps, redirects etc...
-    // If a route has subroutes, it is not necessarily a valid page path (more
-    // likely to be a wrapper)
-    if (!subroutes) {
-      routesPaths.push(routePath);
-    }
-
-    // We hash the route to generate the key, because 2 routes can conflict with
-    // each others if they have the same path, ex: parent=/docs, child=/docs
-    // see https://github.com/facebook/docusaurus/issues/2917
-    const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
-    const chunkNamesKey = `${routePath}-${routeHash}`;
-    routesChunkNames[chunkNamesKey] = {
-      ...genRouteChunkNames(registry, {component}, 'component', component),
-      ...genRouteChunkNames(registry, modules, 'module', routePath),
-    };
-
-    return createRouteCodeString({
-      routePath: routeConfig.path.replace(/'/g, "\\'"),
-      routeHash,
-      exact,
-      subroutesCodeStrings: subroutes?.map(generateRouteCode),
-      props,
-    });
+/**
+ * Takes a route module (which is a tree of modules), and transforms each module
+ * into a chunk name. It also mutates `res.registry` and registers the loaders
+ * for each chunk.
+ *
+ * @param routeModule One route module to be transformed.
+ * @param prefix Prefix passed to {@link genChunkName}.
+ * @param name Preferred name passed to {@link genChunkName}.
+ * @param res The route structures being loaded.
+ */
+function genChunkNames(
+  routeModule: RouteModules,
+  prefix: string,
+  name: string,
+  res: LoadedRoutes,
+): ChunkNames;
+function genChunkNames(
+  routeModule: RouteModules | RouteModules[] | Module,
+  prefix: string,
+  name: string,
+  res: LoadedRoutes,
+): ChunkNames | ChunkNames[] | string;
+function genChunkNames(
+  routeModule: RouteModules | RouteModules[] | Module,
+  prefix: string,
+  name: string,
+  res: LoadedRoutes,
+): string | ChunkNames | ChunkNames[] {
+  if (isModule(routeModule)) {
+    // This is a leaf node, no need to recurse
+    const modulePath = getModulePath(routeModule);
+    const chunkName = genChunkName(modulePath, prefix, name);
+    res.registry[chunkName] = escapePath(modulePath);
+    return chunkName;
   }
-
-  const routesConfig = `
-${RoutesImportsCode}
-
-export default [
-${indent(`${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},`)}
-${indent(NotFoundRouteCode)}
-];
-`;
-
-  return {
-    registry,
-    routesConfig,
-    routesChunkNames,
-    routesPaths,
-  };
+  if (Array.isArray(routeModule)) {
+    return routeModule.map((val, index) =>
+      genChunkNames(val, `${index}`, name, res),
+    );
+  }
+  return _.mapValues(routeModule, (v, key) => genChunkNames(v, key, name, res));
 }
 
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: Module,
-  prefix?: string,
-  name?: string,
-): string;
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule,
-  prefix?: string,
-  name?: string,
-): ChunkNames;
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule[],
-  prefix?: string,
-  name?: string,
-): ChunkNames[];
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule | RouteModule[] | Module,
-  prefix?: string,
-  name?: string,
-): ChunkNames | ChunkNames[] | string;
-
-function genRouteChunkNames(
-  // TODO instead of passing a mutating the registry, return a registry slice?
-  registry: RegistryMap,
-  value: RouteModule | RouteModule[] | Module | null | undefined,
-  prefix?: string,
-  name?: string,
-): null | string | ChunkNames | ChunkNames[] {
-  if (!value) {
-    return null;
+export function handleDuplicateRoutes(
+  pluginsRouteConfigs: RouteConfig[],
+  onDuplicateRoutes: ReportingSeverity,
+): void {
+  if (onDuplicateRoutes === 'ignore') {
+    return;
   }
+  const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
+    (routeConfig) => routeConfig.path,
+  );
+  const seenRoutes = new Set<string>();
+  const duplicatePaths = allRoutes.filter((route) => {
+    if (seenRoutes.has(route)) {
+      return true;
+    }
+    seenRoutes.add(route);
+    return false;
+  });
+  if (duplicatePaths.length > 0) {
+    const finalMessage = `Duplicate routes found!
+${duplicatePaths
+  .map(
+    (duplicateRoute) =>
+      `- Attempting to create page at ${duplicateRoute}, but a page already exists at this route.`,
+  )
+  .join('\n')}
+This could lead to non-deterministic routing behavior.`;
+    reportMessage(finalMessage, onDuplicateRoutes);
+  }
+}
 
-  if (Array.isArray(value)) {
-    return value.map((val, index) =>
-      genRouteChunkNames(registry, val, `${index}`, name),
+/**
+ * This is the higher level overview of route code generation. For each route
+ * config node, it returns the node's serialized form, and mutates `registry`,
+ * `routesPaths`, and `routesChunkNames` accordingly.
+ */
+function genRouteCode(routeConfig: RouteConfig, res: LoadedRoutes): string {
+  const {
+    path: routePath,
+    component,
+    modules = {},
+    context,
+    routes: subroutes,
+    priority,
+    exact,
+    ...props
+  } = routeConfig;
+
+  if (typeof routePath !== 'string' || !component) {
+    throw new Error(
+      `Invalid route config: path must be a string and component is required.
+${JSON.stringify(routeConfig)}`,
     );
   }
 
-  if (isModule(value)) {
-    const modulePath = getModulePath(value);
-    const chunkName = genChunkName(modulePath, prefix, name);
-    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ '${escapePath(
-      modulePath,
-    )}')`;
-
-    registry[chunkName] = {
-      loader,
-      modulePath,
-    };
-    return chunkName;
+  if (!subroutes) {
+    res.routesPaths.push(routePath);
   }
 
-  const newValue: ChunkNames = {};
-  Object.keys(value).forEach((key) => {
-    newValue[key] = genRouteChunkNames(registry, value[key], key, name);
+  const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
+  res.routesChunkNames[`${routePath}-${routeHash}`] = {
+    // Avoid clash with a prop called "component"
+    ...genChunkNames({__comp: component}, 'component', component, res),
+    ...(context
+      ? genChunkNames({__context: context}, 'context', routePath, res)
+      : {}),
+    ...genChunkNames(modules, 'module', routePath, res),
+  };
+
+  return serializeRouteConfig({
+    routePath: routePath.replace(/'/g, "\\'"),
+    routeHash,
+    subroutesCodeStrings: subroutes?.map((r) => genRouteCode(r, res)),
+    exact,
+    props,
   });
-  return newValue;
+}
+
+/**
+ * Routes are prepared into three temp files:
+ *
+ * - `routesConfig`, the route config passed to react-router. This file is kept
+ * minimal, because it can't be code-splitted.
+ * - `routesChunkNames`, a mapping from route paths (hashed) to code-splitted
+ * chunk names.
+ * - `registry`, a mapping from chunk names to options for react-loadable.
+ */
+export function loadRoutes(
+  routeConfigs: RouteConfig[],
+  baseUrl: string,
+  onDuplicateRoutes: ReportingSeverity,
+): LoadedRoutes {
+  handleDuplicateRoutes(routeConfigs, onDuplicateRoutes);
+  const res: LoadedRoutes = {
+    // To be written by `genRouteCode`
+    routesConfig: '',
+    routesChunkNames: {},
+    registry: {},
+    routesPaths: [normalizeUrl([baseUrl, '404.html'])],
+  };
+
+  // `genRouteCode` would mutate `res`
+  const routeConfigSerialized = routeConfigs
+    .map((r) => genRouteCode(r, res))
+    .join(',\n');
+
+  res.routesConfig = `import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+${indent(routeConfigSerialized)},
+  {
+    path: '*',
+    component: ComponentCreator('*'),
+  },
+];
+`;
+
+  return res;
 }

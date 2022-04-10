@@ -28,7 +28,7 @@ import {
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
-export default async function start(
+export async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {
@@ -37,7 +37,8 @@ export default async function start(
   logger.info('Starting the development server...');
 
   function loadSite() {
-    return load(siteDir, {
+    return load({
+      siteDir,
       customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
@@ -60,7 +61,7 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  logger.success`Docusaurus website is running at path=${openUrl}.`;
+  logger.success`Docusaurus website is running at url=${openUrl}.`;
 
   // Reload files processing.
   const reload = _.debounce(() => {
@@ -68,14 +69,14 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          logger.success`Docusaurus website is running at path=${newOpenUrl}.`;
+          logger.success`Docusaurus website is running at url=${newOpenUrl}.`;
         }
       })
       .catch((err) => {
         logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins = []} = props;
+  const {siteConfig, plugins} = props;
 
   const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
@@ -84,12 +85,9 @@ export default async function start(
     return posixPath(filepath);
   };
 
-  const pluginPaths = ([] as string[])
-    .concat(
-      ...plugins
-        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
-        .filter(Boolean),
-    )
+  const pluginPaths = plugins
+    .flatMap((plugin) => plugin.getPathsToWatch?.() ?? [])
+    .filter(Boolean)
     .map(normalizeToSiteDir);
 
   const pathsToWatch = [
@@ -126,7 +124,7 @@ export default async function start(
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.resolve(
+        template: path.join(
           __dirname,
           '../webpack/templates/index.html.template.ejs',
         ),
@@ -146,12 +144,12 @@ export default async function start(
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      config = applyConfigurePostCss(configurePostCss, config);
+      config = applyConfigurePostCss(configurePostCss.bind(plugin), config);
     }
 
     if (configureWebpack) {
       config = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         false,
         props.siteConfig.webpack?.jsLoader,

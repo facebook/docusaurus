@@ -31,7 +31,6 @@ export function toValue(node: PhrasingContent | Heading): string {
     case 'link':
       return stringifyContent(node);
     default:
+      return toString(node);
   }
-
-  return toString(node);
 }
