@@ -15559,10 +15559,10 @@ react-loadable-ssr-addon-v5-slorber@^1.0.1:
   dependencies:
     "@babel/runtime" "^7.10.3"
 
-react-medium-image-zoom@^4.3.6:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/react-medium-image-zoom/-/react-medium-image-zoom-4.3.6.tgz#75c874fa219ba1f29e23ae75f9a5affe74e9bc61"
-  integrity sha512-fIetmbdwshFahTX3WICIDZdJ+loxp/RGfax7z8ov2qdBzbBEqPveQn8U18oj+e1mQdnV2UjmY3YY035k2XPFZA==
+react-medium-image-zoom@^4.3.7:
+  version "4.3.7"
+  resolved "https://registry.npmmirror.com/react-medium-image-zoom/-/react-medium-image-zoom-4.3.7.tgz#06c0771401c6de312a85843d1feebd15641a969b"
+  integrity sha512-Vg1M8CIX1EfhfSsmNc2tHP+8KjPDo9e5/zEDaSsfeTBHI82wjEvW3Lgb4k3jdWILPZVOWhM+7QHyDaAzghlvaQ==
   dependencies:
     focus-options-polyfill "1.2.0"
     react-use "^17.2.1"

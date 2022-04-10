@@ -57,7 +57,7 @@
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-medium-image-zoom": "^4.3.6",
+    "react-medium-image-zoom": "^4.3.7",
     "react-popper": "^2.2.5",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",

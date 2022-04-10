@@ -6,9 +6,10 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "strict": true,
-    // Work around a type error in react-medium-image-zoom.
-    // https://github.com/rpearce/image-zoom/pull/303
-    "skipLibCheck": true,
+    // This is important. We run `yarn tsc` in website so we can catch issues
+    // with our declaration files (mostly name that are forgotten to be
+    // imported). Removing this would make things harder to catch.
+    "skipLibCheck": false,
     "types": ["@types/jest"]
   },
   "exclude": ["src/sw.js"]
