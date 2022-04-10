@@ -2087,6 +2087,14 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: '数学与计算科学学院创新实践基地',
+    description: '关于七院创新基地的网站',
+    preview: require('./showcase/404lab-wiki.png'),
+    website: 'https://七院创新基地.cn',
+    source: 'https://github.com/seven-innovation-base/official-website',
+    tags: ['opensource', 'study','university'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
