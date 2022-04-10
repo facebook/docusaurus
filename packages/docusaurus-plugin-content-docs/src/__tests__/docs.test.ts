@@ -33,6 +33,8 @@ import type {Optional} from 'utility-types';
 import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 
+jest.setTimeout(15000);
+
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
 const createFakeDocFile = ({
