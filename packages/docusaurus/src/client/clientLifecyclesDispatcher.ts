@@ -26,6 +26,9 @@ const clientLifecyclesDispatchers: Required<ClientModule> = {
   onRouteUpdate(...args) {
     dispatchLifecycleAction('onRouteUpdate', args);
   },
+  onRouteDidUpdate(...args) {
+    dispatchLifecycleAction('onRouteDidUpdate', args);
+  },
   onRouteUpdateDelayed(...args) {
     dispatchLifecycleAction('onRouteUpdateDelayed', args);
   },

@@ -6,12 +6,33 @@
  */
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import type {Location} from 'history';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function onRouteUpdate({location}: {location: Location}): void {
-  // console.log('onRouteUpdate', {location});
+export function onRouteUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location;
+}): void {
+  if (ExecutionEnvironment.canUseDOM) {
+    console.log(`onRouteUpdate (Fired before DOM repaints)
+Previous location: ${previousLocation.pathname}
+Current location: ${location.pathname}
+Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
+  }
 }
-
-if (ExecutionEnvironment.canUseDOM) {
-  // console.log('client module example log');
+export function onRouteDidUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location;
+}): void {
+  if (ExecutionEnvironment.canUseDOM) {
+    console.log(`onRouteDidUpdate (Fired after DOM repaints)
+Previous location: ${previousLocation.pathname}
+Current location: ${location.pathname}
+Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
+  }
 }
