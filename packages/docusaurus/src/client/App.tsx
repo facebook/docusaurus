@@ -19,7 +19,7 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
 
-import './clientLifecyclesDispatcher';
+import '@generated/client-modules';
 
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';

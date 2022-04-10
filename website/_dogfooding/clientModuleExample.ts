@@ -13,25 +13,19 @@ export function onRouteUpdate({
   previousLocation,
 }: {
   location: Location;
-  previousLocation: Location;
+  previousLocation: Location | null;
 }): void {
   if (ExecutionEnvironment.canUseDOM) {
-    console.log(`onRouteUpdate (Fired before DOM repaints)
-Previous location: ${previousLocation.pathname}
+    console.log(`onRouteUpdate
+Previous location: ${previousLocation?.pathname}
 Current location: ${location.pathname}
 Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
   }
 }
-export function onRouteDidUpdate({
-  location,
-  previousLocation,
-}: {
-  location: Location;
-  previousLocation: Location;
-}): void {
+
+export function onRouteUpdateDelayed({location}: {location: Location}): void {
   if (ExecutionEnvironment.canUseDOM) {
-    console.log(`onRouteDidUpdate (Fired after DOM repaints)
-Previous location: ${previousLocation.pathname}
+    console.log(`onRouteUpdateDelayed
 Current location: ${location.pathname}
 Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
   }
