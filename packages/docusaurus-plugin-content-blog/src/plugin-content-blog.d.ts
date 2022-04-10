@@ -433,11 +433,7 @@ declare module '@theme/BlogPostPage' {
     }
   >;
 
-  export type Content = LoadedMDXContent<
-    BlogPostFrontMatter,
-    BlogPostMetadata,
-    Assets
-  >;
+  export type Content = LoadedMDXContent<FrontMatter, Metadata, Assets>;
 
   export interface Props {
     /** Blog sidebar. */
