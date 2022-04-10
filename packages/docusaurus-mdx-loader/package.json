@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.17.8",
-    "@babel/traverse": "^7.17.3",
+    "@babel/parser": "^7.17.9",
+    "@babel/traverse": "^7.17.9",
     "@docusaurus/logger": "2.0.0-beta.18",
     "@docusaurus/utils": "2.0.0-beta.18",
     "@mdx-js/mdx": "^1.6.22",
@@ -33,7 +33,7 @@
     "tslib": "^2.3.1",
     "unist-util-visit": "^2.0.3",
     "url-loader": "^4.1.1",
-    "webpack": "^5.70.1"
+    "webpack": "^5.72.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.18",

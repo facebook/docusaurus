@@ -7,14 +7,15 @@
 
 import {
   getVersionsFilePath,
-  getVersionedDocsDirPath,
-  getVersionedSidebarsDirPath,
+  getVersionDocsDirPath,
+  getVersionSidebarsPath,
   getDocsDirPathLocalized,
-} from './versions';
+} from './versions/files';
+import {validateVersionName} from './versions/validation';
 import fs from 'fs-extra';
 import path from 'path';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
-import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
+import {loadSidebarsFileUnsafe} from './sidebars';
 import {CURRENT_VERSION_NAME} from './constants';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
@@ -42,13 +43,8 @@ async function createVersionedSidebarFile({
   const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
-    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
-    const newSidebarFile = path.join(
-      versionedSidebarsDir,
-      `version-${version}-sidebars.json`,
-    );
     await fs.outputFile(
-      newSidebarFile,
+      getVersionSidebarsPath(siteDir, pluginId, version),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
@@ -57,7 +53,7 @@ async function createVersionedSidebarFile({
 
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
-  version: string | null | undefined,
+  version: string,
   {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
@@ -66,44 +62,18 @@ export async function cliDocsVersionCommand(
   const pluginIdLogPrefix =
     pluginId === DEFAULT_PLUGIN_ID ? '[docs]' : `[${pluginId}]`;
 
-  if (!version) {
-    throw new Error(
-      `${pluginIdLogPrefix}: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0.`,
-    );
-  }
-
-  if (version.includes('/') || version.includes('\\')) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Do not include slash (/) or backslash (\\). Try something like: 1.0.0.`,
-    );
-  }
-
-  if (version.length > 32) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0.`,
-    );
-  }
-
-  // Since we are going to create `version-${version}` folder, we need to make
-  // sure it's a valid pathname.
-  // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/.test(version)) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
-    );
-  }
-
-  if (/^\.\.?$/.test(version)) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0.`,
-    );
+  try {
+    validateVersionName(version);
+  } catch (e) {
+    logger.info`${pluginIdLogPrefix}: Invalid version name provided. Try something like: 1.0.0`;
+    throw e;
   }
 
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
   if (await fs.pathExists(versionsJSONFile)) {
-    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
+    versions = await fs.readJSON(versionsJSONFile);
   }
 
   // Check if version already exists.
@@ -146,10 +116,7 @@ export async function cliDocsVersionCommand(
 
       const newVersionDir =
         locale === i18n.defaultLocale
-          ? path.join(
-              getVersionedDocsDirPath(siteDir, pluginId),
-              `version-${version}`,
-            )
+          ? getVersionDocsDirPath(siteDir, pluginId, version)
           : getDocsDirPathLocalized({
               siteDir,
               locale,
@@ -164,7 +131,7 @@ export async function cliDocsVersionCommand(
     siteDir,
     pluginId,
     version,
-    sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
+    sidebarPath,
   });
 
   // Update versions.json file.

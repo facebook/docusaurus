@@ -20,7 +20,7 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import {loadSidebars} from './sidebars';
+import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
   readVersionDocs,
@@ -64,6 +64,8 @@ export default async function pluginContentDocs(
   options: PluginOptions,
 ): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
+  // Mutate options to resolve sidebar path according to siteDir
+  options.sidebarPath = resolveSidebarPathOption(siteDir, options.sidebarPath);
 
   const versionsMetadata = await readVersionsMetadata({context, options});
 

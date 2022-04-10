@@ -85,7 +85,7 @@ const docusaurus = {
     }
 
     loaded[routePath] = true;
-    preloadHelper(routes, routePath);
+    preloadHelper(routePath);
     return true;
   },
 };

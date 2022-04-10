@@ -176,6 +176,7 @@ declare module '@theme/DocCardList' {
 
   export interface Props {
     readonly items: PropSidebarItem[];
+    readonly className?: string;
   }
 
   export default function DocCardList(props: Props): JSX.Element;
@@ -568,7 +569,9 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
-  } & {[tagName: string]: ComponentType<unknown>};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [tagName: string]: ComponentType<any>;
+  };
 
   const MDXComponents: MDXComponentsObject;
   export default MDXComponents;
@@ -878,7 +881,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, type DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common/Details';
 
   export interface Props extends DetailsProps {}
   export default Details;
