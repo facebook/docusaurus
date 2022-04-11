@@ -1618,6 +1618,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Seven-innovation-base official website',
+    description: 'About seven-innovation-base',
+    preview: require('./showcase/seven-innovation-base.png'),
+    website: 'https://七院创新基地.cn',
+    source: 'https://github.com/seven-innovation-base/official-website',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
     preview: require('./showcase/single-spa.png'),
