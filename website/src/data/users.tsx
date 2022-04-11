@@ -932,6 +932,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'Leedom',
+    description: 'A handbook about coding',
+    preview: require('./showcase/leedom.png'),
+    website: 'https://dinosaur.leedom.me',
+    source: 'https://github.com/leedom92/dinosaur',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
