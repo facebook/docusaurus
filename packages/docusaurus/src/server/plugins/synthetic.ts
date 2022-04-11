@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import admonitions from 'remark-admonitions';
 import type {RuleSetRule} from 'webpack';
 import type {HtmlTagObject, LoadedPlugin, LoadContext} from '@docusaurus/types';
 
@@ -105,7 +104,6 @@ export function createMDXFallbackPlugin({
         isMDXPartial: () => true,
         // External MDX files might have front matter, just disable the warning
         isMDXPartialFrontMatterWarningDisabled: true,
-        remarkPlugins: [admonitions],
       };
 
       return {

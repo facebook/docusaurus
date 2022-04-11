@@ -88,7 +88,6 @@
     "react-router": "^5.2.0",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
-    "remark-admonitions": "^1.2.1",
     "rtl-detect": "^1.0.4",
     "semver": "^7.3.6",
     "serve-handler": "^6.1.3",

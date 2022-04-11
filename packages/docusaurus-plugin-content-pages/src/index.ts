@@ -22,7 +22,6 @@ import {
   parseMarkdownString,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import admonitions from 'remark-admonitions';
 import {validatePageFrontMatter} from './frontMatter';
 
 import type {LoadedContent, PagesContentPaths} from './types';
@@ -39,11 +38,6 @@ export default async function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin<LoadedContent | null>> {
-  if (options.admonitions) {
-    options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions],
-    ]);
-  }
   const {
     siteConfig,
     siteDir,

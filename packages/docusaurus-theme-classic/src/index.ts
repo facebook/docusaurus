@@ -15,6 +15,8 @@ import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations
 import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 
+import admonitions from './remark/admonitions';
+
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
@@ -151,22 +153,33 @@ export default function docusaurusThemeClassic(
       return modules;
     },
 
-    configureWebpack() {
+    configureWebpack(config: webpack.Configuration) {
       const prismLanguages = additionalLanguages
         .map((lang) => `prism-${lang}`)
         .join('|');
 
-      return {
-        plugins: [
-          // This allows better optimization by only bundling those components
-          // that the user actually needs, because the modules are dynamically
-          // required and can't be known during compile time.
-          new ContextReplacementPlugin(
-            /prismjs[\\/]components$/,
-            new RegExp(`^./(${prismLanguages})$`),
-          ),
-        ],
-      };
+      // This allows better optimization by only bundling those components
+      // that the user actually needs, because the modules are dynamically
+      // required and can't be known during compile time.
+      config.plugins?.push(
+        new ContextReplacementPlugin(
+          /prismjs[\\/]components$/,
+          new RegExp(`^./(${prismLanguages})$`),
+        ),
+      );
+
+      (config.module?.rules as webpack.RuleSetRule[])?.forEach((rule) => {
+        if (Array.isArray(rule.use)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          rule?.use.forEach((useItem: any) => {
+            if (useItem.loader!.includes('docusaurus-mdx-loader')) {
+              useItem?.options.remarkPlugins.push(admonitions);
+            }
+          });
+        }
+      });
+
+      return {mergeStrategy: {'*': 'replace'}, ...config};
     },
 
     configurePostCss(postCssOptions) {

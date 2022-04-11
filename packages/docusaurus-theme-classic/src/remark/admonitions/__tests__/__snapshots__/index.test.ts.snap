@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admonitions remark plugin base 1`] = `
+"<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
+<admonition title="Sample Title" type="info"><p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p></admonition>
+<h2>Initial setup {#initial-setup}</h2>
+<p>To set up your site's blog, start by creating a <code>blog</code> directory.</p>
+<admonition type="tip"><p>Use the <strong><a href="introduction.md#fast-track">Fast Track</a></strong> to understand Docusaurus in <strong>5 minutes ⏱</strong>!</p><p>Use <strong><a href="https://docusaurus.new">docusaurus.new</a></strong> to test Docusaurus immediately in your browser!</p></admonition>"
+`;

@@ -17,7 +17,6 @@ import {GlobExcludeDefault} from '@docusaurus/utils';
 
 import type {OptionValidationContext} from '@docusaurus/types';
 import logger from '@docusaurus/logger';
-import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
   DefaultNumberPrefixParser,
@@ -167,12 +166,6 @@ export function validateOptions({
   }
 
   const normalizedOptions = validate(OptionsSchema, options) as PluginOptions;
-
-  if (normalizedOptions.admonitions) {
-    normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
-      [admonitions, normalizedOptions.admonitions],
-    ]);
-  }
 
   return normalizedOptions;
 }

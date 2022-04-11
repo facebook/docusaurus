@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import admonitions from 'remark-admonitions';
 import {
   normalizeUrl,
   docuHash,
@@ -55,12 +54,6 @@ export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin<BlogContent>> {
-  if (options.admonitions) {
-    options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions],
-    ]);
-  }
-
   const {
     siteDir,
     siteConfig,

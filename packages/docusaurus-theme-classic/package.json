@@ -53,6 +53,8 @@
     "cross-env": "^7.0.3",
     "fs-extra": "^10.0.1",
     "react-test-renderer": "^17.0.2",
+    "rehype-stringify": "^8.0.0",
+    "remark-rehype": "^8.1.0",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
