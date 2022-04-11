@@ -59,12 +59,10 @@ export function getActivePlugin(
 export const getLatestVersion = (data: GlobalPluginData): GlobalVersion =>
   data.versions.find((version) => version.isLast)!;
 
-// Note: return undefined on doc-unrelated pages,
-// because there's no version currently considered as active
-export const getActiveVersion = (
+export function getActiveVersion(
   data: GlobalPluginData,
   pathname: string,
-): GlobalVersion | undefined => {
+): GlobalVersion | undefined {
   const lastVersion = getLatestVersion(data);
   // Last version is a route like /docs/*,
   // we need to match it last or it would match /docs/version-1.0/* as well
@@ -80,12 +78,12 @@ export const getActiveVersion = (
         strict: false,
       }),
   );
-};
+}
 
-export const getActiveDocContext = (
+export function getActiveDocContext(
   data: GlobalPluginData,
   pathname: string,
-): ActiveDocContext => {
+): ActiveDocContext {
   const activeVersion = getActiveVersion(data, pathname);
   const activeDoc = activeVersion?.docs.find(
     (doc) =>
@@ -119,15 +117,15 @@ export const getActiveDocContext = (
     activeDoc,
     alternateDocVersions: alternateVersionDocs,
   };
-};
+}
 
-export const getDocVersionSuggestions = (
+export function getDocVersionSuggestions(
   data: GlobalPluginData,
   pathname: string,
-): DocVersionSuggestions => {
+): DocVersionSuggestions {
   const latestVersion = getLatestVersion(data);
   const activeDocContext = getActiveDocContext(data, pathname);
   const latestDocSuggestion: GlobalDoc | undefined =
     activeDocContext?.alternateDocVersions[latestVersion.name];
   return {latestDocSuggestion, latestVersionSuggestion: latestVersion};
-};
+}

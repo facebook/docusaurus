@@ -34,7 +34,7 @@ function extractDocRouteMetadata(props: Props): null | {
     versionMetadata,
     location,
   } = props;
-  const currentDocRoute = docRoutes.find((docRoute) =>
+  const currentDocRoute = docRoutes!.find((docRoute) =>
     matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
