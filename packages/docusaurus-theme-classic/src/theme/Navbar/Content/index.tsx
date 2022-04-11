@@ -14,10 +14,10 @@ import {
   splitNavbarItems,
   useNavbarMobileSidebar,
   useThemeConfig,
+  useWindowSize,
 } from '@docusaurus/theme-common';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
-import styles from './styles.module.css';
 
 function useNavbarItems() {
   // TODO temporary casting until ThemeConfig type is improved
@@ -51,11 +51,27 @@ function NavbarContentLayout({
 
 export default function NavbarContent(): JSX.Element {
   const mobileSidebar = useNavbarMobileSidebar();
+  const windowSize = useWindowSize();
+  const isMobile = windowSize === 'mobile';
 
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
+  const isSearchItem = (item: NavbarItemConfig) => item.type === 'search';
+  const hasExplicitSearchItem = items.some(isSearchItem);
 
-  const autoAddSearchBar = !items.some((item) => item.type === 'search');
+  const rightMostItems = [
+    <NavbarColorModeToggle
+      key="toggle"
+      className={isMobile ? 'margin-left--sm' : undefined}
+    />,
+    !hasExplicitSearchItem || isMobile ? <SearchBar /> : null,
+  ];
+  if (isMobile) {
+    [rightMostItems[0], rightMostItems[1]] = [
+      rightMostItems[1]!,
+      rightMostItems[0]!,
+    ];
+  }
 
   return (
     <NavbarContentLayout
@@ -64,7 +80,13 @@ export default function NavbarContent(): JSX.Element {
         <>
           {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
           <NavbarLogo />
-          <NavbarItems items={leftItems} />
+          <NavbarItems
+            items={
+              isMobile && hasExplicitSearchItem
+                ? leftItems.filter((item) => !isSearchItem(item))
+                : leftItems
+            }
+          />
         </>
       }
       right={
@@ -72,8 +94,7 @@ export default function NavbarContent(): JSX.Element {
         // Ask the user to add the respective navbar items => more flexible
         <>
           <NavbarItems items={rightItems} />
-          <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {autoAddSearchBar && <SearchBar />}
+          {rightMostItems}
         </>
       }
     />

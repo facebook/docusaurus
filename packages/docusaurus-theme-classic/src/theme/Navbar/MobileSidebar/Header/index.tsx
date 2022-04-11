@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 import IconClose from '@theme/IconClose';
 import NavbarLogo from '@theme/Navbar/Logo';
 import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
@@ -27,7 +26,6 @@ export default function NavbarMobileSidebarHeader(): JSX.Element {
   return (
     <div className="navbar-sidebar__brand">
       <NavbarLogo />
-      <NavbarColorModeToggle className="margin-right--md" />
       <CloseButton />
     </div>
   );
