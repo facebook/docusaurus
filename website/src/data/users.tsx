@@ -1623,7 +1623,7 @@ const Users: User[] = [
     preview: require('./showcase/seven-innovation-base.png'),
     website: 'https://七院创新基地.cn',
     source: 'https://github.com/seven-innovation-base/official-website',
-    tags: ['opensource', 'personal'],
+    tags: ['opensource'],
   },
   {
     title: 'Single SPA',
