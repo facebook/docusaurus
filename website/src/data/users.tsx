@@ -2088,9 +2088,9 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
-    title: '数学与计算科学学院创新实践基地',
-    description: '关于七院创新基地的网站',
-    preview: require('./showcase/1.png'),
+    title: 'seven-innovation-base`s official-website',
+    description: 'about seven-innovation-base',
+    preview: require('./showcase/seven-innovation-base.png'),
     website: 'https://七院创新基地.cn',
     source: 'https://github.com/seven-innovation-base/official-website',
     tags: ['opensource', 'study','university'],
