@@ -13,7 +13,7 @@
 /// <reference types="@docusaurus/plugin-content-pages" />
 
 // This file, like all the other ambient declaration files for plugins, is
-//  needed for TS to understand our `@theme` alias. The export signatures are
+// needed for TS to understand our `@theme` alias. The export signatures are
 // duplicated from the implementation, which is fine, since every module only
 // default-exports a React component.
 // TODO we'll eventually migrate to TS `paths` option. This is not easy due to

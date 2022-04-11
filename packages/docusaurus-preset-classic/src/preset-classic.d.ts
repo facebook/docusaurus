@@ -39,7 +39,7 @@ export type Options = {
   googleAnalytics?: GAPluginOptions;
   /**
    * Options for `@docusaurus/plugin-google-gtag`. Only enabled when the key
-   *  is present.
+   * is present.
    */
   gtag?: GtagPluginOptions;
 };
