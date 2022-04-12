@@ -196,7 +196,7 @@ export default async function pluginContentBlog(
         archiveBasePath,
       } = options;
 
-      const {addRoute, createData} = actions;
+      const {addRoute, createData, setGlobalData} = actions;
       const {
         blogSidebarTitle,
         blogPosts,
@@ -383,6 +383,12 @@ export default async function pluginContentBlog(
 
       await createTagsListPage();
       await Promise.all(Object.values(blogTags).map(createTagPostsListPage));
+
+      setGlobalData({
+        path: normalizeUrl([baseUrl, options.routeBasePath]),
+        blogs: blogPosts,
+        tags: blogTags,
+      });
     },
 
     translateContent({content, translationFiles}) {
