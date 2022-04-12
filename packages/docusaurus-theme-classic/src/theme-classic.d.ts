@@ -587,7 +587,7 @@ declare module '@theme/MDXComponents/Pre' {
 }
 
 declare module '@theme/MDXComponents' {
-  import type {ComponentProps} from 'react';
+  import type {ComponentType, ComponentProps} from 'react';
 
   import type MDXHead from '@theme/MDXComponents/Head';
   import type MDXCode from '@theme/MDXComponents/Code';
@@ -613,6 +613,8 @@ declare module '@theme/MDXComponents' {
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
     readonly admonition: typeof Admonition;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [tagName: string]: ComponentType<any>;
   };
 
   const MDXComponents: MDXComponentsObject;

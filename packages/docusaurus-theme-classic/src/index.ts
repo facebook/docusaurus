@@ -16,6 +16,7 @@ import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 
 import admonitions from './remark/admonitions';
+import type {MDXOptions} from '@docusaurus/mdx-loader';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
@@ -153,7 +154,7 @@ export default function docusaurusThemeClassic(
       return modules;
     },
 
-    configureWebpack(config: webpack.Configuration) {
+    configureWebpack(config) {
       const prismLanguages = additionalLanguages
         .map((lang) => `prism-${lang}`)
         .join('|');
@@ -168,12 +169,17 @@ export default function docusaurusThemeClassic(
         ),
       );
 
-      (config.module?.rules as webpack.RuleSetRule[])?.forEach((rule) => {
-        if (Array.isArray(rule.use)) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          rule?.use.forEach((useItem: any) => {
-            if (useItem.loader!.includes('docusaurus-mdx-loader')) {
-              useItem?.options.remarkPlugins.push(admonitions);
+      config.module?.rules?.forEach((rule) => {
+        if (typeof rule !== 'string' && Array.isArray(rule.use)) {
+          rule.use.forEach((useItem) => {
+            if (
+              typeof useItem !== 'string' &&
+              'loader' in useItem &&
+              useItem.loader?.includes('docusaurus-mdx-loader')
+            ) {
+              useItem.options ??= {};
+              (useItem.options as MDXOptions).remarkPlugins ??= [];
+              (useItem.options as MDXOptions).remarkPlugins.push(admonitions);
             }
           });
         }

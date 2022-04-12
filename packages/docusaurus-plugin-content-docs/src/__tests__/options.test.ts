@@ -79,7 +79,6 @@ describe('normalizeDocsPluginOptions', () => {
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
-      remarkPlugins: [...userOptions.remarkPlugins, expect.any(Array)],
     });
   });
 
@@ -96,7 +95,6 @@ describe('normalizeDocsPluginOptions', () => {
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
-      remarkPlugins: [...userOptions.remarkPlugins, expect.any(Array)],
     });
   });
 
