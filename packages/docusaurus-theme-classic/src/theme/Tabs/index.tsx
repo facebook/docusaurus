@@ -141,7 +141,7 @@ function TabsComponent(props: Props): JSX.Element {
   };
 
   return (
-    <div className="tabs-container">
+    <div className={clsx('tabs-container', styles.tabList)}>
       <ul
         role="tablist"
         aria-orientation="horizontal"
@@ -181,10 +181,10 @@ function TabsComponent(props: Props): JSX.Element {
           children.filter(
             (tabItem) => tabItem.props.value === selectedValue,
           )[0]!,
-          {className: 'margin-vert--md'},
+          {className: 'margin-top--md'},
         )
       ) : (
-        <div className="margin-vert--md">
+        <div className="margin-top--md">
           {children.map((tabItem, i) =>
             cloneElement(tabItem, {
               key: i,

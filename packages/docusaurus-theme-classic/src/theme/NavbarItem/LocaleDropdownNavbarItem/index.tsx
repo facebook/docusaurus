@@ -60,7 +60,7 @@ export default function LocaleDropdownNavbarItem({
       label={
         <span>
           <IconLanguage className={styles.iconLanguage} />
-          <span>{dropdownLabel}</span>
+          {dropdownLabel}
         </span>
       }
       items={items}

@@ -932,6 +932,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'Leedom',
+    description: 'A handbook about coding',
+    preview: require('./showcase/leedom.png'),
+    website: 'https://dinosaur.leedom.me',
+    source: 'https://github.com/leedom92/dinosaur',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
@@ -1618,6 +1626,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Seven-innovation-base official website',
+    description: 'About seven-innovation-base',
+    preview: require('./showcase/seven-innovation-base.png'),
+    website: 'https://七院创新基地.cn',
+    source: 'https://github.com/seven-innovation-base/official-website',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
     preview: require('./showcase/single-spa.png'),
@@ -1880,6 +1896,14 @@ const Users: User[] = [
     website: 'https://developers.verida.io/',
     source: 'https://github.com/verida/documentation',
     tags: ['opensource', 'product'],
+  },
+  {
+    title: 'Virtual Photography Kit',
+    description: 'A toolkit for virtual photography in Unreal Engine.',
+    preview: require('./showcase/virtual-photography-kit.png'),
+    website: 'https://docs.antonpalmqvist.com/',
+    source: null,
+    tags: ['product'],
   },
   {
     title: 'Vue NodeGui',

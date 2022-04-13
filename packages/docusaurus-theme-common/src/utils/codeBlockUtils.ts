@@ -77,6 +77,10 @@ export function parseCodeBlockTitle(metastring?: string): string {
   return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
 }
 
+export function containsLineNumbers(metastring?: string): boolean {
+  return metastring?.includes('showLineNumbers') || false;
+}
+
 /**
  * Gets the language name from the class name (set by MDX).
  * e.g. `"language-javascript"` => `"javascript"`.

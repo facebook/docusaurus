@@ -48,19 +48,14 @@ declare module '@docusaurus/plugin-content-pages' {
 }
 
 declare module '@theme/MDXPage' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     MDXPageMetadata,
     FrontMatter,
   } from '@docusaurus/plugin-content-pages';
 
   export interface Props {
-    readonly content: {
-      readonly frontMatter: FrontMatter;
-      readonly metadata: MDXPageMetadata;
-      readonly toc: readonly TOCItem[];
-      (): JSX.Element;
-    };
+    readonly content: LoadedMDXContent<FrontMatter, MDXPageMetadata>;
   }
 
   export default function MDXPage(props: Props): JSX.Element;

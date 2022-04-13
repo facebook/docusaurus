@@ -502,7 +502,7 @@ declare module '@docusaurus/plugin-content-docs' {
 }
 
 declare module '@theme/DocItem' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     PropVersionMetadata,
     Assets,
@@ -520,14 +520,7 @@ declare module '@theme/DocItem' {
   export interface Props {
     readonly route: DocumentRoute;
     readonly versionMetadata: PropVersionMetadata;
-    readonly content: {
-      readonly frontMatter: DocFrontMatter;
-      readonly metadata: DocMetadata;
-      readonly toc: readonly TOCItem[];
-      readonly contentTitle: string | undefined;
-      readonly assets: Assets;
-      (): JSX.Element;
-    };
+    readonly content: LoadedMDXContent<DocFrontMatter, DocMetadata, Assets>;
   }
 
   export default function DocItem(props: Props): JSX.Element;
@@ -567,56 +560,18 @@ declare module '@theme/DocBreadcrumbs' {
 
 declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
-  import type {DocumentRoute} from '@theme/DocItem';
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
 
-  export interface Props {
-    readonly location: {readonly pathname: string};
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {
     readonly versionMetadata: PropVersionMetadata;
-    readonly route: {
-      readonly path: string;
-      readonly component: () => JSX.Element;
-      readonly routes: DocumentRoute[];
-    };
   }
 
   export default function DocPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    children: ReactNode;
-  }
-
-  export default function DocPageLayout(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocPage/Layout/Aside' {
-  import type {Dispatch, SetStateAction} from 'react';
-  import type {PropSidebar} from '@docusaurus/plugin-content-docs';
-
-  export interface Props {
-    sidebar: PropSidebar;
-    hiddenSidebarContainer: boolean;
-    setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
-  }
-
-  export default function DocPageLayoutAside(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocPage/Layout/Main' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    hiddenSidebarContainer: boolean;
-    children: ReactNode;
-  }
-
-  export default function DocPageLayoutMain(props: Props): JSX.Element;
-}
-
-// TODO until TS supports exports field... hope it's in 4.6
+// TODO TS only supports reading `exports` in 4.7. We will need to merge the
+// type defs (and JSDoc) here with the implementation after that
 declare module '@docusaurus/plugin-content-docs/client' {
   import type {UseDataOptions} from '@docusaurus/types';
 
@@ -630,6 +585,11 @@ declare module '@docusaurus/plugin-content-docs/client' {
     alternateDocVersions: {[versionName: string]: GlobalDoc};
   };
   export type GlobalDoc = {
+    /**
+     * For generated index pages, this is the `slug`, **not** `permalink`
+     * (without base URL). Because slugs have leading slashes but IDs don't,
+     * there won't be clashes.
+     */
     id: string;
     path: string;
     sidebar: string | undefined;
@@ -640,7 +600,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
     label: string;
     isLast: boolean;
     path: string;
-    /** Home doc (if docs homepage configured), or first doc. */
+    /** The doc with `slug: /`, or first doc in first sidebar */
     mainDocId: string;
     docs: GlobalDoc[];
     /** Unversioned IDs. In development, this list is empty. */
@@ -661,9 +621,9 @@ declare module '@docusaurus/plugin-content-docs/client' {
     breadcrumbs: boolean;
   };
   export type DocVersionSuggestions = {
-    // suggest the latest version
+    /** suggest the latest version */
     latestVersionSuggestion: GlobalVersion;
-    // suggest the same doc, in latest version (if exist)
+    /** suggest the same doc, in latest version (if exist) */
     latestDocSuggestion?: GlobalDoc;
   };
 
@@ -677,12 +637,20 @@ declare module '@docusaurus/plugin-content-docs/client' {
   ) =>
     | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
     | undefined;
+  /** Versions are returned ordered (most recent first). */
   export const useVersions: (pluginId?: string) => GlobalVersion[];
   export const useLatestVersion: (pluginId?: string) => GlobalVersion;
+  /**
+   * Returns `undefined` on doc-unrelated pages, because there's no version
+   * currently considered as active.
+   */
   export const useActiveVersion: (
     pluginId?: string,
   ) => GlobalVersion | undefined;
   export const useActiveDocContext: (pluginId?: string) => ActiveDocContext;
+  /**
+   * Useful to say "hey, you are not on the latest docs version, please switch"
+   */
   export const useDocVersionSuggestions: (
     pluginId?: string,
   ) => DocVersionSuggestions;

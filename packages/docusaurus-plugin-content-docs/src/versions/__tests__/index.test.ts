@@ -7,13 +7,8 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
-import {
-  getVersionsFilePath,
-  getVersionedDocsDirPath,
-  getVersionedSidebarsDirPath,
-  readVersionsMetadata,
-} from '../versions';
-import {DEFAULT_OPTIONS} from '../options';
+import {readVersionsMetadata} from '../index';
+import {DEFAULT_OPTIONS} from '../../options';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {I18n} from '@docusaurus/types';
 import type {
@@ -28,44 +23,11 @@ const DefaultI18N: I18n = {
   localeConfigs: {},
 };
 
-describe('getVersionsFilePath', () => {
-  it('works', () => {
-    expect(getVersionsFilePath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      `someSiteDir${path.sep}versions.json`,
-    );
-    expect(getVersionsFilePath('otherSite/dir', 'pluginId')).toBe(
-      `otherSite${path.sep}dir${path.sep}pluginId_versions.json`,
-    );
-  });
-});
-
-describe('getVersionedDocsDirPath', () => {
-  it('works', () => {
-    expect(getVersionedDocsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      `someSiteDir${path.sep}versioned_docs`,
-    );
-    expect(getVersionedDocsDirPath('otherSite/dir', 'pluginId')).toBe(
-      `otherSite${path.sep}dir${path.sep}pluginId_versioned_docs`,
-    );
-  });
-});
-
-describe('getVersionedSidebarsDirPath', () => {
-  it('works', () => {
-    expect(getVersionedSidebarsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      `someSiteDir${path.sep}versioned_sidebars`,
-    );
-    expect(getVersionedSidebarsDirPath('otherSite/dir', 'pluginId')).toBe(
-      `otherSite${path.sep}dir${path.sep}pluginId_versioned_sidebars`,
-    );
-  });
-});
-
 describe('readVersionsMetadata', () => {
   describe('simple site', () => {
     async function loadSite() {
       const simpleSiteDir = path.resolve(
-        path.join(__dirname, '__fixtures__', 'simple-site'),
+        path.join(__dirname, '../../__tests__/__fixtures__', 'simple-site'),
       );
       const defaultOptions: PluginOptions = {
         id: DEFAULT_PLUGIN_ID,
@@ -217,7 +179,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion: false", "disableVersioning: false"."`,
+        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/docs through "includeCurrentVersion: false", while the versions file is empty/non-existent."`,
       );
     });
   });
@@ -225,12 +187,12 @@ describe('readVersionsMetadata', () => {
   describe('versioned site, pluginId=default', () => {
     async function loadSite() {
       const versionedSiteDir = path.resolve(
-        path.join(__dirname, '__fixtures__', 'versioned-site'),
+        path.join(__dirname, '../../__tests__/__fixtures__', 'versioned-site'),
       );
       const defaultOptions: PluginOptions = {
         id: DEFAULT_PLUGIN_ID,
         ...DEFAULT_OPTIONS,
-        sidebarPath: 'sidebars.json',
+        sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
       };
       const defaultContext = {
         siteDir: versionedSiteDir,
@@ -562,7 +524,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion: false", "disableVersioning: true"."`,
+        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/docs through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true"."`,
       );
     });
 
@@ -651,7 +613,9 @@ describe('readVersionsMetadata', () => {
           options: defaultOptions,
           context: defaultContext,
         }),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`"Invalid version "   "."`);
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Invalid version name "   ": version name must contain at least one non-whitespace character."`,
+      );
       jsonMock.mockRestore();
     });
   });
@@ -659,14 +623,14 @@ describe('readVersionsMetadata', () => {
   describe('versioned site, pluginId=community', () => {
     async function loadSite() {
       const versionedSiteDir = path.resolve(
-        path.join(__dirname, '__fixtures__', 'versioned-site'),
+        path.join(__dirname, '../../__tests__/__fixtures__', 'versioned-site'),
       );
       const defaultOptions: PluginOptions = {
         ...DEFAULT_OPTIONS,
         id: 'community',
         path: 'community',
         routeBasePath: 'communityBasePath',
-        sidebarPath: 'sidebars.json',
+        sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
       };
       const defaultContext = {
         siteDir: versionedSiteDir,
@@ -779,7 +743,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion: false", "disableVersioning: true"."`,
+        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/community through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true"."`,
       );
     });
   });

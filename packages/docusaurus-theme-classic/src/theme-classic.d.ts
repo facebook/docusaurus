@@ -12,6 +12,14 @@
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-pages" />
 
+// This file, like all the other ambient declaration files for plugins, is
+// needed for TS to understand our `@theme` alias. The export signatures are
+// duplicated from the implementation, which is fine, since every module only
+// default-exports a React component.
+// TODO we'll eventually migrate to TS `paths` option. This is not easy due to
+// our theme shadowing—we probably need the user to specify multiple theme paths
+// in their tsconfig.
+
 declare module '@docusaurus/theme-classic' {
   export type Options = {
     customCss?: string | string[];
@@ -148,6 +156,7 @@ declare module '@theme/CodeBlock' {
     readonly metastring?: string;
     readonly title?: string;
     readonly language?: string;
+    readonly showLineNumbers?: boolean;
   }
 
   export default function CodeBlock(props: Props): JSX.Element;
@@ -176,6 +185,7 @@ declare module '@theme/DocCardList' {
 
   export interface Props {
     readonly items: PropSidebarItem[];
+    readonly className?: string;
   }
 
   export default function DocCardList(props: Props): JSX.Element;
@@ -185,6 +195,40 @@ declare module '@theme/DocItemFooter' {
   import type {Props} from '@theme/DocItem';
 
   export default function DocItemFooter(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function DocPageLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Aside' {
+  import type {Dispatch, SetStateAction} from 'react';
+  import type {PropSidebar} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly sidebar: PropSidebar;
+    readonly hiddenSidebarContainer: boolean;
+    readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
+  }
+
+  export default function DocPageLayoutAside(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Main' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly hiddenSidebarContainer: boolean;
+    readonly children: ReactNode;
+  }
+
+  export default function DocPageLayoutMain(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPaginator' {
@@ -241,7 +285,7 @@ declare module '@theme/DocSidebar/Desktop/Content' {
 
 declare module '@theme/DocSidebar/Desktop/CollapseButton' {
   export interface Props {
-    onClick: React.MouseEventHandler;
+    readonly onClick: React.MouseEventHandler;
   }
 
   export default function CollapseButton(props: Props): JSX.Element;
@@ -268,7 +312,7 @@ declare module '@theme/DocSidebarItem/Link' {
   import type {PropSidebarItemLink} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends DocSidebarItemProps {
-    item: PropSidebarItemLink;
+    readonly item: PropSidebarItemLink;
   }
 
   export default function DocSidebarItemLink(props: Props): JSX.Element;
@@ -279,7 +323,7 @@ declare module '@theme/DocSidebarItem/Html' {
   import type {PropSidebarItemHtml} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends DocSidebarItemProps {
-    item: PropSidebarItemHtml;
+    readonly item: PropSidebarItemHtml;
   }
 
   export default function DocSidebarItemHtml(props: Props): JSX.Element;
@@ -290,7 +334,7 @@ declare module '@theme/DocSidebarItem/Category' {
   import type {PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends DocSidebarItemProps {
-    item: PropSidebarItemCategory;
+    readonly item: PropSidebarItemCategory;
   }
 
   export default function DocSidebarItemCategory(props: Props): JSX.Element;
@@ -349,7 +393,7 @@ declare module '@theme/Footer/Logo' {
   import type {FooterLogo} from '@docusaurus/theme-common';
 
   export interface Props {
-    logo: FooterLogo;
+    readonly logo: FooterLogo;
   }
 
   export default function FooterLogo(props: Props): JSX.Element;
@@ -357,7 +401,7 @@ declare module '@theme/Footer/Logo' {
 
 declare module '@theme/Footer/Copyright' {
   export interface Props {
-    copyright: string;
+    readonly copyright: string;
   }
 
   export default function FooterCopyright(props: Props): JSX.Element;
@@ -367,7 +411,7 @@ declare module '@theme/Footer/LinkItem' {
   import type {FooterLinkItem} from '@docusaurus/theme-common';
 
   export interface Props {
-    item: FooterLinkItem;
+    readonly item: FooterLinkItem;
   }
 
   export default function FooterLinkItem(props: Props): JSX.Element;
@@ -377,10 +421,10 @@ declare module '@theme/Footer/Layout' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    style: 'light' | 'dark';
-    links: ReactNode;
-    logo: ReactNode;
-    copyright: ReactNode;
+    readonly style: 'light' | 'dark';
+    readonly links: ReactNode;
+    readonly logo: ReactNode;
+    readonly copyright: ReactNode;
   }
 
   export default function FooterLayout(props: Props): JSX.Element;
@@ -390,7 +434,7 @@ declare module '@theme/Footer/Links' {
   import type {Footer} from '@docusaurus/theme-common';
 
   export interface Props {
-    links: Footer['links'];
+    readonly links: Footer['links'];
   }
 
   export default function FooterLinks(props: Props): JSX.Element;
@@ -400,7 +444,7 @@ declare module '@theme/Footer/Links/MultiColumn' {
   import type {MultiColumnFooter} from '@docusaurus/theme-common';
 
   export interface Props {
-    columns: MultiColumnFooter['links'];
+    readonly columns: MultiColumnFooter['links'];
   }
 
   export default function FooterLinksMultiColumn(props: Props): JSX.Element;
@@ -410,7 +454,7 @@ declare module '@theme/Footer/Links/Simple' {
   import type {SimpleFooter} from '@docusaurus/theme-common';
 
   export interface Props {
-    links: SimpleFooter['links'];
+    readonly links: SimpleFooter['links'];
   }
 
   export default function FooterLinksSimple(props: Props): JSX.Element;
@@ -422,7 +466,7 @@ declare module '@theme/Heading' {
   type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
   export interface Props extends ComponentProps<HeadingType> {
-    as: HeadingType;
+    readonly as: HeadingType;
   }
 
   export default function Heading(props: Props): JSX.Element;
@@ -568,7 +612,9 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
-  } & {[tagName: string]: ComponentType<unknown>};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [tagName: string]: ComponentType<any>;
+  };
 
   const MDXComponents: MDXComponentsObject;
   export default MDXComponents;
@@ -622,9 +668,9 @@ declare module '@theme/Navbar/MobileSidebar/Layout' {
   import type {ReactNode} from 'react';
 
   interface Props {
-    header: ReactNode;
-    primaryMenu: ReactNode;
-    secondaryMenu: ReactNode;
+    readonly header: ReactNode;
+    readonly primaryMenu: ReactNode;
+    readonly secondaryMenu: ReactNode;
   }
 
   export default function NavbarMobileSidebarLayout(props: Props): JSX.Element;
@@ -880,7 +926,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, type DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common/Details';
 
   export interface Props extends DetailsProps {}
   export default Details;
