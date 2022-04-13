@@ -38,6 +38,7 @@ import type {
   PropNavigationLink,
   LastUpdateData,
   VersionMetadata,
+  DocFrontMatter,
 } from '@docusaurus/plugin-content-docs';
 
 type LastUpdateOptions = Pick<
@@ -110,16 +111,31 @@ export async function readVersionDocs(
   );
 }
 
+export type DocEnv = 'production' | 'development';
+
+/** Docs with draft front matter are only considered draft in production. */
+function isDraftForEnvironment({
+  env,
+  frontMatter,
+}: {
+  frontMatter: DocFrontMatter;
+  env: DocEnv;
+}): boolean {
+  return (env === 'production' && frontMatter.draft) ?? false;
+}
+
 function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
   options,
+  env,
 }: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
+  env: DocEnv;
 }): DocMetadataBase {
   const {source, content, lastUpdate, contentPath, filePath} = docFile;
   const {siteDir, i18n} = context;
@@ -235,6 +251,8 @@ function doProcessDocMetadata({
     return undefined;
   }
 
+  const draft = isDraftForEnvironment({env, frontMatter});
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -248,6 +266,7 @@ function doProcessDocMetadata({
     sourceDirName,
     slug: docSlug,
     permalink,
+    draft,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
@@ -268,6 +287,7 @@ export function processDocMetadata(args: {
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
+  env: DocEnv;
 }): DocMetadataBase {
   try {
     return doProcessDocMetadata(args);

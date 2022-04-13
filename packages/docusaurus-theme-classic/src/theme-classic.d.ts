@@ -796,7 +796,9 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
     readonly docsPluginId?: string;
   }
 
-  export default function DocsSidebarNavbarItem(props: Props): JSX.Element;
+  export default function DocsSidebarNavbarItem(
+    props: Props,
+  ): JSX.Element | null;
 }
 
 declare module '@theme/NavbarItem/DocSidebarNavbarItem' {

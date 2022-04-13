@@ -72,6 +72,7 @@ export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
     docs: version.docs
       .map(toGlobalDataDoc)
       .concat(version.categoryGeneratedIndices.map(toGlobalDataGeneratedIndex)),
+    draftIds: version.drafts.map((doc) => doc.unversionedId),
     sidebars: toGlobalSidebars(version.sidebars, version),
   };
 }

@@ -269,6 +269,7 @@ export type SidebarProcessorParams = {
   sidebarItemsGenerator: SidebarItemsGeneratorOption;
   numberPrefixParser: NumberPrefixParser;
   docs: DocMetadataBase[];
+  drafts: DocMetadataBase[];
   version: VersionMetadata;
   categoryLabelSlugger: Slugger;
   sidebarOptions: SidebarOptions;
