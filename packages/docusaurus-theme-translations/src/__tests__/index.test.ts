@@ -18,21 +18,45 @@ describe('codeTranslationLocalesToTry', () => {
       'fr',
       'fr-FR',
       'fr-Latn',
+      'fr',
     ]);
-    expect(codeTranslationLocalesToTry('fr-FR')).toEqual(['fr-FR', 'fr']);
+    expect(codeTranslationLocalesToTry('fr-FR')).toEqual([
+      'fr-FR',
+      'fr-FR',
+      'fr-Latn',
+      'fr',
+    ]);
     // Note: "pt" is expanded into "pt-BR", not "pt-PT", as "pt-BR" is more
     // widely used! See https://github.com/facebook/docusaurus/pull/4536#issuecomment-810088783
     expect(codeTranslationLocalesToTry('pt')).toEqual([
       'pt',
       'pt-BR',
       'pt-Latn',
+      'pt',
     ]);
-    expect(codeTranslationLocalesToTry('pt-BR')).toEqual(['pt-BR', 'pt']);
-    expect(codeTranslationLocalesToTry('pt-PT')).toEqual(['pt-PT', 'pt']);
+    expect(codeTranslationLocalesToTry('pt-BR')).toEqual([
+      'pt-BR',
+      'pt-BR',
+      'pt-Latn',
+      'pt',
+    ]);
+    expect(codeTranslationLocalesToTry('pt-PT')).toEqual([
+      'pt-PT',
+      'pt-PT',
+      'pt-Latn',
+      'pt',
+    ]);
     expect(codeTranslationLocalesToTry('zh')).toEqual([
       'zh',
       'zh-CN',
       'zh-Hans',
+      'zh',
+    ]);
+    expect(codeTranslationLocalesToTry('zh-cn')).toEqual([
+      'zh-cn',
+      'zh-CN',
+      'zh-Hans',
+      'zh',
     ]);
   });
 });
@@ -48,12 +72,7 @@ describe('readDefaultCodeTranslationMessages', () => {
   async function readAsJSON(locale: string, filename: string = name) {
     console.log(path.resolve(dirPath, locale, `${filename}.json`));
 
-    return JSON.parse(
-      await fs.readFile(
-        path.resolve(dirPath, locale, `${filename}.json`),
-        'utf8',
-      ),
-    );
+    return fs.readJSON(path.resolve(dirPath, locale, `${filename}.json`));
   }
 
   it('for empty locale', async () => {
