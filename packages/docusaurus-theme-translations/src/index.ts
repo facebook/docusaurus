@@ -18,17 +18,18 @@ export function codeTranslationLocalesToTry(locale: string): string[] {
   const intlLocale = new Intl.Locale(locale);
   // if locale is just a simple language like "pt", we want to fallback to pt-BR
   // (not pt-PT!) See https://github.com/facebook/docusaurus/pull/4536#issuecomment-810088783
-  if (intlLocale.language === locale) {
-    const maximizedLocale = intlLocale.maximize(); // pt-Latn-BR`
-    // ["pt","pt-BR"]; ["zh", "zh-Hans"]
-    return [
-      locale,
-      `${maximizedLocale.language}-${maximizedLocale.region}`,
-      `${maximizedLocale.language}-${maximizedLocale.script}`,
-    ];
-  }
-  // if locale is like "pt-BR", we want to fallback to "pt"
-  return [locale, intlLocale.language!];
+  const maximizedLocale = intlLocale.maximize(); // pt-Latn-BR
+  return [
+    // May be "zh", "zh-CN", "zh-Hans", "zh-cn", or anything: very likely to be
+    // unresolved except for simply locales
+    locale,
+    // zh-CN / pt-BR
+    `${maximizedLocale.language}-${maximizedLocale.region}`,
+    // zh-Hans / pt-Latn
+    `${maximizedLocale.language}-${maximizedLocale.script}`,
+    // zh / pt
+    maximizedLocale.language!,
+  ];
 }
 
 // Useful to implement getDefaultCodeTranslationMessages() in themes
