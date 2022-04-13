@@ -28,9 +28,9 @@
 }
 
 .codeBlock {
+  --ifm-pre-background: inherit;
   margin: 0;
   padding: 0;
-  background-color: inherit;
 }
 
 .codeBlockTitle + .codeBlockContent .codeBlock {
@@ -44,14 +44,48 @@
 
 .codeBlockLines {
   font: inherit;
+  background: var(--ifm-pre-background);
   /* rtl:ignore */
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
 }
 
+.codeBlockLinesWithNumbering {
+  display: table;
+  padding: var(--ifm-pre-padding) 0;
+}
+
 @media print {
   .codeBlockLines {
     white-space: pre-wrap;
   }
+}
+
+.codeLine {
+  display: table-row;
+  counter-increment: line-count;
+}
+
+.codeLineNumber {
+  display: table-cell;
+  text-align: right;
+  width: 1%;
+  position: sticky;
+  left: 0;
+  padding: 0 var(--ifm-pre-padding);
+  background: var(--ifm-pre-background);
+}
+
+.codeLineNumber::before {
+  content: counter(line-count);
+  opacity: 0.4;
+}
+
+:global(.docusaurus-highlight-code-line) .codeLineNumber::before {
+  opacity: 0.8;
+}
+
+.codeLineContent {
+  padding-right: var(--ifm-pre-padding);
 }
