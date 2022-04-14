@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {routeBasePath as debugPluginRouteBasePath} from '@docusaurus/plugin-debug';
 import type {
   Preset,
   LoadContext,
@@ -29,7 +28,7 @@ export default function preset(
   opts: Options = {},
 ): Preset {
   const {siteConfig} = context;
-  const {themeConfig, baseUrl} = siteConfig;
+  const {themeConfig} = siteConfig;
   const {algolia} = themeConfig as Partial<ThemeConfig>;
   const isProd = process.env.NODE_ENV === 'production';
   const {
@@ -37,13 +36,12 @@ export default function preset(
     docs,
     blog,
     pages,
-    sitemap = {},
+    sitemap,
     theme,
     googleAnalytics,
     gtag,
     ...rest
   } = opts;
-  const isDebugEnabled = debug || (debug === undefined && !isProd);
 
   const themes: PluginConfig[] = [];
   themes.push(makePluginConfig('@docusaurus/theme-classic', theme));
@@ -76,17 +74,13 @@ export default function preset(
       makePluginConfig('@docusaurus/plugin-google-analytics', googleAnalytics),
     );
   }
-  if (isDebugEnabled) {
+  if (debug || (debug === undefined && !isProd)) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));
   }
   if (gtag) {
     plugins.push(makePluginConfig('@docusaurus/plugin-google-gtag', gtag));
   }
   if (isProd && sitemap !== false) {
-    if (isDebugEnabled) {
-      sitemap.ignorePatterns ??= [];
-      sitemap.ignorePatterns.push(`${baseUrl}${debugPluginRouteBasePath}/**`);
-    }
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
   }
   if (Object.keys(rest).length > 0) {

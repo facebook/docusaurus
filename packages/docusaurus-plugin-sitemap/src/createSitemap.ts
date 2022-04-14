@@ -10,10 +10,13 @@ import type {PluginOptions} from '@docusaurus/plugin-sitemap';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {createMatcher} from '@docusaurus/utils';
+import type {HelmetServerState} from 'react-helmet-async';
+import type {ReactElement} from 'react';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
+  head: {[location: string]: HelmetServerState},
   options: PluginOptions,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
@@ -26,18 +29,29 @@ export default async function createSitemap(
 
   const sitemapStream = new SitemapStream({hostname});
 
-  routesPaths
-    .filter((route) => !route.endsWith('404.html') && !ignoreMatcher(route))
-    .forEach((routePath) =>
-      sitemapStream.write({
-        url: applyTrailingSlash(routePath, {
-          trailingSlash: siteConfig.trailingSlash,
-          baseUrl: siteConfig.baseUrl,
-        }),
-        changefreq,
-        priority,
-      }),
+  function routeShouldBeIncluded(route: string) {
+    if (route.endsWith('404.html') || ignoreMatcher(route)) {
+      return false;
+    }
+    // https://github.com/staylor/react-helmet-async/pull/167
+    const meta = head[route]?.meta.toComponent() as unknown as
+      | ReactElement[]
+      | undefined;
+    return !meta?.some(
+      (tag) => tag.props.name === 'robots' && tag.props.content === 'noindex',
     );
+  }
+
+  routesPaths.filter(routeShouldBeIncluded).forEach((routePath) =>
+    sitemapStream.write({
+      url: applyTrailingSlash(routePath, {
+        trailingSlash: siteConfig.trailingSlash,
+        baseUrl: siteConfig.baseUrl,
+      }),
+      changefreq,
+      priority,
+    }),
+  );
 
   sitemapStream.end();
 
