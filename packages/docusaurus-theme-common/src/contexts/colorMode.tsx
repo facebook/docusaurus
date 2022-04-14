@@ -59,7 +59,6 @@ const storeColorMode = (newColorMode: ColorMode) => {
 
 function useContextValue(): ContextValue {
   const {
-    prism,
     colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
   const [colorMode, setColorModeState] = useState(
@@ -76,23 +75,7 @@ function useContextValue(): ContextValue {
       'data-theme',
       coerceToColorMode(colorMode),
     );
-
-    // Add Prism's CSS variables
-    const root = window.document.documentElement;
-    const currentPrismTheme =
-      (colorMode === 'dark' ? prism.darkTheme : prism.theme) || prism.theme;
-
-    Object.entries(currentPrismTheme.plain).forEach(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ([name, color]: [string, any]) => {
-        const cssVarName = `--prism-${name.replace(
-          /[a-z][A-Z\d]/g,
-          (m) => `${m[0]}-${m[1]!.toLowerCase()}`,
-        )}`;
-        root.style.setProperty(cssVarName, color);
-      },
-    );
-  }, [colorMode, prism.theme, prism.darkTheme]);
+  }, [colorMode]);
 
   useEffect(() => {
     if (disableSwitch) {

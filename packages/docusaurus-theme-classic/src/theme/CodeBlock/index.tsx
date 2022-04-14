@@ -16,6 +16,7 @@ import {
   containsLineNumbers,
   ThemeClassNames,
   usePrismTheme,
+  getPrismCssVariables,
 } from '@docusaurus/theme-common';
 import CopyButton from '@theme/CodeBlock/CopyButton';
 import type {Props} from '@theme/CodeBlock';
@@ -50,6 +51,8 @@ export default function CodeBlock({
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
+  const prismCssVariables = getPrismCssVariables(prismTheme);
+
   // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
   // When the children is not a simple string, we just return a styled block
   // without actually highlighting.
@@ -72,7 +75,8 @@ export default function CodeBlock({
               styles.codeBlockContainer,
               blockClassName,
               ThemeClassNames.common.codeBlock,
-            )}>
+            )}
+            style={prismCssVariables}>
             <code className={styles.codeBlockLines}>{children}</code>
           </pre>
         )}
@@ -108,7 +112,8 @@ export default function CodeBlock({
                 language && !blockClassName.includes(`language-${language}`),
             },
             ThemeClassNames.common.codeBlock,
-          )}>
+          )}
+          style={prismCssVariables}>
           {codeBlockTitle && (
             <div className={styles.codeBlockTitle}>{codeBlockTitle}</div>
           )}
