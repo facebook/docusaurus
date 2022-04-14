@@ -137,7 +137,10 @@ export default function CodeBlock({
                   });
 
                   if (highlightLines.includes(i)) {
-                    lineProps.className += ' docusaurus-highlight-code-line';
+                    lineProps.className = clsx(
+                      lineProps.className,
+                      styles.highlightedCodeLine,
+                    );
                   }
 
                   const lineTokens = line.map((token, key) => (
