@@ -481,6 +481,7 @@ describe('themeConfig', () => {
     const prismConfig = {
       prism: {
         additionalLanguages: ['kotlin', 'java'],
+        theme: darkTheme,
       },
     };
     expect(testValidateThemeConfig(prismConfig)).toEqual({
