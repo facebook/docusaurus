@@ -17,7 +17,6 @@ import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import type {SearchClient} from 'algoliasearch/lite';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate, {translate} from '@docusaurus/Translate';
-import styles from './styles.module.css';
 
 import type {
   DocSearchModal as DocSearchModalType,
@@ -233,19 +232,17 @@ function DocSearch({
         />
       </Head>
 
-      <div className={styles.searchBox}>
-        <DocSearchButton
-          onTouchStart={importDocSearchModalIfNeeded}
-          onFocus={importDocSearchModalIfNeeded}
-          onMouseOver={importDocSearchModalIfNeeded}
-          onClick={onOpen}
-          ref={searchButtonRef}
-          translations={{
-            buttonText: translatedSearchLabel,
-            buttonAriaLabel: translatedSearchLabel,
-          }}
-        />
-      </div>
+      <DocSearchButton
+        onTouchStart={importDocSearchModalIfNeeded}
+        onFocus={importDocSearchModalIfNeeded}
+        onMouseOver={importDocSearchModalIfNeeded}
+        onClick={onOpen}
+        ref={searchButtonRef}
+        translations={{
+          buttonText: translatedSearchLabel,
+          buttonAriaLabel: translatedSearchLabel,
+        }}
+      />
 
       {isOpen &&
         DocSearchModal &&

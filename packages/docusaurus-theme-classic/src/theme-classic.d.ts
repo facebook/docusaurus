@@ -692,6 +692,16 @@ declare module '@theme/Navbar/MobileSidebar/Header' {
   export default function NavbarMobileSidebarHeader(): JSX.Element;
 }
 
+declare module '@theme/Navbar/Search' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function NavbarSearch(props: Props): JSX.Element;
+}
+
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
