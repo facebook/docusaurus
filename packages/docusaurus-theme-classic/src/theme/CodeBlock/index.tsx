@@ -107,21 +107,16 @@ function useCodeBlockKey(): string {
 
 export default function CodeBlock({children, ...props}: Props): JSX.Element {
   const key = useCodeBlockKey();
-
   const childrenString = childrenToString(children);
-  if (childrenString) {
-    return (
-      <CodeBlockString {...defaultProps} key={key} {...props}>
-        {childrenString}
-      </CodeBlockString>
-    );
-  } 
-    return (
-      <CodeBlockJSX key={key} {...props}>
-        {children}
-      </CodeBlockJSX>
-    );
-  
+  return childrenString ? (
+    <CodeBlockString key={key} {...props}>
+      {childrenString}
+    </CodeBlockString>
+  ) : (
+    <CodeBlockJSX key={key} {...props}>
+      {children}
+    </CodeBlockJSX>
+  );
 }
 
 // <pre> tags in markdown map to CodeBlocks. They may contain JSX children.
