@@ -231,7 +231,7 @@ async function buildLocale({
       }
       await plugin.postBuild({
         ...props,
-        helmet: headTags,
+        head: headTags,
         content: plugin.content,
       });
     }),

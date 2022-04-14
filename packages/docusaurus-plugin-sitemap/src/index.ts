@@ -18,7 +18,7 @@ export default function pluginSitemap(
   return {
     name: 'docusaurus-plugin-sitemap',
 
-    async postBuild({siteConfig, routesPaths, outDir, helmet}) {
+    async postBuild({siteConfig, routesPaths, outDir, head}) {
       if (siteConfig.noIndex) {
         return;
       }
@@ -26,7 +26,7 @@ export default function pluginSitemap(
       const generatedSitemap = await createSitemap(
         siteConfig,
         routesPaths,
-        helmet,
+        head,
         options,
       );
 

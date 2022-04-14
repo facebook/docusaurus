@@ -16,7 +16,7 @@ import type {ReactElement} from 'react';
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
-  helmet: {[location: string]: HelmetServerState},
+  head: {[location: string]: HelmetServerState},
   options: PluginOptions,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
@@ -34,7 +34,7 @@ export default async function createSitemap(
       return false;
     }
     // https://github.com/staylor/react-helmet-async/pull/167
-    const meta = helmet[route]?.meta.toComponent() as unknown as
+    const meta = head[route]?.meta.toComponent() as unknown as
       | ReactElement[]
       | undefined;
     return !meta?.some(

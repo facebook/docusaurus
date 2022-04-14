@@ -323,7 +323,7 @@ export type Plugin<Content = unknown> = {
   postBuild?: (
     props: Props & {
       content: Content;
-      helmet: {[location: string]: HelmetServerState};
+      head: {[location: string]: HelmetServerState};
     },
   ) => Promise<void> | void;
   // TODO refactor the configureWebpack API surface: use an object instead of
