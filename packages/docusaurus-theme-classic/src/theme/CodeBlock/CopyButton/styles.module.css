@@ -7,7 +7,9 @@
 
 .copyButton {
   display: flex;
-  background: inherit;
+  /* TODO: move to base button styling */
+  background: var(--prism-background-color);
+  color: var(--prism-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
   padding: 0.4rem;

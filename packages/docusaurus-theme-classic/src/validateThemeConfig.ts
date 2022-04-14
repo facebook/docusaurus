@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -32,6 +33,7 @@ export const DEFAULT_CONFIG = {
   metadata: [],
   prism: {
     additionalLanguages: [],
+    theme: defaultPrismTheme,
   },
   navbar: {
     hideOnScroll: false,
@@ -335,7 +337,7 @@ export const ThemeConfigSchema = Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
+    }).default(DEFAULT_CONFIG.prism.theme),
     darkTheme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),

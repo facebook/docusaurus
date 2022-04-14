@@ -6,6 +6,8 @@
  */
 
 import rangeParser from 'parse-numeric-range';
+import type {PrismTheme} from 'prism-react-renderer';
+import type {CSSProperties} from 'react';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const highlightLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -172,4 +174,21 @@ export function parseLines(
   const highlightLines = rangeParser(highlightRange);
   code = lines.join('\n');
   return {highlightLines, code};
+}
+
+export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
+  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
+    color: '--prism-color',
+    backgroundColor: '--prism-background-color',
+  };
+
+  const properties: CSSProperties = {};
+  Object.entries(prismTheme.plain).forEach(([key, value]) => {
+    const varName = mapping[key];
+    if (varName && typeof value === 'string') {
+      // @ts-expect-error: why css variables not in inline style type?
+      properties[varName] = value;
+    }
+  });
+  return properties;
 }
