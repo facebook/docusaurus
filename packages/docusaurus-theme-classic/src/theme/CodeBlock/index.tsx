@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {isValidElement, useEffect, useState} from 'react';
+import React, {
+  isValidElement,
+  useEffect,
+  useState,
+  type ComponentProps,
+} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import {
@@ -23,12 +28,65 @@ import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
 
+// Lib does not make this easy
+type RenderProps = Parameters<ComponentProps<typeof Highlight>['children']>[0];
+type GetLineProps = RenderProps['getLineProps'];
+type GetTokenProps = RenderProps['getTokenProps'];
+type Token = RenderProps['tokens'][number][number];
+
+function CodeBlockLine({
+  line,
+  highlight,
+  showLineNumbers,
+  getLineProps,
+  getTokenProps,
+}: {
+  line: Token[];
+  highlight: boolean;
+  showLineNumbers: boolean;
+  getLineProps: GetLineProps;
+  getTokenProps: GetTokenProps;
+}) {
+  if (line.length === 1 && line[0]!.content === '\n') {
+    line[0]!.content = '';
+  }
+
+  const lineProps = getLineProps({
+    line,
+    ...(showLineNumbers && {className: styles.codeLine}),
+  });
+
+  if (highlight) {
+    lineProps.className += ' docusaurus-highlight-code-line';
+  }
+
+  const lineTokens = line.map((token, key) => (
+    <span key={key} {...getTokenProps({token, key})} />
+  ));
+
+  return (
+    <span {...lineProps}>
+      {showLineNumbers ? (
+        <>
+          <span className={styles.codeLineNumber} />
+          <span className={styles.codeLineContent}>{lineTokens}</span>
+        </>
+      ) : (
+        <>
+          {lineTokens}
+          <br />
+        </>
+      )}
+    </span>
+  );
+}
+
 export default function CodeBlock({
   children,
   className: blockClassName = '',
   metastring,
   title,
-  showLineNumbers,
+  showLineNumbers: showLineNumbersProp,
   language: languageProp,
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
@@ -93,7 +151,7 @@ export default function CodeBlock({
     languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
   const shouldShowLineNumbers =
-    showLineNumbers || containsLineNumbers(metastring);
+    showLineNumbersProp || containsLineNumbers(metastring);
 
   return (
     <Highlight
@@ -127,43 +185,16 @@ export default function CodeBlock({
                   styles.codeBlockLines,
                   shouldShowLineNumbers && styles.codeBlockLinesWithNumbering,
                 )}>
-                {tokens.map((line, i) => {
-                  if (line.length === 1 && line[0]!.content === '\n') {
-                    line[0]!.content = '';
-                  }
-
-                  const lineProps = getLineProps({
-                    line,
-                    key: i,
-                    ...(shouldShowLineNumbers && {className: styles.codeLine}),
-                  });
-
-                  if (highlightLines.includes(i)) {
-                    lineProps.className += ' docusaurus-highlight-code-line';
-                  }
-
-                  const lineTokens = line.map((token, key) => (
-                    <span key={key} {...getTokenProps({token, key})} />
-                  ));
-
-                  return (
-                    <span key={i} {...lineProps}>
-                      {shouldShowLineNumbers ? (
-                        <>
-                          <span className={styles.codeLineNumber} />
-                          <span className={styles.codeLineContent}>
-                            {lineTokens}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          {lineTokens}
-                          <br />
-                        </>
-                      )}
-                    </span>
-                  );
-                })}
+                {tokens.map((line, i) => (
+                  <CodeBlockLine
+                    key={i}
+                    line={line}
+                    getLineProps={getLineProps}
+                    getTokenProps={getTokenProps}
+                    highlight={highlightLines.includes(i)}
+                    showLineNumbers={shouldShowLineNumbers}
+                  />
+                ))}
               </code>
             </pre>
 
