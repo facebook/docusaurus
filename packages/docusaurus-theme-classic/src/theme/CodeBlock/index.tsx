@@ -10,6 +10,7 @@ import React, {
   useEffect,
   useState,
   type ComponentProps,
+  type ReactElement,
 } from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
@@ -81,6 +82,14 @@ function CodeBlockLine({
   );
 }
 
+function childrenToString(children: string | ReactElement): string | null {
+  if (React.Children.toArray(children).some((el) => isValidElement(el))) {
+    return null;
+  }
+  // The children is now guaranteed to be one/more plain strings
+  return Array.isArray(children) ? children.join('') : (children as string);
+}
+
 export default function CodeBlock({
   children,
   className: blockClassName = '',
@@ -89,7 +98,13 @@ export default function CodeBlock({
   showLineNumbers: showLineNumbersProp,
   language: languageProp,
 }: Props): JSX.Element {
-  const {prism} = useThemeConfig();
+  const {
+    prism: {defaultLanguage},
+  } = useThemeConfig();
+  const language =
+    languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
+  const prismTheme = usePrismTheme();
+  const prismCssVariables = getPrismCssVariables(prismTheme);
 
   const [mounted, setMounted] = useState(false);
   // The Prism theme on SSR is always the default theme but the site theme
@@ -103,18 +118,12 @@ export default function CodeBlock({
     setMounted(true);
   }, []);
 
-  // We still parse the metastring in case we want to support more syntax in the
-  // future. Note that MDX doesn't strip quotes when parsing metastring:
-  // "title=\"xyz\"" => title: "\"xyz\""
-  const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
-  const prismTheme = usePrismTheme();
-
-  const prismCssVariables = getPrismCssVariables(prismTheme);
+  const content = childrenToString(children);
 
   // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
   // When the children is not a simple string, we just return a styled block
   // without actually highlighting.
-  if (React.Children.toArray(children).some((el) => isValidElement(el))) {
+  if (!content) {
     return (
       <Highlight
         {...defaultProps}
@@ -142,15 +151,13 @@ export default function CodeBlock({
     );
   }
 
-  // The children is now guaranteed to be one/more plain strings
-  const content = Array.isArray(children)
-    ? children.join('')
-    : (children as string);
+  // We still parse the metastring in case we want to support more syntax in the
+  // future. Note that MDX doesn't strip quotes when parsing metastring:
+  // "title=\"xyz\"" => title: "\"xyz\""
+  const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
 
-  const language =
-    languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
-  const shouldShowLineNumbers =
+  const showLineNumbers =
     showLineNumbersProp || containsLineNumbers(metastring);
 
   return (
@@ -183,7 +190,7 @@ export default function CodeBlock({
               <code
                 className={clsx(
                   styles.codeBlockLines,
-                  shouldShowLineNumbers && styles.codeBlockLinesWithNumbering,
+                  showLineNumbers && styles.codeBlockLinesWithNumbering,
                 )}>
                 {tokens.map((line, i) => (
                   <CodeBlockLine
@@ -192,7 +199,7 @@ export default function CodeBlock({
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
                     highlight={highlightLines.includes(i)}
-                    showLineNumbers={shouldShowLineNumbers}
+                    showLineNumbers={showLineNumbers}
                   />
                 ))}
               </code>
