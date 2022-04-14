@@ -61,7 +61,7 @@ export default function CodeBlock({
         theme={prismTheme}
         code=""
         language={'text' as Language}>
-        {({className, style}) => (
+        {({className}) => (
           <pre
             /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
             tabIndex={0}
@@ -72,8 +72,7 @@ export default function CodeBlock({
               styles.codeBlockContainer,
               blockClassName,
               ThemeClassNames.common.codeBlock,
-            )}
-            style={style}>
+            )}>
             <code className={styles.codeBlockLines}>{children}</code>
           </pre>
         )}
@@ -99,7 +98,7 @@ export default function CodeBlock({
       theme={prismTheme}
       code={code}
       language={(language ?? 'text') as Language}>
-      {({className, style, tokens, getLineProps, getTokenProps}) => (
+      {({className, tokens, getLineProps, getTokenProps}) => (
         <div
           className={clsx(
             styles.codeBlockContainer,
@@ -111,11 +110,9 @@ export default function CodeBlock({
             ThemeClassNames.common.codeBlock,
           )}>
           {codeBlockTitle && (
-            <div style={style} className={styles.codeBlockTitle}>
-              {codeBlockTitle}
-            </div>
+            <div className={styles.codeBlockTitle}>{codeBlockTitle}</div>
           )}
-          <div className={styles.codeBlockContent} style={style}>
+          <div className={styles.codeBlockContent}>
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}

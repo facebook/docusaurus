@@ -6,6 +6,8 @@
  */
 
 .codeBlockContainer {
+  background: var(--prism-background-color);
+  color: var(--prism-color);
   margin-bottom: var(--ifm-leading);
   box-shadow: var(--ifm-global-shadow-lw);
   border-radius: var(--ifm-code-border-radius);
@@ -28,7 +30,7 @@
 }
 
 .codeBlock {
-  --ifm-pre-background: inherit;
+  --ifm-pre-background: var(--prism-background-color);
   margin: 0;
   padding: 0;
 }
@@ -44,7 +46,6 @@
 
 .codeBlockLines {
   font: inherit;
-  background: var(--ifm-pre-background);
   /* rtl:ignore */
   float: left;
   min-width: 100%;
