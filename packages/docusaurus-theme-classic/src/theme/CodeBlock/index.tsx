@@ -90,14 +90,74 @@ function childrenToString(children: string | ReactElement): string | null {
   return Array.isArray(children) ? children.join('') : (children as string);
 }
 
-export default function CodeBlock({
+// The Prism theme on SSR is always the default theme but the site theme
+// can be in a different mode. React hydration doesn't update DOM styles
+// that come from SSR. Hence force a re-render after mounting to apply the
+// current relevant styles. There will be a flash seen of the original
+// styles seen using this current approach but that's probably ok. Fixing
+// the flash will require changing the theming approach and is not worth it
+// at this point.
+function useCodeBlockKey(): string {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  return String(mounted);
+}
+
+export default function CodeBlock({children, ...props}: Props): JSX.Element {
+  const key = useCodeBlockKey();
+
+  const childrenString = childrenToString(children);
+  if (childrenString) {
+    return (
+      <CodeBlockString {...defaultProps} key={key} {...props}>
+        {childrenString}
+      </CodeBlockString>
+    );
+  } 
+    return (
+      <CodeBlockJSX key={key} {...props}>
+        {children}
+      </CodeBlockJSX>
+    );
+  
+}
+
+// <pre> tags in markdown map to CodeBlocks. They may contain JSX children.
+// When the children is not a simple string, we just return a styled block
+// without actually highlighting.
+function CodeBlockJSX({
+  children,
+  className: blockClassName,
+}: Props): JSX.Element {
+  const prismTheme = usePrismTheme();
+  const prismCssVariables = getPrismCssVariables(prismTheme);
+  return (
+    <pre
+      /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+      tabIndex={0}
+      className={clsx(
+        styles.codeBlockStandalone,
+        'thin-scrollbar',
+        styles.codeBlockContainer,
+        blockClassName,
+        ThemeClassNames.common.codeBlock,
+      )}
+      style={prismCssVariables}>
+      <code className={styles.codeBlockLines}>{children}</code>
+    </pre>
+  );
+}
+
+function CodeBlockString({
   children,
   className: blockClassName = '',
   metastring,
   title,
   showLineNumbers: showLineNumbersProp,
   language: languageProp,
-}: Props): JSX.Element {
+}: Omit<Props, 'children'> & {children: string}): JSX.Element {
   const {
     prism: {defaultLanguage},
   } = useThemeConfig();
@@ -106,64 +166,18 @@ export default function CodeBlock({
   const prismTheme = usePrismTheme();
   const prismCssVariables = getPrismCssVariables(prismTheme);
 
-  const [mounted, setMounted] = useState(false);
-  // The Prism theme on SSR is always the default theme but the site theme
-  // can be in a different mode. React hydration doesn't update DOM styles
-  // that come from SSR. Hence force a re-render after mounting to apply the
-  // current relevant styles. There will be a flash seen of the original
-  // styles seen using this current approach but that's probably ok. Fixing
-  // the flash will require changing the theming approach and is not worth it
-  // at this point.
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const content = childrenToString(children);
-
-  // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
-  // When the children is not a simple string, we just return a styled block
-  // without actually highlighting.
-  if (!content) {
-    return (
-      <Highlight
-        {...defaultProps}
-        key={String(mounted)}
-        theme={prismTheme}
-        code=""
-        language={'text' as Language}>
-        {({className}) => (
-          <pre
-            /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-            tabIndex={0}
-            className={clsx(
-              className,
-              styles.codeBlockStandalone,
-              'thin-scrollbar',
-              styles.codeBlockContainer,
-              blockClassName,
-              ThemeClassNames.common.codeBlock,
-            )}
-            style={prismCssVariables}>
-            <code className={styles.codeBlockLines}>{children}</code>
-          </pre>
-        )}
-      </Highlight>
-    );
-  }
-
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
   // "title=\"xyz\"" => title: "\"xyz\""
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
 
-  const {highlightLines, code} = parseLines(content, metastring, language);
+  const {highlightLines, code} = parseLines(children, metastring, language);
   const showLineNumbers =
     showLineNumbersProp || containsLineNumbers(metastring);
 
   return (
     <Highlight
       {...defaultProps}
-      key={String(mounted)}
       theme={prismTheme}
       code={code}
       language={(language ?? 'text') as Language}>
