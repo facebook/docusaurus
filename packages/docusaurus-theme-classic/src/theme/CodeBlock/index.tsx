@@ -119,29 +119,38 @@ export default function CodeBlock({children, ...props}: Props): JSX.Element {
   );
 }
 
+function CodeBlockContainer<As extends 'div' | 'pre'>({
+  as: Wrapper,
+  ...props
+}: {as: As} & ComponentProps<As>) {
+  return (
+    // @ts-expect-error: TODO bad typing here
+    <Wrapper
+      {...props}
+      className={clsx(
+        props.className,
+        styles.codeBlockContainer,
+        ThemeClassNames.common.codeBlock,
+      )}
+    />
+  );
+}
+
 // <pre> tags in markdown map to CodeBlocks. They may contain JSX children.
 // When the children is not a simple string, we just return a styled block
 // without actually highlighting.
-function CodeBlockJSX({
-  children,
-  className: blockClassName,
-}: Props): JSX.Element {
+function CodeBlockJSX({children, className}: Props): JSX.Element {
   const prismTheme = usePrismTheme();
   const prismCssVariables = getPrismCssVariables(prismTheme);
   return (
-    <pre
-      /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+    <CodeBlockContainer
+      as="pre"
+       
       tabIndex={0}
-      className={clsx(
-        styles.codeBlockStandalone,
-        'thin-scrollbar',
-        styles.codeBlockContainer,
-        blockClassName,
-        ThemeClassNames.common.codeBlock,
-      )}
+      className={clsx(styles.codeBlockStandalone, 'thin-scrollbar', className)}
       style={prismCssVariables}>
       <code className={styles.codeBlockLines}>{children}</code>
-    </pre>
+    </CodeBlockContainer>
   );
 }
 
@@ -177,16 +186,12 @@ function CodeBlockString({
       code={code}
       language={(language ?? 'text') as Language}>
       {({className, tokens, getLineProps, getTokenProps}) => (
-        <div
-          className={clsx(
-            styles.codeBlockContainer,
-            blockClassName,
-            {
-              [`language-${language}`]:
-                language && !blockClassName.includes(`language-${language}`),
-            },
-            ThemeClassNames.common.codeBlock,
-          )}
+        <CodeBlockContainer
+          as="div"
+          className={clsx(blockClassName, {
+            [`language-${language}`]:
+              language && !blockClassName.includes(`language-${language}`),
+          })}
           style={prismCssVariables}>
           {codeBlockTitle && (
             <div className={styles.codeBlockTitle}>{codeBlockTitle}</div>
@@ -216,7 +221,7 @@ function CodeBlockString({
 
             <CopyButton code={code} />
           </div>
-        </div>
+        </CodeBlockContainer>
       )}
     </Highlight>
   );
