@@ -93,6 +93,12 @@ const DocSidebarItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
+const HtmlNavbarItemSchema = Joi.object({
+  className: Joi.string(),
+  type: Joi.string().equal('html').required(),
+  value: Joi.string().required(),
+});
+
 const itemWithType = (type: string | undefined) => {
   // because equal(undefined) is not supported :/
   const typeSchema = type
@@ -124,6 +130,10 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType(undefined),
       then: DefaultNavbarItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
     },
     {
       is: Joi.alternatives().try(
@@ -195,6 +205,10 @@ const NavbarItemSchema = Joi.object({
     {
       is: itemWithType('search'),
       then: SearchItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
     },
     {
       is: itemWithType(undefined),
