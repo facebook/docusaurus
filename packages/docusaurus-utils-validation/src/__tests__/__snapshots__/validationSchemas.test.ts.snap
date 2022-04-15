@@ -1,103 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validation schemas admonitionsSchema: for value=[] 1`] = `"\\"value\\" must be of type object"`;
+exports[`validation schemas admonitionsSchema: for value=[] 1`] = `""value" must be of type object"`;
 
-exports[`validation schemas admonitionsSchema: for value=3 1`] = `"\\"value\\" must be of type object"`;
+exports[`validation schemas admonitionsSchema: for value=3 1`] = `""value" must be of type object"`;
 
-exports[`validation schemas admonitionsSchema: for value=null 1`] = `"\\"value\\" must be of type object"`;
+exports[`validation schemas admonitionsSchema: for value=null 1`] = `""value" must be of type object"`;
 
-exports[`validation schemas admonitionsSchema: for value=true 1`] = `"\\"value\\" must be of type object"`;
+exports[`validation schemas admonitionsSchema: for value=true 1`] = `""value" must be of type object"`;
 
-exports[`validation schemas pathnameSchema: for value="foo" 1`] = `"\\"value\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
+exports[`validation schemas pathnameSchema: for value="foo" 1`] = `""value" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
-exports[`validation schemas pathnameSchema: for value="https://github.com/foo" 1`] = `"\\"value\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
+exports[`validation schemas pathnameSchema: for value="https://github.com/foo" 1`] = `""value" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
-exports[`validation schemas pluginIdSchema: for value="/docs" 1`] = `"Illegal plugin ID value \\"/docs\\": it should only contain alphanumerics, underscores, and dashes."`;
+exports[`validation schemas pluginIdSchema: for value="/docs" 1`] = `"Illegal plugin ID value "/docs": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas pluginIdSchema: for value="do cs" 1`] = `"Illegal plugin ID value \\"do cs\\": it should only contain alphanumerics, underscores, and dashes."`;
+exports[`validation schemas pluginIdSchema: for value="do cs" 1`] = `"Illegal plugin ID value "do cs": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas pluginIdSchema: for value="do/cs" 1`] = `"Illegal plugin ID value \\"do/cs\\": it should only contain alphanumerics, underscores, and dashes."`;
+exports[`validation schemas pluginIdSchema: for value="do/cs" 1`] = `"Illegal plugin ID value "do/cs": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas pluginIdSchema: for value="docs/" 1`] = `"Illegal plugin ID value \\"docs/\\": it should only contain alphanumerics, underscores, and dashes."`;
+exports[`validation schemas pluginIdSchema: for value="docs/" 1`] = `"Illegal plugin ID value "docs/": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas pluginIdSchema: for value=[] 1`] = `"\\"value\\" must be a string"`;
+exports[`validation schemas pluginIdSchema: for value=[] 1`] = `""value" must be a string"`;
 
-exports[`validation schemas pluginIdSchema: for value=3 1`] = `"\\"value\\" must be a string"`;
+exports[`validation schemas pluginIdSchema: for value=3 1`] = `""value" must be a string"`;
 
-exports[`validation schemas pluginIdSchema: for value=null 1`] = `"\\"value\\" must be a string"`;
+exports[`validation schemas pluginIdSchema: for value=null 1`] = `""value" must be a string"`;
 
-exports[`validation schemas pluginIdSchema: for value=true 1`] = `"\\"value\\" must be a string"`;
+exports[`validation schemas pluginIdSchema: for value=true 1`] = `""value" must be a string"`;
 
 exports[`validation schemas rehypePluginsSchema: for value=[[]] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas rehypePluginsSchema: for value=[[null,null]] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas rehypePluginsSchema: for value=[3] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas rehypePluginsSchema: for value=[false] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas rehypePluginsSchema: for value=[null] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
-exports[`validation schemas rehypePluginsSchema: for value=3 1`] = `"\\"value\\" must be an array"`;
+exports[`validation schemas rehypePluginsSchema: for value=3 1`] = `""value" must be an array"`;
 
-exports[`validation schemas rehypePluginsSchema: for value=false 1`] = `"\\"value\\" must be an array"`;
+exports[`validation schemas rehypePluginsSchema: for value=false 1`] = `""value" must be an array"`;
 
-exports[`validation schemas rehypePluginsSchema: for value=null 1`] = `"\\"value\\" must be an array"`;
+exports[`validation schemas rehypePluginsSchema: for value=null 1`] = `""value" must be an array"`;
 
 exports[`validation schemas remarkPluginsSchema: for value=[[]] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas remarkPluginsSchema: for value=[[null,null]] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas remarkPluginsSchema: for value=[3] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas remarkPluginsSchema: for value=[false] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
 exports[`validation schemas remarkPluginsSchema: for value=[null] 1`] = `
-"\\"[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-- A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-- A simple module, like \`require(\\"remark-math\\")\`"
+""[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+- A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+- A simple module, like \`require("remark-math")\`"
 `;
 
-exports[`validation schemas remarkPluginsSchema: for value=3 1`] = `"\\"value\\" must be an array"`;
+exports[`validation schemas remarkPluginsSchema: for value=3 1`] = `""value" must be an array"`;
 
-exports[`validation schemas remarkPluginsSchema: for value=false 1`] = `"\\"value\\" must be an array"`;
+exports[`validation schemas remarkPluginsSchema: for value=false 1`] = `""value" must be an array"`;
 
-exports[`validation schemas remarkPluginsSchema: for value=null 1`] = `"\\"value\\" must be an array"`;
+exports[`validation schemas remarkPluginsSchema: for value=null 1`] = `""value" must be an array"`;
 
-exports[`validation schemas uRISchema: for value="spaces are invalid in a URL" 1`] = `"\\"value\\" does not look like a valid url (value='')"`;
+exports[`validation schemas uRISchema: for value="spaces are invalid in a URL" 1`] = `""value" does not look like a valid url (value='')"`;

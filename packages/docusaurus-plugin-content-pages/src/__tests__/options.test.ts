@@ -49,6 +49,6 @@ describe('normalizePagesPluginOptions', () => {
         // @ts-expect-error: bad attribute
         path: 42,
       });
-    }).toThrowErrorMatchingInlineSnapshot(`"\\"path\\" must be a string"`);
+    }).toThrowErrorMatchingInlineSnapshot(`""path" must be a string"`);
   });
 });

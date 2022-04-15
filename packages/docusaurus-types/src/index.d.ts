@@ -10,18 +10,49 @@ import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
+import type {HelmetServerState} from 'react-helmet-async';
 import type {
+  DeepRequired,
   Required as RequireKeys,
   DeepPartial,
-  DeepRequired,
 } from 'utility-types';
 import type {Location} from 'history';
-import type Loadable from 'react-loadable';
+
+// === Configuration ===
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
+export type PluginOptions = {id?: string} & {[key: string]: unknown};
+
+export type PluginConfig =
+  | string
+  | [string, PluginOptions]
+  | [PluginModule, PluginOptions]
+  | PluginModule
+  | false
+  | null;
+
+export type PresetConfig =
+  | string
+  | [string, {[key: string]: unknown}]
+  | false
+  | null;
+
 export type ThemeConfig = {
   [key: string]: unknown;
+};
+
+export type I18nLocaleConfig = {
+  label: string;
+  htmlLang: string;
+  direction: string;
+  calendar: string;
+};
+
+export type I18nConfig = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
+  localeConfigs: {[locale: string]: Partial<I18nLocaleConfig>};
 };
 
 /**
@@ -63,7 +94,7 @@ export type DocusaurusConfig = {
     | string
     | {
         src: string;
-        [key: string]: unknown;
+        [key: string]: string | boolean | undefined;
       }
   )[];
   clientModules: string[];
@@ -73,7 +104,7 @@ export type DocusaurusConfig = {
     | string
     | {
         href: string;
-        [key: string]: unknown;
+        [key: string]: string | boolean | undefined;
       }
   )[];
   titleDelimiter?: string;
@@ -91,6 +122,8 @@ export type Config = RequireKeys<
   DeepPartial<DocusaurusConfig>,
   'title' | 'url' | 'baseUrl'
 >;
+
+// === Data loading ===
 
 /**
  * - `type: 'package'`, plugin is in a different package.
@@ -115,58 +148,48 @@ export type SiteMetadata = {
   readonly pluginVersions: {[pluginName: string]: PluginVersionInformation};
 };
 
-// Inspired by Chrome JSON, because it's a widely supported i18n format
-// https://developer.chrome.com/apps/i18n-messages
-// https://support.crowdin.com/file-formats/chrome-json/
-// https://www.applanga.com/docs/formats/chrome_i18n_json
-// https://docs.transifex.com/formats/chrome-json
-// https://help.phrase.com/help/chrome-json-messages
+/**
+ * Inspired by Chrome JSON, because it's a widely supported i18n format
+ * @see https://developer.chrome.com/apps/i18n-messages
+ * @see https://support.crowdin.com/file-formats/chrome-json/
+ * @see https://www.applanga.com/docs/formats/chrome_i18n_json
+ * @see https://docs.transifex.com/formats/chrome-json
+ * @see https://help.phrase.com/help/chrome-json-messages
+ */
 export type TranslationMessage = {message: string; description?: string};
-export type TranslationFileContent = {[key: string]: TranslationMessage};
-export type TranslationFile = {path: string; content: TranslationFileContent};
-
-export type I18nLocaleConfig = {
-  label: string;
-  htmlLang: string;
-  direction: string;
-};
-
-export type I18nConfig = {
-  defaultLocale: string;
-  locales: [string, ...string[]];
-  localeConfigs: {[locale: string]: Partial<I18nLocaleConfig>};
+export type TranslationFileContent = {[msgId: string]: TranslationMessage};
+/**
+ * An abstract representation of how a translation file exists on disk. The core
+ * would handle the file reading/writing; plugins just need to deal with
+ * translations in-memory.
+ */
+export type TranslationFile = {
+  /**
+   * Relative to the directory where it's expected to be found. For plugin
+   * files, it's relative to `i18n/<locale>/<pluginName>/<pluginId>`. Should NOT
+   * have any extension.
+   */
+  path: string;
+  content: TranslationFileContent;
 };
 
 export type I18n = DeepRequired<I18nConfig> & {currentLocale: string};
 
 export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
+export type CodeTranslations = {[msgId: string]: string};
+
 export type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
   siteMetadata: SiteMetadata;
   globalData: GlobalData;
   i18n: I18n;
-  codeTranslations: {[msgId: string]: string};
+  codeTranslations: CodeTranslations;
 
   // Don't put mutable values here, to avoid triggering re-renders
   // We could reconsider that choice if context selectors are implemented
   // isBrowser: boolean; // Not here on purpose!
 };
-
-export type Preset = {
-  plugins?: PluginConfig[];
-  themes?: PluginConfig[];
-};
-
-export type PresetModule = {
-  <T>(context: LoadContext, presetOptions: T): Preset;
-};
-
-export type ImportedPresetModule = PresetModule & {
-  default?: PresetModule;
-};
-
-export type PresetConfig = string | [string, {[key: string]: unknown}];
 
 export type HostPortCLIOptions = {
   host?: string;
@@ -191,14 +214,11 @@ export type ServeCLIOptions = HostPortCLIOptions &
     build: boolean;
   };
 
-export type BuildOptions = ConfigOptions & {
+export type BuildCLIOptions = ConfigOptions & {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
   skipBuild: boolean;
-};
-
-export type BuildCLIOptions = BuildOptions & {
   locale?: string;
 };
 
@@ -215,11 +235,8 @@ export type LoadContext = {
    */
   baseUrl: string;
   i18n: I18n;
-  ssrTemplate: string;
-  codeTranslations: {[msgId: string]: string};
+  codeTranslations: CodeTranslations;
 };
-
-export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export type Props = LoadContext & {
   readonly headTags: string;
@@ -231,10 +248,25 @@ export type Props = LoadContext & {
   readonly plugins: LoadedPlugin[];
 };
 
+// === Plugin ===
+
 export type PluginContentLoadedActions = {
   addRoute: (config: RouteConfig) => void;
   createData: (name: string, data: string) => Promise<string>;
   setGlobalData: (data: unknown) => void;
+};
+
+export type ConfigureWebpackUtils = {
+  getStyleLoaders: (
+    isServer: boolean,
+    cssOptions: {
+      [key: string]: unknown;
+    },
+  ) => RuleSetRule[];
+  getJSLoader: (options: {
+    isServer: boolean;
+    babelOptions?: {[key: string]: unknown};
+  }) => RuleSetRule;
 };
 
 export type AllContent = {
@@ -246,18 +278,54 @@ export type AllContent = {
 // TODO improve type (not exposed by postcss-loader)
 export type PostCssOptions = {[key: string]: unknown} & {plugins: unknown[]};
 
+type HtmlTagObject = {
+  /**
+   * Attributes of the html tag.
+   * E.g. `{ disabled: true, value: "demo", rel: "preconnect" }`
+   */
+  attributes?: Partial<{[key: string]: string | boolean}>;
+  /** The tag name, e.g. `div`, `script`, `link`, `meta` */
+  tagName: string;
+  /** The inner HTML */
+  innerHTML?: string;
+};
+
+export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+export type ValidationSchema<T> = Joi.ObjectSchema<T>;
+
+export type Validate<T, U> = (
+  validationSchema: ValidationSchema<U>,
+  options: T,
+) => U;
+
+export type OptionValidationContext<T, U> = {
+  validate: Validate<T, U>;
+  options: T;
+};
+
+export type ThemeConfigValidationContext<T> = {
+  validate: Validate<T, T>;
+  themeConfig: Partial<T>;
+};
+
 export type Plugin<Content = unknown> = {
   name: string;
-  loadContent?: () => Promise<Content>;
+  loadContent?: () => Promise<Content> | Content;
   contentLoaded?: (args: {
     /** the content loaded by this plugin instance */
     content: Content; //
     /** content loaded by ALL the plugins */
     allContent: AllContent;
     actions: PluginContentLoadedActions;
-  }) => Promise<void>;
+  }) => Promise<void> | void;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?: (props: Props & {content: Content}) => Promise<void>;
+  postBuild?: (
+    props: Props & {
+      content: Content;
+      head: {[location: string]: HelmetServerState};
+    },
+  ) => Promise<void> | void;
   // TODO refactor the configureWebpack API surface: use an object instead of
   // multiple params (requires breaking change)
   configureWebpack?: (
@@ -266,7 +334,9 @@ export type Plugin<Content = unknown> = {
     utils: ConfigureWebpackUtils,
     content: Content,
   ) => WebpackConfiguration & {
-    mergeStrategy?: ConfigureWebpackFnMergeStrategy;
+    mergeStrategy?: {
+      [key: string]: CustomizeRuleString;
+    };
   };
   configurePostCss?: (options: PostCssOptions) => PostCssOptions;
   getThemePath?: () => string;
@@ -284,8 +354,10 @@ export type Plugin<Content = unknown> = {
   // translations
   getTranslationFiles?: (args: {
     content: Content;
-  }) => Promise<TranslationFile[]>;
-  getDefaultCodeTranslationMessages?: () => Promise<{[id: string]: string}>;
+  }) => Promise<TranslationFile[]> | TranslationFile[];
+  getDefaultCodeTranslationMessages?: () =>
+    | Promise<{[id: string]: string}>
+    | {[id: string]: string};
   translateContent?: (args: {
     /** The content loaded by this plugin instance. */
     content: Content;
@@ -334,9 +406,7 @@ export type NormalizedPluginConfig = {
 export type InitializedPlugin = Plugin & {
   readonly options: Required<PluginOptions>;
   readonly version: PluginVersionInformation;
-  /**
-   * The absolute path to the folder containing the entry point file.
-   */
+  /** The absolute path to the folder containing the entry point file. */
   readonly path: string;
 };
 
@@ -372,48 +442,77 @@ export type ImportedPluginModule = PluginModule & {
   default?: PluginModule;
 };
 
-export type ConfigureWebpackFn = Plugin['configureWebpack'];
-export type ConfigureWebpackFnMergeStrategy = {
-  [key: string]: CustomizeRuleString;
-};
-export type ConfigurePostCssFn = Plugin['configurePostCss'];
-
-export type PluginOptions = {id?: string} & {[key: string]: unknown};
-
-export type PluginConfig =
-  | string
-  | [string, PluginOptions]
-  | [PluginModule, PluginOptions]
-  | PluginModule;
-
-export type ChunkRegistry = {
-  loader: string;
-  modulePath: string;
+export type Preset = {
+  plugins?: PluginConfig[];
+  themes?: PluginConfig[];
 };
 
+export type PresetModule = {
+  <T>(context: LoadContext, presetOptions: T): Preset;
+};
+
+export type ImportedPresetModule = PresetModule & {
+  default?: PresetModule;
+};
+
+// === Route registry ===
+
+/**
+ * A "module" represents a unit of serialized data emitted from the plugin. It
+ * will be imported on client-side and passed as props, context, etc.
+ *
+ * If it's a string, it's a file path that Webpack can `require`; if it's
+ * an object, it can also contain `query` or other metadata.
+ */
 export type Module =
   | {
-      path: string;
+      /**
+       * A marker that tells the route generator this is an import and not a
+       * nested object to recurse.
+       */
       __import?: boolean;
+      path: string;
       query?: ParsedUrlQueryInput;
     }
   | string;
 
-export type RouteModule = {
-  [module: string]: Module | RouteModule | RouteModule[];
+/**
+ * Represents the data attached to each route. Since the routes.js is a
+ * monolithic data file, any data (like props) should be serialized separately
+ * and registered here as file paths (a {@link Module}), so that we could
+ * code-split.
+ */
+export type RouteModules = {
+  [propName: string]: Module | RouteModules | RouteModules[];
 };
 
-export type ChunkNames = {
-  [name: string]: string | null | ChunkNames | ChunkNames[];
-};
-
+/**
+ * Represents a "slice" of the final route structure returned from the plugin
+ * `addRoute` action.
+ */
 export type RouteConfig = {
+  /** With leading slash. Trailing slash will be normalized by config. */
   path: string;
+  /** Component used to render this route, a path that Webpack can `require`. */
   component: string;
-  modules?: RouteModule;
+  /**
+   * Props. Each entry should be `[propName]: pathToPropModule` (created with
+   * `createData`)
+   */
+  modules?: RouteModules;
+  /**
+   * The route context will wrap the `component`. Use `useRouteContext` to
+   * retrieve what's declared here. Note that all custom route context declared
+   * here will be namespaced under {@link RouteContext.data}.
+   */
+  context?: RouteModules;
+  /** Nested routes config. */
   routes?: RouteConfig[];
+  /** React router config option: `exact` routes would not match subroutes. */
   exact?: boolean;
+  /** Used to sort routes. Higher-priority routes will be placed first. */
   priority?: number;
+  /** Extra props; will be copied to routes.js. */
   [propName: string]: unknown;
 };
 
@@ -435,11 +534,57 @@ export type PluginRouteContext = RouteContext & {
   };
 };
 
-export type Route = {
-  readonly path: string;
-  readonly component: ReturnType<typeof Loadable>;
-  readonly exact?: boolean;
-  readonly routes?: Route[];
+/**
+ * The shape would be isomorphic to {@link RouteModules}:
+ * {@link Module} -> `string`, `RouteModules[]` -> `ChunkNames[]`.
+ *
+ * Each `string` chunk name will correlate with one key in the {@link Registry}.
+ */
+export type ChunkNames = {
+  [propName: string]: string | ChunkNames | ChunkNames[];
+};
+
+/**
+ * A map from route paths (with a hash) to the chunk names of each module, which
+ * the bundler will collect.
+ *
+ * Chunk keys are routes with a hash, because 2 routes can conflict with each
+ * other if they have the same path, e.g.: parent=/docs, child=/docs
+ *
+ * @see https://github.com/facebook/docusaurus/issues/2917
+ */
+export type RouteChunkNames = {
+  [routePathHashed: string]: ChunkNames;
+};
+
+/**
+ * Each key is the chunk name, which you can get from `routeChunkNames` (see
+ * {@link RouteChunkNames}). The values are the opts data that react-loadable
+ * needs. For example:
+ *
+ * ```js
+ * const options = {
+ *   optsLoader: {
+ *     component: () => import('./Pages.js'),
+ *     content.foo: () => import('./doc1.md'),
+ *   },
+ *   optsModules: ['./Pages.js', './doc1.md'],
+ *   optsWebpack: [
+ *     require.resolveWeak('./Pages.js'),
+ *     require.resolveWeak('./doc1.md'),
+ *   ],
+ * }
+ * ```
+ *
+ * @see https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded
+ */
+export type Registry = {
+  readonly [chunkName: string]: [
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Loader: () => Promise<any>,
+    ModuleName: string,
+    ResolvedModuleName: string,
+  ];
 };
 
 /**
@@ -449,55 +594,11 @@ export type ThemeAliases = {
   [alias: string]: string;
 };
 
-export type ConfigureWebpackUtils = {
-  getStyleLoaders: (
-    isServer: boolean,
-    cssOptions: {
-      [key: string]: unknown;
-    },
-  ) => RuleSetRule[];
-  getJSLoader: (options: {
-    isServer: boolean;
-    babelOptions?: {[key: string]: unknown};
-  }) => RuleSetRule;
-};
-
-type HtmlTagObject = {
-  /**
-   * Attributes of the html tag.
-   * E.g. `{ disabled: true, value: "demo", rel: "preconnect" }`
-   */
-  attributes?: Partial<{[key: string]: string | boolean}>;
-  /** The tag name, e.g. `div`, `script`, `link`, `meta` */
-  tagName: string;
-  /** The inner HTML */
-  innerHTML?: string;
-};
-
-export type ValidationSchema<T> = Joi.ObjectSchema<T>;
-
-export type Validate<T, U> = (
-  validationSchema: ValidationSchema<U>,
-  options: T,
-) => U;
-
-export type OptionValidationContext<T, U> = {
-  validate: Validate<T, U>;
-  options: T;
-};
-
-export type ThemeConfigValidationContext<T> = {
-  validate: Validate<T, T>;
-  themeConfig: Partial<T>;
-};
-
 export type TOCItem = {
   readonly value: string;
   readonly id: string;
   readonly level: number;
 };
-
-export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
 
 export type ClientModule = {
   onRouteUpdate?: (args: {
@@ -505,4 +606,31 @@ export type ClientModule = {
     location: Location;
   }) => void;
   onRouteUpdateDelayed?: (args: {location: Location}) => void;
+};
+
+/** What the user configures. */
+export type Tag = {
+  label: string;
+  /** Permalink to this tag's page, without the `/tags/` base path. */
+  permalink: string;
+};
+
+/** What the tags list page should know about each tag. */
+export type TagsListItem = Tag & {
+  /** Number of posts/docs with this tag. */
+  count: number;
+};
+
+/** What the tag's own page should know about the tag. */
+export type TagModule = TagsListItem & {
+  /** The tags list page's permalink. */
+  allTagsPath: string;
+};
+
+export type UseDataOptions = {
+  /**
+   * Throw an error, or simply return undefined if the data cannot be found. Use
+   * `true` if you are sure the data must exist.
+   */
+  failfast?: boolean;
 };

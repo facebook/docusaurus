@@ -26,7 +26,7 @@ import {DefaultSidebarItemsGenerator} from './generator';
 import {validateSidebars} from './validation';
 import _ from 'lodash';
 import combinePromises from 'combine-promises';
-import {isCategoryIndex} from '../docs';
+import {getDocIds, isCategoryIndex} from '../docs';
 
 function toSidebarItemsGeneratorDoc(
   doc: DocMetadataBase,
@@ -55,7 +55,8 @@ async function processSidebar(
   categoriesMetadata: {[filePath: string]: CategoryMetadataFile},
   params: SidebarProcessorParams,
 ): Promise<ProcessedSidebar> {
-  const {sidebarItemsGenerator, numberPrefixParser, docs, version} = params;
+  const {sidebarItemsGenerator, numberPrefixParser, docs, drafts, version} =
+    params;
 
   // Just a minor lazy transformation optimization
   const getSidebarItemsGeneratorDocsAndVersion = _.memoize(() => ({
@@ -81,6 +82,19 @@ async function processSidebar(
     return processItems(generatedItems);
   }
 
+  const draftIds = new Set(drafts.flatMap(getDocIds));
+
+  const isDraftItem = (item: NormalizedSidebarItem): boolean => {
+    if (item.type === 'doc' || item.type === 'ref') {
+      return draftIds.has(item.id);
+    }
+    // If a category only contains draft items, it should be filtered entirely.
+    if (item.type === 'category') {
+      return item.items.every(isDraftItem);
+    }
+    return false;
+  };
+
   async function processItem(
     item: NormalizedSidebarItem,
   ): Promise<ProcessedSidebarItem[]> {
@@ -88,7 +102,7 @@ async function processSidebar(
       return [
         {
           ...item,
-          items: (await Promise.all(item.items.map(processItem))).flat(),
+          items: await processItems(item.items),
         },
       ];
     }
@@ -101,7 +115,9 @@ async function processSidebar(
   async function processItems(
     items: NormalizedSidebarItem[],
   ): Promise<ProcessedSidebarItem[]> {
-    return (await Promise.all(items.map(processItem))).flat();
+    return (
+      await Promise.all(items.filter((i) => !isDraftItem(i)).map(processItem))
+    ).flat();
   }
 
   const processedSidebar = await processItems(unprocessedSidebar);

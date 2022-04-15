@@ -117,7 +117,7 @@ describe('normalizeDocsPluginOptions', () => {
     expect(() =>
       testValidate(admonitionsTrue),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"admonitions\\" contains an invalid value"`,
+      `""admonitions" contains an invalid value"`,
     );
   });
 
@@ -151,9 +151,9 @@ describe('normalizeDocsPluginOptions', () => {
         remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "\\"remarkPlugins[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-      - A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-      - A simple module, like \`require(\\"remark-math\\")\`"
+      ""remarkPlugins[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+      - A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+      - A simple module, like \`require("remark-math")\`"
     `);
   });
 
@@ -169,46 +169,42 @@ describe('normalizeDocsPluginOptions', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "\\"rehypePlugins[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
-      - A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
-      - A simple module, like \`require(\\"remark-math\\")\`"
+      ""rehypePlugins[0]" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+      - A tuple, like \`[require("rehype-katex"), { strict: false }]\`, or
+      - A simple module, like \`require("remark-math")\`"
     `);
   });
 
   it('rejects bad path inputs', () => {
     expect(() => testValidate({path: 2})).toThrowErrorMatchingInlineSnapshot(
-      `"\\"path\\" must be a string"`,
+      `""path" must be a string"`,
     );
   });
 
   it('rejects bad include inputs', () => {
     expect(() =>
       testValidate({include: '**/*.{md,mdx}'}),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"include\\" must be an array"`);
+    ).toThrowErrorMatchingInlineSnapshot(`""include" must be an array"`);
   });
 
   it('rejects bad showLastUpdateTime inputs', () => {
     expect(() =>
       testValidate({showLastUpdateTime: 'true'}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"showLastUpdateTime\\" must be a boolean"`,
+      `""showLastUpdateTime" must be a boolean"`,
     );
   });
 
   it('rejects bad remarkPlugins input', () => {
     expect(() =>
       testValidate({remarkPlugins: 'remark-math'}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"remarkPlugins\\" must be an array"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""remarkPlugins" must be an array"`);
   });
 
   it('rejects bad lastVersion', () => {
     expect(() =>
       testValidate({lastVersion: false}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"lastVersion\\" must be a string"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""lastVersion" must be a string"`);
   });
 
   it('rejects bad versions', () => {
@@ -218,6 +214,7 @@ describe('normalizeDocsPluginOptions', () => {
           current: {
             hey: 3,
           },
+
           version1: {
             path: 'hello',
             label: 'world',
@@ -225,7 +222,7 @@ describe('normalizeDocsPluginOptions', () => {
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"versions.current.hey\\" is not allowed"`,
+      `""versions.current.hey" is not allowed"`,
     );
   });
 

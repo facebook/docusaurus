@@ -7,7 +7,7 @@
 
 import Joi from './Joi';
 import {isValidPathname, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import type {Tag} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/types';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
@@ -83,7 +83,7 @@ export const FrontMatterTagsSchema = JoiFrontMatter.array()
   .items(FrontMatterTagSchema)
   .messages({
     'array.base':
-      '{{#label}} does not look like a valid FrontMatter Yaml array.',
+      '{{#label}} does not look like a valid front matter Yaml array.',
   });
 
 export const FrontMatterTOCHeadingLevels = {

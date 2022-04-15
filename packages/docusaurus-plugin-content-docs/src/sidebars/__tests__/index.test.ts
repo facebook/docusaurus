@@ -10,6 +10,7 @@ import path from 'path';
 import {loadSidebars, DisabledSidebars} from '../index';
 import type {SidebarProcessorParams} from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
@@ -24,6 +25,7 @@ describe('loadSidebars', () => {
         frontMatter: {},
       },
     ],
+    drafts: [],
     version: {
       contentPath: path.join(fixtureDir, 'docs'),
       contentPathLocalized: path.join(fixtureDir, 'docs'),
@@ -34,6 +36,16 @@ describe('loadSidebars', () => {
   it('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
     const result = await loadSidebars(sidebarPath, params);
+    expect(result).toMatchSnapshot();
+  });
+
+  it('sidebars with some draft items', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars.json');
+    const paramsWithDrafts: SidebarProcessorParams = {
+      ...params,
+      drafts: [{id: 'foo/baz'} as DocMetadata, {id: 'hello'} as DocMetadata],
+    };
+    const result = await loadSidebars(sidebarPath, paramsWithDrafts);
     expect(result).toMatchSnapshot();
   });
 
@@ -62,7 +74,7 @@ describe('loadSidebars', () => {
     await expect(() =>
       loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Invalid sidebar items collection [36m\`\\"doc1\\"\`[39m in [36m\`items\`[39m of the category [34m[1mCategory Label[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
+      `"Invalid sidebar items collection \`"doc1"\` in \`items\` of the category Category Label: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a \`type\` property). See https://docusaurus.io/docs/sidebar/items for all valid syntaxes."`,
     );
   });
 
@@ -131,7 +143,7 @@ describe('loadSidebars', () => {
           contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" is not allowed"`);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`""foo" is not allowed"`);
     expect(consoleWarnMock).toBeCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,

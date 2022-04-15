@@ -17,7 +17,7 @@ text
 
 import XYZ from 'xyz';
 
-<XYZ abc=\\"1\\" def={[1, '42', {hello: 'world'}]} style={{color: 'red'}}>
+<XYZ abc="1" def={[1, '42', {hello: 'world'}]} style={{color: 'red'}}>
   <span>Test</span>
 </XYZ>
 
@@ -32,30 +32,30 @@ import Avatar from 'avatar';
 ## Some complex MDX with nested code blocks
 
 <Tabs
-  defaultValue=\\"bash\\"
+  defaultValue="bash"
   values={[
     { label: 'Bash', value: 'bash' },
     { label: 'Windows', value: 'windows' },
     { label: 'PowerShell', value: 'powershell' }
 ]}>
-  <TabItem value=\\"bash\\">
+  <TabItem value="bash">
 
 \`\`\`bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 \`\`\`
 
 </TabItem>
-  <TabItem value=\\"windows\\">
+  <TabItem value="windows">
 
     \`\`\`batch
-    cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+    cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
     \`\`\`
 
 </TabItem>
-  <TabItem value=\\"powershell\\">
+  <TabItem value="powershell">
 
 \`\`\`powershell
-cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 \`\`\`
 
 </TabItem>
@@ -64,30 +64,30 @@ cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
 ## Some complex MDX code block with nested code blocks
 
 <Tabs
-  defaultValue=\\"bash\\"
+  defaultValue="bash"
   values={[
     { label: 'Bash', value: 'bash' },
     { label: 'Windows', value: 'windows' },
     { label: 'PowerShell', value: 'powershell' }
 ]}>
-<TabItem value=\\"bash\\">
+<TabItem value="bash">
 
 \`\`\`bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"windows\\">
+<TabItem value="windows">
 
 \`\`\`batch
-cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"powershell\\">
+<TabItem value="powershell">
 
 \`\`\`powershell
-cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 \`\`\`
 
 </TabItem>
@@ -421,7 +421,7 @@ exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks AST 1`] =
         },
       },
       "type": "jsx",
-      "value": "<XYZ abc=\\"1\\" def={[1, '42', {hello: 'world'}]} style={{color: 'red'}}>
+      "value": "<XYZ abc="1" def={[1, '42', {hello: 'world'}]} style={{color: 'red'}}>
   <span>Test</span>
 </XYZ>",
     },
@@ -551,13 +551,13 @@ exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks AST 1`] =
       },
       "type": "jsx",
       "value": "<Tabs
-  defaultValue=\\"bash\\"
+  defaultValue="bash"
   values={[
     { label: 'Bash', value: 'bash' },
     { label: 'Windows', value: 'windows' },
     { label: 'PowerShell', value: 'powershell' }
 ]}>
-  <TabItem value=\\"bash\\">",
+  <TabItem value="bash">",
     },
     {
       "lang": "bash",
@@ -599,7 +599,7 @@ exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks AST 1`] =
       },
       "type": "jsx",
       "value": "  </TabItem>
-  <TabItem value=\\"windows\\">",
+  <TabItem value="windows">",
     },
     {
       "lang": null,
@@ -622,7 +622,7 @@ exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks AST 1`] =
       },
       "type": "code",
       "value": "\`\`\`batch
-cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 \`\`\`",
     },
     {
@@ -643,7 +643,7 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       },
       "type": "jsx",
       "value": "  </TabItem>
-  <TabItem value=\\"powershell\\">",
+  <TabItem value="powershell">",
     },
     {
       "lang": "powershell",
@@ -665,7 +665,7 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
         },
       },
       "type": "code",
-      "value": "cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'",
+      "value": "cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'",
     },
     {
       "position": Position {
@@ -772,30 +772,30 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       },
       "type": "code",
       "value": "<Tabs
-  defaultValue=\\"bash\\"
+  defaultValue="bash"
   values={[
     { label: 'Bash', value: 'bash' },
     { label: 'Windows', value: 'windows' },
     { label: 'PowerShell', value: 'powershell' }
 ]}>
-<TabItem value=\\"bash\\">
+<TabItem value="bash">
 
 \`\`\`bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"windows\\">
+<TabItem value="windows">
 
 \`\`\`batch
-cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"powershell\\">
+<TabItem value="powershell">
 
 \`\`\`powershell
-cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 \`\`\`
 
 </TabItem>

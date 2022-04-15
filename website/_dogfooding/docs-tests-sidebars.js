@@ -14,6 +14,7 @@ const sidebars = {
       className: 'red',
       label: 'Index',
     },
+    'test-draft',
     'doc-without-sidebar',
     'doc-with-another-sidebar',
     {

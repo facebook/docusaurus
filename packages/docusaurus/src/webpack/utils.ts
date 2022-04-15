@@ -25,8 +25,7 @@ import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import type {TransformOptions} from '@babel/core';
 import type {
-  ConfigureWebpackFn,
-  ConfigurePostCssFn,
+  Plugin,
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
@@ -172,7 +171,7 @@ export const getCustomizableJSLoader =
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: ConfigureWebpackFn,
+  configureWebpack: NonNullable<Plugin['configureWebpack']>,
   config: Configuration,
   isServer: boolean,
   jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
@@ -198,7 +197,7 @@ export function applyConfigureWebpack(
 }
 
 export function applyConfigurePostCss(
-  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  configurePostCss: NonNullable<Plugin['configurePostCss']>,
   config: Configuration,
 ): Configuration {
   type LocalPostCSSLoader = unknown & {

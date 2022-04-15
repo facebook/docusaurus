@@ -24,6 +24,8 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
     label: getDefaultLocaleLabel(locale),
     direction: getLangDir(locale),
     htmlLang: locale,
+    // If the locale name includes -u-ca-xxx the calendar will be defined
+    calendar: new Intl.Locale(locale).calendar ?? 'gregory',
   };
 }
 
@@ -51,9 +53,8 @@ Note: Docusaurus only support running one locale at a time.`;
     };
   }
 
-  const localeConfigs = locales.reduce(
-    (acc, locale) => ({...acc, [locale]: getLocaleConfig(locale)}),
-    {},
+  const localeConfigs = Object.fromEntries(
+    locales.map((locale) => [locale, getLocaleConfig(locale)]),
   );
 
   return {

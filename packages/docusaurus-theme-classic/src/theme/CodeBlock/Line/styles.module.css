@@ -1,0 +1,34 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.codeLine {
+  display: table-row;
+  counter-increment: line-count;
+}
+
+.codeLineNumber {
+  display: table-cell;
+  text-align: right;
+  width: 1%;
+  position: sticky;
+  left: 0;
+  padding: 0 var(--ifm-pre-padding);
+  background: var(--ifm-pre-background);
+}
+
+.codeLineNumber::before {
+  content: counter(line-count);
+  opacity: 0.4;
+}
+
+:global(.docusaurus-highlight-code-line) .codeLineNumber::before {
+  opacity: 0.8;
+}
+
+.codeLineContent {
+  padding-right: var(--ifm-pre-padding);
+}

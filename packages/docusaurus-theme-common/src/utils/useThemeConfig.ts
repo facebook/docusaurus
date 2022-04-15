@@ -53,7 +53,7 @@ export type AnnouncementBarConfig = {
 };
 
 export type PrismConfig = {
-  theme?: PrismTheme;
+  theme: PrismTheme;
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
   additionalLanguages: string[];

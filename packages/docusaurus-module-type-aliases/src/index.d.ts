@@ -27,24 +27,26 @@ declare module '@generated/site-metadata' {
 }
 
 declare module '@generated/registry' {
-  const registry: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    readonly [key: string]: [() => Promise<any>, string, string];
-  };
+  import type {Registry} from '@docusaurus/types';
+
+  const registry: Registry;
   export default registry;
 }
 
 declare module '@generated/routes' {
-  import type {Route} from '@docusaurus/types';
+  import type {RouteConfig as RRRouteConfig} from 'react-router-config';
 
-  const routes: Route[];
+  type RouteConfig = RRRouteConfig & {
+    path: string;
+  };
+  const routes: RouteConfig[];
   export default routes;
 }
 
 declare module '@generated/routesChunkNames' {
-  import type {RouteChunksTree} from '@docusaurus/types';
+  import type {RouteChunkNames} from '@docusaurus/types';
 
-  const routesChunkNames: {[route: string]: RouteChunksTree};
+  const routesChunkNames: RouteChunkNames;
   export = routesChunkNames;
 }
 
@@ -63,7 +65,9 @@ declare module '@generated/i18n' {
 }
 
 declare module '@generated/codeTranslations' {
-  const codeTranslations: {[msgId: string]: string};
+  import type {CodeTranslations} from '@docusaurus/types';
+
+  const codeTranslations: CodeTranslations;
   export = codeTranslations;
 }
 
@@ -136,8 +140,9 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps} from 'react';
+  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
 
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  type NavLinkProps = Partial<RRNavLinkProps>;
   export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;
@@ -310,16 +315,18 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
-  import type {GlobalData} from '@docusaurus/types';
+  import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
   export function useAllPluginInstancesData(
     pluginName: string,
-  ): GlobalData[string];
+    options?: UseDataOptions,
+  ): GlobalData[string] | undefined;
 
   export function usePluginData(
     pluginName: string,
     pluginId?: string,
-  ): GlobalData[string][string];
+    options?: UseDataOptions,
+  ): GlobalData[string][string] | undefined;
 
   export default function useGlobalData(): GlobalData;
 }

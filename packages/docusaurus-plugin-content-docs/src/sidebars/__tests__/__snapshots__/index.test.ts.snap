@@ -218,7 +218,7 @@ exports[`loadSidebars sidebars with known sidebar item type 1`] = `
         },
         {
           "href": "https://github.com",
-          "label": "Github",
+          "label": "GitHub",
           "type": "link",
         },
         {
@@ -240,6 +240,31 @@ exports[`loadSidebars sidebars with known sidebar item type 1`] = `
         },
       ],
       "label": "Guides",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with some draft items 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        {
+          "href": "https://github.com",
+          "label": "GitHub",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
       "link": undefined,
       "type": "category",
     },

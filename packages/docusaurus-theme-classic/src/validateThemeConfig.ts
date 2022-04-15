@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -32,6 +33,7 @@ export const DEFAULT_CONFIG = {
   metadata: [],
   prism: {
     additionalLanguages: [],
+    theme: defaultPrismTheme,
   },
   navbar: {
     hideOnScroll: false,
@@ -49,8 +51,10 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
+  html: Joi.string(),
   className: Joi.string(),
 })
+  .nand('html', 'label')
   // We allow any unknown attributes on the links (users may need additional
   // attributes like target, aria-role, data-customAttribute...)
   .unknown();
@@ -347,7 +351,7 @@ export const ThemeConfigSchema = Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
+    }).default(DEFAULT_CONFIG.prism.theme),
     darkTheme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),

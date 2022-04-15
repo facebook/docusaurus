@@ -8,24 +8,25 @@
 import {jest} from '@jest/globals';
 import logger from '../index';
 
+// cSpell:ignore mkeep
+
 describe('formatters', () => {
   it('path', () => {
-    // cSpell:ignore mhey
-    expect(logger.path('hey')).toMatchInlineSnapshot(`"[36m[4m\\"hey\\"[24m[39m"`);
+    expect(logger.path('keepAnsi')).toMatchInlineSnapshot(`"[36m[4m"keepAnsi"[24m[39m"`);
   });
   it('url', () => {
-    expect(logger.url('https://docusaurus.io/')).toMatchInlineSnapshot(
-      `"[36m[4mhttps://docusaurus.io/[24m[39m"`,
+    expect(logger.url('https://docusaurus.io/keepAnsi')).toMatchInlineSnapshot(
+      `"[36m[4mhttps://docusaurus.io/keepAnsi[24m[39m"`,
     );
   });
   it('id', () => {
-    expect(logger.name('hey')).toMatchInlineSnapshot(`"[34m[1mhey[22m[39m"`);
+    expect(logger.name('keepAnsi')).toMatchInlineSnapshot(`"[34m[1mkeepAnsi[22m[39m"`);
   });
   it('code', () => {
-    expect(logger.code('hey')).toMatchInlineSnapshot(`"[36m\`hey\`[39m"`);
+    expect(logger.code('keepAnsi')).toMatchInlineSnapshot(`"[36m\`keepAnsi\`[39m"`);
   });
   it('subdue', () => {
-    expect(logger.subdue('hey')).toMatchInlineSnapshot(`"[90mhey[39m"`);
+    expect(logger.subdue('keepAnsi')).toMatchInlineSnapshot(`"[90mkeepAnsi[39m"`);
   });
 });
 
@@ -33,9 +34,10 @@ describe('interpolate', () => {
   it('formats text with variables & arrays', () => {
     const name = 'Josh';
     const items = [1, 'hi', 'Hmmm'];
-    expect(logger.interpolate`Hello ${name}! Here are your goodies:${items}`)
-      .toMatchInlineSnapshot(`
-      "Hello Josh! Here are your goodies:
+    expect(
+      logger.interpolate`(keepAnsi) Hello ${name}! Here are your goodies:${items}`,
+    ).toMatchInlineSnapshot(`
+      "(keepAnsi) Hello Josh! Here are your goodies:
       - 1
       - hi
       - Hmmm"
@@ -43,20 +45,20 @@ describe('interpolate', () => {
   });
   it('recognizes valid flags', () => {
     expect(
-      logger.interpolate`The package at path=${'packages/docusaurus'} has number=${10} files. name=${'Babel'} is exported here subdue=${'(as a preset)'} that you can with code=${"require.resolve('@docusaurus/core/lib/babel/preset')"}`,
+      logger.interpolate`(keepAnsi) The package at path=${'packages/docusaurus'} has number=${10} files. name=${'Babel'} is exported here subdue=${'(as a preset)'} that you can with code=${"require.resolve('@docusaurus/core/lib/babel/preset')"}`,
     ).toMatchInlineSnapshot(
-      `"The package at [36m[4m\\"packages/docusaurus\\"[24m[39m has [33m10[39m files. [34m[1mBabel[22m[39m is exported here [90m(as a preset)[39m that you can with [36m\`require.resolve('@docusaurus/core/lib/babel/preset')\`[39m"`,
+      `"(keepAnsi) The package at [36m[4m"packages/docusaurus"[24m[39m has [33m10[39m files. [34m[1mBabel[22m[39m is exported here [90m(as a preset)[39m that you can with [36m\`require.resolve('@docusaurus/core/lib/babel/preset')\`[39m"`,
     );
   });
   it('interpolates arrays with flags', () => {
     expect(
-      logger.interpolate`The following commands are available:code=${[
+      logger.interpolate`(keepAnsi) The following commands are available:code=${[
         'docusaurus start',
         'docusaurus build',
         'docusaurus deploy',
       ]}`,
     ).toMatchInlineSnapshot(`
-      "The following commands are available:
+      "(keepAnsi) The following commands are available:
       - [36m\`docusaurus start\`[39m
       - [36m\`docusaurus build\`[39m
       - [36m\`docusaurus deploy\`[39m"
@@ -64,15 +66,15 @@ describe('interpolate', () => {
   });
   it('prints detached flags as-is', () => {
     expect(
-      logger.interpolate`You can use placeholders like code= ${'and it will'} be replaced with the succeeding arguments`,
+      logger.interpolate`(keepAnsi) You can use placeholders like code= ${'and it will'} be replaced with the succeeding arguments`,
     ).toMatchInlineSnapshot(
-      `"You can use placeholders like code= and it will be replaced with the succeeding arguments"`,
+      `"(keepAnsi) You can use placeholders like code= and it will be replaced with the succeeding arguments"`,
     );
   });
   it('throws with bad flags', () => {
     expect(
       () =>
-        logger.interpolate`I mistyped this: cde=${'this code'} and I will be damned`,
+        logger.interpolate`(keepAnsi) I mistyped this: cde=${'this code'} and I will be damned`,
     ).toThrowErrorMatchingInlineSnapshot(
       `"Bad Docusaurus logging message. This is likely an internal bug, please report it."`,
     );

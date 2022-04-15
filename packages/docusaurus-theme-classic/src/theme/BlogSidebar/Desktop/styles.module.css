@@ -29,6 +29,7 @@
 
 .sidebarItemLink {
   color: var(--ifm-font-color-base);
+  display: block;
 }
 
 .sidebarItemLink:hover {

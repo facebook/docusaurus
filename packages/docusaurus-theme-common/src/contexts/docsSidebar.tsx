@@ -13,11 +13,11 @@ import {ReactContextError} from '../utils/reactUtils';
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContext: unique symbol = Symbol('EmptyContext');
 
-type SidebarContextValue = {name: string; items: PropSidebar};
+type ContextValue = {name: string; items: PropSidebar};
 
-const Context = React.createContext<
-  SidebarContextValue | null | typeof EmptyContext
->(EmptyContext);
+const Context = React.createContext<ContextValue | null | typeof EmptyContext>(
+  EmptyContext,
+);
 
 /**
  * Provide the current sidebar to your children.
@@ -31,7 +31,7 @@ export function DocsSidebarProvider({
   name: string | undefined;
   items: PropSidebar | undefined;
 }): JSX.Element {
-  const stableValue: SidebarContextValue | null = useMemo(
+  const stableValue: ContextValue | null = useMemo(
     () =>
       name && items
         ? {
@@ -45,9 +45,9 @@ export function DocsSidebarProvider({
 }
 
 /**
- * Gets the sidebar data that's currently displayed, or `null` if there isn't one
+ * Gets the sidebar that's currently displayed, or `null` if there isn't one
  */
-export function useDocsSidebar(): SidebarContextValue | null {
+export function useDocsSidebar(): ContextValue | null {
   const value = useContext(Context);
   if (value === EmptyContext) {
     throw new ReactContextError('DocsSidebarProvider');

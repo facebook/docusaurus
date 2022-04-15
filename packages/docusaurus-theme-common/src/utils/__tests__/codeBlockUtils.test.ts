@@ -140,7 +140,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot('js');
     expect(
       parseLines(
         `/* highlight-next-line */
@@ -149,7 +149,7 @@ bbbbb`,
         '',
         'py',
       ),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot('py');
     expect(
       parseLines(
         `// highlight-next-line
@@ -163,7 +163,7 @@ dddd`,
         '',
         'py',
       ),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot('py');
     expect(
       parseLines(
         `// highlight-next-line
@@ -177,6 +177,57 @@ dddd`,
         '',
         '',
       ),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot('none');
+    expect(
+      parseLines(
+        `// highlight-next-line
+aaaa
+{/* highlight-next-line */}
+bbbbb
+<!-- highlight-next-line -->
+dddd`,
+        '',
+        'jsx',
+      ),
+    ).toMatchSnapshot('jsx');
+    expect(
+      parseLines(
+        `// highlight-next-line
+aaaa
+{/* highlight-next-line */}
+bbbbb
+<!-- highlight-next-line -->
+dddd`,
+        '',
+        'html',
+      ),
+    ).toMatchSnapshot('html');
+    expect(
+      parseLines(
+        `---
+# highlight-next-line
+aaa: boo
+---
+
+aaaa
+
+<div>
+{/* highlight-next-line */}
+foo
+</div>
+
+bbbbb
+<!-- highlight-next-line -->
+dddd
+
+\`\`\`js
+// highlight-next-line
+console.log("preserved");
+\`\`\`
+`,
+        '',
+        'md',
+      ),
+    ).toMatchSnapshot('md');
   });
 });

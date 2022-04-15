@@ -19,6 +19,9 @@ exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`
       "sidebar": "tutorial",
     },
   ],
+  "draftIds": [
+    "some-draft-id",
+  ],
   "isLast": true,
   "label": "Label",
   "mainDocId": "main",

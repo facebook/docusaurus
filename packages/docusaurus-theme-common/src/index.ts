@@ -34,6 +34,8 @@ export {
   parseCodeBlockTitle,
   parseLanguage,
   parseLines,
+  containsLineNumbers,
+  getPrismCssVariables,
 } from './utils/codeBlockUtils';
 
 export {
@@ -50,6 +52,9 @@ export {
   useCurrentSidebarCategory,
   isActiveSidebarItem,
   useSidebarBreadcrumbs,
+  useDocsVersionCandidates,
+  useLayoutDoc,
+  useLayoutDocsSidebar,
 } from './utils/docsUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
@@ -59,8 +64,6 @@ export {usePluralForm} from './utils/usePluralForm';
 export {useLocationChange} from './utils/useLocationChange';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
-
-export {Details, type DetailsProps} from './components/Details';
 
 export {
   useDocsPreferredVersion,
@@ -83,7 +86,6 @@ export {
   translateTagsPageTitle,
   listTagsByLetters,
   type TagLetterEntry,
-  type TagsListItem,
 } from './utils/tagsUtils';
 
 export {useHistoryPopHandler} from './utils/historyUtils';
@@ -141,10 +143,10 @@ export {
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {
-  useNavbarSecondaryMenu,
   NavbarSecondaryMenuFiller,
   type NavbarSecondaryMenuComponent,
-} from './contexts/navbarSecondaryMenu';
+} from './contexts/navbarSecondaryMenu/content';
+export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
 
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 export {useHideableNavbar} from './hooks/useHideableNavbar';

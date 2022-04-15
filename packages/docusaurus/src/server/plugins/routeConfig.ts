@@ -11,6 +11,7 @@ import {
   type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
+/** Recursively applies trailing slash config to all nested routes. */
 export function applyRouteTrailingSlash(
   route: RouteConfig,
   params: ApplyTrailingSlashParams,

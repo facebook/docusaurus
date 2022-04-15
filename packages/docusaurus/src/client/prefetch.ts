@@ -5,21 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-function support(feature: string) {
-  if (typeof document === 'undefined') {
-    return false;
-  }
-
-  const fakeLink = document.createElement('link');
+function supports(feature: string) {
   try {
-    if (fakeLink.relList && typeof fakeLink.relList.supports === 'function') {
-      return fakeLink.relList.supports(feature);
-    }
+    const fakeLink = document.createElement('link');
+    return fakeLink.relList?.supports?.(feature);
   } catch (err) {
     return false;
   }
-
-  return false;
 }
 
 function linkPrefetchStrategy(url: string) {
@@ -61,7 +53,7 @@ function xhrPrefetchStrategy(url: string): Promise<void> {
   });
 }
 
-const supportedPrefetchStrategy = support('prefetch')
+const supportedPrefetchStrategy = supports('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 

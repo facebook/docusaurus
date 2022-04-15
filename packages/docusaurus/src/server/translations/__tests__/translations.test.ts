@@ -259,10 +259,11 @@ describe('writeCodeTranslations', () => {
         {
           key1: {message: 'key1 message'},
         },
+
         {},
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"bad\\" must be of type object"`,
+      `""bad" must be of type object"`,
     );
   });
 });
@@ -403,7 +404,7 @@ describe('writePluginTranslations', () => {
         options: {},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Translation file path at \\"my/translation/file.json\\" does not need to end with \\".json\\", we add the extension automatically."`,
+      `"Translation file path at "my/translation/file.json" does not need to end with ".json", we add the extension automatically."`,
     );
   });
 });
@@ -522,29 +523,27 @@ describe('readCodeTranslationFileContent', () => {
     await expect(() =>
       testReadTranslation('HEY'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"value\\" must be of type object"`,
+      `""value" must be of type object"`,
     );
     await expect(() =>
       testReadTranslation(42),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"value\\" must be of type object"`,
+      `""value" must be of type object"`,
     );
     await expect(() =>
       testReadTranslation({key: {description: 'no message'}}),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"key.message\\" is required"`,
-    );
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`""key.message" is required"`);
     await expect(() =>
       testReadTranslation({key: {message: 42}}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"key.message\\" must be a string"`,
+      `""key.message" must be a string"`,
     );
     await expect(() =>
       testReadTranslation({
         key: {message: 'Message', description: 42},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"key.description\\" must be a string"`,
+      `""key.description" must be a string"`,
     );
   });
 });
