@@ -5,81 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  isValidElement,
-  type ComponentProps,
-  type ReactNode,
-} from 'react';
-import clsx from 'clsx';
-import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
+import React, {isValidElement, type ReactNode} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import {
-  useThemeConfig,
-  parseCodeBlockTitle,
-  parseLanguage,
-  parseLines,
-  containsLineNumbers,
-  ThemeClassNames,
-  usePrismTheme,
-  getPrismCssVariables,
-} from '@docusaurus/theme-common';
-import CopyButton from '@theme/CodeBlock/CopyButton';
 import type {Props} from '@theme/CodeBlock';
-
-import styles from './styles.module.css';
-
-// Lib does not make this easy
-type RenderProps = Parameters<ComponentProps<typeof Highlight>['children']>[0];
-type GetLineProps = RenderProps['getLineProps'];
-type GetTokenProps = RenderProps['getTokenProps'];
-type Token = RenderProps['tokens'][number][number];
-
-function CodeBlockLine({
-  line,
-  highlight,
-  showLineNumbers,
-  getLineProps,
-  getTokenProps,
-}: {
-  line: Token[];
-  highlight: boolean;
-  showLineNumbers: boolean;
-  getLineProps: GetLineProps;
-  getTokenProps: GetTokenProps;
-}) {
-  if (line.length === 1 && line[0]!.content === '\n') {
-    line[0]!.content = '';
-  }
-
-  const lineProps = getLineProps({
-    line,
-    ...(showLineNumbers && {className: styles.codeLine}),
-  });
-
-  if (highlight) {
-    lineProps.className += ' docusaurus-highlight-code-line';
-  }
-
-  const lineTokens = line.map((token, key) => (
-    <span key={key} {...getTokenProps({token, key})} />
-  ));
-
-  return (
-    <span {...lineProps}>
-      {showLineNumbers ? (
-        <>
-          <span className={styles.codeLineNumber} />
-          <span className={styles.codeLineContent}>{lineTokens}</span>
-        </>
-      ) : (
-        <>
-          {lineTokens}
-          <br />
-        </>
-      )}
-    </span>
-  );
-}
+import ElementContent from '@theme/CodeBlock/Content/Element';
+import StringContent from '@theme/CodeBlock/Content/String';
 
 /**
  * Best attempt to make the children a plain string so it is copyable. If there
@@ -106,114 +36,10 @@ export default function CodeBlock({
   const isBrowser = useIsBrowser();
   const children = maybeStringifyChildren(rawChildren);
   const CodeBlockComp =
-    typeof children === 'string' ? CodeBlockString : CodeBlockJSX;
+    typeof children === 'string' ? StringContent : ElementContent;
   return (
     <CodeBlockComp key={String(isBrowser)} {...props}>
       {children as string}
     </CodeBlockComp>
-  );
-}
-
-function CodeBlockContainer<T extends 'div' | 'pre'>({
-  as: As,
-  ...props
-}: {as: T} & ComponentProps<T>) {
-  const prismTheme = usePrismTheme();
-  const prismCssVariables = getPrismCssVariables(prismTheme);
-  return (
-    <As
-      // Polymorphic components are hard to type, without `oneOf` generics
-      {...(props as never)}
-      style={prismCssVariables}
-      className={clsx(
-        props.className,
-        styles.codeBlockContainer,
-        ThemeClassNames.common.codeBlock,
-      )}
-    />
-  );
-}
-
-// <pre> tags in markdown map to CodeBlocks. They may contain JSX children.
-// When the children is not a simple string, we just return a styled block
-// without actually highlighting.
-function CodeBlockJSX({children, className}: Props): JSX.Element {
-  return (
-    <CodeBlockContainer
-      as="pre"
-      tabIndex={0}
-      className={clsx(styles.codeBlockStandalone, 'thin-scrollbar', className)}>
-      <code className={styles.codeBlockLines}>{children}</code>
-    </CodeBlockContainer>
-  );
-}
-
-function CodeBlockString({
-  children,
-  className: blockClassName = '',
-  metastring,
-  title: titleProp,
-  showLineNumbers: showLineNumbersProp,
-  language: languageProp,
-}: Omit<Props, 'children'> & {children: string}): JSX.Element {
-  const {
-    prism: {defaultLanguage},
-  } = useThemeConfig();
-  const language =
-    languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
-  const prismTheme = usePrismTheme();
-
-  // We still parse the metastring in case we want to support more syntax in the
-  // future. Note that MDX doesn't strip quotes when parsing metastring:
-  // "title=\"xyz\"" => title: "\"xyz\""
-  const title = parseCodeBlockTitle(metastring) || titleProp;
-
-  const {highlightLines, code} = parseLines(children, metastring, language);
-  const showLineNumbers =
-    showLineNumbersProp || containsLineNumbers(metastring);
-
-  return (
-    <CodeBlockContainer
-      as="div"
-      className={clsx(
-        blockClassName,
-        language &&
-          !blockClassName.includes(`language-${language}`) &&
-          `language-${language}`,
-      )}>
-      {title && <div className={styles.codeBlockTitle}>{title}</div>}
-      <div className={styles.codeBlockContent}>
-        <Highlight
-          {...defaultProps}
-          theme={prismTheme}
-          code={code}
-          language={(language ?? 'text') as Language}>
-          {({className, tokens, getLineProps, getTokenProps}) => (
-            <pre
-              /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-              tabIndex={0}
-              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
-              <code
-                className={clsx(
-                  styles.codeBlockLines,
-                  showLineNumbers && styles.codeBlockLinesWithNumbering,
-                )}>
-                {tokens.map((line, i) => (
-                  <CodeBlockLine
-                    key={i}
-                    line={line}
-                    getLineProps={getLineProps}
-                    getTokenProps={getTokenProps}
-                    highlight={highlightLines.includes(i)}
-                    showLineNumbers={showLineNumbers}
-                  />
-                ))}
-              </code>
-            </pre>
-          )}
-        </Highlight>
-        <CopyButton code={code} />
-      </div>
-    </CodeBlockContainer>
   );
 }
