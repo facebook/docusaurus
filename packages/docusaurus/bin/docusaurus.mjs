@@ -137,6 +137,7 @@ cli
   .option(
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
+    parseInt,
   )
   .action(
     async (siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
