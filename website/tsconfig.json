@@ -6,6 +6,11 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "strict": true,
+    // This is important. We run `yarn tsc` in website so we can catch issues
+    // with our declaration files (mostly names that are forgotten to be
+    // imported, invalid semantics...). Because we don't have end-to-end type
+    // tests, removing this would make things much harder to catch.
+    "skipLibCheck": false,
     "types": ["@types/jest"]
   },
   "exclude": ["src/sw.js"]

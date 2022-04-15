@@ -12,13 +12,13 @@ import useRouteContext from '@docusaurus/useRouteContext';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {useTitleFormatter} from './generalUtils';
 
-interface PageMetadataProps {
+type PageMetadataProps = {
   readonly title?: string;
   readonly description?: string;
   readonly keywords?: readonly string[] | string;
   readonly image?: string;
   readonly children?: ReactNode;
-}
+};
 
 /**
  * Helper component to manipulate page metadata and override site defaults.

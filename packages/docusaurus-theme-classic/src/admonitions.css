@@ -11,6 +11,10 @@
   text-transform: uppercase;
 }
 
+.admonition h5 code {
+  text-transform: none;
+}
+
 .admonition-icon {
   display: inline-block;
   vertical-align: middle;

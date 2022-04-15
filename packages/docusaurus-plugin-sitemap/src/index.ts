@@ -7,18 +7,18 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import type {Options} from '@docusaurus/plugin-sitemap';
+import type {PluginOptions} from '@docusaurus/plugin-sitemap';
 import createSitemap from './createSitemap';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 
 export default function pluginSitemap(
   context: LoadContext,
-  options: Options,
+  options: PluginOptions,
 ): Plugin<void> {
   return {
     name: 'docusaurus-plugin-sitemap',
 
-    async postBuild({siteConfig, routesPaths, outDir}) {
+    async postBuild({siteConfig, routesPaths, outDir, head}) {
       if (siteConfig.noIndex) {
         return;
       }
@@ -26,6 +26,7 @@ export default function pluginSitemap(
       const generatedSitemap = await createSitemap(
         siteConfig,
         routesPaths,
+        head,
         options,
       );
 

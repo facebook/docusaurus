@@ -56,7 +56,6 @@ export {
   buildSshUrl,
 } from './urlUtils';
 export {
-  type Tag,
   type FrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,

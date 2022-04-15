@@ -202,7 +202,7 @@ describe('getFolderContainingFile', () => {
         'dataFileUtils.test.ts',
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "File \\"dataFileUtils.test.ts\\" does not exist in any of these folders:
+            "File "dataFileUtils.test.ts" does not exist in any of these folders:
             - /foo
             - /bar
             - /baz"

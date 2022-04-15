@@ -54,11 +54,11 @@ Possible reasons: running Docusaurus in an iframe, in an incognito browser sessi
 }
 
 // Convenient storage interface for a single storage key
-export interface StorageSlot {
+export type StorageSlot = {
   get: () => string | null;
   set: (value: string) => void;
   del: () => void;
-}
+};
 
 const NoopStorageSlot: StorageSlot = {
   get: () => null,

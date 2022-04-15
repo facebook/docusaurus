@@ -28,6 +28,13 @@ describe('toGlobalDataVersion', () => {
             sidebar: 'tutorial',
           },
         ],
+        drafts: [
+          {
+            unversionedId: 'some-draft-id',
+            permalink: '/current/draft',
+            sidebar: undefined,
+          },
+        ],
         sidebars: {
           another: [
             {

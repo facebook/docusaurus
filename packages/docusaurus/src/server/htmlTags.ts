@@ -27,7 +27,7 @@ function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
       )} is not a valid HTML tag object. "tagName" must be defined as a string.`,
     );
   }
-  if (!htmlTags.includes((val as HtmlTagObject).tagName)) {
+  if (!(htmlTags as string[]).includes((val as HtmlTagObject).tagName)) {
     throw new Error(
       `Error loading ${JSON.stringify(val)}, "${
         (val as HtmlTagObject).tagName
@@ -38,7 +38,7 @@ function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
 
 function htmlTagObjectToString(tag: unknown): string {
   assertIsHtmlTagObject(tag);
-  const isVoidTag = voidHtmlTags.includes(tag.tagName);
+  const isVoidTag = (voidHtmlTags as string[]).includes(tag.tagName);
   const tagAttributes = tag.attributes ?? {};
   const attributes = Object.keys(tagAttributes)
     .map((attr) => {

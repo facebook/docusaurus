@@ -12,9 +12,9 @@ import React, {
   useMemo,
   type ReactNode,
 } from 'react';
+import {useNavbarSecondaryMenuContent} from './navbarSecondaryMenu/content';
 import {useWindowSize} from '../hooks/useWindowSize';
 import {useHistoryPopHandler} from '../utils/historyUtils';
-import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
 import {useThemeConfig} from '../utils/useThemeConfig';
 import {ReactContextError} from '../utils/reactUtils';
 
@@ -40,9 +40,9 @@ type ContextValue = {
 const Context = React.createContext<ContextValue | undefined>(undefined);
 
 function useIsNavbarMobileSidebarDisabled() {
-  const activeDocPlugin = useActivePlugin();
+  const secondaryMenuContent = useNavbarSecondaryMenuContent();
   const {items} = useThemeConfig().navbar;
-  return items.length === 0 && !activeDocPlugin;
+  return items.length === 0 && !secondaryMenuContent.component;
 }
 
 function useContextValue(): ContextValue {

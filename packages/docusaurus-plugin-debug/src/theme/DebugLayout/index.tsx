@@ -35,6 +35,7 @@ export default function DebugLayout({
       <Head>
         <html lang="en" />
         <title>Docusaurus debug panel</title>
+        <meta name="robots" content="noindex" />
       </Head>
 
       <div>

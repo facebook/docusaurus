@@ -139,7 +139,7 @@ describe('validateOptions', () => {
   it('rejects "abcdef" sidebar count', () => {
     const userOptions = {blogSidebarCount: 'abcdef'};
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
-      `"\\"blogSidebarCount\\" must be one of [ALL, number]"`,
+      `""blogSidebarCount" must be one of [ALL, number]"`,
     );
   });
 
@@ -154,7 +154,7 @@ describe('validateOptions', () => {
   it('rejects 42 sidebar title', () => {
     const userOptions = {blogSidebarTitle: 42};
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
-      `"\\"blogSidebarTitle\\" must be a string"`,
+      `""blogSidebarTitle" must be a string"`,
     );
   });
 });

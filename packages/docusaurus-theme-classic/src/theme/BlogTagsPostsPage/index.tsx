@@ -40,9 +40,12 @@ function useBlogPostsPlural() {
     );
 }
 
-export default function BlogTagsPostsPage(props: Props): JSX.Element {
-  const {metadata, items, sidebar, listMetadata} = props;
-  const {allTagsPath, name: tagName, count} = metadata;
+export default function BlogTagsPostsPage({
+  tag,
+  items,
+  sidebar,
+  listMetadata,
+}: Props): JSX.Element {
   const blogPostsPlural = useBlogPostsPlural();
   const title = translate(
     {
@@ -50,7 +53,7 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
       description: 'The title of the page for a blog tag',
       message: '{nPosts} tagged with "{tagName}"',
     },
-    {nPosts: blogPostsPlural(count), tagName},
+    {nPosts: blogPostsPlural(tag.count), tagName: tag.label},
   );
 
   return (
@@ -65,7 +68,7 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
         <header className="margin-bottom--xl">
           <h1>{title}</h1>
 
-          <Link href={allTagsPath}>
+          <Link href={tag.allTagsPath}>
             <Translate
               id="theme.tags.tagsPageLink"
               description="The label of the link targeting the tag list page">

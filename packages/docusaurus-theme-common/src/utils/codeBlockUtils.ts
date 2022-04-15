@@ -6,6 +6,8 @@
  */
 
 import rangeParser from 'parse-numeric-range';
+import type {PrismTheme} from 'prism-react-renderer';
+import type {CSSProperties} from 'react';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const highlightLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -77,6 +79,10 @@ export function parseCodeBlockTitle(metastring?: string): string {
   return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
 }
 
+export function containsLineNumbers(metastring?: string): boolean {
+  return metastring?.includes('showLineNumbers') || false;
+}
+
 /**
  * Gets the language name from the class name (set by MDX).
  * e.g. `"language-javascript"` => `"javascript"`.
@@ -141,31 +147,47 @@ export function parseLines(
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
-    if (match !== null) {
-      const directive = match.slice(1).find((item) => item !== undefined);
-      switch (directive) {
-        case 'highlight-next-line':
-          highlightRange += `${lineNumber},`;
-          break;
-
-        case 'highlight-start':
-          highlightBlockStart = lineNumber;
-          break;
-
-        case 'highlight-end':
-          highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
-          break;
-
-        default:
-          break;
-      }
-      lines.splice(lineNumber, 1);
-    } else {
+    if (!match) {
       // lines without directives are unchanged
       lineNumber += 1;
+      continue;
     }
+    const directive = match.slice(1).find((item) => item !== undefined);
+    switch (directive) {
+      case 'highlight-next-line':
+        highlightRange += `${lineNumber},`;
+        break;
+
+      case 'highlight-start':
+        highlightBlockStart = lineNumber;
+        break;
+
+      case 'highlight-end':
+        highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
+        break;
+
+      default:
+        break;
+    }
+    lines.splice(lineNumber, 1);
   }
   const highlightLines = rangeParser(highlightRange);
   code = lines.join('\n');
   return {highlightLines, code};
+}
+
+export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
+  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
+    color: '--prism-color',
+    backgroundColor: '--prism-background-color',
+  };
+
+  const properties: {[key: string]: string} = {};
+  Object.entries(prismTheme.plain).forEach(([key, value]) => {
+    const varName = mapping[key];
+    if (varName && typeof value === 'string') {
+      properties[varName] = value;
+    }
+  });
+  return properties;
 }

@@ -12,6 +12,9 @@ on:
     paths-ignore:
       - website/**
 
+permissions:
+  contents: read
+
 jobs:
   yarn-v1:
     name: E2E — Yarn v1
@@ -21,9 +24,9 @@ jobs:
       matrix:
         node: ['14', '16', '17']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -59,9 +62,9 @@ jobs:
           - variant: -st
             nodeLinker: pnp
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
         with:
           node-version: '16'
           cache: yarn
@@ -100,13 +103,13 @@ jobs:
         working-directory: ../test-website
 
   npm:
-    name: E2E — NPM
+    name: E2E — npm
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 #v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
         with:
           node-version: '16'
           cache: yarn
@@ -114,7 +117,7 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-      - name: Install test-website project with NPM
+      - name: Install test-website project with npm
         run: npm install
         working-directory: ../test-website
         env:
@@ -129,13 +132,13 @@ jobs:
         working-directory: ../test-website
 
   pnpm:
-    name: E2E — PNPM
+    name: E2E — pnpm
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 #v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
         with:
           node-version: '16'
           cache: yarn
@@ -143,7 +146,7 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-      - name: Install test-website project with PNPM
+      - name: Install test-website project with pnpm
         run: |
           curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
           pnpm install

@@ -131,7 +131,7 @@ describe('reportMessage', () => {
       // @ts-expect-error: for test
       reportMessage('hey', 'foo'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected \\"reportingSeverity\\" value: foo."`,
+      `"Unexpected "reportingSeverity" value: foo."`,
     );
     expect(consoleLog).toBeCalledTimes(1);
     expect(consoleLog).toBeCalledWith(

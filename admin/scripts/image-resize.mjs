@@ -25,7 +25,7 @@ await Promise.all(
       new URL(`../../website/src/data/showcase/${img}`, import.meta.url),
     );
     const {width, height} = imageSize(imgPath);
-    if (width === 640 && height === 320) {
+    if (width === 640 && height === 320 && imgPath.endsWith('.png')) {
       // Do not emit if not resized. Important because we can't guarantee
       // idempotency during resize -> optimization
       return;

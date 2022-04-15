@@ -12,26 +12,14 @@ This could lead to non-deterministic routing behavior."
 exports[`loadRoutes loads flat route config 1`] = `
 {
   "registry": {
-    "component---theme-blog-list-pagea-6-a-7ba": {
-      "loader": "() => import(/* webpackChunkName: 'component---theme-blog-list-pagea-6-a-7ba' */ '@theme/BlogListPage')",
-      "modulePath": "@theme/BlogListPage",
-    },
-    "content---blog-0-b-4-09e": {
-      "loader": "() => import(/* webpackChunkName: 'content---blog-0-b-4-09e' */ 'blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true')",
-      "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
-    },
-    "content---blog-7-b-8-fd9": {
-      "loader": "() => import(/* webpackChunkName: 'content---blog-7-b-8-fd9' */ 'blog/2018-12-14-Happy-First-Birthday-Slash.md')",
-      "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
-    },
-    "metadata---blog-0-b-6-74c": {
-      "loader": "() => import(/* webpackChunkName: 'metadata---blog-0-b-6-74c' */ 'blog-2018-12-14-happy-first-birthday-slash-d2c.json')",
-      "modulePath": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
-    },
+    "__comp---theme-blog-list-pagea-6-a-7ba": "@theme/BlogListPage",
+    "content---blog-0-b-4-09e": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
+    "content---blog-7-b-8-fd9": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
+    "metadata---blog-0-b-6-74c": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
   },
   "routesChunkNames": {
     "/blog-599": {
-      "component": "component---theme-blog-list-pagea-6-a-7ba",
+      "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
       "items": [
         {
           "content": "content---blog-0-b-4-09e",
@@ -71,47 +59,33 @@ export default [
 exports[`loadRoutes loads nested route config 1`] = `
 {
   "registry": {
-    "component---theme-doc-item-178-a40": {
-      "loader": "() => import(/* webpackChunkName: 'component---theme-doc-item-178-a40' */ '@theme/DocItem')",
-      "modulePath": "@theme/DocItem",
-    },
-    "component---theme-doc-page-1-be-9be": {
-      "loader": "() => import(/* webpackChunkName: 'component---theme-doc-page-1-be-9be' */ '@theme/DocPage')",
-      "modulePath": "@theme/DocPage",
-    },
-    "content---docs-foo-baz-8-ce-61e": {
-      "loader": "() => import(/* webpackChunkName: 'content---docs-foo-baz-8-ce-61e' */ 'docs/foo/baz.md')",
-      "modulePath": "docs/foo/baz.md",
-    },
-    "content---docs-helloaff-811": {
-      "loader": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ 'docs/hello.md')",
-      "modulePath": "docs/hello.md",
-    },
-    "docsMetadata---docs-routef-34-881": {
-      "loader": "() => import(/* webpackChunkName: 'docsMetadata---docs-routef-34-881' */ 'docs-b5f.json')",
-      "modulePath": "docs-b5f.json",
-    },
-    "metadata---docs-foo-baz-2-cf-fa7": {
-      "loader": "() => import(/* webpackChunkName: 'metadata---docs-foo-baz-2-cf-fa7' */ 'docs-foo-baz-dd9.json')",
-      "modulePath": "docs-foo-baz-dd9.json",
-    },
-    "metadata---docs-hello-956-741": {
-      "loader": "() => import(/* webpackChunkName: 'metadata---docs-hello-956-741' */ 'docs-hello-da2.json')",
-      "modulePath": "docs-hello-da2.json",
-    },
+    "__comp---theme-doc-item-178-a40": "@theme/DocItem",
+    "__comp---theme-doc-page-1-be-9be": "@theme/DocPage",
+    "content---docs-foo-baz-8-ce-61e": "docs/foo/baz.md",
+    "content---docs-helloaff-811": "docs/hello.md",
+    "docsMetadata---docs-routef-34-881": "docs-b5f.json",
+    "metadata---docs-foo-baz-2-cf-fa7": "docs-foo-baz-dd9.json",
+    "metadata---docs-hello-956-741": "docs-hello-da2.json",
+    "plugin---docs-hello-665-3ca": "pluginRouteContextModule-100.json",
   },
   "routesChunkNames": {
-    "/docs/hello-44b": {
-      "component": "component---theme-doc-item-178-a40",
+    "/docs/hello-fcc": {
+      "__comp": "__comp---theme-doc-item-178-a40",
+      "__context": {
+        "plugin": "plugin---docs-hello-665-3ca",
+      },
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-52d": {
-      "component": "component---theme-doc-page-1-be-9be",
+    "/docs:route-502": {
+      "__comp": "__comp---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-070": {
-      "component": "component---theme-doc-item-178-a40",
+    "docs/foo/baz-eb2": {
+      "__comp": "__comp---theme-doc-item-178-a40",
+      "__context": {
+        "plugin": "plugin---docs-hello-665-3ca",
+      },
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
     },
@@ -122,23 +96,23 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route', '52d'),
+    component: ComponentCreator('/docs:route', '502'),
     routes: [
       {
         path: '/docs/hello',
-        component: ComponentCreator('/docs/hello', '44b'),
+        component: ComponentCreator('/docs/hello', 'fcc'),
         exact: true,
-        sidebar: \\"main\\"
+        sidebar: "main"
       },
       {
         path: 'docs/foo/baz',
-        component: ComponentCreator('docs/foo/baz', '070'),
-        sidebar: \\"secondary\\",
-        \\"key:a\\": \\"containing colon\\",
-        \\"key'b\\": \\"containing quote\\",
-        \\"key\\\\\\"c\\": \\"containing double quote\\",
-        \\"key,d\\": \\"containing comma\\",
-        字段: \\"containing unicode\\"
+        component: ComponentCreator('docs/foo/baz', 'eb2'),
+        sidebar: "secondary",
+        "key:a": "containing colon",
+        "key'b": "containing quote",
+        "key\\"c": "containing double quote",
+        "key,d": "containing comma",
+        字段: "containing unicode"
       }
     ]
   },
@@ -159,14 +133,11 @@ export default [
 exports[`loadRoutes loads route config with empty (but valid) path string 1`] = `
 {
   "registry": {
-    "component---hello-world-jse-0-f-b6c": {
-      "loader": "() => import(/* webpackChunkName: 'component---hello-world-jse-0-f-b6c' */ 'hello/world.js')",
-      "modulePath": "hello/world.js",
-    },
+    "__comp---hello-world-jse-0-f-b6c": "hello/world.js",
   },
   "routesChunkNames": {
     "-b2a": {
-      "component": "component---hello-world-jse-0-f-b6c",
+      "__comp": "__comp---hello-world-jse-0-f-b6c",
     },
   },
   "routesConfig": "import React from 'react';

@@ -85,9 +85,10 @@ const docusaurus = {
     }
 
     loaded[routePath] = true;
-    preloadHelper(routes, routePath);
+    preloadHelper(routePath);
     return true;
   },
 };
 
-export default docusaurus;
+// This object is directly mounted onto window, better freeze it
+export default Object.freeze(docusaurus);

@@ -34,7 +34,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
   },
-  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/configs/configAsync.config.js",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/configAsync.config.js",
 }
 `;
 
@@ -72,7 +72,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
   },
-  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/configs/createConfigAsync.config.js",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/createConfigAsync.config.js",
 }
 `;
 
@@ -110,7 +110,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
   },
-  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/configs/createConfig.config.js",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/createConfig.config.js",
 }
 `;
 
@@ -119,7 +119,9 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
   "siteConfig": {
     "baseUrl": "/",
     "baseUrlIssueBanner": true,
-    "clientModules": [],
+    "clientModules": [
+      "foo.js",
+    ],
     "customFields": {},
     "favicon": "img/docusaurus.ico",
     "i18n": {

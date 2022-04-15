@@ -43,17 +43,17 @@ The data that was loaded in `loadContent` will be consumed in `contentLoaded`. I
 Create a route to add to the website.
 
 ```ts
-interface RouteConfig {
+type RouteConfig = {
   path: string;
   component: string;
   modules?: RouteModules;
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
-}
-interface RouteModules {
+};
+type RouteModules = {
   [module: string]: Module | RouteModules | RouteModules[];
-}
+};
 type Module =
   | {
       path: string;
@@ -339,7 +339,7 @@ function injectHtmlTags(): {
 
 type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
-interface HtmlTagObject {
+type HtmlTagObject = {
   /**
    * Attributes of the HTML tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
@@ -355,7 +355,7 @@ interface HtmlTagObject {
    * The inner HTML
    */
   innerHTML?: string;
-}
+};
 ```
 
 Example:

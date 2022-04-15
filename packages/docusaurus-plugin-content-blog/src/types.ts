@@ -6,44 +6,41 @@
  */
 
 import type {BrokenMarkdownLink, ContentPaths} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/types';
 import type {BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 import type {Metadata as BlogPaginatedMetadata} from '@theme/BlogListPage';
 
 export type BlogContentPaths = ContentPaths;
 
-export interface BlogContent {
+export type BlogContent = {
   blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
-  blogTagsListPath: string | null;
-}
+  blogTagsListPath: string;
+};
 
-export interface BlogTags {
-  // TODO, the key is the tag slug/permalink
-  // This is due to legacy frontmatter: tags:
-  // [{label: "xyz", permalink: "/1"}, {label: "xyz", permalink: "/2"}]
-  // Soon we should forbid declaring permalink through frontmatter
-  [tagKey: string]: BlogTag;
-}
+export type BlogTags = {
+  [permalink: string]: BlogTag;
+};
 
-export interface BlogTag {
-  name: string;
-  items: string[]; // blog post permalinks
-  permalink: string;
+export type BlogTag = Tag & {
+  /** Blog post permalinks. */
+  items: string[];
   pages: BlogPaginated[];
-}
+};
 
-export interface BlogPost {
+export type BlogPost = {
   id: string;
   metadata: BlogPostMetadata;
   content: string;
-}
+};
 
-export interface BlogPaginated {
+export type BlogPaginated = {
   metadata: BlogPaginatedMetadata;
-  items: string[]; // blog post permalinks
-}
+  /** Blog post permalinks. */
+  items: string[];
+};
 
 export type BlogBrokenMarkdownLink = BrokenMarkdownLink<BlogContentPaths>;
 export type BlogMarkdownLoaderOptions = {

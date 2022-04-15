@@ -24,13 +24,13 @@ The plugin module's default export is a constructor function with the signature 
 `context` is plugin-agnostic, and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
 
 ```ts
-interface LoadContext {
+type LoadContext = {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
-}
+};
 ```
 
 ### `options` {#options}

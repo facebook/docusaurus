@@ -65,7 +65,9 @@ declare module '@generated/i18n' {
 }
 
 declare module '@generated/codeTranslations' {
-  const codeTranslations: {[msgId: string]: string};
+  import type {CodeTranslations} from '@docusaurus/types';
+
+  const codeTranslations: CodeTranslations;
   export = codeTranslations;
 }
 
@@ -138,8 +140,9 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps} from 'react';
+  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
 
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  type NavLinkProps = Partial<RRNavLinkProps>;
   export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;
@@ -312,16 +315,18 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
-  import type {GlobalData} from '@docusaurus/types';
+  import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
   export function useAllPluginInstancesData(
     pluginName: string,
-  ): GlobalData[string];
+    options?: UseDataOptions,
+  ): GlobalData[string] | undefined;
 
   export function usePluginData(
     pluginName: string,
     pluginId?: string,
-  ): GlobalData[string][string];
+    options?: UseDataOptions,
+  ): GlobalData[string][string] | undefined;
 
   export default function useGlobalData(): GlobalData;
 }

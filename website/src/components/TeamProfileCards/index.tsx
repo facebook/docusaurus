@@ -19,13 +19,13 @@ function WebsiteLink({to, children}: {to: string; children?: ReactNode}) {
   );
 }
 
-interface ProfileProps {
+type ProfileProps = {
   className?: string;
   name: string;
   children: ReactNode;
   githubUrl?: string;
   twitterUrl?: string;
-}
+};
 
 function TeamProfileCard({
   className,

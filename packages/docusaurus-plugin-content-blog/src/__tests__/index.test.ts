@@ -41,7 +41,7 @@ function getI18n(locale: string): I18n {
     currentLocale: locale,
     locales: [locale],
     defaultLocale: locale,
-    localeConfigs: {},
+    localeConfigs: {[locale]: {calendar: 'gregory'}},
   };
 }
 

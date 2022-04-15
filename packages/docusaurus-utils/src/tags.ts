@@ -7,12 +7,7 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
-
-export type Tag = {
-  label: string;
-  /** Permalink to this tag's page, without the `/tags/` base path. */
-  permalink: string;
-};
+import type {Tag} from '@docusaurus/types';
 
 export type FrontMatterTag = string | Tag;
 
