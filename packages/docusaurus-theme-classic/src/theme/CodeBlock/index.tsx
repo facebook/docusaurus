@@ -118,10 +118,13 @@ function CodeBlockContainer<T extends 'div' | 'pre'>({
   as: As,
   ...props
 }: {as: T} & ComponentProps<T>) {
+  const prismTheme = usePrismTheme();
+  const prismCssVariables = getPrismCssVariables(prismTheme);
   return (
     <As
       // Polymorphic components are hard to type, without `oneOf` generics
       {...(props as never)}
+      style={prismCssVariables}
       className={clsx(
         props.className,
         styles.codeBlockContainer,
@@ -135,14 +138,11 @@ function CodeBlockContainer<T extends 'div' | 'pre'>({
 // When the children is not a simple string, we just return a styled block
 // without actually highlighting.
 function CodeBlockJSX({children, className}: Props): JSX.Element {
-  const prismTheme = usePrismTheme();
-  const prismCssVariables = getPrismCssVariables(prismTheme);
   return (
     <CodeBlockContainer
       as="pre"
       tabIndex={0}
-      className={clsx(styles.codeBlockStandalone, 'thin-scrollbar', className)}
-      style={prismCssVariables}>
+      className={clsx(styles.codeBlockStandalone, 'thin-scrollbar', className)}>
       <code className={styles.codeBlockLines}>{children}</code>
     </CodeBlockContainer>
   );
@@ -152,7 +152,7 @@ function CodeBlockString({
   children,
   className: blockClassName = '',
   metastring,
-  title,
+  title: titleProp,
   showLineNumbers: showLineNumbersProp,
   language: languageProp,
 }: Omit<Props, 'children'> & {children: string}): JSX.Element {
@@ -162,35 +162,33 @@ function CodeBlockString({
   const language =
     languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
   const prismTheme = usePrismTheme();
-  const prismCssVariables = getPrismCssVariables(prismTheme);
 
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
   // "title=\"xyz\"" => title: "\"xyz\""
-  const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
+  const title = parseCodeBlockTitle(metastring) || titleProp;
 
   const {highlightLines, code} = parseLines(children, metastring, language);
   const showLineNumbers =
     showLineNumbersProp || containsLineNumbers(metastring);
 
   return (
-    <Highlight
-      {...defaultProps}
-      theme={prismTheme}
-      code={code}
-      language={(language ?? 'text') as Language}>
-      {({className, tokens, getLineProps, getTokenProps}) => (
-        <CodeBlockContainer
-          as="div"
-          className={clsx(blockClassName, {
-            [`language-${language}`]:
-              language && !blockClassName.includes(`language-${language}`),
-          })}
-          style={prismCssVariables}>
-          {codeBlockTitle && (
-            <div className={styles.codeBlockTitle}>{codeBlockTitle}</div>
-          )}
-          <div className={styles.codeBlockContent}>
+    <CodeBlockContainer
+      as="div"
+      className={clsx(
+        blockClassName,
+        language &&
+          !blockClassName.includes(`language-${language}`) &&
+          `language-${language}`,
+      )}>
+      {title && <div className={styles.codeBlockTitle}>{title}</div>}
+      <div className={styles.codeBlockContent}>
+        <Highlight
+          {...defaultProps}
+          theme={prismTheme}
+          code={code}
+          language={(language ?? 'text') as Language}>
+          {({className, tokens, getLineProps, getTokenProps}) => (
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
@@ -212,11 +210,10 @@ function CodeBlockString({
                 ))}
               </code>
             </pre>
-
-            <CopyButton code={code} />
-          </div>
-        </CodeBlockContainer>
-      )}
-    </Highlight>
+          )}
+        </Highlight>
+        <CopyButton code={code} />
+      </div>
+    </CodeBlockContainer>
   );
 }
