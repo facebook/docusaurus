@@ -16,6 +16,7 @@ import {
   containsLineNumbers,
   ThemeClassNames,
   usePrismTheme,
+  getPrismCssVariables,
 } from '@docusaurus/theme-common';
 import CopyButton from '@theme/CodeBlock/CopyButton';
 import type {Props} from '@theme/CodeBlock';
@@ -50,6 +51,8 @@ export default function CodeBlock({
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
+  const prismCssVariables = getPrismCssVariables(prismTheme);
+
   // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
   // When the children is not a simple string, we just return a styled block
   // without actually highlighting.
@@ -61,7 +64,7 @@ export default function CodeBlock({
         theme={prismTheme}
         code=""
         language={'text' as Language}>
-        {({className, style}) => (
+        {({className}) => (
           <pre
             /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
             tabIndex={0}
@@ -73,7 +76,7 @@ export default function CodeBlock({
               blockClassName,
               ThemeClassNames.common.codeBlock,
             )}
-            style={style}>
+            style={prismCssVariables}>
             <code className={styles.codeBlockLines}>{children}</code>
           </pre>
         )}
@@ -99,7 +102,7 @@ export default function CodeBlock({
       theme={prismTheme}
       code={code}
       language={(language ?? 'text') as Language}>
-      {({className, style, tokens, getLineProps, getTokenProps}) => (
+      {({className, tokens, getLineProps, getTokenProps}) => (
         <div
           className={clsx(
             styles.codeBlockContainer,
@@ -109,13 +112,12 @@ export default function CodeBlock({
                 language && !blockClassName.includes(`language-${language}`),
             },
             ThemeClassNames.common.codeBlock,
-          )}>
-          {codeBlockTitle && (
-            <div style={style} className={styles.codeBlockTitle}>
-              {codeBlockTitle}
-            </div>
           )}
-          <div className={styles.codeBlockContent} style={style}>
+          style={prismCssVariables}>
+          {codeBlockTitle && (
+            <div className={styles.codeBlockTitle}>{codeBlockTitle}</div>
+          )}
+          <div className={styles.codeBlockContent}>
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}

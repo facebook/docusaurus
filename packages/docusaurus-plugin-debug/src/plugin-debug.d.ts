@@ -7,10 +7,6 @@
 
 /// <reference types="@docusaurus/module-type-aliases" />
 
-declare module '@docusaurus/plugin-debug' {
-  export const routeBasePath: string;
-}
-
 declare module '@theme/DebugConfig' {
   export default function DebugMetadata(): JSX.Element;
 }

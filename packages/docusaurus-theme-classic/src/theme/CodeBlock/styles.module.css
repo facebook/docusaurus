@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* Deliberately has zero specificity, so that to be able to override
+/* Intentionally has zero specificity, so that to be able to override
 the background in custom CSS file due bug https://github.com/facebook/docusaurus/issues/3678 */
 :where(:root) {
   --docusaurus-highlighted-code-line-bg: rgb(72 77 91);
@@ -16,6 +16,8 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
 }
 
 .codeBlockContainer {
+  background: var(--prism-background-color);
+  color: var(--prism-color);
   margin-bottom: var(--ifm-leading);
   box-shadow: var(--ifm-global-shadow-lw);
   border-radius: var(--ifm-code-border-radius);
@@ -38,7 +40,7 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
 }
 
 .codeBlock {
-  --ifm-pre-background: inherit;
+  --ifm-pre-background: var(--prism-background-color);
   margin: 0;
   padding: 0;
 }
@@ -54,7 +56,6 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
 
 .codeBlockLines {
   font: inherit;
-  background: var(--ifm-pre-background);
   /* rtl:ignore */
   float: left;
   min-width: 100%;

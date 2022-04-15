@@ -10,6 +10,7 @@ import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
+import type {HelmetServerState} from 'react-helmet-async';
 import type {
   DeepRequired,
   Required as RequireKeys,
@@ -319,7 +320,12 @@ export type Plugin<Content = unknown> = {
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?: (props: Props & {content: Content}) => Promise<void> | void;
+  postBuild?: (
+    props: Props & {
+      content: Content;
+      head: {[location: string]: HelmetServerState};
+    },
+  ) => Promise<void> | void;
   // TODO refactor the configureWebpack API surface: use an object instead of
   // multiple params (requires breaking change)
   configureWebpack?: (

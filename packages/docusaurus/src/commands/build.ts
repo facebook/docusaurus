@@ -27,6 +27,7 @@ import {
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
+import type {HelmetServerState} from 'react-helmet-async';
 
 export async function build(
   siteDir: string,
@@ -149,11 +150,15 @@ async function buildLocale({
   );
 
   const allCollectedLinks: {[location: string]: string[]} = {};
+  const headTags: {[location: string]: HelmetServerState} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
+    },
+    onHeadTagsCollected: (staticPagePath, tags) => {
+      headTags[staticPagePath] = tags;
     },
   });
 
@@ -224,7 +229,11 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild({...props, content: plugin.content});
+      await plugin.postBuild({
+        ...props,
+        head: headTags,
+        content: plugin.content,
+      });
     }),
   );
 
