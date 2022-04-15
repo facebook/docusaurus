@@ -202,22 +202,22 @@ export function parseLines(
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
-    if (match !== null) {
-      const directive = match.slice(1).find((item) => item !== undefined)!;
-      if (lineToClassName[directive]) {
-        blocks[lineToClassName[directive]!]!.range += `${lineNumber},`;
-      } else if (blockStartToClassName[directive]) {
-        blocks[blockStartToClassName[directive]!]!.start = lineNumber;
-      } else if (blockEndToClassName[directive]) {
-        blocks[blockEndToClassName[directive]!]!.range += `${
-          blocks[blockEndToClassName[directive]!]!.start
-        }-${lineNumber - 1},`;
-      }
-      lines.splice(lineNumber, 1);
-    } else {
+    if (!match) {
       // lines without directives are unchanged
       lineNumber += 1;
+      continue;
     }
+    const directive = match.slice(1).find((item) => item !== undefined)!;
+    if (lineToClassName[directive]) {
+      blocks[lineToClassName[directive]!]!.range += `${lineNumber},`;
+    } else if (blockStartToClassName[directive]) {
+      blocks[blockStartToClassName[directive]!]!.start = lineNumber;
+    } else if (blockEndToClassName[directive]) {
+      blocks[blockEndToClassName[directive]!]!.range += `${
+        blocks[blockEndToClassName[directive]!]!.start
+      }-${lineNumber - 1},`;
+    }
+    lines.splice(lineNumber, 1);
   }
   code = lines.join('\n');
   const lineClassNames: {[lineIndex: number]: string[]} = {};

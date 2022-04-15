@@ -322,5 +322,28 @@ highlighted and collapsed
         },
       ),
     ).toMatchSnapshot();
+    expect(
+      parseLines(
+        `// a
+// b
+// c
+// d
+line
+// b
+// d
+line
+`,
+        {
+          language: 'js',
+          metastring: '',
+          magicComments: [
+            {className: 'a', line: 'a'},
+            {className: 'b', line: 'b'},
+            {className: 'c', line: 'c'},
+            {className: 'd', line: 'd'},
+          ],
+        },
+      ),
+    ).toMatchSnapshot();
   });
 });

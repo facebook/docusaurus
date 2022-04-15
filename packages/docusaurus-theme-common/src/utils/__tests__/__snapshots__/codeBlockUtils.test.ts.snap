@@ -96,6 +96,25 @@ highlighted and collapsed",
 }
 `;
 
+exports[`parseLines handles one line with multiple class names 2`] = `
+{
+  "code": "line
+line",
+  "lineClassNames": {
+    "0": [
+      "a",
+      "b",
+      "c",
+      "d",
+    ],
+    "1": [
+      "b",
+      "d",
+    ],
+  },
+}
+`;
+
 exports[`parseLines parses multiple types of magic comments 1`] = `
 {
   "code": "
