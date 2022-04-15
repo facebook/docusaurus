@@ -2103,6 +2103,14 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: 'Rainbond',
+    description: 'Rainbond is a cloud native multi cloud application management platform',
+    preview: require('./showcase/rainbond.png'),
+    website: 'https://www.rainbond.com',
+    source: 'https://github.com/goodrain/rainbond-docs',
+    tags: ['opensource', 'product'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
