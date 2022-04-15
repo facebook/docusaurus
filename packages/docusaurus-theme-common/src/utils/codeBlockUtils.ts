@@ -182,11 +182,10 @@ export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
     backgroundColor: '--prism-background-color',
   };
 
-  const properties: CSSProperties = {};
+  const properties: {[key: string]: string} = {};
   Object.entries(prismTheme.plain).forEach(([key, value]) => {
     const varName = mapping[key];
     if (varName && typeof value === 'string') {
-      // @ts-expect-error: why css variables not in inline style type?
       properties[varName] = value;
     }
   });
