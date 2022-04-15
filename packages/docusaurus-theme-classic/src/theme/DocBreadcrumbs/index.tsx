@@ -20,11 +20,20 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 function BreadcrumbsItemLink({
   children,
   href,
+  isLast,
 }: {
   children: ReactNode;
-  href?: string;
+  href: string | undefined;
+  isLast: boolean;
 }): JSX.Element {
   const className = 'breadcrumbs__link';
+  if (isLast) {
+    return (
+      <span className={className} itemProp="name">
+        {children}
+      </span>
+    );
+  }
   return href ? (
     <Link className={className} href={href} itemProp="item">
       <span itemProp="name">{children}</span>
@@ -93,17 +102,16 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         itemScope
         itemType="https://schema.org/BreadcrumbList">
         {homePageRoute && <HomeBreadcrumbItem />}
-        {breadcrumbs.map((item, idx) => (
-          <BreadcrumbsItem
-            key={idx}
-            active={idx === breadcrumbs.length - 1}
-            index={idx}>
-            <BreadcrumbsItemLink
-              href={idx < breadcrumbs.length - 1 ? item.href : undefined}>
-              {item.label}
-            </BreadcrumbsItemLink>
-          </BreadcrumbsItem>
-        ))}
+        {breadcrumbs.map((item, idx) => {
+          const isLast = idx === breadcrumbs.length - 1;
+          return (
+            <BreadcrumbsItem key={idx} active={isLast} index={idx}>
+              <BreadcrumbsItemLink href={item.href} isLast={isLast}>
+                {item.label}
+              </BreadcrumbsItemLink>
+            </BreadcrumbsItem>
+          );
+        })}
       </ul>
     </nav>
   );
