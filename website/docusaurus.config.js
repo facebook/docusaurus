@@ -419,6 +419,15 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
+                type: 'html',
+                className: 'dropdown-archived-versions',
+                value: '<b>Archived versions</b>',
+              },
               ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
@@ -430,6 +439,10 @@ const config = {
                 label: '1.x.x',
               },
               {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
                 to: '/versions',
                 label: 'All versions',
               },
@@ -439,6 +452,10 @@ const config = {
             type: 'localeDropdown',
             position: 'right',
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr style="margin: 0.3rem 0;">',
+              },
               {
                 href: 'https://github.com/facebook/docusaurus/issues/3526',
                 label: 'Help Us Translate',

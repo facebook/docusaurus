@@ -312,6 +312,7 @@ Navbar dropdown items only accept the following **"link-like" item types**:
 - [Navbar doc link](#navbar-doc-link)
 - [Navbar docs version](#navbar-docs-version)
 - [Navbar doc sidebar](#navbar-doc-sidebar)
+- [Navbar with custom HTML](#navbar-with-custom-html)
 
 Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
 
@@ -613,6 +614,39 @@ module.exports = {
         {
           type: 'search',
           position: 'right',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar with custom HTML {#navbar-with-custom-html}
+
+You can also render your own HTML markup inside a navbar item using this navbar item type.
+
+<APITable name="navbar-html">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'html'` | **Required** | Sets the type of this item to a HTML element. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `className` | `string` | `''` | Custom CSS class for this navbar item. |
+| `value` | `string` | `''` | Custom HTML to be rendered inside this navbar item. |
+
+</APITable>
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'html',
+          position: 'right',
+          value: '<button>Give feedback</button>',
         },
         // highlight-end
       ],

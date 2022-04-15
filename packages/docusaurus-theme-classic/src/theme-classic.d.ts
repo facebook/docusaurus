@@ -148,10 +148,10 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import type {ReactElement} from 'react';
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly children: string | ReactElement;
+    readonly children: ReactNode;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
@@ -168,6 +168,56 @@ declare module '@theme/CodeBlock/CopyButton' {
   }
 
   export default function CopyButton(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Container' {
+  import type {ComponentProps} from 'react';
+
+  export default function CodeBlockContainer<T extends 'div' | 'pre'>({
+    as: As,
+    ...props
+  }: {as: T} & ComponentProps<T>): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Content/Element' {
+  import type {Props} from '@theme/CodeBlock';
+
+  export type {Props};
+
+  export default function CodeBlockElementContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Content/String' {
+  import type {Props as CodeBlockProps} from '@theme/CodeBlock';
+
+  export interface Props extends Omit<CodeBlockProps, 'children'> {
+    readonly children: string;
+  }
+
+  export default function CodeBlockStringContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Line' {
+  import type {ComponentProps} from 'react';
+  import type Highlight from 'prism-react-renderer';
+
+  // Lib does not make this easy
+  type RenderProps = Parameters<
+    ComponentProps<typeof Highlight>['children']
+  >[0];
+  type GetLineProps = RenderProps['getLineProps'];
+  type GetTokenProps = RenderProps['getTokenProps'];
+  type Token = RenderProps['tokens'][number][number];
+
+  export interface Props {
+    readonly line: Token[];
+    readonly highlight: boolean;
+    readonly showLineNumbers: boolean;
+    readonly getLineProps: GetLineProps;
+    readonly getTokenProps: GetTokenProps;
+  }
+
+  export default function CodeBlockLine(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {
@@ -822,6 +872,16 @@ declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
   export default function DocSidebarNavbarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/NavbarItem/HtmlNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly value: string;
+  }
+
+  export default function HtmlNavbarItem(props: Props): JSX.Element;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -832,12 +892,14 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {Props as HtmlNavbarItemProps} from '@theme/NavbarItem/HtmlNavbarItem';
 
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps)
+    | ({readonly type: 'html'} & HtmlNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
