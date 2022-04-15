@@ -36,6 +36,13 @@ describe('themeConfig', () => {
         darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
+        magicComments: [
+          {
+            className: 'docusaurus-highlight-code-line',
+            line: 'highlight-next-line',
+            block: ['highlight-start', 'highlight-end'],
+          },
+        ],
       },
       announcementBar: {
         id: 'supports',
@@ -482,6 +489,7 @@ describe('themeConfig', () => {
       prism: {
         additionalLanguages: ['kotlin', 'java'],
         theme: darkTheme,
+        magicComments: [],
       },
     };
     expect(testValidateThemeConfig(prismConfig)).toEqual({

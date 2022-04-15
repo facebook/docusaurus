@@ -6,6 +6,7 @@
  */
 
 import {
+  type MagicCommentConfig,
   parseCodeBlockTitle,
   parseLanguage,
   parseLines,
@@ -67,22 +68,43 @@ describe('parseLanguage', () => {
 });
 
 describe('parseLines', () => {
+  const defaultMagicComments: MagicCommentConfig[] = [
+    {
+      className: 'docusaurus-highlight-code-line',
+      line: 'highlight-next-line',
+      block: ['highlight-start', 'highlight-end'],
+    },
+  ];
+
   it('does not parse content with metastring', () => {
-    expect(parseLines('aaaaa\nnnnnn', '{1}', 'js')).toMatchSnapshot();
+    expect(
+      parseLines('aaaaa\nnnnnn', {
+        metastring: '{1}',
+        language: 'js',
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
 aaaaa
 bbbbb`,
-        '{1}',
-        'js',
+        {
+          metastring: '{1}',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
     expect(
       parseLines(
         `aaaaa
 bbbbb`,
-        '{1}',
+        {
+          metastring: '{1}',
+          language: 'undefined',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
   });
@@ -92,8 +114,11 @@ bbbbb`,
         `// highlight-next-line
 aaaaa
 bbbbb`,
-        '',
-        undefined,
+        {
+          metastring: '',
+          language: undefined,
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
   });
@@ -103,8 +128,7 @@ bbbbb`,
         `// highlight-next-line
 aaaaa
 bbbbb`,
-        '',
-        'js',
+        {metastring: '', language: 'js', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot();
     expect(
@@ -113,8 +137,7 @@ bbbbb`,
 aaaaa
 // highlight-end
 bbbbb`,
-        '',
-        'js',
+        {metastring: '', language: 'js', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot();
     expect(
@@ -126,8 +149,7 @@ bbbbbbb
 // highlight-next-line
 // highlight-end
 bbbbb`,
-        '',
-        'js',
+        {metastring: '', language: 'js', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot();
   });
@@ -137,8 +159,7 @@ bbbbb`,
         `# highlight-next-line
 aaaaa
 bbbbb`,
-        '',
-        'js',
+        {metastring: '', language: 'js', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('js');
     expect(
@@ -146,8 +167,7 @@ bbbbb`,
         `/* highlight-next-line */
 aaaaa
 bbbbb`,
-        '',
-        'py',
+        {metastring: '', language: 'py', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('py');
     expect(
@@ -160,8 +180,7 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd`,
-        '',
-        'py',
+        {metastring: '', language: 'py', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('py');
     expect(
@@ -174,8 +193,7 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd`,
-        '',
-        '',
+        {metastring: '', language: '', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('none');
     expect(
@@ -186,8 +204,7 @@ aaaa
 bbbbb
 <!-- highlight-next-line -->
 dddd`,
-        '',
-        'jsx',
+        {metastring: '', language: 'jsx', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('jsx');
     expect(
@@ -198,8 +215,7 @@ aaaa
 bbbbb
 <!-- highlight-next-line -->
 dddd`,
-        '',
-        'html',
+        {metastring: '', language: 'html', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('html');
     expect(
@@ -225,9 +241,86 @@ dddd
 console.log("preserved");
 \`\`\`
 `,
-        '',
-        'md',
+        {metastring: '', language: 'md', magicComments: defaultMagicComments},
       ),
     ).toMatchSnapshot('md');
+  });
+
+  it('parses multiple types of magic comments', () => {
+    expect(
+      parseLines(
+        `
+// highlight-next-line
+highlighted
+// collapse-next-line
+collapsed
+/* collapse-start */
+collapsed
+collapsed
+/* collapse-end */
+`,
+        {
+          language: 'js',
+          metastring: '',
+          magicComments: [
+            {
+              className: 'highlight',
+              line: 'highlight-next-line',
+              block: ['highlight-start', 'highlight-end'],
+            },
+            {
+              className: 'collapse',
+              line: 'collapse-next-line',
+              block: ['collapse-start', 'collapse-end'],
+            },
+          ],
+        },
+      ),
+    ).toMatchSnapshot();
+  });
+
+  it('handles one line with multiple class names', () => {
+    expect(
+      parseLines(
+        `
+// highlight-next-line
+// collapse-next-line
+highlighted and collapsed
+/* collapse-start */
+/* highlight-start */
+highlighted and collapsed
+highlighted and collapsed
+/* collapse-end */
+Only highlighted
+/* highlight-end */
+/* collapse-start */
+Only collapsed
+/* highlight-start */
+highlighted and collapsed
+highlighted and collapsed
+/* highlight-end */
+Only collapsed
+// highlight-next-line
+highlighted and collapsed
+/* collapse-end */
+`,
+        {
+          language: 'js',
+          metastring: '',
+          magicComments: [
+            {
+              className: 'highlight',
+              line: 'highlight-next-line',
+              block: ['highlight-start', 'highlight-end'],
+            },
+            {
+              className: 'collapse',
+              line: 'collapse-next-line',
+              block: ['collapse-start', 'collapse-end'],
+            },
+          ],
+        },
+      ),
+    ).toMatchSnapshot();
   });
 });

@@ -6,12 +6,13 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import type {Props} from '@theme/CodeBlock/Line';
 import styles from './styles.module.css';
 
 export default function CodeBlockLine({
   line,
-  highlight,
+  className,
   showLineNumbers,
   getLineProps,
   getTokenProps,
@@ -22,12 +23,8 @@ export default function CodeBlockLine({
 
   const lineProps = getLineProps({
     line,
-    ...(showLineNumbers && {className: styles.codeLine}),
+    className: clsx(className, showLineNumbers && styles.codeLine),
   });
-
-  if (highlight) {
-    lineProps.className += ' docusaurus-highlight-code-line';
-  }
 
   const lineTokens = line.map((token, key) => (
     <span key={key} {...getTokenProps({token, key})} />

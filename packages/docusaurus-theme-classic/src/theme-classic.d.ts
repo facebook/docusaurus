@@ -211,7 +211,7 @@ declare module '@theme/CodeBlock/Line' {
 
   export interface Props {
     readonly line: Token[];
-    readonly highlight: boolean;
+    readonly className: string;
     readonly showLineNumbers: boolean;
     readonly getLineProps: GetLineProps;
     readonly getTokenProps: GetTokenProps;
