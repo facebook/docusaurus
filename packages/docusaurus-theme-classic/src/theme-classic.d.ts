@@ -148,10 +148,10 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import type {ReactElement} from 'react';
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly children: string | ReactElement;
+    readonly children: ReactNode;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
