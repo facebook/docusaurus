@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {ThemeClassNames} from '@docusaurus/theme-common';
 import type {Props} from '@theme/CodeBlock/Line';
 import styles from './styles.module.css';
 
@@ -31,7 +30,7 @@ export default function CodeBlockLine({
     lineProps.className = clsx(
       lineProps.className,
       styles.highlightedCodeLine,
-      ThemeClassNames.common.codeBlock.highlightedCodeLine,
+      'theme-code-block-highlighted-line',
     );
   }
 

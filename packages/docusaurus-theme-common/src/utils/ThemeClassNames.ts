@@ -39,10 +39,7 @@ export const ThemeClassNames = {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
     backToTopButton: 'theme-back-to-top-button',
-    codeBlock: {
-      container: 'theme-code-block',
-      highlightedCodeLine: 'theme-code-block-highlighted-line',
-    },
+    codeBlock: 'theme-code-block',
   },
   layout: {
     // TODO add other stable classNames here

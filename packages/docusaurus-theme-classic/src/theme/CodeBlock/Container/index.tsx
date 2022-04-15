@@ -28,7 +28,7 @@ export default function CodeBlockContainer<T extends 'div' | 'pre'>({
       className={clsx(
         props.className,
         styles.codeBlockContainer,
-        ThemeClassNames.common.codeBlock.container,
+        ThemeClassNames.common.codeBlock,
       )}
     />
   );
