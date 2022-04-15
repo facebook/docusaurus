@@ -100,7 +100,7 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
   opacity: 0.4;
 }
 
-:global(.docusaurus-highlight-code-line) .codeLineNumber::before {
+.highlightedCodeLine .codeLineNumber::before {
   opacity: 0.8;
 }
 
