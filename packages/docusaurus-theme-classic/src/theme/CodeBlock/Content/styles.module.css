@@ -55,28 +55,35 @@
   }
 }
 
-.codeButton {
-  --docusaurus-code-button-size: 2rem;
+.buttonGroup {
+  display: flex;
   position: absolute;
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
-  width: var(--docusaurus-code-button-size);
-  height: var(--docusaurus-code-button-size);
+}
+
+.buttonGroup button {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: inherit;
+  background: var(--prism-background-color);
+  color: var(--prism-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
+  padding: 0.4rem;
+  line-height: 0;
   transition: opacity 200ms ease-in-out;
   opacity: 0;
 }
 
-.codeButton:focus-visible,
-.codeButton:hover {
+.buttonGroup button:not(:first-child) {
+  margin-left: 0.5rem;
+}
+
+.buttonGroup button:focus-visible,
+.buttonGroup button:hover {
   opacity: 1 !important;
 }
 
-:global(.theme-code-block:hover) .codeButton {
+:global(.theme-code-block:hover) .buttonGroup button {
   opacity: 0.4;
 }

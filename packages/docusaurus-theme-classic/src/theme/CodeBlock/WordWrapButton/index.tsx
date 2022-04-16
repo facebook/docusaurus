@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useState, useEffect} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/CodeBlock/WordWrapButton';
@@ -13,21 +13,10 @@ import type {Props} from '@theme/CodeBlock/WordWrapButton';
 import styles from './styles.module.css';
 
 export default function WordWrapButton({
-  codeBlockRef,
   className,
+  onClick,
+  isEnabled,
 }: Props): JSX.Element | null {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
-  const toggleWordWrapCode = useCallback(() => {
-    setIsEnabled((value) => !value);
-
-    const codeElement = codeBlockRef.current!.querySelector('code');
-    codeElement?.classList.toggle(styles.codeWithWordWrap!);
-  }, [codeBlockRef]);
-  const updateCodeIsScrollable = useCallback(() => {
-    const {scrollWidth, clientWidth} = codeBlockRef.current!;
-    setIsCodeScrollable(scrollWidth > clientWidth);
-  }, [codeBlockRef]);
   const title = translate({
     id: 'theme.CodeBlock.wordWrapToggle',
     message: 'Toggle word wrap',
@@ -35,25 +24,10 @@ export default function WordWrapButton({
       'The title attribute for toggle word wrapping button of code block lines',
   });
 
-  useEffect(() => {
-    updateCodeIsScrollable();
-
-    window.addEventListener('resize', updateCodeIsScrollable);
-
-    return () => {
-      window.removeEventListener('resize', updateCodeIsScrollable);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (!isCodeScrollable) {
-    return null;
-  }
-
   return (
     <button
       type="button"
-      onClick={toggleWordWrapCode}
+      onClick={onClick}
       className={clsx(
         'clean-btn',
         className,
