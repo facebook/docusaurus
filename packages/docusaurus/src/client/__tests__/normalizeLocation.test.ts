@@ -79,7 +79,7 @@ describe('normalizeLocation', () => {
         hash: '#bar',
       }),
     ).toEqual({
-      pathname: '/docs/introduction/foo.html',
+      pathname: '/docs/introduction/foo',
       search: '',
       hash: '#bar',
     });

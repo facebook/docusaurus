@@ -19,7 +19,7 @@ export default function normalizeLocation<T extends Location>(location: T): T {
   }
 
   const pathname =
-    location.pathname.trim().replace(/\/index\.html$/, '') || '/';
+    location.pathname.trim().replace(/(?:\/index)?\.html$/, '') || '/';
 
   pathnames[location.pathname] = pathname;
 
