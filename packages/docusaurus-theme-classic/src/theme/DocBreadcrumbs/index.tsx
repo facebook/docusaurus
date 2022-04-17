@@ -77,7 +77,7 @@ function HomeBreadcrumbItem() {
       <Link
         className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
         href={homeHref}>
-        <IconHome className={styles.icon}/>
+        <IconHome className={styles.icon} />
       </Link>
     </li>
   );
