@@ -236,7 +236,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   if (!cliOptions.skipBuild) {
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
-      await runDeploy(await build(siteDir, cliOptions, false));
+      await build(siteDir, cliOptions, false).then(runDeploy);
     } catch (err) {
       logger.error('Deployment of the build output failed.');
       throw err;

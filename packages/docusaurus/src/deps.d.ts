@@ -8,6 +8,8 @@
 declare module 'remark-admonitions';
 
 declare module 'react-loadable-ssr-addon-v5-slorber' {
+  import type {WebpackPluginInstance, Compiler} from 'webpack';
+
   type Asset = {
     file: string;
     hash: string;
@@ -26,15 +28,14 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
     modulesToBeLoaded: string[],
   ): {js: Asset[]; css: Asset[]};
 
-  type ReactLoadableSSRAddon = {
-    new (props: {filename: string});
-  };
-
-  const plugin: ReactLoadableSSRAddon;
-  export default plugin;
+  export default class ReactLoadableSSRAddon implements WebpackPluginInstance {
+    constructor(props: {filename: string});
+    apply(compiler: Compiler): void;
+  }
 }
 
 declare module '@slorber/static-site-generator-webpack-plugin' {
+  import type {WebpackPluginInstance, Compiler} from 'webpack';
   import type {HelmetServerState} from 'react-helmet-async';
 
   export type Locals = {
@@ -53,18 +54,18 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     noIndex: boolean;
   };
 
-  type StaticSiteGeneratorPlugin = {
-    new (props: {
+  export default class StaticSiteGeneratorPlugin
+    implements WebpackPluginInstance
+  {
+    constructor(props: {
       entry: string;
       locals: Locals;
       paths: string[];
       preferFoldersOutput?: boolean;
       globals: {[key: string]: unknown};
     });
-  };
-
-  const plugin: StaticSiteGeneratorPlugin;
-  export default plugin;
+    apply(compiler: Compiler): void;
+  }
 }
 
 declare module 'webpack/lib/HotModuleReplacementPlugin' {
