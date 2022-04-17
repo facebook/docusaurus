@@ -25,7 +25,7 @@
     "@mdx-js/mdx": "^1.6.22",
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
-    "fs-extra": "^10.0.1",
+    "fs-extra": "^10.1.0",
     "image-size": "^1.0.1",
     "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.2.0",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.18",
-    "@types/escape-html": "^1.0.1",
+    "@types/escape-html": "^1.0.2",
     "@types/mdast": "^3.0.10",
     "@types/stringify-object": "^3.3.1",
     "@types/unist": "^2.0.6",

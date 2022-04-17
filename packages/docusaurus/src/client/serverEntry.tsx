@@ -85,7 +85,6 @@ async function doRender(locals: Locals & {path: string}) {
   const appHtml = ReactDOMServer.renderToString(
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
-      {/* @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165 */}
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
           <LinksCollectorProvider linksCollector={linksCollector}>
