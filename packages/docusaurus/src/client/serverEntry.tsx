@@ -111,9 +111,7 @@ async function doRender(locals: Locals & {path: string}) {
 
   const {generatedFilesDir} = locals;
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-  const manifest: Manifest = JSON.parse(
-    await fs.readFile(manifestPath, 'utf8'),
-  );
+  const manifest: Manifest = await fs.readJSON(manifestPath);
 
   // Get all required assets for this particular page based on client
   // manifest information.

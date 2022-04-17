@@ -58,7 +58,7 @@ async function readTranslationFileContent(
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
     try {
-      const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
+      const content = await fs.readJSON(filePath);
       ensureTranslationFileContent(content);
       return content;
     } catch (err) {

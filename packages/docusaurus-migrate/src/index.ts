@@ -443,8 +443,8 @@ async function migrateBlogFiles(context: MigrationContext) {
 async function handleVersioning(context: MigrationContext) {
   const {siteDir, newDir} = context;
   if (await fs.pathExists(path.join(siteDir, 'versions.json'))) {
-    const loadedVersions: string[] = JSON.parse(
-      await fs.readFile(path.join(siteDir, 'versions.json'), 'utf-8'),
+    const loadedVersions: string[] = await fs.readJSON(
+      path.join(siteDir, 'versions.json'),
     );
     await fs.copyFile(
       path.join(siteDir, 'versions.json'),
@@ -542,7 +542,7 @@ async function migrateVersionedSidebar(
         `version-${version}-sidebars.json`,
       );
       try {
-        sidebarEntries = JSON.parse(await fs.readFile(sidebarPath, 'utf-8'));
+        sidebarEntries = await fs.readJSON(sidebarPath);
       } catch {
         sidebars.push({version, entries: sidebars[i - 1]!.entries});
         return;

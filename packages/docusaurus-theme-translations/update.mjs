@@ -55,7 +55,7 @@ async function readMessagesFile(filePath) {
     logger.info`File path=${filePath} not found. Creating new translation base file.`;
     await fs.outputFile(filePath, '{}\n');
   }
-  return JSON.parse((await fs.readFile(filePath)).toString());
+  return fs.readJSON(filePath);
 }
 
 /**
