@@ -23,7 +23,7 @@ const IgnoredNumberPrefixPatterns = [
   '00abc01-My Doc',
   'My 001- Doc',
   'My -001 Doc',
-  // ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
+  // Ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
   '2021-01-31 - Doc',
   '31-01-2021 - Doc',
   '2021_01_31 - Doc',
@@ -36,7 +36,7 @@ const IgnoredNumberPrefixPatterns = [
   '01-2021 - Doc',
   '01_2021 - Doc',
   '01.2021 - Doc',
-  // date patterns without suffix
+  // Date patterns without suffix
   '2021-01-31',
   '2021-01',
   '21-01-31',
@@ -49,7 +49,7 @@ const IgnoredNumberPrefixPatterns = [
   '01',
   '2021',
   '01',
-  // ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
+  // Ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
   '8.0',
   '8.0.0',
   '14.2.16',

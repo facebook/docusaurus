@@ -313,9 +313,9 @@ export type Plugin<Content = unknown> = {
   name: string;
   loadContent?: () => Promise<Content> | Content;
   contentLoaded?: (args: {
-    /** the content loaded by this plugin instance */
+    /** The content loaded by this plugin instance */
     content: Content; //
-    /** content loaded by ALL the plugins */
+    /** Content loaded by ALL the plugins */
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;

@@ -1022,8 +1022,8 @@ declare module '@theme/TOCItems' {
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
-  // minHeadingLevel only exists as a per-doc option, and won't have a default
-  // set by Joi. See TOC, TOCInline, TOCCollapsible for examples
+  // `minHeadingLevel` only comes from doc/post front matter, and won't have a
+  // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
   export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;

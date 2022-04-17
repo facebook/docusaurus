@@ -34,7 +34,9 @@ type Context = PluginOptions & {
   filePath: string;
 };
 
-// transform the link node to a jsx link with a require() call
+/**
+ * Transforms the link node to a JSX `<a>` element with a `require()` call.
+ */
 function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
   const jsxNode = node as Literal & Partial<Link>;
   let relativeAssetPath = posixPath(
@@ -106,7 +108,7 @@ async function getAssetAbsolutePath(
 
 async function processLinkNode(node: Link, context: Context) {
   if (!node.url) {
-    // try to improve error feedback
+    // Try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
     const title = node.title || (node.children[0] as Literal)?.value || '?';
     const line = node?.position?.start?.line || '?';

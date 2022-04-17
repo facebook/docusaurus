@@ -100,7 +100,7 @@ const HtmlNavbarItemSchema = Joi.object({
 });
 
 const itemWithType = (type: string | undefined) => {
-  // because equal(undefined) is not supported :/
+  // Because equal(undefined) is not supported :/
   const typeSchema = type
     ? Joi.string().required().equal(type)
     : Joi.string().forbidden();
@@ -241,7 +241,6 @@ const ColorModeSchema = Joi.object({
   }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
-// schema can probably be improved
 const HtmlMetadataSchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),

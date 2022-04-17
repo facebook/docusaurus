@@ -23,7 +23,7 @@ export default async function createClientConfig(
   const config = await createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
-    // useless, disabled on purpose (errors on existing sites with no
+    // Useless, disabled on purpose (errors on existing sites with no
     // browserslist config)
     // target: 'browserslist',
     entry: path.resolve(__dirname, '../client/clientEntry.js'),
