@@ -22,7 +22,7 @@ try {
   sitePkg = createRequire(path.resolve('package.json'))('./package.json');
 } catch {
   logger.warn`path=${'package.json'} file not found at CWD: path=${process.cwd()}.`;
-  logger.info`This is non-critical, but could lead to non-deterministic behavior downstream. Docusaurus assumes that path=${'package.json'} exists at CWD, because it's where the package manager looks up the script at. A common reason is because you have changed directory in the script. Instead of writing code=${'"start": "cd website && docusaurus start"'}, consider using the code=${'[siteDir]'} argument: code=${'"start": "docusaurus start website"'}.`;
+  logger.info`This is non-critical, but could lead to undesired behavior downstream. Docusaurus assumes that path=${'package.json'} exists at CWD, because it's where the package manager looks up the script at. A common reason is because you have changed directory in the script. Instead of writing code=${'"start": "cd website && docusaurus start"'}, consider using the code=${'[siteDir]'} argument: code=${'"start": "docusaurus start website"'}.`;
   sitePkg = {};
 }
 
