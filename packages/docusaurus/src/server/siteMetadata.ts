@@ -98,9 +98,7 @@ export async function loadSiteMetadata({
   siteDir: string;
 }): Promise<SiteMetadata> {
   const siteMetadata: SiteMetadata = {
-    docusaurusVersion: (await getPackageJsonVersion(
-      path.join(__dirname, '../../package.json'),
-    ))!,
+    docusaurusVersion: process.env.DOCUSAURUS_VERSION!,
     siteVersion: await getPackageJsonVersion(
       path.join(siteDir, 'package.json'),
     ),
