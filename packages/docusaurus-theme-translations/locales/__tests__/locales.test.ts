@@ -25,7 +25,6 @@ describe('theme translations', () => {
           Object.entries(
             (await fs.readJSON(
               path.join(baseMessagesDirPath, baseMessagesFile),
-              'utf-8',
             )) as {[key: string]: string},
           ),
         ),

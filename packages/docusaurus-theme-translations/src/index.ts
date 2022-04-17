@@ -50,8 +50,7 @@ export async function readDefaultCodeTranslationMessages({
     const filePath = path.resolve(dirPath, localeToTry, `${name}.json`);
 
     if (await fs.pathExists(filePath)) {
-      const fileContent = await fs.readFile(filePath, 'utf8');
-      return JSON.parse(fileContent);
+      return fs.readJSON(filePath);
     }
   }
 

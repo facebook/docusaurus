@@ -37,8 +37,8 @@ async function generateTemplateExample(template) {
     );
 
     // read the content of the package.json
-    const templatePackageJson = JSON.parse(
-      await fs.readFile(`examples/${template}/package.json`, 'utf8'),
+    const templatePackageJson = await fs.readJSON(
+      `examples/${template}/package.json`,
     );
 
     // attach the dev script which would be used in code sandbox by default
