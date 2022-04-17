@@ -66,7 +66,7 @@ declare module '@docusaurus/plugin-pwa' {
       tagName: string;
       href?: string;
       content?: string;
-      [attributeName: string]: string | boolean;
+      [attributeName: string]: string | boolean | undefined;
     }[];
     /**
      * Useful for additional Workbox rules. You can do whatever a service worker
