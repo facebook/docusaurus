@@ -81,8 +81,8 @@ function getActiveAnchor(
     // https://github.com/facebook/docusaurus/issues/5318
     return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
   }
-  // no anchor under viewport top? (ie we are at the bottom of the page)
-  // => highlight the last anchor found
+  // No anchor under viewport top (i.e. we are at the bottom of the page),
+  // highlight the last anchor found
   return anchors[anchors.length - 1] ?? null;
 }
 
@@ -140,7 +140,7 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
 
   useEffect(() => {
     if (!config) {
-      // no-op, highlighting is disabled
+      // No-op, highlighting is disabled
       return () => {};
     }
 

@@ -59,7 +59,8 @@ export default function pluginIdealImage(
                 {
                   loader: require.resolve('@docusaurus/responsive-loader'),
                   options: {
-                    emitFile: !isServer, // don't emit for server-side rendering
+                    // Don't emit for server-side rendering
+                    emitFile: !isServer,
                     // eslint-disable-next-line global-require
                     adapter: require('@docusaurus/responsive-loader/sharp'),
                     name: 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]',

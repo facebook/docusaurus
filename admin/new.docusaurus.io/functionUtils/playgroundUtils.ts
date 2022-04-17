@@ -16,9 +16,12 @@ const PlaygroundConfigs = {
   codesandbox:
     'https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic',
 
-  // stackblitz: 'https://stackblitz.com/fork/docusaurus', // not updated
-  // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic', // slow to load
-  stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/starter', // dedicated branch: faster load
+  // Not updated
+  // stackblitz: 'https://stackblitz.com/fork/docusaurus',
+  // Slow to load
+  // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic',
+  // Dedicated branch: faster load
+  stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/starter',
 };
 
 const PlaygroundDocumentationUrl = 'https://docusaurus.io/docs/playground';

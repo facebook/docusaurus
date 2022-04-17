@@ -28,8 +28,7 @@ export const createStatefulLinksCollector = (): StatefulLinksCollector => {
 
 const Context = React.createContext<LinksCollector>({
   collectLink: () => {
-    // noop by default for client
-    // we only use the broken links checker server-side
+    // No-op for client. We only use the broken links checker server-side.
   },
 });
 

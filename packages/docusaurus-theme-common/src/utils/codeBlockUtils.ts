@@ -30,14 +30,14 @@ const magicCommentDirectives = [
 ];
 
 function getCommentPattern(languages: CommentType[]) {
-  // to be more reliable, the opening and closing comment must match
+  // To be more reliable, the opening and closing comment must match
   const commentPattern = languages
     .map((lang) => {
       const {start, end} = commentPatterns[lang];
       return `(?:${start}\\s*(${magicCommentDirectives.join('|')})\\s*${end})`;
     })
     .join('|');
-  // white space is allowed, but otherwise it should be on it's own line
+  // White space is allowed, but otherwise it should be on it's own line
   return new RegExp(`^\\s*(?:${commentPattern})\\s*$`);
 }
 
@@ -70,7 +70,7 @@ function getAllMagicCommentDirectiveStyles(lang: string) {
       return getCommentPattern(['html', 'jsx', 'bash']);
 
     default:
-      // all comment types
+      // All comment types
       return getCommentPattern(Object.keys(commentPatterns) as CommentType[]);
   }
 }
@@ -139,16 +139,15 @@ export function parseLines(
     return {highlightLines: [], code};
   }
   const directiveRegex = getAllMagicCommentDirectiveStyles(language);
-  // go through line by line
+  // Go through line by line
   const lines = code.split('\n');
   let highlightBlockStart: number;
   let highlightRange = '';
-  // loop through lines
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
     if (!match) {
-      // lines without directives are unchanged
+      // Lines without directives are unchanged
       lineNumber += 1;
       continue;
     }

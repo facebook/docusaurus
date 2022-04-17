@@ -18,7 +18,7 @@ function parseSwParams() {
   return params;
 }
 
-// doc advises against dynamic imports in SW
+// Doc advises against dynamic imports in SW
 // https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
 // https://twitter.com/sebastienlorber/status/1280155204575518720
 // but looks it's working fine as it's inlined by webpack, need to double check
@@ -73,7 +73,8 @@ function getPossibleURLs(url) {
   // eslint-disable-next-line no-underscore-dangle
   const precacheManifest = self.__WB_MANIFEST;
   const controller = new PrecacheController({
-    fallbackToNetwork: true, // safer to turn this true?
+    // Safer to turn this true?
+    fallbackToNetwork: true,
   });
 
   if (params.offlineMode) {

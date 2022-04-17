@@ -21,6 +21,7 @@ backticks
 bartosz
 beforeinstallprompt
 bhatt
+blocklist
 blockquotes
 browserslist
 browserstack

@@ -19,7 +19,7 @@ declare module '@docusaurus/plugin-content-docs' {
    * Custom callback for parsing number prefixes from file/folder names.
    */
   export type NumberPrefixParser = (filename: string) => {
-    /** file name without number prefix, without any other modification. */
+    /** File name without number prefix, without any other modification. */
     filename: string;
     /** The number prefix. Can be float, integer, negative, or anything. */
     numberPrefix?: number;
@@ -621,9 +621,9 @@ declare module '@docusaurus/plugin-content-docs/client' {
     breadcrumbs: boolean;
   };
   export type DocVersionSuggestions = {
-    /** suggest the latest version */
+    /** Suggest the latest version */
     latestVersionSuggestion: GlobalVersion;
-    /** suggest the same doc, in latest version (if exist) */
+    /** Suggest the same doc, in latest version (if one exists) */
     latestDocSuggestion?: GlobalDoc;
   };
 

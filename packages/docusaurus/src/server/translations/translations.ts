@@ -94,7 +94,7 @@ function mergeTranslationFileContent({
         message: options.override
           ? message
           : existingContent[key]?.message ?? message,
-        description, // description
+        description,
       };
     },
   );
@@ -143,7 +143,7 @@ Maybe you should remove them? ${unknownKeys}`;
   }
 }
 
-// should we make this configurable?
+// Should we make this configurable?
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,
 ): string {
@@ -248,7 +248,7 @@ export async function localizePluginTranslationFile({
   const localizedContent = await readTranslationFileContent(filePath);
 
   if (localizedContent) {
-    // localized messages "override" default unlocalized messages
+    // Localized messages "override" default unlocalized messages
     return {
       path: translationFile.path,
       content: {

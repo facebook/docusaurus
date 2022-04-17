@@ -16,18 +16,19 @@ function getDefaultLocalesDirPath(): string {
 // Return an ordered list of locales we should try
 export function codeTranslationLocalesToTry(locale: string): string[] {
   const intlLocale = new Intl.Locale(locale);
-  // if locale is just a simple language like "pt", we want to fallback to pt-BR
-  // (not pt-PT!) See https://github.com/facebook/docusaurus/pull/4536#issuecomment-810088783
-  const maximizedLocale = intlLocale.maximize(); // pt-Latn-BR
+  // If locale is just a simple language like "pt", we want to fallback to
+  // "pt-BR" (not "pt-PT"!)
+  // See https://github.com/facebook/docusaurus/pull/4536#issuecomment-810088783
+  const maximizedLocale = intlLocale.maximize(); // "pt-Latn-BR"
   return [
     // May be "zh", "zh-CN", "zh-Hans", "zh-cn", or anything: very likely to be
     // unresolved except for simply locales
     locale,
-    // zh-CN / pt-BR
+    // "zh-CN" / "pt-BR"
     `${maximizedLocale.language}-${maximizedLocale.region}`,
-    // zh-Hans / pt-Latn
+    // "zh-Hans" / "pt-Latn"
     `${maximizedLocale.language}-${maximizedLocale.script}`,
-    // zh / pt
+    // "zh" / "pt"
     maximizedLocale.language!,
   ];
 }

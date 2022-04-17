@@ -53,50 +53,6 @@ function getNormalizedSidebarName({
   return rest.join('/');
 }
 
-/*
-// Do we need to translate doc metadata?
-// It seems translating front matter labels is good enough
-function getDocTranslations(doc: DocMetadata): TranslationFileContent {
-  return {
-    [`${doc.unversionedId}.title`]: {
-      message: doc.title,
-      description: `The title for doc with id=${doc.unversionedId}`,
-    },
-    ...(doc.sidebar_label
-      ? {
-          [`${doc.unversionedId}.sidebar_label`]: {
-            message: doc.sidebar_label,
-            description:
-              `The sidebar label for doc with id=${doc.unversionedId}`,
-          },
-        }
-      : undefined),
-  };
-}
-function translateDoc(
-  doc: DocMetadata,
-  docsTranslations: TranslationFileContent,
-): DocMetadata {
-  return {
-    ...doc,
-    title: docsTranslations[`${doc.unversionedId}.title`]?.message ?? doc.title,
-    sidebar_label:
-      docsTranslations[`${doc.unversionedId}.sidebar_label`]?.message ??
-      doc.sidebar_label,
-  };
-}
-
-function getDocsTranslations(version: LoadedVersion): TranslationFileContent {
-  return mergeTranslations(version.docs.map(getDocTranslations));
-}
-function translateDocs(
-  docs: DocMetadata[],
-  docsTranslations: TranslationFileContent,
-): DocMetadata[] {
-  return docs.map((doc) => translateDoc(doc, docsTranslations));
-}
- */
-
 function getSidebarTranslationFileContent(
   sidebar: Sidebar,
   sidebarName: string,
@@ -252,17 +208,10 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFile[] {
   const sidebarsTranslations: TranslationFileContent =
     getSidebarsTranslations(version);
 
-  // const docsTranslations: TranslationFileContent =
-  //   getDocsTranslations(version);
-
   return [
     {
       path: getVersionFileName(version.versionName),
-      content: mergeTranslations([
-        versionTranslations,
-        sidebarsTranslations,
-        // docsTranslations,
-      ]),
+      content: mergeTranslations([versionTranslations, sidebarsTranslations]),
     },
   ];
 }
@@ -276,7 +225,6 @@ function translateVersion(
     ...version,
     label: versionTranslations['version.label']?.message ?? version.label,
     sidebars: translateSidebars(version, versionTranslations),
-    // docs: translateDocs(version.docs, versionTranslations),
   };
 }
 

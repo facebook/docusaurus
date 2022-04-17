@@ -109,16 +109,16 @@ export default function SiteMetadata(): JSX.Element {
 
       <SearchMetadata tag={DEFAULT_SEARCH_TAG} locale={currentLocale} />
 
-      <Head
-      // it's important to have an additional <Head> element here,
-      // as it allows react-helmet to override values set in previous <Head>
-      // ie we can override default metadata such as "twitter:card"
-      // In same Head, the same meta would appear twice instead of overriding
-      // See react-helmet doc
-      >
+      {/*
+        It's important to have an additional <Head> element here, as it allows
+        react-helmet to override default metadata values set in previous <Head>
+        like "twitter:card". In same Head, the same meta would appear twice
+        instead of overriding.
+      */}
+      <Head>
         {/* Yes, "metadatum" is the grammatically correct term */}
         {metadata.map((metadatum, i) => (
-          <meta key={`metadata_${i}`} {...metadatum} />
+          <meta key={i} {...metadatum} />
         ))}
       </Head>
     </>

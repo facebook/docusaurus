@@ -125,7 +125,7 @@ describe('getTranslationFiles and translateThemeConfig isomorphism', () => {
     verifyIsomorphism(ThemeConfigSampleSimpleFooter);
   });
 
-  // undefined footer should not make the translation code crash
+  // Undefined footer should not make the translation code crash
   // See https://github.com/facebook/docusaurus/issues/3936
   it('is verified for sample without footer', () => {
     verifyIsomorphism({...ThemeConfigSample, footer: undefined});

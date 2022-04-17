@@ -24,27 +24,26 @@ async function generateTemplateExample(template) {
       `generating ${template} template for codesandbox in the examples folder...`,
     );
 
-    // run the docusaurus script to create the template in the examples folder
+    // Run the docusaurus script to create the template in the examples folder
     const command = template.endsWith('-typescript')
       ? template.replace('-typescript', ' -- --typescript')
       : template;
     shell.exec(
-      // /!\ we use the published init script on purpose,
-      // because using the local init script is too early and could generate
-      // upcoming/unavailable config options. Remember CodeSandbox templates
-      // will use the published version, not the repo version
+      // We use the published init script on purpose, because the local init is
+      // too new and could generate upcoming/unavailable config options.
+      // Remember CodeSandbox templates will use the published version,
+      // not the repo version.
       `npm init docusaurus@latest examples/${template} ${command}`,
     );
 
-    // read the content of the package.json
     const templatePackageJson = await fs.readJSON(
       `examples/${template}/package.json`,
     );
 
-    // attach the dev script which would be used in code sandbox by default
+    // Attach the dev script which would be used in code sandbox by default
     templatePackageJson.scripts.dev = 'docusaurus start';
 
-    // these example projects are not meant to be published to npm
+    // These example projects are not meant to be published to npm
     templatePackageJson.private = true;
 
     // Make sure package.json name is not "examples-classic". The package.json
@@ -58,13 +57,12 @@ async function generateTemplateExample(template) {
         ? 'Docusaurus example project'
         : `Docusaurus example project (${template} template)`;
 
-    // rewrite the package.json file with the new edit
     await fs.writeFile(
       `./examples/${template}/package.json`,
       `${JSON.stringify(templatePackageJson, null, 2)}\n`,
     );
 
-    // create sandbox.config.json file at the root of template
+    // Create sandbox/stackblitz config file at the root of template
     const codeSandboxConfig = {
       infiniteLoopProtection: true,
       hardReloadOnChange: true,
@@ -162,7 +160,7 @@ console.log(`
 # Generate examples start!
 `);
 
-// delete the examples directories if they exists
+// Delete the examples directories if they exist
 console.log(`-------
 ## Removing example folders...
 `);
@@ -170,7 +168,7 @@ await fs.rm('./examples/classic', {recursive: true, force: true});
 await fs.rm('./examples/classic-typescript', {recursive: true, force: true});
 await fs.rm('./examples/facebook', {recursive: true, force: true});
 
-// get the list of all available templates
+// Get the list of all available templates
 console.log(`
 -------
 ## Generate example folders...
@@ -187,7 +185,7 @@ console.log('Committing changes');
 shell.exec('git add examples');
 shell.exec("git commit -am 'update examples' --allow-empty");
 
-// update starters
+// Update starters
 console.log(`
 -------
 # Updating starter repos and branches ...

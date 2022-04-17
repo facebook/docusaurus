@@ -11,12 +11,11 @@ module.exports = {
       'error',
       {
         patterns: [
-          // prevent importing lodash in client bundle
-          // prefer shipping vanilla JS
+          // Prevent importing lodash in client bundle for bundle size
           'lodash',
           'lodash.**',
           'lodash/**',
-          // prevent importing server code in client bundle
+          // Prevent importing server code in client bundle
           '**/../babel/**',
           '**/../server/**',
           '**/../commands/**',

@@ -41,7 +41,7 @@ function createInlineHtmlBanner(baseUrl: string) {
 `;
 }
 
-// fn needs to work for older browsers!
+// Needs to work for older browsers!
 function createInlineScript(baseUrl: string) {
   return `
 window['${InsertBannerWindowAttribute}'] = true;
@@ -119,7 +119,6 @@ export default function MaybeBaseUrlIssueBanner(): JSX.Element | null {
     siteConfig: {baseUrl, baseUrlIssueBanner},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
-  // returns true for the homepage during SSR
   const isHomePage = pathname === baseUrl;
   const enabled = baseUrlIssueBanner && isHomePage;
   return enabled ? <BaseUrlIssueBanner /> : null;

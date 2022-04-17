@@ -16,7 +16,7 @@ const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES =
 const PWA_DEBUG = process.env.PWA_DEBUG;
 /* eslint-enable prefer-destructuring */
 
-const debug = PWA_DEBUG; // shortcut
+const debug = PWA_DEBUG; // Shortcut
 
 const MAX_MOBILE_WIDTH = 940;
 
@@ -101,7 +101,7 @@ async function getActiveStrategies() {
       return isActive ? strategyName : undefined;
     }),
   );
-  return activeStrategies.filter(Boolean); // remove undefined values
+  return activeStrategies.filter(Boolean);
 }
 
 async function isOfflineModeEnabled() {

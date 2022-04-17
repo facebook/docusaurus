@@ -207,7 +207,7 @@ export function createConfigFile({
 >): VersionTwoConfig {
   const siteConfig = v1Config;
   const customConfigFields: {[key: string]: unknown} = {};
-  // add fields that are unknown to v2 to customConfigFields
+  // Add fields that are unknown to v2 to customConfigFields
   Object.keys(siteConfig).forEach((key) => {
     const knownFields = [
       'title',

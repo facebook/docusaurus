@@ -103,7 +103,7 @@ async function getImageAbsolutePath(
     await ensureImageFileExist(imageFilePath, filePath);
     return imageFilePath;
   } else if (path.isAbsolute(imagePath)) {
-    // absolute paths are expected to exist in the static folder
+    // Absolute paths are expected to exist in the static folder.
     const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
     const imageFilePath = await findAsyncSequential(
       possiblePaths,
@@ -120,7 +120,7 @@ async function getImageAbsolutePath(
     }
     return imageFilePath;
   }
-  // relative paths are resolved against the source file's folder
+  // Relative paths are resolved against the source file's folder.
   const imageFilePath = path.join(
     path.dirname(filePath),
     decodeURIComponent(imagePath),
