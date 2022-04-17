@@ -207,8 +207,7 @@ const config = {
     ],
     [
       'pwa',
-      /** @type {import('@docusaurus/plugin-pwa').Options} */
-      ({
+      {
         debug: isDeployPreview,
         offlineModeActivationStrategies: [
           'appInstalled',
@@ -265,7 +264,7 @@ const config = {
             content: '#000',
           },
         ],
-      }),
+      },
     ],
     ...dogfoodingPluginInstances,
   ],
