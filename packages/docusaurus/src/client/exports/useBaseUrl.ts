@@ -15,17 +15,9 @@ function addBaseUrl(
   url: string,
   {forcePrependBaseUrl = false, absolute = false}: BaseUrlOptions = {},
 ): string {
-  if (!url) {
-    return url;
-  }
-
-  // it never makes sense to add a base url to a local anchor url
-  if (url.startsWith('#')) {
-    return url;
-  }
-
-  // it never makes sense to add a base url to an url with a protocol
-  if (hasProtocol(url)) {
+  // It never makes sense to add base url to a local anchor url, or one with a
+  // protocol
+  if (!url || url.startsWith('#') || hasProtocol(url)) {
     return url;
   }
 

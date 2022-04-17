@@ -24,7 +24,7 @@ function normalizeFrontMatterTag(
 
   // TODO maybe make ensure the permalink is valid url path?
   function normalizeTagPermalink(permalink: string): string {
-    // note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
+    // Note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
     // and v2/doc.md tags with custom permalinks don't lead to the same created
     // page. tagsPath is different for each doc version
     return normalizeUrl([tagsPath, permalink]);

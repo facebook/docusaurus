@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.8",
-    "@crowdin/crowdin-api-client": "^1.16.0",
+    "@crowdin/crowdin-api-client": "^1.17.0",
     "@docusaurus/core": "2.0.0-beta.18",
     "@docusaurus/logger": "2.0.0-beta.18",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.18",
@@ -49,10 +49,10 @@
     "@docusaurus/utils": "2.0.0-beta.18",
     "@docusaurus/utils-common": "2.0.0-beta.18",
     "@popperjs/core": "^2.11.5",
-    "@swc/core": "^1.2.164",
+    "@swc/core": "^1.2.167",
     "clsx": "^1.1.1",
     "color": "^4.2.3",
-    "fs-extra": "^10.0.1",
+    "fs-extra": "^10.1.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -61,10 +61,10 @@
     "react-popper": "^2.2.5",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
-    "swc-loader": "^0.1.15",
+    "swc-loader": "^0.2.0",
     "unist-util-visit": "^2.0.3",
-    "workbox-routing": "^6.5.2",
-    "workbox-strategies": "^6.5.2"
+    "workbox-routing": "^6.5.3",
+    "workbox-strategies": "^6.5.3"
   },
   "browserslist": {
     "production": [

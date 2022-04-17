@@ -156,15 +156,13 @@ function doProcessDocMetadata({
     parse_number_prefixes: parseNumberPrefixes = true,
   } = frontMatter;
 
-  // ex: api/plugins/myDoc -> myDoc
-  // ex: myDoc -> myDoc
+  // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
     source,
     path.extname(source),
   );
 
-  // ex: api/plugins/myDoc -> api/plugins
-  // ex: myDoc -> .
+  // E.g. api/plugins/myDoc -> api/plugins; myDoc -> .
   const sourceDirName = path.dirname(source);
 
   const {filename: unprefixedFileName, numberPrefix} = parseNumberPrefixes
@@ -347,7 +345,7 @@ export function addDocNavigation(
   }
 
   const docsWithNavigation = docsBase.map(addNavData);
-  // sort to ensure consistent output for tests
+  // Sort to ensure consistent output for tests
   docsWithNavigation.sort((a, b) => a.id.localeCompare(b.id));
   return docsWithNavigation;
 }
@@ -434,7 +432,7 @@ export function getDocIds(doc: DocMetadataBase): [string, string] {
   return [doc.unversionedId, doc.id];
 }
 
-// docs are indexed by both versioned and unversioned ids at the same time
+// Docs are indexed by both versioned and unversioned ids at the same time
 // TODO legacy retro-compatibility due to old versioned sidebars using
 // versioned doc ids ("id" should be removed & "versionedId" should be renamed
 // to "id")

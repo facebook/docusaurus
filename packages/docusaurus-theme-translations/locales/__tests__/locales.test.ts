@@ -17,22 +17,24 @@ jest.setTimeout(15000);
 describe('theme translations', () => {
   it('has base messages files contain EXACTLY all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-translations update" to keep base messages files up-to-date', async () => {
     const baseMessagesDirPath = path.join(__dirname, '../base');
-    const baseMessages = Object.fromEntries(
-      await Promise.all(
-        (
-          await fs.readdir(baseMessagesDirPath)
-        ).map(async (baseMessagesFile) =>
-          Object.entries(
-            (await fs.readJSON(
-              path.join(baseMessagesDirPath, baseMessagesFile),
-              'utf-8',
-            )) as {[key: string]: string},
+    const baseMessages = await fs
+      .readdir(baseMessagesDirPath)
+      .then((files) =>
+        Promise.all(
+          files.map(
+            (baseMessagesFile): Promise<{[key: string]: string}> =>
+              fs.readJSON(path.join(baseMessagesDirPath, baseMessagesFile)),
           ),
         ),
-      ).then((translations) =>
-        translations.flat().filter(([key]) => !key.endsWith('___DESCRIPTION')),
-      ),
-    );
+      )
+      .then((translations) =>
+        Object.fromEntries(
+          translations
+            .map(Object.entries)
+            .flat()
+            .filter(([key]) => !key.endsWith('___DESCRIPTION')),
+        ),
+      );
     const codeMessages = _.mapValues(
       await extractThemeCodeMessages(),
       (translation) => translation.message,

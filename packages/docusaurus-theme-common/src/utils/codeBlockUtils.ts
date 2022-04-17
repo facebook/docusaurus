@@ -33,7 +33,7 @@ function getCommentPattern(
   languages: CommentType[],
   magicCommentDirectives: MagicCommentConfig[],
 ) {
-  // to be more reliable, the opening and closing comment must match
+  // To be more reliable, the opening and closing comment must match
   const commentPattern = languages
     .map((lang) => {
       const {start, end} = commentPatterns[lang];
@@ -42,7 +42,7 @@ function getCommentPattern(
         .join('|')})\\s*${end})`;
     })
     .join('|');
-  // white space is allowed, but otherwise it should be on it's own line
+  // White space is allowed, but otherwise it should be on it's own line
   return new RegExp(`^\\s*(?:${commentPattern})\\s*$`);
 }
 
@@ -84,7 +84,7 @@ function getAllMagicCommentDirectiveStyles(
       return getCommentPattern(['html', 'jsx', 'bash'], magicCommentDirectives);
 
     default:
-      // all comment types
+      // All comment types
       return getCommentPattern(
         Object.keys(commentPatterns) as CommentType[],
         magicCommentDirectives,
@@ -178,7 +178,7 @@ export function parseLines(
     language,
     magicComments,
   );
-  // go through line by line
+  // Go through line by line
   const lines = code.split('\n');
   const blocks = Object.fromEntries(
     magicComments.map((d) => [d.className, {start: 0, range: ''}]),
@@ -198,12 +198,11 @@ export function parseLines(
       .filter((d) => d.block)
       .map(({className, block}) => [block![1], className]),
   );
-  // loop through lines
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
     if (!match) {
-      // lines without directives are unchanged
+      // Lines without directives are unchanged
       lineNumber += 1;
       continue;
     }

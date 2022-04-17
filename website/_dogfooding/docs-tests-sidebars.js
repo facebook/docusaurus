@@ -87,7 +87,7 @@ const sidebars = {
       collapsed: false,
       collapsible: false,
       items: [
-        //  title
+        // Title
         {
           type: 'html',
           value: 'Some Text',

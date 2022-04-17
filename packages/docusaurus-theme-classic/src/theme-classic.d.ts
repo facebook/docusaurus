@@ -872,6 +872,16 @@ declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
   export default function DocSidebarNavbarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/NavbarItem/HtmlNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly value: string;
+  }
+
+  export default function HtmlNavbarItem(props: Props): JSX.Element;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -882,12 +892,14 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {Props as HtmlNavbarItemProps} from '@theme/NavbarItem/HtmlNavbarItem';
 
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps)
+    | ({readonly type: 'html'} & HtmlNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
@@ -1010,8 +1022,8 @@ declare module '@theme/TOCItems' {
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
-  // minHeadingLevel only exists as a per-doc option, and won't have a default
-  // set by Joi. See TOC, TOCInline, TOCCollapsible for examples
+  // `minHeadingLevel` only comes from doc/post front matter, and won't have a
+  // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
   export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;

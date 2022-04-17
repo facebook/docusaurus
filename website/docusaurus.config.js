@@ -170,8 +170,8 @@ const config = {
       ({
         fromExtensions: ['html'],
         createRedirects(routePath) {
-          // redirect to /docs from /docs/introduction,
-          // as introduction has been made the home doc
+          // Redirect to /docs from /docs/introduction, as introduction has been
+          // made the home doc
           if (allDocHomesPaths.includes(routePath)) {
             return [`${routePath}/introduction`];
           }
@@ -195,13 +195,15 @@ const config = {
     ],
     [
       'ideal-image',
-      {
+      /** @type {import('@docusaurus/plugin-ideal-image').PluginOptions} */
+      ({
         quality: 70,
-        max: 1030, // max resized image's size.
-        min: 640, // min resized image's size. if original is lower, use that size.
-        steps: 2, // the max number of images generated between min and max (inclusive)
-        // disableInDev: false,
-      },
+        max: 1030,
+        min: 640,
+        steps: 2,
+        // Use false to debug, but it incurs huge perf costs
+        disableInDev: true,
+      }),
     ],
     [
       'pwa',
@@ -413,12 +415,21 @@ const config = {
             label: 'Tests',
             docsPluginId: 'docs-tests',
           },
-          // right
+          // Right
           {
             type: 'docsVersionDropdown',
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
+                type: 'html',
+                className: 'dropdown-archived-versions',
+                value: '<b>Archived versions</b>',
+              },
               ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
@@ -430,6 +441,10 @@ const config = {
                 label: '1.x.x',
               },
               {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
                 to: '/versions',
                 label: 'All versions',
               },
@@ -439,6 +454,10 @@ const config = {
             type: 'localeDropdown',
             position: 'right',
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr style="margin: 0.3rem 0;">',
+              },
               {
                 href: 'https://github.com/facebook/docusaurus/issues/3526',
                 label: 'Help Us Translate',

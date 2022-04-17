@@ -81,6 +81,8 @@ declare module '@docusaurus/plugin-pwa' {
      */
     swRegister: string | false;
   };
+
+  export type Options = Partial<PluginOptions>;
 }
 
 declare module '@theme/PwaReloadPopup' {

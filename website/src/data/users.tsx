@@ -517,6 +517,14 @@ const Users: User[] = [
     ],
   },
   {
+    title: 'easy-dates',
+    description: 'JavaScript dates library',
+    preview: require('./showcase/easy-dates.png'),
+    website: 'https://easy-dates.dev',
+    source: 'https://github.com/sandypockets/easy-dates/tree/main/docs',
+    tags: ['opensource'],
+  },
+  {
     title: 'Easyjwt',
     description: 'JWT creation and validation library',
     preview: require('./showcase/easyjwt.png'),

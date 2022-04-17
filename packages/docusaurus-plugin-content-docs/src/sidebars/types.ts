@@ -180,7 +180,6 @@ export type PropSidebarItemCategory = Expand<
   }
 >;
 
-// we may want to use a union type in props instead of this generic link?
 export type PropSidebarItemLink = SidebarItemLink & {
   docId?: string;
 };
@@ -245,7 +244,7 @@ export type SidebarItemsGeneratorArgs = {
   /** The default category index matcher which you can override. */
   isCategoryIndex: CategoryIndexMatcher;
   /**
-   * key is the path relative to the doc content directory, value is the
+   * Key is the path relative to the doc content directory, value is the
    * category metadata file's content.
    */
   categoriesMetadata: {[filePath: string]: CategoryMetadataFile};

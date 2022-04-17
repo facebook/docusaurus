@@ -72,7 +72,7 @@ function useContextValue(): ContextValue {
 
     let viewedId = IdStorage.get();
 
-    // retrocompatibility due to spelling mistake of default id
+    // Retrocompatibility due to spelling mistake of default id
     // see https://github.com/facebook/docusaurus/issues/3338
     // cSpell:ignore annoucement
     if (viewedId === 'annoucement-bar') {

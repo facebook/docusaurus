@@ -24,7 +24,7 @@ const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
 const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // contains optional catch binding, incompatible with recent versions of Edge
+  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
 ];
 
 const LibrariesToTranspileRegex = new RegExp(
@@ -32,7 +32,7 @@ const LibrariesToTranspileRegex = new RegExp(
 );
 
 export function excludeJS(modulePath: string): boolean {
-  // always transpile client dir
+  // Always transpile client dir
   if (modulePath.startsWith(clientDir)) {
     return false;
   }
@@ -118,9 +118,9 @@ export async function createBaseConfig(
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
-      unsafeCache: false, // not enabled, does not seem to improve perf much
+      unsafeCache: false, // Not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
-      symlinks: true, // see https://github.com/facebook/docusaurus/issues/3272
+      symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
       roots: [
         // Allow resolution of url("/fonts/xyz.ttf") by webpack
         // See https://webpack.js.org/configuration/resolve/#resolveroots
@@ -167,7 +167,7 @@ export async function createBaseConfig(
             // include [name] in the filenames
             name: false,
             cacheGroups: {
-              // disable the built-in cacheGroups
+              // Disable the built-in cacheGroups
               default: false,
               common: {
                 name: 'common',
@@ -238,7 +238,7 @@ export async function createBaseConfig(
         chunkFilename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
-        // remove css order warnings if css imports are not sorted
+        // Remove css order warnings if css imports are not sorted
         // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422
         // for more reasoning
         ignoreOrder: true,
