@@ -331,13 +331,13 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Cloudy with a chance of Big Data',
+    title: 'Full Stack Chronicles',
     description:
       'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
-    preview: require('./showcase/cloudywithachanceofbigdata.png'),
-    website: 'https://cloudywithachanceofbigdata.com/',
+    preview: require('./showcase/fullstackchronicles-screenshot.png'),
+    website: 'https://fullstackchronicles.io/',
     source:
-      'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
+      'https://github.com/stackql/fullstackchronicles.io',
     tags: ['opensource', 'personal'],
   },
   {
