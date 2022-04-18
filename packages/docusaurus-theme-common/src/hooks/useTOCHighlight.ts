@@ -127,6 +127,7 @@ export type TOCHighlightConfig = {
   minHeadingLevel: number;
   /** @see {@link TOCHighlightConfig.minHeadingLevel} */
   maxHeadingLevel: number;
+  autoScrollTOC: boolean;
 };
 
 /**
@@ -137,6 +138,8 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
+
+  const cancelScroll = useRef<() => void>(() => {});
 
   useEffect(() => {
     if (!config) {
@@ -149,19 +152,30 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       linkActiveClassName,
       minHeadingLevel,
       maxHeadingLevel,
+      autoScrollTOC,
     } = config;
 
-    function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
-      if (active) {
-        if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
-          lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
-        }
-        link.classList.add(linkActiveClassName);
-        lastActiveLinkRef.current = link;
-        // link.scrollIntoView({block: 'nearest'});
-      } else {
-        link.classList.remove(linkActiveClassName);
+    // When the page is scrolling (either a user scroll or smooth CSS scroll),
+    // We need to defer the TOC scroll or the two concurrent scrolls would block
+    // each other.
+    function scheduleScroll(link: HTMLAnchorElement) {
+      if (!autoScrollTOC) {
+        return () => {};
       }
+      const handle = setTimeout(() => {
+        const linkRect = link.getBoundingClientRect();
+        const viewport = window.visualViewport;
+        // Only scroll if a vertical scroll is sufficient to bring the link into
+        // view. e.g. if the window is pinch-zoomed, we should not horizontally
+        // scroll
+        if (
+          linkRect.right <= viewport.pageLeft + viewport.width &&
+          linkRect.left >= viewport.pageLeft
+        ) {
+          link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+        }
+      }, 200);
+      return () => clearTimeout(handle);
     }
 
     function updateActiveLink() {
@@ -170,12 +184,21 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });
-      const activeLink = links.find(
-        (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
-      );
 
       links.forEach((link) => {
-        updateLinkActiveClass(link, link === activeLink);
+        const isActive = activeAnchor?.id === getLinkAnchorValue(link);
+        if (isActive) {
+          if (lastActiveLinkRef.current !== link) {
+            lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
+          }
+          link.classList.add(linkActiveClassName);
+          lastActiveLinkRef.current = link;
+          // Cancel the last scheduled TOC scroll, and start a new timeout
+          cancelScroll.current();
+          cancelScroll.current = scheduleScroll(link);
+        } else {
+          link.classList.remove(linkActiveClassName);
+        }
       });
     }
 

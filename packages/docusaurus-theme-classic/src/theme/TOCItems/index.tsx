@@ -83,10 +83,17 @@ export default function TOCItems({
         linkActiveClassName,
         minHeadingLevel,
         maxHeadingLevel,
+        autoScrollTOC: themeConfig.autoScrollTOC,
       };
     }
     return undefined;
-  }, [linkClassName, linkActiveClassName, minHeadingLevel, maxHeadingLevel]);
+  }, [
+    linkClassName,
+    linkActiveClassName,
+    minHeadingLevel,
+    maxHeadingLevel,
+    themeConfig,
+  ]);
   useTOCHighlight(tocHighlightConfig);
 
   return (

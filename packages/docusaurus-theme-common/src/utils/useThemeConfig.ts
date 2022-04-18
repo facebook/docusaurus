@@ -118,6 +118,7 @@ export type ThemeConfig = {
   footer?: Footer;
   hideableSidebar: boolean;
   autoCollapseSidebarCategories: boolean;
+  autoScrollTOC: boolean;
   image?: string;
   metadata: Array<{[key: string]: string}>;
   sidebarCollapsible: boolean;

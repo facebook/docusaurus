@@ -67,6 +67,10 @@ html[data-theme='dark'] {
   background-color: rgb(66 66 66 / 30%);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .header-github-link:hover {
   opacity: 0.6;
 }
