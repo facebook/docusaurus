@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # v3
       - name: Set up Node
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           node-version: '16'
           cache: yarn
