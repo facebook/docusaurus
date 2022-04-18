@@ -22,7 +22,7 @@ jobs:
       - name: Support longpaths
         run: git config --system core.longpaths true
       - name: Checkout
-        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # v3
+        uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # v3
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
         with:
