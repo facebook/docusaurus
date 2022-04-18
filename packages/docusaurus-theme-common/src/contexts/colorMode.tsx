@@ -65,10 +65,27 @@ function useContextValue(): ContextValue {
     getInitialColorMode(defaultMode),
   );
 
-  const setColorMode = useCallback((newColorMode: ColorMode) => {
-    setColorModeState(newColorMode);
-    storeColorMode(newColorMode);
-  }, []);
+  useEffect(() => {
+    // A site is deployed without disableSwitch
+    // => User visits the site and has a persisted value
+    // => Site later enabled disableSwitch
+    // => Clear the previously stored value to apply the site's setting
+    if (disableSwitch) {
+      ColorModeStorage.del();
+    }
+  }, [disableSwitch]);
+
+  const setColorMode = useCallback(
+    (newColorMode: ColorMode, persist = true) => {
+      setColorModeState(newColorMode);
+      // If switch is disabled, color mode can still be toggled through system
+      // settings. We don't store this since it's not really an active choice.
+      if (!disableSwitch && persist) {
+        storeColorMode(newColorMode);
+      }
+    },
+    [disableSwitch],
+  );
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -85,13 +102,9 @@ function useContextValue(): ContextValue {
       if (e.key !== ColorModeStorageKey) {
         return;
       }
-      try {
-        const storedColorMode = ColorModeStorage.get();
-        if (storedColorMode !== null) {
-          setColorMode(coerceToColorMode(storedColorMode));
-        }
-      } catch (err) {
-        console.error(err);
+      const storedColorMode = ColorModeStorage.get();
+      if (storedColorMode !== null) {
+        setColorMode(coerceToColorMode(storedColorMode));
       }
     };
     window.addEventListener('storage', onChange);
@@ -114,7 +127,9 @@ function useContextValue(): ContextValue {
         previousMediaIsPrint.current = window.matchMedia('print').matches;
         return;
       }
-      setColorMode(matches ? ColorModes.dark : ColorModes.light);
+      // Do not persist this change because it's system-theme-triggered and not
+      // an user action.
+      setColorMode(matches ? ColorModes.dark : ColorModes.light, false);
     };
     mql.addListener(onChange);
     return () => mql.removeListener(onChange);
@@ -139,7 +154,6 @@ function useContextValue(): ContextValue {
           );
         }
         setColorMode(ColorModes.light);
-        storeColorMode(ColorModes.light);
       },
       setDarkTheme() {
         if (process.env.NODE_ENV === 'development') {
@@ -148,7 +162,6 @@ function useContextValue(): ContextValue {
           );
         }
         setColorMode(ColorModes.dark);
-        storeColorMode(ColorModes.dark);
       },
     }),
     [colorMode, setColorMode],
