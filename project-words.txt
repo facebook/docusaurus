@@ -244,6 +244,7 @@ refactorings
 regexes
 rehype
 reponame
+requireindex
 retrocompatibility
 retrocompatible
 roadmap
