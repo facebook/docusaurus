@@ -334,10 +334,9 @@ const Users: User[] = [
     title: 'Full Stack Chronicles',
     description:
       'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
-    preview: require('./showcase/fullstackchronicles-screenshot.png'),
+    preview: require('./showcase/fullstackchronicles.png'),
     website: 'https://fullstackchronicles.io/',
-    source:
-      'https://github.com/stackql/fullstackchronicles.io',
+    source: 'https://github.com/stackql/fullstackchronicles.io',
     tags: ['opensource', 'personal'],
   },
   {
