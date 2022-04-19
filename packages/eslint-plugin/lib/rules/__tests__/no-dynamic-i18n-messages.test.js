@@ -35,6 +35,9 @@ ruleTester.run('no-dynamic-i18n-messages', rule, {
               </Translate>`,
     },
     {
+      code: `<Translate>{'This'} is {\`valid\`}</Translate>`,
+    },
+    {
       code: "translate({message: 'My page meta title'})",
     },
     {
@@ -51,6 +54,10 @@ ruleTester.run('no-dynamic-i18n-messages', rule, {
   invalid: [
     {
       code: '<Translate>{text}</Translate>',
+      errors: errorsJSX,
+    },
+    {
+      code: '<Translate>Hi {text} my friend</Translate>',
       errors: errorsJSX,
     },
     {
