@@ -12,13 +12,13 @@ module.exports = {
   configs: {
     recommended: {
       rules: {
-        'docusaurus/no-dynamic-i18n-messages': 'error',
+        '@docusaurus/no-dynamic-i18n-messages': 'error',
       },
     },
     all: {
       rules: {
-        'docusaurus/no-dynamic-i18n-messages': 'error',
-        'docusaurus/no-untranslated-text': 'warn',
+        '@docusaurus/no-dynamic-i18n-messages': 'error',
+        '@docusaurus/no-untranslated-text': 'warn',
       },
     },
   },

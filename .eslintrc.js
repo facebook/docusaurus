@@ -32,6 +32,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:regexp/recommended',
     'prettier',
+    'plugin:@docusaurus/all',
   ],
   settings: {
     'import/resolver': {
@@ -41,7 +42,14 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint', 'regexp'],
+  plugins: [
+    'react-hooks',
+    'header',
+    'jest',
+    '@typescript-eslint',
+    'regexp',
+    '@docusaurus',
+  ],
   rules: {
     'array-callback-return': WARNING,
     camelcase: WARNING,
@@ -326,6 +334,7 @@ module.exports = {
         'header/header': OFF,
         'global-require': OFF,
         '@typescript-eslint/no-var-requires': OFF,
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {

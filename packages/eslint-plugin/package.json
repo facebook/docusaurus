@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-docusaurus",
+  "name": "@docusaurus/eslint-plugin",
   "version": "2.0.0-beta.18",
   "description": "Docusaurus specific linting rules for eslint",
   "main": "lib/index.js",
