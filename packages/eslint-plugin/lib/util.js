@@ -7,19 +7,23 @@
 
 const isFalsyOrWhitespace = (value) => !value || !value.trim();
 
+const isStringWithoutExpressions = (value) => {
+  switch (value.type) {
+    case 'Literal':
+      return true;
+    case 'TemplateLiteral':
+      return value.expressions.length === 0;
+    default:
+      return false;
+  }
+};
+
 const isTextLabelChild = ({child, includeWhitespace = true} = {}) => {
   switch (child.type) {
     case 'JSXText':
       return includeWhitespace || !isFalsyOrWhitespace(child.value);
     case 'JSXExpressionContainer':
-      switch (child.expression.type) {
-        case 'Literal':
-          return true;
-        case 'TemplateLiteral':
-          return child.expression.expressions.length === 0;
-        default:
-          return false;
-      }
+      return isStringWithoutExpressions(child.expression);
     default:
       return false;
   }
@@ -63,6 +67,14 @@ const getCommonValidTests = () => [
   {
     code: '<Component> {text} </Component>',
   },
+  {
+    code: 'translate({message: `My page meta title`})',
+  },
 ];
 
-module.exports = {isTextLabelChild, report, getCommonValidTests};
+module.exports = {
+  isTextLabelChild,
+  report,
+  getCommonValidTests,
+  isStringWithoutExpressions,
+};

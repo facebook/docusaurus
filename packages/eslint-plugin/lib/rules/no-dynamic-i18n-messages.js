@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {isTextLabelChild, report} = require('../util');
+const {
+  isTextLabelChild,
+  report,
+  isStringWithoutExpressions,
+} = require('../util');
 
 /**
  * @type {import('eslint').Rule.RuleModule}
@@ -28,8 +32,6 @@ module.exports = {
   },
 
   create(context) {
-    const isMessageTypeValid = (type) => type === 'Literal';
-
     const isNodeValid = (node) =>
       node.children.every((child) => isTextLabelChild({child}));
 
@@ -47,12 +49,7 @@ module.exports = {
           return;
         }
 
-        const messageType = messageProperty.value.type;
-        if (!messageType) {
-          return;
-        }
-
-        if (!isMessageTypeValid(messageType)) {
+        if (!isStringWithoutExpressions(messageProperty.value)) {
           report(context, node, 'translateArg');
         }
       },

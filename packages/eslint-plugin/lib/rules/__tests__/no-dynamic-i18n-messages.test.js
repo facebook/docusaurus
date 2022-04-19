@@ -69,15 +69,12 @@ ruleTester.run('no-dynamic-i18n-messages', rule, {
       errors: errorsJSX,
     },
     {
+      // eslint-disable-next-line no-template-curly-in-string
       code: '<Translate>{`${text}`}</Translate>',
       errors: errorsJSX,
     },
     {
       code: 'translate({message: metaTitle})',
-      errors: errorsFunc,
-    },
-    {
-      code: 'translate({message: `My page meta title`})',
       errors: errorsFunc,
     },
   ],
