@@ -5,17 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
-const rule = require('../../../lib/rules/no-untranslated-text');
+const rule = require('../no-untranslated-text');
 const {RuleTester} = require('eslint');
-const {getCommonValidTests} = require('../../../util');
-
-//------------------------------------------------------------------------------
-// Tests
-//------------------------------------------------------------------------------
+const {getCommonValidTests} = require('../../util');
 
 const errorsJSX = [{messageId: 'translateChildren', type: 'JSXElement'}];
 const errorsJSXFragment = [

@@ -4,10 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 module.exports = {
-  extends: [
-    '../../.eslintrc.js',
-    'plugin:eslint-plugin/recommended',
-    'plugin:node/recommended',
-  ],
+  extends: ['../../.eslintrc.js', 'plugin:eslint-plugin/recommended'],
 };

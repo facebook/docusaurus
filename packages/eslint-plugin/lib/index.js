@@ -5,18 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
 const requireIndex = require('requireindex');
 
-//------------------------------------------------------------------------------
-// Plugin Definition
-//------------------------------------------------------------------------------
-
 module.exports = {
-  // import all rules in lib/rules
   rules: requireIndex(`${__dirname}/rules`),
   configs: {
     recommended: {

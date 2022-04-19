@@ -5,17 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
-const rule = require('../../../lib/rules/no-dynamic-i18n-messages');
+const rule = require('../no-dynamic-i18n-messages');
 const {RuleTester} = require('eslint');
-const {getCommonValidTests} = require('../../../util');
-
-//------------------------------------------------------------------------------
-// Tests
-//------------------------------------------------------------------------------
+const {getCommonValidTests} = require('../../util');
 
 const errorsJSX = [{messageId: 'translateChildren', type: 'JSXElement'}];
 const errorsFunc = [{messageId: 'translateArg', type: 'Identifier'}];

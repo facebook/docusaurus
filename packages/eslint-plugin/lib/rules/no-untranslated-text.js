@@ -5,15 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-const {isTextLabelChild, report} = require('../../util');
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
+const {isTextLabelChild, report} = require('../util');
 
 /**
  * @type {import('eslint').Rule.RuleModule}
