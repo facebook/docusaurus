@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # v3
       - name: Wait for the Netlify Preview
-        uses: jakepartusch/wait-for-netlify-action@7dcdeb40c6bc3710a8099702a1fa1ce2c5e322a6 # v1
+        uses: jakepartusch/wait-for-netlify-action@7ccf91c9ba3d64aa4389c0d3adcba0a6e77e5421 # v1
         id: netlify
         with:
           site_name: docusaurus-2
