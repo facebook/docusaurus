@@ -1,4 +1,4 @@
-# enforce translate calls to be plain text labels (no-dynamic-i18n-messages)
+# enforce translate calls to be plain text labels (string-literal-i18n-messages)
 
 Ensures that `<Translate>` children and the message attribute of `translate` function calls are hardcoded strings.
 

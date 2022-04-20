@@ -39,7 +39,7 @@ For more fine-grained control, you can also configure the rules you want to use:
 ```json
 {
   "rules": {
-    "@docusaurus/no-dynamic-i18n-messages": "error",
+    "@docusaurus/string-literal-i18n-messages": "error",
     "@docusaurus/no-untranslated-text": "warn"
   }
 }
@@ -52,5 +52,5 @@ For more fine-grained control, you can also configure the rules you want to use:
 
 ## Supported Rules
 
-- no-dynamic-i18n-messages
+- string-literal-i18n-messages
 - no-untranslated-text

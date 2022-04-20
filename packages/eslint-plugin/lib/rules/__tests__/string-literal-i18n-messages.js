@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const rule = require('../no-dynamic-i18n-messages');
+const rule = require('../string-literal-i18n-messages');
 const {RuleTester} = require('eslint');
 const {getCommonValidTests} = require('../../util');
 
@@ -18,7 +18,7 @@ const ruleTester = new RuleTester({
     ecmaFeatures: {jsx: true},
   },
 });
-ruleTester.run('no-dynamic-i18n-messages', rule, {
+ruleTester.run('string-literal-i18n-messages', rule, {
   valid: [
     ...getCommonValidTests(),
     {
