@@ -1110,6 +1110,14 @@ declare module '@theme/IconEdit' {
   export default function IconEdit(props: Props): JSX.Element;
 }
 
+declare module '@theme/IconHome' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconHome(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconLightMode' {
   import type {ComponentProps} from 'react';
 

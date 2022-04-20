@@ -9,3 +9,9 @@
   --ifm-breadcrumb-size-multiplier: 0.8;
   margin-bottom: 0.8rem;
 }
+
+.icon {
+  vertical-align: middle;
+  height: 1rem;
+  width: 1rem;
+}
