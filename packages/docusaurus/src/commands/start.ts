@@ -118,7 +118,7 @@ export async function start(
 
   let config: webpack.Configuration = merge(await createClientConfig(props), {
     watchOptions: {
-      ignored: [siteDir+'/**/node_modules'],
+      ignored: /node_modules\/(?!@docusaurus)/,
       poll: Number.isInteger(cliOptions.poll)
         ? cliOptions.poll
         : false,
