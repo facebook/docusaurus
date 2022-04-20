@@ -218,7 +218,7 @@ export default async function pluginContentBlog(
           routeBasePath,
           archiveBasePath,
         ]);
-        // creates a blog archive route
+        // Create a blog archive route
         const archiveProp = await createData(
           `${docuHash(archiveUrl)}.json`,
           JSON.stringify({blogPosts}, null, 2),

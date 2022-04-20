@@ -22,7 +22,7 @@ exports.dogfoodingThemeInstances = dogfoodingThemeInstances;
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [
   [
-    'content-docs', // dogfood shorthand
+    'content-docs', // Shorthand
     /** @type {import('@docusaurus/plugin-content-docs').Options} */
     ({
       id: 'docs-tests',
@@ -52,7 +52,7 @@ const dogfoodingPluginInstances = [
   ],
 
   [
-    '@docusaurus/plugin-content-blog', // dogfood longhand
+    '@docusaurus/plugin-content-blog', // Longhand
     /** @type {import('@docusaurus/plugin-content-blog').Options} */
     ({
       id: 'blog-tests',
@@ -75,7 +75,7 @@ const dogfoodingPluginInstances = [
   ],
 
   [
-    require.resolve('@docusaurus/plugin-content-pages'), // dogfood longhand resolve
+    require.resolve('@docusaurus/plugin-content-pages'), // Full path
     /** @type {import('@docusaurus/plugin-content-pages').Options} */
     ({
       id: 'pages-tests',

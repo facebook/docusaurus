@@ -226,7 +226,7 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    // shuffle, because order shouldn't matter
+    // Shuffle, because order shouldn't matter
     const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
@@ -355,7 +355,7 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    // shuffle, because order shouldn't matter
+    // Shuffle, because order shouldn't matter
     const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
@@ -395,7 +395,7 @@ describe('docsClientUtils', () => {
       latestVersionSuggestion: version2,
     });
     expect(getDocVersionSuggestions(data, '/docs/version1/doc2')).toEqual({
-      latestDocSuggestion: undefined, // because /docs/version1/doc2 does not exist
+      latestDocSuggestion: undefined, // Because /docs/version1/doc2 does not exist
       latestVersionSuggestion: version2,
     });
   });

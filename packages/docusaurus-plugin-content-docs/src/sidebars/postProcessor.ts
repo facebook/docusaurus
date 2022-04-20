@@ -22,7 +22,7 @@ function normalizeCategoryLink(
   params: SidebarProcessorParams,
 ): SidebarItemCategoryLink | undefined {
   if (category.link?.type === 'generated-index') {
-    // default slug logic can be improved
+    // Default slug logic can be improved
     const getDefaultSlug = () =>
       `/category/${params.categoryLabelSlugger.slug(category.label)}`;
     const slug = category.link.slug ?? getDefaultSlug();

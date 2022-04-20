@@ -145,7 +145,7 @@ async function buildLocale({
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,
         }),
-      ].filter(Boolean),
+      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
     },
   );
 

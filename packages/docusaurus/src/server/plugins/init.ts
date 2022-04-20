@@ -28,7 +28,7 @@ function getOptionValidationFunction(
   normalizedPluginConfig: NormalizedPluginConfig,
 ): PluginModule['validateOptions'] {
   if (normalizedPluginConfig.pluginModule) {
-    // support both commonjs and ES modules
+    // Support both CommonJS and ES modules
     return (
       normalizedPluginConfig.pluginModule.module?.default?.validateOptions ??
       normalizedPluginConfig.pluginModule.module?.validateOptions
@@ -41,7 +41,7 @@ function getThemeValidationFunction(
   normalizedPluginConfig: NormalizedPluginConfig,
 ): PluginModule['validateThemeConfig'] {
   if (normalizedPluginConfig.pluginModule) {
-    // support both commonjs and ES modules
+    // Support both CommonJS and ES modules
     return (
       normalizedPluginConfig.pluginModule.module.default?.validateThemeConfig ??
       normalizedPluginConfig.pluginModule.module.validateThemeConfig
@@ -65,7 +65,6 @@ export async function initPlugins(
   async function doGetPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<PluginVersionInformation> {
-    // get plugin version
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
         normalizedPluginConfig.pluginModule?.path,

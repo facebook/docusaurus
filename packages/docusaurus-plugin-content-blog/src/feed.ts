@@ -7,11 +7,7 @@
 
 import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
 import type {BlogPost} from './types';
-import {
-  normalizeUrl,
-  mapAsyncSequential,
-  readOutputHTMLFile,
-} from '@docusaurus/utils';
+import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
 import {load as cheerioLoad} from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
@@ -61,46 +57,48 @@ async function generateBlogFeed({
     return {name: author.name, link: author.url, email: author.email};
   }
 
-  await mapAsyncSequential(blogPosts, async (post) => {
-    const {
-      id,
-      metadata: {
+  await Promise.all(
+    blogPosts.map(async (post) => {
+      const {
+        id,
+        metadata: {
+          title: metadataTitle,
+          permalink,
+          date,
+          description,
+          authors,
+          tags,
+        },
+      } = post;
+
+      const content = await readOutputHTMLFile(
+        permalink.replace(siteConfig.baseUrl, ''),
+        outDir,
+        siteConfig.trailingSlash,
+      );
+      const $ = cheerioLoad(content);
+
+      const feedItem: FeedItem = {
         title: metadataTitle,
-        permalink,
+        id,
+        link: normalizeUrl([siteUrl, permalink]),
         date,
         description,
-        authors,
-        tags,
-      },
-    } = post;
+        // Atom feed demands the "term", while other feeds use "name"
+        category: tags.map((tag) => ({name: tag.label, term: tag.label})),
+        content: $(`#${blogPostContainerID}`).html()!,
+      };
 
-    const content = await readOutputHTMLFile(
-      permalink.replace(siteConfig.baseUrl, ''),
-      outDir,
-      siteConfig.trailingSlash,
-    );
-    const $ = cheerioLoad(content);
+      // json1() method takes the first item of authors array
+      // it causes an error when authors array is empty
+      const feedItemAuthors = authors.map(toFeedAuthor);
+      if (feedItemAuthors.length > 0) {
+        feedItem.author = feedItemAuthors;
+      }
 
-    const feedItem: FeedItem = {
-      title: metadataTitle,
-      id,
-      link: normalizeUrl([siteUrl, permalink]),
-      date,
-      description,
-      // Atom feed demands the "term", while other feeds use "name"
-      category: tags.map((tag) => ({name: tag.label, term: tag.label})),
-      content: $(`#${blogPostContainerID}`).html()!,
-    };
-
-    // json1() method takes the first item of authors array
-    // it causes an error when authors array is empty
-    const feedItemAuthors = authors.map(toFeedAuthor);
-    if (feedItemAuthors.length > 0) {
-      feedItem.author = feedItemAuthors;
-    }
-
-    feed.addItem(feedItem);
-  });
+      return feedItem;
+    }),
+  ).then((items) => items.forEach(feed.addItem));
 
   return feed;
 }

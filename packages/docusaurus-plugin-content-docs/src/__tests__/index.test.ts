@@ -68,8 +68,8 @@ const createFakeActions = (contentDir: string) => {
     },
   };
 
-  // query by prefix, because files have a hash at the end
-  // so it's not convenient to query by full filename
+  // Query by prefix, because files have a hash at the end so it's not
+  // convenient to query by full filename
   const getCreatedDataByPrefix = (prefix: string) => {
     const entry = Object.entries(dataContainer).find(([key]) =>
       key.startsWith(prefix),

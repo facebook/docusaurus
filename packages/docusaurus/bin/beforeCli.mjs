@@ -45,7 +45,6 @@ export default async function beforeCli() {
     // Check is in background so it's fine to use a small value like 1h
     // Use 0 for debugging
     updateCheckInterval: 1000 * 60 * 60,
-    // updateCheckInterval: 0
   });
 
   // Hacky way to ensure we check for updates on first run
@@ -124,7 +123,7 @@ export default async function beforeCli() {
     console.log(docusaurusUpdateMessage);
   }
 
-  // notify user if node version needs to be updated
+  // Notify user if node version needs to be updated
   if (!semver.satisfies(process.version, requiredVersion)) {
     logger.error('Minimum Node.js version not met :(');
     logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;

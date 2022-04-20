@@ -204,7 +204,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // not ideal heuristic but good enough for our use-case?
+  // Not ideal heuristic but good enough for our use-case?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
@@ -249,7 +249,7 @@ export function compile(config: Configuration[]): Promise<void> {
         }
         reject(err);
       }
-      // let plugins consume all the stats
+      // Let plugins consume all the stats
       const errorsWarnings = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
         reject(new Error('Failed to compile with errors.'));
@@ -363,7 +363,7 @@ export function getMinimizer(
       parallel: getTerserParallel(),
       terserOptions: {
         parse: {
-          // we want uglify-js to parse ecma 8 code. However, we don't want it
+          // We want uglify-js to parse ecma 8 code. However, we don't want it
           // to apply any minification steps that turns valid ecma 5 code
           // into invalid ecma 5 code. This is why the 'compress' and 'output'
           // sections only apply transformations that are ecma 5 safe

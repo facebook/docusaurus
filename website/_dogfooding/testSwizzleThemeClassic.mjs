@@ -68,16 +68,16 @@ Please double-check or clean up these components from the config:
 
 // TODO temp workaround: non-comps should be forbidden to wrap
 if (action === 'wrap') {
-  const WrapBlacklist = [
-    'Layout', // due to theme-fallback?
+  const WrapBlocklist = [
+    'Layout', // Due to theme-fallback?
   ];
 
   componentNames = componentNames.filter((componentName) => {
-    const blacklisted = WrapBlacklist.includes(componentName);
-    if (!WrapBlacklist) {
-      logger.warn(`${componentName} is blacklisted and will not be wrapped`);
+    const blocked = WrapBlocklist.includes(componentName);
+    if (blocked) {
+      logger.warn(`${componentName} is blocked and will not be wrapped`);
     }
-    return !blacklisted;
+    return !blocked;
   });
 }
 
