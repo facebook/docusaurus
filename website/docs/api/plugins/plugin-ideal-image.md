@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 id: plugin-ideal-image
 title: '📦 plugin-ideal-image'
 slug: '/api/plugins/@docusaurus/plugin-ideal-image'

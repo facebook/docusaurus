@@ -27,3 +27,9 @@ These plugins will add a useful behavior to your Docusaurus site.
 - [@docusaurus/plugin-ideal-image](./plugin-ideal-image.md)
 - [@docusaurus/plugin-google-analytics](./plugin-google-analytics.md)
 - [@docusaurus/plugin-google-gtag](./plugin-google-gtag.md)
+
+## Development plugins {#dev-plugins}
+
+These plugins are useful for developing a site with Docusaurus.
+
+- [@docusaurus/eslint-plugin](./eslint-plugin.md)

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 10
 id: plugin-pwa
 title: '📦 plugin-pwa'
 slug: '/api/plugins/@docusaurus/plugin-pwa'
