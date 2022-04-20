@@ -19,7 +19,17 @@ module.exports = {
       category: 'Suggestions',
       url: 'https://github.com/facebook/docusaurus/tree/main/packages/eslint-plugin/docs/rules/no-untranslated-text.md',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          ignoreStrings: {
+            type: 'array',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       translateChildren:
         'All text labels in JSX should be wrapped by translate calls',
@@ -27,28 +37,32 @@ module.exports = {
   },
 
   create(context) {
-    const isParentTranslate = (child, isParentFragment) =>
+    const stringsToIgnore = context.options[0]?.ignoreStrings ?? [];
+
+    const isParentTranslate = ({child, isParentFragment}) =>
       !isParentFragment &&
       child.parent.openingElement.name.name === 'Translate';
 
-    const isChildValid = (child, isParentFragment) => {
-      if (!isTextLabelChild({child, includeWhitespace: false})) {
+    const isChildValid = ({child, isParentFragment}) => {
+      if (!isTextLabelChild({child, ignoreWhitespace: true, stringsToIgnore})) {
         return true;
       }
-      return isParentTranslate(child, isParentFragment);
+      return isParentTranslate({child, isParentFragment});
     };
 
-    const isNodeValid = (node, isFragment) =>
-      node.children.every((child) => isChildValid(child, isFragment));
+    const isNodeValid = ({node, isFragment = false} = {}) =>
+      node.children.every((child) =>
+        isChildValid({child, isParentFragment: isFragment}),
+      );
 
     return {
       'JSXElement[openingElement.selfClosing=false]': (node) => {
-        if (!isNodeValid(node)) {
+        if (!isNodeValid({node})) {
           report(context, node, 'translateChildren');
         }
       },
       'JSXFragment[openingFragment]': (node) => {
-        if (!isNodeValid(node, true)) {
+        if (!isNodeValid({node, isFragment: true})) {
           report(context, node, 'translateChildren');
         }
       },

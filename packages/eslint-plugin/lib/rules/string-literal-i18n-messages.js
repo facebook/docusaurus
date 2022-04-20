@@ -49,7 +49,11 @@ module.exports = {
           return;
         }
 
-        if (!isStringWithoutExpressions(messageProperty.value)) {
+        if (
+          !isStringWithoutExpressions({
+            text: messageProperty.value,
+          })
+        ) {
           report(context, node, 'translateArg');
         }
       },

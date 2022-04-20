@@ -5,25 +5,62 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const isFalsyOrWhitespace = (value) => !value || !value.trim();
+const isMadeOfIgnoredStrings = ({text, stringsToIgnore}) =>
+  text
+    .trim()
+    .split(/\s+/)
+    .every((string) => stringsToIgnore.includes(string));
 
-const isStringWithoutExpressions = (value) => {
-  switch (value.type) {
+const isWhitespace = (text) => !text || !text.trim();
+
+const isTextValid = ({text, ignoreWhitespace, stringsToIgnore}) =>
+  !!text &&
+  !(ignoreWhitespace && isWhitespace(text)) &&
+  !isMadeOfIgnoredStrings({
+    text,
+    stringsToIgnore,
+  });
+
+const isStringWithoutExpressions = ({
+  text,
+  ignoreWhitespace = false,
+  stringsToIgnore = [],
+} = {}) => {
+  switch (text.type) {
     case 'Literal':
-      return true;
+      return isTextValid({text: text.value, ignoreWhitespace, stringsToIgnore});
     case 'TemplateLiteral':
-      return value.expressions.length === 0;
+      return (
+        !text.expressions.length &&
+        isTextValid({
+          text: text.quasis[0].value.raw,
+          ignoreWhitespace,
+          stringsToIgnore,
+        })
+      );
     default:
       return false;
   }
 };
 
-const isTextLabelChild = ({child, includeWhitespace = true} = {}) => {
+const isTextLabelChild = ({
+  child,
+  ignoreWhitespace = false,
+  stringsToIgnore = [],
+} = {}) => {
   switch (child.type) {
     case 'JSXText':
-      return includeWhitespace || !isFalsyOrWhitespace(child.value);
+      return isTextValid({
+        text: child.value,
+        ignoreWhitespace,
+        stringsToIgnore,
+      });
     case 'JSXExpressionContainer':
-      return isStringWithoutExpressions(child.expression);
+      return isStringWithoutExpressions({
+        text: child.expression,
+        ignoreWhitespace,
+        stringsToIgnore,
+      });
     default:
       return false;
   }
@@ -69,6 +106,34 @@ const getCommonValidTests = () => [
   },
   {
     code: 'translate({message: `My page meta title`})',
+  },
+  {
+    code: `<Translate
+              id="homepage.title"
+              description="The homepage welcome message">
+                Welcome to my website
+            </Translate>`,
+  },
+  {
+    code: `<Translate
+              values={{firstName: 'Sébastien'}}>
+                {'Welcome, {firstName}! How are you?'}
+            </Translate>`,
+  },
+  {
+    code: `<Translate>{'This'} is {\`valid\`}</Translate>`,
+  },
+  {
+    code: "translate({message: 'My page meta title'})",
+  },
+  {
+    code: "translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})",
+  },
+  {
+    code: 'translate({otherProp: metaTitle})',
+  },
+  {
+    code: 'translate({otherProp: `My page meta title`})',
   },
 ];
 

@@ -312,6 +312,10 @@ module.exports = {
     // locals must be justified with a disable comment.
     '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
+    '@docusaurus/no-untranslated-text': [
+      WARNING,
+      {ignoreStrings: ['·', '—', '×']},
+    ],
   },
   overrides: [
     {

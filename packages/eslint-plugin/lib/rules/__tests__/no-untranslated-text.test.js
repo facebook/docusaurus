@@ -21,7 +21,45 @@ const ruleTester = new RuleTester({
   },
 });
 ruleTester.run('no-untranslated-text', rule, {
-  valid: [...getCommonValidTests()],
+  valid: [
+    ...getCommonValidTests(),
+    {
+      code: '<Component>·</Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>· </Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component> · </Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>· ·</Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>· — ×</Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>{"·"}</Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: "<Component>{'·'}</Component>",
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>{`·`}</Component>',
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>Docusaurus</Component>',
+      options: [{ignoreStrings: ['Docusaurus']}],
+    },
+  ],
 
   invalid: [
     {
@@ -59,6 +97,41 @@ ruleTester.run('no-untranslated-text', rule, {
     {
       code: '<>text</>',
       errors: errorsJSXFragment,
+    },
+    {
+      code: '<Component>· — ×</Component>',
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['·', '—']}],
+    },
+    {
+      code: '<Component>··</Component>',
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component> ·· </Component>',
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>"·"</Component>',
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: "<Component>'·'</Component>",
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>`·`</Component>',
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['·', '—', '×']}],
+    },
+    {
+      code: '<Component>Docusaurus</Component>',
+      errors: errorsJSX,
+      options: [{ignoreStrings: ['Docu', 'saurus']}],
     },
   ],
 });

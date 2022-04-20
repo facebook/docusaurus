@@ -19,37 +19,7 @@ const ruleTester = new RuleTester({
   },
 });
 ruleTester.run('string-literal-i18n-messages', rule, {
-  valid: [
-    ...getCommonValidTests(),
-    {
-      code: `<Translate
-                id="homepage.title"
-                description="The homepage welcome message">
-                  Welcome to my website
-              </Translate>`,
-    },
-    {
-      code: `<Translate
-                values={{firstName: 'Sébastien'}}>
-                  {'Welcome, {firstName}! How are you?'}
-              </Translate>`,
-    },
-    {
-      code: `<Translate>{'This'} is {\`valid\`}</Translate>`,
-    },
-    {
-      code: "translate({message: 'My page meta title'})",
-    },
-    {
-      code: "translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})",
-    },
-    {
-      code: 'translate({otherProp: metaTitle})',
-    },
-    {
-      code: 'translate({otherProp: `My page meta title`})',
-    },
-  ],
+  valid: [...getCommonValidTests()],
 
   invalid: [
     {
