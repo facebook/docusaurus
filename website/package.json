@@ -29,7 +29,7 @@
     "netlify:crowdin:downloadTranslations": "yarn netlify:crowdin:wait && yarn --cwd .. crowdin:download:website",
     "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:website || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
     "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:website",
-    "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug",
+    "netlify:test": "yarn netlify:build:deployPreview && npx --package netlify-cli netlify dev -- --debug",
     "typecheck": "tsc",
     "watch": "tsc --watch"
   },
