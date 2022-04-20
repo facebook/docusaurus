@@ -28,7 +28,7 @@ const isStringWithoutExpressions = ({
 } = {}) => {
   switch (text.type) {
     case 'Literal':
-      return isTextValid({text: text.value, ignoreWhitespace, stringsToIgnore});
+      return isTextValid({text: text.raw, ignoreWhitespace, stringsToIgnore});
     case 'TemplateLiteral':
       return (
         !text.expressions.length &&
@@ -51,7 +51,7 @@ const isTextLabelChild = ({
   switch (child.type) {
     case 'JSXText':
       return isTextValid({
-        text: child.value,
+        text: child.raw,
         ignoreWhitespace,
         stringsToIgnore,
       });

@@ -314,7 +314,7 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-untranslated-text': [
       WARNING,
-      {ignoreStrings: ['·', '—', '×']},
+      {ignoreStrings: ['·', '-', '—', "'", '"', '×', '@', '🏠', '&#8203;']},
     ],
   },
   overrides: [

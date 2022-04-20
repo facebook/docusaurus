@@ -45,11 +45,11 @@ ruleTester.run('no-untranslated-text', rule, {
     },
     {
       code: '<Component>{"·"}</Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoreStrings: ['"·"']}],
     },
     {
       code: "<Component>{'·'}</Component>",
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoreStrings: ["'·'"]}],
     },
     {
       code: '<Component>{`·`}</Component>',
@@ -58,6 +58,16 @@ ruleTester.run('no-untranslated-text', rule, {
     {
       code: '<Component>Docusaurus</Component>',
       options: [{ignoreStrings: ['Docusaurus']}],
+    },
+    {
+      code: '<Component>&#8203;</Component>',
+      options: [{ignoreStrings: ['&#8203;']}],
+    },
+    {
+      code: `<>
+              {' · '}
+            </>`,
+      options: [{ignoreStrings: ['·', "'"]}],
     },
   ],
 
