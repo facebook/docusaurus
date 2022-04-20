@@ -4,28 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import type unified from 'unified';
-import type {Data, Node, Position} from 'unist';
-import {visit} from 'unist-util-visit';
+
+import visit from 'unist-util-visit';
+import type {Transformer} from 'unified';
+import type {FootnoteReference, FootnoteDefinition} from 'mdast';
 
 declare global {
   /* eslint-disable vars-on-top, no-var */
   var fixerUsedUniqueStrings: string[];
-}
-
-interface IFootnoteReferenceNode extends Node<Data> {
-  type: 'footnoteReference';
-  identifier: string;
-  label: string;
-  position: Position;
-}
-
-interface IFootnoteDefinitionNode extends Node<Data> {
-  type: 'footnoteDefinition';
-  identifier: string;
-  label: string;
-  position: Position;
-  children: Node<Data>[];
 }
 
 interface IFootnoteIDMap {
@@ -35,10 +21,10 @@ interface IFootnoteIDMap {
 
 global.fixerUsedUniqueStrings = global.fixerUsedUniqueStrings ?? [];
 
-const footnoteIDFixer: unified.Plugin = () => {
+export default function plugin(): Transformer {
   const idMaps: IFootnoteIDMap[] = [];
-  const transformer: unified.Transformer = async (ast) => {
-    visit(ast, 'footnoteReference', (node: IFootnoteReferenceNode) => {
+  return (root) => {
+    visit(root, 'footnoteReference', (node: FootnoteReference) => {
       const map: IFootnoteIDMap = {
         originalID: node.identifier.concat(''),
         fixedID: '',
@@ -61,14 +47,11 @@ const footnoteIDFixer: unified.Plugin = () => {
       map.fixedID = node.identifier;
       idMaps.push(map);
     });
-    visit(ast, 'footnoteDefinition', (node: IFootnoteDefinitionNode) => {
+    visit(root, 'footnoteDefinition', (node: FootnoteDefinition) => {
       const idMap = idMaps.find((map) => map.originalID === node.identifier);
       if (idMap) {
         node.identifier = idMap.fixedID;
       }
     });
   };
-  return transformer;
-};
-
-export default footnoteIDFixer;
+}
