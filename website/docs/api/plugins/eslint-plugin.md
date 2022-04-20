@@ -9,21 +9,13 @@ import APITable from '@site/src/components/APITable';
 
 Docusaurus eslint plugin to ensure best Docusaurus practices.
 
-# Installation {#installation}
-
-You'll first need to install [ESLint](https://eslint.org/):
-
-```sh
-npm i -D eslint
-```
-
-Next, install `@docusaurus/eslint-plugin`:
+## Installation
 
 ```bash npm2yarn
-npm i -D @docusaurus/eslint-plugin
+npm install --save-dev @docusaurus/eslint-plugin
 ```
 
-# Usage {#usage}
+## Usage
 
 Add `@docusaurus` to the plugins section of your `.eslintrc` configuration file:
 
@@ -52,32 +44,32 @@ Each config contains a set of rules. For more fine-grained control, you can also
 }
 ```
 
-# Supported Configs{#supported-configs}
+## Supported Configs
 
-## recommended
+### recommended{#config-recommended}
 
-### Rules:
+#### Rules:{#config-recommended-rules}
 
 - @docusaurus/string-literal-i18n-messages
 
-## all
+### all{#config-all}
 
-### Rules:
+#### Rules:{#config-all-rules}
 
 - @docusaurus/string-literal-i18n-messages
 - @docusaurus/no-untranslated-text
 
-# Supported Rules{#supported-rules}
+## Supported Rules
 
-## string-literal-i18n-messages
+### string-literal-i18n-messages{#rule-string-literal-i18n-messages}
 
-### enforce translate calls to be plain text labels (string-literal-i18n-messages)
+enforce translate calls to be plain text labels (string-literal-i18n-messages)
 
 Ensures that `<Translate>` children and the message attribute of `translate` function calls are hardcoded strings.
 
 This is to ensure that static extraction of the text will work so it can be translatable. In-string dynamic placeholders are also possible using the values object.
 
-### Rule Details
+#### Rule Details{#rule-string-literal-i18n-messages-details}
 
 Examples of **incorrect** code for this rule:
 
@@ -109,20 +101,20 @@ translate({message: 'Some text to be translated'})
 translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})
 ```
 
-### Further Reading
+#### Further Reading{#rule-string-literal-i18n-messages-further-reading}
 
 - https://docusaurus.io/docs/docusaurus-core#translate
 - https://docusaurus.io/docs/docusaurus-core#translate-1
 
-## no-untranslated-text
+### no-untranslated-text{#rule-no-untranslated-text}
 
-### enforce text labels in JSX to be wrapped by translate calls (no-untranslated-text)
+enforce text labels in JSX to be wrapped by translate calls (no-untranslated-text)
 
 Ensures that all text labels in JSX are wrapped by `<Translate>` components.
 
 When the [i18n feature](https://docusaurus.io/docs/i18n/introduction) is used, this rule is to ensure that all strings appearing on the website are being translated, so no string accidentally slips through untranslated.
 
-### Rule Details
+#### Rule Details{#rule-no-untranslated-text-details}
 
 Examples of **incorrect** code for this rule:
 
@@ -140,7 +132,7 @@ Examples of **correct** code for this rule:
 </Component>
 ```
 
-### Rule Configuration
+#### Rule Configuration{#rule-no-untranslated-text-configuration}
 
 Accepted fields:
 
@@ -152,16 +144,16 @@ Accepted fields:
 
 </APITable>
 
-### When Not To Use It
+#### When Not To Use It{#rule-no-untranslated-text-when-not-to-use}
 
 If you're not using the [i18n feature](https://docusaurus.io/docs/i18n/introduction) then you can disable this rule.
 
-### Further Reading
+#### Further Reading{#rule-no-untranslated-text-further-reading}
 
 - https://docusaurus.io/docs/docusaurus-core#translate
 - https://docusaurus.io/docs/docusaurus-core#translate-1
 
-# Example configuration {#ex-config}
+## Example configuration
 
 Here's an example configuration:
 
