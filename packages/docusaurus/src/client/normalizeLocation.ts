@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import routes from '@generated/routes';
+import {matchRoutes} from 'react-router-config';
 import type {Location} from 'history';
 
 // Memoize previously normalized pathnames.
@@ -16,6 +18,11 @@ export default function normalizeLocation<T extends Location>(location: T): T {
       ...location,
       pathname: pathnames[location.pathname],
     };
+  }
+
+  if (matchRoutes(routes, location.pathname)) {
+    pathnames[location.pathname] = location.pathname;
+    return location;
   }
 
   const pathname =
