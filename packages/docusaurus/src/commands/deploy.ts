@@ -36,7 +36,7 @@ function shellExecLog(cmd: string) {
 
 export async function deploy(
   siteDir: string,
-  cliOptions: Partial<BuildCLIOptions> = {},
+  cliOptions: Partial<BuildCLIOptions>,
 ): Promise<void> {
   const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,

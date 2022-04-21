@@ -54,14 +54,8 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action(async (siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
-    build(await resolveDir(siteDir), {
-      bundleAnalyzer,
-      outDir,
-      config,
-      locale,
-      minify,
-    });
+  .action(async (siteDir, options) => {
+    build(await resolveDir(siteDir), options);
   });
 
 cli
@@ -86,9 +80,9 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
-  .action(async (themeName, componentName, siteDir, options) => {
-    swizzle(await resolveDir(siteDir), themeName, componentName, options);
-  });
+  .action(async (themeName, componentName, siteDir, options) =>
+    swizzle(await resolveDir(siteDir), themeName, componentName, options),
+  );
 
 cli
   .command('deploy [siteDir]')
@@ -109,13 +103,9 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action(async (siteDir, {outDir, skipBuild, config}) => {
-    deploy(await resolveDir(siteDir), {
-      outDir,
-      config,
-      skipBuild,
-    });
-  });
+  .action(async (siteDir, options) =>
+    deploy(await resolveDir(siteDir), options),
+  );
 
 cli
   .command('start [siteDir]')
@@ -136,18 +126,8 @@ cli
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
   )
-  .action(
-    async (siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
-      start(await resolveDir(siteDir), {
-        port,
-        host,
-        locale,
-        config,
-        hotOnly,
-        open,
-        poll,
-      });
-    },
+  .action(async (siteDir, options) =>
+    start(await resolveDir(siteDir), options),
   );
 
 cli
@@ -164,33 +144,14 @@ cli
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'build website before serving (default: false)')
   .option('-h, --host <host>', 'use specified host (default: localhost)')
-  .action(
-    async (
-      siteDir,
-      {
-        dir = 'build',
-        port = 3000,
-        host = 'localhost',
-        build: buildSite = false,
-        config,
-      },
-    ) => {
-      serve(await resolveDir(siteDir), {
-        dir,
-        port,
-        build: buildSite,
-        config,
-        host,
-      });
-    },
+  .action(async (siteDir, options) =>
+    serve(await resolveDir(siteDir), options),
   );
 
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action(async (siteDir) => {
-    clear(await resolveDir(siteDir));
-  });
+  .action(async (siteDir) => clear(await resolveDir(siteDir)));
 
 cli
   .command('write-translations [siteDir]')
@@ -211,18 +172,8 @@ cli
     '--messagePrefix <messagePrefix>',
     'allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI',
   )
-  .action(
-    async (
-      siteDir,
-      {locale = undefined, override = false, messagePrefix = '', config},
-    ) => {
-      writeTranslations(await resolveDir(siteDir), {
-        locale,
-        override,
-        config,
-        messagePrefix,
-      });
-    },
+  .action(async (siteDir, options) =>
+    writeTranslations(await resolveDir(siteDir), options),
   );
 
 cli
