@@ -274,6 +274,6 @@ if (!process.argv.slice(2).length) {
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err);
+  logger.error(err instanceof Error ? err.stack : err);
   process.exit(1);
 });
