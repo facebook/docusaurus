@@ -83,16 +83,20 @@ function useContextValue(): ContextValue {
         if (persist) {
           storeColorMode(newColorMode);
         }
-      } else if (respectPrefersColorScheme) {
-        setColorMode(
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? ColorModes.dark
-            : ColorModes.light,
-        );
+      } else {
+        if (respectPrefersColorScheme) {
+          setColorModeState(
+            window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? ColorModes.dark
+              : ColorModes.light,
+          );
+        } else {
+          setColorModeState(defaultMode);
+        }
         ColorModeStorage.del();
       }
     },
-    [respectPrefersColorScheme],
+    [respectPrefersColorScheme, defaultMode],
   );
 
   useEffect(() => {
@@ -130,16 +134,12 @@ function useContextValue(): ContextValue {
       return undefined;
     }
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = ({matches}: MediaQueryListEvent) => {
+    const onChange = () => {
       if (window.matchMedia('print').matches || previousMediaIsPrint.current) {
         previousMediaIsPrint.current = window.matchMedia('print').matches;
         return;
       }
-      // Do not persist this change because it's system-theme-triggered and not
-      // a user action.
-      setColorMode(matches ? ColorModes.dark : ColorModes.light, {
-        persist: false,
-      });
+      setColorMode(null);
     };
     mql.addListener(onChange);
     return () => mql.removeListener(onChange);
