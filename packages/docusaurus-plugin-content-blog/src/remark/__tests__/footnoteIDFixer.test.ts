@@ -7,6 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import {simpleHash} from '@docusaurus/utils';
 import mdx from '@mdx-js/mdx';
 import footnoteIDFixer from '../footnoteIDFixer';
 
@@ -22,7 +23,10 @@ const processFixture = async (name: string) => {
 
 describe('footnoteIDFixer remark plugin', () => {
   it('appends a hash to each footnote def/ref', async () => {
-    await expect(processFixture('post')).resolves.toMatchSnapshot();
+    const hash = simpleHash(path.join(__dirname, `__fixtures__/post.md`), 6);
+    expect(
+      (await processFixture('post')).replace(new RegExp(hash, 'g'), '[HASH]'),
+    ).toMatchSnapshot();
   });
 
   it('produces different hashes for different posts but same hash for the same path', async () => {
