@@ -7,7 +7,7 @@
 
 import path from 'path';
 import admonitions from 'remark-admonitions';
-import footnoteIDFixer from './footnoteIDFixer';
+import footnoteIDFixer from './remark/footnoteIDFixer';
 import {
   normalizeUrl,
   docuHash,
