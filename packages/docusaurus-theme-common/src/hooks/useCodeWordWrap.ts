@@ -33,6 +33,10 @@ export function useCodeWordWrap(codeBlockRef: React.RefObject<HTMLPreElement>) {
 
   useEffect(() => {
     updateCodeIsScrollable();
+  }, [isEnabled, updateCodeIsScrollable]);
+
+  useEffect(() => {
+    updateCodeIsScrollable();
 
     window.addEventListener('resize', updateCodeIsScrollable, {
       passive: true,
