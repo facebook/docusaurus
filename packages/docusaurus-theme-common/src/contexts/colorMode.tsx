@@ -76,15 +76,23 @@ function useContextValue(): ContextValue {
   }, [disableSwitch]);
 
   const setColorMode = useCallback(
-    (newColorMode: ColorMode, persist = true) => {
-      setColorModeState(newColorMode);
-      // If switch is disabled, color mode can still be toggled through system
-      // settings. We don't store this since it's not really an active choice.
-      if (!disableSwitch && persist) {
-        storeColorMode(newColorMode);
+    (newColorMode: ColorMode | null, options: {persist?: boolean} = {}) => {
+      const {persist = true} = options;
+      if (newColorMode) {
+        setColorModeState(newColorMode);
+        if (persist) {
+          storeColorMode(newColorMode);
+        }
+      } else if (respectPrefersColorScheme) {
+        setColorMode(
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? ColorModes.dark
+            : ColorModes.light,
+        );
+        ColorModeStorage.del();
       }
     },
-    [disableSwitch],
+    [respectPrefersColorScheme],
   );
 
   useEffect(() => {
@@ -128,8 +136,10 @@ function useContextValue(): ContextValue {
         return;
       }
       // Do not persist this change because it's system-theme-triggered and not
-      // an user action.
-      setColorMode(matches ? ColorModes.dark : ColorModes.light, false);
+      // a user action.
+      setColorMode(matches ? ColorModes.dark : ColorModes.light, {
+        persist: false,
+      });
     };
     mql.addListener(onChange);
     return () => mql.removeListener(onChange);
