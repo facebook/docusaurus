@@ -40,7 +40,7 @@
   "theme.docs.sidebar.expandButtonAriaLabel": "Rozszerz boczny panel",
   "theme.docs.sidebar.expandButtonTitle": "Rozszerz boczny panel",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
-  "theme.docs.tagDocListPageTitle.nDocsTagged": "Jedna strona dokumentacji otagowana|{count} stron dokumentacji otagowanych",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "Jedna strona dokumentacji otagowana|{count} strony dokumentacji otagowane|{count} stron dokumentacji otagowanych",
   "theme.docs.versionBadge.label": "Wersja: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "bieżącej wersji",
   "theme.docs.versions.latestVersionSuggestionLabel": "Aby zobaczyć bieżącą dokumentację, przejdź do wersji {latestVersionLink} ({versionLabel}).",
