@@ -3,5 +3,5 @@
   "theme.IdealImageMessage.error": "Błąd. Kliknij by odświeżyć.",
   "theme.IdealImageMessage.load": "Kliknij by załadować{sizeMessage}",
   "theme.IdealImageMessage.loading": "Wczytywanie...",
-  "theme.IdealImageMessage.offline": "Twoja przeglądarka jest offline. Nie załadowano obrazu."
+  "theme.IdealImageMessage.offline": "Twoja przeglądarka jest offline. Nie załadowano grafiki."
 }
