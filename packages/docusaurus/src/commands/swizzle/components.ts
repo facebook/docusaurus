@@ -38,6 +38,22 @@ export type ThemeComponents = {
 const formatComponentName = (componentName: string): string =>
   componentName.replace(/[/\\]index\.[jt]sx?/, '').replace(/\.[jt]sx?/, '');
 
+// Even if a folder is not directly a component,
+// we still want to be able to swizzle parent folders of any component
+// See https://github.com/facebook/docusaurus/pull/7175#issuecomment-1103757218
+function includeIntermediateComponentPaths(componentNames: string[]): string[] {
+  function getAllIntermediatePaths(componentName: string): string[] {
+    const paths = componentName.split('/');
+    return _.range(1, paths.length + 1).map((i) => paths.slice(0, i).join('/'));
+  }
+
+  const componentNamesWithDuplicates = componentNames.flatMap((componentName) =>
+    getAllIntermediatePaths(componentName),
+  );
+
+  return [...new Set(componentNamesWithDuplicates)];
+}
+
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];
 
 export async function readComponentNames(themePath: string): Promise<string[]> {
@@ -94,7 +110,9 @@ export async function readComponentNames(themePath: string): Promise<string[]> {
     ['asc'],
   );
 
-  return componentFilesOrdered.map((f) => f.componentName);
+  const componentNames = componentFilesOrdered.map((f) => f.componentName);
+
+  return includeIntermediateComponentPaths(componentNames);
 }
 
 export function listComponentNames(themeComponents: ThemeComponents): string {

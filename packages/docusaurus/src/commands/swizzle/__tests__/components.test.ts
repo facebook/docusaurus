@@ -19,6 +19,11 @@ describe('readComponentNames', () => {
       Components.ComponentInSubFolder,
       Components.Sibling,
       Components.FirstLevelComponent,
+      Components.NoIndex,
+      Components.NoIndexComp1,
+      Components.NoIndexComp2,
+      Components.NoIndexSub,
+      Components.NoIndexSubComp,
     ]);
   });
 });
@@ -66,6 +71,11 @@ describe('getThemeComponents', () => {
       Components.ComponentInSubFolder,
       Components.Sibling,
       Components.FirstLevelComponent,
+      Components.NoIndex,
+      Components.NoIndexComp1,
+      Components.NoIndexComp2,
+      Components.NoIndexSub,
+      Components.NoIndexSubComp,
     ]);
   });
 
