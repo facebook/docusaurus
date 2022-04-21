@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 6
 id: plugin-google-analytics
 title: '📦 plugin-google-analytics'
 slug: '/api/plugins/@docusaurus/plugin-google-analytics'

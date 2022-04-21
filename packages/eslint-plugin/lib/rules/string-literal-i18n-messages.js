@@ -20,7 +20,7 @@ module.exports = {
     docs: {
       description: 'enforce translate calls to be plain text labels',
       category: 'Possible Problems',
-      url: 'https://github.com/facebook/docusaurus/tree/main/packages/eslint-plugin/docs/rules/string-literal-i18n-messages.md',
+      url: 'https://docusaurus.io/docs/api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages',
     },
     schema: [],
     messages: {

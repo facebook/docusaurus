@@ -17,7 +17,7 @@ module.exports = {
       description:
         'enforce text labels in JSX to be wrapped by translate calls',
       category: 'Suggestions',
-      url: 'https://github.com/facebook/docusaurus/tree/main/packages/eslint-plugin/docs/rules/no-untranslated-text.md',
+      url: 'https://docusaurus.io/docs/api/misc/@docusaurus/eslint-plugin/no-untranslated-text',
     },
     schema: [
       {
