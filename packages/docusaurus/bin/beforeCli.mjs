@@ -14,6 +14,7 @@ import path from 'path';
 import updateNotifier from 'update-notifier';
 import boxen from 'boxen';
 import {createRequire} from 'module';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 /** @type {Record<string, any>} */
@@ -28,11 +29,8 @@ try {
 
 const {
   name,
-  version,
   engines: {node: requiredVersion},
 } = packageJson;
-
-process.env.DOCUSAURUS_VERSION = version;
 
 /**
  * Notify user if `@docusaurus` packages are outdated
@@ -48,7 +46,7 @@ export default async function beforeCli() {
   const notifier = updateNotifier({
     pkg: {
       name,
-      version,
+      version: DOCUSAURUS_VERSION,
     },
     // Check is in background so it's fine to use a small value like 1h
     // Use 0 for debugging

@@ -11,6 +11,7 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import cli from 'commander';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {
   build,
   swizzle,
@@ -28,7 +29,7 @@ await beforeCli();
 
 const resolveDir = (dir = '.') => fs.realpath(dir);
 
-cli.version(process.env.DOCUSAURUS_VERSION).usage('<command> [options]');
+cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 
 cli
   .command('build [siteDir]')

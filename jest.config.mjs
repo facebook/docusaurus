@@ -6,12 +6,8 @@
  */
 
 import {fileURLToPath} from 'url';
-import {createRequire} from 'module';
 
 process.env.TZ = 'UTC';
-process.env.DOCUSAURUS_VERSION = createRequire(import.meta.url)(
-  '@docusaurus/core/package.json',
-).version;
 
 const ignorePatterns = [
   '/node_modules/',
