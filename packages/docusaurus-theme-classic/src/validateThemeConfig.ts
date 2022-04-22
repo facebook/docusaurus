@@ -99,11 +99,22 @@ const HtmlNavbarItemSchema = Joi.object({
   value: Joi.string().required(),
 });
 
-const itemWithType = (type: string | undefined) => {
+// A temporary workaround to allow users to add custom navbar items
+// See https://github.com/facebook/docusaurus/issues/7227
+const CustomNavbarItemRegexp = /custom-.*/;
+const CustomNavbarItemSchema = Joi.object({
+  type: Joi.string().regex(CustomNavbarItemRegexp).required(),
+}).unknown();
+
+const itemWithType = (type: string | RegExp | undefined) => {
   // Because equal(undefined) is not supported :/
-  const typeSchema = type
-    ? Joi.string().required().equal(type)
-    : Joi.string().forbidden();
+  const typeSchema =
+    // eslint-disable-next-line no-nested-ternary
+    type instanceof RegExp
+      ? Joi.string().required().regex(type)
+      : type
+      ? Joi.string().required().equal(type)
+      : Joi.string().forbidden();
   return Joi.object({
     type: typeSchema,
   })
@@ -134,6 +145,10 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType('html'),
       then: HtmlNavbarItemSchema,
+    },
+    {
+      is: itemWithType(CustomNavbarItemRegexp),
+      then: CustomNavbarItemSchema,
     },
     {
       is: Joi.alternatives().try(
@@ -209,6 +224,10 @@ const NavbarItemSchema = Joi.object({
     {
       is: itemWithType('html'),
       then: HtmlNavbarItemSchema,
+    },
+    {
+      is: itemWithType(CustomNavbarItemRegexp),
+      then: CustomNavbarItemSchema,
     },
     {
       is: itemWithType(undefined),
