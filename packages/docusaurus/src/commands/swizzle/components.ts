@@ -42,9 +42,14 @@ function sortComponentNames(componentNames: string[]): string[] {
   return componentNames.sort(); // Algo may change?
 }
 
-// Even if a folder is not directly a component,
-// we still want to be able to swizzle parent folders of any component
-// See https://github.com/facebook/docusaurus/pull/7175#issuecomment-1103757218
+/**
+ * Expand a list of components to include and return parent folders.
+ * If a folder is not directly a component (no Folder/index.tsx file),
+ * we still want to be able to swizzle --eject that folder.
+ * See https://github.com/facebook/docusaurus/pull/7175#issuecomment-1103757218
+ *
+ * @param componentNames the original list of component names
+ */
 function getMissingIntermediateComponentFolderNames(
   componentNames: string[],
 ): string[] {
