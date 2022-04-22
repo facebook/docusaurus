@@ -8,7 +8,20 @@
 export default [
   {
     path: '/page.html',
+    exact: true,
     component: '',
+  },
+  {
+    path: '/docs',
+    exact: false,
+    component: '',
+    routes: [
+      {
+        path: '/docs/installation',
+        exact: true,
+        component: '',
+      },
+    ],
   },
   {
     path: '*',

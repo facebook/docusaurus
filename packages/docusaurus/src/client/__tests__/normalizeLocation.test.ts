@@ -46,6 +46,13 @@ describe('normalizeLocation', () => {
   it('removes html extension', () => {
     expect(
       normalizeLocation({
+        pathname: '/docs/installation.html',
+      }),
+    ).toEqual({
+      pathname: '/docs/installation',
+    });
+    expect(
+      normalizeLocation({
         pathname: '/docs/introduction/foo.html',
         search: '',
         hash: '#bar',
