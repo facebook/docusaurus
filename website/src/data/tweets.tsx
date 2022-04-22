@@ -112,7 +112,7 @@ const TWEETS: TweetItem[] = [
   {
     url: 'https://twitter.com/debs_obrien/status/1374615572298801155',
     handle: 'debs_obrien',
-    name: 'Debbie O'Brien',
+    name: "Debbie O'Brien",
     date: 'Mar 24, 2021',
     avatar:
       'https://pbs.twimg.com/profile_images/1252900852156772352/JLIVJ-TC_400x400.jpg',
