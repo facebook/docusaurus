@@ -10,13 +10,13 @@ import routes from '@generated/routes';
 import type {Location} from 'history';
 
 // Memoize previously normalized pathnames.
-const pathnames: {[rawPathname: string]: string} = {};
+const pathnames = new Map<string, string>();
 
 export default function normalizeLocation<T extends Location>(location: T): T {
-  if (pathnames[location.pathname]) {
+  if (pathnames.has(location.pathname)) {
     return {
       ...location,
-      pathname: pathnames[location.pathname],
+      pathname: pathnames.get(location.pathname),
     };
   }
 
@@ -24,14 +24,14 @@ export default function normalizeLocation<T extends Location>(location: T): T {
   // away, or it will render to a 404 page.
   const matchedRoutes = matchRoutes(routes, location.pathname);
   if (matchedRoutes.some(({route}) => route.exact === true)) {
-    pathnames[location.pathname] = location.pathname;
+    pathnames.set(location.pathname, location.pathname);
     return location;
   }
 
   const pathname =
     location.pathname.trim().replace(/(?:\/index)?\.html$/, '') || '/';
 
-  pathnames[location.pathname] = pathname;
+  pathnames.set(location.pathname, pathname);
 
   return {
     ...location,
