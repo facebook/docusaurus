@@ -26,9 +26,7 @@ import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
 import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../../package.json');
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -131,7 +129,7 @@ async function doRender(locals: Locals & {path: string}) {
     scripts,
     stylesheets,
     noIndex,
-    version: packageJson.version,
+    version: DOCUSAURUS_VERSION,
   });
 
   try {

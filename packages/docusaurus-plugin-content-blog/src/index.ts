@@ -7,6 +7,7 @@
 
 import path from 'path';
 import admonitions from 'remark-admonitions';
+import footnoteIDFixer from './remark/footnoteIDFixer';
 import {
   normalizeUrl,
   docuHash,
@@ -435,7 +436,10 @@ export default async function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
-                    beforeDefaultRemarkPlugins,
+                    beforeDefaultRemarkPlugins: [
+                      footnoteIDFixer,
+                      ...beforeDefaultRemarkPlugins,
+                    ],
                     beforeDefaultRehypePlugins,
                     staticDirs: siteConfig.staticDirectories.map((dir) =>
                       path.resolve(siteDir, dir),
