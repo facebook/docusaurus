@@ -12,7 +12,7 @@ import styles from './styles.module.css';
 
 export default function CodeBlockLine({
   line,
-  className,
+  classNames,
   showLineNumbers,
   getLineProps,
   getTokenProps,
@@ -23,7 +23,7 @@ export default function CodeBlockLine({
 
   const lineProps = getLineProps({
     line,
-    className: clsx(className, showLineNumbers && styles.codeLine),
+    className: clsx(classNames, showLineNumbers && styles.codeLine),
   });
 
   const lineTokens = line.map((token, key) => (

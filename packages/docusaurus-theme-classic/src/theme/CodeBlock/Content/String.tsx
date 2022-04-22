@@ -83,7 +83,7 @@ export default function CodeBlockString({
                     line={line}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
-                    className={clsx(lineClassNames[i]!)}
+                    classNames={lineClassNames[i]}
                     showLineNumbers={showLineNumbers}
                   />
                 ))}
