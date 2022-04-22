@@ -139,11 +139,9 @@ export async function createVersionRoutes({
 
     actions.addRoute({
       path: version.path,
-      // allow matching /docs/* as well
+      // Allow matching /docs/* since this is the wrapping route
       exact: false,
-      // main docs component (DocPage)
       component: docLayoutComponent,
-      // sub-routes for each doc
       routes: await createVersionSubRoutes(),
       modules: {
         versionMetadata: aliasedSource(versionMetadataPropPath),

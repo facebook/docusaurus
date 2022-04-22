@@ -53,7 +53,7 @@ export async function eject({
   const fromPath = path.join(themePath, componentName);
   const isDirectory = await isDir(fromPath);
   const globPattern = isDirectory
-    ? // do we really want to copy all components?
+    ? // Do we really want to copy all components?
       path.join(fromPath, '*')
     : `${fromPath}.*`;
 

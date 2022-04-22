@@ -287,15 +287,14 @@ describe('normalizeConfig', () => {
   });
 
   it('throws error for required fields', () => {
-    expect(
-      () =>
-        validateConfig({
-          invalidField: true,
-          presets: {},
-          stylesheets: {},
-          themes: {},
-          scripts: {},
-        } as unknown as DocusaurusConfig), // to fields not in the type
+    expect(() =>
+      validateConfig({
+        invalidField: true,
+        presets: {},
+        stylesheets: {},
+        themes: {},
+        scripts: {},
+      }),
     ).toThrowErrorMatchingSnapshot();
   });
 });

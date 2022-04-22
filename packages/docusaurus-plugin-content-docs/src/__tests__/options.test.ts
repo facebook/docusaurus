@@ -15,7 +15,7 @@ import {
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {Options} from '@docusaurus/plugin-content-docs';
 
-// the type of remark/rehype plugins is function
+// The type of remark/rehype plugins can be function/object
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
 

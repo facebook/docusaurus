@@ -31,6 +31,12 @@ describe('loadPlugins', () => {
                 return this.prop;
               },
               async contentLoaded({content, actions}) {
+                actions.addRoute({
+                  path: 'foo',
+                  component: 'Comp',
+                  modules: {content: 'path'},
+                  context: {content: 'path'},
+                });
                 actions.setGlobalData({content, prop: this.prop});
               },
             }),

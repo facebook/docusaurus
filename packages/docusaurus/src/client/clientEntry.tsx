@@ -33,7 +33,6 @@ if (ExecutionEnvironment.canUseDOM) {
     process.env.NODE_ENV === 'production' ? ReactDOM.hydrate : ReactDOM.render;
   preload(window.location.pathname).then(() => {
     renderMethod(
-      // @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165
       <HelmetProvider>
         <BrowserRouter>
           <App />
