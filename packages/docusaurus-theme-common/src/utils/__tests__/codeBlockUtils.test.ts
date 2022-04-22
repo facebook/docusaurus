@@ -72,7 +72,7 @@ describe('parseLines', () => {
     {
       className: 'theme-code-block-highlighted-line',
       line: 'highlight-next-line',
-      block: ['highlight-start', 'highlight-end'],
+      block: {start: 'highlight-start', end: 'highlight-end'},
     },
   ];
 
@@ -266,12 +266,12 @@ collapsed
             {
               className: 'highlight',
               line: 'highlight-next-line',
-              block: ['highlight-start', 'highlight-end'],
+              block: {start: 'highlight-start', end: 'highlight-end'},
             },
             {
               className: 'collapse',
               line: 'collapse-next-line',
-              block: ['collapse-start', 'collapse-end'],
+              block: {start: 'collapse-start', end: 'collapse-end'},
             },
           ],
         },
@@ -311,12 +311,12 @@ highlighted and collapsed
             {
               className: 'highlight',
               line: 'highlight-next-line',
-              block: ['highlight-start', 'highlight-end'],
+              block: {start: 'highlight-start', end: 'highlight-end'},
             },
             {
               className: 'collapse',
               line: 'collapse-next-line',
-              block: ['collapse-start', 'collapse-end'],
+              block: {start: 'collapse-start', end: 'collapse-end'},
             },
           ],
         },

@@ -40,7 +40,7 @@ describe('themeConfig', () => {
           {
             className: 'theme-code-block-highlighted-line',
             line: 'highlight-next-line',
-            block: ['highlight-start', 'highlight-end'],
+            block: {start: 'highlight-start', end: 'highlight-end'},
           },
         ],
       },

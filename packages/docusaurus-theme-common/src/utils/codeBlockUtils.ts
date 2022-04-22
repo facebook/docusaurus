@@ -26,7 +26,7 @@ type CommentType = keyof typeof commentPatterns;
 export type MagicCommentConfig = {
   className: string;
   line?: string;
-  block?: [string, string];
+  block?: {start: string; end: string};
 };
 
 function getCommentPattern(
@@ -38,7 +38,7 @@ function getCommentPattern(
     .map((lang) => {
       const {start, end} = commentPatterns[lang];
       return `(?:${start}\\s*(${magicCommentDirectives
-        .flatMap((d) => [d.line, d.block?.[0], d.block?.[1]].filter(Boolean))
+        .flatMap((d) => [d.line, d.block?.start, d.block?.end].filter(Boolean))
         .join('|')})\\s*${end})`;
     })
     .join('|');
@@ -123,6 +123,7 @@ export function parseLanguage(className: string): string | undefined {
  *
  * @param content The raw code with magic comments. Trailing newline will be
  * trimmed upfront.
+ * @param options Options for parsing behavior.
  */
 export function parseLines(
   content: string,
@@ -145,13 +146,14 @@ export function parseLines(
   },
 ): {
   /**
-   * The highlighted lines, 0-indexed. e.g. `{0: ["highlight", "collapsible"]}`
-   * means the 1st line should have `highlight` and `collapsible as class names.
+   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
+   * means the 1st line should have `highlight` and `sample` as class names.
    */
   lineClassNames: {[lineIndex: number]: string[]};
   /**
-   * The clean code without any magic comments (only if highlight range isn't
-   * present in the metastring).
+   * If there's number range declared in the metastring, the code block is
+   * returned as-is (no parsing); otherwise, this is the clean code with all
+   * magic comments stripped away.
    */
   code: string;
 } {
@@ -191,12 +193,12 @@ export function parseLines(
   const blockStartToClassName: {[comment: string]: string} = Object.fromEntries(
     magicComments
       .filter((d) => d.block)
-      .map(({className, block}) => [block![0], className]),
+      .map(({className, block}) => [block!.start, className]),
   );
   const blockEndToClassName: {[comment: string]: string} = Object.fromEntries(
     magicComments
       .filter((d) => d.block)
-      .map(({className, block}) => [block![1], className]),
+      .map(({className, block}) => [block!.end, className]),
   );
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;

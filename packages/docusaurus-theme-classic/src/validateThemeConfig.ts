@@ -38,7 +38,7 @@ export const DEFAULT_CONFIG = {
       {
         className: 'theme-code-block-highlighted-line',
         line: 'highlight-next-line',
-        block: ['highlight-start', 'highlight-end'],
+        block: {start: 'highlight-start', end: 'highlight-end'},
       },
     ],
   },
@@ -371,7 +371,7 @@ export const ThemeConfigSchema = Joi.object({
         Joi.object({
           className: Joi.string().required(),
           line: Joi.string(),
-          block: Joi.array().items(Joi.string()).length(2),
+          block: Joi.object({start: Joi.string(), end: Joi.string()}),
         }),
       )
       .default(DEFAULT_CONFIG.prism.magicComments),
