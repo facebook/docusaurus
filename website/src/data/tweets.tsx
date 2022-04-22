@@ -97,8 +97,8 @@ const TWEETS: TweetItem[] = [
   },
   {
     url: 'https://twitter.com/sanketsahu/status/1328677366642528257',
-    handle: 'Sanket Sahu',
-    name: 'sanketsahu',
+    handle: 'sanketsahu',
+    name: 'Sanket Sahu',
     date: 'Nov 17, 2020',
     avatar:
       'https://pbs.twimg.com/profile_images/1481221429991718913/aNZZgZME_400x400.jpg',
@@ -111,8 +111,8 @@ const TWEETS: TweetItem[] = [
   },
   {
     url: 'https://twitter.com/debs_obrien/status/1374615572298801155',
-    handle: "Debbie O'Brien",
-    name: 'debs_obrien',
+    handle: 'debs_obrien',
+    name: "Debbie O'Brien",
     date: 'Mar 24, 2021',
     avatar:
       'https://pbs.twimg.com/profile_images/1252900852156772352/JLIVJ-TC_400x400.jpg',
