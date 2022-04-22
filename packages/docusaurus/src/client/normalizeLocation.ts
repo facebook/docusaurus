@@ -23,7 +23,7 @@ export default function normalizeLocation<T extends Location>(location: T): T {
   // If the location was registered with an `.html` extension, we don't strip it
   // away, or it will render to a 404 page.
   const matchedRoutes = matchRoutes(routes, location.pathname);
-  if (matchedRoutes.length > 0 && matchedRoutes[0]!.route.exact === true) {
+  if (matchedRoutes.some(({route}) => route.exact === true)) {
     pathnames[location.pathname] = location.pathname;
     return location;
   }
