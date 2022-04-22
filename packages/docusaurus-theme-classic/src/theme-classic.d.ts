@@ -894,6 +894,8 @@ declare module '@theme/NavbarItem/HtmlNavbarItem' {
 }
 
 declare module '@theme/NavbarItem/ComponentTypes' {
+  import type {ComponentType} from 'react';
+
   import type DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
   import type DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
   import type LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
@@ -906,14 +908,14 @@ declare module '@theme/NavbarItem/ComponentTypes' {
 
   export type ComponentTypesObject = {
     readonly default: typeof DefaultNavbarItem;
-    readonly localeDropdown: LocaleDropdownNavbarItem;
-    readonly search: SearchNavbarItem;
-    readonly dropdown: DropdownNavbarItem;
-    readonly html: HtmlNavbarItem;
-    readonly doc: DocNavbarItem;
-    readonly docSidebar: DocSidebarNavbarItem;
-    readonly docsVersion: DocsVersionNavbarItem;
-    readonly docsVersionDropdown: DocsVersionDropdownNavbarItem;
+    readonly localeDropdown: typeof LocaleDropdownNavbarItem;
+    readonly search: typeof SearchNavbarItem;
+    readonly dropdown: typeof DropdownNavbarItem;
+    readonly html: typeof HtmlNavbarItem;
+    readonly doc: typeof DocNavbarItem;
+    readonly docSidebar: typeof DocSidebarNavbarItem;
+    readonly docsVersion: typeof DocsVersionNavbarItem;
+    readonly docsVersionDropdown: typeof DocsVersionDropdownNavbarItem;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [customComponentType: string]: ComponentType<any>;
   };
