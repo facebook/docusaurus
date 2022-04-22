@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Copiato",
   "theme.CodeBlock.copy": "Copia",
   "theme.CodeBlock.copyButtonAriaLabel": "Copia il codice negli appunti",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Attiva/disattiva la categoria '{label}' della barra laterale collassabile",
   "theme.ErrorPageContent.title": "Questa pagina è andata in crash.",
   "theme.ErrorPageContent.tryAgain": "Prova di nuovo",

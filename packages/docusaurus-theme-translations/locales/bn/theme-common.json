@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "কপিড",
   "theme.CodeBlock.copy": "কপি",
   "theme.CodeBlock.copyButtonAriaLabel": "ক্লিপবোর্ডে কোড কপি করুন",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
