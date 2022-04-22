@@ -331,13 +331,12 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Cloudy with a chance of Big Data',
+    title: 'Full Stack Chronicles',
     description:
       'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
-    preview: require('./showcase/cloudywithachanceofbigdata.png'),
-    website: 'https://cloudywithachanceofbigdata.com/',
-    source:
-      'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
+    preview: require('./showcase/fullstackchronicles.png'),
+    website: 'https://fullstackchronicles.io/',
+    source: 'https://github.com/stackql/fullstackchronicles.io',
     tags: ['opensource', 'personal'],
   },
   {
@@ -515,6 +514,14 @@ const Users: User[] = [
       'large',
       'opensource',
     ],
+  },
+  {
+    title: 'easy-dates',
+    description: 'JavaScript dates library',
+    preview: require('./showcase/easy-dates.png'),
+    website: 'https://easy-dates.dev',
+    source: 'https://github.com/sandypockets/easy-dates/tree/main/docs',
+    tags: ['opensource'],
   },
   {
     title: 'Easyjwt',

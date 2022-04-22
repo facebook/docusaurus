@@ -92,13 +92,8 @@ export function findFirstCategoryLink(
       if (categoryLink) {
         return categoryLink;
       }
-    } else if (subItem.type === 'html') {
-      // skip
-    } else {
-      throw new Error(
-        `Unexpected category item type for ${JSON.stringify(subItem)}`,
-      );
     }
+    // Could be "html" items
   }
   return undefined;
 }
@@ -271,7 +266,7 @@ export function useLayoutDoc(
       const isDraft = versions
         .flatMap((version) => version.draftIds)
         .includes(docId);
-      // drafts should be silently filtered instead of throwing
+      // Drafts should be silently filtered instead of throwing
       if (isDraft) {
         return null;
       }

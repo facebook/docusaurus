@@ -7,6 +7,7 @@
 
 import path from 'path';
 import admonitions from 'remark-admonitions';
+import footnoteIDFixer from './remark/footnoteIDFixer';
 import {
   normalizeUrl,
   docuHash,
@@ -218,7 +219,7 @@ export default async function pluginContentBlog(
           routeBasePath,
           archiveBasePath,
         ]);
-        // creates a blog archive route
+        // Create a blog archive route
         const archiveProp = await createData(
           `${docuHash(archiveUrl)}.json`,
           JSON.stringify({blogPosts}, null, 2),
@@ -435,7 +436,10 @@ export default async function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
-                    beforeDefaultRemarkPlugins,
+                    beforeDefaultRemarkPlugins: [
+                      footnoteIDFixer,
+                      ...beforeDefaultRemarkPlugins,
+                    ],
                     beforeDefaultRehypePlugins,
                     staticDirs: siteConfig.staticDirectories.map((dir) =>
                       path.resolve(siteDir, dir),

@@ -52,7 +52,7 @@ describe('customize JS loader', () => {
 
 describe('extending generated webpack config', () => {
   it('direct mutation on generated webpack config object', async () => {
-    // fake generated webpack config
+    // Fake generated webpack config
     let config: Configuration = {
       output: {
         path: __dirname,

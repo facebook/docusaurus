@@ -40,7 +40,7 @@
     "algoliasearch-helper": "^3.8.2",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
-    "fs-extra": "^10.0.1",
+    "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0"

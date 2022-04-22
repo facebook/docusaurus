@@ -174,7 +174,7 @@ function Link(
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}
       to={targetLink}
-      // avoid "React does not recognize the `activeClassName` prop on a DOM
+      // Avoid "React does not recognize the `activeClassName` prop on a DOM
       // element"
       {...(isNavLink && {isActive, activeClassName})}
     />

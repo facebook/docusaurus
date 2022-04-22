@@ -103,8 +103,7 @@ function isValidGitRepoUrl(gitRepoUrl: string) {
 }
 
 async function updatePkg(pkgPath: string, obj: {[key: string]: unknown}) {
-  const content = await fs.readFile(pkgPath, 'utf-8');
-  const pkg = JSON.parse(content);
+  const pkg = await fs.readJSON(pkgPath);
   const newPkg = Object.assign(pkg, obj);
 
   await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);

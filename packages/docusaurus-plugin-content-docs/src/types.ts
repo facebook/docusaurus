@@ -30,7 +30,7 @@ export type SourceToPermalink = {
 };
 
 export type VersionTag = Tag & {
-  /** all doc ids having this tag. */
+  /** All doc ids having this tag. */
   docIds: string[];
 };
 export type VersionTags = {

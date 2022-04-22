@@ -99,7 +99,7 @@ function DocSearch({
     : // ... or use config facetFilters
       configFacetFilters;
 
-  // we let user override default searchParameters if he wants to
+  // We let user override default searchParameters if she wants to
   const searchParameters: DocSearchProps['searchParameters'] = {
     ...props.searchParameters,
     facetFilters,

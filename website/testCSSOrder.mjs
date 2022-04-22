@@ -47,7 +47,7 @@ const EXPECTED_CSS_MARKERS = [
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
 
-  // lazy loaded lib
+  // Lazy-loaded lib
   '.DocSearch-Modal',
 ];
 

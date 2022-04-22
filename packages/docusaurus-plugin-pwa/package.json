@@ -29,18 +29,18 @@
     "@docusaurus/utils-validation": "2.0.0-beta.18",
     "babel-loader": "^8.2.4",
     "clsx": "^1.1.1",
-    "core-js": "^3.21.1",
+    "core-js": "^3.22.0",
     "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.3.1",
     "webpack": "^5.72.0",
     "webpack-merge": "^5.8.0",
-    "workbox-build": "^6.5.2",
-    "workbox-precaching": "^6.5.2",
-    "workbox-window": "^6.5.2"
+    "workbox-build": "^6.5.3",
+    "workbox-precaching": "^6.5.3",
+    "workbox-window": "^6.5.3"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.18",
-    "fs-extra": "^10.0.1"
+    "fs-extra": "^10.1.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

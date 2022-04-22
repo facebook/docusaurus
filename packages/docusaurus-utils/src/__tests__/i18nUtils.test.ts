@@ -156,7 +156,6 @@ describe('localizePath', () => {
           currentLocale: 'en',
           localeConfigs: {},
         },
-        // options: {localizePath: true},
       }),
     ).toBe('/baseUrl/');
   });
@@ -172,7 +171,6 @@ describe('localizePath', () => {
           currentLocale: 'en',
           localeConfigs: {},
         },
-        // options: {localizePath: true},
       }),
     ).toBe('/baseUrl/');
   });
