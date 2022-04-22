@@ -10,4 +10,8 @@ export default [
     path: '/page.html',
     component: '',
   },
+  {
+    path: '*',
+    component: '',
+  },
 ];
