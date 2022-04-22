@@ -1143,7 +1143,7 @@ const Users: User[] = [
   },
   {
     title: 'OSS Insight',
-    description: 'Open Source Software Insight',
+    description: 'OSS Insight provide open source software insight and compare projects tool',
     preview: require('./showcase/ossinsight.png'),
     website: 'https://ossinsight.io',
     source: 'https://github.com/pingcap/ossinsight',
