@@ -2,7 +2,9 @@
 slug: '/api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages'
 ---
 
-enforce translate calls to be plain text labels (string-literal-i18n-messages)
+# string-literal-i18n-messages
+
+# enforce translate calls to be plain text labels
 
 Ensures that `<Translate>` children and the message attribute of `translate` function calls are hardcoded strings.
 

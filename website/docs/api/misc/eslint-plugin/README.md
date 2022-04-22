@@ -48,15 +48,15 @@ Each config contains a set of rules. For more fine-grained control, you can also
 
 | Name | Rules |
 | :-: | --- |
-| recommended | [`@docusaurus/string-literal-i18n-messages`](./eslint-plugin/string-literal-i18n-messages) |
-| all | [`@docusaurus/no-untranslated-text`](./eslint-plugin/no-untranslated-text) <br/> [`@docusaurus/string-literal-i18n-messages`](./eslint-plugin/string-literal-i18n-messages) |
+| recommended | [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.md) |
+| all | [`@docusaurus/no-untranslated-text`](./no-untranslated-text.md) <br/> [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.md) |
 
 ## Supported Rules
 
 | Name | Description |
 | --- | --- |
-| [`@docusaurus/no-untranslated-text`](./eslint-plugin/no-untranslated-text) | Enforce text labels in JSX to be wrapped by translate calls |
-| [`@docusaurus/string-literal-i18n-messages`](./eslint-plugin/string-literal-i18n-messages) | Enforce translate calls to be plain text labels |
+| [`@docusaurus/no-untranslated-text`](./no-untranslated-text.md) | Enforce text labels in JSX to be wrapped by translate calls |
+| [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.md) | Enforce translate calls to be plain text labels |
 
 ## Example configuration
 

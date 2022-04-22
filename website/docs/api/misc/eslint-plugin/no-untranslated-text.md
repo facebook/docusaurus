@@ -2,11 +2,13 @@
 slug: '/api/misc/@docusaurus/eslint-plugin/no-untranslated-text'
 ---
 
-enforce text labels in JSX to be wrapped by translate calls (no-untranslated-text)
+# no-untranslated-text
+
+# enforce text labels in JSX to be wrapped by translate calls
 
 Ensures that all text labels in JSX are wrapped by `<Translate>` components.
 
-When the [i18n feature](https://docusaurus.io/docs/i18n/introduction) is used, this rule is to ensure that all strings appearing on the website are being translated, so no string accidentally slips through untranslated.
+When the [i18n feature](../../../i18n/i18n-introduction.md) is used, this rule is to ensure that all strings appearing on the website are being translated, so no string accidentally slips through untranslated.
 
 ## Rule Details {#details}
 
@@ -40,7 +42,7 @@ Accepted fields:
 
 ## When Not To Use It {#when-not-to-use}
 
-If you're not using the [i18n feature](https://docusaurus.io/docs/i18n/introduction) then you can disable this rule.
+If you're not using the [i18n feature](../../../i18n/i18n-introduction.md) then you can disable this rule.
 
 ## Further Reading {#further-reading}
 
