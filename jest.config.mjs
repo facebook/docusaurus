@@ -12,6 +12,7 @@ process.env.TZ = 'UTC';
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
+  '__mocks__',
   '/testUtils.ts',
   '/packages/docusaurus/lib',
   '/packages/docusaurus-logger/lib',
