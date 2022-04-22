@@ -5,16 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  MutableRefObject} from 'react';
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useRef
-} from 'react';
+import type {MutableRefObject} from 'react';
+import {useState, useCallback, useEffect, useRef} from 'react';
 
-export function useCodeWordWrap() {
+export function useCodeWordWrap(): {
+  readonly codeBlockRef: (node: HTMLPreElement | null) => void;
+  readonly isEnabled: boolean;
+  readonly isCodeScrollable: boolean;
+  readonly toggle: () => void;
+} {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
   const codeBlock = useRef() as MutableRefObject<HTMLPreElement>;
@@ -49,8 +48,6 @@ export function useCodeWordWrap() {
   }, [isEnabled, updateCodeIsScrollable]);
 
   useEffect(() => {
-    updateCodeIsScrollable();
-
     window.addEventListener('resize', updateCodeIsScrollable, {
       passive: true,
     });
