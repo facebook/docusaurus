@@ -6,7 +6,7 @@ exports[`parseLines does not parse content with metastring 1`] = `
 nnnnn",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -19,7 +19,7 @@ aaaaa
 bbbbb",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -31,7 +31,7 @@ exports[`parseLines does not parse content with metastring 3`] = `
 bbbbb",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -145,7 +145,7 @@ exports[`parseLines removes lines correctly 1`] = `
 bbbbb",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -157,7 +157,7 @@ exports[`parseLines removes lines correctly 2`] = `
 bbbbb",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -170,14 +170,14 @@ bbbbbbb
 bbbbb",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
+      "theme-code-block-highlighted-line",
     ],
     "1": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "2": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -191,10 +191,10 @@ bbbbb
 dddd",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "3": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -217,10 +217,10 @@ bbbbb
 dddd",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "1": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -247,13 +247,13 @@ console.log("preserved");
 \`\`\`",
   "lineClassNames": {
     "1": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "11": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "7": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -267,16 +267,16 @@ ccccc
 dddd",
   "lineClassNames": {
     "0": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "1": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "2": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
     "3": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }
@@ -302,7 +302,7 @@ ccccc
 dddd",
   "lineClassNames": {
     "4": [
-      "docusaurus-highlight-code-line",
+      "theme-code-block-highlighted-line",
     ],
   },
 }

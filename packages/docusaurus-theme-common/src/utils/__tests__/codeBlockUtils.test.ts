@@ -70,7 +70,7 @@ describe('parseLanguage', () => {
 describe('parseLines', () => {
   const defaultMagicComments: MagicCommentConfig[] = [
     {
-      className: 'docusaurus-highlight-code-line',
+      className: 'theme-code-block-highlighted-line',
       line: 'highlight-next-line',
       block: ['highlight-start', 'highlight-end'],
     },

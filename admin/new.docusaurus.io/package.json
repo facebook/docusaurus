@@ -3,12 +3,9 @@
   "version": "2.0.0-beta.18",
   "private": true,
   "scripts": {
-    "start": "netlify dev"
+    "start": "npx --package netlify-cli netlify dev"
   },
   "dependencies": {
     "@netlify/functions": "^1.0.0"
-  },
-  "devDependencies": {
-    "netlify-cli": "^9.16.6"
   }
 }

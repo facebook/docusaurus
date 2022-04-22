@@ -38,7 +38,7 @@ describe('themeConfig', () => {
         additionalLanguages: ['kotlin', 'java'],
         magicComments: [
           {
-            className: 'docusaurus-highlight-code-line',
+            className: 'theme-code-block-highlighted-line',
             line: 'highlight-next-line',
             block: ['highlight-start', 'highlight-end'],
           },

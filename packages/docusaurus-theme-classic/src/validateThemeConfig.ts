@@ -36,7 +36,7 @@ export const DEFAULT_CONFIG = {
     theme: defaultPrismTheme,
     magicComments: [
       {
-        className: 'docusaurus-highlight-code-line',
+        className: 'theme-code-block-highlighted-line',
         line: 'highlight-next-line',
         block: ['highlight-start', 'highlight-end'],
       },

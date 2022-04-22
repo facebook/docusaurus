@@ -198,22 +198,21 @@ Supported commenting syntax:
 
 We will do our best to infer which set of comment styles to use based on the language, and default to allowing _all_ comment styles. If there's a comment style that is not currently supported, we are open to adding them! Pull requests welcome.
 
-To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
+You can set your own background color for highlighted code line in your `src/css/custom.css` which will better fit to your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
 ```css title="/src/css/custom.css"
-.docusaurus-highlight-code-line {
-  background-color: rgb(72, 77, 91);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
+:root {
+  --docusaurus-highlighted-code-line-bg: rgb(72, 77, 91);
 }
 
 /* If you have a different syntax highlighting theme for dark mode. */
-[data-theme='dark'] .docusaurus-highlight-code-line {
+[data-theme='dark'] {
   /* Color which works with dark mode syntax highlighting theme */
-  background-color: rgb(100, 100, 100);
+  --docusaurus-highlighted-code-line-bg: rgb(100, 100, 100);
 }
 ```
+
+If you also need to style the highlighted code line in some other way, you can target on `theme-code-block-highlighted-line` CSS class.
 
 ### Highlighting with metadata string {#highlighting-with-metadata-string}
 
