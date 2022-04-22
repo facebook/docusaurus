@@ -1142,6 +1142,14 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'OSS Insight',
+    description: 'OSS Insight provides open source software insight and compares projects and tools',
+    preview: require('./showcase/ossinsight.png'),
+    website: 'https://ossinsight.io',
+    source: 'https://github.com/pingcap/ossinsight',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
