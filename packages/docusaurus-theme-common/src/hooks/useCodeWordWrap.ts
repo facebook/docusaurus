@@ -5,26 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {MutableRefObject} from 'react';
+import type {RefObject} from 'react';
 import {useState, useCallback, useEffect, useRef} from 'react';
 
 export function useCodeWordWrap(): {
-  readonly codeBlockRef: (node: HTMLPreElement | null) => void;
+  readonly codeBlockRef: RefObject<HTMLPreElement>;
   readonly isEnabled: boolean;
   readonly isCodeScrollable: boolean;
   readonly toggle: () => void;
 } {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
-  const codeBlock = useRef() as MutableRefObject<HTMLPreElement>;
-  const codeBlockRef = useCallback((node: HTMLPreElement | null) => {
-    if (node !== null) {
-      codeBlock.current = node;
-    }
-  }, []);
+  const codeBlockRef = useRef<HTMLPreElement>(null);
 
   const toggle = useCallback(() => {
-    const codeElement = codeBlock.current.querySelector('code')!;
+    const codeElement = codeBlockRef.current!.querySelector('code')!;
 
     if (isEnabled) {
       codeElement.removeAttribute('style');
@@ -33,15 +28,15 @@ export function useCodeWordWrap(): {
     }
 
     setIsEnabled((value) => !value);
-  }, [codeBlock, isEnabled]);
+  }, [codeBlockRef, isEnabled]);
 
   const updateCodeIsScrollable = useCallback(() => {
-    const {scrollWidth, clientWidth} = codeBlock.current;
+    const {scrollWidth, clientWidth} = codeBlockRef.current!;
     const isScrollable =
       scrollWidth > clientWidth ||
-      codeBlock.current.querySelector('code')!.hasAttribute('style');
+      codeBlockRef.current!.querySelector('code')!.hasAttribute('style');
     setIsCodeScrollable(isScrollable);
-  }, [codeBlock]);
+  }, [codeBlockRef]);
 
   useEffect(() => {
     updateCodeIsScrollable();
@@ -55,8 +50,7 @@ export function useCodeWordWrap(): {
     return () => {
       window.removeEventListener('resize', updateCodeIsScrollable);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [updateCodeIsScrollable]);
 
   return {codeBlockRef, isEnabled, isCodeScrollable, toggle};
 }
