@@ -73,7 +73,7 @@ const config = {
   // Dogfood both settings:
   // - force trailing slashes for deploy previews
   // - avoid trailing slashes in prod
-  trailingSlash: false,
+  trailingSlash: isDeployPreview,
   stylesheets: [
     {
       href: '/katex/katex.min.css',
