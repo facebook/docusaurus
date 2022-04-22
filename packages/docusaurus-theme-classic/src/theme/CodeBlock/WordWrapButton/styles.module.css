@@ -5,12 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.wordWrapButton {
-  right: calc(
-    var(--ifm-pre-padding) + var(--docusaurus-code-button-size)
-  ) !important;
-}
-
 .wordWrapButtonIcon {
   width: 1.2rem;
   height: 1.2rem;
@@ -18,8 +12,4 @@
 
 .wordWrapButtonEnabled .wordWrapButtonIcon {
   color: var(--ifm-color-primary);
-}
-
-.codeWithWordWrap {
-  white-space: pre-wrap;
 }

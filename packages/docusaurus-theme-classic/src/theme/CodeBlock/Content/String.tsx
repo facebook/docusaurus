@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef} from 'react';
+import React from 'react';
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -39,8 +39,7 @@ export default function CodeBlockString({
   const language =
     languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
   const prismTheme = usePrismTheme();
-  const codeBlockRef = useRef<HTMLPreElement>(null);
-  const wordWrap = useCodeWordWrap(codeBlockRef);
+  const wordWrap = useCodeWordWrap();
 
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
@@ -71,7 +70,7 @@ export default function CodeBlockString({
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              ref={codeBlockRef}
+              ref={wordWrap.codeBlockRef}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
               <code
                 className={clsx(

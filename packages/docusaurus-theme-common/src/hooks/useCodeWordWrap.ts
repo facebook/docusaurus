@@ -5,14 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useCallback, useEffect} from 'react';
+import type {
+  MutableRefObject} from 'react';
+import {
+  useState,
+  useCallback,
+  useEffect,
+  useRef
+} from 'react';
 
-export function useCodeWordWrap(codeBlockRef: React.RefObject<HTMLPreElement>) {
+export function useCodeWordWrap() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
+  const codeBlock = useRef() as MutableRefObject<HTMLPreElement>;
+  const codeBlockRef = useCallback((node: HTMLPreElement | null) => {
+    if (node !== null) {
+      codeBlock.current = node;
+    }
+  }, []);
 
   const toggle = useCallback(() => {
-    const codeElement = codeBlockRef.current!.querySelector('code')!;
+    const codeElement = codeBlock.current.querySelector('code')!;
 
     if (isEnabled) {
       codeElement.removeAttribute('style');
@@ -21,15 +34,15 @@ export function useCodeWordWrap(codeBlockRef: React.RefObject<HTMLPreElement>) {
     }
 
     setIsEnabled((value) => !value);
-  }, [codeBlockRef, isEnabled]);
+  }, [codeBlock, isEnabled]);
 
   const updateCodeIsScrollable = useCallback(() => {
-    const {scrollWidth, clientWidth} = codeBlockRef.current!;
+    const {scrollWidth, clientWidth} = codeBlock.current;
     const isScrollable =
       scrollWidth > clientWidth ||
-      codeBlockRef.current!.querySelector('code')!.hasAttribute('style');
+      codeBlock.current.querySelector('code')!.hasAttribute('style');
     setIsCodeScrollable(isScrollable);
-  }, [codeBlockRef]);
+  }, [codeBlock]);
 
   useEffect(() => {
     updateCodeIsScrollable();
@@ -48,5 +61,5 @@ export function useCodeWordWrap(codeBlockRef: React.RefObject<HTMLPreElement>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return {isEnabled, isCodeScrollable, toggle};
+  return {codeBlockRef, isEnabled, isCodeScrollable, toggle};
 }

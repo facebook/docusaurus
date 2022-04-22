@@ -31,7 +31,6 @@ export default function WordWrapButton({
       className={clsx(
         'clean-btn',
         className,
-        styles.wordWrapButton,
         isEnabled && styles.wordWrapButtonEnabled,
       )}
       aria-label={title}

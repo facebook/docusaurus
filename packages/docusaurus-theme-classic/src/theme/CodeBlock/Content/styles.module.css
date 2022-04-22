@@ -57,6 +57,7 @@
 
 .buttonGroup {
   display: flex;
+  column-gap: 0.2rem;
   position: absolute;
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
@@ -73,10 +74,6 @@
   line-height: 0;
   transition: opacity 200ms ease-in-out;
   opacity: 0;
-}
-
-.buttonGroup button:not(:first-child) {
-  margin-left: 0.5rem;
 }
 
 .buttonGroup button:focus-visible,
