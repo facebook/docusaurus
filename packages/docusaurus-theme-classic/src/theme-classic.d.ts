@@ -893,6 +893,35 @@ declare module '@theme/NavbarItem/HtmlNavbarItem' {
   export default function HtmlNavbarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/NavbarItem/ComponentTypes' {
+  import type DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+  import type DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+  import type LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
+  import type SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
+  import type HtmlNavbarItem from '@theme/NavbarItem/HtmlNavbarItem';
+  import type DocNavbarItem from '@theme/NavbarItem/DocNavbarItem';
+  import type DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
+  import type DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
+  import type DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+
+  export type ComponentTypesObject = {
+    readonly default: typeof DefaultNavbarItem;
+    readonly localeDropdown: LocaleDropdownNavbarItem;
+    readonly search: SearchNavbarItem;
+    readonly dropdown: DropdownNavbarItem;
+    readonly html: HtmlNavbarItem;
+    readonly doc: DocNavbarItem;
+    readonly docSidebar: DocSidebarNavbarItem;
+    readonly docsVersion: DocsVersionNavbarItem;
+    readonly docsVersionDropdown: DocsVersionDropdownNavbarItem;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [customComponentType: string]: ComponentType<any>;
+  };
+
+  const ComponentTypes: ComponentTypesObject;
+  export default ComponentTypes;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
