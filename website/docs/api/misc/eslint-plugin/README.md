@@ -56,7 +56,7 @@ Each config contains a set of rules. For more fine-grained control, you can also
 | Name | Description |
 | --- | --- |
 | [`@docusaurus/no-untranslated-text`](./no-untranslated-text.md) | Enforce text labels in JSX to be wrapped by translate calls |
-| [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.md) | Enforce translate calls to be plain text labels |
+| [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.md) | Enforce translate APIs to be called on plain text labels |
 
 ## Example configuration
 

@@ -47,17 +47,13 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 ## Installation
 
-Use the initialization cli to create your site:
+Use the initialization CLI to create your site:
 
 ```bash
-npm init docusaurus@latest [name] [template]
+npm init docusaurus@latest
 ```
 
-Example:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
+[Read the docs](https://docusaurus.io/docs/installation) for any further information.
 
 ## Contributing
 

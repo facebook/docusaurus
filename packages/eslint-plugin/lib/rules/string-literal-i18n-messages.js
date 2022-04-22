@@ -18,7 +18,7 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'enforce translate calls to be plain text labels',
+      description: 'enforce translate APIs to be called on plain text labels',
       category: 'Possible Problems',
       url: 'https://docusaurus.io/docs/api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages',
     },

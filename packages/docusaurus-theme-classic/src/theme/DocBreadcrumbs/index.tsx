@@ -15,6 +15,7 @@ import styles from './styles.module.css';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import IconHome from '@theme/IconHome';
 
 // TODO move to design system folder
 function BreadcrumbsItemLink({
@@ -76,7 +77,7 @@ function HomeBreadcrumbItem() {
       <Link
         className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
         href={homeHref}>
-        🏠
+        <IconHome className={styles.icon} />
       </Link>
     </li>
   );
