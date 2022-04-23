@@ -19,8 +19,8 @@ export class FileNotTrackedError extends Error {}
  * It gets the commit date instead of author date so that amended commits
  * can have their dates updated.
  *
- * @throws {GitNotFoundError} If git is not found in `PATH`.
- * @throws {FileNotTrackedError} If the current file is not tracked by git.
+ * @throws {@link GitNotFoundError} If git is not found in `PATH`.
+ * @throws {@link FileNotTrackedError} If the current file is not tracked by git.
  * @throws Also throws when `git log` exited with non-zero, or when it outputs
  * unexpected text.
  */
@@ -47,8 +47,8 @@ export function getFileCommitDate(
  * It gets the commit date instead of author date so that amended commits
  * can have their dates updated.
  *
- * @throws {GitNotFoundError} If git is not found in `PATH`.
- * @throws {FileNotTrackedError} If the current file is not tracked by git.
+ * @throws {@link GitNotFoundError} If git is not found in `PATH`.
+ * @throws {@link FileNotTrackedError} If the current file is not tracked by git.
  * @throws Also throws when `git log` exited with non-zero, or when it outputs
  * unexpected text.
  */

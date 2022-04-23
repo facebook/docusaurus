@@ -63,6 +63,7 @@ module.exports = {
     'no-await-in-loop': OFF,
     'no-case-declarations': WARNING,
     'no-console': OFF,
+    'no-constant-binary-expression': ERROR,
     'no-continue': OFF,
     'no-control-regex': WARNING,
     'no-else-return': [WARNING, {allowElseIf: true}],
