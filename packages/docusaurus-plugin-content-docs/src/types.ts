@@ -16,6 +16,7 @@ import type {
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
 import type {Tag} from '@docusaurus/types';
+import type {SidebarsUtils} from './sidebars/utils';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
@@ -38,15 +39,18 @@ export type VersionTags = {
 };
 
 export type LoadedVersion = VersionMetadata & {
-  mainDocId: string;
   docs: DocMetadata[];
   drafts: DocMetadata[];
   sidebars: Sidebars;
-  categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
 };
 
 export type LoadedContent = {
   loadedVersions: LoadedVersion[];
+};
+
+export type FullVersion = LoadedVersion & {
+  sidebarsUtils: SidebarsUtils;
+  categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
 };
 
 export type DocBrokenMarkdownLink = BrokenMarkdownLink<VersionMetadata>;

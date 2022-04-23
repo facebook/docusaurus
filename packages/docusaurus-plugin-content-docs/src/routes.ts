@@ -7,7 +7,7 @@
 
 import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
-import type {LoadedVersion} from './types';
+import type {FullVersion} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
@@ -21,7 +21,7 @@ export async function createCategoryGeneratedIndexRoutes({
   docCategoryGeneratedIndexComponent,
   aliasedSource,
 }: {
-  version: LoadedVersion;
+  version: FullVersion;
   actions: PluginContentLoadedActions;
   docCategoryGeneratedIndexComponent: string;
   aliasedSource: (str: string) => string;
@@ -99,7 +99,7 @@ export async function createDocRoutes({
 }
 
 export async function createVersionRoutes({
-  loadedVersion,
+  version,
   actions,
   docItemComponent,
   docLayoutComponent,
@@ -107,7 +107,7 @@ export async function createVersionRoutes({
   pluginId,
   aliasedSource,
 }: {
-  loadedVersion: LoadedVersion;
+  version: FullVersion;
   actions: PluginContentLoadedActions;
   docLayoutComponent: string;
   docItemComponent: string;
@@ -115,7 +115,7 @@ export async function createVersionRoutes({
   pluginId: string;
   aliasedSource: (str: string) => string;
 }): Promise<void> {
-  async function doCreateVersionRoutes(version: LoadedVersion): Promise<void> {
+  async function doCreateVersionRoutes(): Promise<void> {
     const versionMetadata = toVersionMetadataProp(pluginId, version);
     const versionMetadataPropPath = await actions.createData(
       `${docuHash(`version-${version.versionName}-metadata-prop`)}.json`,
@@ -151,9 +151,9 @@ export async function createVersionRoutes({
   }
 
   try {
-    return await doCreateVersionRoutes(loadedVersion);
+    return await doCreateVersionRoutes();
   } catch (err) {
-    logger.error`Can't create version routes for version name=${loadedVersion.versionName}`;
+    logger.error`Can't create version routes for version name=${version.versionName}`;
     throw err;
   }
 }

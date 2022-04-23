@@ -23,12 +23,7 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import type {DocEnv} from './docs';
-import {
-  readVersionDocs,
-  processDocMetadata,
-  addDocNavigation,
-  getMainDocId,
-} from './docs';
+import {readVersionDocs, processDocMetadata, addDocNavigation} from './docs';
 import {readVersionsMetadata} from './versions';
 import type {
   LoadedContent,
@@ -37,12 +32,14 @@ import type {
   DocFile,
   DocsMarkdownOption,
   VersionTag,
+  FullVersion,
 } from './types';
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp} from './props';
+import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
@@ -58,7 +55,6 @@ import type {
   DocFrontMatter,
 } from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
-import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 import _ from 'lodash';
 
 export default async function pluginContentDocs(
@@ -188,11 +184,6 @@ export default async function pluginContentDocs(
           ),
           drafts,
           sidebars,
-          mainDocId: getMainDocId({docs, sidebarsUtils}),
-          categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
-            docs,
-            sidebarsUtils,
-          }),
         };
       }
 
@@ -223,8 +214,19 @@ export default async function pluginContentDocs(
         breadcrumbs,
       } = options;
       const {addRoute, createData, setGlobalData} = actions;
+      const versions: FullVersion[] = loadedVersions.map((version) => {
+        const sidebarsUtils = createSidebarsUtils(version.sidebars);
+        return {
+          ...version,
+          sidebarsUtils,
+          categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+            docs: version.docs,
+            sidebarsUtils,
+          }),
+        };
+      });
 
-      async function createVersionTagsRoutes(version: LoadedVersion) {
+      async function createVersionTagsRoutes(version: FullVersion) {
         const versionTags = getVersionTags(version.docs);
 
         // TODO tags should be a sub route of the version route
@@ -280,9 +282,9 @@ export default async function pluginContentDocs(
       }
 
       await Promise.all(
-        loadedVersions.map((loadedVersion) =>
+        versions.map((version) =>
           createVersionRoutes({
-            loadedVersion,
+            version,
             docItemComponent,
             docLayoutComponent,
             docCategoryGeneratedIndexComponent,
@@ -294,11 +296,11 @@ export default async function pluginContentDocs(
       );
 
       // TODO tags should be a sub route of the version route
-      await Promise.all(loadedVersions.map(createVersionTagsRoutes));
+      await Promise.all(versions.map(createVersionTagsRoutes));
 
       setGlobalData({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
-        versions: loadedVersions.map(toGlobalDataVersion),
+        versions: versions.map(toGlobalDataVersion),
         breadcrumbs,
       });
     },
