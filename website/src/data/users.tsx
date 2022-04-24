@@ -1854,6 +1854,14 @@ const Users: User[] = [
     tags: ['meta'],
   },
   {
+    title: 'TiDB Community Books',
+    description: 'It is a website for co-created books by TiDB Community users.',
+    preview: require('./showcase/tidb-community-book.png'),
+    website: 'https://tidb.net/book/',
+    source: 'https://github.com/pingcap/book.tidb.net',
+    tags: ['opensource'],
+  },
+  {
     title: 'Tinaël Devresse',
     description:
       "Personal website of Tinaël Devresse, a blog about anything that crosses my mind which I think could interest y'all.",
