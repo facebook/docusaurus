@@ -328,7 +328,7 @@ const Users: User[] = [
     preview: require('./showcase/chaos-mesh.png'),
     website: 'https://chaos-mesh.org',
     source: 'https://github.com/chaos-mesh/website',
-    tags: ['opensource'],
+    tags: ['opensource', 'product'],
   },
   {
     title: 'ClarityChallenge',
