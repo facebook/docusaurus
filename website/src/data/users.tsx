@@ -323,12 +323,11 @@ const Users: User[] = [
   },
   {
     title: 'Chaos Mesh',
-    description:
-      'A Powerful Chaos Engineering Platform for Kubernetes.',
+    description: 'A Powerful Chaos Engineering Platform for Kubernetes.',
     preview: require('./showcase/chaos-mesh.png'),
     website: 'https://chaos-mesh.org',
     source: 'https://github.com/chaos-mesh/website',
-    tags: ['opensource', 'product'],
+    tags: ['opensource', 'product', 'i18n'],
   },
   {
     title: 'ClarityChallenge',
