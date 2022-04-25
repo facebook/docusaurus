@@ -322,6 +322,15 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'versioning'],
   },
   {
+    title: 'Chaos Mesh',
+    description:
+      'A Powerful Chaos Engineering Platform for Kubernetes.',
+    preview: require('./showcase/chaos-mesh.png'),
+    website: 'https://chaos-mesh.org',
+    source: 'https://github.com/chaos-mesh/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'ClarityChallenge',
     description:
       'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
