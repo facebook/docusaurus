@@ -1185,11 +1185,11 @@ const Users: User[] = [
   {
     title: 'PCC Archive',
     description:
-      'A wiki and web posts archive about Purrnelope\'s Country Club project.',
+      "A wiki and web posts archive about Purrnelope's Country Club project.",
     preview: require('./showcase/pcc-archive.png'),
     website: 'https://pcc-archive.org/',
     source: 'https://github.com/CuratorCat/pcc-archive.org',
-    tags: ['design'],
+    tags: ['opensource', 'design'],
   },
   {
     title: 'pdfme',
