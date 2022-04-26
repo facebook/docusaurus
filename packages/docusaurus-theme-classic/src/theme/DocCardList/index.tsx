@@ -27,9 +27,9 @@ export default function DocCardList({items, className}: Props): JSX.Element {
   return (
     <div className={clsx('row', className)}>
       {filterItems(items).map((item, index) => (
-        <article key={index} className="col col--6 margin-bottom--lg">
+        <section key={index} className="col col--6 margin-bottom--lg">
           <DocCard key={index} item={item} />
-        </article>
+        </section>
       ))}
     </div>
   );
