@@ -9,7 +9,8 @@ slug: /markdown-features/links
 There are two ways of adding a link to another page: through a **URL path** and a **file path**.
 
 ```md
-[URL path to another document](./installation) [file path to another document](./installation.md)
+- [URL path to another document](./installation)
+- [file path to another document](./installation.md)
 ```
 
 URL paths are unprocessed by Docusaurus, and you can see them as directly rendering to `<a href="./installation">`, i.e. it will be resolved according to the page's URL location, rather than its file-system location.
@@ -28,10 +29,12 @@ Reference to another [document in a subfolder](subfolder/doc3.md).
 
 Relative file paths are resolved against the current file's directory. Absolute file paths, on the other hand, are resolved relative to the **content root**, usually `docs/`, `blog/`, or [localized ones](../../i18n/i18n-tutorial.md) like `i18n/zh-Hans/plugin-content-docs/current`.
 
-Absolute file paths can also be relative to the site directory. However, beware that links that begin with `docs/` or `blog/` are not portable as you would need to manually update them if you create new doc versions or localize them.
+Absolute file paths can also be relative to the site directory. However, beware that links that begin with `docs/` or `blog/` are **not portable** as you would need to manually update them if you create new doc versions or localize them.
 
 ```md
 You can write [links](/otherFolder/doc4.md) relative to the content root (`/docs/`).
+
+You can also write [links](/docs/otherFolder/doc4.md) relative to the site directory, but it's not recommended.
 ```
 
 Using relative _file_ paths (with `.md` extensions) instead of relative _URL_ links provides the following benefits:
