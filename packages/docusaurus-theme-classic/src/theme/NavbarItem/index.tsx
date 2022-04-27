@@ -34,5 +34,6 @@ export default function NavbarItem({type, ...props}: Props): JSX.Element {
     (props as DropdownNavbarItemProps).items !== undefined,
   );
   const NavbarItemComponent = getNavbarItemComponent(componentType);
+  // @ts-expect-error: how to type this?
   return <NavbarItemComponent {...props} />;
 }
