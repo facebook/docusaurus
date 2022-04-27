@@ -1802,6 +1802,14 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
   {
+    title: 'Svix',
+    description: 'Webhooks as a Service',
+    preview: require('./showcase/svix.png'),
+    website: 'https://docs.svix.com/',
+    source: 'https://github.com/svix/svix-docs',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Synergies',
     description:
       'A performant and distributed state library for creating reusable React state logic by synergyzing atomar context pieces',
