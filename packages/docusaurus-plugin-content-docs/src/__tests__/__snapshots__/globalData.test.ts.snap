@@ -18,6 +18,11 @@ exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`
       "path": "/current/generated",
       "sidebar": "tutorial",
     },
+    {
+      "id": "/current/generated-2",
+      "path": "/current/generated-2",
+      "sidebar": "another",
+    },
   ],
   "draftIds": [
     "some-draft-id",
@@ -31,7 +36,7 @@ exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`
     "another": {
       "link": {
         "label": "Generated",
-        "path": "/current/generated",
+        "path": "/current/generated-2",
       },
     },
     "links": {},

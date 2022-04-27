@@ -32,7 +32,9 @@ const ignorePatterns = [
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
-  testURL: 'https://docusaurus.io/',
+  testEnvironmentOptions: {
+    url: 'https://docusaurus.io/',
+  },
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: [
@@ -44,6 +46,7 @@ export default {
     '^.+\\.[jt]sx?$': '@swc/jest',
   },
   errorOnDeprecated: true,
+  reporters: ['default', 'github-actions'],
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
     '^.+\\.(css|jpe?g|png|svg|webp)$': '<rootDir>/jest/emptyModule.ts',
