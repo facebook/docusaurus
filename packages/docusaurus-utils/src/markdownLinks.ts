@@ -114,7 +114,7 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
       const sourcesToTry: string[] = [];
       // ./file.md and ../file.md are always relative to the current file
       if (!mdLink.startsWith('./') && !mdLink.startsWith('../')) {
-        sourcesToTry.push(...getContentPathList(contentPaths));
+        sourcesToTry.push(...getContentPathList(contentPaths), siteDir);
       }
       // /file.md is always relative to the content path
       if (!mdLink.startsWith('/')) {

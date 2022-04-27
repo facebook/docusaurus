@@ -88,6 +88,7 @@ The following operations are defined for [URI]s:
 [Relative link 2](../api/classes/divine_uri.URI.md)
 [Relative link that should be absolute](./api/classes/divine_uri.URI.md)
 [Absolute link](/api/classes/divine_uri.URI.md)
+[Absolute link from site dir](/docs/api/classes/divine_uri.URI.md)
 [Absolute link that should be relative](/another.md)
 [Relative link that acts as absolute](api/classes/divine_uri.URI.md)
 [Relative link that acts as relative](another.md)
