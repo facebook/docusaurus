@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "sideEffects": false,
   "exports": {
+    "./src/*": "./src/*",
     "./client": "./lib/client/index.js",
     "./server": "./lib/server-export.js",
     ".": "./lib/index.js"
