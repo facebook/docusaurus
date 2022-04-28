@@ -136,16 +136,10 @@ For every route transition, there will be several important timings:
 
 Note that the new page's DOM is only available during event (4). If you need to manipulate the new page's DOM, you'll likely want to use `onRouteDidUpdate`, which will be fired as soon as the DOM on the new page has mounted.
 
-```ts title="myClientModule.ts"
+```js title="myClientModule.js"
 import type {Location} from 'history';
 
-export function onRouteDidUpdate({
-  location,
-  previousLocation,
-}: {
-  location: Location;
-  previousLocation: Location | null;
-}) {
+export function onRouteDidUpdate({location, previousLocation}) {
   // Don't execute if we are still on the same page; the lifecycle may be fired
   // because the hash changes (e.g. when navigating between headings)
   if (location.pathname !== previousLocation?.pathname) {
@@ -156,13 +150,7 @@ export function onRouteDidUpdate({
   }
 }
 
-export function onRouteUpdate({
-  location,
-  previousLocation,
-}: {
-  location: Location;
-  previousLocation: Location | null;
-}): void {
+export function onRouteUpdate({location, previousLocation}) {
   if (location.pathname !== previousLocation?.pathname) {
     const progressBarTimeout = window.setTimeout(() => {
       nprogress.start();
@@ -171,6 +159,22 @@ export function onRouteUpdate({
   }
   return undefined;
 }
+```
+
+Or, if you are using TypeScript and you want to leverage contextual typing:
+
+```ts title="myClientModule.js"
+import type {ClientModule} from '@docusaurus/types';
+
+const module: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    // ...
+  },
+  onRouteDidUpdate({location, previousLocation}) {
+    // ...
+  },
+};
+export default module;
 ```
 
 :::tip Prefer using React
