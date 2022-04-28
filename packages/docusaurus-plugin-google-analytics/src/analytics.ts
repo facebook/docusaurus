@@ -13,7 +13,7 @@ export default (function analyticsModule() {
   }
 
   return {
-    onRouteUpdate({location}: {location: Location}) {
+    onRouteDidUpdate({location}: {location: Location}) {
       // Set page so that subsequent hits on this page are attributed
       // to this page. This is recommended for Single-page Applications.
       window.ga('set', 'page', location.pathname);

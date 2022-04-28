@@ -18,7 +18,7 @@ export default (function gtagModule() {
     .default as PluginOptions;
 
   return {
-    onRouteUpdate({location}: {location: Location}) {
+    onRouteDidUpdate({location}: {location: Location}) {
       // Always refer to the variable on window in case it gets overridden
       // elsewhere.
       window.gtag('config', trackingID, {
