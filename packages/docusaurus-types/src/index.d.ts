@@ -319,7 +319,6 @@ export type Plugin<Content = unknown> = {
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
-  routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
   postBuild?: (
     props: Props & {
       content: Content;
