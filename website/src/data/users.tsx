@@ -1331,6 +1331,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'RaspiSuite',
+    description:
+      'A suite of mobile apps to leverage the full potential of your Raspberry Pi effortlessly.',
+    preview: require('./showcase/raspisuite.png'),
+    website: 'https://raspisuite.com',
+    source: null,
+    tags: ['design', 'product'],
+  },
+  {
     title: 'Rivalis',
     description:
       'An open source framework for developing servers for real-time applications and games',
