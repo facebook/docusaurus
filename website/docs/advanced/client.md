@@ -119,18 +119,18 @@ CSS stylesheets imported as client modules are [global](../styling-layout.md#glo
 
 ### Client module lifecycles {#client-module-lifecycles}
 
-Besides introducing side-effects, client modules can optionally export two functions: `onRouteUpdate` and `onRouteDidUpdate`.
+Besides introducing side-effects, client modules can optionally export two lifecycle functions: `onRouteUpdate` and `onRouteDidUpdate`.
 
-Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not be re-executed on page transitions. These lifecycles are useful if you have some imperative JS logic that should be executed every time a new page has loaded, for example, to manipulate DOM elements, to send analytics data, etc.
+Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not re-execute on page transitions. These lifecycles are useful if you have some imperative JS logic that should execute every time a new page has loaded, e.g., to manipulate DOM elements, to send analytics data, etc.
 
-For every route transition, there will be several important events:
+For every route transition, there will be several important timings:
 
 1. The user clicks a link, which causes the router to change its current location.
 2. Docusaurus preloads the next route's assets, while keeping displaying the current page's content.
 3. The next route's assets have loaded.
 4. The new location's route component gets rendered to DOM.
 
-`onRouteUpdate` will be called at event (2), and `onRouteDidUpdate` will be called at (4). They both receive the previous location (which can be `null`, if this is the first screen).
+`onRouteUpdate` will be called at event (2), and `onRouteDidUpdate` will be called at (4). They both receive the current location and the previous location (which can be `null`, if this is the first screen).
 
 `onRouteUpdate` can optionally return a "cleanup" callback, which will be called at (3). For example, if you want to display a progress bar, you can start a timeout in `onRouteUpdate`, and clear the timeout in the callback. (The classic theme already provides an `nprogress` integration this way.)
 
