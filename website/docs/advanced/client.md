@@ -86,7 +86,7 @@ Client modules are part of your site's bundle, just like theme components. Howev
 
 These modules are imported globally before React even renders the initial UI.
 
-```js title="App.tsx"
+```js title="@docusaurus/core/App.tsx"
 // How it works under the hood
 import '@generated/client-modules';
 ```
@@ -117,5 +117,33 @@ CSS stylesheets imported as client modules are [global](../styling-layout.md#glo
 }
 ```
 
-<!-- TODO client module lifecycles -->
-<!-- https://github.com/facebook/docusaurus/issues/3399 -->
+### Client module lifecycles {#client-module-lifecycles}
+
+Besides introducing side-effects, client modules can optionally export one function: `onRouteUpdate`.
+
+Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not be re-executed on page transitions. `onRouteUpdate` is useful if you have some imperative JS logic that should be immediately applied once a new page has loaded, for example, to manipulate certain DOM elements.
+
+```ts title="myClientModule.ts"
+import type {Location} from 'history';
+
+export function onRouteUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location | null;
+}): void {
+  const title = document.getElementsByTagName('h1')[0];
+  if (title) {
+    title.innerText += '❤️';
+  }
+}
+```
+
+The lifecycle will be fired as soon as the DOM on the new page has mounted.
+
+:::tip Prefer using React
+
+Client module lifecycles are purely imperative, and you can't use React hooks or access React contexts within them. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.md) instead.
+
+:::
