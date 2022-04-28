@@ -2151,6 +2151,14 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: 'juliomixtreria',
+    description: 'portafolio web de mi marca personal acerca de mi trabajo como desarrollador multimedia',
+    preview: require('./showcase/julio-mixtreria.png'),
+    website: 'https://julio-mixtreria.web.app',
+    source: 'https://github.com/omega5300/juliomixtreria',
+    tags: ['personal'],
+  }
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
