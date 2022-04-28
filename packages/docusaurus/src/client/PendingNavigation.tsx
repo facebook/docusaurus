@@ -60,14 +60,16 @@ class PendingNavigation extends React.Component<Props, State> {
 
     // Load data while the old screen remains.
     preload(nextLocation.pathname)
-      .then(() => this.setState({nextRouteHasLoaded: true}))
+      .then(() => {
+        this.setState({nextRouteHasLoaded: true});
+        this.routeUpdateCb?.();
+      })
       .catch((e) => console.warn(e));
     return false;
   }
 
   override render(): JSX.Element {
     const {children, location} = this.props;
-    this.routeUpdateCb?.();
     // Use a controlled <Route> to trick all descendants into rendering the old
     // location.
     return (
