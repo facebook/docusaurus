@@ -22,7 +22,7 @@ type State = {
 
 class PendingNavigation extends React.Component<Props, State> {
   private previousLocation: Location | null;
-  private previousRouteUpdateCallback: (() => void) | null;
+  private routeUpdateCb: (() => void) | undefined;
   private clientLifecyclesDispatcher: React.RefObject<Required<ClientModule>>;
 
   constructor(props: Props) {
@@ -30,7 +30,7 @@ class PendingNavigation extends React.Component<Props, State> {
 
     // previousLocation doesn't affect rendering, hence not stored in state.
     this.previousLocation = null;
-    this.previousRouteUpdateCallback = null;
+    this.routeUpdateCb = undefined;
     this.clientLifecyclesDispatcher = React.createRef();
     this.state = {
       nextRouteHasLoaded: true,
@@ -52,22 +52,21 @@ class PendingNavigation extends React.Component<Props, State> {
     // Save the location first.
     this.previousLocation = this.props.location;
     this.setState({nextRouteHasLoaded: false});
-    this.previousRouteUpdateCallback =
+    this.routeUpdateCb =
       this.clientLifecyclesDispatcher.current?.onRouteUpdate({
         previousLocation: this.previousLocation,
         location: nextLocation,
-      }) || null;
+      }) || undefined;
 
     // Load data while the old screen remains.
     preload(nextLocation.pathname)
-      .then(() => this.setState({nextRouteHasLoaded: true}))
+      .then(() => this.setState({nextRouteHasLoaded: true}, this.routeUpdateCb))
       .catch((e) => console.warn(e));
     return false;
   }
 
   override render(): JSX.Element {
     const {children, location} = this.props;
-    this.previousRouteUpdateCallback?.();
     // Use a controlled <Route> to trick all descendants into rendering the old
     // location.
     return (
