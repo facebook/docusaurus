@@ -215,6 +215,7 @@ preconfigured
 preconnect
 prefetch
 prefetching
+preloads
 prepended
 preprocessors
 prerendered

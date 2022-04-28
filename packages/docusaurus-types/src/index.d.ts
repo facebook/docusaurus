@@ -601,11 +601,14 @@ export type TOCItem = {
 };
 
 export type ClientModule = {
+  onRouteDidUpdate?: (args: {
+    previousLocation: Location | null;
+    location: Location;
+  }) => (() => void) | void;
   onRouteUpdate?: (args: {
     previousLocation: Location | null;
     location: Location;
-  }) => void;
-  onRouteUpdateDelayed?: (args: {location: Location}) => void;
+  }) => (() => void) | void;
 };
 
 /** What the user configures. */

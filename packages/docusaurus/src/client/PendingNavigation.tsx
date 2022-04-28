@@ -7,19 +7,12 @@
 
 import React from 'react';
 import {Route} from 'react-router-dom';
-import nprogress from 'nprogress';
-
 import ClientLifecyclesDispatcher from './ClientLifecyclesDispatcher';
 import preload from './preload';
 import type {Location} from 'history';
 import type {ClientModule} from '@docusaurus/types';
 
-import './nprogress.css';
-
-nprogress.configure({showSpinner: false});
-
 type Props = {
-  readonly delay: number;
   readonly location: Location;
   readonly children: JSX.Element;
 };
@@ -29,7 +22,7 @@ type State = {
 
 class PendingNavigation extends React.Component<Props, State> {
   private previousLocation: Location | null;
-  private progressBarTimeout: number | null;
+  private previousRouteUpdateCallback: (() => void) | null;
   private clientLifecyclesDispatcher: React.RefObject<Required<ClientModule>>;
 
   constructor(props: Props) {
@@ -37,7 +30,7 @@ class PendingNavigation extends React.Component<Props, State> {
 
     // previousLocation doesn't affect rendering, hence not stored in state.
     this.previousLocation = null;
-    this.progressBarTimeout = null;
+    this.previousRouteUpdateCallback = null;
     this.clientLifecyclesDispatcher = React.createRef();
     this.state = {
       nextRouteHasLoaded: true,
@@ -59,41 +52,22 @@ class PendingNavigation extends React.Component<Props, State> {
     // Save the location first.
     this.previousLocation = this.props.location;
     this.setState({nextRouteHasLoaded: false});
-    this.startProgressBar();
+    this.previousRouteUpdateCallback =
+      this.clientLifecyclesDispatcher.current?.onRouteUpdate({
+        previousLocation: this.previousLocation,
+        location: nextLocation,
+      }) || null;
 
     // Load data while the old screen remains.
     preload(nextLocation.pathname)
-      .then(() =>
-        this.setState({nextRouteHasLoaded: true}, this.stopProgressBar),
-      )
+      .then(() => this.setState({nextRouteHasLoaded: true}))
       .catch((e) => console.warn(e));
     return false;
   }
 
-  private clearProgressBarTimeout() {
-    if (this.progressBarTimeout) {
-      window.clearTimeout(this.progressBarTimeout);
-      this.progressBarTimeout = null;
-    }
-  }
-
-  private startProgressBar() {
-    this.clearProgressBarTimeout();
-    this.progressBarTimeout = window.setTimeout(() => {
-      this.clientLifecyclesDispatcher.current!.onRouteUpdateDelayed({
-        location: this.props.location,
-      });
-      nprogress.start();
-    }, this.props.delay);
-  }
-
-  private stopProgressBar() {
-    this.clearProgressBarTimeout();
-    nprogress.done();
-  }
-
   override render(): JSX.Element {
     const {children, location} = this.props;
+    this.previousRouteUpdateCallback?.();
     // Use a controlled <Route> to trick all descendants into rendering the old
     // location.
     return (

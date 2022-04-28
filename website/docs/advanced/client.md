@@ -119,12 +119,42 @@ CSS stylesheets imported as client modules are [global](../styling-layout.md#glo
 
 ### Client module lifecycles {#client-module-lifecycles}
 
-Besides introducing side-effects, client modules can optionally export one function: `onRouteUpdate`.
+Besides introducing side-effects, client modules can optionally export two functions: `onRouteUpdate` and `onRouteDidUpdate`.
 
-Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not be re-executed on page transitions. `onRouteUpdate` is useful if you have some imperative JS logic that should be immediately applied once a new page has loaded, for example, to manipulate certain DOM elements.
+Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not be re-executed on page transitions. These lifecycles are useful if you have some imperative JS logic that should be executed every time a new page has loaded, for example, to manipulate DOM elements, to send analytics data, etc.
+
+For every route transition, there will be several important events:
+
+1. The user clicks a link, which causes the router to change its current location.
+2. Docusaurus preloads the next route's assets, while keeping displaying the current page's content.
+3. The next route's assets have loaded.
+4. The new location's route component gets rendered to DOM.
+
+`onRouteUpdate` will be called at event (2), and `onRouteDidUpdate` will be called at (4). They both receive the previous location (which can be `null`, if this is the first screen).
+
+`onRouteUpdate` can optionally return a "cleanup" callback, which will be called at (3). For example, if you want to display a progress bar, you can start a timeout in `onRouteUpdate`, and clear the timeout in the callback. (The classic theme already provides an `nprogress` integration this way.)
+
+Note that the new page's DOM is only available during event (4). If you need to manipulate the new page's DOM, you'll likely want to use `onRouteDidUpdate`, which will be fired as soon as the DOM on the new page has mounted.
 
 ```ts title="myClientModule.ts"
 import type {Location} from 'history';
+
+export function onRouteDidUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location | null;
+}) {
+  // Don't execute if we are still on the same page; the lifecycle may be fired
+  // because the hash changes (e.g. when navigating between headings)
+  if (location.pathname !== previousLocation?.pathname) {
+    const title = document.getElementsByTagName('h1')[0];
+    if (title) {
+      title.innerText += '❤️';
+    }
+  }
+}
 
 export function onRouteUpdate({
   location,
@@ -133,14 +163,15 @@ export function onRouteUpdate({
   location: Location;
   previousLocation: Location | null;
 }): void {
-  const title = document.getElementsByTagName('h1')[0];
-  if (title) {
-    title.innerText += '❤️';
+  if (location.pathname !== previousLocation?.pathname) {
+    const progressBarTimeout = window.setTimeout(() => {
+      nprogress.start();
+    }, delay);
+    return () => window.clearTimeout(progressBarTimeout);
   }
+  return undefined;
 }
 ```
-
-The lifecycle will be fired as soon as the DOM on the new page has mounted.
 
 :::tip Prefer using React
 

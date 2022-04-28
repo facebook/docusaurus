@@ -35,9 +35,7 @@ export default function App(): JSX.Element {
             <SiteMetadataDefaults />
             <SiteMetadata />
             <BaseUrlIssueBanner />
-            <PendingNavigation
-              location={normalizeLocation(location)}
-              delay={200}>
+            <PendingNavigation location={normalizeLocation(location)}>
               {routeElement}
             </PendingNavigation>
           </Root>

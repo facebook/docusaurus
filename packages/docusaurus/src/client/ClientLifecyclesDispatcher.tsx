@@ -17,15 +17,18 @@ import type {Location} from 'history';
 function dispatchLifecycleAction<K extends keyof ClientModule>(
   lifecycleAction: K,
   ...args: Parameters<NonNullable<ClientModule[K]>>
-) {
-  clientModules.forEach((clientModule) => {
+): () => void {
+  const callbacks = clientModules.map((clientModule) => {
     const lifecycleFunction = (clientModule?.default?.[lifecycleAction] ??
       clientModule[lifecycleAction]) as
-      | ((...a: Parameters<NonNullable<ClientModule[K]>>) => void)
+      | ((
+          ...a: Parameters<NonNullable<ClientModule[K]>>
+        ) => (() => void) | void)
       | undefined;
 
-    lifecycleFunction?.(...args);
+    return lifecycleFunction?.(...args);
   });
+  return () => callbacks.forEach((cb) => cb?.());
 }
 
 function ClientLifecyclesDispatcher(
@@ -50,12 +53,11 @@ function ClientLifecyclesDispatcher(
         const element = document.getElementById(id);
         element?.scrollIntoView();
       }
-      dispatchLifecycleAction('onRouteUpdate', {previousLocation, location});
+      dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
     }
   }, [previousLocation, location]);
   useImperativeHandle(ref, () => ({
-    onRouteUpdateDelayed: () =>
-      dispatchLifecycleAction('onRouteUpdateDelayed', {location}),
+    onRouteUpdate: (args) => dispatchLifecycleAction('onRouteUpdate', args),
   }));
   return children;
 }

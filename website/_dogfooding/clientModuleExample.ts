@@ -5,9 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
 import type {Location} from 'history';
+
+function logPage(
+  event: string,
+  location: Location,
+  previousLocation: Location | null,
+): void {
+  console.log(`${event}
+Previous location: ${previousLocation?.pathname}
+Current location: ${location.pathname}
+Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
+}
 
 export function onRouteUpdate({
   location,
@@ -15,25 +25,28 @@ export function onRouteUpdate({
 }: {
   location: Location;
   previousLocation: Location | null;
-}): void {
+}): (() => void) | void {
   if (
-    siteConfig.customFields!.isDeployPreview &&
-    ExecutionEnvironment.canUseDOM
+    process.env.NODE_ENV === 'development' ||
+    siteConfig.customFields!.isDeployPreview
   ) {
-    console.log(`onRouteUpdate
-Previous location: ${previousLocation?.pathname}
-Current location: ${location.pathname}
-Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
+    logPage('onRouteUpdate', location, previousLocation);
+    return () => logPage('onRouteUpdate cleanup', location, previousLocation);
   }
+  return undefined;
 }
 
-export function onRouteUpdateDelayed({location}: {location: Location}): void {
+export function onRouteDidUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location | null;
+}): void {
   if (
-    siteConfig.customFields!.isDeployPreview &&
-    ExecutionEnvironment.canUseDOM
+    process.env.NODE_ENV === 'development' ||
+    siteConfig.customFields!.isDeployPreview
   ) {
-    console.log(`onRouteUpdateDelayed
-Current location: ${location.pathname}
-Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
+    logPage('onRouteDidUpdate', location, previousLocation);
   }
 }
