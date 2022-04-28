@@ -84,7 +84,6 @@ function getAllBrokenLinks({
     getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
   );
 
-  // remove pages without any broken link
   return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 

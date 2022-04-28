@@ -61,7 +61,7 @@ export function getPluginI18nPath({
   return path.join(
     siteDir,
     I18N_DIR_NAME,
-    // namespace first by locale: convenient to work in a single folder for a
+    // Namespace first by locale: convenient to work in a single folder for a
     // translator
     locale,
     // Make it convenient to use for single-instance

@@ -12,6 +12,10 @@ on:
     paths-ignore:
       - website/**
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -22,11 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['14', '16', '17']
+        node: ['14', '16', '18']
     steps:
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # v3
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -62,9 +67,10 @@ jobs:
           - variant: -st
             nodeLinker: pnp
     steps:
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # v3
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js 16
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           node-version: '16'
           cache: yarn
@@ -107,9 +113,10 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 #v3
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
       - name: Use Node.js 16
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           node-version: '16'
           cache: yarn
@@ -136,9 +143,10 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 #v3
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
       - name: Use Node.js 16
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           node-version: '16'
           cache: yarn

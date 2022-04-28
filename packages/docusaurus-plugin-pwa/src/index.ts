@@ -150,7 +150,7 @@ export default function pluginPWA(
         optimization: {
           splitChunks: false,
           minimize: !debug,
-          // see https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
+          // See https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
           minimizer: debug
             ? []
             : [
@@ -161,7 +161,8 @@ export default function pluginPWA(
         },
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
+            // Fallback value required with Webpack 5
+            PWA_SW_CUSTOM: swCustom || '',
           }),
           new LogPlugin({
             name: 'Service Worker',
@@ -192,7 +193,7 @@ export default function pluginPWA(
           // @ts-expect-error: internal API?
           ...(injectManifest.globPatterns ?? []),
         ],
-        // those attributes are not overrideable
+        // Those attributes are not overrideable
         swDest,
         swSrc: swDest,
         globDirectory: props.outDir,

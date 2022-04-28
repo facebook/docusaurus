@@ -849,7 +849,6 @@ describe('versioned site', () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
-        // editCurrentVersion: true,
       },
     });
 

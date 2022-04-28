@@ -165,6 +165,7 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
+    readonly className?: string;
   }
 
   export default function CopyButton(props: Props): JSX.Element;
@@ -218,6 +219,16 @@ declare module '@theme/CodeBlock/Line' {
   }
 
   export default function CodeBlockLine(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/WordWrapButton' {
+  export interface Props {
+    readonly className?: string;
+    readonly onClick: React.MouseEventHandler;
+    readonly isEnabled: boolean;
+  }
+
+  export default function WordWrapButton(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {
@@ -1022,8 +1033,8 @@ declare module '@theme/TOCItems' {
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
-  // minHeadingLevel only exists as a per-doc option, and won't have a default
-  // set by Joi. See TOC, TOCInline, TOCCollapsible for examples
+  // `minHeadingLevel` only comes from doc/post front matter, and won't have a
+  // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
   export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
@@ -1108,6 +1119,14 @@ declare module '@theme/IconEdit' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconEdit(props: Props): JSX.Element;
+}
+
+declare module '@theme/IconHome' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconHome(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconLightMode' {

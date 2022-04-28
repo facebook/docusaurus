@@ -27,12 +27,8 @@ type PackageJsonFile = {
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await Globby('packages/*/package.json');
-
   return Promise.all(
-    files.map(async (file) => ({
-      file,
-      content: JSON.parse(await fs.readFile(file, 'utf8')),
-    })),
+    files.map((file) => fs.readJSON(file).then((content) => ({file, content}))),
   );
 }
 

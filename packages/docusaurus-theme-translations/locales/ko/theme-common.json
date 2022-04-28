@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "복사했습니다",
   "theme.CodeBlock.copy": "복사",
   "theme.CodeBlock.copyButtonAriaLabel": "클립보드에 코드 복사",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "접을 수 있는 사이드바 분류 '{label}' 접기(펼치기)",
   "theme.ErrorPageContent.title": "페이지에 오류가 발생하였습니다.",
   "theme.ErrorPageContent.tryAgain": "다시 시도해 보세요",

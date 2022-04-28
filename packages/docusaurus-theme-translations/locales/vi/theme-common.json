@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Đã sao chép",
   "theme.CodeBlock.copy": "Sao chép",
   "theme.CodeBlock.copyButtonAriaLabel": "Sao chép code vào bộ nhớ tạm",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Chuyển đổi danh mục thanh bên có thể thu gọn '{label}'",
   "theme.ErrorPageContent.title": "Trang này đã bị lỗi.",
   "theme.ErrorPageContent.tryAgain": "Thử lại",

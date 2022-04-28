@@ -11,7 +11,7 @@ import {useContextualSearchFilters} from '@docusaurus/theme-common';
 export function useAlgoliaContextualFacetFilters(): [string, string[]] {
   const {locale, tags} = useContextualSearchFilters();
 
-  // seems safe to convert locale->language, see AlgoliaSearchMetadata comment
+  // Seems safe to convert locale->language, see AlgoliaSearchMetadata comment
   const languageFilter = `language:${locale}`;
 
   const tagsFilter = tags.map((tag) => `docusaurus_tag:${tag}`);

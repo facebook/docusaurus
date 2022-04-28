@@ -63,6 +63,20 @@ exports[`loadPlugins loads plugins 1`] = `
       },
     },
   ],
-  "pluginsRouteConfigs": [],
+  "pluginsRouteConfigs": [
+    {
+      "component": "Comp",
+      "context": {
+        "data": {
+          "content": "path",
+        },
+        "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/test1/default/plugin-route-context-module-100.json",
+      },
+      "modules": {
+        "content": "path",
+      },
+      "path": "foo/",
+    },
+  ],
 }
 `;

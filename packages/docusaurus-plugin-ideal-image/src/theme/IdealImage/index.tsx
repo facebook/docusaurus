@@ -40,7 +40,7 @@ function getMessage(icon: IconKey, state: State) {
         description: 'When the full-scale image is loading',
       });
     case 'load': {
-      // we can show `alt` here
+      // We can show `alt` here
       const {pickedSrc} = state;
       const {size} = pickedSrc;
       const sizeMessage = size ? ` (${bytesToSize(size)})` : '';

@@ -98,7 +98,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
         return;
       }
       const pluginId = plugin.options.id;
-      // plugins data files are namespaced by pluginName/pluginId
+      // Plugins data files are namespaced by pluginName/pluginId
       const dataDir = path.join(
         context.generatedFilesDir,
         plugin.name,
