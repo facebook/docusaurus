@@ -8,7 +8,7 @@
 import React, {
   useImperativeHandle,
   useLayoutEffect,
-  type ReactNode,
+  type ReactElement,
 } from 'react';
 import clientModules from '@generated/client-modules';
 import type {ClientModule} from '@docusaurus/types';
@@ -34,7 +34,7 @@ function ClientLifecyclesDispatcher(
     location,
     previousLocation,
   }: {
-    children: ReactNode;
+    children: ReactElement;
     location: Location;
     previousLocation: Location | null;
   },
@@ -57,7 +57,7 @@ function ClientLifecyclesDispatcher(
     onRouteUpdateDelayed: () =>
       dispatchLifecycleAction('onRouteUpdateDelayed', {location}),
   }));
-  return <>{children}</>;
+  return children;
 }
 
 export default React.forwardRef(ClientLifecyclesDispatcher);
