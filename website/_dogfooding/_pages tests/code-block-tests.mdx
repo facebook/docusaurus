@@ -142,3 +142,51 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
   </strong>cd", at which time b is a substring.
   <br />
 </CodeBlock>
+
+## Code blocks with line numbering tests
+
+```jsx
+function PageLayout(props) {
+  // highlight-next-line
+  return <Layout title="Awesome Docusaurus page" description="Test Test Test Test Test Test Test Test Test Test Test Test Test Test ">;
+}
+```
+
+```jsx showLineNumbers
+function PageLayout(props) {
+  // highlight-next-line
+  return <Layout title="Awesome Docusaurus page" description="Test Test Test Test Test Test Test Test Test Test Test Test Test Test ">;
+}
+```
+
+```jsx {1,3,6} showLineNumbers
+function PageLayout(props) {
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+}
+```

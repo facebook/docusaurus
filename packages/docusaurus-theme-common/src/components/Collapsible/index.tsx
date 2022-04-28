@@ -224,6 +224,8 @@ function CollapsibleBase({
 
 function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
   const [mounted, setMounted] = useState(!collapsed);
+  // Updated in effect so that first expansion transition can work
+  const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
 
   useLayoutEffect(() => {
     if (!collapsed) {
@@ -231,8 +233,6 @@ function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
     }
   }, [collapsed]);
 
-  // lazyCollapsed updated in effect so that first expansion transition can work
-  const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
   useLayoutEffect(() => {
     if (mounted) {
       setLazyCollapsed(collapsed);

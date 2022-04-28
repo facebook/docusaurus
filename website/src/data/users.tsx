@@ -322,6 +322,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'versioning'],
   },
   {
+    title: 'Chaos Mesh',
+    description: 'A Powerful Chaos Engineering Platform for Kubernetes.',
+    preview: require('./showcase/chaos-mesh.png'),
+    website: 'https://chaos-mesh.org',
+    source: 'https://github.com/chaos-mesh/website',
+    tags: ['opensource', 'product', 'i18n'],
+  },
+  {
     title: 'ClarityChallenge',
     description:
       'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
@@ -331,13 +339,12 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Cloudy with a chance of Big Data',
+    title: 'Full Stack Chronicles',
     description:
       'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
-    preview: require('./showcase/cloudywithachanceofbigdata.png'),
-    website: 'https://cloudywithachanceofbigdata.com/',
-    source:
-      'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
+    preview: require('./showcase/fullstackchronicles.png'),
+    website: 'https://fullstackchronicles.io/',
+    source: 'https://github.com/stackql/fullstackchronicles.io',
     tags: ['opensource', 'personal'],
   },
   {
@@ -515,6 +522,14 @@ const Users: User[] = [
       'large',
       'opensource',
     ],
+  },
+  {
+    title: 'easy-dates',
+    description: 'JavaScript dates library',
+    preview: require('./showcase/easy-dates.png'),
+    website: 'https://easy-dates.dev',
+    source: 'https://github.com/sandypockets/easy-dates/tree/main/docs',
+    tags: ['opensource'],
   },
   {
     title: 'Easyjwt',
@@ -932,6 +947,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'Leedom',
+    description: 'A handbook about coding',
+    preview: require('./showcase/leedom.png'),
+    website: 'https://dinosaur.leedom.me',
+    source: 'https://github.com/leedom92/dinosaur',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
@@ -1127,6 +1150,14 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'OSS Insight',
+    description: 'OSS Insight provides open source software insight and compares projects and tools',
+    preview: require('./showcase/ossinsight.png'),
+    website: 'https://ossinsight.io',
+    source: 'https://github.com/pingcap/ossinsight',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -1150,6 +1181,15 @@ const Users: User[] = [
     website: 'https://pcapplusplus.github.io/',
     source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'PCC Archive',
+    description:
+      "A wiki and web posts archive about Purrnelope's Country Club project.",
+    preview: require('./showcase/pcc-archive.png'),
+    website: 'https://pcc-archive.org/',
+    source: 'https://github.com/CuratorCat/pcc-archive.org',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'pdfme',
@@ -1306,6 +1346,14 @@ const Users: User[] = [
     website: 'https://liqvidjs.org/',
     source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
+  },
+  {
+    title: 'Rainbond',
+    description: 'A cloud native multi cloud application management platform',
+    preview: require('./showcase/rainbond.png'),
+    website: 'https://www.rainbond.com',
+    source: 'https://github.com/goodrain/rainbond-docs',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'React Complex Tree',
@@ -1618,6 +1666,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Seven-innovation-base official website',
+    description: 'About seven-innovation-base',
+    preview: require('./showcase/seven-innovation-base.png'),
+    website: 'https://七院创新基地.cn',
+    source: 'https://github.com/seven-innovation-base/official-website',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
     preview: require('./showcase/single-spa.png'),
@@ -1813,6 +1869,14 @@ const Users: User[] = [
     website: 'https://thediffpodcast.com',
     source: null,
     tags: ['meta'],
+  },
+  {
+    title: 'TiDB Community Books',
+    description: 'A website for co-created books by TiDB Community users.',
+    preview: require('./showcase/tidb-community-book.png'),
+    website: 'https://tidb.net/book/',
+    source: 'https://github.com/pingcap/book.tidb.net/tree/main/website',
+    tags: ['opensource'],
   },
   {
     title: 'Tinaël Devresse',

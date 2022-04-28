@@ -111,8 +111,8 @@ export default function DocSidebarItemCategory({
   const isCurrentPage = isSamePath(href, activePath);
 
   const {collapsed, setCollapsed} = useCollapsible({
-    // active categories are always initialized as expanded
-    // the default (item.collapsed) is only used for non-active categories
+    // Active categories are always initialized as expanded. The default
+    // (`item.collapsed`) is only used for non-active categories.
     initialState: () => {
       if (!collapsible) {
         return false;

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -32,6 +33,7 @@ export const DEFAULT_CONFIG = {
   metadata: [],
   prism: {
     additionalLanguages: [],
+    theme: defaultPrismTheme,
   },
   navbar: {
     hideOnScroll: false,
@@ -91,8 +93,14 @@ const DocSidebarItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
+const HtmlNavbarItemSchema = Joi.object({
+  className: Joi.string(),
+  type: Joi.string().equal('html').required(),
+  value: Joi.string().required(),
+});
+
 const itemWithType = (type: string | undefined) => {
-  // because equal(undefined) is not supported :/
+  // Because equal(undefined) is not supported :/
   const typeSchema = type
     ? Joi.string().required().equal(type)
     : Joi.string().forbidden();
@@ -122,6 +130,10 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType(undefined),
       then: DefaultNavbarItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
     },
     {
       is: Joi.alternatives().try(
@@ -195,6 +207,10 @@ const NavbarItemSchema = Joi.object({
       then: SearchItemSchema,
     },
     {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
+    },
+    {
       is: itemWithType(undefined),
       then: Joi.object().when('.', {
         // Dropdown item can be specified without type field
@@ -225,7 +241,6 @@ const ColorModeSchema = Joi.object({
   }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
-// schema can probably be improved
 const HtmlMetadataSchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),
@@ -335,7 +350,7 @@ export const ThemeConfigSchema = Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
+    }).default(DEFAULT_CONFIG.prism.theme),
     darkTheme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),

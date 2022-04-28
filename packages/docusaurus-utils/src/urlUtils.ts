@@ -158,7 +158,6 @@ export function isValidPathname(str: string): boolean {
     return false;
   }
   try {
-    // weird, but is there a better way?
     const parsedPathname = new URL(str, 'https://domain.com').pathname;
     return parsedPathname === str || parsedPathname === encodeURI(str);
   } catch {

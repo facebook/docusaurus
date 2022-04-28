@@ -14,6 +14,7 @@ const sidebars = {
       className: 'red',
       label: 'Index',
     },
+    'test-draft',
     'doc-without-sidebar',
     'doc-with-another-sidebar',
     {
@@ -86,7 +87,7 @@ const sidebars = {
       collapsed: false,
       collapsible: false,
       items: [
-        //  title
+        // Title
         {
           type: 'html',
           value: 'Some Text',

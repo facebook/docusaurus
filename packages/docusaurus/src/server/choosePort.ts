@@ -5,58 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {execSync} from 'child_process';
+import {execSync, type ExecSyncOptionsWithStringEncoding} from 'child_process';
 import detect from 'detect-port';
 import logger from '@docusaurus/logger';
 import prompts from 'prompts';
 
-const execOptions = {
-  encoding: 'utf8' as const,
-  stdio: [
-    'pipe' as const, // stdin (default)
-    'pipe' as const, // stdout (default)
-    'ignore' as const, // stderr
-  ],
+const execOptions: ExecSyncOptionsWithStringEncoding = {
+  encoding: 'utf8',
+  stdio: [/* stdin */ 'pipe', /* stdout */ 'pipe', /* stderr */ 'ignore'],
 };
 
-// Clears console
 function clearConsole(): void {
   process.stdout.write(
     process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H',
   );
 }
 
-// Gets process id of what is on port
-function getProcessIdOnPort(port: number): string {
-  return execSync(`lsof -i:${port} -P -t -sTCP:LISTEN`, execOptions)
-    .split('\n')[0]!
-    .trim();
-}
-
-// Gets process command
-function getProcessCommand(processId: string): string {
-  const command = execSync(
-    `ps -o command -p ${processId} | sed -n 2p`,
-    execOptions,
-  );
-
-  return command.replace(/\n$/, '');
-}
-
-// Gets directory of a process from its process id
-function getDirectoryOfProcessById(processId: string): string {
-  return execSync(
-    `lsof -p ${processId} | awk '$4=="cwd" {for (i=9; i<=NF; i++) printf "%s ", $i}'`,
-    execOptions,
-  ).trim();
-}
-
-// Gets process on port
 function getProcessForPort(port: number): string | null {
   try {
-    const processId = getProcessIdOnPort(port);
-    const directory = getDirectoryOfProcessById(processId);
-    const command = getProcessCommand(processId);
+    const processId = execSync(
+      `lsof -i:${port} -P -t -sTCP:LISTEN`,
+      execOptions,
+    )
+      .split('\n')[0]!
+      .trim();
+    const directory = execSync(
+      `lsof -p ${processId} | awk '$4=="cwd" {for (i=9; i<=NF; i++) printf "%s ", $i}'`,
+      execOptions,
+    ).trim();
+    const command = execSync(
+      `ps -o command -p ${processId} | sed -n 2p`,
+      execOptions,
+    ).replace(/\n$/, '');
     return logger.interpolate`code=${command} subdue=${`(pid ${processId})`} in path=${directory}`;
   } catch {
     return null;

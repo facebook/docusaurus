@@ -166,8 +166,8 @@ export default ${JSON.stringify(siteConfig, null, 2)};
     'client-modules.js',
     `export default [
 ${clientModules
-  // import() is async so we use require() because client modules can have
-  // CSS and the order matters for loading CSS.
+  // Use `require()` because `import()` is async but client modules can have CSS
+  // and the order matters for loading CSS.
   .map((clientModule) => `  require('${escapePath(clientModule)}'),`)
   .join('\n')}
 ];

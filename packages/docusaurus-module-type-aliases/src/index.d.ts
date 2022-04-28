@@ -152,9 +152,7 @@ declare module '@docusaurus/Link' {
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
 
-      /**
-       * escape hatch in case broken links check is annoying for a specific link
-       */
+      /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
   export default function Link(props: Props): JSX.Element;

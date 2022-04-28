@@ -12,6 +12,14 @@
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-pages" />
 
+// This file, like all the other ambient declaration files for plugins, is
+// needed for TS to understand our `@theme` alias. The export signatures are
+// duplicated from the implementation, which is fine, since every module only
+// default-exports a React component.
+// TODO we'll eventually migrate to TS `paths` option. This is not easy due to
+// our theme shadowing—we probably need the user to specify multiple theme paths
+// in their tsconfig.
+
 declare module '@docusaurus/theme-classic' {
   export type Options = {
     customCss?: string | string[];
@@ -140,14 +148,15 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import type {ReactElement} from 'react';
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly children: string | ReactElement;
+    readonly children: ReactNode;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
     readonly language?: string;
+    readonly showLineNumbers?: boolean;
   }
 
   export default function CodeBlock(props: Props): JSX.Element;
@@ -156,9 +165,70 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
+    readonly className?: string;
   }
 
   export default function CopyButton(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Container' {
+  import type {ComponentProps} from 'react';
+
+  export default function CodeBlockContainer<T extends 'div' | 'pre'>({
+    as: As,
+    ...props
+  }: {as: T} & ComponentProps<T>): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Content/Element' {
+  import type {Props} from '@theme/CodeBlock';
+
+  export type {Props};
+
+  export default function CodeBlockElementContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Content/String' {
+  import type {Props as CodeBlockProps} from '@theme/CodeBlock';
+
+  export interface Props extends Omit<CodeBlockProps, 'children'> {
+    readonly children: string;
+  }
+
+  export default function CodeBlockStringContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Line' {
+  import type {ComponentProps} from 'react';
+  import type Highlight from 'prism-react-renderer';
+
+  // Lib does not make this easy
+  type RenderProps = Parameters<
+    ComponentProps<typeof Highlight>['children']
+  >[0];
+  type GetLineProps = RenderProps['getLineProps'];
+  type GetTokenProps = RenderProps['getTokenProps'];
+  type Token = RenderProps['tokens'][number][number];
+
+  export interface Props {
+    readonly line: Token[];
+    readonly highlight: boolean;
+    readonly showLineNumbers: boolean;
+    readonly getLineProps: GetLineProps;
+    readonly getTokenProps: GetTokenProps;
+  }
+
+  export default function CodeBlockLine(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/WordWrapButton' {
+  export interface Props {
+    readonly className?: string;
+    readonly onClick: React.MouseEventHandler;
+    readonly isEnabled: boolean;
+  }
+
+  export default function WordWrapButton(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {
@@ -186,6 +256,40 @@ declare module '@theme/DocItemFooter' {
   import type {Props} from '@theme/DocItem';
 
   export default function DocItemFooter(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function DocPageLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Aside' {
+  import type {Dispatch, SetStateAction} from 'react';
+  import type {PropSidebar} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly sidebar: PropSidebar;
+    readonly hiddenSidebarContainer: boolean;
+    readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
+  }
+
+  export default function DocPageLayoutAside(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Main' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly hiddenSidebarContainer: boolean;
+    readonly children: ReactNode;
+  }
+
+  export default function DocPageLayoutMain(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPaginator' {
@@ -242,7 +346,7 @@ declare module '@theme/DocSidebar/Desktop/Content' {
 
 declare module '@theme/DocSidebar/Desktop/CollapseButton' {
   export interface Props {
-    onClick: React.MouseEventHandler;
+    readonly onClick: React.MouseEventHandler;
   }
 
   export default function CollapseButton(props: Props): JSX.Element;
@@ -269,7 +373,7 @@ declare module '@theme/DocSidebarItem/Link' {
   import type {PropSidebarItemLink} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends DocSidebarItemProps {
-    item: PropSidebarItemLink;
+    readonly item: PropSidebarItemLink;
   }
 
   export default function DocSidebarItemLink(props: Props): JSX.Element;
@@ -280,7 +384,7 @@ declare module '@theme/DocSidebarItem/Html' {
   import type {PropSidebarItemHtml} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends DocSidebarItemProps {
-    item: PropSidebarItemHtml;
+    readonly item: PropSidebarItemHtml;
   }
 
   export default function DocSidebarItemHtml(props: Props): JSX.Element;
@@ -291,7 +395,7 @@ declare module '@theme/DocSidebarItem/Category' {
   import type {PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends DocSidebarItemProps {
-    item: PropSidebarItemCategory;
+    readonly item: PropSidebarItemCategory;
   }
 
   export default function DocSidebarItemCategory(props: Props): JSX.Element;
@@ -350,7 +454,7 @@ declare module '@theme/Footer/Logo' {
   import type {FooterLogo} from '@docusaurus/theme-common';
 
   export interface Props {
-    logo: FooterLogo;
+    readonly logo: FooterLogo;
   }
 
   export default function FooterLogo(props: Props): JSX.Element;
@@ -358,7 +462,7 @@ declare module '@theme/Footer/Logo' {
 
 declare module '@theme/Footer/Copyright' {
   export interface Props {
-    copyright: string;
+    readonly copyright: string;
   }
 
   export default function FooterCopyright(props: Props): JSX.Element;
@@ -368,7 +472,7 @@ declare module '@theme/Footer/LinkItem' {
   import type {FooterLinkItem} from '@docusaurus/theme-common';
 
   export interface Props {
-    item: FooterLinkItem;
+    readonly item: FooterLinkItem;
   }
 
   export default function FooterLinkItem(props: Props): JSX.Element;
@@ -378,10 +482,10 @@ declare module '@theme/Footer/Layout' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    style: 'light' | 'dark';
-    links: ReactNode;
-    logo: ReactNode;
-    copyright: ReactNode;
+    readonly style: 'light' | 'dark';
+    readonly links: ReactNode;
+    readonly logo: ReactNode;
+    readonly copyright: ReactNode;
   }
 
   export default function FooterLayout(props: Props): JSX.Element;
@@ -391,7 +495,7 @@ declare module '@theme/Footer/Links' {
   import type {Footer} from '@docusaurus/theme-common';
 
   export interface Props {
-    links: Footer['links'];
+    readonly links: Footer['links'];
   }
 
   export default function FooterLinks(props: Props): JSX.Element;
@@ -401,7 +505,7 @@ declare module '@theme/Footer/Links/MultiColumn' {
   import type {MultiColumnFooter} from '@docusaurus/theme-common';
 
   export interface Props {
-    columns: MultiColumnFooter['links'];
+    readonly columns: MultiColumnFooter['links'];
   }
 
   export default function FooterLinksMultiColumn(props: Props): JSX.Element;
@@ -411,7 +515,7 @@ declare module '@theme/Footer/Links/Simple' {
   import type {SimpleFooter} from '@docusaurus/theme-common';
 
   export interface Props {
-    links: SimpleFooter['links'];
+    readonly links: SimpleFooter['links'];
   }
 
   export default function FooterLinksSimple(props: Props): JSX.Element;
@@ -423,7 +527,7 @@ declare module '@theme/Heading' {
   type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
   export interface Props extends ComponentProps<HeadingType> {
-    as: HeadingType;
+    readonly as: HeadingType;
   }
 
   export default function Heading(props: Props): JSX.Element;
@@ -625,9 +729,9 @@ declare module '@theme/Navbar/MobileSidebar/Layout' {
   import type {ReactNode} from 'react';
 
   interface Props {
-    header: ReactNode;
-    primaryMenu: ReactNode;
-    secondaryMenu: ReactNode;
+    readonly header: ReactNode;
+    readonly primaryMenu: ReactNode;
+    readonly secondaryMenu: ReactNode;
   }
 
   export default function NavbarMobileSidebarLayout(props: Props): JSX.Element;
@@ -647,6 +751,16 @@ declare module '@theme/Navbar/MobileSidebar/SecondaryMenu' {
 
 declare module '@theme/Navbar/MobileSidebar/Header' {
   export default function NavbarMobileSidebarHeader(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Search' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function NavbarSearch(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
@@ -753,7 +867,9 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
     readonly docsPluginId?: string;
   }
 
-  export default function DocsSidebarNavbarItem(props: Props): JSX.Element;
+  export default function DocsSidebarNavbarItem(
+    props: Props,
+  ): JSX.Element | null;
 }
 
 declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
@@ -767,6 +883,16 @@ declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
   export default function DocSidebarNavbarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/NavbarItem/HtmlNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly value: string;
+  }
+
+  export default function HtmlNavbarItem(props: Props): JSX.Element;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -777,12 +903,14 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {Props as HtmlNavbarItemProps} from '@theme/NavbarItem/HtmlNavbarItem';
 
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps)
+    | ({readonly type: 'html'} & HtmlNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
@@ -905,8 +1033,8 @@ declare module '@theme/TOCItems' {
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
-  // minHeadingLevel only exists as a per-doc option, and won't have a default
-  // set by Joi. See TOC, TOCInline, TOCCollapsible for examples
+  // `minHeadingLevel` only comes from doc/post front matter, and won't have a
+  // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
   export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
@@ -991,6 +1119,14 @@ declare module '@theme/IconEdit' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconEdit(props: Props): JSX.Element;
+}
+
+declare module '@theme/IconHome' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconHome(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconLightMode' {

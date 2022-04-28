@@ -41,7 +41,7 @@ export async function start(
       siteDir,
       customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
-      localizePath: undefined, // should this be configurable?
+      localizePath: undefined, // Should this be configurable?
     });
   }
 

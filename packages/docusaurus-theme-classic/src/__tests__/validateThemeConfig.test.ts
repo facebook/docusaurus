@@ -150,12 +150,22 @@ describe('themeConfig', () => {
               },
             ],
           },
+          // HTML-only
+          {
+            type: 'html',
+            position: 'right',
+            value: '<button>Give feedback</button>',
+          },
           // Dropdown with label as HTML
           {
             type: 'dropdown',
             label: 'Tools <sup>new</sup>',
             position: 'left',
             items: [
+              {
+                type: 'html',
+                value: '<b>Supported package managers</b>',
+              },
               {
                 type: 'doc',
                 docId: 'npm',
@@ -181,6 +191,10 @@ describe('themeConfig', () => {
               },
             ],
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr/>',
+              },
               {
                 to: '/versions',
                 label: 'All versions',
@@ -481,6 +495,7 @@ describe('themeConfig', () => {
     const prismConfig = {
       prism: {
         additionalLanguages: ['kotlin', 'java'],
+        theme: darkTheme,
       },
     };
     expect(testValidateThemeConfig(prismConfig)).toEqual({

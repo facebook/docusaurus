@@ -414,7 +414,7 @@ declare module '@docusaurus/plugin-content-blog' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     BlogPostFrontMatter,
     BlogPostMetadata,
@@ -433,22 +433,7 @@ declare module '@theme/BlogPostPage' {
     }
   >;
 
-  export type Content = {
-    /** Same as `metadata.frontMatter` */
-    readonly frontMatter: FrontMatter;
-    /**
-     * Usually image assets that may be collocated like `./img/thumbnail.png`.
-     * The loader would also bundle these assets and the client should use these
-     * in priority.
-     */
-    readonly assets: Assets;
-    /** Metadata of the post. */
-    readonly metadata: Metadata;
-    /** A list of TOC items (headings). */
-    readonly toc: readonly TOCItem[];
-    /** Renders the actual MDX content. */
-    (): JSX.Element;
-  };
+  export type Content = LoadedMDXContent<FrontMatter, Metadata, Assets>;
 
   export interface Props {
     /** Blog sidebar. */

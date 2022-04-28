@@ -21,8 +21,10 @@ const isWindows = () => process.platform === 'win32';
 export const isNameTooLong = (str: string): boolean =>
   // Not entirely correct: we can't assume FS from OS. But good enough?
   isMacOs() || isWindows()
-    ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // macOS (APFS) and Windows (NTFS) filename length limit (255 chars)
-    : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
+    ? // Windows (NTFS) and macOS (APFS) filename length limit (255 chars)
+      str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS
+    : // Other (255 bytes)
+      Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES;
 
 export function shortName(str: string): string {
   if (isMacOs() || isWindows()) {

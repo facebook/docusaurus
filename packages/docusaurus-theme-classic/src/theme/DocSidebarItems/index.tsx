@@ -17,12 +17,7 @@ function DocSidebarItems({items, ...props}: Props): JSX.Element {
   return (
     <DocSidebarItemsExpandedStateProvider>
       {items.map((item, index) => (
-        <DocSidebarItem
-          key={index} // sidebar is static, the index does not change
-          item={item}
-          index={index}
-          {...props}
-        />
+        <DocSidebarItem key={index} item={item} index={index} {...props} />
       ))}
     </DocSidebarItemsExpandedStateProvider>
   );

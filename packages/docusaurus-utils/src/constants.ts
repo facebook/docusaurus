@@ -16,6 +16,10 @@ export const NODE_MINOR_VERSION = parseInt(
   10,
 );
 
+/** Docusaurus core version. */
+// eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+export const DOCUSAURUS_VERSION = require('../package.json').version;
+
 /**
  * Can be overridden with cli option `--out-dir`. Code should generally use
  * `context.outDir` instead (which is always absolute and localized).

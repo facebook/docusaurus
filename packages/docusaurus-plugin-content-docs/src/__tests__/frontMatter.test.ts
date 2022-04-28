@@ -378,3 +378,19 @@ describe('toc min/max consistency', () => {
     ],
   });
 });
+
+describe('validateDocFrontMatter draft', () => {
+  testField({
+    prefix: 'draft',
+    validFrontMatters: [{draft: true}, {draft: false}],
+    convertibleFrontMatter: [
+      [{draft: 'true'}, {draft: true}],
+      [{draft: 'false'}, {draft: false}],
+    ],
+    invalidFrontMatters: [
+      [{draft: 'yes'}, 'must be a boolean'],
+      [{draft: 'no'}, 'must be a boolean'],
+      [{draft: ''}, 'must be a boolean'],
+    ],
+  });
+});

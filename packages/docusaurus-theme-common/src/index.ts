@@ -34,6 +34,8 @@ export {
   parseCodeBlockTitle,
   parseLanguage,
   parseLines,
+  containsLineNumbers,
+  getPrismCssVariables,
 } from './utils/codeBlockUtils';
 
 export {
@@ -156,3 +158,4 @@ export {usePrismTheme} from './hooks/usePrismTheme';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useWindowSize} from './hooks/useWindowSize';
 export {useSearchPage} from './hooks/useSearchPage';
+export {useCodeWordWrap} from './hooks/useCodeWordWrap';
