@@ -6,7 +6,6 @@
  */
 
 import React, {
-  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   type ReactNode,
@@ -41,7 +40,7 @@ function ClientLifecyclesDispatcher(
   },
   ref: React.ForwardedRef<ClientModule>,
 ): JSX.Element {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (previousLocation !== location) {
       const {hash} = location;
       if (!hash) {
@@ -51,11 +50,9 @@ function ClientLifecyclesDispatcher(
         const element = document.getElementById(id);
         element?.scrollIntoView();
       }
+      dispatchLifecycleAction('onRouteUpdate', {previousLocation, location});
     }
-  });
-  useLayoutEffect(() => {
-    dispatchLifecycleAction('onRouteUpdate', {previousLocation, location});
-  });
+  }, [previousLocation, location]);
   useImperativeHandle(ref, () => ({
     onRouteUpdateDelayed: () =>
       dispatchLifecycleAction('onRouteUpdateDelayed', {location}),

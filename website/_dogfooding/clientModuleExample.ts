@@ -6,6 +6,7 @@
  */
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import siteConfig from '@generated/docusaurus.config';
 import type {Location} from 'history';
 
 export function onRouteUpdate({
@@ -15,7 +16,10 @@ export function onRouteUpdate({
   location: Location;
   previousLocation: Location | null;
 }): void {
-  if (ExecutionEnvironment.canUseDOM) {
+  if (
+    siteConfig.customFields!.isDeployPreview &&
+    ExecutionEnvironment.canUseDOM
+  ) {
     console.log(`onRouteUpdate
 Previous location: ${previousLocation?.pathname}
 Current location: ${location.pathname}
@@ -24,7 +28,10 @@ Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
 }
 
 export function onRouteUpdateDelayed({location}: {location: Location}): void {
-  if (ExecutionEnvironment.canUseDOM) {
+  if (
+    siteConfig.customFields!.isDeployPreview &&
+    ExecutionEnvironment.canUseDOM
+  ) {
     console.log(`onRouteUpdateDelayed
 Current location: ${location.pathname}
 Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
