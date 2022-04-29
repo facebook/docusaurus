@@ -1,0 +1,32 @@
+{
+  "name": "@docusaurus/eslint-plugin",
+  "version": "2.0.0-beta.18",
+  "description": "ESLint plugin to enforce best Docusaurus practices.",
+  "main": "lib/index.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/eslint-plugin"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "requireindex": "^1.2.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-eslint-plugin": "^4.1.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=6"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

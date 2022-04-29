@@ -245,12 +245,14 @@ refactorings
 regexes
 rehype
 reponame
+requireindex
 retrocompatibility
 retrocompatible
 roadmap
 rocketvalidator
 rtcts
 rtlcss
+saurus
 scaleway
 searchbar
 sebastien

@@ -32,6 +32,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:regexp/recommended',
     'prettier',
+    'plugin:@docusaurus/all',
   ],
   settings: {
     'import/resolver': {
@@ -41,7 +42,14 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint', 'regexp'],
+  plugins: [
+    'react-hooks',
+    'header',
+    'jest',
+    '@typescript-eslint',
+    'regexp',
+    '@docusaurus',
+  ],
   rules: {
     'array-callback-return': WARNING,
     camelcase: WARNING,
@@ -305,6 +313,24 @@ module.exports = {
     // locals must be justified with a disable comment.
     '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
+    '@docusaurus/no-untranslated-text': [
+      WARNING,
+      {
+        ignoreStrings: [
+          '·',
+          '-',
+          '—',
+          '×',
+          '​', // zwj: &#8203;
+          '@',
+          'WebContainers',
+          'Twitter',
+          'GitHub',
+          'Dev.to',
+          '1.x',
+        ],
+      },
+    ],
   },
   overrides: [
     {
@@ -327,6 +353,7 @@ module.exports = {
         'header/header': OFF,
         'global-require': OFF,
         '@typescript-eslint/no-var-requires': OFF,
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {
@@ -348,6 +375,16 @@ module.exports = {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
         '@typescript-eslint/explicit-module-boundary-types': OFF,
+      },
+    },
+    {
+      files: [
+        '**/__tests__/**',
+        'packages/docusaurus-plugin-debug/**',
+        'website/_dogfooding/**',
+      ],
+      rules: {
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {

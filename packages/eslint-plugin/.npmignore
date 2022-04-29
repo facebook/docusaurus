@@ -1,0 +1,6 @@
+copyUntypedFiles.mjs
+.tsbuildinfo
+tsconfig*
+__tests__
+
+.eslintrc.js
