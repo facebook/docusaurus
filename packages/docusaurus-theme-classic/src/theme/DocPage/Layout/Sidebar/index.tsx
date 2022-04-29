@@ -8,8 +8,8 @@
 import React, {type ReactNode, useState, useCallback} from 'react';
 import DocSidebar from '@theme/DocSidebar';
 import {useLocation} from '@docusaurus/router';
-import type {Props} from '@theme/DocPage/Layout/Aside';
-import ExpandButton from '@theme/DocPage/Layout/Aside/ExpandButton';
+import type {Props} from '@theme/DocPage/Layout/Sidebar';
+import ExpandButton from '@theme/DocPage/Layout/Sidebar/ExpandButton';
 
 import clsx from 'clsx';
 import styles from './index.module.css';
@@ -28,7 +28,7 @@ function ResetOnSidebarChange({children}: {children: ReactNode}) {
   );
 }
 
-export default function DocPageLayoutAside({
+export default function DocPageLayoutSidebar({
   sidebar,
   hiddenSidebarContainer,
   setHiddenSidebarContainer,

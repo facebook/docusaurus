@@ -10,31 +10,11 @@
   --doc-sidebar-hidden-width: 30px;
 }
 
-.docPage,
-.docMainContainer {
-  width: 100%;
-}
-
-.docsWrapper,
-.docPage,
-.docMainContainer {
-  display: flex;
-}
-
 .docSidebarContainer {
   display: none;
 }
 
 @media (min-width: 997px) {
-  .docMainContainer {
-    flex-grow: 1;
-    max-width: calc(100% - var(--doc-sidebar-width));
-  }
-
-  .docMainContainerEnhanced {
-    max-width: calc(100% - var(--doc-sidebar-hidden-width));
-  }
-
   .docSidebarContainer {
     display: block;
     width: var(--doc-sidebar-width);
@@ -48,11 +28,5 @@
   .docSidebarContainerHidden {
     width: var(--doc-sidebar-hidden-width);
     cursor: pointer;
-  }
-
-  .docItemWrapperEnhanced {
-    max-width: calc(
-      var(--ifm-container-width) + var(--doc-sidebar-width)
-    ) !important;
   }
 }
