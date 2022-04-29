@@ -12,7 +12,7 @@ import type {Props} from '@theme/DocPage/Layout';
 import DocPageLayoutAside from '@theme/DocPage/Layout/Aside';
 import DocPageLayoutMain from '@theme/DocPage/Layout/Main';
 
-import styles from './styles.module.css';
+import styles from './index.module.css';
 
 import {useDocsSidebar} from '@docusaurus/theme-common';
 

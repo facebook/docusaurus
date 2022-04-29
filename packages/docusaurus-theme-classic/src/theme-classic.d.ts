@@ -281,6 +281,16 @@ declare module '@theme/DocPage/Layout/Aside' {
   export default function DocPageLayoutAside(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocPage/Layout/Aside/ExpandButton' {
+  export interface Props {
+    toggleSidebar: () => void;
+  }
+
+  export default function DocPageLayoutAsideExpandButton(
+    props: Props,
+  ): JSX.Element;
+}
+
 declare module '@theme/DocPage/Layout/Main' {
   import type {ReactNode} from 'react';
 
