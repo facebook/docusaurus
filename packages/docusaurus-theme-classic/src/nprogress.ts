@@ -7,28 +7,25 @@
 
 import nprogress from 'nprogress';
 import './nprogress.css';
-import type {Location} from 'history';
+import type {ClientModule} from '@docusaurus/types';
 
 nprogress.configure({showSpinner: false});
 
 const delay = 200;
 
-export function onRouteUpdate({
-  location,
-  previousLocation,
-}: {
-  location: Location;
-  previousLocation: Location | null;
-}): (() => void) | undefined {
-  if (location.pathname !== previousLocation?.pathname) {
-    const progressBarTimeout = window.setTimeout(() => {
-      nprogress.start();
-    }, delay);
-    return () => window.clearTimeout(progressBarTimeout);
-  }
-  return undefined;
-}
+const clientModule: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    if (location.pathname !== previousLocation?.pathname) {
+      const progressBarTimeout = window.setTimeout(() => {
+        nprogress.start();
+      }, delay);
+      return () => window.clearTimeout(progressBarTimeout);
+    }
+    return undefined;
+  },
+  onRouteDidUpdate() {
+    nprogress.done();
+  },
+};
 
-export function onRouteDidUpdate(): void {
-  nprogress.done();
-}
+export default clientModule;
