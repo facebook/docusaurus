@@ -31,6 +31,6 @@ Happy contributing!
 
 Example:
 - 🔗 link to new and updated documentation pages, using the deploy preview
-- 🔗 link to test pages: you can add tests to docusaurus/website/_dogfooding, those are deployed at https://docusaurus.io/tests
+- 🔗 link to test pages: you can add tests in docusaurus/website/_dogfooding to help us review code changes. Those tests are deployed at https://docusaurus.io/tests
 - 🔗 link to related pull-requests and issues
 -->
