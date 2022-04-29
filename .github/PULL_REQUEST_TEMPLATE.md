@@ -23,6 +23,14 @@ Happy contributing!
 
 <!-- Write your test plan here. If you changed any code, please provide us with clear instructions on how you verified your changes work. Bonus points for screenshots and videos! -->
 
-## Related PRs
+## Links
 
-<!-- If you haven't already, link to issues/PRs that are related to this change. This helps us develop the context and keep a rich repo history. -->
+<!--
+🙏 Please add an exhaustive list of links relevant to this pull-request.
+⏱ This saves maintainers a lot of time during reviews.
+
+Example:
+- 🔗 link to new and updated documentation pages, using the deploy preview
+- 🔗 link to test pages: you can add tests to docusaurus/website/_dogfooding, those are deployed at https://docusaurus.io/tests
+- 🔗 link to related pull-requests and issues
+-->
