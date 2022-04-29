@@ -4,8 +4,7 @@
     "lib": ["DOM", "ES2019"],
     "module": "esnext",
     "noEmit": true,
-    "jsx": "react-native",
-    "baseUrl": "src"
+    "jsx": "react-native"
   },
   "include": ["src/"]
 }

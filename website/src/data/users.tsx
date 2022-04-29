@@ -1331,6 +1331,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'RaspiSuite',
+    description:
+      'A suite of mobile apps to leverage the full potential of your Raspberry Pi effortlessly.',
+    preview: require('./showcase/raspisuite.png'),
+    website: 'https://raspisuite.com',
+    source: null,
+    tags: ['design', 'product'],
+  },
+  {
     title: 'Rivalis',
     description:
       'An open source framework for developing servers for real-time applications and games',
@@ -1800,6 +1809,14 @@ const Users: User[] = [
     website: 'https://www.supabase.io/docs',
     source: 'https://github.com/supabase/supabase/tree/master/web',
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
+  },
+  {
+    title: 'Svix',
+    description: 'Webhooks as a Service',
+    preview: require('./showcase/svix.png'),
+    website: 'https://docs.svix.com/',
+    source: 'https://github.com/svix/svix-docs',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'Synergies',

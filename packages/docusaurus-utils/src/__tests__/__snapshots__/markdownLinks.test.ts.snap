@@ -134,3 +134,36 @@ The following operations are defined for [URI]s:
       ",
 }
 `;
+
+exports[`replaceMarkdownLinks resolves absolute and relative links differently 1`] = `
+{
+  "brokenMarkdownLinks": [
+    {
+      "contentPaths": {
+        "contentPath": "docs",
+        "contentPathLocalized": "i18n/docs-localized",
+      },
+      "filePath": "docs/intro/intro.md",
+      "link": "./api/classes/divine_uri.URI.md",
+    },
+    {
+      "contentPaths": {
+        "contentPath": "docs",
+        "contentPathLocalized": "i18n/docs-localized",
+      },
+      "filePath": "docs/intro/intro.md",
+      "link": "/another.md",
+    },
+  ],
+  "newContent": "
+[Relative link](/docs/another)
+[Relative link 2](/docs/api/classes/uri)
+[Relative link that should be absolute](./api/classes/divine_uri.URI.md)
+[Absolute link](/docs/api/classes/uri)
+[Absolute link from site dir](/docs/api/classes/uri)
+[Absolute link that should be relative](/another.md)
+[Relative link that acts as absolute](/docs/api/classes/uri)
+[Relative link that acts as relative](/docs/another)
+",
+}
+`;
