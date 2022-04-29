@@ -91,7 +91,7 @@ export function Details({
           // setOpen(false);
         }
       }}>
-      {summary}
+      {summary || <summary>Details</summary>}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case
