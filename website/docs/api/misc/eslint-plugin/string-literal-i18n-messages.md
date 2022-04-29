@@ -6,7 +6,7 @@ slug: '/api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages'
 
 Enforce translate APIs to be called on plain text labels.
 
-This is to ensure that static extraction of the text will work so it can be translatable. In-string dynamic placeholders are also possible using the values object.
+Docusaurus offers the [`docusaurus write-translations`](../../../cli.md#docusaurus-write-translations-sitedir) API, which statically extracts the text labels marked as translatable. Dynamic values used in `<Translate>` or `translate()` calls will fail to be extracted. This rule will ensure that all translate calls are statically extractable.
 
 ## Rule Details {#details}
 
@@ -39,6 +39,10 @@ translate({message: 'Some text to be translated'})
 // Valid message attribute using values object as second argument
 translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})
 ```
+
+## When Not To Use It {#when-not-to-use}
+
+If you're not using the [i18n feature](../../../i18n/i18n-introduction.md), you can disable this rule.
 
 ## Further Reading {#further-reading}
 
