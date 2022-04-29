@@ -10,14 +10,14 @@ import IconArrow from '@theme/IconArrow';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocPage/Layout/Aside/ExpandButton';
 
-import styles from '../index.module.css';
+import styles from './ExpandButton.module.css';
 
 export default function DocPageLayoutAsideExpandButton({
   toggleSidebar,
 }: Props): JSX.Element {
   return (
     <div
-      className={styles.collapsedDocSidebar}
+      className={styles.expandButton}
       title={translate({
         id: 'theme.docs.sidebar.expandButtonTitle',
         message: 'Expand sidebar',
@@ -34,7 +34,7 @@ export default function DocPageLayoutAsideExpandButton({
       role="button"
       onKeyDown={toggleSidebar}
       onClick={toggleSidebar}>
-      <IconArrow className={styles.expandSidebarButtonIcon} />
+      <IconArrow className={styles.expandButtonIcon} />
     </div>
   );
 }

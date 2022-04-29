@@ -6,7 +6,7 @@
  */
 
 @media (min-width: 997px) {
-  .collapsedDocSidebar {
+  .expandButton {
     position: sticky;
     top: 0;
     height: 100%;
@@ -17,21 +17,21 @@
     transition: background-color var(--ifm-transition-fast) ease;
   }
 
-  .collapsedDocSidebar:hover,
-  .collapsedDocSidebar:focus {
+  .expandButton:hover,
+  .expandButton:focus {
     background-color: var(--ifm-color-emphasis-200);
   }
 
-  .expandSidebarButtonIcon {
+  .expandButtonIcon {
     transform: rotate(0);
   }
 
-  [dir='rtl'] .expandSidebarButtonIcon {
+  [dir='rtl'] .expandButtonIcon {
     transform: rotate(180deg);
   }
 
-  [data-theme='dark'] .collapsedDocSidebar:hover,
-  [data-theme='dark'] .collapsedDocSidebar:focus {
+  [data-theme='dark'] .expandButton:hover,
+  [data-theme='dark'] .expandButton:focus {
     background-color: var(--collapse-button-bg-color-dark);
   }
 }
