@@ -57,6 +57,8 @@ export {
   useLayoutDocsSidebar,
 } from './utils/docsUtils';
 
+export {useSkipToContent} from './utils/a11yUtils';
+
 export {useTitleFormatter} from './utils/generalUtils';
 
 export {usePluralForm} from './utils/usePluralForm';

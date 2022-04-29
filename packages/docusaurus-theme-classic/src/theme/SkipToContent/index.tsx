@@ -5,40 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef} from 'react';
-import {useHistory} from '@docusaurus/router';
+import React from 'react';
 import Translate from '@docusaurus/Translate';
-import {useLocationChange} from '@docusaurus/theme-common';
+import {useSkipToContent} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
-function programmaticFocus(el: HTMLElement) {
-  el.setAttribute('tabindex', '-1');
-  el.focus();
-  el.removeAttribute('tabindex');
-}
-
 export default function SkipToContent(): JSX.Element {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const {action} = useHistory();
-  const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
-    const targetElement: HTMLElement | null =
-      document.querySelector('main:first-of-type') ||
-      document.querySelector('.main-wrapper');
-
-    if (targetElement) {
-      programmaticFocus(targetElement);
-    }
-  };
-
-  useLocationChange(({location}) => {
-    if (containerRef.current && !location.hash && action === 'PUSH') {
-      programmaticFocus(containerRef.current);
-    }
-  });
-
+  const {containerRef, handleSkip} = useSkipToContent();
   return (
     <div ref={containerRef} role="region">
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
