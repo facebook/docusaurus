@@ -321,7 +321,7 @@ module.exports = {
           '-',
           '—',
           '×',
-          '​',
+          '​', // zwj: &#8203;
           '@',
           'WebContainers',
           'Twitter',
