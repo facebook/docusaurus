@@ -29,7 +29,7 @@ Reference to another [document in a subfolder](subfolder/doc3.md).
 
 Relative file paths are resolved against the current file's directory. Absolute file paths, on the other hand, are resolved relative to the **content root**, usually `docs/`, `blog/`, or [localized ones](../../i18n/i18n-tutorial.md) like `i18n/zh-Hans/plugin-content-docs/current`.
 
-Absolute file paths can also be relative to the site directory. However, beware that links that begin with `docs/` or `blog/` are **not portable** as you would need to manually update them if you create new doc versions or localize them.
+Absolute file paths can also be relative to the site directory. However, beware that links that begin with `/docs/` or `/blog/` are **not portable** as you would need to manually update them if you create new doc versions or localize them.
 
 ```md
 You can write [links](/otherFolder/doc4.md) relative to the content root (`/docs/`).
