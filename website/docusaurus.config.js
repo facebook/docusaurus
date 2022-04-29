@@ -409,11 +409,17 @@ const config = {
             position: 'left',
             activeBaseRegex: `/community/`,
           },
+          // This item links to a draft doc: only displayed in dev
           {
             type: 'doc',
             docId: 'test-draft',
             label: 'Tests',
             docsPluginId: 'docs-tests',
+          },
+          // Custom item for dogfooding: only displayed in /tests/ routes
+          {
+            type: 'custom-dogfood-navbar-item',
+            content: '😉',
           },
           // Right
           {
