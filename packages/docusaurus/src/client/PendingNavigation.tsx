@@ -10,6 +10,7 @@ import {Route} from 'react-router-dom';
 import ClientLifecyclesDispatcher, {
   dispatchLifecycleAction,
 } from './ClientLifecyclesDispatcher';
+import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import preload from './preload';
 import type {Location} from 'history';
 
@@ -30,10 +31,12 @@ class PendingNavigation extends React.Component<Props, State> {
 
     // previousLocation doesn't affect rendering, hence not stored in state.
     this.previousLocation = null;
-    this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
-      previousLocation: null,
-      location: this.props.location,
-    })!;
+    this.routeUpdateCleanupCb = ExecutionEnvironment.canUseDOM
+      ? dispatchLifecycleAction('onRouteUpdate', {
+          previousLocation: null,
+          location: this.props.location,
+        })!
+      : () => {};
     this.state = {
       nextRouteHasLoaded: true,
     };

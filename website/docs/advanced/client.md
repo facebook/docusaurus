@@ -177,6 +177,8 @@ const module: ClientModule = {
 export default module;
 ```
 
+Both lifecycles will fire on first render, but they will not fire on server-side, so you can safely access browser globals in them.
+
 :::tip Prefer using React
 
 Client module lifecycles are purely imperative, and you can't use React hooks or access React contexts within them. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.md) instead.
