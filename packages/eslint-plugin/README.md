@@ -1,6 +1,6 @@
 # `@docusaurus/eslint-plugin`
 
-Docusaurus specific linting rules for eslint.
+ESLint plugin to enforce best Docusaurus practices.
 
 ## Usage
 
