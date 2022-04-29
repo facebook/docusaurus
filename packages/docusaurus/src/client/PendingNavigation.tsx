@@ -7,10 +7,11 @@
 
 import React from 'react';
 import {Route} from 'react-router-dom';
-import ClientLifecyclesDispatcher from './ClientLifecyclesDispatcher';
+import ClientLifecyclesDispatcher, {
+  dispatchLifecycleAction,
+} from './ClientLifecyclesDispatcher';
 import preload from './preload';
 import type {Location} from 'history';
-import type {ClientModule} from '@docusaurus/types';
 
 type Props = {
   readonly location: Location;
@@ -22,16 +23,17 @@ type State = {
 
 class PendingNavigation extends React.Component<Props, State> {
   private previousLocation: Location | null;
-  private routeUpdateCleanupCb: (() => void) | undefined;
-  private clientLifecyclesDispatcher: React.RefObject<Required<ClientModule>>;
+  private routeUpdateCleanupCb: () => void;
 
   constructor(props: Props) {
     super(props);
 
     // previousLocation doesn't affect rendering, hence not stored in state.
     this.previousLocation = null;
-    this.routeUpdateCleanupCb = undefined;
-    this.clientLifecyclesDispatcher = React.createRef();
+    this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
+      previousLocation: null,
+      location: this.props.location,
+    })!;
     this.state = {
       nextRouteHasLoaded: true,
     };
@@ -52,11 +54,10 @@ class PendingNavigation extends React.Component<Props, State> {
     // Save the location first.
     this.previousLocation = this.props.location;
     this.setState({nextRouteHasLoaded: false});
-    this.routeUpdateCleanupCb =
-      this.clientLifecyclesDispatcher.current?.onRouteUpdate({
-        previousLocation: this.previousLocation,
-        location: nextLocation,
-      }) || undefined;
+    this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
+      previousLocation: this.previousLocation,
+      location: nextLocation,
+    })!;
 
     // Load data while the old screen remains.
     preload(nextLocation.pathname)
@@ -74,7 +75,6 @@ class PendingNavigation extends React.Component<Props, State> {
     // location.
     return (
       <ClientLifecyclesDispatcher
-        ref={this.clientLifecyclesDispatcher}
         previousLocation={this.previousLocation}
         location={location}>
         <Route location={location} render={() => children} />

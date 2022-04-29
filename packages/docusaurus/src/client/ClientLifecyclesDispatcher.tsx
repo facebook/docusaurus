@@ -5,16 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useImperativeHandle,
-  useLayoutEffect,
-  type ReactElement,
-} from 'react';
+import {useLayoutEffect, type ReactElement} from 'react';
 import clientModules from '@generated/client-modules';
 import type {ClientModule} from '@docusaurus/types';
 import type {Location} from 'history';
 
-function dispatchLifecycleAction<K extends keyof ClientModule>(
+export function dispatchLifecycleAction<K extends keyof ClientModule>(
   lifecycleAction: K,
   ...args: Parameters<NonNullable<ClientModule[K]>>
 ): () => void {
@@ -31,18 +27,15 @@ function dispatchLifecycleAction<K extends keyof ClientModule>(
   return () => callbacks.forEach((cb) => cb?.());
 }
 
-function ClientLifecyclesDispatcher(
-  {
-    children,
-    location,
-    previousLocation,
-  }: {
-    children: ReactElement;
-    location: Location;
-    previousLocation: Location | null;
-  },
-  ref: React.ForwardedRef<ClientModule>,
-): JSX.Element {
+function ClientLifecyclesDispatcher({
+  children,
+  location,
+  previousLocation,
+}: {
+  children: ReactElement;
+  location: Location;
+  previousLocation: Location | null;
+}): JSX.Element {
   useLayoutEffect(() => {
     if (previousLocation !== location) {
       const {hash} = location;
@@ -56,10 +49,7 @@ function ClientLifecyclesDispatcher(
       dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
     }
   }, [previousLocation, location]);
-  useImperativeHandle(ref, () => ({
-    onRouteUpdate: (args) => dispatchLifecycleAction('onRouteUpdate', args),
-  }));
   return children;
 }
 
-export default React.forwardRef(ClientLifecyclesDispatcher);
+export default ClientLifecyclesDispatcher;
