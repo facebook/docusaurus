@@ -158,11 +158,11 @@ cli
   .description('Extract required translations of your site.')
   .option(
     '-l, --locale <locale>',
-    'the locale folder to write the translations\n"--locale fr" will write translations in ./i18n/fr folder)',
+    'the locale folder to write the translations.\n"--locale fr" will write translations in the ./i18n/fr folder.',
   )
   .option(
     '--override',
-    'by default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden',
+    'By default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden. (default: false)',
   )
   .option(
     '--config <config>',
@@ -170,7 +170,7 @@ cli
   )
   .option(
     '--messagePrefix <messagePrefix>',
-    'allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI',
+    'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message by making them stand out in the UI (default: "")',
   )
   .action(async (siteDir, options) =>
     writeTranslations(await resolveDir(siteDir), options),
