@@ -45,4 +45,4 @@ If you're not using the [i18n feature](../../../i18n/i18n-introduction.md) then 
 ## Further Reading {#further-reading}
 
 - https://docusaurus.io/docs/docusaurus-core#translate
-- https://docusaurus.io/docs/docusaurus-core#translate-1
+- https://docusaurus.io/docs/docusaurus-core#translate-imperative

@@ -43,4 +43,4 @@ translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})
 ## Further Reading {#further-reading}
 
 - https://docusaurus.io/docs/docusaurus-core#translate
-- https://docusaurus.io/docs/docusaurus-core#translate-1
+- https://docusaurus.io/docs/docusaurus-core#translate-imperative
