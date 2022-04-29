@@ -138,6 +138,7 @@ export default function docusaurusThemeClassic(
         require.resolve(getInfimaCSSFile(direction)),
         './prism-include-languages',
         './admonitions.css',
+        './nprogress',
       ];
 
       if (customCss) {

@@ -7,18 +7,14 @@
 
 import React from 'react';
 import {Route} from 'react-router-dom';
-import nprogress from 'nprogress';
-
-import clientLifecyclesDispatcher from './clientLifecyclesDispatcher';
+import ClientLifecyclesDispatcher, {
+  dispatchLifecycleAction,
+} from './ClientLifecyclesDispatcher';
+import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import preload from './preload';
 import type {Location} from 'history';
 
-import './nprogress.css';
-
-nprogress.configure({showSpinner: false});
-
 type Props = {
-  readonly delay: number;
   readonly location: Location;
   readonly children: JSX.Element;
 };
@@ -28,14 +24,19 @@ type State = {
 
 class PendingNavigation extends React.Component<Props, State> {
   private previousLocation: Location | null;
-  private progressBarTimeout: number | null;
+  private routeUpdateCleanupCb: () => void;
 
   constructor(props: Props) {
     super(props);
 
     // previousLocation doesn't affect rendering, hence not stored in state.
     this.previousLocation = null;
-    this.progressBarTimeout = null;
+    this.routeUpdateCleanupCb = ExecutionEnvironment.canUseDOM
+      ? dispatchLifecycleAction('onRouteUpdate', {
+          previousLocation: null,
+          location: this.props.location,
+        })!
+      : () => {};
     this.state = {
       nextRouteHasLoaded: true,
     };
@@ -56,56 +57,32 @@ class PendingNavigation extends React.Component<Props, State> {
     // Save the location first.
     this.previousLocation = this.props.location;
     this.setState({nextRouteHasLoaded: false});
-    this.startProgressBar();
+    this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
+      previousLocation: this.previousLocation,
+      location: nextLocation,
+    })!;
 
     // Load data while the old screen remains.
     preload(nextLocation.pathname)
       .then(() => {
-        clientLifecyclesDispatcher.onRouteUpdate({
-          previousLocation: this.previousLocation,
-          location: nextLocation,
-        });
-        this.setState({nextRouteHasLoaded: true}, this.stopProgressBar);
-        const {hash} = nextLocation;
-        if (!hash) {
-          window.scrollTo(0, 0);
-        } else {
-          const id = decodeURIComponent(hash.substring(1));
-          const element = document.getElementById(id);
-          element?.scrollIntoView();
-        }
+        this.routeUpdateCleanupCb?.();
+        this.setState({nextRouteHasLoaded: true});
       })
       .catch((e) => console.warn(e));
     return false;
-  }
-
-  private clearProgressBarTimeout() {
-    if (this.progressBarTimeout) {
-      window.clearTimeout(this.progressBarTimeout);
-      this.progressBarTimeout = null;
-    }
-  }
-
-  private startProgressBar() {
-    this.clearProgressBarTimeout();
-    this.progressBarTimeout = window.setTimeout(() => {
-      clientLifecyclesDispatcher.onRouteUpdateDelayed({
-        location: this.props.location,
-      });
-      nprogress.start();
-    }, this.props.delay);
-  }
-
-  private stopProgressBar() {
-    this.clearProgressBarTimeout();
-    nprogress.done();
   }
 
   override render(): JSX.Element {
     const {children, location} = this.props;
     // Use a controlled <Route> to trick all descendants into rendering the old
     // location.
-    return <Route location={location} render={() => children} />;
+    return (
+      <ClientLifecyclesDispatcher
+        previousLocation={this.previousLocation}
+        location={location}>
+        <Route location={location} render={() => children} />
+      </ClientLifecyclesDispatcher>
+    );
   }
 }
 
