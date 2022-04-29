@@ -1061,6 +1061,19 @@ declare module '@theme/TOCItems' {
   export default function TOCItems(props: Props): JSX.Element;
 }
 
+declare module '@theme/TOCItems/Tree' {
+  import type {TOCTreeNode} from '@docusaurus/theme-common';
+
+  export interface Props {
+    readonly toc: readonly TOCTreeNode[];
+    readonly className: string;
+    readonly linkClassName: string | null;
+    readonly isChild?: boolean;
+  }
+
+  export default function TOCItems(props: Props): JSX.Element;
+}
+
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
@@ -1099,6 +1112,18 @@ declare module '@theme/TOCCollapsible' {
   }
 
   export default function TOCCollapsible(props: Props): JSX.Element;
+}
+
+declare module '@theme/TOCCollapsible/CollapseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
+    collapsed: boolean;
+  }
+
+  export default function TOCCollapsibleCollapseButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/ColorModeToggle' {
