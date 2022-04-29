@@ -12,13 +12,15 @@ import path from 'path';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
 import type {ServeCLIOptions} from '@docusaurus/types';
 
 export async function serve(
   siteDir: string,
-  cliOptions: ServeCLIOptions,
+  cliOptions: Partial<ServeCLIOptions>,
 ): Promise<void> {
-  let dir = path.resolve(siteDir, cliOptions.dir);
+  const buildDir = cliOptions.dir ?? DEFAULT_BUILD_DIR_NAME;
+  let dir = path.resolve(siteDir, buildDir);
 
   if (cliOptions.build) {
     dir = await build(
@@ -69,7 +71,7 @@ export async function serve(
     });
   });
 
-  logger.success`Serving path=${cliOptions.dir} directory at url=${
+  logger.success`Serving path=${buildDir} directory at url=${
     servingUrl + baseUrl
   }.`;
   server.listen(port);

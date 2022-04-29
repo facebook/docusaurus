@@ -31,7 +31,7 @@ import type {HelmetServerState} from 'react-helmet-async';
 
 export async function build(
   siteDir: string,
-  cliOptions: Partial<BuildCLIOptions> = {},
+  cliOptions: Partial<BuildCLIOptions>,
   // When running build, we force terminate the process to prevent async
   // operations from never returning. However, if run as part of docusaurus
   // deploy, we have to let deploy finish.
