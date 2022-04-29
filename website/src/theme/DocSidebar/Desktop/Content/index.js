@@ -11,6 +11,7 @@ import {useLocation} from '@docusaurus/router';
 
 function SidebarAd() {
   return (
+    // eslint-disable-next-line @docusaurus/no-untranslated-text
     <div style={{border: 'solid thin red', padding: 10, textAlign: 'center'}}>
       Sidebar Ad
     </div>

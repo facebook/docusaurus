@@ -279,6 +279,7 @@ export default function ColorGenerator(): JSX.Element {
       <p>
         <Translate
           id="colorGenerator.text"
+          // eslint-disable-next-line @docusaurus/no-untranslated-text
           values={{cssPath: <code>src/css/custom.css</code>}}>
           {'Replace the variables in {cssPath} with these new variables.'}
         </Translate>

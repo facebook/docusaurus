@@ -82,6 +82,7 @@ function VersionNotice() {
                 <Link href="/community/canary">
                   <Translate
                     id="upgradeGuide.unreleasedVersion.notice.canaryDocLink.label"
+                    // eslint-disable-next-line @docusaurus/no-untranslated-text
                     values={{canaryTag: <code>@canary</code>}}>
                     {'{canaryTag} release'}
                   </Translate>

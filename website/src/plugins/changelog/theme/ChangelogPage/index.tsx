@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Translate from '@docusaurus/Translate';
 import BlogLayout from '@theme/BlogLayout';
 import ChangelogItem from '@theme/ChangelogItem';
 import ChangelogPaginator from '@theme/ChangelogPaginator';
@@ -86,7 +87,9 @@ function ChangelogPageContent(props: Props): JSX.Element {
             />
           ) : undefined
         }>
-        <Link to={listPageLink}>← Back to index page</Link>
+        <Link to={listPageLink}>
+          <Translate id="changelog.backLink">← Back to index page</Translate>
+        </Link>
 
         <ChangelogItem
           frontMatter={frontMatter}

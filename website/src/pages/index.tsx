@@ -90,9 +90,8 @@ function MigrationAnnouncement() {
               </Link>
             ),
           }}>
-          {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}`}
+          {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}.`}
         </Translate>
-        .
       </div>
     </div>
   );
@@ -241,11 +240,19 @@ export default function Home(): JSX.Element {
       <main>
         <div>
           <div className={styles.banner}>
-            Support Ukraine 🇺🇦{' '}
-            <Link to="https://opensource.facebook.com/support-ukraine">
-              Help Provide Humanitarian Aid to Ukraine
-            </Link>
-            .
+            <Translate
+              id="homepage.banner"
+              values={{
+                link: (
+                  <Link to="https://opensource.facebook.com/support-ukraine">
+                    <Translate id="homepage.banner.link">
+                      Help Provide Humanitarian Aid to Ukraine
+                    </Translate>
+                  </Link>
+                ),
+              }}>
+              {'Support Ukraine 🇺🇦 {link}.'}
+            </Translate>
           </div>
         </div>
         <HeroBanner />

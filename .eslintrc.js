@@ -315,7 +315,21 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-untranslated-text': [
       WARNING,
-      {ignoreStrings: ['·', '-', '—', "'", '"', '×', '@', '🏠', '&#8203;']},
+      {
+        ignoreStrings: [
+          '·',
+          '-',
+          '—',
+          '×',
+          '​',
+          '@',
+          'WebContainers',
+          'Twitter',
+          'GitHub',
+          'Dev.to',
+          '1.x',
+        ],
+      },
     ],
   },
   overrides: [
@@ -361,6 +375,16 @@ module.exports = {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
         '@typescript-eslint/explicit-module-boundary-types': OFF,
+      },
+    },
+    {
+      files: [
+        '**/__tests__/**',
+        'packages/docusaurus-plugin-debug/**',
+        'website/_dogfooding/**',
+      ],
+      rules: {
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {
