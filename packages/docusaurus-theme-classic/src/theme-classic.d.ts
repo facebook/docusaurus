@@ -1114,6 +1114,18 @@ declare module '@theme/TOCCollapsible' {
   export default function TOCCollapsible(props: Props): JSX.Element;
 }
 
+declare module '@theme/TOCCollapsible/CollapseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
+    collapsed: boolean;
+  }
+
+  export default function TOCCollapsibleCollapseButton(
+    props: Props,
+  ): JSX.Element;
+}
+
 declare module '@theme/ColorModeToggle' {
   import type {ColorMode} from '@docusaurus/theme-common';
 
