@@ -1004,6 +1004,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Memgraph',
+    description:
+      'Memgraph is the platform for graph computation on streaming data',
+    preview: require('./showcase/memgraph.png'),
+    website: 'https://docs.memgraph.com/',
+    source: 'https://github.com/memgraph/docs',
+    tags: ['design', 'large', 'opensource', 'product','versioning'],
+  },
+  {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',
     preview: require('./showcase/metro.png'),
