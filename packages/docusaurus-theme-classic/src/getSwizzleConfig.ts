@@ -206,6 +206,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'A component wrapping all MDX content and providing the MDXComponents to the MDX context',
       },
+      'NavbarItem/ComponentTypes': {
+        actions: {
+          eject: 'safe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Navbar item components mapping. Can be ejected to add custom navbar item types. See https://github.com/facebook/docusaurus/issues/7227.',
+      },
       // TODO should probably not even appear here
       'NavbarItem/utils': {
         actions: {
