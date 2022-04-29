@@ -117,6 +117,10 @@ export async function start(
   );
 
   let config: webpack.Configuration = merge(await createClientConfig(props), {
+    watchOptions: {
+      ignored: /node_modules\/(?!@docusaurus)/,
+      poll: cliOptions.poll,
+    },
     infrastructureLogging: {
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       level: 'warn',
