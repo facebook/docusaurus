@@ -30,7 +30,11 @@ Happy contributing!
 ⏱ This saves maintainers a lot of time during reviews.
 
 Example:
-- 🔗 link to new and updated documentation pages, using the deploy preview
-- 🔗 link to test pages: you can add tests in docusaurus/website/_dogfooding to help us review code changes. Those tests are deployed at https://docusaurus.io/tests
-- 🔗 link to related pull-requests and issues
+- link to new and updated documentation pages.
+- link to test pages: you can add tests in docusaurus/website/_dogfooding to help us review code changes. Those tests are deployed at https://docusaurus.io/tests
+- link to related pull-requests and issues
+
+After submission, our Netlify bot will post a deploy preview link in comment.
+Example: https://deploy-preview-<PR-NUMBER>--docusaurus-2.netlify.app/
+Once available, please edit this section with deploy-preview docs/tests links.
 -->
