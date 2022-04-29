@@ -55,6 +55,7 @@ export {
   useDocsVersionCandidates,
   useLayoutDoc,
   useLayoutDocsSidebar,
+  useDocRouteMetadata,
 } from './utils/docsUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
