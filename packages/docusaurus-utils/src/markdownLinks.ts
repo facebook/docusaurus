@@ -111,12 +111,18 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
       // Replace it to correct html link.
       const mdLink = mdMatch.groups!.filename!;
 
-      const sourcesToTry = [
-        path.dirname(filePath),
-        ...getContentPathList(contentPaths),
-      ].map((p) => path.join(p, decodeURIComponent(mdLink)));
+      const sourcesToTry: string[] = [];
+      // ./file.md and ../file.md are always relative to the current file
+      if (!mdLink.startsWith('./') && !mdLink.startsWith('../')) {
+        sourcesToTry.push(...getContentPathList(contentPaths), siteDir);
+      }
+      // /file.md is always relative to the content path
+      if (!mdLink.startsWith('/')) {
+        sourcesToTry.push(path.dirname(filePath));
+      }
 
       const aliasedSourceMatch = sourcesToTry
+        .map((p) => path.join(p, decodeURIComponent(mdLink)))
         .map((source) => aliasedSitePath(source, siteDir))
         .find((source) => sourceToPermalink[source]);
 
