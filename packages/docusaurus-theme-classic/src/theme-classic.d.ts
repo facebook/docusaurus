@@ -165,6 +165,7 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
+    readonly className?: string;
   }
 
   export default function CopyButton(props: Props): JSX.Element;
@@ -218,6 +219,16 @@ declare module '@theme/CodeBlock/Line' {
   }
 
   export default function CodeBlockLine(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/WordWrapButton' {
+  export interface Props {
+    readonly className?: string;
+    readonly onClick: React.MouseEventHandler;
+    readonly isEnabled: boolean;
+  }
+
+  export default function WordWrapButton(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {

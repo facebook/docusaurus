@@ -38,6 +38,35 @@ export type ThemeComponents = {
 const formatComponentName = (componentName: string): string =>
   componentName.replace(/[/\\]index\.[jt]sx?/, '').replace(/\.[jt]sx?/, '');
 
+function sortComponentNames(componentNames: string[]): string[] {
+  return componentNames.sort(); // Algo may change?
+}
+
+/**
+ * Expand a list of components to include and return parent folders.
+ * If a folder is not directly a component (no Folder/index.tsx file),
+ * we still want to be able to swizzle --eject that folder.
+ * See https://github.com/facebook/docusaurus/pull/7175#issuecomment-1103757218
+ *
+ * @param componentNames the original list of component names
+ */
+function getMissingIntermediateComponentFolderNames(
+  componentNames: string[],
+): string[] {
+  function getAllIntermediatePaths(componentName: string): string[] {
+    const paths = componentName.split('/');
+    return _.range(1, paths.length + 1).map((i) => paths.slice(0, i).join('/'));
+  }
+
+  const expandedComponentNames = _.uniq(
+    componentNames.flatMap((componentName) =>
+      getAllIntermediatePaths(componentName),
+    ),
+  );
+
+  return _.difference(expandedComponentNames, componentNames);
+}
+
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];
 
 export async function readComponentNames(themePath: string): Promise<string[]> {
@@ -88,13 +117,9 @@ export async function readComponentNames(themePath: string): Promise<string[]> {
 
   const componentFiles = await walk(themePath);
 
-  const componentFilesOrdered = _.orderBy(
-    componentFiles,
-    [(f) => f.componentName],
-    ['asc'],
-  );
+  const componentNames = componentFiles.map((f) => f.componentName);
 
-  return componentFilesOrdered.map((f) => f.componentName);
+  return sortComponentNames(componentNames);
 }
 
 export function listComponentNames(themeComponents: ThemeComponents): string {
@@ -125,14 +150,40 @@ export async function getThemeComponents({
     },
     description: FallbackSwizzleComponentDescription,
   };
+  const FallbackIntermediateFolderSwizzleComponentConfig: SwizzleComponentConfig =
+    {
+      actions: {
+        // It doesn't make sense to wrap an intermediate folder
+        // because it has not any index component
+        wrap: 'forbidden',
+        eject: FallbackSwizzleActionStatus,
+      },
+      description: FallbackSwizzleComponentDescription,
+    };
 
-  const allComponents = await readComponentNames(themePath);
+  const allInitialComponents = await readComponentNames(themePath);
+
+  const missingIntermediateComponentFolderNames =
+    getMissingIntermediateComponentFolderNames(allInitialComponents);
+
+  const allComponents = sortComponentNames(
+    allInitialComponents.concat(missingIntermediateComponentFolderNames),
+  );
 
   function getConfig(component: string): SwizzleComponentConfig {
     if (!allComponents.includes(component)) {
       throw new Error(
         `Can't get component config: component doesn't exist: ${component}`,
       );
+    }
+    const config = swizzleConfig.components[component];
+    if (config) {
+      return config;
+    }
+    const isIntermediateFolder =
+      missingIntermediateComponentFolderNames.includes(component);
+    if (isIntermediateFolder) {
+      return FallbackIntermediateFolderSwizzleComponentConfig;
     }
     return (
       swizzleConfig.components[component] ?? FallbackSwizzleComponentConfig

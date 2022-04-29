@@ -49,7 +49,7 @@
     "@docusaurus/utils": "2.0.0-beta.18",
     "@docusaurus/utils-common": "2.0.0-beta.18",
     "@popperjs/core": "^2.11.5",
-    "@swc/core": "^1.2.167",
+    "@swc/core": "^1.2.171",
     "clsx": "^1.1.1",
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",
