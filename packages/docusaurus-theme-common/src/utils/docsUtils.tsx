@@ -20,6 +20,7 @@ import type {
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
+  PropVersionMetadata,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
 import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
@@ -27,7 +28,9 @@ import {useDocsVersion} from '../contexts/docsVersion';
 import {useDocsSidebar} from '../contexts/docsSidebar';
 import {uniq} from './jsUtils';
 import {isSamePath} from './routesUtils';
-import {useLocation} from '@docusaurus/router';
+import {matchPath, useLocation} from '@docusaurus/router';
+import renderRoutes from '@docusaurus/renderRoutes';
+import type {RouteConfig} from 'react-router-config';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -280,4 +283,43 @@ Available doc ids are:
     }
     return doc;
   }, [docId, versions]);
+}
+
+// TODO later read version/route directly from context
+export function useDocRouteMetadata({
+  route,
+  versionMetadata,
+}: {
+  route: RouteConfig;
+  versionMetadata: PropVersionMetadata;
+}): null | {
+  docElement: JSX.Element;
+  sidebarName: string | undefined;
+  sidebarItems: PropSidebar | undefined;
+} {
+  const location = useLocation();
+  const docRoutes = route.routes;
+  const currentDocRoute = docRoutes!.find((docRoute) =>
+    matchPath(location.pathname, docRoute),
+  );
+  if (!currentDocRoute) {
+    return null;
+  }
+
+  // For now, the sidebarName is added as route config: not ideal!
+  const sidebarName = currentDocRoute.sidebar;
+
+  const sidebarItems = sidebarName
+    ? versionMetadata.docsSidebars[sidebarName]
+    : undefined;
+
+  const docElement = renderRoutes(route.routes!, {
+    versionMetadata,
+  });
+
+  return {
+    docElement,
+    sidebarName,
+    sidebarItems,
+  };
 }

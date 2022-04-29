@@ -268,7 +268,7 @@ declare module '@theme/DocPage/Layout' {
   export default function DocPageLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Aside' {
+declare module '@theme/DocPage/Layout/Sidebar' {
   import type {Dispatch, SetStateAction} from 'react';
   import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -278,7 +278,17 @@ declare module '@theme/DocPage/Layout/Aside' {
     readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
   }
 
-  export default function DocPageLayoutAside(props: Props): JSX.Element;
+  export default function DocPageLayoutSidebar(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Sidebar/ExpandButton' {
+  export interface Props {
+    toggleSidebar: () => void;
+  }
+
+  export default function DocPageLayoutSidebarExpandButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/DocPage/Layout/Main' {
