@@ -15,7 +15,7 @@ const delay = 200;
 
 const clientModule: ClientModule = {
   onRouteUpdate({location, previousLocation}) {
-    if (location.pathname !== previousLocation?.pathname) {
+    if (previousLocation && location.pathname !== previousLocation.pathname) {
       const progressBarTimeout = window.setTimeout(() => {
         nprogress.start();
       }, delay);
