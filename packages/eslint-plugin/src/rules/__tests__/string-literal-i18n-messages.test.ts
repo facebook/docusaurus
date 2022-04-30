@@ -5,19 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const rule = require('../string-literal-i18n-messages');
-const {RuleTester} = require('eslint');
-const {getCommonValidTests} = require('../../util');
+import rule from '../string-literal-i18n-messages';
+import {getCommonValidTests, RuleTester} from './testUtils';
 
-const errorsJSX = [{messageId: 'translateChildren', type: 'JSXElement'}];
-const errorsFunc = [{messageId: 'translateArg', type: 'Identifier'}];
+const errorsJSX = [
+  {messageId: 'translateChildren', type: 'JSXElement'},
+] as const;
+const errorsFunc = [
+  {messageId: 'translateArg', type: 'CallExpression'},
+] as const;
 
 const ruleTester = new RuleTester({
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2022,
-    ecmaFeatures: {jsx: true},
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
 });
+
 ruleTester.run('string-literal-i18n-messages', rule, {
   valid: [...getCommonValidTests()],
 

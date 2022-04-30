@@ -17,8 +17,12 @@
     "access": "public"
   },
   "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
-    "requireindex": "^1.2.0"
+    "@typescript-eslint/utils": "^5.21.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "eslint-plugin-eslint-plugin": "^4.1.0"

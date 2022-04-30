@@ -67,7 +67,7 @@ module.exports = {
   rules: {
     '@docusaurus/no-untranslated-text': [
       'warn',
-      {ignoreStrings: ['·', '—', '×']},
+      {ignoredStrings: ['·', '—', '×']},
     ],
   },
 };

@@ -34,7 +34,7 @@ Accepted fields:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `ignoreStrings` | `string[]` | `[]` | Text labels that only contain strings in this list will not be reported. |
+| `ignoredStrings` | `string[]` | `[]` | Text labels that only contain strings in this list will not be reported. |
 
 </APITable>
 

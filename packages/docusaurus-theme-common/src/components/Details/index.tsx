@@ -91,6 +91,7 @@ export function Details({
           // setOpen(false);
         }
       }}>
+      {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
       {summary || <summary>Details</summary>}
 
       <Collapsible
