@@ -84,6 +84,7 @@ errnametoolong
 esbenp
 esbuild
 eslintcache
+estree
 evaluable
 externalwaiting
 failfast
@@ -303,6 +304,7 @@ treeifies
 treeify
 treosh
 triaging
+tses
 typecheck
 typechecks
 typedoc

@@ -10,6 +10,7 @@ packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/*/docusaurus.config.js
+packages/eslint-plugin/lib/
 packages/stylelint-copyright/lib/
 __fixtures__
 

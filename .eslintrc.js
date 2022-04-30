@@ -316,7 +316,7 @@ module.exports = {
     '@docusaurus/no-untranslated-text': [
       WARNING,
       {
-        ignoreStrings: [
+        ignoredStrings: [
           '·',
           '-',
           '—',

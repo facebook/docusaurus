@@ -5,69 +5,73 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const rule = require('../no-untranslated-text');
-const {RuleTester} = require('eslint');
-const {getCommonValidTests} = require('../../util');
+import rule from '../no-untranslated-text';
+import {getCommonValidTests, RuleTester} from './testUtils';
 
-const errorsJSX = [{messageId: 'translateChildren', type: 'JSXElement'}];
+const errorsJSX = [
+  {messageId: 'translateChildren', type: 'JSXElement'},
+] as const;
 const errorsJSXFragment = [
   {messageId: 'translateChildren', type: 'JSXFragment'},
 ];
 
 const ruleTester = new RuleTester({
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2022,
-    ecmaFeatures: {jsx: true},
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
 });
+
 ruleTester.run('no-untranslated-text', rule, {
   valid: [
     ...getCommonValidTests(),
     {
       code: '<Component>·</Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>· </Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component> · </Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>· ·</Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>· — ×</Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>{"·"}</Component>',
-      options: [{ignoreStrings: ['·']}],
+      options: [{ignoredStrings: ['·']}],
     },
     {
       code: "<Component>{'·'}</Component>",
-      options: [{ignoreStrings: ['·']}],
+      options: [{ignoredStrings: ['·']}],
     },
     {
       code: '<Component>{`·`}</Component>',
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>Docusaurus</Component>',
-      options: [{ignoreStrings: ['Docusaurus']}],
+      options: [{ignoredStrings: ['Docusaurus']}],
     },
     {
       code: '<Component>&#8203;</Component>',
-      options: [{ignoreStrings: ['​']}],
+      options: [{ignoredStrings: ['​']}],
     },
     {
       code: `<>
               {' · '}
             </>`,
-      options: [{ignoreStrings: ['·', "'"]}],
+      options: [{ignoredStrings: ['·']}],
     },
   ],
 
@@ -111,37 +115,37 @@ ruleTester.run('no-untranslated-text', rule, {
     {
       code: '<Component>· — ×</Component>',
       errors: errorsJSX,
-      options: [{ignoreStrings: ['·', '—']}],
+      options: [{ignoredStrings: ['·', '—']}],
     },
     {
       code: '<Component>··</Component>',
       errors: errorsJSX,
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component> ·· </Component>',
       errors: errorsJSX,
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>"·"</Component>',
       errors: errorsJSX,
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: "<Component>'·'</Component>",
       errors: errorsJSX,
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>`·`</Component>',
       errors: errorsJSX,
-      options: [{ignoreStrings: ['·', '—', '×']}],
+      options: [{ignoredStrings: ['·', '—', '×']}],
     },
     {
       code: '<Component>Docusaurus</Component>',
       errors: errorsJSX,
-      options: [{ignoreStrings: ['Docu', 'saurus']}],
+      options: [{ignoredStrings: ['Docu', 'saurus']}],
     },
   ],
 });

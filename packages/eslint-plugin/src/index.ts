@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const requireIndex = require('requireindex');
+import rules from './rules';
 
-module.exports = {
-  rules: requireIndex(`${__dirname}/rules`),
+export = {
+  rules,
   configs: {
     recommended: {
       rules: {
