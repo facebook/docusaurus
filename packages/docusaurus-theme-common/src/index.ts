@@ -58,8 +58,6 @@ export {
   useDocRouteMetadata,
 } from './utils/docsUtils';
 
-export {useSkipToContent} from './utils/a11yUtils';
-
 export {useTitleFormatter} from './utils/generalUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
@@ -162,3 +160,4 @@ export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useWindowSize} from './hooks/useWindowSize';
 export {useSearchPage} from './hooks/useSearchPage';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
+export {useSkipToContent} from './hooks/useSkipToContent';

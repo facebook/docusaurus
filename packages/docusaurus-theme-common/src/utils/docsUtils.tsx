@@ -286,20 +286,41 @@ Available doc ids are:
 }
 
 // TODO later read version/route directly from context
+/** @typedef {import('../contexts/docsSidebar').DocsSidebarProvider} DocSidebarProvider */
+/**
+ * The docs plugin creates nested routes, with the top-level route providing the
+ * version metadata, and the subroutes creating individual doc pages. This hook
+ * will match the current location against all known sub-routes.
+ *
+ * @param arg The props received by `@theme/DocPage`
+ * @returns The data of the relevant document at the current location, or `null`
+ * if no document associated with the current location can be found.
+ */
 export function useDocRouteMetadata({
   route,
   versionMetadata,
 }: {
+  /**
+   * The route config associated with the current `DocPage` component. Injected
+   * by the router.
+   */
   route: RouteConfig;
+  /** The version metadata prop provided by the docs plugin. */
   versionMetadata: PropVersionMetadata;
 }): null | {
+  /** The element that should be rendered at the current location. */
   docElement: JSX.Element;
+  /**
+   * The name of the sidebar associated with the current doc. `sidebarName` and
+   * `sidebarItems` correspond to the value of {@link useDocsSidebar}.
+   */
   sidebarName: string | undefined;
+  /** The items of the sidebar associated with the current doc. */
   sidebarItems: PropSidebar | undefined;
 } {
   const location = useLocation();
-  const docRoutes = route.routes;
-  const currentDocRoute = docRoutes!.find((docRoute) =>
+  const docRoutes = route.routes!;
+  const currentDocRoute = docRoutes.find((docRoute) =>
     matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
@@ -313,9 +334,7 @@ export function useDocRouteMetadata({
     ? versionMetadata.docsSidebars[sidebarName]
     : undefined;
 
-  const docElement = renderRoutes(route.routes!, {
-    versionMetadata,
-  });
+  const docElement = renderRoutes(docRoutes, {versionMetadata});
 
   return {
     docElement,
