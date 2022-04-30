@@ -7,33 +7,24 @@
 
 import {translate} from '@docusaurus/Translate';
 import type {ClientModule} from '@docusaurus/types';
+import './routeAnnouncer.css';
 
 const clientModule: ClientModule = {
   onRouteDidUpdate({location, previousLocation}) {
     if (!previousLocation || location.pathname === previousLocation.pathname) {
       return;
     }
+    Array.from(
+      document.getElementsByTagName('docusaurus-route-announcer'),
+    ).forEach(document.removeChild);
     const announcerContainer = document.createElement(
       'docusaurus-route-announcer',
     );
     const announcement = document.createElement('p');
     Object.assign(announcement, {
-      'aria-live': 'assertive', // Make the announcement immediately.
-      id: '__docusaurus-route-announcer__',
+      ariaLive: 'assertive', // Make the announcement immediately.
+      id: 'docusaurus-route-announcer-content',
       role: 'alert',
-      style: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: '1px',
-        margin: '-1px',
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        width: '1px',
-        // https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
-        whiteSpace: 'nowrap',
-        wordWrap: 'normal',
-      },
     });
     const firstHeading = document.querySelectorAll(`#__docusaurus h1`)[0];
     const pageName = firstHeading?.textContent ?? document.title;

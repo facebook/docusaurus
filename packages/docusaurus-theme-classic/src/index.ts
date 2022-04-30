@@ -139,6 +139,7 @@ export default function docusaurusThemeClassic(
         './prism-include-languages',
         './admonitions.css',
         './nprogress',
+        './routeAnnouncer',
       ];
 
       if (customCss) {
