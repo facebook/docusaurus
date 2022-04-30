@@ -19,7 +19,6 @@ import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
-import RouteAnnouncer from './RouteAnnouncer';
 
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
@@ -37,9 +36,7 @@ export default function App(): JSX.Element {
             <SiteMetadata />
             <BaseUrlIssueBanner />
             <PendingNavigation location={normalizeLocation(location)}>
-              <RouteAnnouncer location={location.pathname}>
-                {routeElement}
-              </RouteAnnouncer>
+              {routeElement}
             </PendingNavigation>
           </Root>
         </BrowserContextProvider>
