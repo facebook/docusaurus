@@ -10,7 +10,7 @@ import React from 'react';
 import {useDocsSidebar} from '@docusaurus/theme-common';
 
 import clsx from 'clsx';
-import styles from './Main.module.css';
+import styles from './styles.module.css';
 import type {Props} from '@theme/DocPage/Layout/Main';
 
 export default function DocPageLayoutMain({

@@ -8,8 +8,8 @@
 import type React from 'react';
 import {useCallback, useRef} from 'react';
 import {useHistory} from '@docusaurus/router';
-import {useLocationChange} from './useLocationChange';
-import {ThemeClassNames} from './ThemeClassNames';
+import {useLocationChange} from '../utils/useLocationChange';
+import {ThemeClassNames} from '../utils/ThemeClassNames';
 
 function programmaticFocus(el: HTMLElement) {
   el.setAttribute('tabindex', '-1');
@@ -17,8 +17,21 @@ function programmaticFocus(el: HTMLElement) {
   el.removeAttribute('tabindex');
 }
 
+/** This hook wires the logic for a skip-to-content link. */
 export function useSkipToContent(): {
+  /**
+   * The ref to the container. On page transition, the container will be focused
+   * so that keyboard navigators can instantly interact with the link and jump
+   * to content. **Note:** the type is `RefObject<HTMLDivElement>` only because
+   * the typing for refs don't reflect that the `ref` prop is contravariant, so
+   * using `HTMLElement` causes type-checking to fail. You can plug the ref into
+   * any HTML element, as long as it can be focused.
+   */
   containerRef: React.RefObject<HTMLDivElement>;
+  /**
+   * Callback fired when the skip to content link has been interacted with. It
+   * will programmatically focus the main content.
+   */
   handleSkip: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 } {
   const containerRef = useRef<HTMLDivElement>(null);

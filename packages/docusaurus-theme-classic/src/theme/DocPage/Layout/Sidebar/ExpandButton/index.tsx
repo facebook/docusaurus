@@ -10,7 +10,7 @@ import IconArrow from '@theme/IconArrow';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocPage/Layout/Sidebar/ExpandButton';
 
-import styles from './ExpandButton.module.css';
+import styles from './styles.module.css';
 
 export default function DocPageLayoutSidebarExpandButton({
   toggleSidebar,

@@ -20,9 +20,9 @@ import type {
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
-  PropVersionMetadata,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
+import type {Props as DocPageProps} from '@theme/DocPage';
 import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
 import {useDocsVersion} from '../contexts/docsVersion';
 import {useDocsSidebar} from '../contexts/docsSidebar';
@@ -30,7 +30,6 @@ import {uniq} from './jsUtils';
 import {isSamePath} from './routesUtils';
 import {matchPath, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
-import type {RouteConfig} from 'react-router-config';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -286,20 +285,32 @@ Available doc ids are:
 }
 
 // TODO later read version/route directly from context
+/**
+ * The docs plugin creates nested routes, with the top-level route providing the
+ * version metadata, and the subroutes creating individual doc pages. This hook
+ * will match the current location against all known sub-routes.
+ *
+ * @param props The props received by `@theme/DocPage`
+ * @returns The data of the relevant document at the current location, or `null`
+ * if no document associated with the current location can be found.
+ */
 export function useDocRouteMetadata({
   route,
   versionMetadata,
-}: {
-  route: RouteConfig;
-  versionMetadata: PropVersionMetadata;
-}): null | {
+}: DocPageProps): null | {
+  /** The element that should be rendered at the current location. */
   docElement: JSX.Element;
+  /**
+   * The name of the sidebar associated with the current doc. `sidebarName` and
+   * `sidebarItems` correspond to the value of {@link useDocsSidebar}.
+   */
   sidebarName: string | undefined;
+  /** The items of the sidebar associated with the current doc. */
   sidebarItems: PropSidebar | undefined;
 } {
   const location = useLocation();
-  const docRoutes = route.routes;
-  const currentDocRoute = docRoutes!.find((docRoute) =>
+  const docRoutes = route.routes!;
+  const currentDocRoute = docRoutes.find((docRoute) =>
     matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
@@ -313,9 +324,7 @@ export function useDocRouteMetadata({
     ? versionMetadata.docsSidebars[sidebarName]
     : undefined;
 
-  const docElement = renderRoutes(route.routes!, {
-    versionMetadata,
-  });
+  const docElement = renderRoutes(docRoutes, {versionMetadata});
 
   return {
     docElement,

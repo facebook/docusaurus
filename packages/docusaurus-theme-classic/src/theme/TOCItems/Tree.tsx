@@ -9,7 +9,6 @@ import React from 'react';
 import type {Props} from '@theme/TOCItems/Tree';
 
 // Recursive component rendering the toc tree
-/* eslint-disable jsx-a11y/control-has-associated-label */
 function TOCItemTree({
   toc,
   className,
@@ -23,6 +22,7 @@ function TOCItemTree({
     <ul className={isChild ? undefined : className}>
       {toc.map((heading) => (
         <li key={heading.id}>
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <a
             href={`#${heading.id}`}
             className={linkClassName ?? undefined}
