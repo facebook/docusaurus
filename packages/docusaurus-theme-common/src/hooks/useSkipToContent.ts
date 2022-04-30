@@ -23,8 +23,9 @@ export function useSkipToContent(): {
    * The ref to the container. On page transition, the container will be focused
    * so that keyboard navigators can instantly interact with the link and jump
    * to content. **Note:** the type is `RefObject<HTMLDivElement>` only because
-   * the typing for refs don't reflect that ref props are contravariant instead
-   * of co-variant. You can plug the ref into any HTML element.
+   * the typing for refs don't reflect that the `ref` prop is contravariant, so
+   * using `HTMLElement` causes type-checking to fail. You can plug the ref into
+   * any HTML element, as long as it can be focused.
    */
   containerRef: React.RefObject<HTMLDivElement>;
   /**

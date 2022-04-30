@@ -20,9 +20,9 @@ import type {
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
-  PropVersionMetadata,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
+import type {Props as DocPageProps} from '@theme/DocPage';
 import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
 import {useDocsVersion} from '../contexts/docsVersion';
 import {useDocsSidebar} from '../contexts/docsSidebar';
@@ -30,7 +30,6 @@ import {uniq} from './jsUtils';
 import {isSamePath} from './routesUtils';
 import {matchPath, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
-import type {RouteConfig} from 'react-router-config';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -286,28 +285,19 @@ Available doc ids are:
 }
 
 // TODO later read version/route directly from context
-/** @typedef {import('../contexts/docsSidebar').DocsSidebarProvider} DocSidebarProvider */
 /**
  * The docs plugin creates nested routes, with the top-level route providing the
  * version metadata, and the subroutes creating individual doc pages. This hook
  * will match the current location against all known sub-routes.
  *
- * @param arg The props received by `@theme/DocPage`
+ * @param props The props received by `@theme/DocPage`
  * @returns The data of the relevant document at the current location, or `null`
  * if no document associated with the current location can be found.
  */
 export function useDocRouteMetadata({
   route,
   versionMetadata,
-}: {
-  /**
-   * The route config associated with the current `DocPage` component. Injected
-   * by the router.
-   */
-  route: RouteConfig;
-  /** The version metadata prop provided by the docs plugin. */
-  versionMetadata: PropVersionMetadata;
-}): null | {
+}: DocPageProps): null | {
   /** The element that should be rendered at the current location. */
   docElement: JSX.Element;
   /**
