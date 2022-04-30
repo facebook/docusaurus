@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - packages/docusaurus/**
+      - packages/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
