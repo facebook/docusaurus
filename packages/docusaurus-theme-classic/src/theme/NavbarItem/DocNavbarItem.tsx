@@ -18,9 +18,15 @@ export default function DocNavbarItem({
   label: staticLabel,
   docsPluginId,
   ...props
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
   const {activeDoc} = useActiveDocContext(docsPluginId);
   const doc = useLayoutDoc(docId, docsPluginId);
+
+  // Draft items are not displayed in the navbar.
+  if (doc === null) {
+    return null;
+  }
+
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (

@@ -112,11 +112,7 @@ The best IDEs (VS Code, WebStorm, IntelliJ...) will provide a nice auto-completi
 
 By default, the Docusaurus TypeScript config does not type-check JavaScript files.
 
-The `// @ts-check` comment ensures the config file is properly type-checked when running:
-
-```bash npm2yarn
-npx tsc
-```
+The `// @ts-check` comment ensures the config file is properly type-checked when running `npx tsc`.
 
 :::
 

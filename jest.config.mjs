@@ -12,6 +12,7 @@ process.env.TZ = 'UTC';
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
+  '__mocks__',
   '/testUtils.ts',
   '/packages/docusaurus/lib',
   '/packages/docusaurus-logger/lib',
@@ -25,12 +26,15 @@ const ignorePatterns = [
   '/packages/docusaurus-theme-classic/lib-next',
   '/packages/docusaurus-theme-common/lib',
   '/packages/docusaurus-migrate/lib',
+  '/jest',
 ];
 
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
-  testURL: 'https://docusaurus.io/',
+  testEnvironmentOptions: {
+    url: 'https://docusaurus.io/',
+  },
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: [
@@ -42,6 +46,7 @@ export default {
     '^.+\\.[jt]sx?$': '@swc/jest',
   },
   errorOnDeprecated: true,
+  reporters: ['default', 'github-actions'],
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
     '^.+\\.(css|jpe?g|png|svg|webp)$': '<rootDir>/jest/emptyModule.ts',
@@ -68,6 +73,7 @@ export default {
     'jest-serializer-react-helmet-async',
   ],
   snapshotFormat: {
+    escapeString: false,
     printBasicPrototype: false,
   },
 };

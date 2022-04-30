@@ -130,7 +130,12 @@ describe('<Interpolate>', () => {
         </Interpolate>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The Docusaurus <Interpolate> component only accept simple string values"`,
+      `"The Docusaurus <Interpolate> component only accept simple string values. Received: React element"`,
+    );
+    expect(() =>
+      renderer.create(<Interpolate>{null}</Interpolate>),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The Docusaurus <Interpolate> component only accept simple string values. Received: object"`,
     );
   });
 });

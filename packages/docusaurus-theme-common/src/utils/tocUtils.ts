@@ -30,11 +30,11 @@ function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   const prevIndexForLevel = Array(7).fill(-1);
 
   headings.forEach((curr, currIndex) => {
-    // take the last seen index for each ancestor level. the highest
-    // index will be the direct ancestor of the current heading.
+    // Take the last seen index for each ancestor level. the highest index will
+    // be the direct ancestor of the current heading.
     const ancestorLevelIndexes = prevIndexForLevel.slice(2, curr.level);
     curr.parentIndex = Math.max(...ancestorLevelIndexes);
-    // mark that curr.level was last seen at the current index
+    // Mark that curr.level was last seen at the current index.
     prevIndexForLevel[curr.level] = currIndex;
   });
 

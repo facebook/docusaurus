@@ -38,12 +38,12 @@ describe('docsClientUtils', () => {
     expect(() =>
       getActivePlugin(data, '/', {failfast: true}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find active docs plugin for \\"/\\" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+      `"Can't find active docs plugin for "/" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
     );
     expect(() =>
       getActivePlugin(data, '/xyz', {failfast: true}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find active docs plugin for \\"/xyz\\" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+      `"Can't find active docs plugin for "/xyz" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
     );
 
     const activePluginIos: ActivePlugin = {
@@ -226,7 +226,7 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    // shuffle, because order shouldn't matter
+    // Shuffle, because order shouldn't matter
     const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
@@ -355,7 +355,7 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    // shuffle, because order shouldn't matter
+    // Shuffle, because order shouldn't matter
     const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
@@ -395,7 +395,7 @@ describe('docsClientUtils', () => {
       latestVersionSuggestion: version2,
     });
     expect(getDocVersionSuggestions(data, '/docs/version1/doc2')).toEqual({
-      latestDocSuggestion: undefined, // because /docs/version1/doc2 does not exist
+      latestDocSuggestion: undefined, // Because /docs/version1/doc2 does not exist
       latestVersionSuggestion: version2,
     });
   });

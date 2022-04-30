@@ -7,8 +7,9 @@
 
 declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {FrontMatterTag, Tag} from '@docusaurus/utils';
+  import type {FrontMatterTag} from '@docusaurus/utils';
   import type {Overwrite} from 'utility-types';
+  import type {Tag} from '@docusaurus/types';
 
   export type Assets = {
     /**
@@ -406,17 +407,6 @@ declare module '@docusaurus/plugin-content-blog' {
     }
   >;
 
-  export type TagModule = {
-    /** Permalink of the tag's own page. */
-    permalink: string;
-    /** Name of the tag. */
-    name: string;
-    /** Number of posts with this tag. */
-    count: number;
-    /** The tags list page. */
-    allTagsPath: string;
-  };
-
   export type BlogSidebar = {
     title: string;
     items: {title: string; permalink: string}[];
@@ -424,7 +414,7 @@ declare module '@docusaurus/plugin-content-blog' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     BlogPostFrontMatter,
     BlogPostMetadata,
@@ -443,22 +433,7 @@ declare module '@theme/BlogPostPage' {
     }
   >;
 
-  export type Content = {
-    /** Same as `metadata.frontMatter` */
-    readonly frontMatter: FrontMatter;
-    /**
-     * Usually image assets that may be collocated like `./img/thumbnail.png`.
-     * The loader would also bundle these assets and the client should use these
-     * in priority.
-     */
-    readonly assets: Assets;
-    /** Metadata of the post. */
-    readonly metadata: Metadata;
-    /** A list of TOC items (headings). */
-    readonly toc: readonly TOCItem[];
-    /** Renders the actual MDX content. */
-    (): JSX.Element;
-  };
+  export type Content = LoadedMDXContent<FrontMatter, Metadata, Assets>;
 
   export interface Props {
     /** Blog sidebar. */
@@ -511,28 +486,30 @@ declare module '@theme/BlogListPage' {
 }
 
 declare module '@theme/BlogTagsListPage' {
-  import type {BlogSidebar, TagModule} from '@docusaurus/plugin-content-blog';
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+  import type {TagsListItem} from '@docusaurus/types';
 
   export interface Props {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
-    /** A map from tag names to the full tag module. */
-    readonly tags: Readonly<{[tagName: string]: TagModule}>;
+    /** All tags declared in this blog. */
+    readonly tags: TagsListItem[];
   }
 
   export default function BlogTagsListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogTagsPostsPage' {
-  import type {BlogSidebar, TagModule} from '@docusaurus/plugin-content-blog';
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
   import type {Content} from '@theme/BlogPostPage';
   import type {Metadata} from '@theme/BlogListPage';
+  import type {TagModule} from '@docusaurus/types';
 
   export interface Props {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** Metadata of this tag. */
-    readonly metadata: TagModule;
+    readonly tag: TagModule;
     /** Looks exactly the same as the posts list page */
     readonly listMetadata: Metadata;
     /**

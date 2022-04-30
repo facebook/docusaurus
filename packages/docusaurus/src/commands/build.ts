@@ -27,10 +27,11 @@ import {
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
+import type {HelmetServerState} from 'react-helmet-async';
 
 export async function build(
   siteDir: string,
-  cliOptions: Partial<BuildCLIOptions> = {},
+  cliOptions: Partial<BuildCLIOptions>,
   // When running build, we force terminate the process to prevent async
   // operations from never returning. However, if run as part of docusaurus
   // deploy, we have to let deploy finish.
@@ -144,16 +145,20 @@ async function buildLocale({
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,
         }),
-      ].filter(Boolean),
+      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
     },
   );
 
   const allCollectedLinks: {[location: string]: string[]} = {};
+  const headTags: {[location: string]: HelmetServerState} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
+    },
+    onHeadTagsCollected: (staticPagePath, tags) => {
+      headTags[staticPagePath] = tags;
     },
   });
 
@@ -224,7 +229,11 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild({...props, content: plugin.content});
+      await plugin.postBuild({
+        ...props,
+        head: headTags,
+        content: plugin.content,
+      });
     }),
   );
 

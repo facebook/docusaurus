@@ -21,8 +21,8 @@ const SUPPORTED_MIMES: {[ext: string]: string} = {
 };
 
 /**
- * it returns a Base64 image string with required formatting
- * to work on the web (<img src=".." /> or in CSS url('..'))
+ * It returns a Base64 image string with required formatting to work on the web
+ * (<img src=".." /> or in CSS url('..'))
  */
 const toBase64 = (extMimeType: string, data: Buffer): string =>
   `data:${extMimeType};base64,${data.toString('base64')}`;

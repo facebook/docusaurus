@@ -42,8 +42,8 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 
 export async function writeHeadingIds(
   siteDir: string,
-  files?: string[],
-  options?: WriteHeadingIDOptions,
+  files: string[],
+  options: WriteHeadingIDOptions,
 ): Promise<void> {
   const markdownFiles = await safeGlobby(
     files ?? (await getPathsToWatch(siteDir)),

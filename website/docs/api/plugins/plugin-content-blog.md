@@ -174,7 +174,7 @@ Accepted fields:
 | `title` | `string` | Markdown title | The blog post title. |
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
-| `draft` | `boolean` | `false` | A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development. |
+| `draft` | `boolean` | `false` | A boolean flag to indicate that the blog post is work-in-progress. Draft blog posts will only be displayed during development. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
 | `toc_min_heading_level` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
 | `toc_max_heading_level` | `number` | `3` | The max heading level shown in the table of contents. Must be between 2 and 6. |

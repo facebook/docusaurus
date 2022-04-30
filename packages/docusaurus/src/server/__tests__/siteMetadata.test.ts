@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getPluginVersion} from '../siteMetadata';
+import {jest} from '@jest/globals';
+import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
 import path from 'path';
 
 describe('getPluginVersion', () => {
@@ -31,5 +32,33 @@ describe('getPluginVersion', () => {
 
   it('detects local packages versions', async () => {
     await expect(getPluginVersion('/', '/')).resolves.toEqual({type: 'local'});
+  });
+});
+
+describe('loadSiteMetadata', () => {
+  it('warns about plugin version mismatch', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    await expect(
+      loadSiteMetadata({
+        plugins: [
+          {
+            name: 'docusaurus-plugin-content-docs',
+            version: {
+              type: 'package',
+              version: '1.0.0',
+              name: '@docusaurus/plugin-content-docs',
+            },
+          },
+        ],
+        siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
+      }),
+    ).resolves.toMatchSnapshot();
+    expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(`
+      "[ERROR] Invalid docusaurus-plugin-content-docs version 1.0.0.
+      All official @docusaurus/* packages should have the exact same version as @docusaurus/core (<CURRENT_VERSION>).
+      Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?"
+    `);
   });
 });

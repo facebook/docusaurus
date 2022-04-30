@@ -8,6 +8,7 @@
 export {
   NODE_MAJOR_VERSION,
   NODE_MINOR_VERSION,
+  DOCUSAURUS_VERSION,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   BABEL_CONFIG_FILE_NAME,
@@ -56,7 +57,6 @@ export {
   buildSshUrl,
 } from './urlUtils';
 export {
-  type Tag,
   type FrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,

@@ -52,7 +52,7 @@ describe('customize JS loader', () => {
 
 describe('extending generated webpack config', () => {
   it('direct mutation on generated webpack config object', async () => {
-    // fake generated webpack config
+    // Fake generated webpack config
     let config: Configuration = {
       output: {
         path: __dirname,
@@ -335,7 +335,7 @@ describe('getHttpsConfig', () => {
     );
     process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
     await expect(getHttpsConfig()).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"You specified SSL_CRT_FILE in your env, but the file \\"<PROJECT_ROOT>/packages/docusaurus/src/webpack/__tests__/__fixtures__/nonexistent.crt\\" can't be found."`,
+      `"You specified SSL_CRT_FILE in your env, but the file "<PROJECT_ROOT>/packages/docusaurus/src/webpack/__tests__/__fixtures__/nonexistent.crt" can't be found."`,
     );
   });
 

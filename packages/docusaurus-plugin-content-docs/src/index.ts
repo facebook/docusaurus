@@ -20,14 +20,10 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import {loadSidebars} from './sidebars';
+import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {
-  readVersionDocs,
-  processDocMetadata,
-  addDocNavigation,
-  getMainDocId,
-} from './docs';
+import type {DocEnv} from './docs';
+import {readVersionDocs, processDocMetadata, addDocNavigation} from './docs';
 import {readVersionsMetadata} from './versions';
 import type {
   LoadedContent,
@@ -36,12 +32,14 @@ import type {
   DocFile,
   DocsMarkdownOption,
   VersionTag,
+  FullVersion,
 } from './types';
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp} from './props';
+import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
@@ -57,17 +55,19 @@ import type {
   DocFrontMatter,
 } from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
-import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
+import _ from 'lodash';
 
 export default async function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
+  // Mutate options to resolve sidebar path according to siteDir
+  options.sidebarPath = resolveSidebarPathOption(siteDir, options.sidebarPath);
 
   const versionsMetadata = await readVersionsMetadata({context, options});
 
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -97,12 +97,7 @@ export default async function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersionCommand(version, siteDir, pluginId, {
-            path: options.path,
-            sidebarPath: options.sidebarPath,
-            sidebarCollapsed: options.sidebarCollapsed,
-            sidebarCollapsible: options.sidebarCollapsible,
-          });
+          cliDocsVersionCommand(version, options, context);
         });
     },
 
@@ -150,6 +145,7 @@ export default async function pluginContentDocs(
             versionMetadata,
             context,
             options,
+            env: process.env.NODE_ENV as DocEnv,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -158,14 +154,17 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs: DocMetadataBase[] = await loadVersionDocsBase(
+        const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
+
+        const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
           numberPrefixParser: options.numberPrefixParser,
           docs,
+          drafts,
           version: versionMetadata,
           sidebarOptions: {
             sidebarCollapsed: options.sidebarCollapsed,
@@ -183,12 +182,8 @@ export default async function pluginContentDocs(
             sidebarsUtils,
             versionMetadata.sidebarFilePath as string,
           ),
+          drafts,
           sidebars,
-          mainDocId: getMainDocId({docs, sidebarsUtils}),
-          categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
-            docs,
-            sidebarsUtils,
-          }),
         };
       }
 
@@ -219,8 +214,19 @@ export default async function pluginContentDocs(
         breadcrumbs,
       } = options;
       const {addRoute, createData, setGlobalData} = actions;
+      const versions: FullVersion[] = loadedVersions.map((version) => {
+        const sidebarsUtils = createSidebarsUtils(version.sidebars);
+        return {
+          ...version,
+          sidebarsUtils,
+          categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+            docs: version.docs,
+            sidebarsUtils,
+          }),
+        };
+      });
 
-      async function createVersionTagsRoutes(version: LoadedVersion) {
+      async function createVersionTagsRoutes(version: FullVersion) {
         const versionTags = getVersionTags(version.docs);
 
         // TODO tags should be a sub route of the version route
@@ -228,13 +234,13 @@ export default async function pluginContentDocs(
           const tagsProp: PropTagsListPage['tags'] = Object.values(
             versionTags,
           ).map((tagValue) => ({
-            name: tagValue.label,
+            label: tagValue.label,
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,
           }));
 
           // Only create /tags page if there are tags.
-          if (Object.keys(tagsProp).length > 0) {
+          if (tagsProp.length > 0) {
             const tagsPropPath = await createData(
               `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
               JSON.stringify(tagsProp, null, 2),
@@ -276,9 +282,9 @@ export default async function pluginContentDocs(
       }
 
       await Promise.all(
-        loadedVersions.map((loadedVersion) =>
+        versions.map((version) =>
           createVersionRoutes({
-            loadedVersion,
+            version,
             docItemComponent,
             docLayoutComponent,
             docCategoryGeneratedIndexComponent,
@@ -290,11 +296,11 @@ export default async function pluginContentDocs(
       );
 
       // TODO tags should be a sub route of the version route
-      await Promise.all(loadedVersions.map(createVersionTagsRoutes));
+      await Promise.all(versions.map(createVersionTagsRoutes));
 
       setGlobalData({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
-        versions: loadedVersions.map(toGlobalDataVersion),
+        versions: versions.map(toGlobalDataVersion),
         breadcrumbs,
       });
     },

@@ -11,7 +11,7 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import cli from 'commander';
-import {createRequire} from 'module';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {
   build,
   swizzle,
@@ -29,9 +29,7 @@ await beforeCli();
 
 const resolveDir = (dir = '.') => fs.realpath(dir);
 
-cli
-  .version(createRequire(import.meta.url)('../package.json').version)
-  .usage('<command> [options]');
+cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 
 cli
   .command('build [siteDir]')
@@ -56,14 +54,8 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action(async (siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
-    build(await resolveDir(siteDir), {
-      bundleAnalyzer,
-      outDir,
-      config,
-      locale,
-      minify,
-    });
+  .action(async (siteDir, options) => {
+    build(await resolveDir(siteDir), options);
   });
 
 cli
@@ -88,9 +80,9 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
-  .action(async (themeName, componentName, siteDir, options) => {
-    swizzle(await resolveDir(siteDir), themeName, componentName, options);
-  });
+  .action(async (themeName, componentName, siteDir, options) =>
+    swizzle(await resolveDir(siteDir), themeName, componentName, options),
+  );
 
 cli
   .command('deploy [siteDir]')
@@ -111,13 +103,9 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action(async (siteDir, {outDir, skipBuild, config}) => {
-    deploy(await resolveDir(siteDir), {
-      outDir,
-      config,
-      skipBuild,
-    });
-  });
+  .action(async (siteDir, options) =>
+    deploy(await resolveDir(siteDir), options),
+  );
 
 cli
   .command('start [siteDir]')
@@ -138,18 +126,8 @@ cli
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
   )
-  .action(
-    async (siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
-      start(await resolveDir(siteDir), {
-        port,
-        host,
-        locale,
-        config,
-        hotOnly,
-        open,
-        poll,
-      });
-    },
+  .action(async (siteDir, options) =>
+    start(await resolveDir(siteDir), options),
   );
 
 cli
@@ -166,44 +144,25 @@ cli
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'build website before serving (default: false)')
   .option('-h, --host <host>', 'use specified host (default: localhost)')
-  .action(
-    async (
-      siteDir,
-      {
-        dir = 'build',
-        port = 3000,
-        host = 'localhost',
-        build: buildSite = false,
-        config,
-      },
-    ) => {
-      serve(await resolveDir(siteDir), {
-        dir,
-        port,
-        build: buildSite,
-        config,
-        host,
-      });
-    },
+  .action(async (siteDir, options) =>
+    serve(await resolveDir(siteDir), options),
   );
 
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action(async (siteDir) => {
-    clear(await resolveDir(siteDir));
-  });
+  .action(async (siteDir) => clear(await resolveDir(siteDir)));
 
 cli
   .command('write-translations [siteDir]')
   .description('Extract required translations of your site.')
   .option(
     '-l, --locale <locale>',
-    'the locale folder to write the translations\n"--locale fr" will write translations in ./i18n/fr folder)',
+    'the locale folder to write the translations.\n"--locale fr" will write translations in the ./i18n/fr folder.',
   )
   .option(
     '--override',
-    'by default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden',
+    'By default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden. (default: false)',
   )
   .option(
     '--config <config>',
@@ -211,20 +170,10 @@ cli
   )
   .option(
     '--messagePrefix <messagePrefix>',
-    'allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI',
+    'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message by making them stand out in the UI (default: "")',
   )
-  .action(
-    async (
-      siteDir,
-      {locale = undefined, override = false, messagePrefix = '', config},
-    ) => {
-      writeTranslations(await resolveDir(siteDir), {
-        locale,
-        override,
-        config,
-        messagePrefix,
-      });
-    },
+  .action(async (siteDir, options) =>
+    writeTranslations(await resolveDir(siteDir), options),
   );
 
 cli
@@ -274,6 +223,6 @@ if (!process.argv.slice(2).length) {
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err);
+  logger.error(err instanceof Error ? err.stack : err);
   process.exit(1);
 });

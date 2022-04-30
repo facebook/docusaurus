@@ -43,7 +43,7 @@ describe('normalizePluginOptions', () => {
     const options = {foo: 1};
     expect(() =>
       normalizePluginOptions(Joi.object({foo: Joi.string()}), options),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(`""foo" must be a string"`);
   });
 
   it('warns', () => {
@@ -91,7 +91,7 @@ describe('normalizeThemeConfig', () => {
     const themeConfig = {foo: 1, bar: 1};
     expect(() =>
       normalizeThemeConfig(Joi.object({foo: Joi.string()}), themeConfig),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(`""foo" must be a string"`);
   });
 
   it('warns', () => {
@@ -136,7 +136,7 @@ describe('validateFrontMatter', () => {
     };
     expect(() =>
       validateFrontMatter(frontMatter, schema),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"test\\" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(`""test" must be a string"`);
     expect(consoleError).toHaveBeenCalledWith(
       expect.stringContaining('The following front matter'),
     );

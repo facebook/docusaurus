@@ -38,6 +38,7 @@ import type {
   PropNavigationLink,
   LastUpdateData,
   VersionMetadata,
+  DocFrontMatter,
 } from '@docusaurus/plugin-content-docs';
 
 type LastUpdateOptions = Pick<
@@ -110,16 +111,31 @@ export async function readVersionDocs(
   );
 }
 
+export type DocEnv = 'production' | 'development';
+
+/** Docs with draft front matter are only considered draft in production. */
+function isDraftForEnvironment({
+  env,
+  frontMatter,
+}: {
+  frontMatter: DocFrontMatter;
+  env: DocEnv;
+}): boolean {
+  return (env === 'production' && frontMatter.draft) ?? false;
+}
+
 function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
   options,
+  env,
 }: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
+  env: DocEnv;
 }): DocMetadataBase {
   const {source, content, lastUpdate, contentPath, filePath} = docFile;
   const {siteDir, i18n} = context;
@@ -140,15 +156,13 @@ function doProcessDocMetadata({
     parse_number_prefixes: parseNumberPrefixes = true,
   } = frontMatter;
 
-  // ex: api/plugins/myDoc -> myDoc
-  // ex: myDoc -> myDoc
+  // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
     source,
     path.extname(source),
   );
 
-  // ex: api/plugins/myDoc -> api/plugins
-  // ex: myDoc -> .
+  // E.g. api/plugins/myDoc -> api/plugins; myDoc -> .
   const sourceDirName = path.dirname(source);
 
   const {filename: unprefixedFileName, numberPrefix} = parseNumberPrefixes
@@ -235,6 +249,8 @@ function doProcessDocMetadata({
     return undefined;
   }
 
+  const draft = isDraftForEnvironment({env, frontMatter});
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -248,15 +264,16 @@ function doProcessDocMetadata({
     sourceDirName,
     slug: docSlug,
     permalink,
+    draft,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
-      ? new Intl.DateTimeFormat(i18n.currentLocale).format(
-          lastUpdate.lastUpdatedAt * 1000,
-        )
+      ? new Intl.DateTimeFormat(i18n.currentLocale, {
+          calendar: i18n.localeConfigs[i18n.currentLocale]!.calendar,
+        }).format(lastUpdate.lastUpdatedAt * 1000)
       : undefined,
     sidebarPosition,
     frontMatter,
@@ -268,6 +285,7 @@ export function processDocMetadata(args: {
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
+  env: DocEnv;
 }): DocMetadataBase {
   try {
     return doProcessDocMetadata(args);
@@ -327,7 +345,7 @@ export function addDocNavigation(
   }
 
   const docsWithNavigation = docsBase.map(addNavData);
-  // sort to ensure consistent output for tests
+  // Sort to ensure consistent output for tests
   docsWithNavigation.sort((a, b) => a.id.localeCompare(b.id));
   return docsWithNavigation;
 }
@@ -414,7 +432,7 @@ export function getDocIds(doc: DocMetadataBase): [string, string] {
   return [doc.unversionedId, doc.id];
 }
 
-// docs are indexed by both versioned and unversioned ids at the same time
+// Docs are indexed by both versioned and unversioned ids at the same time
 // TODO legacy retro-compatibility due to old versioned sidebars using
 // versioned doc ids ("id" should be removed & "versionedId" should be renamed
 // to "id")

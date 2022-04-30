@@ -8,7 +8,7 @@
 import React from 'react';
 import BlogLayout from '@theme/BlogLayout';
 import ChangelogItem from '@theme/ChangelogItem';
-import BlogPostPaginator from '@theme/BlogPostPaginator';
+import ChangelogPaginator from '@theme/ChangelogPaginator';
 import type {Props} from '@theme/BlogPostPage';
 import {
   PageMetadata,
@@ -97,7 +97,7 @@ function ChangelogPageContent(props: Props): JSX.Element {
         </ChangelogItem>
 
         {(nextItem || prevItem) && (
-          <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+          <ChangelogPaginator nextItem={nextItem} prevItem={prevItem} />
         )}
       </BlogLayout>
     </>

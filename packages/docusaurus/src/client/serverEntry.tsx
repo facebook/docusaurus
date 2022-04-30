@@ -16,7 +16,6 @@ import Loadable from 'react-loadable';
 import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
-import routes from '@generated/routes';
 import preload from './preload';
 import App from './App';
 import {
@@ -27,9 +26,7 @@ import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
 import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../../package.json');
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -71,18 +68,20 @@ async function doRender(locals: Locals & {path: string}) {
     preBodyTags,
     postBodyTags,
     onLinksCollected,
+    onHeadTagsCollected,
     baseUrl,
     ssrTemplate,
     noIndex,
   } = locals;
   const location = routesLocation[locals.path]!;
-  await preload(routes, location);
+  await preload(location);
   const modules = new Set<string>();
   const routerContext = {};
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
+    // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
@@ -104,13 +103,12 @@ async function doRender(locals: Locals & {path: string}) {
     helmet.link.toString(),
     helmet.script.toString(),
   ];
+  onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
 
   const {generatedFilesDir} = locals;
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-  const manifest: Manifest = JSON.parse(
-    await fs.readFile(manifestPath, 'utf8'),
-  );
+  const manifest: Manifest = await fs.readJSON(manifestPath);
 
   // Get all required assets for this particular page based on client
   // manifest information.
@@ -131,7 +129,7 @@ async function doRender(locals: Locals & {path: string}) {
     scripts,
     stylesheets,
     noIndex,
-    version: packageJson.version,
+    version: DOCUSAURUS_VERSION,
   });
 
   try {

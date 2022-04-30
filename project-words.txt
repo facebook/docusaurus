@@ -21,6 +21,7 @@ backticks
 bartosz
 beforeinstallprompt
 bhatt
+blocklist
 blockquotes
 browserslist
 browserstack
@@ -214,6 +215,7 @@ preconfigured
 preconnect
 prefetch
 prefetching
+preloads
 prepended
 preprocessors
 prerendered

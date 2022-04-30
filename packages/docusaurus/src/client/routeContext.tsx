@@ -32,7 +32,7 @@ function mergeContexts({
   const data = {...parent.data, ...value?.data};
 
   return {
-    // nested routes are not supposed to override plugin attribute
+    // Nested routes are not supposed to override plugin attribute
     plugin: parent.plugin,
     data,
   };

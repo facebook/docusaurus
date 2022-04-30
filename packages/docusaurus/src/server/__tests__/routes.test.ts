@@ -117,6 +117,9 @@ describe('loadRoutes', () => {
             content: 'docs/hello.md',
             metadata: 'docs-hello-da2.json',
           },
+          context: {
+            plugin: 'pluginRouteContextModule-100.json',
+          },
           sidebar: 'main',
         },
         {
@@ -125,6 +128,9 @@ describe('loadRoutes', () => {
           modules: {
             content: 'docs/foo/baz.md',
             metadata: 'docs-foo-baz-dd9.json',
+          },
+          context: {
+            plugin: 'pluginRouteContextModule-100.json',
           },
           sidebar: 'secondary',
           'key:a': 'containing colon',
@@ -177,9 +183,9 @@ describe('loadRoutes', () => {
 
     expect(() => loadRoutes([routeConfigWithoutPath], '/', 'ignore'))
       .toThrowErrorMatchingInlineSnapshot(`
-            "Invalid route config: path must be a string and component is required.
-            {\\"component\\":\\"hello/world.js\\"}"
-          `);
+      "Invalid route config: path must be a string and component is required.
+      {"component":"hello/world.js"}"
+    `);
 
     const routeConfigWithoutComponent = {
       path: '/hello/world',
@@ -187,9 +193,9 @@ describe('loadRoutes', () => {
 
     expect(() => loadRoutes([routeConfigWithoutComponent], '/', 'ignore'))
       .toThrowErrorMatchingInlineSnapshot(`
-            "Invalid route config: path must be a string and component is required.
-            {\\"path\\":\\"/hello/world\\"}"
-          `);
+      "Invalid route config: path must be a string and component is required.
+      {"path":"/hello/world"}"
+    `);
   });
 
   it('loads route config with empty (but valid) path string', () => {

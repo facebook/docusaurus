@@ -3,16 +3,16 @@
 exports[`error prints objects 1`] = `
 [
   [
-    "[31m[1m[ERROR][22m {\\"a\\":1}[39m",
+    "[ERROR] {"a":1}",
   ],
   [
-    "[31m[1m[ERROR][22m undefined[39m",
+    "[ERROR] undefined",
   ],
   [
-    "[31m[1m[ERROR][22m 1,2,3[39m",
+    "[ERROR] 1,2,3",
   ],
   [
-    "[31m[1m[ERROR][22m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)[39m",
+    "[ERROR] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
   ],
 ]
 `;
@@ -20,16 +20,16 @@ exports[`error prints objects 1`] = `
 exports[`info prints objects 1`] = `
 [
   [
-    "[36m[1m[INFO][22m[39m {\\"a\\":1}",
+    "[INFO] {"a":1}",
   ],
   [
-    "[36m[1m[INFO][22m[39m undefined",
+    "[INFO] undefined",
   ],
   [
-    "[36m[1m[INFO][22m[39m 1,2,3",
+    "[INFO] 1,2,3",
   ],
   [
-    "[36m[1m[INFO][22m[39m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+    "[INFO] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
   ],
 ]
 `;
@@ -37,16 +37,16 @@ exports[`info prints objects 1`] = `
 exports[`success prints objects 1`] = `
 [
   [
-    "[32m[1m[SUCCESS][22m[39m {\\"a\\":1}",
+    "[SUCCESS] {"a":1}",
   ],
   [
-    "[32m[1m[SUCCESS][22m[39m undefined",
+    "[SUCCESS] undefined",
   ],
   [
-    "[32m[1m[SUCCESS][22m[39m 1,2,3",
+    "[SUCCESS] 1,2,3",
   ],
   [
-    "[32m[1m[SUCCESS][22m[39m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+    "[SUCCESS] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
   ],
 ]
 `;
@@ -54,16 +54,16 @@ exports[`success prints objects 1`] = `
 exports[`warn prints objects 1`] = `
 [
   [
-    "[33m[1m[WARNING][22m {\\"a\\":1}[39m",
+    "[WARNING] {"a":1}",
   ],
   [
-    "[33m[1m[WARNING][22m undefined[39m",
+    "[WARNING] undefined",
   ],
   [
-    "[33m[1m[WARNING][22m 1,2,3[39m",
+    "[WARNING] 1,2,3",
   ],
   [
-    "[33m[1m[WARNING][22m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)[39m",
+    "[WARNING] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
   ],
 ]
 `;

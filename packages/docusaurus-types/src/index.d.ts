@@ -10,6 +10,7 @@ import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
+import type {HelmetServerState} from 'react-helmet-async';
 import type {
   DeepRequired,
   Required as RequireKeys,
@@ -27,9 +28,15 @@ export type PluginConfig =
   | string
   | [string, PluginOptions]
   | [PluginModule, PluginOptions]
-  | PluginModule;
+  | PluginModule
+  | false
+  | null;
 
-export type PresetConfig = string | [string, {[key: string]: unknown}];
+export type PresetConfig =
+  | string
+  | [string, {[key: string]: unknown}]
+  | false
+  | null;
 
 export type ThemeConfig = {
   [key: string]: unknown;
@@ -39,6 +46,7 @@ export type I18nLocaleConfig = {
   label: string;
   htmlLang: string;
   direction: string;
+  calendar: string;
 };
 
 export type I18nConfig = {
@@ -305,14 +313,19 @@ export type Plugin<Content = unknown> = {
   name: string;
   loadContent?: () => Promise<Content> | Content;
   contentLoaded?: (args: {
-    /** the content loaded by this plugin instance */
+    /** The content loaded by this plugin instance */
     content: Content; //
-    /** content loaded by ALL the plugins */
+    /** Content loaded by ALL the plugins */
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?: (props: Props & {content: Content}) => Promise<void> | void;
+  postBuild?: (
+    props: Props & {
+      content: Content;
+      head: {[location: string]: HelmetServerState};
+    },
+  ) => Promise<void> | void;
   // TODO refactor the configureWebpack API surface: use an object instead of
   // multiple params (requires breaking change)
   configureWebpack?: (
@@ -487,6 +500,12 @@ export type RouteConfig = {
    * `createData`)
    */
   modules?: RouteModules;
+  /**
+   * The route context will wrap the `component`. Use `useRouteContext` to
+   * retrieve what's declared here. Note that all custom route context declared
+   * here will be namespaced under {@link RouteContext.data}.
+   */
+  context?: RouteModules;
   /** Nested routes config. */
   routes?: RouteConfig[];
   /** React router config option: `exact` routes would not match subroutes. */
@@ -582,9 +601,39 @@ export type TOCItem = {
 };
 
 export type ClientModule = {
+  onRouteDidUpdate?: (args: {
+    previousLocation: Location | null;
+    location: Location;
+  }) => (() => void) | void;
   onRouteUpdate?: (args: {
     previousLocation: Location | null;
     location: Location;
-  }) => void;
-  onRouteUpdateDelayed?: (args: {location: Location}) => void;
+  }) => (() => void) | void;
+};
+
+/** What the user configures. */
+export type Tag = {
+  label: string;
+  /** Permalink to this tag's page, without the `/tags/` base path. */
+  permalink: string;
+};
+
+/** What the tags list page should know about each tag. */
+export type TagsListItem = Tag & {
+  /** Number of posts/docs with this tag. */
+  count: number;
+};
+
+/** What the tag's own page should know about the tag. */
+export type TagModule = TagsListItem & {
+  /** The tags list page's permalink. */
+  allTagsPath: string;
+};
+
+export type UseDataOptions = {
+  /**
+   * Throw an error, or simply return undefined if the data cannot be found. Use
+   * `true` if you are sure the data must exist.
+   */
+  failfast?: boolean;
 };

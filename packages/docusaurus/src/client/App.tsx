@@ -6,9 +6,12 @@
  */
 
 import React from 'react';
-import {useLocation} from './exports/router';
+import '@generated/client-modules';
+
 import routes from '@generated/routes';
-import renderRoutes from './exports/renderRoutes';
+import {useLocation} from '@docusaurus/router';
+import normalizeLocation from './normalizeLocation';
+import renderRoutes from '@docusaurus/renderRoutes';
 import {BrowserContextProvider} from './browserContext';
 import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
@@ -18,14 +21,13 @@ import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
 import RouteAnnouncer from './RouteAnnouncer';
 
-import './clientLifecyclesDispatcher';
-
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
 export default function App(): JSX.Element {
-  const {pathname} = useLocation();
+  const routeElement = renderRoutes(routes);
+  const location = useLocation();
   return (
     <ErrorBoundary fallback={Error}>
       <DocusaurusContextProvider>
@@ -34,9 +36,9 @@ export default function App(): JSX.Element {
             <SiteMetadataDefaults />
             <SiteMetadata />
             <BaseUrlIssueBanner />
-            <PendingNavigation routes={routes} delay={1000}>
-              <RouteAnnouncer location={pathname}>
-                {renderRoutes(routes)}
+            <PendingNavigation location={normalizeLocation(location)}>
+              <RouteAnnouncer location={location.pathname}>
+                {routeElement}
               </RouteAnnouncer>
             </PendingNavigation>
           </Root>

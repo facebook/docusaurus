@@ -152,9 +152,7 @@ declare module '@docusaurus/Link' {
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
 
-      /**
-       * escape hatch in case broken links check is annoying for a specific link
-       */
+      /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
   export default function Link(props: Props): JSX.Element;
@@ -315,16 +313,18 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
-  import type {GlobalData} from '@docusaurus/types';
+  import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
   export function useAllPluginInstancesData(
     pluginName: string,
-  ): GlobalData[string];
+    options?: UseDataOptions,
+  ): GlobalData[string] | undefined;
 
   export function usePluginData(
     pluginName: string,
     pluginId?: string,
-  ): GlobalData[string][string];
+    options?: UseDataOptions,
+  ): GlobalData[string][string] | undefined;
 
   export default function useGlobalData(): GlobalData;
 }

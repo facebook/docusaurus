@@ -86,7 +86,7 @@ Client modules are part of your site's bundle, just like theme components. Howev
 
 These modules are imported globally before React even renders the initial UI.
 
-```js title="App.tsx"
+```js title="@docusaurus/core/App.tsx"
 // How it works under the hood
 import '@generated/client-modules';
 ```
@@ -117,5 +117,70 @@ CSS stylesheets imported as client modules are [global](../styling-layout.md#glo
 }
 ```
 
-<!-- TODO client module lifecycles -->
-<!-- https://github.com/facebook/docusaurus/issues/3399 -->
+### Client module lifecycles {#client-module-lifecycles}
+
+Besides introducing side-effects, client modules can optionally export two lifecycle functions: `onRouteUpdate` and `onRouteDidUpdate`.
+
+Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not re-execute on page transitions. These lifecycles are useful if you have some imperative JS logic that should execute every time a new page has loaded, e.g., to manipulate DOM elements, to send analytics data, etc.
+
+For every route transition, there will be several important timings:
+
+1. The user clicks a link, which causes the router to change its current location.
+2. Docusaurus preloads the next route's assets, while keeping displaying the current page's content.
+3. The next route's assets have loaded.
+4. The new location's route component gets rendered to DOM.
+
+`onRouteUpdate` will be called at event (2), and `onRouteDidUpdate` will be called at (4). They both receive the current location and the previous location (which can be `null`, if this is the first screen).
+
+`onRouteUpdate` can optionally return a "cleanup" callback, which will be called at (3). For example, if you want to display a progress bar, you can start a timeout in `onRouteUpdate`, and clear the timeout in the callback. (The classic theme already provides an `nprogress` integration this way.)
+
+Note that the new page's DOM is only available during event (4). If you need to manipulate the new page's DOM, you'll likely want to use `onRouteDidUpdate`, which will be fired as soon as the DOM on the new page has mounted.
+
+```js title="myClientModule.js"
+import type {Location} from 'history';
+
+export function onRouteDidUpdate({location, previousLocation}) {
+  // Don't execute if we are still on the same page; the lifecycle may be fired
+  // because the hash changes (e.g. when navigating between headings)
+  if (location.pathname !== previousLocation?.pathname) {
+    const title = document.getElementsByTagName('h1')[0];
+    if (title) {
+      title.innerText += '❤️';
+    }
+  }
+}
+
+export function onRouteUpdate({location, previousLocation}) {
+  if (location.pathname !== previousLocation?.pathname) {
+    const progressBarTimeout = window.setTimeout(() => {
+      nprogress.start();
+    }, delay);
+    return () => window.clearTimeout(progressBarTimeout);
+  }
+  return undefined;
+}
+```
+
+Or, if you are using TypeScript and you want to leverage contextual typing:
+
+```ts title="myClientModule.js"
+import type {ClientModule} from '@docusaurus/types';
+
+const module: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    // ...
+  },
+  onRouteDidUpdate({location, previousLocation}) {
+    // ...
+  },
+};
+export default module;
+```
+
+Both lifecycles will fire on first render, but they will not fire on server-side, so you can safely access browser globals in them.
+
+:::tip Prefer using React
+
+Client module lifecycles are purely imperative, and you can't use React hooks or access React contexts within them. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.md) instead.
+
+:::

@@ -20,3 +20,9 @@
     display: none;
   }
 }
+
+@media print {
+  .tocMobile {
+    display: none;
+  }
+}

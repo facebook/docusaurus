@@ -7,6 +7,13 @@ on:
     paths-ignore:
       - website/**
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   windows-test:
     name: Windows Tests
@@ -14,13 +21,14 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: ['14', '16', '17']
+        node: ['14', '16', '18']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           node-version: ${{ matrix.node }}
       - name: Installation

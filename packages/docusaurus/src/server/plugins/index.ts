@@ -98,28 +98,25 @@ export async function loadPlugins(context: LoadContext): Promise<{
         return;
       }
       const pluginId = plugin.options.id;
-      // plugins data files are namespaced by pluginName/pluginId
+      // Plugins data files are namespaced by pluginName/pluginId
       const dataDir = path.join(
         context.generatedFilesDir,
         plugin.name,
         pluginId,
       );
-      // TODO this would be better to do all that in the codegen phase
-      // TODO handle context for nested routes
-      const pluginRouteContext: PluginRouteContext = {
-        plugin: {name: plugin.name, id: pluginId},
-        data: undefined, // TODO allow plugins to provide context data
-      };
       const pluginRouteContextModulePath = path.join(
         dataDir,
         `${docuHash('pluginRouteContextModule')}.json`,
       );
+      const pluginRouteContext: PluginRouteContext['plugin'] = {
+        name: plugin.name,
+        id: pluginId,
+      };
       await generate(
         '/',
         pluginRouteContextModulePath,
         JSON.stringify(pluginRouteContext, null, 2),
       );
-
       const actions: PluginContentLoadedActions = {
         addRoute(initialRouteConfig) {
           // Trailing slash behavior is handled generically for all plugins
@@ -129,9 +126,9 @@ export async function loadPlugins(context: LoadContext): Promise<{
           );
           pluginsRouteConfigs.push({
             ...finalRouteConfig,
-            modules: {
-              ...finalRouteConfig.modules,
-              __context: pluginRouteContextModulePath,
+            context: {
+              ...(finalRouteConfig.context && {data: finalRouteConfig.context}),
+              plugin: pluginRouteContextModulePath,
             },
           });
         },

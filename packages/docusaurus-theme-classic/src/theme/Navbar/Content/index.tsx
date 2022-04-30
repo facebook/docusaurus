@@ -17,6 +17,7 @@ import {
 } from '@docusaurus/theme-common';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
+import NavbarSearch from '@theme/Navbar/Search';
 import styles from './styles.module.css';
 
 function useNavbarItems() {
@@ -73,7 +74,11 @@ export default function NavbarContent(): JSX.Element {
         <>
           <NavbarItems items={rightItems} />
           <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {autoAddSearchBar && <SearchBar />}
+          {autoAddSearchBar && (
+            <NavbarSearch>
+              <SearchBar />
+            </NavbarSearch>
+          )}
         </>
       }
     />

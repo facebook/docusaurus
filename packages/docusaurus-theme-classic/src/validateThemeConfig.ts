@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -32,6 +33,7 @@ export const DEFAULT_CONFIG = {
   metadata: [],
   prism: {
     additionalLanguages: [],
+    theme: defaultPrismTheme,
   },
   navbar: {
     hideOnScroll: false,
@@ -49,8 +51,10 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
+  html: Joi.string(),
   className: Joi.string(),
 })
+  .nand('html', 'label')
   // We allow any unknown attributes on the links (users may need additional
   // attributes like target, aria-role, data-customAttribute...)
   .unknown();
@@ -89,11 +93,28 @@ const DocSidebarItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
-const itemWithType = (type: string | undefined) => {
-  // because equal(undefined) is not supported :/
-  const typeSchema = type
-    ? Joi.string().required().equal(type)
-    : Joi.string().forbidden();
+const HtmlNavbarItemSchema = Joi.object({
+  className: Joi.string(),
+  type: Joi.string().equal('html').required(),
+  value: Joi.string().required(),
+});
+
+// A temporary workaround to allow users to add custom navbar items
+// See https://github.com/facebook/docusaurus/issues/7227
+const CustomNavbarItemRegexp = /custom-.*/;
+const CustomNavbarItemSchema = Joi.object({
+  type: Joi.string().regex(CustomNavbarItemRegexp).required(),
+}).unknown();
+
+const itemWithType = (type: string | RegExp | undefined) => {
+  // Because equal(undefined) is not supported :/
+  const typeSchema =
+    // eslint-disable-next-line no-nested-ternary
+    type instanceof RegExp
+      ? Joi.string().required().regex(type)
+      : type
+      ? Joi.string().required().equal(type)
+      : Joi.string().forbidden();
   return Joi.object({
     type: typeSchema,
   })
@@ -120,6 +141,14 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType(undefined),
       then: DefaultNavbarItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
+    },
+    {
+      is: itemWithType(CustomNavbarItemRegexp),
+      then: CustomNavbarItemSchema,
     },
     {
       is: Joi.alternatives().try(
@@ -193,6 +222,14 @@ const NavbarItemSchema = Joi.object({
       then: SearchItemSchema,
     },
     {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
+    },
+    {
+      is: itemWithType(CustomNavbarItemRegexp),
+      then: CustomNavbarItemSchema,
+    },
+    {
       is: itemWithType(undefined),
       then: Joi.object().when('.', {
         // Dropdown item can be specified without type field
@@ -223,7 +260,6 @@ const ColorModeSchema = Joi.object({
   }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
-// schema can probably be improved
 const HtmlMetadataSchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),
@@ -333,7 +369,7 @@ export const ThemeConfigSchema = Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
+    }).default(DEFAULT_CONFIG.prism.theme),
     darkTheme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),

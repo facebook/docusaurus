@@ -87,7 +87,8 @@ export function Details({
           setOpen(true);
         } else {
           setCollapsed(true);
-          // setOpen(false); // Don't do this, it breaks close animation!
+          // Don't do this, it breaks close animation!
+          // setOpen(false);
         }
       }}>
       {summary}

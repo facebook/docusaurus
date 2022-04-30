@@ -75,7 +75,7 @@ const sourceToPermalink: SourceToPermalink = {
 
   '@site/i18n/fr/docusaurus-plugin-content-docs/current/doc-localized.md':
     '/fr/doc-localized',
-  '@site/docs/doc-localized': '/doc-localized',
+  '@site/docs/doc-localized.md': '/doc-localized',
 };
 
 function createMarkdownOptions(
@@ -200,7 +200,7 @@ describe('linkify', () => {
     await expect(() =>
       transform(doc1),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected error: Markdown file at \\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/markdown/__tests__/__fixtures__/outside/doc1.md\\" does not belong to any docs version!"`,
+      `"Unexpected error: Markdown file at "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/markdown/__tests__/__fixtures__/outside/doc1.md" does not belong to any docs version!"`,
     );
   });
 });

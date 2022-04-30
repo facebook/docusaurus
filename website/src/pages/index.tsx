@@ -54,7 +54,7 @@ function HeroBanner() {
             <Translate>Get Started</Translate>
           </Link>
           <Link className="button button--info" to="https://docusaurus.new">
-            <Translate>Playground</Translate>
+            <Translate>Try a Demo</Translate>
           </Link>
           <span className={styles.indexCtasGitHubButtonWrapper}>
             <iframe
@@ -108,7 +108,7 @@ function TweetsSection() {
     <div className={clsx(styles.section, styles.sectionAlt)}>
       <div className="container">
         <h2 className={clsx('margin-bottom--lg', 'text--center')}>
-          Loved by many engineers
+          <Translate>Loved by many engineers</Translate>
         </h2>
         <div className={clsx('row', styles.tweetsSection)}>
           {tweetColumns.map((tweetItems, i) => (
@@ -168,7 +168,6 @@ function VideoContainer() {
               height="315"
               src="https://www.youtube.com/embed/_An9EsKPhp0"
               title="Explain Like I'm 5: Docusaurus"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               loading="lazy"
@@ -194,8 +193,8 @@ function Feature({
       <img
         className={styles.featureImage}
         alt={feature.title}
-        width={feature.image.width}
-        height={feature.image.height}
+        width={Math.floor(feature.image.width)}
+        height={Math.floor(feature.image.height)}
         src={withBaseUrl(feature.image.src)}
         loading="lazy"
       />
