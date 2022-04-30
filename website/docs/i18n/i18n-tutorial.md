@@ -423,7 +423,7 @@ Generated ids are not always a good fit for localized sites, as it requires you 
 + [link](#bonjour-le-monde)
 ```
 
-For localized sites, it is recommended to use **[explicit heading ids](../guides/markdown-features/markdown-features-headings.mdx#explicit-ids)**.
+For localized sites, it is recommended to use **[explicit heading ids](../guides/markdown-features/markdown-features-toc.mdx#explicit-ids)**.
 
 :::
 
