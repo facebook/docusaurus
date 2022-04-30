@@ -5,7 +5,9 @@ description: Declaring page-specific head metadata through MDX
 slug: /markdown-features/head-metadata
 ---
 
-# Head Metadata
+# Head metadata
+
+## Customizing head metadata {#customizing-head-metadata}
 
 Docusaurus automatically sets useful page metadata in `<html>`, `<head>` and `<body>` for you. It is possible to add extra metadata (or override existing ones) with the `<head>` tag in Markdown files:
 
@@ -42,9 +44,11 @@ My text
 </head>
 ```
 
-:::tip
-
 This `<head>` declaration has been added to the current Markdown doc as a demo. Open your browser DevTools and check how this page's metadata has been affected.
+
+:::note
+
+This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.md#head) component. Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
 
 :::
 
@@ -54,8 +58,26 @@ Content plugins (e.g. docs and blog) provide front matter options like `descript
 
 :::
 
-:::note
+## Markdown page description {#markdown-page-description}
 
-This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.md#head) component. Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
+The Markdown pages' description metadata may be used in more places than the head metadata. For example, the docs plugin's [generated category index](../docs/sidebar/items.md#generated-index-page) uses the description metadata for the doc cards.
 
-:::
+By default, the description is the first content-ful line, with some efforts to convert it to plain text. For example, the following file...
+
+```md
+# Title
+
+Main content... May contain some [links](./file.md) or **emphasis**.
+```
+
+...will have the default description "Main content... May contain some links or emphasis". However, **it's not designed to be fully functional**. Where it fails to produce reasonable descriptions, you can explicitly provide one through front matter:
+
+```md
+---
+description: This description will override the default.
+---
+
+# Title
+
+Main content... May contain some [links](./file.md) or **emphasis**.
+```
