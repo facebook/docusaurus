@@ -9,8 +9,10 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - website/docs/**
+    paths:
+      - packages/**
+      - website/**
+      - '!website/docs/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
