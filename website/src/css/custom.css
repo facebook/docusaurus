@@ -25,7 +25,7 @@ html[data-theme='dark'] {
   --site-color-feedback-background: #f0f8ff;
   --site-color-favorite-background: #1d1e1e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
-  --docusaurus-highlighted-code-line-bg: rgb(66 66 66 / 30%);
+  --docusaurus-highlighted-code-line-bg: rgb(66 66 66 / 35%);
 }
 
 [data-theme='light'] {

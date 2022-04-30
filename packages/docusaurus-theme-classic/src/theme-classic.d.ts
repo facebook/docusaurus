@@ -938,6 +938,7 @@ declare module '@theme/PaginatorNavLink' {
   export interface Props extends Omit<PropNavigationLink, 'title'> {
     readonly title: ReactNode;
     readonly subLabel?: JSX.Element;
+    readonly isPrev?: boolean;
   }
 
   export default function PaginatorNavLink(props: Props): JSX.Element;

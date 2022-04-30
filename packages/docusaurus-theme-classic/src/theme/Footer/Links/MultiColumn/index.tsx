@@ -31,7 +31,7 @@ function Column({column}: {column: ColumnType}) {
   return (
     <div className="col footer__col">
       <div className="footer__title">{column.title}</div>
-      <ul className="footer__items">
+      <ul className="footer__items clean-list">
         {column.items.map((item, i) => (
           <ColumnLinkItem key={i} item={item} />
         ))}

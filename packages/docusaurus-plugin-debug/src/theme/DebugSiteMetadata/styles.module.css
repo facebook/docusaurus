@@ -9,12 +9,7 @@
   margin-top: 20px;
 }
 
-.list {
-  padding: 0;
-}
-
 .listItem {
-  list-style: none;
   background-color: #242526;
   padding: 10px;
   border-radius: 4px;
