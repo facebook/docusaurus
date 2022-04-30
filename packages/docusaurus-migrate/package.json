@@ -22,7 +22,7 @@
     "docusaurus-migrate": "bin/index.mjs"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-env": "^7.17.10",
     "@docusaurus/logger": "2.0.0-beta.18",
     "@docusaurus/utils": "2.0.0-beta.18",
     "@mapbox/hast-util-to-jsx": "^2.0.0",
@@ -43,6 +43,6 @@
   },
   "devDependencies": {
     "@types/color": "^3.0.3",
-    "@types/jscodeshift": "^0.11.4"
+    "@types/jscodeshift": "^0.11.5"
   }
 }

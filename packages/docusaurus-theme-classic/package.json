@@ -36,15 +36,15 @@
     "infima": "0.2.0-alpha.38",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
     "prism-react-renderer": "^1.3.1",
     "prismjs": "^1.28.0",
     "react-router-dom": "^5.2.0",
     "rtlcss": "^3.5.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
     "@docusaurus/module-type-aliases": "2.0.0-beta.18",
     "@docusaurus/types": "2.0.0-beta.18",
