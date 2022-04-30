@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "Wir konnten nicht finden, wonach Sie gesucht haben.",
   "theme.NotFound.p2": "Bitte kontaktieren Sie den Besitzer der Seite, die Sie mit der ursprünglichen URL verlinkt hat, und teilen Sie ihm mit, dass der Link nicht mehr funktioniert.",
   "theme.NotFound.title": "Seite nicht gefunden",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "Auf dieser Seite",
   "theme.blog.archive.description": "Archiv",
   "theme.blog.archive.title": "Archiv",

@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "К сожалению, мы не смогли найти запрашиваемую вами страницу.",
   "theme.NotFound.p2": "Пожалуйста, обратитесь к владельцу сайта, с которого вы перешли на эту ссылку, чтобы сообщить ему, что ссылка не работает.",
   "theme.NotFound.title": "Страница не найдена",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "Содержание этой страницы",
   "theme.blog.archive.description": "Архив",
   "theme.blog.archive.title": "Архив",

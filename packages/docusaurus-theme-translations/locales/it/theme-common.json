@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "Non siamo riusciti a trovare quello che stavi cercando.",
   "theme.NotFound.p2": "Contatta il proprietario del sito che ti ha collegato all'URL originale e fagli sapere che il loro collegamento è interrotto.",
   "theme.NotFound.title": "Pagina non trovata",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "Su questa pagina",
   "theme.blog.archive.description": "Archivio",
   "theme.blog.archive.title": "Archivio",

@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "お探しのページが見つかりませんでした。",
   "theme.NotFound.p2": "このページにリンクしているサイトの所有者に連絡をしてリンクが壊れていることを伝えてください。",
   "theme.NotFound.title": "ページが見つかりません",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.archive.description": "Archive",
   "theme.blog.archive.title": "Archive",

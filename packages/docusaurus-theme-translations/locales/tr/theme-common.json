@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "Aradığınız şeyi bulamadık.",
   "theme.NotFound.p2": "Lütfen sizi orijinal URL'ye yönlendiren sitenin sahibiyle iletişime geçin ve bağlantısının bozuk olduğunu bildirin.",
   "theme.NotFound.title": "Sayfa Bulunamadı",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "Bu sayfada",
   "theme.blog.archive.description": "Arşiv",
   "theme.blog.archive.title": "Arşiv",

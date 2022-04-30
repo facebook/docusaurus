@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "Nepodařilo se nám najít co jste hledal(a).",
   "theme.NotFound.p2": "Kontaktujte prosím vlastníka webu, který vás odkázal na původní URL a upozorněte ho, že jejich odkaz nefunguje.",
   "theme.NotFound.title": "Stránka nenalezena",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "Na této stránce",
   "theme.blog.archive.description": "Archive",
   "theme.blog.archive.title": "Archive",

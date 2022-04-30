@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "אנחנו לא מוצאים את מה שאתה מנסה לחפש.",
   "theme.NotFound.p2": "הקישור אינו תקין, אנא פנה למנהל האתר ממנו קיבלת קישור זה.",
   "theme.NotFound.title": "דף לא נמצא",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "בעמוד זה",
   "theme.blog.archive.description": "Archive",
   "theme.blog.archive.title": "Archive",

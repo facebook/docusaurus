@@ -23,6 +23,8 @@
   "theme.NotFound.p2___DESCRIPTION": "The 2nd paragraph of the 404 page",
   "theme.NotFound.title": "Page Not Found",
   "theme.NotFound.title___DESCRIPTION": "The title of the 404 page",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
+  "theme.RouteAnnouncer.content___DESCRIPTION": "The text announced by screen reader when the user has navigated to a new page",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.TOCCollapsible.toggleButtonLabel___DESCRIPTION": "The label used by the button on the collapsible TOC component",
   "theme.blog.archive.description": "Archive",

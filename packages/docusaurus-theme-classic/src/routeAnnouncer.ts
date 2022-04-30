@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {translate} from '@docusaurus/Translate';
 import type {ClientModule} from '@docusaurus/types';
 
 const clientModule: ClientModule = {
   onRouteDidUpdate({location, previousLocation}) {
-    if (!previousLocation || location.pathname !== previousLocation.pathname) {
+    if (!previousLocation || location.pathname === previousLocation.pathname) {
       return;
     }
     const announcerContainer = document.createElement(
@@ -36,7 +37,15 @@ const clientModule: ClientModule = {
     });
     const firstHeading = document.querySelectorAll(`#__docusaurus h1`)[0];
     const pageName = firstHeading?.textContent ?? document.title;
-    announcement.innerText = `Navigated to ${pageName}`;
+    announcement.innerText = translate(
+      {
+        message: 'Navigated to {pageName}',
+        id: 'theme.RouteAnnouncer.content',
+        description:
+          'The text announced by screen reader when the user has navigated to a new page',
+      },
+      {pageName},
+    );
     announcerContainer.appendChild(announcement);
     document.body.appendChild(announcerContainer);
   },

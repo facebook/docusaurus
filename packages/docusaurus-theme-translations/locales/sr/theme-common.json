@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "Тражени резултат не постоји.",
   "theme.NotFound.p2": "Молимо вас да контактирате власника сајта који вас је упутио овде и обавестите га да је њихова веза нетачна.",
   "theme.NotFound.title": "Страница није пронађена",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "На овој страници",
   "theme.blog.archive.description": "Архива",
   "theme.blog.archive.title": "Архива",

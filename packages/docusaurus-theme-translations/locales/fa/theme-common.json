@@ -11,6 +11,7 @@
   "theme.NotFound.p1": "صفحه ای که دنبال آن بودید پیدا نشد.",
   "theme.NotFound.p2": "لطفا با صاحب وبسایت تماس بگیرید و ایشان را از مشکل پیش آمده مطلع کنید.",
   "theme.NotFound.title": "صفحه ای که دنبال آن بودید پیدا نشد.",
+  "theme.RouteAnnouncer.content": "Navigated to {pageName}",
   "theme.TOCCollapsible.toggleButtonLabel": "مطالب این صفحه",
   "theme.blog.archive.description": "آرشیو",
   "theme.blog.archive.title": "آرشیو",
