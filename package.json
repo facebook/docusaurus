@@ -13,7 +13,6 @@
   "scripts": {
     "start": "yarn build:packages && yarn start:website",
     "start:website": "yarn workspace website start",
-    "start:website:watch": "nodemon --watch \"./packages/*/lib/**/*.*\" --exec \"yarn start:website\"",
     "start:website:baseUrl": "yarn workspace website start:baseUrl",
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
@@ -101,7 +100,6 @@
     "lerna": "^4.0.0",
     "lerna-changelog": "^2.2.0",
     "lint-staged": "^12.4.1",
-    "nodemon": "^2.0.16",
     "prettier": "^2.6.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
