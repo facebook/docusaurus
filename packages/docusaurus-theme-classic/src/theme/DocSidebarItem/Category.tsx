@@ -127,23 +127,21 @@ export default function DocSidebarItemCategory({
     setExpandedItem(toCollapsed ? null : index);
     setCollapsed(toCollapsed);
   }
-  const {autoCollapseSidebarCategories} = useThemeConfig();
+  const {
+    docs: {
+      sidebar: {autoCollapseCategories},
+    },
+  } = useThemeConfig();
   useEffect(() => {
     if (
       collapsible &&
       expandedItem &&
       expandedItem !== index &&
-      autoCollapseSidebarCategories
+      autoCollapseCategories
     ) {
       setCollapsed(true);
     }
-  }, [
-    collapsible,
-    expandedItem,
-    index,
-    setCollapsed,
-    autoCollapseSidebarCategories,
-  ]);
+  }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
 
   return (
     <li

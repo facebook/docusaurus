@@ -133,7 +133,6 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
     ],
     "style": "light",
   },
-  "hideableSidebar": true,
   "navbar": {
     "hideOnScroll": false,
     "items": [

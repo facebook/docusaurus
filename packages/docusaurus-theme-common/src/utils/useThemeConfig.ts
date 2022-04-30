@@ -104,6 +104,10 @@ export type TableOfContents = {
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
+    sidebar: {
+      hideable: boolean;
+      autoCollapseCategories: boolean;
+    };
   };
 
   // TODO we should complete this theme config type over time
@@ -116,11 +120,8 @@ export type ThemeConfig = {
   announcementBar?: AnnouncementBarConfig;
   prism: PrismConfig;
   footer?: Footer;
-  hideableSidebar: boolean;
-  autoCollapseSidebarCategories: boolean;
   image?: string;
   metadata: Array<{[key: string]: string}>;
-  sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };
 

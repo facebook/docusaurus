@@ -354,8 +354,12 @@ const config = {
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },
-      hideableSidebar: true,
-      autoCollapseSidebarCategories: true,
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: true,
+        },
+      },
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
