@@ -311,6 +311,7 @@ typedoc
 typesense
 unflat
 unist
+unlinkable
 unlocalized
 unmatch
 unnormalized
