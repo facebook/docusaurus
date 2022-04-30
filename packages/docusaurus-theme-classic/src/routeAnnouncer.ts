@@ -12,11 +12,8 @@ import './routeAnnouncer.css';
 const clientModule: ClientModule = {
   onRouteDidUpdate({location, previousLocation}) {
     if (!previousLocation || location.pathname === previousLocation.pathname) {
-      return;
+      return undefined;
     }
-    Array.from(
-      document.getElementsByTagName('docusaurus-route-announcer'),
-    ).forEach(document.removeChild);
     const announcerContainer = document.createElement(
       'docusaurus-route-announcer',
     );
@@ -39,6 +36,7 @@ const clientModule: ClientModule = {
     );
     announcerContainer.appendChild(announcement);
     document.body.appendChild(announcerContainer);
+    return () => document.body.removeChild(announcerContainer);
   },
 };
 

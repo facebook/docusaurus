@@ -46,8 +46,12 @@ function ClientLifecyclesDispatcher({
         const element = document.getElementById(id);
         element?.scrollIntoView();
       }
-      dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
+      return dispatchLifecycleAction('onRouteDidUpdate', {
+        previousLocation,
+        location,
+      });
     }
+    return undefined;
   }, [previousLocation, location]);
   return children;
 }
