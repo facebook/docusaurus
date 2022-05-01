@@ -35,7 +35,7 @@
     "jscodeshift": "^0.13.1",
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
-    "remark-stringify": "^8.1.0",
+    "remark-stringify": "^9.0.1",
     "semver": "^7.3.7",
     "tslib": "^2.4.0",
     "unified": "^9.2.2",
