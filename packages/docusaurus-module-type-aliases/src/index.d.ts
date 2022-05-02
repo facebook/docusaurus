@@ -346,3 +346,10 @@ declare module '*.css' {
   const src: string;
   export default src;
 }
+
+interface Window {
+  docusaurus: {
+    prefetch: (url: string) => false | Promise<void[]>;
+    preload: (url: string) => false | Promise<void[]>;
+  };
+}

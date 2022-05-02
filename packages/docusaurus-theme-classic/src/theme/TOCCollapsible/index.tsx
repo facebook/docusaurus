@@ -7,11 +7,11 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Translate from '@docusaurus/Translate';
 import {useCollapsible, Collapsible} from '@docusaurus/theme-common';
-import styles from './styles.module.css';
+import styles from './index.module.css';
 import TOCItems from '@theme/TOCItems';
 import type {Props} from '@theme/TOCCollapsible';
+import CollapseButton from '@theme/TOCCollapsible/CollapseButton';
 
 export default function TOCCollapsible({
   toc,
@@ -22,7 +22,6 @@ export default function TOCCollapsible({
   const {collapsed, toggleCollapsed} = useCollapsible({
     initialState: true,
   });
-
   return (
     <div
       className={clsx(
@@ -30,17 +29,7 @@ export default function TOCCollapsible({
         !collapsed && styles.tocCollapsibleExpanded,
         className,
       )}>
-      <button
-        type="button"
-        className={clsx('clean-btn', styles.tocCollapsibleButton)}
-        onClick={toggleCollapsed}>
-        <Translate
-          id="theme.TOCCollapsible.toggleButtonLabel"
-          description="The label used by the button on the collapsible TOC component">
-          On this page
-        </Translate>
-      </button>
-
+      <CollapseButton collapsed={collapsed} onClick={toggleCollapsed} />
       <Collapsible
         lazy
         className={styles.tocCollapsibleContent}

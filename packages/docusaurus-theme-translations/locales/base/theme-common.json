@@ -9,6 +9,8 @@
   "theme.CodeBlock.copy___DESCRIPTION": "The copy button label on code blocks",
   "theme.CodeBlock.copyButtonAriaLabel": "Copy code to clipboard",
   "theme.CodeBlock.copyButtonAriaLabel___DESCRIPTION": "The ARIA label for copy code blocks button",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
+  "theme.CodeBlock.wordWrapToggle___DESCRIPTION": "The title attribute for toggle word wrapping button of code block lines",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel___DESCRIPTION": "The ARIA label to toggle the collapsible sidebar category",
   "theme.ErrorPageContent.title": "This page crashed.",

@@ -14,7 +14,7 @@ function supports(feature: string) {
   }
 }
 
-function linkPrefetchStrategy(url: string) {
+function linkPrefetchStrategy(url: string): Promise<void> {
   return new Promise((resolve, reject) => {
     if (typeof document === 'undefined') {
       reject();
@@ -25,8 +25,8 @@ function linkPrefetchStrategy(url: string) {
     link.setAttribute('rel', 'prefetch');
     link.setAttribute('href', url);
 
-    link.onload = resolve;
-    link.onerror = reject;
+    link.onload = () => resolve();
+    link.onerror = () => reject();
 
     const parentElement =
       document.getElementsByTagName('head')[0] ??
@@ -57,20 +57,6 @@ const supportedPrefetchStrategy = supports('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched: {[url: string]: boolean} = {};
-
 export default function prefetch(url: string): Promise<void> {
-  return new Promise((resolve) => {
-    if (preFetched[url]) {
-      resolve();
-      return;
-    }
-
-    supportedPrefetchStrategy(url)
-      .then(() => {
-        resolve();
-        preFetched[url] = true;
-      })
-      .catch(() => {}); // 404s are logged to the console anyway.
-  });
+  return supportedPrefetchStrategy(url).catch(() => {}); // 404s are logged to the console anyway.
 }

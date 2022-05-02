@@ -75,7 +75,7 @@ const sourceToPermalink: SourceToPermalink = {
 
   '@site/i18n/fr/docusaurus-plugin-content-docs/current/doc-localized.md':
     '/fr/doc-localized',
-  '@site/docs/doc-localized': '/doc-localized',
+  '@site/docs/doc-localized.md': '/doc-localized',
 };
 
 function createMarkdownOptions(

@@ -4,7 +4,7 @@ Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin 
 
 ## Creating plugins {#creating-plugins}
 
-A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object (or a promise). You can create plugins as functions or modules. For more information, refer to the [plugin method references section](./api/plugin-methods/README.md).
+A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object (or a promise). You can create plugins as functions or modules. For more information, refer to the [plugin method references section](../api/plugin-methods/README.md).
 
 ### Function definition {#function-definition}
 

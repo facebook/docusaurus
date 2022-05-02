@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Skopiowano!",
   "theme.CodeBlock.copy": "Kopiuj",
   "theme.CodeBlock.copyButtonAriaLabel": "Kopiuj do schowka",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Przełącz zwijalną kategorię panelu bocznego '{label}'",
   "theme.ErrorPageContent.title": "Ta strona uległa awarii.",
   "theme.ErrorPageContent.tryAgain": "Spróbuj ponownie",

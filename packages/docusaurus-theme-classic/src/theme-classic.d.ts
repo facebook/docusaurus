@@ -165,6 +165,7 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
+    readonly className?: string;
   }
 
   export default function CopyButton(props: Props): JSX.Element;
@@ -220,6 +221,16 @@ declare module '@theme/CodeBlock/Line' {
   export default function CodeBlockLine(props: Props): JSX.Element;
 }
 
+declare module '@theme/CodeBlock/WordWrapButton' {
+  export interface Props {
+    readonly className?: string;
+    readonly onClick: React.MouseEventHandler;
+    readonly isEnabled: boolean;
+  }
+
+  export default function WordWrapButton(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocCard' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
@@ -257,7 +268,7 @@ declare module '@theme/DocPage/Layout' {
   export default function DocPageLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Aside' {
+declare module '@theme/DocPage/Layout/Sidebar' {
   import type {Dispatch, SetStateAction} from 'react';
   import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -267,7 +278,17 @@ declare module '@theme/DocPage/Layout/Aside' {
     readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
   }
 
-  export default function DocPageLayoutAside(props: Props): JSX.Element;
+  export default function DocPageLayoutSidebar(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Sidebar/ExpandButton' {
+  export interface Props {
+    toggleSidebar: () => void;
+  }
+
+  export default function DocPageLayoutSidebarExpandButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/DocPage/Layout/Main' {
@@ -882,6 +903,37 @@ declare module '@theme/NavbarItem/HtmlNavbarItem' {
   export default function HtmlNavbarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/NavbarItem/ComponentTypes' {
+  import type {ComponentType} from 'react';
+
+  import type DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+  import type DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+  import type LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
+  import type SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
+  import type HtmlNavbarItem from '@theme/NavbarItem/HtmlNavbarItem';
+  import type DocNavbarItem from '@theme/NavbarItem/DocNavbarItem';
+  import type DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
+  import type DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
+  import type DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+
+  export type ComponentTypesObject = {
+    readonly default: typeof DefaultNavbarItem;
+    readonly localeDropdown: typeof LocaleDropdownNavbarItem;
+    readonly search: typeof SearchNavbarItem;
+    readonly dropdown: typeof DropdownNavbarItem;
+    readonly html: typeof HtmlNavbarItem;
+    readonly doc: typeof DocNavbarItem;
+    readonly docSidebar: typeof DocSidebarNavbarItem;
+    readonly docsVersion: typeof DocsVersionNavbarItem;
+    readonly docsVersionDropdown: typeof DocsVersionDropdownNavbarItem;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [customComponentType: string]: ComponentType<any>;
+  };
+
+  const ComponentTypes: ComponentTypesObject;
+  export default ComponentTypes;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -1019,6 +1071,19 @@ declare module '@theme/TOCItems' {
   export default function TOCItems(props: Props): JSX.Element;
 }
 
+declare module '@theme/TOCItems/Tree' {
+  import type {TOCTreeNode} from '@docusaurus/theme-common';
+
+  export interface Props {
+    readonly toc: readonly TOCTreeNode[];
+    readonly className: string;
+    readonly linkClassName: string | null;
+    readonly isChild?: boolean;
+  }
+
+  export default function TOCItems(props: Props): JSX.Element;
+}
+
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
@@ -1057,6 +1122,18 @@ declare module '@theme/TOCCollapsible' {
   }
 
   export default function TOCCollapsible(props: Props): JSX.Element;
+}
+
+declare module '@theme/TOCCollapsible/CollapseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
+    collapsed: boolean;
+  }
+
+  export default function TOCCollapsibleCollapseButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/ColorModeToggle' {

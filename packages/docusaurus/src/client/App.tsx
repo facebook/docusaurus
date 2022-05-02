@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import '@generated/client-modules';
 
 import routes from '@generated/routes';
 import {useLocation} from '@docusaurus/router';
@@ -18,8 +19,6 @@ import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
-
-import './clientLifecyclesDispatcher';
 
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
@@ -36,9 +35,7 @@ export default function App(): JSX.Element {
             <SiteMetadataDefaults />
             <SiteMetadata />
             <BaseUrlIssueBanner />
-            <PendingNavigation
-              location={normalizeLocation(location)}
-              delay={200}>
+            <PendingNavigation location={normalizeLocation(location)}>
               {routeElement}
             </PendingNavigation>
           </Root>

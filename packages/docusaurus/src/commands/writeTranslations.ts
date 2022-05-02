@@ -74,7 +74,9 @@ async function writePluginTranslationFiles({
 
 export async function writeTranslations(
   siteDir: string,
-  options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
+  options: Partial<
+    WriteTranslationsOptions & ConfigOptions & {locale?: string}
+  >,
 ): Promise<void> {
   const context = await loadContext({
     siteDir,

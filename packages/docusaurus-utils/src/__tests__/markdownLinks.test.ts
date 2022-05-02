@@ -67,6 +67,36 @@ The following operations are defined for [URI]s:
     ).toMatchSnapshot();
   });
 
+  it('resolves absolute and relative links differently', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/intro/intro.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+
+        sourceToPermalink: {
+          '@site/docs/intro/intro.md': '/docs/intro',
+          '@site/docs/intro/another.md': '/docs/another',
+          '@site/docs/api/classes/divine_uri.URI.md': '/docs/api/classes/uri',
+        },
+
+        fileString: `
+[Relative link](./another.md)
+[Relative link 2](../api/classes/divine_uri.URI.md)
+[Relative link that should be absolute](./api/classes/divine_uri.URI.md)
+[Absolute link](/api/classes/divine_uri.URI.md)
+[Absolute link from site dir](/docs/api/classes/divine_uri.URI.md)
+[Absolute link that should be relative](/another.md)
+[Relative link that acts as absolute](api/classes/divine_uri.URI.md)
+[Relative link that acts as relative](another.md)
+`,
+      }),
+    ).toMatchSnapshot();
+  });
+
   // TODO bad
   it('ignores links in HTML comments', () => {
     expect(

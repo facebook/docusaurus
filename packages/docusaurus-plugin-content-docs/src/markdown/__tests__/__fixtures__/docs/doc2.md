@@ -9,4 +9,4 @@
 - [doc1](doc1.md)
 - [doc2](./doc2.md)
 
-- [doc-localized](./doc-localized.md)
+- [doc-localized](/doc-localized.md)

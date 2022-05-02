@@ -621,7 +621,7 @@ import {interpolate} from '@docusaurus/Interpolate';
 const message = interpolate('Welcome {firstName}', {firstName: 'Sébastien'});
 ```
 
-### `translate` {#translate-1}
+### `translate` {#translate-imperative}
 
 The imperative counterpart of the [`<Translate>`](#translate) component. Also supporting [placeholders interpolation](#interpolate).
 

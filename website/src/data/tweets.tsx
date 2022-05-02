@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable @docusaurus/no-untranslated-text */
+
 import React from 'react';
 
 import type {Props as Tweet} from '../components/Tweet';

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "cssnano-preset-advanced": "^5.3.3",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
     "postcss-sort-media-queries": "^4.2.1"
   },
   "devDependencies": {
