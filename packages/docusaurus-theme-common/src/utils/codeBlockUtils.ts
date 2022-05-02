@@ -165,12 +165,13 @@ export function parseLines(
       .range!;
     if (magicComments.length === 0) {
       throw new Error(
-        'CodeBlock parsing: highlight range has been given, but no magic comment directive config is available.',
+        `A highlight range has been given in code block's metastring (\`\`\` ${metastring}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges.`,
       );
     }
+    const metastringRangeClassName = magicComments[0]!.className;
     const lines = rangeParser(linesRange)
       .filter((n) => n > 0)
-      .map((n) => [n - 1, [magicComments[0]!.className]]);
+      .map((n) => [n - 1, [metastringRangeClassName]]);
     return {lineClassNames: Object.fromEntries(lines), code};
   }
   if (language === undefined) {

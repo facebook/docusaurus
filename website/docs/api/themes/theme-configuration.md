@@ -700,8 +700,27 @@ Accepted fields:
 | `theme` | `PrismTheme` | `palenight` | The Prism theme to use for light-theme code blocks. |
 | `darkTheme` | `PrismTheme` | `palenight` | The Prism theme to use for dark-theme code blocks. |
 | `defaultLanguage` | `string` | `undefined` | The side of the navbar this item should appear on. |
+| `magicComments` | `MagicCommentConfig[]` | _see below_ | The list of [magic comments](../../guides/markdown-features/markdown-features-code-blocks.mdx#custom-magic-comments). |
 
 </APITable>
+
+```ts
+type MagicCommentConfig = {
+  className: string;
+  line?: string;
+  block?: {start: string; end: string};
+};
+```
+
+```js
+const defaultMagicComments = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
+```
 
 ### Theme {#theme}
 

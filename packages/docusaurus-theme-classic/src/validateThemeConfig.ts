@@ -390,8 +390,11 @@ export const ThemeConfigSchema = Joi.object({
         Joi.object({
           className: Joi.string().required(),
           line: Joi.string(),
-          block: Joi.object({start: Joi.string(), end: Joi.string()}),
-        }),
+          block: Joi.object({
+            start: Joi.string().required(),
+            end: Joi.string().required(),
+          }),
+        }).or('line', 'block'),
       )
       .default(DEFAULT_CONFIG.prism.magicComments),
   })

@@ -107,6 +107,19 @@ bbbbb`,
         },
       ),
     ).toMatchSnapshot();
+    expect(() =>
+      parseLines(
+        `aaaaa
+bbbbb`,
+        {
+          metastring: '{1}',
+          language: 'js',
+          magicComments: [],
+        },
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"A highlight range has been given in code block's metastring (\`\`\` {1}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges."`,
+    );
   });
   it('does not parse content with no language', () => {
     expect(
