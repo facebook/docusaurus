@@ -119,6 +119,7 @@ immer
 infima
 inlines
 intelli
+interactiveness
 interpolatable
 jakepartusch
 jamstack
