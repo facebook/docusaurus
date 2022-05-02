@@ -12,8 +12,8 @@ import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';
 
-const fetched: {[key: string]: boolean} = {};
-const loaded: {[key: string]: boolean} = {};
+const fetched = new Set<string>();
+const loaded = new Set<string>();
 
 declare global {
   // eslint-disable-next-line camelcase, no-underscore-dangle
@@ -25,14 +25,14 @@ declare global {
 
 // If user is on slow or constrained connection.
 const isSlowConnection = () =>
-  navigator.connection?.effectiveType.includes('2g') &&
+  navigator.connection?.effectiveType.includes('2g') ||
   navigator.connection?.saveData;
 
 const canPrefetch = (routePath: string) =>
-  !isSlowConnection() && !loaded[routePath] && !fetched[routePath];
+  !isSlowConnection() && !loaded.has(routePath) && !fetched.has(routePath);
 
 const canPreload = (routePath: string) =>
-  !isSlowConnection() && !loaded[routePath];
+  !isSlowConnection() && !loaded.has(routePath);
 
 const getChunkNamesToLoad = (path: string): string[] =>
   Object.entries(routesChunkNames)
@@ -46,12 +46,11 @@ const getChunkNamesToLoad = (path: string): string[] =>
     .flatMap(([, routeChunks]) => Object.values(flat(routeChunks)));
 
 const docusaurus = {
-  prefetch: (routePath: string): boolean => {
+  prefetch(routePath: string): false | Promise<void[]> {
     if (!canPrefetch(routePath)) {
       return false;
     }
-    // Prevent future duplicate prefetch of routePath.
-    fetched[routePath] = true;
+    fetched.add(routePath);
 
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
@@ -61,32 +60,30 @@ const docusaurus = {
     );
 
     // Prefetch all webpack chunk assets file needed.
-    chunkNamesNeeded.forEach((chunkName) => {
-      // "__webpack_require__.gca" is a custom function provided by
-      // ChunkAssetPlugin. Pass it the chunkName or chunkId you want to load and
-      // it will return the URL for that chunk.
-      // eslint-disable-next-line camelcase
-      const chunkAsset = __webpack_require__.gca(chunkName);
+    return Promise.all(
+      chunkNamesNeeded.map((chunkName) => {
+        // "__webpack_require__.gca" is injected by ChunkAssetPlugin. Pass it
+        // the name of the chunk you want to load and it will return its URL.
+        // eslint-disable-next-line camelcase
+        const chunkAsset = __webpack_require__.gca(chunkName);
 
-      // In some cases, webpack might decide to optimize further & hence the
-      // chunk assets are merged to another chunk/previous chunk.
-      // Hence, we can safely filter it out/don't need to load it.
-      if (chunkAsset && !/undefined/.test(chunkAsset)) {
-        prefetchHelper(chunkAsset);
-      }
-    });
-
-    return true;
+        // In some cases, webpack might decide to optimize further, leading to
+        // the chunk assets being merged to another chunk. In this case, we can
+        // safely filter it out and don't need to load it.
+        if (chunkAsset && !/undefined/.test(chunkAsset)) {
+          return prefetchHelper(chunkAsset);
+        }
+        return Promise.resolve();
+      }),
+    );
   },
 
-  preload: (routePath: string): boolean => {
+  preload(routePath: string): false | Promise<void[]> {
     if (!canPreload(routePath)) {
       return false;
     }
-
-    loaded[routePath] = true;
-    preloadHelper(routePath);
-    return true;
+    loaded.add(routePath);
+    return preloadHelper(routePath);
   },
 };
 
