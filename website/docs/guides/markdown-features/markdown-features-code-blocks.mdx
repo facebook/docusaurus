@@ -311,24 +311,13 @@ module.exports = {
 </TabItem>
 <TabItem value="src/css/custom.css">
 
-<!-- cSpell:ignore cpath -->
-
 ```css
 .code-block-error-line {
   background-color: #ff000020;
-  display: flex;
+  display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
-}
-
-.code-block-error-line::before {
-  content: '';
-  width: 1rem;
-  height: 1rem;
-  position: absolute;
-  display: block;
-  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"%3E%3Cpath d="M24.05 24.45ZM4.6 42Q3.75 42 3.3 41.25Q2.85 40.5 3.3 39.75L22.7 6.25Q23.15 5.5 24 5.5Q24.85 5.5 25.3 6.25L44.7 39.75Q45.15 40.5 44.7 41.25Q44.25 42 43.4 42ZM24.2 19.4Q23.55 19.4 23.125 19.825Q22.7 20.25 22.7 20.9V29.1Q22.7 29.75 23.125 30.175Q23.55 30.6 24.2 30.6Q24.85 30.6 25.275 30.175Q25.7 29.75 25.7 29.1V20.9Q25.7 20.25 25.275 19.825Q24.85 19.4 24.2 19.4ZM24.2 36.15Q24.85 36.15 25.275 35.725Q25.7 35.3 25.7 34.65Q25.7 34 25.275 33.575Q24.85 33.15 24.2 33.15Q23.55 33.15 23.125 33.575Q22.7 34 22.7 34.65Q22.7 35.3 23.125 35.725Q23.55 36.15 24.2 36.15ZM7.2 39H40.8L24 10Z"/%3E%3C/svg%3E')
-    no-repeat;
+  border-left: 3px solid #ff000080;
 }
 ```
 
@@ -367,19 +356,19 @@ function greet(name: string) {
 </BrowserWindow>
 ````
 
+If you use number ranges in metastring (the `{1,3-4}` syntax), Docusaurus will apply the **first `magicComments` entry**'s class name. This, by default, is `theme-code-block-highlighted-line`, but if you change the `magicComments` config and use a different entry as the first one, the meaning of the metastring range will change as well.
+
+You can disable the default line highlighting comments with `magicComments: []`. If there's no magic comment config, but Docusaurus encounters a code block containing a metastring range, it will error because there will be no class name to apply—the highlighting class name, after all, is just a magic comment entry.
+
+Every magic comment entry will contain three keys: `className` (required), `line`, which applies to the directly next line, or `block` (containing `start` and `end`), which applies to the entire block enclosed by the two comments.
+
 Using CSS to target the class can already do a lot, but you can unlock the full potential of this feature through [swizzling](../../swizzling.md).
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic CodeBlock/Line
 ```
 
-The `Line` component will receive the list of class names, based on which which you can conditionally render different markup.
-
-If you use number ranges in metastring (the `{1,3-4}` syntax), Docusaurus will apply the **first `magicComments` entry**'s class name. This, by default, is `theme-code-block-highlighted-line`, but if you change the `magicComments` config and use a different entry as the first one, the meaning of the metastring range will change as well.
-
-You can disable the default line highlighting comments with `magicComments: []`. If there's no magic comment config, but Docusaurus encounters a code block containing a metastring range, it will error because there will be no class name to apply—the highlighting class name, after all, is just a magic comment entry.
-
-Every magic comment entry will contain three keys: `className` (required), `line`, which applies to the directly next line, or `block` (containing `start` and `end`), which applies to the entire block enclosed by the two comments.
+The `Line` component will receive the list of class names, based on which you can conditionally render different markup.
 
 ## Line numbering {#line-numbering}
 
