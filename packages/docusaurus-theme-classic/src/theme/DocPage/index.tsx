@@ -13,6 +13,7 @@ import DocPageLayout from '@theme/DocPage/Layout';
 import clsx from 'clsx';
 
 import {
+  DocsFilterProvider,
   HtmlClassNameProvider,
   ThemeClassNames,
   docVersionSearchTag,
@@ -47,7 +48,9 @@ export default function DocPage(props: Props): JSX.Element {
         )}>
         <DocsVersionProvider version={versionMetadata}>
           <DocsSidebarProvider name={sidebarName} items={sidebarItems}>
-            <DocPageLayout>{docElement}</DocPageLayout>
+            <DocsFilterProvider>
+              <DocPageLayout>{docElement}</DocPageLayout>
+            </DocsFilterProvider>
           </DocsSidebarProvider>
         </DocsVersionProvider>
       </HtmlClassNameProvider>

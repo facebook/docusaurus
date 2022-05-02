@@ -7,10 +7,15 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {isActiveSidebarItem, ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  isActiveSidebarItem,
+  ThemeClassNames,
+  useDocsFilter,
+} from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/IconExternalLink';
+import TextHighlight from '@theme/TextHighlight';
 
 import type {Props} from '@theme/DocSidebarItem/Link';
 
@@ -27,6 +32,7 @@ export default function DocSidebarItemLink({
   const {href, label, className} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   const isInternalLink = isInternalUrl(href);
+  const {filterTerm} = useDocsFilter();
   return (
     <li
       className={clsx(
@@ -50,7 +56,11 @@ export default function DocSidebarItemLink({
           onClick: onItemClick ? () => onItemClick(item) : undefined,
         })}
         {...props}>
-        {label}
+        {filterTerm ? (
+          <TextHighlight text={label} highlight={filterTerm} />
+        ) : (
+          label
+        )}
         {!isInternalLink && <IconExternalLink />}
       </Link>
     </li>

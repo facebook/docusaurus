@@ -17,11 +17,13 @@ import {
   useThemeConfig,
   useDocSidebarItemsExpandedState,
   isSamePath,
+  useDocsFilter,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 
 import DocSidebarItems from '@theme/DocSidebarItems';
+import TextHighlight from '@theme/TextHighlight';
 import type {Props} from '@theme/DocSidebarItem/Category';
 
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -106,6 +108,7 @@ export default function DocSidebarItemCategory({
 }: Props): JSX.Element {
   const {items, label, collapsible, className, href} = item;
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
+  const {filterTerm} = useDocsFilter();
 
   const isActive = isActiveSidebarItem(item, activePath);
   const isCurrentPage = isSamePath(href, activePath);
@@ -121,6 +124,17 @@ export default function DocSidebarItemCategory({
     },
   });
 
+  // This hook needed to collapse categories that were in collapsed state
+  // before filtering, relevant when only changing of filter term by word.
+  // TODO: but should this hook exist at all? When re-rendering
+  // (= clearing filter input), the `collapsed` state is not calculated
+  // correctly (if input of `item.collapsed` is `true`, it is `false` here).
+  useEffect(() => {
+    if (filterTerm === '' && !isActive && item.collapsible) {
+      setCollapsed(item.collapsed);
+    }
+  }, [filterTerm, isActive, item.collapsible, setCollapsed, item.collapsed]);
+
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
   function updateCollapsed(toCollapsed: boolean = !collapsed) {
@@ -133,7 +147,8 @@ export default function DocSidebarItemCategory({
       collapsible &&
       expandedItem &&
       expandedItem !== index &&
-      autoCollapseSidebarCategories
+      autoCollapseSidebarCategories &&
+      !filterTerm
     ) {
       setCollapsed(true);
     }
@@ -143,6 +158,7 @@ export default function DocSidebarItemCategory({
     index,
     setCollapsed,
     autoCollapseSidebarCategories,
+    filterTerm,
   ]);
 
   return (
@@ -185,7 +201,11 @@ export default function DocSidebarItemCategory({
           aria-expanded={collapsible ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
-          {label}
+          {filterTerm ? (
+            <TextHighlight text={label} highlight={filterTerm} />
+          ) : (
+            label
+          )}
         </Link>
         {href && collapsible && (
           <CollapseButton

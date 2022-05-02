@@ -359,6 +359,7 @@ const config = {
       },
       hideableSidebar: true,
       autoCollapseSidebarCategories: true,
+      filterableSidebar: true,
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,

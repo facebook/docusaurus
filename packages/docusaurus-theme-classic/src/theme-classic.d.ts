@@ -316,7 +316,7 @@ declare module '@theme/DocSidebar' {
 
   export interface Props {
     readonly path: string;
-    readonly sidebar: readonly PropSidebarItem[];
+    readonly sidebar: PropSidebarItem[];
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
     // MobileSecondaryFilter expects Record<string, unknown>
@@ -348,7 +348,7 @@ declare module '@theme/DocSidebar/Desktop/Content' {
   export interface Props {
     readonly className?: string;
     readonly path: string;
-    readonly sidebar: readonly PropSidebarItem[];
+    readonly sidebar: PropSidebarItem[];
   }
 
   export default function Content(props: Props): JSX.Element;
@@ -360,6 +360,14 @@ declare module '@theme/DocSidebar/Desktop/CollapseButton' {
   }
 
   export default function CollapseButton(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Common/Filter' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function Filter(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebarItem' {
@@ -1260,6 +1268,15 @@ declare module '@theme/Tag' {
   export interface Props extends Optional<TagsListItem, 'count'> {}
 
   export default function Tag(props: Props): JSX.Element;
+}
+
+declare module '@theme/TextHighlight' {
+  export interface Props {
+    readonly text?: string;
+    readonly highlight?: string;
+  }
+
+  export default function TextHighlight(props: Props): JSX.Element;
 }
 
 declare module '@theme/prism-include-languages' {

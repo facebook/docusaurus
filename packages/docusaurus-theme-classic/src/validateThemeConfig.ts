@@ -40,6 +40,7 @@ export const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  filterableSidebar: false,
   autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
@@ -382,6 +383,7 @@ export const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  filterableSidebar: Joi.bool().default(DEFAULT_CONFIG.filterableSidebar),
   autoCollapseSidebarCategories: Joi.bool().default(
     DEFAULT_CONFIG.autoCollapseSidebarCategories,
   ),

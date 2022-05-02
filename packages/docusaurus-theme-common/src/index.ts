@@ -138,6 +138,12 @@ export {
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
 export {
+  DocsFilterProvider,
+  useDocsFilter,
+  filterDocsSidebar,
+} from './utils/docsFilterUtils';
+
+export {
   useTabGroupChoice,
   TabGroupChoiceProvider,
 } from './contexts/tabGroupChoice';

@@ -11,6 +11,8 @@ import {
   ThemeClassNames,
   useAnnouncementBar,
   useScrollPosition,
+  useDocsFilter,
+  filterDocsSidebar,
 } from '@docusaurus/theme-common';
 import DocSidebarItems from '@theme/DocSidebarItems';
 import type {Props} from '@theme/DocSidebar/Desktop/Content';
@@ -38,6 +40,8 @@ export default function DocSidebarDesktopContent({
   className,
 }: Props): JSX.Element {
   const showAnnouncementBar = useShowAnnouncementBar();
+  const {filterTerm} = useDocsFilter();
+  const filteredSidebar = filterDocsSidebar(sidebar, filterTerm);
 
   return (
     <nav
@@ -48,7 +52,7 @@ export default function DocSidebarDesktopContent({
         className,
       )}>
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-        <DocSidebarItems items={sidebar} activePath={path} level={1} />
+        <DocSidebarItems items={filteredSidebar} activePath={path} level={1} />
       </ul>
     </nav>
   );

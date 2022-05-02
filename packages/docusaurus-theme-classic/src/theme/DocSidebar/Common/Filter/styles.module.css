@@ -1,0 +1,51 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.filter {
+  --docusaurus-clear-filter-icon: 1rem;
+
+  position: relative;
+}
+
+.filterInput {
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: var(--docsearch-searchbox-focus-background);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.875rem;
+  padding: 0.5rem calc(0.5rem + var(--docusaurus-clear-filter-icon)) 0.5rem
+    0.5rem;
+  transition: border var(--ifm-transition-fast) ease;
+}
+
+.filterInput:focus {
+  border-color: var(--docsearch-primary-color);
+  outline: none;
+}
+
+.clearFilterInputBtn {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  padding: 0.2rem;
+  color: var(--ifm-color-emphasis-800);
+  transition: background var(--ifm-transition-fast);
+}
+
+.clearFilterInputBtn:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.clearFilterInputBtn svg {
+  width: var(--docusaurus-clear-filter-icon);
+  height: var(--docusaurus-clear-filter-icon);
+  display: block;
+}
