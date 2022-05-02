@@ -13,6 +13,7 @@ on:
     paths:
       - packages/**
       - tsconfig.json
+      - .github/workflows/tests-e2e.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -116,7 +117,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js 16
         uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
@@ -146,7 +147,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js 16
         uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
@@ -158,13 +159,14 @@ jobs:
         run: yarn test:build:website -s
       - name: Install test-website project with pnpm
         run: |
-          curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-          pnpm install
+          npm install -g pnpm
+          # Fix some peer dependencies errors
+          pnpm add @algolia/client-search @types/react@17 typescript
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project
-        run: pnpm run start -- --no-open
+        run: pnpm start --no-open
         working-directory: ../test-website
         env:
           E2E_TEST: true
