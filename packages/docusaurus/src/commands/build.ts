@@ -124,7 +124,11 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {baseUrl, onBrokenLinks, staticDirectories},
+    siteConfig: {
+      baseUrl,
+      onBrokenLinks,
+      staticDirectories: staticDirectoriesOption,
+    },
     routes,
   } = props;
 
@@ -162,15 +166,30 @@ async function buildLocale({
     },
   });
 
-  if (staticDirectories.length > 0) {
-    await Promise.all(staticDirectories.map((dir) => fs.ensureDir(dir)));
+  // The staticDirectories option can contain empty directories, or non-existent
+  // directories (e.g. user deleted `static`). Instead of issuing an error, we
+  // just silently filter them out, because user could have never configured it
+  // in the first place (the default option should always "work").
+  const staticDirectories = (
+    await Promise.all(
+      staticDirectoriesOption.map(async (dir) => {
+        const staticDir = path.resolve(siteDir, dir);
+        if (
+          (await fs.pathExists(staticDir)) &&
+          (await fs.readdir(staticDir)).length > 0
+        ) {
+          return staticDir;
+        }
+        return '';
+      }),
+    )
+  ).filter(Boolean);
 
+  if (staticDirectories.length > 0) {
     serverConfig = merge(serverConfig, {
       plugins: [
         new CopyWebpackPlugin({
-          patterns: staticDirectories
-            .map((dir) => path.resolve(siteDir, dir))
-            .map((dir) => ({from: dir, to: outDir})),
+          patterns: staticDirectories.map((dir) => ({from: dir, to: outDir})),
         }),
       ],
     });
