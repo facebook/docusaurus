@@ -166,7 +166,7 @@ jobs:
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project
-        run: pnpm run start -- --no-open
+        run: pnpm start --no-open
         working-directory: ../test-website
         env:
           E2E_TEST: true
