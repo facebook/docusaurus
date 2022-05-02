@@ -120,6 +120,9 @@ const config = {
   staticDirectories: [
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
+    // Adding a non-existent static directory. If user deleted `static` without
+    // specifying `staticDirectories: []`, build should still work
+    path.join(__dirname, '_dogfooding/non-existent'),
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
