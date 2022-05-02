@@ -163,7 +163,7 @@ export function onRouteUpdate({location, previousLocation}) {
 
 Or, if you are using TypeScript and you want to leverage contextual typing:
 
-```ts title="myClientModule.js"
+```ts title="myClientModule.ts"
 import type {ClientModule} from '@docusaurus/types';
 
 const module: ClientModule = {
