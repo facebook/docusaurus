@@ -168,7 +168,8 @@ async function buildLocale({
 
   // The staticDirectories option can contain empty directories, or non-existent
   // directories (e.g. user deleted `static`). Instead of issuing an error, we
-  // just silently filter then out.
+  // just silently filter them out, because user could have never configured it
+  // in the first place (the default option should always "work").
   const staticDirectories = (
     await Promise.all(
       staticDirectoriesOption.map(async (dir) => {
