@@ -9,11 +9,17 @@ import fs from 'fs-extra';
 import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
-import {loadContext} from '../server';
+import {loadContext, type LoadContextOptions} from '../server';
 import {build} from './build';
-import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
+
+export type DeployCLIOptions = Pick<
+  LoadContextOptions,
+  'config' | 'locale' | 'outDir'
+> & {
+  skipBuild?: boolean;
+};
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str: string) {
@@ -36,12 +42,12 @@ function shellExecLog(cmd: string) {
 
 export async function deploy(
   siteDir: string,
-  cliOptions: Partial<BuildCLIOptions>,
+  cliOptions: Partial<DeployCLIOptions>,
 ): Promise<void> {
   const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,
-    customConfigFilePath: cliOptions.config,
-    customOutDir: cliOptions.outDir,
+    config: cliOptions.config,
+    outDir: cliOptions.outDir,
   });
 
   if (typeof siteConfig.trailingSlash === 'undefined') {

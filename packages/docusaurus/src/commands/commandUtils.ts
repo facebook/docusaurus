@@ -6,17 +6,19 @@
  */
 
 import {choosePort} from '../server/choosePort';
-import type {HostPortCLIOptions} from '@docusaurus/types';
 import {DEFAULT_PORT} from '@docusaurus/utils';
 
-export function getCLIOptionHost(
-  hostOption: HostPortCLIOptions['host'],
-): string {
+export type HostPortOptions = {
+  host?: string;
+  port?: string;
+};
+
+export function getCLIOptionHost(hostOption: HostPortOptions['host']): string {
   return hostOption ?? 'localhost';
 }
 
 export async function getCLIOptionPort(
-  portOption: HostPortCLIOptions['port'],
+  portOption: HostPortOptions['port'],
   host: string,
 ): Promise<number | null> {
   const basePort = portOption ? parseInt(portOption, 10) : DEFAULT_PORT;
