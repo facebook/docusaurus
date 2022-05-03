@@ -223,7 +223,7 @@ const Users: User[] = [
   },
   {
     title: 'AvN Gateway',
-    description:
+    description: 
       'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
     preview: require('./showcase/aventus.png'),
     website: 'https://aventus-network-services.github.io/avn-gateway-docs/',
@@ -340,7 +340,7 @@ const Users: User[] = [
   },
   {
     title: 'ChatKitty',
-    description: 'A full suite of developer tools for chat use-case.',
+    description: 'A full suite of developer tools for any chat use-case.',
     preview: require('./showcase/chatkitty.png'),
     website: 'https://chatkitty.com',
     source: null,
