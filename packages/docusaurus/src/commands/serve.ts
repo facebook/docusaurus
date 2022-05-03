@@ -12,11 +12,7 @@ import path from 'path';
 import type {LoadContextOptions} from '../server';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
-import {
-  getCLIOptionHost,
-  getCLIOptionPort,
-  type HostPortOptions,
-} from './commandUtils';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
 
 export type ServeCLIOptions = HostPortOptions &
@@ -43,8 +39,7 @@ export async function serve(
     );
   }
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();

@@ -24,11 +24,7 @@ import {
   applyConfigurePostCss,
   getHttpsConfig,
 } from '../webpack/utils';
-import {
-  getCLIOptionHost,
-  getCLIOptionPort,
-  type HostPortOptions,
-} from './commandUtils';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
 export type StartCLIOptions = HostPortOptions &
@@ -60,8 +56,7 @@ export async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();
