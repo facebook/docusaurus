@@ -222,6 +222,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'AvN Gateway',
+    description: 
+      'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
+    preview: require('./showcase/aventus.png'),
+    website: 'https://aventus-network-services.github.io/avn-gateway-docs/',
+    source: null,
+    tags: ['versioning', 'product'],
+  },
+  {
     title: 'Awe framework',
     description:
       'Awe framework, Build light-weight and functional websites quickly',
