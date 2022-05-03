@@ -27,7 +27,7 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-        # run: yarn install --immutable # Fails if yarn.lock is modified  (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
+        # run: yarn install --immutable # Fails if yarn.lock is modified (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
       - name: Check immutable yarn.lock
         run: git diff --exit-code
       - name: Lint

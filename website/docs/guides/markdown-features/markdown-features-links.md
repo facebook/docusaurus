@@ -43,7 +43,7 @@ Using relative _file_ paths (with `.md` extensions) instead of relative _URL_ li
 - You can customize the files' slugs without having to update all the links
 - Moving files around the folders can be tracked by your editor, and some editors may automatically update file links
 - A [versioned doc](../docs/versioning.md) will link to another doc of the exact same version
-- Relative URL links are very likely to break if you update the [`trailingSlash` config](../../api/docusaurus.config.js.md#trailing-slash)
+- Relative URL links are very likely to break if you update the [`trailingSlash` config](../../api/docusaurus.config.js.md#trailingSlash)
 
 :::warning
 
