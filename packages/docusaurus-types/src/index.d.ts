@@ -410,37 +410,6 @@ export type DocusaurusContext = {
   // isBrowser: boolean; // Not here on purpose!
 };
 
-export type HostPortCLIOptions = {
-  host?: string;
-  port?: string;
-};
-
-export type ConfigOptions = {
-  config: string;
-};
-
-export type StartCLIOptions = HostPortCLIOptions &
-  ConfigOptions & {
-    hotOnly: boolean;
-    open: boolean;
-    poll: boolean | number;
-    locale?: string;
-  };
-
-export type ServeCLIOptions = HostPortCLIOptions &
-  ConfigOptions & {
-    dir: string;
-    build: boolean;
-  };
-
-export type BuildCLIOptions = ConfigOptions & {
-  bundleAnalyzer: boolean;
-  outDir: string;
-  minify: boolean;
-  skipBuild: boolean;
-  locale?: string;
-};
-
 export type LoadContext = {
   siteDir: string;
   generatedFilesDir: string;

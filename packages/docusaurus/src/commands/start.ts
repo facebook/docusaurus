@@ -17,16 +17,22 @@ import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
-import {load} from '../server';
-import type {StartCLIOptions} from '@docusaurus/types';
+import {load, type LoadContextOptions} from '../server';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getHttpsConfig,
 } from '../webpack/utils';
-import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
+
+export type StartCLIOptions = HostPortOptions &
+  Pick<LoadContextOptions, 'locale' | 'config'> & {
+    hotOnly?: boolean;
+    open?: boolean;
+    poll?: boolean | number;
+  };
 
 export async function start(
   siteDir: string,
@@ -39,7 +45,7 @@ export async function start(
   function loadSite() {
     return load({
       siteDir,
-      customConfigFilePath: cliOptions.config,
+      config: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // Should this be configurable?
     });
@@ -50,8 +56,7 @@ export async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();

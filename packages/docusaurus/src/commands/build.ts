@@ -13,10 +13,10 @@ import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import type {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-import {load, loadContext} from '../server';
+import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import type {BuildCLIOptions, Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
@@ -28,6 +28,14 @@ import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
 import type {HelmetServerState} from 'react-helmet-async';
+
+export type BuildCLIOptions = Pick<
+  LoadContextOptions,
+  'config' | 'locale' | 'outDir'
+> & {
+  bundleAnalyzer?: boolean;
+  minify?: boolean;
+};
 
 export async function build(
   siteDir: string,
@@ -64,8 +72,8 @@ export async function build(
   }
   const context = await loadContext({
     siteDir,
-    customOutDir: cliOptions.outDir,
-    customConfigFilePath: cliOptions.config,
+    outDir: cliOptions.outDir,
+    config: cliOptions.config,
     locale: cliOptions.locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
@@ -113,8 +121,8 @@ async function buildLocale({
 
   const props: Props = await load({
     siteDir,
-    customOutDir: cliOptions.outDir,
-    customConfigFilePath: cliOptions.config,
+    outDir: cliOptions.outDir,
+    config: cliOptions.config,
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });

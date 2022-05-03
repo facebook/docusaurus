@@ -9,11 +9,17 @@ import http from 'http';
 import serveHandler from 'serve-handler';
 import logger from '@docusaurus/logger';
 import path from 'path';
+import type {LoadContextOptions} from '../server';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
-import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
-import type {ServeCLIOptions} from '@docusaurus/types';
+
+export type ServeCLIOptions = HostPortOptions &
+  Pick<LoadContextOptions, 'config'> & {
+    dir?: string;
+    build?: boolean;
+  };
 
 export async function serve(
   siteDir: string,
@@ -33,8 +39,7 @@ export async function serve(
     );
   }
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();

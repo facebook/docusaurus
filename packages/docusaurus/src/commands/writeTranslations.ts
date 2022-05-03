@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
+import type {InitializedPlugin} from '@docusaurus/types';
 import path from 'path';
-import {loadContext} from '../server';
+import {loadContext, type LoadContextOptions} from '../server';
 import {initPlugins} from '../server/plugins/init';
 
 import {
@@ -22,6 +22,12 @@ import {
   globSourceCodeFilePaths,
 } from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
+
+export type WriteTranslationsCLIOptions = Pick<
+  LoadContextOptions,
+  'config' | 'locale'
+> &
+  WriteTranslationsOptions;
 
 /**
  * This is a hack, so that @docusaurus/theme-common translations are extracted!
@@ -74,13 +80,11 @@ async function writePluginTranslationFiles({
 
 export async function writeTranslations(
   siteDir: string,
-  options: Partial<
-    WriteTranslationsOptions & ConfigOptions & {locale?: string}
-  >,
+  options: Partial<WriteTranslationsCLIOptions>,
 ): Promise<void> {
   const context = await loadContext({
     siteDir,
-    customConfigFilePath: options.config,
+    config: options.config,
     locale: options.locale,
   });
   const plugins = await initPlugins(context);

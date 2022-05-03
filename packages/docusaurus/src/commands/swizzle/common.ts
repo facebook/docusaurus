@@ -61,7 +61,7 @@ export type SwizzlePlugin = {
 
 export type SwizzleContext = {plugins: SwizzlePlugin[]};
 
-export type SwizzleOptions = {
+export type SwizzleCLIOptions = {
   typescript: boolean;
   danger: boolean;
   list: boolean;
@@ -70,8 +70,8 @@ export type SwizzleOptions = {
 };
 
 export function normalizeOptions(
-  options: Partial<SwizzleOptions>,
-): SwizzleOptions {
+  options: Partial<SwizzleCLIOptions>,
+): SwizzleCLIOptions {
   return {
     typescript: options.typescript ?? false,
     danger: options.danger ?? false,

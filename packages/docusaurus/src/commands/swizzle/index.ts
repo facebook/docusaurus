@@ -10,7 +10,7 @@ import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {helpTables, themeComponentsTable} from './tables';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
-import type {SwizzleOptions, SwizzlePlugin} from './common';
+import type {SwizzleCLIOptions, SwizzlePlugin} from './common';
 import {normalizeOptions} from './common';
 import type {ActionResult} from './actions';
 import {eject, getAction, wrap} from './actions';
@@ -25,7 +25,7 @@ async function listAllThemeComponents({
 }: {
   themeNames: string[];
   plugins: SwizzlePlugin[];
-  typescript: SwizzleOptions['typescript'];
+  typescript: SwizzleCLIOptions['typescript'];
 }) {
   const themeComponentsTables = (
     await Promise.all(
@@ -90,7 +90,7 @@ export async function swizzle(
   siteDir: string,
   themeNameParam: string | undefined,
   componentNameParam: string | undefined,
-  optionsParam: Partial<SwizzleOptions>,
+  optionsParam: Partial<SwizzleCLIOptions>,
 ): Promise<void> {
   const options = normalizeOptions(optionsParam);
   const {list, danger, typescript} = options;
