@@ -21,9 +21,16 @@
 // in their tsconfig.
 
 declare module '@docusaurus/theme-classic' {
+  import type {LoadContext, Plugin} from '@docusaurus/types';
+
   export type Options = {
     customCss?: string | string[];
   };
+
+  export default function themeClassic(
+    context: LoadContext,
+    options: Options,
+  ): Plugin<undefined>;
 }
 
 declare module '@theme/Admonition' {
@@ -47,10 +54,10 @@ declare module '@theme/BackToTopButton' {
 }
 
 declare module '@theme/BlogListPaginator' {
-  import type {Metadata} from '@theme/BlogListPage';
+  import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly metadata: Metadata;
+    readonly metadata: BlogPaginatedMetadata;
   }
   export default function BlogListPaginator(props: Props): JSX.Element;
 }

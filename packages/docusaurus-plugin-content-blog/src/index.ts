@@ -25,14 +25,7 @@ import {
 } from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
-import type {
-  BlogTag,
-  BlogTags,
-  BlogContent,
-  BlogPaginated,
-  BlogContentPaths,
-  BlogMarkdownLoaderOptions,
-} from './types';
+import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import {
   generateBlogPosts,
@@ -46,6 +39,10 @@ import type {
   BlogPostFrontMatter,
   BlogPostMetadata,
   Assets,
+  BlogTag,
+  BlogTags,
+  BlogContent,
+  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(

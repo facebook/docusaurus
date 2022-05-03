@@ -5,10 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Metadata} from '@docusaurus/plugin-content-pages';
-
-export type LoadedContent = Metadata[];
-
 export type PagesContentPaths = {
   contentPath: string;
   contentPathLocalized: string;

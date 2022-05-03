@@ -7,6 +7,12 @@
 
 /// <reference types="@docusaurus/module-type-aliases" />
 
+declare module '@docusaurus/plugin-debug' {
+  import type {LoadContext, Plugin} from '@docusaurus/types';
+
+  export default function pluginDebug(context: LoadContext): Plugin<undefined>;
+}
+
 declare module '@theme/DebugConfig' {
   export default function DebugMetadata(): JSX.Element;
 }

@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadedVersion, LoadedContent} from './types';
+import type {
+  LoadedVersion,
+  LoadedContent,
+} from '@docusaurus/plugin-content-docs';
 import type {
   Sidebar,
   SidebarItemCategory,

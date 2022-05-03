@@ -9,13 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
 import _ from 'lodash';
-import type {
-  BlogPost,
-  BlogContentPaths,
-  BlogMarkdownLoaderOptions,
-  BlogTags,
-  BlogPaginated,
-} from './types';
+import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import {
   parseMarkdownString,
   normalizeUrl,
@@ -37,6 +31,9 @@ import logger from '@docusaurus/logger';
 import type {
   PluginOptions,
   ReadingTimeFunction,
+  BlogPost,
+  BlogTags,
+  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {

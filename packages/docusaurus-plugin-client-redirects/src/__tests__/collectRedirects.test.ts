@@ -10,7 +10,7 @@ import collectRedirects from '../collectRedirects';
 import {validateOptions} from '../options';
 import {removeTrailingSlash} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {Options} from '@docusaurus/plugin-client-redirects';
+import type {Options} from '../options';
 
 function createTestPluginContext(
   options?: Options,

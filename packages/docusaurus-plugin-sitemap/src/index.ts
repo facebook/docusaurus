@@ -7,8 +7,8 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import type {PluginOptions} from '@docusaurus/plugin-sitemap';
 import createSitemap from './createSitemap';
+import type {PluginOptions, Options} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 
 export default function pluginSitemap(
@@ -42,3 +42,4 @@ export default function pluginSitemap(
 }
 
 export {validateOptions} from './options';
+export type {PluginOptions, Options};

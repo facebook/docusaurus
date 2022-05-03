@@ -26,9 +26,7 @@ import type {DocEnv} from './docs';
 import {readVersionDocs, processDocMetadata, addDocNavigation} from './docs';
 import {readVersionsMetadata} from './versions';
 import type {
-  LoadedContent,
   SourceToPermalink,
-  LoadedVersion,
   DocFile,
   DocsMarkdownOption,
   VersionTag,
@@ -53,6 +51,8 @@ import type {
   DocMetadataBase,
   VersionMetadata,
   DocFrontMatter,
+  LoadedContent,
+  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
 import _ from 'lodash';
