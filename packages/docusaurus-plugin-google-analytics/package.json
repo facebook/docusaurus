@@ -3,7 +3,7 @@
   "version": "2.0.0-beta.18",
   "description": "Global analytics (analytics.js) plugin for Docusaurus.",
   "main": "lib/index.js",
-  "types": "src/plugin-google-analytics.d.ts",
+  "types": "lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },

@@ -13,7 +13,7 @@ import type {
   ThemeConfig,
   ThemeConfigValidationContext,
 } from '@docusaurus/types';
-import type {PluginOptions, Options} from '@docusaurus/plugin-google-analytics';
+import type {PluginOptions, Options} from './options';
 
 export default function pluginGoogleAnalytics(
   context: LoadContext,
@@ -87,3 +87,5 @@ export function validateThemeConfig({
   }
   return themeConfig;
 }
+
+export type {PluginOptions, Options};

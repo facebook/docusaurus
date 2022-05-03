@@ -6,7 +6,6 @@
  */
 
 import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
-import type {BlogPost} from './types';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
 import {load as cheerioLoad} from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
@@ -16,6 +15,7 @@ import type {
   FeedType,
   PluginOptions,
   Author,
+  BlogPost,
 } from '@docusaurus/plugin-content-blog';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 

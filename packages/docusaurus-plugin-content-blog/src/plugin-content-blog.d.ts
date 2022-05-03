@@ -8,6 +8,7 @@
 declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
+  import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite} from 'utility-types';
 
   export type Assets = {
@@ -410,6 +411,62 @@ declare module '@docusaurus/plugin-content-blog' {
     title: string;
     items: {title: string; permalink: string}[];
   };
+
+  export type BlogContent = {
+    blogSidebarTitle: string;
+    blogPosts: BlogPost[];
+    blogListPaginated: BlogPaginated[];
+    blogTags: BlogTags;
+    blogTagsListPath: string;
+  };
+
+  export type BlogTags = {
+    [permalink: string]: BlogTag;
+  };
+
+  export type BlogTag = Tag & {
+    /** Blog post permalinks. */
+    items: string[];
+    pages: BlogPaginated[];
+  };
+
+  export type BlogPost = {
+    id: string;
+    metadata: BlogPostMetadata;
+    content: string;
+  };
+
+  export type BlogPaginatedMetadata = {
+    /** Title of the entire blog. */
+    readonly blogTitle: string;
+    /** Blog description. */
+    readonly blogDescription: string;
+    /** Permalink to the next list page. */
+    readonly nextPage?: string;
+    /** Permalink of the current page. */
+    readonly permalink: string;
+    /** Permalink to the previous list page. */
+    readonly previousPage?: string;
+    /** Index of the current page, 1-based. */
+    readonly page: number;
+    /** Posts displayed on each list page. */
+    readonly postsPerPage: number;
+    /** Total number of posts in the entire blog. */
+    readonly totalCount: number;
+    /** Total number of list pages. */
+    readonly totalPages: number;
+  };
+
+  export type BlogPaginated = {
+    metadata: BlogPaginatedMetadata;
+    /** Blog post permalinks. */
+    items: string[];
+  };
+
+  export default function pluginContentBlog(
+    context: LoadContext,
+    options: PluginOptions,
+  ): Promise<Plugin<BlogContent>>;
 }
 
 declare module '@theme/BlogPostPage' {
@@ -446,34 +503,16 @@ declare module '@theme/BlogPostPage' {
 
 declare module '@theme/BlogListPage' {
   import type {Content} from '@theme/BlogPostPage';
-  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
-
-  export type Metadata = {
-    /** Title of the entire blog. */
-    readonly blogTitle: string;
-    /** Blog description. */
-    readonly blogDescription: string;
-    /** Permalink to the next list page. */
-    readonly nextPage?: string;
-    /** Permalink of the current page. */
-    readonly permalink: string;
-    /** Permalink to the previous list page. */
-    readonly previousPage?: string;
-    /** Index of the current page, 1-based. */
-    readonly page: number;
-    /** Posts displayed on each list page. */
-    readonly postsPerPage: number;
-    /** Total number of posts in the entire blog. */
-    readonly totalCount: number;
-    /** Total number of list pages. */
-    readonly totalPages: number;
-  };
+  import type {
+    BlogSidebar,
+    BlogPaginatedMetadata,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** Metadata of the current listing page. */
-    readonly metadata: Metadata;
+    readonly metadata: BlogPaginatedMetadata;
     /**
      * Array of blog posts included on this page. Every post's metadata is also
      * available.
@@ -499,9 +538,11 @@ declare module '@theme/BlogTagsListPage' {
 }
 
 declare module '@theme/BlogTagsPostsPage' {
-  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+  import type {
+    BlogSidebar,
+    BlogPaginatedMetadata,
+  } from '@docusaurus/plugin-content-blog';
   import type {Content} from '@theme/BlogPostPage';
-  import type {Metadata} from '@theme/BlogListPage';
   import type {TagModule} from '@docusaurus/utils';
 
   export interface Props {
@@ -510,7 +551,7 @@ declare module '@theme/BlogTagsPostsPage' {
     /** Metadata of this tag. */
     readonly tag: TagModule;
     /** Looks exactly the same as the posts list page */
-    readonly listMetadata: Metadata;
+    readonly listMetadata: BlogPaginatedMetadata;
     /**
      * Array of blog posts included on this page. Every post's metadata is also
      * available.

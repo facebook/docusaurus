@@ -3,7 +3,7 @@
   "version": "2.0.0-beta.18",
   "description": "Simple sitemap generation plugin for Docusaurus.",
   "main": "lib/index.js",
-  "types": "src/plugin-sitemap.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"

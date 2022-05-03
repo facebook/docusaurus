@@ -6,11 +6,11 @@
  */
 
 import {SitemapStream, streamToPromise} from 'sitemap';
-import type {PluginOptions} from '@docusaurus/plugin-sitemap';
-import type {DocusaurusConfig} from '@docusaurus/types';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {createMatcher} from '@docusaurus/utils';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
+import type {PluginOptions} from './options';
 import type {ReactElement} from 'react';
 
 export default async function createSitemap(

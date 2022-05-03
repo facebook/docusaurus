@@ -6,10 +6,7 @@
  */
 
 import _ from 'lodash';
-import type {
-  PluginOptions,
-  RedirectOption,
-} from '@docusaurus/plugin-client-redirects';
+import type {PluginOptions, RedirectOption} from './options';
 import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,

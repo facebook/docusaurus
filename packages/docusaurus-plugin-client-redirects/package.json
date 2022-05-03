@@ -3,7 +3,7 @@
   "version": "2.0.0-beta.18",
   "description": "Client redirects plugin for Docusaurus.",
   "main": "lib/index.js",
-  "types": "src/plugin-client-redirects.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"

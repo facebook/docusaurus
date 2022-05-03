@@ -11,7 +11,7 @@ import type {
   PluginConfig,
   PluginOptions,
 } from '@docusaurus/types';
-import type {Options, ThemeConfig} from '@docusaurus/preset-classic';
+import type {Options, ThemeConfig} from './options';
 
 function makePluginConfig(
   source: string,
@@ -93,3 +93,5 @@ export default function preset(
 
   return {themes, plugins};
 }
+
+export type {Options, ThemeConfig};

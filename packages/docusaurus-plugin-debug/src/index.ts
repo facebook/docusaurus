@@ -12,7 +12,7 @@ import path from 'path';
 export default function pluginDebug({
   siteConfig: {baseUrl},
   generatedFilesDir,
-}: LoadContext): Plugin<void> {
+}: LoadContext): Plugin<undefined> {
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-debug',
