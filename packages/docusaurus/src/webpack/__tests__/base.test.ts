@@ -12,7 +12,7 @@ import {excludeJS, clientDir, createBaseConfig} from '../base';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
 import _ from 'lodash';
-import type {Props, ThemeAliases} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
   it('always transpiles client dir files', () => {
@@ -106,9 +106,8 @@ describe('base webpack config', () => {
   });
 
   it('creates webpack aliases', async () => {
-    // @ts-expect-error: Docusaurus webpack alias is always an object
-    const aliases: ThemeAliases =
-      (await createBaseConfig(props, true)).resolve?.alias ?? {};
+    const aliases = ((await createBaseConfig(props, true)).resolve?.alias ??
+      {}) as {[alias: string]: string};
     // Make aliases relative so that test work on all computers
     const relativeAliases = _.mapValues(aliases, (a) =>
       posixPath(path.relative(props.siteDir, a)),

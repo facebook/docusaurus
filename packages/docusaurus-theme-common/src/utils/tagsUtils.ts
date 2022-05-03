@@ -6,7 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import type {TagsListItem} from '@docusaurus/types';
+import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
   translate({

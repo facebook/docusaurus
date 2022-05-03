@@ -427,13 +427,13 @@ export type LoadContext = {
 };
 
 export type Props = LoadContext & {
-  readonly headTags: string;
-  readonly preBodyTags: string;
-  readonly postBodyTags: string;
-  readonly siteMetadata: SiteMetadata;
-  readonly routes: RouteConfig[];
-  readonly routesPaths: string[];
-  readonly plugins: LoadedPlugin[];
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
+  siteMetadata: SiteMetadata;
+  routes: RouteConfig[];
+  routesPaths: string[];
+  plugins: LoadedPlugin[];
 };
 
 // === Plugin ===
@@ -447,9 +447,7 @@ export type PluginContentLoadedActions = {
 export type ConfigureWebpackUtils = {
   getStyleLoaders: (
     isServer: boolean,
-    cssOptions: {
-      [key: string]: unknown;
-    },
+    cssOptions: {[key: string]: unknown},
   ) => RuleSetRule[];
   getJSLoader: (options: {
     isServer: boolean;
@@ -464,7 +462,7 @@ export type AllContent = {
 };
 
 // TODO improve type (not exposed by postcss-loader)
-export type PostCssOptions = {[key: string]: unknown} & {plugins: unknown[]};
+export type PostCssOptions = {plugins: unknown[]; [key: string]: unknown};
 
 type HtmlTagObject = {
   /**
@@ -557,40 +555,6 @@ export type Plugin<Content = unknown> = {
   }) => ThemeConfig;
 };
 
-export type NormalizedPluginConfig = {
-  /**
-   * The default export of the plugin module, or alternatively, what's provided
-   * in the config file as inline plugins. Note that if a file is like:
-   *
-   * ```ts
-   * export default plugin() {...}
-   * export validateOptions() {...}
-   * ```
-   *
-   * Then the static methods may not exist here. `pluginModule.module` will
-   * always take priority.
-   */
-  plugin: PluginModule;
-  /** Options as they are provided in the config, not validated yet. */
-  options: PluginOptions;
-  /** Only available when a string is provided in config. */
-  pluginModule?: {
-    /**
-     * Raw module name as provided in the config. Shorthands have been resolved,
-     * so at least it's directly `require.resolve`able.
-     */
-    path: string;
-    /** Whatever gets imported with `require`. */
-    module: ImportedPluginModule;
-  };
-  /**
-   * Different from `pluginModule.path`, this one is always an absolute path,
-   * used to resolve relative paths returned from lifecycles. If it's an inline
-   * plugin, it will be path to the config file.
-   */
-  entryPath: string;
-};
-
 export type InitializedPlugin = Plugin & {
   readonly options: Required<PluginOptions>;
   readonly version: PluginVersionInformation;
@@ -612,9 +576,8 @@ export type SwizzleComponentConfig = {
 
 export type SwizzleConfig = {
   components: {[componentName: string]: SwizzleComponentConfig};
-  // Other settings could be added here,
-  // For example: the ability to declare the config as exhaustive
-  // so that we can emit errors
+  // Other settings could be added here, like the ability to declare the config
+  // as exhaustive so that we can emit errors
 };
 
 export type PluginModule = {
@@ -626,21 +589,13 @@ export type PluginModule = {
   getSwizzleConfig?: () => SwizzleConfig | undefined;
 };
 
-export type ImportedPluginModule = PluginModule & {
-  default?: PluginModule;
-};
-
 export type Preset = {
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
 };
 
 export type PresetModule = {
-  <T>(context: LoadContext, presetOptions: T): Preset;
-};
-
-export type ImportedPresetModule = PresetModule & {
-  default?: PresetModule;
+  (context: LoadContext, presetOptions: unknown): Preset;
 };
 
 // === Route registry ===
@@ -775,19 +730,6 @@ export type Registry = {
   ];
 };
 
-/**
- * Aliases used for Webpack resolution (useful for implementing swizzling)
- */
-export type ThemeAliases = {
-  [alias: string]: string;
-};
-
-export type TOCItem = {
-  readonly value: string;
-  readonly id: string;
-  readonly level: number;
-};
-
 export type ClientModule = {
   onRouteDidUpdate?: (args: {
     previousLocation: Location | null;
@@ -797,25 +739,6 @@ export type ClientModule = {
     previousLocation: Location | null;
     location: Location;
   }) => (() => void) | void;
-};
-
-/** What the user configures. */
-export type Tag = {
-  label: string;
-  /** Permalink to this tag's page, without the `/tags/` base path. */
-  permalink: string;
-};
-
-/** What the tags list page should know about each tag. */
-export type TagsListItem = Tag & {
-  /** Number of posts/docs with this tag. */
-  count: number;
-};
-
-/** What the tag's own page should know about the tag. */
-export type TagModule = TagsListItem & {
-  /** The tags list page's permalink. */
-  allTagsPath: string;
 };
 
 export type UseDataOptions = {

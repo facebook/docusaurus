@@ -8,14 +8,13 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {Sidebars} from './sidebars/types';
-import type {BrokenMarkdownLink} from '@docusaurus/utils';
+import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
 import type {
   VersionMetadata,
   LastUpdateData,
   DocMetadata,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {Tag} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
 
 export type DocFile = {

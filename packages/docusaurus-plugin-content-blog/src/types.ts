@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BrokenMarkdownLink, ContentPaths} from '@docusaurus/utils';
-import type {Tag} from '@docusaurus/types';
+import type {BrokenMarkdownLink, ContentPaths, Tag} from '@docusaurus/utils';
 import type {BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 import type {Metadata as BlogPaginatedMetadata} from '@theme/BlogListPage';
 

@@ -1057,7 +1057,7 @@ declare module '@theme/Details' {
 }
 
 declare module '@theme/TOCItems' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly toc: readonly TOCItem[];
@@ -1085,7 +1085,7 @@ declare module '@theme/TOCItems/Tree' {
 }
 
 declare module '@theme/TOC' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   // `minHeadingLevel` only comes from doc/post front matter, and won't have a
   // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
@@ -1100,7 +1100,7 @@ declare module '@theme/TOC' {
 }
 
 declare module '@theme/TOCInline' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly toc: readonly TOCItem[];
@@ -1112,7 +1112,7 @@ declare module '@theme/TOCInline' {
 }
 
 declare module '@theme/TOCCollapsible' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly className?: string;
@@ -1236,7 +1236,7 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
 
   export interface Props {
     readonly tags: readonly TagsListItem[];
@@ -1245,7 +1245,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  import type {Tag} from '@docusaurus/types';
+  import type {Tag} from '@docusaurus/utils';
 
   export interface Props {
     readonly tags: readonly Tag[];
@@ -1254,7 +1254,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}
