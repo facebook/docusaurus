@@ -47,7 +47,7 @@
     "format:diff": "prettier --list-different .",
     "lint": "yarn lint:js && yarn lint:style && yarn lint:spelling",
     "lint:ci": "yarn lint:js --quiet && yarn lint:style && yarn lint:spelling",
-    "lint:js": "eslint --cache  --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx,mjs}\"",
+    "lint:js": "eslint --cache --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx,mjs}\"",
     "lint:spelling": "cspell \"**\" --no-progress",
     "lint:style": "stylelint \"**/*.css\"",
     "lerna": "lerna",

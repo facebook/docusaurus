@@ -52,7 +52,7 @@ module.exports = Promise.resolve({
 
 - Type: `string`
 
-Title for your website.
+Title for your website. Will be used in metadata and as browser tab title.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -72,11 +72,11 @@ module.exports = {
 };
 ```
 
-### `baseUrl` {#baseurl}
+### `baseUrl` {#baseUrl}
 
 - Type: `string`
 
-Base URL for your site. This can also be considered the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field.
+Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field. Always has both leading and trailing slash.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
 
 - Type: `string | undefined`
 
-Path to your site favicon. For example, if your favicon is in `static/img/favicon.ico`:
+Path to your site favicon; must be a URL that can be used in link's href. For example, if your favicon is in `static/img/favicon.ico`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -98,7 +98,7 @@ module.exports = {
 };
 ```
 
-### `trailingSlash` {#trailing-slash}
+### `trailingSlash` {#trailingSlash}
 
 - Type: `boolean | undefined`
 
@@ -149,16 +149,19 @@ module.exports = {
 };
 ```
 
-- `label`: the label to use for this locale
-- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.)
-- `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
-- `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
+- `defaultLocale`: The locale that (1) does not have its name in the base URL (2) gets started with `docusaurus start` without `--locale` option (3) will be used for the `<link hrefLang="x-default">` tag
+- `locales`: List of locales deployed on your site. Must contain `defaultLocale`.
+- `localeConfigs`: Individual options for each locale.
+  - `label`: The label displayed for this locale in the locales dropdown.
+  - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.). Used to select the locale's CSS and html meta attribute.
+  - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
+  - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
 
-### `noIndex` {#noindex}
+### `noIndex` {#noIndex}
 
 - Type: `boolean`
 
-This option adds `<meta name="robots" content="noindex, nofollow">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
+This option adds `<meta name="robots" content="noindex, nofollow">` to every page to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
 
 Example:
 
@@ -168,11 +171,11 @@ module.exports = {
 };
 ```
 
-### `onBrokenLinks` {#onbrokenlinks}
+### `onBrokenLinks` {#onBrokenLinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
-The behavior of Docusaurus, when it detects any broken link.
+The behavior of Docusaurus when it detects any broken link.
 
 By default, it throws an error, to ensure you never ship any broken link, but you can lower this security if needed.
 
@@ -182,15 +185,15 @@ The broken links detection is only available for a production build (`docusaurus
 
 :::
 
-### `onBrokenMarkdownLinks` {#onbrokenmarkdownlinks}
+### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
-The behavior of Docusaurus, when it detects any broken markdown link.
+The behavior of Docusaurus when it detects any broken markdown link.
 
 By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
 
-### `onDuplicateRoutes` {#onduplicateroutes}
+### `onDuplicateRoutes` {#onDuplicateRoutes}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -211,11 +214,11 @@ module.exports = {
 };
 ```
 
-### `organizationName` {#organizationname}
+### `organizationName` {#organizationName}
 
 - Type: `string`
 
-The GitHub user or organization that owns the repository. Used by the deployment command.
+The GitHub user or organization that owns the repository. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -224,11 +227,11 @@ module.exports = {
 };
 ```
 
-### `projectName` {#projectname}
+### `projectName` {#projectName}
 
 - Type: `string`
 
-The name of the GitHub repository. Used by the deployment command.
+The name of the GitHub repository. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -236,11 +239,11 @@ module.exports = {
 };
 ```
 
-### `deploymentBranch` {#deploymentbranch}
+### `deploymentBranch` {#deploymentBranch}
 
 - Type: `string`
 
-The name of the branch to deploy the static files to. Used by the deployment command.
+The name of the branch to deploy the static files to. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -248,11 +251,11 @@ module.exports = {
 };
 ```
 
-### `githubHost` {#githubhost}
+### `githubHost` {#githubHost}
 
 - Type: `string`
 
-The hostname of your server. Useful if you are using GitHub Enterprise.
+The hostname of your server. Useful if you are using GitHub Enterprise. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -264,7 +267,7 @@ module.exports = {
 
 - Type: `string`
 
-The port of your server. Useful if you are using GitHub Enterprise.
+The port of your server. Useful if you are using GitHub Enterprise. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -272,11 +275,11 @@ module.exports = {
 };
 ```
 
-### `themeConfig` {#themeconfig}
+### `themeConfig` {#themeConfig}
 
 - Type: `Object`
 
-The [theme configuration](./themes/theme-configuration.md) object, to customize your site UI like navbar, footer.
+The [theme configuration](./themes/theme-configuration.md) object to customize your site UI like navbar and footer.
 
 Example:
 
@@ -403,7 +406,7 @@ Attempting to add unknown fields in the config will lead to errors during build 
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
-### `staticDirectories` {#staticdirectories}
+### `staticDirectories` {#staticDirectories}
 
 An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
 
@@ -421,7 +424,7 @@ module.exports = {
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
 
-Note that `<script>` added here are render-blocking so you might want to add `async: true`/`defer: true` to the objects.
+Note that `<script>` added here are render-blocking, so you might want to add `async: true`/`defer: true` to the objects.
 
 - Type: `(string | Object)[]`
 
@@ -441,9 +444,30 @@ module.exports = {
 };
 ```
 
-### `clientModules` {#clientmodules}
+### `stylesheets` {#stylesheets}
 
-An array of [client modules](../advanced/client.md#client-modules) to load globally on your site:
+An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
+
+- Type: `(string | Object)[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  stylesheets: [
+    // String format.
+    'https://docusaurus.io/style.css',
+    // Object format.
+    {
+      href: 'http://mydomain.com/style.css',
+    },
+  ],
+};
+```
+
+### `clientModules` {#clientModules}
+
+An array of [client modules](../advanced/client.md#client-modules) to load globally on your site.
 
 Example:
 
@@ -456,9 +480,9 @@ module.exports = {
 };
 ```
 
-### `ssrTemplate` {#ssrtemplate}
+### `ssrTemplate` {#ssrTemplate}
 
-An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from `upstream`.
+An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from upstream.
 
 - Type: `string`
 
@@ -500,32 +524,11 @@ module.exports = {
 };
 ```
 
-### `stylesheets` {#stylesheets}
-
-An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
-
-- Type: `(string | Object)[]`
-
-Example:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  stylesheets: [
-    // String format.
-    'https://docusaurus.io/style.css',
-    // Object format.
-    {
-      href: 'http://mydomain.com/style.css',
-    },
-  ],
-};
-```
-
-### `titleDelimiter` {#titledelimiter}
+### `titleDelimiter` {#titleDelimiter}
 
 - Type: `string`
 
-A string that will be used as title delimiter in the generated `<title>` tag.
+Will be used as title delimiter in the generated `<title>` tag.
 
 Example:
 
@@ -535,7 +538,7 @@ module.exports = {
 };
 ```
 
-### `baseUrlIssueBanner` {#baseurlissuebanner}
+### `baseUrlIssueBanner` {#baseurlIssueBanner}
 
 - Type: `boolean`
 
