@@ -339,6 +339,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'i18n'],
   },
   {
+    title: 'ChatKitty',
+    description: 'A full suite of developer tools for any chat use-case.',
+    preview: require('./showcase/chatkitty.png'),
+    website: 'https://chatkitty.com',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'ClarityChallenge',
     description:
       'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
