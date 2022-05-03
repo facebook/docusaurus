@@ -20,6 +20,8 @@ import {
   getContentPathList,
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
+  type TagsListItem,
+  type TagModule,
 } from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
@@ -31,13 +33,7 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
 } from './types';
-import type {
-  LoadContext,
-  Plugin,
-  HtmlTags,
-  TagsListItem,
-  TagModule,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import {
   generateBlogPosts,
   getSourceToPermalink,

@@ -7,9 +7,8 @@
 
 declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {FrontMatterTag} from '@docusaurus/utils';
+  import type {FrontMatterTag, Tag} from '@docusaurus/utils';
   import type {Overwrite} from 'utility-types';
-  import type {Tag} from '@docusaurus/types';
 
   export type Assets = {
     /**
@@ -487,7 +486,7 @@ declare module '@theme/BlogListPage' {
 
 declare module '@theme/BlogTagsListPage' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
 
   export interface Props {
     /** Blog sidebar. */
@@ -503,7 +502,7 @@ declare module '@theme/BlogTagsPostsPage' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
   import type {Content} from '@theme/BlogPostPage';
   import type {Metadata} from '@theme/BlogListPage';
-  import type {TagModule} from '@docusaurus/types';
+  import type {TagModule} from '@docusaurus/utils';
 
   export interface Props {
     /** Blog sidebar. */

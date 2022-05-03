@@ -8,11 +8,11 @@
 import leven from 'leven';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
+import type {NormalizedPluginConfig} from '../../server/plugins/configs';
 import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleActionStatus,
-  NormalizedPluginConfig,
 } from '@docusaurus/types';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];

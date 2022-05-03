@@ -10,10 +10,12 @@ import importFresh from 'import-fresh';
 import type {
   LoadContext,
   PluginConfig,
-  ImportedPresetModule,
+  PresetModule,
   DocusaurusConfig,
 } from '@docusaurus/types';
 import {resolveModuleName} from './moduleShorthand';
+
+type ImportedPresetModule = PresetModule & {default?: PresetModule};
 
 /**
  * Calls preset functions, aggregates each of their return values, and returns

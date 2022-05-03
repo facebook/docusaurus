@@ -13,7 +13,7 @@ import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 
-import type {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '../..';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
 import type {Transformer} from 'unified';

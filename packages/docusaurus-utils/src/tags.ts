@@ -7,7 +7,25 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
-import type {Tag} from '@docusaurus/types';
+
+/** What the user configures. */
+export type Tag = {
+  label: string;
+  /** Permalink to this tag's page, without the `/tags/` base path. */
+  permalink: string;
+};
+
+/** What the tags list page should know about each tag. */
+export type TagsListItem = Tag & {
+  /** Number of posts/docs with this tag. */
+  count: number;
+};
+
+/** What the tag's own page should know about the tag. */
+export type TagModule = TagsListItem & {
+  /** The tags list page's permalink. */
+  allTagsPath: string;
+};
 
 export type FrontMatterTag = string | Tag;
 

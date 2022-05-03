@@ -12,9 +12,45 @@ import {resolveModuleName} from './moduleShorthand';
 import type {
   LoadContext,
   PluginConfig,
-  ImportedPluginModule,
-  NormalizedPluginConfig,
+  PluginModule,
+  PluginOptions,
 } from '@docusaurus/types';
+
+type ImportedPluginModule = PluginModule & {default?: PluginModule};
+
+export type NormalizedPluginConfig = {
+  /**
+   * The default export of the plugin module, or alternatively, what's provided
+   * in the config file as inline plugins. Note that if a file is like:
+   *
+   * ```ts
+   * export default plugin() {...}
+   * export validateOptions() {...}
+   * ```
+   *
+   * Then the static methods may not exist here. `pluginModule.module` will
+   * always take priority.
+   */
+  plugin: PluginModule;
+  /** Options as they are provided in the config, not validated yet. */
+  options: PluginOptions;
+  /** Only available when a string is provided in config. */
+  pluginModule?: {
+    /**
+     * Raw module name as provided in the config. Shorthands have been resolved,
+     * so at least it's directly `require.resolve`able.
+     */
+    path: string;
+    /** Whatever gets imported with `require`. */
+    module: ImportedPluginModule;
+  };
+  /**
+   * Different from `pluginModule.path`, this one is always an absolute path,
+   * used to resolve relative paths returned from lifecycles. If it's an inline
+   * plugin, it will be path to the config file.
+   */
+  entryPath: string;
+};
 
 async function normalizePluginConfig(
   pluginConfig: Exclude<PluginConfig, false | null>,
