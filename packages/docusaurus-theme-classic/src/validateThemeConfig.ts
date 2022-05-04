@@ -14,11 +14,21 @@ import type {
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
+  sidebar: {
+    hideable: false,
+    autoCollapseCategories: false,
+  },
 };
 const DocsSchema = Joi.object({
   versionPersistence: Joi.string()
     .equal('localStorage', 'none')
     .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+  sidebar: Joi.object({
+    hideable: Joi.bool().default(DEFAULT_DOCS_CONFIG.sidebar.hideable),
+    autoCollapseCategories: Joi.bool().default(
+      DEFAULT_DOCS_CONFIG.sidebar.autoCollapseCategories,
+    ),
+  }).default(DEFAULT_DOCS_CONFIG.sidebar),
 }).default(DEFAULT_DOCS_CONFIG);
 
 const DEFAULT_COLOR_MODE_CONFIG = {
@@ -39,8 +49,6 @@ export const DEFAULT_CONFIG = {
     hideOnScroll: false,
     items: [],
   },
-  hideableSidebar: false,
-  autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
@@ -381,10 +389,14 @@ export const ThemeConfigSchema = Joi.object({
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
-  hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
-  autoCollapseSidebarCategories: Joi.bool().default(
-    DEFAULT_CONFIG.autoCollapseSidebarCategories,
-  ),
+  hideableSidebar: Joi.forbidden().messages({
+    'any.unknown':
+      'themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable.',
+  }),
+  autoCollapseSidebarCategories: Joi.forbidden().messages({
+    'any.unknown':
+      'themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories.',
+  }),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',

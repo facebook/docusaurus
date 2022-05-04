@@ -37,6 +37,13 @@ describe('themeConfig', () => {
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
       },
+      docs: {
+        versionPersistence: 'localStorage',
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
+      },
       announcementBar: {
         id: 'supports',
         content: 'pls support',
@@ -99,6 +106,19 @@ describe('themeConfig', () => {
       ...DEFAULT_CONFIG,
       ...userConfig,
     });
+  });
+
+  it('rejects outdated sidebar options', () => {
+    expect(() =>
+      testValidateThemeConfig({hideableSidebar: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable."`,
+    );
+    expect(() =>
+      testValidateThemeConfig({autoCollapseSidebarCategories: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories."`,
+    );
   });
 
   it('allows possible types of navbar items', () => {
