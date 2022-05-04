@@ -4,8 +4,9 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - website/**
+    paths:
+      - packages/**
+      - tsconfig.json
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -24,7 +25,7 @@ jobs:
         node: ['14', '16', '18']
     steps:
       - name: Checkout
-        uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:

@@ -23,6 +23,7 @@ function Header({children}: {children: React.ReactNode}) {
 
 function LivePreviewLoader() {
   // Is it worth improving/translating?
+  // eslint-disable-next-line @docusaurus/no-untranslated-text
   return <div>Loading...</div>;
 }
 

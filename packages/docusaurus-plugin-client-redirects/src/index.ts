@@ -7,7 +7,7 @@
 
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginContext, RedirectMetadata} from './types';
-import type {PluginOptions} from '@docusaurus/plugin-client-redirects';
+import type {PluginOptions, Options} from './options';
 
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
@@ -52,3 +52,4 @@ export default function pluginClientRedirectsPages(
 }
 
 export {validateOptions} from './options';
+export type {PluginOptions, Options};

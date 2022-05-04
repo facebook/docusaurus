@@ -7,7 +7,7 @@
 
 import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {Options} from '@docusaurus/plugin-client-redirects';
+import type {Options} from '../options';
 
 function testValidate(options: Options) {
   return validateOptions({validate: normalizePluginOptions, options});

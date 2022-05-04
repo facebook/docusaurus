@@ -6,7 +6,7 @@
  */
 
 import type {Props} from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-client-redirects';
+import type {PluginOptions} from './options';
 
 /**
  * The minimal infos the plugin needs to work

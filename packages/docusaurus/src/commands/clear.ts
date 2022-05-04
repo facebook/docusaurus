@@ -26,7 +26,7 @@ async function removePath(entry: {path: string; description: string}) {
   }
 }
 
-export async function clear(siteDir: string): Promise<unknown> {
+export async function clear(siteDir: string): Promise<void> {
   const generatedFolder = {
     path: path.join(siteDir, GENERATED_FILES_DIR_NAME),
     description: 'generated folder',
@@ -40,7 +40,7 @@ export async function clear(siteDir: string): Promise<unknown> {
     path: path.join(siteDir, p, '.cache'),
     description: 'Webpack persistent cache folder',
   }));
-  return Promise.all(
+  await Promise.all(
     [generatedFolder, buildFolder, ...cacheFolders].map(removePath),
   );
 }

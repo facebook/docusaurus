@@ -113,12 +113,16 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
+    isDeployPreview,
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
   staticDirectories: [
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
+    // Adding a non-existent static directory. If user deleted `static` without
+    // specifying `staticDirectories: []`, build should still work
+    path.join(__dirname, '_dogfooding/non-existent'),
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
@@ -409,11 +413,17 @@ const config = {
             position: 'left',
             activeBaseRegex: `/community/`,
           },
+          // This item links to a draft doc: only displayed in dev
           {
             type: 'doc',
             docId: 'test-draft',
             label: 'Tests',
             docsPluginId: 'docs-tests',
+          },
+          // Custom item for dogfooding: only displayed in /tests/ routes
+          {
+            type: 'custom-dogfood-navbar-item',
+            content: '😉',
           },
           // Right
           {

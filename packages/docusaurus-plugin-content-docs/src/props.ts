@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadedVersion, VersionTag} from './types';
+import type {VersionTag} from './types';
 import type {
   SidebarItemDoc,
   SidebarItem,
@@ -22,6 +22,7 @@ import type {
   PropSidebarItemLink,
   PropVersionDocs,
   DocMetadata,
+  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';

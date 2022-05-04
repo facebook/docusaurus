@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
+import Translate from '@docusaurus/Translate';
 import BlogLayout from '@theme/BlogLayout';
 import ChangelogItem from '@theme/ChangelogItem';
-import BlogPostPaginator from '@theme/BlogPostPaginator';
+import ChangelogPaginator from '@theme/ChangelogPaginator';
 import type {Props} from '@theme/BlogPostPage';
 import {
   PageMetadata,
@@ -86,7 +87,9 @@ function ChangelogPageContent(props: Props): JSX.Element {
             />
           ) : undefined
         }>
-        <Link to={listPageLink}>← Back to index page</Link>
+        <Link to={listPageLink}>
+          <Translate id="changelog.backLink">← Back to index page</Translate>
+        </Link>
 
         <ChangelogItem
           frontMatter={frontMatter}
@@ -97,7 +100,7 @@ function ChangelogPageContent(props: Props): JSX.Element {
         </ChangelogItem>
 
         {(nextItem || prevItem) && (
-          <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+          <ChangelogPaginator nextItem={nextItem} prevItem={prevItem} />
         )}
       </BlogLayout>
     </>

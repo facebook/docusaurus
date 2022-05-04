@@ -22,7 +22,7 @@ import {
 import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
-import type {DocFile, LoadedVersion} from './types';
+import type {DocFile} from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -39,6 +39,7 @@ import type {
   LastUpdateData,
   VersionMetadata,
   DocFrontMatter,
+  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 
 type LastUpdateOptions = Pick<

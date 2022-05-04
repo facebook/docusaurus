@@ -100,6 +100,8 @@ These HTML files are the first to arrive at the user's browser screen when a URL
 
 In CSR-only apps, all DOM elements are generated on client side with React, and the HTML file only ever contains one root element for React to mount DOM to; in SSR, React is already facing a fully built HTML page, and it only needs to correlate the DOM elements with the virtual DOM in its model. This step is called "hydration". After React has hydrated the static markup, the app starts to work as any normal React app.
 
+Note that Docusaurus is ultimately a single-page application, so static site generation is only an optimization (_progressive enhancement_, as it's called), but our functionality does not fully depend on those HTML files. This is contrary to site generators like [Jekyll](https://jekyllrb.com/) and [Docusaurus v1](https://v1.docusaurus.io/), where all files are statically transformed to markup, and interactiveness is added through external JavaScript linked with `<script>` tags. If you inspect the build output, you will still see JS assets under `build/assets/js`, which are, really, the core of Docusaurus.
+
 ## Escape hatches {#escape-hatches}
 
 If you want to render any dynamic content on your screen that relies on the browser API to be functional at all, for example:

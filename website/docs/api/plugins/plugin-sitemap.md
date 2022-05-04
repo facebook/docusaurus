@@ -47,8 +47,8 @@ Accepted fields:
 
 This plugin also respects some site config:
 
-- [`noIndex`](../docusaurus.config.js.md#noindex): results in no sitemap generated
-- [`trailingSlash`](../docusaurus.config.js.md#trailing-slash): determines if the URLs in the sitemap have trailing slashes
+- [`noIndex`](../docusaurus.config.js.md#noIndex): results in no sitemap generated
+- [`trailingSlash`](../docusaurus.config.js.md#trailingSlash): determines if the URLs in the sitemap have trailing slashes
 
 :::
 

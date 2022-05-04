@@ -13,11 +13,13 @@ import {
   parseLines,
   containsLineNumbers,
   usePrismTheme,
+  useCodeWordWrap,
 } from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import Line from '@theme/CodeBlock/Line';
 import CopyButton from '@theme/CodeBlock/CopyButton';
+import WordWrapButton from '@theme/CodeBlock/WordWrapButton';
 import Container from '@theme/CodeBlock/Container';
 import type {Props} from '@theme/CodeBlock/Content/String';
 
@@ -37,6 +39,7 @@ export default function CodeBlockString({
   const language =
     languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
   const prismTheme = usePrismTheme();
+  const wordWrap = useCodeWordWrap();
 
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
@@ -67,6 +70,7 @@ export default function CodeBlockString({
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
+              ref={wordWrap.codeBlockRef}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
               <code
                 className={clsx(
@@ -87,7 +91,16 @@ export default function CodeBlockString({
             </pre>
           )}
         </Highlight>
-        <CopyButton code={code} />
+        <div className={styles.buttonGroup}>
+          {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
+            <WordWrapButton
+              className={styles.codeButton}
+              onClick={() => wordWrap.toggle()}
+              isEnabled={wordWrap.isEnabled}
+            />
+          )}
+          <CopyButton className={styles.codeButton} code={code} />
+        </div>
       </div>
     </Container>
   );

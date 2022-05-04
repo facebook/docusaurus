@@ -32,13 +32,7 @@ export function DocsSidebarProvider({
   items: PropSidebar | undefined;
 }): JSX.Element {
   const stableValue: ContextValue | null = useMemo(
-    () =>
-      name && items
-        ? {
-            name,
-            items,
-          }
-        : null,
+    () => (name && items ? {name, items} : null),
     [name, items],
   );
   return <Context.Provider value={stableValue}>{children}</Context.Provider>;

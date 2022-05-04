@@ -7,8 +7,14 @@
 
 declare module '@docusaurus/plugin-content-docs' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {ContentPaths, FrontMatterTag} from '@docusaurus/utils';
-  import type {TagsListItem, TagModule, Tag} from '@docusaurus/types';
+  import type {
+    ContentPaths,
+    FrontMatterTag,
+    TagsListItem,
+    TagModule,
+    Tag,
+  } from '@docusaurus/utils';
+  import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Required} from 'utility-types';
 
   export type Assets = {
@@ -499,6 +505,21 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropTagsListPage = {
     tags: TagsListItem[];
   };
+
+  export type LoadedVersion = VersionMetadata & {
+    docs: DocMetadata[];
+    drafts: DocMetadata[];
+    sidebars: import('./sidebars/types').Sidebars;
+  };
+
+  export type LoadedContent = {
+    loadedVersions: LoadedVersion[];
+  };
+
+  export default function pluginContentDocs(
+    context: LoadContext,
+    options: PluginOptions,
+  ): Promise<Plugin<LoadedContent>>;
 }
 
 declare module '@theme/DocItem' {

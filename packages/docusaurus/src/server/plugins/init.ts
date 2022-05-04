@@ -13,7 +13,6 @@ import type {
   PluginModule,
   PluginOptions,
   InitializedPlugin,
-  NormalizedPluginConfig,
 } from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {getPluginVersion} from '../siteMetadata';
@@ -22,7 +21,7 @@ import {
   normalizePluginOptions,
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
-import {loadPluginConfigs} from './configs';
+import {loadPluginConfigs, type NormalizedPluginConfig} from './configs';
 
 function getOptionValidationFunction(
   normalizedPluginConfig: NormalizedPluginConfig,

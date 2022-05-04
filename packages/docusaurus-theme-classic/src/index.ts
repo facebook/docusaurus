@@ -91,10 +91,10 @@ function getInfimaCSSFile(direction: string) {
   }.css`;
 }
 
-export default function docusaurusThemeClassic(
+export default function themeClassic(
   context: LoadContext,
   options: Options,
-): Plugin<void> {
+): Plugin<undefined> {
   const {
     i18n: {currentLocale, localeConfigs},
   } = context;
@@ -138,6 +138,7 @@ export default function docusaurusThemeClassic(
         require.resolve(getInfimaCSSFile(direction)),
         './prism-include-languages',
         './admonitions.css',
+        './nprogress',
       ];
 
       if (customCss) {

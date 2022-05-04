@@ -227,6 +227,44 @@ describe('themeConfig', () => {
     });
   });
 
+  it('accept "custom-" prefixed custom navbar item type', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            type: 'custom-x',
+            position: 'left',
+            xyz: 42,
+          },
+          {
+            label: 'Dropdown with custom item',
+            position: 'right',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://.facebook.com/',
+                target: '_self',
+              },
+              {
+                type: 'custom-y',
+                any: new Date(),
+                prop: 42,
+                isAccepted: true,
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(testValidateThemeConfig(config)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...config.navbar,
+      },
+    });
+  });
+
   it('rejects unknown navbar item type', () => {
     const config = {
       navbar: {

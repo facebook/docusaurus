@@ -31,10 +31,10 @@ import type {DocusaurusConfig, LoadContext, Props} from '@docusaurus/types';
 export type LoadContextOptions = {
   /** Usually the CWD; can be overridden with command argument. */
   siteDir: string;
-  /** Can be customized with `--out-dir` option */
-  customOutDir?: string;
-  /** Can be customized with `--config` option */
-  customConfigFilePath?: string;
+  /** Custom output directory. Can be customized with `--out-dir` option */
+  outDir?: string;
+  /** Custom config path. Can be customized with `--config` option */
+  config?: string;
   /** Default is `i18n.defaultLocale` */
   locale?: string;
   /**
@@ -55,7 +55,12 @@ export type LoadContextOptions = {
 export async function loadContext(
   options: LoadContextOptions,
 ): Promise<LoadContext> {
-  const {siteDir, customOutDir, locale, customConfigFilePath} = options;
+  const {
+    siteDir,
+    outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
+    locale,
+    config: customConfigFilePath,
+  } = options;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
   const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
@@ -72,7 +77,7 @@ export async function loadContext(
     pathType: 'url',
   });
   const outDir = localizePath({
-    path: path.resolve(siteDir, customOutDir ?? DEFAULT_BUILD_DIR_NAME),
+    path: path.resolve(siteDir, baseOutDir),
     i18n,
     options,
     pathType: 'fs',

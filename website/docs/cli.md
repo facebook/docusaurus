@@ -171,7 +171,7 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 
 ### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
 
-Add [explicit heading ids](./guides/markdown-features/markdown-features-headings.mdx#explicit-ids) to the Markdown documents of your site.
+Add [explicit heading ids](./guides/markdown-features/markdown-features-toc.mdx#explicit-ids) to the Markdown documents of your site.
 
 | Name | Default | Description |
 | --- | --- | --- |

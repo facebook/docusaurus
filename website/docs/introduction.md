@@ -56,7 +56,6 @@ In this presentation at [Algolia Community Event](https://www.algolia.com/), [Me
     height="315"
     src="https://www.youtube.com/embed/Yhyx7otSksg"
     title="Docusaurus: Documentation Made Easy"
-    frameBorder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowFullScreen
   />

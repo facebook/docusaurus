@@ -5,20 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import globalData from '@generated/globalData';
-import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
+import type {PluginOptions} from './options';
+import type {ClientModule} from '@docusaurus/types';
 
-export default (function gtagModule() {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return null;
-  }
+const {trackingID} = globalData['docusaurus-plugin-google-gtag']!
+  .default as PluginOptions;
 
-  const {trackingID} = globalData['docusaurus-plugin-google-gtag']!
-    .default as PluginOptions;
-
-  return {
-    onRouteUpdate({location}: {location: Location}) {
+const clientModule: ClientModule = {
+  onRouteDidUpdate({location, previousLocation}) {
+    if (previousLocation && location.pathname !== previousLocation.pathname) {
       // Always refer to the variable on window in case it gets overridden
       // elsewhere.
       window.gtag('config', trackingID, {
@@ -27,9 +23,11 @@ export default (function gtagModule() {
       });
       window.gtag('event', 'page_view', {
         page_title: document.title,
-        page_location: location.href,
+        page_location: window.location.href,
         page_path: location.pathname,
       });
-    },
-  };
-})();
+    }
+  },
+};
+
+export default clientModule;

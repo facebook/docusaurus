@@ -6,9 +6,7 @@
  */
 
 import remark from 'remark';
-// Import from the transpiled lib because Babel can't transpile `export =`
-// TODO change to `../index` after migrating to ESM
-import npm2yarn from '../../lib/index';
+import npm2yarn from '../index';
 import vfile from 'to-vfile';
 import path from 'path';
 import mdx from 'remark-mdx';

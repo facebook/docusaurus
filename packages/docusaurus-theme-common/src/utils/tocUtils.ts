@@ -6,7 +6,7 @@
  */
 
 import {useMemo} from 'react';
-import type {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '@docusaurus/mdx-loader';
 
 export type TOCTreeNode = {
   readonly value: string;

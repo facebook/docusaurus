@@ -8,6 +8,7 @@
 import {execSync, type ExecSyncOptionsWithStringEncoding} from 'child_process';
 import detect from 'detect-port';
 import logger from '@docusaurus/logger';
+import {DEFAULT_PORT} from '@docusaurus/utils';
 import prompts from 'prompts';
 
 const execOptions: ExecSyncOptionsWithStringEncoding = {
@@ -48,7 +49,7 @@ function getProcessForPort(port: number): string | null {
  * port is already being used. This feature was heavily inspired by
  * create-react-app and uses many of the same utility functions to implement it.
  */
-export async function choosePort(
+async function choosePort(
   host: string,
   defaultPort: number,
 ): Promise<number | null> {
@@ -84,4 +85,19 @@ Would you like to run the app on another port instead?`),
     logger.error`Could not find an open port at ${host}.`;
     throw err;
   }
+}
+
+export type HostPortOptions = {
+  host?: string;
+  port?: string;
+};
+
+export async function getHostPort(options: HostPortOptions): Promise<{
+  host: string;
+  port: number | null;
+}> {
+  const host = options.host ?? 'localhost';
+  const basePort = options.port ? parseInt(options.port, 10) : DEFAULT_PORT;
+  const port = await choosePort(host, basePort);
+  return {host, port};
 }

@@ -54,3 +54,33 @@
     white-space: pre-wrap;
   }
 }
+
+.buttonGroup {
+  display: flex;
+  column-gap: 0.2rem;
+  position: absolute;
+  right: calc(var(--ifm-pre-padding) / 2);
+  top: calc(var(--ifm-pre-padding) / 2);
+}
+
+.buttonGroup button {
+  display: flex;
+  align-items: center;
+  background: var(--prism-background-color);
+  color: var(--prism-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  padding: 0.4rem;
+  line-height: 0;
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+}
+
+.buttonGroup button:focus-visible,
+.buttonGroup button:hover {
+  opacity: 1 !important;
+}
+
+:global(.theme-code-block:hover) .buttonGroup button {
+  opacity: 0.4;
+}
