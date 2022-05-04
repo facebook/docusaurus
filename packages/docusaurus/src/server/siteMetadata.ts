@@ -10,7 +10,6 @@ import type {
   PluginVersionInformation,
   SiteMetadata,
 } from '@docusaurus/types';
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import logger from '@docusaurus/logger';
@@ -99,7 +98,9 @@ export async function loadSiteMetadata({
   siteDir: string;
 }): Promise<SiteMetadata> {
   const siteMetadata: SiteMetadata = {
-    docusaurusVersion: DOCUSAURUS_VERSION,
+    docusaurusVersion: (await getPackageJsonVersion(
+      path.join(__dirname, '../../package.json'),
+    ))!,
     siteVersion: await getPackageJsonVersion(
       path.join(siteDir, 'package.json'),
     ),
