@@ -15,11 +15,12 @@
     align-items: center;
     justify-content: center;
     transition: background-color var(--ifm-transition-fast) ease;
+    background-color: var(--docusaurus-collapse-button-bg);
   }
 
   .expandButton:hover,
   .expandButton:focus {
-    background-color: var(--ifm-color-emphasis-200);
+    background-color: var(--docusaurus-collapse-button-bg-hover);
   }
 
   .expandButtonIcon {
@@ -28,10 +29,5 @@
 
   [dir='rtl'] .expandButtonIcon {
     transform: rotate(180deg);
-  }
-
-  [data-theme='dark'] .expandButton:hover,
-  [data-theme='dark'] .expandButton:focus {
-    background-color: var(--collapse-button-bg-color-dark);
   }
 }
