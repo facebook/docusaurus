@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Direktang link patungo sa heading",
   "theme.common.skipToMainContent": "Lumaktaw patungo sa pangunahing content",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Nabegasyón para sa mga pahinang docs.",
   "theme.docs.paginator.next": "Sumunod",
   "theme.docs.paginator.previous": "Naraaan",

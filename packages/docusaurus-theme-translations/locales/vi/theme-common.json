@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Đường dẫn trực tiếp tới đề mục này",
   "theme.common.skipToMainContent": "Nhảy tới nội dung",
   "theme.docs.DocCard.categoryDescription": "{count} mục",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Thanh điều hướng của trang tài liệu",
   "theme.docs.paginator.next": "Kế tiếp",
   "theme.docs.paginator.previous": "Trước",

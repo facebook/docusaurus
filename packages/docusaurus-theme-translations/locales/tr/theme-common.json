@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Başlığa doğrudan bağlantı",
   "theme.common.skipToMainContent": "Ana içeriğe geç",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Dokümanlar sayfası navigasyonu",
   "theme.docs.paginator.next": "Sonraki",
   "theme.docs.paginator.previous": "Önceki",

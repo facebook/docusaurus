@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان",
   "theme.common.skipToMainContent": "انتقل إلى المحتوى الرئيسي",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "التنقل بين صفحات الددات",
   "theme.docs.paginator.next": "التالى",
   "theme.docs.paginator.previous": "السابق",

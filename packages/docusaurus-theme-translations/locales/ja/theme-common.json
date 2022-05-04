@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "見出しへの直接リンク",
   "theme.common.skipToMainContent": "メインコンテンツまでスキップ",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "ドキュメントのナビゲーション",
   "theme.docs.paginator.next": "次へ",
   "theme.docs.paginator.previous": "前へ",

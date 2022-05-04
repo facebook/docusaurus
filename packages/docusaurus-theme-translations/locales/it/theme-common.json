@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Link diretto all'intestazione",
   "theme.common.skipToMainContent": "Passa al contenuto principale",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Navigazione delle pagine dei documenti",
   "theme.docs.paginator.next": "Successivo",
   "theme.docs.paginator.previous": "Precedente",
