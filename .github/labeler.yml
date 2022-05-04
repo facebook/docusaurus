@@ -1,0 +1,27 @@
+version: 1
+labels:
+  - label: 'tag: new feature'
+    title: '^feat(\(.+\))?:.*'
+
+  - label: 'tag: bug fix'
+    title: '^fix(\(.+\))?:.*'
+
+  - label: 'tag: polish'
+    title: '^refactor(\(.+\))?:.*'
+
+  - label: 'tag: documentation'
+    title: '^docs(\(.+\))?:.*'
+  - label: 'tag: documentation'
+    files:
+      - ^website/docs/.*
+      - ^website/versioned_docs/.*
+      - ^website/src/data/users.js
+
+  - label: 'tag: internal'
+    title: '^(chore|misc)(\(.+\))?:.*'
+  - label: 'tag: internal'
+    files:
+      - '^.github/*'
+
+  - label: 'tag: performance'
+    title: '^perf(\(.+\))?:.*'
