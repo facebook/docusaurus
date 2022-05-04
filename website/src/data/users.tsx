@@ -1022,6 +1022,14 @@ const Users: User[] = [
     tags: ['design', 'large', 'opensource', 'product','versioning'],
   },
   {
+    title: 'Meoo',
+    description: 'Personal website with blogs and notes, recording my study and life',
+    preview: require('./showcase/meoo.png'),
+    website: 'https://meoo.space',
+    source: 'https://github.com/cxOrz/meoo.space',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',
     preview: require('./showcase/metro.png'),
