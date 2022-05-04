@@ -15,12 +15,12 @@ const createMarkdownTableRow = ({
   pwa,
   reportUrl,
 }) => {
-  return `| ${url} | ${performance} | ${accessibility} | ${bestPractices} | ${seo} | ${pwa} | [View report](${reportUrl})|`;
+  return `| [${new URL(testUrl).pathname}](${url}) | ${performance} | ${accessibility} | ${bestPractices} | ${seo} | ${pwa} | [View report](${reportUrl})|`;
 };
 
 const createSingleRow = ({summary, testUrl, reportPublicUrl}) => {
   const normalizedBody = {
-    url: new URL(testUrl).pathname,
+    url: testUrl,
     performance: scoreEntry(summary.performance),
     accessibility: scoreEntry(summary.accessibility),
     bestPractices: scoreEntry(summary['best-practices']),
