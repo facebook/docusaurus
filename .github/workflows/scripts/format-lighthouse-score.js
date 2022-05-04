@@ -15,7 +15,9 @@ const createMarkdownTableRow = ({
   pwa,
   reportUrl,
 }) => {
-  return `| ${url} | ${performance} | ${accessibility} | ${bestPractices} | ${seo} | ${pwa} | [View report](${reportUrl})|`;
+  return `| [${
+    new URL(url).pathname
+  }](${url}) | ${performance} | ${accessibility} | ${bestPractices} | ${seo} | ${pwa} | [View report](${reportUrl})|`;
 };
 
 const createSingleRow = ({summary, testUrl, reportPublicUrl}) => {
