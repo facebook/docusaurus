@@ -15,7 +15,7 @@ export default function DebugRegistry(): JSX.Element {
   return (
     <DebugLayout>
       <h2>Registry</h2>
-      <ul className={styles.list}>
+      <ul className="clean-list">
         {Object.values(registry).map(([, aliasedPath, resolved]) => (
           <li key={aliasedPath} className={styles.listItem}>
             <div style={{marginBottom: '10px'}}>

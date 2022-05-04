@@ -58,10 +58,10 @@ export default function LocaleDropdownNavbarItem({
       {...props}
       mobile={mobile}
       label={
-        <span>
+        <>
           <IconLanguage className={styles.iconLanguage} />
           {dropdownLabel}
-        </span>
+        </>
       }
       items={items}
     />

@@ -10,7 +10,7 @@ import darkTheme from 'prism-react-renderer/themes/vsDark/index.cjs.js';
 export default {
   plain: {
     color: '#D4D4D4',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#212121',
   },
   styles: [
     ...darkTheme.styles,

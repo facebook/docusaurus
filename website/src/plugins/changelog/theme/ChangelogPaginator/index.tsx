@@ -23,34 +23,31 @@ export default function ChangelogPaginator(props: Props): JSX.Element {
         message: 'Changelog item navigation',
         description: 'The ARIA label for the changelog pagination',
       })}>
-      <div className="pagination-nav__item">
-        {prevItem && (
-          <PaginatorNavLink
-            {...prevItem}
-            subLabel={
-              <Translate
-                id="theme.changelog.post.paginator.newerRelease"
-                description="The changelog button label to navigate to the newer release">
-                Newer release
-              </Translate>
-            }
-          />
-        )}
-      </div>
-      <div className="pagination-nav__item pagination-nav__item--next">
-        {nextItem && (
-          <PaginatorNavLink
-            {...nextItem}
-            subLabel={
-              <Translate
-                id="theme.changelog.post.paginator.olderRelease"
-                description="The changelog button label to navigate to the older release">
-                Older release
-              </Translate>
-            }
-          />
-        )}
-      </div>
+      {prevItem && (
+        <PaginatorNavLink
+          {...prevItem}
+          subLabel={
+            <Translate
+              id="theme.changelog.post.paginator.newerRelease"
+              description="The changelog button label to navigate to the newer release">
+              Newer release
+            </Translate>
+          }
+        />
+      )}
+      {nextItem && (
+        <PaginatorNavLink
+          {...nextItem}
+          subLabel={
+            <Translate
+              id="theme.changelog.post.paginator.olderRelease"
+              description="The changelog button label to navigate to the older release">
+              Older release
+            </Translate>
+          }
+          isNext
+        />
+      )}
     </nav>
   );
 }

@@ -24,7 +24,7 @@ export default function DebugMetadata(): JSX.Element {
         <code>{siteMetadata.siteVersion || 'No version specified'}</code>
       </div>
       <h3 className={styles.sectionTitle}>Plugins and themes</h3>
-      <ul className={styles.list}>
+      <ul className="clean-list">
         {Object.entries(siteMetadata.pluginVersions).map(
           ([name, versionInformation]) => (
             <li key={name} className={styles.listItem}>

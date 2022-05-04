@@ -168,7 +168,7 @@ function ShowcaseFilters() {
         </div>
         <ShowcaseFilterToggle />
       </div>
-      <ul className={styles.checkboxList}>
+      <ul className="clean-list">
         {TagList.map((tag, i) => {
           const {label, description, color} = Tags[tag];
           const id = `showcase_checkbox_id_${tag}`;
@@ -287,7 +287,7 @@ function ShowcaseCards() {
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
                 <SearchBar />
               </div>
-              <ul className={clsx('container', styles.showcaseList)}>
+              <ul className="container clean-list">
                 {favoriteUsers.map((user) => (
                   <ShowcaseCard key={user.title} user={user} />
                 ))}
@@ -298,7 +298,7 @@ function ShowcaseCards() {
             <h2 className={styles.showcaseHeader}>
               <Translate id="showcase.usersList.allUsers">All sites</Translate>
             </h2>
-            <ul className={styles.showcaseList}>
+            <ul className="clean-list">
               {otherUsers.map((user) => (
                 <ShowcaseCard key={user.title} user={user} />
               ))}
@@ -314,7 +314,7 @@ function ShowcaseCards() {
             )}>
             <SearchBar />
           </div>
-          <ul className={styles.showcaseList}>
+          <ul className="clean-list">
             {filteredUsers.map((user) => (
               <ShowcaseCard key={user.title} user={user} />
             ))}

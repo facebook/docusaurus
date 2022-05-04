@@ -30,12 +30,6 @@
   flex-wrap: wrap;
 }
 
-.checkboxList,
-.showcaseList {
-  padding: 0;
-  list-style: none;
-}
-
 .checkboxListItem {
   user-select: none;
   white-space: nowrap;
