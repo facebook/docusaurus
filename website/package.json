@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.0-beta.18",
+  "version": "2.0.0-beta.19",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -36,18 +36,18 @@
   "dependencies": {
     "@crowdin/cli": "^3.7.8",
     "@crowdin/crowdin-api-client": "^1.18.0",
-    "@docusaurus/core": "2.0.0-beta.18",
-    "@docusaurus/logger": "2.0.0-beta.18",
-    "@docusaurus/plugin-client-redirects": "2.0.0-beta.18",
-    "@docusaurus/plugin-ideal-image": "2.0.0-beta.18",
-    "@docusaurus/plugin-pwa": "2.0.0-beta.18",
-    "@docusaurus/preset-classic": "2.0.0-beta.18",
-    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.18",
-    "@docusaurus/theme-classic": "2.0.0-beta.18",
-    "@docusaurus/theme-common": "2.0.0-beta.18",
-    "@docusaurus/theme-live-codeblock": "2.0.0-beta.18",
-    "@docusaurus/utils": "2.0.0-beta.18",
-    "@docusaurus/utils-common": "2.0.0-beta.18",
+    "@docusaurus/core": "2.0.0-beta.19",
+    "@docusaurus/logger": "2.0.0-beta.19",
+    "@docusaurus/plugin-client-redirects": "2.0.0-beta.19",
+    "@docusaurus/plugin-ideal-image": "2.0.0-beta.19",
+    "@docusaurus/plugin-pwa": "2.0.0-beta.19",
+    "@docusaurus/preset-classic": "2.0.0-beta.19",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.19",
+    "@docusaurus/theme-classic": "2.0.0-beta.19",
+    "@docusaurus/theme-common": "2.0.0-beta.19",
+    "@docusaurus/theme-live-codeblock": "2.0.0-beta.19",
+    "@docusaurus/utils": "2.0.0-beta.19",
+    "@docusaurus/utils-common": "2.0.0-beta.19",
     "@popperjs/core": "^2.11.5",
     "@swc/core": "^1.2.174",
     "clsx": "^1.1.1",
@@ -79,8 +79,8 @@
     ]
   },
   "devDependencies": {
+    "@docusaurus/eslint-plugin": "2.0.0-beta.19",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@docusaurus/eslint-plugin": "2.0.0-beta.18",
     "@types/jest": "^27.4.1",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
