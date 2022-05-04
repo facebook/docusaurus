@@ -44,6 +44,13 @@ export const DEFAULT_CONFIG = {
   prism: {
     additionalLanguages: [],
     theme: defaultPrismTheme,
+    magicComments: [
+      {
+        className: 'theme-code-block-highlighted-line',
+        line: 'highlight-next-line',
+        block: {start: 'highlight-start', end: 'highlight-end'},
+      },
+    ],
   },
   navbar: {
     hideOnScroll: false,
@@ -386,6 +393,18 @@ export const ThemeConfigSchema = Joi.object({
     additionalLanguages: Joi.array()
       .items(Joi.string())
       .default(DEFAULT_CONFIG.prism.additionalLanguages),
+    magicComments: Joi.array()
+      .items(
+        Joi.object({
+          className: Joi.string().required(),
+          line: Joi.string(),
+          block: Joi.object({
+            start: Joi.string().required(),
+            end: Joi.string().required(),
+          }),
+        }).or('line', 'block'),
+      )
+      .default(DEFAULT_CONFIG.prism.magicComments),
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),

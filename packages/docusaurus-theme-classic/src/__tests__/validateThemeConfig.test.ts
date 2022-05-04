@@ -36,6 +36,13 @@ describe('themeConfig', () => {
         darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
+        magicComments: [
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: {start: 'highlight-start', end: 'highlight-end'},
+          },
+        ],
       },
       docs: {
         versionPersistence: 'localStorage',
@@ -549,16 +556,72 @@ describe('themeConfig', () => {
     });
   });
 
-  it('accepts valid prism config', () => {
-    const prismConfig = {
-      prism: {
-        additionalLanguages: ['kotlin', 'java'],
-        theme: darkTheme,
-      },
-    };
-    expect(testValidateThemeConfig(prismConfig)).toEqual({
-      ...DEFAULT_CONFIG,
-      ...prismConfig,
+  describe('prism config', () => {
+    it('accepts a range of magic comments', () => {
+      const prismConfig = {
+        prism: {
+          additionalLanguages: ['kotlin', 'java'],
+          theme: darkTheme,
+          magicComments: [],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig,
+      });
+      const prismConfig2 = {
+        prism: {
+          additionalLanguages: [],
+          theme: darkTheme,
+          magicComments: [
+            {
+              className: 'a',
+              line: 'a-next-line',
+            },
+          ],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig2)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig2,
+      });
+      const prismConfig3 = {
+        prism: {
+          additionalLanguages: [],
+          theme: darkTheme,
+          magicComments: [
+            {
+              className: 'a',
+              block: {start: 'a-start', end: 'a-end'},
+            },
+          ],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig3)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig3,
+      });
+    });
+
+    it('rejects incomplete magic comments', () => {
+      expect(() =>
+        testValidateThemeConfig({
+          prism: {
+            magicComments: [{className: 'a'}],
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""prism.magicComments[0]" must contain at least one of [line, block]"`,
+      );
+      expect(() =>
+        testValidateThemeConfig({
+          prism: {
+            magicComments: [{className: 'a', block: {start: 'start'}}],
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""prism.magicComments[0].block.end" is required"`,
+      );
     });
   });
 

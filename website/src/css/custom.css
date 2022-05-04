@@ -207,3 +207,11 @@ div[class^='announcementBar_'] {
   font-size: 0.875rem;
   padding: 0.2rem 0.5rem;
 }
+
+.code-block-error-line {
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
+}

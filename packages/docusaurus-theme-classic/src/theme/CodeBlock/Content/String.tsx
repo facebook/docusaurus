@@ -34,7 +34,7 @@ export default function CodeBlockString({
   language: languageProp,
 }: Props): JSX.Element {
   const {
-    prism: {defaultLanguage},
+    prism: {defaultLanguage, magicComments},
   } = useThemeConfig();
   const language =
     languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
@@ -46,7 +46,11 @@ export default function CodeBlockString({
   // "title=\"xyz\"" => title: "\"xyz\""
   const title = parseCodeBlockTitle(metastring) || titleProp;
 
-  const {highlightLines, code} = parseLines(children, metastring, language);
+  const {lineClassNames, code} = parseLines(children, {
+    metastring,
+    language,
+    magicComments,
+  });
   const showLineNumbers =
     showLineNumbersProp || containsLineNumbers(metastring);
 
@@ -83,7 +87,7 @@ export default function CodeBlockString({
                     line={line}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
-                    highlight={highlightLines.includes(i)}
+                    classNames={lineClassNames[i]}
                     showLineNumbers={showLineNumbers}
                   />
                 ))}

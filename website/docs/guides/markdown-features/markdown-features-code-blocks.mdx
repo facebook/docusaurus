@@ -196,7 +196,7 @@ Supported commenting syntax:
 | Bash-style | `# ...`                  |
 | HTML-style | `<!-- ... -->`           |
 
-We will do our best to infer which set of comment styles to use based on the language, and default to allowing _all_ comment styles. If there's a comment style that is not currently supported, we are open to adding them! Pull requests welcome.
+We will do our best to infer which set of comment styles to use based on the language, and default to allowing _all_ comment styles. If there's a comment style that is not currently supported, we are open to adding them! Pull requests welcome. Note that different comment styles have no semantic difference, only their content does.
 
 You can set your own background color for highlighted code line in your `src/css/custom.css` which will better fit to your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
@@ -272,9 +272,103 @@ Prefer highlighting with comments where you can. By inlining highlight in the co
   ```
 ````
 
-In the future, we may extend the magic comment system and let you define custom directives and their functionalities. The magic comments would only be parsed if a highlight metastring is not present.
+Below, we will introduce how the magic comment system can be extended to define custom directives and their functionalities. The magic comments would only be parsed if a highlight metastring is not present.
 
 :::
+
+### Custom magic comments {#custom-magic-comments}
+
+`// highlight-next-line` and `// highlight-start` etc. are called "magic comments", because they will be parsed and removed, and their purposes are to add metadata to the next line, or the section that the pair of start- and end-comments enclose.
+
+You can declare custom magic comments through theme config. For example, you can register another magic comment that adds a `code-block-error-line` class name:
+
+<Tabs>
+<TabItem value="docusaurus.config.js">
+
+```js
+module.exports = {
+  themeConfig: {
+    prism: {
+      magicComments: [
+        // Remember to extend the default highlight class name as well!
+        {
+          className: 'theme-code-block-highlighted-line',
+          line: 'highlight-next-line',
+          block: {start: 'highlight-start', end: 'highlight-end'},
+        },
+        // highlight-start
+        {
+          className: 'code-block-error-line',
+          line: 'This will error',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+</TabItem>
+<TabItem value="src/css/custom.css">
+
+```css
+.code-block-error-line {
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
+}
+```
+
+</TabItem>
+<TabItem value="myDoc.md">
+
+````md
+In TypeScript, types help prevent runtime errors.
+
+```ts
+function greet(name: string) {
+  // This will error
+  console.log(name.toUpper());
+  // .toUpper doesn't exist on string
+}
+```
+````
+
+</TabItem>
+
+</Tabs>
+
+````mdx-code-block
+<BrowserWindow>
+
+In TypeScript, types help prevent runtime errors.
+
+```ts
+function greet(name: string) {
+  // This will error
+  console.log(name.toUpper());
+  // .toUpper doesn't exist on string
+}
+```
+
+</BrowserWindow>
+````
+
+If you use number ranges in metastring (the `{1,3-4}` syntax), Docusaurus will apply the **first `magicComments` entry**'s class name. This, by default, is `theme-code-block-highlighted-line`, but if you change the `magicComments` config and use a different entry as the first one, the meaning of the metastring range will change as well.
+
+You can disable the default line highlighting comments with `magicComments: []`. If there's no magic comment config, but Docusaurus encounters a code block containing a metastring range, it will error because there will be no class name to apply—the highlighting class name, after all, is just a magic comment entry.
+
+Every magic comment entry will contain three keys: `className` (required), `line`, which applies to the directly next line, or `block` (containing `start` and `end`), which applies to the entire block enclosed by the two comments.
+
+Using CSS to target the class can already do a lot, but you can unlock the full potential of this feature through [swizzling](../../swizzling.md).
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic CodeBlock/Line
+```
+
+The `Line` component will receive the list of class names, based on which you can conditionally render different markup.
 
 ## Line numbering {#line-numbering}
 

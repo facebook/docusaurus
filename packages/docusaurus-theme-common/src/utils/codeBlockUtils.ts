@@ -10,7 +10,7 @@ import type {PrismTheme} from 'prism-react-renderer';
 import type {CSSProperties} from 'react';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
-const highlightLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
+const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
 
 // Supported types of highlight comments
 const commentPatterns = {
@@ -23,18 +23,23 @@ const commentPatterns = {
 
 type CommentType = keyof typeof commentPatterns;
 
-const magicCommentDirectives = [
-  'highlight-next-line',
-  'highlight-start',
-  'highlight-end',
-];
+export type MagicCommentConfig = {
+  className: string;
+  line?: string;
+  block?: {start: string; end: string};
+};
 
-function getCommentPattern(languages: CommentType[]) {
+function getCommentPattern(
+  languages: CommentType[],
+  magicCommentDirectives: MagicCommentConfig[],
+) {
   // To be more reliable, the opening and closing comment must match
   const commentPattern = languages
     .map((lang) => {
       const {start, end} = commentPatterns[lang];
-      return `(?:${start}\\s*(${magicCommentDirectives.join('|')})\\s*${end})`;
+      return `(?:${start}\\s*(${magicCommentDirectives
+        .flatMap((d) => [d.line, d.block?.start, d.block?.end].filter(Boolean))
+        .join('|')})\\s*${end})`;
     })
     .join('|');
   // White space is allowed, but otherwise it should be on it's own line
@@ -44,34 +49,46 @@ function getCommentPattern(languages: CommentType[]) {
 /**
  * Select comment styles based on language
  */
-function getAllMagicCommentDirectiveStyles(lang: string) {
+function getAllMagicCommentDirectiveStyles(
+  lang: string,
+  magicCommentDirectives: MagicCommentConfig[],
+) {
   switch (lang) {
     case 'js':
     case 'javascript':
     case 'ts':
     case 'typescript':
-      return getCommentPattern(['js', 'jsBlock']);
+      return getCommentPattern(['js', 'jsBlock'], magicCommentDirectives);
 
     case 'jsx':
     case 'tsx':
-      return getCommentPattern(['js', 'jsBlock', 'jsx']);
+      return getCommentPattern(
+        ['js', 'jsBlock', 'jsx'],
+        magicCommentDirectives,
+      );
 
     case 'html':
-      return getCommentPattern(['js', 'jsBlock', 'html']);
+      return getCommentPattern(
+        ['js', 'jsBlock', 'html'],
+        magicCommentDirectives,
+      );
 
     case 'python':
     case 'py':
     case 'bash':
-      return getCommentPattern(['bash']);
+      return getCommentPattern(['bash'], magicCommentDirectives);
 
     case 'markdown':
     case 'md':
       // Text uses HTML, front matter uses bash
-      return getCommentPattern(['html', 'jsx', 'bash']);
+      return getCommentPattern(['html', 'jsx', 'bash'], magicCommentDirectives);
 
     default:
       // All comment types
-      return getCommentPattern(Object.keys(commentPatterns) as CommentType[]);
+      return getCommentPattern(
+        Object.keys(commentPatterns) as CommentType[],
+        magicCommentDirectives,
+      );
   }
 }
 
@@ -99,50 +116,91 @@ export function parseLanguage(className: string): string | undefined {
  * Parses the code content, strips away any magic comments, and returns the
  * clean content and the highlighted lines marked by the comments or metastring.
  *
- * If the metastring contains highlight range, the `content` will be returned
- * as-is without any parsing.
+ * If the metastring contains a range, the `content` will be returned as-is
+ * without any parsing. The returned `lineClassNames` will be a map from that
+ * number range to the first magic comment config entry (which _should_ be for
+ * line highlight directives.)
  *
  * @param content The raw code with magic comments. Trailing newline will be
  * trimmed upfront.
- * @param metastring The full metastring, as received from MDX. Highlight range
- * declared here starts at 1.
- * @param language Language of the code block, used to determine which kinds of
- * magic comment styles to enable.
+ * @param options Options for parsing behavior.
  */
 export function parseLines(
   content: string,
-  metastring?: string,
-  language?: string,
+  options: {
+    /**
+     * The full metastring, as received from MDX. Line ranges declared here
+     * start at 1.
+     */
+    metastring: string | undefined;
+    /**
+     * Language of the code block, used to determine which kinds of magic
+     * comment styles to enable.
+     */
+    language: string | undefined;
+    /**
+     * Magic comment types that we should try to parse. Each entry would
+     * correspond to one class name to apply to each line.
+     */
+    magicComments: MagicCommentConfig[];
+  },
 ): {
   /**
-   * The highlighted lines, 0-indexed. e.g. `[0, 1, 4]` means the 1st, 2nd, and
-   * 5th lines are highlighted.
+   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
+   * means the 1st line should have `highlight` and `sample` as class names.
    */
-  highlightLines: number[];
+  lineClassNames: {[lineIndex: number]: string[]};
   /**
-   * The clean code without any magic comments (only if highlight range isn't
-   * present in the metastring).
+   * If there's number range declared in the metastring, the code block is
+   * returned as-is (no parsing); otherwise, this is the clean code with all
+   * magic comments stripped away.
    */
   code: string;
 } {
   let code = content.replace(/\n$/, '');
+  const {language, magicComments, metastring} = options;
   // Highlighted lines specified in props: don't parse the content
-  if (metastring && highlightLinesRangeRegex.test(metastring)) {
-    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)!
-      .groups!.range!;
-    const highlightLines = rangeParser(highlightLinesRange)
+  if (metastring && metastringLinesRangeRegex.test(metastring)) {
+    const linesRange = metastring.match(metastringLinesRangeRegex)!.groups!
+      .range!;
+    if (magicComments.length === 0) {
+      throw new Error(
+        `A highlight range has been given in code block's metastring (\`\`\` ${metastring}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges.`,
+      );
+    }
+    const metastringRangeClassName = magicComments[0]!.className;
+    const lines = rangeParser(linesRange)
       .filter((n) => n > 0)
-      .map((n) => n - 1);
-    return {highlightLines, code};
+      .map((n) => [n - 1, [metastringRangeClassName]]);
+    return {lineClassNames: Object.fromEntries(lines), code};
   }
   if (language === undefined) {
-    return {highlightLines: [], code};
+    return {lineClassNames: {}, code};
   }
-  const directiveRegex = getAllMagicCommentDirectiveStyles(language);
+  const directiveRegex = getAllMagicCommentDirectiveStyles(
+    language,
+    magicComments,
+  );
   // Go through line by line
   const lines = code.split('\n');
-  let highlightBlockStart: number;
-  let highlightRange = '';
+  const blocks = Object.fromEntries(
+    magicComments.map((d) => [d.className, {start: 0, range: ''}]),
+  );
+  const lineToClassName: {[comment: string]: string} = Object.fromEntries(
+    magicComments
+      .filter((d) => d.line)
+      .map(({className, line}) => [line, className]),
+  );
+  const blockStartToClassName: {[comment: string]: string} = Object.fromEntries(
+    magicComments
+      .filter((d) => d.block)
+      .map(({className, block}) => [block!.start, className]),
+  );
+  const blockEndToClassName: {[comment: string]: string} = Object.fromEntries(
+    magicComments
+      .filter((d) => d.block)
+      .map(({className, block}) => [block!.end, className]),
+  );
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
@@ -151,28 +209,27 @@ export function parseLines(
       lineNumber += 1;
       continue;
     }
-    const directive = match.slice(1).find((item) => item !== undefined);
-    switch (directive) {
-      case 'highlight-next-line':
-        highlightRange += `${lineNumber},`;
-        break;
-
-      case 'highlight-start':
-        highlightBlockStart = lineNumber;
-        break;
-
-      case 'highlight-end':
-        highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
-        break;
-
-      default:
-        break;
+    const directive = match.slice(1).find((item) => item !== undefined)!;
+    if (lineToClassName[directive]) {
+      blocks[lineToClassName[directive]!]!.range += `${lineNumber},`;
+    } else if (blockStartToClassName[directive]) {
+      blocks[blockStartToClassName[directive]!]!.start = lineNumber;
+    } else if (blockEndToClassName[directive]) {
+      blocks[blockEndToClassName[directive]!]!.range += `${
+        blocks[blockEndToClassName[directive]!]!.start
+      }-${lineNumber - 1},`;
     }
     lines.splice(lineNumber, 1);
   }
-  const highlightLines = rangeParser(highlightRange);
   code = lines.join('\n');
-  return {highlightLines, code};
+  const lineClassNames: {[lineIndex: number]: string[]} = {};
+  Object.entries(blocks).forEach(([className, {range}]) => {
+    rangeParser(range).forEach((l) => {
+      lineClassNames[l] ??= [];
+      lineClassNames[l]!.push(className);
+    });
+  });
+  return {lineClassNames, code};
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
