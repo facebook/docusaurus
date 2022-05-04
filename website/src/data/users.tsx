@@ -223,7 +223,7 @@ const Users: User[] = [
   },
   {
     title: 'AvN Gateway',
-    description: 
+    description:
       'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
     preview: require('./showcase/aventus.png'),
     website: 'https://aventus-network-services.github.io/avn-gateway-docs/',
@@ -780,11 +780,12 @@ const Users: User[] = [
   },
   {
     title: 'Hasura',
-    description: 'The fastest way to create a GraphQL API from your data with authorization, real-time subscriptions, and more for free.',
+    description:
+      'The fastest way to create a GraphQL API from your data with authorization, real-time subscriptions, and more for free.',
     preview: require('./showcase/hasura.png'),
     website: 'https://hasura.io/docs/',
     source: 'https://github.com/hasura/graphql-engine/tree/master/docs',
-    tags: ['opensource', 'product', 'large'],
+    tags: ['favorite', 'opensource', 'product', 'large'],
   },
   {
     title: 'hCaptcha',
