@@ -787,6 +787,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Hasura',
+    description:
+      'The fastest way to create a GraphQL API from your data with authorization, real-time subscriptions, and more for free.',
+    preview: require('./showcase/hasura.png'),
+    website: 'https://hasura.io/docs/',
+    source: 'https://github.com/hasura/graphql-engine/tree/master/docs',
+    tags: ['favorite', 'opensource', 'product', 'large'],
+  },
+  {
     title: 'hCaptcha',
     description: 'hCaptcha.com anti-bot service docs',
     preview: require('./showcase/hcaptcha.png'),
