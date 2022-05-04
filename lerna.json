@@ -10,7 +10,7 @@
       "tag: bug fix": ":bug: Bug Fix",
       "tag: polish": ":nail_care: Polish",
       "tag: documentation": ":memo: Documentation",
-      "tag: internal": ":house: Internal",
+      "tag: maintenance": ":wrench: Maintenance",
       "tag: performance": ":running_woman: Performance"
     },
     "cacheDir": ".changelog"
