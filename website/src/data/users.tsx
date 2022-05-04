@@ -223,7 +223,7 @@ const Users: User[] = [
   },
   {
     title: 'AvN Gateway',
-    description: 
+    description:
       'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
     preview: require('./showcase/aventus.png'),
     website: 'https://aventus-network-services.github.io/avn-gateway-docs/',
@@ -1028,6 +1028,15 @@ const Users: User[] = [
     website: 'https://docs.memgraph.com/',
     source: 'https://github.com/memgraph/docs',
     tags: ['design', 'large', 'opensource', 'product','versioning'],
+  },
+  {
+    title: 'Meoo',
+    description:
+      'Personal website with blogs and notes, recording my study and life',
+    preview: require('./showcase/meoo.png'),
+    website: 'https://meoo.space',
+    source: 'https://github.com/cxOrz/meoo.space',
+    tags: ['opensource', 'personal'],
   },
   {
     title: 'Metro',
