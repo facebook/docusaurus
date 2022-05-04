@@ -158,6 +158,7 @@ mdxast
 mdxhast
 metadatum
 metastring
+microdata
 middlewares
 minifier
 mkcert
