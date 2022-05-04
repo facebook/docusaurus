@@ -27,7 +27,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@b4dfae3eb959c5226e2c5c6afd563d493188bfaf # 9.3.0
         with:
           urls: |
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
