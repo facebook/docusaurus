@@ -1,6 +1,12 @@
-# `@docusaurus/logger`
+---
+sidebar_position: 1
+title: '📦 logger'
+slug: '/api/plugins/@docusaurus/logger'
+---
 
 An encapsulated logger for semantically formatting console messages.
+
+Authors of packages in the Docusaurus ecosystem are encouraged to use this package to provide unified log formats.
 
 ## APIs
 
@@ -26,13 +32,15 @@ It exports a single object as default export: `logger`. `logger` has the followi
   - `error`: prints an error (not necessarily halting the program) that signals significant problems.
   - `success`: prints a success message.
 
-### A word on the `error` formatter
+:::caution A word on the `error` formatter
 
 Beware that an `error` message, even when it doesn't hang the program, is likely going to cause confusion. When users inspect logs and find an `[ERROR]`, even when the build succeeds, they will assume something is going wrong. Use it sparingly.
 
 Docusaurus only uses `logger.error` when printing messages immediately before throwing an error, or when user has set the reporting severity of `onBrokenLink`, etc. to `"error"`.
 
 In addition, `warn` and `error` will color the **entire** message for better attention. If you are printing large blocks of help text about an error, better use `logger.info`.
+
+:::
 
 ### Using the template literal tag
 
@@ -56,4 +64,4 @@ An embedded expression is optionally preceded by a flag in the form `[a-z]+=` (a
 
 If the expression is an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets a leading line end). Each member is formatted by itself and the bullet is not formatted. So you would see the above message printed as:
 
-![demo](./demo.png)
+![demo](./img/logger-demo.png)
