@@ -38,7 +38,7 @@ const createMarkdownTableHeader = () => {
   ];
 };
 
-const createLightHouseReport = ({results, links}) => {
+const createLighthouseReport = ({results, links}) => {
   const tableHeader = createMarkdownTableHeader();
   const tableBody = results.map((result) => {
     const testUrl = Object.keys(links).find((key) => key === result.url);
@@ -55,4 +55,4 @@ const createLightHouseReport = ({results, links}) => {
   return comment.join('\n');
 };
 
-module.exports = createLightHouseReport;
+module.exports = createLighthouseReport;
