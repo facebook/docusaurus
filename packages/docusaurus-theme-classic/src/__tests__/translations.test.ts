@@ -16,7 +16,6 @@ const ThemeConfigSample: ThemeConfig = {
   docs: {
     versionPersistence: 'none',
   },
-  hideableSidebar: true,
   navbar: {
     title: 'navbar title',
     style: 'dark',

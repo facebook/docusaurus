@@ -19,7 +19,6 @@ import type {
 } from '@docusaurus/types';
 import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
-import logger from '@docusaurus/logger';
 import _ from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
@@ -144,21 +143,6 @@ export async function loadPlugins(context: LoadContext): Promise<{
       };
 
       await plugin.contentLoaded({content, actions, allContent});
-    }),
-  );
-
-  // 4. Plugin Lifecycle - routesLoaded.
-  await Promise.all(
-    loadedPlugins.map(async (plugin) => {
-      if (!plugin.routesLoaded) {
-        return;
-      }
-
-      // TODO alpha-60: remove this deprecated lifecycle soon
-      // 1 user reported usage of this lifecycle: https://github.com/facebook/docusaurus/issues/3918
-      logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: url=${'https://github.com/facebook/docusaurus/issues/3918'}`;
-
-      await plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 

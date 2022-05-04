@@ -357,8 +357,12 @@ const config = {
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },
-      hideableSidebar: true,
-      autoCollapseSidebarCategories: true,
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: true,
+        },
+      },
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
@@ -374,6 +378,17 @@ const config = {
         // TODO after we have forked prism-react-renderer, we should tweak the
         // import order and fix it there
         additionalLanguages: ['java', 'markdown', 'latex'],
+        magicComments: [
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: {start: 'highlight-start', end: 'highlight-end'},
+          },
+          {
+            className: 'code-block-error-line',
+            line: 'This will error',
+          },
+        ],
       },
       image: 'img/docusaurus-soc.png',
       // metadata: [{name: 'twitter:card', content: 'summary'}],

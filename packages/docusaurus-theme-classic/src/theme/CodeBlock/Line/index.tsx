@@ -12,7 +12,7 @@ import styles from './styles.module.css';
 
 export default function CodeBlockLine({
   line,
-  highlight,
+  classNames,
   showLineNumbers,
   getLineProps,
   getTokenProps,
@@ -23,16 +23,8 @@ export default function CodeBlockLine({
 
   const lineProps = getLineProps({
     line,
-    ...(showLineNumbers && {className: styles.codeLine}),
+    className: clsx(classNames, showLineNumbers && styles.codeLine),
   });
-
-  if (highlight) {
-    lineProps.className = clsx(
-      lineProps.className,
-      styles.highlightedCodeLine,
-      'theme-code-block-highlighted-line',
-    );
-  }
 
   const lineTokens = line.map((token, key) => (
     <span key={key} {...getTokenProps({token, key})} />

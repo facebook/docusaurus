@@ -286,8 +286,12 @@ Example:
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
-    hideableSidebar: false,
-    autoCollapseSidebarCategories: false,
+    docs: {
+      sidebar: {
+        hideable: false,
+        autoCollapseCategories: false,
+      },
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
