@@ -31,7 +31,6 @@ export default function BlogPostPaginator(props: Props): JSX.Element {
               Newer Post
             </Translate>
           }
-          isPrev
         />
       )}
       {nextItem && (
@@ -44,6 +43,7 @@ export default function BlogPostPaginator(props: Props): JSX.Element {
               Older Post
             </Translate>
           }
+          isNext
         />
       )}
     </nav>

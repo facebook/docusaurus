@@ -32,7 +32,6 @@ export default function BlogListPaginator(props: Props): JSX.Element {
               Newer Entries
             </Translate>
           }
-          isPrev
         />
       )}
       {nextPage && (
@@ -45,6 +44,7 @@ export default function BlogListPaginator(props: Props): JSX.Element {
               Older Entries
             </Translate>
           }
+          isNext
         />
       )}
     </nav>

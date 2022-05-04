@@ -31,7 +31,6 @@ export default function DocPaginator(props: Props): JSX.Element {
               Previous
             </Translate>
           }
-          isPrev
         />
       )}
       {next && (
@@ -44,6 +43,7 @@ export default function DocPaginator(props: Props): JSX.Element {
               Next
             </Translate>
           }
+          isNext
         />
       )}
     </nav>
