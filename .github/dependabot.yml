@@ -7,10 +7,3 @@ updates:
     open-pull-requests-limit: 99
     labels:
       - 'tag: dependencies'
-  - package-ecosystem: npm
-    directory: '/'
-    schedule:
-      interval: monthly
-    open-pull-requests-limit: 99
-    labels:
-      - 'tag: dependencies'
