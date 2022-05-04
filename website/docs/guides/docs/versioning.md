@@ -161,7 +161,7 @@ Example:
 
 The "current" version is the version name for the `./docs` folder. There are different ways to manage versioning, but two very common patterns are:
 
-- You release v1, and start immediately working on v2 (including its docs). In this case, the **current version** is v2, which is in the `./docs` folder, while the **latest version** is v1, which is the version hosted at `example.com/docs` and is browsed by most of your users.
+- You release v1, and start immediately working on v2 (including its docs). In this case, the **current version** is v2, which is in the `./docs` source folder, and can be browsed at `example.com/docs/next`. The **latest version** is v1, which is in the `./versioned_docs/version-1` source folder, and is browsed by most of your users at `example.com/docs`.
 - You release v1, and will maintain it for some time before thinking about v2. In this case, the **current version** and **latest version** will both be point to v1, since the v2 docs doesn't even exist yet!
 
 Docusaurus defaults work great for the first use case. We will label the current version as "next" and you can even choose not to publish it.
