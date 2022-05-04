@@ -20,7 +20,7 @@ const createMarkdownTableRow = ({
 
 const createSingleRow = ({summary, testUrl, reportPublicUrl}) => {
   const normalizedBody = {
-    url: testUrl,
+    url: new URL(testUrl).pathname,
     performance: scoreEntry(summary.performance),
     accessibility: scoreEntry(summary.accessibility),
     bestPractices: scoreEntry(summary['best-practices']),
