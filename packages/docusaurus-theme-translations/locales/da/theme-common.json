@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Direkte link til overskrift",
   "theme.common.skipToMainContent": "Hop til hovedindhold",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Dokumentside navigation",
   "theme.docs.paginator.next": "Næste",
   "theme.docs.paginator.previous": "Tidligere",

@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Веза до наслова",
   "theme.common.skipToMainContent": "Пређи на главни садржај",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Навигација по документима",
   "theme.docs.paginator.next": "Даље",
   "theme.docs.paginator.previous": "Назад",

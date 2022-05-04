@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "Přímý odkaz na nadpis",
   "theme.common.skipToMainContent": "Přeskočit na hlavní obsah",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Stránkování dokumentace",
   "theme.docs.paginator.next": "Další",
   "theme.docs.paginator.previous": "Předchozí",

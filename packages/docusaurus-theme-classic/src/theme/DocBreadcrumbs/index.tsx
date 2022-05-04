@@ -15,6 +15,7 @@ import styles from './styles.module.css';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {translate} from '@docusaurus/Translate';
 import IconHome from '@theme/IconHome';
 
 // TODO move to design system folder
@@ -82,9 +83,14 @@ function HomeBreadcrumbItem() {
   return (
     <li className="breadcrumbs__item">
       <Link
+        aria-label={translate({
+          id: 'theme.docs.breadcrumbs.home',
+          message: 'Home page',
+          description: 'The ARIA label for the home page in the breadcrumbs',
+        })}
         className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
         href={homeHref}>
-        <IconHome className={styles.icon} />
+        <IconHome className={styles.breadcrumbHomeIcon} />
       </Link>
     </li>
   );
@@ -104,7 +110,11 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         ThemeClassNames.docs.docBreadcrumbs,
         styles.breadcrumbsContainer,
       )}
-      aria-label="breadcrumbs">
+      aria-label={translate({
+        id: 'theme.docs.breadcrumbs.navAriaLabel',
+        message: 'Breadcrumbs',
+        description: 'The ARIA label for the breadcrumbs',
+      })}>
       <ul
         className="breadcrumbs"
         itemScope

@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "제목으로 바로 가기",
   "theme.common.skipToMainContent": "본문으로 건너뛰기",
   "theme.docs.DocCard.categoryDescription": "{count} 항목",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "문서 탐색",
   "theme.docs.paginator.next": "다음",
   "theme.docs.paginator.previous": "이전",

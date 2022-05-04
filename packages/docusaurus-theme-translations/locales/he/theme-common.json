@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "קישור ישיר לכותרת",
   "theme.common.skipToMainContent": "דלג לתוכן הראשי",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "רשימת דוקומנטאציה",
   "theme.docs.paginator.next": "הבא",
   "theme.docs.paginator.previous": "הקודם",

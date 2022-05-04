@@ -33,6 +33,8 @@
   "theme.common.headingLinkTitle": "لینک مستقیم به عنوان",
   "theme.common.skipToMainContent": "پرش به مطلب اصلی",
   "theme.docs.DocCard.categoryDescription": "{count} items",
+  "theme.docs.breadcrumbs.home": "Home page",
+  "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "کنترل صفحات مطالب",
   "theme.docs.paginator.next": "بعدی",
   "theme.docs.paginator.previous": "قبلی",
