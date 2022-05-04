@@ -282,9 +282,10 @@ Below, we will introduce how the magic comment system can be extended to define 
 
 You can declare custom magic comments through theme config. For example, you can register another magic comment that adds a `code-block-error-line` class name:
 
-`````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="docusaurus.config.js">
+```
 
 ```js
 module.exports = {
@@ -309,8 +310,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="src/css/custom.css">
+```
 
 ```css
 .code-block-error-line {
@@ -322,8 +325,10 @@ module.exports = {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="myDoc.md">
+```
 
 ````md
 In JavaScript, trying to access properties on `null` will error.
@@ -336,10 +341,10 @@ console.log(name.toUpperCase());
 ```
 ````
 
+```mdx-code-block
 </TabItem>
-
 </Tabs>
-`````
+```
 
 ````mdx-code-block
 <BrowserWindow>
