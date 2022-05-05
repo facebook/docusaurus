@@ -27,7 +27,7 @@ export default function Layout(props: Props): JSX.Element {
     children,
     noFooter,
     wrapperClassName,
-    // not really layout-related, but kept for convenience/retro-compatibility
+    // Not really layout-related, but kept for convenience/retro-compatibility
     title,
     description,
   } = props;

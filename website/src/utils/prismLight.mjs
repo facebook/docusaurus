@@ -51,7 +51,7 @@ export default {
     {
       types: ['font-matter', 'string', 'attr-value'],
       style: {
-        color: '#E3116C',
+        color: '#C6105F',
       },
     },
     {
@@ -88,6 +88,12 @@ export default {
       types: ['variable'],
       style: {
         color: '#E36209',
+      },
+    },
+    {
+      types: ['comment'],
+      style: {
+        color: '#6B6B6B',
       },
     },
   ],

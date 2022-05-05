@@ -32,11 +32,11 @@ const EXPECTED_CSS_MARKERS = [
   '.markdown>h2',
   '.button--outline.button--active',
   '.DocSearch-Hit-content-wrapper',
-  '.navbar__title',
   '--ifm-color-scheme:light',
   '.col[class*=col--]',
   '.padding-vert--xl',
   '.footer__link-item',
+  '.navbar__title',
   '.pagination__item',
   '.pills__item',
   '.tabs__item',
@@ -47,7 +47,7 @@ const EXPECTED_CSS_MARKERS = [
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
 
-  // lazy loaded lib
+  // Lazy-loaded lib
   '.DocSearch-Modal',
 ];
 

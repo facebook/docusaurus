@@ -9,16 +9,24 @@ import http from 'http';
 import serveHandler from 'serve-handler';
 import logger from '@docusaurus/logger';
 import path from 'path';
+import type {LoadContextOptions} from '../server';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
-import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import type {ServeCLIOptions} from '@docusaurus/types';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
+import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+
+export type ServeCLIOptions = HostPortOptions &
+  Pick<LoadContextOptions, 'config'> & {
+    dir?: string;
+    build?: boolean;
+  };
 
 export async function serve(
   siteDir: string,
-  cliOptions: ServeCLIOptions,
+  cliOptions: Partial<ServeCLIOptions>,
 ): Promise<void> {
-  let dir = path.resolve(siteDir, cliOptions.dir);
+  const buildDir = cliOptions.dir ?? DEFAULT_BUILD_DIR_NAME;
+  let dir = path.resolve(siteDir, buildDir);
 
   if (cliOptions.build) {
     dir = await build(
@@ -31,8 +39,7 @@ export async function serve(
     );
   }
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();
@@ -69,7 +76,7 @@ export async function serve(
     });
   });
 
-  logger.success`Serving path=${cliOptions.dir} directory at url=${
+  logger.success`Serving path=${buildDir} directory at url=${
     servingUrl + baseUrl
   }.`;
   server.listen(port);

@@ -7,15 +7,18 @@
 
 // TODO Types provided by MDX 2.0 https://github.com/mdx-js/mdx/blob/main/packages/mdx/types/index.d.ts
 declare module '@mdx-js/mdx' {
-  import type {Processor} from 'unified';
-  import type {RemarkOrRehypePlugin} from '@docusaurus/mdx-loader';
+  import type {Processor, Plugin} from 'unified';
 
-  export type Options = {
+  type MDXPlugin =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [Plugin<any[]>, any] | Plugin<any[]>;
+
+  type Options = {
     filepath?: string;
     skipExport?: boolean;
     wrapExport?: string;
-    remarkPlugins?: RemarkOrRehypePlugin[];
-    rehypePlugins?: RemarkOrRehypePlugin[];
+    remarkPlugins?: MDXPlugin[];
+    rehypePlugins?: MDXPlugin[];
   };
 
   export function sync(content: string, options?: Options): string;
@@ -23,6 +26,6 @@ declare module '@mdx-js/mdx' {
   export function createCompiler(options?: Options): Processor;
   export default function mdx(
     content: string,
-    options?: mdx.Options,
+    options?: Options,
   ): Promise<string>;
 }

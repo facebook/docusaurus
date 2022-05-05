@@ -21,34 +21,31 @@ export default function DocPaginator(props: Props): JSX.Element {
         message: 'Docs pages navigation',
         description: 'The ARIA label for the docs pagination',
       })}>
-      <div className="pagination-nav__item">
-        {previous && (
-          <PaginatorNavLink
-            {...previous}
-            subLabel={
-              <Translate
-                id="theme.docs.paginator.previous"
-                description="The label used to navigate to the previous doc">
-                Previous
-              </Translate>
-            }
-          />
-        )}
-      </div>
-      <div className="pagination-nav__item pagination-nav__item--next">
-        {next && (
-          <PaginatorNavLink
-            {...next}
-            subLabel={
-              <Translate
-                id="theme.docs.paginator.next"
-                description="The label used to navigate to the next doc">
-                Next
-              </Translate>
-            }
-          />
-        )}
-      </div>
+      {previous && (
+        <PaginatorNavLink
+          {...previous}
+          subLabel={
+            <Translate
+              id="theme.docs.paginator.previous"
+              description="The label used to navigate to the previous doc">
+              Previous
+            </Translate>
+          }
+        />
+      )}
+      {next && (
+        <PaginatorNavLink
+          {...next}
+          subLabel={
+            <Translate
+              id="theme.docs.paginator.next"
+              description="The label used to navigate to the next doc">
+              Next
+            </Translate>
+          }
+          isNext
+        />
+      )}
     </nav>
   );
 }

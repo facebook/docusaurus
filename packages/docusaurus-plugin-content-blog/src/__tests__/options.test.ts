@@ -13,7 +13,7 @@ function testValidate(options: Options) {
   return validateOptions({validate: normalizePluginOptions, options});
 }
 
-// the type of remark/rehype plugins can be either function, object or array
+// The type of remark/rehype plugins can be either function, object or array
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
 

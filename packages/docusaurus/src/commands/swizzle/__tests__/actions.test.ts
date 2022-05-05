@@ -13,7 +13,7 @@ import tree from 'tree-node-cli';
 import {eject, wrap} from '../actions';
 import {posixPath} from '@docusaurus/utils';
 
-// use relative paths and sort files for tests
+// Use relative paths and sort files for tests
 function stableCreatedFiles(
   siteThemePath: string,
   createdFiles: string[],

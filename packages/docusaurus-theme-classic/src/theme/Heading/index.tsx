@@ -13,13 +13,13 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
-function AnchorHeading({as: As, id, ...props}: Props) {
+export default function Heading({as: As, id, ...props}: Props): JSX.Element {
   const {
     navbar: {hideOnScroll},
   } = useThemeConfig();
-
-  if (!id) {
-    return <As {...props} />;
+  // H1 headings do not need an id because they don't appear in the TOC.
+  if (As === 'h1' || !id) {
+    return <As {...props} id={undefined} />;
   }
 
   return (
@@ -45,18 +45,4 @@ function AnchorHeading({as: As, id, ...props}: Props) {
       </a>
     </As>
   );
-}
-
-export default function Heading({as, ...props}: Props): JSX.Element {
-  if (as === 'h1') {
-    return (
-      <h1
-        {...props}
-        id={undefined} // h1 headings do not need an id because they don't appear in the TOC
-      >
-        {props.children}
-      </h1>
-    );
-  }
-  return <AnchorHeading as={as} {...props} />;
 }

@@ -7,19 +7,32 @@ An encapsulated logger for semantically formatting console messages.
 It exports a single object as default export: `logger`. `logger` has the following properties:
 
 - Some useful colors.
-- Formatters. These functions have the same signature as the formatters of `picocolors`. Note that their implementations are not guaranteed. You should only care about their semantics.
+  - `red`
+  - `yellow`
+  - `green`
+  - `bold`
+  - `dim`
+- Formatters. These functions all have the signature `(msg: unknown) => string`. Note that their implementations are not guaranteed. You should only care about their semantics.
   - `path`: formats a file path.
   - `url`: formats a URL.
-  - `id`: formats an identifier.
+  - `name`: formats an identifier.
   - `code`: formats a code snippet.
   - `subdue`: subdues the text.
   - `num`: formats a number.
-- The `interpolate` function. It is a template literal tag.
-- Logging functions. All logging functions can both be used as functions (in which it has the same usage as `console.log`) or template literal tags.
+- The `interpolate` function. It is a template literal tag. The syntax can be found below.
+- Logging functions. All logging functions can both be used as normal functions (similar to the `console.log` family, but only accepts one parameter) or template literal tags.
   - `info`: prints information.
   - `warn`: prints a warning that should be payed attention to.
   - `error`: prints an error (not necessarily halting the program) that signals significant problems.
   - `success`: prints a success message.
+
+### A word on the `error` formatter
+
+Beware that an `error` message, even when it doesn't hang the program, is likely going to cause confusion. When users inspect logs and find an `[ERROR]`, even when the build succeeds, they will assume something is going wrong. Use it sparingly.
+
+Docusaurus only uses `logger.error` when printing messages immediately before throwing an error, or when user has set the reporting severity of `onBrokenLink`, etc. to `"error"`.
+
+In addition, `warn` and `error` will color the **entire** message for better attention. If you are printing large blocks of help text about an error, better use `logger.info`.
 
 ### Using the template literal tag
 
@@ -32,11 +45,11 @@ logger.info`Hello name=${name}! You have number=${money} dollars. Here are the $
 To buy anything, enter code=${'buy x'} where code=${'x'} is the item's name; to quit, press code=${'Ctrl + C'}.`;
 ```
 
-An embedded expression is optionally preceded by a flag in the form `%[a-z]+` (a percentage sign followed by a few lowercase letters). If it's not preceded by any flag, it's printed out as-is. Otherwise, it's formatted with one of the formatters:
+An embedded expression is optionally preceded by a flag in the form `[a-z]+=` (a few lowercase letters, followed by an equals sign, directly preceding the embedded expression). If the expression is not preceded by any flag, it's printed out as-is. Otherwise, it's formatted with one of the formatters:
 
 - `path=`: `path`
 - `url=`: `url`
-- `name=`: `id`
+- `name=`: `name`
 - `code=`: `code`
 - `subdue=`: `subdue`
 - `number=`: `num`

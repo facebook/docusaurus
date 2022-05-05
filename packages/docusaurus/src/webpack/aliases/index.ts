@@ -15,7 +15,12 @@ import {
   Globby,
 } from '@docusaurus/utils';
 import _ from 'lodash';
-import type {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
+import type {LoadedPlugin} from '@docusaurus/types';
+
+/**
+ * Aliases used for Webpack resolution (useful for implementing swizzling)
+ */
+type ThemeAliases = {[alias: string]: string};
 
 const ThemeFallbackDir = path.join(__dirname, '../../client/theme-fallback');
 

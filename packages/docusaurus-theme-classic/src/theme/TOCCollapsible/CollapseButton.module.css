@@ -1,0 +1,29 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.tocCollapsibleButton {
+  font-size: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  width: 100%;
+}
+
+.tocCollapsibleButton::after {
+  content: '';
+  background: var(--ifm-menu-link-sublist-icon) 50% 50% / 2rem 2rem no-repeat;
+  filter: var(--ifm-menu-link-sublist-icon-filter);
+  height: 1.25rem;
+  width: 1.25rem;
+  transform: rotate(180deg);
+  transition: transform var(--ifm-transition-fast);
+}
+
+.tocCollapsibleButtonExpanded::after {
+  transform: none;
+}

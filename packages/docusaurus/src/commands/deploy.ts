@@ -9,11 +9,17 @@ import fs from 'fs-extra';
 import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
-import {loadContext} from '../server';
+import {loadContext, type LoadContextOptions} from '../server';
 import {build} from './build';
-import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
+
+export type DeployCLIOptions = Pick<
+  LoadContextOptions,
+  'config' | 'locale' | 'outDir'
+> & {
+  skipBuild?: boolean;
+};
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str: string) {
@@ -36,12 +42,12 @@ function shellExecLog(cmd: string) {
 
 export async function deploy(
   siteDir: string,
-  cliOptions: Partial<BuildCLIOptions> = {},
+  cliOptions: Partial<DeployCLIOptions>,
 ): Promise<void> {
   const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,
-    customConfigFilePath: cliOptions.config,
-    customOutDir: cliOptions.outDir,
+    config: cliOptions.config,
+    outDir: cliOptions.outDir,
   });
 
   if (typeof siteConfig.trailingSlash === 'undefined') {
@@ -113,8 +119,9 @@ This behavior can have SEO impacts and create relative link issues.
     shell.exit(0);
   }
 
-  // github.io indicates organization repos that deploy via default branch.
-  // All others use gh-pages. Organization deploys looks like:
+  // github.io indicates organization repos that deploy via default branch. All
+  // others use gh-pages (either case can be configured actually, but we can
+  // make educated guesses). Organization deploys look like:
   // - Git repo: https://github.com/<organization>/<organization>.github.io
   // - Site url: https://<organization>.github.io
   const isGitHubPagesOrganizationDeploy = projectName.includes('.github.io');
@@ -235,7 +242,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   if (!cliOptions.skipBuild) {
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
-      await runDeploy(await build(siteDir, cliOptions, false));
+      await build(siteDir, cliOptions, false).then(runDeploy);
     } catch (err) {
       logger.error('Deployment of the build output failed.');
       throw err;

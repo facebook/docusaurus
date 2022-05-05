@@ -21,34 +21,31 @@ export default function BlogPostPaginator(props: Props): JSX.Element {
         message: 'Blog post page navigation',
         description: 'The ARIA label for the blog posts pagination',
       })}>
-      <div className="pagination-nav__item">
-        {prevItem && (
-          <PaginatorNavLink
-            {...prevItem}
-            subLabel={
-              <Translate
-                id="theme.blog.post.paginator.newerPost"
-                description="The blog post button label to navigate to the newer/previous post">
-                Newer Post
-              </Translate>
-            }
-          />
-        )}
-      </div>
-      <div className="pagination-nav__item pagination-nav__item--next">
-        {nextItem && (
-          <PaginatorNavLink
-            {...nextItem}
-            subLabel={
-              <Translate
-                id="theme.blog.post.paginator.olderPost"
-                description="The blog post button label to navigate to the older/next post">
-                Older Post
-              </Translate>
-            }
-          />
-        )}
-      </div>
+      {prevItem && (
+        <PaginatorNavLink
+          {...prevItem}
+          subLabel={
+            <Translate
+              id="theme.blog.post.paginator.newerPost"
+              description="The blog post button label to navigate to the newer/previous post">
+              Newer Post
+            </Translate>
+          }
+        />
+      )}
+      {nextItem && (
+        <PaginatorNavLink
+          {...nextItem}
+          subLabel={
+            <Translate
+              id="theme.blog.post.paginator.olderPost"
+              description="The blog post button label to navigate to the older/next post">
+              Older Post
+            </Translate>
+          }
+          isNext
+        />
+      )}
     </nav>
   );
 }

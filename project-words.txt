@@ -21,6 +21,7 @@ backticks
 bartosz
 beforeinstallprompt
 bhatt
+blocklist
 blockquotes
 browserslist
 browserstack
@@ -83,6 +84,7 @@ errnametoolong
 esbenp
 esbuild
 eslintcache
+estree
 evaluable
 externalwaiting
 failfast
@@ -117,6 +119,7 @@ immer
 infima
 inlines
 intelli
+interactiveness
 interpolatable
 jakepartusch
 jamstack
@@ -155,6 +158,9 @@ mdxast
 mdxhast
 metadatum
 metastring
+metrica
+metrika
+microdata
 middlewares
 minifier
 mkcert
@@ -214,6 +220,7 @@ preconfigured
 preconnect
 prefetch
 prefetching
+preloads
 prepended
 preprocessors
 prerendered
@@ -243,12 +250,14 @@ refactorings
 regexes
 rehype
 reponame
+requireindex
 retrocompatibility
 retrocompatible
 roadmap
 rocketvalidator
 rtcts
 rtlcss
+saurus
 scaleway
 searchbar
 sebastien
@@ -299,12 +308,14 @@ treeifies
 treeify
 treosh
 triaging
+tses
 typecheck
 typechecks
 typedoc
 typesense
 unflat
 unist
+unlinkable
 unlocalized
 unmatch
 unnormalized

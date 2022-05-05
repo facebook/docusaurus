@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import React from 'react';
 import createSitemap from '../createSitemap';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import {EnumChangefreq} from 'sitemap';
@@ -16,6 +17,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       ['/', '/test'],
+      {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -29,7 +31,7 @@ describe('createSitemap', () => {
 
   it('empty site', () =>
     expect(async () => {
-      await createSitemap({} as DocusaurusConfig, [], {});
+      await createSitemap({} as DocusaurusConfig, [], {}, {});
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
     ));
@@ -40,6 +42,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       ['/', '/404.html', '/my-page'],
+      {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -55,6 +58,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       ['/', '/search/', '/tags/', '/search/foo', '/tags/foo/bar'],
+      {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -78,6 +82,7 @@ describe('createSitemap', () => {
         trailingSlash: undefined,
       } as DocusaurusConfig,
       ['/', '/test', '/nested/test', '/nested/test2/'],
+      {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -98,6 +103,7 @@ describe('createSitemap', () => {
         trailingSlash: true,
       } as DocusaurusConfig,
       ['/', '/test', '/nested/test', '/nested/test2/'],
+      {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -118,6 +124,7 @@ describe('createSitemap', () => {
         trailingSlash: false,
       } as DocusaurusConfig,
       ['/', '/test', '/nested/test', '/nested/test2/'],
+      {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -129,5 +136,31 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/test</loc>');
     expect(sitemap).toContain('<loc>https://example.com/nested/test</loc>');
     expect(sitemap).toContain('<loc>https://example.com/nested/test2</loc>');
+  });
+
+  it('filters pages with noindex', async () => {
+    const sitemap = await createSitemap(
+      {
+        url: 'https://example.com',
+        trailingSlash: false,
+      } as DocusaurusConfig,
+      ['/', '/noindex', '/nested/test', '/nested/test2/'],
+      {
+        '/noindex': {
+          meta: {
+            toComponent: () => [
+              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+            ],
+          },
+        },
+      },
+      {
+        changefreq: EnumChangefreq.DAILY,
+        priority: 0.7,
+        ignorePatterns: [],
+      },
+    );
+
+    expect(sitemap).not.toContain('/noindex');
   });
 });

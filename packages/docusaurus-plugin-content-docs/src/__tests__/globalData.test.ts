@@ -6,9 +6,79 @@
  */
 
 import {toGlobalDataVersion} from '../globalData';
+import {createSidebarsUtils} from '../sidebars/utils';
+import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
+import type {Sidebars} from '../sidebars/types';
 
 describe('toGlobalDataVersion', () => {
   it('generates the right docs, sidebars, and metadata', () => {
+    const docs = [
+      {
+        unversionedId: 'main',
+        permalink: '/current/main',
+        sidebar: 'tutorial',
+        frontMatter: {},
+      },
+      {
+        unversionedId: 'doc',
+        permalink: '/current/doc',
+        sidebar: 'tutorial',
+        frontMatter: {},
+      },
+    ];
+    const sidebars: Sidebars = {
+      tutorial: [
+        {
+          type: 'doc',
+          id: 'main',
+        },
+        {
+          type: 'category',
+          label: 'Generated',
+          link: {
+            type: 'generated-index',
+            permalink: '/current/generated',
+            slug: '/current/generated',
+          },
+          items: [
+            {
+              type: 'doc',
+              id: 'doc',
+            },
+          ],
+        },
+      ],
+      links: [
+        {
+          type: 'link',
+          href: 'foo',
+          label: 'Foo',
+        },
+        {
+          type: 'link',
+          href: 'bar',
+          label: 'Bar',
+        },
+      ],
+      another: [
+        {
+          type: 'category',
+          label: 'Generated',
+          link: {
+            type: 'generated-index',
+            permalink: '/current/generated-2',
+            slug: '/current/generated-2',
+          },
+          items: [
+            {
+              type: 'doc',
+              id: 'doc',
+            },
+          ],
+        },
+      ],
+    };
+    const sidebarsUtils = createSidebarsUtils(sidebars);
     expect(
       toGlobalDataVersion({
         versionName: 'current',
@@ -16,76 +86,20 @@ describe('toGlobalDataVersion', () => {
         isLast: true,
         path: '/current',
         mainDocId: 'main',
-        docs: [
+        docs,
+        drafts: [
           {
-            unversionedId: 'main',
-            permalink: '/current/main',
-            sidebar: 'tutorial',
-          },
-          {
-            unversionedId: 'doc',
-            permalink: '/current/doc',
-            sidebar: 'tutorial',
+            unversionedId: 'some-draft-id',
+            permalink: '/current/draft',
+            sidebar: undefined,
           },
         ],
-        sidebars: {
-          another: [
-            {
-              type: 'category',
-              label: 'Generated',
-              link: {
-                type: 'generated-index',
-                permalink: '/current/generated',
-              },
-              items: [
-                {
-                  type: 'doc',
-                  id: 'doc',
-                },
-              ],
-            },
-          ],
-          tutorial: [
-            {
-              type: 'doc',
-              id: 'main',
-            },
-            {
-              type: 'category',
-              label: 'Generated',
-              link: {
-                type: 'generated-index',
-                permalink: '/current/generated',
-              },
-              items: [
-                {
-                  type: 'doc',
-                  id: 'doc',
-                },
-              ],
-            },
-          ],
-          links: [
-            {
-              type: 'link',
-              href: 'foo',
-              label: 'Foo',
-            },
-            {
-              type: 'link',
-              href: 'bar',
-              label: 'Bar',
-            },
-          ],
-        },
-        categoryGeneratedIndices: [
-          {
-            title: 'Generated',
-            slug: '/current/generated',
-            permalink: '/current/generated',
-            sidebar: 'tutorial',
-          },
-        ],
+        sidebars,
+        categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+          docs,
+          sidebarsUtils,
+        }),
+        sidebarsUtils,
         banner: 'unreleased',
         badge: true,
         className: 'current-cls',

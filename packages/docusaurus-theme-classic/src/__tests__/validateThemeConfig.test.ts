@@ -36,6 +36,20 @@ describe('themeConfig', () => {
         darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
+        magicComments: [
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: {start: 'highlight-start', end: 'highlight-end'},
+          },
+        ],
+      },
+      docs: {
+        versionPersistence: 'localStorage',
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
       },
       announcementBar: {
         id: 'supports',
@@ -101,6 +115,19 @@ describe('themeConfig', () => {
     });
   });
 
+  it('rejects outdated sidebar options', () => {
+    expect(() =>
+      testValidateThemeConfig({hideableSidebar: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable."`,
+    );
+    expect(() =>
+      testValidateThemeConfig({autoCollapseSidebarCategories: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories."`,
+    );
+  });
+
   it('allows possible types of navbar items', () => {
     const config = {
       navbar: {
@@ -150,12 +177,22 @@ describe('themeConfig', () => {
               },
             ],
           },
+          // HTML-only
+          {
+            type: 'html',
+            position: 'right',
+            value: '<button>Give feedback</button>',
+          },
           // Dropdown with label as HTML
           {
             type: 'dropdown',
             label: 'Tools <sup>new</sup>',
             position: 'left',
             items: [
+              {
+                type: 'html',
+                value: '<b>Supported package managers</b>',
+              },
               {
                 type: 'doc',
                 docId: 'npm',
@@ -182,6 +219,10 @@ describe('themeConfig', () => {
             ],
             dropdownItemsAfter: [
               {
+                type: 'html',
+                value: '<hr/>',
+              },
+              {
                 to: '/versions',
                 label: 'All versions',
                 className: 'all_vers',
@@ -200,6 +241,44 @@ describe('themeConfig', () => {
             type: 'docsVersion',
             position: 'left',
             label: 'Current version',
+          },
+        ],
+      },
+    };
+    expect(testValidateThemeConfig(config)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...config.navbar,
+      },
+    });
+  });
+
+  it('accept "custom-" prefixed custom navbar item type', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            type: 'custom-x',
+            position: 'left',
+            xyz: 42,
+          },
+          {
+            label: 'Dropdown with custom item',
+            position: 'right',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://.facebook.com/',
+                target: '_self',
+              },
+              {
+                type: 'custom-y',
+                any: new Date(),
+                prop: 42,
+                isAccepted: true,
+              },
+            ],
           },
         ],
       },
@@ -477,15 +556,72 @@ describe('themeConfig', () => {
     });
   });
 
-  it('accepts valid prism config', () => {
-    const prismConfig = {
-      prism: {
-        additionalLanguages: ['kotlin', 'java'],
-      },
-    };
-    expect(testValidateThemeConfig(prismConfig)).toEqual({
-      ...DEFAULT_CONFIG,
-      ...prismConfig,
+  describe('prism config', () => {
+    it('accepts a range of magic comments', () => {
+      const prismConfig = {
+        prism: {
+          additionalLanguages: ['kotlin', 'java'],
+          theme: darkTheme,
+          magicComments: [],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig,
+      });
+      const prismConfig2 = {
+        prism: {
+          additionalLanguages: [],
+          theme: darkTheme,
+          magicComments: [
+            {
+              className: 'a',
+              line: 'a-next-line',
+            },
+          ],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig2)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig2,
+      });
+      const prismConfig3 = {
+        prism: {
+          additionalLanguages: [],
+          theme: darkTheme,
+          magicComments: [
+            {
+              className: 'a',
+              block: {start: 'a-start', end: 'a-end'},
+            },
+          ],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig3)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig3,
+      });
+    });
+
+    it('rejects incomplete magic comments', () => {
+      expect(() =>
+        testValidateThemeConfig({
+          prism: {
+            magicComments: [{className: 'a'}],
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""prism.magicComments[0]" must contain at least one of [line, block]"`,
+      );
+      expect(() =>
+        testValidateThemeConfig({
+          prism: {
+            magicComments: [{className: 'a', block: {start: 'start'}}],
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""prism.magicComments[0].block.end" is required"`,
+      );
     });
   });
 

@@ -1,10 +1,5 @@
 {
   "ci": {
-    "assert": {
-      "assertions": {
-        "categories:accessibility": ["error", {"minScore": 1}]
-      }
-    },
     "collect": {
       "settings": {
         "skipAudits": [

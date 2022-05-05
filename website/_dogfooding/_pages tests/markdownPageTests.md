@@ -175,3 +175,11 @@ Code tag + double pipe: <code>||</code>
 ![](/4/图片.png)
 
 ![](/4/docu.png)
+
+## Details
+
+<details>
+
+Details without a summary
+
+</details>

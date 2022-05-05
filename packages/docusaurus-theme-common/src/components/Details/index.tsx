@@ -87,10 +87,12 @@ export function Details({
           setOpen(true);
         } else {
           setCollapsed(true);
-          // setOpen(false); // Don't do this, it breaks close animation!
+          // Don't do this, it breaks close animation!
+          // setOpen(false);
         }
       }}>
-      {summary}
+      {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
+      {summary || <summary>Details</summary>}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case

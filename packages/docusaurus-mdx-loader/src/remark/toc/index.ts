@@ -13,7 +13,7 @@ import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 
-import type {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '../..';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
 import type {Transformer} from 'unified';
@@ -79,7 +79,7 @@ export default function plugin(options: PluginOptions = {}): Transformer {
     visit(root, 'heading', (child: Heading, index, parent) => {
       const value = toString(child);
 
-      // depth:1 headings are titles and not included in the TOC
+      // depth: 1 headings are titles and not included in the TOC
       if (parent !== root || !value || child.depth < 2) {
         return;
       }

@@ -8,6 +8,7 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
+import type {MagicCommentConfig} from './codeBlockUtils';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -53,10 +54,11 @@ export type AnnouncementBarConfig = {
 };
 
 export type PrismConfig = {
-  theme?: PrismTheme;
+  theme: PrismTheme;
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
   additionalLanguages: string[];
+  magicComments: MagicCommentConfig[];
 };
 
 export type FooterLinkItem = {
@@ -104,6 +106,10 @@ export type TableOfContents = {
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
+    sidebar: {
+      hideable: boolean;
+      autoCollapseCategories: boolean;
+    };
   };
 
   // TODO we should complete this theme config type over time
@@ -116,11 +122,8 @@ export type ThemeConfig = {
   announcementBar?: AnnouncementBarConfig;
   prism: PrismConfig;
   footer?: Footer;
-  hideableSidebar: boolean;
-  autoCollapseSidebarCategories: boolean;
   image?: string;
   metadata: Array<{[key: string]: string}>;
-  sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };
 

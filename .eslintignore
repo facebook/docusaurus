@@ -12,6 +12,7 @@ packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
+packages/eslint-plugin/lib/
 packages/stylelint-copyright/lib/
 copyUntypedFiles.mjs
 

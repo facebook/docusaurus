@@ -158,7 +158,6 @@ describe('blog plugin', () => {
       readingTime: 0.015,
       source: path.posix.join(
         '@site',
-        // pluginPath,
         path.posix.join('i18n', 'en', 'docusaurus-plugin-content-blog'),
         '2018-12-14-Happy-First-Birthday-Slash.md',
       ),
@@ -421,7 +420,7 @@ describe('blog plugin', () => {
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
     const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
-    // we know the file exist and we know we have git
+    // We know the file exists and we know we have git
     const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
     const noDateSourceTime = result.date;
     const formattedDate = Intl.DateTimeFormat('en', {

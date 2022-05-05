@@ -20,7 +20,7 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 ## Requirements {#requirements}
 
-- [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
+- [Node.js](https://nodejs.org/en/download/) version 14.13 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
   - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
 
 ## Scaffold project website {#scaffold-project-website}
@@ -28,22 +28,12 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx create-docusaurus@latest [name] [template]
+npx create-docusaurus@latest my-website classic
 ```
-
-Example:
-
-```bash
-npx create-docusaurus@latest website classic
-```
-
-If you do not specify `name` or `template`, it will prompt you for them.
 
 We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
-The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory. If it's a git repository, you can also specify a cloning strategy.
-
-You can also use the template's TypeScript variant by passing the `--typescript` flag.
+You can also use the template's TypeScript variant by passing the `--typescript` flag. See [TypeScript support](./typescript-support.md) for more information.
 
 ```bash
 npx create-docusaurus@latest my-website classic --typescript
@@ -64,42 +54,41 @@ npx create-docusaurus@latest my-website facebook
 
 You can also initialize a new project using your preferred project manager:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="npm">
+```
 
 ```bash
 npm init docusaurus
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="yarn">
+```
 
 ```bash
 yarn create docusaurus
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="pnpm">
+```
 
 ```bash
 pnpm create docusaurus
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
-````
+```
 
 </details>
 
-Docusaurus makes best efforts to select a package manager to install dependencies for you, based on the command you are using and the project you are in. You can override this behavior by using `--package-manager [npm/yarn/pnpm]`.
-
-```bash
-# Use Yarn to install dependencies even when the command is npx
-npx create-docusaurus@latest my-website classic --package-manager yarn
-```
-
-Run `npx create-docusaurus@latest --help` for more information about all available flags.
+Run `npx create-docusaurus@latest --help`, or check out its [API docs](./api/misc/create-docusaurus.md) for more information about all available flags.
 
 ## Project structure {#project-structure}
 
@@ -134,7 +123,7 @@ my-website
 ### Project structure rundown {#project-structure-rundown}
 
 - `/blog/` - Contains the blog Markdown files. You can delete the directory if you've disabled the blog plugin, or you can change its name after setting the `path` option. More details can be found in the [blog guide](blog.mdx)
-- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. You can delete the directory if you've disabled the docs plugin, or you can change its name after setting the `path` option. More details can be found in the [docs guide](./guides/docs/docs-markdown-features.mdx)
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. You can delete the directory if you've disabled the docs plugin, or you can change its name after setting the `path` option. More details can be found in the [docs guide](./guides/docs/docs-introduction.md)
 - `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files here, but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
   - `/src/pages` - Any JSX/TSX/MDX file within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.md)
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory

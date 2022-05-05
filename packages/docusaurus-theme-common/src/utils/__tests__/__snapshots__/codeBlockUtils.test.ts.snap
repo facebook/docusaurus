@@ -4,9 +4,11 @@ exports[`parseLines does not parse content with metastring 1`] = `
 {
   "code": "aaaaa
 nnnnn",
-  "highlightLines": [
-    0,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -15,9 +17,11 @@ exports[`parseLines does not parse content with metastring 2`] = `
   "code": "// highlight-next-line
 aaaaa
 bbbbb",
-  "highlightLines": [
-    0,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -25,9 +29,11 @@ exports[`parseLines does not parse content with metastring 3`] = `
 {
   "code": "aaaaa
 bbbbb",
-  "highlightLines": [
-    0,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -36,7 +42,100 @@ exports[`parseLines does not parse content with no language 1`] = `
   "code": "// highlight-next-line
 aaaaa
 bbbbb",
-  "highlightLines": [],
+  "lineClassNames": {},
+}
+`;
+
+exports[`parseLines handles one line with multiple class names 1`] = `
+{
+  "code": "
+highlighted and collapsed
+highlighted and collapsed
+highlighted and collapsed
+Only highlighted
+Only collapsed
+highlighted and collapsed
+highlighted and collapsed
+Only collapsed
+highlighted and collapsed",
+  "lineClassNames": {
+    "1": [
+      "highlight",
+      "collapse",
+    ],
+    "2": [
+      "highlight",
+      "collapse",
+    ],
+    "3": [
+      "highlight",
+      "collapse",
+    ],
+    "4": [
+      "highlight",
+    ],
+    "5": [
+      "collapse",
+    ],
+    "6": [
+      "highlight",
+      "collapse",
+    ],
+    "7": [
+      "highlight",
+      "collapse",
+    ],
+    "8": [
+      "collapse",
+    ],
+    "9": [
+      "highlight",
+      "collapse",
+    ],
+  },
+}
+`;
+
+exports[`parseLines handles one line with multiple class names 2`] = `
+{
+  "code": "line
+line",
+  "lineClassNames": {
+    "0": [
+      "a",
+      "b",
+      "c",
+      "d",
+    ],
+    "1": [
+      "b",
+      "d",
+    ],
+  },
+}
+`;
+
+exports[`parseLines parses multiple types of magic comments 1`] = `
+{
+  "code": "
+highlighted
+collapsed
+collapsed
+collapsed",
+  "lineClassNames": {
+    "1": [
+      "highlight",
+    ],
+    "2": [
+      "collapse",
+    ],
+    "3": [
+      "collapse",
+    ],
+    "4": [
+      "collapse",
+    ],
+  },
 }
 `;
 
@@ -44,9 +143,11 @@ exports[`parseLines removes lines correctly 1`] = `
 {
   "code": "aaaaa
 bbbbb",
-  "highlightLines": [
-    0,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -54,9 +155,11 @@ exports[`parseLines removes lines correctly 2`] = `
 {
   "code": "aaaaa
 bbbbb",
-  "highlightLines": [
-    0,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -65,12 +168,18 @@ exports[`parseLines removes lines correctly 3`] = `
   "code": "aaaaa
 bbbbbbb
 bbbbb",
-  "highlightLines": [
-    0,
-    2,
-    0,
-    1,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+      "theme-code-block-highlighted-line",
+    ],
+    "1": [
+      "theme-code-block-highlighted-line",
+    ],
+    "2": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -80,10 +189,14 @@ exports[`parseLines respects language: html 1`] = `
 {/* highlight-next-line */}
 bbbbb
 dddd",
-  "highlightLines": [
-    0,
-    3,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+    "3": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -92,7 +205,7 @@ exports[`parseLines respects language: js 1`] = `
   "code": "# highlight-next-line
 aaaaa
 bbbbb",
-  "highlightLines": [],
+  "lineClassNames": {},
 }
 `;
 
@@ -102,10 +215,14 @@ exports[`parseLines respects language: jsx 1`] = `
 bbbbb
 <!-- highlight-next-line -->
 dddd",
-  "highlightLines": [
-    0,
-    1,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+    "1": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -128,11 +245,17 @@ dddd
 // highlight-next-line
 console.log("preserved");
 \`\`\`",
-  "highlightLines": [
-    1,
-    7,
-    11,
-  ],
+  "lineClassNames": {
+    "1": [
+      "theme-code-block-highlighted-line",
+    ],
+    "11": [
+      "theme-code-block-highlighted-line",
+    ],
+    "7": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -142,12 +265,20 @@ exports[`parseLines respects language: none 1`] = `
 bbbbb
 ccccc
 dddd",
-  "highlightLines": [
-    0,
-    1,
-    2,
-    3,
-  ],
+  "lineClassNames": {
+    "0": [
+      "theme-code-block-highlighted-line",
+    ],
+    "1": [
+      "theme-code-block-highlighted-line",
+    ],
+    "2": [
+      "theme-code-block-highlighted-line",
+    ],
+    "3": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;
 
@@ -156,7 +287,7 @@ exports[`parseLines respects language: py 1`] = `
   "code": "/* highlight-next-line */
 aaaaa
 bbbbb",
-  "highlightLines": [],
+  "lineClassNames": {},
 }
 `;
 
@@ -169,8 +300,10 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd",
-  "highlightLines": [
-    4,
-  ],
+  "lineClassNames": {
+    "4": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
 }
 `;

@@ -7,8 +7,21 @@
 
 import {Joi} from '@docusaurus/utils-validation';
 import {EnumChangefreq} from 'sitemap';
-import type {Options, PluginOptions} from '@docusaurus/plugin-sitemap';
 import type {OptionValidationContext} from '@docusaurus/types';
+
+export type PluginOptions = {
+  /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
+  changefreq: EnumChangefreq;
+  /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
+  priority: number;
+  /**
+   * A list of glob patterns; matching route paths will be filtered from the
+   * sitemap. Note that you may need to include the base URL in here.
+   */
+  ignorePatterns: string[];
+};
+
+export type Options = Partial<PluginOptions>;
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   changefreq: EnumChangefreq.WEEKLY,

@@ -247,6 +247,31 @@ exports[`loadSidebars sidebars with known sidebar item type 1`] = `
 }
 `;
 
+exports[`loadSidebars sidebars with some draft items 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        {
+          "href": "https://github.com",
+          "label": "GitHub",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
 exports[`loadSidebars undefined path 1`] = `
 {
   "defaultSidebar": [

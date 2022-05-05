@@ -222,6 +222,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'AvN Gateway',
+    description:
+      'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
+    preview: require('./showcase/aventus.png'),
+    website: 'https://aventus-network-services.github.io/avn-gateway-docs/',
+    source: null,
+    tags: ['versioning', 'product'],
+  },
+  {
     title: 'Awe framework',
     description:
       'Awe framework, Build light-weight and functional websites quickly',
@@ -322,6 +331,22 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'versioning'],
   },
   {
+    title: 'Chaos Mesh',
+    description: 'A Powerful Chaos Engineering Platform for Kubernetes.',
+    preview: require('./showcase/chaos-mesh.png'),
+    website: 'https://chaos-mesh.org',
+    source: 'https://github.com/chaos-mesh/website',
+    tags: ['opensource', 'product', 'i18n'],
+  },
+  {
+    title: 'ChatKitty',
+    description: 'A full suite of developer tools for any chat use-case.',
+    preview: require('./showcase/chatkitty.png'),
+    website: 'https://chatkitty.com',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'ClarityChallenge',
     description:
       'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
@@ -331,13 +356,12 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Cloudy with a chance of Big Data',
+    title: 'Full Stack Chronicles',
     description:
       'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
-    preview: require('./showcase/cloudywithachanceofbigdata.png'),
-    website: 'https://cloudywithachanceofbigdata.com/',
-    source:
-      'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
+    preview: require('./showcase/fullstackchronicles.png'),
+    website: 'https://fullstackchronicles.io/',
+    source: 'https://github.com/stackql/fullstackchronicles.io',
     tags: ['opensource', 'personal'],
   },
   {
@@ -515,6 +539,14 @@ const Users: User[] = [
       'large',
       'opensource',
     ],
+  },
+  {
+    title: 'easy-dates',
+    description: 'JavaScript dates library',
+    preview: require('./showcase/easy-dates.png'),
+    website: 'https://easy-dates.dev',
+    source: 'https://github.com/sandypockets/easy-dates/tree/main/docs',
+    tags: ['opensource'],
   },
   {
     title: 'Easyjwt',
@@ -755,6 +787,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Hasura',
+    description:
+      'The fastest way to create a GraphQL API from your data with authorization, real-time subscriptions, and more for free.',
+    preview: require('./showcase/hasura.png'),
+    website: 'https://hasura.io/docs/',
+    source: 'https://github.com/hasura/graphql-engine/tree/master/docs',
+    tags: ['favorite', 'opensource', 'product', 'large'],
+  },
+  {
     title: 'hCaptcha',
     description: 'hCaptcha.com anti-bot service docs',
     preview: require('./showcase/hcaptcha.png'),
@@ -932,6 +973,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'Leedom',
+    description: 'A handbook about coding',
+    preview: require('./showcase/leedom.png'),
+    website: 'https://dinosaur.leedom.me',
+    source: 'https://github.com/leedom92/dinosaur',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
@@ -979,6 +1028,24 @@ const Users: User[] = [
     website: 'https://docs.meli.sh/',
     source: 'https://github.com/getmeli/meli-docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'Memgraph',
+    description:
+      'Memgraph is the platform for graph computation on streaming data',
+    preview: require('./showcase/memgraph.png'),
+    website: 'https://docs.memgraph.com/',
+    source: 'https://github.com/memgraph/docs',
+    tags: ['design', 'large', 'opensource', 'product','versioning'],
+  },
+  {
+    title: 'Meoo',
+    description:
+      'Personal website with blogs and notes, recording my study and life',
+    preview: require('./showcase/meoo.png'),
+    website: 'https://meoo.space',
+    source: 'https://github.com/cxOrz/meoo.space',
+    tags: ['opensource', 'personal'],
   },
   {
     title: 'Metro',
@@ -1127,6 +1194,14 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'OSS Insight',
+    description: 'OSS Insight provides open source software insight and compares projects and tools',
+    preview: require('./showcase/ossinsight.png'),
+    website: 'https://ossinsight.io',
+    source: 'https://github.com/pingcap/ossinsight',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -1150,6 +1225,15 @@ const Users: User[] = [
     website: 'https://pcapplusplus.github.io/',
     source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'PCC Archive',
+    description:
+      "A wiki and web posts archive about Purrnelope's Country Club project.",
+    preview: require('./showcase/pcc-archive.png'),
+    website: 'https://pcc-archive.org/',
+    source: 'https://github.com/CuratorCat/pcc-archive.org',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'pdfme',
@@ -1291,6 +1375,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'RaspiSuite',
+    description:
+      'A suite of mobile apps to leverage the full potential of your Raspberry Pi effortlessly.',
+    preview: require('./showcase/raspisuite.png'),
+    website: 'https://raspisuite.com',
+    source: null,
+    tags: ['design', 'product'],
+  },
+  {
     title: 'Rivalis',
     description:
       'An open source framework for developing servers for real-time applications and games',
@@ -1306,6 +1399,14 @@ const Users: User[] = [
     website: 'https://liqvidjs.org/',
     source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
+  },
+  {
+    title: 'Rainbond',
+    description: 'A cloud native multi cloud application management platform',
+    preview: require('./showcase/rainbond.png'),
+    website: 'https://www.rainbond.com',
+    source: 'https://github.com/goodrain/rainbond-docs',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'React Complex Tree',
@@ -1754,6 +1855,14 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
   {
+    title: 'Svix',
+    description: 'Webhooks as a Service',
+    preview: require('./showcase/svix.png'),
+    website: 'https://docs.svix.com/',
+    source: 'https://github.com/svix/svix-docs',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Synergies',
     description:
       'A performant and distributed state library for creating reusable React state logic by synergyzing atomar context pieces',
@@ -1821,6 +1930,14 @@ const Users: User[] = [
     website: 'https://thediffpodcast.com',
     source: null,
     tags: ['meta'],
+  },
+  {
+    title: 'TiDB Community Books',
+    description: 'A website for co-created books by TiDB Community users.',
+    preview: require('./showcase/tidb-community-book.png'),
+    website: 'https://tidb.net/book/',
+    source: 'https://github.com/pingcap/book.tidb.net/tree/main/website',
+    tags: ['opensource'],
   },
   {
     title: 'Tinaël Devresse',

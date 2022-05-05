@@ -21,13 +21,6 @@ import {useBaseUrlUtils} from './useBaseUrl';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 import type {Props} from '@docusaurus/Link';
-import type docusaurus from '../docusaurus';
-
-declare global {
-  interface Window {
-    docusaurus: typeof docusaurus;
-  }
-}
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
 // We don't automatically add base urls to all links,
@@ -174,7 +167,7 @@ function Link(
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}
       to={targetLink}
-      // avoid "React does not recognize the `activeClassName` prop on a DOM
+      // Avoid "React does not recognize the `activeClassName` prop on a DOM
       // element"
       {...(isNavLink && {isActive, activeClassName})}
     />

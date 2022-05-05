@@ -6,10 +6,7 @@
  */
 
 import _ from 'lodash';
-import type {
-  PluginOptions,
-  RedirectOption,
-} from '@docusaurus/plugin-client-redirects';
+import type {PluginOptions, RedirectOption} from './options';
 import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,
@@ -96,8 +93,8 @@ function filterUnwantedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ): RedirectMetadata[] {
-  // we don't want to create twice the same redirect
-  // that would lead to writing twice the same html redirection file
+  // We don't want to create the same redirect twice, since that would lead to
+  // writing the same html redirection file twice.
   Object.entries(_.groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {

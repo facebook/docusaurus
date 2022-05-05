@@ -5,21 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import type {ClientModule} from '@docusaurus/types';
 
-export default (function analyticsModule() {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return null;
-  }
-
-  return {
-    onRouteUpdate({location}: {location: Location}) {
+const clientModule: ClientModule = {
+  onRouteDidUpdate({location, previousLocation}) {
+    if (previousLocation && location.pathname !== previousLocation.pathname) {
       // Set page so that subsequent hits on this page are attributed
       // to this page. This is recommended for Single-page Applications.
       window.ga('set', 'page', location.pathname);
       // Always refer to the variable on window in-case it gets
       // overridden elsewhere.
       window.ga('send', 'pageview');
-    },
-  };
-})();
+    }
+  },
+};
+
+export default clientModule;

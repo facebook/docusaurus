@@ -7,15 +7,14 @@
 
 /// <reference types="@docusaurus/module-type-aliases" />
 
-import type {Sidebars} from './sidebars/types';
-import type {BrokenMarkdownLink} from '@docusaurus/utils';
+import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
 import type {
   VersionMetadata,
   LastUpdateData,
-  DocMetadata,
+  LoadedVersion,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {Tag} from '@docusaurus/types';
+import type {SidebarsUtils} from './sidebars/utils';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
@@ -30,22 +29,16 @@ export type SourceToPermalink = {
 };
 
 export type VersionTag = Tag & {
-  /** all doc ids having this tag. */
+  /** All doc ids having this tag. */
   docIds: string[];
 };
 export type VersionTags = {
   [permalink: string]: VersionTag;
 };
 
-export type LoadedVersion = VersionMetadata & {
-  mainDocId: string;
-  docs: DocMetadata[];
-  sidebars: Sidebars;
+export type FullVersion = LoadedVersion & {
+  sidebarsUtils: SidebarsUtils;
   categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
-};
-
-export type LoadedContent = {
-  loadedVersions: LoadedVersion[];
 };
 
 export type DocBrokenMarkdownLink = BrokenMarkdownLink<VersionMetadata>;

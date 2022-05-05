@@ -22,12 +22,14 @@ import type {
   PropVersionDoc,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
+import type {Props as DocPageProps} from '@theme/DocPage';
 import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
 import {useDocsVersion} from '../contexts/docsVersion';
 import {useDocsSidebar} from '../contexts/docsSidebar';
 import {uniq} from './jsUtils';
 import {isSamePath} from './routesUtils';
-import {useLocation} from '@docusaurus/router';
+import {matchPath, useLocation} from '@docusaurus/router';
+import renderRoutes from '@docusaurus/renderRoutes';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -92,13 +94,8 @@ export function findFirstCategoryLink(
       if (categoryLink) {
         return categoryLink;
       }
-    } else if (subItem.type === 'html') {
-      // skip
-    } else {
-      throw new Error(
-        `Unexpected category item type for ${JSON.stringify(subItem)}`,
-      );
     }
+    // Could be "html" items
   }
   return undefined;
 }
@@ -259,12 +256,22 @@ export function useLayoutDocsSidebar(
  *
  * @throws This hook throws if a doc with said ID is not found.
  */
-export function useLayoutDoc(docId: string, docsPluginId?: string): GlobalDoc {
+export function useLayoutDoc(
+  docId: string,
+  docsPluginId?: string,
+): GlobalDoc | null {
   const versions = useDocsVersionCandidates(docsPluginId);
   return useMemo(() => {
     const allDocs = versions.flatMap((version) => version.docs);
     const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
     if (!doc) {
+      const isDraft = versions
+        .flatMap((version) => version.draftIds)
+        .includes(docId);
+      // Drafts should be silently filtered instead of throwing
+      if (isDraft) {
+        return null;
+      }
       throw new Error(
         `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
           versions.length > 1 ? 's' : ''
@@ -275,4 +282,53 @@ Available doc ids are:
     }
     return doc;
   }, [docId, versions]);
+}
+
+// TODO later read version/route directly from context
+/**
+ * The docs plugin creates nested routes, with the top-level route providing the
+ * version metadata, and the subroutes creating individual doc pages. This hook
+ * will match the current location against all known sub-routes.
+ *
+ * @param props The props received by `@theme/DocPage`
+ * @returns The data of the relevant document at the current location, or `null`
+ * if no document associated with the current location can be found.
+ */
+export function useDocRouteMetadata({
+  route,
+  versionMetadata,
+}: DocPageProps): null | {
+  /** The element that should be rendered at the current location. */
+  docElement: JSX.Element;
+  /**
+   * The name of the sidebar associated with the current doc. `sidebarName` and
+   * `sidebarItems` correspond to the value of {@link useDocsSidebar}.
+   */
+  sidebarName: string | undefined;
+  /** The items of the sidebar associated with the current doc. */
+  sidebarItems: PropSidebar | undefined;
+} {
+  const location = useLocation();
+  const docRoutes = route.routes!;
+  const currentDocRoute = docRoutes.find((docRoute) =>
+    matchPath(location.pathname, docRoute),
+  );
+  if (!currentDocRoute) {
+    return null;
+  }
+
+  // For now, the sidebarName is added as route config: not ideal!
+  const sidebarName = currentDocRoute.sidebar;
+
+  const sidebarItems = sidebarName
+    ? versionMetadata.docsSidebars[sidebarName]
+    : undefined;
+
+  const docElement = renderRoutes(docRoutes, {versionMetadata});
+
+  return {
+    docElement,
+    sidebarName,
+    sidebarItems,
+  };
 }

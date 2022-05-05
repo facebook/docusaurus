@@ -1,0 +1,33 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+@media (min-width: 997px) {
+  .expandButton {
+    position: sticky;
+    top: 0;
+    height: 100%;
+    max-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--ifm-transition-fast) ease;
+    background-color: var(--docusaurus-collapse-button-bg);
+  }
+
+  .expandButton:hover,
+  .expandButton:focus {
+    background-color: var(--docusaurus-collapse-button-bg-hover);
+  }
+
+  .expandButtonIcon {
+    transform: rotate(0);
+  }
+
+  [dir='rtl'] .expandButtonIcon {
+    transform: rotate(180deg);
+  }
+}

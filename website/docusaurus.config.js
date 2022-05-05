@@ -97,15 +97,15 @@ const config = {
       loader: require.resolve('swc-loader'),
       options: {
         jsc: {
-          "parser": {
-            "syntax": "typescript",
-            "tsx": true
+          parser: {
+            syntax: 'typescript',
+            tsx: true,
           },
           target: 'es2017',
         },
         module: {
           type: isServer ? 'commonjs' : 'es6',
-        }
+        },
       },
     }),
   },
@@ -113,12 +113,16 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
+    isDeployPreview,
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
   staticDirectories: [
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
+    // Adding a non-existent static directory. If user deleted `static` without
+    // specifying `staticDirectories: []`, build should still work
+    path.join(__dirname, '_dogfooding/non-existent'),
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
@@ -158,6 +162,7 @@ const config = {
           }
           return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
+        remarkPlugins: [npm2yarn],
         editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
@@ -170,8 +175,8 @@ const config = {
       ({
         fromExtensions: ['html'],
         createRedirects(routePath) {
-          // redirect to /docs from /docs/introduction,
-          // as introduction has been made the home doc
+          // Redirect to /docs from /docs/introduction, as introduction has been
+          // made the home doc
           if (allDocHomesPaths.includes(routePath)) {
             return [`${routePath}/introduction`];
           }
@@ -195,13 +200,15 @@ const config = {
     ],
     [
       'ideal-image',
-      {
+      /** @type {import('@docusaurus/plugin-ideal-image').PluginOptions} */
+      ({
         quality: 70,
-        max: 1030, // max resized image's size.
-        min: 640, // min resized image's size. if original is lower, use that size.
-        steps: 2, // the max number of images generated between min and max (inclusive)
-        // disableInDev: false,
-      },
+        max: 1030,
+        min: 640,
+        steps: 2,
+        // Use false to debug, but it incurs huge perf costs
+        disableInDev: true,
+      }),
     ],
     [
       'pwa',
@@ -351,8 +358,12 @@ const config = {
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },
-      hideableSidebar: true,
-      autoCollapseSidebarCategories: true,
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: true,
+        },
+      },
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
@@ -368,6 +379,17 @@ const config = {
         // TODO after we have forked prism-react-renderer, we should tweak the
         // import order and fix it there
         additionalLanguages: ['java', 'markdown', 'latex'],
+        magicComments: [
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: {start: 'highlight-start', end: 'highlight-end'},
+          },
+          {
+            className: 'code-block-error-line',
+            line: 'This will error',
+          },
+        ],
       },
       image: 'img/docusaurus-soc.png',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
@@ -407,12 +429,33 @@ const config = {
             position: 'left',
             activeBaseRegex: `/community/`,
           },
-          // right
+          // This item links to a draft doc: only displayed in dev
+          {
+            type: 'doc',
+            docId: 'test-draft',
+            label: 'Tests',
+            docsPluginId: 'docs-tests',
+          },
+          // Custom item for dogfooding: only displayed in /tests/ routes
+          {
+            type: 'custom-dogfood-navbar-item',
+            content: '😉',
+          },
+          // Right
           {
             type: 'docsVersionDropdown',
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
+                type: 'html',
+                className: 'dropdown-archived-versions',
+                value: '<b>Archived versions</b>',
+              },
               ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
@@ -424,6 +467,10 @@ const config = {
                 label: '1.x.x',
               },
               {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
                 to: '/versions',
                 label: 'All versions',
               },
@@ -433,6 +480,10 @@ const config = {
             type: 'localeDropdown',
             position: 'right',
             dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr style="margin: 0.3rem 0;">',
+              },
               {
                 href: 'https://github.com/facebook/docusaurus/issues/3526',
                 label: 'Help Us Translate',

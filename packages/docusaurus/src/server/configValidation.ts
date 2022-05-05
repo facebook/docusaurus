@@ -223,8 +223,8 @@ export const ConfigSchema = Joi.object({
     .items(Joi.string())
     .default(DEFAULT_CONFIG.clientModules),
   tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
-  titleDelimiter: Joi.string().default('|'),
-  noIndex: Joi.bool().default(false),
+  titleDelimiter: Joi.string().default(DEFAULT_CONFIG.titleDelimiter),
+  noIndex: Joi.bool().default(DEFAULT_CONFIG.noIndex),
   webpack: Joi.object({
     jsLoader: Joi.alternatives()
       .try(Joi.string().equal('babel'), Joi.function())

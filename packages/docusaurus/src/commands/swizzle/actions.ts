@@ -11,14 +11,14 @@ import path from 'path';
 import _ from 'lodash';
 import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
-import type {SwizzleOptions} from './common';
+import type {SwizzleCLIOptions} from './common';
 import {askSwizzleAction} from './prompts';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
 export async function getAction(
   componentConfig: SwizzleComponentConfig,
-  options: Pick<SwizzleOptions, 'wrap' | 'eject'>,
+  options: Pick<SwizzleCLIOptions, 'wrap' | 'eject'>,
 ): Promise<SwizzleAction> {
   if (options.wrap) {
     return 'wrap';
@@ -53,7 +53,7 @@ export async function eject({
   const fromPath = path.join(themePath, componentName);
   const isDirectory = await isDir(fromPath);
   const globPattern = isDirectory
-    ? // do we really want to copy all components?
+    ? // Do we really want to copy all components?
       path.join(fromPath, '*')
     : `${fromPath}.*`;
 

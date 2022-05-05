@@ -21,9 +21,16 @@
 // in their tsconfig.
 
 declare module '@docusaurus/theme-classic' {
+  import type {LoadContext, Plugin} from '@docusaurus/types';
+
   export type Options = {
     customCss?: string | string[];
   };
+
+  export default function themeClassic(
+    context: LoadContext,
+    options: Options,
+  ): Plugin<undefined>;
 }
 
 declare module '@theme/Admonition' {
@@ -47,10 +54,10 @@ declare module '@theme/BackToTopButton' {
 }
 
 declare module '@theme/BlogListPaginator' {
-  import type {Metadata} from '@theme/BlogListPage';
+  import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly metadata: Metadata;
+    readonly metadata: BlogPaginatedMetadata;
   }
   export default function BlogListPaginator(props: Props): JSX.Element;
 }
@@ -148,14 +155,15 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import type {ReactElement} from 'react';
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly children: string | ReactElement;
+    readonly children: ReactNode;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
     readonly language?: string;
+    readonly showLineNumbers?: boolean;
   }
 
   export default function CodeBlock(props: Props): JSX.Element;
@@ -164,9 +172,70 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
+    readonly className?: string;
   }
 
   export default function CopyButton(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Container' {
+  import type {ComponentProps} from 'react';
+
+  export default function CodeBlockContainer<T extends 'div' | 'pre'>({
+    as: As,
+    ...props
+  }: {as: T} & ComponentProps<T>): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Content/Element' {
+  import type {Props} from '@theme/CodeBlock';
+
+  export type {Props};
+
+  export default function CodeBlockElementContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Content/String' {
+  import type {Props as CodeBlockProps} from '@theme/CodeBlock';
+
+  export interface Props extends Omit<CodeBlockProps, 'children'> {
+    readonly children: string;
+  }
+
+  export default function CodeBlockStringContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/Line' {
+  import type {ComponentProps} from 'react';
+  import type Highlight from 'prism-react-renderer';
+
+  // Lib does not make this easy
+  type RenderProps = Parameters<
+    ComponentProps<typeof Highlight>['children']
+  >[0];
+  type GetLineProps = RenderProps['getLineProps'];
+  type GetTokenProps = RenderProps['getTokenProps'];
+  type Token = RenderProps['tokens'][number][number];
+
+  export interface Props {
+    readonly line: Token[];
+    readonly classNames: string[] | undefined;
+    readonly showLineNumbers: boolean;
+    readonly getLineProps: GetLineProps;
+    readonly getTokenProps: GetTokenProps;
+  }
+
+  export default function CodeBlockLine(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/WordWrapButton' {
+  export interface Props {
+    readonly className?: string;
+    readonly onClick: React.MouseEventHandler;
+    readonly isEnabled: boolean;
+  }
+
+  export default function WordWrapButton(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {
@@ -206,7 +275,7 @@ declare module '@theme/DocPage/Layout' {
   export default function DocPageLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Aside' {
+declare module '@theme/DocPage/Layout/Sidebar' {
   import type {Dispatch, SetStateAction} from 'react';
   import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -216,7 +285,17 @@ declare module '@theme/DocPage/Layout/Aside' {
     readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
   }
 
-  export default function DocPageLayoutAside(props: Props): JSX.Element;
+  export default function DocPageLayoutSidebar(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Sidebar/ExpandButton' {
+  export interface Props {
+    toggleSidebar: () => void;
+  }
+
+  export default function DocPageLayoutSidebarExpandButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/DocPage/Layout/Main' {
@@ -693,6 +772,16 @@ declare module '@theme/Navbar/MobileSidebar/Header' {
   export default function NavbarMobileSidebarHeader(): JSX.Element;
 }
 
+declare module '@theme/Navbar/Search' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function NavbarSearch(props: Props): JSX.Element;
+}
+
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
@@ -797,7 +886,9 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
     readonly docsPluginId?: string;
   }
 
-  export default function DocsSidebarNavbarItem(props: Props): JSX.Element;
+  export default function DocsSidebarNavbarItem(
+    props: Props,
+  ): JSX.Element | null;
 }
 
 declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
@@ -811,6 +902,47 @@ declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
   export default function DocSidebarNavbarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/NavbarItem/HtmlNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly value: string;
+  }
+
+  export default function HtmlNavbarItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/NavbarItem/ComponentTypes' {
+  import type {ComponentType} from 'react';
+
+  import type DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+  import type DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+  import type LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
+  import type SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
+  import type HtmlNavbarItem from '@theme/NavbarItem/HtmlNavbarItem';
+  import type DocNavbarItem from '@theme/NavbarItem/DocNavbarItem';
+  import type DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
+  import type DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
+  import type DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+
+  export type ComponentTypesObject = {
+    readonly default: typeof DefaultNavbarItem;
+    readonly localeDropdown: typeof LocaleDropdownNavbarItem;
+    readonly search: typeof SearchNavbarItem;
+    readonly dropdown: typeof DropdownNavbarItem;
+    readonly html: typeof HtmlNavbarItem;
+    readonly doc: typeof DocNavbarItem;
+    readonly docSidebar: typeof DocSidebarNavbarItem;
+    readonly docsVersion: typeof DocsVersionNavbarItem;
+    readonly docsVersionDropdown: typeof DocsVersionDropdownNavbarItem;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [customComponentType: string]: ComponentType<any>;
+  };
+
+  const ComponentTypes: ComponentTypesObject;
+  export default ComponentTypes;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -821,12 +953,14 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {Props as HtmlNavbarItemProps} from '@theme/NavbarItem/HtmlNavbarItem';
 
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps)
+    | ({readonly type: 'html'} & HtmlNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
@@ -865,6 +999,7 @@ declare module '@theme/PaginatorNavLink' {
   export interface Props extends Omit<PropNavigationLink, 'title'> {
     readonly title: ReactNode;
     readonly subLabel?: JSX.Element;
+    readonly isNext?: boolean;
   }
 
   export default function PaginatorNavLink(props: Props): JSX.Element;
@@ -932,7 +1067,7 @@ declare module '@theme/Details' {
 }
 
 declare module '@theme/TOCItems' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly toc: readonly TOCItem[];
@@ -946,11 +1081,24 @@ declare module '@theme/TOCItems' {
   export default function TOCItems(props: Props): JSX.Element;
 }
 
-declare module '@theme/TOC' {
-  import type {TOCItem} from '@docusaurus/types';
+declare module '@theme/TOCItems/Tree' {
+  import type {TOCTreeNode} from '@docusaurus/theme-common';
 
-  // minHeadingLevel only exists as a per-doc option, and won't have a default
-  // set by Joi. See TOC, TOCInline, TOCCollapsible for examples
+  export interface Props {
+    readonly toc: readonly TOCTreeNode[];
+    readonly className: string;
+    readonly linkClassName: string | null;
+    readonly isChild?: boolean;
+  }
+
+  export default function TOCItems(props: Props): JSX.Element;
+}
+
+declare module '@theme/TOC' {
+  import type {TOCItem} from '@docusaurus/mdx-loader';
+
+  // `minHeadingLevel` only comes from doc/post front matter, and won't have a
+  // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
   export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
@@ -962,7 +1110,7 @@ declare module '@theme/TOC' {
 }
 
 declare module '@theme/TOCInline' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly toc: readonly TOCItem[];
@@ -974,7 +1122,7 @@ declare module '@theme/TOCInline' {
 }
 
 declare module '@theme/TOCCollapsible' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly className?: string;
@@ -984,6 +1132,18 @@ declare module '@theme/TOCCollapsible' {
   }
 
   export default function TOCCollapsible(props: Props): JSX.Element;
+}
+
+declare module '@theme/TOCCollapsible/CollapseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
+    collapsed: boolean;
+  }
+
+  export default function TOCCollapsibleCollapseButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/ColorModeToggle' {
@@ -1037,6 +1197,14 @@ declare module '@theme/IconEdit' {
   export default function IconEdit(props: Props): JSX.Element;
 }
 
+declare module '@theme/IconHome' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconHome(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconLightMode' {
   import type {ComponentProps} from 'react';
 
@@ -1078,7 +1246,7 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
 
   export interface Props {
     readonly tags: readonly TagsListItem[];
@@ -1087,7 +1255,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  import type {Tag} from '@docusaurus/types';
+  import type {Tag} from '@docusaurus/utils';
 
   export interface Props {
     readonly tags: readonly Tag[];
@@ -1096,7 +1264,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}

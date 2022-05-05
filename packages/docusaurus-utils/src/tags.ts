@@ -7,7 +7,25 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
-import type {Tag} from '@docusaurus/types';
+
+/** What the user configures. */
+export type Tag = {
+  label: string;
+  /** Permalink to this tag's page, without the `/tags/` base path. */
+  permalink: string;
+};
+
+/** What the tags list page should know about each tag. */
+export type TagsListItem = Tag & {
+  /** Number of posts/docs with this tag. */
+  count: number;
+};
+
+/** What the tag's own page should know about the tag. */
+export type TagModule = TagsListItem & {
+  /** The tags list page's permalink. */
+  allTagsPath: string;
+};
 
 export type FrontMatterTag = string | Tag;
 
@@ -24,7 +42,7 @@ function normalizeFrontMatterTag(
 
   // TODO maybe make ensure the permalink is valid url path?
   function normalizeTagPermalink(permalink: string): string {
-    // note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
+    // Note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
     // and v2/doc.md tags with custom permalinks don't lead to the same created
     // page. tagsPath is different for each doc version
     return normalizeUrl([tagsPath, permalink]);

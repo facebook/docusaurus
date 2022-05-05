@@ -18,14 +18,23 @@
   --site-color-svg-icon-favorite: #e9669e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
   --site-color-feedback-background: #fff;
+  --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
+  /* Use a darker color to ensure contrast, ideally we don't need important */
+  --ifm-breadcrumb-color-active: var(--ifm-color-primary-darker) !important;
+  --ifm-menu-color-active: var(--ifm-color-primary-darker) !important;
 }
 
 html[data-theme='dark'] {
   --site-color-feedback-background: #f0f8ff;
   --site-color-favorite-background: #1d1e1e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
+  --docusaurus-highlighted-code-line-bg: rgb(66 66 66 / 35%);
 }
 
+/*
+ * This selector will be dynamically replaced by the color generator. Don't put
+ * other properties here.
+ */
 [data-theme='light'] {
   --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 30%);
   --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 26%);
@@ -41,6 +50,10 @@ html[data-theme='dark'] {
   );
 }
 
+/*
+ * This selector will be dynamically replaced by the color generator. Don't put
+ * other properties here.
+ */
 [data-theme='dark'] {
   --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
   --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
@@ -54,17 +67,6 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: hsl(
     var(--site-primary-hue-saturation-light) 73%
   );
-}
-
-.docusaurus-highlight-code-line {
-  background-color: rgb(0 0 0 / 10%);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
-}
-
-[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgb(66 66 66 / 30%);
 }
 
 .header-github-link:hover {
@@ -206,4 +208,21 @@ div[class^='announcementBar_'] {
     width: 100%;
     height: 100%;
   }
+}
+
+.dropdown-separator {
+  margin: 0.3rem 0;
+}
+
+.dropdown-archived-versions {
+  font-size: 0.875rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.code-block-error-line {
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
 }

@@ -6,13 +6,19 @@
  */
 
 :root {
-  --collapse-button-bg-color-dark: #2e333a;
+  --docusaurus-collapse-button-bg: transparent;
+  --docusaurus-collapse-button-bg-hover: rgb(0 0 0 / 10%);
+}
+
+[data-theme='dark']:root {
+  --docusaurus-collapse-button-bg: rgb(255 255 255 / 5%);
+  --docusaurus-collapse-button-bg-hover: rgb(255 255 255 / 10%);
 }
 
 @media (min-width: 997px) {
   .collapseSidebarButton {
     display: block !important;
-    background-color: var(--ifm-button-background-color);
+    background-color: var(--docusaurus-collapse-button-bg);
     height: 40px;
     position: sticky;
     bottom: 0;
@@ -29,13 +35,9 @@
     transform: rotate(0);
   }
 
-  [data-theme='dark'] .collapseSidebarButton {
-    background-color: var(--collapse-button-bg-color-dark);
-  }
-
-  [data-theme='dark'] .collapseSidebarButton:hover,
-  [data-theme='dark'] .collapseSidebarButton:focus {
-    background-color: var(--ifm-color-emphasis-200);
+  .collapseSidebarButton:hover,
+  .collapseSidebarButton:focus {
+    background-color: var(--docusaurus-collapse-button-bg-hover);
   }
 }
 

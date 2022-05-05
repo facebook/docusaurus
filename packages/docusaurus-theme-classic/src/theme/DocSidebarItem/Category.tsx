@@ -111,8 +111,8 @@ export default function DocSidebarItemCategory({
   const isCurrentPage = isSamePath(href, activePath);
 
   const {collapsed, setCollapsed} = useCollapsible({
-    // active categories are always initialized as expanded
-    // the default (item.collapsed) is only used for non-active categories
+    // Active categories are always initialized as expanded. The default
+    // (`item.collapsed`) is only used for non-active categories.
     initialState: () => {
       if (!collapsible) {
         return false;
@@ -127,23 +127,21 @@ export default function DocSidebarItemCategory({
     setExpandedItem(toCollapsed ? null : index);
     setCollapsed(toCollapsed);
   }
-  const {autoCollapseSidebarCategories} = useThemeConfig();
+  const {
+    docs: {
+      sidebar: {autoCollapseCategories},
+    },
+  } = useThemeConfig();
   useEffect(() => {
     if (
       collapsible &&
       expandedItem &&
       expandedItem !== index &&
-      autoCollapseSidebarCategories
+      autoCollapseCategories
     ) {
       setCollapsed(true);
     }
-  }, [
-    collapsible,
-    expandedItem,
-    index,
-    setCollapsed,
-    autoCollapseSidebarCategories,
-  ]);
+  }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
 
   return (
     <li

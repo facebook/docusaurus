@@ -37,9 +37,7 @@ describe('initPlugins', () => {
 
   it('throws user-friendly error message for plugins with bad values', async () => {
     await expect(() =>
-      loadSite({
-        customConfigFilePath: 'badPlugins.docusaurus.config.js',
-      }),
+      loadSite({config: 'badPlugins.docusaurus.config.js'}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

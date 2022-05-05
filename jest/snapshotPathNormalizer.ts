@@ -90,7 +90,7 @@ function normalizePaths<T>(value: T): T {
     (val) => val.split(homeDirReal).join('<HOME_DIR>'),
     (val) => val.split(homeDir).join('<HOME_DIR>'),
 
-    // handle HOME_DIR nested inside TEMP_DIR
+    // Handle HOME_DIR nested inside TEMP_DIR
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTemp}`)
@@ -98,7 +98,7 @@ function normalizePaths<T>(value: T): T {
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTempReal}`)
-        .join('<HOME_DIR>'), // untested
+        .join('<HOME_DIR>'),
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTempReal}`)
@@ -106,7 +106,7 @@ function normalizePaths<T>(value: T): T {
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTemp}`)
-        .join('<HOME_DIR>'), // untested
+        .join('<HOME_DIR>'),
 
     // Replace the Docusaurus version with a stub
     (val) => val.split(version).join('<CURRENT_VERSION>'),
@@ -134,7 +134,6 @@ function normalizePaths<T>(value: T): T {
 }
 
 function shouldUpdate(value: unknown) {
-  // return true if value is different from normalized value
   return typeof value === 'string' && normalizePaths(value) !== value;
 }
 

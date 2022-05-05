@@ -43,6 +43,33 @@ describe('normalizeLocation', () => {
     });
   });
 
+  it('removes html extension', () => {
+    expect(
+      normalizeLocation({
+        pathname: '/docs/installation.html',
+      }),
+    ).toEqual({
+      pathname: '/docs/installation',
+    });
+    expect(
+      normalizeLocation({
+        pathname: '/docs/introduction/foo.html',
+        search: '',
+        hash: '#bar',
+      }),
+    ).toEqual({
+      pathname: '/docs/introduction/foo',
+      search: '',
+      hash: '#bar',
+    });
+  });
+
+  it('does not strip extension if the route location has one', () => {
+    expect(normalizeLocation({pathname: '/page.html'})).toEqual({
+      pathname: '/page.html',
+    });
+  });
+
   it('leaves pathnames untouched', () => {
     const replaceMock = jest.spyOn(String.prototype, 'replace');
 
@@ -71,18 +98,6 @@ describe('normalizeLocation', () => {
       hash: '#features',
     });
     expect(replaceMock).toBeCalledTimes(1);
-
-    expect(
-      normalizeLocation({
-        pathname: '/docs/introduction/foo.html',
-        search: '',
-        hash: '#bar',
-      }),
-    ).toEqual({
-      pathname: '/docs/introduction/foo.html',
-      search: '',
-      hash: '#bar',
-    });
 
     expect(
       normalizeLocation({

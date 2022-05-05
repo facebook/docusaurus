@@ -42,7 +42,8 @@ declare module '@endiliey/react-ideal-image' {
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export interface ImageProps extends ComponentProps<'img'> {
+  export interface ImageProps
+    extends Omit<ComponentProps<'img'>, 'srcSet' | 'placeholder'> {
     /**
      * This function decides what icon to show based on the current state of the
      * component.

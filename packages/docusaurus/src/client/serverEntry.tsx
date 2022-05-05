@@ -27,9 +27,6 @@ import logger from '@docusaurus/logger';
 import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../../package.json');
-
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
     rmWhitespace: true,
@@ -70,9 +67,11 @@ async function doRender(locals: Locals & {path: string}) {
     preBodyTags,
     postBodyTags,
     onLinksCollected,
+    onHeadTagsCollected,
     baseUrl,
     ssrTemplate,
     noIndex,
+    DOCUSAURUS_VERSION,
   } = locals;
   const location = routesLocation[locals.path]!;
   await preload(location);
@@ -84,7 +83,6 @@ async function doRender(locals: Locals & {path: string}) {
   const appHtml = ReactDOMServer.renderToString(
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
-      {/* @ts-expect-error: https://github.com/staylor/react-helmet-async/pull/165 */}
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
           <LinksCollectorProvider linksCollector={linksCollector}>
@@ -105,13 +103,12 @@ async function doRender(locals: Locals & {path: string}) {
     helmet.link.toString(),
     helmet.script.toString(),
   ];
+  onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
 
   const {generatedFilesDir} = locals;
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-  const manifest: Manifest = JSON.parse(
-    await fs.readFile(manifestPath, 'utf8'),
-  );
+  const manifest: Manifest = await fs.readJSON(manifestPath);
 
   // Get all required assets for this particular page based on client
   // manifest information.
@@ -132,7 +129,7 @@ async function doRender(locals: Locals & {path: string}) {
     scripts,
     stylesheets,
     noIndex,
-    version: packageJson.version,
+    version: DOCUSAURUS_VERSION,
   });
 
   try {

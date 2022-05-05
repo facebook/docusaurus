@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -13,11 +14,21 @@ import type {
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
+  sidebar: {
+    hideable: false,
+    autoCollapseCategories: false,
+  },
 };
 const DocsSchema = Joi.object({
   versionPersistence: Joi.string()
     .equal('localStorage', 'none')
     .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+  sidebar: Joi.object({
+    hideable: Joi.bool().default(DEFAULT_DOCS_CONFIG.sidebar.hideable),
+    autoCollapseCategories: Joi.bool().default(
+      DEFAULT_DOCS_CONFIG.sidebar.autoCollapseCategories,
+    ),
+  }).default(DEFAULT_DOCS_CONFIG.sidebar),
 }).default(DEFAULT_DOCS_CONFIG);
 
 const DEFAULT_COLOR_MODE_CONFIG = {
@@ -32,13 +43,19 @@ export const DEFAULT_CONFIG = {
   metadata: [],
   prism: {
     additionalLanguages: [],
+    theme: defaultPrismTheme,
+    magicComments: [
+      {
+        className: 'theme-code-block-highlighted-line',
+        line: 'highlight-next-line',
+        block: {start: 'highlight-start', end: 'highlight-end'},
+      },
+    ],
   },
   navbar: {
     hideOnScroll: false,
     items: [],
   },
-  hideableSidebar: false,
-  autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
@@ -91,11 +108,28 @@ const DocSidebarItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
-const itemWithType = (type: string | undefined) => {
-  // because equal(undefined) is not supported :/
-  const typeSchema = type
-    ? Joi.string().required().equal(type)
-    : Joi.string().forbidden();
+const HtmlNavbarItemSchema = Joi.object({
+  className: Joi.string(),
+  type: Joi.string().equal('html').required(),
+  value: Joi.string().required(),
+});
+
+// A temporary workaround to allow users to add custom navbar items
+// See https://github.com/facebook/docusaurus/issues/7227
+const CustomNavbarItemRegexp = /custom-.*/;
+const CustomNavbarItemSchema = Joi.object({
+  type: Joi.string().regex(CustomNavbarItemRegexp).required(),
+}).unknown();
+
+const itemWithType = (type: string | RegExp | undefined) => {
+  // Because equal(undefined) is not supported :/
+  const typeSchema =
+    // eslint-disable-next-line no-nested-ternary
+    type instanceof RegExp
+      ? Joi.string().required().regex(type)
+      : type
+      ? Joi.string().required().equal(type)
+      : Joi.string().forbidden();
   return Joi.object({
     type: typeSchema,
   })
@@ -122,6 +156,14 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType(undefined),
       then: DefaultNavbarItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
+    },
+    {
+      is: itemWithType(CustomNavbarItemRegexp),
+      then: CustomNavbarItemSchema,
     },
     {
       is: Joi.alternatives().try(
@@ -195,6 +237,14 @@ const NavbarItemSchema = Joi.object({
       then: SearchItemSchema,
     },
     {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
+    },
+    {
+      is: itemWithType(CustomNavbarItemRegexp),
+      then: CustomNavbarItemSchema,
+    },
+    {
       is: itemWithType(undefined),
       then: Joi.object().when('.', {
         // Dropdown item can be specified without type field
@@ -225,7 +275,6 @@ const ColorModeSchema = Joi.object({
   }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
-// schema can probably be improved
 const HtmlMetadataSchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),
@@ -335,7 +384,7 @@ export const ThemeConfigSchema = Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
+    }).default(DEFAULT_CONFIG.prism.theme),
     darkTheme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
@@ -344,13 +393,29 @@ export const ThemeConfigSchema = Joi.object({
     additionalLanguages: Joi.array()
       .items(Joi.string())
       .default(DEFAULT_CONFIG.prism.additionalLanguages),
+    magicComments: Joi.array()
+      .items(
+        Joi.object({
+          className: Joi.string().required(),
+          line: Joi.string(),
+          block: Joi.object({
+            start: Joi.string().required(),
+            end: Joi.string().required(),
+          }),
+        }).or('line', 'block'),
+      )
+      .default(DEFAULT_CONFIG.prism.magicComments),
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
-  hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
-  autoCollapseSidebarCategories: Joi.bool().default(
-    DEFAULT_CONFIG.autoCollapseSidebarCategories,
-  ),
+  hideableSidebar: Joi.forbidden().messages({
+    'any.unknown':
+      'themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable.',
+  }),
+  autoCollapseSidebarCategories: Joi.forbidden().messages({
+    'any.unknown':
+      'themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories.',
+  }),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',

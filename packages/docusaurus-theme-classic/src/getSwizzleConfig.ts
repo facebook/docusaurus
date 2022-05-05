@@ -30,7 +30,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
       },
       DocSidebar: {
         actions: {
-          eject: 'unsafe', // too much technical code in sidebar, not very safe atm
+          eject: 'unsafe', // Too much technical code in sidebar, not very safe atm
           wrap: 'safe',
         },
         description: 'The sidebar component on docs pages',
@@ -206,6 +206,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'A component wrapping all MDX content and providing the MDXComponents to the MDX context',
       },
+      'NavbarItem/ComponentTypes': {
+        actions: {
+          eject: 'safe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Navbar item components mapping. Can be ejected to add custom navbar item types. See https://github.com/facebook/docusaurus/issues/7227.',
+      },
       // TODO should probably not even appear here
       'NavbarItem/utils': {
         actions: {
@@ -234,7 +242,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
       'prism-include-languages': {
         actions: {
           eject: 'safe',
-          wrap: 'forbidden', // not a component!
+          wrap: 'forbidden', // Not a component!
         },
         description:
           'The Prism languages to include for code block syntax highlighting. Meant to be ejected.',

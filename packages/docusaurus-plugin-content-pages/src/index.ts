@@ -24,8 +24,12 @@ import {
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import {validatePageFrontMatter} from './frontMatter';
 
-import type {LoadedContent, PagesContentPaths} from './types';
-import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
+import type {PagesContentPaths} from './types';
+import type {
+  PluginOptions,
+  Metadata,
+  LoadedContent,
+} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];

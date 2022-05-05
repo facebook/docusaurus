@@ -48,33 +48,35 @@ function getModuleSwizzleConfig(
   return undefined;
 }
 
-export function normalizeSwizzleConfig(
-  unsafeSwizzleConfig: unknown,
-): SwizzleConfig {
-  const schema = Joi.object<SwizzleConfig>({
-    components: Joi.object()
-      .pattern(
-        Joi.string(),
-        Joi.object({
-          actions: Joi.object().pattern(
-            Joi.string().valid(...SwizzleActions),
-            Joi.string().valid(...SwizzleActionsStatuses),
-          ),
-          description: Joi.string(),
-        }),
-      )
-      .required(),
-  });
+const SwizzleConfigSchema = Joi.object<SwizzleConfig>({
+  components: Joi.object()
+    .pattern(
+      Joi.string(),
+      Joi.object({
+        actions: Joi.object().pattern(
+          Joi.string().valid(...SwizzleActions),
+          Joi.string().valid(...SwizzleActionsStatuses),
+        ),
+        description: Joi.string(),
+      }),
+    )
+    .required(),
+});
 
-  const result = schema.validate(unsafeSwizzleConfig);
-
+function validateSwizzleConfig(unsafeSwizzleConfig: unknown): SwizzleConfig {
+  const result = SwizzleConfigSchema.validate(unsafeSwizzleConfig);
   if (result.error) {
     throw new Error(
       `Swizzle config does not match expected schema: ${result.error.message}`,
     );
   }
+  return result.value;
+}
 
-  const swizzleConfig: SwizzleConfig = result.value;
+export function normalizeSwizzleConfig(
+  unsafeSwizzleConfig: unknown,
+): SwizzleConfig {
+  const swizzleConfig = validateSwizzleConfig(unsafeSwizzleConfig);
 
   // Ensure all components always declare all actions
   Object.values(swizzleConfig.components).forEach((componentConfig) => {
