@@ -39,9 +39,11 @@ export function VersionsProvider({
 function useStableVersion(): string {
   const preferredVersion =
     useDocsPreferredVersion('default').preferredVersion?.name;
-  const lastVersion = useVersions('default').find(
-    (v) => v.name !== 'current',
-  )!.name;
+
+  const allVersions = useVersions('default');
+  const lastVersion = (
+    allVersions.find((v) => v.name !== 'current') ?? allVersions[0]
+  ).name;
   return preferredVersion && preferredVersion !== 'current'
     ? preferredVersion
     : lastVersion;
