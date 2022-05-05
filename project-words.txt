@@ -158,6 +158,8 @@ mdxast
 mdxhast
 metadatum
 metastring
+metrica
+metrika
 microdata
 middlewares
 minifier
