@@ -140,9 +140,8 @@ function getAdmonitionsPlugins(
         ? transformAdmonitions
         : [transformAdmonitions, admonitionsOption];
     return [plugin];
-  } 
-    return [];
-  
+  }
+  return [];
 }
 
 export async function mdxLoader(
