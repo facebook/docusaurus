@@ -51,7 +51,7 @@ export default {
     {
       types: ['font-matter', 'string', 'attr-value'],
       style: {
-        color: '#E3116C',
+        color: '#C6105F',
       },
     },
     {
