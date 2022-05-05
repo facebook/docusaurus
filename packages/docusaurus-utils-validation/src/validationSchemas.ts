@@ -52,7 +52,7 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
       infima: LegacyAdmonitionConfigSchema,
     }).required(),
   )
-  .required()
+  .default(true)
   .messages({
     'alternatives.types':
       '{{#label}} does not look like a valid admonitions config',

@@ -28,8 +28,6 @@ exports[`validation schemas admonitionsSchema: for value={"unknownAttribute":"va
 
 exports[`validation schemas admonitionsSchema: for value=3 1`] = `""value" does not look like a valid admonitions config"`;
 
-exports[`validation schemas admonitionsSchema: for value=undefined 1`] = `""value" is required"`;
-
 exports[`validation schemas pathnameSchema: for value="foo" 1`] = `""value" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
 exports[`validation schemas pathnameSchema: for value="https://github.com/foo" 1`] = `""value" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
