@@ -12,7 +12,7 @@ A scaffolding utility to help you instantly set up a functional Docusaurus app.
 npx create-docusaurus@latest [name] [template] [rootDir]
 ```
 
-The `name` argument will be used as the site's path as well as the `name` field in the created app's package.json. It can be absolute, or relative to `rootDir`.
+The `name` argument will be used as the site's path as well as the `name` field in the created app's package.json. It can be an absolute path, or a path relative to `rootDir`.
 
 The `template` argument can be one of the following:
 
