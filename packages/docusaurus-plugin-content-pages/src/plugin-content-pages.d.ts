@@ -16,7 +16,6 @@ declare module '@docusaurus/plugin-content-pages' {
     include: string[];
     exclude: string[];
     mdxPageComponent: string;
-    admonitions: {[key: string]: unknown};
   };
 
   export type Options = Partial<PluginOptions>;

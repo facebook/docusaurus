@@ -378,6 +378,7 @@ export default async function pluginContentBlog(
 
     configureWebpack(_config, isServer, {getJSLoader}, content) {
       const {
+        admonitions,
         rehypePlugins,
         remarkPlugins,
         truncateMarker,
@@ -420,6 +421,7 @@ export default async function pluginContentBlog(
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
+                    admonitions,
                     remarkPlugins,
                     rehypePlugins,
                     beforeDefaultRemarkPlugins: [

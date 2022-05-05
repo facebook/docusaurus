@@ -377,7 +377,6 @@ declare module '@docusaurus/plugin-content-blog' {
      * unlocalized file. Ignored when `editUrl` is a function.
      */
     editLocalizedFiles?: boolean;
-    admonitions: {[key: string]: unknown};
     /** Path to the authors map file, relative to the blog content directory. */
     authorsMapPath: string;
     /** A callback to customize the reading time number displayed. */

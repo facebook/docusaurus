@@ -170,6 +170,7 @@ export default async function pluginContentPages(
 
     configureWebpack(config, isServer, {getJSLoader}) {
       const {
+        admonitions,
         rehypePlugins,
         remarkPlugins,
         beforeDefaultRehypePlugins,
@@ -194,6 +195,7 @@ export default async function pluginContentPages(
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
+                    admonitions,
                     remarkPlugins,
                     rehypePlugins,
                     beforeDefaultRehypePlugins,

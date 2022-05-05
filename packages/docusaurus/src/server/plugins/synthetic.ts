@@ -96,6 +96,7 @@ export function createMDXFallbackPlugin({
         });
       }
       const mdxLoaderOptions = {
+        admonitions: true,
         staticDirs: siteConfig.staticDirectories.map((dir) =>
           path.resolve(siteDir, dir),
         ),
