@@ -19,6 +19,9 @@
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
   --site-color-feedback-background: #fff;
   --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
+  /* Use a darker color to ensure contrast, ideally we don't need important */
+  --ifm-breadcrumb-color-active: var(--ifm-color-primary-darker) !important;
+  --ifm-menu-color-active: var(--ifm-color-primary-darker) !important;
 }
 
 html[data-theme='dark'] {
@@ -28,6 +31,10 @@ html[data-theme='dark'] {
   --docusaurus-highlighted-code-line-bg: rgb(66 66 66 / 35%);
 }
 
+/*
+ * This selector will be dynamically replaced by the color generator. Don't put
+ * other properties here.
+ */
 [data-theme='light'] {
   --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 30%);
   --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 26%);
@@ -43,6 +50,10 @@ html[data-theme='dark'] {
   );
 }
 
+/*
+ * This selector will be dynamically replaced by the color generator. Don't put
+ * other properties here.
+ */
 [data-theme='dark'] {
   --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
   --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
