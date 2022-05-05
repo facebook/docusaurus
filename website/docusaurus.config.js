@@ -162,6 +162,7 @@ const config = {
           }
           return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
+        remarkPlugins: [npm2yarn],
         editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
