@@ -19,7 +19,7 @@
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
     "examples:generate": "node admin/scripts/generateExamples.mjs",
     "build": "yarn build:packages && yarn build:website",
-    "build:packages": "lerna run build --no-private",
+    "build:packages": "yarn nx run-many --target=build --all --exclude website --exclude docusaurus-2-classic-template --exclude docusaurus-2-classic-typescript-template --exclude docusaurus-2-facebook-template",
     "build:website": "yarn workspace website build",
     "build:website:baseUrl": "yarn workspace website build:baseUrl",
     "build:website:blogOnly": "yarn workspace website build:blogOnly",
@@ -112,6 +112,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "typescript": "^4.6.3",
-    "unified": "^9.2.2"
+    "unified": "^9.2.2",
+    "nx": "14.1.1"
   }
 }
