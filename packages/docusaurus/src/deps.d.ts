@@ -52,6 +52,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     baseUrl: string;
     ssrTemplate: string;
     noIndex: boolean;
+    DOCUSAURUS_VERSION: string;
   };
 
   export default class StaticSiteGeneratorPlugin

@@ -26,7 +26,6 @@ import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
 import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -72,6 +71,7 @@ async function doRender(locals: Locals & {path: string}) {
     baseUrl,
     ssrTemplate,
     noIndex,
+    DOCUSAURUS_VERSION,
   } = locals;
   const location = routesLocation[locals.path]!;
   await preload(location);
