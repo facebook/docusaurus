@@ -15,9 +15,6 @@ import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations
 import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 
-import admonitions from './remark/admonitions';
-import type {MDXOptions} from '@docusaurus/mdx-loader';
-
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
@@ -169,22 +166,6 @@ export default function themeClassic(
           new RegExp(`^./(${prismLanguages})$`),
         ),
       );
-
-      config.module?.rules?.forEach((rule) => {
-        if (typeof rule !== 'string' && Array.isArray(rule.use)) {
-          rule.use.forEach((useItem) => {
-            if (
-              typeof useItem !== 'string' &&
-              'loader' in useItem &&
-              useItem.loader?.includes('docusaurus-mdx-loader')
-            ) {
-              useItem.options ??= {};
-              (useItem.options as MDXOptions).remarkPlugins ??= [];
-              (useItem.options as MDXOptions).remarkPlugins.push(admonitions);
-            }
-          });
-        }
-      });
 
       return {mergeStrategy: {'*': 'replace'}, ...config};
     },

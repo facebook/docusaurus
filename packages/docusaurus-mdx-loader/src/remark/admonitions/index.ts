@@ -6,7 +6,7 @@
  */
 
 import visit from 'unist-util-visit';
-import type {Transformer,Processor} from 'unified';
+import type {Transformer, Processor, Plugin} from 'unified';
 import type {Literal} from 'mdast';
 
 const NEWLINE = '\n';
@@ -41,7 +41,7 @@ function normalizeOptions(
   return {...DefaultAdmonitionOptions, ...options};
 }
 
-export default function plugin(
+const plugin: Plugin = function plugin(
   this: Processor,
   optionsInput: Partial<AdmonitionOptions> = {},
 ): Transformer {
@@ -149,4 +149,6 @@ export default function plugin(
       },
     );
   };
-}
+};
+
+export default plugin;
