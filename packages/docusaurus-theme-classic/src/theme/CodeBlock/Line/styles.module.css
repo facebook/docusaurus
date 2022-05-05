@@ -42,7 +42,7 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
   opacity: 0.4;
 }
 
-.highlightedCodeLine .codeLineNumber::before {
+:global(.theme-code-block-highlighted-line) .codeLineNumber::before {
   opacity: 0.8;
 }
 
