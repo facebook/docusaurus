@@ -18,12 +18,12 @@ const summaryKeys = {
   pwa: 'PWA',
 };
 
-/** @param {number} score */
-const scoreEntry = (score) => {
-  const normalizedScore = Math.round(score * 100);
+/** @param {number} rawScore */
+const scoreEntry = (rawScore) => {
+  const score = Math.round(rawScore * 100);
   // eslint-disable-next-line no-nested-ternary
   const scoreIcon = score >= 90 ? '🟢' : score >= 50 ? '🟠' : '🔴';
-  return `${scoreIcon} ${normalizedScore}`;
+  return `${scoreIcon} ${score}`;
 };
 
 /**
