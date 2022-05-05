@@ -1,7 +1,7 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: '📦 logger'
-slug: '/api/plugins/@docusaurus/logger'
+slug: '/api/misc/@docusaurus/logger'
 ---
 
 An encapsulated logger for semantically formatting console messages.
