@@ -90,5 +90,11 @@ export default {
         color: '#E36209',
       },
     },
+    {
+      types: ['comment'],
+      style: {
+        color: '#6B6B6B',
+      },
+    },
   ],
 };
