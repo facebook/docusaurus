@@ -41,6 +41,8 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: hsl(
     var(--site-primary-hue-saturation-light) 58%
   );
+  /* Use a darker color to ensure contrast */
+  --ifm-breadcrumb-color-active: var(--ifm-color-primary-darker);
 }
 
 [data-theme='dark'] {
