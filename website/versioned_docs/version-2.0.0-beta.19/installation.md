@@ -64,31 +64,37 @@ npx create-docusaurus@latest my-website facebook
 
 You can also initialize a new project using your preferred project manager:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="npm">
+```
 
 ```bash
 npm init docusaurus
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="yarn">
+```
 
 ```bash
 yarn create docusaurus
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="pnpm">
+```
 
 ```bash
 pnpm create docusaurus
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
-````
+```
 
 </details>
 
