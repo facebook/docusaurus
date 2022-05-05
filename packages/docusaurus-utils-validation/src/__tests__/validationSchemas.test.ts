@@ -89,7 +89,6 @@ describe('validation schemas', () => {
       schema: AdmonitionsSchema,
     });
 
-    testOK(undefined);
     testOK(true);
     testOK(false);
     testOK({});
@@ -97,6 +96,7 @@ describe('validation schemas', () => {
     testOK({keywords: ['info', 'tip']});
     testOK({tag: '+++', keywords: ['info', 'tip']});
 
+    testFail(undefined);
     testFail(3);
     testFail([]);
     testFail({unknownAttribute: 'val'});
