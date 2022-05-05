@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-beta.19",
+  "version": "2.0.0-beta.20",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -41,13 +41,13 @@
     "@babel/runtime": "^7.17.9",
     "@babel/runtime-corejs3": "^7.17.9",
     "@babel/traverse": "^7.17.10",
-    "@docusaurus/cssnano-preset": "2.0.0-beta.19",
-    "@docusaurus/logger": "2.0.0-beta.19",
-    "@docusaurus/mdx-loader": "2.0.0-beta.19",
+    "@docusaurus/cssnano-preset": "2.0.0-beta.20",
+    "@docusaurus/logger": "2.0.0-beta.20",
+    "@docusaurus/mdx-loader": "2.0.0-beta.20",
     "@docusaurus/react-loadable": "5.5.2",
-    "@docusaurus/utils": "2.0.0-beta.19",
-    "@docusaurus/utils-common": "2.0.0-beta.19",
-    "@docusaurus/utils-validation": "2.0.0-beta.19",
+    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/utils-common": "2.0.0-beta.20",
+    "@docusaurus/utils-validation": "2.0.0-beta.20",
     "@slorber/static-site-generator-webpack-plugin": "^4.0.4",
     "@svgr/webpack": "^6.2.1",
     "autoprefixer": "^10.4.5",
@@ -104,8 +104,8 @@
     "webpackbar": "^5.0.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.19",
-    "@docusaurus/types": "2.0.0-beta.19",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.20",
+    "@docusaurus/types": "2.0.0-beta.20",
     "@types/detect-port": "^1.3.2",
     "@types/react-dom": "^18.0.3",
     "@types/react-router-config": "^5.0.6",

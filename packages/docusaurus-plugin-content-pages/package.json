@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "2.0.0-beta.19",
+  "version": "2.0.0-beta.20",
   "description": "Pages plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-pages.d.ts",
@@ -18,17 +18,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.19",
-    "@docusaurus/mdx-loader": "2.0.0-beta.19",
-    "@docusaurus/utils": "2.0.0-beta.19",
-    "@docusaurus/utils-validation": "2.0.0-beta.19",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/mdx-loader": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/utils-validation": "2.0.0-beta.20",
     "fs-extra": "^10.1.0",
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.4.0",
     "webpack": "^5.72.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.19"
+    "@docusaurus/types": "2.0.0-beta.20"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
