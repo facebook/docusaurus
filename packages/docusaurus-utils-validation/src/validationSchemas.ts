@@ -54,7 +54,7 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
   )
   .messages({
     'alternatives.types':
-      '{{#label}} does not look like a valid admonition tag',
+      '{{#label}} does not look like a valid admonitions config',
   });
 
 // TODO how can we make this emit a custom error message :'(
