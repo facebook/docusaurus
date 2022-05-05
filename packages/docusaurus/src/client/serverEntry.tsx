@@ -27,9 +27,6 @@ import logger from '@docusaurus/logger';
 import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../../package.json');
-
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
     rmWhitespace: true,
@@ -74,6 +71,7 @@ async function doRender(locals: Locals & {path: string}) {
     baseUrl,
     ssrTemplate,
     noIndex,
+    DOCUSAURUS_VERSION,
   } = locals;
   const location = routesLocation[locals.path]!;
   await preload(location);
@@ -131,7 +129,7 @@ async function doRender(locals: Locals & {path: string}) {
     scripts,
     stylesheets,
     noIndex,
-    version: packageJson.version,
+    version: DOCUSAURUS_VERSION,
   });
 
   try {
