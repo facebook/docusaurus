@@ -116,12 +116,11 @@ function getAdmonitionConfig(type: string): AdmonitionConfig {
   const config = AdmonitionConfigs[type];
   if (config) {
     return config;
-  } 
-    console.warn(
-      `No admonition config found for admonition type=${type}. Docusaurus will use the Info admonition as a fallback.`,
-    );
-    return AdmonitionConfigs.info!;
-  
+  }
+  console.warn(
+    `No admonition config found for admonition type=${type}. Docusaurus will use the Info admonition as a fallback.`,
+  );
+  return AdmonitionConfigs.info!;
 }
 
 export default function Admonition({
