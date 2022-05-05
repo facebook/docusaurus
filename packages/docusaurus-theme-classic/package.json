@@ -58,6 +58,7 @@
     "react-test-renderer": "^17.0.2",
     "rehype-stringify": "^8.0.0",
     "remark-rehype": "^8.1.0",
+    "to-vfile": "^7.2.3",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {

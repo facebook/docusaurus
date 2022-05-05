@@ -6,12 +6,17 @@
  */
 
 import visit from 'unist-util-visit';
-import type {Transformer} from 'unified';
+import type {Transformer,Processor} from 'unified';
 import type {Literal} from 'mdast';
 
 const NEWLINE = '\n';
 
-const config = {
+export type AdmonitionOptions = {
+  tag: string;
+  keywords: string[];
+};
+
+export const DefaultAdmonitionOptions: AdmonitionOptions = {
   tag: ':::',
   keywords: [
     'secondary',
@@ -30,11 +35,22 @@ function escapeRegExp(s: string): string {
   return s.replace(/[-[\]{}()*+?.\\^$|/]/g, '\\$&');
 }
 
-export default function plugin(this: any): Transformer {
-  const keywords = Object.values(config.keywords).map(escapeRegExp).join('|');
-  const tag = escapeRegExp(config.tag);
+function normalizeOptions(
+  options: Partial<AdmonitionOptions>,
+): AdmonitionOptions {
+  return {...DefaultAdmonitionOptions, ...options};
+}
+
+export default function plugin(
+  this: Processor,
+  optionsInput: Partial<AdmonitionOptions> = {},
+): Transformer {
+  const options = normalizeOptions(optionsInput);
+
+  const keywords = Object.values(options.keywords).map(escapeRegExp).join('|');
+  const tag = escapeRegExp(options.tag);
   const regex = new RegExp(`${tag}(${keywords})(?: *(.*))?\n`);
-  const escapeTag = new RegExp(escapeRegExp(`\\${config.tag}`), 'g');
+  const escapeTag = new RegExp(escapeRegExp(`\\${options.tag}`), 'g');
 
   // the tokenizer is called on blocks to determine if there is an admonition
   // present and create tags for it
@@ -65,7 +81,7 @@ export default function plugin(this: any): Transformer {
       food.push(line);
       newValue = newValue.slice(idx + 1);
       // the closing tag is NOT part of the content
-      if (line.startsWith(config.tag)) {
+      if (line.startsWith(options.tag)) {
         break;
       }
       content.push(line);
@@ -73,7 +89,7 @@ export default function plugin(this: any): Transformer {
     }
 
     // consume the processed tag and replace escape sequences
-    const contentString = content.join(NEWLINE).replace(escapeTag, config.tag);
+    const contentString = content.join(NEWLINE).replace(escapeTag, options.tag);
     const add = eat(opening + food.join(NEWLINE));
 
     // parse the content in block mode
@@ -128,7 +144,7 @@ export default function plugin(this: any): Transformer {
         (node as Literal)?.type !== 'admonitionHTML',
       (node: Literal) => {
         if (node.value) {
-          node.value = node.value.replace(escapeTag, config.tag);
+          node.value = node.value.replace(escapeTag, options.tag);
         }
       },
     );

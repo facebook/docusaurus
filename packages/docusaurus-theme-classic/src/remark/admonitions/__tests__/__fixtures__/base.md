@@ -1,4 +1,3 @@
-
 The blog feature enables you to deploy in no time a full-featured blog.
 
 :::info Sample Title
@@ -18,3 +17,9 @@ Use the **[Fast Track](introduction.md#fast-track)** to understand Docusaurus in
 Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
 
 :::
+
+++++tip
+
+Admonition with different syntax
+
+++++
