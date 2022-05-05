@@ -27,6 +27,17 @@ export function dispatchLifecycleAction<K extends keyof ClientModule>(
   return () => callbacks.forEach((cb) => cb?.());
 }
 
+function scrollAfterNavigation(location: Location) {
+  const {hash} = location;
+  if (!hash) {
+    window.scrollTo(0, 0);
+  } else {
+    const id = decodeURIComponent(hash.substring(1));
+    const element = document.getElementById(id);
+    element?.scrollIntoView();
+  }
+}
+
 function ClientLifecyclesDispatcher({
   children,
   location,
@@ -38,13 +49,8 @@ function ClientLifecyclesDispatcher({
 }): JSX.Element {
   useLayoutEffect(() => {
     if (previousLocation !== location) {
-      const {hash} = location;
-      if (!hash) {
-        window.scrollTo(0, 0);
-      } else {
-        const id = decodeURIComponent(hash.substring(1));
-        const element = document.getElementById(id);
-        element?.scrollIntoView();
+      if (previousLocation) {
+        scrollAfterNavigation(location);
       }
       dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
     }
