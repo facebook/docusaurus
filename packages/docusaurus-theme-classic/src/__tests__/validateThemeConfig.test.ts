@@ -242,6 +242,12 @@ describe('themeConfig', () => {
             position: 'left',
             label: 'Current version',
           },
+          // Search with className
+          {
+            type: 'search',
+            position: 'right',
+            className: 'search-bar-wrapper',
+          },
         ],
       },
     };

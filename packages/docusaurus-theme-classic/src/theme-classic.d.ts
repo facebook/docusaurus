@@ -775,6 +775,7 @@ declare module '@theme/Navbar/Search' {
 
   export interface Props {
     readonly children: ReactNode;
+    readonly className?: string;
   }
 
   export default function NavbarSearch(props: Props): JSX.Element;
