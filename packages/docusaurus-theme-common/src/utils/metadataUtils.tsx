@@ -37,8 +37,8 @@ export function PageMetadata({
 
   return (
     <Head>
-      {title && <title>{pageTitle}</title>}
-      {title && <meta property="og:title" content={pageTitle} />}
+      {pageTitle && <title>{pageTitle}</title>}
+      {pageTitle && <meta property="og:title" content={pageTitle} />}
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}
