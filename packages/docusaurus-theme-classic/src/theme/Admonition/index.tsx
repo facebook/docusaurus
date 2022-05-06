@@ -89,7 +89,7 @@ type AdmonitionConfig = {
   infimaClassName: string;
 };
 
-const AdmonitionConfigs: {[key: string]: AdmonitionConfig} = {
+const AdmonitionConfigs: {[key: string]: AdmonitionConfig | string} = {
   note: {
     infimaClassName: 'secondary',
     iconComponent: NoteIcon,
@@ -110,17 +110,24 @@ const AdmonitionConfigs: {[key: string]: AdmonitionConfig} = {
     infimaClassName: 'warning',
     iconComponent: CautionIcon,
   },
+  secondary: 'note',
+  important: 'info',
+  success: 'tip',
+  warning: 'danger',
 };
 
 function getAdmonitionConfig(type: string): AdmonitionConfig {
   const config = AdmonitionConfigs[type];
   if (config) {
+    if (typeof config === 'string') {
+      return AdmonitionConfigs[config] as AdmonitionConfig;
+    }
     return config;
   }
   console.warn(
     `No admonition config found for admonition type=${type}. Docusaurus will use the Info admonition as a fallback.`,
   );
-  return AdmonitionConfigs.info!;
+  return AdmonitionConfigs.info as AdmonitionConfig;
 }
 
 export default function Admonition({
