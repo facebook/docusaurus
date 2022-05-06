@@ -185,6 +185,7 @@ export const ConfigSchema = Joi.object({
   deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
+  githubPort: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
   themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
