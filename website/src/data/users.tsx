@@ -153,6 +153,14 @@ export const Tags: {[type in TagType]: Tag} = {
 // prettier-ignore
 const Users: User[] = [
   {
+    title: 'GeekyWeb',
+    description: 'Global State and Logic Framework for reactive Applications',
+    preview: require('./showcase/geekyweb.png'),
+    website: 'https://geekyweb.eu.org/',
+    source: 'https://github.com/Designatory/GeekyWeb',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
