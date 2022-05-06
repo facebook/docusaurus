@@ -10,13 +10,16 @@ import type {Props} from '@theme/NavbarItem/SearchNavbarItem';
 import SearchBar from '@theme/SearchBar';
 import NavbarSearch from '@theme/Navbar/Search';
 
-export default function SearchNavbarItem({mobile}: Props): JSX.Element | null {
+export default function SearchNavbarItem({
+  mobile,
+  className,
+}: Props): JSX.Element | null {
   if (mobile) {
     return null;
   }
 
   return (
-    <NavbarSearch>
+    <NavbarSearch className={className}>
       <SearchBar />
     </NavbarSearch>
   );
