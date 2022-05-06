@@ -309,8 +309,6 @@ treeify
 treosh
 triaging
 tses
-typedef
-typedefs
 typecheck
 typechecks
 typedoc

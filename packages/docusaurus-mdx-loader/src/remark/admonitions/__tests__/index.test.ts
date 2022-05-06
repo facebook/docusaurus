@@ -12,7 +12,6 @@ import plugin from '../index';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
 
-// @ts-expect-error: missing typedefs in v6
 import vfile from 'to-vfile';
 
 const processFixture = async (
