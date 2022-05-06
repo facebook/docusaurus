@@ -681,6 +681,14 @@ const Users: User[] = [
     source: 'https://github.com/Flagsmith/flagsmith-docs',
     tags: ['opensource'],
   },
+    {
+    title: 'Flarum',
+    description: 'Forums made simple. Modern, fast, and free!',
+    preview: require('./showcase/flarum.png'),
+    website: 'https://docs.flarum.org',
+    source: 'https://github.com/flarum/docs',
+    tags: ['opensource'],
+  },
   {
     title: 'FlatifyCSS',
     description:
