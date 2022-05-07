@@ -118,7 +118,7 @@ export function PublishTime(): JSX.Element | null {
     return null;
   }
   return (
-    <Translate values={{time: <code>{time}</code>}}>
+    <Translate values={{time: <b>{new Date(time).toLocaleString()}</b>}}>
       {
         "The latest canary version that's available on npm is published at {time}."
       }
