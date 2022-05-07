@@ -748,7 +748,7 @@ const Users: User[] = [
   },
   {
     title: 'GeekyWeb',
-    description: 'Global State and Logic Framework for reactive Applications',
+    description: 'Best documentation website for all developers and programmers.',
     preview: require('./showcase/geekyweb.png'),
     website: 'https://geekyweb.eu.org/',
     source: 'https://github.com/Designatory/GeekyWeb',
