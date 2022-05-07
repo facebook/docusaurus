@@ -33,17 +33,13 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     const {error} = this.state;
 
     if (error) {
-      const fallback = this.props.fallback ?? DefaultFallback;
-      return fallback({
-        error,
-        tryAgain: () => this.setState({error: null}),
-      });
+      const Fallback = this.props.fallback ?? DefaultFallback;
+      return (
+        <Fallback error={error} tryAgain={() => this.setState({error: null})} />
+      );
     }
 
-    return (
-      children ??
-      // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
-      null
-    );
+    // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
+    return children ?? null;
   }
 }
