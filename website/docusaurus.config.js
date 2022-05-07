@@ -337,7 +337,8 @@ const config = {
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
-            require.resolve('./_dogfooding/dogfooding.css'),
+            // relative paths are relative to site dir
+            './_dogfooding/dogfooding.css',
           ],
         },
         gtag: !isDeployPreview
