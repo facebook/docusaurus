@@ -37,6 +37,7 @@ describe('normalizeConfig', () => {
       organizationName: 'facebook',
       projectName: 'docusaurus',
       githubHost: 'github.com',
+      githubPort: '8000',
       customFields: {
         myCustomField: '42',
       },
