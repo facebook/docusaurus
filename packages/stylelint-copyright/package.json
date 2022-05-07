@@ -10,6 +10,6 @@
     "directory": "packages/stylelint-copyright"
   },
   "dependencies": {
-    "stylelint": "^14.8.1"
+    "stylelint": "^14.8.2"
   }
 }
