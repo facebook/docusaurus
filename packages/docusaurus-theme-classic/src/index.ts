@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
@@ -142,11 +143,11 @@ export default function themeClassic(
       ];
 
       if (customCss) {
-        if (Array.isArray(customCss)) {
-          modules.push(...customCss);
-        } else {
-          modules.push(customCss);
-        }
+        modules.push(
+          ...(Array.isArray(customCss) ? customCss : [customCss]).map((p) =>
+            path.resolve(context.siteDir, p),
+          ),
+        );
       }
 
       return modules;
