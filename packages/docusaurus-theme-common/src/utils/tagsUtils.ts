@@ -6,6 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
+import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
   translate({
@@ -14,23 +15,24 @@ export const translateTagsPageTitle = (): string =>
     description: 'The title of the tag list page',
   });
 
-type TagsListItem = Readonly<{name: string; permalink: string; count: number}>; // TODO remove duplicated type :s
-
-export type TagLetterEntry = Readonly<{letter: string; tags: TagsListItem[]}>;
+export type TagLetterEntry = {letter: string; tags: TagsListItem[]};
 
 function getTagLetter(tag: string): string {
-  return tag[0].toUpperCase();
+  return tag[0]!.toUpperCase();
 }
 
+/**
+ * Takes a list of tags (as provided by the content plugins), and groups them by
+ * their initials.
+ */
 export function listTagsByLetters(
   tags: readonly TagsListItem[],
 ): TagLetterEntry[] {
-  // Group by letters
-  const groups: Record<string, TagsListItem[]> = {};
+  const groups: {[initial: string]: TagsListItem[]} = {};
   Object.values(tags).forEach((tag) => {
-    const letter = getTagLetter(tag.name);
-    groups[letter] = groups[letter] ?? [];
-    groups[letter].push(tag);
+    const initial = getTagLetter(tag.label);
+    groups[initial] ??= [];
+    groups[initial]!.push(tag);
   });
 
   return (
@@ -40,7 +42,7 @@ export function listTagsByLetters(
       .map(([letter, letterTags]) => {
         // Sort tags inside a letter
         const sortedTags = letterTags.sort((tag1, tag2) =>
-          tag1.name.localeCompare(tag2.name),
+          tag1.label.localeCompare(tag2.label),
         );
         return {letter, tags: sortedTags};
       })

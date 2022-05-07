@@ -5,27 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentType} from 'react';
+import React, {type ComponentType} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import {
   useActivePlugin,
   useDocVersionSuggestions,
-  GlobalVersion,
-} from '@theme/hooks/useDocs';
+  type GlobalVersion,
+} from '@docusaurus/plugin-content-docs/client';
 import {
   ThemeClassNames,
   useDocsPreferredVersion,
+  useDocsVersion,
 } from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
 import clsx from 'clsx';
-import type {VersionBanner} from '@docusaurus/plugin-content-docs';
+import type {
+  VersionBanner,
+  PropVersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 
 type BannerLabelComponentProps = {
   siteTitle: string;
-  versionMetadata: Props['versionMetadata'];
+  versionMetadata: PropVersionMetadata;
 };
 
 function UnreleasedVersionLabel({
@@ -66,10 +70,9 @@ function UnmaintainedVersionLabel({
   );
 }
 
-const BannerLabelComponents: Record<
-  VersionBanner,
-  ComponentType<BannerLabelComponentProps>
-> = {
+const BannerLabelComponents: {
+  [banner in VersionBanner]: ComponentType<BannerLabelComponentProps>;
+} = {
   unreleased: UnreleasedVersionLabel,
   unmaintained: UnmaintainedVersionLabel,
 };
@@ -114,7 +117,12 @@ function LatestVersionSuggestionLabel({
   );
 }
 
-function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
+function DocVersionBannerEnabled({
+  className,
+  versionMetadata,
+}: Props & {
+  versionMetadata: PropVersionMetadata;
+}): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
@@ -128,14 +136,15 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   const {latestDocSuggestion, latestVersionSuggestion} =
     useDocVersionSuggestions(pluginId);
 
-  // try to link to same doc in latest version (not always possible)
-  // fallback to main doc of latest version
+  // Try to link to same doc in latest version (not always possible), falling
+  // back to main doc of latest version
   const latestVersionSuggestedDoc =
     latestDocSuggestion ?? getVersionMainDoc(latestVersionSuggestion);
 
   return (
     <div
       className={clsx(
+        className,
         ThemeClassNames.docs.docVersionBanner,
         'alert alert--warning margin-bottom--md',
       )}
@@ -154,11 +163,17 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   );
 }
 
-function DocVersionBanner({versionMetadata}: Props): JSX.Element | null {
+export default function DocVersionBanner({
+  className,
+}: Props): JSX.Element | null {
+  const versionMetadata = useDocsVersion();
   if (versionMetadata.banner) {
-    return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
+    return (
+      <DocVersionBannerEnabled
+        className={className}
+        versionMetadata={versionMetadata}
+      />
+    );
   }
   return null;
 }
-
-export default DocVersionBanner;

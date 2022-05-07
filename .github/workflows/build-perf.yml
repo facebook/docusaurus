@@ -9,23 +9,42 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - website/docs/**
+    paths:
+      - packages/**
+      - website/**
+      - '!website/docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   build-size:
+    permissions:
+      checks: write # for preactjs/compressed-size-action to create and update the checks
+      contents: read # for actions/checkout to fetch code
+      issues: write # for preactjs/compressed-size-action to create comments
+      pull-requests: write # for preactjs/compressed-size-action to write a PR review
     name: Build Size Report
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+      - name: Set up Node
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
+          node-version: '16'
           cache: yarn
-      - uses: preactjs/compressed-size-action@v2
+      - name: Track build size changes
+        uses: preactjs/compressed-size-action@8119d3d31b6e57b167e09c81dfa877eada3bcb35 # v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           build-script: build:website:en
+          clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
           pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/build/index.html,website/build/blog/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/index.html,website/build/docs/installation/index.html,website/build/tests/docs/index.html,website/build/tests/docs/standalone/index.html}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
@@ -35,8 +54,8 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+      - uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
           cache: yarn
       - name: Installation
@@ -51,4 +70,4 @@ jobs:
       - name: Build (warm cache)
         run: yarn workspace website build --locale en
         timeout-minutes: 2
-    # TODO post a Github comment with build with perf warnings?
+    # TODO post a GitHub comment with build with perf warnings?

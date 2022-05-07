@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Nie znaleziono grafiki.",
+  "theme.IdealImageMessage.error": "Błąd. Kliknij by odświeżyć.",
+  "theme.IdealImageMessage.load": "Kliknij aby wczytać{sizeMessage}",
+  "theme.IdealImageMessage.loading": "Wczytywanie...",
+  "theme.IdealImageMessage.offline": "Twoja przeglądarka jest offline. Nie załadowano grafiki."
+}

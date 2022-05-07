@@ -1,8 +1,15 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.20",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
+  "sideEffects": false,
+  "exports": {
+    "./src/*": "./src/*",
+    "./client": "./lib/client/index.js",
+    "./server": "./lib/server-export.js",
+    ".": "./lib/index.js"
+  },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
     "build": "tsc",
@@ -17,34 +24,32 @@
     "directory": "packages/docusaurus-plugin-content-docs"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.9",
-    "@types/js-yaml": "^4.0.0",
-    "@types/picomatch": "^2.2.1",
-    "commander": "^5.1.0",
-    "picomatch": "^2.1.1",
-    "utility-types": "^3.10.0"
-  },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.9",
-    "@docusaurus/mdx-loader": "2.0.0-beta.9",
-    "@docusaurus/types": "2.0.0-beta.9",
-    "@docusaurus/utils": "2.0.0-beta.9",
-    "@docusaurus/utils-validation": "2.0.0-beta.9",
-    "chalk": "^4.1.2",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/logger": "2.0.0-beta.20",
+    "@docusaurus/mdx-loader": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/utils-validation": "2.0.0-beta.20",
     "combine-promises": "^1.1.0",
-    "escape-string-regexp": "^4.0.0",
-    "fs-extra": "^10.0.0",
-    "globby": "^11.0.2",
-    "import-fresh": "^3.2.2",
-    "js-yaml": "^4.0.0",
-    "loader-utils": "^2.0.0",
-    "lodash": "^4.17.20",
+    "fs-extra": "^10.1.0",
+    "import-fresh": "^3.3.0",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
     "remark-admonitions": "^1.2.1",
-    "shelljs": "^0.8.4",
-    "tslib": "^2.3.1",
+    "tslib": "^2.4.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.61.0"
+    "webpack": "^5.72.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.20",
+    "@docusaurus/types": "2.0.0-beta.20",
+    "@types/js-yaml": "^4.0.5",
+    "@types/picomatch": "^2.3.0",
+    "commander": "^5.1.0",
+    "escape-string-regexp": "^4.0.0",
+    "picomatch": "^2.3.1",
+    "shelljs": "^0.8.5",
+    "utility-types": "^3.10.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

@@ -5,6 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {renderRoutes} from 'react-router-config';
-
-export default renderRoutes;
+export {renderRoutes as default} from 'react-router-config';

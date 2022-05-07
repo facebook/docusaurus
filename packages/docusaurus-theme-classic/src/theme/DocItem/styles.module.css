@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docItemContainer article > *:first-child,
-.docItemContainer header + * {
+.docItemContainer header + *,
+.docItemContainer article > *:first-child {
   margin-top: 0;
 }
 
@@ -16,6 +16,12 @@
   }
 
   /* Prevent hydration FOUC, as the mobile TOC needs to be server-rendered */
+  .tocMobile {
+    display: none;
+  }
+}
+
+@media print {
   .tocMobile {
     display: none;
   }

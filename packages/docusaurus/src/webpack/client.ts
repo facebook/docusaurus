@@ -5,25 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
-import {Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export default function createClientConfig(
+export default async function createClientConfig(
   props: Props,
   minify: boolean = true,
-): Configuration {
+): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
-  const config = createBaseConfig(props, false, minify);
+  const config = await createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
-    // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
+    // Useless, disabled on purpose (errors on existing sites with no
+    // browserslist config)
+    // target: 'browserslist',
     entry: path.resolve(__dirname, '../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
@@ -39,18 +41,16 @@ export default function createClientConfig(
     ],
   });
 
-  // When building include the plugin to force terminate building if errors happened in the client bundle.
+  // When building, include the plugin to force terminate building if errors
+  // happened in the client bundle.
   if (isBuilding) {
     clientConfig.plugins?.push({
       apply: (compiler) => {
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {
-            console.log(
-              chalk.red(
-                'Client bundle compiled with errors therefore further build is impossible.',
-              ),
+            logger.error(
+              'Client bundle compiled with errors therefore further build is impossible.',
             );
-
             process.exit(1);
           }
         });

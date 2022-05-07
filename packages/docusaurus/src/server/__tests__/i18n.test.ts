@@ -5,22 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  loadI18n,
-  localizePath,
-  getDefaultLocaleConfig,
-  shouldWarnAboutNodeVersion,
-} from '../i18n';
+import {jest} from '@jest/globals';
+import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
-import path from 'path';
-import {chain, identity} from 'lodash';
-import {I18nConfig} from '@docusaurus/types';
+import type {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
-  return chain(locales)
-    .keyBy(identity)
-    .mapValues(getDefaultLocaleConfig)
-    .value();
+  return Object.fromEntries(
+    locales.map((locale) => [locale, getDefaultLocaleConfig(locale)]),
+  );
 }
 
 function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
@@ -34,70 +27,79 @@ function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
 }
 
 describe('defaultLocaleConfig', () => {
-  // @ts-expect-error: wait for TS support of ES2021 feature
-  const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
-
-  test('returns correct labels', () => {
+  it('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
-      label: canComputeLabel ? 'français' : 'fr',
+      label: 'Français',
       direction: 'ltr',
+      htmlLang: 'fr',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
-      label: canComputeLabel ? 'français (France)' : 'fr-FR',
+      label: 'Français (France)',
       direction: 'ltr',
+      htmlLang: 'fr-FR',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
-      label: canComputeLabel ? 'English' : 'en',
+      label: 'English',
       direction: 'ltr',
+      htmlLang: 'en',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
-      label: canComputeLabel ? 'American English' : 'en-US',
+      label: 'American English',
       direction: 'ltr',
+      htmlLang: 'en-US',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
-      label: canComputeLabel ? '中文' : 'zh',
+      label: '中文',
       direction: 'ltr',
+      htmlLang: 'zh',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
-      label: canComputeLabel ? '中文（中国）' : 'zh-CN',
+      label: '中文（中国）',
       direction: 'ltr',
+      htmlLang: 'zh-CN',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
-      label: canComputeLabel ? 'American English' : 'en-US',
+      label: 'American English',
       direction: 'ltr',
+      htmlLang: 'en-US',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
-      label: canComputeLabel ? 'فارسی' : 'fa',
+      // cSpell:ignore فارسی
+      label: 'فارسی',
       direction: 'rtl',
+      htmlLang: 'fa',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
-      label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
+      // cSpell:ignore ایران فارسیا
+      label: 'فارسی (ایران)',
       direction: 'rtl',
+      htmlLang: 'fa-IR',
+      calendar: 'gregory',
     });
-  });
-});
-
-describe('shouldWarnAboutNodeVersion', () => {
-  test('warns for old NodeJS version and [en,fr]', () => {
-    expect(shouldWarnAboutNodeVersion(12, ['en', 'fr'])).toEqual(true);
-  });
-
-  test('not warn for old NodeJS version and [en]', () => {
-    expect(shouldWarnAboutNodeVersion(12, ['en'])).toEqual(false);
-  });
-
-  test('not warn for recent NodeJS version and [en,fr]', () => {
-    expect(shouldWarnAboutNodeVersion(14, ['en', 'fr'])).toEqual(false);
+    expect(getDefaultLocaleConfig('en-US-u-ca-buddhist')).toEqual({
+      label: 'American English',
+      direction: 'ltr',
+      htmlLang: 'en-US-u-ca-buddhist',
+      calendar: 'buddhist',
+    });
   });
 });
 
 describe('loadI18n', () => {
-  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
   beforeEach(() => {
     consoleSpy.mockClear();
   });
 
-  test('should load I18n for default config', async () => {
+  it('loads I18n for default config', async () => {
     await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
       defaultLocale: 'en',
       locales: ['en'],
@@ -106,7 +108,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should load I18n for multi-lang config', async () => {
+  it('loads I18n for multi-lang config', async () => {
     await expect(
       loadI18nTest({
         defaultLocale: 'fr',
@@ -121,7 +123,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should load I18n for multi-locale config with specified locale', async () => {
+  it('loads I18n for multi-locale config with specified locale', async () => {
     await expect(
       loadI18nTest(
         {
@@ -139,7 +141,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should load I18n for multi-locale config with some xcustom locale configs', async () => {
+  it('loads I18n for multi-locale config with some custom locale configs', async () => {
     await expect(
       loadI18nTest(
         {
@@ -157,14 +159,19 @@ describe('loadI18n', () => {
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
-        fr: {label: 'Français', direction: 'ltr'},
+        fr: {
+          label: 'Français',
+          direction: 'ltr',
+          htmlLang: 'fr',
+          calendar: 'gregory',
+        },
         en: getDefaultLocaleConfig('en'),
         de: getDefaultLocaleConfig('de'),
       },
     });
   });
 
-  test('should warn when trying to load undeclared locale', async () => {
+  it('warns when trying to load undeclared locale', async () => {
     await loadI18nTest(
       {
         defaultLocale: 'fr',
@@ -174,89 +181,7 @@ describe('loadI18n', () => {
       'it',
     );
     expect(consoleSpy.mock.calls[0][0]).toMatch(
-      /The locale "it" was not found in your site configuration/,
+      /The locale .*it.* was not found in your site configuration/,
     );
-  });
-});
-
-describe('localizePath', () => {
-  test('should localize url path with current locale', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'fr',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toEqual('/baseUrl/fr/');
-  });
-
-  test('should localize fs path with current locale', () => {
-    expect(
-      localizePath({
-        pathType: 'fs',
-        path: '/baseFsPath',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'fr',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toEqual(`${path.sep}baseFsPath${path.sep}fr${path.sep}`);
-  });
-
-  test('should localize path for default locale, if requested', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toEqual('/baseUrl/en/');
-  });
-
-  test('should not localize path for default locale by default', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {},
-        },
-        // options: {localizePath: true},
-      }),
-    ).toEqual('/baseUrl/');
-  });
-
-  test('should localize path for non-default locale by default', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {},
-        },
-        // options: {localizePath: true},
-      }),
-    ).toEqual('/baseUrl/');
   });
 });

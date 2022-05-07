@@ -10,10 +10,10 @@ import {
   removeSuffix,
   removeTrailingSlash,
 } from '@docusaurus/utils';
-import {RedirectMetadata} from './types';
+import type {RedirectMetadata} from './types';
 
 const ExtensionAdditionalMessage =
-  'If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option.';
+  'If the redirect extension system is not good enough for your use case, you can create redirects yourself with the "createRedirects" plugin option.';
 
 const validateExtension = (ext: string) => {
   if (!ext) {
@@ -81,19 +81,12 @@ export function createFromExtensionsRedirects(
     if (path === '' || path === '/' || alreadyEndsWithAnExtension(path)) {
       return [];
     }
-
-    // /path => /path.html
-    // /path/ => /path.html/
-    function getFrom(ext: string) {
-      if (path.endsWith('/')) {
-        return addTrailingSlash(`${removeTrailingSlash(path)}.${ext}`);
-      } else {
-        return `${path}.${ext}`;
-      }
-    }
-
     return extensions.map((ext) => ({
-      from: getFrom(ext),
+      // /path => /path.html
+      // /path/ => /path.html/
+      from: path.endsWith('/')
+        ? addTrailingSlash(`${removeTrailingSlash(path)}.${ext}`)
+        : `${path}.${ext}`,
       to: path,
     }));
   };

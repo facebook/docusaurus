@@ -5,48 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Vibrant from 'node-vibrant';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import sharp from 'sharp';
-import {toPalette, toBase64} from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {version} = require('../package.json');
 
 const ERROR_EXT = `Error: Input file is missing or uses unsupported image format, lqip v${version}`;
 
-const SUPPORTED_MIMES: Record<string, string> = {
+const SUPPORTED_MIMES: {[ext: string]: string} = {
   jpeg: 'image/jpeg',
   jpg: 'image/jpeg',
   png: 'image/png',
 };
 
-async function base64(file: string): Promise<string> {
-  let extension = path.extname(file) || '';
-  extension = extension.split('.').pop()!;
+/**
+ * It returns a Base64 image string with required formatting to work on the web
+ * (<img src=".." /> or in CSS url('..'))
+ */
+const toBase64 = (extMimeType: string, data: Buffer): string =>
+  `data:${extMimeType};base64,${data.toString('base64')}`;
 
-  if (!SUPPORTED_MIMES[extension]) {
+export async function base64(file: string): Promise<string> {
+  let extension = path.extname(file);
+  extension = extension.split('.').pop()!;
+  const mime = SUPPORTED_MIMES[extension];
+
+  if (!mime) {
     throw new Error(ERROR_EXT);
   }
 
-  const data = await sharp(file).resize(10).toBuffer();
-  if (data) {
-    return toBase64(SUPPORTED_MIMES[extension], data);
+  try {
+    const data = await sharp(file).resize(10).toBuffer();
+    return toBase64(mime, data);
+  } catch (err) {
+    logger.error`Generation of base64 failed for image path=${file}.`;
+    throw err;
   }
-  throw new Error('Unhandled promise rejection in base64 promise');
 }
-
-async function palette(file: string): Promise<string[]> {
-  const vibrant = new Vibrant(file, {});
-  const pal = await vibrant.getPalette();
-  if (pal) {
-    return toPalette(pal);
-  }
-  throw new Error(`Unhandled promise rejection in colorPalette ${pal}`);
-}
-
-process.on('unhandledRejection', (up) => {
-  throw up;
-});
-
-export {base64, palette};

@@ -7,29 +7,26 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
-import {
-  LoadContext,
-  Props,
-  OptionValidationContext,
-  ValidationResult,
-  Plugin,
-} from '@docusaurus/types';
-import {PluginOptionSchema} from './pluginOptionSchema';
+import type {PluginOptions, Options} from './options';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 
 export default function pluginSitemap(
-  _context: LoadContext,
+  context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
   return {
     name: 'docusaurus-plugin-sitemap',
 
-    async postBuild({siteConfig, routesPaths, outDir}: Props) {
+    async postBuild({siteConfig, routesPaths, outDir, head}) {
+      if (siteConfig.noIndex) {
+        return;
+      }
       // Generate sitemap.
       const generatedSitemap = await createSitemap(
         siteConfig,
         routesPaths,
+        head,
         options,
       );
 
@@ -44,10 +41,5 @@ export default function pluginSitemap(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';
+export type {PluginOptions, Options};

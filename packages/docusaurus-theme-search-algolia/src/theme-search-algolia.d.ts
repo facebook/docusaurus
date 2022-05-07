@@ -6,44 +6,30 @@
  */
 
 declare module '@docusaurus/theme-search-algolia' {
-  export type Options = never;
+  import type {DeepPartial} from 'utility-types';
+
+  export type ThemeConfig = {
+    algolia: {
+      contextualSearch: boolean;
+      externalUrlRegex?: string;
+      appId: string;
+      apiKey: string;
+      indexName: string;
+      searchParameters: {[key: string]: unknown};
+      searchPagePath: string | false | null;
+    };
+  };
+  export type UserThemeConfig = DeepPartial<ThemeConfig>;
 }
 
-declare module '@theme/hooks/useSearchQuery' {
-  export interface SearchQuery {
-    searchQuery: string;
-
-    setSearchQuery(newSearchQuery: string): void;
-
-    generateSearchPageLink(targetSearchQuery: string): string;
-  }
-
-  export default function useSearchQuery(): SearchQuery;
-}
-
-declare module '@theme/hooks/useAlgoliaContextualFacetFilters' {
-  export type useAlgoliaContextualFacetFiltersReturns = [string, string[]];
-
-  export default function useAlgoliaContextualFacetFilters(): useAlgoliaContextualFacetFiltersReturns;
+declare module '@docusaurus/theme-search-algolia/client' {
+  export function useAlgoliaContextualFacetFilters(): [string, string[]];
 }
 
 declare module '@theme/SearchPage' {
-  const SearchPage: () => JSX.Element;
-  export default SearchPage;
-}
-
-declare module '@theme/SearchMetadata' {
-  export type SearchMetadataProps = {
-    readonly locale?: string;
-    readonly version?: string;
-    readonly tag?: string;
-  };
-
-  const SearchMetadata: (props: SearchMetadataProps) => JSX.Element;
-  export default SearchMetadata;
+  export default function SearchPage(): JSX.Element;
 }
 
 declare module '@theme/SearchBar' {
-  const SearchBar: () => JSX.Element;
-  export default SearchBar;
+  export default function SearchBar(): JSX.Element;
 }

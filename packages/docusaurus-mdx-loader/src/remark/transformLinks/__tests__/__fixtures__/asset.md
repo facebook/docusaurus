@@ -4,9 +4,13 @@
 
 [asset](./asset.pdf)
 
+[asset with URL encoded chars](./asset%20%282%29.pdf)
+
 [asset with hash](./asset.pdf#page=2)
 
 [asset](asset.pdf 'Title')
+
+[page](noUrl.md)
 
 ## Heading
 
@@ -33,3 +37,7 @@
 [![Clickable Docusaurus logo](./static/staticAssetImage.png)](/staticAssetImage.png)
 
 [<span style={{color: "red"}}>Stylized link to asset file</span>](./asset.pdf)
+
+[json](./data.json)
+
+[static json](/static-json.json)

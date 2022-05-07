@@ -5,28 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadContext, Plugin, Props} from '@docusaurus/types';
-import {UserPluginOptions, PluginContext, RedirectMetadata} from './types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginContext, RedirectMetadata} from './types';
+import type {PluginOptions, Options} from './options';
 
-import normalizePluginOptions from './normalizePluginOptions';
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
   toRedirectFilesMetadata,
-  RedirectFileMetadata,
+  type RedirectFileMetadata,
 } from './writeRedirectFiles';
 import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
 
 export default function pluginClientRedirectsPages(
   context: LoadContext,
-  opts: UserPluginOptions,
+  options: PluginOptions,
 ): Plugin<unknown> {
   const {trailingSlash} = context.siteConfig;
 
-  const options = normalizePluginOptions(opts);
-
   return {
     name: 'docusaurus-plugin-client-redirects',
-    async postBuild(props: Props) {
+    async postBuild(props) {
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map(
           (path) => `${addLeadingSlash(removePrefix(path, props.baseUrl))}`,
@@ -52,3 +50,6 @@ export default function pluginClientRedirectsPages(
     },
   };
 }
+
+export {validateOptions} from './options';
+export type {PluginOptions, Options};

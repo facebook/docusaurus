@@ -7,63 +7,42 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {HeadingType, Props} from '@theme/Heading';
+import type {Props} from '@theme/Heading';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
-import './styles.css';
 import styles from './styles.module.css';
 
-type HeadingComponent = (props: Props) => JSX.Element;
+export default function Heading({as: As, id, ...props}: Props): JSX.Element {
+  const {
+    navbar: {hideOnScroll},
+  } = useThemeConfig();
+  // H1 headings do not need an id because they don't appear in the TOC.
+  if (As === 'h1' || !id) {
+    return <As {...props} id={undefined} />;
+  }
 
-// eslint-disable-next-line react/function-component-definition
-export const MainHeading: HeadingComponent = ({...props}) => (
-  <header>
-    <h1
+  return (
+    <As
       {...props}
-      id={undefined} // h1 headings do not need an id because they don't appear in the TOC
-    >
+      className={clsx(
+        'anchor',
+        hideOnScroll
+          ? styles.anchorWithHideOnScrollNavbar
+          : styles.anchorWithStickyNavbar,
+      )}
+      id={id}>
       {props.children}
-    </h1>
-  </header>
-);
-
-const createAnchorHeading =
-  (Tag: HeadingType) =>
-  ({id, ...props}: Props) => {
-    const {
-      navbar: {hideOnScroll},
-    } = useThemeConfig();
-
-    if (!id) {
-      return <Tag {...props} />;
-    }
-
-    return (
-      <Tag
-        {...props}
-        className={clsx('anchor', {
-          [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
-          [styles.anchorWithStickyNavbar]: !hideOnScroll,
-        })}
-        id={id}>
-        {props.children}
-        <a
-          aria-hidden="true"
-          className="hash-link"
-          href={`#${id}`}
-          title={translate({
-            id: 'theme.common.headingLinkTitle',
-            message: 'Direct link to heading',
-            description: 'Title for link to heading',
-          })}>
-          &#8203;
-        </a>
-      </Tag>
-    );
-  };
-
-const Heading = (headingType: HeadingType): ((props: Props) => JSX.Element) =>
-  headingType === 'h1' ? MainHeading : createAnchorHeading(headingType);
-
-export default Heading;
+      <a
+        className="hash-link"
+        href={`#${id}`}
+        title={translate({
+          id: 'theme.common.headingLinkTitle',
+          message: 'Direct link to heading',
+          description: 'Title for link to heading',
+        })}>
+        &#8203;
+      </a>
+    </As>
+  );
+}

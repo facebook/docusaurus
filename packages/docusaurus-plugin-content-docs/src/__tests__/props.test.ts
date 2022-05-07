@@ -14,9 +14,9 @@ describe('toTagDocListProp', () => {
 
   const allTagsPath = '/all/tags';
 
-  test('should work', () => {
+  it('works', () => {
     const tag: Tag = {
-      name: 'tag1',
+      label: 'tag1',
       permalink: '/tag1',
       docIds: ['id1', 'id3'],
     };
@@ -54,9 +54,10 @@ describe('toTagDocListProp', () => {
 
     expect(result).toEqual({
       allTagsPath,
-      name: tag.name,
+      count: 2,
+      label: tag.label,
       permalink: tag.permalink,
-      docs: [doc3, doc1], // docs sorted by title, ignore "id5" absence
+      items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence
     });
   });
 });

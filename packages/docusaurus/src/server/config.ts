@@ -5,16 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import {DocusaurusConfig} from '@docusaurus/types';
+import {DEFAULT_CONFIG_FILE_NAME} from '@docusaurus/utils';
+import type {LoadContext} from '@docusaurus/types';
 import {validateConfig} from './configValidation';
 
-export default function loadConfig(configPath: string): DocusaurusConfig {
-  if (!fs.existsSync(configPath)) {
-    throw new Error(`Config file at "${configPath}" not found.`);
+export async function loadSiteConfig({
+  siteDir,
+  customConfigFilePath,
+}: {
+  siteDir: string;
+  customConfigFilePath?: string;
+}): Promise<Pick<LoadContext, 'siteConfig' | 'siteConfigPath'>> {
+  const siteConfigPath = path.resolve(
+    siteDir,
+    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME,
+  );
+
+  if (!(await fs.pathExists(siteConfigPath))) {
+    throw new Error(`Config file at "${siteConfigPath}" not found.`);
   }
 
-  const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
-  return validateConfig(loadedConfig);
+  const importedConfig = importFresh(siteConfigPath);
+
+  const loadedConfig =
+    typeof importedConfig === 'function'
+      ? await importedConfig()
+      : await importedConfig;
+
+  const siteConfig = validateConfig(loadedConfig);
+  return {siteConfig, siteConfigPath};
 }

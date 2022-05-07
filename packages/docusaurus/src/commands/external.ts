@@ -5,26 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Command} from 'commander';
-import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins from '../server/plugins/init';
+import type {CommanderStatic} from 'commander';
+import {loadContext} from '../server';
+import {initPlugins} from '../server/plugins/init';
 
-export default async function externalCommand(
-  cli: Command,
+export async function externalCommand(
+  cli: CommanderStatic,
   siteDir: string,
 ): Promise<void> {
-  const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
-  const plugins = initPlugins({pluginConfigs, context});
+  const context = await loadContext({siteDir});
+  const plugins = await initPlugins(context);
 
   // Plugin Lifecycle - extendCli.
   plugins.forEach((plugin) => {
-    const {extendCli} = plugin;
-
-    if (!extendCli) {
-      return;
-    }
-
-    extendCli(cli);
+    plugin.extendCli?.(cli);
   });
 }

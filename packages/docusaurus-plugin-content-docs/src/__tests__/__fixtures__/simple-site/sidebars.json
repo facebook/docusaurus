@@ -9,6 +9,9 @@
       {
         "type": "category",
         "label": "Slugs",
+        "link": {
+          "type": "generated-index"
+        },
         "items": [
           "rootAbsoluteSlug",
           "rootRelativeSlug",
@@ -22,7 +25,7 @@
       },
       {
         "type": "link",
-        "label": "Github",
+        "label": "GitHub",
         "href": "https://github.com"
       },
       {

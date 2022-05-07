@@ -14,6 +14,7 @@ import remarkStringify from 'remark-stringify';
 import htmlTags from 'html-tags';
 import toText from 'hast-util-to-string';
 import type {Code, InlineCode} from 'mdast';
+import type {Element, Text} from 'hast';
 
 const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
   acc[tag] = true;
@@ -34,12 +35,14 @@ export default function sanitizeMD(code: string): string {
     .stringify(markdownTree);
 
   const htmlTree = unified().use(parse).parse(markdownString);
-  visit(htmlTree, 'element', (node: any) => {
+
+  visit(htmlTree, 'element', (node: Element) => {
     if (!tags[node.tagName as string]) {
-      node.type = 'text';
-      node.value = node.tagName + toText(node);
-      delete node.children;
-      delete node.tagName;
+      (node as Element | Text).type = 'text';
+      (node as Element & Partial<Omit<Text, 'type'>>).value =
+        node.tagName + toText(node);
+      delete (node as Partial<Element>).children;
+      delete (node as Partial<Element>).tagName;
     }
   });
   return toJsx(htmlTree)

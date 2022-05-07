@@ -5,84 +5,68 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
+  generate,
+  escapePath,
+  localizePath,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-} from '../constants';
-import loadClientModules from './client-modules';
-import loadConfig from './config';
+} from '@docusaurus/utils';
+import _ from 'lodash';
+import path from 'path';
+import {loadSiteConfig} from './config';
+import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
-import loadPresets from './presets';
-import loadRoutes from './routes';
-import {
-  DocusaurusConfig,
-  DocusaurusSiteMetadata,
-  HtmlTagObject,
-  LoadContext,
-  LoadedPlugin,
-  PluginConfig,
-  Props,
-} from '@docusaurus/types';
-import {loadHtmlTags} from './html-tags';
-import {getPackageJsonVersion} from './versions';
-import {handleDuplicateRoutes} from './duplicateRoutes';
-import {loadI18n, localizePath} from './i18n';
+import {loadRoutes} from './routes';
+import {loadHtmlTags} from './htmlTags';
+import {loadSiteMetadata} from './siteMetadata';
+import {loadI18n} from './i18n';
 import {
   readCodeTranslationFileContent,
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
-import {mapValues} from 'lodash';
-import {RuleSetRule} from 'webpack';
-import admonitions from 'remark-admonitions';
+import type {DocusaurusConfig, LoadContext, Props} from '@docusaurus/types';
 
 export type LoadContextOptions = {
-  customOutDir?: string;
-  customConfigFilePath?: string;
+  /** Usually the CWD; can be overridden with command argument. */
+  siteDir: string;
+  /** Custom output directory. Can be customized with `--out-dir` option */
+  outDir?: string;
+  /** Custom config path. Can be customized with `--config` option */
+  config?: string;
+  /** Default is `i18n.defaultLocale` */
   locale?: string;
-  localizePath?: boolean; // undefined = only non-default locales paths are localized
+  /**
+   * `true` means the paths will have the locale prepended; `false` means they
+   * won't (useful for `yarn build -l zh-Hans` where the output should be
+   * emitted into `build/` instead of `build/zh-Hans/`); `undefined` is like the
+   * "smart" option where only non-default locale paths are localized
+   */
+  localizePath?: boolean;
 };
 
-export async function loadSiteConfig({
-  siteDir,
-  customConfigFilePath,
-}: {
-  siteDir: string;
-  customConfigFilePath?: string;
-}): Promise<{siteConfig: DocusaurusConfig; siteConfigPath: string}> {
-  const siteConfigPathUnresolved =
-    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
-
-  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
-    ? siteConfigPathUnresolved
-    : path.resolve(siteDir, siteConfigPathUnresolved);
-
-  const siteConfig = await loadConfig(siteConfigPath);
-  return {siteConfig, siteConfigPath};
-}
-
+/**
+ * Loading context is the very first step in site building. Its options are
+ * directly acquired from CLI options. It mainly loads `siteConfig` and the i18n
+ * context (which includes code translations). The `LoadContext` will be passed
+ * to plugin constructors.
+ */
 export async function loadContext(
-  siteDir: string,
-  options: LoadContextOptions = {},
+  options: LoadContextOptions,
 ): Promise<LoadContext> {
-  const {customOutDir, locale, customConfigFilePath} = options;
-  const generatedFilesDir = path.isAbsolute(GENERATED_FILES_DIR_NAME)
-    ? GENERATED_FILES_DIR_NAME
-    : path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
+  const {
+    siteDir,
+    outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
+    locale,
+    config: customConfigFilePath,
+  } = options;
+  const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
   const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
     siteDir,
     customConfigFilePath,
   });
-  const {ssrTemplate} = initialSiteConfig;
-
-  const baseOutDir = customOutDir
-    ? path.resolve(customOutDir)
-    : path.resolve(siteDir, DEFAULT_BUILD_DIR_NAME);
 
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
@@ -93,7 +77,7 @@ export async function loadContext(
     pathType: 'url',
   });
   const outDir = localizePath({
-    path: baseOutDir,
+    path: path.resolve(siteDir, baseOutDir),
     i18n,
     options,
     pathType: 'fs',
@@ -108,7 +92,7 @@ export async function loadContext(
     })) ?? {};
 
   // We only need key->message for code translations
-  const codeTranslations = mapValues(
+  const codeTranslations = _.mapValues(
     codeTranslationFileContent,
     (value) => value.message,
   );
@@ -119,139 +103,21 @@ export async function loadContext(
     siteConfig,
     siteConfigPath,
     outDir,
-    baseUrl, // TODO to remove: useless, there's already siteConfig.baseUrl! (and yes, it's the same value, cf code above)
+    baseUrl,
     i18n,
-    ssrTemplate,
     codeTranslations,
   };
 }
 
-export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
-  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-  const {siteConfig} = context;
-  return [
-    ...presetPlugins,
-    ...presetThemes,
-    // Site config should be the highest priority.
-    ...(siteConfig.plugins || []),
-    ...(siteConfig.themes || []),
-  ];
-}
-
-// Make a fake plugin to:
-// - Resolve aliased theme components
-// - Inject scripts/stylesheets
-function createBootstrapPlugin({
-  siteConfig,
-}: {
-  siteConfig: DocusaurusConfig;
-}): LoadedPlugin {
-  const {
-    stylesheets = [],
-    scripts = [],
-    clientModules: siteConfigClientModules = [],
-  } = siteConfig;
-  return {
-    name: 'docusaurus-bootstrap-plugin',
-    content: null,
-    options: {},
-    version: {type: 'synthetic'},
-    getClientModules() {
-      return siteConfigClientModules;
-    },
-    injectHtmlTags: () => {
-      const stylesheetsTags = stylesheets.map((source) =>
-        typeof source === 'string'
-          ? `<link rel="stylesheet" href="${source}">`
-          : ({
-              tagName: 'link',
-              attributes: {
-                rel: 'stylesheet',
-                ...source,
-              },
-            } as HtmlTagObject),
-      );
-      const scriptsTags = scripts.map((source) =>
-        typeof source === 'string'
-          ? `<script src="${source}"></script>`
-          : ({
-              tagName: 'script',
-              attributes: {
-                ...source,
-              },
-            } as HtmlTagObject),
-      );
-      return {
-        headTags: [...stylesheetsTags, ...scriptsTags],
-      };
-    },
-  };
-}
-
-// Configurer Webpack fallback mdx loader for md/mdx files out of content-plugin folders
-// Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
-// This allows to do things such as importing repo/README.md as a partial from another doc
-// Not ideal solution though, but good enough for now
-function createMDXFallbackPlugin({
-  siteDir,
-  siteConfig,
-}: {
-  siteDir: string;
-  siteConfig: DocusaurusConfig;
-}): LoadedPlugin {
-  return {
-    name: 'docusaurus-mdx-fallback-plugin',
-    content: null,
-    options: {},
-    version: {type: 'synthetic'},
-    configureWebpack(config, isServer, {getJSLoader}) {
-      // We need the mdx fallback loader to exclude files that were already processed by content plugins mdx loaders
-      // This works, but a bit hacky...
-      // Not sure there's a way to handle that differently in webpack :s
-      function getMDXFallbackExcludedPaths(): string[] {
-        const rules: RuleSetRule[] = config?.module?.rules as RuleSetRule[];
-        return rules.flatMap((rule) => {
-          const isMDXRule =
-            rule.test instanceof RegExp && rule.test.test('x.mdx');
-          return isMDXRule ? (rule.include as string[]) : [];
-        });
-      }
-
-      return {
-        module: {
-          rules: [
-            {
-              test: /(\.mdx?)$/,
-              exclude: getMDXFallbackExcludedPaths(),
-              use: [
-                getJSLoader({isServer}),
-                {
-                  loader: require.resolve('@docusaurus/mdx-loader'),
-                  options: {
-                    staticDirs: siteConfig.staticDirectories.map((dir) =>
-                      path.resolve(siteDir, dir),
-                    ),
-                    siteDir,
-                    isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
-                    isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
-                    remarkPlugins: [admonitions],
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      };
-    },
-  };
-}
-
-export async function load(
-  siteDir: string,
-  options: LoadContextOptions = {},
-): Promise<Props> {
-  // Context.
-  const context: LoadContext = await loadContext(siteDir, options);
+/**
+ * This is the crux of the Docusaurus server-side. It reads everything it needs—
+ * code translations, config file, plugin modules... Plugins then use their
+ * lifecycles to generate content and other data. It is side-effect-ful because
+ * it generates temp files in the `.docusaurus` folder for the bundler.
+ */
+export async function load(options: LoadContextOptions): Promise<Props> {
+  const {siteDir} = options;
+  const context = await loadContext(options);
   const {
     generatedFilesDir,
     siteConfig,
@@ -259,64 +125,72 @@ export async function load(
     outDir,
     baseUrl,
     i18n,
-    ssrTemplate,
-    codeTranslations,
+    codeTranslations: siteCodeTranslations,
   } = context;
-  // Plugins.
-  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
-  const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
-    await loadPlugins({pluginConfigs, context});
+  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
+  const clientModules = loadClientModules(plugins);
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
+  const {registry, routesChunkNames, routesConfig, routesPaths} = loadRoutes(
+    pluginsRouteConfigs,
+    baseUrl,
+    siteConfig.onDuplicateRoutes,
+  );
+  const codeTranslations = {
+    ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
+    ...siteCodeTranslations,
+  };
+  const siteMetadata = await loadSiteMetadata({plugins, siteDir});
 
-  // Side-effect to replace the untranslated themeConfig by the translated one
-  context.siteConfig.themeConfig = themeConfigTranslated;
+  // === Side-effects part ===
 
-  handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
+  const genWarning = generate(
+    generatedFilesDir,
+    'DONT-EDIT-THIS-FOLDER',
+    `This folder stores temp files that Docusaurus' client bundler accesses.
 
-  // Site config must be generated after plugins
-  // We want the generated config to have been normalized by the plugins!
+DO NOT hand-modify files in this folder because they will be overwritten in the
+next build. You can clear all build artifacts (including this folder) with the
+\`docusaurus clear\` command.
+`,
+  );
+
   const genSiteConfig = generate(
     generatedFilesDir,
     DEFAULT_CONFIG_FILE_NAME,
-    `export default ${JSON.stringify(siteConfig, null, 2)};`,
+    `/*
+ * AUTOGENERATED - DON'T EDIT
+ * Your edits in this file will be overwritten in the next build!
+ * Modify the docusaurus.config.js file at your site's root instead.
+ */
+export default ${JSON.stringify(siteConfig, null, 2)};
+`,
   );
 
-  plugins.push(createBootstrapPlugin({siteConfig}));
-  plugins.push(createMDXFallbackPlugin({siteDir, siteConfig}));
-
-  // Load client modules.
-  const clientModules = loadClientModules(plugins);
   const genClientModules = generate(
     generatedFilesDir,
     'client-modules.js',
-    `export default [\n${clientModules
-      // import() is async so we use require() because client modules can have
-      // CSS and the order matters for loading CSS.
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map((module) => `  require(${JSON.stringify(module)}),`)
-      .join('\n')}\n];\n`,
+    `export default [
+${clientModules
+  // Use `require()` because `import()` is async but client modules can have CSS
+  // and the order matters for loading CSS.
+  .map((clientModule) => `  require('${escapePath(clientModule)}'),`)
+  .join('\n')}
+];
+`,
   );
-
-  // Load extra head & body html tags.
-  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
-
-  // Routing.
-  const {registry, routesChunkNames, routesConfig, routesPaths} =
-    await loadRoutes(pluginsRouteConfigs, baseUrl);
 
   const genRegistry = generate(
     generatedFilesDir,
     'registry.js',
     `export default {
-${Object.keys(registry)
-  .sort()
+${Object.entries(registry)
+  .sort((a, b) => a[0].localeCompare(b[0]))
   .map(
-    (key) =>
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
-        registry[key].modulePath,
-      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
+    ([chunkName, modulePath]) =>
+      `  '${chunkName}': [() => import(/* webpackChunkName: '${chunkName}' */ '${modulePath}'), '${modulePath}', require.resolveWeak('${modulePath}')],`,
   )
-  .join('\n')}};\n`,
+  .join('\n')}};
+`,
   );
 
   const genRoutesChunkNames = generate(
@@ -339,31 +213,12 @@ ${Object.keys(registry)
     JSON.stringify(i18n, null, 2),
   );
 
-  const codeTranslationsWithFallbacks: Record<string, string> = {
-    ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
-    ...codeTranslations,
-  };
-
   const genCodeTranslations = generate(
     generatedFilesDir,
     'codeTranslations.json',
-    JSON.stringify(codeTranslationsWithFallbacks, null, 2),
+    JSON.stringify(codeTranslations, null, 2),
   );
 
-  // Version metadata.
-  const siteMetadata: DocusaurusSiteMetadata = {
-    docusaurusVersion: getPackageJsonVersion(
-      join(__dirname, '../../package.json'),
-    )!,
-    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
-    pluginVersions: {},
-  };
-  plugins
-    .filter(({version: {type}}) => type !== 'synthetic')
-    .forEach(({name, version}) => {
-      siteMetadata.pluginVersions[name] = version;
-    });
-  checkDocusaurusPackagesVersion(siteMetadata);
   const genSiteMetadata = generate(
     generatedFilesDir,
     'site-metadata.json',
@@ -371,6 +226,7 @@ ${Object.keys(registry)
   );
 
   await Promise.all([
+    genWarning,
     genClientModules,
     genSiteConfig,
     genRegistry,
@@ -382,7 +238,7 @@ ${Object.keys(registry)
     genCodeTranslations,
   ]);
 
-  const props: Props = {
+  return {
     siteConfig,
     siteConfigPath,
     siteMetadata,
@@ -397,33 +253,6 @@ ${Object.keys(registry)
     headTags,
     preBodyTags,
     postBodyTags,
-    ssrTemplate: ssrTemplate || ssrDefaultTemplate,
     codeTranslations,
   };
-
-  return props;
-}
-
-// We want all @docusaurus/* packages  to have the exact same version!
-// See https://github.com/facebook/docusaurus/issues/3371
-// See https://github.com/facebook/docusaurus/pull/3386
-function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
-  const {docusaurusVersion} = siteMetadata;
-  Object.entries(siteMetadata.pluginVersions).forEach(
-    ([plugin, versionInfo]) => {
-      if (
-        versionInfo.type === 'package' &&
-        versionInfo.name?.startsWith('@docusaurus/') &&
-        versionInfo.version !== docusaurusVersion
-      ) {
-        // should we throw instead?
-        // It still could work with different versions
-        console.warn(
-          chalk.red(
-            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
-          ),
-        );
-      }
-    },
-  );
 }

@@ -1,0 +1,33 @@
+name: Showcase Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - website/src/data/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate-config:
+    name: Validate Showcase Config
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+      - name: Set up Node
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Test
+        run: yarn test website/src/data/__tests__/user.test.ts

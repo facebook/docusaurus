@@ -5,28 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import Tooltip from '../ShowcaseTooltip';
-import {Tags, TagList, TagType, User, Tag} from '@site/src/data/users';
+import {
+  Tags,
+  TagList,
+  type TagType,
+  type User,
+  type Tag,
+} from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
 
-interface Props extends Tag {
-  id: string;
-}
-
-const TagComp = React.forwardRef<HTMLLIElement, Props>(
-  ({id, label, color, description}, ref) => (
-    <li
-      ref={ref}
-      aria-describedby={id}
-      className={styles.tag}
-      title={description}>
+const TagComp = React.forwardRef<HTMLLIElement, Tag>(
+  ({label, color, description}, ref) => (
+    <li ref={ref} className={styles.tag} title={description}>
       <span className={styles.textLabel}>{label.toLowerCase()}</span>
       <span className={styles.colorLabel} style={{backgroundColor: color}} />
     </li>
@@ -52,7 +51,7 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
             text={tagObject.description}
             anchorEl="#__docusaurus"
             id={id}>
-            <TagComp id={id} key={index} {...tagObject} />
+            <TagComp key={index} {...tagObject} />
           </Tooltip>
         );
       })}
@@ -60,42 +59,40 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   );
 }
 
-const ShowcaseCard = memo(({user}: {user: User}) => (
-  <li key={user.title} className="card shadow--md">
-    <div className={clsx('card__image', styles.showcaseCardImage)}>
-      <Image img={user.preview} alt={user.title} />
-    </div>
-    <div className="card__body">
-      <div className={clsx(styles.showcaseCardHeader)}>
-        <h4 className={styles.showcaseCardTitle}>
-          <Link
-            href={user.website}
-            tabIndex={0}
-            className={styles.showcaseCardLink}>
-            {user.title}
-          </Link>
-        </h4>
-        {user.tags.includes('favorite') && (
-          <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
-        )}
-        {user.source && (
-          <Link
-            href={user.source}
-            tabIndex={0}
-            className={clsx(
-              'button button--secondary button--sm',
-              styles.showcaseCardSrcBtn,
-            )}>
-            source
-          </Link>
-        )}
+function ShowcaseCard({user}: {user: User}) {
+  return (
+    <li key={user.title} className="card shadow--md">
+      <div className={clsx('card__image', styles.showcaseCardImage)}>
+        <Image img={user.preview} alt={user.title} />
       </div>
-      <p className={styles.showcaseCardBody}>{user.description}</p>
-    </div>
-    <ul className={clsx('card__footer', styles.cardFooter)}>
-      <ShowcaseCardTag tags={user.tags} />
-    </ul>
-  </li>
-));
+      <div className="card__body">
+        <div className={clsx(styles.showcaseCardHeader)}>
+          <h4 className={styles.showcaseCardTitle}>
+            <Link href={user.website} className={styles.showcaseCardLink}>
+              {user.title}
+            </Link>
+          </h4>
+          {user.tags.includes('favorite') && (
+            <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
+          )}
+          {user.source && (
+            <Link
+              href={user.source}
+              className={clsx(
+                'button button--secondary button--sm',
+                styles.showcaseCardSrcBtn,
+              )}>
+              <Translate id="showcase.card.sourceLink">source</Translate>
+            </Link>
+          )}
+        </div>
+        <p className={styles.showcaseCardBody}>{user.description}</p>
+      </div>
+      <ul className={clsx('card__footer', styles.cardFooter)}>
+        <ShowcaseCardTag tags={user.tags} />
+      </ul>
+    </li>
+  );
+}
 
-export default ShowcaseCard;
+export default React.memo(ShowcaseCard);

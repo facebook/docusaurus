@@ -18,10 +18,10 @@ function parseSwParams() {
   return params;
 }
 
-// doc advise against dynamic imports in SW
+// Doc advises against dynamic imports in SW
 // https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
 // https://twitter.com/sebastienlorber/status/1280155204575518720
-// but I think it's working fine as it's inlined by webpack, need to double check?
+// but looks it's working fine as it's inlined by webpack, need to double check
 async function runSWCustomCode(params) {
   if (process.env.PWA_SW_CUSTOM) {
     const customSW = await import(process.env.PWA_SW_CUSTOM);
@@ -70,9 +70,11 @@ function getPossibleURLs(url) {
 (async () => {
   const params = parseSwParams();
 
+  // eslint-disable-next-line no-underscore-dangle
   const precacheManifest = self.__WB_MANIFEST;
   const controller = new PrecacheController({
-    fallbackToNetwork: true, // safer to turn this true?
+    // Safer to turn this true?
+    fallbackToNetwork: true,
   });
 
   if (params.offlineMode) {
@@ -136,7 +138,7 @@ function getPossibleURLs(url) {
       });
     }
 
-    const type = event.data && event.data.type;
+    const type = event.data?.type;
 
     if (type === 'SKIP_WAITING') {
       self.skipWaiting();

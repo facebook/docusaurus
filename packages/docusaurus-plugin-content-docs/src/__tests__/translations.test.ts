@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadedContent, DocMetadata, LoadedVersion} from '../types';
+import type {LoadedContent, LoadedVersion} from '../types';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {
   getLoadedContentTranslationFiles,
   translateLoadedContent,
 } from '../translations';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 import {updateTranslationFileMessages} from '@docusaurus/utils';
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
     editUrl: 'any',
-    isDocsHomePage: false,
     lastUpdatedAt: 0,
     lastUpdatedBy: 'any',
     next: undefined,
@@ -37,8 +37,8 @@ function createSampleVersion(
   version: Pick<LoadedVersion, 'versionName'>,
 ): LoadedVersion {
   return {
-    versionLabel: `${version.versionName} label`,
-    versionPath: '/docs/',
+    label: `${version.versionName} label`,
+    path: '/docs/',
     mainDocId: '',
     routePriority: undefined,
     sidebarFilePath: 'any',
@@ -46,21 +46,11 @@ function createSampleVersion(
     contentPath: 'any',
     contentPathLocalized: 'any',
     docs: [
-      createSampleDoc({
-        id: 'doc1',
-      }),
-      createSampleDoc({
-        id: 'doc2',
-      }),
-      createSampleDoc({
-        id: 'doc3',
-      }),
-      createSampleDoc({
-        id: 'doc4',
-      }),
-      createSampleDoc({
-        id: 'doc5',
-      }),
+      createSampleDoc({id: 'doc1'}),
+      createSampleDoc({id: 'doc2'}),
+      createSampleDoc({id: 'doc3'}),
+      createSampleDoc({id: 'doc4'}),
+      createSampleDoc({id: 'doc5'}),
     ],
     sidebars: {
       docs: [
@@ -68,6 +58,13 @@ function createSampleVersion(
           type: 'category',
           label: 'Getting started',
           collapsed: false,
+          link: {
+            type: 'generated-index',
+            slug: '/category/getting-started-index-slug',
+            permalink: '/docs/category/getting-started-index-slug',
+            title: 'Getting started index title',
+            description: 'Getting started index description',
+          },
           items: [
             {
               type: 'doc',
@@ -136,20 +133,20 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getLoadedContentTranslationFiles', () => {
-  test('should return translation files matching snapshot', async () => {
+  it('returns translation files', async () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });
 
 describe('translateLoadedContent', () => {
-  test('should not translate anything if translation files are untranslated', () => {
+  it('does not translate anything if translation files are untranslated', () => {
     const translationFiles = getSampleTranslationFiles();
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),
     ).toEqual(SampleLoadedContent);
   });
 
-  test('should return translated loaded content matching snapshot', () => {
+  it('returns translated loaded content', () => {
     const translationFiles = getSampleTranslationFilesTranslated();
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),

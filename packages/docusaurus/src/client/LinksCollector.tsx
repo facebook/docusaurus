@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useContext, createContext} from 'react';
+import React, {type ReactNode, useContext} from 'react';
 
 type LinksCollector = {
   collectLink: (link: string) => void;
@@ -26,16 +26,15 @@ export const createStatefulLinksCollector = (): StatefulLinksCollector => {
   };
 };
 
-const Context = createContext<LinksCollector>({
+const Context = React.createContext<LinksCollector>({
   collectLink: () => {
-    // noop by default for client
-    // we only use the broken links checker server-side
+    // No-op for client. We only use the broken links checker server-side.
   },
 });
 
 export const useLinksCollector = (): LinksCollector => useContext(Context);
 
-export function ProvideLinksCollector({
+export function LinksCollectorProvider({
   children,
   linksCollector,
 }: {

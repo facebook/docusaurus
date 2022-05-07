@@ -6,38 +6,37 @@
  */
 
 import React from 'react';
-import {Route, withRouter, RouteComponentProps} from 'react-router-dom';
-import {RouteConfig} from 'react-router-config';
-import nprogress from 'nprogress';
-
-import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
+import {Route} from 'react-router-dom';
+import ClientLifecyclesDispatcher, {
+  dispatchLifecycleAction,
+} from './ClientLifecyclesDispatcher';
+import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import preload from './preload';
-import normalizeLocation from './normalizeLocation';
-import type {Location} from '@docusaurus/history';
+import type {Location} from 'history';
 
-import './nprogress.css';
-
-nprogress.configure({showSpinner: false});
-
-interface Props extends RouteComponentProps {
-  readonly routes: RouteConfig[];
-  readonly delay: number;
+type Props = {
   readonly location: Location;
-}
-interface State {
+  readonly children: JSX.Element;
+};
+type State = {
   nextRouteHasLoaded: boolean;
-}
+};
 
 class PendingNavigation extends React.Component<Props, State> {
-  previousLocation: Location | null;
-  progressBarTimeout: NodeJS.Timeout | null;
+  private previousLocation: Location | null;
+  private routeUpdateCleanupCb: () => void;
 
   constructor(props: Props) {
     super(props);
 
     // previousLocation doesn't affect rendering, hence not stored in state.
     this.previousLocation = null;
-    this.progressBarTimeout = null;
+    this.routeUpdateCleanupCb = ExecutionEnvironment.canUseDOM
+      ? dispatchLifecycleAction('onRouteUpdate', {
+          previousLocation: null,
+          location: this.props.location,
+        })!
+      : () => {};
     this.state = {
       nextRouteHasLoaded: true,
     };
@@ -45,88 +44,48 @@ class PendingNavigation extends React.Component<Props, State> {
 
   // Intercept location update and still show current route until next route
   // is done loading.
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
-    const routeDidChange = nextProps.location !== this.props.location;
-    const {routes, delay} = this.props;
-
-    // If `routeDidChange` is true, means the router is trying to navigate to a new
-    // route. We will preload the new route.
-    if (routeDidChange) {
-      const nextLocation = normalizeLocation(nextProps.location);
-      this.startProgressBar(delay);
-      // Save the location first.
-      this.previousLocation = normalizeLocation(this.props.location);
-      this.setState({
-        nextRouteHasLoaded: false,
-      });
-
-      // Load data while the old screen remains.
-      preload(routes, nextLocation.pathname)
-        .then(() => {
-          clientLifecyclesDispatcher.onRouteUpdate({
-            previousLocation: this.previousLocation,
-            location: nextLocation,
-          });
-          // Route has loaded, we can reset previousLocation.
-          this.previousLocation = null;
-          this.setState(
-            {
-              nextRouteHasLoaded: true,
-            },
-            this.stopProgressBar,
-          );
-          const {hash} = nextLocation;
-          if (!hash) {
-            window.scrollTo(0, 0);
-          } else {
-            const id = decodeURIComponent(hash.substring(1));
-            const element = document.getElementById(id);
-            if (element) {
-              element.scrollIntoView();
-            }
-          }
-        })
-        .catch((e) => console.warn(e));
-      return false;
+  override shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    if (nextProps.location === this.props.location) {
+      // `nextRouteHasLoaded` is false means there's a pending route transition.
+      // Don't update until it's done.
+      return nextState.nextRouteHasLoaded;
     }
 
-    // There's a pending route transition. Don't update until it's done.
-    if (!nextState.nextRouteHasLoaded) {
-      return false;
-    }
+    // props.location being different means the router is trying to navigate to
+    // a new route. We will preload the new route.
+    const nextLocation = nextProps.location;
+    // Save the location first.
+    this.previousLocation = this.props.location;
+    this.setState({nextRouteHasLoaded: false});
+    this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
+      previousLocation: this.previousLocation,
+      location: nextLocation,
+    })!;
 
-    // Route has loaded, we can update now.
-    return true;
+    // Load data while the old screen remains. Force preload instead of using
+    // `window.docusaurus`, because we want to avoid loading screen even when
+    // user is on saveData
+    preload(nextLocation.pathname)
+      .then(() => {
+        this.routeUpdateCleanupCb?.();
+        this.setState({nextRouteHasLoaded: true});
+      })
+      .catch((e) => console.warn(e));
+    return false;
   }
 
-  clearProgressBarTimeout() {
-    if (this.progressBarTimeout) {
-      clearTimeout(this.progressBarTimeout);
-      this.progressBarTimeout = null;
-    }
-  }
-
-  startProgressBar(delay: number) {
-    this.clearProgressBarTimeout();
-    this.progressBarTimeout = setTimeout(() => {
-      clientLifecyclesDispatcher.onRouteUpdateDelayed({
-        location: normalizeLocation(this.props.location),
-      });
-      nprogress.start();
-    }, delay);
-  }
-
-  stopProgressBar() {
-    this.clearProgressBarTimeout();
-    nprogress.done();
-  }
-
-  render() {
+  override render(): JSX.Element {
     const {children, location} = this.props;
+    // Use a controlled <Route> to trick all descendants into rendering the old
+    // location.
     return (
-      <Route location={normalizeLocation(location)} render={() => children} />
+      <ClientLifecyclesDispatcher
+        previousLocation={this.previousLocation}
+        location={location}>
+        <Route location={location} render={() => children} />
+      </ClientLifecyclesDispatcher>
     );
   }
 }
 
-export default withRouter(PendingNavigation);
+export default PendingNavigation;

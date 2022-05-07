@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {createStorageSlot} from '@docusaurus/theme-common';
 
 // First: read the env variables (provided by Webpack)
@@ -15,7 +16,7 @@ const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES =
 const PWA_DEBUG = process.env.PWA_DEBUG;
 /* eslint-enable prefer-destructuring */
 
-const debug = PWA_DEBUG; // shortcut
+const debug = PWA_DEBUG; // Shortcut
 
 const MAX_MOBILE_WIDTH = 940;
 
@@ -78,7 +79,7 @@ function isStandaloneDisplayMode() {
 const OfflineModeActivationStrategiesImplementations = {
   always: () => true,
   mobile: () => window.innerWidth <= MAX_MOBILE_WIDTH,
-  saveData: () => !!(navigator.connection && navigator.connection.saveData),
+  saveData: () => !!navigator.connection?.saveData,
   appInstalled: async () => {
     const installedEventFired = await isAppInstalledEventFired();
     const installedRelatedApps = await isAppInstalledRelatedApps();
@@ -100,7 +101,7 @@ async function getActiveStrategies() {
       return isActive ? strategyName : undefined;
     }),
   );
-  return activeStrategies.filter(Boolean); // remove undefined values
+  return activeStrategies.filter(Boolean);
 }
 
 async function isOfflineModeEnabled() {
@@ -218,8 +219,8 @@ async function registerSW() {
   }
 }
 
-// TODO these events still works in chrome but have been removed from the spec in 2019!
-// See https://github.com/w3c/manifest/pull/836
+// TODO these events still works in chrome but have been removed from the spec
+// in 2019! See https://github.com/w3c/manifest/pull/836
 function addLegacyAppInstalledEventsListeners() {
   if (typeof window !== 'undefined') {
     if (debug) {
@@ -247,7 +248,8 @@ function addLegacyAppInstalledEventsListeners() {
       await clearRegistrations();
     });
 
-    // TODO this event still works in chrome but has been removed from the spec in 2019!!!
+    // TODO this event still works in chrome but has been removed from the spec
+    // in 2019!!!
     window.addEventListener('beforeinstallprompt', async (event) => {
       if (debug) {
         console.log(
@@ -255,7 +257,8 @@ function addLegacyAppInstalledEventsListeners() {
           event,
         );
       }
-      // TODO instead of default browser install UI, show custom docusaurus prompt?
+      // TODO instead of default browser install UI, show custom docusaurus
+      // prompt?
       // event.preventDefault();
       if (debug) {
         console.log(
@@ -272,7 +275,7 @@ function addLegacyAppInstalledEventsListeners() {
         }
         // After uninstalling the app, if the user doesn't clear all data, then
         // the previous service worker will continue serving cached files. We
-        // need to clear registrations and reload, otherwise the popup will show.
+        // need to clear registrations and reload, otherwise the popup shows.
         await clearRegistrations();
       }
     });

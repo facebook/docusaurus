@@ -1,8 +1,15 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.20",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./client": "./lib/client/index.js",
+    ".": "./lib/index.js"
+  },
   "types": "src/theme-search-algolia.d.ts",
   "publishConfig": {
     "access": "public"
@@ -14,27 +21,32 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy",
+    "build": "yarn build:server && yarn build:client && yarn build:copy && yarn build:format",
     "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.js"
+    "build:client": "tsc --project tsconfig.client.json",
+    "build:copy": "node copyUntypedFiles.mjs",
+    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "dependencies": {
-    "@docsearch/react": "^3.0.0-alpha.39",
-    "@docusaurus/core": "2.0.0-beta.9",
-    "@docusaurus/theme-common": "2.0.0-beta.9",
-    "@docusaurus/theme-translations": "2.0.0-beta.9",
-    "@docusaurus/utils": "2.0.0-beta.9",
-    "@docusaurus/utils-validation": "2.0.0-beta.9",
-    "algoliasearch": "^4.10.5",
-    "algoliasearch-helper": "^3.5.5",
+    "@docsearch/react": "^3.0.0",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/logger": "2.0.0-beta.20",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.20",
+    "@docusaurus/theme-common": "2.0.0-beta.20",
+    "@docusaurus/theme-translations": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/utils-validation": "2.0.0-beta.20",
+    "algoliasearch": "^4.13.0",
+    "algoliasearch-helper": "^3.8.2",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
-    "lodash": "^4.17.20"
+    "fs-extra": "^10.1.0",
+    "lodash": "^4.17.21",
+    "tslib": "^2.4.0",
+    "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.9",
-    "fs-extra": "^10.0.0"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.20"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

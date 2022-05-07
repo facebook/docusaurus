@@ -6,42 +6,48 @@
  */
 
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import chalk = require('chalk');
+import logger from '@docusaurus/logger';
 import chokidar from 'chokidar';
-
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import {debounce} from 'lodash';
+import _ from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
-import {load} from '../server';
-import {StartCLIOptions} from '@docusaurus/types';
+import {load, type LoadContextOptions} from '../server';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getHttpsConfig,
 } from '../webpack/utils';
-import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
-export default async function start(
+export type StartCLIOptions = HostPortOptions &
+  Pick<LoadContextOptions, 'locale' | 'config'> & {
+    hotOnly?: boolean;
+    open?: boolean;
+    poll?: boolean | number;
+  };
+
+export async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
-  console.log(chalk.blue('Starting the development server...'));
+  logger.info('Starting the development server...');
 
   function loadSite() {
-    return load(siteDir, {
-      customConfigFilePath: cliOptions.config,
+    return load({
+      siteDir,
+      config: cliOptions.config,
       locale: cliOptions.locale,
-      localizePath: undefined, // should this be configurable?
+      localizePath: undefined, // Should this be configurable?
     });
   }
 
@@ -50,8 +56,7 @@ export default async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();
@@ -61,28 +66,22 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(
-    chalk.cyanBright(`Docusaurus website is running at "${openUrl}".`),
-  );
+  logger.success`Docusaurus website is running at url=${openUrl}.`;
 
   // Reload files processing.
-  const reload = debounce(() => {
+  const reload = _.debounce(() => {
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          console.log(
-            chalk.cyanBright(
-              `Docusaurus website is running at "${newOpenUrl}".`,
-            ),
-          );
+          logger.success`Docusaurus website is running at url=${newOpenUrl}.`;
         }
       })
       .catch((err) => {
-        console.error(chalk.red(err.stack));
+        logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins = []} = props;
+  const {siteConfig, plugins} = props;
 
   const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
@@ -91,12 +90,9 @@ export default async function start(
     return posixPath(filepath);
   };
 
-  const pluginPaths = ([] as string[])
-    .concat(
-      ...plugins
-        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
-        .filter(Boolean),
-    )
+  const pluginPaths = plugins
+    .flatMap((plugin) => plugin.getPathsToWatch?.() ?? [])
+    .filter(Boolean)
     .map(normalizeToSiteDir);
 
   const pathsToWatch = [
@@ -114,6 +110,7 @@ export default async function start(
       ? (cliOptions.poll as number)
       : undefined,
   };
+  const httpsConfig = await getHttpsConfig();
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
@@ -124,7 +121,11 @@ export default async function start(
     fsWatcher.on(event, reload),
   );
 
-  let config: webpack.Configuration = merge(createClientConfig(props), {
+  let config: webpack.Configuration = merge(await createClientConfig(props), {
+    watchOptions: {
+      ignored: /node_modules\/(?!@docusaurus)/,
+      poll: cliOptions.poll,
+    },
     infrastructureLogging: {
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       level: 'warn',
@@ -132,9 +133,9 @@ export default async function start(
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.resolve(
+        template: path.join(
           __dirname,
-          '../client/templates/index.html.template.ejs',
+          '../webpack/templates/index.html.template.ejs',
         ),
         // So we can define the position where the scripts are injected.
         inject: false,
@@ -152,12 +153,12 @@ export default async function start(
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      config = applyConfigurePostCss(configurePostCss, config);
+      config = applyConfigurePostCss(configurePostCss.bind(plugin), config);
     }
 
     if (configureWebpack) {
       config = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         false,
         props.siteConfig.webpack?.jsLoader,
@@ -166,8 +167,20 @@ export default async function start(
     }
   });
 
+  const compiler = webpack(config);
+  if (process.env.E2E_TEST) {
+    compiler.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        logger.error('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      logger.success('E2E_TEST: Project can compile.');
+      process.exit(0);
+    });
+  }
+
   // https://webpack.js.org/configuration/dev-server
-  const devServerConfig: WebpackDevServer.Configuration = {
+  const defaultDevServerConfig: WebpackDevServer.Configuration = {
     hot: cliOptions.hotOnly ? 'only' : true,
     liveReload: false,
     client: {
@@ -177,7 +190,6 @@ export default async function start(
         errors: true,
       },
     },
-    https: getHttpsConfig(),
     headers: {
       'access-control-allow-origin': '*',
     },
@@ -197,34 +209,32 @@ export default async function start(
         ...{pollingOptions},
       },
     })),
+    ...(httpsConfig && {
+      server:
+        typeof httpsConfig === 'object'
+          ? {
+              type: 'https',
+              options: httpsConfig,
+            }
+          : 'https',
+    }),
     historyApiFallback: {
       rewrites: [{from: /\/*/, to: baseUrl}],
     },
     allowedHosts: 'all',
     host,
     port,
-    onBeforeSetupMiddleware: (devServer) => {
+    setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      devServer.app.use(
-        evalSourceMapMiddleware(
-          // @ts-expect-error: bad types
-          devServer,
-        ),
-      );
+      middlewares.unshift(evalSourceMapMiddleware(devServer));
+      return middlewares;
     },
   };
 
-  const compiler = webpack(config);
-  if (process.env.E2E_TEST) {
-    compiler.hooks.done.tap('done', (stats) => {
-      if (stats.hasErrors()) {
-        console.log('E2E_TEST: Project has compiler errors.');
-        process.exit(1);
-      }
-      console.log('E2E_TEST: Project can compile.');
-      process.exit(0);
-    });
-  }
+  // Allow plugin authors to customize/override devServer config
+  const devServerConfig: WebpackDevServer.Configuration = merge(
+    [defaultDevServerConfig, config.devServer].filter(Boolean),
+  );
 
   const devServer = new WebpackDevServer(devServerConfig, compiler);
   devServer.startCallback(() => {

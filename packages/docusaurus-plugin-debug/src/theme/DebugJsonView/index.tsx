@@ -10,7 +10,7 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import type {Props} from '@theme/DebugJsonView';
 import type {ReactJsonViewProps} from 'react-json-view';
 
-// avoids "react-json-view" to display  "root"
+// Avoids "react-json-view" displaying "root"
 const RootName = null;
 
 // Seems ReactJson does not work with SSR
@@ -27,7 +27,10 @@ function BrowserOnlyReactJson(props: ReactJsonViewProps) {
   );
 }
 
-function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
+export default function DebugJsonView({
+  src,
+  collapseDepth,
+}: Props): JSX.Element {
   return (
     <BrowserOnlyReactJson
       src={src as object}
@@ -52,5 +55,3 @@ function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
     />
   );
 }
-
-export default DebugJsonView;

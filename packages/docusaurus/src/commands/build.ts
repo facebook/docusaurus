@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-import {load, loadContext} from '../server';
+import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import {BuildCLIOptions, Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
@@ -26,13 +26,24 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
-import {mapAsyncSequencial} from '@docusaurus/utils';
+import {mapAsyncSequential} from '@docusaurus/utils';
+import type {HelmetServerState} from 'react-helmet-async';
 
-export default async function build(
+export type BuildCLIOptions = Pick<
+  LoadContextOptions,
+  'config' | 'locale' | 'outDir'
+> & {
+  bundleAnalyzer?: boolean;
+  minify?: boolean;
+};
+
+export async function build(
   siteDir: string,
-  cliOptions: Partial<BuildCLIOptions> = {},
-
-  // TODO what's the purpose of this arg ?
+  cliOptions: Partial<BuildCLIOptions>,
+  // When running build, we force terminate the process to prevent async
+  // operations from never returning. However, if run as part of docusaurus
+  // deploy, we have to let deploy finish.
+  // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
@@ -47,7 +58,6 @@ export default async function build(
     isLastLocale: boolean;
   }) {
     try {
-      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
       return await buildLocale({
         siteDir,
         locale,
@@ -55,14 +65,15 @@ export default async function build(
         forceTerminate,
         isLastLocale,
       });
-    } catch (e) {
-      console.error(`Unable to build website for locale "${locale}".`);
-      throw e;
+    } catch (err) {
+      logger.error`Unable to build website for locale name=${locale}.`;
+      throw err;
     }
   }
-  const context = await loadContext(siteDir, {
-    customOutDir: cliOptions.outDir,
-    customConfigFilePath: cliOptions.config,
+  const context = await loadContext({
+    siteDir,
+    outDir: cliOptions.outDir,
+    config: cliOptions.config,
     locale: cliOptions.locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
@@ -71,30 +82,24 @@ export default async function build(
   });
   if (cliOptions.locale) {
     return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
-  } else {
-    if (i18n.locales.length > 1) {
-      console.log(
-        chalk.yellow(
-          `\nWebsite will be built for all these locales:
-- ${i18n.locales.join('\n- ')}`,
-        ),
-      );
-    }
-
-    // We need the default locale to always be the 1st in the list
-    // If we build it last, it would "erase" the localized sites built in subfolders
-    const orderedLocales: string[] = [
-      i18n.defaultLocale,
-      ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
-    ];
-
-    const results = await mapAsyncSequencial(orderedLocales, (locale) => {
-      const isLastLocale =
-        orderedLocales.indexOf(locale) === orderedLocales.length - 1;
-      return tryToBuildLocale({locale, isLastLocale});
-    });
-    return results[0];
   }
+  if (i18n.locales.length > 1) {
+    logger.info`Website will be built for all these locales: ${i18n.locales}`;
+  }
+
+  // We need the default locale to always be the 1st in the list. If we build it
+  // last, it would "erase" the localized sites built in sub-folders
+  const orderedLocales: [string, ...string[]] = [
+    i18n.defaultLocale,
+    ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
+  ];
+
+  const results = await mapAsyncSequential(orderedLocales, (locale) => {
+    const isLastLocale =
+      orderedLocales.indexOf(locale) === orderedLocales.length - 1;
+    return tryToBuildLocale({locale, isLastLocale});
+  });
+  return results[0]!;
 }
 
 async function buildLocale({
@@ -112,13 +117,12 @@ async function buildLocale({
 }): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  console.log(
-    chalk.blue(`\n[${locale}] Creating an optimized production build...`),
-  );
+  logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  const props: Props = await load(siteDir, {
-    customOutDir: cliOptions.outDir,
-    customConfigFilePath: cliOptions.config,
+  const props: Props = await load({
+    siteDir,
+    outDir: cliOptions.outDir,
+    config: cliOptions.config,
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
@@ -128,7 +132,11 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {baseUrl, onBrokenLinks, staticDirectories},
+    siteConfig: {
+      baseUrl,
+      onBrokenLinks,
+      staticDirectories: staticDirectoriesOption,
+    },
     routes,
   } = props;
 
@@ -137,52 +145,78 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify),
     {
       plugins: [
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),
-        // Visualize size of webpack output files with an interactive zoomable treemap.
+        // Visualize size of webpack output files with an interactive zoomable
+        // tree map.
         cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
         // Generate client manifests file that will be used for server bundle.
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,
         }),
-      ].filter(Boolean),
+      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
     },
   );
 
-  const allCollectedLinks: Record<string, string[]> = {};
+  const allCollectedLinks: {[location: string]: string[]} = {};
+  const headTags: {[location: string]: HelmetServerState} = {};
 
-  let serverConfig: Configuration = createServerConfig({
+  let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
     },
+    onHeadTagsCollected: (staticPagePath, tags) => {
+      headTags[staticPagePath] = tags;
+    },
   });
 
-  serverConfig = merge(serverConfig, {
-    plugins: [
-      new CopyWebpackPlugin({
-        patterns: staticDirectories
-          .map((dir) => path.resolve(siteDir, dir))
-          .filter(fs.existsSync)
-          .map((dir) => ({from: dir, to: outDir})),
+  // The staticDirectories option can contain empty directories, or non-existent
+  // directories (e.g. user deleted `static`). Instead of issuing an error, we
+  // just silently filter them out, because user could have never configured it
+  // in the first place (the default option should always "work").
+  const staticDirectories = (
+    await Promise.all(
+      staticDirectoriesOption.map(async (dir) => {
+        const staticDir = path.resolve(siteDir, dir);
+        if (
+          (await fs.pathExists(staticDir)) &&
+          (await fs.readdir(staticDir)).length > 0
+        ) {
+          return staticDir;
+        }
+        return '';
       }),
-    ],
-  });
+    )
+  ).filter(Boolean);
+
+  if (staticDirectories.length > 0) {
+    serverConfig = merge(serverConfig, {
+      plugins: [
+        new CopyWebpackPlugin({
+          patterns: staticDirectories.map((dir) => ({from: dir, to: outDir})),
+        }),
+      ],
+    });
+  }
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
+      clientConfig = applyConfigurePostCss(
+        configurePostCss.bind(plugin),
+        clientConfig,
+      );
     }
 
     if (configureWebpack) {
       clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         clientConfig,
         false,
         props.siteConfig.webpack?.jsLoader,
@@ -190,7 +224,7 @@ async function buildLocale({
       );
 
       serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         serverConfig,
         true,
         props.siteConfig.webpack?.jsLoader,
@@ -209,11 +243,7 @@ async function buildLocale({
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
-  if (
-    serverConfig.output &&
-    serverConfig.output.filename &&
-    typeof serverConfig.output.filename === 'string'
-  ) {
+  if (typeof serverConfig.output?.filename === 'string') {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     if (await fs.pathExists(serverBundle)) {
       await fs.unlink(serverBundle);
@@ -226,7 +256,11 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild(props);
+      await plugin.postBuild({
+        ...props,
+        head: headTags,
+        content: plugin.content,
+      });
     }),
   );
 
@@ -238,18 +272,13 @@ async function buildLocale({
     baseUrl,
   });
 
-  console.log(
-    `${chalk.green(`Success!`)} Generated static files in "${chalk.cyan(
-      path.relative(process.cwd(), outDir),
-    )}".`,
-  );
+  logger.success`Generated static files in path=${path.relative(
+    process.cwd(),
+    outDir,
+  )}.`;
 
   if (isLastLocale) {
-    console.log(
-      `\nUse ${chalk.greenBright(
-        '`npm run serve`',
-      )} command to test your build locally.\n`,
-    );
+    logger.info`Use code=${'npm run serve'} command to test your build locally.`;
   }
 
   if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {

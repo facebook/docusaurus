@@ -6,19 +6,22 @@
  */
 
 import {
-  ActivePlugin,
   getActivePlugin,
   getLatestVersion,
   getActiveDocContext,
   getActiveVersion,
   getDocVersionSuggestions,
 } from '../docsClientUtils';
-import {GlobalPluginData, GlobalVersion} from '../../types';
-import {shuffle} from 'lodash';
+import type {
+  GlobalPluginData,
+  GlobalVersion,
+  ActivePlugin,
+} from '@docusaurus/plugin-content-docs/client';
+import _ from 'lodash';
 
 describe('docsClientUtils', () => {
-  test('getActivePlugin', () => {
-    const data: Record<string, GlobalPluginData> = {
+  it('getActivePlugin', () => {
+    const data: {[key: string]: GlobalPluginData} = {
       pluginIosId: {
         path: '/ios',
         versions: [],
@@ -29,18 +32,18 @@ describe('docsClientUtils', () => {
       },
     };
 
-    expect(getActivePlugin(data, '/')).toEqual(undefined);
-    expect(getActivePlugin(data, '/xyz')).toEqual(undefined);
+    expect(getActivePlugin(data, '/')).toBeUndefined();
+    expect(getActivePlugin(data, '/xyz')).toBeUndefined();
 
     expect(() =>
       getActivePlugin(data, '/', {failfast: true}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find active docs plugin for \\"/\\" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+      `"Can't find active docs plugin for "/" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
     );
     expect(() =>
       getActivePlugin(data, '/xyz', {failfast: true}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find active docs plugin for \\"/xyz\\" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+      `"Can't find active docs plugin for "/xyz" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
     );
 
     const activePluginIos: ActivePlugin = {
@@ -58,9 +61,37 @@ describe('docsClientUtils', () => {
     expect(getActivePlugin(data, '/android')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/ijk')).toEqual(activePluginAndroid);
+
+    // https://github.com/facebook/docusaurus/issues/6434
+    const onePluginAtRoot = {
+      pluginIosId: {
+        path: '/',
+        versions: [],
+      },
+      pluginAndroidId: {
+        path: '/android',
+        versions: [],
+      },
+    };
+    expect(getActivePlugin(onePluginAtRoot, '/android/foo').pluginId).toBe(
+      'pluginAndroidId',
+    );
+    const onePluginAtRootReversed = {
+      pluginAndroidId: {
+        path: '/android',
+        versions: [],
+      },
+      pluginIosId: {
+        path: '/',
+        versions: [],
+      },
+    };
+    expect(
+      getActivePlugin(onePluginAtRootReversed, '/android/foo').pluginId,
+    ).toBe('pluginAndroidId');
   });
 
-  test('getLatestVersion', () => {
+  it('getLatestVersion', () => {
     const versions: GlobalVersion[] = [
       {
         name: 'version1',
@@ -96,7 +127,7 @@ describe('docsClientUtils', () => {
     ).toEqual(versions[1]);
   });
 
-  test('getActiveVersion', () => {
+  it('getActiveVersion', () => {
     const data: GlobalPluginData = {
       path: 'docs',
       versions: [
@@ -127,24 +158,24 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    expect(getActiveVersion(data, '/someUnknownPath')).toEqual(undefined);
+    expect(getActiveVersion(data, '/someUnknownPath')).toBeUndefined();
 
-    expect(getActiveVersion(data, '/docs/next')?.name).toEqual('next');
-    expect(getActiveVersion(data, '/docs/next/')?.name).toEqual('next');
-    expect(getActiveVersion(data, '/docs/next/someDoc')?.name).toEqual('next');
+    expect(getActiveVersion(data, '/docs/next')?.name).toBe('next');
+    expect(getActiveVersion(data, '/docs/next/')?.name).toBe('next');
+    expect(getActiveVersion(data, '/docs/next/someDoc')?.name).toBe('next');
 
-    expect(getActiveVersion(data, '/docs')?.name).toEqual('version2');
-    expect(getActiveVersion(data, '/docs/')?.name).toEqual('version2');
-    expect(getActiveVersion(data, '/docs/someDoc')?.name).toEqual('version2');
+    expect(getActiveVersion(data, '/docs')?.name).toBe('version2');
+    expect(getActiveVersion(data, '/docs/')?.name).toBe('version2');
+    expect(getActiveVersion(data, '/docs/someDoc')?.name).toBe('version2');
 
-    expect(getActiveVersion(data, '/docs/version1')?.name).toEqual('version1');
-    expect(getActiveVersion(data, '/docs/version1')?.name).toEqual('version1');
-    expect(getActiveVersion(data, '/docs/version1/someDoc')?.name).toEqual(
+    expect(getActiveVersion(data, '/docs/version1')?.name).toBe('version1');
+    expect(getActiveVersion(data, '/docs/version1')?.name).toBe('version1');
+    expect(getActiveVersion(data, '/docs/version1/someDoc')?.name).toBe(
       'version1',
     );
   });
 
-  test('getActiveDocContext', () => {
+  it('getActiveDocContext', () => {
     const versionNext: GlobalVersion = {
       name: 'next',
       label: 'next',
@@ -195,8 +226,8 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    // shuffle, because order shouldn't matter
-    const versions: GlobalVersion[] = shuffle([
+    // Shuffle, because order shouldn't matter
+    const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
       version1,
@@ -273,7 +304,7 @@ describe('docsClientUtils', () => {
     });
   });
 
-  test('getDocVersionSuggestions', () => {
+  it('getDocVersionSuggestions', () => {
     const versionNext: GlobalVersion = {
       name: 'next',
       label: 'next',
@@ -324,8 +355,8 @@ describe('docsClientUtils', () => {
       ],
     };
 
-    // shuffle, because order shouldn't matter
-    const versions: GlobalVersion[] = shuffle([
+    // Shuffle, because order shouldn't matter
+    const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
       version1,
@@ -364,7 +395,7 @@ describe('docsClientUtils', () => {
       latestVersionSuggestion: version2,
     });
     expect(getDocVersionSuggestions(data, '/docs/version1/doc2')).toEqual({
-      latestDocSuggestion: undefined, // because /docs/version1/doc2 does not exist
+      latestDocSuggestion: undefined, // Because /docs/version1/doc2 does not exist
       latestVersionSuggestion: version2,
     });
   });

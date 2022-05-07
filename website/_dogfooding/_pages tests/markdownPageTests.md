@@ -72,7 +72,7 @@ import MyComponent from './myComponent';
 <MyComponent />;
 ```
 
-<BrowserWindow url="http://localhost:3000">
+<BrowserWindow>
 
 <MyComponent/>
 
@@ -92,7 +92,7 @@ import CodeBlock from "@theme/CodeBlock"
 
 import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myComponent';
 
-<BrowserWindow url="http://localhost:3000">
+<BrowserWindow>
 
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 
@@ -102,7 +102,7 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 
 ```jsx live
 function Demo() {
-  React.useEffect(() => console.log('mount'), []);
+  useEffect(() => console.log('mount'), []);
   return null;
 }
 ```
@@ -160,40 +160,7 @@ function Clock(props) {
 }
 ```
 
-<CodeBlock className="language-yaml" title="test">
-  test
-</CodeBlock>
-
-<code>test</code>
-
-## direct using of `pre`
-
-<pre>test</pre>
-
-<!-- Multi-line text inside `pre` will turn into one-liner, but it's okay (https://github.com/mdx-js/mdx/issues/1095) -->
-<pre>
-1
-2
-3
-</pre>
-
 ## Custom heading id {#custom}
-
-## Children elements inside pre/code elements
-
-See https://github.com/facebook/docusaurus/pull/1584
-
-<pre><code>
-  <BrowserWindow url="http://localhost:3000" >
-    Lol bro
-  </BrowserWindow>
-</code></pre>
-
-<code>
-  <BrowserWindow url="http://localhost:3000" >
-    Lol bro
-  </BrowserWindow>
-</code>
 
 ## Pipe
 
@@ -208,3 +175,11 @@ Code tag + double pipe: <code>||</code>
 ![](/4/图片.png)
 
 ![](/4/docu.png)
+
+## Details
+
+<details>
+
+Details without a summary
+
+</details>

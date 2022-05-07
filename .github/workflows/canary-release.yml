@@ -7,21 +7,22 @@ on:
     paths:
       - packages/**
 
+permissions:
+  contents: read
+
 jobs:
   publish-canary:
     name: Publish Canary
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
         with:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16'
           cache: yarn
       - name: Prepare git
         run: |

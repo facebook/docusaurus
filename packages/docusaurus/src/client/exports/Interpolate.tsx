@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {isValidElement, type ReactNode} from 'react';
 import type {
   InterpolateProps,
   InterpolateValues,
-  ExtractInterpolatePlaceholders,
 } from '@docusaurus/Interpolate';
 
 /*
@@ -18,10 +17,7 @@ We don't ship a markdown parser nor a feature-complete i18n library on purpose.
 More details here: https://github.com/facebook/docusaurus/pull/4295
 */
 
-const ValueRegexp = /{\w+}/g;
-const ValueFoundMarker = '{}'; // does not care much
-
-// TS function overload: if all the values are plain strings, then interpolate returns a simple string
+// If all the values are plain strings, then interpolate returns a simple string
 export function interpolate<Str extends string>(
   text: Str,
   values?: InterpolateValues<Str, string | number>,
@@ -37,67 +33,38 @@ export function interpolate<Str extends string, Value extends ReactNode>(
   text: Str,
   values?: InterpolateValues<Str, Value>,
 ): ReactNode {
-  const elements: (Value | string)[] = [];
-
-  const processedText = text.replace(ValueRegexp, (match: string) => {
-    // remove {{ and }} around the placeholder
-    const key = match.substr(
-      1,
-      match.length - 2,
-    ) as ExtractInterpolatePlaceholders<Str>;
-
-    const value = values?.[key];
-
-    if (typeof value !== 'undefined') {
-      const element = React.isValidElement(value)
-        ? value
-        : // For non-React elements: basic primitive->string conversion
-          String(value);
-      elements.push(element);
-      return ValueFoundMarker;
-    } else {
-      return match; // no match? add warning?
+  // eslint-disable-next-line prefer-named-capture-group
+  const segments = text.split(/(\{\w+\})/).map((seg, index) => {
+    // Odd indices (1, 3, 5...) of the segments are (potentially) interpolatable
+    if (index % 2 === 1) {
+      const value = values?.[seg.slice(1, -1) as keyof typeof values];
+      if (value !== undefined) {
+        return value;
+      }
+      // No match: add warning? There's no way to "escape" interpolation though
     }
+    return seg;
   });
-
-  // No interpolation to be done: just return the text
-  if (elements.length === 0) {
-    return text;
+  if (segments.some((seg) => isValidElement(seg))) {
+    return segments
+      .map((seg, index) =>
+        isValidElement(seg) ? React.cloneElement(seg, {key: index}) : seg,
+      )
+      .filter((seg) => seg !== '');
   }
-  // Basic string interpolation: returns interpolated string
-  else if (elements.every((el) => typeof el === 'string')) {
-    return processedText
-      .split(ValueFoundMarker)
-      .reduce<string>(
-        (str, value, index) =>
-          str.concat(value).concat((elements[index] as string) ?? ''),
-        '',
-      );
-  }
-  // JSX interpolation: returns ReactNode
-  else {
-    return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
-      (array, value, index) => [
-        ...array,
-        <React.Fragment key={index}>
-          {value}
-          {elements[index]}
-        </React.Fragment>,
-      ],
-      [],
-    );
-  }
+  return segments.join('');
 }
 
 export default function Interpolate<Str extends string>({
   children,
   values,
-}: InterpolateProps<Str>): ReactNode {
+}: InterpolateProps<Str>): JSX.Element {
   if (typeof children !== 'string') {
-    console.warn('Illegal <Interpolate> children', children);
     throw new Error(
-      'The Docusaurus <Interpolate> component only accept simple string values',
+      `The Docusaurus <Interpolate> component only accept simple string values. Received: ${
+        isValidElement(children) ? 'React element' : typeof children
+      }`,
     );
   }
-  return interpolate(children, values);
+  return <>{interpolate(children, values)}</>;
 }

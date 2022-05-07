@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getDocusaurusAliases returns appropriate webpack aliases 1`] = `
+{
+  "@docusaurus/BrowserOnly": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/BrowserOnly.tsx",
+  "@docusaurus/ComponentCreator": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/ComponentCreator.tsx",
+  "@docusaurus/ErrorBoundary": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/ErrorBoundary.tsx",
+  "@docusaurus/ExecutionEnvironment": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/ExecutionEnvironment.ts",
+  "@docusaurus/Head": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Head.tsx",
+  "@docusaurus/Interpolate": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Interpolate.tsx",
+  "@docusaurus/Link": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Link.tsx",
+  "@docusaurus/Noop": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Noop.ts",
+  "@docusaurus/Translate": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Translate.tsx",
+  "@docusaurus/constants": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/constants.ts",
+  "@docusaurus/isInternalUrl": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/isInternalUrl.ts",
+  "@docusaurus/renderRoutes": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/renderRoutes.ts",
+  "@docusaurus/router": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/router.ts",
+  "@docusaurus/useBaseUrl": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useBaseUrl.ts",
+  "@docusaurus/useDocusaurusContext": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useDocusaurusContext.ts",
+  "@docusaurus/useGlobalData": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useGlobalData.ts",
+  "@docusaurus/useIsBrowser": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useIsBrowser.ts",
+  "@docusaurus/useRouteContext": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useRouteContext.tsx",
+}
+`;
+
+exports[`loadThemeAliases next alias can override the previous alias 1`] = `
+[
+  [
+    "@theme-init/Layout",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Layout/index.tsx",
+  ],
+  [
+    "@theme-original/Error",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Error/index.tsx",
+  ],
+  [
+    "@theme-original/Footer",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-1/Footer/index.js",
+  ],
+  [
+    "@theme-original/Layout",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/Layout/index.js",
+  ],
+  [
+    "@theme-original/Loading",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Loading/index.tsx",
+  ],
+  [
+    "@theme-original/Navbar",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/Navbar.js",
+  ],
+  [
+    "@theme-original/NavbarItem/NestedNavbarItem",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/NestedNavbarItem/index.js",
+  ],
+  [
+    "@theme-original/NavbarItem/SiblingNavbarItem",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/SiblingNavbarItem.js",
+  ],
+  [
+    "@theme-original/NavbarItem/zzz",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/zzz.js",
+  ],
+  [
+    "@theme-original/NavbarItem",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/index.js",
+  ],
+  [
+    "@theme-original/NotFound",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/NotFound/index.tsx",
+  ],
+  [
+    "@theme-original/Root",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Root/index.tsx",
+  ],
+  [
+    "@theme-original/SiteMetadata",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/SiteMetadata/index.tsx",
+  ],
+  [
+    "@theme/Error",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Error/index.tsx",
+  ],
+  [
+    "@theme/Footer",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-1/Footer/index.js",
+  ],
+  [
+    "@theme/Layout",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/Layout/index.js",
+  ],
+  [
+    "@theme/Loading",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Loading/index.tsx",
+  ],
+  [
+    "@theme/Navbar",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/Navbar.js",
+  ],
+  [
+    "@theme/NavbarItem/NestedNavbarItem",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/NestedNavbarItem/index.js",
+  ],
+  [
+    "@theme/NavbarItem/SiblingNavbarItem",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/SiblingNavbarItem.js",
+  ],
+  [
+    "@theme/NavbarItem/zzz",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/zzz.js",
+  ],
+  [
+    "@theme/NavbarItem",
+    "<PROJECT_ROOT>/packages/docusaurus/src/webpack/aliases/__tests__/__fixtures__/theme-2/NavbarItem/index.js",
+  ],
+  [
+    "@theme/NotFound",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/NotFound/index.tsx",
+  ],
+  [
+    "@theme/Root",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Root/index.tsx",
+  ],
+  [
+    "@theme/SiteMetadata",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/SiteMetadata/index.tsx",
+  ],
+]
+`;

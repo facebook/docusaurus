@@ -11,7 +11,7 @@ import DebugLayout from '@theme/DebugLayout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-function DebugMetadata(): JSX.Element {
+export default function DebugMetadata(): JSX.Element {
   const {siteMetadata} = useDocusaurusContext();
   return (
     <DebugLayout>
@@ -24,7 +24,7 @@ function DebugMetadata(): JSX.Element {
         <code>{siteMetadata.siteVersion || 'No version specified'}</code>
       </div>
       <h3 className={styles.sectionTitle}>Plugins and themes</h3>
-      <ul className={styles.list}>
+      <ul className="clean-list">
         {Object.entries(siteMetadata.pluginVersions).map(
           ([name, versionInformation]) => (
             <li key={name} className={styles.listItem}>
@@ -43,5 +43,3 @@ function DebugMetadata(): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugMetadata;

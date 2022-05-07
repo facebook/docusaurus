@@ -1,0 +1,16 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "cspell",
+      "pattern": [
+        {
+          "regexp": "^(.*):(\\d+):(\\d+)\\s+\\-\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    }
+  ]
+}

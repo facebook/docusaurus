@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib"
-  }
+    "module": "esnext",
+    "noEmit": true,
+    "checkJs": true,
+    "allowJs": true
+  },
+  "include": ["update.mjs", "src"]
 }

@@ -4,8 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import WebpackBar from 'webpackbar';
-import {Compiler} from 'webpack';
+import type {Compiler} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 
 function showError(arr: string[]) {
@@ -13,7 +14,7 @@ function showError(arr: string[]) {
 }
 
 export default class LogPlugin extends WebpackBar {
-  apply(compiler: Compiler): void {
+  override apply(compiler: Compiler): void {
     super.apply(compiler);
 
     // TODO can't this be done in compile(configs) alongside the warnings???

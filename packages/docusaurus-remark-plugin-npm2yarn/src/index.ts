@@ -6,22 +6,19 @@
  */
 
 import type {Code, Content, Literal} from 'mdast';
-import type {Plugin, Transformer} from 'unified';
+import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
 import visit from 'unist-util-visit';
-import npmToYarn from '@armano/npm-to-yarn';
+import {convertToYarn} from '@armano/npm-to-yarn';
 
-interface PluginOptions {
+type PluginOptions = {
   sync?: boolean;
-}
-
-// E.g. global install: 'npm i' -> 'yarn'
-const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');
+};
 
 const transformNode = (node: Code, isSync: boolean) => {
   const groupIdProp = isSync ? ' groupId="npm2yarn"' : '';
   const npmCode = node.value;
-  const yarnCode = convertNpmToYarn(node.value);
+  const yarnCode = convertToYarn(node.value);
   return [
     {
       type: 'jsx',
@@ -61,9 +58,9 @@ const nodeForImport: Literal = {
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
-  let transformed = false;
-  let alreadyImported = false;
-  const transformer: Transformer = (root) => {
+  return (root) => {
+    let transformed = false;
+    let alreadyImported = false;
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
         alreadyImported = true;
@@ -71,7 +68,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       if (isParent(node)) {
         let index = 0;
         while (index < node.children.length) {
-          const child = node.children[index];
+          const child = node.children[index]!;
           if (matchNode(child)) {
             const result = transformNode(child, sync);
             node.children.splice(index, 1, ...result);
@@ -87,7 +84,6 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       (root as Parent).children.unshift(nodeForImport);
     }
   };
-  return transformer;
 };
 
 // To continue supporting `require('npm2yarn')` without the `.default` ㄟ(▔,▔)ㄏ

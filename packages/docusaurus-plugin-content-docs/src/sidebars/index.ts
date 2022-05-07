@@ -7,12 +7,18 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
-import type {PluginOptions} from '../types';
-import {validateSidebars} from './validation';
+import type {SidebarsConfig, Sidebars, SidebarProcessorParams} from './types';
+import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
-import {processSidebars, SidebarProcessorProps} from './processor';
+import {processSidebars} from './processor';
+import {postProcessSidebars} from './postProcessor';
 import path from 'path';
+import {Globby} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import Yaml from 'js-yaml';
+import _ from 'lodash';
+import combinePromises from 'combine-promises';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [
@@ -26,7 +32,6 @@ export const DefaultSidebars: SidebarsConfig = {
 export const DisabledSidebars: SidebarsConfig = {};
 
 // If a path is provided, make it absolute
-// use this before loadSidebars()
 export function resolveSidebarPathOption(
   siteDir: string,
   sidebarPathOption: PluginOptions['sidebarPath'],
@@ -36,9 +41,36 @@ export function resolveSidebarPathOption(
     : sidebarPathOption;
 }
 
-function loadSidebarFile(
+async function readCategoriesMetadata(contentPath: string) {
+  const categoryFiles = await Globby('**/_category_.{json,yml,yaml}', {
+    cwd: contentPath,
+  });
+  const categoryToFile = _.groupBy(categoryFiles, path.dirname);
+  return combinePromises(
+    _.mapValues(categoryToFile, async (files, folder) => {
+      const filePath = files[0]!;
+      if (files.length > 1) {
+        logger.warn`There are more than one category metadata files for path=${folder}: ${files.join(
+          ', ',
+        )}. The behavior is undetermined.`;
+      }
+      const content = await fs.readFile(
+        path.join(contentPath, filePath),
+        'utf-8',
+      );
+      try {
+        return validateCategoryMetadataFile(Yaml.load(content));
+      } catch (err) {
+        logger.error`The docs sidebar category metadata file path=${filePath} looks invalid!`;
+        throw err;
+      }
+    }),
+  );
+}
+
+export async function loadSidebarsFileUnsafe(
   sidebarFilePath: string | false | undefined,
-): SidebarsConfig {
+): Promise<SidebarsConfig> {
   // false => no sidebars
   if (sidebarFilePath === false) {
     return DisabledSidebars;
@@ -52,7 +84,7 @@ function loadSidebarFile(
   // Non-existent sidebars file: no sidebars
   // Note: this edge case can happen on versioned docs, not current version
   // We avoid creating empty versioned sidebars file with the CLI
-  if (!fs.existsSync(sidebarFilePath)) {
+  if (!(await fs.pathExists(sidebarFilePath))) {
     return DisabledSidebars;
   }
 
@@ -60,25 +92,27 @@ function loadSidebarFile(
   return importFresh(sidebarFilePath);
 }
 
-export function loadUnprocessedSidebars(
-  sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorProps['options'],
-): NormalizedSidebars {
-  const sidebarsConfig = loadSidebarFile(sidebarFilePath);
-  validateSidebars(sidebarsConfig);
-
-  const normalizedSidebars = normalizeSidebars(sidebarsConfig, options);
-  return normalizedSidebars;
-}
-
-// Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorProps,
+  options: SidebarProcessorParams,
 ): Promise<Sidebars> {
-  const unprocessedSidebars = loadUnprocessedSidebars(
-    sidebarFilePath,
-    options.options,
-  );
-  return processSidebars(unprocessedSidebars, options);
+  try {
+    const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
+    const normalizedSidebars = normalizeSidebars(sidebarsConfig);
+    validateSidebars(normalizedSidebars);
+    const categoriesMetadata = await readCategoriesMetadata(
+      options.version.contentPath,
+    );
+    const processedSidebars = await processSidebars(
+      normalizedSidebars,
+      categoriesMetadata,
+      options,
+    );
+    return postProcessSidebars(processedSidebars, options);
+  } catch (err) {
+    logger.error`Sidebars file at path=${
+      sidebarFilePath as string
+    } failed to be loaded.`;
+    throw err;
+  }
 }

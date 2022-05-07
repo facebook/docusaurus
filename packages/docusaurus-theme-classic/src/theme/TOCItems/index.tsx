@@ -6,53 +6,14 @@
  */
 
 import React, {useMemo} from 'react';
-import type {TOCItemsProps} from '@theme/TOCItems';
-import {TOCItem} from '@docusaurus/types';
+import type {Props} from '@theme/TOCItems';
+import TOCItemTree from '@theme/TOCItems/Tree';
 import {
-  TOCHighlightConfig,
+  type TOCHighlightConfig,
   useThemeConfig,
-  useTOCFilter,
   useTOCHighlight,
+  useFilteredAndTreeifiedTOC,
 } from '@docusaurus/theme-common';
-
-// Recursive component rendering the toc tree
-/* eslint-disable jsx-a11y/control-has-associated-label */
-function TOCItemList({
-  toc,
-  className,
-  linkClassName,
-  isChild,
-}: {
-  readonly toc: readonly TOCItem[];
-  readonly className: string;
-  readonly linkClassName: string | null;
-  readonly isChild?: boolean;
-}): JSX.Element | null {
-  if (!toc.length) {
-    return null;
-  }
-  return (
-    <ul className={isChild ? undefined : className}>
-      {toc.map((heading) => (
-        <li key={heading.id}>
-          <a
-            href={`#${heading.id}`}
-            className={linkClassName ?? undefined}
-            // Developer provided the HTML, so assume it's safe.
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{__html: heading.value}}
-          />
-          <TOCItemList
-            isChild
-            toc={heading.children}
-            className={className}
-            linkClassName={linkClassName}
-          />
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export default function TOCItems({
   toc,
@@ -62,7 +23,7 @@ export default function TOCItems({
   minHeadingLevel: minHeadingLevelOption,
   maxHeadingLevel: maxHeadingLevelOption,
   ...props
-}: TOCItemsProps): JSX.Element | null {
+}: Props): JSX.Element | null {
   const themeConfig = useThemeConfig();
 
   const minHeadingLevel =
@@ -70,7 +31,11 @@ export default function TOCItems({
   const maxHeadingLevel =
     maxHeadingLevelOption ?? themeConfig.tableOfContents.maxHeadingLevel;
 
-  const tocFiltered = useTOCFilter({toc, minHeadingLevel, maxHeadingLevel});
+  const tocTree = useFilteredAndTreeifiedTOC({
+    toc,
+    minHeadingLevel,
+    maxHeadingLevel,
+  });
 
   const tocHighlightConfig: TOCHighlightConfig | undefined = useMemo(() => {
     if (linkClassName && linkActiveClassName) {
@@ -86,8 +51,8 @@ export default function TOCItems({
   useTOCHighlight(tocHighlightConfig);
 
   return (
-    <TOCItemList
-      toc={tocFiltered}
+    <TOCItemTree
+      toc={tocTree}
       className={className}
       linkClassName={linkClassName}
       {...props}

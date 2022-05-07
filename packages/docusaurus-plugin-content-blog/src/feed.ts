@@ -5,34 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Feed, Author as FeedAuthor} from 'feed';
-import {PluginOptions, Author, BlogPost, FeedType} from './types';
-import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
-import {DocusaurusConfig} from '@docusaurus/types';
+import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
+import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
+import {load as cheerioLoad} from 'cheerio';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
+import type {
+  FeedType,
+  PluginOptions,
+  Author,
+  BlogPost,
+} from '@docusaurus/plugin-content-blog';
+import {blogPostContainerID} from '@docusaurus/utils-common';
 
-// TODO this is temporary until we handle mdxToHtml better
-// It's hard to convert reliably JSX/require calls  to an html feed content
-// See https://github.com/facebook/docusaurus/issues/5664
-function mdxToFeedContent(mdxContent: string): string | undefined {
-  try {
-    return mdxToHtml(mdxContent);
-  } catch (e) {
-    // TODO will we need a plugin option to configure how to handle such an error
-    // Swallow the error on purpose for now, until we understand better the problem space
-    return undefined;
-  }
-}
-
-export async function generateBlogFeed({
+async function generateBlogFeed({
   blogPosts,
   options,
   siteConfig,
+  outDir,
+  locale,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
+  outDir: string;
+  locale: string;
 }): Promise<Feed | null> {
   if (!blogPosts.length) {
     return null;
@@ -42,42 +40,65 @@ export async function generateBlogFeed({
   const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
-  const updated =
-    (blogPosts[0] && blogPosts[0].metadata.date) ||
-    new Date('2015-10-25T16:29:00.000-07:00'); // weird legacy magic date
+  const updated = blogPosts[0]?.metadata.date;
 
   const feed = new Feed({
     id: blogBaseUrl,
-    title: feedOptions.title || `${title} Blog`,
+    title: feedOptions.title ?? `${title} Blog`,
     updated,
-    language: feedOptions.language,
+    language: feedOptions.language ?? locale,
     link: blogBaseUrl,
-    description: feedOptions.description || `${siteConfig.title} Blog`,
+    description: feedOptions.description ?? `${siteConfig.title} Blog`,
     favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
     copyright: feedOptions.copyright,
   });
 
   function toFeedAuthor(author: Author): FeedAuthor {
-    // TODO ask author emails?
-    // RSS feed requires email to render authors
-    return {name: author.name, link: author.url};
+    return {name: author.name, link: author.url, email: author.email};
   }
 
-  blogPosts.forEach((post) => {
-    const {
-      id,
-      metadata: {title: metadataTitle, permalink, date, description, authors},
-    } = post;
-    feed.addItem({
-      title: metadataTitle,
-      id,
-      link: normalizeUrl([siteUrl, permalink]),
-      date,
-      description,
-      content: mdxToFeedContent(post.content),
-      author: authors.map(toFeedAuthor),
-    });
-  });
+  await Promise.all(
+    blogPosts.map(async (post) => {
+      const {
+        id,
+        metadata: {
+          title: metadataTitle,
+          permalink,
+          date,
+          description,
+          authors,
+          tags,
+        },
+      } = post;
+
+      const content = await readOutputHTMLFile(
+        permalink.replace(siteConfig.baseUrl, ''),
+        outDir,
+        siteConfig.trailingSlash,
+      );
+      const $ = cheerioLoad(content);
+
+      const feedItem: FeedItem = {
+        title: metadataTitle,
+        id,
+        link: normalizeUrl([siteUrl, permalink]),
+        date,
+        description,
+        // Atom feed demands the "term", while other feeds use "name"
+        category: tags.map((tag) => ({name: tag.label, term: tag.label})),
+        content: $(`#${blogPostContainerID}`).html()!,
+      };
+
+      // json1() method takes the first item of authors array
+      // it causes an error when authors array is empty
+      const feedItemAuthors = authors.map(toFeedAuthor);
+      if (feedItemAuthors.length > 0) {
+        feedItem.author = feedItemAuthors;
+      }
+
+      return feedItem;
+    }),
+  ).then((items) => items.forEach(feed.addItem));
 
   return feed;
 }
@@ -85,15 +106,26 @@ export async function generateBlogFeed({
 async function createBlogFeedFile({
   feed,
   feedType,
-  filePath,
+  generatePath,
 }: {
   feed: Feed;
   feedType: FeedType;
-  filePath: string;
+  generatePath: string;
 }) {
-  const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
+  const [feedContent, feedPath] = (() => {
+    switch (feedType) {
+      case 'rss':
+        return [feed.rss2(), 'rss.xml'];
+      case 'json':
+        return [feed.json1(), 'feed.json'];
+      case 'atom':
+        return [feed.atom1(), 'atom.xml'];
+      default:
+        throw new Error(`Feed type ${feedType} not supported.`);
+    }
+  })();
   try {
-    await fs.outputFile(filePath, feedContent);
+    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed: ${err}.`);
   }
@@ -104,13 +136,21 @@ export async function createBlogFeedFiles({
   options,
   siteConfig,
   outDir,
+  locale,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
   outDir: string;
+  locale: string;
 }): Promise<void> {
-  const feed = await generateBlogFeed({blogPosts, options, siteConfig});
+  const feed = await generateBlogFeed({
+    blogPosts,
+    options,
+    siteConfig,
+    outDir,
+    locale,
+  });
 
   const feedTypes = options.feedOptions.type;
   if (!feed || !feedTypes) {
@@ -118,12 +158,12 @@ export async function createBlogFeedFiles({
   }
 
   await Promise.all(
-    feedTypes.map(async (feedType) => {
-      await createBlogFeedFile({
+    feedTypes.map((feedType) =>
+      createBlogFeedFile({
         feed,
         feedType,
-        filePath: path.join(outDir, options.routeBasePath, `${feedType}.xml`),
-      });
-    }),
+        generatePath: path.join(outDir, options.routeBasePath),
+      }),
+    ),
   );
 }

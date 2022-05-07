@@ -13,7 +13,7 @@ import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 import path from 'path';
-import webpack, {Configuration} from 'webpack';
+import webpack, {type Configuration} from 'webpack';
 import Terser from 'terser-webpack-plugin';
 
 import {injectManifest} from 'workbox-build';
@@ -37,16 +37,11 @@ function getSWBabelLoader() {
           },
         ],
       ],
-      plugins: [
-        require.resolve('@babel/plugin-proposal-object-rest-spread'),
-        require.resolve('@babel/plugin-proposal-optional-chaining'),
-        require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-      ],
     },
   };
 }
 
-export default function (
+export default function pluginPWA(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
@@ -69,11 +64,14 @@ export default function (
     name: 'docusaurus-plugin-pwa',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      return '../src/theme';
     },
 
     getClientModules() {
-      return isProd ? [swRegister] : [];
+      return isProd && swRegister ? [swRegister] : [];
     },
 
     getDefaultCodeTranslationMessages() {
@@ -140,7 +138,7 @@ export default function (
       const swSourceFileTest = /\.m?js$/;
 
       const swWebpackConfig: Configuration = {
-        entry: path.resolve(__dirname, 'sw.js'),
+        entry: require.resolve('./sw.js'),
         output: {
           path: outDir,
           filename: 'sw.js',
@@ -152,7 +150,7 @@ export default function (
         optimization: {
           splitChunks: false,
           minimize: !debug,
-          // see https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
+          // See https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
           minimizer: debug
             ? []
             : [
@@ -163,7 +161,8 @@ export default function (
         },
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
+            // Fallback value required with Webpack 5
+            PWA_SW_CUSTOM: swCustom || '',
           }),
           new LogPlugin({
             name: 'Service Worker',
@@ -174,7 +173,7 @@ export default function (
           rules: [
             {
               test: swSourceFileTest,
-              exclude: /(node_modules)/,
+              exclude: /node_modules/,
               use: getSWBabelLoader(),
             },
           ],
@@ -191,11 +190,10 @@ export default function (
           '**/*.{js,json,css,html}',
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          ...(injectManifest.globPatterns || []),
+          // @ts-expect-error: internal API?
+          ...(injectManifest.globPatterns ?? []),
         ],
-        // those attributes are not overrideable
+        // Those attributes are not overrideable
         swDest,
         swSrc: swDest,
         globDirectory: props.outDir,

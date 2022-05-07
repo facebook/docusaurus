@@ -6,11 +6,11 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
+import PaginatorNavLink from '@theme/PaginatorNavLink';
 import type {Props} from '@theme/BlogListPaginator';
 
-function BlogListPaginator(props: Props): JSX.Element {
+export default function BlogListPaginator(props: Props): JSX.Element {
   const {metadata} = props;
   const {previousPage, nextPage} = metadata;
 
@@ -22,36 +22,31 @@ function BlogListPaginator(props: Props): JSX.Element {
         message: 'Blog list page navigation',
         description: 'The ARIA label for the blog pagination',
       })}>
-      <div className="pagination-nav__item">
-        {previousPage && (
-          <Link className="pagination-nav__link" to={previousPage}>
-            <div className="pagination-nav__label">
-              &laquo;{' '}
-              <Translate
-                id="theme.blog.paginator.newerEntries"
-                description="The label used to navigate to the newer blog posts page (previous page)">
-                Newer Entries
-              </Translate>
-            </div>
-          </Link>
-        )}
-      </div>
-      <div className="pagination-nav__item pagination-nav__item--next">
-        {nextPage && (
-          <Link className="pagination-nav__link" to={nextPage}>
-            <div className="pagination-nav__label">
-              <Translate
-                id="theme.blog.paginator.olderEntries"
-                description="The label used to navigate to the older blog posts page (next page)">
-                Older Entries
-              </Translate>{' '}
-              &raquo;
-            </div>
-          </Link>
-        )}
-      </div>
+      {previousPage && (
+        <PaginatorNavLink
+          permalink={previousPage}
+          title={
+            <Translate
+              id="theme.blog.paginator.newerEntries"
+              description="The label used to navigate to the newer blog posts page (previous page)">
+              Newer Entries
+            </Translate>
+          }
+        />
+      )}
+      {nextPage && (
+        <PaginatorNavLink
+          permalink={nextPage}
+          title={
+            <Translate
+              id="theme.blog.paginator.olderEntries"
+              description="The label used to navigate to the older blog posts page (next page)">
+              Older Entries
+            </Translate>
+          }
+          isNext
+        />
+      )}
     </nav>
   );
 }
-
-export default BlogListPaginator;

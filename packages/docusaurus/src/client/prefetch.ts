@@ -5,24 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-function support(feature: string) {
-  if (typeof document === 'undefined') {
-    return false;
-  }
-
-  const fakeLink = document.createElement('link');
+function supports(feature: string) {
   try {
-    if (fakeLink.relList && typeof fakeLink.relList.supports === 'function') {
-      return fakeLink.relList.supports(feature);
-    }
+    const fakeLink = document.createElement('link');
+    return fakeLink.relList?.supports?.(feature);
   } catch (err) {
     return false;
   }
-
-  return false;
 }
 
-function linkPrefetchStrategy(url: string) {
+function linkPrefetchStrategy(url: string): Promise<void> {
   return new Promise((resolve, reject) => {
     if (typeof document === 'undefined') {
       reject();
@@ -33,13 +25,13 @@ function linkPrefetchStrategy(url: string) {
     link.setAttribute('rel', 'prefetch');
     link.setAttribute('href', url);
 
-    link.onload = resolve;
-    link.onerror = reject;
+    link.onload = () => resolve();
+    link.onerror = () => reject();
 
     const parentElement =
-      document.getElementsByTagName('head')[0] ||
-      document.getElementsByName('script')[0].parentNode;
-    parentElement.appendChild(link);
+      document.getElementsByTagName('head')[0] ??
+      document.getElementsByName('script')[0]?.parentNode;
+    parentElement?.appendChild(link);
   });
 }
 
@@ -61,26 +53,10 @@ function xhrPrefetchStrategy(url: string): Promise<void> {
   });
 }
 
-const supportedPrefetchStrategy = support('prefetch')
+const supportedPrefetchStrategy = supports('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched: Record<string, boolean> = {};
-
-function prefetch(url: string): Promise<void> {
-  return new Promise((resolve) => {
-    if (preFetched[url]) {
-      resolve();
-      return;
-    }
-
-    supportedPrefetchStrategy(url)
-      .then(() => {
-        resolve();
-        preFetched[url] = true;
-      })
-      .catch(() => {}); // 404s are logged to the console anyway.
-  });
+export default function prefetch(url: string): Promise<void> {
+  return supportedPrefetchStrategy(url).catch(() => {}); // 404s are logged to the console anyway.
 }
-
-export default prefetch;

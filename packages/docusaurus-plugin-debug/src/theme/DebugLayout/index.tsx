@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
@@ -25,12 +25,17 @@ function DebugNavLink({to, children}: {to: string; children: ReactNode}) {
   );
 }
 
-function DebugLayout({children}: {children: ReactNode}): JSX.Element {
+export default function DebugLayout({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
   return (
     <>
       <Head>
         <html lang="en" />
         <title>Docusaurus debug panel</title>
+        <meta name="robots" content="noindex" />
       </Head>
 
       <div>
@@ -53,5 +58,3 @@ function DebugLayout({children}: {children: ReactNode}): JSX.Element {
     </>
   );
 }
-
-export default DebugLayout;

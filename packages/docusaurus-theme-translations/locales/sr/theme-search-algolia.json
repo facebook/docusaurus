@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "Тражи",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Претрага из Algolia",
   "theme.SearchPage.documentsFound.plurals": "Један пронађен документ|{count} пронађених докумената",
   "theme.SearchPage.emptyResultsTitle": "Тражи документацију",

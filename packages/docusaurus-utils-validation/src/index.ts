@@ -9,5 +9,19 @@
 export {default as Joi} from './Joi';
 export {JoiFrontMatter} from './JoiFrontMatter';
 
-export * from './validationUtils';
-export * from './validationSchemas';
+export {
+  printWarning,
+  normalizePluginOptions,
+  normalizeThemeConfig,
+  validateFrontMatter,
+} from './validationUtils';
+export {
+  PluginIdSchema,
+  RemarkPluginsSchema,
+  RehypePluginsSchema,
+  AdmonitionsSchema,
+  URISchema,
+  PathnameSchema,
+  FrontMatterTagsSchema,
+  FrontMatterTOCHeadingLevels,
+} from './validationSchemas';

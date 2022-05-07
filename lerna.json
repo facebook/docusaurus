@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.20",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "changelog": {
@@ -10,7 +10,7 @@
       "tag: bug fix": ":bug: Bug Fix",
       "tag: polish": ":nail_care: Polish",
       "tag: documentation": ":memo: Documentation",
-      "tag: internal": ":house: Internal",
+      "tag: maintenance": ":wrench: Maintenance",
       "tag: performance": ":running_woman: Performance"
     },
     "cacheDir": ".changelog"

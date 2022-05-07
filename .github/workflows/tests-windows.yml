@@ -1,0 +1,52 @@
+name: Windows Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - packages/**
+      - tsconfig.json
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  windows-test:
+    name: Windows Tests
+    timeout-minutes: 30
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node: ['14', '16', '18']
+    steps:
+      - name: Support longpaths
+        run: git config --system core.longpaths true
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
+      - name: Docusaurus Jest Tests
+        run: yarn test
+      - name: Create a deep path
+        # https://github.com/facebook/docusaurus/pull/4899
+        # https://github.com/facebook/docusaurus/issues/5793
+        run: |
+          mkdir -p "website/_dogfooding/_pages tests/deep-file-path-test/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar"
+          cd "$_"
+          echo "# hello" > test-file.md
+      # Lightweight version of tests-swizzle.yml workflow, but for Windows
+      - name: Swizzle Wrap TS
+        run: yarn workspace website test:swizzle:wrap:ts
+      - name: Docusaurus Build
+        run: yarn build:website:fast
+      - name: TypeCheck website
+        run: yarn workspace website typecheck

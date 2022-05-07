@@ -4,7 +4,10 @@
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "module": "esnext",
+    "sourceMap": true,
+    "declarationMap": true,
     "rootDir": "src",
     "outDir": "lib"
-  }
+  },
+  "include": ["src"]
 }

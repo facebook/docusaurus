@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-pwa",
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.20",
   "description": "Docusaurus Plugin to add PWA support.",
   "main": "lib/index.js",
   "types": "src/plugin-pwa.d.ts",
@@ -8,7 +8,7 @@
     "build": "yarn build:server && yarn build:browser && yarn build:copy",
     "build:server": "tsc --project tsconfig.server.json",
     "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.js"
+    "build:copy": "node copyUntypedFiles.mjs"
   },
   "publishConfig": {
     "access": "public"
@@ -20,30 +20,29 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
-    "@babel/plugin-proposal-optional-chaining": "^7.12.16",
-    "@babel/preset-env": "^7.15.6",
-    "@docusaurus/core": "2.0.0-beta.9",
-    "@docusaurus/theme-common": "2.0.0-beta.9",
-    "@docusaurus/theme-translations": "2.0.0-beta.9",
-    "@docusaurus/utils": "2.0.0-beta.9",
-    "@docusaurus/utils-validation": "2.0.0-beta.9",
-    "babel-loader": "^8.2.2",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/theme-common": "2.0.0-beta.20",
+    "@docusaurus/theme-translations": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/utils-validation": "2.0.0-beta.20",
+    "babel-loader": "^8.2.5",
     "clsx": "^1.1.1",
-    "core-js": "^3.18.0",
-    "terser-webpack-plugin": "^5.2.4",
-    "webpack": "^5.61.0",
-    "webpack-merge": "^5.7.3",
-    "workbox-build": "^6.1.1",
-    "workbox-precaching": "^6.1.1",
-    "workbox-window": "^6.1.1"
+    "core-js": "^3.22.4",
+    "terser-webpack-plugin": "^5.3.1",
+    "tslib": "^2.4.0",
+    "webpack": "^5.72.0",
+    "webpack-merge": "^5.8.0",
+    "workbox-build": "^6.5.3",
+    "workbox-precaching": "^6.5.3",
+    "workbox-window": "^6.5.3"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.9",
-    "fs-extra": "^10.0.0"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.20",
+    "fs-extra": "^10.1.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   }
