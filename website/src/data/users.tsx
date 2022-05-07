@@ -747,6 +747,14 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
+    title: 'GeekyWeb',
+    description: 'Global State and Logic Framework for reactive Applications',
+    preview: require('./showcase/geekyweb.png'),
+    website: 'https://geekyweb.eu.org/',
+    source: 'https://github.com/Designatory/GeekyWeb',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'Ghostly',
     description: 'A divine template/print formatter engine',
     preview: require('./showcase/ghostly.png'),
