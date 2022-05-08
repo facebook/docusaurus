@@ -748,7 +748,8 @@ const Users: User[] = [
   },
   {
     title: 'GeekyWeb',
-    description: 'Learn to code yourself by exploring documentations, Try GeekyWeb once 😉',
+    description:
+      'Learn to code yourself by exploring documentations, try GeekyWeb once',
     preview: require('./showcase/geekyweb.png'),
     website: 'https://geekyweb.eu.org/',
     source: 'https://github.com/Designatory/GeekyWeb',
