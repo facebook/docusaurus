@@ -44,6 +44,7 @@ export const DEFAULT_CONFIG = {
   prism: {
     additionalLanguages: [],
     theme: defaultPrismTheme,
+    darkTheme: defaultPrismTheme,
     magicComments: [
       {
         className: 'theme-code-block-highlighted-line',

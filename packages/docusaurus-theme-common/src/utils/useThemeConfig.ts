@@ -55,7 +55,7 @@ export type AnnouncementBarConfig = {
 
 export type PrismConfig = {
   theme: PrismTheme;
-  darkTheme?: PrismTheme;
+  darkTheme: PrismTheme;
   defaultLanguage?: string;
   additionalLanguages: string[];
   magicComments: MagicCommentConfig[];

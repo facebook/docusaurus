@@ -16,9 +16,7 @@ import {useThemeConfig} from '../utils/useThemeConfig';
 export function usePrismTheme(): PrismTheme {
   const {prism} = useThemeConfig();
   const {colorMode} = useColorMode();
-  const lightModeTheme = prism.theme;
-  const darkModeTheme = prism.darkTheme || lightModeTheme;
-  const prismTheme = colorMode === 'dark' ? darkModeTheme : lightModeTheme;
+  const prismTheme = colorMode === 'dark' ? prism.darkTheme : prism.theme;
 
   return prismTheme;
 }

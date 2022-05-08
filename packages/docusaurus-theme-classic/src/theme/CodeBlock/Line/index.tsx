@@ -9,6 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/CodeBlock/Line';
 import styles from './styles.module.css';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 export default function CodeBlockLine({
   line,
@@ -17,6 +18,8 @@ export default function CodeBlockLine({
   getLineProps,
   getTokenProps,
 }: Props): JSX.Element {
+  const isBrowser = useIsBrowser();
+
   if (line.length === 1 && line[0]!.content === '\n') {
     line[0]!.content = '';
   }
@@ -27,11 +30,15 @@ export default function CodeBlockLine({
   });
 
   const lineTokens = line.map((token, key) => (
-    <span key={key} {...getTokenProps({token, key})} />
+    <span
+      key={key}
+      {...getTokenProps({token, key})}
+      {...(!isBrowser && {style: undefined})}
+    />
   ));
 
   return (
-    <span {...lineProps}>
+    <span {...lineProps} {...(!isBrowser && {style: undefined})}>
       {showLineNumbers ? (
         <>
           <span className={styles.codeLineNumber} />
