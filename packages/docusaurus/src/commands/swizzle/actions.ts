@@ -70,16 +70,16 @@ export async function eject({
     );
   }
 
-  const toPath = isDirectory
-    ? path.join(siteDir, THEME_PATH, componentName)
-    : path.join(siteDir, THEME_PATH);
+  const toPath = path.join(siteDir, THEME_PATH);
 
   await fs.ensureDir(toPath);
 
   const createdFiles = await Promise.all(
     filesToCopy.map(async (sourceFile: string) => {
-      const fileName = path.basename(sourceFile);
-      const targetFile = path.join(toPath, fileName);
+      const targetFile = path.join(
+        toPath,
+        path.relative(themePath, sourceFile),
+      );
       try {
         const fileContents = await fs.readFile(sourceFile, 'utf-8');
         await fs.outputFile(
@@ -87,9 +87,8 @@ export async function eject({
           fileContents.trimStart().replace(/^\/\*.+?\*\/\s*/ms, ''),
         );
       } catch (err) {
-        throw new Error(
-          logger.interpolate`Could not copy file from path=${sourceFile} to path=${targetFile}`,
-        );
+        logger.error`Could not copy file from path=${sourceFile} to path=${targetFile}`;
+        throw err;
       }
       return targetFile;
     }),

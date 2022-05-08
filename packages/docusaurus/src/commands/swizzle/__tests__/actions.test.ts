@@ -72,6 +72,20 @@ describe('eject', () => {
     `);
   });
 
+  it(`eject ${Components.Sibling}`, async () => {
+    const result = await testEject('eject', Components.Sibling);
+    expect(result.createdFiles).toEqual([
+      'ComponentInFolder/Sibling.css',
+      'ComponentInFolder/Sibling.tsx',
+    ]);
+    expect(result.tree).toMatchInlineSnapshot(`
+      "theme
+      └── ComponentInFolder
+          ├── Sibling.css
+          └── Sibling.tsx"
+    `);
+  });
+
   it(`eject ${Components.ComponentInFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
