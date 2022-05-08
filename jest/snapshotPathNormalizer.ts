@@ -142,7 +142,7 @@ function getRealPath(pathname: string) {
     // eslint-disable-next-line no-restricted-properties
     const realPath = fs.realpathSync(pathname);
     return realPath;
-  } catch (error) {
+  } catch (err) {
     return pathname;
   }
 }

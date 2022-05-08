@@ -12,6 +12,7 @@ import _ from 'lodash';
 import type {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
 import {normalizeUrl} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 
@@ -100,9 +101,8 @@ export async function writeRedirectFile(
       {flag: 'wx'},
     );
   } catch (err) {
-    throw new Error(
-      `Redirect file creation error for "${file.fileAbsolutePath}" path: ${err}.`,
-    );
+    logger.error`Redirect file creation error for path=${file.fileAbsolutePath}.`;
+    throw err;
   }
 }
 

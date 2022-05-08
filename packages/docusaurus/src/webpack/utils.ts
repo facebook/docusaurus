@@ -291,20 +291,16 @@ function validateKeyAndCerts({
     // publicEncrypt will throw an error with an invalid cert
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
-    throw new Error(
-      `The certificate ${crtFile} is invalid.
-${err}`,
-    );
+    logger.error`The certificate path=${crtFile} is invalid.`;
+    throw err;
   }
 
   try {
     // privateDecrypt will throw an error with an invalid key
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
-    throw new Error(
-      `The certificate key ${keyFile} is invalid.
-${err}`,
-    );
+    logger.error`The certificate key path=${keyFile} is invalid.`;
+    throw err;
   }
 }
 

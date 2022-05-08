@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/logger": "2.0.0-beta.20",
     "@docusaurus/utils": "2.0.0-beta.20",
     "@docusaurus/utils-common": "2.0.0-beta.20",
     "@docusaurus/utils-validation": "2.0.0-beta.20",
