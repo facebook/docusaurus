@@ -64,9 +64,9 @@ export async function cliDocsVersionCommand(
 
   try {
     validateVersionName(version);
-  } catch (e) {
+  } catch (err) {
     logger.info`${pluginIdLogPrefix}: Invalid version name provided. Try something like: 1.0.0`;
-    throw e;
+    throw err;
   }
 
   // Load existing versions.

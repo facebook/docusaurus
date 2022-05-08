@@ -18,6 +18,7 @@ import type {
   BlogPost,
 } from '@docusaurus/plugin-content-blog';
 import {blogPostContainerID} from '@docusaurus/utils-common';
+import logger from '@docusaurus/logger';
 
 async function generateBlogFeed({
   blogPosts,
@@ -127,7 +128,8 @@ async function createBlogFeedFile({
   try {
     await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
-    throw new Error(`Generating ${feedType} feed failed: ${err}.`);
+    logger.error(`Generating ${feedType} feed failed.`);
+    throw err;
   }
 }
 

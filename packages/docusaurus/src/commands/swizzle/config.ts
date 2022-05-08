@@ -10,6 +10,7 @@ import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
 import type {SwizzlePlugin} from './common';
 import {SwizzleActions, SwizzleActionsStatuses} from './common';
 import {getPluginByThemeName} from './themes';
+import logger from '@docusaurus/logger';
 
 function getModuleSwizzleConfig(
   swizzlePlugin: SwizzlePlugin,
@@ -103,12 +104,9 @@ export function getThemeSwizzleConfig(
   if (config) {
     try {
       return normalizeSwizzleConfig(config);
-    } catch (e) {
-      throw new Error(
-        `Invalid Swizzle config for theme ${themeName}.\n${
-          (e as Error).message
-        }`,
-      );
+    } catch (err) {
+      logger.error`Invalid Swizzle config for theme name=${themeName}.`;
+      throw err;
     }
   }
   return FallbackSwizzleConfig;
