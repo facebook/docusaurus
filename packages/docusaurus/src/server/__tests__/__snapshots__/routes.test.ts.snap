@@ -34,8 +34,7 @@ exports[`loadRoutes loads flat route config 1`] = `
       ],
     },
   },
-  "routesConfig": "import React from 'react';
-import ComponentCreator from '@docusaurus/ComponentCreator';
+  "routesConfig": "import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
@@ -90,8 +89,7 @@ exports[`loadRoutes loads nested route config 1`] = `
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
     },
   },
-  "routesConfig": "import React from 'react';
-import ComponentCreator from '@docusaurus/ComponentCreator';
+  "routesConfig": "import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
@@ -140,8 +138,7 @@ exports[`loadRoutes loads route config with empty (but valid) path string 1`] = 
       "__comp": "__comp---hello-world-jse-0-f-b6c",
     },
   },
-  "routesConfig": "import React from 'react';
-import ComponentCreator from '@docusaurus/ComponentCreator';
+  "routesConfig": "import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {

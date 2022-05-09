@@ -314,8 +314,7 @@ export function loadRoutes(
     .map((r) => genRouteCode(r, res))
     .join(',\n');
 
-  res.routesConfig = `import React from 'react';
-import ComponentCreator from '@docusaurus/ComponentCreator';
+  res.routesConfig = `import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
 ${indent(routeConfigSerialized)},

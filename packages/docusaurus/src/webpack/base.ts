@@ -119,7 +119,16 @@ export async function createBaseConfig(
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
       unsafeCache: false, // Not enabled, does not seem to improve perf much
-      extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      extensions: [
+        '.wasm',
+        '.mjs',
+        '.cjs',
+        '.js',
+        '.jsx',
+        '.ts',
+        '.tsx',
+        '.json',
+      ],
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
       roots: [
         // Allow resolution of url("/fonts/xyz.ttf") by webpack
