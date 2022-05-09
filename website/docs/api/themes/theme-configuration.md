@@ -942,43 +942,6 @@ module.exports = {
 };
 ```
 
-## Hooks {#hooks}
-
-### `useColorMode` {#use-color-mode}
-
-A React hook to access the color context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
-
-Usage example:
-
-```jsx
-import React from 'react';
-// highlight-next-line
-import {useColorMode} from '@docusaurus/theme-common';
-
-const Example = () => {
-  // highlight-next-line
-  const {colorMode, setColorMode} = useColorMode();
-
-  return <h1>Dark mode is now {colorMode === 'dark' ? 'on' : 'off'}</h1>;
-};
-```
-
-:::note
-
-The component calling `useColorMode` must be a child of the `Layout` component.
-
-```jsx
-function ExamplePage() {
-  return (
-    <Layout>
-      <Example />
-    </Layout>
-  );
-}
-```
-
-:::
-
 ## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.

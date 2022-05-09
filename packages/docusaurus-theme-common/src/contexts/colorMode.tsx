@@ -24,7 +24,7 @@ type ContextValue = {
   /** Current color mode. */
   readonly colorMode: ColorMode;
   /** Set new color mode. */
-  readonly setColorMode: (colorMode: ColorMode) => void;
+  readonly setColorMode: (colorMode: ColorMode | null) => void;
 
   // TODO legacy APIs kept for retro-compatibility: deprecate them
   readonly isDarkTheme: boolean;
