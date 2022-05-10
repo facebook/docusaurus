@@ -227,7 +227,7 @@
     eslint-visitor-keys "^2.1.0"
     semver "^6.3.0"
 
-"@babel/generator@^7.12.5", "@babel/generator@^7.17.10", "@babel/generator@^7.17.9", "@babel/generator@^7.7.2":
+"@babel/generator@^7.12.5", "@babel/generator@^7.17.10", "@babel/generator@^7.7.2":
   version "7.17.10"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.17.10.tgz#c281fa35b0c349bbe9d02916f4ae08fc85ed7189"
   integrity sha512-46MJZZo9y3o4kmhBVc7zW7i8dtR1oIK/sdO5NcfcZRhTGYi+KKJRtHNgsU6c4VUcJmUNV/LQdebD/9Dlv4K+Tg==
@@ -449,7 +449,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.12.7", "@babel/parser@^7.13.16", "@babel/parser@^7.14.7", "@babel/parser@^7.16.7", "@babel/parser@^7.17.10", "@babel/parser@^7.17.9":
+"@babel/parser@^7.1.0", "@babel/parser@^7.12.7", "@babel/parser@^7.13.16", "@babel/parser@^7.14.7", "@babel/parser@^7.16.7", "@babel/parser@^7.17.10":
   version "7.17.10"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.17.10.tgz#873b16db82a8909e0fbd7f115772f4b739f6ce78"
   integrity sha512-n2Q6i+fnJqzOaq2VkdXxy2TCPCWQZHiCo0XqmrCvDWcZQKRyZzYi4Z0yxlBuN0w+r2ZHmre+Q087DSrw3pbJDQ==
