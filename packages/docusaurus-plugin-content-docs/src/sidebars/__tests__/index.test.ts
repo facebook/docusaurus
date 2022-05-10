@@ -7,6 +7,7 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
+import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';
 import type {SidebarProcessorParams} from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
@@ -27,6 +28,7 @@ describe('loadSidebars', () => {
     ],
     drafts: [],
     version: {
+      path: 'version',
       contentPath: path.join(fixtureDir, 'docs'),
       contentPathLocalized: path.join(fixtureDir, 'docs'),
     },
@@ -121,6 +123,32 @@ describe('loadSidebars', () => {
       'sidebars-collapsed-first-level.json',
     );
     const result = await loadSidebars(sidebarPath, params);
+    expect(result).toMatchSnapshot();
+  });
+
+  it('loads sidebars with index-only categories', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars-category-index.json');
+    const result = await loadSidebars(sidebarPath, {
+      ...params,
+      docs: [
+        {
+          id: 'tutorials/tutorial-basics',
+          source: '@site/docs/tutorials/tutorial-basics/index.md',
+          sourceDirName: 'tutorials/tutorial-basics',
+          frontMatter: {},
+        },
+      ],
+    });
+    expect(result).toMatchSnapshot();
+  });
+
+  it('loads sidebars with interspersed draft items', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars-drafts.json');
+    const result = await loadSidebars(sidebarPath, {
+      ...params,
+      drafts: [{id: 'draft1'}, {id: 'draft2'}, {id: 'draft3'}],
+      categoryLabelSlugger: createSlugger(),
+    });
     expect(result).toMatchSnapshot();
   });
 
