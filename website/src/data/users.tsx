@@ -1355,7 +1355,7 @@ const Users: User[] = [
     preview: require('./showcase/piano-analytics.png'),
     website: 'https://developers.atinternet-solutions.com/piano-analytics/',
     source: null,
-    tags: ['product', 'design'],
+    tags: ['favorite', 'product', 'design'],
   },
   {
     title: 'Pipeline UI',
