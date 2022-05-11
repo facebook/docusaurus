@@ -31,7 +31,7 @@ const {
 const pragma = `
 /* @jsxRuntime classic */
 /* @jsx mdx */
-/* @jsxFrag mdx.Fragment */
+/* @jsxFrag React.Fragment */
 `;
 
 const DEFAULT_OPTIONS: MDXOptions = {
