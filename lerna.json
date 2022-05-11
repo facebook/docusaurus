@@ -5,13 +5,13 @@
   "changelog": {
     "repo": "facebook/docusaurus",
     "labels": {
-      "tag: new feature": ":rocket: New Feature",
-      "tag: breaking change": ":boom: Breaking Change",
-      "tag: bug fix": ":bug: Bug Fix",
-      "tag: polish": ":nail_care: Polish",
-      "tag: documentation": ":memo: Documentation",
-      "tag: maintenance": ":wrench: Maintenance",
-      "tag: performance": ":running_woman: Performance"
+      "pr: breaking change": ":boom: Breaking Change",
+      "pr: new feature": ":rocket: New Feature",
+      "pr: bug fix": ":bug: Bug Fix",
+      "pr: performance": ":running_woman: Performance",
+      "pr: polish": ":nail_care: Polish",
+      "pr: documentation": ":memo: Documentation",
+      "pr: maintenance": ":wrench: Maintenance"
     },
     "cacheDir": ".changelog"
   }
