@@ -1350,6 +1350,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Piano Analytics',
+    description: 'Piano Analytics SDKs documentation for developers',
+    preview: require('./showcase/piano-analytics.png'),
+    website: 'https://developers.atinternet-solutions.com/piano-analytics/',
+    source: null,
+    tags: ['favorite', 'product', 'design'],
+  },
+  {
     title: 'Pipeline UI',
     description: 'Pipeline UI Documentation',
     preview: require('./showcase/pipeline-ui.png'),
