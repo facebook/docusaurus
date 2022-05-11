@@ -2238,6 +2238,14 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+   {
+    title: 'Akara"s blog',
+    description: 'Personal frontend blog for learning',
+    preview: require('./showcase/akara-blog.png'),
+    website: 'https://messiahhh.github.io/blog/',
+    source: 'https://github.com/messiahhh/blog',
+    tags: ['opensource', 'personal'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
