@@ -130,7 +130,7 @@ Example:
 module.exports = {
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'fr'],
+    locales: ['en', 'fa'],
     localeConfigs: {
       en: {
         label: 'English',
@@ -153,7 +153,7 @@ module.exports = {
 - `locales`: List of locales deployed on your site. Must contain `defaultLocale`.
 - `localeConfigs`: Individual options for each locale.
   - `label`: The label displayed for this locale in the locales dropdown.
-  - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.). Used to select the locale's CSS and html meta attribute.
+  - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Farsi, Arabic, Hebrew, etc.). Used to select the locale's CSS and html meta attribute.
   - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
 
