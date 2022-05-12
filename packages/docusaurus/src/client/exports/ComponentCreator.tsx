@@ -13,6 +13,12 @@ import registry from '@generated/registry';
 import flat from '../flat';
 import {RouteContextProvider} from '../routeContext';
 
+declare global {
+  interface NodeRequire {
+    resolveWeak: (name: string) => number;
+  }
+}
+
 export default function ComponentCreator(
   path: string,
   hash: string,
@@ -21,14 +27,19 @@ export default function ComponentCreator(
   if (path === '*') {
     return Loadable({
       loading: Loading,
-      loader: () =>
-        import('@theme/NotFound').then(({default: NotFound}) => (props) => (
+      loader: () => import('@theme/NotFound'),
+      modules: ['@theme/NotFound'],
+      webpack: () => [require.resolveWeak('@theme/NotFound')],
+      render(loaded, props) {
+        const NotFound = loaded.default;
+        return (
           <RouteContextProvider
             // Do we want a better name than native-default?
             value={{plugin: {name: 'native', id: 'default'}}}>
-            <NotFound {...(props as never)} />
+            <NotFound {...(props as JSX.IntrinsicAttributes)} />
           </RouteContextProvider>
-        )),
+        );
+      },
     });
   }
 
@@ -60,7 +71,7 @@ export default function ComponentCreator(
     loader,
     modules,
     webpack: () => optsWebpack,
-    render: (loaded, props) => {
+    render(loaded, props) {
       // `loaded` will be a map from key path (as returned from the flattened
       // chunk names) to the modules loaded from the loaders. We now have to
       // restore the chunk names' previous shape from this flat record.
