@@ -851,7 +851,7 @@ const Users: User[] = [
     preview: require('./showcase/iammassoud.png'),
     website: 'https://iammassoud.ir/',
     source: null,
-    tags: ['favorite', 'personal'],
+    tags: ['favorite', 'personal', 'rtl'],
   },
   {
     title: 'icodex',
