@@ -2167,7 +2167,7 @@ const Users: User[] = [
     preview: require('./showcase/vital.png'),
     website: 'https://docs.tryvital.io',
     source: 'https://github.com/tryVital/vital-docs-new',
-    tags: ['opensource', 'product', 'docs'],
+    tags: ['opensource', 'product', 'design'],
   },
   {
     title: 'Vue NodeGui',
