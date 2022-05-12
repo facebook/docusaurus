@@ -846,6 +846,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'I am Massoud',
+    description: 'The portfolio of Massoud Maboudi, Full Stack Developer',
+    preview: require('./showcase/iammassoud.png'),
+    website: 'https://iammassoud.ir/',
+    source: null,
+    tags: ['favorite', 'personal'],
+  },
+  {
     title: 'icodex',
     description: 'Front end engineer personal website',
     preview: require('./showcase/icodex.png'),
