@@ -12,7 +12,7 @@ Docusaurus is essentially a set of npm [packages](https://github.com/facebook/do
 
 :::tip
 
-Use the **[Fast Track](introduction.md#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
+Use the **[Fast Track](introduction.mdx#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
 
 Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
 
