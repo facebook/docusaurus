@@ -178,6 +178,14 @@ const Users: User[] = [
     tags: [],
   },
   {
+    title: "Akara's blog",
+    description: 'Personal frontend blog for learning',
+    preview: require('./showcase/akara-blog.png'),
+    website: 'https://messiahhh.github.io/blog/',
+    source: 'https://github.com/messiahhh/blog',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Algolia Docsearch',
     description:
       'The best search experience for docs, integrates in minutes, for free',
@@ -2236,14 +2244,6 @@ const Users: User[] = [
     preview: require('./showcase/404lab-wiki.png'),
     website: 'https://wiki.404lab.top',
     source: 'https://github.com/HiChen404/MyWikiSite',
-    tags: ['opensource', 'personal'],
-  },
-   {
-    title: 'Akara"s blog',
-    description: 'Personal frontend blog for learning',
-    preview: require('./showcase/akara-blog.png'),
-    website: 'https://messiahhh.github.io/blog/',
-    source: 'https://github.com/messiahhh/blog',
     tags: ['opensource', 'personal'],
   },
   /*
