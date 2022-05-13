@@ -11,7 +11,6 @@ import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
-import {translate} from '@docusaurus/Translate';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
 import styles from './styles.module.css';
@@ -44,14 +43,7 @@ export default function LocaleDropdownNavbarItem({
 
   const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
 
-  // Mobile is handled a bit differently
-  const dropdownLabel = mobile
-    ? translate({
-        message: 'Languages',
-        id: 'theme.navbar.mobileLanguageDropdown.label',
-        description: 'The label for the mobile language switcher dropdown',
-      })
-    : localeConfigs[currentLocale]!.label;
+  const dropdownLabel = localeConfigs[currentLocale]!.label;
 
   return (
     <DropdownNavbarItem
