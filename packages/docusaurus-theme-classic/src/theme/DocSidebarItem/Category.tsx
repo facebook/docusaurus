@@ -45,14 +45,11 @@ function useAutoExpandActiveCategory({
   } = useThemeConfig();
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
-    if (autoCollapseCategories) {
-      if (justBecameActive && collapsed) {
-        setCollapsed(false);
-      } else if (!isActive && wasActive) {
-        setCollapsed(true);
-      }
-    } else if (justBecameActive && collapsed) {
+    if (justBecameActive && collapsed) {
       setCollapsed(false);
+    }
+    if (autoCollapseCategories && !isActive && wasActive) {
+      setCollapsed(true);
     }
   }, [isActive, wasActive, collapsed, setCollapsed, autoCollapseCategories]);
 }
