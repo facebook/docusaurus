@@ -51,12 +51,10 @@ function useAutoExpandActiveCategory({
       } else if (!isActive && wasActive) {
         setCollapsed(true);
       }
-    } else {
-      if (justBecameActive && collapsed) {
+    } else if (justBecameActive && collapsed) {
         setCollapsed(false);
       }
-    }
-  }, [isActive, wasActive, collapsed, setCollapsed]);
+  }, [isActive, wasActive, collapsed, setCollapsed, autoCollapseCategories]);
 }
 
 /**
