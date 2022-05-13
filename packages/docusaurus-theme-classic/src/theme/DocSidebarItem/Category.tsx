@@ -38,10 +38,23 @@ function useAutoExpandActiveCategory({
   setCollapsed: (b: boolean) => void;
 }) {
   const wasActive = usePrevious(isActive);
+  const {
+    docs: {
+      sidebar: {autoCollapseCategories},
+    },
+  } = useThemeConfig();
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
-    if (justBecameActive && collapsed) {
-      setCollapsed(false);
+    if (autoCollapseCategories) {
+      if (isActive && collapsed) {
+        setCollapsed(false);
+      } else if (!isActive && wasActive) {
+        setCollapsed(true);
+      }
+    } else {
+      if (justBecameActive && collapsed) {
+        setCollapsed(false);
+      }
     }
   }, [isActive, wasActive, collapsed, setCollapsed]);
 }
