@@ -46,14 +46,14 @@ function useAutoExpandActiveCategory({
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
     if (autoCollapseCategories) {
-      if (isActive && collapsed) {
+      if (justBecameActive && collapsed) {
         setCollapsed(false);
       } else if (!isActive && wasActive) {
         setCollapsed(true);
       }
     } else if (justBecameActive && collapsed) {
-        setCollapsed(false);
-      }
+      setCollapsed(false);
+    }
   }, [isActive, wasActive, collapsed, setCollapsed, autoCollapseCategories]);
 }
 
