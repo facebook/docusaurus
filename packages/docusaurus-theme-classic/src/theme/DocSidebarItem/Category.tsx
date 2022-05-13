@@ -31,27 +31,23 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 function useAutoExpandActiveCategory({
   isActive,
   collapsed,
+  index,
   setCollapsed,
 }: {
   isActive: boolean;
   collapsed: boolean;
+  index: number;
   setCollapsed: (b: boolean) => void;
 }) {
   const wasActive = usePrevious(isActive);
-  const {
-    docs: {
-      sidebar: {autoCollapseCategories},
-    },
-  } = useThemeConfig();
+  const {setExpandedItem} = useDocSidebarItemsExpandedState();
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
     if (justBecameActive && collapsed) {
       setCollapsed(false);
+      setExpandedItem(index);
     }
-    if (autoCollapseCategories && !isActive && wasActive) {
-      setCollapsed(true);
-    }
-  }, [isActive, wasActive, collapsed, setCollapsed, autoCollapseCategories]);
+  }, [isActive, wasActive, collapsed, setCollapsed, setExpandedItem, index]);
 }
 
 /**
@@ -129,7 +125,7 @@ export default function DocSidebarItemCategory({
     },
   });
 
-  useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
+  useAutoExpandActiveCategory({isActive, collapsed, index, setCollapsed});
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
   function updateCollapsed(toCollapsed: boolean = !collapsed) {
     setExpandedItem(toCollapsed ? null : index);
@@ -148,8 +144,16 @@ export default function DocSidebarItemCategory({
       autoCollapseCategories
     ) {
       setCollapsed(true);
+      setExpandedItem(null);
     }
-  }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
+  }, [
+    collapsible,
+    expandedItem,
+    index,
+    setCollapsed,
+    setExpandedItem,
+    autoCollapseCategories,
+  ]);
 
   return (
     <li
