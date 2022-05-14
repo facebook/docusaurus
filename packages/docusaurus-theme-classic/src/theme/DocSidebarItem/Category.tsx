@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, useEffect, useMemo} from 'react';
+import React, {
+  type ComponentProps,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import clsx from 'clsx';
 import {
   isActiveSidebarItem,
@@ -31,23 +36,19 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 function useAutoExpandActiveCategory({
   isActive,
   collapsed,
-  index,
-  setCollapsed,
+  updateCollapsed,
 }: {
   isActive: boolean;
   collapsed: boolean;
-  index: number;
-  setCollapsed: (b: boolean) => void;
+  updateCollapsed: (b: boolean) => void;
 }) {
   const wasActive = usePrevious(isActive);
-  const {setExpandedItem} = useDocSidebarItemsExpandedState();
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
     if (justBecameActive && collapsed) {
-      setCollapsed(false);
-      setExpandedItem(index);
+      updateCollapsed(false);
     }
-  }, [isActive, wasActive, collapsed, setCollapsed, setExpandedItem, index]);
+  }, [isActive, wasActive, collapsed, updateCollapsed]);
 }
 
 /**
@@ -109,6 +110,11 @@ export default function DocSidebarItemCategory({
   ...props
 }: Props): JSX.Element {
   const {items, label, collapsible, className, href} = item;
+  const {
+    docs: {
+      sidebar: {autoCollapseCategories},
+    },
+  } = useThemeConfig();
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
@@ -125,17 +131,16 @@ export default function DocSidebarItemCategory({
     },
   });
 
-  useAutoExpandActiveCategory({isActive, collapsed, index, setCollapsed});
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
-  function updateCollapsed(toCollapsed: boolean = !collapsed) {
-    setExpandedItem(toCollapsed ? null : index);
-    setCollapsed(toCollapsed);
-  }
-  const {
-    docs: {
-      sidebar: {autoCollapseCategories},
+  // Use this instead of `setCollapsed`, because it is also reactive
+  const updateCollapsed = useCallback(
+    (toCollapsed: boolean) => {
+      setExpandedItem(toCollapsed ? null : index);
+      setCollapsed(toCollapsed);
     },
-  } = useThemeConfig();
+    [index, setCollapsed, setExpandedItem],
+  );
+  useAutoExpandActiveCategory({isActive, collapsed, updateCollapsed});
   useEffect(() => {
     if (
       collapsible &&
@@ -143,14 +148,13 @@ export default function DocSidebarItemCategory({
       expandedItem !== index &&
       autoCollapseCategories
     ) {
-      setCollapsed(true);
-      setExpandedItem(null);
+      updateCollapsed(true);
     }
   }, [
     collapsible,
     expandedItem,
     index,
-    setCollapsed,
+    updateCollapsed,
     setExpandedItem,
     autoCollapseCategories,
   ]);
@@ -184,7 +188,7 @@ export default function DocSidebarItemCategory({
                     updateCollapsed(false);
                   } else {
                     e.preventDefault();
-                    updateCollapsed();
+                    updateCollapsed(!collapsed);
                   }
                 }
               : () => {
@@ -202,7 +206,7 @@ export default function DocSidebarItemCategory({
             categoryLabel={label}
             onClick={(e) => {
               e.preventDefault();
-              updateCollapsed();
+              updateCollapsed(!collapsed);
             }}
           />
         )}
