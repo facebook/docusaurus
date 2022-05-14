@@ -49,6 +49,12 @@
   max-width: 768px;
 }
 
+@media only screen and (max-width: 645px) {
+  .announcementLink {
+    display: block;
+  }
+}
+
 .banner {
   font-weight: bold;
   font-size: 20px;

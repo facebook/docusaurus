@@ -244,7 +244,9 @@ export default function Home(): JSX.Element {
               id="homepage.banner"
               values={{
                 link: (
-                  <Link to="https://opensource.facebook.com/support-ukraine">
+                  <Link
+                    to="https://opensource.facebook.com/support-ukraine"
+                    className={styles.announcementLink}>
                     <Translate id="homepage.banner.link">
                       Help Provide Humanitarian Aid to Ukraine
                     </Translate>
