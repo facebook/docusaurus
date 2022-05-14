@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  type ComponentProps,
-  useEffect,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, {type ComponentProps, useEffect, useMemo} from 'react';
 import clsx from 'clsx';
 import {
   isActiveSidebarItem,
@@ -133,13 +128,10 @@ export default function DocSidebarItemCategory({
 
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
   // Use this instead of `setCollapsed`, because it is also reactive
-  const updateCollapsed = useCallback(
-    (toCollapsed: boolean) => {
-      setExpandedItem(toCollapsed ? null : index);
-      setCollapsed(toCollapsed);
-    },
-    [index, setCollapsed, setExpandedItem],
-  );
+  const updateCollapsed = (toCollapsed: boolean = !collapsed) => {
+    setExpandedItem(toCollapsed ? null : index);
+    setCollapsed(toCollapsed);
+  };
   useAutoExpandActiveCategory({isActive, collapsed, updateCollapsed});
   useEffect(() => {
     if (
@@ -148,16 +140,9 @@ export default function DocSidebarItemCategory({
       expandedItem !== index &&
       autoCollapseCategories
     ) {
-      updateCollapsed(true);
+      setCollapsed(true);
     }
-  }, [
-    collapsible,
-    expandedItem,
-    index,
-    updateCollapsed,
-    setExpandedItem,
-    autoCollapseCategories,
-  ]);
+  }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
 
   return (
     <li
@@ -188,7 +173,7 @@ export default function DocSidebarItemCategory({
                     updateCollapsed(false);
                   } else {
                     e.preventDefault();
-                    updateCollapsed(!collapsed);
+                    updateCollapsed();
                   }
                 }
               : () => {
@@ -206,7 +191,7 @@ export default function DocSidebarItemCategory({
             categoryLabel={label}
             onClick={(e) => {
               e.preventDefault();
-              updateCollapsed(!collapsed);
+              updateCollapsed();
             }}
           />
         )}
