@@ -29,9 +29,9 @@
 // Modified to optimize performance for Docusaurus specific use case
 // More context: https://github.com/facebook/docusaurus/pull/1839
 
-import type {Compiler, Stats} from 'webpack';
 import path from 'path';
 import {sync as delSync} from 'del';
+import type {Compiler, Stats} from 'webpack';
 
 export type Options = {
   /**

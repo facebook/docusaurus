@@ -7,10 +7,10 @@
 
 import path from 'path';
 import {loadContext} from '@docusaurus/core/lib/server';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 import pluginContentPages from '../index';
 import {validateOptions} from '../options';
-import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 describe('docusaurus-plugin-content-pages', () => {
   it('loads simple pages', async () => {

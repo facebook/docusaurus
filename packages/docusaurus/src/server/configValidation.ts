@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {
   DEFAULT_CONFIG_FILE_NAME,
   DEFAULT_STATIC_DIR_NAME,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 

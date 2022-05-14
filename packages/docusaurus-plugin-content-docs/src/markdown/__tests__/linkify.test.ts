@@ -9,13 +9,13 @@ import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import {linkify} from '../linkify';
+import {VERSIONED_DOCS_DIR, CURRENT_VERSION_NAME} from '../../constants';
 import type {
   DocsMarkdownOption,
   SourceToPermalink,
   DocBrokenMarkdownLink,
 } from '../../types';
 import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
-import {VERSIONED_DOCS_DIR, CURRENT_VERSION_NAME} from '../../constants';
 
 function createFakeVersion({
   versionName,

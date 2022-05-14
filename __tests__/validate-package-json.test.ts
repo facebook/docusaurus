@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Globby} from '@docusaurus/utils';
 import fs from 'fs-extra';
+import {Globby} from '@docusaurus/utils';
 
 type PackageJsonFile = {
   file: string;

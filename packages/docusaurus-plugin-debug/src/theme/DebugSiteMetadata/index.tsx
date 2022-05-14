@@ -6,9 +6,8 @@
  */
 
 import React from 'react';
-
-import DebugLayout from '@theme/DebugLayout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import DebugLayout from '@theme/DebugLayout';
 import styles from './styles.module.css';
 
 export default function DebugMetadata(): JSX.Element {

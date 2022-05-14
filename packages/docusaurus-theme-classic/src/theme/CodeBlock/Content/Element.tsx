@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import Container from '@theme/CodeBlock/Container';
 import clsx from 'clsx';
+import Container from '@theme/CodeBlock/Container';
 import type {Props} from '@theme/CodeBlock/Content/Element';
 
 import styles from './styles.module.css';

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BlogContentPaths} from './types';
 import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import type {BlogContentPaths} from './types';
 import type {
   Author,
   BlogPostFrontMatter,

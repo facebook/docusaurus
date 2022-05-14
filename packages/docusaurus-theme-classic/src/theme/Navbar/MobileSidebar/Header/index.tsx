@@ -6,10 +6,10 @@
  */
 
 import React from 'react';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 import IconClose from '@theme/IconClose';
 import NavbarLogo from '@theme/Navbar/Logo';
-import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
 
 function CloseButton() {
   const mobileSidebar = useNavbarMobileSidebar();

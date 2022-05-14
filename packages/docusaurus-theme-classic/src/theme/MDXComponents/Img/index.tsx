@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/MDXComponents/Img';
 import clsx from 'clsx';
+import type {Props} from '@theme/MDXComponents/Img';
 
 import styles from './styles.module.css';
 

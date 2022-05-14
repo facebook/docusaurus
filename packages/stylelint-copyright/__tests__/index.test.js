@@ -6,8 +6,8 @@
  */
 /* eslint-disable jest/no-conditional-expect */
 
-const stylelint = require('stylelint');
 const path = require('path');
+const stylelint = require('stylelint');
 const rule = require('..');
 
 const {ruleName, messages} = rule;

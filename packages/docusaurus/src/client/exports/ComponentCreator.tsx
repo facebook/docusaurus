@@ -7,9 +7,9 @@
 
 import React from 'react';
 import Loadable from 'react-loadable';
-import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
+import Loading from '@theme/Loading';
 import flat from '../flat';
 import {RouteContextProvider} from '../routeContext';
 

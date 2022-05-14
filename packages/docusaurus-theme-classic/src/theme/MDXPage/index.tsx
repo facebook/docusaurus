@@ -7,15 +7,15 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Layout from '@theme/Layout';
-import MDXContent from '@theme/MDXContent';
-import type {Props} from '@theme/MDXPage';
-import TOC from '@theme/TOC';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import Layout from '@theme/Layout';
+import MDXContent from '@theme/MDXContent';
+import TOC from '@theme/TOC';
+import type {Props} from '@theme/MDXPage';
 
 import styles from './styles.module.css';
 

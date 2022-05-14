@@ -8,6 +8,8 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/index';
+import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {createSidebarsUtils} from '../sidebars/utils';
 import {
   processDocMetadata,
   readVersionDocs,
@@ -17,8 +19,9 @@ import {
   type DocEnv,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
-import type {Sidebars} from '../sidebars/types';
 import {readVersionsMetadata} from '../versions';
+import {DEFAULT_OPTIONS} from '../options';
+import type {Sidebars} from '../sidebars/types';
 import type {DocFile} from '../types';
 import type {
   MetadataOptions,
@@ -29,10 +32,7 @@ import type {
   PropNavigationLink,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
-import {DEFAULT_OPTIONS} from '../options';
 import type {Optional} from 'utility-types';
-import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import {createSidebarsUtils} from '../sidebars/utils';
 
 jest.setTimeout(15000);
 

@@ -6,21 +6,23 @@
  */
 
 import fs from 'fs-extra';
-import {createCompiler} from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
-import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
+import {createCompiler} from '@mdx-js/mdx';
+import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
+
 import headings from './remark/headings';
 import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
+
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
 

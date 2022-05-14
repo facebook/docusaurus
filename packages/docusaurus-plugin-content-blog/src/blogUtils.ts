@@ -7,9 +7,9 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import readingTime from 'reading-time';
 import _ from 'lodash';
-import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
+import logger from '@docusaurus/logger';
+import readingTime from 'reading-time';
 import {
   parseMarkdownString,
   normalizeUrl,
@@ -24,10 +24,9 @@ import {
   getFileCommitDate,
   getContentPathList,
 } from '@docusaurus/utils';
-import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import logger from '@docusaurus/logger';
+import type {LoadContext} from '@docusaurus/types';
 import type {
   PluginOptions,
   ReadingTimeFunction,
@@ -35,6 +34,7 @@ import type {
   BlogTags,
   BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
+import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;

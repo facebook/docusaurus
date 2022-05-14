@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {removeSuffix} from './jsUtils';
 import resolvePathnameUnsafe from 'resolve-pathname';
+import {removeSuffix} from './jsUtils';
 
 /**
  * Much like `path.join`, but much better. Takes an array of URL segments, and

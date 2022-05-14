@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin} from '@docusaurus/types';
-import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
 import path from 'path';
+import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 
 export default function pluginDebug({
   siteConfig: {baseUrl},

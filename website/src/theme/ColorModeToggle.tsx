@@ -7,7 +7,6 @@
 
 import React from 'react';
 import OriginalToggle from '@theme-original/ColorModeToggle';
-import type {Props} from '@theme/ColorModeToggle';
 import {
   lightStorage,
   darkStorage,
@@ -19,6 +18,7 @@ import {
   DARK_BACKGROUND_COLOR,
   COLOR_SHADES,
 } from '@site/src/utils/colorUtils';
+import type {Props} from '@theme/ColorModeToggle';
 
 // The ColorGenerator modifies the DOM styles. The styles are persisted in
 // session storage, and we need to apply the same style when toggling modes even

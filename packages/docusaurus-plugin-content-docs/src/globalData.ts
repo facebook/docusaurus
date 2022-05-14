@@ -6,7 +6,6 @@
  */
 
 import _ from 'lodash';
-import type {Sidebars} from './sidebars/types';
 import {getMainDocId} from './docs';
 import type {FullVersion} from './types';
 import type {
@@ -18,6 +17,7 @@ import type {
   GlobalSidebar,
   GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
+import type {Sidebars} from './sidebars/types';
 
 function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {

@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
+import path from 'path';
+import logger from '@docusaurus/logger';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import type {
   LoadedPlugin,
   PluginVersionInformation,
   SiteMetadata,
 } from '@docusaurus/types';
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
-import fs from 'fs-extra';
-import path from 'path';
-import logger from '@docusaurus/logger';
 
 async function getPackageJsonVersion(
   packageJsonPath: string,

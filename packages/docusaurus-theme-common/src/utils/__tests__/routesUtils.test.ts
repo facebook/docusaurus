@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RouteConfig} from 'react-router-config';
 import {findHomePageRoute, isSamePath} from '../routesUtils';
+import type {RouteConfig} from 'react-router-config';
 
 describe('isSamePath', () => {
   it('returns true for compared path without trailing slash', () => {

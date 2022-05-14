@@ -6,13 +6,13 @@
  */
 
 import {parse, type ParserOptions} from '@babel/parser';
-import type {Identifier} from '@babel/types';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
 import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 
+import type {Identifier} from '@babel/types';
 import type {TOCItem} from '../..';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';

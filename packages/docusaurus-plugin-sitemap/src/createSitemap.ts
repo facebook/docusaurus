@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactElement} from 'react';
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {createMatcher} from '@docusaurus/utils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
-import type {ReactElement} from 'react';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,

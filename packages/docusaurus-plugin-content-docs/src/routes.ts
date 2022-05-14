@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
+import logger from '@docusaurus/logger';
 import {docuHash, createSlugger} from '@docusaurus/utils';
+import {toVersionMetadataProp} from './props';
+import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import type {FullVersion} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
 } from '@docusaurus/plugin-content-docs';
-import {toVersionMetadataProp} from './props';
-import logger from '@docusaurus/logger';
 
 export async function createCategoryGeneratedIndexRoutes({
   version,

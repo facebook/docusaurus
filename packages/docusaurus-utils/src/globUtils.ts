@@ -7,8 +7,8 @@
 
 // Globby/Micromatch are the 2 libs we use in Docusaurus consistently
 
-import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import path from 'path';
+import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 
 /** A re-export of the globby instance. */
 export {default as Globby} from 'globby';

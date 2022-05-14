@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateOptions, DEFAULT_OPTIONS} from '../options';
+import {GlobExcludeDefault} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
-import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {Options} from '@docusaurus/plugin-content-docs';
 
 // The type of remark/rehype plugins can be function/object

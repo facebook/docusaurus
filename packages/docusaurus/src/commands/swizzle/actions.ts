@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
+import {askSwizzleAction} from './prompts';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleCLIOptions} from './common';
-import {askSwizzleAction} from './prompts';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
@@ -122,8 +122,8 @@ export async function wrap({
 
   const content = typescript
     ? `import React, {ComponentProps} from 'react';
-import type ${componentName}Type from '@theme/${themeComponentName}';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
+import type ${componentName}Type from '@theme/${themeComponentName}';
 
 type Props = ComponentProps<typeof ${componentName}Type>;
 

@@ -6,8 +6,8 @@
  */
 
 import path from 'path';
-import {CURRENT_VERSION_NAME} from '../constants';
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import {CURRENT_VERSION_NAME} from '../constants';
 import {validateVersionsOptions} from './validation';
 import {
   getDocsDirPathLocalized,

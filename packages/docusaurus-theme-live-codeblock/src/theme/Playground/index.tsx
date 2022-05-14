@@ -6,15 +6,16 @@
  */
 
 import React from 'react';
-import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {usePrismTheme} from '@docusaurus/theme-common';
-import styles from './styles.module.css';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@theme/Playground';
+
+import styles from './styles.module.css';
 import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
 function Header({children}: {children: React.ReactNode}) {

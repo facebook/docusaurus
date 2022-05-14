@@ -6,12 +6,12 @@
  */
 
 import React from 'react';
-
 import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
-import styles from './styles.module.css';
 import ThemedImage from '@theme/ThemedImage';
 import type {Props} from '@theme/Footer/Logo';
+
+import styles from './styles.module.css';
 
 function LogoImage({logo}: Props) {
   const {withBaseUrl} = useBaseUrlUtils();
