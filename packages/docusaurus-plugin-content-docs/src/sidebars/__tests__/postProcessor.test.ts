@@ -35,6 +35,7 @@ describe('postProcess', () => {
       {
         sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
         version: {path: 'version'},
+        drafts: [],
       },
     );
 
@@ -54,6 +55,7 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
           version: {path: 'version'},
+          drafts: [],
         },
       );
     }).toThrowErrorMatchingInlineSnapshot(
@@ -79,6 +81,7 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
           version: {path: 'version'},
+          drafts: [],
         },
       ),
     ).toMatchSnapshot();
@@ -99,6 +102,7 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: false, sidebarCollapsible: false},
           version: {path: 'version'},
+          drafts: [],
         },
       ),
     ).toMatchSnapshot();
@@ -118,6 +122,37 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: false},
           version: {path: 'version'},
+          drafts: [],
+        },
+      ),
+    ).toMatchSnapshot();
+  });
+
+  it('filters draft items', () => {
+    expect(
+      postProcessSidebars(
+        {
+          sidebar: [
+            {
+              type: 'category',
+              label: 'Category',
+              items: [{type: 'doc', id: 'foo'}],
+            },
+            {
+              type: 'category',
+              label: 'Category',
+              link: {
+                type: 'doc',
+                id: 'another',
+              },
+              items: [{type: 'doc', id: 'foo'}],
+            },
+          ],
+        },
+        {
+          sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
+          version: {path: 'version'},
+          drafts: [{id: 'foo', unversionedId: 'foo'}],
         },
       ),
     ).toMatchSnapshot();

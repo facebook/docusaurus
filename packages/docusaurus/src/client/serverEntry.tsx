@@ -5,26 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as eta from 'eta';
 import React from 'react';
+import path from 'path';
+import fs from 'fs-extra';
+// eslint-disable-next-line no-restricted-imports
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import * as eta from 'eta';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
-
 import {minify} from 'html-minifier-terser';
-import path from 'path';
-import fs from 'fs-extra';
 import preload from './preload';
 import App from './App';
 import {
   createStatefulLinksCollector,
   LinksCollectorProvider,
 } from './LinksCollector';
-import logger from '@docusaurus/logger';
-// eslint-disable-next-line no-restricted-imports
-import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>

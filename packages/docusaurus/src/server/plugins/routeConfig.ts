@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RouteConfig} from '@docusaurus/types';
 import {
   applyTrailingSlash,
   type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
+import type {RouteConfig} from '@docusaurus/types';
 
 /** Recursively applies trailing slash config to all nested routes. */
 export function applyRouteTrailingSlash(

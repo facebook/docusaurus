@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/MDXComponents/Img';
-import styles from './Img.module.css';
 import clsx from 'clsx';
+import type {Props} from '@theme/MDXComponents/Img';
+
+import styles from './styles.module.css';
 
 function transformImgClassName(className?: string): string {
   return clsx(className, styles.img);

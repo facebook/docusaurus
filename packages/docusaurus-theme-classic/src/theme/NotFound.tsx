@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
 import {PageMetadata} from '@docusaurus/theme-common';
+import Layout from '@theme/Layout';
 
 export default function NotFound(): JSX.Element {
   return (

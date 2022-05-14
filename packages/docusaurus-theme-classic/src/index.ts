@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {CSSProperties} from 'react';
 import path from 'path';
-import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {ThemeConfig} from '@docusaurus/theme-common';
-import {getTranslationFiles, translateThemeConfig} from './translations';
 import {createRequire} from 'module';
-import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import {getTranslationFiles, translateThemeConfig} from './translations';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 import type {PrismTheme} from 'prism-react-renderer';
-import type {CSSProperties} from 'react';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),

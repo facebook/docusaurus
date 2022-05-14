@@ -7,9 +7,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/CodeBlock/Line';
-import styles from './styles.module.css';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import type {Props} from '@theme/CodeBlock/Line';
+
+import styles from './styles.module.css';
 
 export default function CodeBlockLine({
   line,

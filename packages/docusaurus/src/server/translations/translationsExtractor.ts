@@ -5,23 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import nodePath from 'path';
 import fs from 'fs-extra';
+import logger from '@docusaurus/logger';
 import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
-import logger from '@docusaurus/logger';
 import {
   parse,
   type types as t,
   type NodePath,
   type TransformOptions,
 } from '@babel/core';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
+import {safeGlobby} from '../utils';
 import type {
   InitializedPlugin,
   TranslationFileContent,
 } from '@docusaurus/types';
-import nodePath from 'path';
-import {SRC_DIR_NAME} from '@docusaurus/utils';
-import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([

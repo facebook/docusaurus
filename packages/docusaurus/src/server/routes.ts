@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import query from 'querystring';
+import _ from 'lodash';
 import {
   docuHash,
   normalizeUrl,
@@ -12,8 +14,6 @@ import {
   escapePath,
   reportMessage,
 } from '@docusaurus/utils';
-import _ from 'lodash';
-import query from 'querystring';
 import {getAllFinalRoutes} from './utils';
 import type {
   Module,

@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {useColorMode} from '@docusaurus/theme-common';
 import type {Props} from '@theme/ThemedImage';

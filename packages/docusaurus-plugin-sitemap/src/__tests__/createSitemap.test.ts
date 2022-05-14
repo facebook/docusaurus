@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
+import {EnumChangefreq} from 'sitemap';
 import createSitemap from '../createSitemap';
 import type {DocusaurusConfig} from '@docusaurus/types';
-import {EnumChangefreq} from 'sitemap';
 
 describe('createSitemap', () => {
   it('simple site', async () => {

@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {Joi} from '@docusaurus/utils-validation';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
-import {Joi} from '@docusaurus/utils-validation';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 export default function pluginIdealImage(
   context: LoadContext,

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import path from 'path';
+import logger from '@docusaurus/logger';
 import sharp from 'sharp';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

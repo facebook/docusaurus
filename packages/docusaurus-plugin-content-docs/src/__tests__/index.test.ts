@@ -7,32 +7,27 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
+import fs from 'fs-extra';
+import _ from 'lodash';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
-import _ from 'lodash';
-
-import fs from 'fs-extra';
-import pluginContentDocs from '../index';
+import webpack from 'webpack';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
-import type {RouteConfig} from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins/routeConfig';
-
-import * as cliDocs from '../cli';
-import {validateOptions} from '../options';
+import {posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {LoadedVersion} from '../types';
-import type {
-  SidebarItem,
-  SidebarItemsGeneratorOption,
-  SidebarItemsGeneratorOptionArgs,
-} from '../sidebars/types';
-import {toSidebarsProp} from '../props';
 
-import webpack from 'webpack';
+import pluginContentDocs from '../index';
+import {toSidebarsProp} from '../props';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
+import * as cliDocs from '../cli';
+import {validateOptions} from '../options';
+
+import type {RouteConfig} from '@docusaurus/types';
+import type {LoadedVersion} from '@docusaurus/plugin-content-docs';
+import type {SidebarItem, SidebarItemsGeneratorOption} from '../sidebars/types';
 
 function findDocById(version: LoadedVersion, unversionedId: string) {
   return version.docs.find((item) => item.unversionedId === unversionedId);
@@ -768,14 +763,14 @@ describe('site with custom sidebar items generator', () => {
     const customSidebarItemsGeneratorMock = jest.fn(async () => []);
     const {siteDir} = await loadSite(customSidebarItemsGeneratorMock);
 
-    const generatorArg: SidebarItemsGeneratorOptionArgs =
+    const generatorArg: Parameters<SidebarItemsGeneratorOption>[0] =
       customSidebarItemsGeneratorMock.mock.calls[0][0];
 
     // Make test pass even if docs are in different order and paths are
     // absolutes
     function makeDeterministic(
-      arg: SidebarItemsGeneratorOptionArgs,
-    ): SidebarItemsGeneratorOptionArgs {
+      arg: Parameters<SidebarItemsGeneratorOption>[0],
+    ): Parameters<SidebarItemsGeneratorOption>[0] {
       return {
         ...arg,
         docs: _.orderBy(arg.docs, 'id'),

@@ -7,16 +7,15 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import LastUpdated from '@theme/LastUpdated';
-import type {Props} from '@theme/DocItem';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {
   type Props as TagsListInlineProps,
 } from '@theme/TagsListInline';
+import type {Props} from '@theme/DocItem';
 
 import styles from './styles.module.css';
-import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function TagsRow(props: TagsListInlineProps) {
   return (

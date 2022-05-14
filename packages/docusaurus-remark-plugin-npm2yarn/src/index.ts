@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import visit from 'unist-util-visit';
+import npmToYarn from 'npm-to-yarn';
 import type {Code, Content, Literal} from 'mdast';
 import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
-import visit from 'unist-util-visit';
-import npmToYarn from 'npm-to-yarn';
 
 type PluginOptions = {
   sync?: boolean;

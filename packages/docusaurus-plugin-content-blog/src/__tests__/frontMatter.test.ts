@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateBlogPostFrontMatter} from '../frontMatter';
 import escapeStringRegexp from 'escape-string-regexp';
+import {validateBlogPostFrontMatter} from '../frontMatter';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 // TODO this abstraction reduce verbosity but it makes it harder to debug

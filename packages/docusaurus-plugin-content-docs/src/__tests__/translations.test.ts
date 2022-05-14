@@ -5,14 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadedContent, LoadedVersion} from '../types';
+import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {
   getLoadedContentTranslationFiles,
   translateLoadedContent,
 } from '../translations';
-import type {DocMetadata} from '@docusaurus/plugin-content-docs';
-import {updateTranslationFileMessages} from '@docusaurus/utils';
+import type {
+  DocMetadata,
+  LoadedContent,
+  LoadedVersion,
+} from '@docusaurus/plugin-content-docs';
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PrismTheme} from 'prism-react-renderer';
 import {useColorMode} from '../contexts/colorMode';
 import {useThemeConfig} from '../utils/useThemeConfig';
+import type {PrismTheme} from 'prism-react-renderer';
 
 /**
  * Returns a color-mode-dependent Prism theme: whatever the user specified in

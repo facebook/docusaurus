@@ -6,11 +6,21 @@
  */
 
 import React, {useState, useMemo, useEffect} from 'react';
+import clsx from 'clsx';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import Translate, {translate} from '@docusaurus/Translate';
+import {useHistory, useLocation} from '@docusaurus/router';
+import {usePluralForm} from '@docusaurus/theme-common';
 
 import Layout from '@theme/Layout';
-import clsx from 'clsx';
-
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import {
+  sortedUsers,
+  Tags,
+  TagList,
+  type User,
+  type TagType,
+} from '@site/src/data/users';
 import ShowcaseTagSelect, {
   readSearchTags,
 } from './_components/ShowcaseTagSelect';
@@ -19,19 +29,7 @@ import ShowcaseFilterToggle, {
   readOperator,
 } from './_components/ShowcaseFilterToggle';
 import ShowcaseCard from './_components/ShowcaseCard';
-import {
-  sortedUsers,
-  Tags,
-  TagList,
-  type User,
-  type TagType,
-} from '@site/src/data/users';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
-
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import Translate, {translate} from '@docusaurus/Translate';
-import {useHistory, useLocation} from '@docusaurus/router';
-import {usePluralForm} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 

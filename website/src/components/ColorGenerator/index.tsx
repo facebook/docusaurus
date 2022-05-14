@@ -8,12 +8,11 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Color from 'color';
-import CodeBlock from '@theme/CodeBlock';
-import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import {useColorMode} from '@docusaurus/theme-common';
-
+import CodeBlock from '@theme/CodeBlock';
+import Admonition from '@theme/Admonition';
 import {
   type ColorState,
   COLOR_SHADES,

@@ -7,6 +7,8 @@
 
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
+import {StaticRouter} from 'react-router-dom';
+import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import {
   findFirstCategoryLink,
   isActiveSidebarItem,
@@ -17,8 +19,6 @@ import {
 } from '../docsUtils';
 import {DocsSidebarProvider} from '../../contexts/docsSidebar';
 import {DocsVersionProvider} from '../../contexts/docsVersion';
-import {StaticRouter} from 'react-router-dom';
-import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import type {
   PropSidebar,
   PropSidebarItem,

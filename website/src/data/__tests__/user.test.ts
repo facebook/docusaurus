@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {TagList, sortedUsers, type User} from '../users';
-import {Joi} from '@docusaurus/utils-validation';
-
 import fs from 'fs-extra';
 import path from 'path';
 import imageSize from 'image-size';
+import {Joi} from '@docusaurus/utils-validation';
+import {TagList, sortedUsers, type User} from '../users';
 
 declare global {
   namespace jest {

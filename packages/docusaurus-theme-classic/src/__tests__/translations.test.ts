@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {getTranslationFiles, translateThemeConfig} from '../translations';
 import type {ThemeConfig} from '@docusaurus/theme-common';
-import {updateTranslationFileMessages} from '@docusaurus/utils';
 
 const ThemeConfigSample: ThemeConfig = {
   colorMode: {},

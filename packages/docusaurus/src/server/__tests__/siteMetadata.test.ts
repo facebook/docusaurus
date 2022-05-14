@@ -6,8 +6,8 @@
  */
 
 import {jest} from '@jest/globals';
-import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
 import path from 'path';
+import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
 
 describe('getPluginVersion', () => {
   it('detects external packages plugins versions', async () => {

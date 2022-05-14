@@ -6,10 +6,10 @@
  */
 
 import {jest} from '@jest/globals';
-import {migrateDocusaurusProject} from '../index';
 import path from 'path';
 import fs from 'fs-extra';
 import {posixPath} from '@docusaurus/utils';
+import {migrateDocusaurusProject} from '../index';
 
 async function testMigration(siteDir: string, newDir: string) {
   const writeMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});

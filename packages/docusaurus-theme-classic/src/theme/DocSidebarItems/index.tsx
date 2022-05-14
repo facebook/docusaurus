@@ -6,8 +6,8 @@
  */
 
 import React, {memo} from 'react';
-import DocSidebarItem from '@theme/DocSidebarItem';
 import {DocSidebarItemsExpandedStateProvider} from '@docusaurus/theme-common';
+import DocSidebarItem from '@theme/DocSidebarItem';
 
 import type {Props} from '@theme/DocSidebarItems';
 

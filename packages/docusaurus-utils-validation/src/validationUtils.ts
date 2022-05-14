@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type Joi from './Joi';
 import logger from '@docusaurus/logger';
 import Yaml from 'js-yaml';
 import {PluginIdSchema} from './validationSchemas';
+import type Joi from './Joi';
 
 /** Print warnings returned from Joi validation. */
 export function printWarning(warning?: Joi.ValidationError): void {

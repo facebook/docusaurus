@@ -60,14 +60,21 @@ exports[`postProcess corrects collapsed state inconsistencies 3`] = `
 }
 `;
 
-exports[`postProcess transforms category without subitems 1`] = `
+exports[`postProcess filters draft items 1`] = `
 {
   "sidebar": [
     {
-      "href": "version/generated/permalink",
+      "id": "another",
       "label": "Category",
-      "type": "link",
+      "type": "doc",
     },
+  ],
+}
+`;
+
+exports[`postProcess transforms category without subitems 1`] = `
+{
+  "sidebar": [
     {
       "id": "doc ID",
       "label": "Category 2",

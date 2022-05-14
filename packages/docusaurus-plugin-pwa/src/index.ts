@@ -5,18 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-pwa';
+import path from 'path';
+import webpack, {type Configuration} from 'webpack';
+import Terser from 'terser-webpack-plugin';
+import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import {compile} from '@docusaurus/core/lib/webpack/utils';
 import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-
-import path from 'path';
-import webpack, {type Configuration} from 'webpack';
-import Terser from 'terser-webpack-plugin';
-
-import {injectManifest} from 'workbox-build';
+import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
 const isProd = process.env.NODE_ENV === 'production';
 

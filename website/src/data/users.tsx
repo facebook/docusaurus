@@ -178,6 +178,14 @@ const Users: User[] = [
     tags: [],
   },
   {
+    title: "Akara's blog",
+    description: 'Personal frontend blog for learning',
+    preview: require('./showcase/akara-blog.png'),
+    website: 'https://messiahhh.github.io/blog/',
+    source: 'https://github.com/messiahhh/blog',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Algolia Docsearch',
     description:
       'The best search experience for docs, integrates in minutes, for free',
@@ -748,7 +756,8 @@ const Users: User[] = [
   },
   {
     title: 'GeekyWeb',
-    description: 'Global State and Logic Framework for reactive Applications',
+    description:
+      'Learn to code yourself by exploring documentations, try GeekyWeb once',
     preview: require('./showcase/geekyweb.png'),
     website: 'https://geekyweb.eu.org/',
     source: 'https://github.com/Designatory/GeekyWeb',
@@ -1347,6 +1356,14 @@ const Users: User[] = [
     website: 'https://pglet.io',
     source: 'https://github.com/pglet/website',
     tags: ['opensource'],
+  },
+  {
+    title: 'Piano Analytics',
+    description: 'Piano Analytics SDKs documentation for developers',
+    preview: require('./showcase/piano-analytics.png'),
+    website: 'https://developers.atinternet-solutions.com/piano-analytics/',
+    source: null,
+    tags: ['favorite', 'product', 'design'],
   },
   {
     title: 'Pipeline UI',
@@ -2151,6 +2168,14 @@ const Users: User[] = [
     website: 'https://docs.antonpalmqvist.com/',
     source: null,
     tags: ['product'],
+  },
+  {
+    title: 'Vital',
+    description: 'Wearables and Lab test API for digital health companies.',
+    preview: require('./showcase/vital.png'),
+    website: 'https://docs.tryvital.io',
+    source: 'https://github.com/tryVital/vital-docs-new',
+    tags: ['opensource', 'product', 'design'],
   },
   {
     title: 'Vue NodeGui',

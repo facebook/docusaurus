@@ -6,10 +6,10 @@
  */
 
 import React from 'react';
-import {useAlternatePageUtils} from '../useAlternatePageUtils';
 import {renderHook} from '@testing-library/react-hooks';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
+import {useAlternatePageUtils} from '../useAlternatePageUtils';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('useAlternatePageUtils', () => {

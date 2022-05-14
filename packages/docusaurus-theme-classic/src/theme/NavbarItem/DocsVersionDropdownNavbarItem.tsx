@@ -6,8 +6,6 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import {
   useVersions,
   useActiveDocContext,
@@ -17,8 +15,10 @@ import {
   useDocsVersionCandidates,
 } from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
-import type {GlobalVersion} from '@docusaurus/plugin-content-docs/client';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import type {GlobalVersion} from '@docusaurus/plugin-content-docs/client';
 
 const getVersionMainDoc = (version: GlobalVersion) =>
   version.docs.find((doc) => doc.id === version.mainDocId)!;

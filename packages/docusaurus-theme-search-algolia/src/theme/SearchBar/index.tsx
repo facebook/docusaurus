@@ -14,7 +14,6 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
-import type {SearchClient} from 'algoliasearch/lite';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate, {translate} from '@docusaurus/Translate';
 
@@ -26,6 +25,7 @@ import type {
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from '@docsearch/react/dist/esm/types';
+import type {SearchClient} from 'algoliasearch/lite';
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 
 type DocSearchProps = Omit<

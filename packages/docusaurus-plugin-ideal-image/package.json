@@ -30,7 +30,7 @@
     "react-waypoint": "^10.1.0",
     "sharp": "^0.30.4",
     "tslib": "^2.4.0",
-    "webpack": "^5.72.0"
+    "webpack": "^5.72.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.20",

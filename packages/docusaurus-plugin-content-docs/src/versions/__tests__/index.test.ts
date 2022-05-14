@@ -7,9 +7,9 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {readVersionsMetadata} from '../index';
 import {DEFAULT_OPTIONS} from '../../options';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {I18n} from '@docusaurus/types';
 import type {
   PluginOptions,

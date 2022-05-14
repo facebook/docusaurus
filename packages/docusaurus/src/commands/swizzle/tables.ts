@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import Table from 'cli-table3';
-import _ from 'lodash';
-import type {ThemeComponents} from './components';
 import {SwizzleActions} from './actions';
-import type {SwizzleActionStatus} from '@docusaurus/types';
 import {actionStatusColor, actionStatusLabel} from './common';
+import type {SwizzleActionStatus} from '@docusaurus/types';
+import type {ThemeComponents} from './components';
 
 function tableStatusLabel(status: SwizzleActionStatus): string {
   return actionStatusColor(status, actionStatusLabel(status));
