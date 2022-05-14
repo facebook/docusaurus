@@ -15,7 +15,7 @@ import type {LoadContext} from '@docusaurus/types';
 
 async function findConfig(siteDir: string) {
   // We could support .mjs, .ts, etc. in the future
-  const candidates = ['.js', 'cjs'].map(
+  const candidates = ['.js', '.cjs'].map(
     (ext) => DEFAULT_CONFIG_FILE_NAME + ext,
   );
   const configPath = await findAsyncSequential(
@@ -24,7 +24,8 @@ async function findConfig(siteDir: string) {
   );
   if (!configPath) {
     logger.error('No config file found.');
-    logger.info`Expected one of:${candidates}You can provide a custom config path with the code=${'--config'} option.`;
+    logger.info`Expected one of:${candidates}
+You can provide a custom config path with the code=${'--config'} option.`;
     throw new Error();
   }
   return configPath;

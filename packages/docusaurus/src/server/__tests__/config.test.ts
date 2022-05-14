@@ -20,9 +20,7 @@ describe('loadSiteConfig', () => {
   });
 
   it('website with .cjs siteConfig', async () => {
-    const config = await loadSiteConfig({
-      siteDir: path.join(__dirname, '__fixtures__', 'simple-site'),
-    });
+    const config = await loadSiteConfig({siteDir});
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });

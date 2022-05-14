@@ -5,11 +5,8 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
   "siteConfig": {
     "baseUrl": "/",
     "baseUrlIssueBanner": true,
-    "clientModules": [
-      "foo.js",
-    ],
+    "clientModules": [],
     "customFields": {},
-    "favicon": "img/docusaurus.ico",
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {},
@@ -21,31 +18,21 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "onBrokenLinks": "throw",
     "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
-    "organizationName": "endiliey",
-    "plugins": [
-      [
-        "@docusaurus/plugin-content-docs",
-        {
-          "path": "../docs",
-        },
-      ],
-      "@docusaurus/plugin-content-pages",
-    ],
+    "plugins": [],
     "presets": [],
-    "projectName": "hello",
     "scripts": [],
     "staticDirectories": [
       "static",
     ],
     "stylesheets": [],
-    "tagline": "Hello World",
+    "tagline": "",
     "themeConfig": {},
     "themes": [],
-    "title": "Hello",
+    "title": "title",
     "titleDelimiter": "|",
-    "url": "https://docusaurus.io",
+    "url": "https://example.com",
   },
-  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/simple-site/docusaurus.config.js",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/docusaurus.config.cjs",
 }
 `;
 
