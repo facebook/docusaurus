@@ -14,11 +14,11 @@ import {usePluralForm} from '@docusaurus/theme-common';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import MDXContent from '@theme/MDXContent';
 import EditThisPage from '@theme/EditThisPage';
+import TagsListInline from '@theme/TagsListInline';
+import BlogPostAuthors from '@theme/BlogPostAuthors';
 import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
-import TagsListInline from '@theme/TagsListInline';
-import BlogPostAuthors from '@theme/BlogPostAuthors';
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {

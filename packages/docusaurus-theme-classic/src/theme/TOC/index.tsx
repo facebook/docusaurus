@@ -7,8 +7,9 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/TOC';
 import TOCItems from '@theme/TOCItems';
+import type {Props} from '@theme/TOC';
+
 import styles from './styles.module.css';
 
 // Using a custom className

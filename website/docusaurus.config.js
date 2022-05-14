@@ -7,14 +7,14 @@
 // @ts-check
 
 const path = require('path');
-const versions = require('./versions.json');
 const math = require('remark-math');
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+const versions = require('./versions.json');
 const VersionsArchived = require('./versionsArchived.json');
 const {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
 } = require('./_dogfooding/dogfooding.config');
-const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -337,7 +337,8 @@ const config = {
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
-            require.resolve('./_dogfooding/dogfooding.css'),
+            // relative paths are relative to site dir
+            './_dogfooding/dogfooding.css',
           ],
         },
         gtag: !isDeployPreview

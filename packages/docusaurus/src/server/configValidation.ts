@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {
   DEFAULT_CONFIG_FILE_NAME,
   DEFAULT_STATIC_DIR_NAME,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -185,6 +185,7 @@ export const ConfigSchema = Joi.object({
   deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
+  githubPort: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
   themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),

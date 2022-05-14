@@ -21,9 +21,9 @@ import {
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
 } from '@docusaurus/utils';
-import type {LoadContext, Plugin} from '@docusaurus/types';
 import {validatePageFrontMatter} from './frontMatter';
 
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PagesContentPaths} from './types';
 import type {
   PluginOptions,

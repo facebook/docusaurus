@@ -6,10 +6,9 @@
  */
 
 import React from 'react';
+import ComponentTypes from '@theme/NavbarItem/ComponentTypes';
 import {type Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
 import type {Types, Props} from '@theme/NavbarItem';
-
-import ComponentTypes from '@theme/NavbarItem/ComponentTypes';
 
 const getNavbarItemComponent = (type: NonNullable<Types>) => {
   const component = ComponentTypes[type];

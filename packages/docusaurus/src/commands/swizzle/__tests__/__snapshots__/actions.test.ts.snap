@@ -44,8 +44,8 @@ export default function FirstLevelComponentWrapper(props) {
 
 exports[`wrap TypeScript wrap ComponentInFolder 2`] = `
 "import React, {ComponentProps} from 'react';
-import type ComponentInFolderType from '@theme/ComponentInFolder';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
+import type ComponentInFolderType from '@theme/ComponentInFolder';
 
 type Props = ComponentProps<typeof ComponentInFolderType>;
 
@@ -61,8 +61,8 @@ export default function ComponentInFolderWrapper(props: Props): JSX.Element {
 
 exports[`wrap TypeScript wrap ComponentInFolder/ComponentInSubFolder 2`] = `
 "import React, {ComponentProps} from 'react';
-import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 
 type Props = ComponentProps<typeof ComponentInSubFolderType>;
 
@@ -78,8 +78,8 @@ export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
 
 exports[`wrap TypeScript wrap FirstLevelComponent 2`] = `
 "import React, {ComponentProps} from 'react';
-import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 
 type Props = ComponentProps<typeof FirstLevelComponentType>;
 

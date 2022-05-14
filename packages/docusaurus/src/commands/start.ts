@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
-import chokidar from 'chokidar';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import chokidar from 'chokidar';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';

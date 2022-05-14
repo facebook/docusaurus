@@ -6,24 +6,22 @@
  */
 
 import path from 'path';
-import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
-
-import type {Props} from '@docusaurus/types';
-import {createBaseConfig} from './base';
-import WaitPlugin from './plugins/WaitPlugin';
-import LogPlugin from './plugins/LogPlugin';
 import {
   NODE_MAJOR_VERSION,
   NODE_MINOR_VERSION,
   DOCUSAURUS_VERSION,
 } from '@docusaurus/utils';
-import ssrDefaultTemplate from './templates/ssr.html.template';
-
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import StaticSiteGeneratorPlugin, {
   type Locals,
 } from '@slorber/static-site-generator-webpack-plugin';
+import {createBaseConfig} from './base';
+import WaitPlugin from './plugins/WaitPlugin';
+import LogPlugin from './plugins/LogPlugin';
+import ssrDefaultTemplate from './templates/ssr.html.template';
+import type {Props} from '@docusaurus/types';
+import type {Configuration} from 'webpack';
 
 export default async function createServerConfig({
   props,

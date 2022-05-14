@@ -6,17 +6,18 @@
  */
 
 import React, {type ReactNode} from 'react';
+import clsx from 'clsx';
 import {
   ThemeClassNames,
   useSidebarBreadcrumbs,
   useHomePageRoute,
 } from '@docusaurus/theme-common';
-import styles from './styles.module.css';
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {translate} from '@docusaurus/Translate';
 import IconHome from '@theme/IconHome';
+
+import styles from './styles.module.css';
 
 // TODO move to design system folder
 function BreadcrumbsItemLink({

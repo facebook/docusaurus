@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getLangDir} from 'rtl-detect';
 import logger from '@docusaurus/logger';
+import {getLangDir} from 'rtl-detect';
 import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import type {LoadContextOptions} from './index';
 

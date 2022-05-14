@@ -5,19 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
-import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
-import {load as cheerioLoad} from 'cheerio';
-import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
+import logger from '@docusaurus/logger';
+import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
+import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
+import {blogPostContainerID} from '@docusaurus/utils-common';
+import {load as cheerioLoad} from 'cheerio';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import type {
   FeedType,
   PluginOptions,
   Author,
   BlogPost,
 } from '@docusaurus/plugin-content-blog';
-import {blogPostContainerID} from '@docusaurus/utils-common';
 
 async function generateBlogFeed({
   blogPosts,
@@ -127,7 +128,8 @@ async function createBlogFeedFile({
   try {
     await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
-    throw new Error(`Generating ${feedType} feed failed: ${err}.`);
+    logger.error(`Generating ${feedType} feed failed.`);
+    throw err;
   }
 }
 

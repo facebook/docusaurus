@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {FileNotTrackedError, getFileCommitDate} from '../gitUtils';
 import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
+import {FileNotTrackedError, getFileCommitDate} from '../gitUtils';
 
 /* eslint-disable no-restricted-properties */
 function initializeTempRepo() {

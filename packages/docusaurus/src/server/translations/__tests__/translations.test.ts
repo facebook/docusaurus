@@ -6,6 +6,9 @@
  */
 
 import {jest} from '@jest/globals';
+import fs from 'fs-extra';
+import path from 'path';
+import tmp from 'tmp-promise';
 import {
   writePluginTranslations,
   writeCodeTranslations,
@@ -15,14 +18,11 @@ import {
   getPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../translations';
-import fs from 'fs-extra';
-import tmp from 'tmp-promise';
 import type {
   InitializedPlugin,
   TranslationFile,
   TranslationFileContent,
 } from '@docusaurus/types';
-import path from 'path';
 
 async function createTmpSiteDir() {
   const {path: siteDirPath} = await tmp.dir({

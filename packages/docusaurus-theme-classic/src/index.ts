@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {ThemeConfig} from '@docusaurus/theme-common';
-import {getTranslationFiles, translateThemeConfig} from './translations';
+import path from 'path';
 import {createRequire} from 'module';
-import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import {getTranslationFiles, translateThemeConfig} from './translations';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 
@@ -141,11 +142,11 @@ export default function themeClassic(
       ];
 
       if (customCss) {
-        if (Array.isArray(customCss)) {
-          modules.push(...customCss);
-        } else {
-          modules.push(customCss);
-        }
+        modules.push(
+          ...(Array.isArray(customCss) ? customCss : [customCss]).map((p) =>
+            path.resolve(context.siteDir, p),
+          ),
+        );
       }
 
       return modules;

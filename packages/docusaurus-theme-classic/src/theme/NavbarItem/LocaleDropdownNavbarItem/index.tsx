@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import IconLanguage from '@theme/IconLanguage';
-import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+import IconLanguage from '@theme/IconLanguage';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 
 import styles from './styles.module.css';
 

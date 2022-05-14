@@ -8,10 +8,10 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import type {Props} from '@theme/NavbarItem/NavbarNavLink';
-import IconExternalLink from '@theme/IconExternalLink';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
+import IconExternalLink from '@theme/IconExternalLink';
+import type {Props} from '@theme/NavbarItem/NavbarNavLink';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
 

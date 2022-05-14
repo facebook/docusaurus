@@ -1,5 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loadSidebars loads sidebars with index-only categories 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "tutorials/tutorial-basics",
+          "label": "tutorial-basics",
+          "type": "doc",
+        },
+      ],
+      "label": "Tutorials",
+      "link": undefined,
+      "type": "category",
+    },
+    {
+      "id": "tutorials/tutorial-basics",
+      "label": "index-only",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars loads sidebars with interspersed draft items 1`] = `
+{
+  "sidebar": [
+    {
+      "id": "not-draft",
+      "label": "index not draft",
+      "type": "doc",
+    },
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "not-draft",
+          "type": "doc",
+        },
+      ],
+      "label": "subitem not draft",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
 exports[`loadSidebars sidebars link 1`] = `
 {
   "docs": [

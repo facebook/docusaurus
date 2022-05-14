@@ -191,23 +191,17 @@ div[class^='announcementBar_'] {
   content: 'site-custom-css-unique-rule';
 }
 
-@media only screen and (max-width: 996px) {
-  .video-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    max-width: 560px;
-    margin: 0 auto;
-    padding-top: 56.25%;
-  }
+.video-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
 
-  .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+.yt-lite > .lty-playbtn {
+  cursor: pointer;
+  border: 0;
 }
 
 .dropdown-separator {

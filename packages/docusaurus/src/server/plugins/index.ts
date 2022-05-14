@@ -5,8 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {docuHash, generate} from '@docusaurus/utils';
 import path from 'path';
+import _ from 'lodash';
+import {docuHash, generate} from '@docusaurus/utils';
+import {initPlugins} from './init';
+import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
+import {localizePluginTranslationFile} from '../translations/translations';
+import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
 import type {
   LoadContext,
   PluginContentLoadedActions,
@@ -17,11 +22,6 @@ import type {
   InitializedPlugin,
   PluginRouteContext,
 } from '@docusaurus/types';
-import {initPlugins} from './init';
-import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
-import _ from 'lodash';
-import {localizePluginTranslationFile} from '../translations/translations';
-import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
 
 /**
  * Initializes the plugins, runs `loadContent`, `translateContent`,

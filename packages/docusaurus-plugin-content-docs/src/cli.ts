@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
+import path from 'path';
+import logger from '@docusaurus/logger';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {
   getVersionsFilePath,
   getVersionDocsDirPath,
@@ -12,13 +16,9 @@ import {
   getDocsDirPathLocalized,
 } from './versions/files';
 import {validateVersionName} from './versions/validation';
-import fs from 'fs-extra';
-import path from 'path';
-import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import {loadSidebarsFileUnsafe} from './sidebars';
 import {CURRENT_VERSION_NAME} from './constants';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 
 async function createVersionedSidebarFile({
@@ -64,9 +64,9 @@ export async function cliDocsVersionCommand(
 
   try {
     validateVersionName(version);
-  } catch (e) {
+  } catch (err) {
     logger.info`${pluginIdLogPrefix}: Invalid version name provided. Try something like: 1.0.0`;
-    throw e;
+    throw err;
   }
 
   // Load existing versions.

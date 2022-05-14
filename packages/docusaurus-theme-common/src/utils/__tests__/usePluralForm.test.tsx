@@ -7,9 +7,9 @@
 
 import {jest} from '@jest/globals';
 import React from 'react';
-import {usePluralForm} from '../usePluralForm';
 import {renderHook} from '@testing-library/react-hooks';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
+import {usePluralForm} from '../usePluralForm';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('usePluralForm', () => {

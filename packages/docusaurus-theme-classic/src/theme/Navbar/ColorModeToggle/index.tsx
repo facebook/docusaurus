@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import React from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import ColorModeToggle from '@theme/ColorModeToggle';
 import type {Props} from '@theme/Navbar/ColorModeToggle';
-import React from 'react';
 
 export default function NavbarColorModeToggle({
   className,

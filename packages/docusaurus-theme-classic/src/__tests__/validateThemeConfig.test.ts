@@ -6,11 +6,11 @@
  */
 
 import _ from 'lodash';
-import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 import {normalizeThemeConfig} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
+import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {

@@ -6,8 +6,8 @@
  */
 
 import {execSync, type ExecSyncOptionsWithStringEncoding} from 'child_process';
-import detect from 'detect-port';
 import logger from '@docusaurus/logger';
+import detect from 'detect-port';
 import {DEFAULT_PORT} from '@docusaurus/utils';
 import prompts from 'prompts';
 

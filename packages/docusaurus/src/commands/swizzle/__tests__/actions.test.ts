@@ -7,11 +7,11 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import tree from 'tree-node-cli';
+import {posixPath} from '@docusaurus/utils';
+import {eject, wrap} from '../actions';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
-import tree from 'tree-node-cli';
-import {eject, wrap} from '../actions';
-import {posixPath} from '@docusaurus/utils';
 
 // Use relative paths and sort files for tests
 function stableCreatedFiles(
@@ -69,6 +69,20 @@ describe('eject', () => {
               ├── index.tsx
               ├── styles.css
               └── styles.module.css"
+    `);
+  });
+
+  it(`eject ${Components.Sibling}`, async () => {
+    const result = await testEject('eject', Components.Sibling);
+    expect(result.createdFiles).toEqual([
+      'ComponentInFolder/Sibling.css',
+      'ComponentInFolder/Sibling.tsx',
+    ]);
+    expect(result.tree).toMatchInlineSnapshot(`
+      "theme
+      └── ComponentInFolder
+          ├── Sibling.css
+          └── Sibling.tsx"
     `);
   });
 

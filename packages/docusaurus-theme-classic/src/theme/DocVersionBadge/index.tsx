@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {ThemeClassNames, useDocsVersion} from '@docusaurus/theme-common';
-import clsx from 'clsx';
 import type {Props} from '@theme/DocVersionBadge';
 
 export default function DocVersionBadge({

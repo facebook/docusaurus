@@ -1,5 +1,32 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-beta.20 (2022-05-05)
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#7342](https://github.com/facebook/docusaurus/pull/7342) fix: avoid flash of page scrolling to top on refresh ([@slorber](https://github.com/slorber))
+  - [#7329](https://github.com/facebook/docusaurus/pull/7329) fix(core): inject docusaurus version into SSR as local ([@RDIL](https://github.com/RDIL))
+- `docusaurus-theme-classic`
+  - [#7341](https://github.com/facebook/docusaurus/pull/7341) fix(theme-classic): properly highlight code block line numbers ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### :memo: Documentation
+
+- [#7334](https://github.com/facebook/docusaurus/pull/7334) feat(website): make canary release page display actual canary version name ([@Josh-Cena](https://github.com/Josh-Cena))
+- [#7343](https://github.com/facebook/docusaurus/pull/7343) docs: add page for create-docusaurus API documentation ([@Josh-Cena](https://github.com/Josh-Cena))
+- [#7340](https://github.com/facebook/docusaurus/pull/7340) docs: add Yandex Metrika plugin to community plugins ([@sgromkov](https://github.com/sgromkov))
+- [#7336](https://github.com/facebook/docusaurus/pull/7336) fix(website): fix multiple accessibility issues around color contrast ([@Josh-Cena](https://github.com/Josh-Cena))
+- [#7327](https://github.com/facebook/docusaurus/pull/7327) docs: add clarity to versioning behavior ([@pepopowitz](https://github.com/pepopowitz))
+
+#### Committers: 6
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Sergey Gromkov ([@sgromkov](https://github.com/sgromkov))
+- Steven Hicks ([@pepopowitz](https://github.com/pepopowitz))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 2.0.0-beta.19 (2022-05-04)
 
 #### :rocket: New Feature

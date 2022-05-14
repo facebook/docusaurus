@@ -5,15 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import path from 'path';
-import type {Configuration} from 'webpack';
+import logger from '@docusaurus/logger';
 import merge from 'webpack-merge';
-
-import type {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
+import type {Props} from '@docusaurus/types';
+import type {Configuration} from 'webpack';
 
 export default async function createClientConfig(
   props: Props,

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {OptionValidationContext} from '@docusaurus/types';
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
+import type {OptionValidationContext} from '@docusaurus/types';
 
 export type RedirectOption = {
   to: string;

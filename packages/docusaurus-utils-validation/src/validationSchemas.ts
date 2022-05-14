@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Joi from './Joi';
 import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()

@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import path from 'path';
-import leven from 'leven';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import leven from 'leven';
 import {askThemeName} from './prompts';
 import {findStringIgnoringCase, type SwizzlePlugin} from './common';
 

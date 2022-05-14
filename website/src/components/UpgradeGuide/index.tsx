@@ -11,11 +11,11 @@ import {
   useActiveDocContext,
   useVersions,
 } from '@docusaurus/plugin-content-docs/client';
-import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
-import CodeBlock from '@theme/CodeBlock';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import Translate from '@docusaurus/Translate';
+import Admonition from '@theme/Admonition';
+import CodeBlock from '@theme/CodeBlock';
 
 function PackageJson() {
   const latestVersion = useLatestVersion();

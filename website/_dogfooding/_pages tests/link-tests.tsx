@@ -6,8 +6,8 @@
  */
 
 import React, {useRef} from 'react';
-import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import Layout from '@theme/Layout';
 
 export default function LinkTest(): JSX.Element {
   const anchorRef = useRef<HTMLAnchorElement>(null);

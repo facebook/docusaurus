@@ -16,6 +16,7 @@ atrule
 autoconverted
 autogen
 autogenerating
+autohide
 backport
 backticks
 bartosz
@@ -152,6 +153,7 @@ marcey
 marocchino
 massoud
 mathjax
+maxresdefault
 mdast
 mdxa
 mdxast
@@ -208,6 +210,7 @@ philpl
 photoshop
 picocolors
 picomatch
+playbtn
 pluggable
 plushie
 pnpm
@@ -267,6 +270,7 @@ sensical
 serializers
 setaf
 setext
+showinfo
 sida
 simen
 slorber

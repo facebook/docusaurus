@@ -11,6 +11,7 @@ import React, {
   isValidElement,
   type ReactElement,
 } from 'react';
+import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {
   useScrollPositionBlocker,
@@ -19,8 +20,6 @@ import {
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
-
-import clsx from 'clsx';
 
 import styles from './styles.module.css';
 

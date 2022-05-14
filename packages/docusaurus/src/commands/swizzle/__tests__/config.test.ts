@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {SwizzleConfig} from '@docusaurus/types';
 import {normalizeSwizzleConfig} from '../config';
+import type {SwizzleConfig} from '@docusaurus/types';
 
 describe('normalizeSwizzleConfig', () => {
   it(`validate no components config`, async () => {

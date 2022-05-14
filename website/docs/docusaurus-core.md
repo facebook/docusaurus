@@ -55,7 +55,7 @@ This component doesn't catch build-time errors and only protects against client-
 
 #### Props {#errorboundary-props}
 
-- `fallback`: an optional callback returning a JSX element. It will receive two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
+- `fallback`: a React component. The error boundary will render the component with two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
 
 ### `<Head/>` {#head}
 

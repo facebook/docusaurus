@@ -6,14 +6,14 @@
  */
 
 import http from 'http';
-import serveHandler from 'serve-handler';
-import logger from '@docusaurus/logger';
 import path from 'path';
-import type {LoadContextOptions} from '../server';
+import logger from '@docusaurus/logger';
+import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import serveHandler from 'serve-handler';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
-import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import type {LoadContextOptions} from '../server';
 
 export type ServeCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'config'> & {

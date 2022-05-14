@@ -10,18 +10,20 @@ import '@generated/client-modules';
 
 import routes from '@generated/routes';
 import {useLocation} from '@docusaurus/router';
-import normalizeLocation from './normalizeLocation';
 import renderRoutes from '@docusaurus/renderRoutes';
+import Root from '@theme/Root';
+import SiteMetadata from '@theme/SiteMetadata';
+import normalizeLocation from './normalizeLocation';
 import {BrowserContextProvider} from './browserContext';
 import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
-import Root from '@theme/Root';
-import SiteMetadata from '@theme/SiteMetadata';
 
 // TODO, quick fix for CSS insertion order
+// eslint-disable-next-line import/order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
+// eslint-disable-next-line import/order
 import Error from '@theme/Error';
 
 export default function App(): JSX.Element {

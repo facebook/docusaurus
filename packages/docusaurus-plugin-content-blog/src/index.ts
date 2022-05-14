@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import footnoteIDFixer from './remark/footnoteIDFixer';
 import {
   normalizeUrl,
   docuHash,
@@ -22,17 +21,18 @@ import {
   type TagsListItem,
   type TagModule,
 } from '@docusaurus/utils';
-import {translateContent, getTranslationFiles} from './translations';
-
-import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import {
   generateBlogPosts,
   getSourceToPermalink,
   getBlogTags,
   paginateBlogPosts,
 } from './blogUtils';
+import footnoteIDFixer from './remark/footnoteIDFixer';
+import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles} from './feed';
+
+import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,

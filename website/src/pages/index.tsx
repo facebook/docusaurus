@@ -6,6 +6,9 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -18,8 +21,6 @@ import Tweet from '@site/src/components/Tweet';
 import Tweets, {type TweetItem} from '@site/src/data/tweets';
 import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
-
-import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -162,14 +163,12 @@ function VideoContainer() {
             <Translate>Check it out in the intro video</Translate>
           </h2>
           <div className="video-container">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/_An9EsKPhp0"
+            <LiteYouTubeEmbed
+              id="_An9EsKPhp0"
+              params="autoplay=1&autohide=1&showinfo=0&rel=0"
               title="Explain Like I'm 5: Docusaurus"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
+              poster="maxresdefault"
+              webp
             />
           </div>
         </div>

@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -13,9 +16,6 @@ import {
   findAsyncSequential,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
-import path from 'path';
-import url from 'url';
-import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
 import type {Transformer} from 'unified';

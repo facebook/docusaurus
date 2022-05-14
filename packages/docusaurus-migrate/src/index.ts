@@ -5,11 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import fs from 'fs-extra';
-import importFresh from 'import-fresh';
 import logger from '@docusaurus/logger';
 import {Globby} from '@docusaurus/utils';
+import importFresh from 'import-fresh';
 import Color from 'color';
+
+import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
+import migratePage from './transform';
+import sanitizeMD from './sanitizeMD';
 
 import type {
   SidebarEntry,
@@ -17,10 +22,6 @@ import type {
   VersionOneConfig,
   VersionTwoConfig,
 } from './types';
-import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
-import migratePage from './transform';
-import sanitizeMD from './sanitizeMD';
-import path from 'path';
 
 const DOCUSAURUS_VERSION = (importFresh('../package.json') as {version: string})
   .version;

@@ -6,25 +6,27 @@
  */
 
 import fs from 'fs-extra';
-import {createCompiler} from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
-import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
+import {createCompiler} from '@mdx-js/mdx';
+import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
+
 import headings from './remark/headings';
 import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
+
+import transformAdmonitions from './remark/admonitions';
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
 import type {AdmonitionOptions} from './remark/admonitions';
-import transformAdmonitions from './remark/admonitions';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -33,7 +35,7 @@ const {
 const pragma = `
 /* @jsxRuntime classic */
 /* @jsx mdx */
-/* @jsxFrag mdx.Fragment */
+/* @jsxFrag React.Fragment */
 `;
 
 const DEFAULT_OPTIONS: MDXOptions = {

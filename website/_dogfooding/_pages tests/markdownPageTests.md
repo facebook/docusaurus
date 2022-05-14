@@ -183,3 +183,9 @@ Code tag + double pipe: <code>||</code>
 Details without a summary
 
 </details>
+
+This is a fragment:
+
+<>Hello</>
+
+It should work :)

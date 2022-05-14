@@ -6,10 +6,10 @@
  */
 
 import {jest} from '@jest/globals';
-import {extractThemeCodeMessages} from '../../src/utils';
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
+import {extractThemeCodeMessages} from '../../src/utils';
 
 // Seems the 5s default timeout fails sometimes
 jest.setTimeout(15000);

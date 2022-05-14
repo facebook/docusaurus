@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RuleSetRule} from 'webpack';
 import path from 'path';
 import {escapePath} from './pathUtils';
 import {
   WEBPACK_URL_LOADER_LIMIT,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from './constants';
+import type {RuleSetRule} from 'webpack';
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
