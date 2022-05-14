@@ -199,7 +199,7 @@ ${Object.entries(registry)
     JSON.stringify(routesChunkNames, null, 2),
   );
 
-  const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
+  const genRoutes = generate(generatedFilesDir, 'routes.mjs', routesConfig);
 
   const genGlobalData = generate(
     generatedFilesDir,

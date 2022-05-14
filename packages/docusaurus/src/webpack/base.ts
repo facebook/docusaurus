@@ -129,6 +129,8 @@ export async function createBaseConfig(
         '.tsx',
         '.json',
       ],
+      // Allow omitting extension even when the current file is ESM
+      fullySpecified: false,
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
       roots: [
         // Allow resolution of url("/fonts/xyz.ttf") by webpack
@@ -205,7 +207,7 @@ export async function createBaseConfig(
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
-          test: /\.[jt]sx?$/i,
+          test: /\.[mc]?[jt]sx?$/i,
           exclude: excludeJS,
           use: [
             getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
