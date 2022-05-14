@@ -31,19 +31,19 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 function useAutoExpandActiveCategory({
   isActive,
   collapsed,
-  setCollapsed,
+  updateCollapsed,
 }: {
   isActive: boolean;
   collapsed: boolean;
-  setCollapsed: (b: boolean) => void;
+  updateCollapsed: (b: boolean) => void;
 }) {
   const wasActive = usePrevious(isActive);
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
     if (justBecameActive && collapsed) {
-      setCollapsed(false);
+      updateCollapsed(false);
     }
-  }, [isActive, wasActive, collapsed, setCollapsed]);
+  }, [isActive, wasActive, collapsed, updateCollapsed]);
 }
 
 /**
@@ -105,6 +105,11 @@ export default function DocSidebarItemCategory({
   ...props
 }: Props): JSX.Element {
   const {items, label, collapsible, className, href} = item;
+  const {
+    docs: {
+      sidebar: {autoCollapseCategories},
+    },
+  } = useThemeConfig();
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
@@ -121,17 +126,13 @@ export default function DocSidebarItemCategory({
     },
   });
 
-  useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
-  function updateCollapsed(toCollapsed: boolean = !collapsed) {
+  // Use this instead of `setCollapsed`, because it is also reactive
+  const updateCollapsed = (toCollapsed: boolean = !collapsed) => {
     setExpandedItem(toCollapsed ? null : index);
     setCollapsed(toCollapsed);
-  }
-  const {
-    docs: {
-      sidebar: {autoCollapseCategories},
-    },
-  } = useThemeConfig();
+  };
+  useAutoExpandActiveCategory({isActive, collapsed, updateCollapsed});
   useEffect(() => {
     if (
       collapsible &&
