@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RouteConfig} from '@docusaurus/types';
 import {getAllFinalRoutes} from '../utils';
+import type {RouteConfig} from '@docusaurus/types';
 
 describe('getAllFinalRoutes', () => {
   it('gets final routes correctly', () => {

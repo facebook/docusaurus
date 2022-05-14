@@ -11,7 +11,6 @@ import {isActiveSidebarItem, ThemeClassNames} from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/IconExternalLink';
-
 import type {Props} from '@theme/DocSidebarItem/Link';
 
 import styles from './styles.module.css';

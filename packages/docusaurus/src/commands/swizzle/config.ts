@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import {Joi} from '@docusaurus/utils-validation';
-import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
-import type {SwizzlePlugin} from './common';
 import {SwizzleActions, SwizzleActionsStatuses} from './common';
 import {getPluginByThemeName} from './themes';
-import logger from '@docusaurus/logger';
+import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
+import type {SwizzlePlugin} from './common';
 
 function getModuleSwizzleConfig(
   swizzlePlugin: SwizzlePlugin,

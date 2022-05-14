@@ -6,21 +6,21 @@
  */
 
 import React from 'react';
-import BlogLayout from '@theme/BlogLayout';
-import BlogListPaginator from '@theme/BlogListPaginator';
+import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import type {Props} from '@theme/BlogListPage';
+import Link from '@docusaurus/Link';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import Link from '@docusaurus/Link';
+import BlogLayout from '@theme/BlogLayout';
+import BlogListPaginator from '@theme/BlogListPaginator';
+import SearchMetadata from '@theme/SearchMetadata';
 import ChangelogItem from '@theme/ChangelogItem';
+import type {Props} from '@theme/BlogListPage';
 
 import styles from './styles.module.css';
-import SearchMetadata from '@theme/SearchMetadata';
-import clsx from 'clsx';
 
 function ChangelogListMetadata(props: Props): JSX.Element {
   const {metadata} = props;

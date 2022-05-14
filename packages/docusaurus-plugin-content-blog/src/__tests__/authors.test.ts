@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {
   type AuthorsMap,
   getAuthorsMap,
   getBlogPostAuthors,
   validateAuthorsMap,
 } from '../authors';
-import path from 'path';
 
 describe('getBlogPostAuthors', () => {
   it('can read no authors', () => {

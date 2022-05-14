@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import React, {
   useState,
   useEffect,
@@ -17,6 +16,7 @@ import React, {
   type SetStateAction,
   type ReactNode,
 } from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 const DefaultAnimationEasing = 'ease-in-out';
 

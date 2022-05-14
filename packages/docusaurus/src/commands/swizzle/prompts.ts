@@ -7,9 +7,9 @@
 
 import logger from '@docusaurus/logger';
 import prompts from 'prompts';
+import {actionStatusSuffix, PartiallySafeHint} from './common';
 import type {ThemeComponents} from './components';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
-import {actionStatusSuffix, PartiallySafeHint} from './common';
 
 const ExitTitle = logger.yellow('[Exit]');
 

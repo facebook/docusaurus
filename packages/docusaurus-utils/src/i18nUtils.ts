@@ -7,13 +7,13 @@
 
 import path from 'path';
 import _ from 'lodash';
+import {DEFAULT_PLUGIN_ID, I18N_DIR_NAME} from './constants';
+import {normalizeUrl} from './urlUtils';
 import type {
   TranslationFileContent,
   TranslationFile,
   I18n,
 } from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID, I18N_DIR_NAME} from './constants';
-import {normalizeUrl} from './urlUtils';
 
 /**
  * Takes a list of translation file contents, and shallow-merges them into one.

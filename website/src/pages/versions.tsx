@@ -8,14 +8,13 @@
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
-import Layout from '@theme/Layout';
-import Heading from '@theme/Heading';
 import Translate from '@docusaurus/Translate';
 import {
   useVersions,
   useLatestVersion,
 } from '@docusaurus/plugin-content-docs/client';
-
+import Layout from '@theme/Layout';
+import Heading from '@theme/Heading';
 import VersionsArchived from '@site/versionsArchived.json';
 
 const VersionsArchivedList = Object.entries(VersionsArchived);

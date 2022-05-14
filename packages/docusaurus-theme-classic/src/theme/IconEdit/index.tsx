@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
 import type {Props} from '@theme/IconEdit';
 
 import styles from './styles.module.css';

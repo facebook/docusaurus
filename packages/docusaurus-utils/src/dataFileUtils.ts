@@ -6,11 +6,11 @@
  */
 
 import fs from 'fs-extra';
-import Yaml from 'js-yaml';
 import path from 'path';
+import logger from '@docusaurus/logger';
+import Yaml from 'js-yaml';
 import {findAsyncSequential} from './index';
 import type {ContentPaths} from './markdownLinks';
-import logger from '@docusaurus/logger';
 
 type DataFileParams = {
   /** Path to the potential data file, relative to `contentPaths` */

@@ -12,8 +12,8 @@ import type {Props} from '@theme/MDXComponents/Ul';
 function transformUlClassName(className?: string): string {
   return clsx(
     className,
-    // This class is set globally by GitHub/MDX
-    // We keep the global class, but add Infima class to get list without styling
+    // This class is set globally by GitHub/MDX. We keep the global class, and
+    // add another Infima class to get list without styling
     // See https://github.com/syntax-tree/mdast-util-to-hast/issues/28
     className?.includes('contains-task-list') && 'clean-list',
   );

@@ -7,9 +7,9 @@
 
 import {jest} from '@jest/globals';
 import {DefaultSidebarItemsGenerator} from '../generator';
-import type {SidebarItemsGenerator} from '../types';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';
+import type {SidebarItemsGenerator} from '../types';
 
 describe('DefaultSidebarItemsGenerator', () => {
   function testDefaultSidebarItemsGenerator(

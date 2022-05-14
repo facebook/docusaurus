@@ -8,8 +8,8 @@
 
 // @ts-check
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
+import logger from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {

@@ -6,8 +6,7 @@
  */
 
 import React from 'react';
-
-import Layout from '@theme/Layout';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {
   PageMetadata,
@@ -16,9 +15,9 @@ import {
   usePluralForm,
 } from '@docusaurus/theme-common';
 import Translate, {translate} from '@docusaurus/Translate';
-import type {Props} from '@theme/DocTagDocListPage';
+import Layout from '@theme/Layout';
 import SearchMetadata from '@theme/SearchMetadata';
-import clsx from 'clsx';
+import type {Props} from '@theme/DocTagDocListPage';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {

@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import Content from '@theme-original/DocSidebar/Desktop/Content';
 import {useLocation} from '@docusaurus/router';
+import Content from '@theme-original/DocSidebar/Desktop/Content';
 
 function SidebarAd() {
   return (

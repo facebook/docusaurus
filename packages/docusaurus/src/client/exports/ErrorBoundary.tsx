@@ -6,10 +6,9 @@
  */
 
 import React, {type ReactNode} from 'react';
-
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {Props} from '@docusaurus/ErrorBoundary';
 import DefaultFallback from '@theme/Error';
+import type {Props} from '@docusaurus/ErrorBoundary';
 
 type State = {
   error: Error | null;

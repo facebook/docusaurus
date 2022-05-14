@@ -8,13 +8,13 @@
 // Forked from https://github.com/tribou/jest-serializer-path/blob/master/lib/index.js
 // Added some project-specific handlers
 
-import _ from 'lodash';
-import {escapePath} from '@docusaurus/utils';
-import stripAnsi from 'strip-ansi';
-import {version} from '@docusaurus/core/package.json';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
+import _ from 'lodash';
+import {escapePath} from '@docusaurus/utils';
+import {version} from '@docusaurus/core/package.json';
+import stripAnsi from 'strip-ansi';
 
 export function print(
   val: unknown,

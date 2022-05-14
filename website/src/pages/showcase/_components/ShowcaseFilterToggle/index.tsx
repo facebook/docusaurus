@@ -6,12 +6,12 @@
  */
 
 import React, {useState, useEffect, useCallback} from 'react';
+import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import {prepareUserState} from '../../index';
 
 import styles from './styles.module.css';
-import clsx from 'clsx';
 
 export type Operator = 'OR' | 'AND';
 

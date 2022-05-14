@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import _ from 'lodash';
 import {
   removeSuffix,
   removePrefix,
@@ -13,7 +14,6 @@ import {
   findAsyncSequential,
   reportMessage,
 } from '../jsUtils';
-import _ from 'lodash';
 
 describe('removeSuffix', () => {
   it("is no-op when suffix doesn't exist", () => {

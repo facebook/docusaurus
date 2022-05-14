@@ -6,6 +6,7 @@
  */
 
 import React, {type ComponentType} from 'react';
+import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
@@ -21,7 +22,6 @@ import {
 } from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
-import clsx from 'clsx';
 import type {
   VersionBanner,
   PropVersionMetadata,

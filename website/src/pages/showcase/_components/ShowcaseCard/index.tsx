@@ -7,13 +7,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Image from '@theme/IdealImage';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-
-import styles from './styles.module.css';
+import Image from '@theme/IdealImage';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
-import Tooltip from '../ShowcaseTooltip';
 import {
   Tags,
   TagList,
@@ -22,6 +19,8 @@ import {
   type Tag,
 } from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
+import Tooltip from '../ShowcaseTooltip';
+import styles from './styles.module.css';
 
 const TagComp = React.forwardRef<HTMLLIElement, Tag>(
   ({label, color, description}, ref) => (

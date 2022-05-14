@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import combinePromises from 'combine-promises';
+import {DefaultSidebarItemsGenerator} from './generator';
+import {validateSidebars} from './validation';
+import {isCategoryIndex} from '../docs';
 import type {
   DocMetadataBase,
   VersionMetadata,
@@ -22,11 +27,6 @@ import type {
   SidebarProcessorParams,
   CategoryMetadataFile,
 } from './types';
-import {DefaultSidebarItemsGenerator} from './generator';
-import {validateSidebars} from './validation';
-import _ from 'lodash';
-import combinePromises from 'combine-promises';
-import {isCategoryIndex} from '../docs';
 
 function toSidebarItemsGeneratorDoc(
   doc: DocMetadataBase,

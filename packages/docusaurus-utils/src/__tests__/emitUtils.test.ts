@@ -6,9 +6,9 @@
  */
 
 import {jest} from '@jest/globals';
-import {readOutputHTMLFile, generate} from '../emitUtils';
 import path from 'path';
 import fs from 'fs-extra';
+import {readOutputHTMLFile, generate} from '../emitUtils';
 
 describe('readOutputHTMLFile', () => {
   it('reads both files with trailing slash undefined', async () => {

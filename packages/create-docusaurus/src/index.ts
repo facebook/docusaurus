@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
-import prompts, {type Choice} from 'prompts';
 import path from 'path';
-import shell from 'shelljs';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import shell from 'shelljs';
+import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 
 type CLIOptions = {

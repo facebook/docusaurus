@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {useCallback, useEffect, useState} from 'react';
 import {useHistory} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useCallback, useEffect, useState} from 'react';
 
 const SEARCH_PARAM_QUERY = 'q';
 

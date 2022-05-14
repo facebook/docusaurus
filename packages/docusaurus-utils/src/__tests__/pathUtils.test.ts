@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import path from 'path';
 import {
   isNameTooLong,
   shortName,
@@ -15,7 +16,6 @@ import {
   toMessageRelativeFilePath,
   addTrailingPathSeparator,
 } from '../pathUtils';
-import path from 'path';
 
 describe('isNameTooLong', () => {
   it('works', () => {

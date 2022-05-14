@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {groupTaggedItems} from '@docusaurus/utils';
 import type {VersionTags} from './types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
-import _ from 'lodash';
 
 export function getVersionTags(docs: DocMetadata[]): VersionTags {
   const groups = groupTaggedItems(docs, (doc) => doc.tags);

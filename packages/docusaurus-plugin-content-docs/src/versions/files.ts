@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import {getPluginI18nPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -14,7 +15,6 @@ import {
   CURRENT_VERSION_NAME,
 } from '../constants';
 import {validateVersionNames} from './validation';
-import {getPluginI18nPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {
   PluginOptions,
   VersionMetadata,

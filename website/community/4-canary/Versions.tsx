@@ -8,8 +8,8 @@
 import React, {useContext, useEffect, useState, type ReactNode} from 'react';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {useVersions} from '@docusaurus/plugin-content-docs/client';
-import CodeBlock from '@theme/CodeBlock';
 import Translate from '@docusaurus/Translate';
+import CodeBlock from '@theme/CodeBlock';
 
 type ContextValue = {
   name: string;

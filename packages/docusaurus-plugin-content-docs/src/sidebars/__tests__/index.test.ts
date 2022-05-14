@@ -9,8 +9,8 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';
-import type {SidebarProcessorParams} from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
+import type {SidebarProcessorParams} from '../types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 describe('loadSidebars', () => {

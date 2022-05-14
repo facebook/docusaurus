@@ -6,16 +6,16 @@
  */
 
 import {jest} from '@jest/globals';
+import path from 'path';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {
   extractSourceCodeFileTranslations,
   extractSiteSourceCodeTranslations,
 } from '../translationsExtractor';
 import {getBabelOptions} from '../../../webpack/utils';
-import path from 'path';
 import type {InitializedPlugin} from '@docusaurus/types';
-import {SRC_DIR_NAME} from '@docusaurus/utils';
 
 const TestBabelOptions = getBabelOptions({
   isServer: true,

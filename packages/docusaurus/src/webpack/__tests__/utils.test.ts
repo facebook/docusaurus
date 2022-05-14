@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 import path from 'path';
+import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 
 import {
   getCustomizableJSLoader,
