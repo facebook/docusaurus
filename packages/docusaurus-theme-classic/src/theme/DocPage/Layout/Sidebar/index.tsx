@@ -12,7 +12,7 @@ import type {Props} from '@theme/DocPage/Layout/Sidebar';
 import ExpandButton from '@theme/DocPage/Layout/Sidebar/ExpandButton';
 
 import clsx from 'clsx';
-import styles from './index.module.css';
+import styles from './styles.module.css';
 
 import {ThemeClassNames, useDocsSidebar} from '@docusaurus/theme-common';
 

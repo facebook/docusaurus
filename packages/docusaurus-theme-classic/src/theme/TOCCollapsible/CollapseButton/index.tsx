@@ -8,8 +8,9 @@
 import React from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import styles from './CollapseButton.module.css';
 import type {Props} from '@theme/TOCCollapsible/CollapseButton';
+
+import styles from './styles.module.css';
 
 export default function TOCCollapsibleCollapseButton({
   collapsed,

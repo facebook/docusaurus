@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import type {Props} from '@theme/DocSidebarItem/Html';
 
-import styles from './Html.module.css';
+import styles from './styles.module.css';
 
 export default function DocSidebarItemHtml({
   item,
