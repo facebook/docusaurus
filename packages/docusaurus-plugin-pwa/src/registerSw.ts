@@ -7,6 +7,14 @@
 
 import {createStorageSlot} from '@docusaurus/theme-common';
 
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES: (keyof typeof OfflineModeActivationStrategiesImplementations)[];
+    }
+  }
+}
+
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
 const PWA_SERVICE_WORKER_URL = process.env.PWA_SERVICE_WORKER_URL;
@@ -34,7 +42,7 @@ async function clearRegistrations() {
   }
   await Promise.all(
     registrations.map(async (registration) => {
-      const result = await registration?.registration?.unregister();
+      const result = await registration?.unregister();
       if (debug) {
         console.log(
           `[Docusaurus-PWA][registerSw]: unregister() service worker registration`,
@@ -65,6 +73,14 @@ https://stackoverflow.com/questions/51735869/check-if-user-has-already-installed
 async function isAppInstalledEventFired() {
   return AppInstalledEventFiredStorage.get() === 'true';
 }
+
+declare global {
+  interface Navigator {
+    getInstalledRelatedApps: () => Promise<{platform: string}[]>;
+    connection: {saveData: boolean};
+  }
+}
+
 async function isAppInstalledRelatedApps() {
   if ('getInstalledRelatedApps' in window.navigator) {
     const relatedApps = await navigator.getInstalledRelatedApps();
@@ -90,7 +106,9 @@ const OfflineModeActivationStrategiesImplementations = {
     new URLSearchParams(window.location.search).get('offlineMode') === 'true',
 };
 
-async function isStrategyActive(strategyName) {
+async function isStrategyActive(
+  strategyName: keyof typeof OfflineModeActivationStrategiesImplementations,
+) {
   return OfflineModeActivationStrategiesImplementations[strategyName]();
 }
 
@@ -127,7 +145,7 @@ async function isOfflineModeEnabled() {
   return enabled;
 }
 
-function createServiceWorkerUrl(params) {
+function createServiceWorkerUrl(params: object) {
   const paramsQueryString = JSON.stringify(params);
   const url = `${PWA_SERVICE_WORKER_URL}?params=${encodeURIComponent(
     paramsQueryString,
@@ -173,7 +191,7 @@ async function registerSW() {
     }
   };
 
-  if (debug) {
+  if (debug && registration) {
     if (registration.active) {
       console.log(
         '[Docusaurus-PWA][registerSw]: registration.active',
@@ -205,6 +223,7 @@ async function registerSW() {
 
   // Update current service worker if the next one finishes installing and
   // moves to waiting state in another tab.
+  // @ts-expect-error: not present in the API typings anymore
   wb.addEventListener('externalwaiting', (event) => {
     if (debug) {
       console.log('[Docusaurus-PWA][registerSw]: event externalwaiting', event);
@@ -214,7 +233,7 @@ async function registerSW() {
 
   // Update service worker if the next one is already in the waiting state.
   // This happens when the user doesn't click on `reload` in the popup.
-  if (registration.waiting) {
+  if (registration?.waiting) {
     await handleServiceWorkerWaiting();
   }
 }

@@ -4,5 +4,10 @@
     "module": "esnext",
     "jsx": "react-native"
   },
-  "include": ["src/theme/", "src/*.d.ts"]
+  "include": [
+    "src/theme/",
+    "src/*.d.ts",
+    "src/registerSw.ts",
+    "src/renderReloadPopup.tsx"
+  ]
 }
