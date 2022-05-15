@@ -372,6 +372,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CodeSweetly',
+    description: 'The Home of Simplified Web Development Tutorials',
+    preview: require('./showcase/codesweetly.png'),
+    website: 'https://codesweetly.com/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
     title: 'CodeYourFuture',
     description:
       'The syllabus for CodeYourFuture - a free code school for refugees, asylum seekers and disadvantaged people',
