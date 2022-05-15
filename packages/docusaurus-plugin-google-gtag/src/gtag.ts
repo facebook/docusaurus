@@ -27,7 +27,7 @@ const clientModule: ClientModule = {
           page_location: window.location.href,
           page_path: location.pathname,
         });
-      };
+      });
     }
   },
 };
