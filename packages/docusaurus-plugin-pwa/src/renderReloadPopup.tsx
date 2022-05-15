@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 
 const POPUP_CONTAINER_ID = 'pwa-popup-container';
 
@@ -19,8 +19,10 @@ const createContainer = () => {
   return container;
 };
 
-export default async function renderReloadPopup(props) {
+export default async function renderReloadPopup(props: {
+  onReload: () => void;
+}): Promise<void> {
   const container = getContainer() || createContainer();
-  const {default: ReloadPopup} = await import(process.env.PWA_RELOAD_POPUP);
-  render(<ReloadPopup {...props} />, container);
+  const {default: ReloadPopup} = await import(process.env.PWA_RELOAD_POPUP!);
+  ReactDOM.render(<ReloadPopup {...props} />, container);
 }

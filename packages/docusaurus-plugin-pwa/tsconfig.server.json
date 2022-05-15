@@ -1,4 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/*.ts"]
+  "include": ["src/*.ts"],
+  "exclude": [
+    "src/theme/",
+    "src/*.d.ts",
+    "src/registerSw.ts",
+    "src/renderReloadPopup.tsx"
+  ]
 }
