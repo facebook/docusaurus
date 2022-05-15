@@ -15,9 +15,15 @@ const {trackingID} = globalData['docusaurus-plugin-google-gtag']!
 const clientModule: ClientModule = {
   onRouteDidUpdate({location, previousLocation}) {
     if (previousLocation && location.pathname !== previousLocation.pathname) {
-      // Always refer to the variable on window in case it gets overridden
-      // elsewhere.
+      // Normally, the document title is updated in the next tick due to how
+      // `react-helmet-async` updates it.
+      // We want to send to gtag the current document title so we use 
+      // setTimeout to put the function on the callback stack to be executed
+      // on the next tick.
+      // See: https://github.com/facebook/docusaurus/issues/7420
       setTimeout(() => {
+        // Always refer to the variable on window in case it gets overridden
+        // elsewhere.
         window.gtag('config', trackingID, {
           page_path: location.pathname,
           page_title: document.title,
