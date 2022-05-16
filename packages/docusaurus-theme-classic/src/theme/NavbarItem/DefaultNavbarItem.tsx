@@ -13,16 +13,6 @@ import type {
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
 
-/**
- * On desktop and mobile, we would apply different class names for dropdown
- * items.
- * @see https://github.com/facebook/docusaurus/pull/5431
- */
-const getInfimaActiveClassName = (
-  mobile?: boolean,
-): `${'menu' | 'navbar'}__link--active` =>
-  mobile ? 'menu__link--active' : 'navbar__link--active';
-
 function DefaultNavbarItemDesktop({
   className,
   isDropdownItem = false,
@@ -68,7 +58,8 @@ export default function DefaultNavbarItem({
     <Comp
       {...props}
       activeClassName={
-        props.activeClassName ?? getInfimaActiveClassName(mobile)
+        props.activeClassName ??
+        (mobile ? 'menu__link--active' : 'navbar__link--active')
       }
     />
   );
