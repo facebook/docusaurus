@@ -37,7 +37,16 @@ export default function LocaleDropdownNavbarItem({
       to,
       target: '_self',
       autoAddBaseUrl: false,
-      isActive: () => locale === currentLocale,
+      className:
+        // eslint-disable-next-line no-nested-ternary
+        locale === currentLocale
+          ? // Similar idea as DefaultNavbarItem: select the right Infima active
+            // class name. This cannot be substituted with isActive, because the
+            // target URLs contain `pathname://` and therefore are not NavLinks!
+            mobile
+            ? 'menu__link--active'
+            : 'dropdown__link--active'
+          : '',
     };
   });
 
