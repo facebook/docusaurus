@@ -2086,6 +2086,14 @@ const Users: User[] = [
     tags: ['meta'],
   },
   {
+    title: '30 Days Of SWA',
+    description: 'A 30-Day Developer Guide to Azure Static Web Apps',
+    preview: require('./showcase/30-days-swa.png'),
+    website: 'https://www.azurestaticwebapps.dev',
+    source: 'https://github.com/staticwebdev/30DaysOfSWA/tree/main/www',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'TiDB Community Books',
     description: 'A website for co-created books by TiDB Community users.',
     preview: require('./showcase/tidb-community-book.png'),
