@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Set up Node
-        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3
+        uses: actions/setup-node@17f8bd926464a1afa4c6a11669539e9c1ba77048 # v3
         with:
           node-version: '16'
           cache: yarn
