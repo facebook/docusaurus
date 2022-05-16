@@ -870,6 +870,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'httpin',
+    description: 'Decode an HTTP request into a custom struct in Go',
+    preview: require('./showcase/httpin.png'),
+    website: 'https://ggicci.github.io/httpin/',
+    source: 'https://github.com/ggicci/httpin/tree/documentation/docs',
+    tags: ['opensource'],
+  },
+  {
     title: 'icodex',
     description: 'Front end engineer personal website',
     preview: require('./showcase/icodex.png'),
