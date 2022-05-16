@@ -2083,7 +2083,7 @@ const Users: User[] = [
     preview: require('./showcase/30-days-swa.png'),
     website: 'https://www.azurestaticwebapps.dev',
     source: 'https://github.com/staticwebdev/30DaysOfSWA/tree/main/www',
-    tags: ['opensource','product'],
+    tags: ['opensource', 'product'],
   },
   {
     title: 'TiDB Community Books',
