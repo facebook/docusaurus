@@ -33,12 +33,11 @@ export default function LocaleDropdownNavbarItem({
       fullyQualified: false,
     })}`;
     return {
-      isNavLink: true,
       label: localeConfigs[locale]!.label,
       to,
       target: '_self',
       autoAddBaseUrl: false,
-      className: locale === currentLocale ? 'dropdown__link--active' : '',
+      isActive: () => locale === currentLocale,
     };
   });
 

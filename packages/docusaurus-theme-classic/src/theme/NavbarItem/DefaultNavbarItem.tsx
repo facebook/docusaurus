@@ -8,11 +8,20 @@
 import React from 'react';
 import clsx from 'clsx';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
-import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
+
+/**
+ * On desktop and mobile, we would apply different class names for dropdown
+ * items.
+ * @see https://github.com/facebook/docusaurus/pull/5431
+ */
+const getInfimaActiveClassName = (
+  mobile?: boolean,
+): `${'menu' | 'navbar'}__link--active` =>
+  mobile ? 'menu__link--active' : 'navbar__link--active';
 
 function DefaultNavbarItemDesktop({
   className,
@@ -25,6 +34,7 @@ function DefaultNavbarItemDesktop({
         isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
         className,
       )}
+      isDropdownLink={isDropdownItem}
       {...props}
     />
   );
