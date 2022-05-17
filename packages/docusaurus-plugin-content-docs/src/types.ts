@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/// <reference types="@docusaurus/module-type-aliases" />
-
 import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
 import type {
   VersionMetadata,

@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.json",
+  "references": [
+    {"path": "./tsconfig.server.json"},
+    {"path": "./tsconfig.client.json"}
+  ],
   "compilerOptions": {
-    "lib": ["DOM", "ES2019"],
-    "rootDir": "src",
-    "outDir": "lib"
+    "noEmit": true
   }
 }

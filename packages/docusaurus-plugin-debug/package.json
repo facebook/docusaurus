@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "src/plugin-debug.d.ts",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.mjs",
+    "build": "tsc --build && node copyUntypedFiles.mjs && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
     "watch": "node copyUntypedFiles.mjs && tsc --watch"
   },
   "publishConfig": {

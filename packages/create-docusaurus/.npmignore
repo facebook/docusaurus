@@ -1,5 +1,5 @@
 copyUntypedFiles.mjs
-.tsbuildinfo
+.tsbuildinfo*
 __tests__
 node_modules
 

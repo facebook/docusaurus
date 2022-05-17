@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.json",
+  "references": [
+    {"path": "./tsconfig.server.json"},
+    {"path": "./tsconfig.client.json"}
+  ],
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib"
+    "noEmit": true
   }
 }

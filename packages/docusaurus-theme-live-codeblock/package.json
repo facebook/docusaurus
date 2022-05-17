@@ -11,11 +11,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "yarn build:server && yarn build:client && yarn build:copy && yarn build:format",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:client": "tsc --project tsconfig.client.json",
-    "build:copy": "node copyUntypedFiles.mjs",
-    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build": "tsc --build && node copyUntypedFiles.mjs && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\""
   },
   "repository": {
     "type": "git",

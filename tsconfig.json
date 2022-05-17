@@ -44,5 +44,5 @@
     "isolatedModules": true,
     "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
   },
-  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
+  "exclude": ["node_modules", "**/__tests__/**", "**/lib/**/*"]
 }

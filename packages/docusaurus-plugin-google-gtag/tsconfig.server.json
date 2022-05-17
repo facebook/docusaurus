@@ -4,9 +4,10 @@
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "module": "commonjs",
     "rootDir": "src",
     "outDir": "lib"
   },
   "include": ["src"],
-  "exclude": ["src/custom-buble.ts", "src/theme", "**/__tests__/**"]
+  "exclude": ["src/gtag.ts"]
 }

@@ -12,7 +12,7 @@
   },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "watch": "tsc --watch"
   },
   "publishConfig": {

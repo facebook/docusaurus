@@ -5,10 +5,7 @@
   "main": "lib/index.js",
   "types": "src/plugin-pwa.d.ts",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.mjs"
+    "build": "tsc --build && node copyUntypedFiles.mjs && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\""
   },
   "publishConfig": {
     "access": "public"

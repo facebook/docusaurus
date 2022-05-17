@@ -3,10 +3,11 @@
   "compilerOptions": {
     "composite": true,
     "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
+    "module": "esnext",
+    "jsx": "react-native",
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src"],
-  "exclude": ["src/custom-buble.ts", "src/theme", "**/__tests__/**"]
+  "include": ["src/theme", "src/*.d.ts"]
 }
