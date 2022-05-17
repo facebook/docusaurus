@@ -5,7 +5,6 @@
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
     "module": "esnext",
-    "jsx": "react-native",
     "rootDir": "src",
     "outDir": "lib"
   },
