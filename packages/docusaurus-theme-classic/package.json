@@ -37,15 +37,15 @@
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.13",
-    "prism-react-renderer": "^1.3.1",
+    "prism-react-renderer": "^1.3.3",
     "prismjs": "^1.28.0",
     "react-router-dom": "^5.2.0",
     "rtlcss": "^3.5.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.10",
-    "@babel/preset-typescript": "^7.16.7",
+    "@babel/core": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
     "@docusaurus/module-type-aliases": "2.0.0-beta.20",
     "@docusaurus/types": "2.0.0-beta.20",
     "@types/mdx-js__react": "^1.5.5",
