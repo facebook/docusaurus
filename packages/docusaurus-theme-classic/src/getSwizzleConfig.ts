@@ -190,14 +190,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The component used to render <pre> tags in MDX',
       },
-      'MDXComponents/Ul': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description:
-          'The component used to render <ul> tags and Markdown unordered lists in MDX',
-      },
       MDXContent: {
         actions: {
           eject: 'safe',
