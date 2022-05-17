@@ -2,10 +2,14 @@
   "name": "@docusaurus/cssnano-preset",
   "version": "2.0.0-beta.20",
   "description": "Advanced cssnano preset for maximum optimization.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -15,7 +19,8 @@
   "dependencies": {
     "cssnano-preset-advanced": "^5.3.4",
     "postcss": "^8.4.13",
-    "postcss-sort-media-queries": "^4.2.1"
+    "postcss-sort-media-queries": "^4.2.1",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "to-vfile": "^6.1.0"

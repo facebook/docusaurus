@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {Plugin, Rule, Node} from 'postcss';
+
+const isRule = (node: Node | undefined): node is Rule => node?.type === 'rule';
+
 /**
  * This PostCSS plugin will remove duplicate/same custom properties (which are
  * actually overridden ones) **only** from `:root` selector.
@@ -17,32 +21,31 @@
  * applied).
  * - If the same custom properties have at least one `!important` rule, then
  * only those properties that do not have this rule will be removed.
- * @returns {import('postcss').Plugin}
  */
-module.exports = function creator() {
+function creator(): Plugin {
   return {
     postcssPlugin: 'postcss-remove-overridden-custom-properties',
     Declaration(decl) {
-      if (decl.parent.selector !== ':root') {
+      if (!isRule(decl.parent) || decl.parent.selector !== ':root') {
         return;
       }
 
       const sameProperties = decl.parent.nodes.filter(
-        (n) => n.prop === decl.prop,
+        (n) => 'prop' in n && n.prop === decl.prop,
       );
-      const hasImportantProperties = sameProperties.some((p) =>
-        Object.prototype.hasOwnProperty.call(p, 'important'),
+      const hasImportantProperties = sameProperties.some(
+        (p) => 'important' in p,
       );
 
       const overriddenProperties = hasImportantProperties
-        ? sameProperties.filter(
-            (p) => !Object.prototype.hasOwnProperty.call(p, 'important'),
-          )
+        ? sameProperties.filter((p) => !('important' in p))
         : sameProperties.slice(0, -1);
 
       overriddenProperties.map((p) => p.remove());
     },
   };
-};
+}
 
-module.exports.postcss = true;
+creator.postcss = true as const;
+
+export default creator;
