@@ -1,11 +1,11 @@
-// For editor typechecking; includes bin
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../tsconfig.json",
+  "references": [{"path": "./tsconfig.build.json"}],
   "compilerOptions": {
     "noEmit": true,
     "module": "esnext",
     "allowJs": true,
     "rootDir": "."
   },
-  "include": ["src", "bin"]
+  "include": ["bin"]
 }
