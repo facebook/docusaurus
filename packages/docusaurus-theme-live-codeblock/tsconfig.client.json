@@ -6,7 +6,8 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
     "rootDir": "src",
     "outDir": "lib",
-    "module": "esnext"
+    "module": "esnext",
+    "target": "esnext"
   },
   "include": ["src/theme", "src/*.d.ts", "src/custom-buble.ts"]
 }

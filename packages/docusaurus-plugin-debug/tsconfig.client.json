@@ -5,6 +5,7 @@
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
     "module": "esnext",
+    "target": "esnext",
     "rootDir": "src",
     "outDir": "lib"
   },
