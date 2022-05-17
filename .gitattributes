@@ -31,8 +31,10 @@
 # Make GitHub not index certain files in the languages overview
 # See https://github.com/github/linguist/blob/master/docs/overrides.md
 # generated files' diff will be minimized
-**/__fixtures__/**  linguist-generated
-.husky/**           linguist-vendored
-jest/**             linguist-vendored
-admin/**            linguist-documentation
-website/**          linguist-documentation
+**/__fixtures__/**                        linguist-generated
+examples/**                               linguist-generated
+.husky/**                                 linguist-vendored
+jest/**                                   linguist-vendored
+admin/**                                  linguist-documentation
+website/**                                linguist-documentation
+packages/create-docusaurus/templates/**   linguist-vendored
