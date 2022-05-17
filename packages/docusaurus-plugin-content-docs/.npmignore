@@ -1,4 +1,4 @@
 copyUntypedFiles.mjs
-.tsbuildinfo
+.tsbuildinfo*
 tsconfig*
 __tests__

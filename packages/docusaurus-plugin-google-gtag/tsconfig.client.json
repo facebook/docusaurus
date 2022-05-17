@@ -9,5 +9,5 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src/client", "src/*.d.ts"]
+  "include": ["src/gtag.ts", "src/options.ts", "src/*.d.ts"]
 }

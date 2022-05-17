@@ -43,7 +43,18 @@ export default {
     '/packages/docusaurus-utils/src/index.ts',
   ],
   transform: {
-    '^.+\\.[jt]sx?$': '@swc/jest',
+    '^.+\\.[jt]sx?$': [
+      '@swc/jest',
+      {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            tsx: true,
+          },
+          target: 'es2020',
+        },
+      },
+    ],
   },
   errorOnDeprecated: true,
   reporters: ['default', 'github-actions'],

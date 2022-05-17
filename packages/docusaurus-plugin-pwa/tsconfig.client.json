@@ -4,10 +4,15 @@
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
-    "module": "esnext",
-    "target": "esnext",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "module": "esnext",
+    "target": "esnext"
   },
-  "include": ["src/client", "src/*.d.ts"]
+  "include": [
+    "src/theme/",
+    "src/*.d.ts",
+    "src/registerSw.ts",
+    "src/renderReloadPopup.tsx"
+  ]
 }

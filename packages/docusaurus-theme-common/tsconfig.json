@@ -4,6 +4,7 @@
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "module": "esnext",
+    "target": "esnext",
     "sourceMap": true,
     "declarationMap": true,
     "rootDir": "src",

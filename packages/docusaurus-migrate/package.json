@@ -7,8 +7,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "watch": "tsc -p tsconfig.build.json --watch"
+    "build": "tsc --build",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",

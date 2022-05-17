@@ -9,5 +9,5 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src/client", "src/*.d.ts"]
+  "include": ["src/analytics.ts", "src/*.d.ts"]
 }

@@ -1,8 +1,13 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
+    "rootDir": "src",
+    "outDir": "lib",
     "module": "esnext",
-    "jsx": "react-native"
+    "target": "esnext"
   },
-  "include": ["src/theme/", "src/*.d.ts", "src/custom-buble.ts"]
+  "include": ["src/theme", "src/*.d.ts", "src/custom-buble.ts"]
 }

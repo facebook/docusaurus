@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "module": "es2020",
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
