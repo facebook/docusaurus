@@ -6,13 +6,21 @@
  */
 /* eslint-disable jest/no-conditional-expect */
 
-const path = require('path');
-const stylelint = require('stylelint');
-const rule = require('..');
+import path from 'path';
+import stylelint, {type LinterResult} from 'stylelint';
+import rule from '../index';
 
-const {ruleName, messages} = rule;
+const {ruleName} = rule;
 
-function getOutputCss(output) {
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toHaveMessage: () => R;
+    }
+  }
+}
+
+function getOutputCss(output: LinterResult) {
   // eslint-disable-next-line no-underscore-dangle
   const result = output.results[0]._postcssResult;
   return result.root.toString(result.opts.syntax);
@@ -97,6 +105,8 @@ function testStylelintRule(config, tests) {
         }
 
         return {
+          message: () =>
+            'Expected "reject" test case to not have a "message" property',
           pass: true,
         };
       },
@@ -106,7 +116,7 @@ function testStylelintRule(config, tests) {
 
 testStylelintRule(
   {
-    plugins: [path.join(__dirname, '..')],
+    plugins: [path.join(__dirname, '../../lib/index.js')],
     rules: {
       [ruleName]: [true, {header: '*\n * Copyright'}],
     },
@@ -143,7 +153,8 @@ testStylelintRule(
  * Copyright
  */
 .foo {}`,
-        message: messages.rejected,
+        message:
+          'Missing copyright in the header comment (docusaurus/copyright-header)',
         line: 1,
         column: 1,
       },
@@ -154,7 +165,8 @@ testStylelintRule(
  * Copyright
  */
 .foo {}`,
-        message: messages.rejected,
+        message:
+          'Missing copyright in the header comment (docusaurus/copyright-header)',
         line: 1,
         column: 1,
       },
@@ -173,7 +185,8 @@ testStylelintRule(
 */
 
 .foo {}`,
-        message: messages.rejected,
+        message:
+          'Missing copyright in the header comment (docusaurus/copyright-header)',
         line: 1,
         column: 1,
       },
@@ -192,7 +205,8 @@ testStylelintRule(
  */
 
 .foo {}`,
-        message: messages.rejected,
+        message:
+          'Missing copyright in the header comment (docusaurus/copyright-header)',
         line: 1,
         column: 1,
       },
@@ -217,7 +231,8 @@ testStylelintRule(
  * Copyright
  */
  .foo {}`,
-        message: messages.rejected,
+        message:
+          'Missing copyright in the header comment (docusaurus/copyright-header)',
         line: 1,
         column: 1,
       },
