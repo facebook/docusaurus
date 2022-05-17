@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const vfile = require('to-vfile');
-const postcss = require('postcss');
-const postCssRemoveOverriddenCustomProperties = require('../index');
+import path from 'path';
+import vfile from 'to-vfile';
+import postcss from 'postcss';
+import postCssRemoveOverriddenCustomProperties from '../index';
 
-const processFixture = (name) => {
+const processFixture = (name: string) => {
   const input = vfile.readSync(
     path.join(__dirname, '__fixtures__', `${name}.css`),
     'utf8',
