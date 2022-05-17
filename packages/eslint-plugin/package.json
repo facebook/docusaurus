@@ -21,11 +21,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.23.0",
+    "@typescript-eslint/utils": "^5.24.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "eslint-plugin-eslint-plugin": "^4.1.0"
+    "eslint-plugin-eslint-plugin": "^4.2.0"
   },
   "peerDependencies": {
     "eslint": ">=6"
