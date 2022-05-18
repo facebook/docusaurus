@@ -39,7 +39,8 @@
     "prism-react-renderer": "^1.3.3",
     "prismjs": "^1.28.0",
     "react-router-dom": "^5.2.0",
-    "rtlcss": "^3.5.0"
+    "rtlcss": "^3.5.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.20",
