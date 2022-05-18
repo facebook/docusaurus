@@ -1,19 +1,20 @@
 {
   "extends": "../../tsconfig.json",
-  "references": [{"path": "./tsconfig.client.json"}],
   "compilerOptions": {
     "noEmit": false,
+    "composite": true,
     "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "module": "commonjs",
+    "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "module": "esnext",
+    "target": "esnext"
   },
-  "include": ["src"],
-  "exclude": [
+  "include": [
     "src/nprogress.ts",
     "src/prism-include-languages.ts",
     "src/theme",
-    "**/__tests__/**"
-  ]
+    "src/*.d.ts"
+  ],
+  "exclude": ["**/__tests__/**"]
 }
