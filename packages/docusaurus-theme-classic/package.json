@@ -14,13 +14,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn format:lib-next",
-    "watch": "run-p --continue-on-error babel:lib:watch babel:lib-next:watch",
-    "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "babel:lib:watch": "yarn babel:lib --watch",
-    "babel:lib-next:watch": "yarn babel:lib-next --watch",
-    "format:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\""
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.mjs && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.mjs --watch"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.20",
@@ -42,19 +39,16 @@
     "prism-react-renderer": "^1.3.3",
     "prismjs": "^1.28.0",
     "react-router-dom": "^5.2.0",
-    "rtlcss": "^3.5.0"
+    "rtlcss": "^3.5.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.12",
-    "@babel/preset-typescript": "^7.17.12",
     "@docusaurus/module-type-aliases": "2.0.0-beta.20",
     "@docusaurus/types": "2.0.0-beta.20",
     "@types/mdx-js__react": "^1.5.5",
     "@types/nprogress": "^0.2.0",
     "@types/prismjs": "^1.26.0",
     "@types/rtlcss": "^3.1.4",
-    "cross-env": "^7.0.3",
     "fs-extra": "^10.1.0",
     "react-test-renderer": "^17.0.2",
     "utility-types": "^3.10.0"
