@@ -15,9 +15,11 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn format:lib-next",
-    "watch": "concurrently --names \"lib,lib-next,tsc\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\" \"yarn tsc --watch\"",
+    "watch": "run-p --continue-on-error babel:lib:watch babel:lib-next:watch",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "babel:lib:watch": "yarn babel:lib --watch",
+    "babel:lib-next:watch": "yarn babel:lib-next --watch",
     "format:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\""
   },
   "dependencies": {
