@@ -13,10 +13,10 @@
     "./Details": "./lib/components/Details/index.js"
   },
   "scripts": {
-    "build": "tsc && node ../../admin/scripts/copyUntypedFiles.mjs",
+    "build": "tsc && node ../../admin/scripts/copyUntypedFiles.js",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.mjs --watch"
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"

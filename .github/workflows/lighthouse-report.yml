@@ -42,7 +42,7 @@ jobs:
           script: |
             const results = ${{ steps.lighthouse_audit.outputs.manifest }}
             const links = ${{ steps.lighthouse_audit.outputs.links }}
-            const createLighthouseReport = (await import(`${process.env.GITHUB_WORKSPACE}/admin/scripts/format-lighthouse-score.mjs`)).default;
+            const createLighthouseReport = (await import(`${process.env.GITHUB_WORKSPACE}/admin/scripts/formatLighthouseReport.js`)).default;
             const comment = createLighthouseReport({ results, links });
             core.setOutput("comment", comment);
 
