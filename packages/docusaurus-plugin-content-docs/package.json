@@ -13,7 +13,7 @@
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "watch": "tsc --watch"
+    "watch": "tsc --build --watch"
   },
   "publishConfig": {
     "access": "public"

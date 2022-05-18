@@ -14,7 +14,6 @@ packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
 packages/eslint-plugin/lib/
 packages/stylelint-copyright/lib/
-copyUntypedFiles.mjs
 
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/facebook
