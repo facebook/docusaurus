@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "src/plugin-pwa.d.ts",
   "scripts": {
-    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.mjs && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.mjs --watch"
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"
