@@ -2,13 +2,17 @@
   "compilerOptions": {
     /* Emit */
     "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "declaration": true,
+    // These two options will be selectively overridden in each project.
+    // Utility libraries will have source maps on, but plugins will not.
     "declarationMap": false,
+    "sourceMap": false,
     "jsx": "react-native",
     "importHelpers": true,
     "noEmitHelpers": true,
+    // Avoid accidentally using this config to build
+    "noEmit": true,
 
     /* Strict Type-Checking Options */
     "allowUnreachableCode": false,
@@ -44,5 +48,5 @@
     "isolatedModules": true,
     "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
   },
-  "exclude": ["node_modules", "**/__tests__/**", "**/lib/**/*"]
+  "exclude": ["node_modules", "**/lib/**/*"]
 }

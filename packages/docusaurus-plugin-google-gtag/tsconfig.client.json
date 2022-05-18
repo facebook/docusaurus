@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "noEmit": false,
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
@@ -9,5 +10,6 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src/gtag.ts", "src/options.ts", "src/*.d.ts"]
+  "include": ["src/gtag.ts", "src/options.ts", "src/*.d.ts"],
+  "exclude": ["**/__tests__/**"]
 }

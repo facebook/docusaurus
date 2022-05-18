@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "noEmit": false,
     "composite": true,
     "module": "es2020",
     "incremental": true,
@@ -8,6 +9,6 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src/"],
-  "exclude": ["templates/"]
+  "include": ["src"],
+  "exclude": ["templates/", "**/__tests__/**"]
 }
