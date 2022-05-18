@@ -2,8 +2,10 @@
   "extends": "../../tsconfig.json",
   "references": [{"path": "./tsconfig.client.json"}],
   "compilerOptions": {
+    "noEmit": false,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "module": "commonjs",
     "rootDir": "src",
     "outDir": "lib"
   },

@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "noEmit": false,
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
@@ -14,5 +15,6 @@
     "src/*.d.ts",
     "src/registerSw.ts",
     "src/renderReloadPopup.tsx"
-  ]
+  ],
+  "exclude": ["**/__tests__/**"]
 }

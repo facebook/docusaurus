@@ -2,11 +2,18 @@
   "extends": "../../tsconfig.json",
   "references": [{"path": "./tsconfig.client.json"}],
   "compilerOptions": {
+    "noEmit": false,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "module": "commonjs",
     "rootDir": "src",
     "outDir": "lib"
   },
   "include": ["src"],
-  "exclude": ["src/theme/", "src/registerSw.ts", "src/renderReloadPopup.tsx"]
+  "exclude": [
+    "src/theme/",
+    "src/registerSw.ts",
+    "src/renderReloadPopup.tsx",
+    "**/__tests__/**"
+  ]
 }

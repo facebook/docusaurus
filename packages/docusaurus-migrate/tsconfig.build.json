@@ -1,11 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "noEmit": false,
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "module": "commonjs",
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/__tests__/**"]
 }

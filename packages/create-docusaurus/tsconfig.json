@@ -7,5 +7,6 @@
     "module": "esnext",
     "rootDir": "."
   },
-  "include": ["bin"]
+  "include": ["bin"],
+  "exclude": ["**/__tests__/**"]
 }
