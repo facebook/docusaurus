@@ -24,8 +24,10 @@
     "docusaurus": "bin/docusaurus.mjs"
   },
   "scripts": {
-    "build": "tsc --build && node copyUntypedFiles.mjs",
-    "watch": "node copyUntypedFiles.mjs && tsc --watch"
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.mjs",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.mjs --watch"
   },
   "bugs": {
     "url": "https://github.com/facebook/docusaurus/issues"

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc --build",
-    "watch": "tsc --watch"
+    "watch": "tsc --build --watch"
   },
   "repository": {
     "type": "git",
