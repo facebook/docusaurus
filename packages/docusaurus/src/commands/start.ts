@@ -141,6 +141,7 @@ export async function start(
         inject: false,
         filename: 'index.html',
         title: siteConfig.title,
+        scriptLoading: 'defer',
         headTags,
         preBodyTags,
         postBodyTags,
