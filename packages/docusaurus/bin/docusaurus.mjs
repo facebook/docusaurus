@@ -126,6 +126,10 @@ cli
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
   )
+  .option(
+    '--no-minify',
+    'build website without minimizing JS bundles (default: false)',
+  )
   .action(async (siteDir, options) =>
     start(await resolveDir(siteDir), options),
   );
