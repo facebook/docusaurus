@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs-extra';
 // eslint-disable-next-line no-restricted-imports
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
+import chalk from 'chalk';
 import * as eta from 'eta';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
@@ -43,15 +43,20 @@ export default async function render(
   try {
     return await doRender(locals);
   } catch (err) {
-    logger.error`Docusaurus server-side rendering could not render static page with path path=${locals.path}.`;
+    // We are not using logger in this file, because it seems to fail with some
+    // compilers / some polyfill methods. This is very likely a bug, but in the
+    // long term, when we output native ES modules in SSR, the bug will be gone.
+    // prettier-ignore
+    console.error(chalk.red(`${chalk.bold('[ERROR]')} Docusaurus server-side rendering could not render static page with path ${chalk.cyan.underline(locals.path)}.`));
 
     const isNotDefinedErrorRegex =
       /(?:window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test((err as Error).message)) {
-      logger.info`It looks like you are using code that should run on the client-side only.
-To get around it, try using code=${'<BrowserOnly>'} (url=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (url=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
-It might also require to wrap your client code in code=${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
+      // prettier-ignore
+      console.info(`${chalk.cyan.bold('[INFO]')} It looks like you are using code that should run on the client-side only.
+To get around it, try using ${chalk.cyan('`<BrowserOnly>`')} (${chalk.cyan.underline('https://docusaurus.io/docs/docusaurus-core/#browseronly')}) or ${chalk.cyan('`ExecutionEnvironment`')} (${chalk.cyan.underline('https://docusaurus.io/docs/docusaurus-core/#executionenvironment')}).
+It might also require to wrap your client code in ${chalk.cyan('`useEffect`')} hook and/or import a third-party library dynamically (if any).`);
     }
 
     throw err;
@@ -107,7 +112,12 @@ async function doRender(locals: Locals & {path: string}) {
 
   const {generatedFilesDir} = locals;
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-  const manifest: Manifest = await fs.readJSON(manifestPath);
+  // Using readJSON seems to fail for users of some plugins, possibly because of
+  // the eval sandbox having a different `Buffer` instance (native one instead
+  // of polyfilled one)
+  const manifest: Manifest = await fs
+    .readFile(manifestPath, 'utf-8')
+    .then(JSON.parse);
 
   // Get all required assets for this particular page based on client
   // manifest information.
@@ -143,7 +153,8 @@ async function doRender(locals: Locals & {path: string}) {
       minifyJS: true,
     });
   } catch (err) {
-    logger.error`Minification of page path=${locals.path} failed.`;
+    // prettier-ignore
+    console.error(chalk.red(`${chalk.bold('[ERROR]')} Minification of page ${chalk.cyan.underline(locals.path)} failed.`));
     throw err;
   }
 }
