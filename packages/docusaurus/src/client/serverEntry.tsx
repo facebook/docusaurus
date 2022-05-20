@@ -46,33 +46,17 @@ export default async function render(
     // We are not using logger in this file, because it seems to fail with some
     // compilers / some polyfill methods. This is very likely a bug, but in the
     // long term, when we output native ES modules in SSR, the bug will be gone.
-    console.error(
-      chalk.red(
-        `${chalk.bold(
-          '[ERROR]',
-        )} Docusaurus server-side rendering could not render static page with path ${chalk.cyan.underline(
-          locals.path,
-        )}.`,
-      ),
-    );
+    // prettier-ignore
+    console.error(chalk.red(`${chalk.bold('[ERROR]')} Docusaurus server-side rendering could not render static page with path ${chalk.cyan.underline(locals.path)}.`));
 
     const isNotDefinedErrorRegex =
       /(?:window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test((err as Error).message)) {
-      console.info(`${chalk.cyan.bold(
-        '[INFO]',
-      )} It looks like you are using code that should run on the client-side only.
-To get around it, try using ${chalk.cyan(
-        '`<BrowserOnly>`',
-      )} (${chalk.cyan.underline(
-        'https://docusaurus.io/docs/docusaurus-core/#browseronly',
-      )}) or ${chalk.cyan('`ExecutionEnvironment`')} (${chalk.cyan.underline(
-        'https://docusaurus.io/docs/docusaurus-core/#executionenvironment',
-      )}).
-It might also require to wrap your client code in ${chalk.cyan(
-        '`useEffect`',
-      )} hook and/or import a third-party library dynamically (if any).`);
+      // prettier-ignore
+      console.info(`${chalk.cyan.bold('[INFO]')} It looks like you are using code that should run on the client-side only.
+To get around it, try using ${chalk.cyan('`<BrowserOnly>`')} (${chalk.cyan.underline('https://docusaurus.io/docs/docusaurus-core/#browseronly')}) or ${chalk.cyan('`ExecutionEnvironment`')} (${chalk.cyan.underline('https://docusaurus.io/docs/docusaurus-core/#executionenvironment')}).
+It might also require to wrap your client code in ${chalk.cyan('`useEffect`')} hook and/or import a third-party library dynamically (if any).`);
     }
 
     throw err;
@@ -169,13 +153,8 @@ async function doRender(locals: Locals & {path: string}) {
       minifyJS: true,
     });
   } catch (err) {
-    console.error(
-      chalk.red(
-        `${chalk.bold('[ERROR]')} Minification of page ${chalk.cyan.underline(
-          locals.path,
-        )} failed.`,
-      ),
-    );
+    // prettier-ignore
+    console.error(chalk.red(`${chalk.bold('[ERROR]')} Minification of page ${chalk.cyan.underline(locals.path)} failed.`));
     throw err;
   }
 }
