@@ -38,6 +38,35 @@ describe('replaceMarkdownLinks', () => {
     ).toMatchSnapshot();
   });
 
+  it('replaces two links on the same line', () => {
+    // cSpell:ignore Goooooooooo
+    // This is a very arcane bug: if we continue matching using the previous
+    // matching index (as is the behavior of RegExp#exec), it will go right over
+    // the next Markdown link and fail to match the "Go" link. This only happens
+    // when: (1) the replaced link is much shorter than the Markdown path, (2)
+    // the next link is very close to the current one (e.g. here if it's not
+    // "Go" but "Goooooooooo", or if every link has the /docs/ prefix, the bug
+    // will not trigger because it won't overshoot)
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/intro.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/intro.md': '/',
+          '@site/docs/programming-languages/typescript/typescript.md':
+            '/programming-languages/typescript/',
+          '@site/docs/programming-languages/go/go.md':
+            '/programming-languages/go/',
+        },
+        fileString: `[TypeScript](programming-languages/typescript/typescript.md) and [Go](programming-languages/go/go.md)`,
+      }),
+    ).toMatchSnapshot();
+  });
+
   it('replaces reference style Markdown links', () => {
     expect(
       replaceMarkdownLinks({
@@ -155,7 +184,7 @@ The following operations are defined for [URI]s:
     ).toMatchSnapshot();
   });
 
-  // TODO bad
+  // FIXME
   it('ignores links in inline code', () => {
     expect(
       replaceMarkdownLinks({
@@ -175,7 +204,7 @@ The following operations are defined for [URI]s:
     ).toMatchSnapshot();
   });
 
-  // TODO bad
+  // FIXME
   it('replaces links with same title as URL', () => {
     expect(
       replaceMarkdownLinks({
