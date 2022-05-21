@@ -232,7 +232,7 @@ const Users: User[] = [
   {
     title: 'Avana Wallet',
     description:
-      'A Solana blockchain non-custodial wallet that enables you to connect to Web3 decentralized applications (dapps), DeFi, GameFi and NFT marketplaces.',
+      'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
     preview: require('./showcase/avana-wallet.png'),
     website: 'https://docs.avanawallet.com/',
     source: null,
