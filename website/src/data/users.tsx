@@ -2270,8 +2270,8 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'YEE式機器龍 (Yeecord)',
-    description: '一隻全中文的機器人，並結合了音樂系統、RPG、動態語音頻道、跨群聊天等功能，讓Discord不再只是聊天軟體。',
+    title: 'Yeecord',
+    description: 'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
     tags: ['product', 'personal'],
