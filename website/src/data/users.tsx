@@ -2270,6 +2270,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'YEE式機器龍 (Yeecord)',
+    description: '一隻全中文的機器人，並結合了音樂系統、RPG、動態語音頻道、跨群聊天等功能，讓Discord不再只是聊天軟體。',
+    website: 'https://yeecord.com/',
+    preview: require('./showcase/yeecord.png'),
+    tags: ['product', 'personal'],
+    source: null
+  },
+  {
     title: 'Zowe',
     description:
       'Open source framework for leveraging data and applications in z/OS',
