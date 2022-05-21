@@ -236,7 +236,7 @@ const Users: User[] = [
     preview: require('./showcase/avana-wallet.png'),
     website: 'https://docs.avanawallet.com/',
     source: null,
-    tags: ['versioning', 'product'],
+    tags: ['product'],
   },
   {
     title: 'AvN Gateway',
