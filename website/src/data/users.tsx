@@ -2270,6 +2270,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Yeecord',
+    description:
+      'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
+    website: 'https://yeecord.com/',
+    preview: require('./showcase/yeecord.png'),
+    tags: ['product', 'personal'],
+    source: null
+  },
+  {
     title: 'Zowe',
     description:
       'Open source framework for leveraging data and applications in z/OS',
