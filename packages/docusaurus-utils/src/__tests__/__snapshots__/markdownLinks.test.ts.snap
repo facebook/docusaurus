@@ -135,6 +135,13 @@ The following operations are defined for [URI]s:
 }
 `;
 
+exports[`replaceMarkdownLinks replaces two links on the same line 1`] = `
+{
+  "brokenMarkdownLinks": [],
+  "newContent": "[TypeScript](/programming-languages/typescript/) and [Go](/programming-languages/go/)",
+}
+`;
+
 exports[`replaceMarkdownLinks resolves absolute and relative links differently 1`] = `
 {
   "brokenMarkdownLinks": [
