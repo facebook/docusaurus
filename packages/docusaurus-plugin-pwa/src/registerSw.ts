@@ -320,6 +320,6 @@ if (typeof window !== 'undefined') {
     addLegacyAppInstalledEventsListeners();
 
     // Then try to register the SW using lazy/dynamic imports
-    registerSW().catch((e) => console.error('registerSW failed', e));
+    registerSW().catch((e: unknown) => console.error('registerSW failed', e));
   }
 }

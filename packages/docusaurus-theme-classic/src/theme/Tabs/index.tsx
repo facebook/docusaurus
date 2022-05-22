@@ -25,8 +25,10 @@ import styles from './styles.module.css';
 
 // A very rough duck type, but good enough to guard against mistakes while
 // allowing customization
-function isTabItem(comp: ReactElement): comp is ReactElement<TabItemProps> {
-  return typeof comp.props.value !== 'undefined';
+function isTabItem(
+  comp: ReactElement<object>,
+): comp is ReactElement<TabItemProps> {
+  return 'value' in comp.props;
 }
 
 function TabsComponent(props: Props): JSX.Element {

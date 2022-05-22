@@ -3308,6 +3308,13 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/file-loader@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/file-loader/-/file-loader-5.0.1.tgz#300b7c729e4f0c523783b865b287e3459135bf22"
+  integrity sha512-FHPPuRb/Ts/25qvNU/mQGwRZUp793nBxYqXd/KwApykxATagqrO4+2EEcGDm/DuXyV/EkOa04umS1DQ8tQSomg==
+  dependencies:
+    "@types/webpack" "^4"
+
 "@types/fs-extra@^9.0.13":
   version "9.0.13"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
