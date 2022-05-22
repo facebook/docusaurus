@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/module-type-aliases" />
+
 declare module '@docusaurus/plugin-content-docs' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {

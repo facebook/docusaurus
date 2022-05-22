@@ -112,7 +112,7 @@ export default function themeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return '../lib-next/theme';
+      return '../lib/theme';
     },
 
     getTypeScriptThemePath() {

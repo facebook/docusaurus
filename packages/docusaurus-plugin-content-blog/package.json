@@ -24,7 +24,7 @@
     "@docusaurus/utils": "2.0.0-beta.20",
     "@docusaurus/utils-common": "2.0.0-beta.20",
     "@docusaurus/utils-validation": "2.0.0-beta.20",
-    "cheerio": "^1.0.0-rc.10",
+    "cheerio": "^1.0.0-rc.11",
     "feed": "^4.2.2",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",

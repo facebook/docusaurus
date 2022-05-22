@@ -12,8 +12,8 @@
   },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "publishConfig": {
     "access": "public"

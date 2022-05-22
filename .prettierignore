@@ -7,7 +7,6 @@ coverage
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-packages/docusaurus-*/lib-next/
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/*/docusaurus.config.js
 packages/eslint-plugin/lib/

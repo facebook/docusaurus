@@ -32,6 +32,7 @@ export type StartCLIOptions = HostPortOptions &
     hotOnly?: boolean;
     open?: boolean;
     poll?: boolean | number;
+    minify?: boolean;
   };
 
 export async function start(
@@ -121,32 +122,35 @@ export async function start(
     fsWatcher.on(event, reload),
   );
 
-  let config: webpack.Configuration = merge(await createClientConfig(props), {
-    watchOptions: {
-      ignored: /node_modules\/(?!@docusaurus)/,
-      poll: cliOptions.poll,
+  let config: webpack.Configuration = merge(
+    await createClientConfig(props, cliOptions.minify),
+    {
+      watchOptions: {
+        ignored: /node_modules\/(?!@docusaurus)/,
+        poll: cliOptions.poll,
+      },
+      infrastructureLogging: {
+        // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+        level: 'warn',
+      },
+      plugins: [
+        // Generates an `index.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          template: path.join(
+            __dirname,
+            '../webpack/templates/index.html.template.ejs',
+          ),
+          // So we can define the position where the scripts are injected.
+          inject: false,
+          filename: 'index.html',
+          title: siteConfig.title,
+          headTags,
+          preBodyTags,
+          postBodyTags,
+        }),
+      ],
     },
-    infrastructureLogging: {
-      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
-      level: 'warn',
-    },
-    plugins: [
-      // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin({
-        template: path.join(
-          __dirname,
-          '../webpack/templates/index.html.template.ejs',
-        ),
-        // So we can define the position where the scripts are injected.
-        inject: false,
-        filename: 'index.html',
-        title: siteConfig.title,
-        headTags,
-        preBodyTags,
-        postBodyTags,
-      }),
-    ],
-  });
+  );
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {

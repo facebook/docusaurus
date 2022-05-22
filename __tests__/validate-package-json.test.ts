@@ -62,7 +62,9 @@ describe('packages', () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles
-      .filter((packageJsonFile) => packageJsonFile.content.name.startsWith('@'))
+      .filter((packageJsonFile) =>
+        packageJsonFile.content.name?.startsWith('@'),
+      )
       .forEach((packageJsonFile) => {
         if (packageJsonFile) {
           // Unfortunately jest custom message do not exist in loops,
