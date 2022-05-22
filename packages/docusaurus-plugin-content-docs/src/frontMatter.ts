@@ -42,6 +42,10 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_prev: Joi.string().allow(null),
   draft: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
+  last_update: Joi.object({
+    author: Joi.string(),
+    date: Joi.date().raw(),
+  }),
 }).unknown();
 
 export function validateDocFrontMatter(frontMatter: {

@@ -394,3 +394,36 @@ describe('validateDocFrontMatter draft', () => {
     ],
   });
 });
+
+describe('validateDocFrontMatter last_update', () => {
+  testField({
+    prefix: 'last_update',
+    validFrontMatters: [
+      {last_update: undefined},
+      {last_update: {author: 'test author', date: undefined}},
+      {last_update: {author: undefined, date: '1/1/2000'}},
+      {last_update: {author: undefined, date: new Date('1/1/2000')}},
+      {last_update: {author: 'test author', date: '1/1/2000'}},
+      {last_update: {author: 'test author', date: '1995-12-17T03:24:00'}},
+      {last_update: {author: undefined, date: 'December 17, 1995 03:24:00'}},
+    ],
+    invalidFrontMatters: [
+      [
+        {last_update: {author: 'test author', date: 'I am not a date :('}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: '2011-10-45'}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: '2011-0-10'}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: ''}},
+        'must be a valid date',
+      ],
+    ],
+  });
+});

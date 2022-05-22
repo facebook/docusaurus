@@ -230,6 +230,9 @@ describe('simple site', () => {
         'headingAsTitle.md',
         'doc with space.md',
         'doc-draft.md',
+        'customLastUpdate.md',
+        'lastUpdateAuthorOnly.md',
+        'lastUpdateDateOnly.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -478,6 +481,164 @@ describe('simple site', () => {
       testUtilsDev.processDocFile('doc-draft.md'),
     ).resolves.toMatchObject({
       draft: false,
+    });
+  });
+
+  it('docs with last_update front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('customLastUpdate.md', {
+      version: 'current',
+      id: 'customLastUpdate',
+      unversionedId: 'customLastUpdate',
+      sourceDirName: '.',
+      permalink: '/docs/customLastUpdate',
+      slug: '/customLastUpdate',
+      title: 'Custom Last Update',
+      description: 'Custom last update',
+      frontMatter: {
+        last_update: {
+          author: 'Custom Author',
+          date: '1/1/2000',
+        },
+        title: 'Custom Last Update',
+      },
+      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
+      formattedLastUpdatedAt: '1/1/2000',
+      lastUpdatedBy: 'Custom Author',
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with only last_update author front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('lastUpdateAuthorOnly.md', {
+      version: 'current',
+      id: 'lastUpdateAuthorOnly',
+      unversionedId: 'lastUpdateAuthorOnly',
+      sourceDirName: '.',
+      permalink: '/docs/lastUpdateAuthorOnly',
+      slug: '/lastUpdateAuthorOnly',
+      title: 'Last Update Author Only',
+      description: 'Only custom author, so it will still use the date from Git',
+      frontMatter: {
+        last_update: {
+          author: 'Custom Author',
+        },
+        title: 'Last Update Author Only',
+      },
+      lastUpdatedAt: 1539502055,
+      formattedLastUpdatedAt: '10/14/2018',
+      lastUpdatedBy: 'Custom Author',
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with only last_update date front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('lastUpdateDateOnly.md', {
+      version: 'current',
+      id: 'lastUpdateDateOnly',
+      unversionedId: 'lastUpdateDateOnly',
+      sourceDirName: '.',
+      permalink: '/docs/lastUpdateDateOnly',
+      slug: '/lastUpdateDateOnly',
+      title: 'Last Update Date Only',
+      description: 'Only custom date, so it will still use the author from Git',
+      frontMatter: {
+        last_update: {
+          date: '1/1/2000',
+        },
+        title: 'Last Update Date Only',
+      },
+      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
+      formattedLastUpdatedAt: '1/1/2000',
+      lastUpdatedBy: 'Author',
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with last_update front matter disabled', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('customLastUpdate.md', {
+      version: 'current',
+      id: 'customLastUpdate',
+      unversionedId: 'customLastUpdate',
+      sourceDirName: '.',
+      permalink: '/docs/customLastUpdate',
+      slug: '/customLastUpdate',
+      title: 'Custom Last Update',
+      description: 'Custom last update',
+      frontMatter: {
+        last_update: {
+          author: 'Custom Author',
+          date: '1/1/2000',
+        },
+        title: 'Custom Last Update',
+      },
+      lastUpdatedAt: undefined,
+      formattedLastUpdatedAt: undefined,
+      lastUpdatedBy: undefined,
+      sidebarPosition: undefined,
+      tags: [],
     });
   });
 

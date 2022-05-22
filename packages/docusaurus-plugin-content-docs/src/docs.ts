@@ -155,7 +155,17 @@ function doProcessDocMetadata({
     // (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc)
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
+    last_update: lastUpdateFrontMatter,
   } = frontMatter;
+
+  if (lastUpdateFrontMatter?.author && options.showLastUpdateAuthor) {
+    lastUpdate.lastUpdatedBy = lastUpdateFrontMatter.author;
+  }
+  if (lastUpdateFrontMatter?.date && options.showLastUpdateTime) {
+    lastUpdate.lastUpdatedAt =
+      new Date(lastUpdateFrontMatter.date).getTime() / 1000;
+    lastUpdate.formattedLastUpdatedAt = undefined;
+  }
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(

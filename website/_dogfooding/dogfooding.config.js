@@ -34,6 +34,7 @@ const dogfoodingPluginInstances = [
       // eslint-disable-next-line no-restricted-properties
       path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
       showLastUpdateTime: true,
+      showLastUpdateAuthor: true,
       sidebarItemsGenerator(args) {
         return args.defaultSidebarItemsGenerator({
           ...args,

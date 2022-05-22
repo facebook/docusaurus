@@ -23,6 +23,11 @@ declare module '@docusaurus/plugin-content-docs' {
     image?: string;
   };
 
+  export type FileChange = {
+    author?: string;
+    date?: Date | string;
+  };
+
   /**
    * Custom callback for parsing number prefixes from file/folder names.
    */
@@ -356,6 +361,8 @@ declare module '@docusaurus/plugin-content-docs' {
     pagination_prev?: string | null;
     /** Should this doc be excluded from production builds? */
     draft?: boolean;
+    /** Front matter override for last update to doc */
+    last_update?: FileChange;
   };
 
   export type LastUpdateData = {
