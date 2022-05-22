@@ -100,7 +100,7 @@ export default async function pluginContentDocs(
         .command(command)
         .arguments('<version>')
         .description(commandDescription)
-        .action((version) => {
+        .action((version: unknown) => {
           cliDocsVersionCommand(version, options, context);
         });
     },

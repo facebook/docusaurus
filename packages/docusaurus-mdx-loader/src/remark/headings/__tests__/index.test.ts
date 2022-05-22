@@ -13,13 +13,14 @@ import removePosition from 'unist-util-remove-position';
 import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
 import slug from '../index';
+import type {Plugin} from 'unified';
 
-function process(doc, plugins = []) {
+function process(doc: string, plugins: Plugin[] = []) {
   const processor = remark().use({plugins: [...plugins, slug]});
   return removePosition(processor.runSync(processor.parse(doc)), true);
 }
 
-function heading(label, id) {
+function heading(label: string, id: string) {
   return u(
     'heading',
     {depth: 2, data: {id, hProperties: {id}}},

@@ -27,11 +27,13 @@ export function VersionsProvider({
   useEffect(() => {
     fetch('https://registry.npmjs.org/@docusaurus/core')
       .then((res) => res.json())
-      .then((data) => {
-        const name = Object.keys(data.versions).at(-1)!;
-        const time = data.time[name];
-        setCanaryVersion({name, time});
-      });
+      .then(
+        (data: {versions: string[]; time: {[versionName: string]: string}}) => {
+          const name = Object.keys(data.versions).at(-1)!;
+          const time = data.time[name];
+          setCanaryVersion({name, time});
+        },
+      );
   }, []);
   return <Context.Provider value={canaryVersion}>{children}</Context.Provider>;
 }

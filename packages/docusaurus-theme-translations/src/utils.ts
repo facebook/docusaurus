@@ -23,7 +23,7 @@ import type {TranslationFileContent} from '@docusaurus/types';
 async function getPackageCodePath(packageName: string) {
   const packagePath = path.join(__dirname, '../..', packageName);
   const packageJsonPath = path.join(packagePath, 'package.json');
-  const {main} = await fs.readJSON(packageJsonPath);
+  const {main} = (await fs.readJSON(packageJsonPath)) as {main: string};
   const packageSrcPath = path.join(packagePath, path.dirname(main));
   return packageSrcPath;
 }

@@ -78,7 +78,7 @@ export async function start(
           logger.success`Docusaurus website is running at url=${newOpenUrl}.`;
         }
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         logger.error(err.stack);
       });
   }, 500);

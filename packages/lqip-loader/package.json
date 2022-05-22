@@ -27,6 +27,7 @@
     "node": ">=14"
   },
   "devDependencies": {
+    "@types/file-loader": "^5.0.1",
     "@types/sharp": "^0.30.2"
   }
 }

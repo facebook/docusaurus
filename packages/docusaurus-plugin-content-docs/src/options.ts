@@ -98,7 +98,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
       Joi.function(),
       // Convert boolean values to functions
       Joi.alternatives().conditional(Joi.boolean(), {
-        then: Joi.custom((val) =>
+        then: Joi.custom((val: boolean) =>
           val ? DefaultNumberPrefixParser : DisabledNumberPrefixParser,
         ),
       }),
