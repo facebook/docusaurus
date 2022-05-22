@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.17.12",
-    "@babel/preset-env": "^7.17.12",
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
     "@docusaurus/core": "2.0.0-beta.20",
     "@docusaurus/theme-common": "2.0.0-beta.20",
     "@docusaurus/theme-translations": "2.0.0-beta.20",
