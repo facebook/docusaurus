@@ -1,6 +1,9 @@
 {
   "extends": "../../tsconfig.json",
-  "references": [{"path": "./tsconfig.client.json"}],
+  "references": [
+    {"path": "./tsconfig.client.json"},
+    {"path": "./tsconfig.worker.json"}
+  ],
   "compilerOptions": {
     "noEmit": false,
     "incremental": true,
@@ -13,6 +16,7 @@
   "exclude": [
     "src/theme/",
     "src/registerSw.ts",
+    "src/sw.ts",
     "src/renderReloadPopup.tsx",
     "**/__tests__/**"
   ]
