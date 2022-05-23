@@ -9,7 +9,10 @@ import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
 
 function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
-  function validate(schema: Joi.Schema, cfg: {[key: string]: unknown}) {
+  function validate(
+    schema: Joi.ObjectSchema<{[key: string]: unknown}>,
+    cfg: {[key: string]: unknown},
+  ) {
     const {value, error} = schema.validate(cfg, {
       convert: false,
     });

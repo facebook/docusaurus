@@ -53,9 +53,11 @@
   },
   "exclude": [
     "node_modules",
+    "coverage/**",
     "**/lib/**/*",
     "website/**",
     "**/__mocks__/**/*",
+    "**/__fixtures__/**/*",
     "examples/**",
     "packages/create-docusaurus/templates/**"
   ]
