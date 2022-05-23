@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {DocsMarkdownOption} from '../types';
 import {replaceMarkdownLinks, getContentPathList} from '@docusaurus/utils';
+import type {DocsMarkdownOption} from '../types';
 
 function getVersion(filePath: string, options: DocsMarkdownOption) {
   const versionFound = options.versionsMetadata.find((version) =>

@@ -538,11 +538,11 @@ declare module '@theme/BlogTagsListPage' {
 }
 
 declare module '@theme/BlogTagsPostsPage' {
+  import type {Content} from '@theme/BlogPostPage';
   import type {
     BlogSidebar,
     BlogPaginatedMetadata,
   } from '@docusaurus/plugin-content-blog';
-  import type {Content} from '@theme/BlogPostPage';
   import type {TagModule} from '@docusaurus/utils';
 
   export interface Props {

@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import vfile from 'to-vfile';
+import mdx from 'remark-mdx';
 import remark from 'remark';
 import npm2yarn from '../index';
-import vfile from 'to-vfile';
-import path from 'path';
-import mdx from 'remark-mdx';
 
 const processFixture = async (name: string, options?: {sync?: boolean}) => {
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);

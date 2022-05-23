@@ -7,8 +7,8 @@
 
 import React from 'react';
 import {useNavbarMobileSidebar, useThemeConfig} from '@docusaurus/theme-common';
+import NavbarItem from '@theme/NavbarItem';
 import type {Props as NavbarItemConfig} from '@theme/NavbarItem';
-import NavbarItem from '../../../NavbarItem';
 
 function useNavbarItems() {
   // TODO temporary casting until ThemeConfig type is improved

@@ -220,7 +220,35 @@ module.exports = {
         ],
       },
     ],
-    'import/order': OFF,
+    'import/order': [
+      WARNING,
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['parent', 'sibling', 'index'],
+          'type',
+        ],
+        pathGroups: [
+          {pattern: '@jest/globals', group: 'builtin', position: 'before'},
+          {pattern: 'react', group: 'builtin', position: 'before'},
+          {pattern: 'fs-extra', group: 'builtin'},
+          {pattern: 'lodash', group: 'external', position: 'before'},
+          {pattern: 'clsx', group: 'external', position: 'before'},
+          // 'Bit weird to not use the `import/internal-regex` option, but this
+          // way, we can make `import type { Props } from "@theme/*"` appear
+          // before `import styles from "styles.module.css"`, which is what we
+          // always did. This should be removable once we stop using ambient
+          // module declarations for theme aliases.
+          {pattern: '@theme/**', group: 'internal'},
+          {pattern: '@site/**', group: 'internal'},
+          {pattern: '@theme-init/**', group: 'internal'},
+          {pattern: '@theme-original/**', group: 'internal'},
+        ],
+        pathGroupsExcludedImportTypes: [],
+      },
+    ],
     'import/prefer-default-export': OFF,
 
     'jest/consistent-test-it': WARNING,

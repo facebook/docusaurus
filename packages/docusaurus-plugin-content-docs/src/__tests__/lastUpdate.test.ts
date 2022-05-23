@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createTempRepo} from '@testing-utils/git';
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
+import {createTempRepo} from '@testing-utils/git';
 
 import {getFileLastUpdate} from '../lastUpdate';
 

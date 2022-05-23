@@ -10,14 +10,14 @@ import {
   PageMetadata,
   useCurrentSidebarCategory,
 } from '@docusaurus/theme-common';
-import type {Props} from '@theme/DocCategoryGeneratedIndexPage';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocCardList from '@theme/DocCardList';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Heading from '@theme/Heading';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import type {Props} from '@theme/DocCategoryGeneratedIndexPage';
 
 import styles from './styles.module.css';
 

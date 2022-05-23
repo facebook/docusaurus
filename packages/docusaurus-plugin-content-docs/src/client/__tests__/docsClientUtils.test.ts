@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {
   getActivePlugin,
   getLatestVersion,
@@ -17,7 +18,6 @@ import type {
   GlobalVersion,
   ActivePlugin,
 } from '@docusaurus/plugin-content-docs/client';
-import _ from 'lodash';
 
 describe('docsClientUtils', () => {
   it('getActivePlugin', () => {

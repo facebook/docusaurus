@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import * as eta from 'eta';
 import redirectPageTemplate from './templates/redirectPage.template.html';
-import _ from 'lodash';
 
 const getCompiledRedirectPageTemplate = _.memoize(() =>
   eta.compile(redirectPageTemplate.trim()),

@@ -38,7 +38,7 @@ export default async function lqipLoader(
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-      const fileLoader = require('file-loader');
+      const fileLoader = require('file-loader') as typeof import('file-loader');
       content = fileLoader.call(this, contentBuffer);
     }
     source = content.match(

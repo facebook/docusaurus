@@ -7,14 +7,14 @@
 // @ts-check
 
 const path = require('path');
-const versions = require('./versions.json');
 const math = require('remark-math');
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+const versions = require('./versions.json');
 const VersionsArchived = require('./versionsArchived.json');
 const {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
 } = require('./_dogfooding/dogfooding.config');
-const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -375,11 +375,7 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
       },
       prism: {
-        // We need to load markdown again so that YAML is loaded before MD
-        // and the YAML front matter is highlighted correctly.
-        // TODO after we have forked prism-react-renderer, we should tweak the
-        // import order and fix it there
-        additionalLanguages: ['java', 'markdown', 'latex'],
+        additionalLanguages: ['java', 'latex'],
         magicComments: [
           {
             className: 'theme-code-block-highlighted-line',

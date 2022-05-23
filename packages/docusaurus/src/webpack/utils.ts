@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
+import path from 'path';
+import crypto from 'crypto';
+import logger from '@docusaurus/logger';
+import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {
   mergeWithCustomize,
@@ -16,20 +21,15 @@ import webpack, {
   type RuleSetRule,
   type WebpackPluginInstance,
 } from 'webpack';
-import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
-import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import path from 'path';
-import crypto from 'crypto';
-import logger from '@docusaurus/logger';
+import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {TransformOptions} from '@babel/core';
 import type {
   Plugin,
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 
 // Utility method to get style loaders
 export function getStyleLoaders(

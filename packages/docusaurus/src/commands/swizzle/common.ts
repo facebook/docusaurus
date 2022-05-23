@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import leven from 'leven';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
+import leven from 'leven';
 import type {NormalizedPluginConfig} from '../../server/plugins/configs';
 import type {
   InitializedPlugin,

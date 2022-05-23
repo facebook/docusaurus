@@ -7,13 +7,13 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
-import pluginContentBlog from '../index';
-import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
-import {validateOptions} from '../options';
-import type {BlogPost} from '../types';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getFileCommitDate} from '@docusaurus/utils';
+import pluginContentBlog from '../index';
+import {validateOptions} from '../options';
+import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import type {
+  BlogPost,
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';

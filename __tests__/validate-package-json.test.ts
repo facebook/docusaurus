@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Globby} from '@docusaurus/utils';
 import fs from 'fs-extra';
+import {Globby} from '@docusaurus/utils';
 
 type PackageJsonFile = {
   file: string;
@@ -28,7 +28,11 @@ type PackageJsonFile = {
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await Globby('packages/*/package.json');
   return Promise.all(
-    files.map((file) => fs.readJSON(file).then((content) => ({file, content}))),
+    files.map((file) =>
+      fs
+        .readJSON(file)
+        .then((content: PackageJsonFile['content']) => ({file, content})),
+    ),
   );
 }
 
@@ -62,7 +66,9 @@ describe('packages', () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles
-      .filter((packageJsonFile) => packageJsonFile.content.name.startsWith('@'))
+      .filter((packageJsonFile) =>
+        packageJsonFile.content.name?.startsWith('@'),
+      )
       .forEach((packageJsonFile) => {
         if (packageJsonFile) {
           // Unfortunately jest custom message do not exist in loops,

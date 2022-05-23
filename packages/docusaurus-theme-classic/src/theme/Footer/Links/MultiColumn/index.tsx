@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Footer/Links/MultiColumn';
 import LinkItem from '@theme/Footer/LinkItem';
+import type {Props} from '@theme/Footer/Links/MultiColumn';
 
 type ColumnType = Props['columns'][number];
 type ColumnItemType = ColumnType['items'][number];

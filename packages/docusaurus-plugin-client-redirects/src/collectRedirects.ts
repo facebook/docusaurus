@@ -6,19 +6,18 @@
  */
 
 import _ from 'lodash';
-import type {PluginOptions, RedirectOption} from './options';
-import type {PluginContext, RedirectMetadata} from './types';
+import logger from '@docusaurus/logger';
+import {
+  applyTrailingSlash,
+  type ApplyTrailingSlashParams,
+} from '@docusaurus/utils-common';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
 } from './extensionRedirects';
 import {validateRedirect} from './redirectValidation';
-import {
-  applyTrailingSlash,
-  type ApplyTrailingSlashParams,
-} from '@docusaurus/utils-common';
-
-import logger from '@docusaurus/logger';
+import type {PluginOptions, RedirectOption} from './options';
+import type {PluginContext, RedirectMetadata} from './types';
 
 export default function collectRedirects(
   pluginContext: PluginContext,

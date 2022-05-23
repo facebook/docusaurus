@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CommanderStatic} from 'commander';
 import {loadContext} from '../server';
 import {initPlugins} from '../server/plugins/init';
+import type {CommanderStatic} from 'commander';
 
 export async function externalCommand(
   cli: CommanderStatic,

@@ -6,19 +6,19 @@
  */
 
 import fs from 'fs-extra';
+import path from 'path';
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {Globby} from '@docusaurus/utils';
+import Yaml from 'js-yaml';
+import combinePromises from 'combine-promises';
 import importFresh from 'import-fresh';
-import type {SidebarsConfig, Sidebars, SidebarProcessorParams} from './types';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars} from './processor';
 import {postProcessSidebars} from './postProcessor';
-import path from 'path';
-import {Globby} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
-import Yaml from 'js-yaml';
-import _ from 'lodash';
-import combinePromises from 'combine-promises';
+import type {SidebarsConfig, Sidebars, SidebarProcessorParams} from './types';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [

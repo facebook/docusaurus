@@ -8,11 +8,11 @@
 
 // @ts-check
 
+import path from 'path';
+import {createRequire} from 'module';
 import logger from '@docusaurus/logger';
 import semver from 'semver';
-import path from 'path';
 import {program} from 'commander';
-import {createRequire} from 'module';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const requiredVersion = packageJson.engines.node;

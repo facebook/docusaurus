@@ -7,11 +7,11 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import tree from 'tree-node-cli';
+import {posixPath} from '@docusaurus/utils';
+import {eject, wrap} from '../actions';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
-import tree from 'tree-node-cli';
-import {eject, wrap} from '../actions';
-import {posixPath} from '@docusaurus/utils';
 
 // Use relative paths and sort files for tests
 function stableCreatedFiles(

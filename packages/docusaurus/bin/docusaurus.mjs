@@ -8,8 +8,8 @@
 
 // @ts-check
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
+import logger from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {
@@ -125,6 +125,10 @@ cli
   .option(
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
+  )
+  .option(
+    '--no-minify',
+    'build website without minimizing JS bundles (default: false)',
   )
   .action(async (siteDir, options) =>
     start(await resolveDir(siteDir), options),

@@ -6,9 +6,8 @@
  */
 
 import React from 'react';
-
-import DebugLayout from '@theme/DebugLayout';
 import registry from '@generated/registry';
+import DebugLayout from '@theme/DebugLayout';
 import styles from './styles.module.css';
 
 export default function DebugRegistry(): JSX.Element {

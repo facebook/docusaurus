@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import {mergeTranslations} from '@docusaurus/utils';
 import type {TranslationFile, TranslationFileContent} from '@docusaurus/types';
 import type {
   ThemeConfig,
@@ -14,9 +16,6 @@ import type {
   MultiColumnFooter,
   SimpleFooter,
 } from '@docusaurus/theme-common';
-
-import _ from 'lodash';
-import {mergeTranslations} from '@docusaurus/utils';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!

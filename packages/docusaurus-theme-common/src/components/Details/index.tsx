@@ -11,8 +11,8 @@ import React, {
   type ComponentProps,
   type ReactElement,
 } from 'react';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
 

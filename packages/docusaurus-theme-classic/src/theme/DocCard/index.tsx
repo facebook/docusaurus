@@ -6,17 +6,18 @@
  */
 
 import React, {type ReactNode} from 'react';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
+import {findFirstCategoryLink, useDocById} from '@docusaurus/theme-common';
+import isInternalUrl from '@docusaurus/isInternalUrl';
+import {translate} from '@docusaurus/Translate';
+import type {Props} from '@theme/DocCard';
+
+import styles from './styles.module.css';
 import type {
   PropSidebarItemCategory,
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
-import type {Props} from '@theme/DocCard';
-import {findFirstCategoryLink, useDocById} from '@docusaurus/theme-common';
-import clsx from 'clsx';
-import styles from './styles.module.css';
-import isInternalUrl from '@docusaurus/isInternalUrl';
-import {translate} from '@docusaurus/Translate';
 
 function CardContainer({
   href,

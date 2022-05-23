@@ -6,13 +6,13 @@
  */
 
 import fs from 'fs-extra';
-import shell from 'shelljs';
+import path from 'path';
+import os from 'os';
 import logger from '@docusaurus/logger';
+import shell from 'shelljs';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext, type LoadContextOptions} from '../server';
 import {build} from './build';
-import path from 'path';
-import os from 'os';
 
 export type DeployCLIOptions = Pick<
   LoadContextOptions,

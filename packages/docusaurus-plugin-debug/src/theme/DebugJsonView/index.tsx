@@ -19,8 +19,9 @@ function BrowserOnlyReactJson(props: ReactJsonViewProps) {
   return (
     <BrowserOnly>
       {() => {
-        // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-        const ReactJson = require('react-json-view').default;
+        const {default: ReactJson} =
+          // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+          require('react-json-view') as typeof import('react-json-view');
         return <ReactJson {...props} />;
       }}
     </BrowserOnly>

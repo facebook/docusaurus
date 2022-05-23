@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
 import type {PrismTheme} from 'prism-react-renderer';
-import type {CSSProperties} from 'react';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;

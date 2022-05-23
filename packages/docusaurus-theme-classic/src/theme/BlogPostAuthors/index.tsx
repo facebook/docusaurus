@@ -7,8 +7,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
+import type {Props} from '@theme/BlogPostAuthors';
 
 import styles from './styles.module.css';
 

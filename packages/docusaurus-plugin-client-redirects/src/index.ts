@@ -5,16 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginContext, RedirectMetadata} from './types';
-import type {PluginOptions, Options} from './options';
-
+import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
   toRedirectFilesMetadata,
   type RedirectFileMetadata,
 } from './writeRedirectFiles';
-import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginContext, RedirectMetadata} from './types';
+import type {PluginOptions, Options} from './options';
 
 export default function pluginClientRedirectsPages(
   context: LoadContext,

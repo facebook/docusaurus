@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import _ from 'lodash';
 import {
   generate,
   escapePath,
@@ -13,8 +15,6 @@ import {
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
-import _ from 'lodash';
-import path from 'path';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';

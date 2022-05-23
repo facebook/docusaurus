@@ -31,7 +31,7 @@ const classicThemePathBase = path.join(
 
 const themePath = swizzleConfig
   ? path.join(classicThemePathBase, 'src/theme')
-  : path.join(classicThemePathBase, 'lib-next/theme');
+  : path.join(classicThemePathBase, 'lib/theme');
 
 const toPath = path.join(dirname, '_swizzle_theme_tests');
 

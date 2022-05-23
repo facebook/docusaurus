@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
+import {getDocIds} from '../docs';
 import type {
   SidebarItem,
   Sidebars,
@@ -15,8 +17,6 @@ import type {
   ProcessedSidebars,
   SidebarItemCategoryLink,
 } from './types';
-import {getDocIds} from '../docs';
-import _ from 'lodash';
 
 type SidebarPostProcessorParams = SidebarProcessorParams & {
   draftIds: Set<string>;

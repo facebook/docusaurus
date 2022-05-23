@@ -6,13 +6,12 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Logo';
-
 import Link from '@docusaurus/Link';
-import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
+import ThemedImage from '@theme/ThemedImage';
+import type {Props} from '@theme/Logo';
 
 export default function Logo(props: Props): JSX.Element {
   const {

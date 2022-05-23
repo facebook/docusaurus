@@ -8,11 +8,12 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {normalizeUrl} from '@docusaurus/utils';
+
+import createRedirectPageContent from './createRedirectPageContent';
 
 import type {PluginContext, RedirectMetadata} from './types';
-import createRedirectPageContent from './createRedirectPageContent';
-import {normalizeUrl} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 

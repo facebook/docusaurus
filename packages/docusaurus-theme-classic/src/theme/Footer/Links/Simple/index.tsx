@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Footer/Links/Simple';
 import LinkItem from '@theme/Footer/LinkItem';
+import type {Props} from '@theme/Footer/Links/Simple';
 
 function Separator() {
   return <span className="footer__link-separator">·</span>;

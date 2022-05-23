@@ -35,9 +35,11 @@ declare module '@generated/registry' {
 
 declare module '@generated/routes' {
   import type {RouteConfig as RRRouteConfig} from 'react-router-config';
+  import type Loadable from 'react-loadable';
 
   type RouteConfig = RRRouteConfig & {
     path: string;
+    component: ReturnType<typeof Loadable>;
   };
   const routes: RouteConfig[];
   export default routes;
@@ -136,8 +138,8 @@ declare module '@docusaurus/ErrorBoundary' {
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
+  import type {HelmetProps} from 'react-helmet-async';
 
   export type Props = HelmetProps & {children: ReactNode};
 

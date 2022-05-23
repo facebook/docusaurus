@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/TabItem';
 import clsx from 'clsx';
+import type {Props} from '@theme/TabItem';
 
 import styles from './styles.module.css';
 

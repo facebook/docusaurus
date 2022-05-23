@@ -28,8 +28,8 @@
   margin-left: 0.3rem;
   margin-right: 0.3rem;
   border-radius: 50%;
-  width: var(--ifm-avatar-photo-size-md);
-  height: var(--ifm-avatar-photo-size-md);
+  width: var(--ifm-avatar-photo-size);
+  height: var(--ifm-avatar-photo-size);
   background-color: var(--ifm-color-emphasis-100);
 }
 
