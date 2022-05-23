@@ -95,7 +95,7 @@ async function readVersionsFile(
 ): Promise<string[] | null> {
   const versionsFilePath = getVersionsFilePath(siteDir, pluginId);
   if (await fs.pathExists(versionsFilePath)) {
-    const content = await fs.readJSON(versionsFilePath);
+    const content: unknown = await fs.readJSON(versionsFilePath);
     validateVersionNames(content);
     return content;
   }

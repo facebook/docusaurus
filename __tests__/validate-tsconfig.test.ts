@@ -22,7 +22,11 @@ type TsconfigFile = {
 async function getTsconfigFiles(): Promise<TsconfigFile[]> {
   const files = await Globby('packages/*/tsconfig.*');
   return Promise.all(
-    files.map((file) => fs.readJSON(file).then((content) => ({file, content}))),
+    files.map((file) =>
+      fs
+        .readJSON(file)
+        .then((content: TsconfigFile['content']) => ({file, content})),
+    ),
   );
 }
 

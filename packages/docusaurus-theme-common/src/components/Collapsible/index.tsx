@@ -196,9 +196,7 @@ function CollapsibleBase({
   className,
   disableSSRStyle,
 }: CollapsibleBaseProps) {
-  // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const collapsibleRef = useRef<any>(null);
+  const collapsibleRef = useRef<HTMLElement>(null);
 
   useCollapseAnimation({collapsibleRef, collapsed, animation});
 
@@ -206,7 +204,7 @@ function CollapsibleBase({
     <As
       // @ts-expect-error: the "too complicated type" is produced from
       // "CollapsibleElementType" being a huge union
-      ref={collapsibleRef}
+      ref={collapsibleRef as RefObject<never>} // Refs are contravariant, which is not expressible in TS
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e: React.TransitionEvent) => {
         if (e.propertyName !== 'height') {

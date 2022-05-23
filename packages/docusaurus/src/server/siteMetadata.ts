@@ -20,7 +20,7 @@ async function getPackageJsonVersion(
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-    return require(packageJsonPath).version;
+    return (require(packageJsonPath) as {version?: string}).version;
   }
   return undefined;
 }
@@ -29,7 +29,7 @@ async function getPackageJsonName(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-  return require(packageJsonPath).name;
+  return (require(packageJsonPath) as {name?: string}).name;
 }
 
 export async function getPluginVersion(
