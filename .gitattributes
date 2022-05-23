@@ -32,9 +32,13 @@
 # See https://github.com/github/linguist/blob/master/docs/overrides.md
 # generated files' diff will be minimized
 **/__fixtures__/**                        linguist-generated
+**/__mocks__/**                           linguist-generated
 examples/**                               linguist-generated
 .husky/**                                 linguist-vendored
 jest/**                                   linguist-vendored
 admin/**                                  linguist-documentation
 website/**                                linguist-documentation
 packages/create-docusaurus/templates/**   linguist-vendored
+.eslintrc.*                               linguist-vendored
+jest.config.*                             linguist-vendored
+.stylelintrc.*                            linguist-vendored
