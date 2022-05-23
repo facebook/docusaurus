@@ -19,8 +19,5 @@ import {matchRoutes} from 'react-router-config';
 export default function preload(pathname: string): Promise<void[]> {
   const matches = matchRoutes(routes, pathname);
 
-  return Promise.all(
-    // @ts-expect-error: ComponentCreator injected this method.
-    matches.map((match) => match.route.component?.preload?.()),
-  );
+  return Promise.all(matches.map((match) => match.route.component.preload?.()));
 }

@@ -32,7 +32,7 @@ export type NavbarLogo = {
 
 // TODO improve
 export type Navbar = {
-  style: 'dark' | 'primary';
+  style?: 'dark' | 'primary';
   hideOnScroll: boolean;
   title?: string;
   items: NavbarItem[];

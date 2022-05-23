@@ -27,7 +27,7 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docsearch/react": "^3.0.0",
+    "@docsearch/react": "^3.1.0",
     "@docusaurus/core": "2.0.0-beta.20",
     "@docusaurus/logger": "2.0.0-beta.20",
     "@docusaurus/plugin-content-docs": "2.0.0-beta.20",
@@ -35,7 +35,7 @@
     "@docusaurus/theme-translations": "2.0.0-beta.20",
     "@docusaurus/utils": "2.0.0-beta.20",
     "@docusaurus/utils-validation": "2.0.0-beta.20",
-    "algoliasearch": "^4.13.0",
+    "algoliasearch": "^4.13.1",
     "algoliasearch-helper": "^3.8.2",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",

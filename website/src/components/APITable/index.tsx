@@ -67,9 +67,10 @@ const APITableRowComp = React.forwardRef(APITableRow);
  * should be generally correct in the MDX context.
  */
 export default function APITable({children, name}: Props): JSX.Element {
-  const [thead, tbody] = React.Children.toArray(
-    children.props.children,
-  ) as ReactElement[];
+  const [thead, tbody] = React.Children.toArray(children.props.children) as [
+    ReactElement,
+    ReactElement,
+  ];
   const highlightedRow = useRef<HTMLTableRowElement>(null);
   useEffect(() => {
     highlightedRow.current?.focus();

@@ -6,11 +6,11 @@
  */
 /* eslint-disable no-restricted-globals */
 
-import {PrecacheController} from 'workbox-precaching';
+import {PrecacheController, type PrecacheEntry} from 'workbox-precaching';
 
 function parseSwParams() {
   const params = JSON.parse(
-    new URLSearchParams(self.location.search).get('params'),
+    new URLSearchParams(self.location.search).get('params')!,
   );
   if (params.debug) {
     console.log('[Docusaurus-PWA][SW]: Service Worker params:', params);
@@ -22,7 +22,7 @@ function parseSwParams() {
 // https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
 // https://twitter.com/sebastienlorber/status/1280155204575518720
 // but looks it's working fine as it's inlined by webpack, need to double check
-async function runSWCustomCode(params) {
+async function runSWCustomCode(params: {offlineMode: boolean; debug: boolean}) {
   if (process.env.PWA_SW_CUSTOM) {
     const customSW = await import(process.env.PWA_SW_CUSTOM);
     if (typeof customSW.default === 'function') {
@@ -38,40 +38,34 @@ async function runSWCustomCode(params) {
 /**
  * Gets different possible variations for a request URL. Similar to
  * https://git.io/JvixK
- *
- * @param {string} url
  */
-function getPossibleURLs(url) {
-  const possibleURLs = [];
+function getPossibleURLs(url: string) {
   const urlObject = new URL(url, self.location.href);
 
   if (urlObject.origin !== self.location.origin) {
-    return possibleURLs;
+    return [];
   }
 
   // Ignore search params and hash
   urlObject.search = '';
   urlObject.hash = '';
 
-  // /blog.html
-  possibleURLs.push(urlObject.href);
-
-  // /blog/ => /blog/index.html
-  if (urlObject.pathname.endsWith('/')) {
-    possibleURLs.push(`${urlObject.href}index.html`);
-  } else {
+  return [
+    // /blog.html
+    urlObject.href,
+    // /blog/ => /blog/index.html
     // /blog => /blog/index.html
-    possibleURLs.push(`${urlObject.href}/index.html`);
-  }
-
-  return possibleURLs;
+    `${urlObject.href}${urlObject.pathname.endsWith('/') ? '' : '/'}index.html`,
+  ];
 }
 
 (async () => {
   const params = parseSwParams();
 
   // eslint-disable-next-line no-underscore-dangle
-  const precacheManifest = self.__WB_MANIFEST;
+  const precacheManifest = (
+    self as typeof globalThis & {__WB_MANIFEST: (string | PrecacheEntry)[]}
+  ).__WB_MANIFEST;
   const controller = new PrecacheController({
     // Safer to turn this true?
     fallbackToNetwork: true,
@@ -80,9 +74,7 @@ function getPossibleURLs(url) {
   if (params.offlineMode) {
     controller.addToCacheList(precacheManifest);
     if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: addToCacheList', {
-        precacheManifest,
-      });
+      console.log('[Docusaurus-PWA][SW]: addToCacheList', {precacheManifest});
     }
   }
 
@@ -90,31 +82,30 @@ function getPossibleURLs(url) {
 
   self.addEventListener('install', (event) => {
     if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: install event', {
-        event,
-      });
+      console.log('[Docusaurus-PWA][SW]: install event', {event});
     }
-    event.waitUntil(controller.install(event));
+    (event as ExtendableEvent).waitUntil(
+      controller.install(event as ExtendableEvent),
+    );
   });
 
   self.addEventListener('activate', (event) => {
     if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: activate event', {
-        event,
-      });
+      console.log('[Docusaurus-PWA][SW]: activate event', {event});
     }
-    event.waitUntil(controller.activate(event));
+    (event as ExtendableEvent).waitUntil(
+      controller.activate(event as ExtendableEvent),
+    );
   });
 
   self.addEventListener('fetch', async (event) => {
     if (params.offlineMode) {
-      const requestURL = event.request.url;
+      const requestURL = (event as FetchEvent).request.url;
       const possibleURLs = getPossibleURLs(requestURL);
-      for (let i = 0; i < possibleURLs.length; i += 1) {
-        const possibleURL = possibleURLs[i];
+      for (const possibleURL of possibleURLs) {
         const cacheKey = controller.getCacheKeyForURL(possibleURL);
         if (cacheKey) {
-          const cachedResponse = caches.match(cacheKey);
+          const cachedResponse = caches.match(cacheKey) as Promise<Response>;
           if (params.debug) {
             console.log('[Docusaurus-PWA][SW]: serving cached asset', {
               requestURL,
@@ -124,7 +115,7 @@ function getPossibleURLs(url) {
               cachedResponse,
             });
           }
-          event.respondWith(cachedResponse);
+          (event as FetchEvent).respondWith(cachedResponse);
           break;
         }
       }
@@ -133,15 +124,14 @@ function getPossibleURLs(url) {
 
   self.addEventListener('message', async (event) => {
     if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: message event', {
-        event,
-      });
+      console.log('[Docusaurus-PWA][SW]: message event', {event});
     }
 
-    const type = event.data?.type;
+    const type = (event as MessageEvent).data?.type;
 
     if (type === 'SKIP_WAITING') {
-      self.skipWaiting();
+      // lib def bug, see https://github.com/microsoft/TypeScript/issues/14877
+      (self as typeof globalThis & ServiceWorkerGlobalScope).skipWaiting();
     }
   });
 })();

@@ -4,7 +4,6 @@
   "compilerOptions": {
     "noEmit": true,
     "module": "esnext",
-    "allowJs": true,
     "rootDir": "."
   },
   "include": ["bin"],

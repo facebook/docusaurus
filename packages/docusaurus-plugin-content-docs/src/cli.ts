@@ -53,7 +53,7 @@ async function createVersionedSidebarFile({
 
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
-  version: string,
+  version: unknown,
   {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
@@ -70,7 +70,7 @@ export async function cliDocsVersionCommand(
   }
 
   // Load existing versions.
-  let versions = [];
+  let versions: string[] = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
   if (await fs.pathExists(versionsJSONFile)) {
     versions = await fs.readJSON(versionsJSONFile);
