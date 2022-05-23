@@ -35,7 +35,9 @@ const scoreEntry = (rawScore) => {
 const createMarkdownTableRow = ({url, summary, reportUrl}) =>
   [
     `| [${new URL(url).pathname}](${url})`,
-    ...Object.keys(summaryKeys).map((k) => scoreEntry(summary[k])),
+    .../** @type {(keyof LighthouseSummary)[]} */ (
+      Object.keys(summaryKeys)
+    ).map((k) => scoreEntry(summary[k])),
     `[Report](${reportUrl}) |`,
   ].join(' | ');
 
@@ -54,8 +56,10 @@ const createMarkdownTableHeader = () => [
 const createLighthouseReport = ({results, links}) => {
   const tableHeader = createMarkdownTableHeader();
   const tableBody = results.map((result) => {
-    const testUrl = Object.keys(links).find((key) => key === result.url);
-    const reportPublicUrl = links[testUrl];
+    const testUrl = /** @type {string} */ (
+      Object.keys(links).find((key) => key === result.url)
+    );
+    const reportPublicUrl = /** @type {string} */ (links[testUrl]);
 
     return createMarkdownTableRow({
       url: testUrl,

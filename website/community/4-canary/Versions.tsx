@@ -13,7 +13,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 type ContextValue = {
   name: string;
-  time: string;
+  time: string | undefined;
 };
 
 const Context = React.createContext<ContextValue | null>(null);
@@ -44,7 +44,7 @@ function useStableVersion(): string {
 
   const allVersions = useVersions('default');
   const lastVersion = (
-    allVersions.find((v) => v.name !== 'current') ?? allVersions[0]
+    allVersions.find((v) => v.name !== 'current') ?? allVersions[0]!
   ).name;
   return preferredVersion && preferredVersion !== 'current'
     ? preferredVersion

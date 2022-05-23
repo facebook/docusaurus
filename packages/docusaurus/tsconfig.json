@@ -6,7 +6,6 @@
   ],
   "compilerOptions": {
     "noEmit": true,
-    "allowJs": true,
     "checkJs": true,
     "rootDir": ".",
     "module": "esnext"

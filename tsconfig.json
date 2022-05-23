@@ -11,6 +11,8 @@
     "jsx": "react-native",
     "importHelpers": true,
     "noEmitHelpers": true,
+    // Will be overridden in every project
+    "module": "esnext",
     // Avoid accidentally using this config to build
     "noEmit": true,
 
@@ -46,7 +48,15 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "allowJs": true,
     "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
   },
-  "exclude": ["node_modules", "**/lib/**/*"]
+  "exclude": [
+    "node_modules",
+    "**/lib/**/*",
+    "website/**",
+    "**/__mocks__/**/*",
+    "examples/**",
+    "packages/create-docusaurus/templates/**"
+  ]
 }
