@@ -11,6 +11,7 @@ import {normalizeThemeConfig} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
 import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 
 function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -656,7 +657,7 @@ describe('themeConfig', () => {
   });
 
   describe('color mode config', () => {
-    const withDefaultValues = (colorMode) =>
+    const withDefaultValues = (colorMode: ThemeConfig['colorMode']) =>
       _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
 
     it('switch config', () => {

@@ -1,4 +1,5 @@
 __fixtures__
+__mocks__
 dist
 node_modules
 .yarn

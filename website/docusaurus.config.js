@@ -26,7 +26,7 @@ function getNextBetaVersionName() {
   const expectedPrefix = '2.0.0-beta.';
 
   const lastReleasedVersion = versions[0];
-  if (!lastReleasedVersion.includes(expectedPrefix)) {
+  if (!lastReleasedVersion || !lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
       'this code is only meant to be used during the 2.0 beta phase.',
     );

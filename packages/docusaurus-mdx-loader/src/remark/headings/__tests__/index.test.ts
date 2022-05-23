@@ -14,6 +14,7 @@ import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
 import slug from '../index';
 import type {Plugin} from 'unified';
+import type {Parent} from 'unist';
 
 function process(doc: string, plugins: Plugin[] = []) {
   const processor = remark().use({plugins: [...plugins, slug]});
@@ -58,11 +59,8 @@ describe('headings remark plugin', () => {
 
   it('does not overwrite `data` on headings', () => {
     const result = process('# Normal\n', [
-      () => {
-        function transform(tree) {
-          tree.children[0].data = {foo: 'bar'};
-        }
-        return transform;
+      () => (root) => {
+        (root as Parent).children[0]!.data = {foo: 'bar'};
       },
     ]);
     const expected = u('root', [
@@ -81,11 +79,10 @@ describe('headings remark plugin', () => {
 
   it('does not overwrite `data.hProperties` on headings', () => {
     const result = process('# Normal\n', [
-      () => {
-        function transform(tree) {
-          tree.children[0].data = {hProperties: {className: ['foo']}};
-        }
-        return transform;
+      () => (root) => {
+        (root as Parent).children[0]!.data = {
+          hProperties: {className: ['foo']},
+        };
       },
     ]);
     const expected = u('root', [
@@ -111,12 +108,9 @@ describe('headings remark plugin', () => {
         '## Something also',
       ].join('\n\n'),
       [
-        () => {
-          function transform(tree) {
-            tree.children[1].data = {hProperties: {id: 'here'}};
-            tree.children[3].data = {hProperties: {id: 'something'}};
-          }
-          return transform;
+        () => (root) => {
+          (root as Parent).children[1]!.data = {hProperties: {id: 'here'}};
+          (root as Parent).children[3]!.data = {hProperties: {id: 'something'}};
         },
       ],
     );
@@ -270,9 +264,9 @@ describe('headings remark plugin', () => {
 # {#text-after} custom ID
   `);
 
-    const headers = [];
+    const headers: {text: string; id: string}[] = [];
     visit(result, 'heading', (node) => {
-      headers.push({text: toString(node), id: node.data.id});
+      headers.push({text: toString(node), id: node.data!.id as string});
     });
 
     expect(headers).toEqual([

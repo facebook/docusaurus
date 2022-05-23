@@ -7,10 +7,8 @@
 /* eslint-disable jest/no-conditional-expect */
 
 import path from 'path';
-import stylelint, {type LinterResult} from 'stylelint';
+import stylelint from 'stylelint';
 import rule from '../index';
-
-const {ruleName} = rule;
 
 declare global {
   namespace jest {
@@ -20,29 +18,44 @@ declare global {
   }
 }
 
-function getOutputCss(output: LinterResult) {
+type TestSuite = {
+  ruleName: string;
+  fix: boolean;
+  accept: TestCase[];
+  reject: TestCase[];
+};
+
+type TestCase = {
+  code: string;
+  description?: string;
+  fixed?: string;
+  message?: string;
+  line?: number;
+  column?: number;
+};
+
+function getOutputCss(output: stylelint.LinterResult) {
   // eslint-disable-next-line no-underscore-dangle
-  const result = output.results[0]._postcssResult;
-  return result.root.toString(result.opts.syntax);
+  const result = output.results[0]!._postcssResult!;
+  return result.root.toString(result.opts!.syntax);
 }
 
-function testStylelintRule(config, tests) {
+function testStylelintRule(config: stylelint.Config, tests: TestSuite) {
   describe(`${tests.ruleName}`, () => {
-    const checkTestCaseContent = (testCase) =>
-      testCase.description || testCase.code || 'no description';
+    const checkTestCaseContent = (testCase: TestCase) =>
+      testCase.description || testCase.code;
 
     if (tests.accept?.length) {
       describe('accept cases', () => {
         tests.accept.forEach((testCase) => {
           it(`${checkTestCaseContent(testCase)}`, async () => {
-            const options = {
+            const options: stylelint.LinterOptions = {
               code: testCase.code,
               config,
-              syntax: tests.syntax,
             };
 
             const output = await stylelint.lint(options);
-            expect(output.results[0].warnings).toEqual([]);
+            expect(output.results[0]!.warnings).toEqual([]);
             if (!tests.fix) {
               return;
             }
@@ -61,12 +74,11 @@ function testStylelintRule(config, tests) {
             const options = {
               code: testCase.code,
               config,
-              syntax: tests.syntax,
             };
 
             const output = await stylelint.lint(options);
-            const {warnings} = output.results[0];
-            const warning = warnings[0];
+            const {warnings} = output.results[0]!;
+            const warning = warnings[0]!;
             expect(warnings.length).toBeGreaterThanOrEqual(1);
             expect(testCase).toHaveMessage();
             if (testCase.message != null) {
@@ -95,7 +107,7 @@ function testStylelintRule(config, tests) {
     }
 
     expect.extend({
-      toHaveMessage(testCase) {
+      toHaveMessage(testCase: TestCase) {
         if (testCase.message == null) {
           return {
             message: () =>
@@ -118,11 +130,11 @@ testStylelintRule(
   {
     plugins: [path.join(__dirname, '../../lib/index.js')],
     rules: {
-      [ruleName]: [true, {header: '*\n * Copyright'}],
+      [rule.ruleName]: [true, {header: '*\n * Copyright'}],
     },
   },
   {
-    ruleName,
+    ruleName: rule.ruleName,
     fix: true,
     accept: [
       {

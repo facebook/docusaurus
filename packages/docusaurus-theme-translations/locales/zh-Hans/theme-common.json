@@ -4,7 +4,7 @@
   "theme.CodeBlock.copied": "复制成功",
   "theme.CodeBlock.copy": "复制",
   "theme.CodeBlock.copyButtonAriaLabel": "复制代码到剪贴板",
-  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
+  "theme.CodeBlock.wordWrapToggle": "切换自动换行",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "打开/收起侧边栏菜单「{label}」",
   "theme.ErrorPageContent.title": "页面已崩溃。",
   "theme.ErrorPageContent.tryAgain": "重试",

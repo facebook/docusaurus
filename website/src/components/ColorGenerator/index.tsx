@@ -250,7 +250,7 @@ export default function ColorGenerator(): JSX.Element {
                             setShades({
                               ...shades,
                               [variableName]: {
-                                ...shades[variableName],
+                                ...shades[variableName]!,
                                 adjustmentInput: event.target.value,
                                 adjustment: Number.isNaN(newValue)
                                   ? adjustment
