@@ -57,7 +57,6 @@ ${markdown}
   return {
     source,
     content,
-    lastUpdate: {},
     contentPath: 'docs',
     filePath: source,
   };
@@ -79,7 +78,7 @@ function createTestUtils({
   env = 'production',
 }: TestUtilsArg) {
   async function readDoc(docFileSource: string) {
-    return readDocFile(versionMetadata, docFileSource, options);
+    return readDocFile(versionMetadata, docFileSource);
   }
   async function processDocFile(docFileArg: DocFile | string) {
     const docFile: DocFile =
@@ -137,14 +136,16 @@ function createTestUtils({
     }[];
     sidebars: Sidebars;
   }> {
-    const rawDocs = docFiles.map((docFile) =>
-      processDocMetadata({
-        docFile,
-        versionMetadata,
-        context,
-        options,
-        env: 'production',
-      }),
+    const rawDocs = await Promise.all(
+      docFiles.map(async (docFile) =>
+        processDocMetadata({
+          docFile,
+          versionMetadata,
+          context,
+          options,
+          env: 'production',
+        }),
+      ),
     );
     const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
       sidebarItemsGenerator: ({defaultSidebarItemsGenerator, ...args}) =>

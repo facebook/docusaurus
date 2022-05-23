@@ -37,6 +37,7 @@ import type {
   VersionMetadata,
   DocFrontMatter,
   LoadedVersion,
+  FileChange,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -50,6 +51,7 @@ type LastUpdateOptions = Pick<
 async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
+  lastUpdateFrontMatter: FileChange | undefined,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
@@ -64,9 +66,26 @@ async function readLastUpdateData(
 
     if (fileLastUpdateData) {
       const {author, timestamp} = fileLastUpdateData;
+
       return {
-        lastUpdatedAt: showLastUpdateTime ? timestamp : undefined,
-        lastUpdatedBy: showLastUpdateAuthor ? author : undefined,
+        lastUpdatedAt: (() => {
+          if (showLastUpdateTime) {
+            if (lastUpdateFrontMatter?.date) {
+              return new Date(lastUpdateFrontMatter.date).getTime() / 1000;
+            }
+            return timestamp;
+          }
+          return undefined;
+        })(),
+        lastUpdatedBy: (() => {
+          if (showLastUpdateAuthor) {
+            if (lastUpdateFrontMatter?.author) {
+              return lastUpdateFrontMatter.author;
+            }
+            return author;
+          }
+          return undefined;
+        })(),
       };
     }
   }
@@ -80,7 +99,6 @@ export async function readDocFile(
     'contentPath' | 'contentPathLocalized'
   >,
   source: string,
-  options: LastUpdateOptions,
 ): Promise<DocFile> {
   const contentPath = await getFolderContainingFile(
     getContentPathList(versionMetadata),
@@ -89,11 +107,8 @@ export async function readDocFile(
 
   const filePath = path.join(contentPath, source);
 
-  const [content, lastUpdate] = await Promise.all([
-    fs.readFile(filePath, 'utf-8'),
-    readLastUpdateData(filePath, options),
-  ]);
-  return {source, content, lastUpdate, contentPath, filePath};
+  const content = await fs.readFile(filePath, 'utf-8');
+  return {source, content, contentPath, filePath};
 }
 
 export async function readVersionDocs(
@@ -108,7 +123,7 @@ export async function readVersionDocs(
     ignore: options.exclude,
   });
   return Promise.all(
-    sources.map((source) => readDocFile(versionMetadata, source, options)),
+    sources.map((source) => readDocFile(versionMetadata, source)),
   );
 }
 
@@ -125,7 +140,7 @@ function isDraftForEnvironment({
   return (env === 'production' && frontMatter.draft) ?? false;
 }
 
-function doProcessDocMetadata({
+async function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
@@ -137,8 +152,8 @@ function doProcessDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-}): DocMetadataBase {
-  const {source, content, lastUpdate, contentPath, filePath} = docFile;
+}): Promise<DocMetadataBase> {
+  const {source, content, contentPath, filePath} = docFile;
   const {siteDir, i18n} = context;
 
   const {
@@ -158,14 +173,11 @@ function doProcessDocMetadata({
     last_update: lastUpdateFrontMatter,
   } = frontMatter;
 
-  if (lastUpdateFrontMatter?.author && options.showLastUpdateAuthor) {
-    lastUpdate.lastUpdatedBy = lastUpdateFrontMatter.author;
-  }
-  if (lastUpdateFrontMatter?.date && options.showLastUpdateTime) {
-    lastUpdate.lastUpdatedAt =
-      new Date(lastUpdateFrontMatter.date).getTime() / 1000;
-    lastUpdate.formattedLastUpdatedAt = undefined;
-  }
+  const lastUpdate = await readLastUpdateData(
+    filePath,
+    options,
+    lastUpdateFrontMatter,
+  );
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -291,15 +303,15 @@ function doProcessDocMetadata({
   };
 }
 
-export function processDocMetadata(args: {
+export async function processDocMetadata(args: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-}): DocMetadataBase {
+}): Promise<DocMetadataBase> {
   try {
-    return doProcessDocMetadata(args);
+    return await doProcessDocMetadata(args);
   } catch (err) {
     logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
     throw err;
