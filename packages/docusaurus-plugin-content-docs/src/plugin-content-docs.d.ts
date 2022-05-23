@@ -25,6 +25,9 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type FileChange = {
     author?: string;
+    /** Date can be any
+     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+     */
     date?: Date | string;
   };
 
@@ -361,10 +364,7 @@ declare module '@docusaurus/plugin-content-docs' {
     pagination_prev?: string | null;
     /** Should this doc be excluded from production builds? */
     draft?: boolean;
-    /** Allows overriding the last updated author and/or date. Date can be any
-     * parsable date string.
-     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
-     */
+    /** Allows overriding the last updated author and/or date. */
     last_update?: FileChange;
   };
 
