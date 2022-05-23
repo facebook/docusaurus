@@ -40,6 +40,7 @@ Accepted fields:
 | `changefreq` | `string` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
 | `priority` | `number` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
 | `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
+| `filename` | `string` | `sitemap.xml` | The path to the created sitemap file, relative to the output directory. |
 
 </APITable>
 
