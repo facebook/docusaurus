@@ -25,7 +25,7 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-type PluginOptions = {
+export type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
 };

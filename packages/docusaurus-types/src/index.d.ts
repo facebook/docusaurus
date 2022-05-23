@@ -480,19 +480,19 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export type ValidationSchema<T> = Joi.ObjectSchema<T>;
 
-export type Validate<T, U> = (
-  validationSchema: ValidationSchema<U>,
-  options: T,
-) => U;
+export type Validate<In, Out> = (
+  validationSchema: ValidationSchema<Out>,
+  options: In,
+) => Out;
 
-export type OptionValidationContext<T, U> = {
-  validate: Validate<T, U>;
-  options: T;
+export type OptionValidationContext<In, Out> = {
+  validate: Validate<In, Out>;
+  options: In;
 };
 
-export type ThemeConfigValidationContext<T> = {
-  validate: Validate<T, T>;
-  themeConfig: Partial<T>;
+export type ThemeConfigValidationContext<In, Out = In> = {
+  validate: Validate<In, Out>;
+  themeConfig: In;
 };
 
 export type Plugin<Content = unknown> = {

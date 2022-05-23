@@ -12,13 +12,13 @@ import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
-const processFixture = async (name, options?) => {
+const processFixture = async (name: string) => {
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)
-    .use(plugin, options)
+    .use(plugin)
     .process(file);
 
   return result.toString();
@@ -42,14 +42,6 @@ describe('toc remark plugin', () => {
 
   it('exports even with existing name', async () => {
     const result = await processFixture('name-exist');
-    expect(result).toMatchSnapshot();
-  });
-
-  it('exports with custom name', async () => {
-    const options = {
-      name: 'customName',
-    };
-    const result = await processFixture('just-content', options);
     expect(result).toMatchSnapshot();
   });
 
