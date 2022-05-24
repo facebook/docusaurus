@@ -70,7 +70,7 @@ const docusaurus = {
         // In some cases, webpack might decide to optimize further, leading to
         // the chunk assets being merged to another chunk. In this case, we can
         // safely filter it out and don't need to load it.
-        if (chunkAsset && !/undefined/.test(chunkAsset)) {
+        if (chunkAsset && !chunkAsset.includes('undefined')) {
           return prefetchHelper(chunkAsset);
         }
         return Promise.resolve();

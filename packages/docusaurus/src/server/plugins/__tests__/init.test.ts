@@ -21,7 +21,7 @@ describe('initPlugins', () => {
 
   it('parses plugins correctly and loads them in correct order', async () => {
     const {context, plugins} = await loadSite();
-    expect(context.siteConfig.plugins?.length).toBe(4);
+    expect(context.siteConfig.plugins).toHaveLength(4);
     expect(plugins).toHaveLength(8);
 
     expect(plugins[0].name).toBe('preset-plugin1');

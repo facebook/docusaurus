@@ -15,12 +15,11 @@ import {
   useLocalPathname,
 } from '@docusaurus/theme-common';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
-import NavbarItem from '@theme/NavbarItem';
+import NavbarItem, {type LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DropdownNavbarItem';
-import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
 

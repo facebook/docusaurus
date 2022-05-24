@@ -100,7 +100,9 @@ function createPluginSchema(theme: boolean) {
 
           error.message = ` => Bad Docusaurus ${
             theme ? 'theme' : 'plugin'
-          } value as path [${error.path}].
+          } value ${error.path.reduce((acc, cur) =>
+            typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+          )}.
 ${validConfigExample}
 `;
         });
@@ -247,7 +249,9 @@ export function validateConfig(config: unknown): DocusaurusConfig {
   if (error) {
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
-        return `${formattedError}"${err.path}",`;
+        return `${formattedError}"${err.path.reduce((acc, cur) =>
+          typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+        )}",`;
       }
       return formattedError;
     }, '');

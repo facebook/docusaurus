@@ -83,7 +83,7 @@ module.exports = {
     'no-restricted-exports': OFF,
     'no-restricted-properties': [
       ERROR,
-      ...[
+      .../** @type {[string, string][]} */ ([
         // TODO: TS doesn't make Boolean a narrowing function yet,
         // so filter(Boolean) is problematic type-wise
         // ['compact', 'Array#filter(Boolean)'],
@@ -114,7 +114,7 @@ module.exports = {
         ['take', 'Array#slice(0, n)'],
         ['takeRight', 'Array#slice(-n)'],
         ['tail', 'Array#slice(1)'],
-      ].map(([property, alternative]) => ({
+      ]).map(([property, alternative]) => ({
         object: '_',
         property,
         message: `Use ${alternative} instead.`,

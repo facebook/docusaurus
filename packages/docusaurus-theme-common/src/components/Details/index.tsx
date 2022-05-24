@@ -92,7 +92,7 @@ export function Details({
         }
       }}>
       {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
-      {summary || <summary>Details</summary>}
+      {summary ?? <summary>Details</summary>}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case

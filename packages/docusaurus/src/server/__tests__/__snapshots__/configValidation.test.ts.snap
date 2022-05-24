@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`normalizeConfig should throw error if plugins is not a string and it's not an array #1 for the input of: [123] 1`] = `
-" => Bad Docusaurus plugin value as path [plugins,0].
+" => Bad Docusaurus plugin value plugins[0].
 Example valid plugin config:
 {
   plugins: [
@@ -17,7 +17,7 @@ Example valid plugin config:
 `;
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
-" => Bad Docusaurus plugin value as path [plugins,0].
+" => Bad Docusaurus plugin value plugins[0].
 Example valid plugin config:
 {
   plugins: [
@@ -33,7 +33,7 @@ Example valid plugin config:
 `;
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #2 for the input of: [[Array]] 1`] = `
-" => Bad Docusaurus plugin value as path [plugins,0].
+" => Bad Docusaurus plugin value plugins[0].
 Example valid plugin config:
 {
   plugins: [
@@ -49,7 +49,7 @@ Example valid plugin config:
 `;
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
-" => Bad Docusaurus plugin value as path [plugins,0].
+" => Bad Docusaurus plugin value plugins[0].
 Example valid plugin config:
 {
   plugins: [
@@ -70,7 +70,7 @@ exports[`normalizeConfig should throw error if plugins is not array for the inpu
 `;
 
 exports[`normalizeConfig should throw error if themes is not a string and it's not an array #1 for the input of: [123] 1`] = `
-" => Bad Docusaurus theme value as path [themes,0].
+" => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
   themes: [
@@ -86,7 +86,7 @@ Example valid theme config:
 `;
 
 exports[`normalizeConfig should throw error if themes is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
-" => Bad Docusaurus theme value as path [themes,0].
+" => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
   themes: [
@@ -102,7 +102,7 @@ Example valid theme config:
 `;
 
 exports[`normalizeConfig should throw error if themes is not an array of [string, object][] #2 for the input of: [[Array]] 1`] = `
-" => Bad Docusaurus theme value as path [themes,0].
+" => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
   themes: [
@@ -118,7 +118,7 @@ Example valid theme config:
 `;
 
 exports[`normalizeConfig should throw error if themes is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
-" => Bad Docusaurus theme value as path [themes,0].
+" => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
   themes: [

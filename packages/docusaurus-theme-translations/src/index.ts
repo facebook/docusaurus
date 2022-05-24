@@ -51,7 +51,7 @@ export async function readDefaultCodeTranslationMessages({
     const filePath = path.resolve(dirPath, localeToTry, `${name}.json`);
 
     if (await fs.pathExists(filePath)) {
-      return fs.readJSON(filePath);
+      return fs.readJSON(filePath) as Promise<CodeTranslations>;
     }
   }
 
