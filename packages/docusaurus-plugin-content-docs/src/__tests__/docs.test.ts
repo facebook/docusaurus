@@ -136,16 +136,14 @@ function createTestUtils({
     }[];
     sidebars: Sidebars;
   }> {
-    const rawDocs = await Promise.all(
-      docFiles.map(async (docFile) =>
-        processDocMetadata({
-          docFile,
-          versionMetadata,
-          context,
-          options,
-          env: 'production',
-        }),
-      ),
+    const rawDocs = docFiles.map((docFile) =>
+      processDocMetadata({
+        docFile,
+        versionMetadata,
+        context,
+        options,
+        env: 'production',
+      }),
     );
     const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
       sidebarItemsGenerator: ({defaultSidebarItemsGenerator, ...args}) =>

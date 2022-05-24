@@ -15,9 +15,9 @@ import {
 let showedGitRequirementError = false;
 let showedFileNotTrackedError = false;
 
-export async function getFileLastUpdate(
+export function getFileLastUpdate(
   filePath?: string,
-): Promise<{timestamp: number; author: string} | null> {
+): {timestamp: number; author: string} | null {
   if (!filePath) {
     return null;
   }
