@@ -18,6 +18,9 @@ body {
 
 .main-wrapper {
   flex: 1 0 auto;
+  
+  /* fix layout shift from scrollbar */
+  padding-left: calc(100vw - 100%);
 }
 
 /* Docusaurus-specific utility classes */
