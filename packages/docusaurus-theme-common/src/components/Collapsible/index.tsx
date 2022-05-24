@@ -27,7 +27,7 @@ export function useCollapsible({
   initialState,
 }: {
   /** The initial state. Will be non-collapsed by default. */
-  initialState: boolean | (() => boolean);
+  initialState?: boolean | (() => boolean);
 }): {
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;

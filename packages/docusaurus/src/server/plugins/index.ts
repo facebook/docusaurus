@@ -52,7 +52,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
     plugins.map(async (plugin) => {
       const content = await plugin.loadContent?.();
       const rawTranslationFiles =
-        (await plugin?.getTranslationFiles?.({content})) ?? [];
+        (await plugin.getTranslationFiles?.({content})) ?? [];
       const translationFiles = await Promise.all(
         rawTranslationFiles.map((translationFile) =>
           localizePluginTranslationFile({

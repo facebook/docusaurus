@@ -160,7 +160,7 @@ export async function extractSourceCodeFileTranslations(
       filename: sourceCodeFilePath,
     }) as Node;
 
-    const translations = await extractSourceCodeAstTranslations(
+    const translations = extractSourceCodeAstTranslations(
       ast,
       sourceCodeFilePath,
     );
@@ -243,9 +243,7 @@ Full code: ${generate(node).code}`;
             .find(
               (attr) =>
                 attr.isJSXAttribute() &&
-                (attr as NodePath<t.JSXAttribute>)
-                  .get('name')
-                  .isJSXIdentifier({name: propName}),
+                attr.get('name').isJSXIdentifier({name: propName}),
             );
 
           if (attributePath) {

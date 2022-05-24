@@ -27,7 +27,7 @@ function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   // level <i>. We will modify these indices as we iterate through all headings.
   // e.g. if an ### H3 was last seen at index 2, then prevIndexForLevel[3] === 2
   // indices 0 and 1 will remain unused.
-  const prevIndexForLevel = Array(7).fill(-1);
+  const prevIndexForLevel = Array<number>(7).fill(-1);
 
   headings.forEach((curr, currIndex) => {
     // Take the last seen index for each ancestor level. the highest index will

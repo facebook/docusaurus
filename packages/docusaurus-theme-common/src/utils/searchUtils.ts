@@ -39,7 +39,7 @@ export function useContextualSearchFilters(): {locale: string; tags: string[]} {
   // plugin instances.
   function getDocPluginTags(pluginId: string) {
     const activeVersion =
-      activePluginAndVersion?.activePlugin?.pluginId === pluginId
+      activePluginAndVersion?.activePlugin.pluginId === pluginId
         ? activePluginAndVersion.activeVersion
         : undefined;
 

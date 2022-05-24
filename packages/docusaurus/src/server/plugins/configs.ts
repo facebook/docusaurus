@@ -63,7 +63,7 @@ async function normalizePluginConfig(
     const pluginPath = pluginRequire.resolve(pluginModuleImport);
     const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
     return {
-      plugin: pluginModule?.default ?? pluginModule,
+      plugin: pluginModule.default ?? pluginModule,
       options: {},
       pluginModule: {
         path: pluginModuleImport,
@@ -90,7 +90,7 @@ async function normalizePluginConfig(
     const pluginPath = pluginRequire.resolve(pluginModuleImport);
     const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
     return {
-      plugin: pluginModule?.default ?? pluginModule,
+      plugin: pluginModule.default ?? pluginModule,
       options: pluginConfig[1],
       pluginModule: {
         path: pluginModuleImport,

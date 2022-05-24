@@ -604,7 +604,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Versions should be strings. Found type "number" for version "1.1"."`,
+        `"Versions should be strings. Found type "number" for version 1.1."`,
       );
       jsonMock.mockImplementationOnce(() => ['   ']);
 

@@ -58,38 +58,35 @@ export default function Version(): JSX.Element {
           </Translate>
         </Heading>
 
-        {latestVersion && (
-          <div className="margin-bottom--lg">
-            <Heading as="h3" id="next">
-              <Translate id="versionsPage.current.title">
-                Current version (Stable)
-              </Translate>
-            </Heading>
-            <p>
-              <Translate id="versionsPage.current.description">
-                Here you can find the documentation for current released
-                version.
-              </Translate>
-            </p>
-            <table>
-              <tbody>
-                <tr>
-                  <th>{latestVersion.label}</th>
-                  <td>
-                    <Link to={latestVersion.path}>
-                      <DocumentationLabel />
-                    </Link>
-                  </td>
-                  <td>
-                    <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
-                      <ReleaseNotesLabel />
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div className="margin-bottom--lg">
+          <Heading as="h3" id="next">
+            <Translate id="versionsPage.current.title">
+              Current version (Stable)
+            </Translate>
+          </Heading>
+          <p>
+            <Translate id="versionsPage.current.description">
+              Here you can find the documentation for current released version.
+            </Translate>
+          </p>
+          <table>
+            <tbody>
+              <tr>
+                <th>{latestVersion.label}</th>
+                <td>
+                  <Link to={latestVersion.path}>
+                    <DocumentationLabel />
+                  </Link>
+                </td>
+                <td>
+                  <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
+                    <ReleaseNotesLabel />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         {currentVersion !== latestVersion && (
           <div className="margin-bottom--lg">

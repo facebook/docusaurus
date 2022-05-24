@@ -177,7 +177,7 @@ export default function themeClassic(
         const plugin: PostCssPlugin = {
           postcssPlugin: 'RtlCssPlugin',
           prepare: (result) => {
-            const file = result.root?.source?.input?.file;
+            const file = result.root.source?.input.file;
             // Skip Infima as we are using the its RTL version.
             if (file === resolvedInfimaFile) {
               return {};

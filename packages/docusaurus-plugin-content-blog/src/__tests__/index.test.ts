@@ -76,7 +76,7 @@ const getPlugin = async (
         editUrl: BaseEditUrl,
         ...pluginOptions,
       },
-    }) as PluginOptions,
+    }),
   );
 };
 

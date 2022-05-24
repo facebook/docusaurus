@@ -74,7 +74,7 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getContentTranslationFiles', () => {
-  it('returns translation files matching snapshot', async () => {
+  it('returns translation files matching snapshot', () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });

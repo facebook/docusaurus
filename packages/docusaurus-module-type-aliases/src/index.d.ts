@@ -8,7 +8,7 @@
 declare module '@generated/client-modules' {
   import type {ClientModule} from '@docusaurus/types';
 
-  const clientModules: readonly (ClientModule & {default: ClientModule})[];
+  const clientModules: readonly (ClientModule & {default?: ClientModule})[];
   export default clientModules;
 }
 

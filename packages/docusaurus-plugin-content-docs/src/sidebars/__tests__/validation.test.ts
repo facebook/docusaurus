@@ -9,7 +9,7 @@ import {validateSidebars, validateCategoryMetadataFile} from '../validation';
 import type {SidebarsConfig, CategoryMetadataFile} from '../types';
 
 describe('validateSidebars', () => {
-  it('throw for bad value', async () => {
+  it('throw for bad value', () => {
     expect(() => validateSidebars({sidebar: [{type: 42}]}))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
@@ -21,12 +21,12 @@ describe('validateSidebars', () => {
     `);
   });
 
-  it('accept empty object', async () => {
+  it('accept empty object', () => {
     const sidebars: SidebarsConfig = {};
     validateSidebars(sidebars);
   });
 
-  it('accept valid values', async () => {
+  it('accept valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {type: 'doc', id: 'doc1'},
@@ -207,7 +207,7 @@ describe('validateSidebars', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"sidebar.forEach is not a function"`);
   });
 
-  it('sidebars item doc but id is not a string', async () => {
+  it('sidebars item doc but id is not a string', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -267,18 +267,18 @@ describe('validateSidebars', () => {
 describe('validateCategoryMetadataFile', () => {
   // TODO add more tests
 
-  it('throw for bad value', async () => {
+  it('throw for bad value', () => {
     expect(() =>
       validateCategoryMetadataFile(42),
     ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
   });
 
-  it('accept empty object', async () => {
+  it('accept empty object', () => {
     const content: CategoryMetadataFile = {};
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  it('accept valid values', async () => {
+  it('accept valid values', () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',
@@ -295,7 +295,7 @@ describe('validateCategoryMetadataFile', () => {
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  it('rejects permalink', async () => {
+  it('rejects permalink', () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',

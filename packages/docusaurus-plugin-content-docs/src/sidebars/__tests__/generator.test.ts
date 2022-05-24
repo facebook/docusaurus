@@ -463,7 +463,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  it('throws for unknown index link', async () => {
+  it('throws for unknown index link', () => {
     const generateSidebar = () =>
       DefaultSidebarItemsGenerator({
         numberPrefixParser: DefaultNumberPrefixParser,
@@ -499,7 +499,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
       });
 
-    await expect(generateSidebar).rejects.toThrowErrorMatchingInlineSnapshot(`
+    expect(() => generateSidebar()).toThrowErrorMatchingInlineSnapshot(`
             "Can't find any doc with ID foo.
             Available doc IDs:
             - intro"

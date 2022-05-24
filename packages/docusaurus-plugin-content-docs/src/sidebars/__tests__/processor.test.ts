@@ -26,7 +26,7 @@ describe('processSidebars', () => {
   function createStaticSidebarItemGenerator(
     sidebarSlice: SidebarItem[],
   ): SidebarItemsGenerator {
-    return jest.fn(async () => sidebarSlice);
+    return jest.fn(() => sidebarSlice);
   }
 
   const StaticGeneratedSidebarSlice: NormalizedSidebar = [
@@ -40,7 +40,7 @@ describe('processSidebars', () => {
   // @ts-expect-error: good enough for this test
   const version: VersionMetadata = {
     versionName: '1.0.0',
-    versionPath: '/docs/1.0.0',
+    path: '/docs/1.0.0',
   };
 
   const params: SidebarProcessorParams = {

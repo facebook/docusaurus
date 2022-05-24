@@ -25,7 +25,7 @@ export default function pluginGoogleGtag(
   return {
     name: 'docusaurus-plugin-google-gtag',
 
-    async contentLoaded({actions}) {
+    contentLoaded({actions}) {
       actions.setGlobalData(options);
     },
 

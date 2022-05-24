@@ -20,7 +20,7 @@ export default function DebugMetadata(): JSX.Element {
       </div>
       <div>
         Site Version:{' '}
-        <code>{siteMetadata.siteVersion || 'No version specified'}</code>
+        <code>{siteMetadata.siteVersion ?? 'No version specified'}</code>
       </div>
       <h3 className={styles.sectionTitle}>Plugins and themes</h3>
       <ul className="clean-list">

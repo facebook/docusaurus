@@ -55,7 +55,7 @@ export type MDXOptions = {
   beforeDefaultRehypePlugins: MDXPlugin[];
 };
 
-export type Options = MDXOptions & {
+export type Options = Partial<MDXOptions> & {
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
@@ -138,7 +138,7 @@ export async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() ?? {};
+  const reqOptions = this.getOptions();
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 

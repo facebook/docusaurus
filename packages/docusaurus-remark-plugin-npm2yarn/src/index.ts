@@ -62,8 +62,8 @@ const nodeForImport: Literal = {
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
   return (root) => {
-    let transformed = false;
-    let alreadyImported = false;
+    let transformed = false as boolean;
+    let alreadyImported = false as boolean;
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
         alreadyImported = true;

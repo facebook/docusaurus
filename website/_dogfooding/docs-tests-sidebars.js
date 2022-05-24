@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+/**
+ * @typedef {import('@docusaurus/plugin-content-docs').SidebarsConfig} SidebarsConfig
+ * @typedef {import('@docusaurus/plugin-content-docs/lib/sidebars/types').SidebarItemConfig} SidebarItemConfig
+ */
+
+/** @type {SidebarsConfig} */
 const sidebars = {
   sidebar: [
     {
@@ -119,6 +124,11 @@ function generateHugeSidebarItems() {
   const linksCount = 8;
   const categoriesCount = 8;
 
+  /**
+   * @param {number} maxLevel
+   * @param {number} currentLevel
+   * @returns {SidebarItemConfig[]}
+   */
   function generateRecursive(maxLevel, currentLevel = 0) {
     if (currentLevel === maxLevel) {
       return [
@@ -130,17 +140,19 @@ function generateHugeSidebarItems() {
       ];
     }
 
-    const linkItems = [...Array(linksCount).keys()].map((index) => ({
+    const linkItems = Array.from(Array(linksCount).keys()).map((index) => ({
       type: 'link',
       href: '/',
       label: `Link ${index} (level ${currentLevel + 1})`,
     }));
 
-    const categoryItems = [...Array(categoriesCount).keys()].map((index) => ({
-      type: 'category',
-      label: `Category ${index} (level ${currentLevel + 1})`,
-      items: generateRecursive(maxLevel, currentLevel + 1),
-    }));
+    const categoryItems = Array.from(Array(categoriesCount).keys()).map(
+      (index) => ({
+        type: 'category',
+        label: `Category ${index} (level ${currentLevel + 1})`,
+        items: generateRecursive(maxLevel, currentLevel + 1),
+      }),
+    );
 
     return [...linkItems, ...categoryItems];
   }

@@ -29,7 +29,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   ignorePatterns: [],
 };
 
-const PluginOptionSchema = Joi.object({
+const PluginOptionSchema = Joi.object<PluginOptions>({
+  // @ts-expect-error: forbidden
   cacheTime: Joi.forbidden().messages({
     'any.unknown':
       'Option `cacheTime` in sitemap config is deprecated. Please remove it.',

@@ -28,7 +28,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   admonitions: {},
 };
 
-const PluginOptionSchema = Joi.object({
+const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),

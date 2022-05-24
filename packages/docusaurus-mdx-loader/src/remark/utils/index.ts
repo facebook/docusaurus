@@ -15,7 +15,7 @@ export function stringifyContent(node: Parent): string {
 }
 
 export function toValue(node: PhrasingContent | Heading): string {
-  switch (node?.type) {
+  switch (node.type) {
     case 'text':
       return escapeHtml(node.value);
     case 'heading':

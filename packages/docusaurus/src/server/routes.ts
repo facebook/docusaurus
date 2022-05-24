@@ -152,7 +152,7 @@ const isModule = (value: unknown): value is Module =>
   typeof value === 'string' ||
   (typeof value === 'object' &&
     // eslint-disable-next-line no-underscore-dangle
-    !!(value as {[key: string]: unknown})?.__import);
+    !!(value as {[key: string]: unknown} | null)?.__import);
 
 /**
  * Takes a {@link Module} (which is nothing more than a path plus some metadata

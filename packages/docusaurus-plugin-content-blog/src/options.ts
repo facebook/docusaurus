@@ -136,9 +136,6 @@ export function validateOptions({
   validate,
   options,
 }: OptionValidationContext<Options, PluginOptions>): PluginOptions {
-  const validatedOptions = validate(
-    PluginOptionSchema,
-    options,
-  ) as PluginOptions;
+  const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }
