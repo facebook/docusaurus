@@ -169,7 +169,7 @@ export async function mdxLoader(
   if (!compilerCache.has(this.query)) {
     const remarkPlugins: MDXPlugin[] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-      ...getAdmonitionsPlugins(reqOptions.admonitions),
+      ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
       [
         transformImage,

@@ -198,7 +198,7 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<Plugin['configurePostCss']>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = unknown & {
+  type LocalPostCSSLoader = object & {
     options: {postcssOptions: PostCssOptions};
   };
 

@@ -10,7 +10,7 @@ import type {ChunkNames} from '@docusaurus/types';
 type Chunk = ChunkNames[string];
 type Tree = Exclude<Chunk, string>;
 
-const isTree = (x: Chunk): x is Tree =>
+const isTree = (x: unknown): x is Tree =>
   typeof x === 'object' && !!x && Object.keys(x).length > 0;
 
 /**

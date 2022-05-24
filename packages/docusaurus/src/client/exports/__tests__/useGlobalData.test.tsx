@@ -26,19 +26,6 @@ describe('useGlobalData', () => {
       }).result.current,
     ).toEqual({foo: 'bar'});
   });
-
-  it('throws when global data not found', () => {
-    // Can it actually happen?
-    expect(
-      () =>
-        renderHook(() => useGlobalData(), {
-          wrapper: ({children}) => (
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
-            <Context.Provider value={{}}>{children}</Context.Provider>
-          ),
-        }).result.current,
-    ).toThrowErrorMatchingInlineSnapshot(`"Docusaurus global data not found."`);
-  });
 });
 
 describe('useAllPluginInstancesData', () => {

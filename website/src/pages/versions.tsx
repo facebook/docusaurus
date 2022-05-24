@@ -45,7 +45,7 @@ export default function Version(): JSX.Element {
   const pastVersions = versions.filter(
     (version) => version !== latestVersion && version.name !== 'current',
   );
-  const repoUrl = `https://github.com/${organizationName}/${projectName}`;
+  const repoUrl = `https://github.com/${organizationName!}/${projectName!}`;
 
   return (
     <Layout

@@ -19,8 +19,9 @@ import type webpack from 'webpack';
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
-const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
-  requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
+const ContextReplacementPlugin = requireFromDocusaurusCore(
+  'webpack/lib/ContextReplacementPlugin',
+) as typeof webpack.ContextReplacementPlugin;
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`

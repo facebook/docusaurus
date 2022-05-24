@@ -38,13 +38,13 @@ export default function DocsVersionDropdownNavbarItem({
     // We try to link to the same doc, in another version
     // When not possible, fallback to the "main doc" of the version
     const versionDoc =
-      activeDocContext?.alternateDocVersions[version.name] ??
+      activeDocContext.alternateDocVersions[version.name] ??
       getVersionMainDoc(version);
     return {
       isNavLink: true,
       label: version.label,
       to: versionDoc.path,
-      isActive: () => version === activeDocContext?.activeVersion,
+      isActive: () => version === activeDocContext.activeVersion,
       onClick: () => savePreferredVersionName(version.name),
     };
   });

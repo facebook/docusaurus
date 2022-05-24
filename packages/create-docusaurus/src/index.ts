@@ -78,7 +78,7 @@ async function askForPackageManagerChoice(): Promise<PackageManager> {
             logger.info`Falling back to name=${defaultPackageManager}`;
           },
         },
-      )) as {packageManager: PackageManager}
+      )) as {packageManager?: PackageManager}
     ).packageManager ?? defaultPackageManager
   );
 }

@@ -133,7 +133,9 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       } as PluginOptions,
     );
 
-    expect(fsMock.mock.calls.map((call) => call[1])).toMatchSnapshot();
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
     fsMock.mockClear();
   });
 });

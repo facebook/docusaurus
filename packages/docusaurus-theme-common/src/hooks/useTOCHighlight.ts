@@ -151,7 +151,7 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
       if (active) {
         if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
-          lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
+          lastActiveLinkRef.current.classList.remove(linkActiveClassName);
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;
