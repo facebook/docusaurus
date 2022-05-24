@@ -31,11 +31,11 @@ const defaultOptions = {
 };
 
 describe('normalizeDocsPluginOptions', () => {
-  it('returns default options for undefined user options', async () => {
+  it('returns default options for undefined user options', () => {
     expect(testValidate({})).toEqual(defaultOptions);
   });
 
-  it('accepts correctly defined user options', async () => {
+  it('accepts correctly defined user options', () => {
     const userOptions = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
@@ -83,7 +83,7 @@ describe('normalizeDocsPluginOptions', () => {
     });
   });
 
-  it('accepts correctly defined remark and rehype plugin options', async () => {
+  it('accepts correctly defined remark and rehype plugin options', () => {
     const userOptions = {
       beforeDefaultRemarkPlugins: [],
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
@@ -100,7 +100,7 @@ describe('normalizeDocsPluginOptions', () => {
     });
   });
 
-  it('accepts admonitions false', async () => {
+  it('accepts admonitions false', () => {
     const admonitionsFalse = {
       admonitions: false,
     };
@@ -110,7 +110,7 @@ describe('normalizeDocsPluginOptions', () => {
     });
   });
 
-  it('rejects admonitions true', async () => {
+  it('rejects admonitions true', () => {
     const admonitionsTrue = {
       admonitions: true,
     };

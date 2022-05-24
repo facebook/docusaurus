@@ -8,6 +8,5 @@
 import {createPlaygroundResponse} from '../functionUtils/playgroundUtils';
 import type {Handler} from '@netlify/functions';
 
-export const handler: Handler = async function handler() {
-  return createPlaygroundResponse('stackblitz');
-};
+export const handler: Handler = () =>
+  Promise.resolve(createPlaygroundResponse('stackblitz'));

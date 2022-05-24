@@ -89,7 +89,7 @@ export function createMDXFallbackPlugin({
       // processed by content plugins mdx loaders. This works, but a bit
       // hacky... Not sure there's a way to handle that differently in webpack
       function getMDXFallbackExcludedPaths(): string[] {
-        const rules: RuleSetRule[] = config?.module?.rules as RuleSetRule[];
+        const rules: RuleSetRule[] = config.module?.rules as RuleSetRule[];
         return rules.flatMap((rule) => {
           const isMDXRule =
             rule.test instanceof RegExp && rule.test.test('x.mdx');

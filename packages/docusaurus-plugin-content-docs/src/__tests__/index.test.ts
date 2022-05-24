@@ -54,9 +54,9 @@ const createFakeActions = (contentDir: string) => {
     addRoute: (config: RouteConfig) => {
       routeConfigs.push(config);
     },
-    createData: async (name: string, content: unknown) => {
+    createData: (name: string, content: unknown) => {
       dataContainer[name] = content;
-      return path.join(contentDir, name);
+      return Promise.resolve(path.join(contentDir, name));
     },
     setGlobalData: (data: unknown) => {
       globalDataContainer.pluginName = {pluginId: data};

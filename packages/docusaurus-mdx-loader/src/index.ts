@@ -21,7 +21,7 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   /** As provided by the content plugin. */
   readonly metadata: Metadata;
   /** A list of TOC items (headings). */
-  readonly toc: readonly TOCItem[];
+  readonly toc?: readonly TOCItem[];
   /** First h1 title before any content. */
   readonly contentTitle: string | undefined;
   /**

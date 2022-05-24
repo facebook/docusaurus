@@ -59,7 +59,9 @@ export default function ColorGenerator(): JSX.Element {
 
   // Switch modes -> update state by stored values
   useEffect(() => {
-    const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
+    const storedValues = JSON.parse(
+      storage.get() ?? '{}',
+    ) as Partial<ColorState>;
     setInputColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
     setBaseColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
     setBackground(storedValues.background ?? DEFAULT_BACKGROUND_COLOR);

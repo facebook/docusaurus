@@ -143,7 +143,7 @@ export default async function pluginContentDocs(
             )}".`,
           );
         }
-        async function processVersionDoc(docFile: DocFile) {
+        function processVersionDoc(docFile: DocFile) {
           return processDocMetadata({
             docFile,
             versionMetadata,

@@ -40,12 +40,7 @@ export default function extractMetadata(content: string): Data {
   lines.slice(0, -1).forEach((line) => {
     const keyValue = line.split(':') as [string, ...string[]];
     const key = keyValue[0].trim();
-    let value = keyValue.slice(1).join(':').trim();
-    try {
-      value = JSON.parse(value);
-    } catch (err) {
-      // Ignore the error as it means it's not a JSON value.
-    }
+    const value = keyValue.slice(1).join(':').trim();
     metadata[key] = value;
   });
   return {metadata, rawContent: both.content};

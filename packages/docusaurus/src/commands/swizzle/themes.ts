@@ -15,7 +15,7 @@ import {findStringIgnoringCase, type SwizzlePlugin} from './common';
 export function pluginToThemeName(plugin: SwizzlePlugin): string | undefined {
   if (plugin.instance.getThemePath) {
     return (
-      (plugin.instance.version as {name: string}).name ?? plugin.instance.name
+      (plugin.instance.version as {name?: string}).name ?? plugin.instance.name
     );
   }
   return undefined;
@@ -76,9 +76,7 @@ function handleInvalidThemeName({
   // TODO recover from short theme-names here: "classic" => "@docusaurus/theme-classic"
 
   // No recovery value is possible: print error
-  const suggestion = themeNames.find(
-    (name) => leven(name, themeNameParam!) < 4,
-  );
+  const suggestion = themeNames.find((name) => leven(name, themeNameParam) < 4);
   logger.error`Theme name=${themeNameParam} not found. ${
     suggestion
       ? logger.interpolate`Did you mean name=${suggestion}?`
@@ -87,13 +85,13 @@ function handleInvalidThemeName({
   return process.exit(1);
 }
 
-async function validateThemeName({
+function validateThemeName({
   themeNameParam,
   themeNames,
 }: {
   themeNameParam: string;
   themeNames: string[];
-}): Promise<string> {
+}): string {
   const isValidName = themeNames.includes(themeNameParam);
   if (!isValidName) {
     return handleInvalidThemeName({

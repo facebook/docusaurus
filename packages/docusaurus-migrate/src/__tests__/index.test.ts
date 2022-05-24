@@ -19,22 +19,22 @@ async function testMigration(siteDir: string, newDir: string) {
   await migrateDocusaurusProject(siteDir, newDir, true, true);
   expect(
     writeMock.mock.calls.sort((a, b) =>
-      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+      posixPath(a[0]).localeCompare(posixPath(b[0])),
     ),
   ).toMatchSnapshot('write');
   expect(
     mkdirpMock.mock.calls.sort((a, b) =>
-      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+      posixPath(a[0]).localeCompare(posixPath(b[0])),
     ),
   ).toMatchSnapshot('mkdirp');
   expect(
     mkdirsMock.mock.calls.sort((a, b) =>
-      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+      posixPath(a[0]).localeCompare(posixPath(b[0])),
     ),
   ).toMatchSnapshot('mkdirs');
   expect(
     copyMock.mock.calls.sort((a, b) =>
-      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+      posixPath(a[0]).localeCompare(posixPath(b[0])),
     ),
   ).toMatchSnapshot('copy');
   writeMock.mockRestore();

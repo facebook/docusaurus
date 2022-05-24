@@ -51,7 +51,7 @@ Available document ids are:
     } = docMetadata;
     return {
       type: 'link',
-      label: sidebarLabel || item.label || title,
+      label: sidebarLabel ?? item.label ?? title,
       href: permalink,
       className: item.className,
       customProps:

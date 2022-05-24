@@ -119,7 +119,7 @@ function createTestUtils({
 
   async function testSlug(docFileSource: string, expectedPermalink: string) {
     const docFile = await readDoc(docFileSource);
-    const metadata = await processDocMetadata({
+    const metadata = processDocMetadata({
       docFile,
       versionMetadata,
       context,

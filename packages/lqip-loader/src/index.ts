@@ -17,9 +17,7 @@ export default async function lqipLoader(
   this: LoaderContext<Options>,
   contentBuffer: Buffer,
 ): Promise<void> {
-  if (this.cacheable) {
-    this.cacheable();
-  }
+  this.cacheable();
   const callback = this.async();
   const imgPath = this.resourcePath;
   let content = contentBuffer.toString('utf8');
