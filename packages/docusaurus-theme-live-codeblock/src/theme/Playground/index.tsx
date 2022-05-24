@@ -98,7 +98,7 @@ export default function Playground({
       {/* @ts-expect-error: type incompatibility with refs */}
       <LiveProvider
         code={children.replace(/\n$/, '')}
-        transformCode={transformCode || ((code) => `${code};`)}
+        transformCode={transformCode ?? ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>
         {playgroundPosition === 'top' ? (

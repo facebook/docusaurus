@@ -816,7 +816,6 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
-
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
   export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
@@ -976,7 +975,7 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
-  export type Types = Props['type'];
+  export type NavbarItemType = Props['type'];
 
   export default function NavbarItem(props: Props): JSX.Element;
 }

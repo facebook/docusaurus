@@ -325,14 +325,25 @@ declare module '@docusaurus/useGlobalData' {
 
   export function useAllPluginInstancesData(
     pluginName: string,
+    options: {failfast: true},
+  ): GlobalData[string];
+
+  export function useAllPluginInstancesData(
+    pluginName: string,
     options?: UseDataOptions,
   ): GlobalData[string] | undefined;
 
   export function usePluginData(
     pluginName: string,
+    pluginId: string | undefined,
+    options: {failfast: true},
+  ): NonNullable<GlobalData[string][string]>;
+
+  export function usePluginData(
+    pluginName: string,
     pluginId?: string,
     options?: UseDataOptions,
-  ): GlobalData[string][string] | undefined;
+  ): GlobalData[string][string];
 
   export default function useGlobalData(): GlobalData;
 }

@@ -97,7 +97,7 @@ export function parseCodeBlockTitle(metastring?: string): string {
 }
 
 export function containsLineNumbers(metastring?: string): boolean {
-  return metastring?.includes('showLineNumbers') || false;
+  return Boolean(metastring?.includes('showLineNumbers'));
 }
 
 /**
@@ -209,7 +209,9 @@ export function parseLines(
       lineNumber += 1;
       continue;
     }
-    const directive = match.slice(1).find((item) => item !== undefined)!;
+    const directive = match
+      .slice(1)
+      .find((item: string | undefined) => item !== undefined)!;
     if (lineToClassName[directive]) {
       blocks[lineToClassName[directive]!]!.range += `${lineNumber},`;
     } else if (blockStartToClassName[directive]) {

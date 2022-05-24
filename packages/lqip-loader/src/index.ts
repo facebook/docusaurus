@@ -6,7 +6,7 @@
  */
 
 import * as lqip from './lqip';
-import type {LoaderContext} from 'webpack';
+import type {LoaderContext, LoaderModule} from 'webpack';
 
 type Options = {
   base64: boolean;
@@ -36,8 +36,9 @@ export default async function lqipLoader(
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-      const fileLoader = require('file-loader') as typeof import('file-loader');
-      content = fileLoader.call(this, contentBuffer);
+      const fileLoader = require('file-loader') as LoaderModule['default'];
+      // @ts-expect-error: type is a bit unwieldy...
+      content = fileLoader!.call(this, contentBuffer) as string;
     }
     source = content.match(
       /^(?:export default|module.exports =) (?<source>.*);/,
