@@ -84,7 +84,7 @@ function postProcessSidebarItem(
       };
     }
     // A non-collapsible category can't be collapsed!
-    if (category.collapsible === false) {
+    if (!category.collapsible) {
       category.collapsed = false;
     }
     return category;

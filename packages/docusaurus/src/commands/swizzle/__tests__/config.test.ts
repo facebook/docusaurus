@@ -9,14 +9,14 @@ import {normalizeSwizzleConfig} from '../config';
 import type {SwizzleConfig} from '@docusaurus/types';
 
 describe('normalizeSwizzleConfig', () => {
-  it(`validate no components config`, async () => {
+  it(`validate no components config`, () => {
     const config: SwizzleConfig = {
       components: {},
     };
     expect(normalizeSwizzleConfig(config)).toEqual(config);
   });
 
-  it(`validate complete config`, async () => {
+  it(`validate complete config`, () => {
     const config: SwizzleConfig = {
       components: {
         SomeComponent: {
@@ -38,7 +38,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(normalizeSwizzleConfig(config)).toEqual(config);
   });
 
-  it(`normalize partial config`, async () => {
+  it(`normalize partial config`, () => {
     const config: SwizzleConfig = {
       components: {
         SomeComponent: {
@@ -59,7 +59,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(normalizeSwizzleConfig(config)).toMatchSnapshot();
   });
 
-  it(`reject missing components`, async () => {
+  it(`reject missing components`, () => {
     // @ts-expect-error: incomplete actions map
     const config: SwizzleConfig = {};
 
@@ -70,7 +70,7 @@ describe('normalizeSwizzleConfig', () => {
     );
   });
 
-  it(`reject invalid action name`, async () => {
+  it(`reject invalid action name`, () => {
     const config: SwizzleConfig = {
       components: {
         MyComponent: {
@@ -91,7 +91,7 @@ describe('normalizeSwizzleConfig', () => {
     );
   });
 
-  it(`reject invalid action status`, async () => {
+  it(`reject invalid action status`, () => {
     const config: SwizzleConfig = {
       components: {
         MyComponent: {

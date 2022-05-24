@@ -21,11 +21,13 @@
 // in their tsconfig.
 
 declare module '@docusaurus/theme-classic' {
-  import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {LoadContext, Plugin, PluginModule} from '@docusaurus/types';
 
   export type Options = {
     customCss?: string | string[];
   };
+
+  export const getSwizzleConfig: PluginModule['getSwizzleConfig'];
 
   export default function themeClassic(
     context: LoadContext,

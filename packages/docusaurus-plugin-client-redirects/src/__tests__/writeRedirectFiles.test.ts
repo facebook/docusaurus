@@ -17,7 +17,7 @@ import writeRedirectFiles, {
 // - https://github.com/facebook/docusaurus/issues/3886
 // - https://github.com/facebook/docusaurus/issues/3925
 describe('createToUrl', () => {
-  it('creates appropriate redirect urls', async () => {
+  it('creates appropriate redirect urls', () => {
     expect(createToUrl('/', '/docs/something/else')).toBe(
       '/docs/something/else',
     );
@@ -29,7 +29,7 @@ describe('createToUrl', () => {
     );
   });
 
-  it('creates appropriate redirect urls with baseUrl', async () => {
+  it('creates appropriate redirect urls with baseUrl', () => {
     expect(createToUrl('/baseUrl/', '/docs/something/else')).toBe(
       '/baseUrl/docs/something/else',
     );
@@ -43,7 +43,7 @@ describe('createToUrl', () => {
 });
 
 describe('toRedirectFilesMetadata', () => {
-  it('creates appropriate metadata trailingSlash=undefined', async () => {
+  it('creates appropriate metadata trailingSlash=undefined', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -70,7 +70,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  it('creates appropriate metadata trailingSlash=true', async () => {
+  it('creates appropriate metadata trailingSlash=true', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -97,7 +97,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  it('creates appropriate metadata trailingSlash=false', async () => {
+  it('creates appropriate metadata trailingSlash=false', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -127,7 +127,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  it('creates appropriate metadata for root baseUrl', async () => {
+  it('creates appropriate metadata for root baseUrl', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '/',
@@ -142,7 +142,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  it('creates appropriate metadata for empty baseUrl', async () => {
+  it('creates appropriate metadata for empty baseUrl', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '',

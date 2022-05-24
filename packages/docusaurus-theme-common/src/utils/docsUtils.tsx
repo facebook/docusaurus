@@ -318,7 +318,7 @@ export function useDocRouteMetadata({
   }
 
   // For now, the sidebarName is added as route config: not ideal!
-  const sidebarName = currentDocRoute.sidebar;
+  const sidebarName = currentDocRoute.sidebar as string;
 
   const sidebarItems = sidebarName
     ? versionMetadata.docsSidebars[sidebarName]

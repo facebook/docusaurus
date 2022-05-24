@@ -7,20 +7,12 @@
 
 import {createStorageSlot} from '@docusaurus/theme-common';
 
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES: (keyof typeof OfflineModeActivationStrategiesImplementations)[];
-    }
-  }
-}
-
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
-const PWA_SERVICE_WORKER_URL = process.env.PWA_SERVICE_WORKER_URL;
+const PWA_SERVICE_WORKER_URL = process.env.PWA_SERVICE_WORKER_URL!;
 const PWA_RELOAD_POPUP = process.env.PWA_RELOAD_POPUP;
-const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES =
-  process.env.PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES;
+const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES = process.env
+  .PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES as unknown as (keyof typeof OfflineModeActivationStrategiesImplementations)[];
 const PWA_DEBUG = process.env.PWA_DEBUG;
 /* eslint-enable prefer-destructuring */
 
@@ -42,7 +34,7 @@ async function clearRegistrations() {
   }
   await Promise.all(
     registrations.map(async (registration) => {
-      const result = await registration?.unregister();
+      const result = await registration.unregister();
       if (debug) {
         console.log(
           `[Docusaurus-PWA][registerSw]: unregister() service worker registration`,
@@ -77,7 +69,7 @@ async function isAppInstalledEventFired() {
 declare global {
   interface Navigator {
     getInstalledRelatedApps: () => Promise<{platform: string}[]>;
-    connection: {saveData: boolean};
+    connection?: {effectiveType: string; saveData: boolean};
   }
 }
 
@@ -320,6 +312,6 @@ if (typeof window !== 'undefined') {
     addLegacyAppInstalledEventsListeners();
 
     // Then try to register the SW using lazy/dynamic imports
-    registerSW().catch((e) => console.error('registerSW failed', e));
+    registerSW().catch((e: unknown) => console.error('registerSW failed', e));
   }
 }

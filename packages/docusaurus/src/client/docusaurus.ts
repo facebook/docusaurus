@@ -19,7 +19,7 @@ declare global {
   // eslint-disable-next-line camelcase, no-underscore-dangle
   const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
-    connection: {effectiveType: string; saveData: boolean};
+    connection?: {effectiveType: string; saveData: boolean};
   }
 }
 

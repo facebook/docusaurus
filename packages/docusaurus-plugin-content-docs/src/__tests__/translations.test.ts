@@ -30,7 +30,9 @@ function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
     unversionedId: 'any',
     version: 'any',
     title: `${doc.id} title`,
-    sidebar_label: `${doc.id} title`,
+    frontMatter: {
+      sidebar_label: `${doc.id} title`,
+    },
     description: `${doc.id} description`,
     ...doc,
   };
@@ -136,7 +138,7 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getLoadedContentTranslationFiles', () => {
-  it('returns translation files', async () => {
+  it('returns translation files', () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });

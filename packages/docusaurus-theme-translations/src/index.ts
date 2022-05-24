@@ -25,9 +25,9 @@ export function codeTranslationLocalesToTry(locale: string): string[] {
     // unresolved except for simply locales
     locale,
     // "zh-CN" / "pt-BR"
-    `${maximizedLocale.language}-${maximizedLocale.region}`,
+    `${maximizedLocale.language!}-${maximizedLocale.region!}`,
     // "zh-Hans" / "pt-Latn"
-    `${maximizedLocale.language}-${maximizedLocale.script}`,
+    `${maximizedLocale.language!}-${maximizedLocale.script!}`,
     // "zh" / "pt"
     maximizedLocale.language!,
   ];

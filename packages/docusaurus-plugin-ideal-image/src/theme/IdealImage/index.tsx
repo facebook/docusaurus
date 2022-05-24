@@ -22,9 +22,9 @@ function bytesToSize(bytes: number) {
   }
   const scale = Math.floor(Math.log(bytes) / Math.log(1024));
   if (scale === 0) {
-    return `${bytes} ${sizes[scale]}`;
+    return `${bytes} ${sizes[scale]!}`;
   }
-  return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]}`;
+  return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]!}`;
 }
 
 // Adopted from https://github.com/endiliey/react-ideal-image/blob/master/src/components/IdealImage/index.js#L43-L75
@@ -100,8 +100,8 @@ export default function IdealImage(props: Props): JSX.Element {
       {...props}
       alt={alt}
       className={className}
-      height={img.src.height || 100}
-      width={img.src.width || 100}
+      height={img.src.height ?? 100}
+      width={img.src.width ?? 100}
       placeholder={{lqip: img.preSrc}}
       src={img.src.src}
       srcSet={img.src.images.map((image) => ({

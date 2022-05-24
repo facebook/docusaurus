@@ -8,7 +8,7 @@
 declare module '@generated/client-modules' {
   import type {ClientModule} from '@docusaurus/types';
 
-  const clientModules: readonly (ClientModule & {default: ClientModule})[];
+  const clientModules: readonly (ClientModule & {default?: ClientModule})[];
   export default clientModules;
 }
 
@@ -35,9 +35,11 @@ declare module '@generated/registry' {
 
 declare module '@generated/routes' {
   import type {RouteConfig as RRRouteConfig} from 'react-router-config';
+  import type Loadable from 'react-loadable';
 
   type RouteConfig = RRRouteConfig & {
     path: string;
+    component: ReturnType<typeof Loadable>;
   };
   const routes: RouteConfig[];
   export default routes;

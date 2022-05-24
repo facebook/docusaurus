@@ -38,10 +38,10 @@ export function getContentPathList(contentPaths: PagesContentPaths): string[] {
 const isMarkdownSource = (source: string) =>
   source.endsWith('.md') || source.endsWith('.mdx');
 
-export default async function pluginContentPages(
+export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Promise<Plugin<LoadedContent | null>> {
+): Plugin<LoadedContent | null> {
   const {
     siteConfig,
     siteDir,

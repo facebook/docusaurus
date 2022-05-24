@@ -474,7 +474,7 @@ async function migrateVersionedDocs(
     versions.reverse().map(async (version, index) => {
       if (index === 0) {
         await fs.copy(
-          path.join(siteDir, '..', context.v1Config.customDocsPath || 'docs'),
+          path.join(siteDir, '..', context.v1Config.customDocsPath ?? 'docs'),
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
         await fs.copy(
@@ -551,7 +551,9 @@ async function migrateVersionedSidebar(
       const newSidebar = Object.entries(sidebarEntries).reduce(
         (topLevel: SidebarEntries, value) => {
           const key = value[0].replace(versionRegex, '');
-          topLevel[key] = Object.entries(value[1]).reduce((acc, val) => {
+          topLevel[key] = Object.entries(value[1]).reduce<{
+            [key: string]: Array<string | {[key: string]: unknown}>;
+          }>((acc, val) => {
             acc[val[0].replace(versionRegex, '')] = (
               val[1] as SidebarEntry[]
             ).map((item) => {
@@ -565,7 +567,7 @@ async function migrateVersionedSidebar(
               };
             });
             return acc;
-          }, {} as {[key: string]: Array<string | {[key: string]: unknown}>});
+          }, {});
           return topLevel;
         },
         {},
@@ -574,33 +576,32 @@ async function migrateVersionedSidebar(
     }
     await Promise.all(
       sidebars.map(async (sidebar) => {
-        const newSidebar = Object.entries(sidebar.entries).reduce(
-          (acc, val) => {
-            const key = `version-${sidebar.version}/${val[0]}`;
-            acc[key] = Object.entries(val[1]).map((value) => ({
-              type: 'category',
-              label: value[0],
-              items: (value[1] as SidebarEntry[]).map((sidebarItem) => {
-                if (typeof sidebarItem === 'string') {
-                  return {
-                    type: 'doc',
-                    id: `version-${sidebar.version}/${sidebarItem}`,
-                  };
-                }
+        const newSidebar = Object.entries(
+          sidebar.entries,
+        ).reduce<SidebarEntries>((acc, val) => {
+          const key = `version-${sidebar.version}/${val[0]}`;
+          acc[key] = Object.entries(val[1]).map((value) => ({
+            type: 'category',
+            label: value[0],
+            items: (value[1] as SidebarEntry[]).map((sidebarItem) => {
+              if (typeof sidebarItem === 'string') {
                 return {
-                  type: 'category',
-                  label: sidebarItem.label,
-                  items: sidebarItem.ids.map((id) => ({
-                    type: 'doc',
-                    id: `version-${sidebar.version}/${id}`,
-                  })),
+                  type: 'doc',
+                  id: `version-${sidebar.version}/${sidebarItem}`,
                 };
-              }),
-            }));
-            return acc;
-          },
-          {} as SidebarEntries,
-        );
+              }
+              return {
+                type: 'category',
+                label: sidebarItem.label,
+                items: sidebarItem.ids.map((id) => ({
+                  type: 'doc',
+                  id: `version-${sidebar.version}/${id}`,
+                })),
+              };
+            }),
+          }));
+          return acc;
+        }, {});
         await fs.outputFile(
           path.join(
             newDir,
@@ -702,12 +703,12 @@ async function migrateLatestDocs(context: MigrationContext) {
 
 async function migratePackageFile(context: MigrationContext): Promise<void> {
   const {deps, siteDir, newDir} = context;
-  const packageFile = importFresh(`${siteDir}/package.json`) as {
+  const packageFile = importFresh<{
     scripts?: {[key: string]: string};
     dependencies?: {[key: string]: string};
     devDependencies?: {[key: string]: string};
     [otherKey: string]: unknown;
-  };
+  }>(`${siteDir}/package.json`);
   packageFile.scripts = {
     ...packageFile.scripts,
     start: 'docusaurus start',

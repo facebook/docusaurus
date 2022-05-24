@@ -237,10 +237,14 @@ function SearchPageContent(): JSX.Element {
           url,
           _highlightResult: {hierarchy},
           _snippetResult: snippet = {},
+        }: {
+          url: string;
+          _highlightResult: {hierarchy: {[key: string]: {value: string}}};
+          _snippetResult: {content?: {value: string}};
         }) => {
           const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) =>
-            sanitizeValue(hierarchy[key].value),
+            sanitizeValue(hierarchy[key]!.value),
           );
 
           return {

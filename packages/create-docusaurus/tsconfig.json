@@ -3,7 +3,6 @@
   "references": [{"path": "./tsconfig.build.json"}],
   "compilerOptions": {
     "noEmit": true,
-    "allowJs": true,
     "module": "esnext",
     "rootDir": "."
   },

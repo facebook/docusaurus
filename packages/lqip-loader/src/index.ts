@@ -17,9 +17,7 @@ export default async function lqipLoader(
   this: LoaderContext<Options>,
   contentBuffer: Buffer,
 ): Promise<void> {
-  if (this.cacheable) {
-    this.cacheable();
-  }
+  this.cacheable();
   const callback = this.async();
   const imgPath = this.resourcePath;
   let content = contentBuffer.toString('utf8');
@@ -38,7 +36,7 @@ export default async function lqipLoader(
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-      const fileLoader = require('file-loader');
+      const fileLoader = require('file-loader') as typeof import('file-loader');
       content = fileLoader.call(this, contentBuffer);
     }
     source = content.match(

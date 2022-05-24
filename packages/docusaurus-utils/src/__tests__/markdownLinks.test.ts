@@ -204,7 +204,6 @@ The following operations are defined for [URI]s:
     ).toMatchSnapshot();
   });
 
-  // FIXME
   it('replaces links with same title as URL', () => {
     expect(
       replaceMarkdownLinks({

@@ -100,7 +100,7 @@ export default async function pluginContentDocs(
         .command(command)
         .arguments('<version>')
         .description(commandDescription)
-        .action((version) => {
+        .action((version: unknown) => {
           cliDocsVersionCommand(version, options, context);
         });
     },
@@ -143,7 +143,7 @@ export default async function pluginContentDocs(
             )}".`,
           );
         }
-        async function processVersionDoc(docFile: DocFile) {
+        function processVersionDoc(docFile: DocFile) {
           return processDocMetadata({
             docFile,
             versionMetadata,

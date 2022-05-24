@@ -99,9 +99,9 @@ function MigrationAnnouncement() {
 }
 
 function TweetsSection() {
-  const tweetColumns: Array<Array<TweetItem>> = [[], [], []];
+  const tweetColumns: TweetItem[][] = [[], [], []];
   Tweets.filter((tweet) => tweet.showOnHomepage).forEach((tweet, i) =>
-    tweetColumns[i % 3].push(tweet),
+    tweetColumns[i % 3]!.push(tweet),
   );
 
   return (

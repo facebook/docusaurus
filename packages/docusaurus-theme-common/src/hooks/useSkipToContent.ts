@@ -40,7 +40,7 @@ export function useSkipToContent(): {
     e.preventDefault();
 
     const targetElement: HTMLElement | null =
-      document.querySelector('main:first-of-type') ||
+      document.querySelector('main:first-of-type') ??
       document.querySelector(`.${ThemeClassNames.wrapper.main}`);
 
     if (targetElement) {

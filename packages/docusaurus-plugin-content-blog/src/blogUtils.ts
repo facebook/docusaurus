@@ -264,7 +264,7 @@ async function processBlogSourceFile(
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';
 
-  const slug = frontMatter.slug || parsedBlogFileName.slug;
+  const slug = frontMatter.slug ?? parsedBlogFileName.slug;
 
   const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
 
@@ -323,7 +323,7 @@ async function processBlogSourceFile(
             defaultReadingTime,
           })
         : undefined,
-      truncated: truncateMarker?.test(content) || false,
+      truncated: truncateMarker.test(content),
       authors,
       frontMatter,
     },

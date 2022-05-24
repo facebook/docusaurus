@@ -171,7 +171,7 @@ export function parseLines(
     const metastringRangeClassName = magicComments[0]!.className;
     const lines = rangeParser(linesRange)
       .filter((n) => n > 0)
-      .map((n) => [n - 1, [metastringRangeClassName]]);
+      .map((n) => [n - 1, [metastringRangeClassName]] as [number, string[]]);
     return {lineClassNames: Object.fromEntries(lines), code};
   }
   if (language === undefined) {
@@ -189,7 +189,7 @@ export function parseLines(
   const lineToClassName: {[comment: string]: string} = Object.fromEntries(
     magicComments
       .filter((d) => d.line)
-      .map(({className, line}) => [line, className]),
+      .map(({className, line}) => [line!, className] as [string, string]),
   );
   const blockStartToClassName: {[comment: string]: string} = Object.fromEntries(
     magicComments
