@@ -52,7 +52,6 @@ export default function pluginPWA(
     debug,
     offlineModeActivationStrategies,
     injectManifestConfig,
-    reloadPopup,
     pwaHead,
     swCustom,
     swRegister,
@@ -94,7 +93,6 @@ export default function pluginPWA(
             ),
             PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
               offlineModeActivationStrategies,
-            PWA_RELOAD_POPUP: reloadPopup,
           }),
         ],
       };

@@ -20,7 +20,6 @@ const DEFAULT_OPTIONS = {
   pwaHead: [],
   swCustom: undefined,
   swRegister: './registerSw.js',
-  reloadPopup: '@theme/PwaReloadPopup',
 };
 
 const optionsSchema = Joi.object<PluginOptions>({
@@ -49,9 +48,6 @@ const optionsSchema = Joi.object<PluginOptions>({
   swRegister: Joi.alternatives()
     .try(Joi.string(), Joi.bool().valid(false))
     .default(DEFAULT_OPTIONS.swRegister),
-  reloadPopup: Joi.alternatives()
-    .try(Joi.string(), Joi.bool().valid(false))
-    .default(DEFAULT_OPTIONS.reloadPopup),
 });
 
 export function validateOptions({
