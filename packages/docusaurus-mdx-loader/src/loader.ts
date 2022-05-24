@@ -22,6 +22,7 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
+import mermaid from './remark/mermaid';
 
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
@@ -38,7 +39,7 @@ const pragma = `
 
 const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
-  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
+  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc, mermaid],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };

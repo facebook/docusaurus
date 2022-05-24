@@ -21,6 +21,7 @@ import LayoutProviders from '@theme/LayoutProviders';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 import type {Props} from '@theme/Layout';
+import useMermaid from '@theme/useMermaid';
 
 export default function Layout(props: Props): JSX.Element {
   const {
@@ -33,6 +34,7 @@ export default function Layout(props: Props): JSX.Element {
   } = props;
 
   useKeyboardNavigation();
+  useMermaid();
 
   return (
     <LayoutProviders>

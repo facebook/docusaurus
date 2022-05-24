@@ -552,6 +552,14 @@ declare module '@theme/Heading' {
   export default function Heading(props: Props): JSX.Element;
 }
 
+declare module '@theme/Mermaid' {
+  export interface Props {
+    value: string;
+  }
+
+  export default function Mermaid(props: Props): JSX.Element;
+}
+
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
@@ -667,6 +675,14 @@ declare module '@theme/MDXComponents/Pre' {
   export default function MDXPre(props: Props): JSX.Element;
 }
 
+declare module '@theme/MDXComponents/Mermaid' {
+  export interface Props {
+    value: string;
+  }
+
+  export default function MDXMermaid(props: Props): JSX.Element;
+}
+
 declare module '@theme/MDXComponents' {
   import type {ComponentType, ComponentProps} from 'react';
 
@@ -677,6 +693,7 @@ declare module '@theme/MDXComponents' {
   import type MDXDetails from '@theme/MDXComponents/Details';
   import type MDXUl from '@theme/MDXComponents/Ul';
   import type MDXImg from '@theme/MDXComponents/Img';
+  import type MDXMermaid from '@theme/MDXComponents/Mermaid';
 
   export type MDXComponentsObject = {
     readonly head: typeof MDXHead;
@@ -692,6 +709,7 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
+    readonly mermaid: typeof MDXMermaid;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [tagName: string]: ComponentType<any>;
   };
@@ -1277,4 +1295,8 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
+}
+
+declare module '@theme/useMermaid' {
+  export default function useMermaid(): void;
 }
