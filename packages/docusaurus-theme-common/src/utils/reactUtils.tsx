@@ -71,6 +71,6 @@ export class ReactContextError extends Error {
     this.message = `Hook ${
       this.stack?.split('\n')[1]?.match(/at (?:\w+\.)?(?<name>\w+)/)?.groups!
         .name ?? ''
-    } is called outside the <${providerName}>. ${additionalInfo || ''}`;
+    } is called outside the <${providerName}>. ${additionalInfo ?? ''}`;
   }
 }

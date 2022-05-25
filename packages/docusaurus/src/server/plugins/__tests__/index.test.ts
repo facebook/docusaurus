@@ -28,7 +28,7 @@ describe('loadPlugins', () => {
                 name: 'test1',
                 prop: 'a',
                 async loadContent() {
-                  // Testing that plugin lifecycle is bound to the plugin instance
+                  // Testing that plugin lifecycle is bound to the instance
                   return this.prop;
                 },
                 async contentLoaded({content, actions}) {

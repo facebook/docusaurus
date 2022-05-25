@@ -31,6 +31,7 @@ import type {
   Options,
   PluginOptions,
   PropSidebarItemLink,
+  PropSidebars,
 } from '@docusaurus/plugin-content-docs';
 import type {
   SidebarItemsGeneratorOption,
@@ -82,7 +83,7 @@ const createFakeActions = (contentDir: string) => {
 
   // Query by prefix, because files have a hash at the end so it's not
   // convenient to query by full filename
-  const getCreatedDataByPrefix = (prefix: string) => {
+  function getCreatedDataByPrefix(prefix: string) {
     const entry = Object.entries(dataContainer).find(([key]) =>
       key.startsWith(prefix),
     );
@@ -92,8 +93,8 @@ Entries created:
 - ${Object.keys(dataContainer).join('\n- ')}
         `);
     }
-    return JSON.parse(entry[1] as string);
-  };
+    return JSON.parse(entry[1] as string) as PropSidebars;
+  }
 
   // Extra fns useful for tests!
   const utils = {
@@ -571,8 +572,8 @@ describe('versioned website (community)', () => {
       allContent: {},
     });
 
-    utils.checkVersionMetadataPropCreated(currentVersion!);
-    utils.checkVersionMetadataPropCreated(version100!);
+    utils.checkVersionMetadataPropCreated(currentVersion);
+    utils.checkVersionMetadataPropCreated(version100);
 
     utils.expectSnapshot();
   });

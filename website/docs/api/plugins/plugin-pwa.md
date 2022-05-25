@@ -112,8 +112,8 @@ Turn debug mode on:
 
 ### `offlineModeActivationStrategies` {#offlinemodeactivationstrategies}
 
-- Type: `Array<'appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always'>`
-- Default: `['appInstalled','queryString','standalone']`
+- Type: `('appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always')[]`
+- Default: `['appInstalled', 'queryString', 'standalone']`
 
 Strategies used to turn the offline mode on:
 
@@ -194,7 +194,7 @@ The default theme includes an implementation for the reload popup and uses [Infi
 
 ### `pwaHead` {#pwahead}
 
-- Type: `Array<{ tagName: string } & Record<string,string>>`
+- Type: `({ tagName: string; [attributeName: string]: string })[]`
 - Default: `[]`
 
 Array of objects containing `tagName` and key-value pairs for attributes to inject into the `<head>` tag. Technically you can inject any head tag through this, but it's ideally used for tags to make your site PWA compliant. Here's a list of tag to make your app fully compliant:
