@@ -8,11 +8,11 @@
 import {loadHtmlTags} from '../htmlTags';
 import type {LoadedPlugin} from '@docusaurus/types';
 
-const pluginEmpty: LoadedPlugin = {
+const pluginEmpty = {
   name: 'plugin-empty',
-};
+} as LoadedPlugin;
 
-const pluginPreBodyTags: LoadedPlugin = {
+const pluginPreBodyTags = {
   name: 'plugin-preBodyTags',
   injectHtmlTags() {
     return {
@@ -26,9 +26,9 @@ const pluginPreBodyTags: LoadedPlugin = {
       },
     };
   },
-};
+} as unknown as LoadedPlugin;
 
-const pluginHeadTags: LoadedPlugin = {
+const pluginHeadTags = {
   name: 'plugin-headTags-only',
   injectHtmlTags() {
     return {
@@ -59,9 +59,9 @@ const pluginHeadTags: LoadedPlugin = {
       ],
     };
   },
-};
+} as unknown as LoadedPlugin;
 
-const pluginPostBodyTags: LoadedPlugin = {
+const pluginPostBodyTags = {
   name: 'plugin-postBody-tags',
   injectHtmlTags() {
     return {
@@ -74,14 +74,14 @@ const pluginPostBodyTags: LoadedPlugin = {
       ],
     };
   },
-};
+} as unknown as LoadedPlugin;
 
-const pluginMaybeInjectHeadTags: LoadedPlugin = {
+const pluginMaybeInjectHeadTags = {
   name: 'plugin-postBody-tags',
   injectHtmlTags() {
     return undefined;
   },
-};
+} as unknown as LoadedPlugin;
 
 describe('loadHtmlTags', () => {
   it('works for an empty plugin', () => {
@@ -170,6 +170,7 @@ describe('loadHtmlTags', () => {
   it('throws for invalid tag', () => {
     expect(() =>
       loadHtmlTags([
+        // @ts-expect-error: test
         {
           injectHtmlTags() {
             return {
@@ -192,6 +193,7 @@ describe('loadHtmlTags', () => {
     expect(() =>
       loadHtmlTags([
         {
+          // @ts-expect-error: test
           injectHtmlTags() {
             return {
               headTags: {
@@ -210,6 +212,7 @@ describe('loadHtmlTags', () => {
     expect(() =>
       loadHtmlTags([
         {
+          // @ts-expect-error: test
           injectHtmlTags() {
             return {
               headTags: 2,

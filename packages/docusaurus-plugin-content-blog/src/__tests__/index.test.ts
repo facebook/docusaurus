@@ -11,9 +11,15 @@ import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getFileCommitDate} from '@docusaurus/utils';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
-import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
+import type {
+  DocusaurusConfig,
+  LoadContext,
+  I18n,
+  Validate,
+} from '@docusaurus/types';
 import type {
   BlogPost,
+  Options,
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';
@@ -77,7 +83,10 @@ const getPlugin = async (
       i18n,
     } as LoadContext,
     validateOptions({
-      validate: normalizePluginOptions,
+      validate: normalizePluginOptions as Validate<
+        Options | undefined,
+        PluginOptions
+      >,
       options: {
         path: PluginPath,
         editUrl: BaseEditUrl,

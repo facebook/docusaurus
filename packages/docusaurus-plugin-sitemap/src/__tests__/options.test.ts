@@ -6,10 +6,20 @@
  */
 
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {validateOptions, DEFAULT_OPTIONS, type Options} from '../options';
+import {
+  validateOptions,
+  DEFAULT_OPTIONS,
+  type Options,
+  type PluginOptions,
+} from '../options';
+import type {EnumChangefreq} from 'sitemap';
+import type {Validate} from '@docusaurus/types';
 
 function testValidate(options: Options) {
-  return validateOptions({validate: normalizePluginOptions, options});
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+    options,
+  });
 }
 
 const defaultOptions = {
@@ -24,7 +34,7 @@ describe('validateOptions', () => {
 
   it('accepts correctly defined user options', () => {
     const userOptions: Options = {
-      changefreq: 'yearly',
+      changefreq: 'yearly' as EnumChangefreq,
       priority: 0.9,
       ignorePatterns: ['/search/**'],
     };
@@ -44,7 +54,7 @@ describe('validateOptions', () => {
 
   it('rejects bad changefreq inputs', () => {
     expect(() =>
-      testValidate({changefreq: 'annually'}),
+      testValidate({changefreq: 'annually' as EnumChangefreq}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""changefreq" must be one of [daily, monthly, always, hourly, weekly, yearly, never]"`,
     );

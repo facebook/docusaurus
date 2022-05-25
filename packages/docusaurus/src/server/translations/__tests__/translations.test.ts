@@ -292,13 +292,12 @@ describe('writePluginTranslations', () => {
           key3: {message: 'key3 message'},
         },
       },
-      // @ts-expect-error: enough for this test
       plugin: {
         name: 'my-plugin-name',
         options: {
-          id: undefined,
+          id: 'default',
         },
-      },
+      } as LoadedPlugin,
     });
 
     await expect(fs.readJSON(filePath)).resolves.toEqual({
@@ -698,7 +697,7 @@ describe('applyDefaultCodeTranslations', () => {
       },
     });
     expect(consoleWarnMock).toHaveBeenCalledTimes(1);
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(/unknownId/);
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(/unknownId/);
   });
 
   it('works for realistic scenario', () => {
@@ -740,7 +739,7 @@ describe('applyDefaultCodeTranslations', () => {
       },
     });
     expect(consoleWarnMock).toHaveBeenCalledTimes(1);
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(/idUnknown1/);
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(/idUnknown2/);
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(/idUnknown1/);
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(/idUnknown2/);
   });
 });

@@ -1032,10 +1032,10 @@ declare module '@theme/Tabs' {
     readonly lazy?: boolean;
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
-    readonly defaultValue?: string | number | null;
+    readonly defaultValue?: string | null;
     readonly values?: readonly {
-      value: string | number;
-      label?: string | number;
+      value: string;
+      label?: string;
       attributes?: {[key: string]: unknown};
     }[];
     readonly groupId?: string;
