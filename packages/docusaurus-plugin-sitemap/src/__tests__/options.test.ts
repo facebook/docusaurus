@@ -23,7 +23,7 @@ describe('validateOptions', () => {
   });
 
   it('accepts correctly defined user options', () => {
-    const userOptions = {
+    const userOptions: Options = {
       changefreq: 'yearly',
       priority: 0.9,
       ignorePatterns: ['/search/**'],
@@ -52,9 +52,11 @@ describe('validateOptions', () => {
 
   it('rejects bad ignorePatterns inputs', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({ignorePatterns: '/search'}),
     ).toThrowErrorMatchingInlineSnapshot(`""ignorePatterns" must be an array"`);
     expect(() =>
+      // @ts-expect-error: test
       testValidate({ignorePatterns: [/^\/search/]}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""ignorePatterns[0]" must be a string"`,

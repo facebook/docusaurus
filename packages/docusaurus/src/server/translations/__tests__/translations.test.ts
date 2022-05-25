@@ -20,6 +20,7 @@ import {
 } from '../translations';
 import type {
   InitializedPlugin,
+  LoadedPlugin,
   TranslationFile,
   TranslationFileContent,
 } from '@docusaurus/types';
@@ -399,7 +400,7 @@ describe('writePluginTranslations', () => {
           options: {
             id: 'my-plugin-id',
           },
-        },
+        } as LoadedPlugin,
 
         options: {},
       }),
@@ -426,11 +427,10 @@ describe('localizePluginTranslationFile', () => {
       siteDir,
       locale: 'fr',
       translationFile,
-      // @ts-expect-error: enough for this test
       plugin: {
         name: 'my-plugin-name',
         options: {},
-      },
+      } as LoadedPlugin,
     });
 
     expect(localizedTranslationFile).toEqual(translationFile);
@@ -466,11 +466,10 @@ describe('localizePluginTranslationFile', () => {
       siteDir,
       locale: 'fr',
       translationFile,
-      // @ts-expect-error: enough for this test
       plugin: {
         name: 'my-plugin-name',
         options: {},
-      },
+      } as LoadedPlugin,
     });
 
     expect(localizedTranslationFile).toEqual({
@@ -521,25 +520,30 @@ describe('readCodeTranslationFileContent', () => {
 
   it('fails for invalid translation file content', async () => {
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation('HEY'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `""value" must be of type object"`,
     );
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation(42),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `""value" must be of type object"`,
     );
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation({key: {description: 'no message'}}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`""key.message" is required"`);
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation({key: {message: 42}}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `""key.message" must be a string"`,
     );
     await expect(() =>
       testReadTranslation({
+        // @ts-expect-error: test
         key: {message: 'Message', description: 42},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(

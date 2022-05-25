@@ -100,10 +100,13 @@ describe('createSidebarsUtils', () => {
   const sidebar4: Sidebar = [
     {
       type: 'category',
+      collapsed: false,
+      collapsible: true,
+      label: 'Related',
       items: [
-        {type: 'link', href: 'https://facebook.com'},
-        {type: 'link', href: 'https://reactjs.org'},
-        {type: 'link', href: 'https://docusaurus.io'},
+        {type: 'link', href: 'https://facebook.com', label: 'Facebook'},
+        {type: 'link', href: 'https://reactjs.org', label: 'React'},
+        {type: 'link', href: 'https://docusaurus.io', label: 'Docusaurus'},
       ],
     },
     {
@@ -696,10 +699,10 @@ describe('toNavigationLink', () => {
 
   it('with doc items', () => {
     expect(toNavigationLink({type: 'doc', id: 'doc1'}, docsById)).toEqual(
-      toDocNavigationLink(docsById.doc1),
+      toDocNavigationLink(docsById.doc1!),
     );
     expect(toNavigationLink({type: 'doc', id: 'doc2'}, docsById)).toEqual(
-      toDocNavigationLink(docsById.doc2),
+      toDocNavigationLink(docsById.doc2!),
     );
     expect(() =>
       toNavigationLink({type: 'doc', id: 'doc3'}, docsById),
@@ -724,7 +727,7 @@ describe('toNavigationLink', () => {
         },
         docsById,
       ),
-    ).toEqual(toDocNavigationLink(docsById.doc1));
+    ).toEqual(toDocNavigationLink(docsById.doc1!));
     expect(() =>
       toNavigationLink(
         {

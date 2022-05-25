@@ -24,7 +24,7 @@ describe('usePluralForm', () => {
       i18n: {
         currentLocale: 'en',
       },
-    });
+    } as DocusaurusContext);
     expect(mockUsePluralForm().selectMessage(1, 'one|many')).toBe('one');
     expect(mockUsePluralForm().selectMessage(10, 'one|many')).toBe('many');
   });
@@ -34,7 +34,7 @@ describe('usePluralForm', () => {
       i18n: {
         currentLocale: 'zh-Hans',
       },
-    });
+    } as DocusaurusContext);
     const consoleMock = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
@@ -50,7 +50,7 @@ describe('usePluralForm', () => {
       i18n: {
         currentLocale: 'en',
       },
-    });
+    } as DocusaurusContext);
     expect(mockUsePluralForm().selectMessage(10, 'many')).toBe('many');
   });
 
@@ -59,7 +59,7 @@ describe('usePluralForm', () => {
       i18n: {
         currentLocale: 'zh-Hans',
       },
-    });
+    } as DocusaurusContext);
     const consoleMock = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});

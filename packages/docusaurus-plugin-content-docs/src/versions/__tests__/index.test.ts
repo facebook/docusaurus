@@ -10,7 +10,7 @@ import path from 'path';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {readVersionsMetadata} from '../index';
 import {DEFAULT_OPTIONS} from '../../options';
-import type {I18n} from '@docusaurus/types';
+import type {I18n, LoadContext} from '@docusaurus/types';
 import type {
   PluginOptions,
   VersionMetadata,
@@ -37,7 +37,7 @@ describe('readVersionsMetadata', () => {
         siteDir: simpleSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
-      };
+      } as LoadContext;
 
       const vCurrent: VersionMetadata = {
         contentPath: path.join(simpleSiteDir, 'docs'),
@@ -198,7 +198,7 @@ describe('readVersionsMetadata', () => {
         siteDir: versionedSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
-      };
+      } as LoadContext;
 
       const vCurrent: VersionMetadata = {
         contentPath: path.join(versionedSiteDir, 'docs'),
@@ -636,7 +636,7 @@ describe('readVersionsMetadata', () => {
         siteDir: versionedSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
-      };
+      } as LoadContext;
 
       const vCurrent: VersionMetadata = {
         contentPath: path.join(versionedSiteDir, 'community'),

@@ -66,6 +66,6 @@ const UserOptionsSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options: userOptions,
-}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
+}: OptionValidationContext<Options | undefined, PluginOptions>): PluginOptions {
   return validate(UserOptionsSchema, userOptions);
 }
