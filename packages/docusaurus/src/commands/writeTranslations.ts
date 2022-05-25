@@ -47,14 +47,12 @@ async function getExtraSourceCodeFilePaths(): Promise<string[]> {
 }
 
 async function writePluginTranslationFiles({
-  siteDir,
+  i18nDir,
   plugin,
-  locale,
   options,
 }: {
-  siteDir: string;
+  i18nDir: string;
   plugin: InitializedPlugin;
-  locale: string;
   options: WriteTranslationsOptions;
 }) {
   if (plugin.getTranslationFiles) {
@@ -66,10 +64,9 @@ async function writePluginTranslationFiles({
     await Promise.all(
       translationFiles.map(async (translationFile) => {
         await writePluginTranslations({
-          siteDir,
+          i18nDir,
           plugin,
           translationFile,
-          locale,
           options,
         });
       }),
@@ -86,6 +83,7 @@ export async function writeTranslations(
     config: options.config,
     locale: options.locale,
   });
+  const {i18nDir} = context;
   const plugins = await initPlugins(context);
 
   const locale = options.locale ?? context.i18n.defaultLocale;
@@ -116,11 +114,11 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     defaultCodeMessages,
   });
 
-  await writeCodeTranslations({siteDir, locale}, codeTranslations, options);
+  await writeCodeTranslations({i18nDir}, codeTranslations, options);
 
   await Promise.all(
     plugins.map(async (plugin) => {
-      await writePluginTranslationFiles({siteDir, plugin, locale, options});
+      await writePluginTranslationFiles({i18nDir, plugin, options});
     }),
   );
 }

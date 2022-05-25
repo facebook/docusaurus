@@ -56,8 +56,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
       const translationFiles = await Promise.all(
         rawTranslationFiles.map((translationFile) =>
           localizePluginTranslationFile({
-            locale: context.i18n.currentLocale,
-            siteDir: context.siteDir,
+            i18nDir: context.i18nDir,
             translationFile,
             plugin,
           }),

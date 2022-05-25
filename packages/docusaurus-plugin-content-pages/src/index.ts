@@ -48,18 +48,12 @@ export default function pluginContentPages(
       [admonitions, options.admonitions],
     ]);
   }
-  const {
-    siteConfig,
-    siteDir,
-    generatedFilesDir,
-    i18n: {currentLocale},
-  } = context;
+  const {siteConfig, siteDir, generatedFilesDir, i18nDir} = context;
 
   const contentPaths: PagesContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
-      siteDir,
-      locale: currentLocale,
+      i18nDir,
       pluginName: 'docusaurus-plugin-content-pages',
       pluginId: options.id,
     }),

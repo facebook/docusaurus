@@ -59,6 +59,7 @@ export default async function pluginContentBlog(
     siteDir,
     siteConfig,
     generatedFilesDir,
+    i18nDir,
     i18n: {currentLocale},
   } = context;
   const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
@@ -66,8 +67,7 @@ export default async function pluginContentBlog(
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
-      siteDir,
-      locale: currentLocale,
+      i18nDir,
       pluginName: 'docusaurus-plugin-content-blog',
       pluginId: options.id,
     }),

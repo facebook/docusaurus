@@ -12,7 +12,6 @@ import logger from '@docusaurus/logger';
 import {
   getPluginI18nPath,
   toMessageRelativeFilePath,
-  I18N_DIR_NAME,
   CODE_TRANSLATIONS_FILE_NAME,
 } from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
@@ -29,8 +28,7 @@ export type WriteTranslationsOptions = {
 };
 
 type TranslationContext = {
-  siteDir: string;
-  locale: string;
+  i18nDir: string;
 };
 
 const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
@@ -143,18 +141,8 @@ Maybe you should remove them? ${unknownKeys}`;
   }
 }
 
-// Should we make this configurable?
-export function getTranslationsLocaleDirPath(
-  context: TranslationContext,
-): string {
-  return path.join(context.siteDir, I18N_DIR_NAME, context.locale);
-}
-
 function getCodeTranslationsFilePath(context: TranslationContext): string {
-  return path.join(
-    getTranslationsLocaleDirPath(context),
-    CODE_TRANSLATIONS_FILE_NAME,
-  );
+  return path.join(context.i18nDir, CODE_TRANSLATIONS_FILE_NAME);
 }
 
 export async function readCodeTranslationFileContent(
@@ -187,17 +175,15 @@ function addTranslationFileExtension(translationFilePath: string) {
 }
 
 function getPluginTranslationFilePath({
-  siteDir,
+  i18nDir,
   plugin,
-  locale,
   translationFilePath,
 }: TranslationContext & {
   plugin: InitializedPlugin;
   translationFilePath: string;
 }): string {
   const dirPath = getPluginI18nPath({
-    siteDir,
-    locale,
+    i18nDir,
     pluginName: plugin.name,
     pluginId: plugin.options.id,
   });
@@ -206,9 +192,8 @@ function getPluginTranslationFilePath({
 }
 
 export async function writePluginTranslations({
-  siteDir,
+  i18nDir,
   plugin,
-  locale,
   translationFile,
   options,
 }: TranslationContext & {
@@ -218,8 +203,7 @@ export async function writePluginTranslations({
 }): Promise<void> {
   const filePath = getPluginTranslationFilePath({
     plugin,
-    siteDir,
-    locale,
+    i18nDir,
     translationFilePath: translationFile.path,
   });
   await writeTranslationFileContent({
@@ -230,9 +214,8 @@ export async function writePluginTranslations({
 }
 
 export async function localizePluginTranslationFile({
-  siteDir,
+  i18nDir,
   plugin,
-  locale,
   translationFile,
 }: TranslationContext & {
   plugin: InitializedPlugin;
@@ -240,8 +223,7 @@ export async function localizePluginTranslationFile({
 }): Promise<TranslationFile> {
   const filePath = getPluginTranslationFilePath({
     plugin,
-    siteDir,
-    locale,
+    i18nDir,
     translationFilePath: translationFile.path,
   });
 

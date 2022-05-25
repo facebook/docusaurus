@@ -101,6 +101,7 @@ describe('loadI18n', () => {
 
   it('loads I18n for default config', async () => {
     await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
+      path: 'i18n',
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',

@@ -85,11 +85,11 @@ export async function loadContext(
 
   const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
 
+  // TODO allow customizing i18nDir per-locale
+  const i18nDir = path.resolve(siteDir, i18n.path, i18n.currentLocale);
+
   const codeTranslationFileContent =
-    (await readCodeTranslationFileContent({
-      siteDir,
-      locale: i18n.currentLocale,
-    })) ?? {};
+    (await readCodeTranslationFileContent({i18nDir})) ?? {};
 
   // We only need key->message for code translations
   const codeTranslations = _.mapValues(
@@ -100,6 +100,7 @@ export async function loadContext(
   return {
     siteDir,
     generatedFilesDir,
+    i18nDir,
     siteConfig,
     siteConfigPath,
     outDir,
@@ -125,6 +126,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     outDir,
     baseUrl,
     i18n,
+    i18nDir,
     codeTranslations: siteCodeTranslations,
   } = context;
   const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
@@ -246,6 +248,7 @@ ${Object.entries(registry)
     outDir,
     baseUrl,
     i18n,
+    i18nDir,
     generatedFilesDir,
     routes: pluginsRouteConfigs,
     routesPaths,

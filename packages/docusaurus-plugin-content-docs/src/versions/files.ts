@@ -55,19 +55,16 @@ export function getVersionSidebarsPath(
 }
 
 export function getDocsDirPathLocalized({
-  siteDir,
-  locale,
+  i18nDir,
   pluginId,
   versionName,
 }: {
-  siteDir: string;
-  locale: string;
+  i18nDir: string;
   pluginId: string;
   versionName: string;
 }): string {
   return getPluginI18nPath({
-    siteDir,
-    locale,
+    i18nDir,
     pluginName: 'docusaurus-plugin-content-docs',
     pluginId,
     subPaths: [
@@ -175,8 +172,7 @@ export async function getVersionMetadataPaths({
 > {
   const isCurrent = versionName === CURRENT_VERSION_NAME;
   const contentPathLocalized = getDocsDirPathLocalized({
-    siteDir: context.siteDir,
-    locale: context.i18n.currentLocale,
+    i18nDir: context.i18nDir,
     pluginId: options.id,
     versionName,
   });

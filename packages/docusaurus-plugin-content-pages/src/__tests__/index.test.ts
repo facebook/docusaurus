@@ -32,15 +32,9 @@ describe('docusaurus-plugin-content-pages', () => {
 
   it('loads simple pages with french translations', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext({siteDir});
+    const context = await loadContext({siteDir, locale: 'fr'});
     const plugin = pluginContentPages(
-      {
-        ...context,
-        i18n: {
-          ...context.i18n,
-          currentLocale: 'fr',
-        },
-      },
+      context,
       validateOptions({
         validate: normalizePluginOptions,
         options: {

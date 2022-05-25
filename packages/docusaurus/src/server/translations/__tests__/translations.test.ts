@@ -44,7 +44,7 @@ async function createTmpTranslationFile(
   }
 
   return {
-    siteDir,
+    i18nDir: path.join(siteDir, 'i18n/en'),
     readFile() {
       return fs.readJSON(filePath);
     },
@@ -60,9 +60,9 @@ describe('writeCodeTranslations', () => {
   });
 
   it('creates new translation file', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile(null);
+    const {i18nDir, readFile} = await createTmpTranslationFile(null);
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message'},
         key2: {message: 'key2 message'},
@@ -82,9 +82,9 @@ describe('writeCodeTranslations', () => {
   });
 
   it('creates new translation file with prefix', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile(null);
+    const {i18nDir, readFile} = await createTmpTranslationFile(null);
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message'},
         key2: {message: 'key2 message'},
@@ -106,14 +106,14 @@ describe('writeCodeTranslations', () => {
   });
 
   it('appends missing translations', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile({
+    const {i18nDir, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
     });
 
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message new'},
         key2: {message: 'key2 message new'},
@@ -135,12 +135,12 @@ describe('writeCodeTranslations', () => {
   });
 
   it('appends missing.* translations with prefix', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile({
+    const {i18nDir, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
 
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message new'},
         key2: {message: 'key2 message new'},
@@ -160,12 +160,12 @@ describe('writeCodeTranslations', () => {
   });
 
   it('overrides missing translations', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile({
+    const {i18nDir, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
 
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message new'},
         key2: {message: 'key2 message new'},
@@ -185,12 +185,12 @@ describe('writeCodeTranslations', () => {
   });
 
   it('overrides missing translations with prefix', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile({
+    const {i18nDir, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
 
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message new'},
         key2: {message: 'key2 message new'},
@@ -211,14 +211,14 @@ describe('writeCodeTranslations', () => {
   });
 
   it('always overrides message description', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile({
+    const {i18nDir, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: undefined},
     });
 
     await writeCodeTranslations(
-      {siteDir, locale: 'en'},
+      {i18nDir},
       {
         key1: {message: 'key1 message new', description: undefined},
         key2: {message: 'key2 message new', description: 'key2 desc new'},
@@ -238,9 +238,9 @@ describe('writeCodeTranslations', () => {
   });
 
   it('does not create empty translation files', async () => {
-    const {siteDir, readFile} = await createTmpTranslationFile(null);
+    const {i18nDir, readFile} = await createTmpTranslationFile(null);
 
-    await writeCodeTranslations({siteDir, locale: 'en'}, {}, {});
+    await writeCodeTranslations({i18nDir}, {}, {});
 
     await expect(readFile()).rejects.toThrowError(
       /ENOENT: no such file or directory, open /,
@@ -249,14 +249,14 @@ describe('writeCodeTranslations', () => {
   });
 
   it('throws for invalid content', async () => {
-    const {siteDir} = await createTmpTranslationFile(
+    const {i18nDir} = await createTmpTranslationFile(
       // @ts-expect-error: bad content on purpose
       {bad: 'content'},
     );
 
     await expect(() =>
       writeCodeTranslations(
-        {siteDir, locale: 'en'},
+        {i18nDir},
         {
           key1: {message: 'key1 message'},
         },
@@ -271,18 +271,16 @@ describe('writeCodeTranslations', () => {
 
 describe('writePluginTranslations', () => {
   it('writes plugin translations', async () => {
-    const siteDir = await createTmpSiteDir();
+    const i18nDir = await createTmpSiteDir();
 
     const filePath = path.join(
-      siteDir,
-      'i18n',
-      'fr',
+      i18nDir,
       'my-plugin-name',
       'my/translation/file.json',
     );
 
     await writePluginTranslations({
-      siteDir,
+      i18nDir,
       locale: 'fr',
       translationFile: {
         path: 'my/translation/file',
@@ -308,12 +306,10 @@ describe('writePluginTranslations', () => {
   });
 
   it('writes plugin translations consecutively with different options', async () => {
-    const siteDir = await createTmpSiteDir();
+    const i18nDir = await createTmpSiteDir();
 
     const filePath = path.join(
-      siteDir,
-      'i18n',
-      'fr',
+      i18nDir,
       'my-plugin-name-my-plugin-id',
       'my/translation/file.json',
     );
@@ -323,7 +319,7 @@ describe('writePluginTranslations', () => {
       options?: WriteTranslationsOptions,
     ) {
       return writePluginTranslations({
-        siteDir,
+        i18nDir,
         locale: 'fr',
         translationFile: {
           path: 'my/translation/file',
@@ -383,11 +379,11 @@ describe('writePluginTranslations', () => {
   });
 
   it('throws with explicit extension', async () => {
-    const siteDir = await createTmpSiteDir();
+    const i18nDir = await createTmpSiteDir();
 
     await expect(() =>
       writePluginTranslations({
-        siteDir,
+        i18nDir,
         locale: 'fr',
         translationFile: {
           path: 'my/translation/file.json',
@@ -411,7 +407,7 @@ describe('writePluginTranslations', () => {
 
 describe('localizePluginTranslationFile', () => {
   it('does not localize if localized file does not exist', async () => {
-    const siteDir = await createTmpSiteDir();
+    const i18nDir = await createTmpSiteDir();
 
     const translationFile: TranslationFile = {
       path: 'my/translation/file',
@@ -423,7 +419,7 @@ describe('localizePluginTranslationFile', () => {
     };
 
     const localizedTranslationFile = await localizePluginTranslationFile({
-      siteDir,
+      i18nDir,
       locale: 'fr',
       translationFile,
       plugin: {
@@ -436,16 +432,10 @@ describe('localizePluginTranslationFile', () => {
   });
 
   it('normalizes partially localized translation files', async () => {
-    const siteDir = await createTmpSiteDir();
+    const i18nDir = await createTmpSiteDir();
 
     await fs.outputJSON(
-      path.join(
-        siteDir,
-        'i18n',
-        'fr',
-        'my-plugin-name',
-        'my/translation/file.json',
-      ),
+      path.join(i18nDir, 'my-plugin-name', 'my/translation/file.json'),
       {
         key2: {message: 'key2 message localized'},
         key4: {message: 'key4 message localized'},
@@ -462,7 +452,7 @@ describe('localizePluginTranslationFile', () => {
     };
 
     const localizedTranslationFile = await localizePluginTranslationFile({
-      siteDir,
+      i18nDir,
       locale: 'fr',
       translationFile,
       plugin: {
@@ -488,13 +478,13 @@ describe('localizePluginTranslationFile', () => {
 
 describe('readCodeTranslationFileContent', () => {
   async function testReadTranslation(val: TranslationFileContent) {
-    const {siteDir} = await createTmpTranslationFile(val);
-    return readCodeTranslationFileContent({siteDir, locale: 'en'});
+    const {i18nDir} = await createTmpTranslationFile(val);
+    return readCodeTranslationFileContent({i18nDir});
   }
 
   it("returns undefined if file does't exist", async () => {
     await expect(
-      readCodeTranslationFileContent({siteDir: 'foo', locale: 'en'}),
+      readCodeTranslationFileContent({i18nDir: 'foo'}),
     ).resolves.toBeUndefined();
   });
 
