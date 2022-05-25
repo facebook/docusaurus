@@ -7,6 +7,7 @@
 
 import path from 'path';
 import {loadPlugins} from '..';
+import type {Props} from '@docusaurus/types';
 
 describe('loadPlugins', () => {
   it('loads plugins', async () => {
@@ -16,7 +17,6 @@ describe('loadPlugins', () => {
         siteDir,
         generatedFilesDir: path.join(siteDir, '.docusaurus'),
         outDir: path.join(siteDir, 'build'),
-        // @ts-expect-error: good enough
         siteConfig: {
           baseUrl: '/',
           trailingSlash: true,
@@ -51,7 +51,7 @@ describe('loadPlugins', () => {
           ],
         },
         siteConfigPath: path.join(siteDir, 'docusaurus.config.js'),
-      }),
+      } as unknown as Props),
     ).resolves.toMatchSnapshot();
   });
 });

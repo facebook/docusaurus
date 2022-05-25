@@ -33,7 +33,10 @@ const sampleBlogPosts: BlogPost[] = [
       tags: [],
       title: 'Hello',
       truncated: true,
+      authors: [],
+      frontMatter: {},
     },
+    content: '',
   },
 ];
 

@@ -13,7 +13,7 @@ import footnoteIDFixer from '../footnoteIDFixer';
 
 const processFixture = async (name: string) => {
   const filepath = path.join(__dirname, `__fixtures__/${name}.md`);
-  const result = await mdx(await fs.readFile(filepath), {
+  const result = await mdx(await fs.readFile(filepath, 'utf8'), {
     filepath,
     remarkPlugins: [footnoteIDFixer],
   });

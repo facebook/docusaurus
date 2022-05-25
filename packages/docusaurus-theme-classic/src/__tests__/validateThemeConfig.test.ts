@@ -674,7 +674,7 @@ describe('themeConfig', () => {
     });
 
     it('max config', () => {
-      const colorMode = {
+      const colorMode: ThemeConfig['colorMode'] = {
         defaultMode: 'dark',
         disableSwitch: false,
         respectPrefersColorScheme: true,

@@ -62,7 +62,7 @@ describe('loadPresets', () => {
           [path.join(__dirname, '__fixtures__/presets/preset-plugins.js')],
         ],
       },
-    } as Partial<LoadContext>;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchSnapshot();
   });
@@ -78,7 +78,7 @@ describe('loadPresets', () => {
           ],
         ],
       },
-    } as Partial<LoadContext>;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchSnapshot();
   });
@@ -98,7 +98,7 @@ describe('loadPresets', () => {
           ],
         ],
       },
-    } as Partial<LoadContext>;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchSnapshot();
   });

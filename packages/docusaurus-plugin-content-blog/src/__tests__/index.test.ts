@@ -41,7 +41,14 @@ function getI18n(locale: string): I18n {
     currentLocale: locale,
     locales: [locale],
     defaultLocale: locale,
-    localeConfigs: {[locale]: {calendar: 'gregory'}},
+    localeConfigs: {
+      [locale]: {
+        calendar: 'gregory',
+        label: locale,
+        htmlLang: locale,
+        direction: 'ltr',
+      },
+    },
   };
 }
 
@@ -297,28 +304,28 @@ describe('blog plugin', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
     expect(blogPostsFrench).toHaveLength(8);
-    expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[0]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"6 mars 2021"`,
     );
-    expect(blogPostsFrench[1].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[1]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"5 mars 2021"`,
     );
-    expect(blogPostsFrench[2].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[2]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"16 août 2020"`,
     );
-    expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[3]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"15 août 2020"`,
     );
-    expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[4]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"27 février 2020"`,
     );
-    expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[5]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"2 janvier 2019"`,
     );
-    expect(blogPostsFrench[6].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[6]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"1 janvier 2019"`,
     );
-    expect(blogPostsFrench[7].metadata.formattedDate).toMatchInlineSnapshot(
+    expect(blogPostsFrench[7]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"14 décembre 2018"`,
     );
   });

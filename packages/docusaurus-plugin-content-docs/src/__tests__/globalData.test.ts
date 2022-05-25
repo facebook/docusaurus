@@ -9,6 +9,7 @@ import {toGlobalDataVersion} from '../globalData';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
 import type {Sidebars} from '../sidebars/types';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 describe('toGlobalDataVersion', () => {
   it('generates the right docs, sidebars, and metadata', () => {
@@ -25,7 +26,7 @@ describe('toGlobalDataVersion', () => {
         sidebar: 'tutorial',
         frontMatter: {},
       },
-    ];
+    ] as DocMetadata[];
     const sidebars: Sidebars = {
       tutorial: [
         {
@@ -46,6 +47,8 @@ describe('toGlobalDataVersion', () => {
               id: 'doc',
             },
           ],
+          collapsed: false,
+          collapsible: true,
         },
       ],
       links: [
@@ -75,6 +78,8 @@ describe('toGlobalDataVersion', () => {
               id: 'doc',
             },
           ],
+          collapsed: false,
+          collapsible: true,
         },
       ],
     };
@@ -85,7 +90,6 @@ describe('toGlobalDataVersion', () => {
         label: 'Label',
         isLast: true,
         path: '/current',
-        mainDocId: 'main',
         docs,
         drafts: [
           {
@@ -93,7 +97,7 @@ describe('toGlobalDataVersion', () => {
             permalink: '/current/draft',
             sidebar: undefined,
           },
-        ],
+        ] as DocMetadata[],
         sidebars,
         categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
           docs,

@@ -28,7 +28,7 @@ describe('useBaseUrl', () => {
         baseUrl: '/',
         url: 'https://docusaurus.io',
       },
-    });
+    } as DocusaurusContext);
 
     expect(mockUseBaseUrl('hello')).toBe('/hello');
     expect(mockUseBaseUrl('/hello')).toBe('/hello');
@@ -56,7 +56,7 @@ describe('useBaseUrl', () => {
         baseUrl: '/docusaurus/',
         url: 'https://docusaurus.io',
       },
-    });
+    } as DocusaurusContext);
 
     expect(mockUseBaseUrl('')).toBe('');
     expect(mockUseBaseUrl('hello')).toBe('/docusaurus/hello');
@@ -97,7 +97,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
         baseUrl: '/',
         url: 'https://docusaurus.io',
       },
-    });
+    } as DocusaurusContext);
 
     expect(withBaseUrl('hello')).toBe('/hello');
     expect(withBaseUrl('/hello')).toBe('/hello');
@@ -125,7 +125,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
         baseUrl: '/docusaurus/',
         url: 'https://docusaurus.io',
       },
-    });
+    } as DocusaurusContext);
 
     expect(withBaseUrl('hello')).toBe('/docusaurus/hello');
     expect(withBaseUrl('/hello')).toBe('/docusaurus/hello');

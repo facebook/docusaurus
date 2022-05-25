@@ -60,6 +60,7 @@ describe('extending generated webpack config', () => {
       },
     };
 
+    // @ts-expect-error: Testing an edge-case that we did not write types for
     const configureWebpack: Plugin['configureWebpack'] = (
       generatedConfig,
       isServer,
@@ -125,14 +126,16 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    const createConfigureWebpack: (mergeStrategy?: {
-      [key: string]: 'prepend' | 'append';
-    }) => Plugin['configureWebpack'] = (mergeStrategy) => () => ({
-      module: {
-        rules: [{use: 'zzz'}],
-      },
-      mergeStrategy,
-    });
+    const createConfigureWebpack =
+      (mergeStrategy?: {
+        [key: string]: 'prepend' | 'append';
+      }): Plugin['configureWebpack'] =>
+      () => ({
+        module: {
+          rules: [{use: 'zzz'}],
+        },
+        mergeStrategy,
+      });
 
     const defaultStrategyMergeConfig = applyConfigureWebpack(
       createConfigureWebpack(),

@@ -9,7 +9,7 @@ import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import type {Options} from '@docusaurus/plugin-content-blog';
 
-function testValidate(options: Options) {
+function testValidate(options?: Options) {
   return validateOptions({validate: normalizePluginOptions, options});
 }
 
@@ -44,13 +44,14 @@ describe('validateOptions', () => {
   });
 
   it('accepts valid user options', () => {
-    const userOptions = {
+    const userOptions: Options = {
       ...defaultOptions,
       routeBasePath: 'myBlog',
       beforeDefaultRemarkPlugins: [],
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
+        // @ts-expect-error: it seems to work in practice
         markdownPluginsObjectStub,
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
@@ -73,6 +74,7 @@ describe('validateOptions', () => {
     expect(() =>
       testValidate({
         feedOptions: {
+          // @ts-expect-error: test
           type: 'none',
         },
       }),
@@ -138,6 +140,7 @@ describe('validateOptions', () => {
 
   it('rejects "abcdef" sidebar count', () => {
     const userOptions = {blogSidebarCount: 'abcdef'};
+    // @ts-expect-error: test
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
       `""blogSidebarCount" must be one of [ALL, number]"`,
     );
@@ -153,6 +156,7 @@ describe('validateOptions', () => {
 
   it('rejects 42 sidebar title', () => {
     const userOptions = {blogSidebarTitle: 42};
+    // @ts-expect-error: test
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
       `""blogSidebarTitle" must be a string"`,
     );

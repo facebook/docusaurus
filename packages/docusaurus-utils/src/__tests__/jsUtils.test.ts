@@ -58,7 +58,7 @@ describe('mapAsyncSequential', () => {
     const timeBefore = Date.now();
     await expect(
       mapAsyncSequential(items, async (item) => {
-        const itemTimeout = itemToTimeout[item];
+        const itemTimeout = itemToTimeout[item]!;
         itemMapStartsAt[item] = Date.now();
         await sleep(itemTimeout);
         itemMapEndsAt[item] = Date.now();
@@ -72,12 +72,10 @@ describe('mapAsyncSequential', () => {
     const totalTimeouts = _.sum(Object.values(itemToTimeout));
     expect(timeTotal).toBeGreaterThanOrEqual(totalTimeouts - 100);
 
-    expect(itemMapStartsAt['1']).toBeGreaterThanOrEqual(0);
-    expect(itemMapStartsAt['2']).toBeGreaterThanOrEqual(
-      itemMapEndsAt['1'] - 100,
-    );
+    expect(itemMapStartsAt[1]).toBeGreaterThanOrEqual(0);
+    expect(itemMapStartsAt[2]).toBeGreaterThanOrEqual(itemMapEndsAt[1]! - 100);
     expect(itemMapStartsAt['3']).toBeGreaterThanOrEqual(
-      itemMapEndsAt['2'] - 100,
+      itemMapEndsAt[2]! - 100,
     );
   });
 });

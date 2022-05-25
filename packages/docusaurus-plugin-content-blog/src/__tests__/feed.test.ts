@@ -21,6 +21,9 @@ const DefaultI18N: I18n = {
   defaultLocale: 'en',
   localeConfigs: {
     en: {
+      label: 'English',
+      direction: 'ltr',
+      htmlLang: 'en',
       calendar: 'gregory',
     },
   },

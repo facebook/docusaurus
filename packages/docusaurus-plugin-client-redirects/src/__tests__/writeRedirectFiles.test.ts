@@ -176,11 +176,11 @@ describe('writeRedirectFiles', () => {
     await writeRedirectFiles(filesMetadata);
 
     await expect(
-      fs.readFile(filesMetadata[0].fileAbsolutePath, 'utf8'),
+      fs.readFile(filesMetadata[0]!.fileAbsolutePath, 'utf8'),
     ).resolves.toBe('content 1');
 
     await expect(
-      fs.readFile(filesMetadata[1].fileAbsolutePath, 'utf8'),
+      fs.readFile(filesMetadata[1]!.fileAbsolutePath, 'utf8'),
     ).resolves.toBe('content 2');
   });
 
@@ -195,7 +195,7 @@ describe('writeRedirectFiles', () => {
     ];
 
     await fs.outputFile(
-      filesMetadata[0].fileAbsolutePath,
+      filesMetadata[0]!.fileAbsolutePath,
       'file already exists!',
     );
 
