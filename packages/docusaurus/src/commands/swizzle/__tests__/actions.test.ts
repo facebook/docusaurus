@@ -126,7 +126,7 @@ describe('wrap', () => {
       siteDir,
       siteThemePath,
       createdFiles: stableCreatedFiles(siteThemePath, result.createdFiles),
-      firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
+      firstFileContent: () => fs.readFile(result.createdFiles[0]!, 'utf8'),
       tree: tree(siteThemePath),
     };
   }

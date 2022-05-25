@@ -19,6 +19,9 @@ import type {
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
+    sourceDirName: '',
+    draft: false,
+    tags: [],
     editUrl: 'any',
     lastUpdatedAt: 0,
     lastUpdatedBy: 'any',
@@ -44,12 +47,16 @@ function createSampleVersion(
   return {
     label: `${version.versionName} label`,
     path: '/docs/',
-    mainDocId: '',
     routePriority: undefined,
     sidebarFilePath: 'any',
     isLast: true,
     contentPath: 'any',
     contentPathLocalized: 'any',
+    tagsPath: '/tags/',
+    banner: null,
+    badge: true,
+    className: '',
+    drafts: [],
     docs: [
       createSampleDoc({id: 'doc1'}),
       createSampleDoc({id: 'doc2'}),
@@ -63,6 +70,7 @@ function createSampleVersion(
           type: 'category',
           label: 'Getting started',
           collapsed: false,
+          collapsible: true,
           link: {
             type: 'generated-index',
             slug: '/category/getting-started-index-slug',

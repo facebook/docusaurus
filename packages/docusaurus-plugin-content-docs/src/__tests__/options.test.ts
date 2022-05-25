@@ -13,14 +13,18 @@ import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
-import type {Options} from '@docusaurus/plugin-content-docs';
+import type {Options, PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {Validate} from '@docusaurus/types';
 
 // The type of remark/rehype plugins can be function/object
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
 
 function testValidate(options: Options) {
-  return validateOptions({validate: normalizePluginOptions, options});
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+    options,
+  });
 }
 
 const defaultOptions = {

@@ -7,10 +7,17 @@
 
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {validateOptions, DEFAULT_OPTIONS} from '../options';
-import type {Options} from '@docusaurus/plugin-content-blog';
+import type {Options, PluginOptions} from '@docusaurus/plugin-content-blog';
+import type {Validate} from '@docusaurus/types';
 
 function testValidate(options?: Options) {
-  return validateOptions({validate: normalizePluginOptions, options});
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<
+      Options | undefined,
+      PluginOptions
+    >,
+    options,
+  });
 }
 
 // The type of remark/rehype plugins can be either function, object or array

@@ -8,20 +8,20 @@
 import {loadClientModules} from '../clientModules';
 import type {LoadedPlugin} from '@docusaurus/types';
 
-const pluginEmpty: LoadedPlugin = {
+const pluginEmpty = {
   name: 'plugin-empty',
   path: __dirname,
-};
+} as LoadedPlugin;
 
-const pluginFooBar: LoadedPlugin = {
+const pluginFooBar = {
   name: 'plugin-foo-bar',
   path: __dirname,
   getClientModules() {
     return ['foo', 'bar'];
   },
-};
+} as LoadedPlugin;
 
-const pluginHelloWorld: LoadedPlugin = {
+const pluginHelloWorld = {
   plugin: 'plugin-hello-world',
   path: __dirname,
   getClientModules() {
@@ -31,7 +31,7 @@ const pluginHelloWorld: LoadedPlugin = {
       'world',
     ];
   },
-};
+} as unknown as LoadedPlugin;
 
 describe('loadClientModules', () => {
   it('loads an empty plugin', () => {

@@ -55,13 +55,13 @@ class MockExitError extends Error {
 }
 
 function createExitMock() {
-  let mock: jest.SpyInstance;
+  let mock: jest.SpyInstance<(code?: number) => never>;
 
   // eslint-disable-next-line jest/require-top-level-describe
   beforeEach(async () => {
     mock = jest.spyOn(process, 'exit').mockImplementation((code) => {
-      throw new MockExitError(code);
-    });
+      throw new MockExitError(code!);
+    }) as jest.SpyInstance<(code?: number) => never>;
   });
   // eslint-disable-next-line jest/require-top-level-describe
   afterEach(async () => {

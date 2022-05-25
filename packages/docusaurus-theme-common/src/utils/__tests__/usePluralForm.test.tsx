@@ -40,7 +40,7 @@ describe('usePluralForm', () => {
       .mockImplementation(() => {});
     expect(mockUsePluralForm().selectMessage(1, 'one|many')).toBe('one');
     expect(mockUsePluralForm().selectMessage(10, 'one|many')).toBe('one');
-    expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(
+    expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(
       `"For locale=zh-Hans, a maximum of 1 plural forms are expected (other), but the message contains 2: one|many"`,
     );
   });
@@ -65,10 +65,11 @@ describe('usePluralForm', () => {
       .mockImplementation(() => {});
     const pluralMock = jest
       .spyOn(Intl, 'PluralRules')
+      // @ts-expect-error: for testing when it doesn't exist
       .mockImplementation(() => undefined);
     expect(mockUsePluralForm().selectMessage(1, 'one|many')).toBe('one');
     expect(mockUsePluralForm().selectMessage(10, 'one|many')).toBe('many');
-    expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(`
+    expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(`
       "Failed to use Intl.PluralRules for locale "zh-Hans".
       Docusaurus will fallback to the default (English) implementation.
       Error: pluralRules.resolvedOptions is not a function

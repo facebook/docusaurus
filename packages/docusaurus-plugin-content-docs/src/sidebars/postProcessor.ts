@@ -18,7 +18,7 @@ import type {
   SidebarItemCategoryLink,
 } from './types';
 
-type SidebarPostProcessorParams = SidebarProcessorParams & {
+export type SidebarPostProcessorParams = SidebarProcessorParams & {
   draftIds: Set<string>;
 };
 

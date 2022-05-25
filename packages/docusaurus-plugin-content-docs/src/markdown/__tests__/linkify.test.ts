@@ -28,8 +28,12 @@ function createFakeVersion({
 }): VersionMetadata {
   return {
     versionName,
-    versionLabel: 'Any',
-    versionPath: 'any',
+    label: 'Any',
+    path: 'any',
+    badge: true,
+    banner: null,
+    tagsPath: '/tags/',
+    className: '',
     contentPath,
     contentPathLocalized,
     sidebarFilePath: 'any',

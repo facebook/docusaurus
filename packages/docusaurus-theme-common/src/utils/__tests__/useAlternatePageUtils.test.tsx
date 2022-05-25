@@ -26,7 +26,7 @@ describe('useAlternatePageUtils', () => {
     const mockUseAlternatePageUtils = createUseAlternatePageUtilsMock({
       siteConfig: {baseUrl: '/', url: 'https://example.com'},
       i18n: {defaultLocale: 'en', currentLocale: 'en'},
-    });
+    } as DocusaurusContext);
     expect(
       mockUseAlternatePageUtils('/').createUrl({
         locale: 'zh-Hans',
@@ -51,7 +51,7 @@ describe('useAlternatePageUtils', () => {
     const mockUseAlternatePageUtils = createUseAlternatePageUtilsMock({
       siteConfig: {baseUrl: '/zh-Hans/', url: 'https://example.com'},
       i18n: {defaultLocale: 'en', currentLocale: 'zh-Hans'},
-    });
+    } as DocusaurusContext);
     expect(
       mockUseAlternatePageUtils('/zh-Hans/').createUrl({
         locale: 'en',
@@ -76,7 +76,7 @@ describe('useAlternatePageUtils', () => {
     const mockUseAlternatePageUtils = createUseAlternatePageUtilsMock({
       siteConfig: {baseUrl: '/base/', url: 'https://example.com'},
       i18n: {defaultLocale: 'en', currentLocale: 'en'},
-    });
+    } as DocusaurusContext);
     expect(
       mockUseAlternatePageUtils('/base/').createUrl({
         locale: 'zh-Hans',
@@ -101,7 +101,7 @@ describe('useAlternatePageUtils', () => {
     const mockUseAlternatePageUtils = createUseAlternatePageUtilsMock({
       siteConfig: {baseUrl: '/base/zh-Hans/', url: 'https://example.com'},
       i18n: {defaultLocale: 'en', currentLocale: 'zh-Hans'},
-    });
+    } as DocusaurusContext);
     expect(
       mockUseAlternatePageUtils('/base/zh-Hans/').createUrl({
         locale: 'en',

@@ -11,7 +11,10 @@ import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import type {SidebarProcessorParams} from '../types';
-import type {DocMetadata} from '@docusaurus/plugin-content-docs';
+import type {
+  DocMetadata,
+  VersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 
 describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
@@ -25,14 +28,14 @@ describe('loadSidebars', () => {
         id: 'bar',
         frontMatter: {},
       },
-    ],
+    ] as DocMetadata[],
     drafts: [],
     version: {
       path: 'version',
       contentPath: path.join(fixtureDir, 'docs'),
       contentPathLocalized: path.join(fixtureDir, 'docs'),
-    },
-    categoryLabelSlugger: null,
+    } as VersionMetadata,
+    categoryLabelSlugger: {slug: (v) => v},
     sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
   };
   it('sidebars with known sidebar item type', async () => {
@@ -137,7 +140,7 @@ describe('loadSidebars', () => {
           sourceDirName: 'tutorials/tutorial-basics',
           frontMatter: {},
         },
-      ],
+      ] as DocMetadata[],
     });
     expect(result).toMatchSnapshot();
   });
@@ -146,7 +149,7 @@ describe('loadSidebars', () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-drafts.json');
     const result = await loadSidebars(sidebarPath, {
       ...params,
-      drafts: [{id: 'draft1'}, {id: 'draft2'}, {id: 'draft3'}],
+      drafts: [{id: 'draft1'}, {id: 'draft2'}, {id: 'draft3'}] as DocMetadata[],
       categoryLabelSlugger: createSlugger(),
     });
     expect(result).toMatchSnapshot();
@@ -169,7 +172,7 @@ describe('loadSidebars', () => {
         version: {
           contentPath: path.join(fixtureDir, 'invalid-docs'),
           contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
-        },
+        } as VersionMetadata,
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`""foo" is not allowed"`);
     expect(consoleWarnMock).toBeCalledWith(

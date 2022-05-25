@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {loadPlugins} from '..';
-import type {Props} from '@docusaurus/types';
+import type {Plugin, Props} from '@docusaurus/types';
 
 describe('loadPlugins', () => {
   it('loads plugins', async () => {
@@ -23,23 +23,24 @@ describe('loadPlugins', () => {
           themeConfig: {},
           presets: [],
           plugins: [
-            () => ({
-              name: 'test1',
-              prop: 'a',
-              async loadContent() {
-                // Testing that plugin lifecycle is bound to the plugin instance
-                return this.prop;
-              },
-              async contentLoaded({content, actions}) {
-                actions.addRoute({
-                  path: 'foo',
-                  component: 'Comp',
-                  modules: {content: 'path'},
-                  context: {content: 'path'},
-                });
-                actions.setGlobalData({content, prop: this.prop});
-              },
-            }),
+            () =>
+              ({
+                name: 'test1',
+                prop: 'a',
+                async loadContent() {
+                  // Testing that plugin lifecycle is bound to the plugin instance
+                  return this.prop;
+                },
+                async contentLoaded({content, actions}) {
+                  actions.addRoute({
+                    path: 'foo',
+                    component: 'Comp',
+                    modules: {content: 'path'},
+                    context: {content: 'path'},
+                  });
+                  actions.setGlobalData({content, prop: this.prop});
+                },
+              } as Plugin & ThisType<{prop: 'a'}>),
           ],
           themes: [
             () => ({
