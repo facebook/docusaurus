@@ -981,7 +981,7 @@ const Users: User[] = [
   {
     title: 'Junjie',
     description: 'A personal website',
-    preview: require('./showcase/Junjie.png'),
+    preview: require('./showcase/junjie.png'),
     website: 'https://junjieweb.github.io',
     source: 'https://github.com/junjieweb/junjieweb.github.io',
     tags: ['personal', 'opensource'],
