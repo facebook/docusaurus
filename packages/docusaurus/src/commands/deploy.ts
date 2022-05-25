@@ -69,7 +69,7 @@ This behavior can have SEO impacts and create relative link issues.
 
   // The source branch; defaults to the currently checked out branch
   const sourceBranch =
-    process.env.CURRENT_BRANCH ||
+    process.env.CURRENT_BRANCH ??
     shell.exec('git rev-parse --abbrev-ref HEAD', {silent: true}).stdout.trim();
 
   const gitUser = process.env.GIT_USER;
@@ -90,8 +90,8 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   const organizationName =
-    process.env.ORGANIZATION_NAME ||
-    process.env.CIRCLE_PROJECT_USERNAME ||
+    process.env.ORGANIZATION_NAME ??
+    process.env.CIRCLE_PROJECT_USERNAME ??
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
@@ -101,8 +101,8 @@ This behavior can have SEO impacts and create relative link issues.
   logger.info`organizationName: name=${organizationName}`;
 
   const projectName =
-    process.env.PROJECT_NAME ||
-    process.env.CIRCLE_PROJECT_REPONAME ||
+    process.env.PROJECT_NAME ??
+    process.env.CIRCLE_PROJECT_REPONAME ??
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
@@ -113,7 +113,7 @@ This behavior can have SEO impacts and create relative link issues.
 
   // We never deploy on pull request.
   const isPullRequest =
-    process.env.CI_PULL_REQUEST || process.env.CIRCLE_PULL_REQUEST;
+    process.env.CI_PULL_REQUEST ?? process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
     shell.echo('Skipping deploy on a pull request.');
     shell.exit(0);
@@ -136,12 +136,12 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   }
 
   const deploymentBranch =
-    process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
+    process.env.DEPLOYMENT_BRANCH ?? siteConfig.deploymentBranch ?? 'gh-pages';
   logger.info`deploymentBranch: name=${deploymentBranch}`;
 
   const githubHost =
-    process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
-  const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
+    process.env.GITHUB_HOST ?? siteConfig.githubHost ?? 'github.com';
+  const githubPort = process.env.GITHUB_PORT ?? siteConfig.githubPort;
 
   let deploymentRepoURL: string;
   if (useSSH) {
@@ -214,7 +214,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     shellExecLog('git add --all');
 
     const commitMessage =
-      process.env.CUSTOM_COMMIT_MESSAGE ||
+      process.env.CUSTOM_COMMIT_MESSAGE ??
       `Deploy website - based on ${currentCommit}`;
     const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
     if (

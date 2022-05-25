@@ -96,14 +96,14 @@ type SidebarGenerator = (generatorArgs: {
   /** Useful metadata for the version this sidebar belongs to. */
   version: {contentPath: string; versionName: string};
   /** All the docs of that version (unfiltered). */
-  docs: Array<{
+  docs: {
     id: string;
     title: string;
     frontMatter: DocFrontMatter & Record<string, unknown>;
     source: string;
     sourceDirName: string;
     sidebarPosition?: number | undefined;
-  }>;
+  }[];
   /** Number prefix parser configured for this plugin. */
   numberPrefixParser: PrefixParser;
   /** The default category index matcher which you can override. */
