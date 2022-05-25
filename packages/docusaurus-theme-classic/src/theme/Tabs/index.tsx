@@ -115,7 +115,7 @@ function TabsComponent(props: Props): JSX.Element {
       setSelectedValue(newTabValue);
 
       if (groupId != null) {
-        setTabGroupChoices(groupId, newTabValue);
+        setTabGroupChoices(groupId, String(newTabValue));
       }
     }
   };

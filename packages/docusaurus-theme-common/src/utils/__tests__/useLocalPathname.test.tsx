@@ -25,14 +25,14 @@ describe('useLocalPathname', () => {
   it('works for baseUrl: /', () => {
     const mockUseLocalPathname = createUseLocalPathnameMock({
       siteConfig: {baseUrl: '/'},
-    });
+    } as DocusaurusContext);
     expect(mockUseLocalPathname('/foo')).toBe('/foo');
   });
 
   it('works for non-root baseUrl', () => {
     const mockUseLocalPathname = createUseLocalPathnameMock({
       siteConfig: {baseUrl: '/base/'},
-    });
+    } as DocusaurusContext);
     expect(mockUseLocalPathname('/base/foo')).toBe('/foo');
   });
 });

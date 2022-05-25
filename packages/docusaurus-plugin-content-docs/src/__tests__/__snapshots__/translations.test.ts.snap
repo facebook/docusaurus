@@ -84,11 +84,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
 {
   "loadedVersions": [
     {
+      "badge": true,
+      "banner": null,
+      "className": "",
       "contentPath": "any",
       "contentPathLocalized": "any",
       "docs": [
         {
           "description": "doc1 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc1 title",
@@ -101,12 +105,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc1 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc2 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc2 title",
@@ -119,12 +126,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc2 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc3 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc3 title",
@@ -137,12 +147,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc3 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc4 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc4 title",
@@ -155,12 +168,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc4 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc5 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc5 title",
@@ -173,14 +189,16 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc5 title",
           "unversionedId": "any",
           "version": "any",
         },
       ],
+      "drafts": [],
       "isLast": true,
       "label": "current label (translated)",
-      "mainDocId": "",
       "path": "/docs/",
       "routePriority": undefined,
       "sidebarFilePath": "any",
@@ -188,6 +206,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
         "docs": [
           {
             "collapsed": false,
+            "collapsible": true,
             "items": [
               {
                 "id": "doc1",
@@ -233,14 +252,19 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
         ],
       },
+      "tagsPath": "/tags/",
       "versionName": "current",
     },
     {
+      "badge": true,
+      "banner": null,
+      "className": "",
       "contentPath": "any",
       "contentPathLocalized": "any",
       "docs": [
         {
           "description": "doc1 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc1 title",
@@ -253,12 +277,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc1 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc2 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc2 title",
@@ -271,12 +298,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc2 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc3 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc3 title",
@@ -289,12 +319,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc3 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc4 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc4 title",
@@ -307,12 +340,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc4 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc5 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc5 title",
@@ -325,14 +361,16 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc5 title",
           "unversionedId": "any",
           "version": "any",
         },
       ],
+      "drafts": [],
       "isLast": true,
       "label": "2.0.0 label (translated)",
-      "mainDocId": "",
       "path": "/docs/",
       "routePriority": undefined,
       "sidebarFilePath": "any",
@@ -340,6 +378,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
         "docs": [
           {
             "collapsed": false,
+            "collapsible": true,
             "items": [
               {
                 "id": "doc1",
@@ -385,14 +424,19 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
         ],
       },
+      "tagsPath": "/tags/",
       "versionName": "2.0.0",
     },
     {
+      "badge": true,
+      "banner": null,
+      "className": "",
       "contentPath": "any",
       "contentPathLocalized": "any",
       "docs": [
         {
           "description": "doc1 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc1 title",
@@ -405,12 +449,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc1 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc2 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc2 title",
@@ -423,12 +470,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc2 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc3 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc3 title",
@@ -441,12 +491,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc3 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc4 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc4 title",
@@ -459,12 +512,15 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc4 title",
           "unversionedId": "any",
           "version": "any",
         },
         {
           "description": "doc5 description",
+          "draft": false,
           "editUrl": "any",
           "frontMatter": {
             "sidebar_label": "doc5 title",
@@ -477,14 +533,16 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "previous": undefined,
           "slug": "any",
           "source": "any",
+          "sourceDirName": "",
+          "tags": [],
           "title": "doc5 title",
           "unversionedId": "any",
           "version": "any",
         },
       ],
+      "drafts": [],
       "isLast": true,
       "label": "1.0.0 label (translated)",
-      "mainDocId": "",
       "path": "/docs/",
       "routePriority": undefined,
       "sidebarFilePath": "any",
@@ -492,6 +550,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
         "docs": [
           {
             "collapsed": false,
+            "collapsible": true,
             "items": [
               {
                 "id": "doc1",
@@ -537,6 +596,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
         ],
       },
+      "tagsPath": "/tags/",
       "versionName": "1.0.0",
     },
   ],

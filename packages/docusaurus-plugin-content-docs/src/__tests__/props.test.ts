@@ -21,30 +21,30 @@ describe('toTagDocListProp', () => {
       docIds: ['id1', 'id3'],
     };
 
-    const doc1: Doc = {
+    const doc1 = {
       id: 'id1',
       title: 'ZZZ 1',
       description: 'Description 1',
       permalink: '/doc1',
-    };
-    const doc2: Doc = {
+    } as Doc;
+    const doc2 = {
       id: 'id2',
       title: 'XXX 2',
       description: 'Description 2',
       permalink: '/doc2',
-    };
-    const doc3: Doc = {
+    } as Doc;
+    const doc3 = {
       id: 'id3',
       title: 'AAA 3',
       description: 'Description 3',
       permalink: '/doc3',
-    };
-    const doc4: Doc = {
+    } as Doc;
+    const doc4 = {
       id: 'id4',
       title: 'UUU 4',
       description: 'Description 4',
       permalink: '/doc4',
-    };
+    } as Doc;
 
     const result = toTagDocListProp({
       allTagsPath,

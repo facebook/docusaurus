@@ -7,6 +7,7 @@
 
 import path from 'path';
 import {loadPlugins} from '..';
+import type {Plugin, Props} from '@docusaurus/types';
 
 describe('loadPlugins', () => {
   it('loads plugins', async () => {
@@ -16,30 +17,30 @@ describe('loadPlugins', () => {
         siteDir,
         generatedFilesDir: path.join(siteDir, '.docusaurus'),
         outDir: path.join(siteDir, 'build'),
-        // @ts-expect-error: good enough
         siteConfig: {
           baseUrl: '/',
           trailingSlash: true,
           themeConfig: {},
           presets: [],
           plugins: [
-            () => ({
-              name: 'test1',
-              prop: 'a',
-              async loadContent() {
-                // Testing that plugin lifecycle is bound to the plugin instance
-                return this.prop;
-              },
-              async contentLoaded({content, actions}) {
-                actions.addRoute({
-                  path: 'foo',
-                  component: 'Comp',
-                  modules: {content: 'path'},
-                  context: {content: 'path'},
-                });
-                actions.setGlobalData({content, prop: this.prop});
-              },
-            }),
+            () =>
+              ({
+                name: 'test1',
+                prop: 'a',
+                async loadContent() {
+                  // Testing that plugin lifecycle is bound to the plugin instance
+                  return this.prop;
+                },
+                async contentLoaded({content, actions}) {
+                  actions.addRoute({
+                    path: 'foo',
+                    component: 'Comp',
+                    modules: {content: 'path'},
+                    context: {content: 'path'},
+                  });
+                  actions.setGlobalData({content, prop: this.prop});
+                },
+              } as Plugin & ThisType<{prop: 'a'}>),
           ],
           themes: [
             () => ({
@@ -51,7 +52,7 @@ describe('loadPlugins', () => {
           ],
         },
         siteConfigPath: path.join(siteDir, 'docusaurus.config.js'),
-      }),
+      } as unknown as Props),
     ).resolves.toMatchSnapshot();
   });
 });

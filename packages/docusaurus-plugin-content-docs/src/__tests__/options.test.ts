@@ -13,14 +13,18 @@ import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
-import type {Options} from '@docusaurus/plugin-content-docs';
+import type {Options, PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {Validate} from '@docusaurus/types';
 
 // The type of remark/rehype plugins can be function/object
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
 
 function testValidate(options: Options) {
-  return validateOptions({validate: normalizePluginOptions, options});
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+    options,
+  });
 }
 
 const defaultOptions = {
@@ -36,7 +40,7 @@ describe('normalizeDocsPluginOptions', () => {
   });
 
   it('accepts correctly defined user options', () => {
-    const userOptions = {
+    const userOptions: Options = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
       tagsBasePath: 'tags', // URL Tags Route.
@@ -51,6 +55,7 @@ describe('normalizeDocsPluginOptions', () => {
       docTagsListComponent: '@theme/DocTagsListPage',
       docCategoryGeneratedIndexComponent:
         '@theme/DocCategoryGeneratedIndexPage',
+      // @ts-expect-error: it seems to work in practice?
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],
@@ -83,11 +88,12 @@ describe('normalizeDocsPluginOptions', () => {
   });
 
   it('accepts correctly defined remark and rehype plugin options', () => {
-    const userOptions = {
+    const userOptions: Options = {
       beforeDefaultRemarkPlugins: [],
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
+        // @ts-expect-error: it seems to work in practice
         markdownPluginsObjectStub,
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
@@ -99,7 +105,7 @@ describe('normalizeDocsPluginOptions', () => {
   });
 
   it('accepts admonitions false', () => {
-    const admonitionsFalse = {
+    const admonitionsFalse: Options = {
       admonitions: false,
     };
     expect(testValidate(admonitionsFalse)).toEqual({
@@ -122,7 +128,10 @@ describe('normalizeDocsPluginOptions', () => {
   it('accepts numberPrefixParser function', () => {
     function customNumberPrefixParser() {}
     expect(
-      testValidate({numberPrefixParser: customNumberPrefixParser}),
+      testValidate({
+        numberPrefixParser:
+          customNumberPrefixParser as unknown as Options['numberPrefixParser'],
+      }),
     ).toEqual({
       ...defaultOptions,
       numberPrefixParser: customNumberPrefixParser,
@@ -146,6 +155,7 @@ describe('normalizeDocsPluginOptions', () => {
   it('rejects invalid remark plugin options', () => {
     expect(() =>
       testValidate({
+        // @ts-expect-error: test
         remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -159,6 +169,7 @@ describe('normalizeDocsPluginOptions', () => {
     expect(() =>
       testValidate({
         rehypePlugins: [
+          // @ts-expect-error: test
           [
             markdownPluginsFunctionStub,
             {option1: '42'},
@@ -174,6 +185,7 @@ describe('normalizeDocsPluginOptions', () => {
   });
 
   it('rejects bad path inputs', () => {
+    // @ts-expect-error: test
     expect(() => testValidate({path: 2})).toThrowErrorMatchingInlineSnapshot(
       `""path" must be a string"`,
     );
@@ -181,12 +193,14 @@ describe('normalizeDocsPluginOptions', () => {
 
   it('rejects bad include inputs', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({include: '**/*.{md,mdx}'}),
     ).toThrowErrorMatchingInlineSnapshot(`""include" must be an array"`);
   });
 
   it('rejects bad showLastUpdateTime inputs', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({showLastUpdateTime: 'true'}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""showLastUpdateTime" must be a boolean"`,
@@ -195,12 +209,14 @@ describe('normalizeDocsPluginOptions', () => {
 
   it('rejects bad remarkPlugins input', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({remarkPlugins: 'remark-math'}),
     ).toThrowErrorMatchingInlineSnapshot(`""remarkPlugins" must be an array"`);
   });
 
   it('rejects bad lastVersion', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({lastVersion: false}),
     ).toThrowErrorMatchingInlineSnapshot(`""lastVersion" must be a string"`);
   });
@@ -210,6 +226,7 @@ describe('normalizeDocsPluginOptions', () => {
       testValidate({
         versions: {
           current: {
+            // @ts-expect-error: test
             hey: 3,
           },
 

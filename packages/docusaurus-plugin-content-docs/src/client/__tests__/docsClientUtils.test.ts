@@ -17,6 +17,7 @@ import type {
   GlobalPluginData,
   GlobalVersion,
   ActivePlugin,
+  GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 
 describe('docsClientUtils', () => {
@@ -25,10 +26,12 @@ describe('docsClientUtils', () => {
       pluginIosId: {
         path: '/ios',
         versions: [],
+        breadcrumbs: true,
       },
       pluginAndroidId: {
         path: '/android',
         versions: [],
+        breadcrumbs: true,
       },
     };
 
@@ -48,7 +51,7 @@ describe('docsClientUtils', () => {
 
     const activePluginIos: ActivePlugin = {
       pluginId: 'pluginIosId',
-      pluginData: data.pluginIosId,
+      pluginData: data.pluginIosId!,
     };
     expect(getActivePlugin(data, '/ios')).toEqual(activePluginIos);
     expect(getActivePlugin(data, '/ios/')).toEqual(activePluginIos);
@@ -56,38 +59,42 @@ describe('docsClientUtils', () => {
 
     const activePluginAndroid: ActivePlugin = {
       pluginId: 'pluginAndroidId',
-      pluginData: data.pluginAndroidId,
+      pluginData: data.pluginAndroidId!,
     };
     expect(getActivePlugin(data, '/android')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/ijk')).toEqual(activePluginAndroid);
 
     // https://github.com/facebook/docusaurus/issues/6434
-    const onePluginAtRoot = {
+    const onePluginAtRoot: {[key: string]: GlobalPluginData} = {
       pluginIosId: {
         path: '/',
         versions: [],
+        breadcrumbs: true,
       },
       pluginAndroidId: {
         path: '/android',
         versions: [],
+        breadcrumbs: true,
       },
     };
-    expect(getActivePlugin(onePluginAtRoot, '/android/foo').pluginId).toBe(
+    expect(getActivePlugin(onePluginAtRoot, '/android/foo')!.pluginId).toBe(
       'pluginAndroidId',
     );
-    const onePluginAtRootReversed = {
+    const onePluginAtRootReversed: {[key: string]: GlobalPluginData} = {
       pluginAndroidId: {
         path: '/android',
         versions: [],
+        breadcrumbs: true,
       },
       pluginIosId: {
         path: '/',
         versions: [],
+        breadcrumbs: true,
       },
     };
     expect(
-      getActivePlugin(onePluginAtRootReversed, '/android/foo').pluginId,
+      getActivePlugin(onePluginAtRootReversed, '/android/foo')!.pluginId,
     ).toBe('pluginAndroidId');
   });
 
@@ -100,6 +107,7 @@ describe('docsClientUtils', () => {
         isLast: false,
         docs: [],
         mainDocId: '???',
+        draftIds: [],
       },
       {
         name: 'version2',
@@ -108,6 +116,7 @@ describe('docsClientUtils', () => {
         isLast: true,
         docs: [],
         mainDocId: '???',
+        draftIds: [],
       },
       {
         name: 'version3',
@@ -116,6 +125,7 @@ describe('docsClientUtils', () => {
         isLast: false,
         docs: [],
         mainDocId: '???',
+        draftIds: [],
       },
     ];
 
@@ -123,6 +133,7 @@ describe('docsClientUtils', () => {
       getLatestVersion({
         path: '???',
         versions,
+        breadcrumbs: true,
       }),
     ).toEqual(versions[1]);
   });
@@ -138,6 +149,7 @@ describe('docsClientUtils', () => {
           path: '/docs/next',
           docs: [],
           mainDocId: '???',
+          draftIds: [],
         },
         {
           name: 'version2',
@@ -146,6 +158,7 @@ describe('docsClientUtils', () => {
           path: '/docs',
           docs: [],
           mainDocId: '???',
+          draftIds: [],
         },
         {
           name: 'version1',
@@ -154,8 +167,10 @@ describe('docsClientUtils', () => {
           path: '/docs/version1',
           docs: [],
           mainDocId: '???',
+          draftIds: [],
         },
       ],
+      breadcrumbs: true,
     };
 
     expect(getActiveVersion(data, '/someUnknownPath')).toBeUndefined();
@@ -191,7 +206,8 @@ describe('docsClientUtils', () => {
           id: 'doc2',
           path: '/docs/next/doc2',
         },
-      ],
+      ] as GlobalDoc[],
+      draftIds: [],
     };
 
     const version2: GlobalVersion = {
@@ -209,7 +225,8 @@ describe('docsClientUtils', () => {
           id: 'doc2',
           path: '/docs/doc2',
         },
-      ],
+      ] as GlobalDoc[],
+      draftIds: [],
     };
 
     const version1: GlobalVersion = {
@@ -223,7 +240,8 @@ describe('docsClientUtils', () => {
           id: 'doc1',
           path: '/docs/version1/',
         },
-      ],
+      ] as GlobalDoc[],
+      draftIds: [],
     };
 
     // Shuffle, because order shouldn't matter
@@ -236,6 +254,7 @@ describe('docsClientUtils', () => {
     const data: GlobalPluginData = {
       path: 'docs',
       versions,
+      breadcrumbs: true,
     };
 
     expect(getActiveDocContext(data, '/doesNotExist')).toEqual({
@@ -320,7 +339,8 @@ describe('docsClientUtils', () => {
           id: 'doc2',
           path: '/docs/next/doc2',
         },
-      ],
+      ] as GlobalDoc[],
+      draftIds: [],
     };
 
     const version2: GlobalVersion = {
@@ -338,7 +358,8 @@ describe('docsClientUtils', () => {
           id: 'doc2',
           path: '/docs/doc2',
         },
-      ],
+      ] as GlobalDoc[],
+      draftIds: [],
     };
 
     const version1: GlobalVersion = {
@@ -352,7 +373,8 @@ describe('docsClientUtils', () => {
           id: 'doc1',
           path: '/docs/version1/',
         },
-      ],
+      ] as GlobalDoc[],
+      draftIds: [],
     };
 
     // Shuffle, because order shouldn't matter
@@ -365,6 +387,7 @@ describe('docsClientUtils', () => {
     const data: GlobalPluginData = {
       path: 'docs',
       versions,
+      breadcrumbs: true,
     };
 
     expect(getDocVersionSuggestions(data, '/doesNotExist')).toEqual({

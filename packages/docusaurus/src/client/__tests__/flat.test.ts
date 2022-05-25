@@ -46,7 +46,7 @@ describe('flat', () => {
       expect(
         flat({
           foo: {
-            bar: value,
+            bar: value as string,
           },
         }),
       ).toEqual({

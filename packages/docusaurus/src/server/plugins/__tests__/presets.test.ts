@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-
 import {loadPresets} from '../presets';
 import type {LoadContext} from '@docusaurus/types';
 
@@ -17,7 +16,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [],
       },
-    } as LoadContext;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       {
@@ -62,7 +61,7 @@ describe('loadPresets', () => {
           [path.join(__dirname, '__fixtures__/presets/preset-plugins.js')],
         ],
       },
-    } as Partial<LoadContext>;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchSnapshot();
   });
@@ -78,7 +77,7 @@ describe('loadPresets', () => {
           ],
         ],
       },
-    } as Partial<LoadContext>;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchSnapshot();
   });
@@ -98,7 +97,7 @@ describe('loadPresets', () => {
           ],
         ],
       },
-    } as Partial<LoadContext>;
+    } as unknown as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchSnapshot();
   });

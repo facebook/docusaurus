@@ -21,7 +21,7 @@ function process(doc: string, plugins: Plugin[] = []) {
   return removePosition(processor.runSync(processor.parse(doc)), true);
 }
 
-function heading(label: string, id: string) {
+function heading(label: string | null, id: string) {
   return u(
     'heading',
     {depth: 2, data: {id, hProperties: {id}}},

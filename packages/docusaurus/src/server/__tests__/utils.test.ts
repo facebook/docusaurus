@@ -25,8 +25,8 @@ describe('getAllFinalRoutes', () => {
       },
     ];
     expect(getAllFinalRoutes(routes)).toEqual([
-      routes[0].routes[0],
-      routes[0].routes[1],
+      routes[0]!.routes![0],
+      routes[0]!.routes![1],
       routes[1],
     ]);
   });

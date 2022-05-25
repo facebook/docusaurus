@@ -8,6 +8,7 @@
 import React from 'react';
 import {EnumChangefreq} from 'sitemap';
 import createSitemap from '../createSitemap';
+import type {PluginOptions} from '../options';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
 describe('createSitemap', () => {
@@ -31,7 +32,8 @@ describe('createSitemap', () => {
 
   it('empty site', () =>
     expect(async () => {
-      await createSitemap({} as DocusaurusConfig, [], {}, {});
+      // @ts-expect-error: test
+      await createSitemap({}, [], {}, {} as PluginOptions);
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
     ));
@@ -148,6 +150,7 @@ describe('createSitemap', () => {
       {
         '/noindex': {
           meta: {
+            // @ts-expect-error: bad lib def
             toComponent: () => [
               React.createElement('meta', {name: 'robots', content: 'noindex'}),
             ],
