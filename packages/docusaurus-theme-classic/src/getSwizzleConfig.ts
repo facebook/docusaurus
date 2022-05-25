@@ -214,13 +214,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The Navbar item components mapping. Can be ejected to add custom navbar item types. See https://github.com/facebook/docusaurus/issues/7227.',
       },
-      // TODO should probably not even appear here
-      'NavbarItem/utils': {
-        actions: {
-          eject: 'forbidden',
-          wrap: 'forbidden',
-        },
-      },
       NotFound: {
         actions: {
           eject: 'safe',

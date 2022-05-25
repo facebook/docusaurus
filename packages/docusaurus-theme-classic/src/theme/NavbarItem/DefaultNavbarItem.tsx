@@ -8,7 +8,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
-import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
@@ -25,6 +24,7 @@ function DefaultNavbarItemDesktop({
         isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
         className,
       )}
+      isDropdownLink={isDropdownItem}
       {...props}
     />
   );
@@ -58,7 +58,8 @@ export default function DefaultNavbarItem({
     <Comp
       {...props}
       activeClassName={
-        props.activeClassName ?? getInfimaActiveClassName(mobile)
+        props.activeClassName ??
+        (mobile ? 'menu__link--active' : 'navbar__link--active')
       }
     />
   );

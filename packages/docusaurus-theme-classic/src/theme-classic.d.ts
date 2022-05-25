@@ -809,7 +809,8 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly exact?: boolean;
     readonly label?: ReactNode;
     readonly html?: string;
-    readonly prependBaseUrlToHref?: string;
+    readonly prependBaseUrlToHref?: boolean;
+    readonly isDropdownLink?: boolean;
   }
 
   export default function NavbarNavLink(props: Props): JSX.Element;
@@ -980,17 +981,6 @@ declare module '@theme/NavbarItem' {
   export type NavbarItemType = Props['type'];
 
   export default function NavbarItem(props: Props): JSX.Element;
-}
-
-declare module '@theme/NavbarItem/utils' {
-  /**
-   * On desktop and mobile, we would apply different class names for dropdown
-   * items.
-   * @see https://github.com/facebook/docusaurus/pull/5431
-   */
-  export function getInfimaActiveClassName(
-    mobile?: boolean,
-  ): `${'menu' | 'navbar'}__link--active`;
 }
 
 declare module '@theme/PaginatorNavLink' {
