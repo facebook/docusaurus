@@ -10,11 +10,13 @@ import Details from '@theme/Details';
 import type {Props} from '@theme/MDXComponents/Details';
 
 export default function MDXDetails(props: Props): JSX.Element {
-  const items = React.Children.toArray(props.children) as ReactElement[];
+  const items = React.Children.toArray(props.children);
   // Split summary item from the rest to pass it as a separate prop to the
   // Details theme component
-  const summary: ReactElement<ComponentProps<'summary'>> | undefined =
-    items.find((item) => item?.props?.mdxType === 'summary');
+  const summary = items.find(
+    (item): item is ReactElement<ComponentProps<'summary'>> =>
+      React.isValidElement(item) && item.props?.mdxType === 'summary',
+  );
   const children = <>{items.filter((item) => item !== summary)}</>;
 
   return (

@@ -6,33 +6,23 @@
  */
 
 import React from 'react';
-import {type Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
-import type {Types, Props} from '@theme/NavbarItem';
-
 import ComponentTypes from '@theme/NavbarItem/ComponentTypes';
+import type {NavbarItemType, Props} from '@theme/NavbarItem';
 
-const getNavbarItemComponent = (type: NonNullable<Types>) => {
-  const component = ComponentTypes[type];
-  if (!component) {
-    throw new Error(`No NavbarItem component found for type "${type}".`);
-  }
-  return component;
-};
-
-function getComponentType(type: Types, isDropdown: boolean) {
+function normalizeComponentType(type: NavbarItemType, props: object) {
   // Backward compatibility: navbar item with no type set
   // but containing dropdown items should use the type "dropdown"
   if (!type || type === 'default') {
-    return isDropdown ? 'dropdown' : 'default';
+    return 'items' in props ? 'dropdown' : 'default';
   }
-  return type as NonNullable<Types>;
+  return type;
 }
 
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
-  const componentType = getComponentType(
-    type,
-    (props as DropdownNavbarItemProps).items !== undefined,
-  );
-  const NavbarItemComponent = getNavbarItemComponent(componentType);
+  const componentType = normalizeComponentType(type, props);
+  const NavbarItemComponent = ComponentTypes[componentType];
+  if (!NavbarItemComponent) {
+    throw new Error(`No NavbarItem component found for type "${type}".`);
+  }
   return <NavbarItemComponent {...(props as never)} />;
 }

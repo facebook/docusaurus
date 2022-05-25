@@ -5,22 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
+import path from 'path';
+import logger from '@docusaurus/logger';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import type {
   LoadedPlugin,
   PluginVersionInformation,
   SiteMetadata,
 } from '@docusaurus/types';
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
-import fs from 'fs-extra';
-import path from 'path';
-import logger from '@docusaurus/logger';
 
 async function getPackageJsonVersion(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-    return require(packageJsonPath).version;
+    return (require(packageJsonPath) as {version?: string}).version;
   }
   return undefined;
 }
@@ -29,7 +29,7 @@ async function getPackageJsonName(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-  return require(packageJsonPath).name;
+  return (require(packageJsonPath) as {name?: string}).name;
 }
 
 export async function getPluginVersion(

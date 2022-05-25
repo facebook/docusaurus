@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import path from 'path';
 import {
   isNameTooLong,
   shortName,
@@ -15,7 +16,6 @@ import {
   toMessageRelativeFilePath,
   addTrailingPathSeparator,
 } from '../pathUtils';
-import path from 'path';
 
 describe('isNameTooLong', () => {
   it('works', () => {
@@ -37,21 +37,24 @@ describe('isNameTooLong', () => {
     };
     const oldProcessPlatform = process.platform;
     Object.defineProperty(process, 'platform', {value: 'darwin'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(isNameTooLong(file)).toBe(
-        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'boolean' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'win32'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(isNameTooLong(file)).toBe(
-        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'boolean' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'android'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(isNameTooLong(file)).toBe(
-        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].xfs,
+        typeof expected === 'boolean' ? expected : expected.xfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
@@ -79,21 +82,24 @@ describe('shortName', () => {
     };
     const oldProcessPlatform = process.platform;
     Object.defineProperty(process, 'platform', {value: 'darwin'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(shortName(file)).toBe(
-        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'string' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'win32'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(shortName(file)).toBe(
-        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'string' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'android'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(shortName(file)).toBe(
-        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].xfs,
+        typeof expected === 'string' ? expected : expected.xfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: oldProcessPlatform});

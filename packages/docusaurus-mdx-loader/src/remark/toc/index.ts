@@ -6,13 +6,13 @@
  */
 
 import {parse, type ParserOptions} from '@babel/parser';
-import type {Identifier} from '@babel/types';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
 import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 
+import type {Identifier} from '@babel/types';
 import type {TOCItem} from '../..';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
@@ -23,15 +23,13 @@ const parseOptions: ParserOptions = {
   sourceType: 'module',
 };
 
+const name = 'toc';
+
 const isImport = (child: Node): child is Literal => child.type === 'import';
 const hasImports = (index: number) => index > -1;
 const isExport = (child: Node): child is Literal => child.type === 'export';
 
-type PluginOptions = {
-  name?: string;
-};
-
-const isTarget = (child: Literal, name: string) => {
+const isTarget = (child: Literal) => {
   let found = false;
   const ast = parse(child.value, parseOptions);
   traverse(ast, {
@@ -44,14 +42,14 @@ const isTarget = (child: Literal, name: string) => {
   return found;
 };
 
-const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
+const getOrCreateExistingTargetIndex = (children: Node[]) => {
   let importsIndex = -1;
   let targetIndex = -1;
 
   children.forEach((child, index) => {
     if (isImport(child)) {
       importsIndex = index;
-    } else if (isExport(child) && isTarget(child, name)) {
+    } else if (isExport(child) && isTarget(child)) {
       targetIndex = index;
     }
   });
@@ -70,9 +68,7 @@ const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
   return targetIndex;
 };
 
-export default function plugin(options: PluginOptions = {}): Transformer {
-  const name = options.name || 'toc';
-
+export default function plugin(): Transformer {
   return (root) => {
     const headings: TOCItem[] = [];
 
@@ -91,7 +87,7 @@ export default function plugin(options: PluginOptions = {}): Transformer {
       });
     });
     const {children} = root as Parent<Literal>;
-    const targetIndex = getOrCreateExistingTargetIndex(children, name);
+    const targetIndex = getOrCreateExistingTargetIndex(children);
 
     if (headings.length) {
       children[targetIndex]!.value = `export const ${name} = ${stringifyObject(

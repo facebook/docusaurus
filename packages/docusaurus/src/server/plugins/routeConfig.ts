@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RouteConfig} from '@docusaurus/types';
 import {
   applyTrailingSlash,
   type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
+import type {RouteConfig} from '@docusaurus/types';
 
 /** Recursively applies trailing slash config to all nested routes. */
 export function applyRouteTrailingSlash(
@@ -50,8 +50,8 @@ export function sortConfig(
     }
     // Higher priority get placed first.
     if (a.priority || b.priority) {
-      const priorityA = a.priority || 0;
-      const priorityB = b.priority || 0;
+      const priorityA = a.priority ?? 0;
+      const priorityB = b.priority ?? 0;
       const score = priorityB - priorityA;
 
       if (score !== 0) {

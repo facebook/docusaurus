@@ -100,10 +100,13 @@ describe('createSidebarsUtils', () => {
   const sidebar4: Sidebar = [
     {
       type: 'category',
+      collapsed: false,
+      collapsible: true,
+      label: 'Related',
       items: [
-        {type: 'link', href: 'https://facebook.com'},
-        {type: 'link', href: 'https://reactjs.org'},
-        {type: 'link', href: 'https://docusaurus.io'},
+        {type: 'link', href: 'https://facebook.com', label: 'Facebook'},
+        {type: 'link', href: 'https://reactjs.org', label: 'React'},
+        {type: 'link', href: 'https://docusaurus.io', label: 'Docusaurus'},
       ],
     },
     {
@@ -134,11 +137,11 @@ describe('createSidebarsUtils', () => {
     getFirstLink,
   } = createSidebarsUtils(sidebars);
 
-  it('getFirstDocIdOfFirstSidebar', async () => {
+  it('getFirstDocIdOfFirstSidebar', () => {
     expect(getFirstDocIdOfFirstSidebar()).toBe('doc1');
   });
 
-  it('getSidebarNameByDocId', async () => {
+  it('getSidebarNameByDocId', () => {
     expect(getSidebarNameByDocId('doc1')).toBe('sidebar1');
     expect(getSidebarNameByDocId('doc2')).toBe('sidebar1');
     expect(getSidebarNameByDocId('doc3')).toBe('sidebar2');
@@ -149,7 +152,7 @@ describe('createSidebarsUtils', () => {
     expect(getSidebarNameByDocId('unknown_id')).toBeUndefined();
   });
 
-  it('getDocNavigation', async () => {
+  it('getDocNavigation', () => {
     expect(getDocNavigation('doc1', 'doc1', undefined)).toEqual({
       sidebarName: 'sidebar1',
       previous: undefined,
@@ -229,7 +232,7 @@ describe('createSidebarsUtils', () => {
     });
   });
 
-  it('getCategoryGeneratedIndexNavigation', async () => {
+  it('getCategoryGeneratedIndexNavigation', () => {
     expect(
       getCategoryGeneratedIndexNavigation('/s3-subcategory-index-permalink'),
     ).toMatchObject({
@@ -259,7 +262,7 @@ describe('createSidebarsUtils', () => {
     });
   });
 
-  it('getCategoryGeneratedIndexList', async () => {
+  it('getCategoryGeneratedIndexList', () => {
     expect(getCategoryGeneratedIndexList()).toMatchObject([
       {
         type: 'category',
@@ -301,7 +304,7 @@ describe('createSidebarsUtils', () => {
 });
 
 describe('collectSidebarDocItems', () => {
-  it('can collect docs', async () => {
+  it('can collect docs', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -357,7 +360,7 @@ describe('collectSidebarDocItems', () => {
 });
 
 describe('collectSidebarCategories', () => {
-  it('can collect categories', async () => {
+  it('can collect categories', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -415,7 +418,7 @@ describe('collectSidebarCategories', () => {
 });
 
 describe('collectSidebarLinks', () => {
-  it('can collect links', async () => {
+  it('can collect links', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -453,7 +456,7 @@ describe('collectSidebarLinks', () => {
 });
 
 describe('collectSidebarsDocIds', () => {
-  it('can collect sidebars doc items', async () => {
+  it('can collect sidebars doc items', () => {
     const sidebar1: Sidebar = [
       {
         type: 'category',
@@ -499,7 +502,7 @@ describe('collectSidebarsDocIds', () => {
 });
 
 describe('transformSidebarItems', () => {
-  it('can transform sidebar items', async () => {
+  it('can transform sidebar items', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -696,10 +699,10 @@ describe('toNavigationLink', () => {
 
   it('with doc items', () => {
     expect(toNavigationLink({type: 'doc', id: 'doc1'}, docsById)).toEqual(
-      toDocNavigationLink(docsById.doc1),
+      toDocNavigationLink(docsById.doc1!),
     );
     expect(toNavigationLink({type: 'doc', id: 'doc2'}, docsById)).toEqual(
-      toDocNavigationLink(docsById.doc2),
+      toDocNavigationLink(docsById.doc2!),
     );
     expect(() =>
       toNavigationLink({type: 'doc', id: 'doc3'}, docsById),
@@ -724,7 +727,7 @@ describe('toNavigationLink', () => {
         },
         docsById,
       ),
-    ).toEqual(toDocNavigationLink(docsById.doc1));
+    ).toEqual(toDocNavigationLink(docsById.doc1!));
     expect(() =>
       toNavigationLink(
         {

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
 import type {PrismTheme} from 'prism-react-renderer';
-import type {CSSProperties} from 'react';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -97,7 +97,7 @@ export function parseCodeBlockTitle(metastring?: string): string {
 }
 
 export function containsLineNumbers(metastring?: string): boolean {
-  return metastring?.includes('showLineNumbers') || false;
+  return Boolean(metastring?.includes('showLineNumbers'));
 }
 
 /**
@@ -171,7 +171,7 @@ export function parseLines(
     const metastringRangeClassName = magicComments[0]!.className;
     const lines = rangeParser(linesRange)
       .filter((n) => n > 0)
-      .map((n) => [n - 1, [metastringRangeClassName]]);
+      .map((n) => [n - 1, [metastringRangeClassName]] as [number, string[]]);
     return {lineClassNames: Object.fromEntries(lines), code};
   }
   if (language === undefined) {
@@ -189,7 +189,7 @@ export function parseLines(
   const lineToClassName: {[comment: string]: string} = Object.fromEntries(
     magicComments
       .filter((d) => d.line)
-      .map(({className, line}) => [line, className]),
+      .map(({className, line}) => [line!, className] as [string, string]),
   );
   const blockStartToClassName: {[comment: string]: string} = Object.fromEntries(
     magicComments
@@ -209,7 +209,9 @@ export function parseLines(
       lineNumber += 1;
       continue;
     }
-    const directive = match.slice(1).find((item) => item !== undefined)!;
+    const directive = match
+      .slice(1)
+      .find((item: string | undefined) => item !== undefined)!;
     if (lineToClassName[directive]) {
       blocks[lineToClassName[directive]!]!.range += `${lineNumber},`;
     } else if (blockStartToClassName[directive]) {

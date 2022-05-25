@@ -9,8 +9,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import {DEFAULT_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import type {LoadContext} from '@docusaurus/types';
 import {validateConfig} from './configValidation';
+import type {LoadContext} from '@docusaurus/types';
 
 export async function loadSiteConfig({
   siteDir,
@@ -30,7 +30,7 @@ export async function loadSiteConfig({
 
   const importedConfig = importFresh(siteConfigPath);
 
-  const loadedConfig =
+  const loadedConfig: unknown =
     typeof importedConfig === 'function'
       ? await importedConfig()
       : await importedConfig;

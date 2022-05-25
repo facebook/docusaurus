@@ -230,6 +230,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Avana Wallet',
+    description:
+      'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
+    preview: require('./showcase/avana-wallet.png'),
+    website: 'https://docs.avanawallet.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'AvN Gateway',
     description:
       'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
@@ -370,6 +379,14 @@ const Users: User[] = [
     website: 'https://clutch.sh/',
     source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
     tags: ['opensource'],
+  },
+  {
+    title: 'CodeSweetly',
+    description: 'The Home of Simplified Web Development Tutorials',
+    preview: require('./showcase/codesweetly.png'),
+    website: 'https://codesweetly.com/',
+    source: null,
+    tags: ['personal'],
   },
   {
     title: 'CodeYourFuture',
@@ -632,6 +649,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'FAST',
+    description: 'The adaptive interface system for modern web experiences.',
+    preview: require('./showcase/fast.png'),
+    website: 'https://www.fast.design/docs/introduction/',
+    source: 'https://github.com/microsoft/fast/tree/master/sites/website',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'FBT',
     description: 'An internationalization framework',
     preview: require('./showcase/fbt.png'),
@@ -851,6 +876,14 @@ const Users: User[] = [
     preview: require('./showcase/home-assistant.png'),
     website: 'https://developers.home-assistant.io/',
     source: 'https://github.com/home-assistant/developers.home-assistant',
+    tags: ['opensource'],
+  },
+  {
+    title: 'httpin',
+    description: 'Decode an HTTP request into a custom struct in Go',
+    preview: require('./showcase/httpin.png'),
+    website: 'https://ggicci.github.io/httpin/',
+    source: 'https://github.com/ggicci/httpin/tree/documentation/docs',
     tags: ['opensource'],
   },
   {
@@ -2070,6 +2103,14 @@ const Users: User[] = [
     tags: ['meta'],
   },
   {
+    title: '30 Days Of SWA',
+    description: 'A 30-Day Developer Guide to Azure Static Web Apps',
+    preview: require('./showcase/30-days-swa.png'),
+    website: 'https://www.azurestaticwebapps.dev',
+    source: 'https://github.com/staticwebdev/30DaysOfSWA/tree/main/www',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'TiDB Community Books',
     description: 'A website for co-created books by TiDB Community users.',
     preview: require('./showcase/tidb-community-book.png'),
@@ -2236,6 +2277,15 @@ const Users: User[] = [
     website: 'https://woodpecker-ci.org/',
     source: 'https://github.com/woodpecker-ci/woodpecker/tree/master/docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'Yeecord',
+    description:
+      'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
+    website: 'https://yeecord.com/',
+    preview: require('./showcase/yeecord.png'),
+    tags: ['product', 'personal'],
+    source: null
   },
   {
     title: 'Zowe',

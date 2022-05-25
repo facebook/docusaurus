@@ -84,9 +84,14 @@ if (missingCSSMarkers.length > 0) {
 }
 
 // https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_sortby-and-_orderby
-const sortBy = (key) => (a, b) =>
-  // eslint-disable-next-line no-nested-ternary
-  a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0;
+const sortBy =
+  (/** @type {string} */ key) =>
+  (
+    /** @type {Record<string, unknown>} */ a,
+    /** @type {Record<string, unknown>} */ b,
+  ) =>
+    // eslint-disable-next-line no-nested-ternary
+    a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0;
 
 const sortedCSSMarkers = [...cssMarkersWithPositions]
   .sort(sortBy('position'))

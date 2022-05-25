@@ -11,7 +11,9 @@ import type {VersionsOptions} from '@docusaurus/plugin-content-docs';
 export function validateVersionName(name: unknown): asserts name is string {
   if (typeof name !== 'string') {
     throw new Error(
-      `Versions should be strings. Found type "${typeof name}" for version "${name}".`,
+      `Versions should be strings. Found type "${typeof name}" for version ${JSON.stringify(
+        name,
+      )}.`,
     );
   }
   if (!name.trim()) {

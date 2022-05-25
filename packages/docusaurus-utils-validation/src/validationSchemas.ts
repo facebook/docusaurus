@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Joi from './Joi';
 import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
@@ -40,10 +40,10 @@ export const URISchema = Joi.alternatives(
   Joi.string().uri({allowRelative: true}),
   // This custom validation logic is required notably because Joi does not
   // accept paths like /a/b/c ...
-  Joi.custom((val, helpers) => {
+  Joi.custom((val: unknown, helpers) => {
     try {
       // eslint-disable-next-line no-new
-      new URL(val);
+      new URL(String(val));
       return val;
     } catch {
       return helpers.error('any.invalid');
@@ -55,7 +55,7 @@ export const URISchema = Joi.alternatives(
 });
 
 export const PathnameSchema = Joi.string()
-  .custom((val) => {
+  .custom((val: string) => {
     if (!isValidPathname(val)) {
       throw new Error();
     }

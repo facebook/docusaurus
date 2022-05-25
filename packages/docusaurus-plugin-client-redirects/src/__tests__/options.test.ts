@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import type {Options} from '../options';
 
-function testValidate(options: Options) {
+function testValidate(options?: Options) {
   return validateOptions({validate: normalizePluginOptions, options});
 }
 

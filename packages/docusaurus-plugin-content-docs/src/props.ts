@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import {createDocsByIdIndex} from './docs';
 import type {VersionTag} from './types';
 import type {
   SidebarItemDoc,
@@ -24,8 +26,6 @@ import type {
   DocMetadata,
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
-import _ from 'lodash';
-import {createDocsByIdIndex} from './docs';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = createDocsByIdIndex(loadedVersion.docs);
@@ -51,7 +51,7 @@ Available document ids are:
     } = docMetadata;
     return {
       type: 'link',
-      label: sidebarLabel || item.label || title,
+      label: sidebarLabel ?? item.label ?? title,
       href: permalink,
       className: item.className,
       customProps:

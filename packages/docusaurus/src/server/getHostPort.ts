@@ -6,8 +6,8 @@
  */
 
 import {execSync, type ExecSyncOptionsWithStringEncoding} from 'child_process';
-import detect from 'detect-port';
 import logger from '@docusaurus/logger';
+import detect from 'detect-port';
 import {DEFAULT_PORT} from '@docusaurus/utils';
 import prompts from 'prompts';
 
@@ -70,7 +70,7 @@ async function choosePort(
     }
     clearConsole();
     const existingProcess = getProcessForPort(defaultPort);
-    const {shouldChangePort} = await prompts({
+    const {shouldChangePort} = (await prompts({
       type: 'confirm',
       name: 'shouldChangePort',
       message: logger.yellow(`${logger.bold('[WARNING]')} ${message}${
@@ -79,7 +79,7 @@ async function choosePort(
 
 Would you like to run the app on another port instead?`),
       initial: true,
-    });
+    })) as {shouldChangePort: boolean};
     return shouldChangePort ? port : null;
   } catch (err) {
     logger.error`Could not find an open port at ${host}.`;

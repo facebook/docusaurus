@@ -6,17 +6,17 @@
  */
 
 import React from 'react';
-import BlogLayout from '@theme/BlogLayout';
-import BlogPostItem from '@theme/BlogPostItem';
-import BlogPostPaginator from '@theme/BlogPostPaginator';
-import type {Props} from '@theme/BlogPostPage';
+import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import BlogLayout from '@theme/BlogLayout';
+import BlogPostItem from '@theme/BlogPostItem';
+import BlogPostPaginator from '@theme/BlogPostPaginator';
 import TOC from '@theme/TOC';
-import clsx from 'clsx';
+import type {Props} from '@theme/BlogPostPage';
 
 function BlogPostPageMetadata(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;

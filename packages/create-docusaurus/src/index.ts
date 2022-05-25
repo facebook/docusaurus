@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
-import prompts, {type Choice} from 'prompts';
 import path from 'path';
-import shell from 'shelljs';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import shell from 'shelljs';
+import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 
 type CLIOptions = {
@@ -65,20 +65,22 @@ async function askForPackageManagerChoice(): Promise<PackageManager> {
     .map((p) => ({title: p, value: p}));
 
   return (
-    await prompts(
-      {
-        type: 'select',
-        name: 'packageManager',
-        message: 'Select a package manager...',
-        choices,
-      },
-      {
-        onCancel() {
-          logger.info`Falling back to name=${defaultPackageManager}`;
+    (
+      (await prompts(
+        {
+          type: 'select',
+          name: 'packageManager',
+          message: 'Select a package manager...',
+          choices,
         },
-      },
-    )
-  ).packageManager;
+        {
+          onCancel() {
+            logger.info`Falling back to name=${defaultPackageManager}`;
+          },
+        },
+      )) as {packageManager?: PackageManager}
+    ).packageManager ?? defaultPackageManager
+  );
 }
 
 async function getPackageManager(
@@ -101,8 +103,7 @@ async function getPackageManager(
     (await findPackageManagerFromLockFile('.')) ??
     findPackageManagerFromUserAgent() ??
     // This only happens if the user has a global installation in PATH
-    (skipInstall ? defaultPackageManager : askForPackageManagerChoice()) ??
-    defaultPackageManager
+    (skipInstall ? defaultPackageManager : askForPackageManagerChoice())
   );
 }
 
@@ -203,7 +204,7 @@ async function getGitCommand(gitStrategy: GitStrategy): Promise<string> {
     case 'copy':
       return 'git clone --recursive --depth 1';
     case 'custom': {
-      const {command} = await prompts(
+      const {command} = (await prompts(
         {
           type: 'text',
           name: 'command',
@@ -215,7 +216,7 @@ async function getGitCommand(gitStrategy: GitStrategy): Promise<string> {
             logger.info`Falling back to code=${'git clone'}`;
           },
         },
-      );
+      )) as {command?: string};
       return command ?? 'git clone';
     }
     case 'deep':
@@ -245,7 +246,7 @@ async function getSiteName(
     }
     return reqName;
   }
-  const {siteName} = await prompts(
+  const {siteName} = (await prompts(
     {
       type: 'text',
       name: 'siteName',
@@ -259,7 +260,7 @@ async function getSiteName(
         process.exit(1);
       },
     },
-  );
+  )) as {siteName: string};
   return siteName;
 }
 
@@ -324,7 +325,7 @@ async function getSource(
   const template = cliOptions.gitStrategy
     ? 'Git repository'
     : (
-        await prompts(
+        (await prompts(
           {
             type: 'select',
             name: 'template',
@@ -337,10 +338,10 @@ async function getSource(
               process.exit(1);
             },
           },
-        )
+        )) as {template: Template | 'Git repository' | 'Local template'}
       ).template;
   if (template === 'Git repository') {
-    const {gitRepoUrl} = await prompts(
+    const {gitRepoUrl} = (await prompts(
       {
         type: 'text',
         name: 'gitRepoUrl',
@@ -359,10 +360,10 @@ async function getSource(
           process.exit(1);
         },
       },
-    );
+    )) as {gitRepoUrl: string};
     let strategy = cliOptions.gitStrategy;
     if (!strategy) {
-      ({strategy} = await prompts(
+      ({strategy} = (await prompts(
         {
           type: 'select',
           name: 'strategy',
@@ -385,7 +386,7 @@ async function getSource(
             logger.info`Falling back to name=${'deep'}`;
           },
         },
-      ));
+      )) as {strategy?: GitStrategy});
     }
     return {
       type: 'git',
@@ -393,7 +394,7 @@ async function getSource(
       strategy: strategy ?? 'deep',
     };
   } else if (template === 'Local template') {
-    const {templateDir} = await prompts(
+    const {templateDir} = (await prompts(
       {
         type: 'text',
         name: 'templateDir',
@@ -418,7 +419,7 @@ async function getSource(
           process.exit(1);
         },
       },
-    );
+    )) as {templateDir: string};
     return {
       type: 'local',
       path: templateDir,
@@ -426,13 +427,13 @@ async function getSource(
   }
   let useTS = cliOptions.typescript;
   if (!useTS && template.tsVariantPath) {
-    ({useTS} = await prompts({
+    ({useTS} = (await prompts({
       type: 'confirm',
       name: 'useTS',
       message:
         'This template is available in TypeScript. Do you want to use the TS variant?',
       initial: false,
-    }));
+    })) as {useTS?: boolean});
   }
   return {
     type: 'template',
@@ -442,7 +443,7 @@ async function getSource(
 }
 
 async function updatePkg(pkgPath: string, obj: {[key: string]: unknown}) {
-  const pkg = await fs.readJSON(pkgPath);
+  const pkg = (await fs.readJSON(pkgPath)) as {[key: string]: unknown};
   const newPkg = Object.assign(pkg, obj);
 
   await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);

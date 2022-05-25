@@ -8,8 +8,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "repository": {
     "type": "git",

@@ -12,32 +12,21 @@ import useGlobalData, {
   usePluginData,
 } from '../useGlobalData';
 import {Context} from '../../docusaurusContext';
+import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('useGlobalData', () => {
   it('returns global data from context', () => {
     expect(
       renderHook(() => useGlobalData(), {
         wrapper: ({children}) => (
-          // eslint-disable-next-line react/jsx-no-constructed-context-values
-          <Context.Provider value={{globalData: {foo: 'bar'}}}>
+          <Context.Provider
+            // eslint-disable-next-line react/jsx-no-constructed-context-values
+            value={{globalData: {foo: 'bar'}} as unknown as DocusaurusContext}>
             {children}
           </Context.Provider>
         ),
       }).result.current,
     ).toEqual({foo: 'bar'});
-  });
-
-  it('throws when global data not found', () => {
-    // Can it actually happen?
-    expect(
-      () =>
-        renderHook(() => useGlobalData(), {
-          wrapper: ({children}) => (
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
-            <Context.Provider value={{}}>{children}</Context.Provider>
-          ),
-        }).result.current,
-    ).toThrowErrorMatchingInlineSnapshot(`"Docusaurus global data not found."`);
   });
 });
 
@@ -47,8 +36,12 @@ describe('useAllPluginInstancesData', () => {
       renderHook(() => useAllPluginInstancesData('foo'), {
         wrapper: ({children}) => (
           <Context.Provider
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
-            value={{globalData: {foo: {default: 'default', bar: 'bar'}}}}>
+            value={
+              // eslint-disable-next-line react/jsx-no-constructed-context-values
+              {
+                globalData: {foo: {default: 'default', bar: 'bar'}},
+              } as unknown as DocusaurusContext
+            }>
             {children}
           </Context.Provider>
         ),
@@ -62,8 +55,12 @@ describe('useAllPluginInstancesData', () => {
         renderHook(() => useAllPluginInstancesData('bar', {failfast: true}), {
           wrapper: ({children}) => (
             <Context.Provider
-              // eslint-disable-next-line react/jsx-no-constructed-context-values
-              value={{globalData: {foo: {default: 'default', bar: 'bar'}}}}>
+              value={
+                // eslint-disable-next-line react/jsx-no-constructed-context-values
+                {
+                  globalData: {foo: {default: 'default', bar: 'bar'}},
+                } as unknown as DocusaurusContext
+              }>
               {children}
             </Context.Provider>
           ),
@@ -80,8 +77,12 @@ describe('usePluginData', () => {
       renderHook(() => usePluginData('foo', 'bar'), {
         wrapper: ({children}) => (
           <Context.Provider
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
-            value={{globalData: {foo: {default: 'default', bar: 'bar'}}}}>
+            value={
+              // eslint-disable-next-line react/jsx-no-constructed-context-values
+              {
+                globalData: {foo: {default: 'default', bar: 'bar'}},
+              } as unknown as DocusaurusContext
+            }>
             {children}
           </Context.Provider>
         ),
@@ -94,8 +95,12 @@ describe('usePluginData', () => {
       renderHook(() => usePluginData('foo'), {
         wrapper: ({children}) => (
           <Context.Provider
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
-            value={{globalData: {foo: {default: 'default', bar: 'bar'}}}}>
+            value={
+              // eslint-disable-next-line react/jsx-no-constructed-context-values
+              {
+                globalData: {foo: {default: 'default', bar: 'bar'}},
+              } as unknown as DocusaurusContext
+            }>
             {children}
           </Context.Provider>
         ),
@@ -109,8 +114,12 @@ describe('usePluginData', () => {
         renderHook(() => usePluginData('foo', 'baz', {failfast: true}), {
           wrapper: ({children}) => (
             <Context.Provider
-              // eslint-disable-next-line react/jsx-no-constructed-context-values
-              value={{globalData: {foo: {default: 'default', bar: 'bar'}}}}>
+              value={
+                // eslint-disable-next-line react/jsx-no-constructed-context-values
+                {
+                  globalData: {foo: {default: 'default', bar: 'bar'}},
+                } as unknown as DocusaurusContext
+              }>
               {children}
             </Context.Provider>
           ),

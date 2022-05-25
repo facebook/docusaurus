@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/module-type-aliases" />
+
 declare module '@docusaurus/plugin-content-docs' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {
@@ -15,7 +17,7 @@ declare module '@docusaurus/plugin-content-docs' {
     Tag,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
-  import type {Required} from 'utility-types';
+  import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
     image?: string;
@@ -204,7 +206,22 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       tagsBasePath: string;
     };
-  export type Options = Partial<PluginOptions>;
+  export type Options = Partial<
+    Overwrite<
+      PluginOptions,
+      {
+        /**
+         * Custom parsing logic to extract number prefixes from file names. Use
+         * `false` to disable this behavior and leave the docs untouched, and
+         * `true` to use the default parser.
+         *
+         * @param filename One segment of the path, without any slashes.
+         * @see https://docusaurus.io/docs/sidebar#using-number-prefixes
+         */
+        numberPrefixParser: PluginOptions['numberPrefixParser'] | boolean;
+      }
+    >
+  >;
   export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
 
   export type VersionMetadata = ContentPaths & {

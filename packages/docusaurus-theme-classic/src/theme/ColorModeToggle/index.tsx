@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/ColorModeToggle';
+import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
 import IconLightMode from '@theme/IconLightMode';
 import IconDarkMode from '@theme/IconDarkMode';
+import type {Props} from '@theme/ColorModeToggle';
 
-import clsx from 'clsx';
 import styles from './styles.module.css';
 
 function ColorModeToggle({className, value, onChange}: Props): JSX.Element {

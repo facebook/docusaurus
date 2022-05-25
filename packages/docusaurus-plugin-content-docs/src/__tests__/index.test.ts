@@ -7,37 +7,49 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
+import fs from 'fs-extra';
+import _ from 'lodash';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
-import _ from 'lodash';
-
-import fs from 'fs-extra';
-import pluginContentDocs from '../index';
+import webpack from 'webpack';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
-import type {RouteConfig} from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins/routeConfig';
-
-import * as cliDocs from '../cli';
-import {validateOptions} from '../options';
+import {posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {LoadedVersion} from '../types';
-import type {
-  SidebarItem,
-  SidebarItemsGeneratorOption,
-  SidebarItemsGeneratorOptionArgs,
-} from '../sidebars/types';
-import {toSidebarsProp} from '../props';
 
-import webpack from 'webpack';
+import pluginContentDocs from '../index';
+import {toSidebarsProp} from '../props';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
+import * as cliDocs from '../cli';
+import {validateOptions} from '../options';
 
-function findDocById(version: LoadedVersion, unversionedId: string) {
+import type {RouteConfig, Validate, Plugin} from '@docusaurus/types';
+import type {
+  LoadedVersion,
+  Options,
+  PluginOptions,
+  PropSidebarItemLink,
+} from '@docusaurus/plugin-content-docs';
+import type {
+  SidebarItemsGeneratorOption,
+  NormalizedSidebar,
+} from '../sidebars/types';
+
+function findDocById(
+  version: LoadedVersion | undefined,
+  unversionedId: string,
+) {
+  if (!version) {
+    throw new Error('Version not found');
+  }
   return version.docs.find((item) => item.unversionedId === unversionedId);
 }
-function getDocById(version: LoadedVersion, unversionedId: string) {
+function getDocById(version: LoadedVersion | undefined, unversionedId: string) {
+  if (!version) {
+    throw new Error('Version not found');
+  }
   const doc = findDocById(version, unversionedId);
   if (!doc) {
     throw new Error(
@@ -59,9 +71,9 @@ const createFakeActions = (contentDir: string) => {
     addRoute: (config: RouteConfig) => {
       routeConfigs.push(config);
     },
-    createData: async (name: string, content: unknown) => {
+    createData: (name: string, content: unknown) => {
       dataContainer[name] = content;
-      return path.join(contentDir, name);
+      return Promise.resolve(path.join(contentDir, name));
     },
     setGlobalData: (data: unknown) => {
       globalDataContainer.pluginName = {pluginId: data};
@@ -88,7 +100,10 @@ Entries created:
     getGlobalData: () => globalDataContainer,
     getRouteConfigs: () => routeConfigs,
 
-    checkVersionMetadataPropCreated: (version: LoadedVersion) => {
+    checkVersionMetadataPropCreated: (version: LoadedVersion | undefined) => {
+      if (!version) {
+        throw new Error('Version not found');
+      }
       const versionMetadataProp = getCreatedDataByPrefix(
         `version-${_.kebabCase(version.versionName)}-metadata-prop`,
       );
@@ -120,7 +135,7 @@ describe('sidebar', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           sidebarPath,
         },
@@ -137,7 +152,7 @@ describe('sidebar', () => {
       const plugin = await pluginContentDocs(
         context,
         validateOptions({
-          validate: normalizePluginOptions,
+          validate: normalizePluginOptions as Validate<Options, PluginOptions>,
           options: {
             sidebarPath: 'wrong-path-sidebar.json',
           },
@@ -160,7 +175,7 @@ describe('sidebar', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           sidebarPath: undefined,
         },
@@ -169,7 +184,7 @@ describe('sidebar', () => {
     const result = await plugin.loadContent!();
 
     expect(result.loadedVersions).toHaveLength(1);
-    expect(result.loadedVersions[0].sidebars).toMatchSnapshot();
+    expect(result.loadedVersions[0]!.sidebars).toMatchSnapshot();
   });
 
   it('site with disabled sidebar', async () => {
@@ -178,7 +193,7 @@ describe('sidebar', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           sidebarPath: false,
         },
@@ -187,7 +202,7 @@ describe('sidebar', () => {
     const result = await plugin.loadContent!();
 
     expect(result.loadedVersions).toHaveLength(1);
-    expect(result.loadedVersions[0].sidebars).toEqual(DisabledSidebars);
+    expect(result.loadedVersions[0]!.sidebars).toEqual(DisabledSidebars);
   });
 });
 
@@ -199,7 +214,10 @@ describe('empty/no docs website', () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = await pluginContentDocs(
       context,
-      validateOptions({validate: normalizePluginOptions, options: {}}),
+      validateOptions({
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+        options: {},
+      }),
     );
     await expect(
       plugin.loadContent!(),
@@ -214,7 +232,7 @@ describe('empty/no docs website', () => {
       pluginContentDocs(
         context,
         validateOptions({
-          validate: normalizePluginOptions,
+          validate: normalizePluginOptions as Validate<Options, PluginOptions>,
           options: {
             path: 'path/does/not/exist',
           },
@@ -232,7 +250,7 @@ describe('simple website', () => {
     const context = await loadContext({siteDir});
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const options = validateOptions({
-      validate: normalizePluginOptions,
+      validate: normalizePluginOptions as Validate<Options, PluginOptions>,
       options: {
         path: 'docs',
         sidebarPath,
@@ -286,7 +304,7 @@ describe('simple website', () => {
     const content = await plugin.loadContent?.();
 
     const config = applyConfigureWebpack(
-      plugin.configureWebpack,
+      plugin.configureWebpack as NonNullable<Plugin['configureWebpack']>,
       {
         entry: './src/index.js',
         output: {
@@ -314,7 +332,7 @@ describe('simple website', () => {
 
     expect(getDocById(currentVersion, 'foo/bar')).toMatchSnapshot();
 
-    expect(currentVersion.sidebars).toMatchSnapshot();
+    expect(currentVersion!.sidebars).toMatchSnapshot();
 
     const {actions, utils} = createFakeActions(pluginContentDir);
 
@@ -339,7 +357,7 @@ describe('versioned website', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const routeBasePath = 'docs';
     const options = validateOptions({
-      validate: normalizePluginOptions,
+      validate: normalizePluginOptions as Validate<Options, PluginOptions>,
       options: {
         routeBasePath,
         sidebarPath,
@@ -432,10 +450,12 @@ describe('versioned website', () => {
     expect(getDocById(version101, 'hello')).toMatchSnapshot();
     expect(getDocById(version100, 'foo/baz')).toMatchSnapshot();
 
-    expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
-    expect(version101.sidebars).toMatchSnapshot('101 version sidebars');
-    expect(version100.sidebars).toMatchSnapshot('100 version sidebars');
-    expect(versionWithSlugs.sidebars).toMatchSnapshot(
+    expect(currentVersion!.sidebars).toMatchSnapshot(
+      'current version sidebars',
+    );
+    expect(version101!.sidebars).toMatchSnapshot('101 version sidebars');
+    expect(version100!.sidebars).toMatchSnapshot('100 version sidebars');
+    expect(versionWithSlugs!.sidebars).toMatchSnapshot(
       'withSlugs version sidebars',
     );
 
@@ -463,7 +483,7 @@ describe('versioned website (community)', () => {
     const routeBasePath = 'community';
     const pluginId = 'community';
     const options = validateOptions({
-      validate: normalizePluginOptions,
+      validate: normalizePluginOptions as Validate<Options, PluginOptions>,
       options: {
         id: 'community',
         path: 'community',
@@ -539,8 +559,10 @@ describe('versioned website (community)', () => {
     expect(getDocById(currentVersion, 'team')).toMatchSnapshot();
     expect(getDocById(version100, 'team')).toMatchSnapshot();
 
-    expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
-    expect(version100.sidebars).toMatchSnapshot('100 version sidebars');
+    expect(currentVersion!.sidebars).toMatchSnapshot(
+      'current version sidebars',
+    );
+    expect(version100!.sidebars).toMatchSnapshot('100 version sidebars');
 
     const {actions, utils} = createFakeActions(pluginContentDir);
     await plugin.contentLoaded!({
@@ -549,8 +571,8 @@ describe('versioned website (community)', () => {
       allContent: {},
     });
 
-    utils.checkVersionMetadataPropCreated(currentVersion);
-    utils.checkVersionMetadataPropCreated(version100);
+    utils.checkVersionMetadataPropCreated(currentVersion!);
+    utils.checkVersionMetadataPropCreated(version100!);
 
     utils.expectSnapshot();
   });
@@ -564,7 +586,7 @@ describe('site with doc label', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           path: 'docs',
           sidebarPath,
@@ -579,18 +601,22 @@ describe('site with doc label', () => {
 
   it('label in sidebar.json is used', async () => {
     const {content} = await loadSite();
-    const loadedVersion = content.loadedVersions[0];
+    const loadedVersion = content.loadedVersions[0]!;
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect(sidebarProps.docs[0].label).toBe('Hello One');
+    expect((sidebarProps.docs![0] as PropSidebarItemLink).label).toBe(
+      'Hello One',
+    );
   });
 
   it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
     const {content} = await loadSite();
-    const loadedVersion = content.loadedVersions[0];
+    const loadedVersion = content.loadedVersions[0]!;
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect(sidebarProps.docs[1].label).toBe('Hello 2 From Doc');
+    expect((sidebarProps.docs![1] as PropSidebarItemLink).label).toBe(
+      'Hello 2 From Doc',
+    );
   });
 });
 
@@ -605,7 +631,7 @@ describe('site with full autogenerated sidebar', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           path: 'docs',
         },
@@ -619,14 +645,14 @@ describe('site with full autogenerated sidebar', () => {
 
   it('sidebar is fully autogenerated', async () => {
     const {content} = await loadSite();
-    const version = content.loadedVersions[0];
+    const version = content.loadedVersions[0]!;
 
     expect(version.sidebars).toMatchSnapshot();
   });
 
   it('docs in fully generated sidebar have correct metadata', async () => {
     const {content} = await loadSite();
-    const version = content.loadedVersions[0];
+    const version = content.loadedVersions[0]!;
 
     expect(getDocById(version, 'getting-started')).toMatchSnapshot();
     expect(getDocById(version, 'installation')).toMatchSnapshot();
@@ -660,7 +686,7 @@ describe('site with partial autogenerated sidebars', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           path: 'docs',
           sidebarPath: path.join(
@@ -680,14 +706,14 @@ describe('site with partial autogenerated sidebars', () => {
 
   it('sidebar is partially autogenerated', async () => {
     const {content} = await loadSite();
-    const version = content.loadedVersions[0];
+    const version = content.loadedVersions[0]!;
 
     expect(version.sidebars).toMatchSnapshot();
   });
 
   it('docs in partially generated sidebar have correct metadata', async () => {
     const {content} = await loadSite();
-    const version = content.loadedVersions[0];
+    const version = content.loadedVersions[0]!;
 
     // Only looking at the docs of the autogen sidebar, others metadata should
     // not be affected
@@ -716,7 +742,7 @@ describe('site with partial autogenerated sidebars 2 (fix #4638)', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           path: 'docs',
           sidebarPath: path.join(
@@ -736,7 +762,7 @@ describe('site with partial autogenerated sidebars 2 (fix #4638)', () => {
 
   it('sidebar is partially autogenerated', async () => {
     const {content} = await loadSite();
-    const version = content.loadedVersions[0];
+    const version = content.loadedVersions[0]!;
 
     expect(version.sidebars).toMatchSnapshot();
   });
@@ -753,7 +779,7 @@ describe('site with custom sidebar items generator', () => {
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
-        validate: normalizePluginOptions,
+        validate: normalizePluginOptions as Validate<Options, PluginOptions>,
         options: {
           path: 'docs',
           sidebarItemsGenerator,
@@ -768,14 +794,16 @@ describe('site with custom sidebar items generator', () => {
     const customSidebarItemsGeneratorMock = jest.fn(async () => []);
     const {siteDir} = await loadSite(customSidebarItemsGeneratorMock);
 
-    const generatorArg: SidebarItemsGeneratorOptionArgs =
-      customSidebarItemsGeneratorMock.mock.calls[0][0];
+    const generatorArg = (
+      customSidebarItemsGeneratorMock.mock
+        .calls[0] as unknown as Parameters<SidebarItemsGeneratorOption>
+    )[0];
 
     // Make test pass even if docs are in different order and paths are
     // absolutes
     function makeDeterministic(
-      arg: SidebarItemsGeneratorOptionArgs,
-    ): SidebarItemsGeneratorOptionArgs {
+      arg: Parameters<SidebarItemsGeneratorOption>[0],
+    ): Parameters<SidebarItemsGeneratorOption>[0] {
       return {
         ...arg,
         docs: _.orderBy(arg.docs, 'id'),
@@ -802,12 +830,12 @@ describe('site with custom sidebar items generator', () => {
     const {content} = await loadSite(customSidebarItemsGenerator);
     const version = content.loadedVersions[0];
 
-    expect(version.sidebars).toMatchSnapshot();
+    expect(version!.sidebars).toMatchSnapshot();
   });
 
   it('sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator', async () => {
-    function reverseSidebarItems(items: SidebarItem[]): SidebarItem[] {
-      const result: SidebarItem[] = items.map((item) => {
+    function reverseSidebarItems(items: NormalizedSidebar): NormalizedSidebar {
+      const result: NormalizedSidebar = items.map((item) => {
         if (item.type === 'category') {
           return {...item, items: reverseSidebarItems(item.items)};
         }
@@ -826,7 +854,7 @@ describe('site with custom sidebar items generator', () => {
     };
 
     const {content} = await loadSite(reversedSidebarItemsGenerator);
-    const version = content.loadedVersions[0];
+    const version = content.loadedVersions[0]!;
 
     expect(version.sidebars).toMatchSnapshot();
   });

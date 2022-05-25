@@ -11,8 +11,8 @@ import React, {
   type ComponentProps,
   type ReactElement,
 } from 'react';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
 
@@ -92,7 +92,7 @@ export function Details({
         }
       }}>
       {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
-      {summary || <summary>Details</summary>}
+      {summary ?? <summary>Details</summary>}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case

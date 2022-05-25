@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {usePrevious} from '../reactUtils';
 import {renderHook} from '@testing-library/react-hooks';
+import {usePrevious} from '../reactUtils';
 
 describe('usePrevious', () => {
   it('returns the previous value of a variable', () => {

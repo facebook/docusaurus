@@ -6,14 +6,14 @@
  */
 
 import http from 'http';
-import serveHandler from 'serve-handler';
-import logger from '@docusaurus/logger';
 import path from 'path';
-import type {LoadContextOptions} from '../server';
+import logger from '@docusaurus/logger';
+import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import serveHandler from 'serve-handler';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
-import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import type {LoadContextOptions} from '../server';
 
 export type ServeCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'config'> & {
@@ -66,7 +66,7 @@ export async function serve(
 
     // Remove baseUrl before calling serveHandler, because /baseUrl/ should
     // serve /build/index.html, not /build/baseUrl/index.html (does not exist)
-    req.url = req.url?.replace(baseUrl, '/');
+    req.url = req.url.replace(baseUrl, '/');
 
     serveHandler(req, res, {
       cleanUrls: true,

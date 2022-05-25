@@ -85,12 +85,14 @@ export const darkStorage = createStorageSlot('ifm-theme-colors-dark', {
   persistence: 'sessionStorage',
 });
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function getAdjustedColors(shades: Shades, baseColor: string) {
+export function getAdjustedColors(
+  shades: Shades,
+  baseColor: string,
+): (Shades[string] & {variableName: string; hex: string})[] {
   return Object.keys(shades).map((shade) => ({
-    ...shades[shade],
+    ...shades[shade]!,
     variableName: shade,
-    hex: Color(baseColor).darken(shades[shade].adjustment).hex(),
+    hex: Color(baseColor).darken(shades[shade]!.adjustment).hex(),
   }));
 }
 

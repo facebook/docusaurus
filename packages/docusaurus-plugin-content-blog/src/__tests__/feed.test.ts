@@ -8,11 +8,11 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
+import {DEFAULT_OPTIONS} from '../options';
+import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
 import type {LoadContext, I18n} from '@docusaurus/types';
 import type {BlogContentPaths} from '../types';
-import {DEFAULT_OPTIONS} from '../options';
-import {generateBlogPosts} from '../blogUtils';
 import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 const DefaultI18N: I18n = {
@@ -21,6 +21,9 @@ const DefaultI18N: I18n = {
   defaultLocale: 'en',
   localeConfigs: {
     en: {
+      label: 'English',
+      direction: 'ltr',
+      htmlLang: 'en',
       calendar: 'gregory',
     },
   },
@@ -89,6 +92,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
       } as PluginOptions,
     );
 
@@ -128,10 +132,13 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
       } as PluginOptions,
     );
 
-    expect(fsMock.mock.calls.map((call) => call[1])).toMatchSnapshot();
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
     fsMock.mockClear();
   });
 });

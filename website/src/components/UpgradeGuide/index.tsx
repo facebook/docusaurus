@@ -11,11 +11,11 @@ import {
   useActiveDocContext,
   useVersions,
 } from '@docusaurus/plugin-content-docs/client';
-import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
-import CodeBlock from '@theme/CodeBlock';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import Translate from '@docusaurus/Translate';
+import Admonition from '@theme/Admonition';
+import CodeBlock from '@theme/CodeBlock';
 
 function PackageJson() {
   const latestVersion = useLatestVersion();
@@ -23,7 +23,7 @@ function PackageJson() {
   // Only happens in deploy preview / local dev, but still nice
   const versionName =
     latestVersion.name === 'current' && allVersions.length > 1
-      ? allVersions[1].name
+      ? allVersions[1]!.name
       : latestVersion.name;
   return (
     <CodeBlock language="json" title="package.json">{`{

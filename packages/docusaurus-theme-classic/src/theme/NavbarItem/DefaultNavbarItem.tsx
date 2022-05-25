@@ -7,15 +7,12 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
-
+import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
-
-import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 
 function DefaultNavbarItemDesktop({
   className,

@@ -14,7 +14,6 @@ interface Props {
   anchorEl?: HTMLElement | string;
   id: string;
   text: string;
-  delay?: number;
   children: React.ReactElement;
 }
 
@@ -23,7 +22,6 @@ export default function Tooltip({
   id,
   anchorEl,
   text,
-  delay,
 }: Props): JSX.Element {
   const [open, setOpen] = useState(false);
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -84,7 +82,7 @@ export default function Tooltip({
 
       timeout.current = window.setTimeout(() => {
         setOpen(true);
-      }, delay || 400);
+      }, 400);
     };
 
     const handleClose = () => {
@@ -113,7 +111,7 @@ export default function Tooltip({
         });
       }
     };
-  }, [referenceElement, text, delay]);
+  }, [referenceElement, text]);
 
   return (
     <>

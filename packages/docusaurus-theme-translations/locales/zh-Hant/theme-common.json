@@ -4,7 +4,7 @@
   "theme.CodeBlock.copied": "複製成功",
   "theme.CodeBlock.copy": "複製",
   "theme.CodeBlock.copyButtonAriaLabel": "複製代碼至剪貼簿",
-  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
+  "theme.CodeBlock.wordWrapToggle": "切換自動換行",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "打開/收起側邊欄選單「{label}」",
   "theme.ErrorPageContent.title": "此頁已當機。",
   "theme.ErrorPageContent.tryAgain": "重試",

@@ -5,11 +5,10 @@
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy && yarn build:format",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.mjs",
-    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"

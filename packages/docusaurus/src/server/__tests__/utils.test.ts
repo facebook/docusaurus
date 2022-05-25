@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RouteConfig} from '@docusaurus/types';
 import {getAllFinalRoutes} from '../utils';
+import type {RouteConfig} from '@docusaurus/types';
 
 describe('getAllFinalRoutes', () => {
   it('gets final routes correctly', () => {
@@ -25,8 +25,8 @@ describe('getAllFinalRoutes', () => {
       },
     ];
     expect(getAllFinalRoutes(routes)).toEqual([
-      routes[0].routes[0],
-      routes[0].routes[1],
+      routes[0]!.routes![0],
+      routes[0]!.routes![1],
       routes[1],
     ]);
   });

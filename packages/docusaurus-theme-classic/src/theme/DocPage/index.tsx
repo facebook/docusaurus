@@ -6,12 +6,7 @@
  */
 
 import React from 'react';
-import NotFound from '@theme/NotFound';
-import type {Props} from '@theme/DocPage';
-import DocPageLayout from '@theme/DocPage/Layout';
-
 import clsx from 'clsx';
-
 import {
   HtmlClassNameProvider,
   ThemeClassNames,
@@ -20,7 +15,10 @@ import {
   DocsVersionProvider,
   useDocRouteMetadata,
 } from '@docusaurus/theme-common';
+import DocPageLayout from '@theme/DocPage/Layout';
+import NotFound from '@theme/NotFound';
 import SearchMetadata from '@theme/SearchMetadata';
+import type {Props} from '@theme/DocPage';
 
 export default function DocPage(props: Props): JSX.Element {
   const {versionMetadata} = props;

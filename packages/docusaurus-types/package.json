@@ -12,9 +12,6 @@
     "directory": "packages/docusaurus-types"
   },
   "license": "MIT",
-  "scripts": {
-    "test": "tsc -p ."
-  },
   "dependencies": {
     "commander": "^5.1.0",
     "history": "^4.9.0",

@@ -21,11 +21,13 @@
 // in their tsconfig.
 
 declare module '@docusaurus/theme-classic' {
-  import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {LoadContext, Plugin, PluginModule} from '@docusaurus/types';
 
   export type Options = {
     customCss?: string | string[];
   };
+
+  export const getSwizzleConfig: PluginModule['getSwizzleConfig'];
 
   export default function themeClassic(
     context: LoadContext,
@@ -814,7 +816,6 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
-
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
   export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
@@ -974,7 +975,7 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
-  export type Types = Props['type'];
+  export type NavbarItemType = Props['type'];
 
   export default function NavbarItem(props: Props): JSX.Element;
 }

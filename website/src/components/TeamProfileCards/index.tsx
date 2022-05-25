@@ -12,7 +12,7 @@ import Link from '@docusaurus/Link';
 function WebsiteLink({to, children}: {to: string; children?: ReactNode}) {
   return (
     <Link to={to}>
-      {children || (
+      {children ?? (
         <Translate id="team.profile.websiteLinkLabel">website</Translate>
       )}
     </Link>
@@ -23,7 +23,7 @@ type ProfileProps = {
   className?: string;
   name: string;
   children: ReactNode;
-  githubUrl?: string;
+  githubUrl: string;
   twitterUrl?: string;
 };
 

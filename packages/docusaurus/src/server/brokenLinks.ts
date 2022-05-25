@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {matchRoutes} from 'react-router-config';
 import fs from 'fs-extra';
+import path from 'path';
 import _ from 'lodash';
-import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import logger from '@docusaurus/logger';
+import combinePromises from 'combine-promises';
+import {matchRoutes} from 'react-router-config';
 import {
   removePrefix,
   removeSuffix,
@@ -16,9 +18,7 @@ import {
   resolvePathname,
 } from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
-import path from 'path';
-import combinePromises from 'combine-promises';
-import logger from '@docusaurus/logger';
+import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
 type BrokenLink = {
   link: string;

@@ -7,11 +7,11 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import tree from 'tree-node-cli';
+import {posixPath} from '@docusaurus/utils';
+import {eject, wrap} from '../actions';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
-import tree from 'tree-node-cli';
-import {eject, wrap} from '../actions';
-import {posixPath} from '@docusaurus/utils';
 
 // Use relative paths and sort files for tests
 function stableCreatedFiles(
@@ -126,7 +126,7 @@ describe('wrap', () => {
       siteDir,
       siteThemePath,
       createdFiles: stableCreatedFiles(siteThemePath, result.createdFiles),
-      firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
+      firstFileContent: () => fs.readFile(result.createdFiles[0]!, 'utf8'),
       tree: tree(siteThemePath),
     };
   }

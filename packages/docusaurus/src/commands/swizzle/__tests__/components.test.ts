@@ -7,8 +7,8 @@
 
 import path from 'path';
 import {getThemeComponents, readComponentNames} from '../components';
-import type {SwizzleConfig} from '@docusaurus/types';
 import {Components} from './testUtils';
+import type {SwizzleConfig} from '@docusaurus/types';
 
 const FixtureThemePath = path.join(__dirname, '__fixtures__/theme');
 

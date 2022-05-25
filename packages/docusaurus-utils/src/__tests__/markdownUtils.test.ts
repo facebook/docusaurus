@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import dedent from 'dedent';
 import {
   createExcerpt,
   parseMarkdownContentTitle,
@@ -12,7 +13,6 @@ import {
   parseMarkdownHeadingId,
   writeMarkdownHeadingId,
 } from '../markdownUtils';
-import dedent from 'dedent';
 
 describe('createExcerpt', () => {
   it('creates excerpt for text-only content', () => {

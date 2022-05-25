@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {OptionValidationContext} from '@docusaurus/types';
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
+import type {OptionValidationContext} from '@docusaurus/types';
 
 export type RedirectOption = {
   to: string;
@@ -66,6 +66,6 @@ const UserOptionsSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options: userOptions,
-}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
+}: OptionValidationContext<Options | undefined, PluginOptions>): PluginOptions {
   return validate(UserOptionsSchema, userOptions);
 }

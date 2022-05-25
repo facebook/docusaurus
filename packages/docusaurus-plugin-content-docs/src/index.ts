@@ -6,7 +6,8 @@
  */
 
 import path from 'path';
-
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {
   normalizeUrl,
   docuHash,
@@ -19,20 +20,15 @@ import {
   createSlugger,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import type {DocEnv} from './docs';
-import {readVersionDocs, processDocMetadata, addDocNavigation} from './docs';
+import {
+  readVersionDocs,
+  processDocMetadata,
+  addDocNavigation,
+  type DocEnv,
+} from './docs';
 import {readVersionsMetadata} from './versions';
-import type {
-  SourceToPermalink,
-  DocFile,
-  DocsMarkdownOption,
-  VersionTag,
-  FullVersion,
-} from './types';
-import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
@@ -42,9 +38,10 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
+import {createSidebarsUtils} from './sidebars/utils';
+
 import type {
   PropTagsListPage,
   PluginOptions,
@@ -54,8 +51,15 @@ import type {
   LoadedContent,
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
-import {createSidebarsUtils} from './sidebars/utils';
-import _ from 'lodash';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {
+  SourceToPermalink,
+  DocFile,
+  DocsMarkdownOption,
+  VersionTag,
+  FullVersion,
+} from './types';
+import type {RuleSetRule} from 'webpack';
 
 export default async function pluginContentDocs(
   context: LoadContext,
@@ -96,7 +100,7 @@ export default async function pluginContentDocs(
         .command(command)
         .arguments('<version>')
         .description(commandDescription)
-        .action((version) => {
+        .action((version: unknown) => {
           cliDocsVersionCommand(version, options, context);
         });
     },
@@ -139,7 +143,7 @@ export default async function pluginContentDocs(
             )}".`,
           );
         }
-        async function processVersionDoc(docFile: DocFile) {
+        function processVersionDoc(docFile: DocFile) {
           return processDocMetadata({
             docFile,
             versionMetadata,

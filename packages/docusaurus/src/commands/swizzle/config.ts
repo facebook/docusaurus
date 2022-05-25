@@ -5,20 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import {Joi} from '@docusaurus/utils-validation';
-import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
-import type {SwizzlePlugin} from './common';
 import {SwizzleActions, SwizzleActionsStatuses} from './common';
 import {getPluginByThemeName} from './themes';
-import logger from '@docusaurus/logger';
+import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
+import type {SwizzlePlugin} from './common';
 
 function getModuleSwizzleConfig(
   swizzlePlugin: SwizzlePlugin,
 ): SwizzleConfig | undefined {
   const getSwizzleConfig =
-    swizzlePlugin.plugin.plugin?.getSwizzleConfig ??
-    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig ??
-    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleConfig;
+    swizzlePlugin.plugin.plugin.getSwizzleConfig ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig;
 
   if (getSwizzleConfig) {
     return getSwizzleConfig();
@@ -26,9 +25,8 @@ function getModuleSwizzleConfig(
 
   // TODO deprecate getSwizzleComponentList later
   const getSwizzleComponentList =
-    swizzlePlugin.plugin.plugin?.getSwizzleComponentList ??
-    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList ??
-    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleComponentList;
+    swizzlePlugin.plugin.plugin.getSwizzleComponentList ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList;
 
   if (getSwizzleComponentList) {
     const safeComponents = getSwizzleComponentList() ?? [];

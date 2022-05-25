@@ -6,6 +6,8 @@
  */
 
 import {useMemo} from 'react';
+import {matchPath, useLocation} from '@docusaurus/router';
+import renderRoutes from '@docusaurus/renderRoutes';
 import {
   useAllDocsData,
   useActivePlugin,
@@ -15,6 +17,12 @@ import {
   type GlobalSidebar,
   type GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
+import type {Props as DocPageProps} from '@theme/DocPage';
+import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
+import {useDocsVersion} from '../contexts/docsVersion';
+import {useDocsSidebar} from '../contexts/docsSidebar';
+import {uniq} from './jsUtils';
+import {isSamePath} from './routesUtils';
 import type {
   PropSidebar,
   PropSidebarItem,
@@ -22,14 +30,6 @@ import type {
   PropVersionDoc,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
-import type {Props as DocPageProps} from '@theme/DocPage';
-import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
-import {useDocsVersion} from '../contexts/docsVersion';
-import {useDocsSidebar} from '../contexts/docsSidebar';
-import {uniq} from './jsUtils';
-import {isSamePath} from './routesUtils';
-import {matchPath, useLocation} from '@docusaurus/router';
-import renderRoutes from '@docusaurus/renderRoutes';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -318,7 +318,7 @@ export function useDocRouteMetadata({
   }
 
   // For now, the sidebarName is added as route config: not ideal!
-  const sidebarName = currentDocRoute.sidebar;
+  const sidebarName = currentDocRoute.sidebar as string;
 
   const sidebarItems = sidebarName
     ? versionMetadata.docsSidebars[sidebarName]

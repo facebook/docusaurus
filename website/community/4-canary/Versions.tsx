@@ -8,12 +8,12 @@
 import React, {useContext, useEffect, useState, type ReactNode} from 'react';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {useVersions} from '@docusaurus/plugin-content-docs/client';
-import CodeBlock from '@theme/CodeBlock';
 import Translate from '@docusaurus/Translate';
+import CodeBlock from '@theme/CodeBlock';
 
 type ContextValue = {
   name: string;
-  time: string;
+  time: string | undefined;
 };
 
 const Context = React.createContext<ContextValue | null>(null);
@@ -27,11 +27,13 @@ export function VersionsProvider({
   useEffect(() => {
     fetch('https://registry.npmjs.org/@docusaurus/core')
       .then((res) => res.json())
-      .then((data) => {
-        const name = Object.keys(data.versions).at(-1)!;
-        const time = data.time[name];
-        setCanaryVersion({name, time});
-      });
+      .then(
+        (data: {versions: string[]; time: {[versionName: string]: string}}) => {
+          const name = Object.keys(data.versions).at(-1)!;
+          const time = data.time[name];
+          setCanaryVersion({name, time});
+        },
+      );
   }, []);
   return <Context.Provider value={canaryVersion}>{children}</Context.Provider>;
 }
@@ -42,7 +44,7 @@ function useStableVersion(): string {
 
   const allVersions = useVersions('default');
   const lastVersion = (
-    allVersions.find((v) => v.name !== 'current') ?? allVersions[0]
+    allVersions.find((v) => v.name !== 'current') ?? allVersions[0]!
   ).name;
   return preferredVersion && preferredVersion !== 'current'
     ? preferredVersion

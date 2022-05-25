@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import Layout from '@theme/Layout';
 import Interpolate from '@docusaurus/Interpolate';
+import Layout from '@theme/Layout';
 
 import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton';
 

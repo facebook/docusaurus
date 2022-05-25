@@ -17,7 +17,7 @@ export default function plugin(): Transformer {
   return (root) => {
     const slugs = createSlugger();
     visit(root, 'heading', (headingNode: Heading) => {
-      const data = headingNode.data || (headingNode.data = {});
+      const data = headingNode.data ?? (headingNode.data = {});
       const properties = (data.hProperties || (data.hProperties = {})) as {
         id: string;
       };
@@ -36,7 +36,7 @@ export default function plugin(): Transformer {
         // Support explicit heading IDs
         const parsedHeading = parseMarkdownHeadingId(heading);
 
-        id = parsedHeading.id || slugs.slug(heading);
+        id = parsedHeading.id ?? slugs.slug(heading);
 
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node

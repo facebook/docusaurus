@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -15,7 +16,6 @@ import {
   usePrismTheme,
   useCodeWordWrap,
 } from '@docusaurus/theme-common';
-import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import Line from '@theme/CodeBlock/Line';
 import CopyButton from '@theme/CodeBlock/CopyButton';
@@ -52,7 +52,7 @@ export default function CodeBlockString({
     magicComments,
   });
   const showLineNumbers =
-    showLineNumbersProp || containsLineNumbers(metastring);
+    showLineNumbersProp ?? containsLineNumbers(metastring);
 
   return (
     <Container

@@ -58,7 +58,7 @@ export default function getSlug({
     ) {
       return dirNameSlug;
     }
-    const baseSlug = frontMatterSlug || baseID;
+    const baseSlug = frontMatterSlug ?? baseID;
     return resolvePathname(baseSlug, getDirNameSlug());
   }
 

@@ -12,10 +12,10 @@ import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import MDXComponents from '@theme/MDXComponents';
+import ChangelogAuthors from '@theme/ChangelogAuthors';
 import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
-import ChangelogAuthors from '@theme/ChangelogAuthors';
 
 export default function ChangelogItem(props: Props): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();

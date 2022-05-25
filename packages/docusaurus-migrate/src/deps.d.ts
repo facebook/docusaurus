@@ -5,6 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module '@mapbox/hast-util-to-jsx';
+declare module '@mapbox/hast-util-to-jsx' {
+  import type {Node} from 'unist';
 
-declare module 'hast-util-to-string';
+  export default function toJsx(node: Node): string;
+}
+
+declare module 'hast-util-to-string' {
+  import type {Node} from 'unist';
+
+  export default function toString(node: Node): string;
+}

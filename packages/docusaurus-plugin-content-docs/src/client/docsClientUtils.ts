@@ -126,6 +126,6 @@ export function getDocVersionSuggestions(
   const latestVersion = getLatestVersion(data);
   const activeDocContext = getActiveDocContext(data, pathname);
   const latestDocSuggestion: GlobalDoc | undefined =
-    activeDocContext?.alternateDocVersions[latestVersion.name];
+    activeDocContext.alternateDocVersions[latestVersion.name];
   return {latestDocSuggestion, latestVersionSuggestion: latestVersion};
 }
