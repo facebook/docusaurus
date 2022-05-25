@@ -777,6 +777,7 @@ declare module '@theme/Navbar/Search' {
 
   export interface Props {
     readonly children: ReactNode;
+    readonly className?: string;
   }
 
   export default function NavbarSearch(props: Props): JSX.Element;
@@ -834,6 +835,7 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
 declare module '@theme/NavbarItem/SearchNavbarItem' {
   export interface Props {
     readonly mobile?: boolean;
+    readonly className?: string;
   }
 
   export default function SearchNavbarItem(props: Props): JSX.Element;
