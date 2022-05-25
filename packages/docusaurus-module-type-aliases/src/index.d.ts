@@ -80,9 +80,9 @@ declare module '@theme/Error' {
   import type {ComponentProps} from 'react';
   import type ErrorBoundary from '@docusaurus/ErrorBoundary';
 
-  type ErrorProps = ComponentProps<
+  type ErrorProps = Parameters<
     NonNullable<ComponentProps<typeof ErrorBoundary>['fallback']>
-  >;
+  >[0];
 
   export interface Props extends ErrorProps {}
   export default function Error(props: Props): JSX.Element;
@@ -125,13 +125,13 @@ declare module '@docusaurus/constants' {
 }
 
 declare module '@docusaurus/ErrorBoundary' {
-  import type {ReactNode, ComponentType} from 'react';
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly fallback?: ComponentType<{
+    readonly fallback?: (props: {
       readonly error: Error;
       readonly tryAgain: () => void;
-    }>;
+    }) => JSX.Element;
     readonly children: ReactNode;
   }
   export default function ErrorBoundary(props: Props): JSX.Element;

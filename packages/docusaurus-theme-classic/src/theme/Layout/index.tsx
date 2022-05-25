@@ -45,7 +45,9 @@ export default function Layout(props: Props): JSX.Element {
       <Navbar />
 
       <div className={clsx(ThemeClassNames.wrapper.main, wrapperClassName)}>
-        <ErrorBoundary fallback={ErrorPageContent}>{children}</ErrorBoundary>
+        <ErrorBoundary fallback={(p) => <ErrorPageContent {...p} />}>
+          {children}
+        </ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}
