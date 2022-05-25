@@ -1,5 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
+{
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [
+      "foo.js",
+    ],
+    "customFields": {},
+    "favicon": "img/docusaurus.ico",
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {},
+      "locales": [
+        "en",
+      ],
+    },
+    "noIndex": false,
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "organizationName": "endiliey",
+    "plugins": [
+      [
+        "@docusaurus/plugin-content-docs",
+        {
+          "path": "../docs",
+        },
+      ],
+      "@docusaurus/plugin-content-pages",
+    ],
+    "presets": [],
+    "projectName": "hello",
+    "scripts": [],
+    "staticDirectories": [
+      "static",
+    ],
+    "stylesheets": [],
+    "tagline": "Hello World",
+    "themeConfig": {},
+    "themes": [],
+    "title": "Hello",
+    "titleDelimiter": "|",
+    "url": "https://docusaurus.io",
+  },
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/simple-site/docusaurus.config.js",
+}
+`;
+
 exports[`loadSiteConfig website with valid async config 1`] = `
 {
   "siteConfig": {
