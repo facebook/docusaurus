@@ -1,7 +1,7 @@
 {
-  "theme.IdealImageMessage.404error": "404. Image not found",
-  "theme.IdealImageMessage.error": "Error. Click to reload",
-  "theme.IdealImageMessage.load": "Click to load{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Loading...",
-  "theme.IdealImageMessage.offline": "Your browser is offline. Image not loaded"
+  "theme.IdealImageMessage.404error": "404. Image introuvable",
+  "theme.IdealImageMessage.error": "Erreur. Cliquez pour recharger",
+  "theme.IdealImageMessage.load": "Cliquez pour charger{sizeMessage}",
+  "theme.IdealImageMessage.loading": "Chargement ...",
+  "theme.IdealImageMessage.offline": "Votre navigateur est hors ligne. Image non chargée"
 }
