@@ -4,9 +4,35 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 import type {RefObject} from 'react';
 import {useState, useCallback, useEffect, useRef} from 'react';
+import {useDynamicCallback} from '../utils/reactUtils';
+import {useMutationObserver} from './useMutationObserver';
+
+function useHiddenAttributeMutationObserver(
+  target: Element | undefined | null,
+  callback: () => void,
+) {
+  const hiddenAttributeCallback = useDynamicCallback(
+    (mutations: MutationRecord[]) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'hidden'
+        ) {
+          callback();
+        }
+      });
+    },
+  );
+
+  useMutationObserver(target, hiddenAttributeCallback, {
+    attributes: true,
+    characterData: false,
+    childList: false,
+    subtree: false,
+  });
+}
 
 export function useCodeWordWrap(): {
   readonly codeBlockRef: RefObject<HTMLPreElement>;
@@ -16,9 +42,8 @@ export function useCodeWordWrap(): {
 } {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
+  const [ancestor, setAncestor] = useState<Element | null | undefined>();
   const codeBlockRef = useRef<HTMLPreElement>(null);
-  const [mutationObserver, setMutationObserver] =
-    useState<MutationObserver | null>(null);
 
   const toggle = useCallback(() => {
     const codeElement = codeBlockRef.current!.querySelector('code')!;
@@ -37,18 +62,14 @@ export function useCodeWordWrap(): {
     const {scrollWidth, clientWidth} = codeBlockRef.current!;
     // Allows code block to update scrollWidth and clientWidth after "hidden"
     // attribute is removed
-    const hiddenAncestor = codeBlockRef.current?.closest('[hidden]');
-    if (hiddenAncestor && mutationObserver) {
-      mutationObserver.observe(hiddenAncestor, {
-        attributes: true,
-        attributeFilter: ['hidden'],
-      });
-    }
+    setAncestor(codeBlockRef.current?.closest('[hidden]'));
     const isScrollable =
       scrollWidth > clientWidth ||
       codeBlockRef.current!.querySelector('code')!.hasAttribute('style');
     setIsCodeScrollable(isScrollable);
-  }, [codeBlockRef, mutationObserver]);
+  }, [codeBlockRef]);
+
+  useHiddenAttributeMutationObserver(ancestor, updateCodeIsScrollable);
 
   useEffect(() => {
     updateCodeIsScrollable();
@@ -59,28 +80,10 @@ export function useCodeWordWrap(): {
       passive: true,
     });
 
-    if (!mutationObserver) {
-      setMutationObserver(
-        new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            if (
-              mutation.type === 'attributes' &&
-              mutation.attributeName === 'hidden'
-            ) {
-              updateCodeIsScrollable();
-            }
-          });
-        }),
-      );
-    }
-
     return () => {
       window.removeEventListener('resize', updateCodeIsScrollable);
-      if (mutationObserver) {
-        mutationObserver.disconnect();
-      }
     };
-  }, [updateCodeIsScrollable, mutationObserver]);
+  }, [updateCodeIsScrollable]);
 
   return {codeBlockRef, isEnabled, isCodeScrollable, toggle};
 }
