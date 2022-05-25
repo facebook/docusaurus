@@ -202,7 +202,7 @@ const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
 
 const SearchItemSchema = Joi.object({
   type: Joi.string().equal('search').required(),
-  className: Joi.string().default(''),
+  className: Joi.string(),
 });
 
 const NavbarItemSchema = Joi.object({
