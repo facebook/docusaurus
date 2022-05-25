@@ -21,12 +21,16 @@ import {
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
 } from '@docusaurus/utils';
-import type {LoadContext, Plugin} from '@docusaurus/types';
 import admonitions from 'remark-admonitions';
 import {validatePageFrontMatter} from './frontMatter';
 
-import type {LoadedContent, PagesContentPaths} from './types';
-import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {PagesContentPaths} from './types';
+import type {
+  PluginOptions,
+  Metadata,
+  LoadedContent,
+} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -35,10 +39,10 @@ export function getContentPathList(contentPaths: PagesContentPaths): string[] {
 const isMarkdownSource = (source: string) =>
   source.endsWith('.md') || source.endsWith('.mdx');
 
-export default async function pluginContentPages(
+export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Promise<Plugin<LoadedContent | null>> {
+): Plugin<LoadedContent | null> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],

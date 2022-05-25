@@ -5,17 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/// <reference types="@docusaurus/module-type-aliases" />
-
-import type {Sidebars} from './sidebars/types';
-import type {BrokenMarkdownLink} from '@docusaurus/utils';
+import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
 import type {
   VersionMetadata,
   LastUpdateData,
-  DocMetadata,
+  LoadedVersion,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {Tag} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
 
 export type DocFile = {
@@ -36,16 +32,6 @@ export type VersionTag = Tag & {
 };
 export type VersionTags = {
   [permalink: string]: VersionTag;
-};
-
-export type LoadedVersion = VersionMetadata & {
-  docs: DocMetadata[];
-  drafts: DocMetadata[];
-  sidebars: Sidebars;
-};
-
-export type LoadedContent = {
-  loadedVersions: LoadedVersion[];
 };
 
 export type FullVersion = LoadedVersion & {

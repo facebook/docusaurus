@@ -6,12 +6,12 @@
  */
 
 import React, {useState, useEffect, useCallback} from 'react';
+import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import {prepareUserState} from '../../index';
 
 import styles from './styles.module.css';
-import clsx from 'clsx';
 
 export type Operator = 'OR' | 'AND';
 
@@ -35,7 +35,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete(OperatorQueryKey);
     if (!operator) {
-      searchParams.append(OperatorQueryKey, operator ? 'OR' : 'AND');
+      searchParams.append(OperatorQueryKey, 'AND');
     }
     history.push({
       ...location,
@@ -59,10 +59,11 @@ export default function ShowcaseFilterToggle(): JSX.Element {
         }}
         checked={operator}
       />
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label htmlFor={id} className={clsx(styles.checkboxLabel, 'shadow--md')}>
+        {/* eslint-disable @docusaurus/no-untranslated-text */}
         <span className={styles.checkboxLabelOr}>OR</span>
         <span className={styles.checkboxLabelAnd}>AND</span>
+        {/* eslint-enable @docusaurus/no-untranslated-text */}
       </label>
     </div>
   );

@@ -7,15 +7,9 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import readingTime from 'reading-time';
 import _ from 'lodash';
-import type {
-  BlogPost,
-  BlogContentPaths,
-  BlogMarkdownLoaderOptions,
-  BlogTags,
-  BlogPaginated,
-} from './types';
+import logger from '@docusaurus/logger';
+import readingTime from 'reading-time';
 import {
   parseMarkdownString,
   normalizeUrl,
@@ -30,14 +24,17 @@ import {
   getFileCommitDate,
   getContentPathList,
 } from '@docusaurus/utils';
-import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import logger from '@docusaurus/logger';
+import type {LoadContext} from '@docusaurus/types';
 import type {
   PluginOptions,
   ReadingTimeFunction,
+  BlogPost,
+  BlogTags,
+  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
+import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -267,7 +264,7 @@ async function processBlogSourceFile(
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';
 
-  const slug = frontMatter.slug || parsedBlogFileName.slug;
+  const slug = frontMatter.slug ?? parsedBlogFileName.slug;
 
   const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
 
@@ -326,7 +323,7 @@ async function processBlogSourceFile(
             defaultReadingTime,
           })
         : undefined,
-      truncated: truncateMarker?.test(content) || false,
+      truncated: truncateMarker.test(content),
       authors,
       frontMatter,
     },

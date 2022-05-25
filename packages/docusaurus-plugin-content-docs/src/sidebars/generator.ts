@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {addTrailingSlash} from '@docusaurus/utils';
+import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
 import type {
   SidebarItemDoc,
   SidebarItemsGenerator,
@@ -13,11 +18,6 @@ import type {
   NormalizedSidebarItem,
   SidebarItemCategoryLinkConfig,
 } from './types';
-import _ from 'lodash';
-import {addTrailingSlash} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
-import path from 'path';
-import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
 
 const BreadcrumbSeparator = '/';
 
@@ -46,7 +46,7 @@ type Dir = {
 };
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
-export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
+export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
   numberPrefixParser,
   isCategoryIndex,
   docs: allDocs,

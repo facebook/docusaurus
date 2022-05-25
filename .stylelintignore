@@ -10,7 +10,6 @@ examples/
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-packages/docusaurus-*/lib-next/
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/
 website/static/katex/katex.min.css

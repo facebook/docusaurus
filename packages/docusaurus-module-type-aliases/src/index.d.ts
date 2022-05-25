@@ -8,7 +8,7 @@
 declare module '@generated/client-modules' {
   import type {ClientModule} from '@docusaurus/types';
 
-  const clientModules: readonly (ClientModule & {default: ClientModule})[];
+  const clientModules: readonly (ClientModule & {default?: ClientModule})[];
   export default clientModules;
 }
 
@@ -35,9 +35,11 @@ declare module '@generated/registry' {
 
 declare module '@generated/routes' {
   import type {RouteConfig as RRRouteConfig} from 'react-router-config';
+  import type Loadable from 'react-loadable';
 
   type RouteConfig = RRRouteConfig & {
     path: string;
+    component: ReturnType<typeof Loadable>;
   };
   const routes: RouteConfig[];
   export default routes;
@@ -75,10 +77,14 @@ declare module '@theme-original/*';
 declare module '@theme-init/*';
 
 declare module '@theme/Error' {
-  export interface Props {
-    readonly error: Error;
-    readonly tryAgain: () => void;
-  }
+  import type {ComponentProps} from 'react';
+  import type ErrorBoundary from '@docusaurus/ErrorBoundary';
+
+  type ErrorProps = ComponentProps<
+    NonNullable<ComponentProps<typeof ErrorBoundary>['fallback']>
+  >;
+
+  export interface Props extends ErrorProps {}
   export default function Error(props: Props): JSX.Element;
 }
 
@@ -119,19 +125,21 @@ declare module '@docusaurus/constants' {
 }
 
 declare module '@docusaurus/ErrorBoundary' {
-  import type {ReactNode} from 'react';
-  import type ErrorComponent from '@theme/Error';
+  import type {ReactNode, ComponentType} from 'react';
 
   export interface Props {
-    readonly fallback?: typeof ErrorComponent;
+    readonly fallback?: ComponentType<{
+      readonly error: Error;
+      readonly tryAgain: () => void;
+    }>;
     readonly children: ReactNode;
   }
   export default function ErrorBoundary(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
+  import type {HelmetProps} from 'react-helmet-async';
 
   export type Props = HelmetProps & {children: ReactNode};
 
@@ -317,14 +325,25 @@ declare module '@docusaurus/useGlobalData' {
 
   export function useAllPluginInstancesData(
     pluginName: string,
+    options: {failfast: true},
+  ): GlobalData[string];
+
+  export function useAllPluginInstancesData(
+    pluginName: string,
     options?: UseDataOptions,
   ): GlobalData[string] | undefined;
 
   export function usePluginData(
     pluginName: string,
+    pluginId: string | undefined,
+    options: {failfast: true},
+  ): NonNullable<GlobalData[string][string]>;
+
+  export function usePluginData(
+    pluginName: string,
     pluginId?: string,
     options?: UseDataOptions,
-  ): GlobalData[string][string] | undefined;
+  ): GlobalData[string][string];
 
   export default function useGlobalData(): GlobalData;
 }
@@ -345,4 +364,11 @@ declare module '*.module.css' {
 declare module '*.css' {
   const src: string;
   export default src;
+}
+
+interface Window {
+  docusaurus: {
+    prefetch: (url: string) => false | Promise<void[]>;
+    preload: (url: string) => false | Promise<void[]>;
+  };
 }

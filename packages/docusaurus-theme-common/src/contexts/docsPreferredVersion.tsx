@@ -14,21 +14,19 @@ import React, {
   type ReactNode,
 } from 'react';
 import {
+  useAllDocsData,
+  useDocsData,
+  type GlobalPluginData,
+  type GlobalVersion,
+} from '@docusaurus/plugin-content-docs/client';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+import {
   useThemeConfig,
   type DocsVersionPersistence,
 } from '../utils/useThemeConfig';
 import {isDocsPluginEnabled} from '../utils/docsUtils';
 import {ReactContextError} from '../utils/reactUtils';
 import {createStorageSlot} from '../utils/storageUtils';
-
-import {
-  useAllDocsData,
-  useDocsData,
-  type GlobalPluginData,
-  type GlobalVersion,
-} from '@docusaurus/plugin-content-docs/client';
-
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 
 const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
 

@@ -1,12 +1,14 @@
 {
   "name": "@docusaurus/plugin-debug",
-  "version": "2.0.0-beta.18",
+  "version": "2.0.0-beta.20",
   "description": "Debug plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-debug.d.ts",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.mjs",
-    "watch": "node copyUntypedFiles.mjs && tsc --watch"
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -18,14 +20,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.18",
-    "@docusaurus/utils": "2.0.0-beta.18",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
     "fs-extra": "^10.1.0",
     "react-json-view": "^1.21.3",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.18"
+    "@docusaurus/types": "2.0.0-beta.20"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

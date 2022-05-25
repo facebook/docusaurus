@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import visit from 'unist-util-visit';
+import npmToYarn from 'npm-to-yarn';
 import type {Code, Content, Literal} from 'mdast';
 import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
-import visit from 'unist-util-visit';
-import npmToYarn from 'npm-to-yarn';
 
 type PluginOptions = {
   sync?: boolean;
@@ -62,8 +62,8 @@ const nodeForImport: Literal = {
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
   return (root) => {
-    let transformed = false;
-    let alreadyImported = false;
+    let transformed = false as boolean;
+    let alreadyImported = false as boolean;
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
         alreadyImported = true;

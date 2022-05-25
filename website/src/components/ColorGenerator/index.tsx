@@ -8,12 +8,11 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Color from 'color';
-import CodeBlock from '@theme/CodeBlock';
-import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import {useColorMode} from '@docusaurus/theme-common';
-
+import CodeBlock from '@theme/CodeBlock';
+import Admonition from '@theme/Admonition';
 import {
   type ColorState,
   COLOR_SHADES,
@@ -60,7 +59,9 @@ export default function ColorGenerator(): JSX.Element {
 
   // Switch modes -> update state by stored values
   useEffect(() => {
-    const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
+    const storedValues = JSON.parse(
+      storage.get() ?? '{}',
+    ) as Partial<ColorState>;
     setInputColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
     setBaseColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
     setBackground(storedValues.background ?? DEFAULT_BACKGROUND_COLOR);
@@ -251,7 +252,7 @@ export default function ColorGenerator(): JSX.Element {
                             setShades({
                               ...shades,
                               [variableName]: {
-                                ...shades[variableName],
+                                ...shades[variableName]!,
                                 adjustmentInput: event.target.value,
                                 adjustment: Number.isNaN(newValue)
                                   ? adjustment
@@ -279,6 +280,7 @@ export default function ColorGenerator(): JSX.Element {
       <p>
         <Translate
           id="colorGenerator.text"
+          // eslint-disable-next-line @docusaurus/no-untranslated-text
           values={{cssPath: <code>src/css/custom.css</code>}}>
           {'Replace the variables in {cssPath} with these new variables.'}
         </Translate>

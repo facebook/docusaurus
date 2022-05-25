@@ -70,11 +70,22 @@ This local test step is optional because it will be run by the CI on your releas
 
 ### 3. Update the v2 changelog
 
-The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `tag:`, otherwise the PR won't appear in the changelog.
+The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `pr:`, otherwise the PR won't appear in the changelog.
 
-[Check tags of all recently merged Pull-Requests](https://github.com/facebook/docusaurus/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged+)
+Not all labels will appear in the changelog—some are designed not to. However, you should **always** label each PR, so that before release, we can do a quick scan and confirm no PR is accidentally left out. Here's a search query (pity that GH doesn't have wildcard queries yet):
 
-The `tag:` label prefix is for PRs only. Other labels are not used by the changelog tool, and it's not necessary to assign such labels to issues, only PRs.
+```
+is:pr is:merged sort:updated-desc -label:"pr: breaking change","pr: new feature","pr: bug fix","pr: performance","pr: polish","pr: documentation","pr: maintenance","pr: internal","pr: dependencies","pr: showcase"
+```
+
+[Check tags of all recently merged Pull-Requests](https://github.com/facebook/docusaurus/pulls?q=is%3Apr+is%3Amerged+sort%3Aupdated-desc+-label%3A%22pr%3A+breaking+change%22%2C%22pr%3A+new+feature%22%2C%22pr%3A+bug+fix%22%2C%22pr%3A+performance%22%2C%22pr%3A+polish%22%2C%22pr%3A+documentation%22%2C%22pr%3A+maintenance%22%2C%22pr%3A+internal%22%2C%22pr%3A+dependencies%22%2C%22pr%3A+showcase%22)
+
+Some general principles about the labeling process:
+
+- "Will an average user be interested in this entry?" Items like "improve test coverage", "upgrade dependencies" can probably be left out (we have `pr: internal` and `pr: dependencies` for this). However, "pin GitHub actions to an SHA", "add visual testing infrastructure", etc., albeit internal, could be interesting to the user, and can be included in the "maintenance" section.
+- "Will this change have tangible impact on the user?" A common case is when a PR implements a feature X, then there are immediately follow-up PRs that fix bugs or polish feature X. These follow-up PRs don't necessarily have to be in the changelog, and even if they alter the API, they are not breaking changes, because to an average user bumping their version, they will only see the new feature X as a whole. Make the entries atomic.
+
+The `pr:` label prefix is for PRs only. Other labels are not used by the changelog tool, and it's not necessary to assign such labels to issues, only PRs.
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens (the only permission needed is `public_repo`). Save the token somewhere for future reference.
 

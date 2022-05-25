@@ -9,10 +9,10 @@ import chalk from 'chalk';
 
 type InterpolatableValue = string | number | (string | number)[];
 
-const path = (msg: unknown): string => chalk.cyan.underline(`"${msg}"`);
+const path = (msg: unknown): string => chalk.cyan.underline(`"${String(msg)}"`);
 const url = (msg: unknown): string => chalk.cyan.underline(msg);
 const name = (msg: unknown): string => chalk.blue.bold(msg);
-const code = (msg: unknown): string => chalk.cyan(`\`${msg}\``);
+const code = (msg: unknown): string => chalk.cyan(`\`${String(msg)}\``);
 const subdue = (msg: unknown): string => chalk.gray(msg);
 const num = (msg: unknown): string => chalk.yellow(msg);
 
@@ -149,7 +149,4 @@ const logger = {
 
 // TODO remove when migrating to ESM
 // logger can only be default-imported in ESM with this
-module.exports = logger;
-module.exports.default = logger;
-
-export default logger;
+export = logger;

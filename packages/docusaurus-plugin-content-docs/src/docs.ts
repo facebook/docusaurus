@@ -19,15 +19,12 @@ import {
   Globby,
   normalizeFrontMatterTags,
 } from '@docusaurus/utils';
-import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
-import type {DocFile, LoadedVersion} from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './frontMatter';
-import type {SidebarsUtils} from './sidebars/utils';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
 import type {
   MetadataOptions,
@@ -39,7 +36,11 @@ import type {
   LastUpdateData,
   VersionMetadata,
   DocFrontMatter,
+  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
+import type {LoadContext} from '@docusaurus/types';
+import type {SidebarsUtils} from './sidebars/utils';
+import type {DocFile} from './types';
 
 type LastUpdateOptions = Pick<
   PluginOptions,

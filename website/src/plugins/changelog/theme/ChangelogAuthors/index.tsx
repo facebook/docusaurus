@@ -7,11 +7,11 @@
 
 import React, {useState} from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/BlogPostAuthors';
 import ChangelogAuthor from '@theme/ChangelogAuthor';
+import IconExpand from '@theme/IconExpand';
+import type {Props} from '@theme/BlogPostAuthors';
 
 import styles from './styles.module.css';
-import IconExpand from '@theme/IconExpand';
 
 // Component responsible for the authors layout
 export default function BlogPostAuthors({

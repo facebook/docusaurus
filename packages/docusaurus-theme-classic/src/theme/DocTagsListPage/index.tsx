@@ -6,18 +6,17 @@
  */
 
 import React from 'react';
-
-import Layout from '@theme/Layout';
+import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
+import Layout from '@theme/Layout';
 import TagsListByLetter from '@theme/TagsListByLetter';
-import type {Props} from '@theme/DocTagsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
-import clsx from 'clsx';
+import type {Props} from '@theme/DocTagsListPage';
 
 export default function DocTagsListPage({tags}: Props): JSX.Element {
   const title = translateTagsPageTitle();

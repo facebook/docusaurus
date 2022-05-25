@@ -5,10 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createPlaygroundResponse} from '../functionUtils/playgroundUtils';
 import type {Handler} from '@netlify/functions';
 
-import {createPlaygroundResponse} from '../functionUtils/playgroundUtils';
-
-export const handler: Handler = async function handler() {
-  return createPlaygroundResponse('codesandbox');
-};
+export const handler: Handler = () =>
+  Promise.resolve(createPlaygroundResponse('codesandbox'));

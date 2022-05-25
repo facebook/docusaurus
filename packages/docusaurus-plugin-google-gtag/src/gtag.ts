@@ -6,7 +6,7 @@
  */
 
 import globalData from '@generated/globalData';
-import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
+import type {PluginOptions} from './options';
 import type {ClientModule} from '@docusaurus/types';
 
 const {trackingID} = globalData['docusaurus-plugin-google-gtag']!

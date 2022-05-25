@@ -7,8 +7,9 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import type {PluginOptions} from '@docusaurus/plugin-sitemap';
+import logger from '@docusaurus/logger';
 import createSitemap from './createSitemap';
+import type {PluginOptions, Options} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 
 export default function pluginSitemap(
@@ -35,10 +36,12 @@ export default function pluginSitemap(
       try {
         await fs.outputFile(sitemapPath, generatedSitemap);
       } catch (err) {
-        throw new Error(`Writing sitemap failed: ${err}`);
+        logger.error('Writing sitemap failed.');
+        throw err;
       }
     },
   };
 }
 
 export {validateOptions} from './options';
+export type {PluginOptions, Options};

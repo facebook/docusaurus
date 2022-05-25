@@ -6,18 +6,19 @@
  */
 
 import React from 'react';
-import BlogLayout from '@theme/BlogLayout';
-import ChangelogItem from '@theme/ChangelogItem';
-import ChangelogPaginator from '@theme/ChangelogPaginator';
-import type {Props} from '@theme/BlogPostPage';
+import clsx from 'clsx';
+import Translate from '@docusaurus/Translate';
+import Link from '@docusaurus/Link';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import BlogLayout from '@theme/BlogLayout';
+import ChangelogItem from '@theme/ChangelogItem';
+import ChangelogPaginator from '@theme/ChangelogPaginator';
 import TOC from '@theme/TOC';
-import Link from '@docusaurus/Link';
-import clsx from 'clsx';
+import type {Props} from '@theme/BlogPostPage';
 
 function ChangelogPageMetadata(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
@@ -86,7 +87,9 @@ function ChangelogPageContent(props: Props): JSX.Element {
             />
           ) : undefined
         }>
-        <Link to={listPageLink}>← Back to index page</Link>
+        <Link to={listPageLink}>
+          <Translate id="changelog.backLink">← Back to index page</Translate>
+        </Link>
 
         <ChangelogItem
           frontMatter={frontMatter}

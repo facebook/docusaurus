@@ -6,11 +6,12 @@
  */
 
 import React from 'react';
-import Content from '@theme-original/DocSidebar/Desktop/Content';
 import {useLocation} from '@docusaurus/router';
+import Content from '@theme-original/DocSidebar/Desktop/Content';
 
 function SidebarAd() {
   return (
+    // eslint-disable-next-line @docusaurus/no-untranslated-text
     <div style={{border: 'solid thin red', padding: 10, textAlign: 'center'}}>
       Sidebar Ad
     </div>

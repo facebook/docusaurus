@@ -162,14 +162,14 @@ exports[`swizzle eject ComponentInFolder/ComponentInSubFolder TS: theme dir tree
         └── styles.module.css"
 `;
 
-exports[`swizzle eject ComponentInFolder/Sibling JS: Sibling.css 1`] = `
+exports[`swizzle eject ComponentInFolder/Sibling JS: ComponentInFolder/Sibling.css 1`] = `
 ".testClass {
   background: black;
 }
 "
 `;
 
-exports[`swizzle eject ComponentInFolder/Sibling JS: Sibling.tsx 1`] = `
+exports[`swizzle eject ComponentInFolder/Sibling JS: ComponentInFolder/Sibling.tsx 1`] = `
 "import React from 'react';
 
 export default function Sibling() {
@@ -180,18 +180,19 @@ export default function Sibling() {
 
 exports[`swizzle eject ComponentInFolder/Sibling JS: theme dir tree 1`] = `
 "theme
-├── Sibling.css
-└── Sibling.tsx"
+└── ComponentInFolder
+    ├── Sibling.css
+    └── Sibling.tsx"
 `;
 
-exports[`swizzle eject ComponentInFolder/Sibling TS: Sibling.css 1`] = `
+exports[`swizzle eject ComponentInFolder/Sibling TS: ComponentInFolder/Sibling.css 1`] = `
 ".testClass {
   background: black;
 }
 "
 `;
 
-exports[`swizzle eject ComponentInFolder/Sibling TS: Sibling.tsx 1`] = `
+exports[`swizzle eject ComponentInFolder/Sibling TS: ComponentInFolder/Sibling.tsx 1`] = `
 "import React from 'react';
 
 export default function Sibling() {
@@ -202,8 +203,9 @@ export default function Sibling() {
 
 exports[`swizzle eject ComponentInFolder/Sibling TS: theme dir tree 1`] = `
 "theme
-├── Sibling.css
-└── Sibling.tsx"
+└── ComponentInFolder
+    ├── Sibling.css
+    └── Sibling.tsx"
 `;
 
 exports[`swizzle eject FirstLevelComponent JS: FirstLevelComponent.css 1`] = `
@@ -272,8 +274,8 @@ exports[`swizzle wrap ComponentInFolder JS: theme dir tree 1`] = `
 
 exports[`swizzle wrap ComponentInFolder TS: ComponentInFolder/index.tsx 1`] = `
 "import React, {ComponentProps} from 'react';
-import type ComponentInFolderType from '@theme/ComponentInFolder';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
+import type ComponentInFolderType from '@theme/ComponentInFolder';
 
 type Props = ComponentProps<typeof ComponentInFolderType>;
 
@@ -316,8 +318,8 @@ exports[`swizzle wrap ComponentInFolder/ComponentInSubFolder JS: theme dir tree 
 
 exports[`swizzle wrap ComponentInFolder/ComponentInSubFolder TS: ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
 "import React, {ComponentProps} from 'react';
-import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 
 type Props = ComponentProps<typeof ComponentInSubFolderType>;
 
@@ -360,8 +362,8 @@ exports[`swizzle wrap ComponentInFolder/Sibling JS: theme dir tree 1`] = `
 
 exports[`swizzle wrap ComponentInFolder/Sibling TS: ComponentInFolder/Sibling.tsx 1`] = `
 "import React, {ComponentProps} from 'react';
-import type SiblingType from '@theme/ComponentInFolder/Sibling';
 import Sibling from '@theme-original/ComponentInFolder/Sibling';
+import type SiblingType from '@theme/ComponentInFolder/Sibling';
 
 type Props = ComponentProps<typeof SiblingType>;
 
@@ -402,8 +404,8 @@ exports[`swizzle wrap FirstLevelComponent JS: theme dir tree 1`] = `
 
 exports[`swizzle wrap FirstLevelComponent TS: FirstLevelComponent.tsx 1`] = `
 "import React, {ComponentProps} from 'react';
-import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 
 type Props = ComponentProps<typeof FirstLevelComponentType>;
 

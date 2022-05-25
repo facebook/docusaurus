@@ -8,6 +8,7 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
+import type {MagicCommentConfig} from './codeBlockUtils';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -31,7 +32,7 @@ export type NavbarLogo = {
 
 // TODO improve
 export type Navbar = {
-  style: 'dark' | 'primary';
+  style?: 'dark' | 'primary';
   hideOnScroll: boolean;
   title?: string;
   items: NavbarItem[];
@@ -57,6 +58,7 @@ export type PrismConfig = {
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
   additionalLanguages: string[];
+  magicComments: MagicCommentConfig[];
 };
 
 export type FooterLinkItem = {
@@ -83,10 +85,10 @@ export type FooterBase = {
 };
 
 export type MultiColumnFooter = FooterBase & {
-  links: Array<{
+  links: {
     title: string | null;
     items: FooterLinkItem[];
-  }>;
+  }[];
 };
 
 export type SimpleFooter = FooterBase & {
@@ -104,6 +106,10 @@ export type TableOfContents = {
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
+    sidebar: {
+      hideable: boolean;
+      autoCollapseCategories: boolean;
+    };
   };
 
   // TODO we should complete this theme config type over time
@@ -116,11 +122,8 @@ export type ThemeConfig = {
   announcementBar?: AnnouncementBarConfig;
   prism: PrismConfig;
   footer?: Footer;
-  hideableSidebar: boolean;
-  autoCollapseSidebarCategories: boolean;
   image?: string;
-  metadata: Array<{[key: string]: string}>;
-  sidebarCollapsible: boolean;
+  metadata: {[key: string]: string}[];
   tableOfContents: TableOfContents;
 };
 

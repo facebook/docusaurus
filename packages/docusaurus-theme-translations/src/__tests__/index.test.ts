@@ -78,6 +78,7 @@ describe('readDefaultCodeTranslationMessages', () => {
   it('for empty locale', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
+        name: 'default',
         locale: '',
         dirPath,
       }),

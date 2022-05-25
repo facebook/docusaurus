@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Footer/Links/MultiColumn';
 import LinkItem from '@theme/Footer/LinkItem';
+import type {Props} from '@theme/Footer/Links/MultiColumn';
 
 type ColumnType = Props['columns'][number];
 type ColumnItemType = ColumnType['items'][number];
@@ -21,7 +21,7 @@ function ColumnLinkItem({item}: {item: ColumnItemType}) {
       dangerouslySetInnerHTML={{__html: item.html}}
     />
   ) : (
-    <li key={item.href || item.to} className="footer__item">
+    <li key={item.href ?? item.to} className="footer__item">
       <LinkItem item={item} />
     </li>
   );
@@ -31,7 +31,7 @@ function Column({column}: {column: ColumnType}) {
   return (
     <div className="col footer__col">
       <div className="footer__title">{column.title}</div>
-      <ul className="footer__items">
+      <ul className="footer__items clean-list">
         {column.items.map((item, i) => (
           <ColumnLinkItem key={i} item={item} />
         ))}

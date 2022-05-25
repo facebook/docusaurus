@@ -6,8 +6,8 @@
  */
 
 import WebpackBar from 'webpackbar';
-import type {Compiler} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
+import type {Compiler} from 'webpack';
 
 function showError(arr: string[]) {
   console.log(`\n\n${arr.join('\n')}`);

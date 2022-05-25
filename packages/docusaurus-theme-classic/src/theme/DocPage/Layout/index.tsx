@@ -6,15 +6,14 @@
  */
 
 import React, {useState} from 'react';
+import {useDocsSidebar} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
 import BackToTopButton from '@theme/BackToTopButton';
-import type {Props} from '@theme/DocPage/Layout';
-import DocPageLayoutAside from '@theme/DocPage/Layout/Aside';
+import DocPageLayoutSidebar from '@theme/DocPage/Layout/Sidebar';
 import DocPageLayoutMain from '@theme/DocPage/Layout/Main';
+import type {Props} from '@theme/DocPage/Layout';
 
 import styles from './styles.module.css';
-
-import {useDocsSidebar} from '@docusaurus/theme-common';
 
 export default function DocPageLayout({children}: Props): JSX.Element {
   const sidebar = useDocsSidebar();
@@ -24,7 +23,7 @@ export default function DocPageLayout({children}: Props): JSX.Element {
       <BackToTopButton />
       <div className={styles.docPage}>
         {sidebar && (
-          <DocPageLayoutAside
+          <DocPageLayoutSidebar
             sidebar={sidebar.items}
             hiddenSidebarContainer={hiddenSidebarContainer}
             setHiddenSidebarContainer={setHiddenSidebarContainer}

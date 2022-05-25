@@ -137,7 +137,13 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
           .split('/')
           .map((part) => part.replace(/\s/g, '%20'))
           .join('/');
-        modifiedLine = modifiedLine.replace(mdLink, encodedPermalink);
+        modifiedLine = modifiedLine.replace(
+          mdMatch[0]!,
+          mdMatch[0]!.replace(mdLink, encodedPermalink),
+        );
+        // Adjust the lastIndex to avoid passing over the next link if the
+        // newly replaced URL is shorter.
+        mdRegex.lastIndex += encodedPermalink.length - mdLink.length;
       } else {
         const brokenMarkdownLink: BrokenMarkdownLink<T> = {
           contentPaths,

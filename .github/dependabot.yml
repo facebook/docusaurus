@@ -5,8 +5,5 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 99
-  - package-ecosystem: npm
-    directory: '/'
-    schedule:
-      interval: monthly
-    open-pull-requests-limit: 99
+    labels:
+      - 'pr: dependencies'

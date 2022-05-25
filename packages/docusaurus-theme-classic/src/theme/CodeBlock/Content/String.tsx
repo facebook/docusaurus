@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -15,7 +16,6 @@ import {
   usePrismTheme,
   useCodeWordWrap,
 } from '@docusaurus/theme-common';
-import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import Line from '@theme/CodeBlock/Line';
 import CopyButton from '@theme/CodeBlock/CopyButton';
@@ -34,7 +34,7 @@ export default function CodeBlockString({
   language: languageProp,
 }: Props): JSX.Element {
   const {
-    prism: {defaultLanguage},
+    prism: {defaultLanguage, magicComments},
   } = useThemeConfig();
   const language =
     languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
@@ -46,9 +46,13 @@ export default function CodeBlockString({
   // "title=\"xyz\"" => title: "\"xyz\""
   const title = parseCodeBlockTitle(metastring) || titleProp;
 
-  const {highlightLines, code} = parseLines(children, metastring, language);
+  const {lineClassNames, code} = parseLines(children, {
+    metastring,
+    language,
+    magicComments,
+  });
   const showLineNumbers =
-    showLineNumbersProp || containsLineNumbers(metastring);
+    showLineNumbersProp ?? containsLineNumbers(metastring);
 
   return (
     <Container
@@ -83,7 +87,7 @@ export default function CodeBlockString({
                     line={line}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
-                    highlight={highlightLines.includes(i)}
+                    classNames={lineClassNames[i]}
                     showLineNumbers={showLineNumbers}
                   />
                 ))}

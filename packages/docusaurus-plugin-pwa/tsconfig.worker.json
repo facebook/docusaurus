@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "composite": true,
+    "incremental": true,
+    "lib": ["webworker", "esnext"],
+    "tsBuildInfoFile": "./lib/.tsbuildinfo-worker",
+    "rootDir": "src",
+    "outDir": "lib",
+    "module": "esnext",
+    "target": "esnext",
+    "types": ["node"]
+  },
+  "include": ["src/sw.ts"],
+  "exclude": ["**/__tests__/**"]
+}

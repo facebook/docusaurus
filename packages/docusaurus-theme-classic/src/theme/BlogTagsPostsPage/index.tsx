@@ -6,11 +6,7 @@
  */
 
 import React from 'react';
-
-import Link from '@docusaurus/Link';
-import BlogLayout from '@theme/BlogLayout';
-import BlogPostItem from '@theme/BlogPostItem';
-import type {Props} from '@theme/BlogTagsPostsPage';
+import clsx from 'clsx';
 import Translate, {translate} from '@docusaurus/Translate';
 import {
   PageMetadata,
@@ -18,9 +14,12 @@ import {
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
+import BlogLayout from '@theme/BlogLayout';
+import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
-import clsx from 'clsx';
+import type {Props} from '@theme/BlogTagsPostsPage';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {

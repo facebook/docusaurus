@@ -43,6 +43,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
+| `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
 :::important
 
@@ -171,7 +172,7 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 
 ### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
 
-Add [explicit heading ids](./guides/markdown-features/markdown-features-headings.mdx#explicit-ids) to the Markdown documents of your site.
+Add [explicit heading ids](./guides/markdown-features/markdown-features-toc.mdx#explicit-ids) to the Markdown documents of your site.
 
 | Name | Default | Description |
 | --- | --- | --- |

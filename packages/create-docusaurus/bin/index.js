@@ -8,13 +8,15 @@
 
 // @ts-check
 
+import path from 'path';
+import {createRequire} from 'module';
 import logger from '@docusaurus/logger';
 import semver from 'semver';
-import path from 'path';
 import {program} from 'commander';
-import {createRequire} from 'module';
 
-const packageJson = createRequire(import.meta.url)('../package.json');
+const packageJson = /** @type {import("../package.json")} */ (
+  createRequire(import.meta.url)('../package.json')
+);
 const requiredVersion = packageJson.engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -45,24 +47,12 @@ program
 \`custom\`: enter your custom git clone command. We will prompt you for it.`,
   )
   .description('Initialize website.')
-  .action(
-    (
-      siteName,
-      template,
-      rootDir = '.',
-      {packageManager, skipInstall, typescript, gitStrategy} = {},
-    ) => {
-      // See https://github.com/facebook/docusaurus/pull/6860
-      import('../lib/index.js').then(({default: init}) => {
-        init(path.resolve(rootDir), siteName, template, {
-          packageManager,
-          skipInstall,
-          typescript,
-          gitStrategy,
-        });
-      });
-    },
-  );
+  .action((siteName, template, rootDir, options) => {
+    // See https://github.com/facebook/docusaurus/pull/6860
+    import('../lib/index.js').then(({default: init}) => {
+      init(path.resolve(rootDir ?? '.'), siteName, template, options);
+    });
+  });
 
 program.parse(process.argv);
 

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginOptions, Options} from '@docusaurus/plugin-content-pages';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -14,6 +13,7 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
+import type {PluginOptions, Options} from '@docusaurus/plugin-content-pages';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
@@ -28,7 +28,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   admonitions: {},
 };
 
-const PluginOptionSchema = Joi.object({
+const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),

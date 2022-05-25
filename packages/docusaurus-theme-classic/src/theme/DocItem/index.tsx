@@ -7,23 +7,24 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import DocPaginator from '@theme/DocPaginator';
-import DocVersionBanner from '@theme/DocVersionBanner';
-import DocVersionBadge from '@theme/DocVersionBadge';
-import type {Props} from '@theme/DocItem';
-import DocItemFooter from '@theme/DocItemFooter';
-import TOC from '@theme/TOC';
-import TOCCollapsible from '@theme/TOCCollapsible';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
   useWindowSize,
 } from '@docusaurus/theme-common';
+import DocPaginator from '@theme/DocPaginator';
+import DocVersionBanner from '@theme/DocVersionBanner';
+import DocVersionBadge from '@theme/DocVersionBadge';
+import DocItemFooter from '@theme/DocItemFooter';
+import TOC from '@theme/TOC';
+import TOCCollapsible from '@theme/TOCCollapsible';
+import Heading from '@theme/Heading';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import MDXContent from '@theme/MDXContent';
+import type {Props} from '@theme/DocItem';
+
+import styles from './styles.module.css';
 
 function DocItemMetadata(props: Props): JSX.Element {
   const {content: DocContent} = props;

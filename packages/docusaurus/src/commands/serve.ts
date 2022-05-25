@@ -6,14 +6,20 @@
  */
 
 import http from 'http';
-import serveHandler from 'serve-handler';
-import logger from '@docusaurus/logger';
 import path from 'path';
+import logger from '@docusaurus/logger';
+import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import serveHandler from 'serve-handler';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
-import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
-import type {ServeCLIOptions} from '@docusaurus/types';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
+import type {LoadContextOptions} from '../server';
+
+export type ServeCLIOptions = HostPortOptions &
+  Pick<LoadContextOptions, 'config'> & {
+    dir?: string;
+    build?: boolean;
+  };
 
 export async function serve(
   siteDir: string,
@@ -33,8 +39,7 @@ export async function serve(
     );
   }
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();
@@ -61,7 +66,7 @@ export async function serve(
 
     // Remove baseUrl before calling serveHandler, because /baseUrl/ should
     // serve /build/index.html, not /build/baseUrl/index.html (does not exist)
-    req.url = req.url?.replace(baseUrl, '/');
+    req.url = req.url.replace(baseUrl, '/');
 
     serveHandler(req, res, {
       cleanUrls: true,

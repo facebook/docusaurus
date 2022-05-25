@@ -32,6 +32,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:regexp/recommended',
     'prettier',
+    'plugin:@docusaurus/all',
   ],
   settings: {
     'import/resolver': {
@@ -41,7 +42,14 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint', 'regexp'],
+  plugins: [
+    'react-hooks',
+    'header',
+    'jest',
+    '@typescript-eslint',
+    'regexp',
+    '@docusaurus',
+  ],
   rules: {
     'array-callback-return': WARNING,
     camelcase: WARNING,
@@ -75,7 +83,7 @@ module.exports = {
     'no-restricted-exports': OFF,
     'no-restricted-properties': [
       ERROR,
-      ...[
+      .../** @type {[string, string][]} */ ([
         // TODO: TS doesn't make Boolean a narrowing function yet,
         // so filter(Boolean) is problematic type-wise
         // ['compact', 'Array#filter(Boolean)'],
@@ -106,7 +114,7 @@ module.exports = {
         ['take', 'Array#slice(0, n)'],
         ['takeRight', 'Array#slice(-n)'],
         ['tail', 'Array#slice(1)'],
-      ].map(([property, alternative]) => ({
+      ]).map(([property, alternative]) => ({
         object: '_',
         property,
         message: `Use ${alternative} instead.`,
@@ -212,7 +220,35 @@ module.exports = {
         ],
       },
     ],
-    'import/order': OFF,
+    'import/order': [
+      WARNING,
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['parent', 'sibling', 'index'],
+          'type',
+        ],
+        pathGroups: [
+          {pattern: '@jest/globals', group: 'builtin', position: 'before'},
+          {pattern: 'react', group: 'builtin', position: 'before'},
+          {pattern: 'fs-extra', group: 'builtin'},
+          {pattern: 'lodash', group: 'external', position: 'before'},
+          {pattern: 'clsx', group: 'external', position: 'before'},
+          // 'Bit weird to not use the `import/internal-regex` option, but this
+          // way, we can make `import type { Props } from "@theme/*"` appear
+          // before `import styles from "styles.module.css"`, which is what we
+          // always did. This should be removable once we stop using ambient
+          // module declarations for theme aliases.
+          {pattern: '@theme/**', group: 'internal'},
+          {pattern: '@site/**', group: 'internal'},
+          {pattern: '@theme-init/**', group: 'internal'},
+          {pattern: '@theme-original/**', group: 'internal'},
+        ],
+        pathGroupsExcludedImportTypes: [],
+      },
+    ],
     'import/prefer-default-export': OFF,
 
     'jest/consistent-test-it': WARNING,
@@ -305,6 +341,24 @@ module.exports = {
     // locals must be justified with a disable comment.
     '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
+    '@docusaurus/no-untranslated-text': [
+      WARNING,
+      {
+        ignoredStrings: [
+          '·',
+          '-',
+          '—',
+          '×',
+          '​', // zwj: &#8203;
+          '@',
+          'WebContainers',
+          'Twitter',
+          'GitHub',
+          'Dev.to',
+          '1.x',
+        ],
+      },
+    ],
   },
   overrides: [
     {
@@ -327,6 +381,7 @@ module.exports = {
         'header/header': OFF,
         'global-require': OFF,
         '@typescript-eslint/no-var-requires': OFF,
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {
@@ -348,6 +403,16 @@ module.exports = {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
         '@typescript-eslint/explicit-module-boundary-types': OFF,
+      },
+    },
+    {
+      files: [
+        '**/__tests__/**',
+        'packages/docusaurus-plugin-debug/**',
+        'website/_dogfooding/**',
+      ],
+      rules: {
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {

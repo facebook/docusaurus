@@ -10,7 +10,7 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import type {Props} from '@theme/DebugJsonView';
 import type {ReactJsonViewProps} from 'react-json-view';
 
-// Avoids "react-json-view" to display  "root"
+// Avoids "react-json-view" displaying "root"
 const RootName = null;
 
 // Seems ReactJson does not work with SSR
@@ -19,8 +19,9 @@ function BrowserOnlyReactJson(props: ReactJsonViewProps) {
   return (
     <BrowserOnly>
       {() => {
-        // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-        const ReactJson = require('react-json-view').default;
+        const {default: ReactJson} =
+          // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+          require('react-json-view') as typeof import('react-json-view');
         return <ReactJson {...props} />;
       }}
     </BrowserOnly>

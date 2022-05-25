@@ -5,13 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import remark from 'remark';
-// Import from the transpiled lib because Babel can't transpile `export =`
-// TODO change to `../index` after migrating to ESM
-import npm2yarn from '../../lib/index';
-import vfile from 'to-vfile';
 import path from 'path';
+import vfile from 'to-vfile';
 import mdx from 'remark-mdx';
+import remark from 'remark';
+import npm2yarn from '../index';
 
 const processFixture = async (name: string, options?: {sync?: boolean}) => {
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);

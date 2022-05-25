@@ -13,7 +13,7 @@ import type {
   ThemeConfig,
   ThemeConfigValidationContext,
 } from '@docusaurus/types';
-import type {PluginOptions, Options} from '@docusaurus/plugin-google-gtag';
+import type {PluginOptions, Options} from './options';
 
 export default function pluginGoogleGtag(
   context: LoadContext,
@@ -25,7 +25,7 @@ export default function pluginGoogleGtag(
   return {
     name: 'docusaurus-plugin-google-gtag',
 
-    async contentLoaded({actions}) {
+    contentLoaded({actions}) {
       actions.setGlobalData(options);
     },
 
@@ -101,3 +101,5 @@ export function validateThemeConfig({
   }
   return themeConfig;
 }
+
+export type {PluginOptions, Options};

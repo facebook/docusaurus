@@ -5,28 +5,35 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
-import chokidar from 'chokidar';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import chokidar from 'chokidar';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
-import {load} from '../server';
-import type {StartCLIOptions} from '@docusaurus/types';
+import {load, type LoadContextOptions} from '../server';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getHttpsConfig,
 } from '../webpack/utils';
-import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
+
+export type StartCLIOptions = HostPortOptions &
+  Pick<LoadContextOptions, 'locale' | 'config'> & {
+    hotOnly?: boolean;
+    open?: boolean;
+    poll?: boolean | number;
+    minify?: boolean;
+  };
 
 export async function start(
   siteDir: string,
@@ -39,7 +46,7 @@ export async function start(
   function loadSite() {
     return load({
       siteDir,
-      customConfigFilePath: cliOptions.config,
+      config: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // Should this be configurable?
     });
@@ -50,8 +57,7 @@ export async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+  const {host, port} = await getHostPort(cliOptions);
 
   if (port === null) {
     process.exit();
@@ -72,7 +78,7 @@ export async function start(
           logger.success`Docusaurus website is running at url=${newOpenUrl}.`;
         }
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         logger.error(err.stack);
       });
   }, 500);
@@ -116,32 +122,35 @@ export async function start(
     fsWatcher.on(event, reload),
   );
 
-  let config: webpack.Configuration = merge(await createClientConfig(props), {
-    watchOptions: {
-      ignored: /node_modules\/(?!@docusaurus)/,
-      poll: cliOptions.poll,
+  let config: webpack.Configuration = merge(
+    await createClientConfig(props, cliOptions.minify),
+    {
+      watchOptions: {
+        ignored: /node_modules\/(?!@docusaurus)/,
+        poll: cliOptions.poll,
+      },
+      infrastructureLogging: {
+        // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+        level: 'warn',
+      },
+      plugins: [
+        // Generates an `index.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          template: path.join(
+            __dirname,
+            '../webpack/templates/index.html.template.ejs',
+          ),
+          // So we can define the position where the scripts are injected.
+          inject: false,
+          filename: 'index.html',
+          title: siteConfig.title,
+          headTags,
+          preBodyTags,
+          postBodyTags,
+        }),
+      ],
     },
-    infrastructureLogging: {
-      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
-      level: 'warn',
-    },
-    plugins: [
-      // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin({
-        template: path.join(
-          __dirname,
-          '../webpack/templates/index.html.template.ejs',
-        ),
-        // So we can define the position where the scripts are injected.
-        inject: false,
-        filename: 'index.html',
-        title: siteConfig.title,
-        headTags,
-        preBodyTags,
-        postBodyTags,
-      }),
-    ],
-  });
+  );
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {

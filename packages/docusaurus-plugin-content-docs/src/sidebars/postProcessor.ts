@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
+import {getDocIds} from '../docs';
 import type {
   SidebarItem,
   Sidebars,
@@ -15,12 +17,18 @@ import type {
   ProcessedSidebars,
   SidebarItemCategoryLink,
 } from './types';
-import _ from 'lodash';
+
+export type SidebarPostProcessorParams = SidebarProcessorParams & {
+  draftIds: Set<string>;
+};
 
 function normalizeCategoryLink(
   category: ProcessedSidebarItemCategory,
-  params: SidebarProcessorParams,
+  params: SidebarPostProcessorParams,
 ): SidebarItemCategoryLink | undefined {
+  if (category.link?.type === 'doc' && params.draftIds.has(category.link.id)) {
+    return undefined;
+  }
   if (category.link?.type === 'generated-index') {
     // Default slug logic can be improved
     const getDefaultSlug = () =>
@@ -38,43 +46,54 @@ function normalizeCategoryLink(
 
 function postProcessSidebarItem(
   item: ProcessedSidebarItem,
-  params: SidebarProcessorParams,
-): SidebarItem {
+  params: SidebarPostProcessorParams,
+): SidebarItem | null {
   if (item.type === 'category') {
+    // Fail-fast if there's actually no subitems, no because all subitems are
+    // drafts. This is likely a configuration mistake.
+    if (item.items.length === 0 && !item.link) {
+      throw new Error(
+        `Sidebar category ${item.label} has neither any subitem nor a link. This makes this item not able to link to anything.`,
+      );
+    }
     const category = {
       ...item,
       collapsed: item.collapsed ?? params.sidebarOptions.sidebarCollapsed,
       collapsible: item.collapsible ?? params.sidebarOptions.sidebarCollapsible,
       link: normalizeCategoryLink(item, params),
-      items: item.items.map((subItem) =>
-        postProcessSidebarItem(subItem, params),
-      ),
+      items: item.items
+        .map((subItem) => postProcessSidebarItem(subItem, params))
+        .filter((v): v is SidebarItem => Boolean(v)),
     };
     // If the current category doesn't have subitems, we render a normal link
     // instead.
     if (category.items.length === 0) {
-      if (!category.link) {
-        throw new Error(
-          `Sidebar category ${item.label} has neither any subitem nor a link. This makes this item not able to link to anything.`,
-        );
+      // Doesn't make sense to render an empty generated index page, so we
+      // filter the entire category out as well.
+      if (
+        !category.link ||
+        category.link.type === 'generated-index' ||
+        params.draftIds.has(category.link.id)
+      ) {
+        return null;
       }
-      return category.link.type === 'doc'
-        ? {
-            type: 'doc',
-            label: category.label,
-            id: category.link.id,
-          }
-        : {
-            type: 'link',
-            label: category.label,
-            href: category.link.permalink,
-          };
+      return {
+        type: 'doc',
+        label: category.label,
+        id: category.link.id,
+      };
     }
     // A non-collapsible category can't be collapsed!
-    if (category.collapsible === false) {
+    if (!category.collapsible) {
       category.collapsed = false;
     }
     return category;
+  }
+  if (
+    (item.type === 'doc' || item.type === 'ref') &&
+    params.draftIds.has(item.id)
+  ) {
+    return null;
   }
   return item;
 }
@@ -83,7 +102,11 @@ export function postProcessSidebars(
   sidebars: ProcessedSidebars,
   params: SidebarProcessorParams,
 ): Sidebars {
+  const draftIds = new Set(params.drafts.flatMap(getDocIds));
+
   return _.mapValues(sidebars, (sidebar) =>
-    sidebar.map((item) => postProcessSidebarItem(item, params)),
+    sidebar
+      .map((item) => postProcessSidebarItem(item, {...params, draftIds}))
+      .filter((v): v is SidebarItem => Boolean(v)),
   );
 }

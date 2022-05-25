@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
+import {useWindowSize} from '@docusaurus/theme-common';
 import BlogSidebarDesktop from '@theme/BlogSidebar/Desktop';
 import BlogSidebarMobile from '@theme/BlogSidebar/Mobile';
-import {useWindowSize} from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogSidebar';
 
 export default function BlogSidebar({sidebar}: Props): JSX.Element | null {

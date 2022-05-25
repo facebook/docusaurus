@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {postProcessSidebars} from '../postProcessor';
+import {
+  postProcessSidebars,
+  type SidebarPostProcessorParams,
+} from '../postProcessor';
 
 describe('postProcess', () => {
   it('transforms category without subitems', () => {
@@ -35,7 +38,8 @@ describe('postProcess', () => {
       {
         sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
         version: {path: 'version'},
-      },
+        drafts: [],
+      } as unknown as SidebarPostProcessorParams,
     );
 
     expect(processedSidebar).toMatchSnapshot();
@@ -54,7 +58,8 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
           version: {path: 'version'},
-        },
+          drafts: [],
+        } as unknown as SidebarPostProcessorParams,
       );
     }).toThrowErrorMatchingInlineSnapshot(
       `"Sidebar category Bad category has neither any subitem nor a link. This makes this item not able to link to anything."`,
@@ -79,7 +84,8 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
           version: {path: 'version'},
-        },
+          drafts: [],
+        } as unknown as SidebarPostProcessorParams,
       ),
     ).toMatchSnapshot();
 
@@ -99,7 +105,8 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: false, sidebarCollapsible: false},
           version: {path: 'version'},
-        },
+          drafts: [],
+        } as unknown as SidebarPostProcessorParams,
       ),
     ).toMatchSnapshot();
 
@@ -118,7 +125,38 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: false},
           version: {path: 'version'},
+          drafts: [],
+        } as unknown as SidebarPostProcessorParams,
+      ),
+    ).toMatchSnapshot();
+  });
+
+  it('filters draft items', () => {
+    expect(
+      postProcessSidebars(
+        {
+          sidebar: [
+            {
+              type: 'category',
+              label: 'Category',
+              items: [{type: 'doc', id: 'foo'}],
+            },
+            {
+              type: 'category',
+              label: 'Category',
+              link: {
+                type: 'doc',
+                id: 'another',
+              },
+              items: [{type: 'doc', id: 'foo'}],
+            },
+          ],
         },
+        {
+          sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
+          version: {path: 'version'},
+          drafts: [{id: 'foo', unversionedId: 'foo'}],
+        } as unknown as SidebarPostProcessorParams,
       ),
     ).toMatchSnapshot();
   });

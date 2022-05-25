@@ -6,11 +6,12 @@
  */
 
 import _ from 'lodash';
-import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 import {normalizeThemeConfig} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
+import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 
 function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -36,6 +37,20 @@ describe('themeConfig', () => {
         darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
+        magicComments: [
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: {start: 'highlight-start', end: 'highlight-end'},
+          },
+        ],
+      },
+      docs: {
+        versionPersistence: 'localStorage',
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
       },
       announcementBar: {
         id: 'supports',
@@ -99,6 +114,19 @@ describe('themeConfig', () => {
       ...DEFAULT_CONFIG,
       ...userConfig,
     });
+  });
+
+  it('rejects outdated sidebar options', () => {
+    expect(() =>
+      testValidateThemeConfig({hideableSidebar: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable."`,
+    );
+    expect(() =>
+      testValidateThemeConfig({autoCollapseSidebarCategories: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories."`,
+    );
   });
 
   it('allows possible types of navbar items', () => {
@@ -473,7 +501,7 @@ describe('themeConfig', () => {
         links: [
           {
             title: null, // Default value is important to distinguish simple footer from multi-column footer
-            items: partialConfig.footer.links[0].items,
+            items: partialConfig.footer.links[0]!.items,
           },
         ],
       },
@@ -529,16 +557,72 @@ describe('themeConfig', () => {
     });
   });
 
-  it('accepts valid prism config', () => {
-    const prismConfig = {
-      prism: {
-        additionalLanguages: ['kotlin', 'java'],
-        theme: darkTheme,
-      },
-    };
-    expect(testValidateThemeConfig(prismConfig)).toEqual({
-      ...DEFAULT_CONFIG,
-      ...prismConfig,
+  describe('prism config', () => {
+    it('accepts a range of magic comments', () => {
+      const prismConfig = {
+        prism: {
+          additionalLanguages: ['kotlin', 'java'],
+          theme: darkTheme,
+          magicComments: [],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig,
+      });
+      const prismConfig2 = {
+        prism: {
+          additionalLanguages: [],
+          theme: darkTheme,
+          magicComments: [
+            {
+              className: 'a',
+              line: 'a-next-line',
+            },
+          ],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig2)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig2,
+      });
+      const prismConfig3 = {
+        prism: {
+          additionalLanguages: [],
+          theme: darkTheme,
+          magicComments: [
+            {
+              className: 'a',
+              block: {start: 'a-start', end: 'a-end'},
+            },
+          ],
+        },
+      };
+      expect(testValidateThemeConfig(prismConfig3)).toEqual({
+        ...DEFAULT_CONFIG,
+        ...prismConfig3,
+      });
+    });
+
+    it('rejects incomplete magic comments', () => {
+      expect(() =>
+        testValidateThemeConfig({
+          prism: {
+            magicComments: [{className: 'a'}],
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""prism.magicComments[0]" must contain at least one of [line, block]"`,
+      );
+      expect(() =>
+        testValidateThemeConfig({
+          prism: {
+            magicComments: [{className: 'a', block: {start: 'start'}}],
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""prism.magicComments[0].block.end" is required"`,
+      );
     });
   });
 
@@ -573,7 +657,7 @@ describe('themeConfig', () => {
   });
 
   describe('color mode config', () => {
-    const withDefaultValues = (colorMode) =>
+    const withDefaultValues = (colorMode?: ThemeConfig['colorMode']) =>
       _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
 
     it('switch config', () => {
@@ -590,7 +674,7 @@ describe('themeConfig', () => {
     });
 
     it('max config', () => {
-      const colorMode = {
+      const colorMode: ThemeConfig['colorMode'] = {
         defaultMode: 'dark',
         disableSwitch: false,
         respectPrefersColorScheme: true,

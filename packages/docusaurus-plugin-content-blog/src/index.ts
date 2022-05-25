@@ -6,8 +6,6 @@
  */
 
 import path from 'path';
-import admonitions from 'remark-admonitions';
-import footnoteIDFixer from './remark/footnoteIDFixer';
 import {
   normalizeUrl,
   docuHash,
@@ -20,36 +18,31 @@ import {
   getContentPathList,
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
+  type TagsListItem,
+  type TagModule,
 } from '@docusaurus/utils';
-import {translateContent, getTranslationFiles} from './translations';
-
-import type {
-  BlogTag,
-  BlogTags,
-  BlogContent,
-  BlogPaginated,
-  BlogContentPaths,
-  BlogMarkdownLoaderOptions,
-} from './types';
-import type {
-  LoadContext,
-  Plugin,
-  HtmlTags,
-  TagsListItem,
-  TagModule,
-} from '@docusaurus/types';
+import admonitions from 'remark-admonitions';
 import {
   generateBlogPosts,
   getSourceToPermalink,
   getBlogTags,
   paginateBlogPosts,
 } from './blogUtils';
+import footnoteIDFixer from './remark/footnoteIDFixer';
+import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles} from './feed';
+
+import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
   BlogPostMetadata,
   Assets,
+  BlogTag,
+  BlogTags,
+  BlogContent,
+  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
@@ -183,10 +176,6 @@ export default async function pluginContentBlog(
     },
 
     async contentLoaded({content: blogContents, actions}) {
-      if (!blogContents) {
-        return;
-      }
-
       const {
         blogListComponent,
         blogPostComponent,
@@ -507,11 +496,7 @@ export default async function pluginContentBlog(
     },
 
     injectHtmlTags({content}) {
-      if (!content.blogPosts.length) {
-        return {};
-      }
-
-      if (!options.feedOptions?.type) {
+      if (!content.blogPosts.length || !options.feedOptions.type) {
         return {};
       }
 

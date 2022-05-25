@@ -8,10 +8,10 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 
 import React, {useEffect, useState, useReducer, useRef} from 'react';
+import clsx from 'clsx';
 
 import algoliaSearch from 'algoliasearch/lite';
 import algoliaSearchHelper from 'algoliasearch-helper';
-import clsx from 'clsx';
 
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
@@ -26,8 +26,9 @@ import {
 } from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
-import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
 import styles from './styles.module.css';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
@@ -236,10 +237,14 @@ function SearchPageContent(): JSX.Element {
           url,
           _highlightResult: {hierarchy},
           _snippetResult: snippet = {},
+        }: {
+          url: string;
+          _highlightResult: {hierarchy: {[key: string]: {value: string}}};
+          _snippetResult: {content?: {value: string}};
         }) => {
           const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) =>
-            sanitizeValue(hierarchy[key].value),
+            sanitizeValue(hierarchy[key]!.value),
           );
 
           return {

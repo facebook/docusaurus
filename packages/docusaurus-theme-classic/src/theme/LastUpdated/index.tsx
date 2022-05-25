@@ -7,8 +7,8 @@
 
 import React from 'react';
 import Translate from '@docusaurus/Translate';
-import type {Props} from '@theme/LastUpdated';
 import {ThemeClassNames} from '@docusaurus/theme-common';
+import type {Props} from '@theme/LastUpdated';
 
 function LastUpdatedAtDate({
   lastUpdatedAt,
@@ -82,6 +82,7 @@ export default function LastUpdated({
       </Translate>
       {process.env.NODE_ENV === 'development' && (
         <div>
+          {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
           <small> (Simulated during dev for better perf)</small>
         </div>
       )}

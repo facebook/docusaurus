@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import {useTitleFormatter} from '../generalUtils';
 import {renderHook} from '@testing-library/react-hooks';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
+import {useTitleFormatter} from '../generalUtils';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('useTitleFormatter', () => {
@@ -25,7 +25,7 @@ describe('useTitleFormatter', () => {
         title: 'my site',
         titleDelimiter: '·',
       },
-    });
+    } as DocusaurusContext);
     expect(mockUseTitleFormatter('a page')).toBe('a page · my site');
     expect(mockUseTitleFormatter(undefined)).toBe('my site');
     expect(mockUseTitleFormatter('    ')).toBe('my site');

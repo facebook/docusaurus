@@ -6,11 +6,21 @@
  */
 
 import React, {useState, useMemo, useEffect} from 'react';
+import clsx from 'clsx';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import Translate, {translate} from '@docusaurus/Translate';
+import {useHistory, useLocation} from '@docusaurus/router';
+import {usePluralForm} from '@docusaurus/theme-common';
 
 import Layout from '@theme/Layout';
-import clsx from 'clsx';
-
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import {
+  sortedUsers,
+  Tags,
+  TagList,
+  type User,
+  type TagType,
+} from '@site/src/data/users';
 import ShowcaseTagSelect, {
   readSearchTags,
 } from './_components/ShowcaseTagSelect';
@@ -19,19 +29,7 @@ import ShowcaseFilterToggle, {
   readOperator,
 } from './_components/ShowcaseFilterToggle';
 import ShowcaseCard from './_components/ShowcaseCard';
-import {
-  sortedUsers,
-  Tags,
-  TagList,
-  type User,
-  type TagType,
-} from '@site/src/data/users';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
-
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import Translate, {translate} from '@docusaurus/Translate';
-import {useHistory, useLocation} from '@docusaurus/router';
-import {usePluralForm} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -168,7 +166,7 @@ function ShowcaseFilters() {
         </div>
         <ShowcaseFilterToggle />
       </div>
-      <ul className={styles.checkboxList}>
+      <ul className={clsx('clean-list', styles.checkboxList)}>
         {TagList.map((tag, i) => {
           const {label, description, color} = Tags[tag];
           const id = `showcase_checkbox_id_${tag}`;
@@ -287,7 +285,12 @@ function ShowcaseCards() {
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
                 <SearchBar />
               </div>
-              <ul className={clsx('container', styles.showcaseList)}>
+              <ul
+                className={clsx(
+                  'container',
+                  'clean-list',
+                  styles.showcaseList,
+                )}>
                 {favoriteUsers.map((user) => (
                   <ShowcaseCard key={user.title} user={user} />
                 ))}
@@ -298,7 +301,7 @@ function ShowcaseCards() {
             <h2 className={styles.showcaseHeader}>
               <Translate id="showcase.usersList.allUsers">All sites</Translate>
             </h2>
-            <ul className={styles.showcaseList}>
+            <ul className={clsx('clean-list', styles.showcaseList)}>
               {otherUsers.map((user) => (
                 <ShowcaseCard key={user.title} user={user} />
               ))}
@@ -314,7 +317,7 @@ function ShowcaseCards() {
             )}>
             <SearchBar />
           </div>
-          <ul className={styles.showcaseList}>
+          <ul className={clsx('clean-list', styles.showcaseList)}>
             {filteredUsers.map((user) => (
               <ShowcaseCard key={user.title} user={user} />
             ))}

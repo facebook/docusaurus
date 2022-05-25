@@ -10,7 +10,7 @@ import type {ChunkNames} from '@docusaurus/types';
 type Chunk = ChunkNames[string];
 type Tree = Exclude<Chunk, string>;
 
-const isTree = (x: Chunk): x is Tree =>
+const isTree = (x: unknown): x is Tree =>
   typeof x === 'object' && !!x && Object.keys(x).length > 0;
 
 /**
@@ -25,18 +25,18 @@ export default function flat(target: ChunkNames): {[keyPath: string]: string} {
   const delimiter = '.';
   const output: {[keyPath: string]: string} = {};
 
-  function step(object: Tree, prefix?: string | number) {
+  function dfs(object: Tree, prefix?: string | number) {
     Object.entries(object).forEach(([key, value]) => {
       const newKey = prefix ? `${prefix}${delimiter}${key}` : key;
 
       if (isTree(value)) {
-        step(value, newKey);
+        dfs(value, newKey);
       } else {
         output[newKey] = value;
       }
     });
   }
 
-  step(target);
+  dfs(target);
   return output;
 }

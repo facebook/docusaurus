@@ -15,7 +15,7 @@ export function dispatchLifecycleAction<K extends keyof ClientModule>(
   ...args: Parameters<NonNullable<ClientModule[K]>>
 ): () => void {
   const callbacks = clientModules.map((clientModule) => {
-    const lifecycleFunction = (clientModule?.default?.[lifecycleAction] ??
+    const lifecycleFunction = (clientModule.default?.[lifecycleAction] ??
       clientModule[lifecycleAction]) as
       | ((
           ...a: Parameters<NonNullable<ClientModule[K]>>
@@ -25,6 +25,17 @@ export function dispatchLifecycleAction<K extends keyof ClientModule>(
     return lifecycleFunction?.(...args);
   });
   return () => callbacks.forEach((cb) => cb?.());
+}
+
+function scrollAfterNavigation(location: Location) {
+  const {hash} = location;
+  if (!hash) {
+    window.scrollTo(0, 0);
+  } else {
+    const id = decodeURIComponent(hash.substring(1));
+    const element = document.getElementById(id);
+    element?.scrollIntoView();
+  }
 }
 
 function ClientLifecyclesDispatcher({
@@ -38,13 +49,8 @@ function ClientLifecyclesDispatcher({
 }): JSX.Element {
   useLayoutEffect(() => {
     if (previousLocation !== location) {
-      const {hash} = location;
-      if (!hash) {
-        window.scrollTo(0, 0);
-      } else {
-        const id = decodeURIComponent(hash.substring(1));
-        const element = document.getElementById(id);
-        element?.scrollIntoView();
+      if (previousLocation) {
+        scrollAfterNavigation(location);
       }
       return dispatchLifecycleAction('onRouteDidUpdate', {
         previousLocation,

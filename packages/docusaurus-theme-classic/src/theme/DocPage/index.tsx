@@ -6,62 +6,23 @@
  */
 
 import React from 'react';
-import renderRoutes from '@docusaurus/renderRoutes';
-import type {PropSidebar} from '@docusaurus/plugin-content-docs';
-import NotFound from '@theme/NotFound';
-import type {Props} from '@theme/DocPage';
-import DocPageLayout from '@theme/DocPage/Layout';
-import {matchPath} from '@docusaurus/router';
-
 import clsx from 'clsx';
-
 import {
   HtmlClassNameProvider,
   ThemeClassNames,
   docVersionSearchTag,
   DocsSidebarProvider,
   DocsVersionProvider,
+  useDocRouteMetadata,
 } from '@docusaurus/theme-common';
+import DocPageLayout from '@theme/DocPage/Layout';
+import NotFound from '@theme/NotFound';
 import SearchMetadata from '@theme/SearchMetadata';
-
-function extractDocRouteMetadata(props: Props): null | {
-  docElement: JSX.Element;
-  sidebarName: string | undefined;
-  sidebarItems: PropSidebar | undefined;
-} {
-  const {
-    route: {routes: docRoutes},
-    versionMetadata,
-    location,
-  } = props;
-  const currentDocRoute = docRoutes!.find((docRoute) =>
-    matchPath(location.pathname, docRoute),
-  );
-  if (!currentDocRoute) {
-    return null;
-  }
-
-  // For now, the sidebarName is added as route config: not ideal!
-  const sidebarName = currentDocRoute.sidebar;
-
-  const sidebarItems = sidebarName
-    ? versionMetadata.docsSidebars[sidebarName]
-    : undefined;
-
-  const docElement = renderRoutes(props.route.routes, {
-    versionMetadata,
-  });
-
-  return {
-    docElement,
-    sidebarName,
-    sidebarItems,
-  };
-}
+import type {Props} from '@theme/DocPage';
 
 export default function DocPage(props: Props): JSX.Element {
   const {versionMetadata} = props;
-  const currentDocRouteMetadata = extractDocRouteMetadata(props);
+  const currentDocRouteMetadata = useDocRouteMetadata(props);
   if (!currentDocRouteMetadata) {
     return <NotFound />;
   }

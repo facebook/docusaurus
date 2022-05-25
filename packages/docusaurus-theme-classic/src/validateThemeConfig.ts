@@ -7,40 +7,53 @@
 
 import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {
-  ThemeConfig,
-  ThemeConfigValidationContext,
-} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfigValidationContext} from '@docusaurus/types';
 
-const DEFAULT_DOCS_CONFIG = {
+const DEFAULT_DOCS_CONFIG: ThemeConfig['docs'] = {
   versionPersistence: 'localStorage',
+  sidebar: {
+    hideable: false,
+    autoCollapseCategories: false,
+  },
 };
 const DocsSchema = Joi.object({
   versionPersistence: Joi.string()
     .equal('localStorage', 'none')
     .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+  sidebar: Joi.object({
+    hideable: Joi.bool().default(DEFAULT_DOCS_CONFIG.sidebar.hideable),
+    autoCollapseCategories: Joi.bool().default(
+      DEFAULT_DOCS_CONFIG.sidebar.autoCollapseCategories,
+    ),
+  }).default(DEFAULT_DOCS_CONFIG.sidebar),
 }).default(DEFAULT_DOCS_CONFIG);
 
-const DEFAULT_COLOR_MODE_CONFIG = {
+const DEFAULT_COLOR_MODE_CONFIG: ThemeConfig['colorMode'] = {
   defaultMode: 'light',
   disableSwitch: false,
   respectPrefersColorScheme: false,
 };
 
-export const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG: ThemeConfig = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
   metadata: [],
   prism: {
     additionalLanguages: [],
     theme: defaultPrismTheme,
+    magicComments: [
+      {
+        className: 'theme-code-block-highlighted-line',
+        line: 'highlight-next-line',
+        block: {start: 'highlight-start', end: 'highlight-end'},
+      },
+    ],
   },
   navbar: {
     hideOnScroll: false,
     items: [],
   },
-  hideableSidebar: false,
-  autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
@@ -286,8 +299,9 @@ const CustomCssSchema = Joi.alternatives()
   .try(Joi.array().items(Joi.string().required()), Joi.string().required())
   .optional();
 
-export const ThemeConfigSchema = Joi.object({
+export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   // TODO temporary (@alpha-58)
+  // @ts-expect-error: forbidden
   disableDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
       'disableDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.disableSwitch = true',
@@ -378,13 +392,29 @@ export const ThemeConfigSchema = Joi.object({
     additionalLanguages: Joi.array()
       .items(Joi.string())
       .default(DEFAULT_CONFIG.prism.additionalLanguages),
+    magicComments: Joi.array()
+      .items(
+        Joi.object({
+          className: Joi.string().required(),
+          line: Joi.string(),
+          block: Joi.object({
+            start: Joi.string().required(),
+            end: Joi.string().required(),
+          }),
+        }).or('line', 'block'),
+      )
+      .default(DEFAULT_CONFIG.prism.magicComments),
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
-  hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
-  autoCollapseSidebarCategories: Joi.bool().default(
-    DEFAULT_CONFIG.autoCollapseSidebarCategories,
-  ),
+  hideableSidebar: Joi.forbidden().messages({
+    'any.unknown':
+      'themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable.',
+  }),
+  autoCollapseSidebarCategories: Joi.forbidden().messages({
+    'any.unknown':
+      'themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories.',
+  }),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',

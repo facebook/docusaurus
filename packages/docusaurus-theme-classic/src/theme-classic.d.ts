@@ -21,9 +21,18 @@
 // in their tsconfig.
 
 declare module '@docusaurus/theme-classic' {
+  import type {LoadContext, Plugin, PluginModule} from '@docusaurus/types';
+
   export type Options = {
     customCss?: string | string[];
   };
+
+  export const getSwizzleConfig: PluginModule['getSwizzleConfig'];
+
+  export default function themeClassic(
+    context: LoadContext,
+    options: Options,
+  ): Plugin<undefined>;
 }
 
 declare module '@theme/Admonition' {
@@ -47,10 +56,10 @@ declare module '@theme/BackToTopButton' {
 }
 
 declare module '@theme/BlogListPaginator' {
-  import type {Metadata} from '@theme/BlogListPage';
+  import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly metadata: Metadata;
+    readonly metadata: BlogPaginatedMetadata;
   }
   export default function BlogListPaginator(props: Props): JSX.Element;
 }
@@ -212,7 +221,7 @@ declare module '@theme/CodeBlock/Line' {
 
   export interface Props {
     readonly line: Token[];
-    readonly highlight: boolean;
+    readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
     readonly getLineProps: GetLineProps;
     readonly getTokenProps: GetTokenProps;
@@ -268,7 +277,7 @@ declare module '@theme/DocPage/Layout' {
   export default function DocPageLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Aside' {
+declare module '@theme/DocPage/Layout/Sidebar' {
   import type {Dispatch, SetStateAction} from 'react';
   import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -278,7 +287,17 @@ declare module '@theme/DocPage/Layout/Aside' {
     readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
   }
 
-  export default function DocPageLayoutAside(props: Props): JSX.Element;
+  export default function DocPageLayoutSidebar(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Sidebar/ExpandButton' {
+  export interface Props {
+    toggleSidebar: () => void;
+  }
+
+  export default function DocPageLayoutSidebarExpandButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/DocPage/Layout/Main' {
@@ -797,7 +816,6 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
-
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
   export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
@@ -957,7 +975,7 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
-  export type Types = Props['type'];
+  export type NavbarItemType = Props['type'];
 
   export default function NavbarItem(props: Props): JSX.Element;
 }
@@ -980,6 +998,7 @@ declare module '@theme/PaginatorNavLink' {
   export interface Props extends Omit<PropNavigationLink, 'title'> {
     readonly title: ReactNode;
     readonly subLabel?: JSX.Element;
+    readonly isNext?: boolean;
   }
 
   export default function PaginatorNavLink(props: Props): JSX.Element;
@@ -1047,7 +1066,7 @@ declare module '@theme/Details' {
 }
 
 declare module '@theme/TOCItems' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly toc: readonly TOCItem[];
@@ -1061,8 +1080,21 @@ declare module '@theme/TOCItems' {
   export default function TOCItems(props: Props): JSX.Element;
 }
 
+declare module '@theme/TOCItems/Tree' {
+  import type {TOCTreeNode} from '@docusaurus/theme-common';
+
+  export interface Props {
+    readonly toc: readonly TOCTreeNode[];
+    readonly className: string;
+    readonly linkClassName: string | null;
+    readonly isChild?: boolean;
+  }
+
+  export default function TOCItems(props: Props): JSX.Element;
+}
+
 declare module '@theme/TOC' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   // `minHeadingLevel` only comes from doc/post front matter, and won't have a
   // default set by Joi. See TOC, TOCInline, TOCCollapsible for examples.
@@ -1077,7 +1109,7 @@ declare module '@theme/TOC' {
 }
 
 declare module '@theme/TOCInline' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly toc: readonly TOCItem[];
@@ -1089,7 +1121,7 @@ declare module '@theme/TOCInline' {
 }
 
 declare module '@theme/TOCCollapsible' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/mdx-loader';
 
   export interface Props {
     readonly className?: string;
@@ -1099,6 +1131,18 @@ declare module '@theme/TOCCollapsible' {
   }
 
   export default function TOCCollapsible(props: Props): JSX.Element;
+}
+
+declare module '@theme/TOCCollapsible/CollapseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
+    collapsed: boolean;
+  }
+
+  export default function TOCCollapsibleCollapseButton(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/ColorModeToggle' {
@@ -1201,7 +1245,7 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
 
   export interface Props {
     readonly tags: readonly TagsListItem[];
@@ -1210,7 +1254,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  import type {Tag} from '@docusaurus/types';
+  import type {Tag} from '@docusaurus/utils';
 
   export interface Props {
     readonly tags: readonly Tag[];
@@ -1219,7 +1263,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@docusaurus/types';
+  import type {TagsListItem} from '@docusaurus/utils';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}

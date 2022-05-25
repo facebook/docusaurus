@@ -280,7 +280,10 @@ This can happen if you use special characters in front matter values (try using 
 }
 
 function unwrapMarkdownLinks(line: string): string {
-  return line.replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
+  return line.replace(
+    /\[(?<alt>[^\]]+)\]\([^)]+\)/g,
+    (match, p1: string) => p1,
+  );
 }
 
 function addHeadingId(

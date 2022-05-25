@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
+import {promisify} from 'util';
+import logger from '@docusaurus/logger';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -13,21 +18,16 @@ import {
   findAsyncSequential,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
-import path from 'path';
-import url from 'url';
-import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
-import {promisify} from 'util';
 import type {Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
-import logger from '@docusaurus/logger';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-type PluginOptions = {
+export type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
 };

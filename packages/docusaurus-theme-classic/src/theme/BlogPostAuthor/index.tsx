@@ -9,8 +9,6 @@ import React from 'react';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
 import type {Props} from '@theme/BlogPostAuthor';
 
-import styles from './styles.module.css';
-
 function MaybeLink(props: LinkProps): JSX.Element {
   if (props.href) {
     return <Link {...props} />;
@@ -24,11 +22,9 @@ export default function BlogPostAuthor({author}: Props): JSX.Element {
   return (
     <div className="avatar margin-bottom--sm">
       {imageURL && (
-        <span className="avatar__photo-link avatar__photo">
-          <MaybeLink href={link}>
-            <img className={styles.image} src={imageURL} alt={name} />
-          </MaybeLink>
-        </span>
+        <MaybeLink href={link} className="avatar__photo-link">
+          <img className="avatar__photo" src={imageURL} alt={name} />
+        </MaybeLink>
       )}
 
       {name && (

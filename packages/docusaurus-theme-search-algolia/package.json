@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.18",
+  "version": "2.0.0-beta.20",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": [
@@ -21,22 +21,21 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:server && yarn build:client && yarn build:copy && yarn build:format",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:client": "tsc --project tsconfig.client.json",
-    "build:copy": "node copyUntypedFiles.mjs",
-    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docsearch/react": "^3.0.0",
-    "@docusaurus/core": "2.0.0-beta.18",
-    "@docusaurus/logger": "2.0.0-beta.18",
-    "@docusaurus/plugin-content-docs": "2.0.0-beta.18",
-    "@docusaurus/theme-common": "2.0.0-beta.18",
-    "@docusaurus/theme-translations": "2.0.0-beta.18",
-    "@docusaurus/utils": "2.0.0-beta.18",
-    "@docusaurus/utils-validation": "2.0.0-beta.18",
-    "algoliasearch": "^4.13.0",
+    "@docsearch/react": "^3.1.0",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/logger": "2.0.0-beta.20",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.20",
+    "@docusaurus/theme-common": "2.0.0-beta.20",
+    "@docusaurus/theme-translations": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/utils-validation": "2.0.0-beta.20",
+    "algoliasearch": "^4.13.1",
     "algoliasearch-helper": "^3.8.2",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
@@ -46,7 +45,7 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.18"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.20"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

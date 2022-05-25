@@ -16,6 +16,7 @@ atrule
 autoconverted
 autogen
 autogenerating
+autohide
 backport
 backticks
 bartosz
@@ -84,6 +85,7 @@ errnametoolong
 esbenp
 esbuild
 eslintcache
+estree
 evaluable
 externalwaiting
 failfast
@@ -118,6 +120,7 @@ immer
 infima
 inlines
 intelli
+interactiveness
 interpolatable
 jakepartusch
 jamstack
@@ -150,12 +153,16 @@ marcey
 marocchino
 massoud
 mathjax
+maxresdefault
 mdast
 mdxa
 mdxast
 mdxhast
 metadatum
 metastring
+metrica
+metrika
+microdata
 middlewares
 minifier
 mkcert
@@ -203,6 +210,7 @@ philpl
 photoshop
 picocolors
 picomatch
+playbtn
 pluggable
 plushie
 pnpm
@@ -245,12 +253,14 @@ refactorings
 regexes
 rehype
 reponame
+requireindex
 retrocompatibility
 retrocompatible
 roadmap
 rocketvalidator
 rtcts
 rtlcss
+saurus
 scaleway
 searchbar
 sebastien
@@ -260,6 +270,7 @@ sensical
 serializers
 setaf
 setext
+showinfo
 sida
 simen
 slorber
@@ -301,12 +312,14 @@ treeifies
 treeify
 treosh
 triaging
+tses
 typecheck
 typechecks
 typedoc
 typesense
 unflat
 unist
+unlinkable
 unlocalized
 unmatch
 unnormalized

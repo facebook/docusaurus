@@ -23,7 +23,7 @@ const DEFAULT_OPTIONS = {
   reloadPopup: '@theme/PwaReloadPopup',
 };
 
-const Schema = Joi.object({
+const optionsSchema = Joi.object<PluginOptions>({
   debug: Joi.bool().default(DEFAULT_OPTIONS.debug),
   offlineModeActivationStrategies: Joi.array()
     .items(
@@ -58,5 +58,5 @@ export function validateOptions({
   validate,
   options,
 }: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
-  return validate(Schema, options);
+  return validate(optionsSchema, options);
 }

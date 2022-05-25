@@ -7,16 +7,18 @@
 
 // @ts-check
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
-import semver from 'semver';
 import path from 'path';
+import {createRequire} from 'module';
+import logger from '@docusaurus/logger';
+import semver from 'semver';
 import updateNotifier from 'update-notifier';
 import boxen from 'boxen';
-import {createRequire} from 'module';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
-const packageJson = createRequire(import.meta.url)('../package.json');
+const packageJson = /** @type {import("../package.json")} */ (
+  createRequire(import.meta.url)('../package.json')
+);
 /** @type {Record<string, any>} */
 let sitePkg;
 try {

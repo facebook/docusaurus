@@ -7,16 +7,16 @@
 
 import path from 'path';
 import {loadContext} from '@docusaurus/core/lib/server';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 import pluginContentPages from '../index';
 import {validateOptions} from '../options';
-import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 describe('docusaurus-plugin-content-pages', () => {
   it('loads simple pages', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext({siteDir});
-    const plugin = await pluginContentPages(
+    const plugin = pluginContentPages(
       context,
       validateOptions({
         validate: normalizePluginOptions,
@@ -33,7 +33,7 @@ describe('docusaurus-plugin-content-pages', () => {
   it('loads simple pages with french translations', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext({siteDir});
-    const plugin = await pluginContentPages(
+    const plugin = pluginContentPages(
       {
         ...context,
         i18n: {

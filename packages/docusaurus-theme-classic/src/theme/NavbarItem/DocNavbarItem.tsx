@@ -6,12 +6,12 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
 import clsx from 'clsx';
+import {useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
+import {useLayoutDoc} from '@docusaurus/theme-common';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
-import {useLayoutDoc} from '@docusaurus/theme-common';
 
 export default function DocNavbarItem({
   docId,

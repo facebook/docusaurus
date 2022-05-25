@@ -7,22 +7,21 @@
 
 import {createRequire} from 'module';
 import path from 'path';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {
+  normalizePluginOptions,
+  normalizeThemeConfig,
+} from '@docusaurus/utils-validation';
+import {getPluginVersion} from '../siteMetadata';
+import {ensureUniquePluginInstanceIds} from './pluginIds';
+import {loadPluginConfigs, type NormalizedPluginConfig} from './configs';
 import type {
   PluginVersionInformation,
   LoadContext,
   PluginModule,
   PluginOptions,
   InitializedPlugin,
-  NormalizedPluginConfig,
 } from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import {getPluginVersion} from '../siteMetadata';
-import {ensureUniquePluginInstanceIds} from './pluginIds';
-import {
-  normalizePluginOptions,
-  normalizeThemeConfig,
-} from '@docusaurus/utils-validation';
-import {loadPluginConfigs} from './configs';
 
 function getOptionValidationFunction(
   normalizedPluginConfig: NormalizedPluginConfig,
@@ -30,8 +29,8 @@ function getOptionValidationFunction(
   if (normalizedPluginConfig.pluginModule) {
     // Support both CommonJS and ES modules
     return (
-      normalizedPluginConfig.pluginModule.module?.default?.validateOptions ??
-      normalizedPluginConfig.pluginModule.module?.validateOptions
+      normalizedPluginConfig.pluginModule.module.default?.validateOptions ??
+      normalizedPluginConfig.pluginModule.module.validateOptions
     );
   }
   return normalizedPluginConfig.plugin.validateOptions;
@@ -67,7 +66,7 @@ export async function initPlugins(
   ): Promise<PluginVersionInformation> {
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
-        normalizedPluginConfig.pluginModule?.path,
+        normalizedPluginConfig.pluginModule.path,
       );
       return getPluginVersion(pluginPath, context.siteDir);
     }

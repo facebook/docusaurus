@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {
   DEFAULT_CONFIG_FILE_NAME,
   DEFAULT_STATIC_DIR_NAME,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -100,7 +100,9 @@ function createPluginSchema(theme: boolean) {
 
           error.message = ` => Bad Docusaurus ${
             theme ? 'theme' : 'plugin'
-          } value as path [${error.path}].
+          } value ${error.path.reduce((acc, cur) =>
+            typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+          )}.
 ${validConfigExample}
 `;
         });
@@ -144,9 +146,9 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
+const SiteUrlSchema = URISchema.required().custom((value: unknown, helpers) => {
   try {
-    const {pathname} = new URL(value);
+    const {pathname} = new URL(String(value));
     if (pathname !== '/') {
       helpers.warn('docusaurus.configValidationWarning', {
         warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
@@ -157,7 +159,7 @@ const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
 }, 'siteUrlCustomValidation');
 
 // TODO move to @docusaurus/utils-validation
-export const ConfigSchema = Joi.object({
+export const ConfigSchema = Joi.object<DocusaurusConfig>({
   baseUrl: Joi.string()
     .required()
     .regex(/\/$/m)
@@ -185,6 +187,7 @@ export const ConfigSchema = Joi.object({
   deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
+  githubPort: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
   themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
@@ -223,8 +226,8 @@ export const ConfigSchema = Joi.object({
     .items(Joi.string())
     .default(DEFAULT_CONFIG.clientModules),
   tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
-  titleDelimiter: Joi.string().default('|'),
-  noIndex: Joi.bool().default(false),
+  titleDelimiter: Joi.string().default(DEFAULT_CONFIG.titleDelimiter),
+  noIndex: Joi.bool().default(DEFAULT_CONFIG.noIndex),
   webpack: Joi.object({
     jsLoader: Joi.alternatives()
       .try(Joi.string().equal('babel'), Joi.function())
@@ -236,9 +239,7 @@ export const ConfigSchema = Joi.object({
 });
 
 // TODO move to @docusaurus/utils-validation
-export function validateConfig(
-  config: Partial<DocusaurusConfig>,
-): DocusaurusConfig {
+export function validateConfig(config: unknown): DocusaurusConfig {
   const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });
@@ -248,7 +249,9 @@ export function validateConfig(
   if (error) {
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
-        return `${formattedError}"${err.path}",`;
+        return `${formattedError}"${err.path.reduce((acc, cur) =>
+          typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+        )}",`;
       }
       return formattedError;
     }, '');

@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import query from 'querystring';
+import _ from 'lodash';
 import {
   docuHash,
   normalizeUrl,
@@ -12,8 +14,6 @@ import {
   escapePath,
   reportMessage,
 } from '@docusaurus/utils';
-import _ from 'lodash';
-import query from 'querystring';
 import {getAllFinalRoutes} from './utils';
 import type {
   Module,
@@ -152,7 +152,7 @@ const isModule = (value: unknown): value is Module =>
   typeof value === 'string' ||
   (typeof value === 'object' &&
     // eslint-disable-next-line no-underscore-dangle
-    !!(value as {[key: string]: unknown})?.__import);
+    !!(value as {[key: string]: unknown} | null)?.__import);
 
 /**
  * Takes a {@link Module} (which is nothing more than a path plus some metadata

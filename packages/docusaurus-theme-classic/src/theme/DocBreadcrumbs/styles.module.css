@@ -10,8 +10,10 @@
   margin-bottom: 0.8rem;
 }
 
-.icon {
-  vertical-align: middle;
+.breadcrumbHomeIcon {
+  position: relative;
+  top: 1px;
+  vertical-align: top;
   height: 1.1rem;
   width: 1.1rem;
 }

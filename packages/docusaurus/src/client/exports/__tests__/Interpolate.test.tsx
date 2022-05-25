@@ -31,7 +31,7 @@ describe('interpolate', () => {
       object: {hello: 'world'},
       array: ['Hello'],
     };
-    // Do we need to improve the JS type -> String conversion logic here?
+    // @ts-expect-error: test
     expect(interpolate(text, values)).toMatchInlineSnapshot(
       `"42 Hello [object Object] Hello"`,
     );
@@ -52,6 +52,7 @@ describe('interpolate', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {unprovidedValue}?';
     const values = {name: 'Sébastien', extraValue: 'today'};
+    // @ts-expect-error: test
     expect(interpolate(text, values)).toMatchInlineSnapshot(
       `"Hello Sébastien how are you {unprovidedValue}?"`,
     );
@@ -61,6 +62,7 @@ describe('interpolate', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {day}?';
     expect(interpolate(text)).toEqual(text);
+    // @ts-expect-error: test
     expect(interpolate(text, {})).toEqual(text);
   });
 
@@ -84,6 +86,7 @@ describe('interpolate', () => {
       extraUselessValue1: <div>test</div>,
       extraUselessValue2: 'hi',
     };
+    // @ts-expect-error: test
     expect(interpolate(text, values)).toMatchSnapshot();
   });
 });
@@ -133,6 +136,7 @@ describe('<Interpolate>', () => {
       `"The Docusaurus <Interpolate> component only accept simple string values. Received: React element"`,
     );
     expect(() =>
+      // @ts-expect-error: test
       renderer.create(<Interpolate>{null}</Interpolate>),
     ).toThrowErrorMatchingInlineSnapshot(
       `"The Docusaurus <Interpolate> component only accept simple string values. Received: object"`,

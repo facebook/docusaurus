@@ -5,12 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {Options} from '@docusaurus/plugin-sitemap';
+import {
+  validateOptions,
+  DEFAULT_OPTIONS,
+  type Options,
+  type PluginOptions,
+} from '../options';
+import type {EnumChangefreq} from 'sitemap';
+import type {Validate} from '@docusaurus/types';
 
 function testValidate(options: Options) {
-  return validateOptions({validate: normalizePluginOptions, options});
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+    options,
+  });
 }
 
 const defaultOptions = {
@@ -24,8 +33,8 @@ describe('validateOptions', () => {
   });
 
   it('accepts correctly defined user options', () => {
-    const userOptions = {
-      changefreq: 'yearly',
+    const userOptions: Options = {
+      changefreq: 'yearly' as EnumChangefreq,
       priority: 0.9,
       ignorePatterns: ['/search/**'],
     };
@@ -45,7 +54,7 @@ describe('validateOptions', () => {
 
   it('rejects bad changefreq inputs', () => {
     expect(() =>
-      testValidate({changefreq: 'annually'}),
+      testValidate({changefreq: 'annually' as EnumChangefreq}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""changefreq" must be one of [daily, monthly, always, hourly, weekly, yearly, never]"`,
     );
@@ -53,9 +62,11 @@ describe('validateOptions', () => {
 
   it('rejects bad ignorePatterns inputs', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({ignorePatterns: '/search'}),
     ).toThrowErrorMatchingInlineSnapshot(`""ignorePatterns" must be an array"`);
     expect(() =>
+      // @ts-expect-error: test
       testValidate({ignorePatterns: [/^\/search/]}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""ignorePatterns[0]" must be a string"`,
