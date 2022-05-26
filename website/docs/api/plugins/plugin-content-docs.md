@@ -64,9 +64,9 @@ Accepted fields:
 
 </APITable>
 
-### Types
+### Types {#types}
 
-#### EditUrlFunction {#EditUrlFunction}
+#### `EditUrlFunction` {#EditUrlFunction}
 
 ```ts
 type EditUrlFunction = (params: {
@@ -78,7 +78,7 @@ type EditUrlFunction = (params: {
 }) => string | undefined;
 ```
 
-#### PrefixParser {#PrefixParser}
+#### `PrefixParser` {#PrefixParser}
 
 ```ts
 type PrefixParser = (filename: string) => {
@@ -87,7 +87,7 @@ type PrefixParser = (filename: string) => {
 };
 ```
 
-#### SidebarGenerator {#SidebarGenerator}
+#### `SidebarGenerator` {#SidebarGenerator}
 
 ```ts
 type SidebarGenerator = (generatorArgs: {
@@ -133,7 +133,7 @@ type CategoryIndexMatcher = (param: {
 }) => boolean;
 ```
 
-#### VersionsConfig {#VersionsConfig}
+#### `VersionsConfig` {#VersionsConfig}
 
 ```ts
 type VersionsConfig = {
