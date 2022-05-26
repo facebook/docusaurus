@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingThemeInstances = [
   /** @type {import('@docusaurus/types').PluginModule} */
@@ -29,10 +27,8 @@ const dogfoodingPluginInstances = [
       routeBasePath: '/tests/docs',
       sidebarPath: '_dogfooding/docs-tests-sidebars.js',
 
-      // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
-      // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
-      // eslint-disable-next-line no-restricted-properties
-      path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
+      // Using a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
+      path: '_dogfooding/_docs tests',
       showLastUpdateTime: true,
       sidebarItemsGenerator(args) {
         return args.defaultSidebarItemsGenerator({
