@@ -118,6 +118,8 @@ type SidebarGenerator = (generatorArgs: {
    * Docusaurus.
    */
   defaultSidebarItemsGenerator: SidebarGenerator;
+  // Returns an array of sidebar items — same as what you can declare in
+  // sidebars.js, except for shorthands. See https://docusaurus.io/docs/sidebar/items
 }) => Promise<SidebarItem[]>;
 
 type CategoryIndexMatcher = (param: {
