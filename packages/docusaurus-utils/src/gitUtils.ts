@@ -97,22 +97,19 @@ export function getFileCommitDate(
     );
   }
 
-  const formatArg = `--format=%ct${includeAuthor ? ',%an' : ''}`;
+  const args = [
+    `--format=%ct${includeAuthor ? ',%an' : ''}`,
+    '--max-count=1',
+    age === 'oldest' ? '--follow --diff-filter=A' : undefined,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  const countArgs = '--max-count=1';
-
-  const oldestArgs = age === 'oldest' ? '--follow --diff-filter=A' : undefined;
-
-  const args = [formatArg, countArgs, oldestArgs].filter(Boolean).join(' ');
-
-  const result = shell.exec(
-    `git log ${args} ${formatArg} -- "${path.basename(file)}"`,
-    {
-      // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-      cwd: path.dirname(file),
-      silent: true,
-    },
-  );
+  const result = shell.exec(`git log ${args} -- "${path.basename(file)}"`, {
+    // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
+    cwd: path.dirname(file),
+    silent: true,
+  });
   if (result.code !== 0) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
