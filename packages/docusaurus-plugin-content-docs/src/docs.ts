@@ -77,15 +77,7 @@ function readLastUpdateData(
           }
           return undefined;
         })(),
-        lastUpdatedBy: (() => {
-          if (showLastUpdateAuthor) {
-            if (lastUpdateFrontMatter?.author) {
-              return lastUpdateFrontMatter.author;
-            }
-            return author;
-          }
-          return undefined;
-        })(),
+        lastUpdatedBy: showLastUpdateAuthor ? lastUpdateFrontMatter?.author ?? author : undefined,
       };
     }
   }
