@@ -9,11 +9,11 @@ import {escapeShellArg} from '../shellUtils';
 
 describe('shellUtils', () => {
   it('escapeShellArg', () => {
-    expect(escapeShellArg('hello')).toBe('hello');
-    expect(escapeShellArg('*')).toBe('"*"');
-    expect(escapeShellArg('hello world')).toBe('"hello world"');
-    expect(escapeShellArg("'hello'")).toBe('"\'hello\'"');
-    expect(escapeShellArg('$(pwd)')).toBe('"$(pwd)"');
-    expect(escapeShellArg('hello$(pwd)')).toBe('"hello$(pwd)"');
+    expect(escapeShellArg('hello')).toBe("'hello'");
+    expect(escapeShellArg('*')).toBe("'*'");
+    expect(escapeShellArg('hello world')).toBe("'hello world'");
+    expect(escapeShellArg("'hello'")).toBe("\\''hello'\\'");
+    expect(escapeShellArg('$(pwd)')).toBe("'$(pwd)'");
+    expect(escapeShellArg('hello$(pwd)')).toBe("'hello$(pwd)'");
   });
 });
