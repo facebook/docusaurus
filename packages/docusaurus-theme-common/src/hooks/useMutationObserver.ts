@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {useRef, useMemo, useEffect} from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 export function useMutationObserver(
   target: Element | undefined | null,
@@ -16,18 +17,22 @@ export function useMutationObserver(
     subtree: true,
   },
 ): void {
-  const mutationObserver = useRef<MutationObserver>(
-    new MutationObserver(callback),
+  const mutationObserver = useRef<MutationObserver | undefined>(
+    ExecutionEnvironment.canUseDOM ? new MutationObserver(callback) : undefined,
   );
   const memoOptions = useMemo(() => options, [options]);
 
   useEffect(() => {
     const observer = mutationObserver.current;
 
-    if (target) {
+    if (target && observer) {
       observer.observe(target, memoOptions);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
   }, [target, memoOptions]);
 }
