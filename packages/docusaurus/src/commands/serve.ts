@@ -82,7 +82,7 @@ export async function serve(
   logger.success`Serving path=${buildDir} directory at: url=${url}`;
   server.listen(port);
 
-  if (cliOptions.open) {
+  if (cliOptions.open && !process.env.CI) {
     openBrowser(url);
   }
 }
