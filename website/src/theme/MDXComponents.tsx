@@ -5,13 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps} from 'react';
 import MDXComponents from '@theme-original/MDXComponents';
 import Highlight from '@site/src/components/Highlight';
 
 export default {
   ...MDXComponents,
-  highlight: (props: ComponentProps<typeof Highlight>): JSX.Element => (
-    <Highlight {...props} />
-  ),
+  highlight: Highlight,
 };

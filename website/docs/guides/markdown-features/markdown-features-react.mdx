@@ -24,6 +24,8 @@ While Docusaurus parses both `.md` and `.mdx` files using MDX, some of the synta
 
 :::
 
+Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+
 ### Exporting components {#exporting-components}
 
 To define any custom component within an MDX file, you have to export it: only paragraphs that start with `export` will be parsed as components instead of prose.
@@ -135,7 +137,11 @@ import Highlight from '@site/src/components/Highlight';
 <Highlight color="#25c2a0">Docusaurus green</Highlight>
 ```
 
-Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+:::tip
+
+If you use the same component across a lot of files, you don't need to import it everywhere—consider adding it to the global scope. [See below](#mdx-component-scope)
+
+:::
 
 ### MDX component scope {#mdx-component-scope}
 
@@ -169,8 +175,9 @@ export default {
   // Re-use the default mapping
   ...MDXComponents,
   // Map the "highlight" tag to our <Highlight /> component!
+  // `Highlight` will receive all props that were passed to `highlight` in MDX
   // highlight-next-line
-  highlight: (props) => <Highlight {...props} />,
+  highlight: Highlight,
 };
 ```
 
