@@ -7,12 +7,20 @@
 
 import React, {type ReactNode} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import DefaultFallback from '@theme/Error';
-import type {Props} from '@docusaurus/ErrorBoundary';
+import ThemeError from '@theme/Error';
+import type {
+  FallbackFunction,
+  FallbackParams,
+  Props,
+} from '@docusaurus/ErrorBoundary';
 
 type State = {
   error: Error | null;
 };
+
+const DefaultFallback: FallbackFunction = (params) => (
+  <ThemeError {...params} />
+);
 
 export default class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -32,10 +40,12 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     const {error} = this.state;
 
     if (error) {
-      const Fallback = this.props.fallback ?? DefaultFallback;
-      return (
-        <Fallback error={error} tryAgain={() => this.setState({error: null})} />
-      );
+      const fallbackParams: FallbackParams = {
+        error,
+        tryAgain: () => this.setState({error: null}),
+      };
+      const fallback: FallbackFunction = this.props.fallback ?? DefaultFallback;
+      return fallback(fallbackParams);
     }
 
     // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
