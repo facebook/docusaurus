@@ -379,6 +379,7 @@ export default async function pluginContentDocs(
                 }) => ({
                   image: frontMatter.image,
                 }),
+                mermaid: siteConfig.markdown?.mermaid,
               },
             },
             {

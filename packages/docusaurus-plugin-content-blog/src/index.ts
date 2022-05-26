@@ -465,6 +465,7 @@ export default async function pluginContentBlog(
                         (author) => author.imageURL,
                       ),
                     }),
+                    mermaid: siteConfig.markdown?.mermaid,
                   },
                 },
                 {

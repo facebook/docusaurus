@@ -106,6 +106,7 @@ export function createMDXFallbackPlugin({
         // External MDX files might have front matter, just disable the warning
         isMDXPartialFrontMatterWarningDisabled: true,
         remarkPlugins: [admonitions],
+        mermaid: siteConfig.markdown?.mermaid,
       };
 
       return {

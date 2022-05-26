@@ -221,6 +221,7 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    mermaid: siteConfig.markdown?.mermaid,
                   },
                 },
                 {

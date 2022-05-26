@@ -39,7 +39,7 @@ const pragma = `
 
 const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
-  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc, mermaid],
+  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
@@ -68,6 +68,7 @@ export type Options = Partial<MDXOptions> & {
     metadata: {[key: string]: unknown};
   }) => {[key: string]: unknown};
   filepath: string;
+  mermaid?: boolean;
 };
 
 /**
@@ -150,11 +151,13 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
+    const mermaidOptions = reqOptions.mermaid === true ? [mermaid] : [];
     const options: Options = {
       ...reqOptions,
       remarkPlugins: [
         ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
         ...DEFAULT_OPTIONS.remarkPlugins,
+        ...mermaidOptions,
         [
           transformImage,
           {

@@ -9,6 +9,19 @@ slug: /markdown-features/diagrams
 
 Diagrams can be rendered using [Mermaid](https://mermaid-js.github.io/mermaid/) in a code block.
 
+## Setup
+
+Enable Mermaid functionality by setting `markdown.mermaid` to true in your `docusaurus.config.js`.
+
+```js title=docusaurus.config.js
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+  markdown: {
+    mermaid: true,
+  },
+};
+```
+
 ## Usage
 
 Add a code block with language `mermaid`:

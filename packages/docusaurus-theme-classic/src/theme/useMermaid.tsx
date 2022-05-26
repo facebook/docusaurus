@@ -9,6 +9,7 @@ import {useEffect} from 'react';
 import mermaid from 'mermaid';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 
@@ -43,12 +44,13 @@ function getTheme(
 }
 
 export default function useMermaid(): void {
+  const {siteConfig} = useDocusaurusContext();
   const themeConfig = useThemeConfig();
   const isBrowser = useIsBrowser();
 
   // Watch for changes in theme in the HTML attribute `data-theme`.
   useEffect(() => {
-    if (isBrowser) {
+    if (siteConfig.markdown?.mermaid === true && isBrowser) {
       const html: HTMLHtmlElement = document.querySelector('html')!;
       const init = (target: HTMLHtmlElement): void => {
         const theme = getTheme(target, themeConfig.mermaid);
@@ -91,5 +93,5 @@ export default function useMermaid(): void {
       };
     }
     return undefined;
-  }, [isBrowser, themeConfig.mermaid]);
+  }, [isBrowser, siteConfig.markdown?.mermaid, themeConfig.mermaid]);
 }
