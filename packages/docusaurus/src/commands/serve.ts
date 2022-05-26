@@ -78,8 +78,9 @@ export async function serve(
     });
   });
 
-  const url = servingUrl + baseUrl;
-  logger.success`Serving path=${buildDir} directory at url=${url}.`;
+  logger.success`Serving path=${buildDir} directory at: url=${
+    servingUrl + baseUrl
+  }`;
   server.listen(port);
 
   if (cliOptions.open) {
