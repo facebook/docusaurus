@@ -13,6 +13,7 @@ import logger from '@docusaurus/logger';
 import shell from 'shelljs';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
+import {escapeShellArg} from '@docusaurus/utils';
 
 type CLIOptions = {
   packageManager?: PackageManager;
@@ -463,9 +464,11 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (source.type === 'git') {
-    logger.info`Cloning Git template url=${source.url}...`;
-    const command = await getGitCommand(source.strategy);
-    if (shell.exec(`${command} ${source.url} ${dest}`).code !== 0) {
+    const gitCommand = await getGitCommand(source.strategy);
+    const gitCloneCommand = `${gitCommand} ${escapeShellArg(
+      source.url,
+    )} ${escapeShellArg(dest)}`;
+    if (shell.exec(gitCloneCommand).code !== 0) {
       logger.error`Cloning Git template failed!`;
       process.exit(1);
     }

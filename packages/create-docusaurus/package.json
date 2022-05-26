@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
     "commander": "^5.1.0",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
