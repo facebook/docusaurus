@@ -12,8 +12,8 @@ import MDXA from '@theme/MDXComponents/A';
 import MDXPre from '@theme/MDXComponents/Pre';
 import MDXDetails from '@theme/MDXComponents/Details';
 import MDXHeading from '@theme/MDXComponents/Heading';
+import MDXUl from '@theme/MDXComponents/Ul';
 import MDXImg from '@theme/MDXComponents/Img';
-import './task-list.css';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
@@ -23,6 +23,7 @@ const MDXComponents: MDXComponentsObject = {
   a: MDXA,
   pre: MDXPre,
   details: MDXDetails,
+  ul: MDXUl,
   img: MDXImg,
   h1: (props) => <MDXHeading as="h1" {...props} />,
   h2: (props) => <MDXHeading as="h2" {...props} />,

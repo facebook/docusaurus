@@ -190,6 +190,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The component used to render <pre> tags in MDX',
       },
+      'MDXComponents/Ul': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <ul> tags and Markdown unordered lists in MDX',
+      },
       MDXContent: {
         actions: {
           eject: 'safe',
@@ -205,13 +213,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The Navbar item components mapping. Can be ejected to add custom navbar item types. See https://github.com/facebook/docusaurus/issues/7227.',
-      },
-      // TODO should probably not even appear here
-      'NavbarItem/utils': {
-        actions: {
-          eject: 'forbidden',
-          wrap: 'forbidden',
-        },
       },
       NotFound: {
         actions: {

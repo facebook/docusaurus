@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.contains-task-list {
+.containsTaskList {
   list-style: none;
 }
 
-:not(.contains-task-list > li) > .contains-task-list {
+:not(.containsTaskList > li) > .containsTaskList {
   padding-left: 0;
 }
