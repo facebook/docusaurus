@@ -32,7 +32,7 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'docs'` | Path to the docs content directory on the file system, relative to site directory. |
-| `editUrl` | <code>string \|</code> <a href="#editurlfunction"><code>EditUrlFunction</code></a> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editUrl` | <code>string \| <a href="#editurlfunction">EditUrlFunction</a></code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `editCurrentVersion` | `boolean` | `false` | The edit URL will always target the current version doc instead of older versions. Ignored when `editUrl` is a function. |
 | `routeBasePath` | `string` | `'docs'` | URL route for the docs section of your site. **DO NOT** include a trailing slash. Use `/` for shipping docs without base path. |
