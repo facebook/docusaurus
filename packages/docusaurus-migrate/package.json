@@ -4,7 +4,7 @@
   "description": "A CLI tool to migrate from older versions of Docusaurus.",
   "license": "MIT",
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   },
   "scripts": {
     "build": "tsc --build",
