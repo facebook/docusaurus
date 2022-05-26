@@ -44,7 +44,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
         error,
         tryAgain: () => this.setState({error: null}),
       };
-      const fallback: FallbackFunction = this.props.fallback || DefaultFallback;
+      const fallback: FallbackFunction = this.props.fallback ?? DefaultFallback;
       return fallback(fallbackParams);
     }
 
