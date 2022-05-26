@@ -64,22 +64,19 @@ function readLastUpdateData(
             timestamp: 1539502055,
           };
 
-    if (fileLastUpdateData) {
-      const {author, timestamp} = fileLastUpdateData;
+    const {author, timestamp} = fileLastUpdateData ?? {};
+    const frontMatterTimestamp = lastUpdateFrontMatter?.date
+      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+      : undefined;
 
-      return {
-        lastUpdatedAt: (() => {
-          if (showLastUpdateTime) {
-            if (lastUpdateFrontMatter?.date) {
-              return new Date(lastUpdateFrontMatter.date).getTime() / 1000;
-            }
-            return timestamp;
-          }
-          return undefined;
-        })(),
-        lastUpdatedBy: showLastUpdateAuthor ? lastUpdateFrontMatter?.author ?? author : undefined,
-      };
-    }
+    return {
+      lastUpdatedBy: showLastUpdateAuthor
+        ? lastUpdateFrontMatter?.author ?? author
+        : undefined,
+      lastUpdatedAt: showLastUpdateTime
+        ? frontMatterTimestamp ?? timestamp
+        : undefined,
+    };
   }
 
   return {};
@@ -164,6 +161,8 @@ function doProcessDocMetadata({
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
   } = frontMatter;
+
+  console.log(lastUpdateFrontMatter);
 
   const lastUpdate = readLastUpdateData(
     filePath,
