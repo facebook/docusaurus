@@ -97,20 +97,16 @@ export function getFileCommitDate(
     );
   }
 
-  let formatArg = '--format=%ct';
-  if (includeAuthor) {
-    formatArg += ',%an';
-  }
+  const formatArg = `--format=%ct${includeAuthor ? ',%an' : ''}`;
 
-  let extraArgs = '--max-count=1';
-  if (age === 'oldest') {
-    // --follow is necessary to follow file renames
-    // --diff-filter=A ensures we only get the commit which (A)dded the file
-    extraArgs += ' --follow --diff-filter=A';
-  }
+  const countArgs = '--max-count=1';
+
+  const oldestArgs = age === 'oldest' ? '--follow --diff-filter=A' : undefined;
+
+  const args = [formatArg, countArgs, oldestArgs].filter(Boolean).join(' ');
 
   const result = shell.exec(
-    `git log ${extraArgs} ${formatArg} -- "${path.basename(file)}"`,
+    `git log ${args} ${formatArg} -- "${path.basename(file)}"`,
     {
       // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
       cwd: path.dirname(file),
