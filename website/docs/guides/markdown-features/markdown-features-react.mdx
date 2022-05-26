@@ -24,7 +24,11 @@ While Docusaurus parses both `.md` and `.mdx` files using MDX, some of the synta
 
 :::
 
-To define any custom component within an MDX file, you have to export it.
+Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+
+### Exporting components {#exporting-components}
+
+To define any custom component within an MDX file, you have to export it: only paragraphs that start with `export` will be parsed as components instead of prose.
 
 ```jsx
 export const Highlight = ({children, color}) => (
@@ -133,7 +137,69 @@ import Highlight from '@site/src/components/Highlight';
 <Highlight color="#25c2a0">Docusaurus green</Highlight>
 ```
 
-Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+:::tip
+
+If you use the same component across a lot of files, you don't need to import it everywhere—consider adding it to the global scope. [See below](#mdx-component-scope)
+
+:::
+
+### MDX component scope {#mdx-component-scope}
+
+Apart from [importing a component](#importing-components) and [exporting a component](#exporting-components), a third way to use a component in MDX is to **register it to the global scope**, which will make it automatically available in every MDX file, without any import statements.
+
+For example, given this MDX file:
+
+```md
+- a
+- list!
+
+And some <highlight>custom markup</highlight>...
+```
+
+It will be compiled to a React component containing `ul`, `li`, `p`, and `highlight` tags. Now, you can optionally provide your own implementation for any of these tags in the form of React components. (`highlight` isn't even an intrinsic element: it needs an implementation!)
+
+In Docusaurus, this MDX component scope is provided by the `@theme/MDXComponents` component. It's not a React component, _per se_, unlike most other exports under the `@theme/` alias: it is a record from tag names like `ul` and `img` to their custom implementations.
+
+If you [swizzle](../../swizzling.md) this component, you will find all tags that have been re-implemented, and you can further customize our implementation by swizzling the respective sub-component, like `@theme/MDXComponents/Head` (which is used to implement the [`<head>`](./markdown-features-head-metadata.mdx) feature).
+
+If you want to register extra tag names (like the `<highlight>` tag above), you should consider [wrapping `@theme/MDXComponents`](../../swizzling.md#wrapping), so you don't have to maintain all the existing mappings. Since the swizzle CLI doesn't allow wrapping non-component files yet, you should manually create the wrapper:
+
+```js title="src/theme/MDXComponents.js"
+import React from 'react';
+// Import the original mapper
+import MDXComponents from '@theme-original/MDXComponents';
+// highlight-next-line
+import Highlight from '@site/src/components/Highlight';
+
+export default {
+  // Re-use the default mapping
+  ...MDXComponents,
+  // Map the "highlight" tag to our <Highlight /> component!
+  // `Highlight` will receive all props that were passed to `highlight` in MDX
+  // highlight-next-line
+  highlight: Highlight,
+};
+```
+
+And now, you can freely use `<highlight>` in every page, without writing the import statement:
+
+```md
+I can conveniently use <highlight color="#25c2a0">Docusaurus green</highlight> everywhere!
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+I can conveniently use <highlight color="#25c2a0">Docusaurus green</highlight> everywhere!
+
+</BrowserWindow>
+```
+
+:::info
+
+We use lower-case tag names like `highlight` to "pretend" that they are intrinsic elements, but you can use capitalized ones like `Highlight` as well.
+
+:::
 
 ### Markdown and JSX interoperability {#markdown-and-jsx-interoperability}
 
