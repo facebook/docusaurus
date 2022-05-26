@@ -10,21 +10,20 @@ import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '..';
-import transformImage from '../../transformImage';
+import transformImage, {type PluginOptions} from '../../transformImage';
 
-const processFixture = async (name: string, options?) => {
-  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+const processFixture = async (name: string, options?: PluginOptions) => {
+  const siteDir = path.join(__dirname, `__fixtures__`);
   const staticDirs = [
-    path.join(__dirname, '__fixtures__/static'),
-    path.join(__dirname, '__fixtures__/static2'),
+    path.join(siteDir, 'static'),
+    path.join(siteDir, 'static2'),
   ];
-  const file = await vfile.read(filePath);
+  const file = await vfile.read(path.join(siteDir, `${name}.md`));
   const result = await remark()
     .use(mdx)
-    .use(transformImage, {...options, filePath, staticDirs})
+    .use(transformImage, {...options, siteDir, staticDirs})
     .use(plugin, {
       ...options,
-      filePath,
       staticDirs,
       siteDir: path.join(__dirname, '__fixtures__'),
     })

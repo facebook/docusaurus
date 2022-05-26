@@ -43,6 +43,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
+| `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
 :::important
 

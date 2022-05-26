@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.17.12",
-    "@babel/traverse": "^7.17.12",
+    "@babel/parser": "^7.18.0",
+    "@babel/traverse": "^7.18.0",
     "@docusaurus/logger": "2.0.0-beta.20",
     "@docusaurus/utils": "2.0.0-beta.20",
     "@mdx-js/mdx": "^1.6.22",
@@ -52,6 +52,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

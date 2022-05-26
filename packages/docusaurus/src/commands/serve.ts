@@ -66,7 +66,7 @@ export async function serve(
 
     // Remove baseUrl before calling serveHandler, because /baseUrl/ should
     // serve /build/index.html, not /build/baseUrl/index.html (does not exist)
-    req.url = req.url?.replace(baseUrl, '/');
+    req.url = req.url.replace(baseUrl, '/');
 
     serveHandler(req, res, {
       cleanUrls: true,
@@ -76,8 +76,8 @@ export async function serve(
     });
   });
 
-  logger.success`Serving path=${buildDir} directory at url=${
+  logger.success`Serving path=${buildDir} directory at: url=${
     servingUrl + baseUrl
-  }.`;
+  }`;
   server.listen(port);
 }

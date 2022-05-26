@@ -144,7 +144,7 @@ function validateSidebarItem(
   // manually
   Joi.assert(item, sidebarItemSchema);
 
-  if ((item as NormalizedSidebarItemCategory).type === 'category') {
+  if ((item as NormalizedSidebarItem).type === 'category') {
     (item as NormalizedSidebarItemCategory).items.forEach(validateSidebarItem);
   }
 }
@@ -170,5 +170,9 @@ const categoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
 export function validateCategoryMetadataFile(
   unsafeContent: unknown,
 ): CategoryMetadataFile {
-  return Joi.attempt(unsafeContent, categoryMetadataFileSchema);
+  const {error, value} = categoryMetadataFileSchema.validate(unsafeContent);
+  if (error) {
+    throw error;
+  }
+  return value;
 }

@@ -23,7 +23,7 @@ function PackageJson() {
   // Only happens in deploy preview / local dev, but still nice
   const versionName =
     latestVersion.name === 'current' && allVersions.length > 1
-      ? allVersions[1].name
+      ? allVersions[1]!.name
       : latestVersion.name;
   return (
     <CodeBlock language="json" title="package.json">{`{

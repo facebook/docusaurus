@@ -4,8 +4,8 @@
   "compilerOptions": {
     "noEmit": true,
     "module": "esnext",
-    "allowJs": true,
     "rootDir": "."
   },
-  "include": ["bin"]
+  "include": ["bin"],
+  "exclude": ["**/__tests__/**"]
 }

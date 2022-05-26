@@ -11,7 +11,7 @@ const JoiFrontMatterString: Joi.Extension = {
   type: 'string',
   base: Joi.string(),
   // Fix Yaml that tries to auto-convert many things to string out of the box
-  prepare: (value) => {
+  prepare: (value: unknown) => {
     if (typeof value === 'number' || value instanceof Date) {
       return {value: value.toString()};
     }
@@ -28,4 +28,4 @@ const JoiFrontMatterString: Joi.Extension = {
  * @see https://github.com/facebook/docusaurus/issues/4642
  * @see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
  */
-export const JoiFrontMatter: typeof Joi = Joi.extend(JoiFrontMatterString);
+export const JoiFrontMatter = Joi.extend(JoiFrontMatterString) as typeof Joi;

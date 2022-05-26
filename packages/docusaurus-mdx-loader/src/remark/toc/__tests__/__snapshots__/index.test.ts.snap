@@ -75,50 +75,6 @@ exports[`toc remark plugin exports even with existing name 1`] = `
 "
 `;
 
-exports[`toc remark plugin exports with custom name 1`] = `
-"export const customName = [
-	{
-		value: 'Endi',
-		id: 'endi',
-		level: 3
-	},
-	{
-		value: 'Endi',
-		id: 'endi-1',
-		level: 2
-	},
-	{
-		value: 'Yangshun',
-		id: 'yangshun',
-		level: 3
-	},
-	{
-		value: 'I ♥ unicode.',
-		id: 'i--unicode',
-		level: 2
-	}
-];
-
-### Endi
-
-\`\`\`md
-## This is ignored
-\`\`\`
-
-## Endi
-
-Lorem ipsum
-
-### Yangshun
-
-Some content here
-
-## I ♥ unicode.
-
-export const c = 1;
-"
-`;
-
 exports[`toc remark plugin handles empty headings 1`] = `
 "export const toc = [];
 

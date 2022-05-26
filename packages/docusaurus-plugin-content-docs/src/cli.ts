@@ -14,6 +14,7 @@ import {
   getVersionDocsDirPath,
   getVersionSidebarsPath,
   getDocsDirPathLocalized,
+  readVersionsFile,
 } from './versions/files';
 import {validateVersionName} from './versions/validation';
 import {loadSidebarsFileUnsafe} from './sidebars';
@@ -53,7 +54,7 @@ async function createVersionedSidebarFile({
 
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
-  version: string,
+  version: unknown,
   {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
@@ -69,12 +70,7 @@ export async function cliDocsVersionCommand(
     throw err;
   }
 
-  // Load existing versions.
-  let versions = [];
-  const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (await fs.pathExists(versionsJSONFile)) {
-    versions = await fs.readJSON(versionsJSONFile);
-  }
+  const versions = (await readVersionsFile(siteDir, pluginId)) ?? [];
 
   // Check if version already exists.
   if (versions.includes(version)) {
@@ -137,7 +133,7 @@ export async function cliDocsVersionCommand(
   // Update versions.json file.
   versions.unshift(version);
   await fs.outputFile(
-    versionsJSONFile,
+    getVersionsFilePath(siteDir, pluginId),
     `${JSON.stringify(versions, null, 2)}\n`,
   );
 

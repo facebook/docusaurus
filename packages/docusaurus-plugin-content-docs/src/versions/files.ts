@@ -89,13 +89,13 @@ export function getVersionsFilePath(siteDir: string, pluginId: string): string {
  * @throws Throws if validation fails, i.e. `versions.json` doesn't contain an
  * array of valid version names.
  */
-async function readVersionsFile(
+export async function readVersionsFile(
   siteDir: string,
   pluginId: string,
 ): Promise<string[] | null> {
   const versionsFilePath = getVersionsFilePath(siteDir, pluginId);
   if (await fs.pathExists(versionsFilePath)) {
-    const content = await fs.readJSON(versionsFilePath);
+    const content: unknown = await fs.readJSON(versionsFilePath);
     validateVersionNames(content);
     return content;
   }

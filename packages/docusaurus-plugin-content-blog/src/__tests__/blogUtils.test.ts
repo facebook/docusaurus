@@ -211,7 +211,11 @@ describe('linkify', () => {
           title: 'date-matter',
         },
         truncated: false,
+        frontMatter: {},
+        authors: [],
+        formattedDate: '',
       },
+      content: '',
     },
   ];
 

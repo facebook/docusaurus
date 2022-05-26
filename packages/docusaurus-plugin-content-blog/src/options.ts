@@ -13,7 +13,11 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {PluginOptions, Options} from '@docusaurus/plugin-content-blog';
+import type {
+  PluginOptions,
+  Options,
+  FeedType,
+} from '@docusaurus/plugin-content-blog';
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
@@ -101,7 +105,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
         Joi.alternatives().conditional(
           Joi.string().equal('all', 'rss', 'atom', 'json'),
           {
-            then: Joi.custom((val) =>
+            then: Joi.custom((val: FeedType | 'all') =>
               val === 'all' ? ['rss', 'atom', 'json'] : [val],
             ),
           },
@@ -131,10 +135,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
-  const validatedOptions = validate(
-    PluginOptionSchema,
-    options,
-  ) as PluginOptions;
+}: OptionValidationContext<Options | undefined, PluginOptions>): PluginOptions {
+  const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

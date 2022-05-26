@@ -116,7 +116,7 @@ export default class CleanWebpackPlugin {
   }
 
   apply(compiler: Compiler): void {
-    if (!compiler.options.output || !compiler.options.output.path) {
+    if (!compiler.options.output.path) {
       console.warn(
         'clean-webpack-plugin: options.output.path not defined. Plugin disabled...',
       );
@@ -185,7 +185,7 @@ export default class CleanWebpackPlugin {
      * (relies on del's cwd: outputPath option)
      */
     const staleFiles = this.currentAssets.filter(
-      (previousAsset) => assets.includes(previousAsset) === false,
+      (previousAsset) => !assets.includes(previousAsset),
     );
 
     /**
@@ -198,7 +198,7 @@ export default class CleanWebpackPlugin {
     /**
      * Remove unused webpack assets
      */
-    if (this.cleanStaleWebpackAssets === true && staleFiles.length !== 0) {
+    if (this.cleanStaleWebpackAssets && staleFiles.length !== 0) {
       removePatterns.push(...staleFiles);
     }
 
@@ -234,10 +234,9 @@ export default class CleanWebpackPlugin {
         });
       }
     } catch (err) {
-      const needsForce =
-        /Cannot delete files\/folders outside the current working directory\./.test(
-          (err as Error).message,
-        );
+      const needsForce = (err as Error).message.includes(
+        'Cannot delete files/folders outside the current working directory.',
+      );
 
       if (needsForce) {
         const message =

@@ -230,6 +230,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Avana Wallet',
+    description:
+      'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
+    preview: require('./showcase/avana-wallet.png'),
+    website: 'https://docs.avanawallet.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'AvN Gateway',
     description:
       'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
@@ -2268,6 +2277,15 @@ const Users: User[] = [
     website: 'https://woodpecker-ci.org/',
     source: 'https://github.com/woodpecker-ci/woodpecker/tree/master/docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'Yeecord',
+    description:
+      'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
+    website: 'https://yeecord.com/',
+    preview: require('./showcase/yeecord.png'),
+    tags: ['product', 'personal'],
+    source: null
   },
   {
     title: 'Zowe',

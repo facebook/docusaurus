@@ -18,7 +18,7 @@ import type {PluginOptions, Options} from './options';
 export default function pluginClientRedirectsPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<unknown> {
+): Plugin<void> {
   const {trailingSlash} = context.siteConfig;
 
   return {

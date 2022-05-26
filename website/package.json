@@ -30,8 +30,7 @@
     "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:website || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
     "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:website",
     "netlify:test": "yarn netlify:build:deployPreview && npx --package netlify-cli netlify dev -- --debug",
-    "typecheck": "tsc",
-    "watch": "tsc --watch"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.8",
@@ -49,7 +48,7 @@
     "@docusaurus/utils": "2.0.0-beta.20",
     "@docusaurus/utils-common": "2.0.0-beta.20",
     "@popperjs/core": "^2.11.5",
-    "@swc/core": "^1.2.185",
+    "@swc/core": "^1.2.189",
     "clsx": "^1.1.1",
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",

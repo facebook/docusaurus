@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "watch": "tsc --watch"
+    "watch": "tsc --build --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -30,6 +30,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

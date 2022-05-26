@@ -15,7 +15,7 @@ import {
   extractSiteSourceCodeTranslations,
 } from '../translationsExtractor';
 import {getBabelOptions} from '../../../webpack/utils';
-import type {InitializedPlugin} from '@docusaurus/types';
+import type {InitializedPlugin, LoadedPlugin} from '@docusaurus/types';
 
 const TestBabelOptions = getBabelOptions({
   isServer: true,
@@ -693,7 +693,7 @@ export default function MyComponent(props: Props) {
       plugin1,
       plugin2,
       {name: 'dummy', options: {}, version: {type: 'synthetic'}} as const,
-    ];
+    ] as LoadedPlugin[];
     const translations = await extractSiteSourceCodeTranslations(
       siteDir,
       plugins,
@@ -721,7 +721,7 @@ export default function MyComponent(props: Props) {
         message: 'plugin2 message 2',
       },
     });
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(
       /.*\[WARNING\].* Translation extraction warnings for file .*src.theme.file4\.jsx.*\n.*- translate\(\) first arg should be a statically evaluable object\./,
     );
   });

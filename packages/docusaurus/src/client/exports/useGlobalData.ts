@@ -11,9 +11,6 @@ import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
 export default function useGlobalData(): GlobalData {
   const {globalData} = useDocusaurusContext();
-  if (!globalData) {
-    throw new Error('Docusaurus global data not found.');
-  }
   return globalData;
 }
 

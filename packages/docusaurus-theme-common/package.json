@@ -13,8 +13,10 @@
     "./Details": "./lib/components/Details/index.js"
   },
   "scripts": {
-    "build": "node copyUntypedFiles.mjs && tsc",
-    "watch": "node copyUntypedFiles.mjs && tsc --watch"
+    "build": "tsc && node ../../admin/scripts/copyUntypedFiles.js",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -47,6 +49,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

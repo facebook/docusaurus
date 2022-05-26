@@ -26,7 +26,7 @@ function getNextBetaVersionName() {
   const expectedPrefix = '2.0.0-beta.';
 
   const lastReleasedVersion = versions[0];
-  if (!lastReleasedVersion.includes(expectedPrefix)) {
+  if (!lastReleasedVersion || !lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
       'this code is only meant to be used during the 2.0 beta phase.',
     );
@@ -49,7 +49,7 @@ const isDeployPreview =
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
 
-const baseUrl = process.env.BASE_URL || '/';
+const baseUrl = process.env.BASE_URL ?? '/';
 
 // Special deployment for staging locales until they get enough translations
 // https://app.netlify.com/sites/docusaurus-i18n-staging

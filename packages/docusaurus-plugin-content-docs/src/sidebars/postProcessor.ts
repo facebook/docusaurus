@@ -18,7 +18,7 @@ import type {
   SidebarItemCategoryLink,
 } from './types';
 
-type SidebarPostProcessorParams = SidebarProcessorParams & {
+export type SidebarPostProcessorParams = SidebarProcessorParams & {
   draftIds: Set<string>;
 };
 
@@ -84,7 +84,7 @@ function postProcessSidebarItem(
       };
     }
     // A non-collapsible category can't be collapsed!
-    if (category.collapsible === false) {
+    if (!category.collapsible) {
       category.collapsed = false;
     }
     return category;

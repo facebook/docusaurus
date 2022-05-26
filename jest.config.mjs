@@ -23,7 +23,6 @@ const ignorePatterns = [
   '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',
   '/packages/docusaurus-theme-classic/lib',
-  '/packages/docusaurus-theme-classic/lib-next',
   '/packages/docusaurus-theme-common/lib',
   '/packages/docusaurus-migrate/lib',
   '/jest',

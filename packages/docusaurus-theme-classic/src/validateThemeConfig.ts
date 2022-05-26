@@ -7,12 +7,10 @@
 
 import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {
-  ThemeConfig,
-  ThemeConfigValidationContext,
-} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfigValidationContext} from '@docusaurus/types';
 
-const DEFAULT_DOCS_CONFIG = {
+const DEFAULT_DOCS_CONFIG: ThemeConfig['docs'] = {
   versionPersistence: 'localStorage',
   sidebar: {
     hideable: false,
@@ -31,13 +29,13 @@ const DocsSchema = Joi.object({
   }).default(DEFAULT_DOCS_CONFIG.sidebar),
 }).default(DEFAULT_DOCS_CONFIG);
 
-const DEFAULT_COLOR_MODE_CONFIG = {
+const DEFAULT_COLOR_MODE_CONFIG: ThemeConfig['colorMode'] = {
   defaultMode: 'light',
   disableSwitch: false,
   respectPrefersColorScheme: false,
 };
 
-export const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG: ThemeConfig = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
   metadata: [],
@@ -202,6 +200,7 @@ const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
 
 const SearchItemSchema = Joi.object({
   type: Joi.string().equal('search').required(),
+  className: Joi.string(),
 });
 
 const NavbarItemSchema = Joi.object({
@@ -301,8 +300,9 @@ const CustomCssSchema = Joi.alternatives()
   .try(Joi.array().items(Joi.string().required()), Joi.string().required())
   .optional();
 
-export const ThemeConfigSchema = Joi.object({
+export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   // TODO temporary (@alpha-58)
+  // @ts-expect-error: forbidden
   disableDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
       'disableDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.disableSwitch = true',

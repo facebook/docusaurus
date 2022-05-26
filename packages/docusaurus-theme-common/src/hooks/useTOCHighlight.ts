@@ -38,15 +38,12 @@ function getAnchors({
 }: {
   minHeadingLevel: number;
   maxHeadingLevel: number;
-}) {
+}): HTMLElement[] {
   const selectors = [];
   for (let i = minHeadingLevel; i <= maxHeadingLevel; i += 1) {
     selectors.push(`h${i}.anchor`);
   }
-
-  return Array.from(
-    document.querySelectorAll(selectors.join()),
-  ) as HTMLElement[];
+  return Array.from(document.querySelectorAll(selectors.join()));
 }
 
 function getActiveAnchor(
@@ -154,7 +151,7 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
       if (active) {
         if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
-          lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
+          lastActiveLinkRef.current.classList.remove(linkActiveClassName);
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;

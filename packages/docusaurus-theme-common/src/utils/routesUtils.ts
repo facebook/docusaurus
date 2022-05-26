@@ -18,7 +18,7 @@ export function isSamePath(
   path2: string | undefined,
 ): boolean {
   const normalize = (pathname: string | undefined) =>
-    (!pathname || pathname?.endsWith('/')
+    (!pathname || pathname.endsWith('/')
       ? pathname
       : `${pathname}/`
     )?.toLowerCase();

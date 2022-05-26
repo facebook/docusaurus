@@ -15,7 +15,7 @@ export function dispatchLifecycleAction<K extends keyof ClientModule>(
   ...args: Parameters<NonNullable<ClientModule[K]>>
 ): () => void {
   const callbacks = clientModules.map((clientModule) => {
-    const lifecycleFunction = (clientModule?.default?.[lifecycleAction] ??
+    const lifecycleFunction = (clientModule.default?.[lifecycleAction] ??
       clientModule[lifecycleAction]) as
       | ((
           ...a: Parameters<NonNullable<ClientModule[K]>>

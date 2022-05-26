@@ -14,14 +14,14 @@ import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 const ExitTitle = logger.yellow('[Exit]');
 
 export async function askThemeName(themeNames: string[]): Promise<string> {
-  const {themeName} = await prompts({
+  const {themeName} = (await prompts({
     type: 'select',
     name: 'themeName',
     message: 'Select a theme to swizzle:',
     choices: themeNames
       .map((theme) => ({title: theme, value: theme}))
       .concat({title: ExitTitle, value: '[Exit]'}),
-  });
+  })) as {themeName?: string};
   if (!themeName || themeName === '[Exit]') {
     process.exit(0);
   }
@@ -41,7 +41,7 @@ export async function askComponentName(
     })}`;
   }
 
-  const {componentName} = await prompts({
+  const {componentName} = (await prompts({
     type: 'autocomplete',
     name: 'componentName',
     message: `
@@ -58,12 +58,12 @@ ${PartiallySafeHint} = not safe for all swizzle actions
         value: compName,
       }))
       .concat({title: ExitTitle, value: '[Exit]'}),
-    async suggest(input, choices) {
+    async suggest(input: string, choices) {
       return choices.filter((choice) =>
         choice.title.toLowerCase().includes(input.toLowerCase()),
       );
     },
-  });
+  })) as {componentName?: string};
   logger.newLine();
 
   if (!componentName || componentName === '[Exit]') {
@@ -74,7 +74,7 @@ ${PartiallySafeHint} = not safe for all swizzle actions
 }
 
 export async function askSwizzleDangerousComponent(): Promise<boolean> {
-  const {switchToDanger} = await prompts({
+  const {switchToDanger} = (await prompts({
     type: 'select',
     name: 'switchToDanger',
     message: `Do you really want to swizzle this unsafe internal component?`,
@@ -86,7 +86,7 @@ export async function askSwizzleDangerousComponent(): Promise<boolean> {
       },
       {title: ExitTitle, value: '[Exit]'},
     ],
-  });
+  })) as {switchToDanger?: boolean | '[Exit]'};
 
   if (typeof switchToDanger === 'undefined' || switchToDanger === '[Exit]') {
     return process.exit(0);
@@ -98,7 +98,7 @@ export async function askSwizzleDangerousComponent(): Promise<boolean> {
 export async function askSwizzleAction(
   componentConfig: SwizzleComponentConfig,
 ): Promise<SwizzleAction> {
-  const {action} = await prompts({
+  const {action} = (await prompts({
     type: 'select',
     name: 'action',
     message: `Which swizzle action do you want to do?`,
@@ -117,7 +117,7 @@ export async function askSwizzleAction(
       },
       {title: ExitTitle, value: '[Exit]'},
     ],
-  });
+  })) as {action?: SwizzleAction | '[Exit]'};
 
   if (typeof action === 'undefined' || action === '[Exit]') {
     return process.exit(0);

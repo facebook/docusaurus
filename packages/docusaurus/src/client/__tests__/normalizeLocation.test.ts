@@ -7,13 +7,14 @@
 
 import {jest} from '@jest/globals';
 import normalizeLocation from '../normalizeLocation';
+import type {Location} from 'history';
 
 describe('normalizeLocation', () => {
   it('rewrites locations with index.html', () => {
     expect(
       normalizeLocation({
         pathname: '/index.html',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/',
     });
@@ -23,7 +24,7 @@ describe('normalizeLocation', () => {
         pathname: '/docs/introduction/index.html',
         search: '?search=foo',
         hash: '#features',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/docs/introduction',
       search: '?search=foo',
@@ -35,7 +36,7 @@ describe('normalizeLocation', () => {
         pathname: '/index.html',
         search: '',
         hash: '#features',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/',
       search: '',
@@ -47,7 +48,7 @@ describe('normalizeLocation', () => {
     expect(
       normalizeLocation({
         pathname: '/docs/installation.html',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/docs/installation',
     });
@@ -56,7 +57,7 @@ describe('normalizeLocation', () => {
         pathname: '/docs/introduction/foo.html',
         search: '',
         hash: '#bar',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/docs/introduction/foo',
       search: '',
@@ -65,7 +66,7 @@ describe('normalizeLocation', () => {
   });
 
   it('does not strip extension if the route location has one', () => {
-    expect(normalizeLocation({pathname: '/page.html'})).toEqual({
+    expect(normalizeLocation({pathname: '/page.html'} as Location)).toEqual({
       pathname: '/page.html',
     });
   });
@@ -78,7 +79,7 @@ describe('normalizeLocation', () => {
         pathname: '/docs/introduction',
         search: '',
         hash: '#features',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/docs/introduction',
       search: '',
@@ -91,7 +92,7 @@ describe('normalizeLocation', () => {
         pathname: '/docs/introduction',
         search: '',
         hash: '#features',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/docs/introduction',
       search: '',
@@ -102,7 +103,7 @@ describe('normalizeLocation', () => {
     expect(
       normalizeLocation({
         pathname: '/',
-      }),
+      } as Location),
     ).toEqual({
       pathname: '/',
     });

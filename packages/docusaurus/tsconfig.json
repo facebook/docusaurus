@@ -6,10 +6,10 @@
   ],
   "compilerOptions": {
     "noEmit": true,
-    "allowJs": true,
     "checkJs": true,
     "rootDir": ".",
     "module": "esnext"
   },
-  "include": ["bin"]
+  "include": ["bin"],
+  "exclude": ["**/__tests__/**"]
 }

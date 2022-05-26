@@ -10,15 +10,16 @@ import {
   DEFAULT_CONFIG,
   validateConfig,
 } from '../configValidation';
-import type {DocusaurusConfig} from '@docusaurus/types';
+import type {Config} from '@docusaurus/types';
 
-const baseConfig: DocusaurusConfig = {
+const baseConfig = {
   baseUrl: '/',
   title: 'my site',
   url: 'https://mysite.com',
-};
+} as Config;
 
-const normalizeConfig = (config) => validateConfig({...baseConfig, ...config});
+const normalizeConfig = (config: Partial<Config>) =>
+  validateConfig({...baseConfig, ...config});
 
 describe('normalizeConfig', () => {
   it('normalizes empty config', () => {
@@ -79,6 +80,7 @@ describe('normalizeConfig', () => {
   it('throws error for unknown field', () => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: test
         invalid: true,
       });
     }).toThrowErrorMatchingSnapshot();
@@ -113,6 +115,7 @@ describe('normalizeConfig', () => {
   ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: test
         plugins,
       });
     }).toThrowErrorMatchingSnapshot();
@@ -139,6 +142,7 @@ describe('normalizeConfig', () => {
   ])(`%s for the input of: %p`, (_message, themes) => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: test
         themes,
       });
     }).toThrowErrorMatchingSnapshot();
@@ -174,12 +178,12 @@ describe('normalizeConfig', () => {
       'should accept [function, object] for plugin',
       [[() => {}, {it: 'should work'}]],
     ],
-    ['should accept false/null for plugin', [false, null, 'classic']],
+    ['should accept false/null for plugin', [false as const, null, 'classic']],
   ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
         plugins,
-      });
+      } as Config);
     }).not.toThrowError();
   });
 
@@ -218,13 +222,14 @@ describe('normalizeConfig', () => {
     expect(() => {
       normalizeConfig({
         themes,
-      });
+      } as Config);
     }).not.toThrowError();
   });
 
   it('throws error if themes is not array', () => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: test
         themes: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -236,6 +241,7 @@ describe('normalizeConfig', () => {
   it('throws error if presets is not array', () => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: test
         presets: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -247,6 +253,7 @@ describe('normalizeConfig', () => {
   it('throws error if presets looks invalid', () => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: test
         presets: [() => {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -314,10 +321,10 @@ describe('config warnings', () => {
     const warning = getWarning({
       ...baseConfig,
       url: 'https://mysite.com/someSubpath',
-    });
+    })!;
     expect(warning).toBeDefined();
     expect(warning.details).toHaveLength(1);
-    expect(warning.details[0].message).toMatchInlineSnapshot(
+    expect(warning.details[0]!.message).toMatchInlineSnapshot(
       `"Docusaurus config validation warning. Field "url": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
     );
   });

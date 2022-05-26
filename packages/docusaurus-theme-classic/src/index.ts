@@ -19,8 +19,9 @@ import type webpack from 'webpack';
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
-const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
-  requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
+const ContextReplacementPlugin = requireFromDocusaurusCore(
+  'webpack/lib/ContextReplacementPlugin',
+) as typeof webpack.ContextReplacementPlugin;
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
@@ -112,7 +113,7 @@ export default function themeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return '../lib-next/theme';
+      return '../lib/theme';
     },
 
     getTypeScriptThemePath() {
@@ -177,7 +178,7 @@ export default function themeClassic(
         const plugin: PostCssPlugin = {
           postcssPlugin: 'RtlCssPlugin',
           prepare: (result) => {
-            const file = result.root?.source?.input?.file;
+            const file = result.root.source?.input.file;
             // Skip Infima as we are using the its RTL version.
             if (file === resolvedInfimaFile) {
               return {};

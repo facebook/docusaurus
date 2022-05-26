@@ -28,7 +28,11 @@ type PackageJsonFile = {
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await Globby('packages/*/package.json');
   return Promise.all(
-    files.map((file) => fs.readJSON(file).then((content) => ({file, content}))),
+    files.map((file) =>
+      fs
+        .readJSON(file)
+        .then((content: PackageJsonFile['content']) => ({file, content})),
+    ),
   );
 }
 
@@ -62,19 +66,19 @@ describe('packages', () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles
-      .filter((packageJsonFile) => packageJsonFile.content.name.startsWith('@'))
+      .filter((packageJsonFile) =>
+        packageJsonFile.content.name?.startsWith('@'),
+      )
       .forEach((packageJsonFile) => {
-        if (packageJsonFile) {
-          // Unfortunately jest custom message do not exist in loops,
-          // so using an exception instead to show failing package file
-          // (see https://github.com/facebook/jest/issues/3293)
-          // expect(packageJsonFile.content.publishConfig?.access)
-          //  .toEqual('public');
-          if (packageJsonFile.content.publishConfig?.access !== 'public') {
-            throw new Error(
-              `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,
-            );
-          }
+        // Unfortunately jest custom message do not exist in loops,
+        // so using an exception instead to show failing package file
+        // (see https://github.com/facebook/jest/issues/3293)
+        // expect(packageJsonFile.content.publishConfig?.access)
+        //  .toEqual('public');
+        if (packageJsonFile.content.publishConfig?.access !== 'public') {
+          throw new Error(
+            `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,
+          );
         }
       });
   });

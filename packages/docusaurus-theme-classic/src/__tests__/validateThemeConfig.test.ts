@@ -11,6 +11,7 @@ import {normalizeThemeConfig} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
 import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 
 function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -241,6 +242,12 @@ describe('themeConfig', () => {
             type: 'docsVersion',
             position: 'left',
             label: 'Current version',
+          },
+          // Search with className
+          {
+            type: 'search',
+            position: 'right',
+            className: 'search-bar-wrapper',
           },
         ],
       },
@@ -500,7 +507,7 @@ describe('themeConfig', () => {
         links: [
           {
             title: null, // Default value is important to distinguish simple footer from multi-column footer
-            items: partialConfig.footer.links[0].items,
+            items: partialConfig.footer.links[0]!.items,
           },
         ],
       },
@@ -656,7 +663,7 @@ describe('themeConfig', () => {
   });
 
   describe('color mode config', () => {
-    const withDefaultValues = (colorMode) =>
+    const withDefaultValues = (colorMode?: ThemeConfig['colorMode']) =>
       _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
 
     it('switch config', () => {
@@ -673,7 +680,7 @@ describe('themeConfig', () => {
     });
 
     it('max config', () => {
-      const colorMode = {
+      const colorMode: ThemeConfig['colorMode'] = {
         defaultMode: 'dark',
         disableSwitch: false,
         respectPrefersColorScheme: true,

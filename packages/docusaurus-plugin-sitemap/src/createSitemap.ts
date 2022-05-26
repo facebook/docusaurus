@@ -35,7 +35,7 @@ export default async function createSitemap(
     }
     // https://github.com/staylor/react-helmet-async/pull/167
     const meta = head[route]?.meta.toComponent() as unknown as
-      | ReactElement[]
+      | ReactElement<{name?: string; content?: string}>[]
       | undefined;
     return !meta?.some(
       (tag) => tag.props.name === 'robots' && tag.props.content === 'noindex',
