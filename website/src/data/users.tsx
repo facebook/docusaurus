@@ -987,6 +987,14 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
+    title: 'Junjie',
+    description: 'A personal website',
+    preview: require('./showcase/junjie.png'),
+    website: 'https://junjieweb.github.io',
+    source: 'https://github.com/junjieweb/junjieweb.github.io',
+    tags: ['personal', 'opensource'],
+  },
+  {
     title: 'K3ai',
     description:
       'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
