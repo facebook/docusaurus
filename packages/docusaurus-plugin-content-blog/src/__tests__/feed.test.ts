@@ -19,6 +19,7 @@ const DefaultI18N: I18n = {
   currentLocale: 'en',
   locales: ['en'],
   defaultLocale: 'en',
+  path: '1i8n',
   localeConfigs: {
     en: {
       label: 'English',

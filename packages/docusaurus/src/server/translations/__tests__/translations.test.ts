@@ -281,7 +281,6 @@ describe('writePluginTranslations', () => {
 
     await writePluginTranslations({
       localizationDir,
-      locale: 'fr',
       translationFile: {
         path: 'my/translation/file',
         content: {
@@ -384,7 +383,6 @@ describe('writePluginTranslations', () => {
     await expect(() =>
       writePluginTranslations({
         localizationDir,
-        locale: 'fr',
         translationFile: {
           path: 'my/translation/file.json',
           content: {},
@@ -420,7 +418,6 @@ describe('localizePluginTranslationFile', () => {
 
     const localizedTranslationFile = await localizePluginTranslationFile({
       localizationDir,
-      locale: 'fr',
       translationFile,
       plugin: {
         name: 'my-plugin-name',
@@ -453,7 +450,6 @@ describe('localizePluginTranslationFile', () => {
 
     const localizedTranslationFile = await localizePluginTranslationFile({
       localizationDir,
-      locale: 'fr',
       translationFile,
       plugin: {
         name: 'my-plugin-name',

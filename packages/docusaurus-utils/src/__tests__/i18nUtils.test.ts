@@ -103,6 +103,7 @@ describe('localizePath', () => {
         path: '/baseUrl',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'fr',
           localeConfigs: {},
@@ -119,6 +120,7 @@ describe('localizePath', () => {
         path: '/baseFsPath',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'fr',
           localeConfigs: {},
@@ -135,6 +137,7 @@ describe('localizePath', () => {
         path: '/baseUrl/',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'en',
           localeConfigs: {},
@@ -151,6 +154,7 @@ describe('localizePath', () => {
         path: '/baseUrl/',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'en',
           localeConfigs: {},
@@ -166,6 +170,7 @@ describe('localizePath', () => {
         path: '/baseUrl/',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'en',
           localeConfigs: {},
