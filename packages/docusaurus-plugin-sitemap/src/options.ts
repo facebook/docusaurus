@@ -21,6 +21,7 @@ export type PluginOptions = {
   ignorePatterns: string[];
   /**
    * The path to the created sitemap file, relative to the output directory.
+   * Useful if you have two plugin instances outputting two files.
    */
   filename: string;
 };
