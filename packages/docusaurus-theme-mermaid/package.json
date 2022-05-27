@@ -3,12 +3,6 @@
   "version": "2.0.0-beta.20",
   "description": "Mermaid components for Docusaurus.",
   "main": "lib/index.js",
-  "exports": {
-    "./theme/MDXComponents/Mermaid": "./lib/theme/MDXComponents/Mermaid.js",
-    "./theme/useMermaid": "./lib/theme/useMermaid.js",
-    "./theme/Mermaid": "./lib/theme/Mermaid/index.js",
-    ".": "./lib/index.js"
-  },
   "types": "src/theme-mermaid.d.ts",
   "publishConfig": {
     "access": "public"
