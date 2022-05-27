@@ -6,7 +6,6 @@
  */
 
 import {createStorageSlot} from '@docusaurus/theme-common';
-import renderReloadPopup from './renderReloadPopup';
 
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
@@ -171,7 +170,8 @@ async function registerSW() {
     if (!offlineMode) {
       sendSkipWaiting();
     } else {
-      renderReloadPopup({
+      const renderReloadPopup = (await import('./renderReloadPopup')).default;
+      await renderReloadPopup({
         onReload() {
           wb.addEventListener('controlling', () => {
             window.location.reload();
