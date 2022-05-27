@@ -35,7 +35,7 @@ class PendingNavigation extends React.Component<Props, State> {
       ? dispatchLifecycleAction('onRouteUpdate', {
           previousLocation: null,
           location: this.props.location,
-        })!
+        })
       : () => {};
     this.state = {
       nextRouteHasLoaded: true,
@@ -60,14 +60,14 @@ class PendingNavigation extends React.Component<Props, State> {
     this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
       previousLocation: this.previousLocation,
       location: nextLocation,
-    })!;
+    });
 
     // Load data while the old screen remains. Force preload instead of using
     // `window.docusaurus`, because we want to avoid loading screen even when
     // user is on saveData
     preload(nextLocation.pathname)
       .then(() => {
-        this.routeUpdateCleanupCb?.();
+        this.routeUpdateCleanupCb();
         this.setState({nextRouteHasLoaded: true});
       })
       .catch((e: unknown) => console.warn(e));

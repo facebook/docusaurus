@@ -24,5 +24,8 @@
   },
   "devDependencies": {
     "to-vfile": "^6.1.0"
+  },
+  "engines": {
+    "node": ">=16.14"
   }
 }

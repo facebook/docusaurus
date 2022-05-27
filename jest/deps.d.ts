@@ -7,9 +7,18 @@
 
 // modules only used in tests
 
-declare module 'to-vfile';
+declare module 'to-vfile' {
+  import type {VFile} from 'vfile';
 
-declare module 'remark-mdx';
+  export function read(path: string, encoding?: string): Promise<VFile>;
+}
+
+declare module 'remark-mdx' {
+  import type {Plugin} from 'unified';
+
+  const mdx: Plugin;
+  export = mdx;
+}
 
 declare module '@testing-utils/git' {
   const createTempRepo: typeof import('./utils/git').createTempRepo;

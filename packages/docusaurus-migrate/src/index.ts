@@ -552,7 +552,7 @@ async function migrateVersionedSidebar(
         (topLevel: SidebarEntries, value) => {
           const key = value[0].replace(versionRegex, '');
           topLevel[key] = Object.entries(value[1]).reduce<{
-            [key: string]: Array<string | {[key: string]: unknown}>;
+            [key: string]: (string | {[key: string]: unknown})[];
           }>((acc, val) => {
             acc[val[0].replace(versionRegex, '')] = (
               val[1] as SidebarEntry[]

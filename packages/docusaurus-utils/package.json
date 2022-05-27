@@ -35,7 +35,7 @@
     "webpack": "^5.72.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.20",

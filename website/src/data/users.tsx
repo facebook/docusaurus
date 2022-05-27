@@ -887,6 +887,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'I am Massoud',
+    description: 'The portfolio of Massoud Maboudi, Full Stack Developer',
+    preview: require('./showcase/iammassoud.png'),
+    website: 'https://iammassoud.ir/',
+    source: null,
+    tags: ['personal', 'rtl'],
+  },
+  {
     title: 'icodex',
     description: 'Front end engineer personal website',
     preview: require('./showcase/icodex.png'),
@@ -976,6 +984,14 @@ const Users: User[] = [
     preview: require('./showcase/joelpo.png'),
     website: 'https://joelpo.github.io',
     source: 'https://github.com/Joelpo/joelpo.github.io',
+    tags: ['personal', 'opensource'],
+  },
+  {
+    title: 'Junjie',
+    description: 'A personal website',
+    preview: require('./showcase/junjie.png'),
+    website: 'https://junjieweb.github.io',
+    source: 'https://github.com/junjieweb/junjieweb.github.io',
     tags: ['personal', 'opensource'],
   },
   {

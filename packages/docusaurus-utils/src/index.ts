@@ -96,6 +96,7 @@ export {
   createAbsoluteFilePathMatcher,
 } from './globUtils';
 export {getFileLoaderUtils} from './webpackUtils';
+export {escapeShellArg} from './shellUtils';
 export {
   getDataFilePath,
   getDataFileData,

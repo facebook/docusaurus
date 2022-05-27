@@ -423,7 +423,8 @@ export type LoadContext = {
   outDir: string;
   /**
    * Directory where all source translations for the current locale can be found
-   * in. Constructed with `i18n.path` + `i18n.currentLocale.path` (e.g. i18n/en)
+   * in. Constructed with `i18n.path` + `i18n.currentLocale.path` (e.g.
+   * `<siteDir>/i18n/en`)
    */
   localizationDir: string;
   /**

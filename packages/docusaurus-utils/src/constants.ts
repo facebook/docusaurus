@@ -30,8 +30,11 @@ export const DEFAULT_BUILD_DIR_NAME = 'build';
 /**
  * Can be overridden with cli option `--config`. Code should generally use
  * `context.siteConfigPath` instead (which is always absolute).
+ *
+ * This does not have extensions, so that we can substitute different ones
+ * when resolving the path.
  */
-export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config.js';
+export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config';
 
 /** Can be absolute or relative to site directory. */
 export const BABEL_CONFIG_FILE_NAME =

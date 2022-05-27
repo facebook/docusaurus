@@ -56,7 +56,7 @@ export default function NavbarContent(): JSX.Element {
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
 
-  const autoAddSearchBar = !items.some((item) => item.type === 'search');
+  const searchBarItem = items.find((item) => item.type === 'search');
 
   return (
     <NavbarContentLayout
@@ -74,7 +74,7 @@ export default function NavbarContent(): JSX.Element {
         <>
           <NavbarItems items={rightItems} />
           <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {autoAddSearchBar && (
+          {!searchBarItem && (
             <NavbarSearch>
               <SearchBar />
             </NavbarSearch>

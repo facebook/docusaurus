@@ -6,7 +6,6 @@
  */
 
 import {
-  DEFAULT_CONFIG_FILE_NAME,
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
 } from '@docusaurus/utils';
@@ -242,7 +241,10 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 });
 
 // TODO move to @docusaurus/utils-validation
-export function validateConfig(config: unknown): DocusaurusConfig {
+export function validateConfig(
+  config: unknown,
+  siteConfigPath: string,
+): DocusaurusConfig {
   const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });
@@ -266,7 +268,7 @@ export function validateConfig(config: unknown): DocusaurusConfig {
       '',
     );
     formattedError = unknownFields
-      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
+      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
   } else {
