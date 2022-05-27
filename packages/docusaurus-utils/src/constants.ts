@@ -17,8 +17,9 @@ export const NODE_MINOR_VERSION = parseInt(
 );
 
 /** Docusaurus core version. */
-// eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-export const DOCUSAURUS_VERSION = require('../package.json').version;
+export const DOCUSAURUS_VERSION =
+  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  (require('../package.json') as {version: string}).version;
 
 /**
  * Can be overridden with cli option `--out-dir`. Code should generally use
@@ -29,8 +30,11 @@ export const DEFAULT_BUILD_DIR_NAME = 'build';
 /**
  * Can be overridden with cli option `--config`. Code should generally use
  * `context.siteConfigPath` instead (which is always absolute).
+ *
+ * This does not have extensions, so that we can substitute different ones
+ * when resolving the path.
  */
-export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config.js';
+export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config';
 
 /** Can be absolute or relative to site directory. */
 export const BABEL_CONFIG_FILE_NAME =

@@ -5,21 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {ThemeConfig} from '@docusaurus/theme-common';
-import {getTranslationFiles, translateThemeConfig} from './translations';
+import path from 'path';
 import {createRequire} from 'module';
-import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import {getTranslationFiles, translateThemeConfig} from './translations';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
-const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
-  requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
+const ContextReplacementPlugin = requireFromDocusaurusCore(
+  'webpack/lib/ContextReplacementPlugin',
+) as typeof webpack.ContextReplacementPlugin;
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
@@ -111,7 +113,7 @@ export default function themeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return '../lib-next/theme';
+      return '../lib/theme';
     },
 
     getTypeScriptThemePath() {
@@ -142,11 +144,11 @@ export default function themeClassic(
       ];
 
       if (customCss) {
-        if (Array.isArray(customCss)) {
-          modules.push(...customCss);
-        } else {
-          modules.push(customCss);
-        }
+        modules.push(
+          ...(Array.isArray(customCss) ? customCss : [customCss]).map((p) =>
+            path.resolve(context.siteDir, p),
+          ),
+        );
       }
 
       return modules;
@@ -176,7 +178,7 @@ export default function themeClassic(
         const plugin: PostCssPlugin = {
           postcssPlugin: 'RtlCssPlugin',
           prepare: (result) => {
-            const file = result.root?.source?.input?.file;
+            const file = result.root.source?.input.file;
             // Skip Infima as we are using the its RTL version.
             if (file === resolvedInfimaFile) {
               return {};

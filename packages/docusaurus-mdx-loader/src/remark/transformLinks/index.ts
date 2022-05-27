@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -13,9 +16,6 @@ import {
   findAsyncSequential,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
-import path from 'path';
-import url from 'url';
-import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
 import type {Transformer} from 'unified';
@@ -25,7 +25,7 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-type PluginOptions = {
+export type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
 };
@@ -110,8 +110,9 @@ async function processLinkNode(node: Link, context: Context) {
   if (!node.url) {
     // Try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
-    const title = node.title || (node.children[0] as Literal)?.value || '?';
-    const line = node?.position?.start?.line || '?';
+    const title =
+      node.title ?? (node.children[0] as Literal | undefined)?.value ?? '?';
+    const line = node.position?.start.line ?? '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         context.filePath,

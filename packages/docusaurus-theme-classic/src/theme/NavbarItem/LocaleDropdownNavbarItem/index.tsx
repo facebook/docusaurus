@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import IconLanguage from '@theme/IconLanguage';
-import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+import IconLanguage from '@theme/IconLanguage';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 
 import styles from './styles.module.css';
 
@@ -33,12 +33,20 @@ export default function LocaleDropdownNavbarItem({
       fullyQualified: false,
     })}`;
     return {
-      isNavLink: true,
       label: localeConfigs[locale]!.label,
       to,
       target: '_self',
       autoAddBaseUrl: false,
-      className: locale === currentLocale ? 'dropdown__link--active' : '',
+      className:
+        // eslint-disable-next-line no-nested-ternary
+        locale === currentLocale
+          ? // Similar idea as DefaultNavbarItem: select the right Infima active
+            // class name. This cannot be substituted with isActive, because the
+            // target URLs contain `pathname://` and therefore are not NavLinks!
+            mobile
+            ? 'menu__link--active'
+            : 'dropdown__link--active'
+          : '',
     };
   });
 

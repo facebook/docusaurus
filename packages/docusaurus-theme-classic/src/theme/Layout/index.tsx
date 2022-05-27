@@ -8,19 +8,19 @@
 import React from 'react';
 import clsx from 'clsx';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
-import SkipToContent from '@theme/SkipToContent';
-import AnnouncementBar from '@theme/AnnouncementBar';
-import Navbar from '@theme/Navbar';
-import Footer from '@theme/Footer';
-import LayoutProviders from '@theme/LayoutProviders';
-import type {Props} from '@theme/Layout';
 import {
   PageMetadata,
   ThemeClassNames,
   useKeyboardNavigation,
 } from '@docusaurus/theme-common';
+import SkipToContent from '@theme/SkipToContent';
+import AnnouncementBar from '@theme/AnnouncementBar';
+import Navbar from '@theme/Navbar';
+import Footer from '@theme/Footer';
+import LayoutProviders from '@theme/LayoutProviders';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
+import type {Props} from '@theme/Layout';
 
 export default function Layout(props: Props): JSX.Element {
   const {
@@ -45,7 +45,9 @@ export default function Layout(props: Props): JSX.Element {
       <Navbar />
 
       <div className={clsx(ThemeClassNames.wrapper.main, wrapperClassName)}>
-        <ErrorBoundary fallback={ErrorPageContent}>{children}</ErrorBoundary>
+        <ErrorBoundary fallback={(params) => <ErrorPageContent {...params} />}>
+          {children}
+        </ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}

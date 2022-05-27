@@ -6,8 +6,8 @@
  */
 
 import React, {useMemo, useContext, type ReactNode} from 'react';
-import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 import {ReactContextError} from '../utils/reactUtils';
+import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
 // Using a Symbol because null is a valid context value (a doc with no sidebar)
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx

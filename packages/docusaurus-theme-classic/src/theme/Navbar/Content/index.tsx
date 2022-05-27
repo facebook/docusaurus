@@ -6,18 +6,18 @@
  */
 
 import React, {type ReactNode} from 'react';
-import type {Props as NavbarItemConfig} from '@theme/NavbarItem';
-import NavbarItem from '@theme/NavbarItem';
-import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
-import SearchBar from '@theme/SearchBar';
 import {
   splitNavbarItems,
   useNavbarMobileSidebar,
   useThemeConfig,
 } from '@docusaurus/theme-common';
+import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
+import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
+import SearchBar from '@theme/SearchBar';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
 import NavbarSearch from '@theme/Navbar/Search';
+
 import styles from './styles.module.css';
 
 function useNavbarItems() {
@@ -56,7 +56,7 @@ export default function NavbarContent(): JSX.Element {
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
 
-  const autoAddSearchBar = !items.some((item) => item.type === 'search');
+  const searchBarItem = items.find((item) => item.type === 'search');
 
   return (
     <NavbarContentLayout
@@ -74,7 +74,7 @@ export default function NavbarContent(): JSX.Element {
         <>
           <NavbarItems items={rightItems} />
           <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {autoAddSearchBar && (
+          {!searchBarItem && (
             <NavbarSearch>
               <SearchBar />
             </NavbarSearch>

@@ -5,18 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
+import logger from '@docusaurus/logger';
+import {mapAsyncSequential} from '@docusaurus/utils';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import type {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import type {Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
@@ -26,8 +25,9 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
-import {mapAsyncSequential} from '@docusaurus/utils';
 import type {HelmetServerState} from 'react-helmet-async';
+import type {Configuration} from 'webpack';
+import type {Props} from '@docusaurus/types';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,

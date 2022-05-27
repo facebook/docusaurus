@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.17.10",
-    "@babel/traverse": "^7.17.10",
+    "@babel/parser": "^7.18.3",
+    "@babel/traverse": "^7.18.2",
     "@docusaurus/logger": "2.0.0-beta.20",
     "@docusaurus/utils": "2.0.0-beta.20",
     "@mdx-js/mdx": "^1.6.22",
@@ -33,7 +33,7 @@
     "tslib": "^2.4.0",
     "unist-util-visit": "^2.0.3",
     "url-loader": "^4.1.1",
-    "webpack": "^5.72.0"
+    "webpack": "^5.72.1"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.20",
@@ -52,6 +52,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

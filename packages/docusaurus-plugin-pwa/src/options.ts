@@ -20,10 +20,9 @@ const DEFAULT_OPTIONS = {
   pwaHead: [],
   swCustom: undefined,
   swRegister: './registerSw.js',
-  reloadPopup: '@theme/PwaReloadPopup',
 };
 
-const Schema = Joi.object({
+const optionsSchema = Joi.object<PluginOptions>({
   debug: Joi.bool().default(DEFAULT_OPTIONS.debug),
   offlineModeActivationStrategies: Joi.array()
     .items(
@@ -49,14 +48,16 @@ const Schema = Joi.object({
   swRegister: Joi.alternatives()
     .try(Joi.string(), Joi.bool().valid(false))
     .default(DEFAULT_OPTIONS.swRegister),
-  reloadPopup: Joi.alternatives()
-    .try(Joi.string(), Joi.bool().valid(false))
-    .default(DEFAULT_OPTIONS.reloadPopup),
+  // @ts-expect-error: forbidden
+  reloadPopup: Joi.any().forbidden().messages({
+    'any.unknown':
+      'The reloadPopup option is removed in favor of swizzling. See https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-pwa#customizing-reload-popup for how to customize the reload popup using swizzling.',
+  }),
 });
 
 export function validateOptions({
   validate,
   options,
 }: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
-  return validate(Schema, options);
+  return validate(optionsSchema, options);
 }

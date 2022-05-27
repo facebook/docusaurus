@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 import escapeHTML from 'escape-html';
-import _ from 'lodash';
 import type {
   Props,
   HtmlTagObject,
@@ -83,5 +83,5 @@ export function loadHtmlTags(
           .trim(),
       ),
     ),
-  );
+  ) as Pick<Props, 'headTags' | 'preBodyTags' | 'postBodyTags'>;
 }

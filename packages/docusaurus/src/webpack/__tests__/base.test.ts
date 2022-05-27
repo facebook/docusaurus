@@ -7,11 +7,10 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
-
-import {excludeJS, clientDir, createBaseConfig} from '../base';
+import _ from 'lodash';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
-import _ from 'lodash';
+import {excludeJS, clientDir, createBaseConfig} from '../base';
 import type {Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
@@ -64,7 +63,7 @@ describe('babel transpilation exclude logic', () => {
 });
 
 describe('base webpack config', () => {
-  const props: Props = {
+  const props = {
     outDir: '',
     siteDir: path.resolve(__dirname, '__fixtures__', 'base_test_site'),
     siteConfig: {staticDirectories: ['static']},
@@ -99,7 +98,7 @@ describe('base webpack config', () => {
         },
       },
     ],
-  };
+  } as Props;
 
   afterEach(() => {
     jest.restoreAllMocks();

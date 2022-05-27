@@ -6,19 +6,21 @@
  */
 
 import http from 'http';
-import serveHandler from 'serve-handler';
-import logger from '@docusaurus/logger';
 import path from 'path';
-import type {LoadContextOptions} from '../server';
+import logger from '@docusaurus/logger';
+import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import serveHandler from 'serve-handler';
+import openBrowser from 'react-dev-utils/openBrowser';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
-import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import type {LoadContextOptions} from '../server';
 
 export type ServeCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'config'> & {
     dir?: string;
     build?: boolean;
+    open?: boolean;
   };
 
 export async function serve(
@@ -66,7 +68,7 @@ export async function serve(
 
     // Remove baseUrl before calling serveHandler, because /baseUrl/ should
     // serve /build/index.html, not /build/baseUrl/index.html (does not exist)
-    req.url = req.url?.replace(baseUrl, '/');
+    req.url = req.url.replace(baseUrl, '/');
 
     serveHandler(req, res, {
       cleanUrls: true,
@@ -76,8 +78,11 @@ export async function serve(
     });
   });
 
-  logger.success`Serving path=${buildDir} directory at url=${
-    servingUrl + baseUrl
-  }.`;
+  const url = servingUrl + baseUrl;
+  logger.success`Serving path=${buildDir} directory at: url=${url}`;
   server.listen(port);
+
+  if (cliOptions.open && !process.env.CI) {
+    openBrowser(url);
+  }
 }

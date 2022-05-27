@@ -5,18 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-pwa';
+import path from 'path';
+import webpack, {type Configuration} from 'webpack';
+import Terser from 'terser-webpack-plugin';
+import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import {compile} from '@docusaurus/core/lib/webpack/utils';
 import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-
-import path from 'path';
-import webpack, {type Configuration} from 'webpack';
-import Terser from 'terser-webpack-plugin';
-
-import {injectManifest} from 'workbox-build';
+import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -54,7 +52,6 @@ export default function pluginPWA(
     debug,
     offlineModeActivationStrategies,
     injectManifestConfig,
-    reloadPopup,
     pwaHead,
     swCustom,
     swRegister,
@@ -91,12 +88,11 @@ export default function pluginPWA(
           new webpack.EnvironmentPlugin({
             PWA_DEBUG: debug,
             PWA_SERVICE_WORKER_URL: path.posix.resolve(
-              `${config.output?.publicPath || '/'}`,
+              `${(config.output?.publicPath as string) || '/'}`,
               'sw.js',
             ),
             PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
               offlineModeActivationStrategies,
-            PWA_RELOAD_POPUP: reloadPopup,
           }),
         ],
       };
@@ -104,7 +100,7 @@ export default function pluginPWA(
 
     injectHtmlTags() {
       const headTags: HtmlTags = [];
-      if (isProd && pwaHead) {
+      if (isProd) {
         pwaHead.forEach(({tagName, ...attributes}) => {
           (['href', 'content'] as const).forEach((attribute) => {
             const attributeValue = attributes[attribute];
@@ -162,7 +158,7 @@ export default function pluginPWA(
         plugins: [
           new webpack.EnvironmentPlugin({
             // Fallback value required with Webpack 5
-            PWA_SW_CUSTOM: swCustom || '',
+            PWA_SW_CUSTOM: swCustom ?? '',
           }),
           new LogPlugin({
             name: 'Service Worker',
@@ -191,7 +187,7 @@ export default function pluginPWA(
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
           // @ts-expect-error: internal API?
-          ...(injectManifest.globPatterns ?? []),
+          ...((injectManifest.globPatterns as string[] | undefined) ?? []),
         ],
         // Those attributes are not overrideable
         swDest,

@@ -13,8 +13,8 @@
   },
   "scripts": {
     "create-docusaurus": "create-docusaurus",
-    "build": "tsc -p tsconfig.build.json",
-    "watch": "tsc -p tsconfig.build.json --watch"
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "bin": "bin/index.js",
   "publishConfig": {
@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "2.0.0-beta.20",
+    "@docusaurus/utils": "2.0.0-beta.20",
     "commander": "^5.1.0",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
@@ -36,6 +37,6 @@
     "@types/supports-color": "^8.1.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

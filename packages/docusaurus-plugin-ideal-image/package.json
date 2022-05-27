@@ -5,11 +5,10 @@
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy && yarn build:format",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.mjs",
-    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -28,9 +27,9 @@
     "@docusaurus/utils-validation": "2.0.0-beta.20",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
-    "sharp": "^0.30.4",
+    "sharp": "^0.30.5",
     "tslib": "^2.4.0",
-    "webpack": "^5.72.0"
+    "webpack": "^5.72.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.20",
@@ -48,6 +47,6 @@
     }
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

@@ -6,14 +6,14 @@
  */
 
 import React, {useMemo} from 'react';
-import type {Props} from '@theme/TOCItems';
-import TOCItemTree from '@theme/TOCItems/Tree';
 import {
   type TOCHighlightConfig,
   useThemeConfig,
   useTOCHighlight,
   useFilteredAndTreeifiedTOC,
 } from '@docusaurus/theme-common';
+import TOCItemTree from '@theme/TOCItems/Tree';
+import type {Props} from '@theme/TOCItems';
 
 export default function TOCItems({
   toc,

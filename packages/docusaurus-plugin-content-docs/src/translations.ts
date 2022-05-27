@@ -5,6 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import {mergeTranslations} from '@docusaurus/utils';
+import {CURRENT_VERSION_NAME} from './constants';
+import {
+  collectSidebarCategories,
+  transformSidebarItems,
+  collectSidebarLinks,
+} from './sidebars/utils';
 import type {
   LoadedVersion,
   LoadedContent,
@@ -15,20 +23,11 @@ import type {
   SidebarItemCategoryLink,
   Sidebars,
 } from './sidebars/types';
-
-import _ from 'lodash';
-import {
-  collectSidebarCategories,
-  transformSidebarItems,
-  collectSidebarLinks,
-} from './sidebars/utils';
 import type {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
 } from '@docusaurus/types';
-import {mergeTranslations} from '@docusaurus/utils';
-import {CURRENT_VERSION_NAME} from './constants';
 
 function getVersionFileName(versionName: string): string {
   if (versionName === CURRENT_VERSION_NAME) {

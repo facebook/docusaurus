@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginOptions, Options} from '@docusaurus/plugin-content-docs';
+import logger from '@docusaurus/logger';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -14,15 +14,14 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-
-import type {OptionValidationContext} from '@docusaurus/types';
-import logger from '@docusaurus/logger';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from './numberPrefix';
+import type {OptionValidationContext} from '@docusaurus/types';
+import type {PluginOptions, Options} from '@docusaurus/plugin-content-docs';
 
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -99,7 +98,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
       Joi.function(),
       // Convert boolean values to functions
       Joi.alternatives().conditional(Joi.boolean(), {
-        then: Joi.custom((val) =>
+        then: Joi.custom((val: boolean) =>
           val ? DefaultNumberPrefixParser : DisabledNumberPrefixParser,
         ),
       }),
@@ -166,7 +165,7 @@ export function validateOptions({
     }
   }
 
-  const normalizedOptions = validate(OptionsSchema, options) as PluginOptions;
+  const normalizedOptions = validate(OptionsSchema, options);
 
   if (normalizedOptions.admonitions) {
     normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([

@@ -11,15 +11,13 @@ import React, {
   useRef,
   type ComponentType,
 } from 'react';
-
 import {NavLink, Link as RRLink} from 'react-router-dom';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
-
 import type {Props} from '@docusaurus/Link';
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -49,10 +47,7 @@ function Link(
   const linksCollector = useLinksCollector();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
 
-  useImperativeHandle(
-    forwardedRef,
-    () => innerRef.current as HTMLAnchorElement,
-  );
+  useImperativeHandle(forwardedRef, () => innerRef.current!);
 
   // IMPORTANT: using to or href should not change anything
   // For example, MDX links will ALWAYS give us the href props

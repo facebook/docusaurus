@@ -6,21 +6,23 @@
  */
 
 import fs from 'fs-extra';
-import {createCompiler} from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
-import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
+import {createCompiler} from '@mdx-js/mdx';
+import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
+
 import headings from './remark/headings';
 import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
+
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
 
@@ -31,7 +33,7 @@ const {
 const pragma = `
 /* @jsxRuntime classic */
 /* @jsx mdx */
-/* @jsxFrag mdx.Fragment */
+/* @jsxFrag React.Fragment */
 `;
 
 const DEFAULT_OPTIONS: MDXOptions = {
@@ -53,7 +55,7 @@ export type MDXOptions = {
   beforeDefaultRehypePlugins: MDXPlugin[];
 };
 
-export type Options = MDXOptions & {
+export type Options = Partial<MDXOptions> & {
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
@@ -90,8 +92,12 @@ async function readMetadataPath(metadataPath: string) {
  *
  * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
  */
-function createAssetsExportCode(assets: {[key: string]: unknown}) {
-  if (Object.keys(assets).length === 0) {
+function createAssetsExportCode(assets: unknown) {
+  if (
+    typeof assets !== 'object' ||
+    !assets ||
+    Object.keys(assets).length === 0
+  ) {
     return 'undefined';
   }
 
@@ -99,7 +105,7 @@ function createAssetsExportCode(assets: {[key: string]: unknown}) {
   function createAssetValueCode(assetValue: unknown): string | undefined {
     if (Array.isArray(assetValue)) {
       const arrayItemCodes = assetValue.map(
-        (item) => createAssetValueCode(item) ?? 'undefined',
+        (item: unknown) => createAssetValueCode(item) ?? 'undefined',
       );
       return `[${arrayItemCodes.join(', ')}]`;
     }
@@ -117,7 +123,7 @@ function createAssetsExportCode(assets: {[key: string]: unknown}) {
   const assetEntries = Object.entries(assets);
 
   const codeLines = assetEntries
-    .map(([key, value]) => {
+    .map(([key, value]: [string, unknown]) => {
       const assetRequireCode = createAssetValueCode(value);
       return assetRequireCode ? `"${key}": ${assetRequireCode},` : undefined;
     })
@@ -132,7 +138,7 @@ export async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() ?? {};
+  const reqOptions = this.getOptions();
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -225,7 +231,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     : undefined;
 
   const metadata = metadataJsonString
-    ? JSON.parse(metadataJsonString)
+    ? (JSON.parse(metadataJsonString) as {[key: string]: unknown})
     : undefined;
 
   const assets =

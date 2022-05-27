@@ -6,10 +6,9 @@
  */
 
 import React from 'react';
-
+import routes from '@generated/routes';
 import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
-import routes from '@generated/routes';
 import styles from './styles.module.css';
 
 export default function DebugRoutes(): JSX.Element {

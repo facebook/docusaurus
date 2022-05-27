@@ -14,16 +14,12 @@ import {
   isRegexpStringMatch,
   useLocalPathname,
 } from '@docusaurus/theme-common';
+import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
+import NavbarItem, {type LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DropdownNavbarItem';
-import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
-
-import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
-import NavbarItem from '@theme/NavbarItem';
-
-const dropdownLinkActiveClass = 'dropdown__link--active';
 
 function isItemActive(
   item: LinkLikeNavbarItemProps,
@@ -52,6 +48,7 @@ function DropdownNavbarItemDesktop({
   items,
   position,
   className,
+  onClick,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -115,12 +112,12 @@ function DropdownNavbarItemDesktop({
                       ? nextNavbarItem
                       : // Next item is another dropdown; focus on the inner
                         // anchor element instead so there's outline
-                        nextNavbarItem.querySelector('a');
-                  (targetItem as HTMLElement).focus();
+                        nextNavbarItem.querySelector('a')!;
+                  targetItem.focus();
                 }
               }
             }}
-            activeClassName={dropdownLinkActiveClass}
+            activeClassName="dropdown__link--active"
             {...childItemProps}
             key={i}
           />
@@ -134,6 +131,7 @@ function DropdownNavbarItemMobile({
   items,
   className,
   position, // Need to destructure position from props so that it doesn't get passed on.
+  onClick,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const localPathname = useLocalPathname();
@@ -173,7 +171,7 @@ function DropdownNavbarItemMobile({
           <NavbarItem
             mobile
             isDropdownItem
-            onClick={props.onClick}
+            onClick={onClick}
             activeClassName="menu__link--active"
             {...childItemProps}
             key={i}

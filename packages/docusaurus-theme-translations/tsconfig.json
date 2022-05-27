@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.json",
+  "references": [{"path": "./tsconfig.build.json"}],
   "compilerOptions": {
     "module": "esnext",
     "noEmit": true,
-    "checkJs": true,
-    "allowJs": true
+    "checkJs": true
   },
-  "include": ["update.mjs", "src"]
+  "include": ["update.mjs"]
 }

@@ -13,10 +13,16 @@ function logPage(
   location: Location,
   previousLocation: Location | null,
 ): void {
-  console.log(`${event}
-Previous location: ${previousLocation?.pathname}
-Current location: ${location.pathname}
-Current heading: ${document.getElementsByTagName('h1')[0]?.innerText}`);
+  console.log(event, location.pathname, {
+    location,
+    prevLocation: previousLocation,
+    heading: document.getElementsByTagName('h1')[0]?.innerText,
+    title: document.title,
+    description: (
+      document.querySelector('meta[name="description"]') as HTMLMetaElement
+    )?.content,
+    htmlClassName: document.getElementsByTagName('html')[0]?.className,
+  });
 }
 
 export function onRouteUpdate({

@@ -7,13 +7,13 @@
 
 import {createRequire} from 'module';
 import importFresh from 'import-fresh';
+import {resolveModuleName} from './moduleShorthand';
 import type {
   LoadContext,
   PluginConfig,
   PresetModule,
   DocusaurusConfig,
 } from '@docusaurus/types';
-import {resolveModuleName} from './moduleShorthand';
 
 type ImportedPresetModule = PresetModule & {default?: PresetModule};
 

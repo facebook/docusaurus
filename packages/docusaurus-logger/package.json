@@ -24,7 +24,7 @@
     "tslib": "^2.4.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   },
   "devDependencies": {
     "@types/supports-color": "^8.1.1"

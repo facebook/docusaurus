@@ -183,3 +183,41 @@ Code tag + double pipe: <code>||</code>
 Details without a summary
 
 </details>
+
+This is a fragment:
+
+<>Hello</>
+
+It should work :)
+
+## Task list
+
+A list:
+
+- [ ] Simple
+- [x] Tasks
+- [ ] Has simple
+- [ ] Styles
+
+Another list:
+
+- Nested
+  - [ ] Tasks
+  - [ ] Should be well-formatted
+- [ ] No matter
+- [ ] How weird
+
+Can be arbitrarily nested:
+
+- Level
+  - [ ] Task
+  - [ ] Task
+  - Another level
+    - [ ] Task
+    - [ ] Task
+    - Deeper
+      - [ ] Task
+      - [ ] Task
+    - [ ] Task
+    - [ ] Task
+- [ ] Task

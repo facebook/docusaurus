@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import IconArrow from '@theme/IconArrow';
 import {translate} from '@docusaurus/Translate';
+import IconArrow from '@theme/IconArrow';
 import type {Props} from '@theme/DocPage/Layout/Sidebar/ExpandButton';
 
 import styles from './styles.module.css';

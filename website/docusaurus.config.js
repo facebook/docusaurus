@@ -7,14 +7,14 @@
 // @ts-check
 
 const path = require('path');
-const versions = require('./versions.json');
 const math = require('remark-math');
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+const versions = require('./versions.json');
 const VersionsArchived = require('./versionsArchived.json');
 const {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
 } = require('./_dogfooding/dogfooding.config');
-const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -26,7 +26,7 @@ function getNextBetaVersionName() {
   const expectedPrefix = '2.0.0-beta.';
 
   const lastReleasedVersion = versions[0];
-  if (!lastReleasedVersion.includes(expectedPrefix)) {
+  if (!lastReleasedVersion || !lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
       'this code is only meant to be used during the 2.0 beta phase.',
     );
@@ -49,7 +49,7 @@ const isDeployPreview =
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
 
-const baseUrl = process.env.BASE_URL || '/';
+const baseUrl = process.env.BASE_URL ?? '/';
 
 // Special deployment for staging locales until they get enough translations
 // https://app.netlify.com/sites/docusaurus-i18n-staging
@@ -337,7 +337,8 @@ const config = {
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
-            require.resolve('./_dogfooding/dogfooding.css'),
+            // relative paths are relative to site dir
+            './_dogfooding/dogfooding.css',
           ],
         },
         gtag: !isDeployPreview
@@ -374,11 +375,7 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
       },
       prism: {
-        // We need to load markdown again so that YAML is loaded before MD
-        // and the YAML front matter is highlighted correctly.
-        // TODO after we have forked prism-react-renderer, we should tweak the
-        // import order and fix it there
-        additionalLanguages: ['java', 'markdown', 'latex'],
+        additionalLanguages: ['java', 'latex'],
         magicComments: [
           {
             className: 'theme-code-block-highlighted-line',

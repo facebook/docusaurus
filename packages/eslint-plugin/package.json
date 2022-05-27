@@ -21,16 +21,16 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.21.0",
+    "@typescript-eslint/utils": "^5.26.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "eslint-plugin-eslint-plugin": "^4.1.0"
+    "eslint-plugin-eslint-plugin": "^4.2.0"
   },
   "peerDependencies": {
     "eslint": ">=6"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }

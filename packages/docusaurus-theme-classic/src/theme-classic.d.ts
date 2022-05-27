@@ -21,11 +21,13 @@
 // in their tsconfig.
 
 declare module '@docusaurus/theme-classic' {
-  import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {LoadContext, Plugin, PluginModule} from '@docusaurus/types';
 
   export type Options = {
     customCss?: string | string[];
   };
+
+  export const getSwizzleConfig: PluginModule['getSwizzleConfig'];
 
   export default function themeClassic(
     context: LoadContext,
@@ -775,6 +777,7 @@ declare module '@theme/Navbar/Search' {
 
   export interface Props {
     readonly children: ReactNode;
+    readonly className?: string;
   }
 
   export default function NavbarSearch(props: Props): JSX.Element;
@@ -806,7 +809,8 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly exact?: boolean;
     readonly label?: ReactNode;
     readonly html?: string;
-    readonly prependBaseUrlToHref?: string;
+    readonly prependBaseUrlToHref?: boolean;
+    readonly isDropdownLink?: boolean;
   }
 
   export default function NavbarNavLink(props: Props): JSX.Element;
@@ -814,7 +818,6 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
-
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
   export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
@@ -833,6 +836,7 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
 declare module '@theme/NavbarItem/SearchNavbarItem' {
   export interface Props {
     readonly mobile?: boolean;
+    readonly className?: string;
   }
 
   export default function SearchNavbarItem(props: Props): JSX.Element;
@@ -974,20 +978,9 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
-  export type Types = Props['type'];
+  export type NavbarItemType = Props['type'];
 
   export default function NavbarItem(props: Props): JSX.Element;
-}
-
-declare module '@theme/NavbarItem/utils' {
-  /**
-   * On desktop and mobile, we would apply different class names for dropdown
-   * items.
-   * @see https://github.com/facebook/docusaurus/pull/5431
-   */
-  export function getInfimaActiveClassName(
-    mobile?: boolean,
-  ): `${'menu' | 'navbar'}__link--active`;
 }
 
 declare module '@theme/PaginatorNavLink' {

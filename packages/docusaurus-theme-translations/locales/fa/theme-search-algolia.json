@@ -1,6 +1,6 @@
 {
   "theme.SearchBar.label": "جستجو",
-  "theme.SearchBar.seeAll": "See all {count} results",
+  "theme.SearchBar.seeAll": "نمایش {count} نتیجه",
   "theme.SearchPage.algoliaLabel": "جستجو با Algolia",
   "theme.SearchPage.documentsFound.plurals": "یک مورد پیدا شد|{count} مورد پیدا شد",
   "theme.SearchPage.emptyResultsTitle": "جستجو در متن",

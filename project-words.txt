@@ -16,6 +16,7 @@ atrule
 autoconverted
 autogen
 autogenerating
+autohide
 backport
 backticks
 bartosz
@@ -86,6 +87,8 @@ esbuild
 eslintcache
 estree
 evaluable
+execa
+Execa
 externalwaiting
 failfast
 fbid
@@ -152,6 +155,7 @@ marcey
 marocchino
 massoud
 mathjax
+maxresdefault
 mdast
 mdxa
 mdxast
@@ -208,6 +212,7 @@ philpl
 photoshop
 picocolors
 picomatch
+playbtn
 pluggable
 plushie
 pnpm
@@ -267,6 +272,7 @@ sensical
 serializers
 setaf
 setext
+showinfo
 sida
 simen
 slorber

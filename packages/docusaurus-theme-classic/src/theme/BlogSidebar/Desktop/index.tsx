@@ -9,9 +9,9 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
+import type {Props} from '@theme/BlogSidebar/Desktop';
 
 import styles from './styles.module.css';
-import type {Props} from '@theme/BlogSidebar/Desktop';
 
 export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
   return (

@@ -8,10 +8,10 @@
 /* eslint-disable global-require */
 
 import React from 'react';
+import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
-import clsx from 'clsx';
 
 const Playgrounds = [
   {

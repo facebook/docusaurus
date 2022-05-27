@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RouteConfig} from '@docusaurus/types';
 import path from 'path';
 import {posixPath, Globby} from '@docusaurus/utils';
+import type {RouteConfig} from '@docusaurus/types';
 
 // Recursively get the final routes (routes with no subroutes)
 export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {

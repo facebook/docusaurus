@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "src/plugin-pwa.d.ts",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.mjs"
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@docusaurus/core": "2.0.0-beta.20",
     "@docusaurus/theme-common": "2.0.0-beta.20",
     "@docusaurus/theme-translations": "2.0.0-beta.20",
@@ -29,10 +29,10 @@
     "@docusaurus/utils-validation": "2.0.0-beta.20",
     "babel-loader": "^8.2.5",
     "clsx": "^1.1.1",
-    "core-js": "^3.22.3",
+    "core-js": "^3.22.7",
     "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.4.0",
-    "webpack": "^5.72.0",
+    "webpack": "^5.72.1",
     "webpack-merge": "^5.8.0",
     "workbox-build": "^6.5.3",
     "workbox-precaching": "^6.5.3",
@@ -45,5 +45,8 @@
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
+  },
+  "engines": {
+    "node": ">=16.14"
   }
 }

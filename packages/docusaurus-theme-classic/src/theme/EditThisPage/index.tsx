@@ -7,10 +7,9 @@
 
 import React from 'react';
 import Translate from '@docusaurus/Translate';
-
-import type {Props} from '@theme/EditThisPage';
-import IconEdit from '@theme/IconEdit';
 import {ThemeClassNames} from '@docusaurus/theme-common';
+import IconEdit from '@theme/IconEdit';
+import type {Props} from '@theme/EditThisPage';
 
 export default function EditThisPage({editUrl}: Props): JSX.Element {
   return (

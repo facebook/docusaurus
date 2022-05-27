@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {PluginRouteContext} from '@docusaurus/types';
 import {Context} from '../routeContext';
+import type {PluginRouteContext} from '@docusaurus/types';
 
 export default function useRouteContext(): PluginRouteContext {
   const context = React.useContext(Context);

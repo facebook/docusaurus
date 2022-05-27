@@ -32,7 +32,7 @@ export type NavbarLogo = {
 
 // TODO improve
 export type Navbar = {
-  style: 'dark' | 'primary';
+  style?: 'dark' | 'primary';
   hideOnScroll: boolean;
   title?: string;
   items: NavbarItem[];
@@ -85,10 +85,10 @@ export type FooterBase = {
 };
 
 export type MultiColumnFooter = FooterBase & {
-  links: Array<{
+  links: {
     title: string | null;
     items: FooterLinkItem[];
-  }>;
+  }[];
 };
 
 export type SimpleFooter = FooterBase & {
@@ -123,7 +123,7 @@ export type ThemeConfig = {
   prism: PrismConfig;
   footer?: Footer;
   image?: string;
-  metadata: Array<{[key: string]: string}>;
+  metadata: {[key: string]: string}[];
   tableOfContents: TableOfContents;
 };
 

@@ -37,12 +37,12 @@ async function transformMarkdownFile(
 async function getPathsToWatch(siteDir: string): Promise<string[]> {
   const context = await loadContext({siteDir});
   const plugins = await initPlugins(context);
-  return plugins.flatMap((plugin) => plugin?.getPathsToWatch?.() ?? []);
+  return plugins.flatMap((plugin) => plugin.getPathsToWatch?.() ?? []);
 }
 
 export async function writeHeadingIds(
   siteDir: string,
-  files: string[],
+  files: string[] | undefined,
   options: WriteHeadingIDOptions,
 ): Promise<void> {
   const markdownFiles = await safeGlobby(

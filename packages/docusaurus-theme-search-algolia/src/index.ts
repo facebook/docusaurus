@@ -7,12 +7,12 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {defaultConfig, compile} from 'eta';
 import {normalizeUrl} from '@docusaurus/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-import logger from '@docusaurus/logger';
 import openSearchTemplate from './templates/opensearch';
-import _ from 'lodash';
 
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
@@ -60,7 +60,7 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
       });
     },
 
-    async contentLoaded({actions: {addRoute}}) {
+    contentLoaded({actions: {addRoute}}) {
       if (searchPagePath) {
         addRoute({
           path: normalizeUrl([baseUrl, searchPagePath]),

@@ -11,6 +11,7 @@ import React, {
   isValidElement,
   type ReactElement,
 } from 'react';
+import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {
   useScrollPositionBlocker,
@@ -20,14 +21,14 @@ import {
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
-import clsx from 'clsx';
-
 import styles from './styles.module.css';
 
 // A very rough duck type, but good enough to guard against mistakes while
 // allowing customization
-function isTabItem(comp: ReactElement): comp is ReactElement<TabItemProps> {
-  return typeof comp.props.value !== 'undefined';
+function isTabItem(
+  comp: ReactElement<object>,
+): comp is ReactElement<TabItemProps> {
+  return 'value' in comp.props;
 }
 
 function TabsComponent(props: Props): JSX.Element {
@@ -74,7 +75,7 @@ function TabsComponent(props: Props): JSX.Element {
       ? defaultValueProp
       : defaultValueProp ??
         children.find((child) => child.props.default)?.props.value ??
-        children[0]?.props.value;
+        children[0]!.props.value;
   if (defaultValue !== null && !values.some((a) => a.value === defaultValue)) {
     throw new Error(
       `Docusaurus error: The <Tabs> has a defaultValue "${defaultValue}" but none of its children has the corresponding value. Available values are: ${values
@@ -114,7 +115,7 @@ function TabsComponent(props: Props): JSX.Element {
       setSelectedValue(newTabValue);
 
       if (groupId != null) {
-        setTabGroupChoices(groupId, newTabValue);
+        setTabGroupChoices(groupId, String(newTabValue));
       }
     }
   };
@@ -125,12 +126,12 @@ function TabsComponent(props: Props): JSX.Element {
     switch (event.key) {
       case 'ArrowRight': {
         const nextTab = tabRefs.indexOf(event.currentTarget) + 1;
-        focusElement = tabRefs[nextTab] || tabRefs[0]!;
+        focusElement = tabRefs[nextTab] ?? tabRefs[0]!;
         break;
       }
       case 'ArrowLeft': {
         const prevTab = tabRefs.indexOf(event.currentTarget) - 1;
-        focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1]!;
+        focusElement = tabRefs[prevTab] ?? tabRefs[tabRefs.length - 1]!;
         break;
       }
       default:

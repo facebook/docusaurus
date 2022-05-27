@@ -9,7 +9,6 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import SearchMetadata from '@theme/SearchMetadata';
 import {
   PageMetadata,
   DEFAULT_SEARCH_TAG,
@@ -18,6 +17,7 @@ import {
   keyboardFocusedClassName,
 } from '@docusaurus/theme-common';
 import {useLocation} from '@docusaurus/router';
+import SearchMetadata from '@theme/SearchMetadata';
 
 // TODO move to SiteMetadataDefaults or theme-common ?
 // Useful for i18n/SEO

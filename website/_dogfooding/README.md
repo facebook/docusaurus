@@ -11,7 +11,6 @@ Eventually, we could move these tests later so another test site? Note there is 
 Fancy things we can test for here:
 
 - Plugin Multi-instance
-- Symlinks support
 - Webpack configs
 - \_ prefix convention
 - Huge sidebars impact

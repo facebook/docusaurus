@@ -8,12 +8,8 @@
 import rule from '../string-literal-i18n-messages';
 import {getCommonValidTests, RuleTester} from './testUtils';
 
-const errorsJSX = [
-  {messageId: 'translateChildren', type: 'JSXElement'},
-] as const;
-const errorsFunc = [
-  {messageId: 'translateArg', type: 'CallExpression'},
-] as const;
+const errorsJSX = [{messageId: 'translateChildren'}] as const;
+const errorsFunc = [{messageId: 'translateArg'}] as const;
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',

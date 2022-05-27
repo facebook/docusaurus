@@ -6,10 +6,10 @@
  */
 
 import {jest} from '@jest/globals';
-import {extractThemeCodeMessages} from '../../src/utils';
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
+import {extractThemeCodeMessages} from '../../src/utils';
 
 // Seems the 5s default timeout fails sometimes
 jest.setTimeout(15000);
@@ -22,8 +22,10 @@ describe('theme translations', () => {
       .then((files) =>
         Promise.all(
           files.map(
-            (baseMessagesFile): Promise<{[key: string]: string}> =>
-              fs.readJSON(path.join(baseMessagesDirPath, baseMessagesFile)),
+            (baseMessagesFile) =>
+              fs.readJSON(
+                path.join(baseMessagesDirPath, baseMessagesFile),
+              ) as Promise<{[key: string]: string}>,
           ),
         ),
       )

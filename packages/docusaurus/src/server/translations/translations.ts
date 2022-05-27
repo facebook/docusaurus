@@ -8,6 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {
   getPluginI18nPath,
   toMessageRelativeFilePath,
@@ -15,7 +16,6 @@ import {
   CODE_TRANSLATIONS_FILE_NAME,
 } from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import logger from '@docusaurus/logger';
 import type {
   TranslationFileContent,
   TranslationFile,
@@ -58,7 +58,7 @@ async function readTranslationFileContent(
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
     try {
-      const content = await fs.readJSON(filePath);
+      const content: unknown = await fs.readJSON(filePath);
       ensureTranslationFileContent(content);
       return content;
     } catch (err) {

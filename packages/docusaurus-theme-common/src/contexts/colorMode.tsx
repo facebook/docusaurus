@@ -14,9 +14,8 @@ import React, {
   useRef,
   type ReactNode,
 } from 'react';
-import {ReactContextError} from '../utils/reactUtils';
-
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {ReactContextError} from '../utils/reactUtils';
 import {createStorageSlot} from '../utils/storageUtils';
 import {useThemeConfig} from '../utils/useThemeConfig';
 

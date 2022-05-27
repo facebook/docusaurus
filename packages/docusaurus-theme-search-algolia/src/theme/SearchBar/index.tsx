@@ -14,7 +14,6 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
-import type {SearchClient} from 'algoliasearch/lite';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate, {translate} from '@docusaurus/Translate';
 
@@ -26,6 +25,7 @@ import type {
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from '@docsearch/react/dist/esm/types';
+import type {SearchClient} from 'algoliasearch/lite';
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 
 type DocSearchProps = Omit<
@@ -75,7 +75,7 @@ type FacetFilters = Required<
 function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
   const normalize = (
     f: FacetFilters,
-  ): readonly string[] | ReadonlyArray<string | readonly string[]> =>
+  ): readonly string[] | readonly (string | readonly string[])[] =>
     typeof f === 'string' ? [f] : f;
   return [...normalize(f1), ...normalize(f2)] as FacetFilters;
 }
@@ -120,7 +120,9 @@ function DocSearch({
     }
 
     return Promise.all([
-      import('@docsearch/react/modal'),
+      import('@docsearch/react/modal') as Promise<
+        typeof import('@docsearch/react')
+      >,
       import('@docsearch/react/style'),
       import('./styles.css'),
     ]).then(([{DocSearchModal: Modal}]) => {

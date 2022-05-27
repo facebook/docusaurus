@@ -20,13 +20,13 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
   export type Manifest = {
     entrypoints: string[];
     origins: {[key: string]: number[]};
-    assets: Array<{[key: string]: Asset[]}>;
+    assets: {[key: string]: Asset[]}[];
   };
 
   export function getBundles(
     manifest: Manifest,
     modulesToBeLoaded: string[],
-  ): {js: Asset[]; css: Asset[]};
+  ): {js?: Asset[]; css?: Asset[]};
 
   export default class ReactLoadableSSRAddon implements WebpackPluginInstance {
     constructor(props: {filename: string});

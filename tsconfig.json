@@ -2,13 +2,19 @@
   "compilerOptions": {
     /* Emit */
     "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "declaration": true,
+    // These two options will be selectively overridden in each project.
+    // Utility libraries will have source maps on, but plugins will not.
     "declarationMap": false,
-    "jsx": "react",
+    "sourceMap": false,
+    "jsx": "react-native",
     "importHelpers": true,
     "noEmitHelpers": true,
+    // Will be overridden in every project
+    "module": "esnext",
+    // Avoid accidentally using this config to build
+    "noEmit": true,
 
     /* Strict Type-Checking Options */
     "allowUnreachableCode": false,
@@ -42,7 +48,18 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "allowJs": true,
     "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
   },
-  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
+  "include": ["./**/*", "./**/.eslintrc.js"],
+  "exclude": [
+    "node_modules",
+    "coverage/**",
+    "**/lib/**/*",
+    "website/**",
+    "**/__mocks__/**/*",
+    "**/__fixtures__/**/*",
+    "examples/**",
+    "packages/create-docusaurus/templates/**"
+  ]
 }

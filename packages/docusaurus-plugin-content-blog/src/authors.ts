@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BlogContentPaths} from './types';
 import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import type {BlogContentPaths} from './types';
 import type {
   Author,
   BlogPostFrontMatter,
@@ -44,7 +44,11 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>()
   });
 
 export function validateAuthorsMap(content: unknown): AuthorsMap {
-  return Joi.attempt(content, AuthorsMapSchema);
+  const {error, value} = AuthorsMapSchema.validate(content);
+  if (error) {
+    throw error;
+  }
+  return value;
 }
 
 export async function getAuthorsMap(params: {

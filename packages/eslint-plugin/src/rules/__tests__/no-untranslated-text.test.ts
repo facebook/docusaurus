@@ -8,12 +8,7 @@
 import rule from '../no-untranslated-text';
 import {getCommonValidTests, RuleTester} from './testUtils';
 
-const errorsJSX = [
-  {messageId: 'translateChildren', type: 'JSXElement'},
-] as const;
-const errorsJSXFragment = [
-  {messageId: 'translateChildren', type: 'JSXFragment'},
-];
+const errorsJSX = [{messageId: 'translateChildren'}] as const;
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
@@ -110,7 +105,7 @@ ruleTester.run('no-untranslated-text', rule, {
     },
     {
       code: '<>text</>',
-      errors: errorsJSXFragment,
+      errors: errorsJSX,
     },
     {
       code: '<Component>· — ×</Component>',

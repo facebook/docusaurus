@@ -7,11 +7,18 @@
 
 import React from 'react';
 import Loadable from 'react-loadable';
-import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
+import Loading from '@theme/Loading';
 import flat from '../flat';
 import {RouteContextProvider} from '../routeContext';
+import type {RouteContext} from '@docusaurus/types';
+
+declare global {
+  interface NodeRequire {
+    resolveWeak: (name: string) => number;
+  }
+}
 
 export default function ComponentCreator(
   path: string,
@@ -21,14 +28,19 @@ export default function ComponentCreator(
   if (path === '*') {
     return Loadable({
       loading: Loading,
-      loader: () =>
-        import('@theme/NotFound').then(({default: NotFound}) => (props) => (
+      loader: () => import('@theme/NotFound'),
+      modules: ['@theme/NotFound'],
+      webpack: () => [require.resolveWeak('@theme/NotFound')],
+      render(loaded, props) {
+        const NotFound = loaded.default;
+        return (
           <RouteContextProvider
             // Do we want a better name than native-default?
             value={{plugin: {name: 'native', id: 'default'}}}>
-            <NotFound {...(props as never)} />
+            <NotFound {...(props as JSX.IntrinsicAttributes)} />
           </RouteContextProvider>
-        )),
+        );
+      },
     });
   }
 
@@ -60,14 +72,21 @@ export default function ComponentCreator(
     loader,
     modules,
     webpack: () => optsWebpack,
-    render: (loaded, props) => {
+    render(
+      loaded: {[keyPath: string]: {[exportedName: string]: unknown}},
+      props,
+    ) {
       // `loaded` will be a map from key path (as returned from the flattened
       // chunk names) to the modules loaded from the loaders. We now have to
       // restore the chunk names' previous shape from this flat record.
       // We do so by taking advantage of the existing `chunkNames` and replacing
       // each chunk name with its loaded module, so we don't create another
       // object from scratch.
-      const loadedModules = JSON.parse(JSON.stringify(chunkNames));
+      const loadedModules = JSON.parse(JSON.stringify(chunkNames)) as {
+        __comp?: React.ComponentType<object>;
+        __context?: RouteContext;
+        [propName: string]: unknown;
+      };
       Object.entries(loaded).forEach(([keyPath, loadedModule]) => {
         // JSON modules are also loaded as `{ default: ... }` (`import()`
         // semantics) but we just want to pass the actual value to props.
@@ -89,7 +108,8 @@ export default function ComponentCreator(
           Object.keys(loadedModule)
             .filter((k) => k !== 'default')
             .forEach((nonDefaultKey) => {
-              chunk[nonDefaultKey] = loadedModule[nonDefaultKey];
+              (chunk as {[key: string]: unknown})[nonDefaultKey] =
+                loadedModule[nonDefaultKey];
             });
         }
         // We now have this chunk prepared. Go down the key path and replace the
@@ -97,15 +117,15 @@ export default function ComponentCreator(
         let val = loadedModules;
         const keyPaths = keyPath.split('.');
         keyPaths.slice(0, -1).forEach((k) => {
-          val = val[k];
+          val = val[k] as {[propName: string]: unknown};
         });
         val[keyPaths[keyPaths.length - 1]!] = chunk;
       });
 
       /* eslint-disable no-underscore-dangle */
-      const Component = loadedModules.__comp;
+      const Component = loadedModules.__comp!;
       delete loadedModules.__comp;
-      const routeContext = loadedModules.__context;
+      const routeContext = loadedModules.__context!;
       delete loadedModules.__context;
       /* eslint-enable no-underscore-dangle */
 

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateBlogPostFrontMatter} from '../frontMatter';
 import escapeStringRegexp from 'escape-string-regexp';
+import {validateBlogPostFrontMatter} from '../frontMatter';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 // TODO this abstraction reduce verbosity but it makes it harder to debug
@@ -56,7 +56,9 @@ function testField(params: {
           );
         } catch (err) {
           // eslint-disable-next-line jest/no-conditional-expect
-          expect(err.message).toMatch(new RegExp(escapeStringRegexp(message)));
+          expect((err as Error).message).toMatch(
+            new RegExp(escapeStringRegexp(message)),
+          );
         }
       });
     });

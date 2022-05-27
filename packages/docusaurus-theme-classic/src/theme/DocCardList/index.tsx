@@ -7,11 +7,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
-import DocCard from '@theme/DocCard';
-import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 import {findFirstCategoryLink} from '@docusaurus/theme-common';
+import DocCard from '@theme/DocCard';
 import type {Props} from '@theme/DocCardList';
+import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
 // Filter categories that don't have a link.
 function filterItems(items: PropSidebarItem[]): PropSidebarItem[] {

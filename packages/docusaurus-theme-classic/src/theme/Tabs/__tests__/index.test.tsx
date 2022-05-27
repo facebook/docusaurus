@@ -7,12 +7,12 @@
 
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Tabs from '../index';
-import TabItem from '../../TabItem';
 import {
   TabGroupChoiceProvider,
   ScrollControllerProvider,
 } from '@docusaurus/theme-common';
+import Tabs from '../index';
+import TabItem from '../../TabItem';
 
 describe('Tabs', () => {
   it('rejects bad Tabs child', () => {
@@ -117,9 +117,12 @@ describe('Tabs', () => {
         <ScrollControllerProvider>
           <TabGroupChoiceProvider>
             <Tabs
+              // @ts-expect-error: for an edge-case that we didn't write types for
               values={tabs.map((t, idx) => ({label: t, value: idx}))}
+              // @ts-expect-error: for an edge-case that we didn't write types for
               defaultValue={0}>
               {tabs.map((t, idx) => (
+                // @ts-expect-error: for an edge-case that we didn't write types for
                 <TabItem key={idx} value={idx}>
                   {t}
                 </TabItem>

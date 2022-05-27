@@ -20,7 +20,7 @@ export const DEFAULT_CONFIG = {
   searchPagePath: 'search',
 };
 
-export const Schema = Joi.object({
+export const Schema = Joi.object<ThemeConfig>({
   algolia: Joi.object({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),

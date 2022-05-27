@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {removeSuffix} from './jsUtils';
 import resolvePathnameUnsafe from 'resolve-pathname';
+import {removeSuffix} from './jsUtils';
 
 /**
  * Much like `path.join`, but much better. Takes an array of URL segments, and
@@ -72,11 +72,11 @@ export function normalizeUrl(rawUrls: string[]): string {
           /^\/+/,
           // Special case where the first element of rawUrls is empty
           // ["", "/hello"] => /hello
-          component[0] === '/' && !hasStartingSlash ? '/' : '',
+          component.startsWith('/') && !hasStartingSlash ? '/' : '',
         );
       }
 
-      hasEndingSlash = component[component.length - 1] === '/';
+      hasEndingSlash = component.endsWith('/');
       // Removing the ending slashes for each component but the last. For the
       // last component we will combine multiple slashes to a single one.
       component = component.replace(/\/+$/, i < urls.length - 1 ? '' : '/');
@@ -95,7 +95,7 @@ export function normalizeUrl(rawUrls: string[]): string {
 
   // Replace ? in parameters with &.
   const parts = str.split('?');
-  str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
+  str = parts.shift()! + (parts.length > 0 ? '?' : '') + parts.join('&');
 
   // Dedupe forward slashes in the entire path, avoiding protocol slashes.
   str = str.replace(/(?<textBefore>[^:/]\/)\/+/g, '$1');

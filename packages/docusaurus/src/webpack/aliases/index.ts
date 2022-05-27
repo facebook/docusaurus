@@ -7,6 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import _ from 'lodash';
 import {
   THEME_PATH,
   fileToPath,
@@ -14,7 +15,6 @@ import {
   normalizeUrl,
   Globby,
 } from '@docusaurus/utils';
-import _ from 'lodash';
 import type {LoadedPlugin} from '@docusaurus/types';
 
 /**

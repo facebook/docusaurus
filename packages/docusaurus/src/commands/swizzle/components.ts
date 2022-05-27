@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {posixPath} from '@docusaurus/utils';
+import {askComponentName} from './prompts';
+import {findClosestValue, findStringIgnoringCase} from './common';
+import {helpTables, themeComponentsTable} from './tables';
+import {SwizzleActions} from './actions';
 import type {
   SwizzleAction,
   SwizzleActionStatus,
   SwizzleComponentConfig,
   SwizzleConfig,
 } from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
-import {askComponentName} from './prompts';
-import {findClosestValue, findStringIgnoringCase} from './common';
-import {helpTables, themeComponentsTable} from './tables';
-import {SwizzleActions} from './actions';
 
 export type ThemeComponents = {
   themeName: string;

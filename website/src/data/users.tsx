@@ -178,6 +178,14 @@ const Users: User[] = [
     tags: [],
   },
   {
+    title: "Akara's blog",
+    description: 'Personal frontend blog for learning',
+    preview: require('./showcase/akara-blog.png'),
+    website: 'https://messiahhh.github.io/blog/',
+    source: 'https://github.com/messiahhh/blog',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Algolia Docsearch',
     description:
       'The best search experience for docs, integrates in minutes, for free',
@@ -220,6 +228,15 @@ const Users: User[] = [
     website: 'https://attobot.xyz',
     source: 'https://github.com/attobot-discord/website',
     tags: ['opensource'],
+  },
+  {
+    title: 'Avana Wallet',
+    description:
+      'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
+    preview: require('./showcase/avana-wallet.png'),
+    website: 'https://docs.avanawallet.com/',
+    source: null,
+    tags: ['product'],
   },
   {
     title: 'AvN Gateway',
@@ -362,6 +379,14 @@ const Users: User[] = [
     website: 'https://clutch.sh/',
     source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
     tags: ['opensource'],
+  },
+  {
+    title: 'CodeSweetly',
+    description: 'The Home of Simplified Web Development Tutorials',
+    preview: require('./showcase/codesweetly.png'),
+    website: 'https://codesweetly.com/',
+    source: null,
+    tags: ['personal'],
   },
   {
     title: 'CodeYourFuture',
@@ -624,6 +649,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'FAST',
+    description: 'The adaptive interface system for modern web experiences.',
+    preview: require('./showcase/fast.png'),
+    website: 'https://www.fast.design/docs/introduction/',
+    source: 'https://github.com/microsoft/fast/tree/master/sites/website',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'FBT',
     description: 'An internationalization framework',
     preview: require('./showcase/fbt.png'),
@@ -747,6 +780,15 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
+    title: 'GeekyWeb',
+    description:
+      'Learn to code yourself by exploring documentations, try GeekyWeb once',
+    preview: require('./showcase/geekyweb.png'),
+    website: 'https://geekyweb.eu.org/',
+    source: 'https://github.com/Designatory/GeekyWeb',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'Ghostly',
     description: 'A divine template/print formatter engine',
     preview: require('./showcase/ghostly.png'),
@@ -835,6 +877,22 @@ const Users: User[] = [
     website: 'https://developers.home-assistant.io/',
     source: 'https://github.com/home-assistant/developers.home-assistant',
     tags: ['opensource'],
+  },
+  {
+    title: 'httpin',
+    description: 'Decode an HTTP request into a custom struct in Go',
+    preview: require('./showcase/httpin.png'),
+    website: 'https://ggicci.github.io/httpin/',
+    source: 'https://github.com/ggicci/httpin/tree/documentation/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'I am Massoud',
+    description: 'The portfolio of Massoud Maboudi, Full Stack Developer',
+    preview: require('./showcase/iammassoud.png'),
+    website: 'https://iammassoud.ir/',
+    source: null,
+    tags: ['personal', 'rtl'],
   },
   {
     title: 'icodex',
@@ -926,6 +984,14 @@ const Users: User[] = [
     preview: require('./showcase/joelpo.png'),
     website: 'https://joelpo.github.io',
     source: 'https://github.com/Joelpo/joelpo.github.io',
+    tags: ['personal', 'opensource'],
+  },
+  {
+    title: 'Junjie',
+    description: 'A personal website',
+    preview: require('./showcase/junjie.png'),
+    website: 'https://junjieweb.github.io',
+    source: 'https://github.com/junjieweb/junjieweb.github.io',
     tags: ['personal', 'opensource'],
   },
   {
@@ -1339,6 +1405,14 @@ const Users: User[] = [
     website: 'https://pglet.io',
     source: 'https://github.com/pglet/website',
     tags: ['opensource'],
+  },
+  {
+    title: 'Piano Analytics',
+    description: 'Piano Analytics SDKs documentation for developers',
+    preview: require('./showcase/piano-analytics.png'),
+    website: 'https://developers.atinternet-solutions.com/piano-analytics/',
+    source: null,
+    tags: ['favorite', 'product', 'design'],
   },
   {
     title: 'Pipeline UI',
@@ -2045,6 +2119,14 @@ const Users: User[] = [
     tags: ['meta'],
   },
   {
+    title: '30 Days Of SWA',
+    description: 'A 30-Day Developer Guide to Azure Static Web Apps',
+    preview: require('./showcase/30-days-swa.png'),
+    website: 'https://www.azurestaticwebapps.dev',
+    source: 'https://github.com/staticwebdev/30DaysOfSWA/tree/main/www',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'TiDB Community Books',
     description: 'A website for co-created books by TiDB Community users.',
     preview: require('./showcase/tidb-community-book.png'),
@@ -2145,6 +2227,14 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'Vital',
+    description: 'Wearables and Lab test API for digital health companies.',
+    preview: require('./showcase/vital.png'),
+    website: 'https://docs.tryvital.io',
+    source: 'https://github.com/tryVital/vital-docs-new',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
@@ -2203,6 +2293,15 @@ const Users: User[] = [
     website: 'https://woodpecker-ci.org/',
     source: 'https://github.com/woodpecker-ci/woodpecker/tree/master/docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'Yeecord',
+    description:
+      'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
+    website: 'https://yeecord.com/',
+    preview: require('./showcase/yeecord.png'),
+    tags: ['product', 'personal'],
+    source: null
   },
   {
     title: 'Zowe',

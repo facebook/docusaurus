@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReportingSeverity} from '@docusaurus/types';
 import logger from '@docusaurus/logger';
+import type {ReportingSeverity} from '@docusaurus/types';
 
 /** Removes a given string suffix from `str`. */
 export function removeSuffix(str: string, suffix: string): string {

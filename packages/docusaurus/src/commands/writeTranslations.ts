@@ -5,11 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {InitializedPlugin} from '@docusaurus/types';
 import path from 'path';
 import {loadContext, type LoadContextOptions} from '../server';
 import {initPlugins} from '../server/plugins/init';
-
 import {
   writePluginTranslations,
   writeCodeTranslations,
@@ -22,6 +20,7 @@ import {
   globSourceCodeFilePaths,
 } from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
+import type {InitializedPlugin} from '@docusaurus/types';
 
 export type WriteTranslationsCLIOptions = Pick<
   LoadContextOptions,

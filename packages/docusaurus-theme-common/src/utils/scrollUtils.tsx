@@ -14,9 +14,9 @@ import React, {
   useRef,
   type ReactNode,
 } from 'react';
-import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import {useDynamicCallback, ReactContextError} from './reactUtils';
 
 type ScrollController = {
   /** A boolean ref tracking whether scroll events are enabled. */
@@ -112,11 +112,7 @@ export function useScrollPosition(
         return;
       }
       const currentPosition = getScrollPosition()!;
-
-      if (dynamicEffect) {
-        dynamicEffect(currentPosition, lastPositionRef.current);
-      }
-
+      dynamicEffect(currentPosition, lastPositionRef.current);
       lastPositionRef.current = currentPosition;
     };
 
