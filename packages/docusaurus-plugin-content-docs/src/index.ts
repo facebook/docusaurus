@@ -379,7 +379,7 @@ export default async function pluginContentDocs(
                 }) => ({
                   image: frontMatter.image,
                 }),
-                markdown: siteConfig.markdown,
+                ...siteConfig.markdown,
               },
             },
             {

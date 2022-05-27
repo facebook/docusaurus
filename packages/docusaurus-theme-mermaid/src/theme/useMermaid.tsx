@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import mermaid from 'mermaid';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -24,7 +24,7 @@ const HTML_THEME_ATTRIBUTE = 'data-theme';
  * Gets the theme based on config and current data-theme of the HTML.
  *
  * @param html The HTML element of the page.
- * @param config The configuration for this chart.
+ * @param options The configuration for this chart.
  */
 function getTheme(
   html: HTMLHtmlElement,
@@ -42,16 +42,19 @@ function getTheme(
   return options?.theme?.[htmlTheme] ?? options?.config?.theme ?? defaultTheme;
 }
 
-let observer: MutationObserver | undefined;
-
 export default function useMermaid(): void {
   const {siteConfig} = useDocusaurusContext();
   const themeConfig = siteConfig.themeConfig as ThemeConfig;
   const isBrowser = useIsBrowser();
+  const observer = useRef<MutationObserver | null>(null);
 
   // Watch for changes in theme in the HTML attribute `data-theme`.
   useEffect(() => {
-    if (!observer && siteConfig.markdown?.mermaid === true && isBrowser) {
+    if (
+      !observer.current &&
+      siteConfig.markdown?.mermaid === true &&
+      isBrowser
+    ) {
       const html: HTMLHtmlElement = document.querySelector('html')!;
       const init = (target: HTMLHtmlElement): void => {
         const theme = getTheme(target, themeConfig.mermaid);
@@ -69,7 +72,7 @@ export default function useMermaid(): void {
         html.setAttribute('data-mermaid', theme);
       };
 
-      observer = new MutationObserver((mutations) => {
+      observer.current = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
           if (
             mutation.type !== 'attributes' ||
@@ -84,11 +87,11 @@ export default function useMermaid(): void {
 
       init(html);
 
-      observer.observe(html, {attributes: true});
+      observer.current.observe(html, {attributes: true});
       return () => {
         try {
-          (observer as MutationObserver).disconnect();
-          observer = undefined;
+          observer.current?.disconnect();
+          observer.current = null;
         } catch {
           // Do nothing
         }

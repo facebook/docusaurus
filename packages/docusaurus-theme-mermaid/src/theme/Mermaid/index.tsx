@@ -5,28 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import mermaid from 'mermaid';
 import type {Props} from '@theme/Mermaid';
 
-/**
- * Assign a unique ID to each mermaid svg as per requirements
- * of `mermaid.render`.
- */
-let id = 0;
-
 export default function Mermaid({value}: Props): JSX.Element {
   // When theme updates, rerender the SVG.
-  const [svg, setSvg] = useState<string>('');
+  const [svg, setSvg] = useState('');
   const isBrowser = useIsBrowser();
+  // Assign a unique ID to each mermaid svg as per requirements of
+  // `mermaid.render`.
+  const id = useRef(0);
 
   useEffect(() => {
     const render = () => {
-      mermaid.render(`mermaid-svg-${id.toString()}`, value, (renderedSvg) =>
+      mermaid.render(`mermaid-svg-${id.current}`, value, (renderedSvg) =>
         setSvg(renderedSvg),
       );
-      id += 1;
+      id.current += 1;
     };
 
     render();
@@ -51,9 +48,7 @@ export default function Mermaid({value}: Props): JSX.Element {
       return () => {
         try {
           observer.disconnect();
-        } catch {
-          // Do nothing
-        }
+        } catch {}
       };
     }
     return undefined;

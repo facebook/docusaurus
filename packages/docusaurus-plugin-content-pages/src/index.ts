@@ -221,7 +221,7 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
-                    markdown: siteConfig.markdown,
+                    ...siteConfig.markdown,
                   },
                 },
                 {

@@ -76,6 +76,20 @@ export type I18nConfig = {
   localeConfigs: {[locale: string]: Partial<I18nLocaleConfig>};
 };
 
+export type MarkdownConfig = {
+  /**
+   * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
+   *
+   * - `true`: code blocks with language mermaid will be rendered.
+   * - `false` | `undefined` (default): code blocks with language mermaid
+   * will be left as code blocks.
+   *
+   * @see https://docusaurus.io/docs/markdown-features/diagrams/
+   * @default false
+   */
+  mermaid?: boolean;
+};
+
 /**
  * Docusaurus config, after validation/normalization.
  */
@@ -331,19 +345,7 @@ export type DocusaurusConfig = {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /** Markdown-related options. */
-  markdown?: {
-    /**
-     * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
-     *
-     * - `true`: code blocks with language mermaid will be rendered.
-     * - `false` | `undefined` (default): code blocks with language mermaid
-     * will be left as code blocks.
-     *
-     * @see https://docusaurus.io/docs/markdown-features/diagrams/
-     * @default false
-     */
-    mermaid?: boolean;
-  };
+  markdown?: MarkdownConfig;
 };
 
 /**

@@ -24,6 +24,7 @@ import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
 
+import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
 
@@ -56,20 +57,20 @@ export type MDXOptions = {
   beforeDefaultRehypePlugins: MDXPlugin[];
 };
 
-export type Options = Partial<MDXOptions> & {
-  staticDirs: string[];
-  siteDir: string;
-  isMDXPartial?: (filePath: string) => boolean;
-  isMDXPartialFrontMatterWarningDisabled?: boolean;
-  removeContentTitle?: boolean;
-  metadataPath?: string | ((filePath: string) => string);
-  createAssets?: (metadata: {
-    frontMatter: {[key: string]: unknown};
-    metadata: {[key: string]: unknown};
-  }) => {[key: string]: unknown};
-  filepath: string;
-  markdown?: {mermaid?: boolean};
-};
+export type Options = Partial<MDXOptions> &
+  MarkdownConfig & {
+    staticDirs: string[];
+    siteDir: string;
+    isMDXPartial?: (filePath: string) => boolean;
+    isMDXPartialFrontMatterWarningDisabled?: boolean;
+    removeContentTitle?: boolean;
+    metadataPath?: string | ((filePath: string) => string);
+    createAssets?: (metadata: {
+      frontMatter: {[key: string]: unknown};
+      metadata: {[key: string]: unknown};
+    }) => {[key: string]: unknown};
+    filepath: string;
+  };
 
 /**
  * When this throws, it generally means that there's no metadata file associated
@@ -151,14 +152,12 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
-    const mermaidOptions =
-      reqOptions.markdown?.mermaid === true ? [mermaid] : [];
     const options: Options = {
       ...reqOptions,
       remarkPlugins: [
         ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
         ...DEFAULT_OPTIONS.remarkPlugins,
-        ...mermaidOptions,
+        ...(reqOptions.mermaid ? [mermaid] : []),
         [
           transformImage,
           {
