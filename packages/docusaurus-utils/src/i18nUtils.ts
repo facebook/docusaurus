@@ -46,18 +46,18 @@ export function updateTranslationFileMessages(
  * expect everything it needs for translations to be found under this path.
  */
 export function getPluginI18nPath({
-  i18nDir,
+  localizationDir,
   pluginName,
   pluginId = DEFAULT_PLUGIN_ID,
   subPaths = [],
 }: {
-  i18nDir: string;
+  localizationDir: string;
   pluginName: string;
   pluginId?: string | undefined;
   subPaths?: string[];
 }): string {
   return path.join(
-    i18nDir,
+    localizationDir,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
     `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,

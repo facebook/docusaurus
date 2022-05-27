@@ -81,7 +81,7 @@ export async function start(
         logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins, i18nDir} = props;
+  const {siteConfig, plugins, localizationDir} = props;
 
   const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
@@ -95,7 +95,7 @@ export async function start(
     .filter(Boolean)
     .map(normalizeToSiteDir);
 
-  const pathsToWatch = [...pluginPaths, props.siteConfigPath, i18nDir];
+  const pathsToWatch = [...pluginPaths, props.siteConfigPath, localizationDir];
 
   const pollingOptions = {
     usePolling: !!cliOptions.poll,

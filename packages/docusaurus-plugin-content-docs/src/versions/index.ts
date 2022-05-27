@@ -49,7 +49,7 @@ function getVersionEditUrls({
   const editDirPath = options.editCurrentVersion ? options.path : contentPath;
   const editDirPathLocalized = options.editCurrentVersion
     ? getDocsDirPathLocalized({
-        i18nDir: context.i18nDir,
+        localizationDir: context.localizationDir,
         versionName: CURRENT_VERSION_NAME,
         pluginId: options.id,
       })

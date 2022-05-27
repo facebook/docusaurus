@@ -65,7 +65,7 @@ describe('getPluginI18nPath', () => {
   it('gets correct path', () => {
     expect(
       getPluginI18nPath({
-        i18nDir: '<SITE_DIR>/i18n/zh-Hans',
+        localizationDir: '<SITE_DIR>/i18n/zh-Hans',
         pluginName: 'plugin-content-docs',
         pluginId: 'community',
         subPaths: ['foo'],
@@ -77,7 +77,7 @@ describe('getPluginI18nPath', () => {
   it('gets correct path for default plugin', () => {
     expect(
       getPluginI18nPath({
-        i18nDir: '<SITE_DIR>/i18n/zh-Hans',
+        localizationDir: '<SITE_DIR>/i18n/zh-Hans',
         pluginName: 'plugin-content-docs',
         subPaths: ['foo'],
       }),
@@ -88,7 +88,7 @@ describe('getPluginI18nPath', () => {
   it('gets correct path when no sub-paths', () => {
     expect(
       getPluginI18nPath({
-        i18nDir: '<SITE_DIR>/i18n/zh-Hans',
+        localizationDir: '<SITE_DIR>/i18n/zh-Hans',
         pluginName: 'plugin-content-docs',
       }),
     ).toMatchInlineSnapshot(`"<SITE_DIR>/i18n/zh-Hans/plugin-content-docs"`);

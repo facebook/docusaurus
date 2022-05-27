@@ -38,7 +38,7 @@ describe('readVersionsMetadata', () => {
         siteDir: simpleSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
-        i18nDir: path.join(simpleSiteDir, 'i18n/en'),
+        localizationDir: path.join(simpleSiteDir, 'i18n/en'),
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {
@@ -200,7 +200,7 @@ describe('readVersionsMetadata', () => {
         siteDir: versionedSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
-        i18nDir: path.join(versionedSiteDir, 'i18n/en'),
+        localizationDir: path.join(versionedSiteDir, 'i18n/en'),
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {
@@ -639,7 +639,7 @@ describe('readVersionsMetadata', () => {
         siteDir: versionedSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
-        i18nDir: path.join(versionedSiteDir, 'i18n/en'),
+        localizationDir: path.join(versionedSiteDir, 'i18n/en'),
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {

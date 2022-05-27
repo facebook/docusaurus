@@ -425,7 +425,7 @@ export type LoadContext = {
    * Directory where all source translations for the current locale can be found
    * in. Constructed with `i18n.path` + `i18n.currentLocale.path` (e.g. i18n/en)
    */
-  i18nDir: string;
+  localizationDir: string;
   /**
    * Duplicated from `siteConfig.baseUrl`, but probably worth keeping. We mutate
    * `siteConfig` to make `baseUrl` there localized as well, but that's mostly

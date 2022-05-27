@@ -28,7 +28,7 @@ export type WriteTranslationsOptions = {
 };
 
 type TranslationContext = {
-  i18nDir: string;
+  localizationDir: string;
 };
 
 const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
@@ -142,7 +142,7 @@ Maybe you should remove them? ${unknownKeys}`;
 }
 
 function getCodeTranslationsFilePath(context: TranslationContext): string {
-  return path.join(context.i18nDir, CODE_TRANSLATIONS_FILE_NAME);
+  return path.join(context.localizationDir, CODE_TRANSLATIONS_FILE_NAME);
 }
 
 export async function readCodeTranslationFileContent(
@@ -175,7 +175,7 @@ function addTranslationFileExtension(translationFilePath: string) {
 }
 
 function getPluginTranslationFilePath({
-  i18nDir,
+  localizationDir,
   plugin,
   translationFilePath,
 }: TranslationContext & {
@@ -183,7 +183,7 @@ function getPluginTranslationFilePath({
   translationFilePath: string;
 }): string {
   const dirPath = getPluginI18nPath({
-    i18nDir,
+    localizationDir,
     pluginName: plugin.name,
     pluginId: plugin.options.id,
   });
@@ -192,7 +192,7 @@ function getPluginTranslationFilePath({
 }
 
 export async function writePluginTranslations({
-  i18nDir,
+  localizationDir,
   plugin,
   translationFile,
   options,
@@ -203,7 +203,7 @@ export async function writePluginTranslations({
 }): Promise<void> {
   const filePath = getPluginTranslationFilePath({
     plugin,
-    i18nDir,
+    localizationDir,
     translationFilePath: translationFile.path,
   });
   await writeTranslationFileContent({
@@ -214,7 +214,7 @@ export async function writePluginTranslations({
 }
 
 export async function localizePluginTranslationFile({
-  i18nDir,
+  localizationDir,
   plugin,
   translationFile,
 }: TranslationContext & {
@@ -223,7 +223,7 @@ export async function localizePluginTranslationFile({
 }): Promise<TranslationFile> {
   const filePath = getPluginTranslationFilePath({
     plugin,
-    i18nDir,
+    localizationDir,
     translationFilePath: translationFile.path,
   });
 
