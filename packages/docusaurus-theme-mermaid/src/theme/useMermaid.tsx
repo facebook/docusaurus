@@ -7,11 +7,10 @@
 
 import {useEffect} from 'react';
 import mermaid from 'mermaid';
-import {useThemeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type mermaidAPI from 'mermaid/mermaidAPI';
-import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
 const DEFAULT_DARK_THEME = 'dark' as mermaidAPI.Theme.Dark;
 const DEFAULT_LIGHT_THEME = 'default' as mermaidAPI.Theme.Default;
@@ -45,7 +44,7 @@ function getTheme(
 
 export default function useMermaid(): void {
   const {siteConfig} = useDocusaurusContext();
-  const themeConfig = useThemeConfig();
+  const themeConfig = siteConfig.themeConfig as ThemeConfig;
   const isBrowser = useIsBrowser();
 
   // Watch for changes in theme in the HTML attribute `data-theme`.

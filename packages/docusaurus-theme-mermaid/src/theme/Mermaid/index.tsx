@@ -8,7 +8,7 @@
 import React, {useEffect, useState} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import mermaid from 'mermaid';
-import type {Props} from '@theme/Mermaid';
+import type {Props} from '@docusaurus/theme-mermaid/theme/Mermaid';
 
 /**
  * Assign a unique ID to each mermaid svg as per requirements

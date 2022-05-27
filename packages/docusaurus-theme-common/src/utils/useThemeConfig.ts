@@ -6,7 +6,6 @@
  */
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
 import type {MagicCommentConfig} from './codeBlockUtils';
@@ -103,15 +102,6 @@ export type TableOfContents = {
   maxHeadingLevel: number;
 };
 
-export type MermaidConfig = {
-  theme?: {
-    light: mermaidAPI.Theme;
-    dark: mermaidAPI.Theme;
-    [htmlTheme: string]: mermaidAPI.Theme;
-  };
-  config?: mermaidAPI.Config;
-};
-
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {
@@ -135,7 +125,6 @@ export type ThemeConfig = {
   image?: string;
   metadata: {[key: string]: string}[];
   tableOfContents: TableOfContents;
-  mermaid?: MermaidConfig;
 };
 
 // User-provided theme config, unnormalized

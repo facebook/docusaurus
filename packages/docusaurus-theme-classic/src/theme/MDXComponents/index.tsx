@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import MDXMermaid from '@docusaurus/theme-mermaid/theme/MDXComponents/Mermaid';
 import MDXHead from '@theme/MDXComponents/Head';
 import MDXCode from '@theme/MDXComponents/Code';
 import MDXA from '@theme/MDXComponents/A';
@@ -14,7 +15,6 @@ import MDXDetails from '@theme/MDXComponents/Details';
 import MDXHeading from '@theme/MDXComponents/Heading';
 import MDXUl from '@theme/MDXComponents/Ul';
 import MDXImg from '@theme/MDXComponents/Img';
-import MDXMermaid from '@theme/MDXComponents/Mermaid';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
