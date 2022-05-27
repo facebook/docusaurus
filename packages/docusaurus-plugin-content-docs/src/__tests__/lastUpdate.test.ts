@@ -19,7 +19,7 @@ describe('getFileLastUpdate', () => {
     '__fixtures__/simple-site/docs/hello.md',
   );
   it('existing test file in repository with Git timestamp', async () => {
-    const lastUpdateData = getFileLastUpdate(existingFilePath);
+    const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).not.toBeNull();
 
     const {author, timestamp} = lastUpdateData;
@@ -35,7 +35,7 @@ describe('getFileLastUpdate', () => {
       __dirname,
       '__fixtures__/simple-site/docs/doc with space.md',
     );
-    const lastUpdateData = getFileLastUpdate(filePathWithSpace);
+    const lastUpdateData = await getFileLastUpdate(filePathWithSpace);
     expect(lastUpdateData).not.toBeNull();
 
     const {author, timestamp} = lastUpdateData;
@@ -56,13 +56,13 @@ describe('getFileLastUpdate', () => {
       '__fixtures__',
       nonExistingFileName,
     );
-    expect(getFileLastUpdate(nonExistingFilePath)).toBeNull();
+    await expect(getFileLastUpdate(nonExistingFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/because the file does not exist./),
     );
-    expect(getFileLastUpdate(null)).toBeNull();
-    expect(getFileLastUpdate(undefined)).toBeNull();
+    await expect(getFileLastUpdate(null)).resolves.toBeNull();
+    await expect(getFileLastUpdate(undefined)).resolves.toBeNull();
     consoleMock.mockRestore();
   });
 
@@ -73,7 +73,7 @@ describe('getFileLastUpdate', () => {
     const {repoDir} = createTempRepo();
     const tempFilePath = path.join(repoDir, 'file.md');
     await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
-    expect(getFileLastUpdate(tempFilePath)).toBeNull();
+    await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/not tracked by git./),
@@ -90,8 +90,8 @@ describe('getFileLastUpdate', () => {
     const tempFilePath2 = path.join(repoDir, 'file2.md');
     await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
     await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
-    expect(getFileLastUpdate(tempFilePath1)).toBeNull();
-    expect(getFileLastUpdate(tempFilePath2)).toBeNull();
+    await expect(getFileLastUpdate(tempFilePath1)).resolves.toBeNull();
+    await expect(getFileLastUpdate(tempFilePath2)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/not tracked by git./),
@@ -105,7 +105,7 @@ describe('getFileLastUpdate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const lastUpdateData = getFileLastUpdate(existingFilePath);
+    const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(

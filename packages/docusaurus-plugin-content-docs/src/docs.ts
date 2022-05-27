@@ -48,17 +48,17 @@ type LastUpdateOptions = Pick<
   'showLastUpdateAuthor' | 'showLastUpdateTime'
 >;
 
-function readLastUpdateData(
+async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
   lastUpdateFrontMatter: FileChange | undefined,
-): LastUpdateData {
+): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
     // Use fake data in dev for faster development.
     const fileLastUpdateData =
       process.env.NODE_ENV === 'production'
-        ? getFileLastUpdate(filePath)
+        ? await getFileLastUpdate(filePath)
         : {
             author: 'Author',
             timestamp: 1539502055,
@@ -129,7 +129,7 @@ function isDraftForEnvironment({
   return (env === 'production' && frontMatter.draft) ?? false;
 }
 
-function doProcessDocMetadata({
+async function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
@@ -141,7 +141,7 @@ function doProcessDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-}): DocMetadataBase {
+}): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {siteDir, i18n} = context;
 
@@ -162,9 +162,7 @@ function doProcessDocMetadata({
     last_update: lastUpdateFrontMatter,
   } = frontMatter;
 
-  console.log(lastUpdateFrontMatter);
-
-  const lastUpdate = readLastUpdateData(
+  const lastUpdate = await readLastUpdateData(
     filePath,
     options,
     lastUpdateFrontMatter,
@@ -294,15 +292,15 @@ function doProcessDocMetadata({
   };
 }
 
-export function processDocMetadata(args: {
+export async function processDocMetadata(args: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-}): DocMetadataBase {
+}): Promise<DocMetadataBase> {
   try {
-    return doProcessDocMetadata(args);
+    return await doProcessDocMetadata(args);
   } catch (err) {
     logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
     throw err;
