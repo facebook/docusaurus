@@ -409,6 +409,18 @@ describe('validateDocFrontMatter last_update', () => {
     ],
     invalidFrontMatters: [
       [
+        {last_update: null},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
+        {last_update: {}},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
+        {last_update: ''},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
         {last_update: {author: 'test author', date: 'I am not a date :('}},
         'must be a valid date',
       ],
