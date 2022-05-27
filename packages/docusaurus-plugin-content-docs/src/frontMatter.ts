@@ -49,9 +49,9 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
     author: Joi.string(),
     date: Joi.date().raw(),
   })
-    .min(1)
+    .or('author', 'date')
     .messages({
-      'object.min': FrontMatterLastUpdateErrorMessage,
+      'object.missing': FrontMatterLastUpdateErrorMessage,
       'object.base': FrontMatterLastUpdateErrorMessage,
     }),
 }).unknown();
