@@ -10,7 +10,7 @@
 declare module '@docusaurus/theme-mermaid' {
   import type {DeepPartial} from 'utility-types';
   import type mermaidAPI from 'mermaid/mermaidAPI';
-  import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {Plugin} from '@docusaurus/types';
 
   export type ThemeConfig = {
     mermaid: {
@@ -24,10 +24,7 @@ declare module '@docusaurus/theme-mermaid' {
   };
   export type UserThemeConfig = DeepPartial<ThemeConfig>;
 
-  export default function themeMermaid(
-    context: LoadContext,
-    options: Options,
-  ): Plugin<undefined>;
+  export default function themeMermaid(): Plugin<undefined>;
 }
 
 declare module '@theme/MDXComponents/Mermaid' {

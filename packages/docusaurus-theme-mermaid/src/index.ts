@@ -5,14 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {Plugin} from '@docusaurus/types';
 
-export default function themeMermaid(context: LoadContext): Plugin<void> {
-  const {
-    i18n: {currentLocale},
-  } = context;
-
+export default function themeMermaid(): Plugin<void> {
   return {
     name: 'docusaurus-theme-mermaid',
 
@@ -21,13 +16,6 @@ export default function themeMermaid(context: LoadContext): Plugin<void> {
     },
     getTypeScriptThemePath() {
       return '../src/theme';
-    },
-
-    getDefaultCodeTranslationMessages() {
-      return readDefaultCodeTranslationMessages({
-        locale: currentLocale,
-        name: 'theme-mermaid',
-      });
     },
   };
 }

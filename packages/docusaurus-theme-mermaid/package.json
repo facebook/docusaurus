@@ -21,10 +21,6 @@
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.20",
-    "@docusaurus/theme-common": "2.0.0-beta.20",
-    "@docusaurus/theme-translations": "2.0.0-beta.20",
-    "@docusaurus/utils": "2.0.0-beta.20",
-    "@docusaurus/utils-common": "2.0.0-beta.20",
     "@docusaurus/utils-validation": "2.0.0-beta.20",
     "@mdx-js/react": "^1.6.22",
     "mermaid": "^9.1.1",
@@ -42,6 +38,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.14"
   }
 }
