@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/migrate",
-  "version": "2.0.0-beta.20",
+  "version": "2.0.0-beta.21",
   "description": "A CLI tool to migrate from older versions of Docusaurus.",
   "license": "MIT",
   "engines": {
@@ -24,8 +24,8 @@
   "dependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
-    "@docusaurus/logger": "2.0.0-beta.20",
-    "@docusaurus/utils": "2.0.0-beta.20",
+    "@docusaurus/logger": "2.0.0-beta.21",
+    "@docusaurus/utils": "2.0.0-beta.21",
     "@mapbox/hast-util-to-jsx": "^2.0.0",
     "color": "^4.2.3",
     "commander": "^5.1.0",

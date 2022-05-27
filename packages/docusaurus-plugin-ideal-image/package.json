@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-ideal-image",
-  "version": "2.0.0-beta.20",
+  "version": "2.0.0-beta.21",
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).",
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
@@ -20,11 +20,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.20",
-    "@docusaurus/lqip-loader": "2.0.0-beta.20",
+    "@docusaurus/core": "2.0.0-beta.21",
+    "@docusaurus/lqip-loader": "2.0.0-beta.21",
     "@docusaurus/responsive-loader": "^1.7.0",
-    "@docusaurus/theme-translations": "2.0.0-beta.20",
-    "@docusaurus/utils-validation": "2.0.0-beta.20",
+    "@docusaurus/theme-translations": "2.0.0-beta.21",
+    "@docusaurus/utils-validation": "2.0.0-beta.21",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
     "sharp": "^0.30.5",
@@ -32,8 +32,8 @@
     "webpack": "^5.72.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.20",
-    "@docusaurus/types": "2.0.0-beta.20",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.21",
+    "@docusaurus/types": "2.0.0-beta.21",
     "fs-extra": "^10.1.0"
   },
   "peerDependencies": {
