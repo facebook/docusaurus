@@ -55,6 +55,17 @@ async function readLastUpdateData(
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
+    const frontMatterTimestamp = lastUpdateFrontMatter?.date
+      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+      : undefined;
+
+    if (lastUpdateFrontMatter?.author && lastUpdateFrontMatter.date) {
+      return {
+        lastUpdatedAt: frontMatterTimestamp,
+        lastUpdatedBy: lastUpdateFrontMatter.author,
+      };
+    }
+
     // Use fake data in dev for faster development.
     const fileLastUpdateData =
       process.env.NODE_ENV === 'production'
@@ -63,11 +74,7 @@ async function readLastUpdateData(
             author: 'Author',
             timestamp: 1539502055,
           };
-
     const {author, timestamp} = fileLastUpdateData ?? {};
-    const frontMatterTimestamp = lastUpdateFrontMatter?.date
-      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
-      : undefined;
 
     return {
       lastUpdatedBy: showLastUpdateAuthor
