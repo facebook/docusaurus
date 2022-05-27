@@ -12,15 +12,17 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function SiteMetadataDefaults(): JSX.Element {
   const {
-    siteConfig: {favicon, tagline, title},
+    siteConfig: {favicon, title},
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const faviconUrl = useBaseUrl(favicon);
   const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale]!;
 
   return (
-    <Head defaultTitle={`${title}${tagline ? ` · ${tagline}` : ''}`}>
+    <Head>
       <html lang={htmlLang} dir={htmlDir} />
+      <title>{title}</title>
+      <meta property="og:title" content={title} />
       {favicon && <link rel="icon" href={faviconUrl} />}
     </Head>
   );
