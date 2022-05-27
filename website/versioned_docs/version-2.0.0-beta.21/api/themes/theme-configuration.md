@@ -602,6 +602,7 @@ However, with this special navbar item type, you can change the default location
 | --- | --- | --- | --- |
 | `type` | `'search'` | **Required** | Sets the type of this item to a search bar. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `className` | `string` | / | Custom CSS class for this navbar item. |
 
 </APITable>
 

@@ -38,7 +38,7 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'blog'` | Path to the blog content directory on the file system, relative to site dir. |
-| `editUrl` | <code>string \| EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativePostPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editUrl` | <code>string \| <a href="#EditUrlFn">EditUrlFn</a></code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativePostPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
 | `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
@@ -61,10 +61,10 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `truncateMarker` | `RegExp` | `/<!--\s*(truncate)\s*-->/` | Truncate marker marking where the summary ends. |
 | `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
-| `readingTime` | `ReadingTimeFunctionOption` | The default reading time | A callback to customize the reading time number displayed. |
+| `readingTime` | `ReadingTimeFn` | The default reading time | A callback to customize the reading time number displayed. |
 | `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. |
-| `feedOptions.type` | <code>FeedType \| FeedType[] \| 'all' \| null</code> | **Required** | Type of feed to be generated. Use `null` to disable generation. |
+| `feedOptions.type` | <code><a href="#FeedType">FeedType</a> \| <a href="#FeedType">FeedType</a>[] \| 'all' \| null</code> | **Required** | Type of feed to be generated. Use `null` to disable generation. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
 | `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
@@ -73,6 +73,10 @@ Accepted fields:
 
 </APITable>
 
+### Types {#types}
+
+#### `EditUrlFn` {#EditUrlFn}
+
 ```ts
 type EditUrlFunction = (params: {
   blogDirPath: string;
@@ -80,24 +84,32 @@ type EditUrlFunction = (params: {
   permalink: string;
   locale: string;
 }) => string | undefined;
+```
 
+#### `ReadingTimeFn` {#ReadingTimeFn}
+
+```ts
 type ReadingTimeOptions = {
   wordsPerMinute: number;
   wordBound: (char: string) => boolean;
 };
 
-type ReadingTimeFunction = (params: {
+type ReadingTimeCalculator = (params: {
   content: string;
   frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
   options?: ReadingTimeOptions;
 }) => number;
 
-type ReadingTimeFunctionOption = (params: {
+type ReadingTimeFn = (params: {
   content: string;
   frontMatter: BlogPostFrontMatter & Record<string, unknown>;
-  defaultReadingTime: ReadingTimeFunction;
+  defaultReadingTime: ReadingTimeCalculator;
 }) => number | undefined;
+```
 
+#### `FeedType` {#FeedType}
+
+```ts
 type FeedType = 'rss' | 'atom' | 'json';
 ```
 
