@@ -8,7 +8,7 @@
 import React, {useEffect, useState} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import mermaid from 'mermaid';
-import type {Props} from '@docusaurus/theme-mermaid/theme/Mermaid';
+import type {Props} from '@theme/Mermaid';
 
 /**
  * Assign a unique ID to each mermaid svg as per requirements
@@ -58,7 +58,6 @@ export default function Mermaid({value}: Props): JSX.Element {
     }
     return undefined;
   }, [isBrowser, value]);
-
   // eslint-disable-next-line react/no-danger
   return <div dangerouslySetInnerHTML={{__html: svg}} />;
 }

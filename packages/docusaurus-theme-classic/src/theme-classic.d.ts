@@ -11,7 +11,6 @@
 /// <reference types="@docusaurus/plugin-content-docs" />
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-pages" />
-/// <reference types="@docusaurus/theme-mermaid" />
 
 // This file, like all the other ambient declaration files for plugins, is
 // needed for TS to understand our `@theme` alias. The export signatures are

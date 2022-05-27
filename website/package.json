@@ -44,6 +44,7 @@
     "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.20",
     "@docusaurus/theme-classic": "2.0.0-beta.20",
     "@docusaurus/theme-common": "2.0.0-beta.20",
+    "@docusaurus/theme-mermaid": "2.0.0-beta.20",
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.20",
     "@docusaurus/utils": "2.0.0-beta.20",
     "@docusaurus/utils-common": "2.0.0-beta.20",

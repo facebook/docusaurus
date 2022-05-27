@@ -274,6 +274,7 @@ const config = {
         ],
       },
     ],
+    '@docusaurus/theme-mermaid',
     ...dogfoodingPluginInstances,
   ],
   presets: [

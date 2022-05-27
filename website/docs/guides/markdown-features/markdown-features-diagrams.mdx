@@ -9,9 +9,13 @@ slug: /markdown-features/diagrams
 
 Diagrams can be rendered using [Mermaid](https://mermaid-js.github.io/mermaid/) in a code block.
 
-## Setup
+## Installation {#installation}
 
-Enable Mermaid functionality by setting `markdown.mermaid` to true in your `docusaurus.config.js`.
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+Enable Mermaid functionality by adding plugin `@docusaurus/theme-mermaid` and setting `markdown.mermaid` to `true` in your `docusaurus.config.js`.
 
 ```js title=docusaurus.config.js
 /** @type {import('@docusaurus/types').Config} */
@@ -19,10 +23,11 @@ const config = {
   markdown: {
     mermaid: true,
   },
+  plugins: ['@docusaurus/theme-mermaid'],
 };
 ```
 
-## Usage
+## Usage {#usage}
 
 Add a code block with language `mermaid`:
 
@@ -46,7 +51,7 @@ graph TD;
 
 See the [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/./n00b-syntaxReference) for more information on the Mermaid syntax.
 
-## Theming
+## Theming {#theming}
 
 The diagram dark and light themes can be changed by setting `theme` values in the `themeConfig` in your `docusaurus.config.js`.
 
@@ -62,7 +67,7 @@ themeConfig:
 
 See the [Mermaid theme documentation](https://mermaid-js.github.io/mermaid/#/theming) for more information on theming Mermaid diagrams.
 
-## Mermaid Config
+## Mermaid Config {#configuration}
 
 Mermaid config can be configured through the `config` object in `themeConfig` in your `docusaurus.config.js`:
 

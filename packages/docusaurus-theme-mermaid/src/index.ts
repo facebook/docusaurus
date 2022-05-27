@@ -29,14 +29,6 @@ export default function themeMermaid(context: LoadContext): Plugin<void> {
         name: 'theme-mermaid',
       });
     },
-
-    contentLoaded() {},
-
-    async postBuild() {},
-
-    injectHtmlTags() {
-      return {};
-    },
   };
 }
 

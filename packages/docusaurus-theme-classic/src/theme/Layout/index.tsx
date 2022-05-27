@@ -13,7 +13,6 @@ import {
   ThemeClassNames,
   useKeyboardNavigation,
 } from '@docusaurus/theme-common';
-import useMermaid from '@docusaurus/theme-mermaid/theme/useMermaid';
 import SkipToContent from '@theme/SkipToContent';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
@@ -34,7 +33,6 @@ export default function Layout(props: Props): JSX.Element {
   } = props;
 
   useKeyboardNavigation();
-  useMermaid();
 
   return (
     <LayoutProviders>

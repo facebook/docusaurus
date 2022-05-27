@@ -24,7 +24,7 @@ declare module '@docusaurus/theme-mermaid' {
   export type UserThemeConfig = DeepPartial<ThemeConfig>;
 }
 
-declare module '@docusaurus/theme-mermaid/theme/MDXComponents/Mermaid' {
+declare module '@theme/MDXComponents/Mermaid' {
   export interface Props {
     value: string;
   }
@@ -32,11 +32,11 @@ declare module '@docusaurus/theme-mermaid/theme/MDXComponents/Mermaid' {
   export default function MDXMermaid(props: Props): JSX.Element;
 }
 
-declare module '@docusaurus/theme-mermaid/theme/useMermaid' {
+declare module '@theme/useMermaid' {
   export default function useMermaid(): void;
 }
 
-declare module '@docusaurus/theme-mermaid/theme/Mermaid' {
+declare module '@theme/Mermaid' {
   export interface Props {
     value: string;
   }

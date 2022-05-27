@@ -42,6 +42,8 @@ function getTheme(
   return options?.theme?.[htmlTheme] ?? options?.config?.theme ?? defaultTheme;
 }
 
+let observer: MutationObserver | undefined;
+
 export default function useMermaid(): void {
   const {siteConfig} = useDocusaurusContext();
   const themeConfig = siteConfig.themeConfig as ThemeConfig;
@@ -49,7 +51,7 @@ export default function useMermaid(): void {
 
   // Watch for changes in theme in the HTML attribute `data-theme`.
   useEffect(() => {
-    if (siteConfig.markdown?.mermaid === true && isBrowser) {
+    if (!observer && siteConfig.markdown?.mermaid === true && isBrowser) {
       const html: HTMLHtmlElement = document.querySelector('html')!;
       const init = (target: HTMLHtmlElement): void => {
         const theme = getTheme(target, themeConfig.mermaid);
@@ -67,7 +69,7 @@ export default function useMermaid(): void {
         html.setAttribute('data-mermaid', theme);
       };
 
-      const observer = new MutationObserver((mutations) => {
+      observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
           if (
             mutation.type !== 'attributes' ||
@@ -85,7 +87,8 @@ export default function useMermaid(): void {
       observer.observe(html, {attributes: true});
       return () => {
         try {
-          observer.disconnect();
+          (observer as MutationObserver).disconnect();
+          observer = undefined;
         } catch {
           // Do nothing
         }

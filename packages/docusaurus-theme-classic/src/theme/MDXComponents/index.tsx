@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import MDXMermaid from '@docusaurus/theme-mermaid/theme/MDXComponents/Mermaid';
 import MDXHead from '@theme/MDXComponents/Head';
 import MDXCode from '@theme/MDXComponents/Code';
 import MDXA from '@theme/MDXComponents/A';
@@ -32,7 +31,6 @@ const MDXComponents: MDXComponentsObject = {
   h4: (props) => <MDXHeading as="h4" {...props} />,
   h5: (props) => <MDXHeading as="h5" {...props} />,
   h6: (props) => <MDXHeading as="h6" {...props} />,
-  mermaid: MDXMermaid,
 };
 
 export default MDXComponents;

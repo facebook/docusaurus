@@ -6,9 +6,11 @@
  */
 
 import React from 'react';
-import Mermaid from '@docusaurus/theme-mermaid/theme/Mermaid';
-import type {Props} from '@docusaurus/theme-mermaid/theme/MDXComponents/Mermaid';
+import Mermaid from '@theme/Mermaid';
+import type {Props} from '@theme/MDXComponents/Mermaid';
+import useMermaid from '@theme/useMermaid';
 
 export default function MDXMermaid(props: Props): JSX.Element {
+  useMermaid();
   return <Mermaid {...props} />;
 }
