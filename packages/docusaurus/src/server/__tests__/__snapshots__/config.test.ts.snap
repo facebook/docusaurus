@@ -13,6 +13,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",

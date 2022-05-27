@@ -118,6 +118,7 @@ describe('loadI18n', () => {
       }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'fr',
       localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
@@ -137,6 +138,7 @@ describe('loadI18n', () => {
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
@@ -159,6 +161,7 @@ describe('loadI18n', () => {
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
