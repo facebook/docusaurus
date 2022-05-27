@@ -68,7 +68,7 @@ export type Options = Partial<MDXOptions> & {
     metadata: {[key: string]: unknown};
   }) => {[key: string]: unknown};
   filepath: string;
-  mermaid?: boolean;
+  markdown?: {mermaid?: boolean};
 };
 
 /**
@@ -151,7 +151,8 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
-    const mermaidOptions = reqOptions.mermaid === true ? [mermaid] : [];
+    const mermaidOptions =
+      reqOptions.markdown?.mermaid === true ? [mermaid] : [];
     const options: Options = {
       ...reqOptions,
       remarkPlugins: [

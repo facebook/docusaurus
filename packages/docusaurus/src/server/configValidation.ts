@@ -233,9 +233,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
-  markdown: Joi.object({
-    mermaid: Joi.boolean().optional(),
-  }).optional(),
+  markdown: Joi.object().unknown().optional(),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
