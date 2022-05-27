@@ -19,6 +19,12 @@ describe('loadSiteConfig', () => {
     expect(config).not.toEqual({});
   });
 
+  it('website with .cjs siteConfig', async () => {
+    const config = await loadSiteConfig({siteDir});
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
   it('website with valid config creator function', async () => {
     const config = await loadSiteConfig({
       siteDir,
@@ -65,7 +71,7 @@ describe('loadSiteConfig', () => {
         customConfigFilePath: 'wrong.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "These field(s) ("useLessField",) are not recognized in docusaurus.config.js.
+            "These field(s) ("useLessField",) are not recognized in wrong.config.js.
             If you still want these fields to be in your configuration, put them in the "customFields" field.
             See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
           `);

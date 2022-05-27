@@ -148,6 +148,10 @@ cli
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'build website before serving (default: false)')
   .option('-h, --host <host>', 'use specified host (default: localhost)')
+  .option(
+    '--no-open',
+    'do not open page in the browser (default: false, or true in CI)',
+  )
   .action(async (siteDir, options) =>
     serve(await resolveDir(siteDir), options),
   );

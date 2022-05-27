@@ -87,6 +87,8 @@ esbuild
 eslintcache
 estree
 evaluable
+execa
+Execa
 externalwaiting
 failfast
 fbid
