@@ -32,7 +32,7 @@ export default function pluginSitemap(
       );
 
       // Write sitemap file.
-      const sitemapPath = path.join(outDir, 'sitemap.xml');
+      const sitemapPath = path.join(outDir, options.filename);
       try {
         await fs.outputFile(sitemapPath, generatedSitemap);
       } catch (err) {
