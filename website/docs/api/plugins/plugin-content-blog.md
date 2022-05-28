@@ -1,9 +1,9 @@
 ---
 sidebar_position: 2
-id: plugin-content-blog
-title: '📦 plugin-content-blog'
-slug: '/api/plugins/@docusaurus/plugin-content-blog'
+slug: /api/plugins/@docusaurus/plugin-content-blog
 ---
+
+# 📦 plugin-content-blog
 
 import APITable from '@site/src/components/APITable';
 

@@ -1,9 +1,9 @@
 ---
 sidebar_position: 9
-id: plugin-pwa
-title: '📦 plugin-pwa'
-slug: '/api/plugins/@docusaurus/plugin-pwa'
+slug: /api/plugins/@docusaurus/plugin-pwa
 ---
+
+# 📦 plugin-pwa
 
 Docusaurus Plugin to add PWA support using [Workbox](https://developers.google.com/web/tools/workbox). This plugin generates a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers) in production build only, and allows you to create fully PWA-compliant documentation site with offline and installation support.
 

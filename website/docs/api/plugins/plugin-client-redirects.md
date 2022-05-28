@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-id: plugin-client-redirects
-title: '📦 plugin-client-redirects'
-slug: '/api/plugins/@docusaurus/plugin-client-redirects'
+slug: /api/plugins/@docusaurus/plugin-client-redirects
 ---
+
+# 📦 plugin-client-redirects
 
 import APITable from '@site/src/components/APITable';
 

@@ -1,11 +1,12 @@
 ---
-id: static-assets
-title: Static Assets
+description: Static assets are the non-code files that are directly copied to the build output. Learn about how they are handled and what the best practices of using static assets are.
 ---
 
-Every website needs assets: images, stylesheets, favicons, etc. By default, you are suggested to put these assets in the `static` folder.
+# Static Assets
 
-Every file you put into **that directory will be copied** into the root of the generated `build` folder with the directory hierarchy preserved. E.g. if you add a file named `sun.jpg` to the static folder, it will be copied to `build/sun.jpg`.
+Static assets are the non-code files that are directly copied to the build output. They include images, stylesheets, favicons, fonts, etc.
+
+By default, you are suggested to put these assets in the `static` folder. Every file you put into **that directory will be copied** into the root of the generated `build` folder with the directory hierarchy preserved. E.g. if you add a file named `sun.jpg` to the static folder, it will be copied to `build/sun.jpg`.
 
 This means that:
 

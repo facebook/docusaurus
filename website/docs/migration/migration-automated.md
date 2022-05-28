@@ -1,8 +1,8 @@
 ---
-id: migration-automated
-title: Automated migration
 slug: /migration/automated
 ---
+
+# Automated migration
 
 The migration CLI automatically migrates your v1 website to a v2 website.
 

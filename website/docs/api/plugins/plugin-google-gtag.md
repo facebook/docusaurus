@@ -1,9 +1,9 @@
 ---
 sidebar_position: 7
-id: plugin-google-gtag
-title: '📦 plugin-google-gtag'
-slug: '/api/plugins/@docusaurus/plugin-google-gtag'
+slug: /api/plugins/@docusaurus/plugin-google-gtag
 ---
+
+# 📦 plugin-google-gtag
 
 import APITable from '@site/src/components/APITable';
 
