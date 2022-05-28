@@ -14,76 +14,14 @@ Check the [Docs Plugin API Reference documentation](./../../api/plugins/plugin-c
 
 :::
 
-## Document ID {#document-id}
+Your site's documentation is organized by four levels, from lowest to highest:
 
-Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
+1. Individual pages.
+2. Sidebars.
+3. Versions.
+4. Plugin instances.
 
-For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
-
-```bash
-website # Root directory of your site
-└── docs
-   ├── greeting.md
-   └── guide
-      └── hello.md
-```
-
-However, the **last part** of the `id` can be defined by the user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
-
-```md
----
-id: part1
----
-
-Lorem ipsum
-```
-
-### Customizing doc URLs {#customizing-doc-urls}
-
-By default, a document's URL location is its file path relative to the `docs` folder. Use the `slug` front matter to change a document's URL.
-
-For example, suppose your site structure looks like this:
-
-```bash
-website # Root directory of your site
-└── docs
-    └── guide
-        └── hello.md
-```
-
-By default `hello.md` will be available at `/docs/guide/hello`. You can change its URL location to `/docs/bonjour`:
-
-```md
----
-slug: /bonjour
----
-
-Lorem ipsum
-```
-
-`slug` will be appended to the doc plugin's `routeBasePath`, which is `/docs` by default. See [Docs-only mode](#docs-only-mode) for how to remove the `/docs` part from the URL.
-
-:::note
-
-It is possible to use:
-
-- absolute slugs: `slug: /mySlug`, `slug: /`...
-- relative slugs: `slug: mySlug`, `slug: ./../mySlug`...
-
-:::
-
-## Home page docs {#home-page-docs}
-
-If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug front matter:
-
-```md
----
-id: my-home-doc
-slug: /
----
-
-Lorem ipsum
-```
+The guide will introduce them in that order: starting from [how individual pages can be configured](./docs-create-doc.mdx), to [how to create a sidebar or multiple ones](./sidebar/index.md), to [how to create and manage versions](./versioning.md), to [how to use multiple docs plugin instances](./docs-multi-instance.mdx).
 
 ## Docs-only mode {#docs-only-mode}
 

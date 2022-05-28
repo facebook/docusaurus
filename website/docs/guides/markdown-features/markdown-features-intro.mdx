@@ -56,6 +56,22 @@ In general, you should only assume the _semantics_ of the markup (` ``` ` fences
 
 </details>
 
+## Front matter {#front-matter}
+
+Front matter is used to add metadata to your Markdown file. All content plugins have their own front matter schema, and use the front matter to enrich the default metadata inferred from the content or other configuration.
+
+Front matter is provided at the very top of the file, enclosed by three dashes `---`. The content is parsed as [YAML](https://yaml.org/spec/1.2.2/).
+
+```md
+---
+title: My Doc Title
+more_data:
+  - Can be provided
+  - as: objects
+    or: arrays
+---
+```
+
 ## Quotes {#quotes}
 
 Markdown quotes are beautifully styled:
