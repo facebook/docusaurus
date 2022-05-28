@@ -64,11 +64,6 @@ jobs:
       matrix:
         nodeLinker: [pnp, node-modules]
         variant: [-s, -st]
-        exclude:
-          # Running tsc on PnP requires additional installations, which is not
-          # worthwhile for a simple E2E test
-          - variant: -st
-            nodeLinker: pnp
     steps:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3

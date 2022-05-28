@@ -31,6 +31,7 @@
     "remark-emoji": "^2.2.0",
     "stringify-object": "^3.3.0",
     "tslib": "^2.4.0",
+    "unified": "^9.2.2",
     "unist-util-visit": "^2.0.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.72.1"
