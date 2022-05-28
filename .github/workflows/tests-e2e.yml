@@ -98,7 +98,7 @@ jobs:
         run: |
           # These dependencies are referenced in the init project, not by our packages
           yarn add @docusaurus/theme-classic @docusaurus/types @types/node
-          yarn config set packageExtensions --json '{ "unified@*": { "dependencies": { "@types/unist": "^2.0.6" } } }'
+          yarn config set packageExtensions --json '{ "unified@^9.2.2": { "dependencies": { "@types/unist": "^2.0.6" } } }'
         working-directory: ../test-website
       - name: Start test-website project
         run: yarn start --no-open
