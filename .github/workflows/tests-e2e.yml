@@ -106,7 +106,8 @@ jobs:
         env:
           E2E_TEST: true
       - name: Type check
-        if: matrix.variant == '-st'
+        # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
+        if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         run: yarn typecheck
         working-directory: ../test-website
       - name: Build test-website project
