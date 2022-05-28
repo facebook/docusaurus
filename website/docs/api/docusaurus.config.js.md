@@ -425,7 +425,7 @@ module.exports = {
 
 ### `scripts` {#scripts}
 
-An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
+An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`. If you use a plain object, the only required attribute is `src`, and any other attributes are permitted (each one should have boolean/string values).
 
 Note that `<script>` added here are render-blocking, so you might want to add `async: true`/`defer: true` to the objects.
 
@@ -449,7 +449,7 @@ module.exports = {
 
 ### `stylesheets` {#stylesheets}
 
-An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
+An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`. If you use an object, the only required attribute is `href`, and any other attributes are permitted (each one should have boolean/string values).
 
 - Type: `(string | Object)[]`
 
@@ -467,6 +467,12 @@ module.exports = {
   ],
 };
 ```
+
+:::info
+
+By default, the `<link>` tags will have `rel="stylesheet"`, but you can explicitly add a custom `rel` value to inject any kind of `<link>` tag, not necessarily stylesheets.
+
+:::
 
 ### `clientModules` {#clientModules}
 
