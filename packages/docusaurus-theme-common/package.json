@@ -28,6 +28,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/mdx-loader": "2.0.0-beta.21",
     "@docusaurus/module-type-aliases": "2.0.0-beta.21",
     "@docusaurus/plugin-content-blog": "2.0.0-beta.21",
     "@docusaurus/plugin-content-docs": "2.0.0-beta.21",
