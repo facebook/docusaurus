@@ -33,7 +33,7 @@
     "@docusaurus/plugin-content-docs": "2.0.0-beta.21",
     "@docusaurus/plugin-content-pages": "2.0.0-beta.21",
     "@docusaurus/utils": "2.0.0-beta.21",
-    "@types/history": "*",
+    "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",
     "clsx": "^1.1.1",
