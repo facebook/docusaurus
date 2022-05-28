@@ -1,9 +1,9 @@
 ---
-id: creating-pages
-title: Creating Pages
 slug: /creating-pages
 sidebar_label: Pages
 ---
+
+# Creating Pages
 
 In this section, we will learn about creating pages in Docusaurus.
 

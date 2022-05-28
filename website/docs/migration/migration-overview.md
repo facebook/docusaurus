@@ -1,8 +1,8 @@
 ---
-id: migration-overview
-title: Migration overview
 slug: /migration
 ---
+
+# Migration overview
 
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
 

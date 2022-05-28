@@ -1,9 +1,9 @@
 ---
 sidebar_position: 3
-id: theme-live-codeblock
-title: '📦 theme-live-codeblock'
-slug: '/api/themes/@docusaurus/theme-live-codeblock'
+slug: /api/themes/@docusaurus/theme-live-codeblock
 ---
+
+# 📦 theme-live-codeblock
 
 This theme provides a `@theme/CodeBlock` component that is powered by react-live. You can read more on [interactive code editor](../../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor) documentation.
 

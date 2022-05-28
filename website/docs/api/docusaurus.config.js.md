@@ -1,6 +1,5 @@
 ---
 sidebar_position: 0
-id: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
 slug: /api/docusaurus-config
 ---
