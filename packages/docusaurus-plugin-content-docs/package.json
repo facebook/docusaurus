@@ -28,8 +28,11 @@
     "@docusaurus/core": "2.0.0-beta.21",
     "@docusaurus/logger": "2.0.0-beta.21",
     "@docusaurus/mdx-loader": "2.0.0-beta.21",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.21",
+    "@docusaurus/types": "2.0.0-beta.21",
     "@docusaurus/utils": "2.0.0-beta.21",
     "@docusaurus/utils-validation": "2.0.0-beta.21",
+    "@types/react-router-config": "^5.0.6",
     "combine-promises": "^1.1.0",
     "fs-extra": "^10.1.0",
     "import-fresh": "^3.3.0",
@@ -41,15 +44,13 @@
     "webpack": "^5.72.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.21",
     "@docusaurus/types": "2.0.0-beta.21",
     "@types/js-yaml": "^4.0.5",
     "@types/picomatch": "^2.3.0",
     "commander": "^5.1.0",
     "escape-string-regexp": "^4.0.0",
     "picomatch": "^2.3.1",
-    "shelljs": "^0.8.5",
-    "utility-types": "^3.10.0"
+    "shelljs": "^0.8.5"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

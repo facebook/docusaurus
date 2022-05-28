@@ -44,5 +44,13 @@
     "@types/micromatch": "^4.0.2",
     "@types/react-dom": "^18.0.5",
     "dedent": "^0.7.0"
+  },
+  "peerDependencies": {
+    "@docusaurus/types": "*"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/types": {
+      "optional": true
+    }
   }
 }

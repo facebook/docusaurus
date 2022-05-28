@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.21",
+    "@docusaurus/types": "2.0.0-beta.21",
     "@docusaurus/utils-validation": "2.0.0-beta.21",
     "tslib": "^2.4.0"
   },

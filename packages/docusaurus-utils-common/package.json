@@ -21,8 +21,13 @@
   "dependencies": {
     "tslib": "^2.4.0"
   },
-  "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.21"
+  "peerDependencies": {
+    "@docusaurus/types": "*"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/types": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=16.14"

@@ -24,6 +24,7 @@
     "@docusaurus/lqip-loader": "2.0.0-beta.21",
     "@docusaurus/responsive-loader": "^1.7.0",
     "@docusaurus/theme-translations": "2.0.0-beta.21",
+    "@docusaurus/types": "2.0.0-beta.21",
     "@docusaurus/utils-validation": "2.0.0-beta.21",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
