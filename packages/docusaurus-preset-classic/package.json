@@ -28,7 +28,8 @@
     "@docusaurus/plugin-sitemap": "2.0.0-beta.21",
     "@docusaurus/theme-classic": "2.0.0-beta.21",
     "@docusaurus/theme-common": "2.0.0-beta.21",
-    "@docusaurus/theme-search-algolia": "2.0.0-beta.21"
+    "@docusaurus/theme-search-algolia": "2.0.0-beta.21",
+    "@docusaurus/types": "2.0.0-beta.21"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

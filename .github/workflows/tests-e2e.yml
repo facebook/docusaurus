@@ -93,6 +93,11 @@ jobs:
         working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
+      - name: Install missing dependencies
+        if: matrix.variant == '-st' && matrix.nodeLinker == 'pnp'
+        # These dependencies are referenced in @tsconfig/docusaurus
+        run: yarn add @docusaurus/theme-classic @types/node
+        working-directory: ../test-website
       - name: Start test-website project
         run: yarn start --no-open
         working-directory: ../test-website
