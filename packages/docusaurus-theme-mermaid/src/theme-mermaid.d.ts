@@ -13,7 +13,7 @@ declare module '@docusaurus/theme-mermaid' {
   import type {Plugin} from '@docusaurus/types';
 
   export type ThemeConfig = {
-    mermaid: {
+    mermaid?: {
       theme?: {
         light: mermaidAPI.Theme;
         dark: mermaidAPI.Theme;
@@ -27,16 +27,10 @@ declare module '@docusaurus/theme-mermaid' {
   export default function themeMermaid(): Plugin<undefined>;
 }
 
-declare module '@theme/MDXComponents/Mermaid' {
-  export interface Props {
-    value: string;
-  }
+declare module '@theme/useMermaidTheme' {
+  import type mermaidAPI from 'mermaid/mermaidAPI';
 
-  export default function MDXMermaid(props: Props): JSX.Element;
-}
-
-declare module '@theme/useMermaid' {
-  export default function useMermaid(): void;
+  export default function useMermaidTheme(): mermaidAPI.Theme;
 }
 
 declare module '@theme/Mermaid' {

@@ -6,9 +6,9 @@
  */
 
 import MDXComponents from '@theme-init/MDXComponents';
-import MDXMermaid from '@theme/MDXComponents/Mermaid';
+import Mermaid from '@theme/Mermaid';
 
 export default {
   ...MDXComponents,
-  mermaid: MDXMermaid,
+  mermaid: Mermaid,
 };
