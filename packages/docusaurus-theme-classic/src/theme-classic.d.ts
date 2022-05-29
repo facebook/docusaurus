@@ -328,8 +328,6 @@ declare module '@theme/DocSidebar' {
     readonly sidebar: readonly PropSidebarItem[];
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
-    // MobileSecondaryFilter expects Record<string, unknown>
-    readonly [key: string]: unknown;
   }
 
   export default function DocSidebar(props: Props): JSX.Element;

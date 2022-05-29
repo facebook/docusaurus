@@ -25,6 +25,11 @@ const processFixture = async (name: string) => {
 };
 
 describe('toc remark plugin', () => {
+  it('outputs empty array for no TOC', async () => {
+    const result = await processFixture('no-heading');
+    expect(result).toMatchSnapshot();
+  });
+
   it('works on non text phrasing content', async () => {
     const result = await processFixture('non-text-content');
     expect(result).toMatchSnapshot();

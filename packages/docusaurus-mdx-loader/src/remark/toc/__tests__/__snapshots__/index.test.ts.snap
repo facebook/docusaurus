@@ -119,6 +119,19 @@ Content.
 "
 `;
 
+exports[`toc remark plugin outputs empty array for no TOC 1`] = `
+"export const toc = [];
+
+foo
+
+\`bar\`
+
+\`\`\`js
+baz
+\`\`\`
+"
+`;
+
 exports[`toc remark plugin works on non text phrasing content 1`] = `
 "export const toc = [
 	{
