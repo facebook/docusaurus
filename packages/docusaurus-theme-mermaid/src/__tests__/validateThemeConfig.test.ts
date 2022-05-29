@@ -5,13 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateThemeConfig} from '../validateThemeConfig';
+import {
+  validateThemeConfig,
+  DEFAULT_THEME_CONFIG,
+} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
+import type {ThemeConfig, UserThemeConfig} from '@docusaurus/theme-mermaid';
 
-function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
+function testValidateThemeConfig(themeConfig: UserThemeConfig) {
   function validate(
-    schema: Joi.ObjectSchema<{[key: string]: unknown}>,
-    cfg: {[key: string]: unknown},
+    schema: Joi.ObjectSchema<ThemeConfig>,
+    cfg: UserThemeConfig,
   ) {
     const {value, error} = schema.validate(cfg, {
       convert: false,
@@ -28,18 +32,16 @@ function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
 describe('validateThemeConfig', () => {
   it('undefined config', () => {
     const mermaid = undefined;
-    expect(testValidateThemeConfig({mermaid})).toEqual({});
+    expect(testValidateThemeConfig({mermaid})).toEqual(DEFAULT_THEME_CONFIG);
   });
 
   it('nonexistent config', () => {
-    expect(testValidateThemeConfig({})).toEqual({});
+    expect(testValidateThemeConfig({})).toEqual(DEFAULT_THEME_CONFIG);
   });
 
   it('empty config', () => {
     const mermaid = {};
-    expect(testValidateThemeConfig({mermaid})).toEqual({
-      mermaid: {},
-    });
+    expect(testValidateThemeConfig({mermaid})).toEqual(DEFAULT_THEME_CONFIG);
   });
 
   it('theme', () => {
@@ -51,19 +53,21 @@ describe('validateThemeConfig', () => {
     };
     expect(testValidateThemeConfig({mermaid})).toEqual({
       mermaid: {
+        ...DEFAULT_THEME_CONFIG.mermaid,
         ...mermaid,
       },
     });
   });
 
-  it('config', () => {
+  it('mermaidOptions', () => {
     const mermaid = {
-      config: {
+      mermaidOptions: {
         fontFamily: 'Ariel',
       },
     };
     expect(testValidateThemeConfig({mermaid})).toEqual({
       mermaid: {
+        ...DEFAULT_THEME_CONFIG.mermaid,
         ...mermaid,
       },
     });

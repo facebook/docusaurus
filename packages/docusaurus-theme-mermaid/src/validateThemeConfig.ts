@@ -10,7 +10,7 @@ import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {ThemeConfigValidationContext} from '@docusaurus/types';
 
-const DEFAULT_THEME_CONFIG: ThemeConfig = {
+export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   mermaid: {
     theme: {
       dark: 'dark' as mermaidAPI.Theme,

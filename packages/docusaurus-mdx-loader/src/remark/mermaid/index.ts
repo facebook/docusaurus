@@ -7,30 +7,25 @@
 
 import visit from 'unist-util-visit';
 import type {Transformer} from 'unified';
-import type {Data, Literal, Node, Parent} from 'unist';
 import type {Code} from 'mdast';
 
-function processMermaidNode(
-  node: Code,
-  index: number,
-  parent: Parent<Node<Data> | Literal, Data>,
-) {
-  parent.children.splice(index, 1, {
-    type: 'mermaidCodeBlock',
-    data: {
-      hName: 'mermaid',
-      hProperties: {
-        value: node.value,
-      },
-    },
-  });
-}
-
+// TODO: this plugin shouldn't be in the core MDX loader
+// After we allow plugins to provide Remark/Rehype plugins (see
+// https://github.com/facebook/docusaurus/issues/6370), this should be provided
+// by theme-mermaid itself
 export default function plugin(): Transformer {
   return (root) => {
     visit(root, 'code', (node: Code, index, parent) => {
       if (node.lang === 'mermaid') {
-        processMermaidNode(node, index, parent!);
+        parent!.children.splice(index, 1, {
+          type: 'mermaidCodeBlock',
+          data: {
+            hName: 'mermaid',
+            hProperties: {
+              value: node.value,
+            },
+          },
+        });
       }
     });
   };
