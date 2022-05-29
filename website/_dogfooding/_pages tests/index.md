@@ -27,4 +27,5 @@ import Readme from "../README.md"
 - [Asset linking tests](/tests/pages/markdown-tests)
 - [General Markdown tests](/tests/pages/markdownPageTests)
 - [TOC tests](/tests/pages/page-toc-tests)
+- [Diagram tests](/tests/pages/diagrams)
 - [Tabs tests](/tests/pages/tabs-tests)

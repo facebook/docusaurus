@@ -1,6 +1,3 @@
----
----
-
 # Diagram Examples
 
 ## Sequence Diagram
