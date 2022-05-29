@@ -15,19 +15,25 @@ describe('mermaid remark plugin', () => {
     });
   }
 
-  it('no mermaid', async () => {
+  it("does nothing if there's no mermaid code block", async () => {
     const mdxCompiler = createTestCompiler();
     const result = await mdxCompiler.process(
-      '# Heading 1\n\nNo Mermaid diagram :(',
+      `# Heading 1
+
+No Mermaid diagram :(
+
+\`\`\`js
+this is not mermaid
+\`\`\`
+`,
     );
-    expect(result.contents).toBe(
-      '\n\n\nconst layoutProps = {\n  \n};\nconst MDXLayout = "wrapper"\nexport default function MDXContent({\n  components,\n  ...props\n}) {\n  return <MDXLayout {...layoutProps} {...props} components={components} mdxType="MDXLayout">\n    <h1>{`Heading 1`}</h1>\n    <p>{`No Mermaid diagram :(`}</p>\n    </MDXLayout>;\n}\n\n;\nMDXContent.isMDXComponent = true;',
-    );
+    expect(result.contents).toMatchSnapshot();
   });
 
-  it('basic', async () => {
+  it('works for basic mermaid code blocks', async () => {
     const mdxCompiler = createTestCompiler();
-    const result = await mdxCompiler.process(`# Heading 1\n
+    const result = await mdxCompiler.process(`# Heading 1
+
 \`\`\`mermaid
 graph TD;
     A-->B;
@@ -35,28 +41,6 @@ graph TD;
     B-->D;
     C-->D;
 \`\`\``);
-    expect(result.contents).toBe(`
-
-
-const layoutProps = {
-${'  '}
-};
-const MDXLayout = "wrapper"
-export default function MDXContent({
-  components,
-  ...props
-}) {
-  return <MDXLayout {...layoutProps} {...props} components={components} mdxType="MDXLayout">
-    <h1>{\`Heading 1\`}</h1>
-    <mermaid value={\`graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;\`} />
-    </MDXLayout>;
-}
-
-;
-MDXContent.isMDXComponent = true;`);
+    expect(result.contents).toMatchSnapshot();
   });
 });

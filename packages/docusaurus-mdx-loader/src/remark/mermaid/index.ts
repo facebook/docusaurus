@@ -8,41 +8,30 @@
 import visit from 'unist-util-visit';
 import type {Transformer} from 'unified';
 import type {Data, Literal, Node, Parent} from 'unist';
-
-type CodeMermaid = Literal<string> & {
-  type: 'code';
-  lang: 'mermaid';
-};
+import type {Code} from 'mdast';
 
 function processMermaidNode(
-  node: CodeMermaid,
+  node: Code,
   index: number,
   parent: Parent<Node<Data> | Literal, Data>,
 ) {
   parent.children.splice(index, 1, {
-    type: 'jsx',
-    value: `<mermaid value={\`${node.value}\`}/>`,
-    position: node.position,
+    type: 'mermaidCodeBlock',
+    data: {
+      hName: 'mermaid',
+      hProperties: {
+        value: node.value,
+      },
+    },
   });
 }
 
 export default function plugin(): Transformer {
-  return async (root) => {
-    // Find all the mermaid diagram code blocks. i.e. ```mermaid
-    const instances: [CodeMermaid, number, Parent<Node<Data>, Data>][] = [];
-    visit(
-      root,
-      {type: 'code', lang: 'mermaid'},
-      (node: CodeMermaid, index, parent) => {
-        if (parent) {
-          instances.push([node, index, parent]);
-        }
-      },
-    );
-
-    // Replace each Mermaid code block with the Mermaid component
-    instances.forEach(([node, index, parent]) => {
-      processMermaidNode(node, index, parent);
+  return (root) => {
+    visit(root, 'code', (node: Code, index, parent) => {
+      if (node.lang === 'mermaid') {
+        processMermaidNode(node, index, parent!);
+      }
     });
   };
 }
