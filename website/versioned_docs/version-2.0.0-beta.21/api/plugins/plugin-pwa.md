@@ -112,8 +112,8 @@ Turn debug mode on:
 
 ### `offlineModeActivationStrategies` {#offlinemodeactivationstrategies}
 
-- Type: `Array<'appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always'>`
-- Default: `['appInstalled','queryString','standalone']`
+- Type: `('appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always')[]`
+- Default: `['appInstalled', 'queryString', 'standalone']`
 
 Strategies used to turn the offline mode on:
 
@@ -171,30 +171,9 @@ module.exports = {
 };
 ```
 
-### `reloadPopup` {#reloadpopup}
-
-- Type: `string | false`
-- Default: `'@theme/PwaReloadPopup'`
-
-Module path to reload popup component. This popup is rendered when a new service worker is waiting to be installed, and we suggest a reload to the user.
-
-Passing `false` will disable the popup, but this is not recommended: users won't have a way to get up-to-date content.
-
-A custom component can be used, as long as it accepts `onReload` as a prop. The `onReload` callback should be called when the `reload` button is clicked. This will tell the service worker to install the waiting service worker and reload the page.
-
-```ts
-interface PwaReloadPopupProps {
-  onReload: () => void;
-}
-```
-
-The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://infima.dev/docs/components/alert).
-
-![pwa_reload.gif](/img/pwa_reload.gif)
-
 ### `pwaHead` {#pwahead}
 
-- Type: `Array<{ tagName: string } & Record<string,string>>`
+- Type: `({ tagName: string; [attributeName: string]: string })[]`
 - Default: `[]`
 
 Array of objects containing `tagName` and key-value pairs for attributes to inject into the `<head>` tag. Technically you can inject any head tag through this, but it's ideally used for tags to make your site PWA compliant. Here's a list of tag to make your app fully compliant:
@@ -312,3 +291,13 @@ import CodeBlock from '@theme/CodeBlock';
   {JSON.stringify(require("@site/static/manifest.json"),null,2)}
 </CodeBlock>
 ```
+
+## Customizing reload popup {#customizing-reload-popup}
+
+The `@theme/PwaReloadPopup` component is rendered when a new service worker is waiting to be installed, and we suggest a reload to the user. You can [swizzle](../../swizzling.md) this component and implement your own UI. It will receive an `onReload` callback as props, which should be called when the `reload` button is clicked. This will tell the service worker to install the waiting service worker and reload the page.
+
+The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://infima.dev/docs/components/alert).
+
+![pwa_reload.gif](/img/pwa_reload.gif)
+
+Your component can render `null`, but this is not recommended: users won't have a way to get up-to-date content.

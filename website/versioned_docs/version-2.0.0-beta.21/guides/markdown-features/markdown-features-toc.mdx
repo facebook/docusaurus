@@ -83,11 +83,11 @@ import TOCInline from '@theme/TOCInline';
 The `toc` global is just a list of heading items:
 
 ```ts
-declare const toc: Array<{
+declare const toc: {
   value: string;
   id: string;
   level: number;
-}>;
+}[];
 ```
 
 Note that the `toc` global is a flat array, so you can easily cut out unwanted nodes or insert extra nodes, and create a new TOC tree.

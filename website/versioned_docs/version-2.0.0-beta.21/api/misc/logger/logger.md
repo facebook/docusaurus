@@ -1,7 +1,7 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: '📦 logger'
-slug: '/api/plugins/@docusaurus/logger'
+slug: '/api/misc/@docusaurus/logger'
 ---
 
 An encapsulated logger for semantically formatting console messages.
@@ -64,4 +64,4 @@ An embedded expression is optionally preceded by a flag in the form `[a-z]+=` (a
 
 If the expression is an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets a leading line end). Each member is formatted by itself and the bullet is not formatted. So you would see the above message printed as:
 
-![demo](./img/logger-demo.png)
+![demo](./demo.png)

@@ -1,6 +1,6 @@
 {
   "name": "stylelint-copyright",
-  "version": "2.0.0-beta.20",
+  "version": "2.0.0-beta.21",
   "description": "Stylelint plugin to check CSS files for a copyright header.",
   "main": "lib/index.js",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "directory": "packages/stylelint-copyright"
   },
   "dependencies": {
-    "stylelint": "^14.8.3",
+    "stylelint": "^14.8.5",
     "tslib": "^2.4.0"
   }
 }
