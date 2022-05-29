@@ -17,13 +17,12 @@ npm install --save @docusaurus/theme-mermaid
 
 Enable Mermaid functionality by adding plugin `@docusaurus/theme-mermaid` and setting `markdown.mermaid` to `true` in your `docusaurus.config.js`.
 
-```js title=docusaurus.config.js
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+```js title="docusaurus.config.js"
+module.exports = {
   markdown: {
     mermaid: true,
   },
-  plugins: ['@docusaurus/theme-mermaid'],
+  themes: ['@docusaurus/theme-mermaid'],
 };
 ```
 
@@ -53,34 +52,34 @@ See the [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/./
 
 ## Theming {#theming}
 
-The diagram dark and light themes can be changed by setting `theme` values in the `themeConfig` in your `docusaurus.config.js`.
+The diagram dark and light themes can be changed by setting `mermaid.theme` values in the `themeConfig` in your `docusaurus.config.js`. You can set themes for both light and dark mode.
 
-```js title=docusaurus.config.js
-themeConfig:
-  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-  ({
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
     mermaid: {
-      theme: { light: 'neutral', dark: 'forest' }
-    }
-  }),
+      theme: {light: 'neutral', dark: 'forest'},
+    },
+  },
+};
 ```
 
 See the [Mermaid theme documentation](https://mermaid-js.github.io/mermaid/#/theming) for more information on theming Mermaid diagrams.
 
 ## Mermaid Config {#configuration}
 
-Mermaid config can be configured through the `config` object in `themeConfig` in your `docusaurus.config.js`:
+Options in `mermaid.mermaidOptions` will be passed directly to `mermaid.initialize`:
 
-```js title=docusaurus.config.js
-themeConfig:
-  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-  ({
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
     mermaid: {
-      config: {
+      mermaidOptions: {
         maxTextSize: 50,
-      }
-    }
-  }),
+      },
+    },
+  },
+};
 ```
 
 See the [Mermaid configuration documentation](https://mermaid-js.github.io/mermaid/#/./Setup?id=configuration) for the available config options.

@@ -13,13 +13,12 @@ declare module '@docusaurus/theme-mermaid' {
   import type {Plugin} from '@docusaurus/types';
 
   export type ThemeConfig = {
-    mermaid?: {
-      theme?: {
+    mermaid: {
+      theme: {
         light: mermaidAPI.Theme;
         dark: mermaidAPI.Theme;
-        [htmlTheme: string]: mermaidAPI.Theme;
       };
-      config?: mermaidAPI.Config;
+      mermaidOptions: mermaidAPI.Config;
     };
   };
   export type UserThemeConfig = DeepPartial<ThemeConfig>;

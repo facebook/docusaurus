@@ -6,21 +6,30 @@
  */
 
 import {Joi} from '@docusaurus/utils-validation';
-import type {
-  ThemeConfig,
-  ThemeConfigValidationContext,
-} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-mermaid';
+import type mermaidAPI from 'mermaid/mermaidAPI';
+import type {ThemeConfigValidationContext} from '@docusaurus/types';
+
+const DEFAULT_THEME_CONFIG: ThemeConfig = {
+  mermaid: {
+    theme: {
+      dark: 'dark' as mermaidAPI.Theme,
+      light: 'default' as mermaidAPI.Theme,
+    },
+    mermaidOptions: {},
+  },
+};
 
 export const Schema = Joi.object<ThemeConfig>({
   mermaid: Joi.object({
     theme: Joi.object({
-      dark: Joi.string().optional(),
-      light: Joi.string().optional(),
-    }).optional(),
-    config: Joi.object().optional(),
-  })
-    .label('themeConfig.mermaid')
-    .optional(),
+      dark: Joi.string().default(DEFAULT_THEME_CONFIG.mermaid.theme.dark),
+      light: Joi.string().default(DEFAULT_THEME_CONFIG.mermaid.theme.light),
+    }).default(DEFAULT_THEME_CONFIG.mermaid.theme),
+    mermaidOptions: Joi.object().default(
+      DEFAULT_THEME_CONFIG.mermaid.mermaidOptions,
+    ),
+  }).default(DEFAULT_THEME_CONFIG.mermaid),
 });
 
 export function validateThemeConfig({

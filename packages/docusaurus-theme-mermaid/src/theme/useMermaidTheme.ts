@@ -11,24 +11,12 @@ import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
-const DEFAULT_DARK_THEME = 'dark' as mermaidAPI.Theme.Dark;
-const DEFAULT_LIGHT_THEME = 'default' as mermaidAPI.Theme.Default;
-
-/**
- * Gets the theme based on config and current color mode.
- */
 export default function useMermaidTheme(): mermaidAPI.Theme {
   const {colorMode} = useColorMode();
-  const {mermaid: options} = useThemeConfig() as ThemeConfig;
-
-  const defaultTheme =
-    colorMode === 'light' ? DEFAULT_LIGHT_THEME : DEFAULT_DARK_THEME;
-
-  const theme =
-    options?.theme?.[colorMode] ?? options?.config?.theme ?? defaultTheme;
-
+  const {mermaid: options} = useThemeConfig() as unknown as ThemeConfig;
+  const theme = options.theme[colorMode];
   useEffect(() => {
-    mermaid.initialize({startOnLoad: true, ...options?.config, theme});
+    mermaid.initialize({startOnLoad: true, ...options.mermaidOptions, theme});
   }, [theme, options]);
 
   return theme;
