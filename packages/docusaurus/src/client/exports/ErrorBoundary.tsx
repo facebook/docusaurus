@@ -18,6 +18,7 @@ type State = {
   error: Error | null;
 };
 
+// eslint-disable-next-line react/function-component-definition
 const DefaultFallback: FallbackFunction = (params) => (
   <ThemeError {...params} />
 );

@@ -45,9 +45,7 @@ async function createTmpTranslationFile(
 
   return {
     siteDir,
-    readFile() {
-      return fs.readJSON(filePath);
-    },
+    readFile: () => fs.readJSON(filePath),
   };
 }
 

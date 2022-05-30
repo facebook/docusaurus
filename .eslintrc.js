@@ -19,7 +19,8 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    allowImportExportEverywhere: true,
+    // tsconfigRootDir: __dirname,
+    // project: ['./tsconfig.json', './website/tsconfig.json'],
   },
   globals: {
     JSX: true,
@@ -30,6 +31,8 @@ module.exports = {
     'plugin:jest/recommended',
     'airbnb',
     'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    // 'plugin:@typescript-eslint/strict',
     'plugin:regexp/recommended',
     'prettier',
     'plugin:@docusaurus/all',
@@ -302,6 +305,9 @@ module.exports = {
     'react/prop-types': OFF,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
 
+    '@typescript-eslint/consistent-type-definitions': OFF,
+    '@typescript-eslint/require-await': OFF,
+
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
@@ -363,20 +369,39 @@ module.exports = {
   overrides: [
     {
       files: [
-        'packages/docusaurus-*/src/theme/**/*.js',
-        'packages/docusaurus-*/src/theme/**/*.ts',
-        'packages/docusaurus-*/src/theme/**/*.tsx',
+        'packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}',
+        'packages/docusaurus/src/client/**/*.{js,ts,tsx}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              // Prevent importing lodash in client bundle for bundle size
+              'lodash',
+              'lodash.**',
+              'lodash/**',
+              // Prevent importing server code in client bundle
+              '**/../babel/**',
+              '**/../server/**',
+              '**/../commands/**',
+              '**/../webpack/**',
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: [
+        'packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}',
+        'packages/docusaurus/src/client/theme-fallback/**/*.{js,ts,tsx}',
       ],
       rules: {
         'import/no-named-export': ERROR,
       },
     },
     {
-      files: [
-        'packages/create-docusaurus/templates/**/*.js',
-        'packages/create-docusaurus/templates/**/*.ts',
-        'packages/create-docusaurus/templates/**/*.tsx',
-      ],
+      files: ['packages/create-docusaurus/templates/**/*.{js,ts,tsx}'],
       rules: {
         'header/header': OFF,
         'global-require': OFF,
@@ -391,14 +416,14 @@ module.exports = {
       },
     },
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.{ts,tsx}'],
       rules: {
         'no-undef': OFF,
         'import/no-import-module-exports': OFF,
       },
     },
     {
-      files: ['*.js', '*.mjs', '.cjs'],
+      files: ['*.{js,mjs,cjs}'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
@@ -419,8 +444,7 @@ module.exports = {
       // Internal files where extraneous deps don't matter much at long as
       // they run
       files: [
-        '*.test.ts',
-        '*.test.tsx',
+        '*.test.{js,ts,tsx}',
         'admin/**',
         'jest/**',
         'website/**',
@@ -430,6 +454,10 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': OFF,
       },
+    },
+    {
+      files: ['packages/eslint-plugin/**/*.{js,ts}'],
+      extends: ['plugin:eslint-plugin/recommended'],
     },
   ],
 };

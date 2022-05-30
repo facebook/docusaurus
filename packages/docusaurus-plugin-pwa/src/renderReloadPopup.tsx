@@ -21,7 +21,7 @@ const createContainer = () => {
 };
 
 export default async function renderReloadPopup(props: Props): Promise<void> {
-  const container = getContainer() || createContainer();
+  const container = getContainer() ?? createContainer();
   const ReloadPopup = (await import('@theme/PwaReloadPopup')).default;
   ReactDOM.render(<ReloadPopup {...props} />, container);
 }
