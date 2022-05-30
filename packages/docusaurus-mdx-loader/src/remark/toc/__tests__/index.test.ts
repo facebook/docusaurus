@@ -30,6 +30,14 @@ describe('toc remark plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
+  // A very implicit API: we allow users to hand-write the toc variable. It will
+  // get overwritten in most cases, but until we find a better way, better keep
+  // supporting this
+  it('does not overwrite TOC var if no TOC', async () => {
+    const result = await processFixture('no-heading-with-toc-export');
+    expect(result).toMatchSnapshot();
+  });
+
   it('works on non text phrasing content', async () => {
     const result = await processFixture('non-text-content');
     expect(result).toMatchSnapshot();

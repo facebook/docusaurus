@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactElement, type ComponentProps} from 'react';
-import Head from '@docusaurus/Head';
+import React, {type ReactElement} from 'react';
+import Head, {type Props as HeadProps} from '@docusaurus/Head';
 import type {Props} from '@theme/MDXComponents/Head';
 
 // MDX elements are wrapped through the MDX pragma. In some cases (notably usage
@@ -25,7 +25,5 @@ export default function MDXHead(props: Props): JSX.Element {
   const unwrappedChildren = React.Children.map(props.children, (child) =>
     React.isValidElement(child) ? unwrapMDXElement(child) : child,
   );
-  return (
-    <Head {...(props as ComponentProps<typeof Head>)}>{unwrappedChildren}</Head>
-  );
+  return <Head {...(props as HeadProps)}>{unwrappedChildren}</Head>;
 }
