@@ -562,15 +562,11 @@ The `noInline` option should be used to avoid errors when your code spans multip
 
 ````md
 ```jsx live noInline
-const project = "Docusaurus";
+const project = 'Docusaurus';
 
-const Greeting = () => (
-  <p>Hello {project}!</p>
-);
+const Greeting = () => <p>Hello {project}!</p>;
 
-render(
-  <Greeting />
-);
+render(<Greeting />);
 ```
 ````
 
