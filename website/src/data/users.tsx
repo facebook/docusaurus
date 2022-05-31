@@ -440,6 +440,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CyberConnect Dev Center',
+    description:
+      'Building the composable social graph protocol for Web3.',
+    preview: require('./showcase/cyberconnect.png'),
+    website: 'https://docs.cyberconnect.me',
+    source: 'https://github.com/cyberconnecthq/cyberconnect-docs-v2',
+    tags: ['opensource', 'design', 'versioning'],
+  },
+  {
     title: 'CyberDrain Improved Partner Portal (CIPP)',
     description:
       'Free and open-source multi-tenant management for Microsoft 365.',
