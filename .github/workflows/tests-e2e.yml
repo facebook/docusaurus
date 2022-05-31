@@ -89,25 +89,21 @@ jobs:
           # https://yarnpkg.com/features/pnp#fallback-mode
           yarn config set pnpFallbackMode none
 
+          # This has been fixed in unified@10 / will be set automatically in the next Yarn release.
+          # TODO: Remove when updating unified or after the next Yarn release.
+          yarn config set packageExtensions --json '{ "unified@<10": { "dependencies": { "@types/unist": "^2.0.6" } } }'
+
           yarn install
         working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
-      - name: Install missing dependencies
-        if: matrix.variant == '-st' && matrix.nodeLinker == 'pnp'
-        run: |
-          # These dependencies are referenced in the init project, not by our packages
-          yarn add @docusaurus/theme-classic @docusaurus/types @types/node
-          yarn config set packageExtensions --json '{ "unified@^9.2.2": { "dependencies": { "@types/unist": "^2.0.6" } } }'
-        working-directory: ../test-website
       - name: Start test-website project
         run: yarn start --no-open
         working-directory: ../test-website
         env:
           E2E_TEST: true
       - name: Type check
-        # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
-        if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
+        if: matrix.variant == '-st'
         run: yarn typecheck
         working-directory: ../test-website
       - name: Build test-website project
