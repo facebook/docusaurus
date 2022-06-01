@@ -47,6 +47,7 @@ Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 :::
 ```
 
+```mdx-code-block
 <BrowserWindow>
 
 :::note
@@ -80,6 +81,7 @@ Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 :::
 
 </BrowserWindow>
+```
 
 ## Usage with Prettier {#usage-with-prettier}
 
@@ -115,6 +117,7 @@ Some **content** with _markdown_ `syntax`.
 :::
 ```
 
+```mdx-code-block
 <BrowserWindow>
 
 :::note Your Title
@@ -124,6 +127,7 @@ Some **content** with _markdown_ `syntax`.
 :::
 
 </BrowserWindow>
+```
 
 ## Admonitions with MDX {#admonitions-with-mdx}
 
@@ -145,21 +149,21 @@ import TabItem from '@theme/TabItem';
 :::
 ```
 
+```mdx-code-block
 <BrowserWindow>
 
 :::tip Use tabs in admonitions
 
-```mdx-code-block
 <Tabs>
   <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
   <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
   <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
 </Tabs>
-```
 
 :::
 
 </BrowserWindow>
+```
 
 ## Usage in JSX {#usage-in-jsx}
 
@@ -190,6 +194,7 @@ The types that are accepted are the same as above: `note`, `tip`, `danger`, `inf
 </Admonition>
 ```
 
+```mdx-code-block
 <BrowserWindow>
   <Admonition type="tip" icon="💡" title="Did you know...">
     <p>
@@ -198,3 +203,4 @@ The types that are accepted are the same as above: `note`, `tip`, `danger`, `inf
     </p>
   </Admonition>
 </BrowserWindow>
+```

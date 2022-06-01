@@ -302,31 +302,37 @@ GitHub enterprise installations should work in the same manner as github.com; yo
 
 Finally, to deploy your site to GitHub Pages, run:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="bash" label="Bash">
+```
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="windows" label="Windows">
+```
 
 ```batch
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
 
+````mdx-code-block
 </TabItem>
 <TabItem value="powershell" label="PowerShell">
+```mdx-code-block
 
 ```powershell
 cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
-```
+````
 
+```mdx-code-block
 </TabItem>
 </Tabs>
-````
+```
 
 :::caution
 
@@ -352,16 +358,16 @@ Here are two approaches to deploying your docs with GitHub Actions. Based on the
 - Source repo and deployment repo are the **same** repository.
 - The deployment repo is a **remote** repository, different from the source.
 
-````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="same" label="Same">
+```
 
 While you can have both jobs defined in the same workflow file, the original `deploy` workflow will always be listed as skipped in the PR check suite status, which is not communicative of the actual status and provides no value to the review process. We therefore propose to manage them as separate workflows instead.
 
 We will use a popular third-party deployment action: [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus).
 
 <details>
-
 <summary>GitHub action files</summary>
 
 Add these two workflow files:
@@ -446,8 +452,10 @@ jobs:
 
 </details>
 
+```mdx-code-block
 </TabItem>
 <TabItem value="remote" label="Remote">
+```
 
 A cross-repo publish is more difficult to set up, because you need to push to another repo with permission checks. We will be using SSH to do the authentication.
 
@@ -517,9 +525,10 @@ jobs:
 
 </details>
 
+```mdx-code-block
 </TabItem>
 </Tabs>
-````
+```
 
 ### Triggering deployment with Travis CI {#triggering-deployment-with-travis-ci}
 

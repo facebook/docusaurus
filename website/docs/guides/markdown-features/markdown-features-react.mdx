@@ -204,21 +204,22 @@ We use lower-case tag names like `highlight` to "pretend" that they are intrinsi
 
 Docusaurus v2 is using MDX v1, which has a lot of known cases where the content fails to be correctly parsed as Markdown. Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
 
-````mdx-code-block
 <details>
-
 <summary>Samples of parsing failures</summary>
 
 **A paragraph starting with a JSX tag will be seen entirely as a JSX string:**
 
+```mdx-code-block
 <Tabs groupId="jsx-and-md">
 <TabItem value="Problem">
 <div className={styles.wrappingBlock}>
+```
 
 ```jsx
 <span style={{color: 'red'}}>Highlighted text</span> but afterwards _Markdown_ **doesn't work**
 ```
 
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -233,6 +234,7 @@ Docusaurus v2 is using MDX v1, which has a lot of known cases where the content 
 Use JSX for the rest of the line, or prefix the line with some plain text:
 
 <div className={styles.wrappingBlock}>
+```
 
 ```jsx
 <span style={{color: 'red'}}>Use JSX for the paragraph</span> to stop <i>worrying about</i> <b>Markdown</b>
@@ -240,6 +242,7 @@ Use JSX for the rest of the line, or prefix the line with some plain text:
 &#8203;<span style={{color: 'red'}}>← This is a zero-width space</span> and afterwards <i>Markdown</i> <b>works</b>
 ```
 
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -258,11 +261,13 @@ Use JSX for the rest of the line, or prefix the line with some plain text:
 <Tabs groupId="jsx-and-md">
 <TabItem value="Problem">
 <div className={styles.wrappingBlock}>
+```
 
 ```jsx
 <span style={{color: 'red'}}>**Bold doesn't work**</span>
 ```
 
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -278,6 +283,7 @@ Use JSX for the rest of the line, or prefix the line with some plain text:
 Use JSX within JSX tag, or move the Markdown to the outer layer:
 
 <div className={styles.wrappingBlock}>
+```
 
 ```jsx
 <span style={{color: 'red'}}><b>Bold now works</b></span>
@@ -285,6 +291,7 @@ Use JSX within JSX tag, or move the Markdown to the outer layer:
 **<span style={{color: 'red'}}>Bold now works</span>**
 ```
 
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -303,13 +310,13 @@ Use JSX within JSX tag, or move the Markdown to the outer layer:
 <Tabs groupId="jsx-and-md">
 <TabItem value="Problem">
 <div className={styles.wrappingBlock}>
-
-```jsx
-<div style={{color: 'red'}}>
-**Bold still doesn't work**
-</div>
 ```
 
+```jsx
+<div style={{color: 'red'}}>**Bold still doesn't work**</div>
+```
+
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -326,15 +333,13 @@ Use JSX within JSX tag, or move the Markdown to the outer layer:
 Add an empty new line:
 
 <div className={styles.wrappingBlock}>
-
-```jsx
-<div style={{color: 'red'}}>
-
-**Bold now works**
-
-</div>
 ```
 
+```jsx
+<div style={{color: 'red'}}>**Bold now works**</div>
+```
+
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -353,15 +358,13 @@ Add an empty new line:
 <Tabs groupId="jsx-and-md">
 <TabItem value="Problem">
 <div className={styles.wrappingBlock}>
-
-```jsx
-<div style={{color: 'red'}}>
-
-    You may think I'm just some text...
-
-</div>
 ```
 
+```jsx
+<div style={{color: 'red'}}>You may think I'm just some text...</div>
+```
+
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -380,15 +383,13 @@ Add an empty new line:
 Don't indent:
 
 <div className={styles.wrappingBlock}>
-
-```jsx
-<div style={{color: 'red'}}>
-
-Now I'm actually just text
-
-</div>
 ```
 
+```jsx
+<div style={{color: 'red'}}>Now I'm actually just text</div>
+```
+
+```mdx-code-block
 </div>
 <div className={styles.wrappingBlock}>
 <BrowserWindow>
@@ -402,7 +403,7 @@ Now I'm actually just text
 </TabItem>
 </Tabs>
 </details>
-````
+```
 
 ## Importing code snippets {#importing-code-snippets}
 
