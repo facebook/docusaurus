@@ -357,7 +357,7 @@ const Users: User[] = [
   },
   {
     title: 'Charles Ancheta',
-    description: 'Charles Ancheta\'s Blog and Portfolio Website',
+    description: "Charles Ancheta's Blog and Portfolio Website",
     preview: require('./showcase/charles-ancheta.png'),
     website: 'https://charlesancheta.com',
     source: 'https://github.com/cbebe/my-website',
