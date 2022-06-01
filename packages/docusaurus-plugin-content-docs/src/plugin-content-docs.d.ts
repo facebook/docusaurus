@@ -23,6 +23,14 @@ declare module '@docusaurus/plugin-content-docs' {
     image?: string;
   };
 
+  export type FileChange = {
+    author?: string;
+    /** Date can be any
+     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+     */
+    date?: Date | string;
+  };
+
   /**
    * Custom callback for parsing number prefixes from file/folder names.
    */
@@ -371,6 +379,8 @@ declare module '@docusaurus/plugin-content-docs' {
     pagination_prev?: string | null;
     /** Should this doc be excluded from production builds? */
     draft?: boolean;
+    /** Allows overriding the last updated author and/or date. */
+    last_update?: FileChange;
   };
 
   export type LastUpdateData = {

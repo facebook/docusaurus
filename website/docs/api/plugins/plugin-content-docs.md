@@ -281,11 +281,16 @@ Accepted fields:
 | `slug` | `string` | File path | Allows to customize the document url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 | `draft` | `boolean` | `false` | A boolean flag to indicate that a document is a work-in-progress. Draft documents will only be displayed during development. |
+| `last_update` | `FileChange` | `undefined` | Allows overriding the last updated author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
 
 </APITable>
 
 ```ts
 type Tag = string | {label: string; permalink: string};
+```
+
+```ts
+type FileChange = {date: string; author: string};
 ```
 
 Example:
@@ -306,6 +311,9 @@ keywords:
   - docusaurus
 image: https://i.imgur.com/mErPwqL.png
 slug: /myDoc
+last_update:
+  date: 1/1/2000
+  author: custom author name
 ---
 
 # Markdown Features
