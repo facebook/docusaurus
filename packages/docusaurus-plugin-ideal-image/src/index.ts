@@ -80,7 +80,7 @@ export function validateOptions({
   validate,
   options,
 }: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
-  const pluginOptionsSchema = Joi.object({
+  const pluginOptionsSchema = Joi.object<PluginOptions>({
     disableInDev: Joi.boolean().default(true),
   }).unknown();
   return validate(pluginOptionsSchema, options);

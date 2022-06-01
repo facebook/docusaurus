@@ -8,6 +8,7 @@
 import React from 'react';
 import {EnumChangefreq} from 'sitemap';
 import createSitemap from '../createSitemap';
+import type {PluginOptions} from '../options';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
 describe('createSitemap', () => {
@@ -22,6 +23,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
     expect(sitemap).toContain(
@@ -31,7 +33,8 @@ describe('createSitemap', () => {
 
   it('empty site', () =>
     expect(async () => {
-      await createSitemap({} as DocusaurusConfig, [], {}, {});
+      // @ts-expect-error: test
+      await createSitemap({}, [], {}, {} as PluginOptions);
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
     ));
@@ -47,6 +50,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
     expect(sitemap).not.toContain('404');
@@ -68,6 +72,7 @@ describe('createSitemap', () => {
           // Deep ignore
           '/tags/**',
         ],
+        filename: 'sitemap.xml',
       },
     );
     expect(sitemap).not.toContain('/search/</loc>');
@@ -87,6 +92,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
 
@@ -108,6 +114,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
 
@@ -129,6 +136,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
 
@@ -148,6 +156,7 @@ describe('createSitemap', () => {
       {
         '/noindex': {
           meta: {
+            // @ts-expect-error: bad lib def
             toComponent: () => [
               React.createElement('meta', {name: 'robots', content: 'noindex'}),
             ],

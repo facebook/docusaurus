@@ -50,8 +50,8 @@ export function sortConfig(
     }
     // Higher priority get placed first.
     if (a.priority || b.priority) {
-      const priorityA = a.priority || 0;
-      const priorityB = b.priority || 0;
+      const priorityA = a.priority ?? 0;
+      const priorityB = b.priority ?? 0;
       const score = priorityB - priorityA;
 
       if (score !== 0) {

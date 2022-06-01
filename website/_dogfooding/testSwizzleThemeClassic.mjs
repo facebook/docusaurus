@@ -10,15 +10,16 @@ import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
 import logger from '@docusaurus/logger';
 
-import ClassicTheme from '@docusaurus/theme-classic';
+import classicTheme from '@docusaurus/theme-classic';
 
 // Unsafe imports
 import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/components.js';
 import {normalizeSwizzleConfig} from '@docusaurus/core/lib/commands/swizzle/config.js';
 import {wrap, eject} from '@docusaurus/core/lib/commands/swizzle/actions.js';
 
-const swizzleConfig = normalizeSwizzleConfig(ClassicTheme.getSwizzleConfig());
+const swizzleConfig = normalizeSwizzleConfig(classicTheme.getSwizzleConfig());
 
+/** @type {"eject" | "wrap"} */
 const action = process.env.SWIZZLE_ACTION ?? 'eject';
 const typescript = process.env.SWIZZLE_TYPESCRIPT === 'true';
 
@@ -81,14 +82,12 @@ if (action === 'wrap') {
   });
 }
 
+/**
+ * @param {string} componentName
+ */
 function getActionStatus(componentName) {
   const actionStatus =
     swizzleConfig.components[componentName]?.actions[action] ?? 'unsafe';
-  if (!actionStatus) {
-    throw new Error(
-      `Unexpected: missing action ${action} for ${componentName}`,
-    );
-  }
   return actionStatus;
 }
 

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`initPlugins throws user-friendly error message for plugins with bad values 1`] = `
-" => Bad Docusaurus plugin value as path [plugins,0].
+" => Bad Docusaurus plugin value plugins[0].
 Example valid plugin config:
 {
   plugins: [
@@ -13,7 +13,7 @@ Example valid plugin config:
   ],
 };
 
- => Bad Docusaurus plugin value as path [plugins,1].
+ => Bad Docusaurus plugin value plugins[1].
 Example valid plugin config:
 {
   plugins: [

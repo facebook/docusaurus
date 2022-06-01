@@ -257,7 +257,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     ): boolean {
       return (
         item.type === 'category' &&
-        item.link?.type === 'generated-index' &&
+        item.link.type === 'generated-index' &&
         item.link.permalink === categoryGeneratedIndexPermalink
       );
     }

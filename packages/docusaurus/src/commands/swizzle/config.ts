@@ -16,9 +16,8 @@ function getModuleSwizzleConfig(
   swizzlePlugin: SwizzlePlugin,
 ): SwizzleConfig | undefined {
   const getSwizzleConfig =
-    swizzlePlugin.plugin.plugin?.getSwizzleConfig ??
-    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig ??
-    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleConfig;
+    swizzlePlugin.plugin.plugin.getSwizzleConfig ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig;
 
   if (getSwizzleConfig) {
     return getSwizzleConfig();
@@ -26,9 +25,8 @@ function getModuleSwizzleConfig(
 
   // TODO deprecate getSwizzleComponentList later
   const getSwizzleComponentList =
-    swizzlePlugin.plugin.plugin?.getSwizzleComponentList ??
-    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList ??
-    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleComponentList;
+    swizzlePlugin.plugin.plugin.getSwizzleComponentList ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList;
 
   if (getSwizzleComponentList) {
     const safeComponents = getSwizzleComponentList() ?? [];

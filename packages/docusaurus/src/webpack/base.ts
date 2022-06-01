@@ -38,7 +38,7 @@ export function excludeJS(modulePath: string): boolean {
   }
   // Don't transpile node_modules except any docusaurus npm package
   return (
-    /node_modules/.test(modulePath) &&
+    modulePath.includes('node_modules') &&
     !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
     !LibrariesToTranspileRegex.test(modulePath)
   );

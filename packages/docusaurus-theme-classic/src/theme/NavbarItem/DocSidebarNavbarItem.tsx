@@ -6,11 +6,9 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 import {useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
 import {useLayoutDocsSidebar} from '@docusaurus/theme-common';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
 
 export default function DocSidebarNavbarItem({
@@ -26,16 +24,11 @@ export default function DocSidebarNavbarItem({
       `DocSidebarNavbarItem: Sidebar with ID "${sidebarId}" doesn't have anything to be linked to.`,
     );
   }
-  const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
-
   return (
     <DefaultNavbarItem
       exact
       {...props}
-      className={clsx(props.className, {
-        [activeDocInfimaClassName]: activeDoc?.sidebar === sidebarId,
-      })}
-      activeClassName={activeDocInfimaClassName}
+      isActive={() => activeDoc?.sidebar === sidebarId}
       label={label ?? sidebarLink.label}
       to={sidebarLink.path}
     />

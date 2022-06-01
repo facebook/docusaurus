@@ -180,7 +180,7 @@ describe('loadI18n', () => {
       },
       'it',
     );
-    expect(consoleSpy.mock.calls[0][0]).toMatch(
+    expect(consoleSpy.mock.calls[0]![0]).toMatch(
       /The locale .*it.* was not found in your site configuration/,
     );
   });

@@ -70,7 +70,7 @@ export class ReactContextError extends Error {
     this.name = 'ReactContextError';
     this.message = `Hook ${
       this.stack?.split('\n')[1]?.match(/at (?:\w+\.)?(?<name>\w+)/)?.groups!
-        .name
-    } is called outside the <${providerName}>. ${additionalInfo || ''}`;
+        .name ?? ''
+    } is called outside the <${providerName}>. ${additionalInfo ?? ''}`;
   }
 }

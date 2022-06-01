@@ -115,9 +115,9 @@ async function doRender(locals: Locals & {path: string}) {
   // Using readJSON seems to fail for users of some plugins, possibly because of
   // the eval sandbox having a different `Buffer` instance (native one instead
   // of polyfilled one)
-  const manifest: Manifest = await fs
+  const manifest = (await fs
     .readFile(manifestPath, 'utf-8')
-    .then(JSON.parse);
+    .then(JSON.parse)) as Manifest;
 
   // Get all required assets for this particular page based on client
   // manifest information.

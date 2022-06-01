@@ -23,7 +23,7 @@ export default function DocSidebarItemHtml({
       className={clsx(
         ThemeClassNames.docs.docSidebarItemLink,
         ThemeClassNames.docs.docSidebarItemLinkLevel(level),
-        defaultStyle && `${styles.menuHtmlItem} menu__list-item`,
+        defaultStyle && [styles.menuHtmlItem, 'menu__list-item'],
         className,
       )}
       key={index}

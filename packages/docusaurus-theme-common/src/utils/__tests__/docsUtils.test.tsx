@@ -26,6 +26,7 @@ import type {
   PropSidebarItemLink,
   PropVersionMetadata,
 } from '@docusaurus/plugin-content-docs';
+import type {DocusaurusContext} from '@docusaurus/types';
 
 // Make tests more readable with some useful category item defaults
 function testCategory(
@@ -294,19 +295,22 @@ describe('isActiveSidebarItem', () => {
 
 describe('useSidebarBreadcrumbs', () => {
   const createUseSidebarBreadcrumbsMock =
-    (sidebar: PropSidebar, breadcrumbsOption?: boolean) => (location: string) =>
+    (sidebar: PropSidebar | undefined, breadcrumbsOption?: boolean) =>
+    (location: string) =>
       renderHook(() => useSidebarBreadcrumbs(), {
         wrapper: ({children}) => (
           <StaticRouter location={location}>
             <Context.Provider
-              // eslint-disable-next-line react/jsx-no-constructed-context-values
-              value={{
-                globalData: {
-                  'docusaurus-plugin-content-docs': {
-                    default: {path: '/', breadcrumbs: breadcrumbsOption},
+              value={
+                // eslint-disable-next-line react/jsx-no-constructed-context-values
+                {
+                  globalData: {
+                    'docusaurus-plugin-content-docs': {
+                      default: {path: '/', breadcrumbs: breadcrumbsOption},
+                    },
                   },
-                },
-              }}>
+                } as unknown as DocusaurusContext
+              }>
               <DocsSidebarProvider name="sidebarName" items={sidebar}>
                 {children}
               </DocsSidebarProvider>
@@ -421,7 +425,9 @@ describe('useSidebarBreadcrumbs', () => {
   });
 
   it('returns null when there is no sidebar', () => {
-    expect(createUseSidebarBreadcrumbsMock(null, false)('/foo')).toBeNull();
+    expect(
+      createUseSidebarBreadcrumbsMock(undefined, false)('/foo'),
+    ).toBeNull();
   });
 });
 
@@ -436,9 +442,12 @@ describe('useCurrentSidebarCategory', () => {
         ),
       }).result.current;
   it('works', () => {
-    const category = {
+    const category: PropSidebarItemCategory = {
       type: 'category',
+      label: 'Category',
       href: '/cat',
+      collapsible: true,
+      collapsed: false,
       items: [
         {type: 'link', href: '/cat/foo', label: 'Foo'},
         {type: 'link', href: '/cat/bar', label: 'Bar'},
@@ -453,8 +462,11 @@ describe('useCurrentSidebarCategory', () => {
   });
 
   it('throws for non-category index page', () => {
-    const category = {
+    const category: PropSidebarItemCategory = {
       type: 'category',
+      label: 'Category',
+      collapsible: true,
+      collapsed: false,
       items: [
         {type: 'link', href: '/cat/foo', label: 'Foo'},
         {type: 'link', href: '/cat/bar', label: 'Bar'},

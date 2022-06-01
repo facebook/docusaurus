@@ -41,9 +41,10 @@ npm run swizzle
 
 It will generate a new component your `src/theme` directory, which should look like this example:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="Ejecting">
+```
 
 ```jsx title="src/theme/SomeComponent.js"
 import React from 'react';
@@ -60,8 +61,10 @@ export default function SomeComponent(props) {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Wrapping">
+```
 
 ```jsx title="src/theme/SomeComponent.js"
 import React from 'react';
@@ -78,9 +81,10 @@ export default function SomeComponentWrapper(props) {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
-````
+```
 
 To get an overview of all the themes and components available to swizzle, run:
 

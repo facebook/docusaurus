@@ -44,11 +44,14 @@ exports[`translateContent falls back when translation is incomplete 1`] = `
   ],
   "blogPosts": [
     {
+      "content": "",
       "id": "hello",
       "metadata": {
+        "authors": [],
         "date": 2021-07-19T00:00:00.000Z,
         "description": "/blog/2021/06/19/hello",
         "formattedDate": "June 19, 2021",
+        "frontMatter": {},
         "permalink": "/blog/2021/06/19/hello",
         "source": "/blog/2021/06/19/hello",
         "tags": [],
@@ -85,11 +88,14 @@ exports[`translateContent returns translated loaded 1`] = `
   ],
   "blogPosts": [
     {
+      "content": "",
       "id": "hello",
       "metadata": {
+        "authors": [],
         "date": 2021-07-19T00:00:00.000Z,
         "description": "/blog/2021/06/19/hello",
         "formattedDate": "June 19, 2021",
+        "frontMatter": {},
         "permalink": "/blog/2021/06/19/hello",
         "source": "/blog/2021/06/19/hello",
         "tags": [],

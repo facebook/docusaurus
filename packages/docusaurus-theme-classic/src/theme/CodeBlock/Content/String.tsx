@@ -52,7 +52,7 @@ export default function CodeBlockString({
     magicComments,
   });
   const showLineNumbers =
-    showLineNumbersProp || containsLineNumbers(metastring);
+    showLineNumbersProp ?? containsLineNumbers(metastring);
 
   return (
     <Container

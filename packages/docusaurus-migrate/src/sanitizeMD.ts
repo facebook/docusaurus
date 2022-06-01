@@ -37,7 +37,7 @@ export default function sanitizeMD(code: string): string {
   const htmlTree = unified().use(parse).parse(markdownString);
 
   visit(htmlTree, 'element', (node: Element) => {
-    if (!tags[node.tagName as string]) {
+    if (!tags[node.tagName]) {
       (node as Element | Text).type = 'text';
       (node as Element & Partial<Omit<Text, 'type'>>).value =
         node.tagName + toText(node);

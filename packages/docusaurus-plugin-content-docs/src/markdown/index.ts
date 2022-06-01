@@ -16,5 +16,5 @@ export default function markdownLoader(
   const fileString = source;
   const callback = this.async();
   const options = this.getOptions();
-  return callback?.(null, linkify(fileString, this.resourcePath, options));
+  return callback(null, linkify(fileString, this.resourcePath, options));
 }

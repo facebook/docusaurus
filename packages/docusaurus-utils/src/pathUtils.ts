@@ -56,7 +56,7 @@ export function shortName(str: string): string {
  * Adopted from https://github.com/sindresorhus/slash/blob/main/index.js
  */
 export function posixPath(str: string): string {
-  const isExtendedLengthPath = /^\\\\\?\\/.test(str);
+  const isExtendedLengthPath = str.startsWith('\\\\?\\');
 
   // Forward slashes are only valid Windows paths when they don't contain non-
   // ascii characters.

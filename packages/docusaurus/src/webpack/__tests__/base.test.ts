@@ -63,7 +63,7 @@ describe('babel transpilation exclude logic', () => {
 });
 
 describe('base webpack config', () => {
-  const props: Props = {
+  const props = {
     outDir: '',
     siteDir: path.resolve(__dirname, '__fixtures__', 'base_test_site'),
     siteConfig: {staticDirectories: ['static']},
@@ -98,7 +98,7 @@ describe('base webpack config', () => {
         },
       },
     ],
-  };
+  } as Props;
 
   afterEach(() => {
     jest.restoreAllMocks();

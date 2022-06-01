@@ -13,6 +13,7 @@ import logger from '@docusaurus/logger';
 import shell from 'shelljs';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
+import {escapeShellArg} from '@docusaurus/utils';
 
 type CLIOptions = {
   packageManager?: PackageManager;
@@ -65,20 +66,22 @@ async function askForPackageManagerChoice(): Promise<PackageManager> {
     .map((p) => ({title: p, value: p}));
 
   return (
-    (await prompts(
-      {
-        type: 'select',
-        name: 'packageManager',
-        message: 'Select a package manager...',
-        choices,
-      },
-      {
-        onCancel() {
-          logger.info`Falling back to name=${defaultPackageManager}`;
+    (
+      (await prompts(
+        {
+          type: 'select',
+          name: 'packageManager',
+          message: 'Select a package manager...',
+          choices,
         },
-      },
-    )) as {packageManager: PackageManager}
-  ).packageManager;
+        {
+          onCancel() {
+            logger.info`Falling back to name=${defaultPackageManager}`;
+          },
+        },
+      )) as {packageManager?: PackageManager}
+    ).packageManager ?? defaultPackageManager
+  );
 }
 
 async function getPackageManager(
@@ -101,8 +104,7 @@ async function getPackageManager(
     (await findPackageManagerFromLockFile('.')) ??
     findPackageManagerFromUserAgent() ??
     // This only happens if the user has a global installation in PATH
-    (skipInstall ? defaultPackageManager : askForPackageManagerChoice()) ??
-    defaultPackageManager
+    (skipInstall ? defaultPackageManager : askForPackageManagerChoice())
   );
 }
 
@@ -215,7 +217,7 @@ async function getGitCommand(gitStrategy: GitStrategy): Promise<string> {
             logger.info`Falling back to code=${'git clone'}`;
           },
         },
-      )) as {command: string};
+      )) as {command?: string};
       return command ?? 'git clone';
     }
     case 'deep':
@@ -362,7 +364,7 @@ async function getSource(
     )) as {gitRepoUrl: string};
     let strategy = cliOptions.gitStrategy;
     if (!strategy) {
-      ({strategy} = await prompts(
+      ({strategy} = (await prompts(
         {
           type: 'select',
           name: 'strategy',
@@ -385,7 +387,7 @@ async function getSource(
             logger.info`Falling back to name=${'deep'}`;
           },
         },
-      ));
+      )) as {strategy?: GitStrategy});
     }
     return {
       type: 'git',
@@ -426,13 +428,13 @@ async function getSource(
   }
   let useTS = cliOptions.typescript;
   if (!useTS && template.tsVariantPath) {
-    ({useTS} = await prompts({
+    ({useTS} = (await prompts({
       type: 'confirm',
       name: 'useTS',
       message:
         'This template is available in TypeScript. Do you want to use the TS variant?',
       initial: false,
-    }));
+    })) as {useTS?: boolean});
   }
   return {
     type: 'template',
@@ -462,9 +464,11 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (source.type === 'git') {
-    logger.info`Cloning Git template url=${source.url}...`;
-    const command = await getGitCommand(source.strategy);
-    if (shell.exec(`${command} ${source.url} ${dest}`).code !== 0) {
+    const gitCommand = await getGitCommand(source.strategy);
+    const gitCloneCommand = `${gitCommand} ${escapeShellArg(
+      source.url,
+    )} ${escapeShellArg(dest)}`;
+    if (shell.exec(gitCloneCommand).code !== 0) {
       logger.error`Cloning Git template failed!`;
       process.exit(1);
     }

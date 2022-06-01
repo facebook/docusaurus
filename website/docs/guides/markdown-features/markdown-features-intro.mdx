@@ -1,10 +1,10 @@
 ---
 id: introduction
-title: Markdown Features
-sidebar_label: Introduction
 description: Docusaurus uses MDX. Find out more about Docusaurus-specific features when writing Markdown.
 slug: /markdown-features
 ---
+
+# Markdown Features
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
@@ -55,6 +55,22 @@ The Markdown syntax `![message](url)` only declaratively tells Docusaurus that a
 In general, you should only assume the _semantics_ of the markup (` ``` ` fences become [code blocks](./markdown-features-code-blocks.mdx); `>` becomes [quotes](#quotes), etc.), but not the actual compiled output.
 
 </details>
+
+## Front matter {#front-matter}
+
+Front matter is used to add metadata to your Markdown file. All content plugins have their own front matter schema, and use the front matter to enrich the default metadata inferred from the content or other configuration.
+
+Front matter is provided at the very top of the file, enclosed by three dashes `---`. The content is parsed as [YAML](https://yaml.org/spec/1.2.2/).
+
+```md
+---
+title: My Doc Title
+more_data:
+  - Can be provided
+  - as: objects
+    or: arrays
+---
+```
 
 ## Quotes {#quotes}
 

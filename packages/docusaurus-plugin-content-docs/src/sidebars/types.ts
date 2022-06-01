@@ -251,7 +251,7 @@ export type SidebarItemsGeneratorArgs = {
 };
 export type SidebarItemsGenerator = (
   generatorArgs: SidebarItemsGeneratorArgs,
-) => Promise<NormalizedSidebar>;
+) => NormalizedSidebar | Promise<NormalizedSidebar>;
 
 export type SidebarItemsGeneratorOption = (
   generatorArgs: {
@@ -262,7 +262,7 @@ export type SidebarItemsGeneratorOption = (
      */
     defaultSidebarItemsGenerator: SidebarItemsGenerator;
   } & SidebarItemsGeneratorArgs,
-) => Promise<NormalizedSidebarItem[]>;
+) => NormalizedSidebar | Promise<NormalizedSidebar>;
 
 export type SidebarProcessorParams = {
   sidebarItemsGenerator: SidebarItemsGeneratorOption;

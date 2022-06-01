@@ -16,7 +16,9 @@ import updateNotifier from 'update-notifier';
 import boxen from 'boxen';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
-const packageJson = createRequire(import.meta.url)('../package.json');
+const packageJson = /** @type {import("../package.json")} */ (
+  createRequire(import.meta.url)('../package.json')
+);
 /** @type {Record<string, any>} */
 let sitePkg;
 try {

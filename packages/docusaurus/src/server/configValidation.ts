@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  DEFAULT_CONFIG_FILE_NAME,
-  DEFAULT_STATIC_DIR_NAME,
-} from '@docusaurus/utils';
+import {DEFAULT_STATIC_DIR_NAME} from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
@@ -100,7 +97,9 @@ function createPluginSchema(theme: boolean) {
 
           error.message = ` => Bad Docusaurus ${
             theme ? 'theme' : 'plugin'
-          } value as path [${error.path}].
+          } value ${error.path.reduce((acc, cur) =>
+            typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+          )}.
 ${validConfigExample}
 `;
         });
@@ -237,7 +236,10 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 });
 
 // TODO move to @docusaurus/utils-validation
-export function validateConfig(config: unknown): DocusaurusConfig {
+export function validateConfig(
+  config: unknown,
+  siteConfigPath: string,
+): DocusaurusConfig {
   const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });
@@ -247,7 +249,9 @@ export function validateConfig(config: unknown): DocusaurusConfig {
   if (error) {
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
-        return `${formattedError}"${err.path}",`;
+        return `${formattedError}"${err.path.reduce((acc, cur) =>
+          typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+        )}",`;
       }
       return formattedError;
     }, '');
@@ -259,7 +263,7 @@ export function validateConfig(config: unknown): DocusaurusConfig {
       '',
     );
     formattedError = unknownFields
-      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
+      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
   } else {

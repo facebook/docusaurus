@@ -65,9 +65,7 @@ function BlogPostPageContent(props: Props): JSX.Element {
     <BlogLayout
       sidebar={sidebar}
       toc={
-        !hideTableOfContents &&
-        BlogPostContents.toc &&
-        BlogPostContents.toc.length > 0 ? (
+        !hideTableOfContents && BlogPostContents.toc.length > 0 ? (
           <TOC
             toc={BlogPostContents.toc}
             minHeadingLevel={tocMinHeadingLevel}

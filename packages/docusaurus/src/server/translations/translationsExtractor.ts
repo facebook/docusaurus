@@ -160,7 +160,7 @@ export async function extractSourceCodeFileTranslations(
       filename: sourceCodeFilePath,
     }) as Node;
 
-    const translations = await extractSourceCodeAstTranslations(
+    const translations = extractSourceCodeAstTranslations(
       ast,
       sourceCodeFilePath,
     );
@@ -184,7 +184,7 @@ function extractSourceCodeAstTranslations(
   sourceCodeFilePath: string,
 ): SourceCodeFileTranslations {
   function sourceWarningPart(node: Node) {
-    return `File: ${sourceCodeFilePath} at line ${node.loc?.start.line}
+    return `File: ${sourceCodeFilePath} at line ${node.loc?.start.line ?? '?'}
 Full code: ${generate(node).code}`;
   }
 
@@ -243,9 +243,7 @@ Full code: ${generate(node).code}`;
             .find(
               (attr) =>
                 attr.isJSXAttribute() &&
-                (attr as NodePath<t.JSXAttribute>)
-                  .get('name')
-                  .isJSXIdentifier({name: propName}),
+                attr.get('name').isJSXIdentifier({name: propName}),
             );
 
           if (attributePath) {
@@ -315,7 +313,9 @@ ${sourceWarningPart(path.node)}`);
         if (isJSXText || isJSXExpressionContainer) {
           message = isJSXText
             ? singleChildren.node.value.trim().replace(/\s+/g, ' ')
-            : (singleChildren.get('expression') as NodePath).evaluate().value;
+            : String(
+                (singleChildren.get('expression') as NodePath).evaluate().value,
+              );
 
           translations[id ?? message] = {
             message,

@@ -23,14 +23,12 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 // TODO, quick fix for CSS insertion order
 // eslint-disable-next-line import/order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
-// eslint-disable-next-line import/order
-import Error from '@theme/Error';
 
 export default function App(): JSX.Element {
   const routeElement = renderRoutes(routes);
   const location = useLocation();
   return (
-    <ErrorBoundary fallback={Error}>
+    <ErrorBoundary>
       <DocusaurusContextProvider>
         <BrowserContextProvider>
           <Root>

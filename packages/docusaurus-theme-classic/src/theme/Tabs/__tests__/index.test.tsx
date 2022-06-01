@@ -117,9 +117,12 @@ describe('Tabs', () => {
         <ScrollControllerProvider>
           <TabGroupChoiceProvider>
             <Tabs
+              // @ts-expect-error: for an edge-case that we didn't write types for
               values={tabs.map((t, idx) => ({label: t, value: idx}))}
+              // @ts-expect-error: for an edge-case that we didn't write types for
               defaultValue={0}>
               {tabs.map((t, idx) => (
+                // @ts-expect-error: for an edge-case that we didn't write types for
                 <TabItem key={idx} value={idx}>
                   {t}
                 </TabItem>

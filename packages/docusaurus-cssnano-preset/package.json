@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/cssnano-preset",
-  "version": "2.0.0-beta.20",
+  "version": "2.0.0-beta.21",
   "description": "Advanced cssnano preset for maximum optimization.",
   "main": "lib/index.js",
   "license": "MIT",
@@ -24,5 +24,8 @@
   },
   "devDependencies": {
     "to-vfile": "^6.1.0"
+  },
+  "engines": {
+    "node": ">=16.14"
   }
 }
