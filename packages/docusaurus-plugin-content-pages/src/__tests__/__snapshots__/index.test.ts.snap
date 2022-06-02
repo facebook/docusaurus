@@ -55,19 +55,19 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
 exports[`docusaurus-plugin-content-pages loads simple pages with french translations 1`] = `
 [
   {
-    "permalink": "/",
+    "permalink": "/fr/",
     "source": "@site/src/pages/index.js",
     "type": "jsx",
   },
   {
-    "permalink": "/typescript",
+    "permalink": "/fr/typescript",
     "source": "@site/src/pages/typescript.tsx",
     "type": "jsx",
   },
   {
     "description": "Markdown index page",
     "frontMatter": {},
-    "permalink": "/hello/",
+    "permalink": "/fr/hello/",
     "source": "@site/src/pages/hello/index.md",
     "title": "Index",
     "type": "mdx",
@@ -78,26 +78,26 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
       "description": "my mdx page",
       "title": "mdx page",
     },
-    "permalink": "/hello/mdxPage",
+    "permalink": "/fr/hello/mdxPage",
     "source": "@site/src/pages/hello/mdxPage.mdx",
     "title": "mdx page",
     "type": "mdx",
   },
   {
-    "permalink": "/hello/translatedJs",
+    "permalink": "/fr/hello/translatedJs",
     "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedJs.js",
     "type": "jsx",
   },
   {
     "description": "translated markdown page (fr)",
     "frontMatter": {},
-    "permalink": "/hello/translatedMd",
+    "permalink": "/fr/hello/translatedMd",
     "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedMd.md",
     "title": undefined,
     "type": "mdx",
   },
   {
-    "permalink": "/hello/world",
+    "permalink": "/fr/hello/world",
     "source": "@site/src/pages/hello/world.js",
     "type": "jsx",
   },

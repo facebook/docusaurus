@@ -65,34 +65,33 @@ describe('getPluginI18nPath', () => {
   it('gets correct path', () => {
     expect(
       getPluginI18nPath({
-        siteDir: __dirname,
-        locale: 'zh-Hans',
+        localizationDir: '<SITE_DIR>/i18n/zh-Hans',
         pluginName: 'plugin-content-docs',
         pluginId: 'community',
         subPaths: ['foo'],
       }),
     ).toMatchInlineSnapshot(
-      `"<PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/i18n/zh-Hans/plugin-content-docs-community/foo"`,
+      `"<SITE_DIR>/i18n/zh-Hans/plugin-content-docs-community/foo"`,
     );
   });
   it('gets correct path for default plugin', () => {
     expect(
       getPluginI18nPath({
-        siteDir: __dirname,
-        locale: 'zh-Hans',
+        localizationDir: '<SITE_DIR>/i18n/zh-Hans',
         pluginName: 'plugin-content-docs',
         subPaths: ['foo'],
-      }).replace(__dirname, ''),
-    ).toMatchInlineSnapshot(`"/i18n/zh-Hans/plugin-content-docs/foo"`);
+      }),
+    ).toMatchInlineSnapshot(
+      `"<SITE_DIR>/i18n/zh-Hans/plugin-content-docs/foo"`,
+    );
   });
   it('gets correct path when no sub-paths', () => {
     expect(
       getPluginI18nPath({
-        siteDir: __dirname,
-        locale: 'zh-Hans',
+        localizationDir: '<SITE_DIR>/i18n/zh-Hans',
         pluginName: 'plugin-content-docs',
-      }).replace(__dirname, ''),
-    ).toMatchInlineSnapshot(`"/i18n/zh-Hans/plugin-content-docs"`);
+      }),
+    ).toMatchInlineSnapshot(`"<SITE_DIR>/i18n/zh-Hans/plugin-content-docs"`);
   });
 });
 
@@ -104,6 +103,7 @@ describe('localizePath', () => {
         path: '/baseUrl',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'fr',
           localeConfigs: {},
@@ -120,6 +120,7 @@ describe('localizePath', () => {
         path: '/baseFsPath',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'fr',
           localeConfigs: {},
@@ -136,6 +137,7 @@ describe('localizePath', () => {
         path: '/baseUrl/',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'en',
           localeConfigs: {},
@@ -152,6 +154,7 @@ describe('localizePath', () => {
         path: '/baseUrl/',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'en',
           localeConfigs: {},
@@ -167,6 +170,7 @@ describe('localizePath', () => {
         path: '/baseUrl/',
         i18n: {
           defaultLocale: 'en',
+          path: 'i18n',
           locales: ['en', 'fr'],
           currentLocale: 'en',
           localeConfigs: {},

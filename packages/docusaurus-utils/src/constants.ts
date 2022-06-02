@@ -75,7 +75,7 @@ export const THEME_PATH = `${SRC_DIR_NAME}/theme`;
  * All translation-related data live here, relative to site directory. Content
  * will be namespaced by locale.
  */
-export const I18N_DIR_NAME = 'i18n';
+export const DEFAULT_I18N_DIR_NAME = 'i18n';
 
 /**
  * Translations for React code.

@@ -70,6 +70,11 @@ export type I18nConfig = {
    * 3. Will be used for the `<link hrefLang="x-default">` tag
    */
   defaultLocale: string;
+  /**
+   * Root folder which all locale folders are relative to. Can be absolute or
+   * relative to the config file. e.g. `i18n`
+   */
+  path: string;
   /** List of locales deployed on your site. Must contain `defaultLocale`. */
   locales: [string, ...string[]];
   /** Individual options for each locale. */
@@ -416,6 +421,12 @@ export type LoadContext = {
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
   outDir: string;
+  /**
+   * Directory where all source translations for the current locale can be found
+   * in. Constructed with `i18n.path` + `i18n.currentLocale.path` (e.g.
+   * `<siteDir>/i18n/en`)
+   */
+  localizationDir: string;
   /**
    * Duplicated from `siteConfig.baseUrl`, but probably worth keeping. We mutate
    * `siteConfig` to make `baseUrl` there localized as well, but that's mostly
