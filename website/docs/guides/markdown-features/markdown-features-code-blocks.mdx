@@ -569,6 +569,42 @@ function MyPlayground(props) {
 </BrowserWindow>
 ```
 
+### Imperative Rendering (noInline)
+
+The `noInline` option should be used to avoid errors when your code spans multiple components or variables.
+
+````md
+```jsx live noInline
+const project = 'Docusaurus';
+
+const Greeting = () => <p>Hello {project}!</p>;
+
+render(<Greeting />);
+```
+````
+
+Unlike an ordinary interactive code block, when using `noInline` React Live won't wrap your code in an inline function to render it.
+
+You will need to explicitly call `render()` at the end of your code to display the output.
+
+````mdx-code-block
+<BrowserWindow>
+
+```jsx live noInline
+const project = "Docusaurus";
+
+const Greeting = () => (
+  <p>Hello {project}!</p>
+);
+
+render(
+  <Greeting />
+);
+```
+
+</BrowserWindow>
+````
+
 ## Using JSX markup in code blocks {#using-jsx-markup}
 
 Code block in Markdown always preserves its content as plain text, meaning you can't do something like:
