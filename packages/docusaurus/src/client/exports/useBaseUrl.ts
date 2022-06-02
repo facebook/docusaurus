@@ -10,7 +10,7 @@ import {hasProtocol} from './isInternalUrl';
 import type {BaseUrlOptions, BaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 function addBaseUrl(
-  siteUrl: string | undefined,
+  siteUrl: string,
   baseUrl: string,
   url: string,
   {forcePrependBaseUrl = false, absolute = false}: BaseUrlOptions = {},

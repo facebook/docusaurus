@@ -21,7 +21,7 @@ function ColumnLinkItem({item}: {item: ColumnItemType}) {
       dangerouslySetInnerHTML={{__html: item.html}}
     />
   ) : (
-    <li key={item.href || item.to} className="footer__item">
+    <li key={item.href ?? item.to} className="footer__item">
       <LinkItem item={item} />
     </li>
   );

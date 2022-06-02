@@ -8,8 +8,8 @@
 function supports(feature: string) {
   try {
     const fakeLink = document.createElement('link');
-    return fakeLink.relList?.supports?.(feature);
-  } catch (err) {
+    return fakeLink.relList.supports(feature);
+  } catch {
     return false;
   }
 }

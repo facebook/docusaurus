@@ -356,6 +356,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'i18n'],
   },
   {
+    title: 'Charles Ancheta',
+    description: "Charles Ancheta's Blog and Portfolio Website",
+    preview: require('./showcase/charles-ancheta.png'),
+    website: 'https://charlesancheta.com',
+    source: 'https://github.com/cbebe/my-website',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'ChatKitty',
     description: 'A full suite of developer tools for any chat use-case.',
     preview: require('./showcase/chatkitty.png'),
@@ -887,6 +895,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'I am Massoud',
+    description: 'The portfolio of Massoud Maboudi, Full Stack Developer',
+    preview: require('./showcase/iammassoud.png'),
+    website: 'https://iammassoud.ir/',
+    source: null,
+    tags: ['personal', 'rtl'],
+  },
+  {
     title: 'icodex',
     description: 'Front end engineer personal website',
     preview: require('./showcase/icodex.png'),
@@ -976,6 +992,14 @@ const Users: User[] = [
     preview: require('./showcase/joelpo.png'),
     website: 'https://joelpo.github.io',
     source: 'https://github.com/Joelpo/joelpo.github.io',
+    tags: ['personal', 'opensource'],
+  },
+  {
+    title: 'Junjie',
+    description: 'A personal website',
+    preview: require('./showcase/junjie.png'),
+    website: 'https://junjieweb.github.io',
+    source: 'https://github.com/junjieweb/junjieweb.github.io',
     tags: ['personal', 'opensource'],
   },
   {

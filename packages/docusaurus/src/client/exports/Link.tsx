@@ -47,10 +47,7 @@ function Link(
   const linksCollector = useLinksCollector();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
 
-  useImperativeHandle(
-    forwardedRef,
-    () => innerRef.current as HTMLAnchorElement,
-  );
+  useImperativeHandle(forwardedRef, () => innerRef.current!);
 
   // IMPORTANT: using to or href should not change anything
   // For example, MDX links will ALWAYS give us the href props

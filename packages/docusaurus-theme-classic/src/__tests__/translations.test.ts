@@ -9,7 +9,7 @@ import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {getTranslationFiles, translateThemeConfig} from '../translations';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 
-const ThemeConfigSample: ThemeConfig = {
+const ThemeConfigSample = {
   colorMode: {},
   announcementBar: {},
   prism: {},
@@ -47,7 +47,7 @@ const ThemeConfigSample: ThemeConfig = {
       },
     ],
   },
-};
+} as unknown as ThemeConfig;
 
 const ThemeConfigSampleSimpleFooter: ThemeConfig = {
   ...ThemeConfigSample,

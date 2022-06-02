@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
+import type {LoadedPlugin} from '@docusaurus/types';
 
 describe('getPluginVersion', () => {
   it('detects external packages plugins versions', async () => {
@@ -51,11 +52,11 @@ describe('loadSiteMetadata', () => {
               name: '@docusaurus/plugin-content-docs',
             },
           },
-        ],
+        ] as LoadedPlugin[],
         siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
       }),
     ).resolves.toMatchSnapshot();
-    expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(`
+    expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(`
       "[ERROR] Invalid docusaurus-plugin-content-docs version 1.0.0.
       All official @docusaurus/* packages should have the exact same version as @docusaurus/core (<CURRENT_VERSION>).
       Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?"

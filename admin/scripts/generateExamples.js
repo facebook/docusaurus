@@ -44,9 +44,10 @@ async function generateTemplateExample(template) {
       `npm init docusaurus@latest examples/${template} ${command}`,
     );
 
-    const templatePackageJson = await fs.readJSON(
-      `examples/${template}/package.json`,
-    );
+    const templatePackageJson =
+      await /** @type {Promise<import("../../packages/create-docusaurus/templates/classic/package.json") & { scripts: { [name: string]: string }; description: string }>} */ (
+        fs.readJSON(`examples/${template}/package.json`)
+      );
 
     // Attach the dev script which would be used in code sandbox by default
     templatePackageJson.scripts.dev = 'docusaurus start';

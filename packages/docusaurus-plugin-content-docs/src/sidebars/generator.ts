@@ -46,7 +46,7 @@ type Dir = {
 };
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
-export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
+export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
   numberPrefixParser,
   isCategoryIndex,
   docs: allDocs,

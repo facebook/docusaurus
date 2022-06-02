@@ -55,8 +55,7 @@ function DocItemContent(props: Props): JSX.Element {
 
   const windowSize = useWindowSize();
 
-  const canRenderTOC =
-    !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
+  const canRenderTOC = !hideTableOfContents && DocContent.toc.length > 0;
 
   const renderTocDesktop =
     canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');

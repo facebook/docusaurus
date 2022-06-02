@@ -1,8 +1,8 @@
 ---
-id: migration-translated-sites
-title: Translated sites
 slug: /migration/translated-sites
 ---
+
+# Translated sites
 
 This page explains how migrate a translated Docusaurus v1 site to Docusaurus v2.
 

@@ -22,8 +22,10 @@ describe('theme translations', () => {
       .then((files) =>
         Promise.all(
           files.map(
-            (baseMessagesFile): Promise<{[key: string]: string}> =>
-              fs.readJSON(path.join(baseMessagesDirPath, baseMessagesFile)),
+            (baseMessagesFile) =>
+              fs.readJSON(
+                path.join(baseMessagesDirPath, baseMessagesFile),
+              ) as Promise<{[key: string]: string}>,
           ),
         ),
       )

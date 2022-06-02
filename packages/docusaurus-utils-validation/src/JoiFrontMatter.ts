@@ -28,4 +28,4 @@ const JoiFrontMatterString: Joi.Extension = {
  * @see https://github.com/facebook/docusaurus/issues/4642
  * @see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
  */
-export const JoiFrontMatter: typeof Joi = Joi.extend(JoiFrontMatterString);
+export const JoiFrontMatter = Joi.extend(JoiFrontMatterString) as typeof Joi;

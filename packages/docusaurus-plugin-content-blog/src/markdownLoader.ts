@@ -34,5 +34,5 @@ export default function markdownLoader(
     finalContent = truncate(finalContent, markdownLoaderOptions.truncateMarker);
   }
 
-  return callback?.(null, finalContent);
+  return callback(null, finalContent);
 }

@@ -165,7 +165,7 @@ export function validateOptions({
     }
   }
 
-  const normalizedOptions = validate(OptionsSchema, options) as PluginOptions;
+  const normalizedOptions = validate(OptionsSchema, options);
 
   if (normalizedOptions.admonitions) {
     normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([

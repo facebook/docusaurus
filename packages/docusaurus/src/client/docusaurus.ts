@@ -19,7 +19,7 @@ declare global {
   // eslint-disable-next-line camelcase, no-underscore-dangle
   const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
-    connection: {effectiveType: string; saveData: boolean};
+    connection?: {effectiveType: string; saveData: boolean};
   }
 }
 
@@ -70,7 +70,7 @@ const docusaurus = {
         // In some cases, webpack might decide to optimize further, leading to
         // the chunk assets being merged to another chunk. In this case, we can
         // safely filter it out and don't need to load it.
-        if (chunkAsset && !/undefined/.test(chunkAsset)) {
+        if (chunkAsset && !chunkAsset.includes('undefined')) {
           return prefetchHelper(chunkAsset);
         }
         return Promise.resolve();

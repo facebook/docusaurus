@@ -185,13 +185,11 @@ export function applyConfigureWebpack(
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} =
       configureWebpack(config, isServer, utils, content) ?? {};
-    if (res && typeof res === 'object') {
-      const customizeRules = mergeStrategy ?? {};
-      return mergeWithCustomize({
-        customizeArray: customizeArray(customizeRules),
-        customizeObject: customizeObject(customizeRules),
-      })(config, res);
-    }
+    const customizeRules = mergeStrategy ?? {};
+    return mergeWithCustomize({
+      customizeArray: customizeArray(customizeRules),
+      customizeObject: customizeObject(customizeRules),
+    })(config, res);
   }
   return config;
 }
@@ -200,7 +198,7 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<Plugin['configurePostCss']>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = unknown & {
+  type LocalPostCSSLoader = object & {
     options: {postcssOptions: PostCssOptions};
   };
 
@@ -243,7 +241,7 @@ export function compile(config: Configuration[]): Promise<void> {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        logger.error(err.stack || err);
+        logger.error(err.stack ?? err);
         if (err.details) {
           logger.error(err.details);
         }

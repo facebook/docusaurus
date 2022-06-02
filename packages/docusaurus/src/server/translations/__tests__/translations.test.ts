@@ -20,6 +20,7 @@ import {
 } from '../translations';
 import type {
   InitializedPlugin,
+  LoadedPlugin,
   TranslationFile,
   TranslationFileContent,
 } from '@docusaurus/types';
@@ -44,9 +45,7 @@ async function createTmpTranslationFile(
 
   return {
     siteDir,
-    readFile() {
-      return fs.readJSON(filePath);
-    },
+    readFile: () => fs.readJSON(filePath),
   };
 }
 
@@ -291,13 +290,12 @@ describe('writePluginTranslations', () => {
           key3: {message: 'key3 message'},
         },
       },
-      // @ts-expect-error: enough for this test
       plugin: {
         name: 'my-plugin-name',
         options: {
-          id: undefined,
+          id: 'default',
         },
-      },
+      } as LoadedPlugin,
     });
 
     await expect(fs.readJSON(filePath)).resolves.toEqual({
@@ -399,7 +397,7 @@ describe('writePluginTranslations', () => {
           options: {
             id: 'my-plugin-id',
           },
-        },
+        } as LoadedPlugin,
 
         options: {},
       }),
@@ -426,11 +424,10 @@ describe('localizePluginTranslationFile', () => {
       siteDir,
       locale: 'fr',
       translationFile,
-      // @ts-expect-error: enough for this test
       plugin: {
         name: 'my-plugin-name',
         options: {},
-      },
+      } as LoadedPlugin,
     });
 
     expect(localizedTranslationFile).toEqual(translationFile);
@@ -466,11 +463,10 @@ describe('localizePluginTranslationFile', () => {
       siteDir,
       locale: 'fr',
       translationFile,
-      // @ts-expect-error: enough for this test
       plugin: {
         name: 'my-plugin-name',
         options: {},
-      },
+      } as LoadedPlugin,
     });
 
     expect(localizedTranslationFile).toEqual({
@@ -521,25 +517,30 @@ describe('readCodeTranslationFileContent', () => {
 
   it('fails for invalid translation file content', async () => {
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation('HEY'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `""value" must be of type object"`,
     );
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation(42),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `""value" must be of type object"`,
     );
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation({key: {description: 'no message'}}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`""key.message" is required"`);
     await expect(() =>
+      // @ts-expect-error: test
       testReadTranslation({key: {message: 42}}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `""key.message" must be a string"`,
     );
     await expect(() =>
       testReadTranslation({
+        // @ts-expect-error: test
         key: {message: 'Message', description: 42},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
@@ -694,7 +695,7 @@ describe('applyDefaultCodeTranslations', () => {
       },
     });
     expect(consoleWarnMock).toHaveBeenCalledTimes(1);
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(/unknownId/);
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(/unknownId/);
   });
 
   it('works for realistic scenario', () => {
@@ -736,7 +737,7 @@ describe('applyDefaultCodeTranslations', () => {
       },
     });
     expect(consoleWarnMock).toHaveBeenCalledTimes(1);
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(/idUnknown1/);
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(/idUnknown2/);
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(/idUnknown1/);
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(/idUnknown2/);
   });
 });

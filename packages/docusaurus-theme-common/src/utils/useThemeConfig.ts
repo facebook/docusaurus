@@ -85,10 +85,10 @@ export type FooterBase = {
 };
 
 export type MultiColumnFooter = FooterBase & {
-  links: Array<{
+  links: {
     title: string | null;
     items: FooterLinkItem[];
-  }>;
+  }[];
 };
 
 export type SimpleFooter = FooterBase & {
@@ -123,7 +123,7 @@ export type ThemeConfig = {
   prism: PrismConfig;
   footer?: Footer;
   image?: string;
-  metadata: Array<{[key: string]: string}>;
+  metadata: {[key: string]: string}[];
   tableOfContents: TableOfContents;
 };
 

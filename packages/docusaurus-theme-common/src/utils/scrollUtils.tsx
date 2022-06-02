@@ -112,11 +112,7 @@ export function useScrollPosition(
         return;
       }
       const currentPosition = getScrollPosition()!;
-
-      if (dynamicEffect) {
-        dynamicEffect(currentPosition, lastPositionRef.current);
-      }
-
+      dynamicEffect(currentPosition, lastPositionRef.current);
       lastPositionRef.current = currentPosition;
     };
 

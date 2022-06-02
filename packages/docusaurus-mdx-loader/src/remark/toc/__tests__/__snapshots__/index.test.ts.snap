@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`toc remark plugin does not overwrite TOC var if no TOC 1`] = `
+"foo
+
+\`bar\`
+
+\`\`\`js
+baz
+\`\`\`
+
+export const toc = 1;
+"
+`;
+
 exports[`toc remark plugin escapes inline code 1`] = `
 "export const toc = [
 	{
@@ -116,6 +129,19 @@ export const toc = [
 ### Again
 
 Content.
+"
+`;
+
+exports[`toc remark plugin outputs empty array for no TOC 1`] = `
+"export const toc = [];
+
+foo
+
+\`bar\`
+
+\`\`\`js
+baz
+\`\`\`
 "
 `;
 

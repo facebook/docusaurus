@@ -83,5 +83,5 @@ export function loadHtmlTags(
           .trim(),
       ),
     ),
-  );
+  ) as Pick<Props, 'headTags' | 'preBodyTags' | 'postBodyTags'>;
 }

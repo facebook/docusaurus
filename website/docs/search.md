@@ -1,10 +1,10 @@
 ---
-id: search
-title: Search
 keywords:
   - algolia
   - search
 ---
+
+# Search
 
 There are a few options you can use to add search to your website:
 

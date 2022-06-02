@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
-import {Globby} from '@docusaurus/utils';
+import {Globby, DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import importFresh from 'import-fresh';
 import Color from 'color';
 
@@ -22,9 +22,6 @@ import type {
   VersionOneConfig,
   VersionTwoConfig,
 } from './types';
-
-const DOCUSAURUS_VERSION = (importFresh('../package.json') as {version: string})
-  .version;
 
 async function walk(dir: string): Promise<string[]> {
   const results: string[] = [];
@@ -82,7 +79,8 @@ export async function migrateDocusaurusProject(
   shouldMigratePages: boolean = false,
 ): Promise<void> {
   async function createMigrationContext(): Promise<MigrationContext> {
-    const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
+    const v1Config = (await import(`${siteDir}/siteConfig`))
+      .default as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
     const deps = {
       '@docusaurus/core': DOCUSAURUS_VERSION,
@@ -444,9 +442,9 @@ async function migrateBlogFiles(context: MigrationContext) {
 async function handleVersioning(context: MigrationContext) {
   const {siteDir, newDir} = context;
   if (await fs.pathExists(path.join(siteDir, 'versions.json'))) {
-    const loadedVersions: string[] = await fs.readJSON(
+    const loadedVersions = (await fs.readJSON(
       path.join(siteDir, 'versions.json'),
-    );
+    )) as string[];
     await fs.copyFile(
       path.join(siteDir, 'versions.json'),
       path.join(newDir, 'versions.json'),
@@ -474,7 +472,7 @@ async function migrateVersionedDocs(
     versions.reverse().map(async (version, index) => {
       if (index === 0) {
         await fs.copy(
-          path.join(siteDir, '..', context.v1Config.customDocsPath || 'docs'),
+          path.join(siteDir, '..', context.v1Config.customDocsPath ?? 'docs'),
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
         await fs.copy(
@@ -488,7 +486,11 @@ async function migrateVersionedDocs(
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
         await fs.copy(
-          path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+          path.join(
+            newDir,
+            'versioned_docs',
+            `version-${versions[index - 1]!}`,
+          ),
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
         await fs.copy(
@@ -497,7 +499,11 @@ async function migrateVersionedDocs(
         );
       } catch {
         await fs.copy(
-          path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+          path.join(
+            newDir,
+            'versioned_docs',
+            `version-${versions[index - 1]!}`,
+          ),
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
       }
@@ -543,7 +549,7 @@ async function migrateVersionedSidebar(
         `version-${version}-sidebars.json`,
       );
       try {
-        sidebarEntries = await fs.readJSON(sidebarPath);
+        sidebarEntries = (await fs.readJSON(sidebarPath)) as SidebarEntries;
       } catch {
         sidebars.push({version, entries: sidebars[i - 1]!.entries});
         return;
@@ -551,7 +557,9 @@ async function migrateVersionedSidebar(
       const newSidebar = Object.entries(sidebarEntries).reduce(
         (topLevel: SidebarEntries, value) => {
           const key = value[0].replace(versionRegex, '');
-          topLevel[key] = Object.entries(value[1]).reduce((acc, val) => {
+          topLevel[key] = Object.entries(value[1]).reduce<{
+            [key: string]: (string | {[key: string]: unknown})[];
+          }>((acc, val) => {
             acc[val[0].replace(versionRegex, '')] = (
               val[1] as SidebarEntry[]
             ).map((item) => {
@@ -565,7 +573,7 @@ async function migrateVersionedSidebar(
               };
             });
             return acc;
-          }, {} as {[key: string]: Array<string | {[key: string]: unknown}>});
+          }, {});
           return topLevel;
         },
         {},
@@ -574,33 +582,32 @@ async function migrateVersionedSidebar(
     }
     await Promise.all(
       sidebars.map(async (sidebar) => {
-        const newSidebar = Object.entries(sidebar.entries).reduce(
-          (acc, val) => {
-            const key = `version-${sidebar.version}/${val[0]}`;
-            acc[key] = Object.entries(val[1]).map((value) => ({
-              type: 'category',
-              label: value[0],
-              items: (value[1] as SidebarEntry[]).map((sidebarItem) => {
-                if (typeof sidebarItem === 'string') {
-                  return {
-                    type: 'doc',
-                    id: `version-${sidebar.version}/${sidebarItem}`,
-                  };
-                }
+        const newSidebar = Object.entries(
+          sidebar.entries,
+        ).reduce<SidebarEntries>((acc, val) => {
+          const key = `version-${sidebar.version}/${val[0]}`;
+          acc[key] = Object.entries(val[1]).map((value) => ({
+            type: 'category',
+            label: value[0],
+            items: (value[1] as SidebarEntry[]).map((sidebarItem) => {
+              if (typeof sidebarItem === 'string') {
                 return {
-                  type: 'category',
-                  label: sidebarItem.label,
-                  items: sidebarItem.ids.map((id) => ({
-                    type: 'doc',
-                    id: `version-${sidebar.version}/${id}`,
-                  })),
+                  type: 'doc',
+                  id: `version-${sidebar.version}/${sidebarItem}`,
                 };
-              }),
-            }));
-            return acc;
-          },
-          {} as SidebarEntries,
-        );
+              }
+              return {
+                type: 'category',
+                label: sidebarItem.label,
+                items: sidebarItem.ids.map((id) => ({
+                  type: 'doc',
+                  id: `version-${sidebar.version}/${id}`,
+                })),
+              };
+            }),
+          }));
+          return acc;
+        }, {});
         await fs.outputFile(
           path.join(
             newDir,
@@ -702,12 +709,12 @@ async function migrateLatestDocs(context: MigrationContext) {
 
 async function migratePackageFile(context: MigrationContext): Promise<void> {
   const {deps, siteDir, newDir} = context;
-  const packageFile = importFresh(`${siteDir}/package.json`) as {
+  const packageFile = importFresh<{
     scripts?: {[key: string]: string};
     dependencies?: {[key: string]: string};
     devDependencies?: {[key: string]: string};
     [otherKey: string]: unknown;
-  };
+  }>(`${siteDir}/package.json`);
   packageFile.scripts = {
     ...packageFile.scripts,
     start: 'docusaurus start',

@@ -27,7 +27,8 @@ const plugin = stylelint.createPlugin(
         },
         {
           actual: secondaryOption,
-          possible: (v) => typeof (v as SecondaryOption)?.header === 'string',
+          possible: (v) =>
+            typeof (v as SecondaryOption | undefined)?.header === 'string',
         },
       );
 
@@ -42,7 +43,7 @@ const plugin = stylelint.createPlugin(
         }
       }
       if (context.fix) {
-        root.first?.before(`/*${secondaryOption.header}\n */`);
+        root.first?.before(`/*${secondaryOption.header!}\n */`);
         return;
       }
 

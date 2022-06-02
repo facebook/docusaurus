@@ -9,10 +9,10 @@ import chalk from 'chalk';
 
 type InterpolatableValue = string | number | (string | number)[];
 
-const path = (msg: unknown): string => chalk.cyan.underline(`"${msg}"`);
+const path = (msg: unknown): string => chalk.cyan.underline(`"${String(msg)}"`);
 const url = (msg: unknown): string => chalk.cyan.underline(msg);
 const name = (msg: unknown): string => chalk.blue.bold(msg);
-const code = (msg: unknown): string => chalk.cyan(`\`${msg}\``);
+const code = (msg: unknown): string => chalk.cyan(`\`${String(msg)}\``);
 const subdue = (msg: unknown): string => chalk.gray(msg);
 const num = (msg: unknown): string => chalk.yellow(msg);
 
@@ -128,11 +128,11 @@ function newLine(): void {
 }
 
 const logger = {
-  red: chalk.red,
-  yellow: chalk.yellow,
-  green: chalk.green,
-  bold: chalk.bold,
-  dim: chalk.dim,
+  red: (msg: string | number): string => chalk.red(msg),
+  yellow: (msg: string | number): string => chalk.yellow(msg),
+  green: (msg: string | number): string => chalk.green(msg),
+  bold: (msg: string | number): string => chalk.bold(msg),
+  dim: (msg: string | number): string => chalk.dim(msg),
   path,
   url,
   name,

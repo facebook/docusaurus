@@ -1,9 +1,9 @@
 ---
-id: migration-manual
-title: Manual migration
 slug: /migration/manual
 toc_max_heading_level: 4
 ---
+
+# Manual migration
 
 This manual migration process should be run after the [automated migration process](./migration-automated.md), to complete the missing parts, or debug issues in the migration CLI output.
 

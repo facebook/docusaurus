@@ -176,10 +176,6 @@ export default async function pluginContentBlog(
     },
 
     async contentLoaded({content: blogContents, actions}) {
-      if (!blogContents) {
-        return;
-      }
-
       const {
         blogListComponent,
         blogPostComponent,
@@ -500,11 +496,7 @@ export default async function pluginContentBlog(
     },
 
     injectHtmlTags({content}) {
-      if (!content.blogPosts.length) {
-        return {};
-      }
-
-      if (!options.feedOptions?.type) {
+      if (!content.blogPosts.length || !options.feedOptions.type) {
         return {};
       }
 

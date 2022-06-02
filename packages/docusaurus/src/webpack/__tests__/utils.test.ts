@@ -60,7 +60,8 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    const configureWebpack: Plugin['configureWebpack'] = (
+    // @ts-expect-error: Testing an edge-case that we did not write types for
+    const configureWebpack: NonNullable<Plugin['configureWebpack']> = (
       generatedConfig,
       isServer,
     ) => {
@@ -125,14 +126,16 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    const createConfigureWebpack: (mergeStrategy?: {
-      [key: string]: 'prepend' | 'append';
-    }) => Plugin['configureWebpack'] = (mergeStrategy) => () => ({
-      module: {
-        rules: [{use: 'zzz'}],
-      },
-      mergeStrategy,
-    });
+    const createConfigureWebpack =
+      (mergeStrategy?: {
+        [key: string]: 'prepend' | 'append';
+      }): NonNullable<Plugin['configureWebpack']> =>
+      () => ({
+        module: {
+          rules: [{use: 'zzz'}],
+        },
+        mergeStrategy,
+      });
 
     const defaultStrategyMergeConfig = applyConfigureWebpack(
       createConfigureWebpack(),
@@ -269,7 +272,7 @@ describe('extending PostCSS', () => {
     expect(postCssLoader1.loader).toBe('postcss-loader-1');
 
     const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
-      (p: unknown) => p[0],
+      (p: unknown[]) => p[0],
     );
     expect(pluginNames1).toHaveLength(4);
     expect(pluginNames1).toEqual([
@@ -284,7 +287,7 @@ describe('extending PostCSS', () => {
     expect(postCssLoader2.loader).toBe('postcss-loader-2');
 
     const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
-      (p: unknown) => p[0],
+      (p: unknown[]) => p[0],
     );
     expect(pluginNames2).toHaveLength(4);
     expect(pluginNames2).toEqual([

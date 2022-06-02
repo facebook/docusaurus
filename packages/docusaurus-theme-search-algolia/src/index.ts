@@ -60,7 +60,7 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
       });
     },
 
-    async contentLoaded({actions: {addRoute}}) {
+    contentLoaded({actions: {addRoute}}) {
       if (searchPagePath) {
         addRoute({
           path: normalizeUrl([baseUrl, searchPagePath]),

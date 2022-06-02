@@ -68,8 +68,8 @@ const APITableRowComp = React.forwardRef(APITableRow);
  */
 export default function APITable({children, name}: Props): JSX.Element {
   const [thead, tbody] = React.Children.toArray(children.props.children) as [
-    ReactElement,
-    ReactElement,
+    ReactElement<{children: ReactElement[]}>,
+    ReactElement<{children: ReactElement[]}>,
   ];
   const highlightedRow = useRef<HTMLTableRowElement>(null);
   useEffect(() => {
