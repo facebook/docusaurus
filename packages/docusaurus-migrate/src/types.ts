@@ -34,7 +34,7 @@ export type SidebarEntry =
 export type SidebarEntries = {
   [key: string]:
     | {[key: string]: unknown}
-    | Array<{[key: string]: unknown} | string>;
+    | ({[key: string]: unknown} | string)[];
 };
 
 export type VersionTwoConfig = {
@@ -49,7 +49,7 @@ export type VersionTwoConfig = {
   githubHost?: string;
   onBrokenLinks: string;
   onBrokenMarkdownLinks: string;
-  plugins: Array<[string, {[key: string]: unknown}]>;
+  plugins: [string, {[key: string]: unknown}][];
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
   themeConfig: {
@@ -58,17 +58,14 @@ export type VersionTwoConfig = {
       logo?: {
         src?: string;
       };
-      items: Array<{[key: string]: unknown} | null>;
+      items: ({[key: string]: unknown} | null)[];
     };
     image?: string;
     footer: {
-      links: Array<{
+      links: {
         title: string;
-        items: Array<{
-          label: string;
-          to: string;
-        }>;
-      }>;
+        items: {label: string; to: string}[];
+      }[];
       copyright?: string;
       logo: {
         src?: string;
@@ -104,26 +101,26 @@ export type VersionOneConfig = {
   organizationName?: string;
   projectName?: string;
   noIndex?: boolean;
-  headerLinks?: Array<{doc: string; href: string; label: string; page: string}>;
+  headerLinks?: {doc: string; href: string; label: string; page: string}[];
   headerIcon?: string;
   favicon?: string;
   colors?: {primaryColor: string};
   copyright?: string;
   editUrl?: string;
   customDocsPath?: string;
-  users?: Array<{[key: string]: unknown}>;
+  users?: {[key: string]: unknown}[];
   disableHeaderTitle?: string;
   disableTitleTagline?: string;
-  separateCss?: Array<{[key: string]: unknown}>;
+  separateCss?: {[key: string]: unknown}[];
   footerIcon?: string;
   translationRecruitingLink?: string;
   algolia?: {[key: string]: unknown};
   gaTrackingId?: string;
   gaGtag?: boolean;
   highlight?: {[key: string]: unknown};
-  markdownPlugins?: Array<() => void>;
-  scripts?: Array<{src: string; [key: string]: unknown} | string>;
-  stylesheets?: Array<{href: string; [key: string]: unknown} | string>;
+  markdownPlugins?: (() => void)[];
+  scripts?: ({src: string; [key: string]: unknown} | string)[];
+  stylesheets?: ({href: string; [key: string]: unknown} | string)[];
   facebookAppId?: string;
   facebookComments?: true;
   facebookPixelId?: string;

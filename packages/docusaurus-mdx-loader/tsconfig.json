@@ -8,7 +8,8 @@
     "declarationMap": true,
     "module": "commonjs",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "types": []
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**"]

@@ -65,7 +65,7 @@ function createExitMock() {
   });
   // eslint-disable-next-line jest/require-top-level-describe
   afterEach(async () => {
-    mock?.mockRestore();
+    mock.mockRestore();
   });
 
   return {

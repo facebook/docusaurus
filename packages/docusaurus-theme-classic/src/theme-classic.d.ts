@@ -328,8 +328,6 @@ declare module '@theme/DocSidebar' {
     readonly sidebar: readonly PropSidebarItem[];
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
-    // MobileSecondaryFilter expects Record<string, unknown>
-    readonly [key: string]: unknown;
   }
 
   export default function DocSidebar(props: Props): JSX.Element;
@@ -779,6 +777,7 @@ declare module '@theme/Navbar/Search' {
 
   export interface Props {
     readonly children: ReactNode;
+    readonly className?: string;
   }
 
   export default function NavbarSearch(props: Props): JSX.Element;
@@ -810,7 +809,8 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly exact?: boolean;
     readonly label?: ReactNode;
     readonly html?: string;
-    readonly prependBaseUrlToHref?: string;
+    readonly prependBaseUrlToHref?: boolean;
+    readonly isDropdownLink?: boolean;
   }
 
   export default function NavbarNavLink(props: Props): JSX.Element;
@@ -836,6 +836,7 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
 declare module '@theme/NavbarItem/SearchNavbarItem' {
   export interface Props {
     readonly mobile?: boolean;
+    readonly className?: string;
   }
 
   export default function SearchNavbarItem(props: Props): JSX.Element;
@@ -980,17 +981,6 @@ declare module '@theme/NavbarItem' {
   export type NavbarItemType = Props['type'];
 
   export default function NavbarItem(props: Props): JSX.Element;
-}
-
-declare module '@theme/NavbarItem/utils' {
-  /**
-   * On desktop and mobile, we would apply different class names for dropdown
-   * items.
-   * @see https://github.com/facebook/docusaurus/pull/5431
-   */
-  export function getInfimaActiveClassName(
-    mobile?: boolean,
-  ): `${'menu' | 'navbar'}__link--active`;
 }
 
 declare module '@theme/PaginatorNavLink' {

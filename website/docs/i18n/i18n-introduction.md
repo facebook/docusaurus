@@ -1,8 +1,9 @@
 ---
 id: introduction
-title: i18n - Introduction
 slug: /i18n/introduction
 ---
+
+# i18n - Introduction
 
 It is **easy to translate a Docusaurus website** with its internationalization ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)) support.
 

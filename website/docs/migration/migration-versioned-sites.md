@@ -1,8 +1,8 @@
 ---
-id: migration-versioned-sites
-title: Versioned sites
 slug: /migration/versioned-sites
 ---
+
+# Versioned sites
 
 Read up https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 

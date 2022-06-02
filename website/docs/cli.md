@@ -1,5 +1,5 @@
 ---
-id: cli
+description: Docusaurus provides a set of scripts to help you generate, serve, and deploy your website.
 ---
 
 # CLI
@@ -150,6 +150,7 @@ Serve your built website locally.
 | `--build` | `false` | Build website before serving |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
+| `--no-open` | `false` locally, `true` in CI | Do not open a browser window to the server location. |
 
 ### `docusaurus clear [siteDir]` {#docusaurus-clear-sitedir}
 

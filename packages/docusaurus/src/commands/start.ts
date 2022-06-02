@@ -25,7 +25,6 @@ import {
   getHttpsConfig,
 } from '../webpack/utils';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
-import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
 export type StartCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'locale' | 'config'> & {
@@ -67,7 +66,7 @@ export async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  logger.success`Docusaurus website is running at url=${openUrl}.`;
+  logger.success`Docusaurus website is running at: url=${openUrl}`;
 
   // Reload files processing.
   const reload = _.debounce(() => {
@@ -75,14 +74,14 @@ export async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          logger.success`Docusaurus website is running at url=${newOpenUrl}.`;
+          logger.success`Docusaurus website is running at: url=${newOpenUrl}`;
         }
       })
       .catch((err: Error) => {
         logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins} = props;
+  const {siteConfig, plugins, localizationDir} = props;
 
   const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
@@ -96,14 +95,7 @@ export async function start(
     .filter(Boolean)
     .map(normalizeToSiteDir);
 
-  const pathsToWatch = [
-    ...pluginPaths,
-    props.siteConfigPath,
-    getTranslationsLocaleDirPath({
-      siteDir,
-      locale: props.i18n.currentLocale,
-    }),
-  ];
+  const pathsToWatch = [...pluginPaths, props.siteConfigPath, localizationDir];
 
   const pollingOptions = {
     usePolling: !!cliOptions.poll,

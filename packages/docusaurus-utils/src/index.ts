@@ -17,7 +17,7 @@ export {
   DEFAULT_STATIC_DIR_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
   THEME_PATH,
-  I18N_DIR_NAME,
+  DEFAULT_I18N_DIR_NAME,
   CODE_TRANSLATIONS_FILE_NAME,
   DEFAULT_PORT,
   DEFAULT_PLUGIN_ID,
@@ -96,6 +96,7 @@ export {
   createAbsoluteFilePathMatcher,
 } from './globUtils';
 export {getFileLoaderUtils} from './webpackUtils';
+export {escapeShellArg} from './shellUtils';
 export {
   getDataFilePath,
   getDataFileData,

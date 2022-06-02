@@ -100,9 +100,9 @@ export default async function pluginContentDocs(
         .command(command)
         .arguments('<version>')
         .description(commandDescription)
-        .action((version: unknown) => {
-          cliDocsVersionCommand(version, options, context);
-        });
+        .action((version: unknown) =>
+          cliDocsVersionCommand(version, options, context),
+        );
     },
 
     getTranslationFiles({content}) {

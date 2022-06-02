@@ -6,8 +6,8 @@
  */
 
 import {
-  DEFAULT_CONFIG_FILE_NAME,
   DEFAULT_STATIC_DIR_NAME,
+  DEFAULT_I18N_DIR_NAME,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
@@ -16,6 +16,7 @@ const DEFAULT_I18N_LOCALE = 'en';
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
+  path: DEFAULT_I18N_DIR_NAME,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
 };
@@ -138,6 +139,7 @@ const LocaleConfigSchema = Joi.object({
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   defaultLocale: Joi.string().required(),
+  path: Joi.string().default(DEFAULT_I18N_CONFIG.path),
   locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
   localeConfigs: Joi.object()
     .pattern(/.*/, LocaleConfigSchema)
@@ -239,7 +241,10 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 });
 
 // TODO move to @docusaurus/utils-validation
-export function validateConfig(config: unknown): DocusaurusConfig {
+export function validateConfig(
+  config: unknown,
+  siteConfigPath: string,
+): DocusaurusConfig {
   const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });
@@ -263,7 +268,7 @@ export function validateConfig(config: unknown): DocusaurusConfig {
       '',
     );
     formattedError = unknownFields
-      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
+      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
   } else {

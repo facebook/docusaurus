@@ -1,9 +1,9 @@
 ---
 sidebar_position: 1
-id: eslint-plugin
-title: '📦 eslint-plugin'
-slug: '/api/misc/@docusaurus/eslint-plugin'
+slug: /api/misc/@docusaurus/eslint-plugin
 ---
+
+# 📦 eslint-plugin
 
 [ESLint](https://eslint.org/) is a tool that statically analyzes your code and reports problems or suggests best practices through editor hints and command line. Docusaurus provides an ESLint plugin to enforce best Docusaurus practices.
 

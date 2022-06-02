@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-id: plugin-client-redirects
-title: '📦 plugin-client-redirects'
-slug: '/api/plugins/@docusaurus/plugin-client-redirects'
+slug: /api/plugins/@docusaurus/plugin-client-redirects
 ---
+
+# 📦 plugin-client-redirects
 
 import APITable from '@site/src/components/APITable';
 
@@ -41,17 +41,25 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `fromExtensions` | `string[]` | `[]` | The extensions to be removed from the route after redirecting. |
 | `toExtensions` | `string[]` | `[]` | The extensions to be appended to the route after redirecting. |
-| `redirects` | `RedirectRule[]` | `[]` | The list of redirect rules. |
-| `createRedirects` | `CreateRedirectsFn` | `undefined` | A callback to create a redirect rule. |
+| `redirects` | <code><a href="#RedirectRule">RedirectRule</a>[]</code> | `[]` | The list of redirect rules. |
+| `createRedirects` | <code><a href="#CreateRedirectsFn">CreateRedirectsFn</a></code> | `undefined` | A callback to create a redirect rule. |
 
 </APITable>
+
+### Types {#types}
+
+#### `RedirectRule` {#RedirectRule}
 
 ```ts
 type RedirectRule = {
   to: string;
   from: string | string[];
 };
+```
 
+#### `CreateRedirectsFn` {#CreateRedirectsFn}
+
+```ts
 type CreateRedirectsFn = (path: string) => string[] | string | null | undefined;
 ```
 

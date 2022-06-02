@@ -1,5 +1,5 @@
 ---
-slug: '/api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages'
+slug: /api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages
 ---
 
 # string-literal-i18n-messages

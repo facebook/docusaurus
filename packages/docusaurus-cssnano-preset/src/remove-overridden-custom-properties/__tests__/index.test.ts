@@ -10,8 +10,8 @@ import vfile from 'to-vfile';
 import postcss from 'postcss';
 import postCssRemoveOverriddenCustomProperties from '../index';
 
-const processFixture = (name: string) => {
-  const input = vfile.readSync(
+const processFixture = async (name: string) => {
+  const input = await vfile.read(
     path.join(__dirname, '__fixtures__', `${name}.css`),
     'utf8',
   );
@@ -23,11 +23,11 @@ const processFixture = (name: string) => {
 };
 
 describe('remove-overridden-custom-properties', () => {
-  it('overridden custom properties should be removed', () => {
-    expect(processFixture('normal')).toMatchSnapshot();
+  it('overridden custom properties should be removed', async () => {
+    await expect(processFixture('normal')).resolves.toMatchSnapshot();
   });
 
-  it('overridden custom properties with `!important` rule should not be removed', () => {
-    expect(processFixture('important_rule')).toMatchSnapshot();
+  it('overridden custom properties with `!important` rule should not be removed', async () => {
+    await expect(processFixture('important_rule')).resolves.toMatchSnapshot();
   });
 });

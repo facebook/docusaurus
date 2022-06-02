@@ -7,7 +7,7 @@
 
 import path from 'path';
 import _ from 'lodash';
-import {DEFAULT_PLUGIN_ID, I18N_DIR_NAME} from './constants';
+import {DEFAULT_PLUGIN_ID} from './constants';
 import {normalizeUrl} from './urlUtils';
 import type {
   TranslationFileContent,
@@ -46,24 +46,18 @@ export function updateTranslationFileMessages(
  * expect everything it needs for translations to be found under this path.
  */
 export function getPluginI18nPath({
-  siteDir,
-  locale,
+  localizationDir,
   pluginName,
   pluginId = DEFAULT_PLUGIN_ID,
   subPaths = [],
 }: {
-  siteDir: string;
-  locale: string;
+  localizationDir: string;
   pluginName: string;
   pluginId?: string | undefined;
   subPaths?: string[];
 }): string {
   return path.join(
-    siteDir,
-    I18N_DIR_NAME,
-    // Namespace first by locale: convenient to work in a single folder for a
-    // translator
-    locale,
+    localizationDir,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
     `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,

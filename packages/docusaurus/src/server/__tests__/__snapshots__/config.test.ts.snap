@@ -1,5 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
+{
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [],
+    "customFields": {},
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {},
+      "locales": [
+        "en",
+      ],
+      "path": "i18n",
+    },
+    "noIndex": false,
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "plugins": [],
+    "presets": [],
+    "scripts": [],
+    "staticDirectories": [
+      "static",
+    ],
+    "stylesheets": [],
+    "tagline": "",
+    "themeConfig": {},
+    "themes": [],
+    "title": "title",
+    "titleDelimiter": "|",
+    "url": "https://example.com",
+  },
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/docusaurus.config.cjs",
+}
+`;
+
 exports[`loadSiteConfig website with valid async config 1`] = `
 {
   "siteConfig": {
@@ -13,6 +50,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -51,6 +89,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -89,6 +128,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -130,6 +170,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",

@@ -1,10 +1,11 @@
 ---
 sidebar_position: 0
 id: plugins-overview
-title: 'Docusaurus plugins'
 sidebar_label: Plugins overview
-slug: '/api/plugins'
+slug: /api/plugins
 ---
+
+# Docusaurus plugins
 
 We provide official Docusaurus plugins.
 

@@ -11,7 +11,7 @@ import CodeBlock from '@theme/CodeBlock';
 import type {Props} from '@theme/MDXComponents/Code';
 
 export default function MDXCode(props: Props): JSX.Element {
-  const inlineElements = [
+  const inlineElements: (string | undefined)[] = [
     'a',
     'b',
     'big',
@@ -26,7 +26,10 @@ export default function MDXCode(props: Props): JSX.Element {
   const shouldBeInline = React.Children.toArray(props.children).every(
     (el) =>
       (typeof el === 'string' && !el.includes('\n')) ||
-      (isValidElement(el) && inlineElements.includes(el.props.mdxType)),
+      (isValidElement(el) &&
+        inlineElements.includes(
+          (el.props as {mdxType: string} | null)?.mdxType,
+        )),
   );
 
   return shouldBeInline ? (

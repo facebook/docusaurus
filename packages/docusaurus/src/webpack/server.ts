@@ -90,6 +90,12 @@ export default async function createServerConfig({
         // has any importance for this plugin, just using an empty string to
         // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
         globals: {__filename: ''},
+
+        // Secret way to set SSR plugin concurrency option
+        // Waiting for feedback before documenting this officially?
+        concurrency: process.env.DOCUSAURUS_SSR_CONCURRENCY
+          ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
+          : undefined,
       }),
 
       // Show compilation progress bar.

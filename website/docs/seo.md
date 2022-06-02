@@ -1,11 +1,12 @@
 ---
-id: seo
-title: Search engine optimization (SEO)
+description: How to make your Docusaurus site maximally search-engine-friendly.
 sidebar_label: SEO
 keywords:
   - seo
   - positioning
 ---
+
+# Search engine optimization (SEO)
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
