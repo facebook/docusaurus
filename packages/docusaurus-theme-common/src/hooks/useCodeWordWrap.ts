@@ -69,6 +69,9 @@ export function useCodeWordWrap(): {
       codeElement.removeAttribute('style');
     } else {
       codeElement.style.whiteSpace = 'pre-wrap';
+      // When code wrap is enabled, we want to avoid a scrollbar in any case
+      // Ensure that very very long words/strings/tokens still wrap
+      codeElement.style.overflowWrap = 'anywhere';
     }
 
     setIsEnabled((value) => !value);
