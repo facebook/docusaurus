@@ -2994,12 +2994,12 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@slorber/static-site-generator-webpack-plugin@^4.0.6":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@slorber/static-site-generator-webpack-plugin/-/static-site-generator-webpack-plugin-4.0.6.tgz#fd460d449800e1ea6e917bf683683db8c8a230bb"
-  integrity sha512-p1EcMCK4Y/y6+O0kAa1HJu7wxx6mHJcOv6z6nFi35CAnO5Krz0fBgfDUAJnmN2Xh1pw/+LCDsN9paKQ5Hou7zA==
+"@slorber/static-site-generator-webpack-plugin@^4.0.7":
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/@slorber/static-site-generator-webpack-plugin/-/static-site-generator-webpack-plugin-4.0.7.tgz#fc1678bddefab014e2145cbe25b3ce4e1cfc36f3"
+  integrity sha512-Ug7x6z5lwrz0WqdnNFOMYrDQNTPAprvHLSh6+/fmml3qUiz6l5eq+2MzLKWtn/q5K5NpSiFsZTP/fck/3vjSxA==
   dependencies:
-    eval "^0.1.4"
+    eval "^0.1.8"
     p-map "^4.0.0"
     webpack-sources "^3.2.2"
 
@@ -7109,7 +7109,7 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
-eval@^0.1.4:
+eval@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/eval/-/eval-0.1.8.tgz#2b903473b8cc1d1989b83a1e7923f883eb357f85"
   integrity sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==
