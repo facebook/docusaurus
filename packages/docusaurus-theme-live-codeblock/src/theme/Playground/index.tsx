@@ -93,7 +93,7 @@ export default function Playground({
   } = themeConfig as ThemeConfig;
   const prismTheme = usePrismTheme();
 
-  const noInline = props.metastring?.includes('noInline') || false;
+  const noInline = props.metastring?.includes('noInline') ?? false;
 
   return (
     <div className={styles.playgroundContainer}>
