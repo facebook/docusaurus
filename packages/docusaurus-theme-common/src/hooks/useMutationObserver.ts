@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {useEffect} from 'react';
-import {useDynamicCallback} from '../utils/reactUtils';
-import useShallowMemoObject from './useShallowMemoObject';
+import {useDynamicCallback, useShallowMemoObject} from '../utils/reactUtils';
 
 type Options = MutationObserverInit;
 

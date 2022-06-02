@@ -12,8 +12,7 @@ import React, {
   type ReactNode,
   type ComponentType,
 } from 'react';
-import {ReactContextError} from '../../utils/reactUtils';
-import useShallowMemoObject from '../../hooks/useShallowMemoObject';
+import {ReactContextError, useShallowMemoObject} from '../../utils/reactUtils';
 
 // This context represents a "global layout store". A component (usually a
 // layout component) can request filling this store through
