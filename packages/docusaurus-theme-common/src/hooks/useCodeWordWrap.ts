@@ -6,14 +6,32 @@
  */
 import type {RefObject} from 'react';
 import {useState, useCallback, useEffect, useRef} from 'react';
-import {useDynamicCallback} from '../utils/reactUtils';
 import {useMutationObserver} from './useMutationObserver';
 
-function useHiddenAttributeMutationObserver(
-  target: Element | undefined | null,
+// Callback fires when the "hidden" attribute of a tabpanel changes
+// See https://github.com/facebook/docusaurus/pull/7485
+function useTabBecameVisibleCallback(
+  codeBlockRef: RefObject<HTMLPreElement>,
   callback: () => void,
 ) {
-  const hiddenAttributeCallback = useDynamicCallback(
+  const [hiddenTabElement, setHiddenTabElement] = useState<
+    Element | null | undefined
+  >();
+
+  const updateHiddenTabElement = useCallback(() => {
+    // No need to observe non-hidden tabs
+    // + we want to force a re-render when a tab becomes visible
+    setHiddenTabElement(
+      codeBlockRef.current?.closest('[role=tabpanel][hidden]'),
+    );
+  }, [codeBlockRef, setHiddenTabElement]);
+
+  useEffect(() => {
+    updateHiddenTabElement();
+  }, [updateHiddenTabElement]);
+
+  useMutationObserver(
+    hiddenTabElement,
     (mutations: MutationRecord[]) => {
       mutations.forEach((mutation) => {
         if (
@@ -21,17 +39,17 @@ function useHiddenAttributeMutationObserver(
           mutation.attributeName === 'hidden'
         ) {
           callback();
+          updateHiddenTabElement();
         }
       });
     },
+    {
+      attributes: true,
+      characterData: false,
+      childList: false,
+      subtree: false,
+    },
   );
-
-  useMutationObserver(target, hiddenAttributeCallback, {
-    attributes: true,
-    characterData: false,
-    childList: false,
-    subtree: false,
-  });
 }
 
 export function useCodeWordWrap(): {
@@ -42,7 +60,6 @@ export function useCodeWordWrap(): {
 } {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
-  const [ancestor, setAncestor] = useState<Element | null | undefined>();
   const codeBlockRef = useRef<HTMLPreElement>(null);
 
   const toggle = useCallback(() => {
@@ -52,7 +69,6 @@ export function useCodeWordWrap(): {
       codeElement.removeAttribute('style');
     } else {
       codeElement.style.whiteSpace = 'pre-wrap';
-      codeElement.style.overflowWrap = 'anywhere';
     }
 
     setIsEnabled((value) => !value);
@@ -60,16 +76,13 @@ export function useCodeWordWrap(): {
 
   const updateCodeIsScrollable = useCallback(() => {
     const {scrollWidth, clientWidth} = codeBlockRef.current!;
-    // Allows code block to update scrollWidth and clientWidth after "hidden"
-    // attribute is removed
-    setAncestor(codeBlockRef.current?.closest('[hidden]'));
     const isScrollable =
       scrollWidth > clientWidth ||
       codeBlockRef.current!.querySelector('code')!.hasAttribute('style');
     setIsCodeScrollable(isScrollable);
   }, [codeBlockRef]);
 
-  useHiddenAttributeMutationObserver(ancestor, updateCodeIsScrollable);
+  useTabBecameVisibleCallback(codeBlockRef, updateCodeIsScrollable);
 
   useEffect(() => {
     updateCodeIsScrollable();

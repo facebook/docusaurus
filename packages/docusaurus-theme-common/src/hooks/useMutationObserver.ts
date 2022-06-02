@@ -4,35 +4,36 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {useRef, useMemo, useEffect} from 'react';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useEffect} from 'react';
+import {useDynamicCallback} from '../utils/reactUtils';
+import useShallowMemoObject from './useShallowMemoObject';
+
+type Options = MutationObserverInit;
+
+const DefaultOptions: Options = {
+  attributes: true,
+  characterData: true,
+  childList: true,
+  subtree: true,
+};
 
 export function useMutationObserver(
   target: Element | undefined | null,
-  callback: (mutations: MutationRecord[]) => void,
-  options = {
-    attributes: true,
-    characterData: true,
-    childList: true,
-    subtree: true,
-  },
+  callback: MutationCallback,
+  options: Options = DefaultOptions,
 ): void {
-  const mutationObserver = useRef<MutationObserver | undefined>(
-    ExecutionEnvironment.canUseDOM ? new MutationObserver(callback) : undefined,
-  );
-  const memoOptions = useMemo(() => options, [options]);
+  const stableCallback = useDynamicCallback(callback);
+
+  // MutationObserver options are not nested much
+  // so this should be to memo options in 99%
+  // TODO handle options.attributeFilter array
+  const stableOptions: Options = useShallowMemoObject(options);
 
   useEffect(() => {
-    const observer = mutationObserver.current;
-
-    if (target && observer) {
-      observer.observe(target, memoOptions);
+    const observer = new MutationObserver(stableCallback);
+    if (target) {
+      observer.observe(target, stableOptions);
     }
-
-    return () => {
-      if (observer) {
-        observer.disconnect();
-      }
-    };
-  }, [target, memoOptions]);
+    return () => observer.disconnect();
+  }, [target, stableCallback, stableOptions]);
 }
