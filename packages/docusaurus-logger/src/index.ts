@@ -128,11 +128,11 @@ function newLine(): void {
 }
 
 const logger = {
-  red: chalk.red,
-  yellow: chalk.yellow,
-  green: chalk.green,
-  bold: chalk.bold,
-  dim: chalk.dim,
+  red: (msg: string | number): string => chalk.red(msg),
+  yellow: (msg: string | number): string => chalk.yellow(msg),
+  green: (msg: string | number): string => chalk.green(msg),
+  bold: (msg: string | number): string => chalk.bold(msg),
+  dim: (msg: string | number): string => chalk.dim(msg),
   path,
   url,
   name,

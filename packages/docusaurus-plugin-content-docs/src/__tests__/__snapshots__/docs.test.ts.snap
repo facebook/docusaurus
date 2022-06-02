@@ -4,12 +4,23 @@ exports[`simple site custom pagination 1`] = `
 {
   "pagination": [
     {
+      "id": "customLastUpdate",
+      "next": {
+        "permalink": "/docs/doc with space",
+        "title": "Hoo hoo, if this path tricks you...",
+      },
+      "prev": undefined,
+    },
+    {
       "id": "doc with space",
       "next": {
         "permalink": "/docs/doc-draft",
         "title": "doc-draft",
       },
-      "prev": undefined,
+      "prev": {
+        "permalink": "/docs/customLastUpdate",
+        "title": "Custom Last Update",
+      },
     },
     {
       "id": "doc-draft",
@@ -63,12 +74,34 @@ exports[`simple site custom pagination 1`] = `
     {
       "id": "ipsum",
       "next": {
-        "permalink": "/docs/lorem",
-        "title": "lorem",
+        "permalink": "/docs/lastUpdateAuthorOnly",
+        "title": "Last Update Author Only",
       },
       "prev": {
         "permalink": "/docs/",
         "title": "Hello sidebar_label",
+      },
+    },
+    {
+      "id": "lastUpdateAuthorOnly",
+      "next": {
+        "permalink": "/docs/lastUpdateDateOnly",
+        "title": "Last Update Date Only",
+      },
+      "prev": {
+        "permalink": "/docs/ipsum",
+        "title": "ipsum",
+      },
+    },
+    {
+      "id": "lastUpdateDateOnly",
+      "next": {
+        "permalink": "/docs/lorem",
+        "title": "lorem",
+      },
+      "prev": {
+        "permalink": "/docs/lastUpdateAuthorOnly",
+        "title": "Last Update Author Only",
       },
     },
     {
@@ -78,8 +111,8 @@ exports[`simple site custom pagination 1`] = `
         "title": "rootAbsoluteSlug",
       },
       "prev": {
-        "permalink": "/docs/ipsum",
-        "title": "ipsum",
+        "permalink": "/docs/lastUpdateDateOnly",
+        "title": "Last Update Date Only",
       },
     },
     {
@@ -171,6 +204,10 @@ exports[`simple site custom pagination 1`] = `
   "sidebars": {
     "defaultSidebar": [
       {
+        "id": "customLastUpdate",
+        "type": "doc",
+      },
+      {
         "id": "doc with space",
         "type": "doc",
       },
@@ -206,6 +243,14 @@ exports[`simple site custom pagination 1`] = `
       },
       {
         "id": "ipsum",
+        "type": "doc",
+      },
+      {
+        "id": "lastUpdateAuthorOnly",
+        "type": "doc",
+      },
+      {
+        "id": "lastUpdateDateOnly",
         "type": "doc",
       },
       {

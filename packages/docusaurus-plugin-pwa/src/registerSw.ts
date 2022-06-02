@@ -10,7 +10,6 @@ import {createStorageSlot} from '@docusaurus/theme-common';
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
 const PWA_SERVICE_WORKER_URL = process.env.PWA_SERVICE_WORKER_URL!;
-const PWA_RELOAD_POPUP = process.env.PWA_RELOAD_POPUP;
 const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES = process.env
   .PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES as unknown as (keyof typeof OfflineModeActivationStrategiesImplementations)[];
 const PWA_DEBUG = process.env.PWA_DEBUG;
@@ -170,7 +169,7 @@ async function registerSW() {
     // Immediately load new service worker when files aren't cached
     if (!offlineMode) {
       sendSkipWaiting();
-    } else if (PWA_RELOAD_POPUP) {
+    } else {
       const renderReloadPopup = (await import('./renderReloadPopup')).default;
       await renderReloadPopup({
         onReload() {

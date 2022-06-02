@@ -23,6 +23,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
     expect(sitemap).toContain(
@@ -49,6 +50,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
     expect(sitemap).not.toContain('404');
@@ -70,6 +72,7 @@ describe('createSitemap', () => {
           // Deep ignore
           '/tags/**',
         ],
+        filename: 'sitemap.xml',
       },
     );
     expect(sitemap).not.toContain('/search/</loc>');
@@ -89,6 +92,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
 
@@ -110,6 +114,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
 
@@ -131,6 +136,7 @@ describe('createSitemap', () => {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
         ignorePatterns: [],
+        filename: 'sitemap.xml',
       },
     );
 

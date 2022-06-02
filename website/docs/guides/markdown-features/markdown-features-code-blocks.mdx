@@ -1,9 +1,10 @@
 ---
 id: code-blocks
-title: Code blocks
 description: Handling code blocks in Docusaurus Markdown
 slug: /markdown-features/code-blocks
 ---
+
+# Code blocks
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 import CodeBlock from '@theme/CodeBlock';
@@ -160,8 +161,9 @@ function HighlightMoreText(highlight) {
 ```
 ````
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
+```
 
 ```js
 function HighlightSomeText(highlight) {
@@ -184,8 +186,9 @@ function HighlightMoreText(highlight) {
 }
 ```
 
+```mdx-code-block
 </BrowserWindow>
-````
+```
 
 Supported commenting syntax:
 
@@ -234,8 +237,9 @@ export default MyComponent;
 ```
 ````
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
+```
 
 ```jsx {1,4-6,11}
 import React from 'react';
@@ -251,8 +255,9 @@ function MyComponent(props) {
 export default MyComponent;
 ```
 
+```mdx-code-block
 </BrowserWindow>
-````
+```
 
 :::tip prefer comments
 
@@ -346,8 +351,9 @@ console.log(name.toUpperCase());
 </Tabs>
 ```
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
+```
 
 In JavaScript, trying to access properties on `null` will error.
 
@@ -358,8 +364,9 @@ console.log(name.toUpperCase());
 // Uncaught TypeError: Cannot read properties of null (reading 'toUpperCase')
 ```
 
+```mdx-code-block
 </BrowserWindow>
-````
+```
 
 If you use number ranges in metastring (the `{1,3-4}` syntax), Docusaurus will apply the **first `magicComments` entry**'s class name. This, by default, is `theme-code-block-highlighted-line`, but if you change the `magicComments` config and use a different entry as the first one, the meaning of the metastring range will change as well.
 
@@ -395,8 +402,9 @@ export default MyComponent;
 ```
 ````
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
+```
 
 ```jsx {1,4-6,11} showLineNumbers
 import React from 'react';
@@ -412,8 +420,9 @@ function MyComponent(props) {
 export default MyComponent;
 ```
 
+```mdx-code-block
 </BrowserWindow>
-````
+```
 
 ## Interactive code editor {#interactive-code-editor}
 
@@ -464,8 +473,9 @@ function Clock(props) {
 
 The code block will be rendered as an interactive editor. Changes to the code will reflect on the result panel live.
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
+```
 
 ```jsx live
 function Clock(props) {
@@ -490,8 +500,9 @@ function Clock(props) {
 }
 ```
 
+```mdx-code-block
 </BrowserWindow>
-````
+```
 
 ### Imports {#imports}
 
@@ -540,8 +551,9 @@ export default ReactLiveScope;
 
 The `ButtonExample` component is now available to use:
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
+```
 
 ```jsx live
 function MyPlayground(props) {
@@ -551,6 +563,43 @@ function MyPlayground(props) {
     </div>
   );
 }
+```
+
+```mdx-code-block
+</BrowserWindow>
+```
+
+### Imperative Rendering (noInline)
+
+The `noInline` option should be used to avoid errors when your code spans multiple components or variables.
+
+````md
+```jsx live noInline
+const project = 'Docusaurus';
+
+const Greeting = () => <p>Hello {project}!</p>;
+
+render(<Greeting />);
+```
+````
+
+Unlike an ordinary interactive code block, when using `noInline` React Live won't wrap your code in an inline function to render it.
+
+You will need to explicitly call `render()` at the end of your code to display the output.
+
+````mdx-code-block
+<BrowserWindow>
+
+```jsx live noInline
+const project = "Docusaurus";
+
+const Greeting = () => (
+  <p>Hello {project}!</p>
+);
+
+render(
+  <Greeting />
+);
 ```
 
 </BrowserWindow>
@@ -645,10 +694,11 @@ class HelloWorld {
 
 And you will get the following:
 
-````mdx-code-block
+```mdx-code-block
 <BrowserWindow>
 <Tabs>
 <TabItem value="js" label="JavaScript">
+```
 
 ```js
 function helloWorld() {
@@ -656,16 +706,20 @@ function helloWorld() {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="py" label="Python">
+```
 
 ```py
 def hello_world():
   print("Hello, world!")
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="java" label="Java">
+```
 
 ```java
 class HelloWorld {
@@ -675,10 +729,11 @@ class HelloWorld {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
 </BrowserWindow>
-````
+```
 
 If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](markdown-features-tabs.mdx#syncing-tab-choices).
 

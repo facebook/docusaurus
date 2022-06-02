@@ -22,6 +22,7 @@ These sidebar document ids do not exist:
 - nonExistent
 
 Available document ids are:
+- customLastUpdate
 - doc with space
 - doc-draft
 - foo/bar
@@ -29,6 +30,8 @@ Available document ids are:
 - headingAsTitle
 - hello
 - ipsum
+- lastUpdateAuthorOnly
+- lastUpdateDateOnly
 - lorem
 - rootAbsoluteSlug
 - rootRelativeSlug
@@ -268,6 +271,11 @@ exports[`simple website content 5`] = `
         {
           "docs": [
             {
+              "id": "customLastUpdate",
+              "path": "/docs/customLastUpdate",
+              "sidebar": undefined,
+            },
+            {
               "id": "doc with space",
               "path": "/docs/doc with space",
               "sidebar": undefined,
@@ -300,6 +308,16 @@ exports[`simple website content 5`] = `
             {
               "id": "ipsum",
               "path": "/docs/ipsum",
+              "sidebar": undefined,
+            },
+            {
+              "id": "lastUpdateAuthorOnly",
+              "path": "/docs/lastUpdateAuthorOnly",
+              "sidebar": undefined,
+            },
+            {
+              "id": "lastUpdateDateOnly",
+              "path": "/docs/lastUpdateDateOnly",
               "sidebar": undefined,
             },
             {
@@ -388,6 +406,26 @@ exports[`simple website content: data 1`] = `
     "next": {
       "title": "rootAbsoluteSlug",
       "permalink": "/docs/rootAbsoluteSlug"
+    }
+  }
+}",
+  "site-docs-custom-last-update-md-b8d.json": "{
+  "unversionedId": "customLastUpdate",
+  "id": "customLastUpdate",
+  "title": "Custom Last Update",
+  "description": "Custom last update",
+  "source": "@site/docs/customLastUpdate.md",
+  "sourceDirName": ".",
+  "slug": "/customLastUpdate",
+  "permalink": "/docs/customLastUpdate",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Custom Last Update",
+    "last_update": {
+      "author": "Custom Author",
+      "date": "1/1/2000"
     }
   }
 }",
@@ -562,6 +600,44 @@ exports[`simple website content: data 1`] = `
   "version": "current",
   "frontMatter": {
     "custom_edit_url": null
+  }
+}",
+  "site-docs-last-update-author-only-md-352.json": "{
+  "unversionedId": "lastUpdateAuthorOnly",
+  "id": "lastUpdateAuthorOnly",
+  "title": "Last Update Author Only",
+  "description": "Only custom author, so it will still use the date from Git",
+  "source": "@site/docs/lastUpdateAuthorOnly.md",
+  "sourceDirName": ".",
+  "slug": "/lastUpdateAuthorOnly",
+  "permalink": "/docs/lastUpdateAuthorOnly",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Last Update Author Only",
+    "last_update": {
+      "author": "Custom Author"
+    }
+  }
+}",
+  "site-docs-last-update-date-only-md-987.json": "{
+  "unversionedId": "lastUpdateDateOnly",
+  "id": "lastUpdateDateOnly",
+  "title": "Last Update Date Only",
+  "description": "Only custom date, so it will still use the author from Git",
+  "source": "@site/docs/lastUpdateDateOnly.md",
+  "sourceDirName": ".",
+  "slug": "/lastUpdateDateOnly",
+  "permalink": "/docs/lastUpdateDateOnly",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Last Update Date Only",
+    "last_update": {
+      "date": "1/1/2000"
+    }
   }
 }",
   "site-docs-lorem-md-b27.json": "{
@@ -924,6 +1000,11 @@ exports[`simple website content: data 1`] = `
     ]
   },
   "docs": {
+    "customLastUpdate": {
+      "id": "customLastUpdate",
+      "title": "Custom Last Update",
+      "description": "Custom last update"
+    },
     "doc with space": {
       "id": "doc with space",
       "title": "Hoo hoo, if this path tricks you...",
@@ -962,6 +1043,16 @@ exports[`simple website content: data 1`] = `
       "id": "ipsum",
       "title": "ipsum",
       "description": "Lorem ipsum."
+    },
+    "lastUpdateAuthorOnly": {
+      "id": "lastUpdateAuthorOnly",
+      "title": "Last Update Author Only",
+      "description": "Only custom author, so it will still use the date from Git"
+    },
+    "lastUpdateDateOnly": {
+      "id": "lastUpdateDateOnly",
+      "title": "Last Update Date Only",
+      "description": "Only custom date, so it will still use the author from Git"
     },
     "lorem": {
       "id": "lorem",
@@ -1027,6 +1118,11 @@ exports[`simple website content: global data 1`] = `
         {
           "docs": [
             {
+              "id": "customLastUpdate",
+              "path": "/docs/customLastUpdate",
+              "sidebar": undefined,
+            },
+            {
               "id": "doc with space",
               "path": "/docs/doc with space",
               "sidebar": undefined,
@@ -1059,6 +1155,16 @@ exports[`simple website content: global data 1`] = `
             {
               "id": "ipsum",
               "path": "/docs/ipsum",
+              "sidebar": undefined,
+            },
+            {
+              "id": "lastUpdateAuthorOnly",
+              "path": "/docs/lastUpdateAuthorOnly",
+              "sidebar": undefined,
+            },
+            {
+              "id": "lastUpdateDateOnly",
+              "path": "/docs/lastUpdateDateOnly",
               "sidebar": undefined,
             },
             {
@@ -1206,6 +1312,14 @@ exports[`simple website content: route config 1`] = `
         "component": "@theme/DocItem",
         "exact": true,
         "modules": {
+          "content": "@site/docs/customLastUpdate.md",
+        },
+        "path": "/docs/customLastUpdate",
+      },
+      {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": {
           "content": "@site/docs/doc with space.md",
         },
         "path": "/docs/doc with space",
@@ -1261,6 +1375,22 @@ exports[`simple website content: route config 1`] = `
           "content": "@site/docs/ipsum.md",
         },
         "path": "/docs/ipsum",
+      },
+      {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": {
+          "content": "@site/docs/lastUpdateAuthorOnly.md",
+        },
+        "path": "/docs/lastUpdateAuthorOnly",
+      },
+      {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": {
+          "content": "@site/docs/lastUpdateDateOnly.md",
+        },
+        "path": "/docs/lastUpdateDateOnly",
       },
       {
         "component": "@theme/DocItem",

@@ -356,6 +356,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'i18n'],
   },
   {
+    title: 'Charles Ancheta',
+    description: "Charles Ancheta's Blog and Portfolio Website",
+    preview: require('./showcase/charles-ancheta.png'),
+    website: 'https://charlesancheta.com',
+    source: 'https://github.com/cbebe/my-website',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'ChatKitty',
     description: 'A full suite of developer tools for any chat use-case.',
     preview: require('./showcase/chatkitty.png'),

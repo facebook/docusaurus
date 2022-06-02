@@ -47,12 +47,12 @@ program
 \`custom\`: enter your custom git clone command. We will prompt you for it.`,
   )
   .description('Initialize website.')
-  .action((siteName, template, rootDir, options) => {
+  .action((siteName, template, rootDir, options) =>
     // See https://github.com/facebook/docusaurus/pull/6860
-    import('../lib/index.js').then(({default: init}) => {
-      init(path.resolve(rootDir ?? '.'), siteName, template, options);
-    });
-  });
+    import('../lib/index.js').then(({default: init}) =>
+      init(path.resolve(rootDir ?? '.'), siteName, template, options),
+    ),
+  );
 
 program.parse(process.argv);
 

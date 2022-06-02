@@ -1,12 +1,13 @@
 ---
-id: blog
-title: Blog
+description: Deploy a full-featured blog in no time with Docusaurus.
 ---
+
+# Blog
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-The blog feature enables you to deploy in no time a full-featured blog.
+The blog feature enables you to deploy a full-featured blog in no time.
 
 :::info
 
@@ -69,7 +70,7 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-The front matter is useful to add more metadata to your blog post, for example, author information, but Docusaurus will be able to infer all necessary metadata without the front matter. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-front-matter).
+The [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) is useful to add more metadata to your blog post, for example, author information, but Docusaurus will be able to infer all necessary metadata without the front matter. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-front-matter).
 
 ## Blog list {#blog-list}
 
@@ -191,9 +192,10 @@ Use the `authors` front matter field to declare blog post authors. An author sho
 
 Blog post authors can be declared directly inside the front matter:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs groupId="author-front-matter">
-  <TabItem value="single" label="Single author">
+<TabItem value="single" label="Single author">
+```
 
 ```md title="my-blog-post.md"
 ---
@@ -206,8 +208,10 @@ authors:
 ---
 ```
 
-  </TabItem>
-  <TabItem value="multiple" label="Multiple authors">
+```mdx-code-block
+</TabItem>
+<TabItem value="multiple" label="Multiple authors">
+```
 
 ```md title="my-blog-post.md"
 ---
@@ -224,9 +228,10 @@ authors:
 ---
 ```
 
-  </TabItem>
+```mdx-code-block
+</TabItem>
 </Tabs>
-````
+```
 
 :::tip
 
@@ -278,9 +283,10 @@ Use the `authorsMapPath` plugin option to configure the path. JSON is also suppo
 
 In blog posts front matter, you can reference the authors declared in the global configuration file:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs groupId="author-front-matter">
-  <TabItem value="single" label="Single author">
+<TabItem value="single" label="Single author">
+```
 
 ```md title="my-blog-post.md"
 ---
@@ -288,8 +294,10 @@ authors: jmarcey
 ---
 ```
 
-  </TabItem>
-  <TabItem value="multiple" label="Multiple authors">
+```mdx-code-block
+</TabItem>
+<TabItem value="multiple" label="Multiple authors">
+```
 
 ```md title="my-blog-post.md"
 ---
@@ -297,9 +305,10 @@ authors: [jmarcey, slorber]
 ---
 ```
 
-  </TabItem>
+```mdx-code-block
+</TabItem>
 </Tabs>
-````
+```
 
 :::info
 
@@ -393,9 +402,10 @@ The default reading time is able to accept additional options: `wordsPerMinute` 
 
 Use the callback for all your customization needs:
 
-````mdx-code-block
+```mdx-code-block
 <Tabs>
 <TabItem value="disable-per-post" label="Per-post disabling">
+```
 
 **Disable reading time on one page:**
 
@@ -409,7 +419,9 @@ module.exports = {
           showReadingTime: true,
           // highlight-start
           readingTime: ({content, frontMatter, defaultReadingTime}) =>
-            frontMatter.hide_reading_time ? undefined : defaultReadingTime({content}),
+            frontMatter.hide_reading_time
+              ? undefined
+              : defaultReadingTime({content}),
           // highlight-end
         },
       },
@@ -428,8 +440,10 @@ hide_reading_time: true
 This page will no longer display the reading time stats!
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="passing-options" label="Passing options">
+```
 
 **Pass options to the default reading time function:**
 
@@ -451,8 +465,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="using-custom-algo" label="Using custom algorithms">
+```
 
 **Use a custom implementation of reading time:**
 
@@ -474,9 +490,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
-````
+```
 
 :::
 

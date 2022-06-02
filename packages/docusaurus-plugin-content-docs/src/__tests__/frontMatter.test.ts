@@ -396,3 +396,52 @@ describe('validateDocFrontMatter draft', () => {
     ],
   });
 });
+
+describe('validateDocFrontMatter last_update', () => {
+  testField({
+    prefix: 'last_update',
+    validFrontMatters: [
+      {last_update: undefined},
+      {last_update: {author: 'test author', date: undefined}},
+      {last_update: {author: undefined, date: '1/1/2000'}},
+      {last_update: {author: undefined, date: new Date('1/1/2000')}},
+      {last_update: {author: 'test author', date: '1/1/2000'}},
+      {last_update: {author: 'test author', date: '1995-12-17T03:24:00'}},
+      {last_update: {author: undefined, date: 'December 17, 1995 03:24:00'}},
+    ],
+    invalidFrontMatters: [
+      [
+        {last_update: null},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
+        {last_update: {}},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
+        {last_update: ''},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
+        {last_update: {invalid: 'key'}},
+        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+      ],
+      [
+        {last_update: {author: 'test author', date: 'I am not a date :('}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: '2011-10-45'}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: '2011-0-10'}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: ''}},
+        'must be a valid date',
+      ],
+    ],
+  });
+});

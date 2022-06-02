@@ -152,7 +152,7 @@ const TWEETS: TweetItem[] = [
     name: 'Kent C. Dodds',
     date: 'Nov 4, 2020',
     avatar:
-      'https://pbs.twimg.com/profile_images/1444988463216922631/IDffhy4i_400x400.jpg',
+      'https://pbs.twimg.com/profile_images/1529905780542959616/Ibwrp7VJ_400x400.jpg',
     content: (
       <>
         http://testing-library.com just got a nice update! We&apos;re now on the

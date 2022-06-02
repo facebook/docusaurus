@@ -42,7 +42,7 @@ export default function MDXPage(props: Props): JSX.Element {
                 <MDXPageContent />
               </MDXContent>
             </div>
-            {!hideTableOfContents && MDXPageContent.toc && (
+            {!hideTableOfContents && MDXPageContent.toc.length > 0 && (
               <div className="col col--2">
                 <TOC
                   toc={MDXPageContent.toc}
