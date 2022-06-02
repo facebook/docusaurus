@@ -9,11 +9,10 @@ import React, {
   useState,
   useContext,
   useEffect,
-  useMemo,
   type ReactNode,
   type ComponentType,
 } from 'react';
-import {ReactContextError} from '../../utils/reactUtils';
+import {ReactContextError, useShallowMemoObject} from '../../utils/reactUtils';
 
 // This context represents a "global layout store". A component (usually a
 // layout component) can request filling this store through
@@ -61,15 +60,6 @@ export function useNavbarSecondaryMenuContent(): Content {
   return value[0];
 }
 
-function useShallowMemoizedObject<O>(obj: O) {
-  return useMemo(
-    () => obj,
-    // Is this safe?
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...Object.keys(obj), ...Object.values(obj)],
-  );
-}
-
 /**
  * This component renders nothing by itself, but it fills the placeholder in the
  * generic secondary menu layout. This reduces coupling between the main layout
@@ -94,7 +84,7 @@ export function NavbarSecondaryMenuFiller<P extends object>({
   const [, setContent] = context;
 
   // To avoid useless context re-renders, props are memoized shallowly
-  const memoizedProps = useShallowMemoizedObject(props);
+  const memoizedProps = useShallowMemoObject(props);
 
   useEffect(() => {
     // @ts-expect-error: this context is hard to type
