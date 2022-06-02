@@ -64,6 +64,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
       paths: string[];
       preferFoldersOutput?: boolean;
       globals: {[key: string]: unknown};
+      concurrency?: number;
     });
     apply(compiler: Compiler): void;
   }
