@@ -10,6 +10,8 @@ on:
     branches:
       - main
     paths:
+      - package.json
+      - yarn.lock
       - packages/**
       - website/**
       - '!website/docs/**'

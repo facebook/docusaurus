@@ -5,12 +5,18 @@ on:
     branches:
       - main
     paths:
+      - package.json
+      - yarn.lock
+      - jest.config.mjs
       - packages/**
       - tsconfig.json
   pull_request:
     branches:
       - main
     paths:
+      - package.json
+      - yarn.lock
+      - jest.config.mjs
       - packages/**
       - tsconfig.json
       - .github/workflows/tests-e2e.yml
