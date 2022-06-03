@@ -112,6 +112,8 @@ function getAdmonitionConfig(type: string): AdmonitionConfig {
   return AdmonitionConfigs.info as AdmonitionConfig;
 }
 
+// Workaround because it's difficult in MDX v1 to provide a MDX title as props
+// See https://github.com/facebook/docusaurus/pull/7152#issuecomment-1145779682
 function extractMDXAdmonitionTitle(children: ReactNode): {
   mdxAdmonitionTitle: ReactNode | undefined;
   rest: ReactNode;
@@ -132,10 +134,11 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
 
 function processAdmonitionProps(props: Props): Props {
   const {mdxAdmonitionTitle, rest} = extractMDXAdmonitionTitle(props.children);
-
-  const title: ReactNode = props.title ?? mdxAdmonitionTitle ?? props.type;
-
-  return {...props, title, children: rest};
+  return {
+    ...props,
+    title: props.title ?? mdxAdmonitionTitle ?? props.type,
+    children: rest,
+  };
 }
 
 export default function Admonition(props: Props): JSX.Element {
