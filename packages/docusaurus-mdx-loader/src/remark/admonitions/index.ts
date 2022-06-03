@@ -41,6 +41,10 @@ function normalizeOptions(
   return {...DefaultAdmonitionOptions, ...options};
 }
 
+// This string value does not matter much
+// It is ignored because nodes are using hName/hProperties coming from HAST
+const admonitionNodeType = 'admonitionHTML';
+
 const plugin: Plugin = function plugin(
   this: Processor,
   optionsInput: Partial<AdmonitionOptions> = {},
@@ -97,16 +101,40 @@ const plugin: Plugin = function plugin(
     const contentNodes = this.tokenizeBlock(contentString, now);
     exit();
 
+    const titleNodes = this.tokenizeInline(title, now);
+
+    const isSimpleTextTitle =
+      titleNodes.length === 1 && titleNodes[0].type === 'text';
+
     const element = {
-      type: 'admonitionHTML',
+      type: admonitionNodeType,
       data: {
+        // hName/hProperties come from HAST
+        // See https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes
         hName: 'admonition',
         hProperties: {
-          title,
+          ...(title && isSimpleTextTitle && {title}),
           type: keyword,
         },
       },
-      children: contentNodes,
+      children: [
+        // For titles containing MD/MDX syntax: create a custom element
+        // The them component to parse it and render it nicely
+        //
+        // Temporary workaround, because it's complex in MDX v1 to emit
+        // interpolated JSX prop syntax (title={<>my <code>title</code></>})
+        // For this reason we use children instead of the title prop
+        title &&
+          !isSimpleTextTitle && {
+            type: admonitionNodeType,
+            data: {
+              hName: 'mdxAdmonitionTitle',
+              hProperties: {},
+            },
+            children: titleNodes,
+          },
+        ...contentNodes,
+      ].filter(Boolean),
     };
 
     return add(element);
@@ -141,7 +169,7 @@ const plugin: Plugin = function plugin(
     visit(
       root,
       (node: unknown): node is Literal =>
-        (node as Literal)?.type !== 'admonitionHTML',
+        (node as Literal)?.type !== admonitionNodeType,
       (node: Literal) => {
         if (node.value) {
           node.value = node.value.replace(escapeTag, options.tag);

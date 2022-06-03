@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/Admonition';
 
@@ -112,12 +112,40 @@ function getAdmonitionConfig(type: string): AdmonitionConfig {
   return AdmonitionConfigs.info as AdmonitionConfig;
 }
 
-export default function Admonition({
-  children,
-  type,
-  title = type,
-  icon: iconProp,
-}: Props): JSX.Element {
+function extractMDXAdmonitionTitle(children: ReactNode): {
+  mdxAdmonitionTitle: ReactNode | undefined;
+  rest: ReactNode;
+} {
+  const items = React.Children.toArray(children);
+  const mdxAdmonitionTitle = items.find(
+    (item) =>
+      React.isValidElement(item) &&
+      (item.props as {mdxType: string} | null)?.mdxType ===
+        'mdxAdmonitionTitle',
+  );
+  const rest = <>{items.filter((item) => item !== mdxAdmonitionTitle)}</>;
+  return {
+    mdxAdmonitionTitle,
+    rest,
+  };
+}
+
+function processAdmonitionProps(props: Props): Props {
+  const {mdxAdmonitionTitle, rest} = extractMDXAdmonitionTitle(props.children);
+
+  const title: ReactNode = props.title ?? mdxAdmonitionTitle ?? props.type;
+
+  return {...props, title, children: rest};
+}
+
+export default function Admonition(props: Props): JSX.Element {
+  const {
+    children,
+    type,
+    title = type,
+    icon: iconProp,
+  } = processAdmonitionProps(props);
+
   const config = getAdmonitionConfig(type);
   const {infimaClassName, iconComponent: IconComponent} = config;
   const icon = iconProp ?? <IconComponent />;

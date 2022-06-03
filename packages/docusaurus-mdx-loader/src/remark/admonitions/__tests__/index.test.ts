@@ -7,12 +7,12 @@
 
 import path from 'path';
 import remark from 'remark';
-import type {AdmonitionOptions} from '../index';
-import plugin from '../index';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
 
 import vfile from 'to-vfile';
+import plugin from '../index';
+import type {AdmonitionOptions} from '../index';
 
 const processFixture = async (
   name: string,
@@ -43,6 +43,11 @@ describe('admonitions remark plugin', () => {
 
   it('custom tag', async () => {
     const result = await processFixture('base', {tag: '++++'});
+    expect(result).toMatchSnapshot();
+  });
+
+  it('interpolation', async () => {
+    const result = await processFixture('interpolation');
     expect(result).toMatchSnapshot();
   });
 });

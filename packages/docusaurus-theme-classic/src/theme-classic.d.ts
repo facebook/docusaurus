@@ -42,7 +42,7 @@ declare module '@theme/Admonition' {
     readonly children: ReactNode;
     readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
     readonly icon?: ReactNode;
-    readonly title?: string;
+    readonly title?: ReactNode;
   }
   export default function Admonition(props: Props): JSX.Element;
 }
