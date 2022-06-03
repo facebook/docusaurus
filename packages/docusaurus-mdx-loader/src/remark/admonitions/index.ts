@@ -56,15 +56,15 @@ const plugin: Plugin = function plugin(
   const regex = new RegExp(`${tag}(${keywords})(?: *(.*))?\n`);
   const escapeTag = new RegExp(escapeRegExp(`\\${options.tag}`), 'g');
 
-  // the tokenizer is called on blocks to determine if there is an admonition
+  // The tokenizer is called on blocks to determine if there is an admonition
   // present and create tags for it
   function blockTokenizer(this: any, eat: any, value: string, silent: boolean) {
-    // stop if no match or match does not start at beginning of line
+    // Stop if no match or match does not start at beginning of line
     const match = regex.exec(value);
     if (!match || match.index !== 0) {
       return false;
     }
-    // if silent return the match
+    // If silent return the match
     if (silent) {
       return true;
     }
@@ -118,12 +118,12 @@ const plugin: Plugin = function plugin(
         },
       },
       children: [
-        // For titles containing MD/MDX syntax: create a custom element
-        // The them component to parse it and render it nicely
+        // For titles containing MDX syntax: create a custom element. The theme
+        // component will extract it and render it nicely.
         //
         // Temporary workaround, because it's complex in MDX v1 to emit
-        // interpolated JSX prop syntax (title={<>my <code>title</code></>})
-        // For this reason we use children instead of the title prop
+        // interpolated JSX prop syntax (title={<>my <code>title</code></>}).
+        // For this reason, we use children instead of the title prop.
         title &&
           !isSimpleTextTitle && {
             type: admonitionNodeType,

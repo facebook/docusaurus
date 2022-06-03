@@ -107,7 +107,7 @@ function getAdmonitionConfig(type: string): AdmonitionConfig {
     return config;
   }
   console.warn(
-    `No admonition config found for admonition type=${type}. Docusaurus will use the Info admonition as a fallback.`,
+    `No admonition config found for admonition type "${type}". Using Info as fallback.`,
   );
   return AdmonitionConfigs.info as AdmonitionConfig;
 }
