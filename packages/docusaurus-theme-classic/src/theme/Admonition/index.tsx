@@ -7,6 +7,8 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/Admonition';
 
 import styles from './styles.module.css';
@@ -69,41 +71,82 @@ function CautionIcon() {
 type AdmonitionConfig = {
   iconComponent: React.ComponentType;
   infimaClassName: string;
+  label: ReactNode;
 };
 
-const AdmonitionConfigs: {[key: string]: AdmonitionConfig | string} = {
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
   note: {
     infimaClassName: 'secondary',
     iconComponent: NoteIcon,
+    label: (
+      <Translate
+        id="theme.admonition.note"
+        description="The default label used for the Note admonition (:::note)">
+        note
+      </Translate>
+    ),
   },
   tip: {
     infimaClassName: 'success',
     iconComponent: TipIcon,
+    label: (
+      <Translate
+        id="theme.admonition.tip"
+        description="The default label used for the Tip admonition (:::tip)">
+        tip
+      </Translate>
+    ),
   },
   danger: {
     infimaClassName: 'danger',
     iconComponent: DangerIcon,
+    label: (
+      <Translate
+        id="theme.admonition.danger"
+        description="The default label used for the Danger admonition (:::danger)">
+        danger
+      </Translate>
+    ),
   },
   info: {
     infimaClassName: 'info',
     iconComponent: InfoIcon,
+    label: (
+      <Translate
+        id="theme.admonition.info"
+        description="The default label used for the Info admonition (:::info)">
+        info
+      </Translate>
+    ),
   },
   caution: {
     infimaClassName: 'warning',
     iconComponent: CautionIcon,
+    label: (
+      <Translate
+        id="theme.admonition.caution"
+        description="The default label used for the Caution admonition (:::caution)">
+        caution
+      </Translate>
+    ),
   },
+};
+
+// Legacy aliases, undocumented but kept for retro-compatibility
+const aliases = {
   secondary: 'note',
   important: 'info',
   success: 'tip',
   warning: 'danger',
-};
+} as const;
 
-function getAdmonitionConfig(type: string): AdmonitionConfig {
+function getAdmonitionConfig(
+  unsafeType: Props['type'] | keyof typeof aliases,
+): AdmonitionConfig {
+  const type = aliases[unsafeType as keyof typeof aliases] ?? unsafeType;
   const config = AdmonitionConfigs[type];
   if (config) {
-    if (typeof config === 'string') {
-      return AdmonitionConfigs[config] as AdmonitionConfig;
-    }
     return config;
   }
   console.warn(
@@ -136,28 +179,30 @@ function processAdmonitionProps(props: Props): Props {
   const {mdxAdmonitionTitle, rest} = extractMDXAdmonitionTitle(props.children);
   return {
     ...props,
-    title: props.title ?? mdxAdmonitionTitle ?? props.type,
+    title: props.title ?? mdxAdmonitionTitle,
     children: rest,
   };
 }
 
 export default function Admonition(props: Props): JSX.Element {
-  const {
-    children,
-    type,
-    title = type,
-    icon: iconProp,
-  } = processAdmonitionProps(props);
+  const {children, type, title, icon: iconProp} = processAdmonitionProps(props);
 
-  const config = getAdmonitionConfig(type);
-  const {infimaClassName, iconComponent: IconComponent} = config;
+  const typeConfig = getAdmonitionConfig(type);
+  const titleLabel = title ?? typeConfig.label;
+  const {iconComponent: IconComponent} = typeConfig;
   const icon = iconProp ?? <IconComponent />;
   return (
     <div
-      className={clsx('alert', `alert--${infimaClassName}`, styles.admonition)}>
+      className={clsx(
+        ThemeClassNames.common.admonition,
+        ThemeClassNames.common.admonitionType(props.type),
+        'alert',
+        `alert--${typeConfig.infimaClassName}`,
+        styles.admonition,
+      )}>
       <div className={styles.admonitionHeading}>
         <span className={styles.admonitionIcon}>{icon}</span>
-        {title}
+        {titleLabel}
       </div>
       <div className={styles.admonitionContent}>{children}</div>
     </div>
