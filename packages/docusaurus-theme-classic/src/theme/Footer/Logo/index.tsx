@@ -8,6 +8,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import ThemedImage from '@theme/ThemedImage';
 import type {Props} from '@theme/Footer/Logo';
 
@@ -31,8 +32,17 @@ function LogoImage({logo}: Props) {
 }
 
 export default function FooterLogo({logo}: Props): JSX.Element {
+  let logoLinkProps = {};
+  if (logo.target) {
+    logoLinkProps = {target: logo.target};
+  } else if (!isInternalUrl(logo.href)) {
+    logoLinkProps = {
+      rel: 'noopener noreferrer',
+      target: '_blank',
+    };
+  }
   return logo.href ? (
-    <Link href={logo.href} className={styles.footerLogoLink}>
+    <Link href={logo.href} className={styles.footerLogoLink} {...logoLinkProps}>
       <LogoImage logo={logo} />
     </Link>
   ) : (
