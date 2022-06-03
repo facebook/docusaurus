@@ -331,6 +331,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Brainboard IDE',
+    description: 'The new way to operate & manage your Cloud: visually.',
+    preview: require('./showcase/brainboard.png'),
+    website: 'https://docs.brainboard.co/start/cloud-use-cases',
+    source: null,
+    tags: ['product', 'design'],
+  },
+  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
