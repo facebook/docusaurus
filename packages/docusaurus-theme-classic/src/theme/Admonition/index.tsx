@@ -7,6 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Admonition';
 
 import styles from './styles.module.css';
@@ -154,7 +155,12 @@ export default function Admonition(props: Props): JSX.Element {
   const icon = iconProp ?? <IconComponent />;
   return (
     <div
-      className={clsx('alert', `alert--${infimaClassName}`, styles.admonition)}>
+      className={clsx(
+        ThemeClassNames.common.admonition,
+        'alert',
+        `alert--${infimaClassName}`,
+        styles.admonition,
+      )}>
       <div className={styles.admonitionHeading}>
         <span className={styles.admonitionIcon}>{icon}</span>
         {title}
