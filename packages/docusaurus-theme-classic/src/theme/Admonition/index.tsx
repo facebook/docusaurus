@@ -83,7 +83,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
       <Translate
         id="theme.admonition.note"
         description="The default label used for the Note admonition (:::note)">
-        Note
+        note
       </Translate>
     ),
   },
@@ -94,7 +94,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
       <Translate
         id="theme.admonition.tip"
         description="The default label used for the Tip admonition (:::tip)">
-        Tip
+        tip
       </Translate>
     ),
   },
@@ -105,7 +105,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
       <Translate
         id="theme.admonition.danger"
         description="The default label used for the Danger admonition (:::danger)">
-        Danger
+        danger
       </Translate>
     ),
   },
@@ -116,7 +116,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
       <Translate
         id="theme.admonition.info"
         description="The default label used for the Info admonition (:::info)">
-        Danger
+        info
       </Translate>
     ),
   },
@@ -127,7 +127,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
       <Translate
         id="theme.admonition.caution"
         description="The default label used for the Caution admonition (:::caution)">
-        Caution
+        caution
       </Translate>
     ),
   },
