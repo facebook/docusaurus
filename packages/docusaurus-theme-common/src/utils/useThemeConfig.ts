@@ -125,6 +125,7 @@ export type ThemeConfig = {
   image?: string;
   metadata: {[key: string]: string}[];
   tableOfContents: TableOfContents;
+  breadcrumbsHomeText: boolean;
 };
 
 // User-provided theme config, unnormalized

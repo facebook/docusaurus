@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "ডক্স পৃষ্টাগুলির নেভিগেশন",
   "theme.docs.paginator.next": "পরবর্তী",
   "theme.docs.paginator.previous": "পূর্ববর্তী",

@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "Навигација по документима",
   "theme.docs.paginator.next": "Даље",
   "theme.docs.paginator.previous": "Назад",

@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} مورد",
   "theme.docs.breadcrumbs.home": "صفحه اصلی",
   "theme.docs.breadcrumbs.navAriaLabel": "نشانگر صفحات",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "کنترل صفحات مطالب",
   "theme.docs.paginator.next": "بعدی",
   "theme.docs.paginator.previous": "قبلی",

@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} elementów",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "Nawigacja na stronie dokumentacji",
   "theme.docs.paginator.next": "Następna strona",
   "theme.docs.paginator.previous": "Poprzednia strona",

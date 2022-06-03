@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} элемент|{count} элемента|{count} элементов",
   "theme.docs.breadcrumbs.home": "Главная страница",
   "theme.docs.breadcrumbs.navAriaLabel": "Навигационная цепочка текущей страницы",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "Навигация по странице документации",
   "theme.docs.paginator.next": "Следующая страница",
   "theme.docs.paginator.previous": "Предыдущая страница",

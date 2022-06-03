@@ -359,6 +359,7 @@ const config = {
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },
+      breadcrumbsHomeText: false,
       docs: {
         sidebar: {
           hideable: true,

@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "Stránkování dokumentace",
   "theme.docs.paginator.next": "Další",
   "theme.docs.paginator.previous": "Předchozí",

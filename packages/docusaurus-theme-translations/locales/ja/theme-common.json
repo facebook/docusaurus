@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
+  "theme.docs.breadcrumbs.home.text": "ホーム",
   "theme.docs.paginator.navAriaLabel": "ドキュメントのナビゲーション",
   "theme.docs.paginator.next": "次へ",
   "theme.docs.paginator.previous": "前へ",

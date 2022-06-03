@@ -35,6 +35,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} 항목",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
+  "theme.docs.breadcrumbs.home.text": "Home",
   "theme.docs.paginator.navAriaLabel": "문서 탐색",
   "theme.docs.paginator.next": "다음",
   "theme.docs.paginator.previous": "이전",

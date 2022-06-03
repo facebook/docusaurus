@@ -58,6 +58,7 @@ export const DEFAULT_CONFIG: ThemeConfig = {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
   },
+  breadcrumbsHomeText: false,
 };
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
@@ -438,6 +439,7 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
       .max(6)
       .default(DEFAULT_CONFIG.tableOfContents.maxHeadingLevel),
   }).default(DEFAULT_CONFIG.tableOfContents),
+  breadcrumbsHomeText: Joi.bool().default(false),
 });
 
 export function validateThemeConfig({

@@ -11,6 +11,7 @@ import {
   ThemeClassNames,
   useSidebarBreadcrumbs,
   useHomePageRoute,
+  useThemeConfig,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -79,8 +80,18 @@ function BreadcrumbsItem({
   );
 }
 
+function HomeBreadcrumbText() {
+  return translate({
+    id: 'theme.docs.breadcrumbs.home.text',
+    message: 'Home',
+    description: 'The ARIA label for the home page in the breadcrumbs',
+  });
+}
+
 function HomeBreadcrumbItem() {
   const homeHref = useBaseUrl('/');
+  const shouldBreadcrumbsHomeText =
+    useThemeConfig().breadcrumbsHomeText === true;
   return (
     <li className="breadcrumbs__item">
       <Link
@@ -91,7 +102,11 @@ function HomeBreadcrumbItem() {
         })}
         className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
         href={homeHref}>
-        <IconHome className={styles.breadcrumbHomeIcon} />
+        {shouldBreadcrumbsHomeText ? (
+          HomeBreadcrumbText()
+        ) : (
+          <IconHome className={styles.breadcrumbHomeIcon} />
+        )}
       </Link>
     </li>
   );

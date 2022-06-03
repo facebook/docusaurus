@@ -109,6 +109,7 @@ describe('themeConfig', () => {
         minHeadingLevel: 2,
         maxHeadingLevel: 5,
       },
+      breadcrumbsHomeText: true,
     };
     expect(testValidateThemeConfig(userConfig)).toEqual({
       ...DEFAULT_CONFIG,
