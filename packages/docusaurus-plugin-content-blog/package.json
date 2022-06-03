@@ -30,7 +30,6 @@
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "reading-time": "^1.5.0",
-    "remark-admonitions": "^1.2.1",
     "tslib": "^2.4.0",
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",

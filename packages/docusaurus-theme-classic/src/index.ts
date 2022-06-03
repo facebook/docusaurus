@@ -139,7 +139,6 @@ export default function themeClassic(
       const modules = [
         require.resolve(getInfimaCSSFile(direction)),
         './prism-include-languages',
-        './admonitions.css',
         './nprogress',
       ];
 

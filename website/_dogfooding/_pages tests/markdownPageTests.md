@@ -221,3 +221,11 @@ Can be arbitrarily nested:
     - [ ] Task
     - [ ] Task
 - [ ] Task
+
+## Admonitions
+
+:::caution Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button>
+
+Admonition body
+
+:::

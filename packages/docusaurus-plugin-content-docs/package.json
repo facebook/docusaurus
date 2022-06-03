@@ -38,7 +38,6 @@
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "remark-admonitions": "^1.2.1",
     "tslib": "^2.4.0",
     "utility-types": "^3.10.0",
     "webpack": "^5.72.1"

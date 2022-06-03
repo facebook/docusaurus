@@ -44,6 +44,8 @@
     "@types/unist": "^2.0.6",
     "remark": "^12.0.1",
     "remark-mdx": "^1.6.21",
+    "rehype-stringify": "^8.0.0",
+    "remark-rehype": "^8.1.0",
     "to-vfile": "^6.1.0",
     "unist-builder": "^2.0.3",
     "unist-util-remove-position": "^3.0.0"

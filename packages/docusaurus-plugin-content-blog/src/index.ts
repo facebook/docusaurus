@@ -21,7 +21,6 @@ import {
   type TagsListItem,
   type TagModule,
 } from '@docusaurus/utils';
-import admonitions from 'remark-admonitions';
 import {
   generateBlogPosts,
   getSourceToPermalink,
@@ -49,12 +48,6 @@ export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin<BlogContent>> {
-  if (options.admonitions) {
-    options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions],
-    ]);
-  }
-
   const {
     siteDir,
     siteConfig,
@@ -381,6 +374,7 @@ export default async function pluginContentBlog(
 
     configureWebpack(_config, isServer, {getJSLoader}, content) {
       const {
+        admonitions,
         rehypePlugins,
         remarkPlugins,
         truncateMarker,
@@ -423,6 +417,7 @@ export default async function pluginContentBlog(
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
+                    admonitions,
                     remarkPlugins,
                     rehypePlugins,
                     beforeDefaultRemarkPlugins: [

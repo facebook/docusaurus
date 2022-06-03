@@ -21,7 +21,6 @@ import {
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
 } from '@docusaurus/utils';
-import admonitions from 'remark-admonitions';
 import {validatePageFrontMatter} from './frontMatter';
 
 import type {LoadContext, Plugin} from '@docusaurus/types';
@@ -43,11 +42,6 @@ export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null> {
-  if (options.admonitions) {
-    options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions],
-    ]);
-  }
   const {siteConfig, siteDir, generatedFilesDir, localizationDir} = context;
 
   const contentPaths: PagesContentPaths = {
@@ -170,6 +164,7 @@ export default function pluginContentPages(
 
     configureWebpack(config, isServer, {getJSLoader}) {
       const {
+        admonitions,
         rehypePlugins,
         remarkPlugins,
         beforeDefaultRehypePlugins,
@@ -194,6 +189,7 @@ export default function pluginContentPages(
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
+                    admonitions,
                     remarkPlugins,
                     rehypePlugins,
                     beforeDefaultRehypePlugins,

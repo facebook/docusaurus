@@ -206,7 +206,6 @@ declare module '@docusaurus/plugin-content-docs' {
       docTagsListComponent: string;
       /** Root component of the generated category index page. */
       docCategoryGeneratedIndexComponent: string;
-      admonitions: {[key: string]: unknown};
       sidebarItemsGenerator: import('./sidebars/types').SidebarItemsGeneratorOption;
       /**
        * URL route for the tags section of your doc version. Will be appended to

@@ -63,7 +63,7 @@ describe('normalizeDocsPluginOptions', () => {
       breadcrumbs: true,
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
-      admonitions: {},
+      admonitions: false,
       includeCurrentVersion: false,
       disableVersioning: true,
       editCurrentVersion: true,
@@ -84,7 +84,6 @@ describe('normalizeDocsPluginOptions', () => {
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
-      remarkPlugins: [...userOptions.remarkPlugins!, expect.any(Array)],
     });
   });
 
@@ -102,7 +101,6 @@ describe('normalizeDocsPluginOptions', () => {
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
-      remarkPlugins: [...userOptions.remarkPlugins!, expect.any(Array)],
     });
   });
 
@@ -116,14 +114,14 @@ describe('normalizeDocsPluginOptions', () => {
     });
   });
 
-  it('rejects admonitions true', () => {
-    const admonitionsTrue: Options = {
-      admonitions: true,
-    };
+  it('rejects admonitions array', () => {
     expect(() =>
-      testValidate(admonitionsTrue),
+      testValidate({
+        // @ts-expect-error: rejected value
+        admonitions: [],
+      }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""admonitions" contains an invalid value"`,
+      `""admonitions" does not look like a valid admonitions config"`,
     );
   });
 

@@ -14,6 +14,7 @@ import MDXDetails from '@theme/MDXComponents/Details';
 import MDXHeading from '@theme/MDXComponents/Heading';
 import MDXUl from '@theme/MDXComponents/Ul';
 import MDXImg from '@theme/MDXComponents/Img';
+import Admonition from '@theme/Admonition';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
@@ -31,6 +32,7 @@ const MDXComponents: MDXComponentsObject = {
   h4: (props) => <MDXHeading as="h4" {...props} />,
   h5: (props) => <MDXHeading as="h5" {...props} />,
   h6: (props) => <MDXHeading as="h6" {...props} />,
+  admonition: Admonition,
 };
 
 export default MDXComponents;

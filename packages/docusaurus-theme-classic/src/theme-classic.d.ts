@@ -42,7 +42,7 @@ declare module '@theme/Admonition' {
     readonly children: ReactNode;
     readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
     readonly icon?: ReactNode;
-    readonly title?: string;
+    readonly title?: ReactNode;
   }
   export default function Admonition(props: Props): JSX.Element;
 }
@@ -675,6 +675,7 @@ declare module '@theme/MDXComponents' {
   import type MDXDetails from '@theme/MDXComponents/Details';
   import type MDXUl from '@theme/MDXComponents/Ul';
   import type MDXImg from '@theme/MDXComponents/Img';
+  import type Admonition from '@theme/Admonition';
 
   export type MDXComponentsObject = {
     readonly head: typeof MDXHead;
@@ -690,6 +691,7 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
+    readonly admonition: typeof Admonition;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [tagName: string]: ComponentType<any>;
   };
