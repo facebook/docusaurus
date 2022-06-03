@@ -32,7 +32,10 @@ function LogoImage({logo}: Props) {
 
 export default function FooterLogo({logo}: Props): JSX.Element {
   return logo.href ? (
-    <Link href={logo.href} className={styles.footerLogoLink}>
+    <Link
+      href={logo.href}
+      className={styles.footerLogoLink}
+      target={logo.target}>
       <LogoImage logo={logo} />
     </Link>
   ) : (

@@ -364,6 +364,7 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
       width: Joi.alternatives().try(Joi.string(), Joi.number()),
       height: Joi.alternatives().try(Joi.string(), Joi.number()),
       href: Joi.string(),
+      target: Joi.string(),
     }),
     copyright: Joi.string(),
     links: Joi.alternatives(
