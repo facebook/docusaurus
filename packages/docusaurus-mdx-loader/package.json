@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.18.3",
+    "@babel/parser": "^7.18.4",
     "@babel/traverse": "^7.18.2",
     "@docusaurus/logger": "2.0.0-beta.21",
     "@docusaurus/utils": "2.0.0-beta.21",
@@ -34,7 +34,7 @@
     "unified": "^9.2.2",
     "unist-util-visit": "^2.0.3",
     "url-loader": "^4.1.1",
-    "webpack": "^5.72.1"
+    "webpack": "^5.73.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.21",
