@@ -28,9 +28,9 @@
     "@docusaurus/utils-validation": "2.0.0-beta.21",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
-    "sharp": "^0.30.5",
+    "sharp": "^0.30.6",
     "tslib": "^2.4.0",
-    "webpack": "^5.72.1"
+    "webpack": "^5.73.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.21",

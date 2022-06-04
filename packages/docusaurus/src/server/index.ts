@@ -147,6 +147,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
 
   const genWarning = generate(
     generatedFilesDir,
+    // cSpell:ignore DONT
     'DONT-EDIT-THIS-FOLDER',
     `This folder stores temp files that Docusaurus' client bundler accesses.
 

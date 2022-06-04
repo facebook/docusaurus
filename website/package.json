@@ -48,7 +48,7 @@
     "@docusaurus/utils": "2.0.0-beta.21",
     "@docusaurus/utils-common": "2.0.0-beta.21",
     "@popperjs/core": "^2.11.5",
-    "@swc/core": "^1.2.194",
+    "@swc/core": "^1.2.196",
     "clsx": "^1.1.1",
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",
@@ -63,7 +63,7 @@
     "remark-math": "^3.0.1",
     "swc-loader": "^0.2.1",
     "unist-util-visit": "^2.0.3",
-    "webpack": "^5.72.1",
+    "webpack": "^5.73.0",
     "workbox-routing": "^6.5.3",
     "workbox-strategies": "^6.5.3"
   },
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "2.0.0-beta.21",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@types/jest": "^27.5.1",
+    "@types/jest": "^28.1.0",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }

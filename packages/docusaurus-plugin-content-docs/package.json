@@ -40,7 +40,7 @@
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.72.1"
+    "webpack": "^5.73.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.21",
