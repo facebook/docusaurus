@@ -312,8 +312,11 @@ Use JSX within JSX tag, or move the Markdown to the outer layer:
 <div className={styles.wrappingBlock}>
 ```
 
+<!-- prettier-ignore -->
 ```jsx
-<div style={{color: 'red'}}>**Bold still doesn't work**</div>
+<div style={{color: 'red'}}>
+**Bold still doesn't work**
+</div>
 ```
 
 ```mdx-code-block
@@ -335,8 +338,13 @@ Add an empty new line:
 <div className={styles.wrappingBlock}>
 ```
 
+<!-- prettier-ignore -->
 ```jsx
-<div style={{color: 'red'}}>**Bold now works**</div>
+<div style={{color: 'red'}}>
+
+**Bold now works**
+
+</div>
 ```
 
 ```mdx-code-block
@@ -360,8 +368,13 @@ Add an empty new line:
 <div className={styles.wrappingBlock}>
 ```
 
+<!-- prettier-ignore -->
 ```jsx
-<div style={{color: 'red'}}>You may think I'm just some text...</div>
+<div style={{color: 'red'}}>
+
+    You may think I'm just some text...
+
+</div>
 ```
 
 ```mdx-code-block
@@ -385,8 +398,13 @@ Don't indent:
 <div className={styles.wrappingBlock}>
 ```
 
+<!-- prettier-ignore -->
 ```jsx
-<div style={{color: 'red'}}>Now I'm actually just text</div>
+<div style={{color: 'red'}}>
+
+Now I'm actually just text
+
+</div>
 ```
 
 ```mdx-code-block
