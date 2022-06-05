@@ -9,7 +9,7 @@ import {
   InsertIfCanaryVersionKnown,
   PackageJSONDiff,
   PublishTime,
-} from "./Versions.tsx";
+} from "@site/src/components/Versions";
 
 <VersionsProvider>
 ```
