@@ -404,8 +404,10 @@ You can express typical sidebar items without much customization more concisely 
 
 An item with type `doc` can be simply a string representing its ID:
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Longhand">
+```
 
 ```js title="sidebars.js"
 module.exports = {
@@ -420,8 +422,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Shorthand">
+```
 
 ```js title="sidebars.js"
 module.exports = {
@@ -433,8 +437,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
 
 So it's possible to simplify the example above to:
 
@@ -472,8 +478,10 @@ module.exports = {
 
 A category item can be represented by an object whose key is its label, and the value is an array of subitems.
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Longhand">
+```
 
 ```js title="sidebars.js"
 module.exports = {
@@ -489,8 +497,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Shorthand">
+```
 
 ```js title="sidebars.js"
 module.exports = {
@@ -504,8 +514,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
 
 This permits us to simplify that example to:
 
@@ -553,8 +565,10 @@ Note how the two consecutive category shorthands are compressed into one object 
 
 Wherever you have an array of items that is reduced to one category shorthand, you can omit that enclosing array as well.
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Before">
+```
 
 ```js title="sidebars.js"
 module.exports = {
@@ -572,8 +586,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="After">
+```
 
 ```js title="sidebars.js"
 module.exports = {
@@ -587,5 +603,7 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
