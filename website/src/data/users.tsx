@@ -1353,6 +1353,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Outerbounds',
+    description: 'A set of resources to help data scientists and engineers do their jobs better',
+    preview: require('./showcase/outerbounds.png'),
+    website: 'https://outerbounds.com',
+    source: null,
+    tags: ['product', 'design'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
