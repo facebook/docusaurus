@@ -1354,10 +1354,10 @@ const Users: User[] = [
   },
   {
     title: 'Outerbounds',
-    description: 'A set of resources to help data scientists and engineers do their jobs better',
+    description: 'A documentation site authored from jupyter notebooks using nbdoc and docusaurus.',
     preview: require('./showcase/outerbounds.png'),
     website: 'https://outerbounds.com',
-    source: null,
+    source: 'https://github.com/outerbounds/nbdoc',
     tags: ['product', 'design'],
   },
   {
