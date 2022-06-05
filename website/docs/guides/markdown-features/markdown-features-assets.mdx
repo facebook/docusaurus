@@ -27,8 +27,10 @@ Let's imagine the following file structure:
 
 You can display images in three different ways: Markdown syntax, CJS require, or ES imports syntax.
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Markdown syntax">
+```
 
 Display images using simple Markdown syntax:
 
@@ -36,8 +38,10 @@ Display images using simple Markdown syntax:
 ![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="CommonJS require">
+```
 
 Display images using inline CommonJS `require` in JSX image tag:
 
@@ -48,8 +52,10 @@ Display images using inline CommonJS `require` in JSX image tag:
 />
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Import statement">
+```
 
 Display images using ES `import` syntax and JSX image tag:
 
@@ -59,8 +65,10 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 <img src={myImageUrl} alt="Example banner" />;
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
 
 All of the above result in displaying the image:
 

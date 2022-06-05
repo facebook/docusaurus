@@ -102,8 +102,10 @@ When tagging a new version, the document versioning mechanism will:
 1. Place the new file into the corresponding version folder.
 2. Include the reference to the new file in the corresponding sidebar file according to the version number.
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Current version structure">
+```
 
 ```bash
 # The new file.
@@ -113,8 +115,10 @@ docs/new.md
 sidebars.js
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Older version structure">
+```
 
 ```bash
 # The new file.
@@ -124,8 +128,10 @@ versioned_docs/version-1.0.0/new.md
 versioned_sidebars/version-1.0.0-sidebars.json
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
 
 ### Updating an existing version {#updating-an-existing-version}
 

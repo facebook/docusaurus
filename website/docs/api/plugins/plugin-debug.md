@@ -67,8 +67,10 @@ Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Preset Options">
+```
 
 If you use a preset, configure this plugin through the [preset options](../../using-plugins.md#docusauruspreset-classic):
 
@@ -86,8 +88,10 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Plugin Options">
+```
 
 If you are using a standalone plugin, provide options directly to the plugin:
 
@@ -98,5 +102,7 @@ module.exports = {
 };
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
