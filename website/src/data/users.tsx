@@ -1354,7 +1354,8 @@ const Users: User[] = [
   },
   {
     title: 'Outerbounds',
-    description: 'A documentation site authored from jupyter notebooks using nbdoc and docusaurus.',
+    description:
+      'A documentation site authored from jupyter notebooks using nbdoc and docusaurus.',
     preview: require('./showcase/outerbounds.png'),
     website: 'https://outerbounds.com',
     source: 'https://github.com/outerbounds/nbdoc',
