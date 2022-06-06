@@ -37,6 +37,7 @@ import type {
   VersionMetadata,
   DocFrontMatter,
   LoadedVersion,
+  FileChange,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -50,9 +51,21 @@ type LastUpdateOptions = Pick<
 async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
+  lastUpdateFrontMatter: FileChange | undefined,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
+    const frontMatterTimestamp = lastUpdateFrontMatter?.date
+      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+      : undefined;
+
+    if (lastUpdateFrontMatter?.author && lastUpdateFrontMatter.date) {
+      return {
+        lastUpdatedAt: frontMatterTimestamp,
+        lastUpdatedBy: lastUpdateFrontMatter.author,
+      };
+    }
+
     // Use fake data in dev for faster development.
     const fileLastUpdateData =
       process.env.NODE_ENV === 'production'
@@ -61,14 +74,16 @@ async function readLastUpdateData(
             author: 'Author',
             timestamp: 1539502055,
           };
+    const {author, timestamp} = fileLastUpdateData ?? {};
 
-    if (fileLastUpdateData) {
-      const {author, timestamp} = fileLastUpdateData;
-      return {
-        lastUpdatedAt: showLastUpdateTime ? timestamp : undefined,
-        lastUpdatedBy: showLastUpdateAuthor ? author : undefined,
-      };
-    }
+    return {
+      lastUpdatedBy: showLastUpdateAuthor
+        ? lastUpdateFrontMatter?.author ?? author
+        : undefined,
+      lastUpdatedAt: showLastUpdateTime
+        ? frontMatterTimestamp ?? timestamp
+        : undefined,
+    };
   }
 
   return {};
@@ -80,7 +95,6 @@ export async function readDocFile(
     'contentPath' | 'contentPathLocalized'
   >,
   source: string,
-  options: LastUpdateOptions,
 ): Promise<DocFile> {
   const contentPath = await getFolderContainingFile(
     getContentPathList(versionMetadata),
@@ -89,11 +103,8 @@ export async function readDocFile(
 
   const filePath = path.join(contentPath, source);
 
-  const [content, lastUpdate] = await Promise.all([
-    fs.readFile(filePath, 'utf-8'),
-    readLastUpdateData(filePath, options),
-  ]);
-  return {source, content, lastUpdate, contentPath, filePath};
+  const content = await fs.readFile(filePath, 'utf-8');
+  return {source, content, contentPath, filePath};
 }
 
 export async function readVersionDocs(
@@ -108,7 +119,7 @@ export async function readVersionDocs(
     ignore: options.exclude,
   });
   return Promise.all(
-    sources.map((source) => readDocFile(versionMetadata, source, options)),
+    sources.map((source) => readDocFile(versionMetadata, source)),
   );
 }
 
@@ -125,7 +136,7 @@ function isDraftForEnvironment({
   return (env === 'production' && frontMatter.draft) ?? false;
 }
 
-function doProcessDocMetadata({
+async function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
@@ -137,8 +148,8 @@ function doProcessDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-}): DocMetadataBase {
-  const {source, content, lastUpdate, contentPath, filePath} = docFile;
+}): Promise<DocMetadataBase> {
+  const {source, content, contentPath, filePath} = docFile;
   const {siteDir, i18n} = context;
 
   const {
@@ -155,7 +166,14 @@ function doProcessDocMetadata({
     // (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc)
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
+    last_update: lastUpdateFrontMatter,
   } = frontMatter;
+
+  const lastUpdate = await readLastUpdateData(
+    filePath,
+    options,
+    lastUpdateFrontMatter,
+  );
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -287,7 +305,7 @@ export function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-}): DocMetadataBase {
+}): Promise<DocMetadataBase> {
   try {
     return doProcessDocMetadata(args);
   } catch (err) {

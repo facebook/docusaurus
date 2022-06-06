@@ -33,7 +33,9 @@ You can configure this plugin through the [preset options](#ex-config-preset).
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -71,7 +73,9 @@ Accepted fields:
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
 | `sortPosts` | <code>'descending' \| 'ascending' </code> | `'descending'` | Governs the direction of blog post sorting. |
 
+```mdx-code-block
 </APITable>
+```
 
 ### Types {#types}
 
@@ -174,7 +178,9 @@ Markdown documents can use the following Markdown front matter metadata fields, 
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -195,7 +201,9 @@ Accepted fields:
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
 | `slug` | `string` | File path | Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`. |
 
+```mdx-code-block
 </APITable>
+```
 
 ```ts
 type Tag = string | {label: string; permalink: string};

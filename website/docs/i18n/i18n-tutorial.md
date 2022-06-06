@@ -115,8 +115,10 @@ Locate all text labels in your React code that will be visible to your users, an
 
 Use the one that better fits the context semantically. For example, the `<Translate>` can be used as React children, while for props that expect a string, the callback can be used.
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Before">
+```
 
 ```jsx title="src/pages/index.js"
 import React from 'react';
@@ -144,8 +146,10 @@ export default function Home() {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="After">
+```
 
 ```jsx title="src/pages/index.js"
 import React from 'react';
@@ -199,8 +203,10 @@ export default function Home() {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
+```
 
 :::info
 

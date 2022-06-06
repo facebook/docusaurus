@@ -178,7 +178,7 @@ The API of `configureWebpack` will be modified in the future to accept an object
 - `getStyleLoaders(isServer: boolean, cssOptions: {[key: string]: any}): Loader[]`
 - `getJSLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
 
-You may use them to return your webpack configures conditionally.
+You may use them to return your webpack configuration conditionally.
 
 For example, this plugin below modify the webpack config to transpile `.foo` files.
 

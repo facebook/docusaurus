@@ -17,6 +17,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 
 const DefaultI18N: I18n = {
+  path: 'i18n',
   currentLocale: 'en',
   locales: ['en'],
   defaultLocale: 'en',
@@ -37,6 +38,7 @@ describe('readVersionsMetadata', () => {
         siteDir: simpleSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
+        localizationDir: path.join(simpleSiteDir, 'i18n/en'),
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {
@@ -198,6 +200,7 @@ describe('readVersionsMetadata', () => {
         siteDir: versionedSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
+        localizationDir: path.join(versionedSiteDir, 'i18n/en'),
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {
@@ -636,6 +639,7 @@ describe('readVersionsMetadata', () => {
         siteDir: versionedSiteDir,
         baseUrl: '/',
         i18n: DefaultI18N,
+        localizationDir: path.join(versionedSiteDir, 'i18n/en'),
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {

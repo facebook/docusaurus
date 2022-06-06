@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
-import {Globby} from '@docusaurus/utils';
+import {Globby, DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import importFresh from 'import-fresh';
 import Color from 'color';
 
@@ -22,9 +22,6 @@ import type {
   VersionOneConfig,
   VersionTwoConfig,
 } from './types';
-
-const DOCUSAURUS_VERSION = (importFresh('../package.json') as {version: string})
-  .version;
 
 async function walk(dir: string): Promise<string[]> {
   const results: string[] = [];
@@ -82,7 +79,8 @@ export async function migrateDocusaurusProject(
   shouldMigratePages: boolean = false,
 ): Promise<void> {
   async function createMigrationContext(): Promise<MigrationContext> {
-    const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
+    const v1Config = (await import(`${siteDir}/siteConfig`))
+      .default as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
     const deps = {
       '@docusaurus/core': DOCUSAURUS_VERSION,
@@ -444,9 +442,9 @@ async function migrateBlogFiles(context: MigrationContext) {
 async function handleVersioning(context: MigrationContext) {
   const {siteDir, newDir} = context;
   if (await fs.pathExists(path.join(siteDir, 'versions.json'))) {
-    const loadedVersions: string[] = await fs.readJSON(
+    const loadedVersions = (await fs.readJSON(
       path.join(siteDir, 'versions.json'),
-    );
+    )) as string[];
     await fs.copyFile(
       path.join(siteDir, 'versions.json'),
       path.join(newDir, 'versions.json'),
@@ -488,7 +486,11 @@ async function migrateVersionedDocs(
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
         await fs.copy(
-          path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+          path.join(
+            newDir,
+            'versioned_docs',
+            `version-${versions[index - 1]!}`,
+          ),
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
         await fs.copy(
@@ -497,7 +499,11 @@ async function migrateVersionedDocs(
         );
       } catch {
         await fs.copy(
-          path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+          path.join(
+            newDir,
+            'versioned_docs',
+            `version-${versions[index - 1]!}`,
+          ),
           path.join(newDir, 'versioned_docs', `version-${version}`),
         );
       }
@@ -543,7 +549,7 @@ async function migrateVersionedSidebar(
         `version-${version}-sidebars.json`,
       );
       try {
-        sidebarEntries = await fs.readJSON(sidebarPath);
+        sidebarEntries = (await fs.readJSON(sidebarPath)) as SidebarEntries;
       } catch {
         sidebars.push({version, entries: sidebars[i - 1]!.entries});
         return;

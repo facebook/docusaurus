@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
@@ -73,4 +73,24 @@ export class ReactContextError extends Error {
         .name ?? ''
     } is called outside the <${providerName}>. ${additionalInfo ?? ''}`;
   }
+}
+
+/**
+ * Shallow-memoize an object
+ *
+ * This means the returned object will be the same as the previous render
+ * if the attribute names and identities did not change.
+ *
+ * This works for simple cases: when attributes are primitives or stable objects
+ *
+ * @param obj
+ */
+export function useShallowMemoObject<O>(obj: O): O {
+  return useMemo(
+    () => obj,
+    // Is this safe?
+    // TODO make this implementation not order-dependent?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...Object.keys(obj), ...Object.values(obj)],
+  );
 }

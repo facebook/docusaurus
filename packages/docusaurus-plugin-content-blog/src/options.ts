@@ -24,7 +24,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   feedOptions: {type: ['rss', 'atom'], copyright: ''},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
-  admonitions: {},
+  admonitions: true,
   truncateMarker: /<!--\s*truncate\s*-->/,
   rehypePlugins: [],
   remarkPlugins: [],

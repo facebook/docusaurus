@@ -32,7 +32,31 @@ const MarkdownPluginsSchema = Joi.array()
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
 
-export const AdmonitionsSchema = Joi.object().default({});
+const LegacyAdmonitionConfigSchema = Joi.forbidden().messages({
+  'any.unknown': `The Docusaurus admonitions system has changed, and the option {#label} does not exist anymore.
+You now need to swizzle the admonitions component to provide UI customizations such as icons.
+Please refer to https://github.com/facebook/docusaurus/pull/7152 for detailed upgrade instructions.`,
+});
+
+export const AdmonitionsSchema = JoiFrontMatter.alternatives()
+  .try(
+    JoiFrontMatter.boolean().required(),
+    JoiFrontMatter.object({
+      tag: JoiFrontMatter.string(),
+      keywords: JoiFrontMatter.array().items(
+        JoiFrontMatter.string().required(),
+      ),
+      // TODO Remove before 2023
+      customTypes: LegacyAdmonitionConfigSchema,
+      icons: LegacyAdmonitionConfigSchema,
+      infima: LegacyAdmonitionConfigSchema,
+    }).required(),
+  )
+  .default(true)
+  .messages({
+    'alternatives.types':
+      '{{#label}} does not look like a valid admonitions config',
+  });
 
 // TODO how can we make this emit a custom error message :'(
 //  Joi is such a pain, good luck to annoying trying to improve this

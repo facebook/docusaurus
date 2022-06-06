@@ -75,6 +75,7 @@ export type FooterLogo = {
   srcDark?: string;
   width?: string | number;
   height?: string | number;
+  target?: string;
   href?: string;
 };
 

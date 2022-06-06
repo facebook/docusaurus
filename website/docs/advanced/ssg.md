@@ -36,9 +36,10 @@ ReferenceError: window is not defined
 
 This is because during server-side rendering, the Docusaurus app isn't actually run in browser, and it doesn't know what `window` is.
 
+```mdx-code-block
 <details id="node-env">
-
 <summary>What about <code>process.env.NODE_ENV</code>?</summary>
+```
 
 One exception to the "no Node globals" rule is `process.env.NODE_ENV`. In fact, you can use it in React, because Webpack injects this variable as a global:
 
@@ -58,8 +59,10 @@ During Webpack build, the `process.env.NODE_ENV` will be replaced with the value
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 
+```mdx-code-block
 <Tabs>
 <TabItem value="Development">
+```
 
 ```diff
 import React from 'react';
@@ -74,8 +77,10 @@ export default function expensiveComp() {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 <TabItem value="Production">
+```
 
 ```diff
 import React from 'react';
@@ -90,9 +95,11 @@ export default function expensiveComp() {
 }
 ```
 
+```mdx-code-block
 </TabItem>
 </Tabs>
 </details>
+```
 
 ## Understanding SSR {#understanding-ssr}
 

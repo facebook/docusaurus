@@ -100,9 +100,9 @@ export default async function pluginContentDocs(
         .command(command)
         .arguments('<version>')
         .description(commandDescription)
-        .action((version: unknown) => {
-          cliDocsVersionCommand(version, options, context);
-        });
+        .action((version: unknown) =>
+          cliDocsVersionCommand(version, options, context),
+        );
     },
 
     getTranslationFiles({content}) {
@@ -352,6 +352,7 @@ export default async function pluginContentDocs(
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
               options: {
+                admonitions: options.admonitions,
                 remarkPlugins,
                 rehypePlugins,
                 beforeDefaultRehypePlugins,

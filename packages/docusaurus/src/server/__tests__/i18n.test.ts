@@ -8,7 +8,7 @@
 import {jest} from '@jest/globals';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
-import type {I18nConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
   return Object.fromEntries(
@@ -18,10 +18,9 @@ function testLocaleConfigsFor(locales: string[]) {
 
 function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
   return loadI18n(
-    // @ts-expect-error: enough for this test
     {
       i18n: i18nConfig,
-    },
+    } as DocusaurusConfig,
     {locale},
   );
 }
@@ -101,6 +100,7 @@ describe('loadI18n', () => {
 
   it('loads I18n for default config', async () => {
     await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
+      path: 'i18n',
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
@@ -111,12 +111,14 @@ describe('loadI18n', () => {
   it('loads I18n for multi-lang config', async () => {
     await expect(
       loadI18nTest({
+        path: 'i18n',
         defaultLocale: 'fr',
         locales: ['en', 'fr', 'de'],
         localeConfigs: {},
       }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'fr',
       localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
@@ -127,6 +129,7 @@ describe('loadI18n', () => {
     await expect(
       loadI18nTest(
         {
+          path: 'i18n',
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {},
@@ -135,6 +138,7 @@ describe('loadI18n', () => {
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
@@ -145,6 +149,7 @@ describe('loadI18n', () => {
     await expect(
       loadI18nTest(
         {
+          path: 'i18n',
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {
@@ -156,6 +161,7 @@ describe('loadI18n', () => {
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
@@ -174,6 +180,7 @@ describe('loadI18n', () => {
   it('warns when trying to load undeclared locale', async () => {
     await loadI18nTest(
       {
+        path: 'i18n',
         defaultLocale: 'fr',
         locales: ['en', 'fr', 'de'],
         localeConfigs: {},

@@ -31,19 +31,22 @@ export const ThemeClassNames = {
     docsPages: 'docs-wrapper',
     mdxPages: 'mdx-wrapper',
   },
-
-  /**
-   * Follows the naming convention "theme-{blog,doc,version,page}?-<suffix>"
-   */
   common: {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
     backToTopButton: 'theme-back-to-top-button',
     codeBlock: 'theme-code-block',
+    admonition: 'theme-admonition',
+    admonitionType: (type: 'note' | 'tip' | 'danger' | 'info' | 'caution') =>
+      `theme-admonition-${type}`,
   },
   layout: {
     // TODO add other stable classNames here
   },
+
+  /**
+   * Follows the naming convention "theme-{blog,doc,version,page}?-<suffix>"
+   */
   docs: {
     docVersionBanner: 'theme-doc-version-banner',
     docVersionBadge: 'theme-doc-version-badge',

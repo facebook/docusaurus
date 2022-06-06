@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module 'remark-admonitions';
-
 declare module 'react-loadable-ssr-addon-v5-slorber' {
   import type {WebpackPluginInstance, Compiler} from 'webpack';
 
@@ -64,6 +62,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
       paths: string[];
       preferFoldersOutput?: boolean;
       globals: {[key: string]: unknown};
+      concurrency?: number;
     });
     apply(compiler: Compiler): void;
   }

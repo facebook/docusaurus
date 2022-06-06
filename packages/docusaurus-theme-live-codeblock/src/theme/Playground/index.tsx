@@ -93,11 +93,14 @@ export default function Playground({
   } = themeConfig as ThemeConfig;
   const prismTheme = usePrismTheme();
 
+  const noInline = props.metastring?.includes('noInline') ?? false;
+
   return (
     <div className={styles.playgroundContainer}>
       {/* @ts-expect-error: type incompatibility with refs */}
       <LiveProvider
         code={children.replace(/\n$/, '')}
+        noInline={noInline}
         transformCode={transformCode ?? ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>

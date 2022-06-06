@@ -25,7 +25,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   rehypePlugins: [],
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
-  admonitions: {},
+  admonitions: true,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({

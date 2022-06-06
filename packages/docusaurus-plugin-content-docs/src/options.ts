@@ -14,7 +14,6 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
   DefaultNumberPrefixParser,
@@ -42,7 +41,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   beforeDefaultRehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
-  admonitions: {},
+  admonitions: true,
   includeCurrentVersion: true,
   disableVersioning: false,
   lastVersion: undefined,
@@ -123,9 +122,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
   beforeDefaultRehypePlugins: RehypePluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
-  admonitions: Joi.alternatives()
-    .try(AdmonitionsSchema, Joi.boolean().invalid(true))
-    .default(DEFAULT_OPTIONS.admonitions),
+  admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
@@ -166,12 +163,6 @@ export function validateOptions({
   }
 
   const normalizedOptions = validate(OptionsSchema, options);
-
-  if (normalizedOptions.admonitions) {
-    normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
-      [admonitions, normalizedOptions.admonitions],
-    ]);
-  }
 
   return normalizedOptions;
 }

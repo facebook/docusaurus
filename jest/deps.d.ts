@@ -20,6 +20,10 @@ declare module 'remark-mdx' {
   export = mdx;
 }
 
+declare module 'remark-rehype';
+
+declare module 'rehype-stringify';
+
 declare module '@testing-utils/git' {
   const createTempRepo: typeof import('./utils/git').createTempRepo;
   export {createTempRepo};

@@ -5,6 +5,9 @@ on:
     branches:
       - main
     paths:
+      - package.json
+      - yarn.lock
+      - jest.config.mjs
       - packages/**
       - tsconfig.json
 

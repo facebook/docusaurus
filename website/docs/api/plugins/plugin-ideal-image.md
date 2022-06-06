@@ -40,7 +40,9 @@ import thumbnail from './path/to/img.png';
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -53,7 +55,9 @@ Accepted fields:
 | `quality` | `number` | `85` | JPEG compression quality |
 | `disableInDev` | `boolean` | `true` | You can test ideal image behavior in dev mode by setting this to `false`. **Tip**: use [network throttling](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome) in your browser to simulate slow networks. |
 
+```mdx-code-block
 </APITable>
+```
 
 ### Example configuration {#ex-config}
 

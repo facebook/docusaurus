@@ -50,6 +50,7 @@ contravariance
 corejs
 crawlable
 creativecommons
+cssnano
 csvg
 customizability
 daishi
@@ -229,6 +230,7 @@ prefetch
 prefetching
 preloads
 prepended
+preprocess
 preprocessors
 prerendered
 prerendering

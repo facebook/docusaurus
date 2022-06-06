@@ -224,7 +224,7 @@ Preset paths can be relative to the config file:
 module.exports = {
   // ...
   // highlight-next-line
-  presets: ['./src/presets/docusaurus-local-preset')],
+  presets: ['./src/presets/docusaurus-local-preset'],
 };
 ```
 

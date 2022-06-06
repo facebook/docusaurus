@@ -32,13 +32,17 @@ Examples of **correct** code for this rule:
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `ignoredStrings` | `string[]` | `[]` | Text labels that only contain strings in this list will not be reported. |
 
+```mdx-code-block
 </APITable>
+```
 
 ## When Not To Use It {#when-not-to-use}
 

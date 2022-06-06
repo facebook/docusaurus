@@ -102,6 +102,7 @@ describe('themeConfig', () => {
           alt: 'Facebook Open Source Logo',
           src: 'img/oss_logo.png',
           href: 'https://opensource.facebook.com',
+          target: '_self',
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
