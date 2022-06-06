@@ -38,7 +38,7 @@ export default function plugin() {
         .replace(/^.*?= /, '')
         .replace(/;$/, '')
         // eslint-disable-next-line prefer-named-capture-group
-        .replace(/([`$])/g, '\\$1');
+        .replace(/([`$\\])/g, '\\$1');
 
       parent.children.splice(
         index,

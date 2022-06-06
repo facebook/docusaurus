@@ -35,7 +35,7 @@ export default function ConfigTabs({
             values={{
               presetLink: (
                 <Link
-                  to={`/docs/${versionPath}/using-plugins#docusauruspreset-classic`}>
+                  to={`${versionPath}/using-plugins#docusauruspreset-classic`}>
                   <Translate>preset options</Translate>
                 </Link>
               ),
