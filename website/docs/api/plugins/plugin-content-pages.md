@@ -27,7 +27,9 @@ You can configure this plugin through the preset options.
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -41,7 +43,9 @@ Accepted fields:
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 
+```mdx-code-block
 </APITable>
+```
 
 ### Example configuration {#ex-config}
 

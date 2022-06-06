@@ -21,7 +21,9 @@ It is possible to customize the color mode support within the `colorMode` object
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -29,7 +31,9 @@ Accepted fields:
 | `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
 | `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -61,13 +65,17 @@ You can configure a default image that will be used for your meta tag, in partic
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `image` | `string` | `undefined` | The meta image URL for the site. Relative to your site's "static" directory. Cannot be SVGs. Can be external URLs too. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -86,13 +94,17 @@ You can configure additional html metadata (and override existing ones).
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `metadata` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -111,7 +123,9 @@ Sometimes you want to announce something in your website. Just for such a case, 
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="announcement-bar">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -121,7 +135,9 @@ Accepted fields:
 | `textColor` | `string` | `'#000'` | Announcement text color. |
 | `isCloseable` | `boolean` | `true` | Whether this announcement can be dismissed with a '×' button. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -146,7 +162,9 @@ module.exports = {
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-overview">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -156,7 +174,9 @@ Accepted fields:
 | `hideOnScroll` | `boolean` | `false` | Whether the navbar is hidden when the user scrolls down. |
 | `style` | <code>'primary' \| 'dark'</code> | Same as theme | Sets the navbar style, ignoring the dark/light theme. |
 
+```mdx-code-block
 </APITable>
+```
 
 ### Navbar logo {#navbar-logo}
 
@@ -166,7 +186,9 @@ To improve dark mode support, you can also set a different logo for this mode.
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-logo">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -178,7 +200,9 @@ Accepted fields:
 | `height` | <code>string \| number</code> | `undefined` | Specifies the `height` attribute. |
 | `target` | `string` | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -253,7 +277,9 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-link">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -268,7 +294,9 @@ Accepted fields:
 | `activeBaseRegex` | `string` | `undefined` | Alternative to `activeBasePath` if required. |
 | `className` | `string` | `''` | Custom CSS class (for styling any item). |
 
+```mdx-code-block
 </APITable>
+```
 
 :::note
 
@@ -318,7 +346,9 @@ Note that the dropdown base item is a clickable link as well, so this item can r
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-dropdown">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -327,7 +357,9 @@ Accepted fields:
 | `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -367,7 +399,9 @@ If you want to link to a specific doc, this special navbar item type will render
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-doc-link">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -377,7 +411,9 @@ Accepted fields:
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -406,7 +442,9 @@ You can link a navbar item to the first document link (which can be a doc link o
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-doc-sidebar">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -416,7 +454,9 @@ Accepted fields:
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the sidebar belongs to. |
 
+```mdx-code-block
 </APITable>
+```
 
 :::tip
 
@@ -473,7 +513,9 @@ The user will be able to switch from one version to another, while staying on th
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-docs-version-dropdown">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -484,7 +526,9 @@ Accepted fields:
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 | `dropdownActiveClassDisabled` | `boolean` | `false` | Do not add the link active class when browsing docs. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -513,7 +557,9 @@ If you use docs with versioning, this special navbar item type will link to the 
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-docs-version">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -523,7 +569,9 @@ Accepted fields:
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -554,7 +602,9 @@ The user will be able to switch from one locale to another, while staying on the
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="navbar-locale-dropdown">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -563,7 +613,9 @@ Accepted fields:
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -596,7 +648,9 @@ If you use the [search](../../search.md), the search bar will be the rightmost e
 
 However, with this special navbar item type, you can change the default location.
 
+```mdx-code-block
 <APITable name="navbar-search">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -604,7 +658,9 @@ However, with this special navbar item type, you can change the default location
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `className` | `string` | / | Custom CSS class for this navbar item. |
 
+```mdx-code-block
 </APITable>
+```
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -627,7 +683,9 @@ module.exports = {
 
 You can also render your own HTML markup inside a navbar item using this navbar item type.
 
+```mdx-code-block
 <APITable name="navbar-html">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -636,7 +694,9 @@ You can also render your own HTML markup inside a navbar item using this navbar 
 | `className` | `string` | `''` | Custom CSS class for this navbar item. |
 | `value` | `string` | `''` | Custom HTML to be rendered inside this navbar item. |
 
+```mdx-code-block
 </APITable>
+```
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -694,7 +754,9 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="codeblock">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -703,7 +765,9 @@ Accepted fields:
 | `defaultLanguage` | `string` | `undefined` | The side of the navbar this item should appear on. |
 | `magicComments` | `MagicCommentConfig[]` | _see below_ | The list of [magic comments](../../guides/markdown-features/markdown-features-code-blocks.mdx#custom-magic-comments). |
 
+```mdx-code-block
 </APITable>
+```
 
 ```ts
 type MagicCommentConfig = {
@@ -771,7 +835,9 @@ You can add logo and a copyright to the footer via `themeConfig.footer`. Logo ca
 
 Accepted fields:
 
+```mdx-code-block
 <APITable name="footer">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -780,7 +846,9 @@ Accepted fields:
 | `style` | <code>'dark' \| 'light'</code> | `'light'` | The color theme of the footer component. |
 | `links` | <code>(Column \| FooterLink)[]</code> | `[]` | The link groups to be present. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 
@@ -809,18 +877,24 @@ You can add links to the footer via `themeConfig.footer.links`. There are two ty
 
 Multi-column footer links have a `title` and a list of `FooterItem`s for each column.
 
+```mdx-code-block
 <APITable name="footer-links">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `title` | `string` | `undefined` | Label of the section of these links. |
 | `items` | `FooterItem[]` | `[]` | Links in this section. |
 
+```mdx-code-block
 </APITable>
+```
 
 Accepted fields of each `FooterItem`:
 
+```mdx-code-block
 <APITable name="footer-items">
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -829,7 +903,9 @@ Accepted fields of each `FooterItem`:
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
 | `html` | `string` | `undefined` | Renders the html pass-through instead of a simple link. In case `html` is used, no other options should be provided. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example multi-column configuration:
 
@@ -919,14 +995,18 @@ module.exports = {
 
 You can adjust the default table of contents via `themeConfig.tableOfContents`.
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `minHeadingLevel` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
 | `maxHeadingLevel` | `number` | `3` | Max heading level displayed in the TOC. Should be an integer between 2 and 6. |
 
+```mdx-code-block
 </APITable>
+```
 
 Example configuration:
 

@@ -35,7 +35,9 @@ npm install --save @docusaurus/plugin-client-redirects
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -44,7 +46,9 @@ Accepted fields:
 | `redirects` | <code><a href="#RedirectRule">RedirectRule</a>[]</code> | `[]` | The list of redirect rules. |
 | `createRedirects` | <code><a href="#CreateRedirectsFn">CreateRedirectsFn</a></code> | `undefined` | A callback to create a redirect rule. |
 
+```mdx-code-block
 </APITable>
+```
 
 ### Types {#types}
 
