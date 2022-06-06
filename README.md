@@ -34,6 +34,8 @@ Docusaurus is a project for building, deploying, and maintaining open source pro
 
 > Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
 
+
+
 - **Localizable**
 
 > Docusaurus ships with [localization support](https://docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
