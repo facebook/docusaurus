@@ -68,8 +68,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```mdx-code-block
-<Tabs>
-<TabItem value="Preset Options">
+<Tabs groupId="api-config-ex">
+<TabItem value="preset" label="Preset options">
 ```
 
 If you use a preset, configure this plugin through the [preset options](../../using-plugins.md#docusauruspreset-classic):
@@ -90,7 +90,7 @@ module.exports = {
 
 ```mdx-code-block
 </TabItem>
-<TabItem value="Plugin Options">
+<TabItem value="plugin" label="Plugin Options">
 ```
 
 If you are using a standalone plugin, provide options directly to the plugin:

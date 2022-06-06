@@ -33,7 +33,9 @@ You can configure this plugin through the [preset options](#ex-config-preset).
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -42,7 +44,9 @@ Accepted fields:
 | `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
 | `filename` | `string` | `sitemap.xml` | The path to the created sitemap file, relative to the output directory. Useful if you have two plugin instances outputting two files. |
 
+```mdx-code-block
 </APITable>
+```
 
 :::info
 
