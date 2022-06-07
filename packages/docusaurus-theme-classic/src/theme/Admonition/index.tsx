@@ -141,18 +141,17 @@ const aliases = {
   warning: 'danger',
 } as const;
 
-function getAdmonitionConfig(
-  unsafeType: Props['type'] | keyof typeof aliases,
-): AdmonitionConfig {
-  const type = aliases[unsafeType as keyof typeof aliases] ?? unsafeType;
-  const config = AdmonitionConfigs[type];
+function getAdmonitionConfig(unsafeType: string): AdmonitionConfig {
+  const type =
+    (aliases as {[key: string]: Props['type']})[unsafeType] ?? unsafeType;
+  const config = (AdmonitionConfigs as {[key: string]: AdmonitionConfig})[type];
   if (config) {
     return config;
   }
   console.warn(
     `No admonition config found for admonition type "${type}". Using Info as fallback.`,
   );
-  return AdmonitionConfigs.info as AdmonitionConfig;
+  return AdmonitionConfigs.info;
 }
 
 // Workaround because it's difficult in MDX v1 to provide a MDX title as props

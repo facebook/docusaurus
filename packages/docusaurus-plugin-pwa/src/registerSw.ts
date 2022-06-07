@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {createStorageSlot} from '@docusaurus/theme-common';
 
 // First: read the env variables (provided by Webpack)
@@ -15,40 +16,42 @@ const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES = process.env
 const PWA_DEBUG = process.env.PWA_DEBUG;
 /* eslint-enable prefer-destructuring */
 
-const debug = PWA_DEBUG; // Shortcut
-
-const MAX_MOBILE_WIDTH = 940;
+const MAX_MOBILE_WIDTH = 996;
 
 const AppInstalledEventFiredStorage = createStorageSlot(
   'docusaurus.pwa.event.appInstalled.fired',
 );
 
+declare global {
+  interface Navigator {
+    getInstalledRelatedApps: () => Promise<{platform: string}[]>;
+    connection?: {effectiveType: string; saveData: boolean};
+  }
+}
+
+function debugLog(msg: string, obj?: unknown) {
+  if (PWA_DEBUG) {
+    if (typeof obj === 'undefined') {
+      console.log(`[Docusaurus-PWA][registerSw]: ${msg}`);
+    } else {
+      console.log(`[Docusaurus-PWA][registerSw]: ${msg}`, obj);
+    }
+  }
+}
+
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
-  if (debug) {
-    console.log(
-      `[Docusaurus-PWA][registerSw]: will unregister all service worker registrations`,
-      registrations,
-    );
-  }
+  debugLog('will unregister all service workers', {registrations});
   await Promise.all(
-    registrations.map(async (registration) => {
-      const result = await registration.unregister();
-      if (debug) {
-        console.log(
-          `[Docusaurus-PWA][registerSw]: unregister() service worker registration`,
-          registrations,
-          result,
-        );
-      }
-    }),
+    registrations.map((registration) =>
+      registration
+        .unregister()
+        .then((result) =>
+          debugLog('unregister service worker', {registration, result}),
+        ),
+    ),
   );
-  if (debug) {
-    console.log(
-      `[Docusaurus-PWA][registerSw]: unregistered all service worker registrations`,
-      registrations,
-    );
-  }
+  debugLog('unregistered all service workers', {registrations});
   window.location.reload();
 }
 
@@ -61,23 +64,16 @@ https://stackoverflow.com/questions/51735869/check-if-user-has-already-installed
 - getInstalledRelatedApps() is only supported in recent Chrome and does not seem to reliable either https://github.com/WICG/get-installed-related-apps
 - display-mode: standalone is not exactly the same concept, but looks like a decent fallback https://petelepage.com/blog/2019/07/is-my-pwa-installed/
  */
-async function isAppInstalledEventFired() {
+function getIsAppInstalledEventFired() {
   return AppInstalledEventFiredStorage.get() === 'true';
 }
 
-declare global {
-  interface Navigator {
-    getInstalledRelatedApps: () => Promise<{platform: string}[]>;
-    connection?: {effectiveType: string; saveData: boolean};
+async function getIsAppInstalledRelatedApps() {
+  if (!('getInstalledRelatedApps' in window.navigator)) {
+    return false;
   }
-}
-
-async function isAppInstalledRelatedApps() {
-  if ('getInstalledRelatedApps' in window.navigator) {
-    const relatedApps = await navigator.getInstalledRelatedApps();
-    return relatedApps.some((app) => app.platform === 'webapp');
-  }
-  return false;
+  const relatedApps = await navigator.getInstalledRelatedApps();
+  return relatedApps.some((app) => app.platform === 'webapp');
 }
 function isStandaloneDisplayMode() {
   return window.matchMedia('(display-mode: standalone)').matches;
@@ -87,52 +83,36 @@ const OfflineModeActivationStrategiesImplementations = {
   always: () => true,
   mobile: () => window.innerWidth <= MAX_MOBILE_WIDTH,
   saveData: () => !!navigator.connection?.saveData,
-  appInstalled: async () => {
-    const installedEventFired = await isAppInstalledEventFired();
-    const installedRelatedApps = await isAppInstalledRelatedApps();
-    return installedEventFired || installedRelatedApps;
-  },
+  appInstalled: () =>
+    getIsAppInstalledEventFired() || getIsAppInstalledRelatedApps(),
   standalone: () => isStandaloneDisplayMode(),
   queryString: () =>
     new URLSearchParams(window.location.search).get('offlineMode') === 'true',
 };
 
-async function isStrategyActive(
-  strategyName: keyof typeof OfflineModeActivationStrategiesImplementations,
-) {
-  return OfflineModeActivationStrategiesImplementations[strategyName]();
-}
-
 async function getActiveStrategies() {
   const activeStrategies = await Promise.all(
-    PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES.map(async (strategyName) => {
-      const isActive = await isStrategyActive(strategyName);
-      return isActive ? strategyName : undefined;
-    }),
+    PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES.map((strategyName) =>
+      Promise.resolve(
+        OfflineModeActivationStrategiesImplementations[strategyName](),
+      ).then((isActive) => (isActive ? strategyName : undefined)),
+    ),
   );
   return activeStrategies.filter(Boolean);
 }
 
-async function isOfflineModeEnabled() {
+async function getIsOfflineModeEnabled() {
   const activeStrategies = await getActiveStrategies();
   const enabled = activeStrategies.length > 0;
-  if (debug) {
-    const logObject = {
+  debugLog(
+    enabled
+      ? 'offline mode enabled, because of activation strategies'
+      : 'offline mode disabled, because none of the offlineModeActivationStrategies could be used',
+    {
       activeStrategies,
       availableStrategies: PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
-    };
-    if (enabled) {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: offline mode enabled, because of activation strategies',
-        logObject,
-      );
-    } else {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: offline mode disabled, because none of the offlineModeActivationStrategies could be used',
-        logObject,
-      );
-    }
-  }
+    },
+  );
   return enabled;
 }
 
@@ -141,170 +121,111 @@ function createServiceWorkerUrl(params: object) {
   const url = `${PWA_SERVICE_WORKER_URL}?params=${encodeURIComponent(
     paramsQueryString,
   )}`;
-  if (debug) {
-    console.log(`[Docusaurus-PWA][registerSw]: service worker url`, {
-      url,
-      params,
-    });
-  }
+  debugLog('service worker url', {url, params});
   return url;
 }
 
 async function registerSW() {
-  const {Workbox} = await import('workbox-window');
-
-  const offlineMode = await isOfflineModeEnabled();
-
-  const url = createServiceWorkerUrl({offlineMode, debug});
+  const [{Workbox}, offlineMode] = await Promise.all([
+    import('workbox-window'),
+    getIsOfflineModeEnabled(),
+  ]);
+  const url = createServiceWorkerUrl({offlineMode, debug: PWA_DEBUG});
   const wb = new Workbox(url);
-
-  const registration = await wb.register();
-
   const sendSkipWaiting = () => wb.messageSW({type: 'SKIP_WAITING'});
-
-  const handleServiceWorkerWaiting = async () => {
-    if (debug) {
-      console.log('[Docusaurus-PWA][registerSw]: handleServiceWorkerWaiting');
-    }
+  const handleServiceWorkerWaiting = () => {
+    debugLog('handleServiceWorkerWaiting');
     // Immediately load new service worker when files aren't cached
     if (!offlineMode) {
-      sendSkipWaiting();
-    } else {
-      const renderReloadPopup = (await import('./renderReloadPopup')).default;
-      await renderReloadPopup({
+      return sendSkipWaiting();
+    }
+    return import('./renderReloadPopup').then(({default: renderReloadPopup}) =>
+      renderReloadPopup({
         onReload() {
           wb.addEventListener('controlling', () => {
             window.location.reload();
           });
           sendSkipWaiting();
         },
-      });
-    }
+      }),
+    );
   };
-
-  if (debug && registration) {
-    if (registration.active) {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: registration.active',
-        registration,
-      );
-    }
-    if (registration.installing) {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: registration.installing',
-        registration,
-      );
-    }
-    if (registration.waiting) {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: registration.waiting',
-        registration,
-      );
-    }
-  }
-
   // Update the current service worker when the next one has finished
   // installing and transitions to waiting state.
   wb.addEventListener('waiting', (event) => {
-    if (debug) {
-      console.log('[Docusaurus-PWA][registerSw]: event waiting', event);
-    }
-    handleServiceWorkerWaiting();
+    debugLog('event waiting', {event});
+    void handleServiceWorkerWaiting();
   });
-
   // Update current service worker if the next one finishes installing and
   // moves to waiting state in another tab.
   // @ts-expect-error: not present in the API typings anymore
   wb.addEventListener('externalwaiting', (event) => {
-    if (debug) {
-      console.log('[Docusaurus-PWA][registerSw]: event externalwaiting', event);
-    }
-    handleServiceWorkerWaiting();
+    debugLog('event externalwaiting', {event});
+    void handleServiceWorkerWaiting();
   });
-
-  // Update service worker if the next one is already in the waiting state.
-  // This happens when the user doesn't click on `reload` in the popup.
-  if (registration?.waiting) {
-    await handleServiceWorkerWaiting();
+  const registration = await wb.register();
+  if (registration) {
+    if (registration.active) {
+      debugLog('registration.active', {registration});
+    }
+    if (registration.installing) {
+      debugLog('registration.installing', {registration});
+    }
+    if (registration.waiting) {
+      debugLog('registration.waiting', {registration});
+      // Update service worker if the next one is already in the waiting
+      // state. This happens when the user doesn't click on `reload` in
+      // the popup.
+      await handleServiceWorkerWaiting();
+    }
   }
 }
 
 // TODO these events still works in chrome but have been removed from the spec
 // in 2019! See https://github.com/w3c/manifest/pull/836
 function addLegacyAppInstalledEventsListeners() {
-  if (typeof window !== 'undefined') {
-    if (debug) {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: addLegacyAppInstalledEventsListeners',
-      );
+  debugLog('addLegacyAppInstalledEventsListeners');
+
+  window.addEventListener('appinstalled', (event) => {
+    debugLog('event appinstalled', {event});
+    AppInstalledEventFiredStorage.set('true');
+    debugLog("AppInstalledEventFiredStorage.set('true')");
+    // After the app is installed, we register a service worker with the path
+    // `/sw?enabled`. Since the previous service worker was `/sw`, it'll be
+    // treated as a new one. The previous registration will need to be
+    // cleared, otherwise the reload popup will show.
+    void clearRegistrations();
+  });
+
+  // TODO this event still works in chrome but has been removed from the spec
+  // in 2019!!!
+  window.addEventListener('beforeinstallprompt', (event) => {
+    debugLog('event beforeinstallprompt', {event});
+    // TODO instead of default browser install UI, show custom docusaurus
+    // prompt?
+    // event.preventDefault();
+    const appInstalledEventFired = AppInstalledEventFiredStorage.get();
+    debugLog('AppInstalledEventFiredStorage.get()', {appInstalledEventFired});
+    if (appInstalledEventFired) {
+      AppInstalledEventFiredStorage.del();
+      debugLog('AppInstalledEventFiredStorage.del()');
+      // After uninstalling the app, if the user doesn't clear all data, then
+      // the previous service worker will continue serving cached files. We
+      // need to clear registrations and reload, otherwise the popup shows.
+      void clearRegistrations();
     }
+  });
 
-    window.addEventListener('appinstalled', async (event) => {
-      if (debug) {
-        console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
-      }
-
-      AppInstalledEventFiredStorage.set('true');
-      if (debug) {
-        console.log(
-          "[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.set('true')",
-        );
-      }
-
-      // After the app is installed, we register a service worker with the path
-      // `/sw?enabled`. Since the previous service worker was `/sw`, it'll be
-      // treated as a new one. The previous registration will need to be
-      // cleared, otherwise the reload popup will show.
-      await clearRegistrations();
-    });
-
-    // TODO this event still works in chrome but has been removed from the spec
-    // in 2019!!!
-    window.addEventListener('beforeinstallprompt', async (event) => {
-      if (debug) {
-        console.log(
-          '[Docusaurus-PWA][registerSw]: event beforeinstallprompt',
-          event,
-        );
-      }
-      // TODO instead of default browser install UI, show custom docusaurus
-      // prompt?
-      // event.preventDefault();
-      if (debug) {
-        console.log(
-          '[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.get()',
-          AppInstalledEventFiredStorage.get(),
-        );
-      }
-      if (AppInstalledEventFiredStorage.get()) {
-        AppInstalledEventFiredStorage.del();
-        if (debug) {
-          console.log(
-            '[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.del()',
-          );
-        }
-        // After uninstalling the app, if the user doesn't clear all data, then
-        // the previous service worker will continue serving cached files. We
-        // need to clear registrations and reload, otherwise the popup shows.
-        await clearRegistrations();
-      }
-    });
-
-    if (debug) {
-      console.log(
-        '[Docusaurus-PWA][registerSw]: legacy appinstalled and beforeinstallprompt event listeners installed',
-      );
-    }
-  }
+  debugLog(
+    'legacy appinstalled and beforeinstallprompt event listeners installed',
+  );
 }
 
 /*
 Init code to run on the client!
  */
-if (typeof window !== 'undefined') {
-  if (debug) {
-    console.log('[Docusaurus-PWA][registerSw]: debug mode enabled');
-  }
+if (ExecutionEnvironment.canUseDOM) {
+  debugLog('debug mode enabled');
 
   if ('serviceWorker' in navigator) {
     // First: add the listeners asap/synchronously

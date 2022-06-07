@@ -18,8 +18,8 @@ function logPage(
     prevLocation: previousLocation,
     heading: document.getElementsByTagName('h1')[0]?.innerText,
     title: document.title,
-    description: (
-      document.querySelector('meta[name="description"]') as HTMLMetaElement
+    description: document.querySelector<HTMLMetaElement>(
+      'meta[name="description"]',
     )?.content,
     htmlClassName: document.getElementsByTagName('html')[0]?.className,
   });

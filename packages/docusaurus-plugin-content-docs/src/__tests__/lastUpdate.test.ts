@@ -22,7 +22,7 @@ describe('getFileLastUpdate', () => {
     const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).not.toBeNull();
 
-    const {author, timestamp} = lastUpdateData;
+    const {author, timestamp} = lastUpdateData!;
     expect(author).not.toBeNull();
     expect(typeof author).toBe('string');
 
@@ -38,7 +38,7 @@ describe('getFileLastUpdate', () => {
     const lastUpdateData = await getFileLastUpdate(filePathWithSpace);
     expect(lastUpdateData).not.toBeNull();
 
-    const {author, timestamp} = lastUpdateData;
+    const {author, timestamp} = lastUpdateData!;
     expect(author).not.toBeNull();
     expect(typeof author).toBe('string');
 
@@ -61,8 +61,6 @@ describe('getFileLastUpdate', () => {
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/because the file does not exist./),
     );
-    await expect(getFileLastUpdate(null)).resolves.toBeNull();
-    await expect(getFileLastUpdate(undefined)).resolves.toBeNull();
     consoleMock.mockRestore();
   });
 
