@@ -34,19 +34,19 @@ cli
   .option('--mdx', 'try to migrate MD to MDX too')
   .option('--page', 'try to migrate pages too')
   .description('Migrate between versions of Docusaurus website.')
-  .action((siteDir = '.', newDir = '.', {mdx, page} = {}) => {
+  .action(async (siteDir = '.', newDir = '.', {mdx, page} = {}) => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);
-    migrateDocusaurusProject(sitePath, newSitePath, mdx, page);
+    await migrateDocusaurusProject(sitePath, newSitePath, mdx, page);
   });
 
 cli
   .command('mdx [siteDir] [newDir]')
   .description('Migrate markdown files to MDX.')
-  .action((siteDir = '.', newDir = '.') => {
+  .action(async (siteDir = '.', newDir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);
-    migrateMDToMDX(sitePath, newSitePath);
+    await migrateMDToMDX(sitePath, newSitePath);
   });
 
 cli.parse(process.argv);

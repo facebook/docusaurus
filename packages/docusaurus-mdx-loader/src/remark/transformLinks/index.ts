@@ -19,6 +19,7 @@ import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
 import type {Transformer} from 'unified';
+import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';
 
 const {
@@ -34,16 +35,20 @@ type Context = PluginOptions & {
   filePath: string;
 };
 
+type Target = [node: Link, index: number, parent: Parent];
+
 /**
  * Transforms the link node to a JSX `<a>` element with a `require()` call.
  */
-function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
-  const jsxNode = node as Literal & Partial<Link>;
-  let relativeAssetPath = posixPath(
-    path.relative(path.dirname(filePath), assetPath),
-  );
+function toAssetRequireNode(
+  [node, index, parent]: Target,
+  assetPath: string,
+  filePath: string,
+) {
   // require("assets/file.pdf") means requiring from a package called assets
-  relativeAssetPath = `./${relativeAssetPath}`;
+  const relativeAssetPath = `./${posixPath(
+    path.relative(path.dirname(filePath), assetPath),
+  )}`;
 
   const parsedUrl = url.parse(node.url);
   const hash = parsedUrl.hash ?? '';
@@ -60,12 +65,12 @@ function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
   const children = stringifyContent(node);
   const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
 
-  Object.keys(jsxNode).forEach(
-    (key) => delete jsxNode[key as keyof typeof jsxNode],
-  );
+  const jsxNode: Literal = {
+    type: 'jsx',
+    value: `<a target="_blank" href={${href}}${title}>${children}</a>`,
+  };
 
-  (jsxNode as Literal).type = 'jsx';
-  jsxNode.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+  parent.children.splice(index, 1, jsxNode);
 }
 
 async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
@@ -106,7 +111,8 @@ async function getAssetAbsolutePath(
   return null;
 }
 
-async function processLinkNode(node: Link, context: Context) {
+async function processLinkNode(target: Target, context: Context) {
+  const [node] = target;
   if (!node.url) {
     // Try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
@@ -138,15 +144,20 @@ async function processLinkNode(node: Link, context: Context) {
     context,
   );
   if (assetPath) {
-    toAssetRequireNode(node, assetPath, context.filePath);
+    toAssetRequireNode(target, assetPath, context.filePath);
   }
 }
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
     const promises: Promise<void>[] = [];
-    visit(root, 'link', (node: Link) => {
-      promises.push(processLinkNode(node, {...options, filePath: vfile.path!}));
+    visit(root, 'link', (node: Link, index, parent) => {
+      promises.push(
+        processLinkNode([node, index, parent!], {
+          ...options,
+          filePath: vfile.path!,
+        }),
+      );
     });
     await Promise.all(promises);
   };

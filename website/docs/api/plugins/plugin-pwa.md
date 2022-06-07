@@ -120,7 +120,7 @@ Strategies used to turn the offline mode on:
 - `appInstalled`: activates for users having installed the site as an app (not 100% reliable)
 - `standalone`: activates for users running the app as standalone (often the case once a PWA is installed)
 - `queryString`: activates if queryString contains `offlineMode=true` (convenient for PWA debugging)
-- `mobile`: activates for mobile users (width <= 940px)
+- `mobile`: activates for mobile users (width <= 996px)
 - `saveData`: activates for users with `navigator.connection.saveData === true`
 - `always`: activates for all users
 

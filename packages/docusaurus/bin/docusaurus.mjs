@@ -55,7 +55,7 @@ cli
     'build website without minimizing JS bundles (default: false)',
   )
   .action(async (siteDir, options) => {
-    build(await resolveDir(siteDir), options);
+    await build(await resolveDir(siteDir), options);
   });
 
 cli

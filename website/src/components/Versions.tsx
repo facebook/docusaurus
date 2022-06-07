@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext, useEffect, useState, type ReactNode} from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  type ReactNode,
+} from 'react';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {useVersions} from '@docusaurus/plugin-content-docs/client';
 import Translate from '@docusaurus/Translate';
@@ -24,11 +30,21 @@ export function VersionsProvider({
   children: ReactNode;
 }): JSX.Element {
   const [canaryVersion, setCanaryVersion] = useState<ContextValue | null>(null);
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
   useEffect(() => {
     fetch('https://registry.npmjs.org/@docusaurus/core')
       .then((res) => res.json())
       .then(
         (data: {versions: string[]; time: {[versionName: string]: string}}) => {
+          if (!mounted.current) {
+            return;
+          }
           const name = Object.keys(data.versions).at(-1)!;
           const time = data.time[name];
           setCanaryVersion({name, time});
