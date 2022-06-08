@@ -21,6 +21,7 @@ import {
 } from '@docusaurus/utils';
 
 import {getFileLastUpdate} from './lastUpdate';
+import {getFileCreate} from './create';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -38,6 +39,7 @@ import type {
   DocFrontMatter,
   LoadedVersion,
   FileChange,
+  CreateData,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -47,6 +49,8 @@ type LastUpdateOptions = Pick<
   PluginOptions,
   'showLastUpdateAuthor' | 'showLastUpdateTime'
 >;
+
+type CreateOptions = Pick<PluginOptions, 'showCreateAuthor' | 'showCreateTime'>;
 
 async function readLastUpdateData(
   filePath: string,
@@ -83,6 +87,45 @@ async function readLastUpdateData(
       lastUpdatedAt: showLastUpdateTime
         ? frontMatterTimestamp ?? timestamp
         : undefined,
+    };
+  }
+
+  return {};
+}
+
+async function readCreateData(
+  filePath: string,
+  options: CreateOptions,
+  createFrontMatter: FileChange | undefined,
+): Promise<CreateData> {
+  const {showCreateAuthor, showCreateTime} = options;
+  if (showCreateAuthor || showCreateTime) {
+    const frontMatterTimestamp = createFrontMatter?.date
+      ? new Date(createFrontMatter.date).getTime() / 1000
+      : undefined;
+
+    if (createFrontMatter?.author && createFrontMatter.date) {
+      return {
+        createdAt: frontMatterTimestamp,
+        createdBy: createFrontMatter.author,
+      };
+    }
+
+    // Use fake data in dev for faster development.
+    const fileCreateData =
+      process.env.NODE_ENV === 'production'
+        ? await getFileCreate(filePath)
+        : {
+            author: 'Creator',
+            timestamp: 1539415655,
+          };
+    const {author, timestamp} = fileCreateData ?? {};
+
+    return {
+      createdBy: showCreateAuthor
+        ? createFrontMatter?.author ?? author
+        : undefined,
+      createdAt: showCreateTime ? frontMatterTimestamp ?? timestamp : undefined,
     };
   }
 
@@ -167,6 +210,7 @@ async function doProcessDocMetadata({
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
+    create: createFrontMatter,
   } = frontMatter;
 
   const lastUpdate = await readLastUpdateData(
@@ -174,6 +218,8 @@ async function doProcessDocMetadata({
     options,
     lastUpdateFrontMatter,
   );
+
+  const create = await readCreateData(filePath, options, createFrontMatter);
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -270,6 +316,12 @@ async function doProcessDocMetadata({
 
   const draft = isDraftForEnvironment({env, frontMatter});
 
+  function formatTimestamp(timestamp: number): string {
+    return new Intl.DateTimeFormat(i18n.currentLocale, {
+      calendar: i18n.localeConfigs[i18n.currentLocale]!.calendar,
+    }).format(timestamp * 1000);
+  }
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -290,9 +342,12 @@ async function doProcessDocMetadata({
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
-      ? new Intl.DateTimeFormat(i18n.currentLocale, {
-          calendar: i18n.localeConfigs[i18n.currentLocale]!.calendar,
-        }).format(lastUpdate.lastUpdatedAt * 1000)
+      ? formatTimestamp(lastUpdate.lastUpdatedAt)
+      : undefined,
+    createdBy: create.createdBy,
+    createdAt: create.createdAt,
+    formattedCreatedAt: create.createdAt
+      ? formatTimestamp(create.createdAt)
       : undefined,
     sidebarPosition,
     frontMatter,

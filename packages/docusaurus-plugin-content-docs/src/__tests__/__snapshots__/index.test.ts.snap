@@ -22,6 +22,9 @@ These sidebar document ids do not exist:
 - nonExistent
 
 Available document ids are:
+- createAuthorOnly
+- createDateOnly
+- customCreate
 - customLastUpdate
 - doc with space
 - doc-draft
@@ -45,9 +48,12 @@ Available document ids are:
 
 exports[`simple website content 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Images",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "baz",
@@ -98,9 +104,12 @@ exports[`simple website content 1`] = `
 
 exports[`simple website content 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Hi, Endilie here :)",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "hello",
@@ -144,9 +153,12 @@ exports[`simple website content 2`] = `
 
 exports[`simple website content 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "This is custom description",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "description": "This is custom description",
@@ -270,6 +282,21 @@ exports[`simple website content 5`] = `
       "versions": [
         {
           "docs": [
+            {
+              "id": "createAuthorOnly",
+              "path": "/docs/createAuthorOnly",
+              "sidebar": undefined,
+            },
+            {
+              "id": "createDateOnly",
+              "path": "/docs/createDateOnly",
+              "sidebar": undefined,
+            },
+            {
+              "id": "customCreate",
+              "path": "/docs/customCreate",
+              "sidebar": undefined,
+            },
             {
               "id": "customLastUpdate",
               "path": "/docs/customLastUpdate",
@@ -406,6 +433,64 @@ exports[`simple website content: data 1`] = `
     "next": {
       "title": "rootAbsoluteSlug",
       "permalink": "/docs/rootAbsoluteSlug"
+    }
+  }
+}",
+  "site-docs-create-author-only-md-e35.json": "{
+  "unversionedId": "createAuthorOnly",
+  "id": "createAuthorOnly",
+  "title": "Create Author Only",
+  "description": "Only custom author, so it will still use the date from Git",
+  "source": "@site/docs/createAuthorOnly.md",
+  "sourceDirName": ".",
+  "slug": "/createAuthorOnly",
+  "permalink": "/docs/createAuthorOnly",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Create Author Only",
+    "create": {
+      "author": "Creator"
+    }
+  }
+}",
+  "site-docs-create-date-only-md-b89.json": "{
+  "unversionedId": "createDateOnly",
+  "id": "createDateOnly",
+  "title": "Create Date Only",
+  "description": "Only custom date, so it will still use the author from Git",
+  "source": "@site/docs/createDateOnly.md",
+  "sourceDirName": ".",
+  "slug": "/createDateOnly",
+  "permalink": "/docs/createDateOnly",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Create Date Only",
+    "create": {
+      "date": "1/1/1999"
+    }
+  }
+}",
+  "site-docs-custom-create-md-00b.json": "{
+  "unversionedId": "customCreate",
+  "id": "customCreate",
+  "title": "Custom Create",
+  "description": "Custom create",
+  "source": "@site/docs/customCreate.md",
+  "sourceDirName": ".",
+  "slug": "/customCreate",
+  "permalink": "/docs/customCreate",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Custom Create",
+    "create": {
+      "author": "Creator",
+      "date": "1/1/1999"
     }
   }
 }",
@@ -1000,6 +1085,21 @@ exports[`simple website content: data 1`] = `
     ]
   },
   "docs": {
+    "createAuthorOnly": {
+      "id": "createAuthorOnly",
+      "title": "Create Author Only",
+      "description": "Only custom author, so it will still use the date from Git"
+    },
+    "createDateOnly": {
+      "id": "createDateOnly",
+      "title": "Create Date Only",
+      "description": "Only custom date, so it will still use the author from Git"
+    },
+    "customCreate": {
+      "id": "customCreate",
+      "title": "Custom Create",
+      "description": "Custom create"
+    },
     "customLastUpdate": {
       "id": "customLastUpdate",
       "title": "Custom Last Update",
@@ -1117,6 +1217,21 @@ exports[`simple website content: global data 1`] = `
       "versions": [
         {
           "docs": [
+            {
+              "id": "createAuthorOnly",
+              "path": "/docs/createAuthorOnly",
+              "sidebar": undefined,
+            },
+            {
+              "id": "createDateOnly",
+              "path": "/docs/createDateOnly",
+              "sidebar": undefined,
+            },
+            {
+              "id": "customCreate",
+              "path": "/docs/customCreate",
+              "sidebar": undefined,
+            },
             {
               "id": "customLastUpdate",
               "path": "/docs/customLastUpdate",
@@ -1307,6 +1422,30 @@ exports[`simple website content: route config 1`] = `
         },
         "path": "/docs/category/slugs",
         "sidebar": "docs",
+      },
+      {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": {
+          "content": "@site/docs/createAuthorOnly.md",
+        },
+        "path": "/docs/createAuthorOnly",
+      },
+      {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": {
+          "content": "@site/docs/createDateOnly.md",
+        },
+        "path": "/docs/createDateOnly",
+      },
+      {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": {
+          "content": "@site/docs/customCreate.md",
+        },
+        "path": "/docs/customCreate",
       },
       {
         "component": "@theme/DocItem",
@@ -1751,9 +1890,12 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Getting started text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "getting-started",
@@ -1779,9 +1921,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Installation text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "installation",
@@ -1810,9 +1955,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 1 text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide1",
@@ -1844,9 +1992,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 4`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 2 text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide2",
@@ -1877,9 +2028,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 5`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 2.5 text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide2.5",
@@ -1911,9 +2065,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 6`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 3 text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide3",
@@ -1945,9 +2102,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 7`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 4 text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide4",
@@ -1978,9 +2138,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 8`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 5 text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide5",
@@ -2011,9 +2174,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 9`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API Overview text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-overview",
@@ -2042,9 +2208,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 10`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Client API text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Core APIs/Client API",
@@ -2073,9 +2242,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 11`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Server API text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Core APIs/Server API",
@@ -2104,9 +2276,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 12`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Plugin API text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Plugin API",
@@ -2135,9 +2310,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 13`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Theme API text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Theme API",
@@ -2166,9 +2344,12 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 14`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API End text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-end",
@@ -2346,9 +2527,12 @@ exports[`site with partial autogenerated sidebars 2 (fix #4638) sidebar is parti
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API End text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-end",
@@ -2374,9 +2558,12 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API Overview text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-overview",
@@ -2405,9 +2592,12 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Plugin API text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Plugin API",
@@ -2436,9 +2626,12 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 4`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Theme API text",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Theme API",
@@ -2496,9 +2689,12 @@ exports[`site with partial autogenerated sidebars sidebar is partially autogener
 
 exports[`versioned website (community) content 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Team current version (translated)",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "title": "Team title translated",
@@ -2523,9 +2719,12 @@ exports[`versioned website (community) content 1`] = `
 
 exports[`versioned website (community) content 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Team 1.0.0",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.0/team",
@@ -2778,9 +2977,12 @@ exports[`versioned website (community) getPathToWatch 1`] = `
 
 exports[`versioned website content 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "This is next version of bar.",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "barSlug",
@@ -2829,9 +3031,12 @@ exports[`versioned website content 1`] = `
 
 exports[`versioned website content 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Bar 1.0.1 !",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.1/foo/bar",
@@ -2857,9 +3062,12 @@ exports[`versioned website content 2`] = `
 
 exports[`versioned website content 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Hello next !",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "/",
@@ -2887,9 +3095,12 @@ exports[`versioned website content 3`] = `
 
 exports[`versioned website content 4`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Hello 1.0.1 !",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "/",
@@ -2917,9 +3128,12 @@ exports[`versioned website content 4`] = `
 
 exports[`versioned website content 5`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
   "draft": false,
   "editUrl": undefined,
+  "formattedCreatedAt": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.0/foo/baz",

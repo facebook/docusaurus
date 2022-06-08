@@ -14,8 +14,18 @@ import {
 } from '@docusaurus/utils-validation';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
-const FrontMatterLastUpdateErrorMessage =
+const FrontMatterFileChangeErrorMessage =
   '{{#label}} does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).';
+
+const fileChangeValidation = Joi.object({
+  author: Joi.string(),
+  date: Joi.date().raw(),
+})
+  .or('author', 'date')
+  .messages({
+    'object.missing': FrontMatterFileChangeErrorMessage,
+    'object.base': FrontMatterFileChangeErrorMessage,
+  });
 
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadata and props
@@ -45,15 +55,8 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_prev: Joi.string().allow(null),
   draft: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
-  last_update: Joi.object({
-    author: Joi.string(),
-    date: Joi.date().raw(),
-  })
-    .or('author', 'date')
-    .messages({
-      'object.missing': FrontMatterLastUpdateErrorMessage,
-      'object.base': FrontMatterLastUpdateErrorMessage,
-    }),
+  last_update: fileChangeValidation,
+  create: fileChangeValidation,
 }).unknown();
 
 export function validateDocFrontMatter(frontMatter: {

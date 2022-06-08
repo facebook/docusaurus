@@ -234,6 +234,9 @@ describe('simple site', () => {
         'customLastUpdate.md',
         'lastUpdateAuthorOnly.md',
         'lastUpdateDateOnly.md',
+        'customCreate.md',
+        'createAuthorOnly.md',
+        'createDateOnly.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -638,6 +641,201 @@ describe('simple site', () => {
       lastUpdatedAt: undefined,
       formattedLastUpdatedAt: undefined,
       lastUpdatedBy: undefined,
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with create time and author', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('lorem.md', {
+      version: 'current',
+      id: 'lorem',
+      unversionedId: 'lorem',
+      sourceDirName: '.',
+      permalink: '/docs/lorem',
+      slug: '/lorem',
+      title: 'lorem',
+      editUrl: 'https://github.com/customUrl/docs/lorem.md',
+      description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_front_matter: "won't be part of metadata",
+      },
+      createdAt: 1539415655,
+      formattedCreatedAt: '10/13/2018',
+      createdBy: 'Creator',
+      tags: [],
+    });
+  });
+
+  it('docs with create front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('customCreate.md', {
+      version: 'current',
+      id: 'customCreate',
+      unversionedId: 'customCreate',
+      sourceDirName: '.',
+      permalink: '/docs/customCreate',
+      slug: '/customCreate',
+      title: 'Custom Create',
+      description: 'Custom create',
+      frontMatter: {
+        create: {
+          author: 'Creator',
+          date: '1/1/1999',
+        },
+        title: 'Custom Create',
+      },
+      createdAt: new Date('1/1/1999').getTime() / 1000,
+      formattedCreatedAt: '1/1/1999',
+      createdBy: 'Creator',
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with only create author front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('createAuthorOnly.md', {
+      version: 'current',
+      id: 'createAuthorOnly',
+      unversionedId: 'createAuthorOnly',
+      sourceDirName: '.',
+      permalink: '/docs/createAuthorOnly',
+      slug: '/createAuthorOnly',
+      title: 'Create Author Only',
+      description: 'Only custom author, so it will still use the date from Git',
+      frontMatter: {
+        create: {
+          author: 'Creator',
+        },
+        title: 'Create Author Only',
+      },
+      createdAt: 1539415655,
+      formattedCreatedAt: '10/13/2018',
+      createdBy: 'Creator',
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with only create date front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('createDateOnly.md', {
+      version: 'current',
+      id: 'createDateOnly',
+      unversionedId: 'createDateOnly',
+      sourceDirName: '.',
+      permalink: '/docs/createDateOnly',
+      slug: '/createDateOnly',
+      title: 'Create Date Only',
+      description: 'Only custom date, so it will still use the author from Git',
+      frontMatter: {
+        create: {
+          date: '1/1/1999',
+        },
+        title: 'Create Date Only',
+      },
+      createdAt: new Date('1/1/1999').getTime() / 1000,
+      formattedCreatedAt: '1/1/1999',
+      createdBy: 'Creator',
+      sidebarPosition: undefined,
+      tags: [],
+    });
+  });
+
+  it('docs with create front matter disabled', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: false,
+          showCreateTime: false,
+        },
+      });
+
+    const testUtilsLocal = createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('customCreate.md', {
+      version: 'current',
+      id: 'customCreate',
+      unversionedId: 'customCreate',
+      sourceDirName: '.',
+      permalink: '/docs/customCreate',
+      slug: '/customCreate',
+      title: 'Custom Create',
+      description: 'Custom create',
+      frontMatter: {
+        create: {
+          author: 'Creator',
+          date: '1/1/1999',
+        },
+        title: 'Custom Create',
+      },
+      createdAt: undefined,
+      formattedCreatedAt: undefined,
+      createdBy: undefined,
       sidebarPosition: undefined,
       tags: [],
     });

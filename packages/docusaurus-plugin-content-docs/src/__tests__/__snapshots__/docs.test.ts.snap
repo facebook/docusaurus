@@ -4,12 +4,45 @@ exports[`simple site custom pagination 1`] = `
 {
   "pagination": [
     {
+      "id": "createAuthorOnly",
+      "next": {
+        "permalink": "/docs/createDateOnly",
+        "title": "Create Date Only",
+      },
+      "prev": undefined,
+    },
+    {
+      "id": "createDateOnly",
+      "next": {
+        "permalink": "/docs/customCreate",
+        "title": "Custom Create",
+      },
+      "prev": {
+        "permalink": "/docs/createAuthorOnly",
+        "title": "Create Author Only",
+      },
+    },
+    {
+      "id": "customCreate",
+      "next": {
+        "permalink": "/docs/customLastUpdate",
+        "title": "Custom Last Update",
+      },
+      "prev": {
+        "permalink": "/docs/createDateOnly",
+        "title": "Create Date Only",
+      },
+    },
+    {
       "id": "customLastUpdate",
       "next": {
         "permalink": "/docs/doc with space",
         "title": "Hoo hoo, if this path tricks you...",
       },
-      "prev": undefined,
+      "prev": {
+        "permalink": "/docs/customCreate",
+        "title": "Custom Create",
+      },
     },
     {
       "id": "doc with space",
@@ -203,6 +236,18 @@ exports[`simple site custom pagination 1`] = `
   ],
   "sidebars": {
     "defaultSidebar": [
+      {
+        "id": "createAuthorOnly",
+        "type": "doc",
+      },
+      {
+        "id": "createDateOnly",
+        "type": "doc",
+      },
+      {
+        "id": "customCreate",
+        "type": "doc",
+      },
       {
         "id": "customLastUpdate",
         "type": "doc",
