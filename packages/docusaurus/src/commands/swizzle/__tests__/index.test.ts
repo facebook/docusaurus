@@ -111,7 +111,7 @@ async function createTestSite() {
     component: string;
     typescript?: boolean;
   }) {
-    return swizzleWithExit(siteDir, FixtureThemeName, component, {
+    return swizzleWithExit(FixtureThemeName, component, siteDir, {
       wrap: true,
       danger: true,
       typescript,
@@ -125,7 +125,7 @@ async function createTestSite() {
     component: string;
     typescript?: boolean;
   }) {
-    return swizzleWithExit(siteDir, FixtureThemeName, component, {
+    return swizzleWithExit(FixtureThemeName, component, siteDir, {
       eject: true,
       danger: true,
       typescript,
