@@ -11,21 +11,21 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Created';
 
 function CreatedAtDate({
-  lastUpdatedAt,
-  formattedLastUpdatedAt,
+  createdAt,
+  formattedCreatedAt,
 }: {
-  lastUpdatedAt: number;
-  formattedLastUpdatedAt: string;
+  createdAt: number;
+  formattedCreatedAt: string;
 }): JSX.Element {
   return (
     <Translate
-      id="theme.lastUpdated.atDate"
+      id="theme.created.atDate"
       description="The words used to describe on which date a page was created"
       values={{
         date: (
           <b>
-            <time dateTime={new Date(lastUpdatedAt * 1000).toISOString()}>
-              {formattedLastUpdatedAt}
+            <time dateTime={new Date(createdAt * 1000).toISOString()}>
+              {formattedCreatedAt}
             </time>
           </b>
         ),
@@ -35,13 +35,13 @@ function CreatedAtDate({
   );
 }
 
-function CreatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}): JSX.Element {
+function CreatedByUser({createdBy}: {createdBy: string}): JSX.Element {
   return (
     <Translate
-      id="theme.lastUpdated.byUser"
+      id="theme.created.byUser"
       description="The words used to describe by who the page was created"
       values={{
-        user: <b>{lastUpdatedBy}</b>,
+        user: <b>{createdBy}</b>,
       }}>
       {' by {user}'}
     </Translate>
@@ -56,19 +56,19 @@ export default function Created({
   return (
     <span className={ThemeClassNames.common.lastUpdated}>
       <Translate
-        id="theme.lastUpdated.lastUpdatedAtBy"
+        id="theme.created.createdAtBy"
         description="The sentence used to display when a page was created, and by who"
         values={{
           atDate:
             createdAt && formattedCreatedAt ? (
               <CreatedAtDate
-                lastUpdatedAt={createdAt}
-                formattedLastUpdatedAt={formattedCreatedAt}
+                createdAt={createdAt}
+                formattedCreatedAt={formattedCreatedAt}
               />
             ) : (
               ''
             ),
-          byUser: createdBy ? <CreatedByUser lastUpdatedBy={createdBy} /> : '',
+          byUser: createdBy ? <CreatedByUser createdBy={createdBy} /> : '',
         }}>
         {'Created{atDate}{byUser}'}
       </Translate>
