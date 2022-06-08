@@ -16,6 +16,7 @@ import TagsListInline, {
 import type {Props} from '@theme/DocItem';
 
 import styles from './styles.module.css';
+import Created from '../Created';
 
 function TagsRow(props: TagsListInlineProps) {
   return (
@@ -33,26 +34,50 @@ function TagsRow(props: TagsListInlineProps) {
 
 type EditMetaRowProps = Pick<
   Props['content']['metadata'],
-  'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy' | 'formattedLastUpdatedAt'
+  | 'editUrl'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'formattedLastUpdatedAt'
+  | 'createdAt'
+  | 'createdBy'
+  | 'formattedCreatedAt'
 >;
 function EditMetaRow({
   editUrl,
   lastUpdatedAt,
   lastUpdatedBy,
   formattedLastUpdatedAt,
+  createdAt,
+  createdBy,
+  formattedCreatedAt,
 }: EditMetaRowProps) {
   return (
-    <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
-      <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
+    <div>
+      <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
+        <div className="col">
+          {editUrl && <EditThisPage editUrl={editUrl} />}
+        </div>
 
-      <div className={clsx('col', styles.lastUpdated)}>
-        {(lastUpdatedAt || lastUpdatedBy) && (
-          <LastUpdated
-            lastUpdatedAt={lastUpdatedAt}
-            formattedLastUpdatedAt={formattedLastUpdatedAt}
-            lastUpdatedBy={lastUpdatedBy}
-          />
-        )}
+        <div className={clsx('col', styles.lastUpdated)}>
+          <div>
+            {(lastUpdatedAt || lastUpdatedBy) && (
+              <LastUpdated
+                lastUpdatedAt={lastUpdatedAt}
+                formattedLastUpdatedAt={formattedLastUpdatedAt}
+                lastUpdatedBy={lastUpdatedBy}
+              />
+            )}
+          </div>
+          <div>
+            {(createdAt || createdBy) && (
+              <Created
+                createdAt={createdAt}
+                formattedCreatedAt={formattedCreatedAt}
+                createdBy={createdBy}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -61,11 +86,25 @@ function EditMetaRow({
 export default function DocItemFooter(props: Props): JSX.Element | null {
   const {content: DocContent} = props;
   const {metadata} = DocContent;
-  const {editUrl, lastUpdatedAt, formattedLastUpdatedAt, lastUpdatedBy, tags} =
-    metadata;
+  const {
+    editUrl,
+    lastUpdatedAt,
+    formattedLastUpdatedAt,
+    lastUpdatedBy,
+    tags,
+    createdAt,
+    formattedCreatedAt,
+    createdBy,
+  } = metadata;
 
   const canDisplayTagsRow = tags.length > 0;
-  const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
+  const canDisplayEditMetaRow = !!(
+    editUrl ||
+    lastUpdatedAt ||
+    lastUpdatedBy ||
+    createdAt ||
+    createdBy
+  );
 
   const canDisplayFooter = canDisplayTagsRow || canDisplayEditMetaRow;
 
@@ -83,6 +122,9 @@ export default function DocItemFooter(props: Props): JSX.Element | null {
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
           formattedLastUpdatedAt={formattedLastUpdatedAt}
+          createdAt={createdAt}
+          createdBy={createdBy}
+          formattedCreatedAt={formattedCreatedAt}
         />
       )}
     </footer>

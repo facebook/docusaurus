@@ -596,6 +596,16 @@ declare module '@theme/LastUpdated' {
   export default function LastUpdated(props: Props): JSX.Element;
 }
 
+declare module '@theme/Created' {
+  export interface Props {
+    readonly createdAt?: number;
+    readonly formattedCreatedAt?: string;
+    readonly createdBy?: string;
+  }
+
+  export default function Created(props: Props): JSX.Element;
+}
+
 declare module '@theme/SkipToContent' {
   export default function SkipToContent(): JSX.Element;
 }
