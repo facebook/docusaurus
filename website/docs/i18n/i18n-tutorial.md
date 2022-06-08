@@ -76,7 +76,7 @@ Start your localized site in dev mode, using the locale of your choice:
 npm run start -- --locale fr
 ```
 
-Your site is accessible at **`http://localhost:3000/fr/`**.
+Your site is accessible at [http://localhost:3000/fr/](http://localhost:3000/fr/).
 
 We haven't provided any translation yet, so the site is mostly untranslated.
 
