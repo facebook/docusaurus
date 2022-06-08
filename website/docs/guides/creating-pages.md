@@ -51,7 +51,7 @@ export default function Hello() {
 }
 ```
 
-Once you save the file, the development server will automatically reload the changes. Now open `http://localhost:3000/helloReact` and you will see the new page you just created.
+Once you save the file, the development server will automatically reload the changes. Now open [http://localhost:3000/helloReact](http://localhost:3000/helloReact) and you will see the new page you just created.
 
 Each page doesn't come with any styling. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
 
@@ -77,7 +77,7 @@ hide_table_of_contents: true
 How are you?
 ```
 
-In the same way, a page will be created at `http://localhost:3000/helloMarkdown`.
+In the same way, a page will be created at [http://localhost:3000/helloMarkdown](http://localhost:3000/helloMarkdown).
 
 Markdown pages are less flexible than React pages because it always uses the theme layout.
 
