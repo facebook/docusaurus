@@ -52,31 +52,27 @@ function EditMetaRow({
   formattedCreatedAt,
 }: EditMetaRowProps) {
   return (
-    <div>
-      <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
-        <div className="col">
-          {editUrl && <EditThisPage editUrl={editUrl} />}
-        </div>
+    <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
+      <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
 
-        <div className={clsx('col', styles.lastUpdated)}>
-          <div>
-            {(lastUpdatedAt || lastUpdatedBy) && (
-              <LastUpdated
-                lastUpdatedAt={lastUpdatedAt}
-                formattedLastUpdatedAt={formattedLastUpdatedAt}
-                lastUpdatedBy={lastUpdatedBy}
-              />
-            )}
-          </div>
-          <div>
-            {(createdAt || createdBy) && (
-              <Created
-                createdAt={createdAt}
-                formattedCreatedAt={formattedCreatedAt}
-                createdBy={createdBy}
-              />
-            )}
-          </div>
+      <div className={clsx('col', styles.lastUpdated)}>
+        <div>
+          {(lastUpdatedAt || lastUpdatedBy) && (
+            <LastUpdated
+              lastUpdatedAt={lastUpdatedAt}
+              formattedLastUpdatedAt={formattedLastUpdatedAt}
+              lastUpdatedBy={lastUpdatedBy}
+            />
+          )}
+        </div>
+        <div>
+          {(createdAt || createdBy) && (
+            <Created
+              createdAt={createdAt}
+              formattedCreatedAt={formattedCreatedAt}
+              createdBy={createdBy}
+            />
+          )}
         </div>
       </div>
     </div>
