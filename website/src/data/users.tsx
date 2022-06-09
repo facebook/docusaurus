@@ -1445,6 +1445,15 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
+    title: 'Peradaban',
+    description:
+      'Peradaban is a Discord Server Bots made with NAFF designed only for Warung International Discord Server',
+    preview: require('./showcase/peradaban.png'),
+    website: 'https://docs.warunginternational.eu.org/',
+    source: 'https://github.com/warung-international/docs',
+    tags: ['opensource'],
+  },
+  {
     title: 'Pglet',
     description:
       'Build internal web apps quickly in the language you already know',
@@ -2348,7 +2357,7 @@ const Users: User[] = [
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
     tags: ['product', 'personal'],
-    source: null
+    source: null,
   },
   {
     title: 'Zowe',
