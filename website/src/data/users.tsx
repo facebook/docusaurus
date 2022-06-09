@@ -552,7 +552,7 @@ const Users: User[] = [
     title: 'difranca | Tech-Notes',
     description: 'This documentation aims to comprise my learning notes on various tech subjects.',
     preview: require('./showcase/difranca-technotes.png'),
-    website: 'https://difranca.github.io/tech-notes',
+    website: 'https://difranca.github.io/',
     source: 'https://github.com/difranca/difranca.github.io',
     tags: ['opensource', 'personal'],
   },
