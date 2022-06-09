@@ -1450,8 +1450,7 @@ const Users: User[] = [
       'Peradaban is a Discord Server Bots made with NAFF designed only for Warung International Discord Server',
     preview: require('./showcase/peradaban.png'),
     website: 'https://docs.warunginternational.eu.org/',
-    source:
-      'https://github.com/warung-international/docs/tree/master',
+    source: 'https://github.com/warung-international/docs',
     tags: ['opensource'],
   },
   {
@@ -2358,7 +2357,7 @@ const Users: User[] = [
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
     tags: ['product', 'personal'],
-    source: null
+    source: null,
   },
   {
     title: 'Zowe',
