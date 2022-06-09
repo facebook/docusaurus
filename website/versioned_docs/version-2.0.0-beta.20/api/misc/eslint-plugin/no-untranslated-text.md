@@ -4,6 +4,8 @@ slug: '/api/misc/@docusaurus/eslint-plugin/no-untranslated-text'
 
 # no-untranslated-text
 
+import APITable from '@site/src/components/APITable';
+
 Enforce text labels in JSX to be wrapped by translate calls.
 
 When the [i18n feature](../../../i18n/i18n-introduction.md) is used, this rule ensures that all labels appearing on the website are translatable, so no string accidentally slips through untranslated.
