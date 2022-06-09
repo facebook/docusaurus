@@ -385,7 +385,7 @@ declare module '@docusaurus/plugin-content-docs' {
     draft?: boolean;
     /** Allows overriding the last updated author and/or date. */
     last_update?: FileChange;
-    /** Allows overriding the create author and/or date. */
+    /** Allows overriding the created author and/or date. */
     create?: FileChange;
   };
 
