@@ -50,8 +50,6 @@ type LastUpdateOptions = Pick<
   'showLastUpdateAuthor' | 'showLastUpdateTime'
 >;
 
-type CreateOptions = Pick<PluginOptions, 'showCreateAuthor' | 'showCreateTime'>;
-
 async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
@@ -92,6 +90,8 @@ async function readLastUpdateData(
 
   return {};
 }
+
+type CreateOptions = Pick<PluginOptions, 'showCreateAuthor' | 'showCreateTime'>;
 
 async function readCreateData(
   filePath: string,
