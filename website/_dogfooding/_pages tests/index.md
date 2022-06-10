@@ -28,3 +28,4 @@ import Readme from "../README.md"
 - [General Markdown tests](/tests/pages/markdownPageTests)
 - [TOC tests](/tests/pages/page-toc-tests)
 - [Tabs tests](/tests/pages/tabs-tests)
+- [z-index tests](/tests/pages/z-index-tests)
