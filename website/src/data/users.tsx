@@ -549,6 +549,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'difranca | Tech-Notes',
+    description: 'This documentation aims to comprise my learning notes on various tech subjects.',
+    preview: require('./showcase/difranca-technotes.png'),
+    website: 'https://difranca.github.io/',
+    source: 'https://github.com/difranca/difranca.github.io',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Dime.Scheduler',
     description:
       'The resource and project planning solution for the Microsoft Dynamics product suite. Stop puzzling and start planning.',
