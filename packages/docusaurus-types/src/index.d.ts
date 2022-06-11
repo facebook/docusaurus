@@ -146,6 +146,10 @@ export type DocusaurusConfig = {
    * @default false
    */
   noIndex: boolean;
+  orphanPages?: {
+    onOrphanPage: ReportingSeverity;
+    entryPoints: string[];
+  };
   /**
    * The behavior of Docusaurus when it detects any broken link.
    *

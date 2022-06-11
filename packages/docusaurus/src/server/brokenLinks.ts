@@ -18,7 +18,7 @@ import {
   resolvePathname,
 } from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
-import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import type {RouteConfig, Props, DocusaurusConfig} from '@docusaurus/types';
 
 type BrokenLink = {
   link: string;
@@ -214,19 +214,47 @@ async function filterExistingFileLinks({
   );
 }
 
-export async function handleBrokenLinks({
+function findOrphanLinks({
   allCollectedLinks,
-  onBrokenLinks,
-  routes,
-  baseUrl,
-  outDir,
+  orphanPages,
 }: {
   allCollectedLinks: {[location: string]: string[]};
-  onBrokenLinks: ReportingSeverity;
-  routes: RouteConfig[];
-  baseUrl: string;
-  outDir: string;
+  orphanPages: DocusaurusConfig['orphanPages'];
+}) {
+  if (!orphanPages || orphanPages.onOrphanPage === 'ignore') {
+    return;
+  }
+  const visited = new Set<string>();
+  function dfs(link: string) {
+    if (visited.has(link)) {
+      return;
+    }
+    visited.add(link);
+    allCollectedLinks[link]?.forEach((l) => dfs(resolvePathname(l, link)));
+  }
+  orphanPages.entryPoints.forEach(dfs);
+  const orphaned = new Set(Object.keys(allCollectedLinks));
+  visited.forEach((l) => orphaned.delete(l));
+  reportMessage(
+    logger.interpolate`Orphan pages found: url=${Array.from(orphaned)}`,
+    orphanPages.onOrphanPage,
+  );
+}
+
+export async function handleBrokenLinks({
+  allCollectedLinks,
+  props: {
+    routes,
+    baseUrl,
+    outDir,
+    siteConfig: {onBrokenLinks, orphanPages},
+  },
+}: {
+  allCollectedLinks: {[location: string]: string[]};
+  props: Props;
 }): Promise<void> {
+  findOrphanLinks({allCollectedLinks, orphanPages});
+
   if (onBrokenLinks === 'ignore') {
     return;
   }
