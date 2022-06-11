@@ -3,7 +3,6 @@
   "compilerOptions": {
     "noEmit": false,
     "composite": true,
-    "module": "es2020",
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",

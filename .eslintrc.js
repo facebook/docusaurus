@@ -211,10 +211,12 @@ module.exports = {
     ],
 
     'import/extensions': OFF,
-    // Ignore certain webpack aliases because they can't be resolved
+    // This rule doesn't yet support resolving .js imports when the actual file
+    // is .ts. Plus it's not all that useful when our code is fully TS-covered.
     'import/no-unresolved': [
-      ERROR,
+      OFF,
       {
+        // Ignore certain webpack aliases because they can't be resolved
         ignore: [
           '^@theme',
           '^@docusaurus',

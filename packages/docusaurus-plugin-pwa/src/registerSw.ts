@@ -139,7 +139,7 @@ async function registerSW() {
     if (!offlineMode) {
       return sendSkipWaiting();
     }
-    return import('./renderReloadPopup').then(({default: renderReloadPopup}) =>
+    return import('./renderReloadPopup.js').then(({renderReloadPopup}) =>
       renderReloadPopup({
         onReload() {
           wb.addEventListener('controlling', () => {

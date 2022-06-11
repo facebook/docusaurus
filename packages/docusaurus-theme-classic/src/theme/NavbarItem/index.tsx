@@ -24,5 +24,5 @@ export default function NavbarItem({type, ...props}: Props): JSX.Element {
   if (!NavbarItemComponent) {
     throw new Error(`No NavbarItem component found for type "${type}".`);
   }
-  return <NavbarItemComponent {...(props as never)} />;
+  return <NavbarItemComponent {...(props as any)} />;
 }

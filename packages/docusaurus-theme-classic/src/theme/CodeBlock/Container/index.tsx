@@ -23,7 +23,7 @@ export default function CodeBlockContainer<T extends 'div' | 'pre'>({
   return (
     <As
       // Polymorphic components are hard to type, without `oneOf` generics
-      {...(props as never)}
+      {...(props as any)}
       style={prismCssVariables}
       className={clsx(
         props.className,
