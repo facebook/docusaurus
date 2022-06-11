@@ -1228,6 +1228,15 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
+    title: 'Metalyoung Blog',
+    description:
+      'A personal blog to record open source community contributions and open source projects',
+    preview: require('./showcase/metalyoung.png'),
+    website: 'https://www.metalyoung.com',
+    source: null,
+    tags: ['personal'],
+  },
+  {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',
     preview: require('./showcase/metro.png'),
