@@ -72,8 +72,8 @@ class PendingNavigation extends React.Component<Props, State> {
       })
       .catch((e: unknown) => {
         console.warn(e);
-        // If chunk loading failed, it could be because the path to a chunk 
-        // no longer exists due to a new deployment. Force refresh the page 
+        // If chunk loading failed, it could be because the path to a chunk
+        // no longer exists due to a new deployment. Force refresh the page
         // instead of just not navigating.
         window.location.reload();
       });
