@@ -566,6 +566,14 @@ const Users: User[] = [
     tags: ['product', 'opensource'],
   },
   {
+    title: 'Metalyoung Blog',
+    description: 'A personal blog to record open source community contributions and open source projects',
+    preview: require('./showcase/metalyoung.png'),
+    website: 'https://www.metalyoung.com',
+    source: null,
+    tags: ['personal'],
+  },
+  {
     title: 'Digital Support Services Notes',
     description: 'Open source documented notes for Digital Support Services.',
     preview: require('./showcase/digitalsupportservices.png'),
