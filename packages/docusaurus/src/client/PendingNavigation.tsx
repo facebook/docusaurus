@@ -70,7 +70,10 @@ class PendingNavigation extends React.Component<Props, State> {
         this.routeUpdateCleanupCb();
         this.setState({nextRouteHasLoaded: true});
       })
-      .catch((e: unknown) => console.warn(e));
+      .catch((e: unknown) => {
+        console.warn(e);
+        window.location.reload();
+      });
     return false;
   }
 
