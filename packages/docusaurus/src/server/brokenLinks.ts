@@ -52,8 +52,7 @@ function getPageBrokenLinks({
       // @ts-expect-error: React router types RouteConfig with an actual React
       // component, but we load route components with string paths.
       // We don't actually access component here, so it's fine.
-      .map((l) => matchRoutes(routes, l))
-      .flat();
+      .flatMap((l) => matchRoutes(routes, l));
     return matchedRoutes.length === 0;
   }
 
@@ -78,10 +77,8 @@ function getAllBrokenLinks({
   allCollectedLinks: {[location: string]: string[]};
   routes: RouteConfig[];
 }): {[location: string]: BrokenLink[]} {
-  const filteredRoutes = filterIntermediateRoutes(routes);
-
   const allBrokenLinks = _.mapValues(allCollectedLinks, (pageLinks, pagePath) =>
-    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+    getPageBrokenLinks({pageLinks, pagePath, routes}),
   );
 
   return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
@@ -217,24 +214,29 @@ async function filterExistingFileLinks({
 function findOrphanLinks({
   allCollectedLinks,
   orphanPages,
+  routes,
 }: {
   allCollectedLinks: {[location: string]: string[]};
   orphanPages: DocusaurusConfig['orphanPages'];
+  routes: RouteConfig[];
 }) {
   if (!orphanPages || orphanPages.onOrphanPage === 'ignore') {
     return;
   }
   const visited = new Set<string>();
   function dfs(link: string) {
-    if (visited.has(link)) {
+    // @ts-expect-error: see comment above
+    const normalLink = matchRoutes(routes, link)[0]?.match.path;
+    if (!normalLink || visited.has(normalLink)) {
       return;
     }
-    visited.add(link);
-    allCollectedLinks[link]?.forEach((l) => dfs(resolvePathname(l, link)));
+    visited.add(normalLink);
+    allCollectedLinks[normalLink]?.forEach((l) =>
+      dfs(resolvePathname(l, link)),
+    );
   }
   orphanPages.entryPoints.forEach(dfs);
-  const orphaned = new Set(Object.keys(allCollectedLinks));
-  visited.forEach((l) => orphaned.delete(l));
+  const orphaned = routes.map((r) => r.path).filter((l) => !visited.has(l));
   reportMessage(
     logger.interpolate`Orphan pages found: url=${Array.from(orphaned)}`,
     orphanPages.onOrphanPage,
@@ -244,7 +246,7 @@ function findOrphanLinks({
 export async function handleBrokenLinks({
   allCollectedLinks,
   props: {
-    routes,
+    routes: allRoutes,
     baseUrl,
     outDir,
     siteConfig: {onBrokenLinks, orphanPages},
@@ -253,7 +255,8 @@ export async function handleBrokenLinks({
   allCollectedLinks: {[location: string]: string[]};
   props: Props;
 }): Promise<void> {
-  findOrphanLinks({allCollectedLinks, orphanPages});
+  const routes = filterIntermediateRoutes(allRoutes);
+  findOrphanLinks({allCollectedLinks, orphanPages, routes});
 
   if (onBrokenLinks === 'ignore') {
     return;

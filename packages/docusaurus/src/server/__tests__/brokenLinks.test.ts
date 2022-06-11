@@ -9,7 +9,7 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import _ from 'lodash';
 import {handleBrokenLinks} from '../brokenLinks';
-import type {RouteConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, Props, RouteConfig} from '@docusaurus/types';
 
 describe('handleBrokenLinks', () => {
   const routes: RouteConfig[] = [
@@ -136,10 +136,14 @@ describe('handleBrokenLinks', () => {
     };
     await handleBrokenLinks({
       allCollectedLinks: allCollectedCorrectLinks,
-      onBrokenLinks: 'error',
-      routes,
-      baseUrl: '/',
-      outDir,
+      props: {
+        routes,
+        baseUrl: '/',
+        outDir,
+        siteConfig: {
+          onBrokenLinks: 'error',
+        } as DocusaurusConfig,
+      } as Props,
     });
     expect(consoleMock).toBeCalledTimes(0);
   });
@@ -148,10 +152,14 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       handleBrokenLinks({
         allCollectedLinks,
-        onBrokenLinks: 'throw',
-        routes,
-        baseUrl: '/',
-        outDir,
+        props: {
+          routes,
+          baseUrl: '/',
+          outDir,
+          siteConfig: {
+            onBrokenLinks: 'throw',
+          } as DocusaurusConfig,
+        } as Props,
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
@@ -162,10 +170,14 @@ describe('handleBrokenLinks', () => {
     const lodashMock = jest.spyOn(_, 'mapValues');
     await handleBrokenLinks({
       allCollectedLinks,
-      onBrokenLinks: 'ignore',
-      routes,
-      baseUrl: '/',
-      outDir,
+      props: {
+        routes,
+        baseUrl: '/',
+        outDir,
+        siteConfig: {
+          onBrokenLinks: 'ignore',
+        } as DocusaurusConfig,
+      } as Props,
     });
     expect(lodashMock).toBeCalledTimes(0);
     lodashMock.mockRestore();
@@ -185,10 +197,14 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       handleBrokenLinks({
         allCollectedLinks,
-        onBrokenLinks: 'throw',
-        routes,
-        baseUrl: '/',
-        outDir,
+        props: {
+          routes,
+          baseUrl: '/',
+          outDir,
+          siteConfig: {
+            onBrokenLinks: 'throw',
+          } as DocusaurusConfig,
+        } as Props,
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
