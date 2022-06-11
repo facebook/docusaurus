@@ -125,7 +125,10 @@ export async function wrap({
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 import type ${componentName}Type from '@theme/${themeComponentName}';
 
-type Props = ComponentProps<typeof ${componentName}Type>;
+type RawProps = ComponentProps<typeof ${componentName}Type>;
+// ComponentProps is a little buggy, quick fix.
+// https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/60766
+type Props = unknown extends RawProps ? {} : RawProps;
 
 export default function ${wrapperComponentName}(props: Props): JSX.Element {
   return (
