@@ -213,7 +213,7 @@ if (!process.argv.slice(2).length) {
   cli.outputHelp();
 }
 
-await cli.parseAsync(process.argv);
+cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
   logger.error(err instanceof Error ? err.stack : err);
