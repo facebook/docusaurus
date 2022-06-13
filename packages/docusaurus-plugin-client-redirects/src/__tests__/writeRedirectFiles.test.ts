@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 import writeRedirectFiles, {
-  toRedirectFilesMetadata,
+  toRedirectFiles,
   createToUrl,
 } from '../writeRedirectFiles';
 
@@ -42,14 +42,14 @@ describe('createToUrl', () => {
   });
 });
 
-describe('toRedirectFilesMetadata', () => {
+describe('toRedirectFiles', () => {
   it('creates appropriate metadata trailingSlash=undefined', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
     };
 
-    const redirectFiles = toRedirectFilesMetadata(
+    const redirectFiles = toRedirectFiles(
       [
         {from: '/abc.html', to: '/abc'},
         {from: '/def', to: '/def.html'},
@@ -76,7 +76,7 @@ describe('toRedirectFilesMetadata', () => {
       baseUrl: 'https://docusaurus.io',
     };
 
-    const redirectFiles = toRedirectFilesMetadata(
+    const redirectFiles = toRedirectFiles(
       [
         {from: '/abc.html', to: '/abc'},
         {from: '/def', to: '/def.html'},
@@ -103,7 +103,7 @@ describe('toRedirectFilesMetadata', () => {
       baseUrl: 'https://docusaurus.io',
     };
 
-    const redirectFiles = toRedirectFilesMetadata(
+    const redirectFiles = toRedirectFiles(
       [
         {from: '/abc.html', to: '/abc'},
         {from: '/def', to: '/def.html'},
@@ -132,7 +132,7 @@ describe('toRedirectFilesMetadata', () => {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '/',
     };
-    const redirectFiles = toRedirectFilesMetadata(
+    const redirectFiles = toRedirectFiles(
       [{from: '/abc.html', to: '/abc'}],
       pluginContext,
       undefined,
@@ -147,7 +147,7 @@ describe('toRedirectFilesMetadata', () => {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '',
     };
-    const redirectFiles = toRedirectFilesMetadata(
+    const redirectFiles = toRedirectFiles(
       [{from: '/abc.html', to: '/abc'}],
       pluginContext,
       undefined,
