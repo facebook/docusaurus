@@ -10,7 +10,7 @@ import {
   removeSuffix,
   removeTrailingSlash,
 } from '@docusaurus/utils';
-import type {RedirectMetadata} from './types';
+import type {RedirectItem} from './types';
 
 const ExtensionAdditionalMessage =
   'If the redirect extension system is not good enough for your use case, you can create redirects yourself with the "createRedirects" plugin option.';
@@ -40,23 +40,21 @@ const validateExtension = (ext: string) => {
 
 const addLeadingDot = (extension: string) => `.${extension}`;
 
-// Create new /path that redirects to existing an /path.html
+/**
+ * Create new `/path` that redirects to existing an `/path.html`
+ */
 export function createToExtensionsRedirects(
   paths: string[],
   extensions: string[],
-): RedirectMetadata[] {
+): RedirectItem[] {
   extensions.forEach(validateExtension);
 
   const dottedExtensions = extensions.map(addLeadingDot);
 
-  const createPathRedirects = (path: string): RedirectMetadata[] => {
+  const createPathRedirects = (path: string): RedirectItem[] => {
     const extensionFound = dottedExtensions.find((ext) => path.endsWith(ext));
     if (extensionFound) {
-      const routePathWithoutExtension = removeSuffix(path, extensionFound);
-      return [routePathWithoutExtension].map((from) => ({
-        from,
-        to: path,
-      }));
+      return [{from: removeSuffix(path, extensionFound), to: path}];
     }
     return [];
   };
@@ -64,12 +62,15 @@ export function createToExtensionsRedirects(
   return paths.flatMap(createPathRedirects);
 }
 
-// Create new /path.html/index.html that redirects to existing an /path
-// The filename pattern might look weird but it's on purpose (see https://github.com/facebook/docusaurus/issues/5055)
+/**
+ * Create new `/path.html/index.html` that redirects to existing an `/path`
+ * The filename pattern might look weird but it's on purpose (see
+ * https://github.com/facebook/docusaurus/issues/5055)
+ */
 export function createFromExtensionsRedirects(
   paths: string[],
   extensions: string[],
-): RedirectMetadata[] {
+): RedirectItem[] {
   extensions.forEach(validateExtension);
 
   const dottedExtensions = extensions.map(addLeadingDot);
@@ -77,7 +78,7 @@ export function createFromExtensionsRedirects(
   const alreadyEndsWithAnExtension = (str: string) =>
     dottedExtensions.some((ext) => str.endsWith(ext));
 
-  const createPathRedirects = (path: string): RedirectMetadata[] => {
+  const createPathRedirects = (path: string): RedirectItem[] => {
     if (path === '' || path === '/' || alreadyEndsWithAnExtension(path)) {
       return [];
     }

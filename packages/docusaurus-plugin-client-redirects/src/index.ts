@@ -8,11 +8,11 @@
 import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
-  toRedirectFilesMetadata,
-  type RedirectFileMetadata,
+  toRedirectFiles,
+  type RedirectFile,
 } from './writeRedirectFiles';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginContext, RedirectMetadata} from './types';
+import type {PluginContext, RedirectItem} from './types';
 import type {PluginOptions, Options} from './options';
 
 export default function pluginClientRedirectsPages(
@@ -33,12 +33,12 @@ export default function pluginClientRedirectsPages(
         options,
       };
 
-      const redirects: RedirectMetadata[] = collectRedirects(
+      const redirects: RedirectItem[] = collectRedirects(
         pluginContext,
         trailingSlash,
       );
 
-      const redirectFiles: RedirectFileMetadata[] = toRedirectFilesMetadata(
+      const redirectFiles: RedirectFile[] = toRedirectFiles(
         redirects,
         pluginContext,
         trailingSlash,

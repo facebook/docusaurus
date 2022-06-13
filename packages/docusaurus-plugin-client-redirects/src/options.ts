@@ -9,7 +9,9 @@ import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export type RedirectOption = {
+  /** Pathname of an existing Docusaurus page */
   to: string;
+  /** Pathname of the new page(s) we should create */
   from: string | string[];
 };
 
@@ -23,7 +25,9 @@ export type PluginOptions = {
   /** The list of redirect rules, each one with multiple `from`s → one `to`. */
   redirects: RedirectOption[];
   /**
-   * A callback to create a redirect rule.
+   * A callback to create a redirect rule. Docusaurus query this callback
+   * against every path it has created, and use its return value to output more
+   * paths.
    * @returns All the paths from which we should redirect to `path`
    */
   createRedirects?: (
