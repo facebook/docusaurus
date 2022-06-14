@@ -160,7 +160,7 @@ function Clock(props) {
 }
 ```
 
-## Custom heading id {#custom}
+## Custom heading ID {#custom}
 
 ## Pipe
 

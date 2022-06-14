@@ -267,7 +267,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | file path (including folders, without the extension) | A unique document id. |
+| `id` | `string` | file path (including folders, without the extension) | A unique document ID. |
 | `title` | `string` | Markdown title or `id` | The text title of your document. Used for the page metadata and as a fallback value in multiple places (sidebar, next/previous buttons...). Automatically added at the top of your doc if it does not contain any Markdown title. |
 | `pagination_label` | `string` | `sidebar_label` or `title` | The text used in the document next/previous buttons for this document. |
 | `sidebar_label` | `string` | `title` | The text shown in the document sidebar for this document. |

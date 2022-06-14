@@ -198,7 +198,7 @@ A real-world example from the Docusaurus site:
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
 
-<CodeBlock className="language-js" title="sidebars.js">
+<CodeBlock language="js" title="sidebars.js">
   {require('!!raw-loader!@site/sidebars.js')
     .default
     .split('\n')
