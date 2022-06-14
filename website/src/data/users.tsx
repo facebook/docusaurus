@@ -2401,6 +2401,14 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: 'react-chat-elements',
+    description: 'Chat UI package for React',
+    preview: require('./showcase/react-chat-elements.png'),
+    website: 'https://detaysoft.github.io/docs-react-chat-elements/',
+    source: 'https://github.com/Detaysoft/react-chat-elements',
+    tags: ['opensource', 'design'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
