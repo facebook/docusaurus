@@ -6,7 +6,7 @@ slug: /migration
 
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
 
-We try to make this as easy as possible, and provide a migration cli.
+We try to make this as easy as possible, and provide a migration CLI.
 
 ## Main differences {#main-differences}
 
@@ -66,7 +66,7 @@ You are free to put the `/docs` folder anywhere you want after having migrated t
 There are multiple things to migrate to obtain a fully functional Docusaurus 2 website:
 
 - packages
-- cli commands
+- CLI commands
 - site configuration
 - markdown files
 - sidebars file
@@ -76,13 +76,13 @@ There are multiple things to migrate to obtain a fully functional Docusaurus 2 w
 
 ## Automated migration process {#automated-migration-process}
 
-The [migration cli](./migration-automated.md) will handle many things of the migration for you.
+The [migration CLI](./migration-automated.md) will handle many things of the migration for you.
 
 However, some parts can't easily be automated, and you will have to fallback to the manual process.
 
 :::note
 
-We recommend running the migration cli, and complete the missing parts thanks to the manual migration process.
+We recommend running the migration CLI, and complete the missing parts thanks to the manual migration process.
 
 :::
 

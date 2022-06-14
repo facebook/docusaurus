@@ -81,7 +81,7 @@ When writing links in Markdown, you could either mean a _file path_, or a _URL p
 - If the path has an `.md(x)` extension, Docusaurus would try to resolve that Markdown file to a URL, and replace the file path with a URL path.
 - If the path has any other extension, Docusaurus would treat it as [an asset](../guides/markdown-features/markdown-features-assets.mdx) and bundle it.
 
-The following directory structure may help you visualize this file -> URL mapping. Assume that there's no slug customization in any page.
+The following directory structure may help you visualize this file → URL mapping. Assume that there's no slug customization in any page.
 
 <details>
 

@@ -14,7 +14,7 @@ The versioned docs should normally be migrated correctly by the [migration CLI](
 
 ## Migrate your `versioned_docs` front matter {#migrate-your-versioned_docs-front-matter}
 
-Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
+Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual ID field. See scenario below for better explanation.
 
 For example, if you have a `docs/hello.md`.
 
@@ -66,9 +66,9 @@ Hi, Endilie here :)
 
 ## Migrate your `versioned_sidebars` {#migrate-your-versioned_sidebars}
 
-- Refer to `versioned_docs` id as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1).
+- Refer to `versioned_docs` ID as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1).
 
-Because in v1 there is a good chance someone created a new file with front matter id `"version-${version}-${id}"` that can conflict with `versioned_docs` id.
+Because in v1 there is a good chance someone created a new file with front matter ID `"version-${version}-${id}"` that can conflict with `versioned_docs` ID.
 
 For example, Docusaurus 1 can't differentiate `docs/xxx.md`
 
@@ -139,7 +139,7 @@ website
 │   └── version-1.0.0-sidebars.json
 ```
 
-In v2, you have to populate the missing `versioned_docs` and `versioned_sidebars` (with the right front matter and id reference too).
+In v2, you have to populate the missing `versioned_docs` and `versioned_sidebars` (with the right front matter and ID reference too).
 
 ```bash {3-5,12}
 website

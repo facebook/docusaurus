@@ -509,7 +509,7 @@ module.exports = {
 
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
 
-The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
+The user will be able to switch from one version to another, while staying on the same doc (as long as the doc ID is constant across versions).
 
 Accepted fields:
 

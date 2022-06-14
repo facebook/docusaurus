@@ -374,7 +374,7 @@ Add these two workflow files:
 
 :::warning Tweak the parameters for your setup
 
-These files assume you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+These files assume you are using Yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
 
 If your Docusaurus project is not at the root of your repo, you may need to configure a [default working directory](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-set-the-default-shell-and-working-directory), and adjust the paths accordingly.
 
@@ -474,7 +474,7 @@ A cross-repo publish is more difficult to set up, because you need to push to an
 
 Please make sure that you replace `actions@github.com` with your GitHub email and `gh-actions` with your name.
 
-This file assumes you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+This file assumes you are using Yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
 
 :::
 
@@ -585,9 +585,9 @@ After creating this simple pipeline, each new commit pushed to the branch you se
 ### Using Azure Pipelines {#using-azure-pipelines}
 
 1. Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
-2. Create an organization and within the organization create a project and connect your repository from GitHub.
+2. Create an organization. Within the organization, create a project and connect your repository from GitHub.
 3. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
-4. In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build` create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
+4. In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build`), create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
 
 ```yml title="azure-pipelines.yml"
 trigger:
@@ -621,7 +621,7 @@ steps:
 
 ### Using Drone {#using-drone}
 
-1. Create a new ssh key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
+1. Create a new SSH key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
 2. Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 3. Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in the public key you just generated.
 4. Open your Drone.io dashboard and log in. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.

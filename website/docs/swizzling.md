@@ -241,7 +241,7 @@ Moreover, internal components may simply disappear. If a component is called `Si
 For each theme component, the swizzle CLI will indicate **3 different levels of safety** declared by theme authors:
 
 - **Safe**: this component is safe to be swizzled, its public API is considered stable, and no breaking changes should happen within a theme **major version**
-- **Unsafe**: this component is a theme implementation detail, not safe to be swizzled, and breaking changes might happen withing a theme **minor version**
+- **Unsafe**: this component is a theme implementation detail, not safe to be swizzled, and breaking changes might happen within a theme **minor version**
 - **Forbidden**: the swizzle CLI will prevent you from swizzling this component, because it is not designed to be swizzled at all
 
 :::note

@@ -71,7 +71,7 @@ And browsers used in development are:
 
 - The latest version of Chrome _or_ Firefox _or_ Safari.
 
-You can "evaluate" any config with the `browserslist` cli to obtain the actual list:
+You can "evaluate" any config with the `browserslist` CLI to obtain the actual list:
 
 ```bash
 npx browserslist --env="production"

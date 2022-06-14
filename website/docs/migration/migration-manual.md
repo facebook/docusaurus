@@ -15,7 +15,7 @@ This manual migration process should be run after the [automated migration proce
 
 In Docusaurus 2, we use scoped package names:
 
-- `docusaurus` -> `@docusaurus/core`
+- `docusaurus` → `@docusaurus/core`
 
 This provides a clear distinction between Docusaurus' official packages and community maintained packages. In another words, all Docusaurus' official packages are namespaced under `@docusaurus/`.
 
@@ -476,7 +476,7 @@ If you want to keep the `.html` extension as the canonical url of a page, docs c
 
 ### Sidebar {#sidebar}
 
-In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](../guides/docs/sidebar/items.md) other than document.
+In previous version, nested sidebar category is not allowed and sidebar category can only contain doc ID. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](../guides/docs/sidebar/items.md) other than document.
 
 You'll have to migrate your sidebar if it contains category type. Rename `subcategory` to `category` and `ids` to `items`.
 
@@ -579,7 +579,7 @@ This feature is replaced by [inline table of content](../guides/markdown-feature
 
 In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
-Front matter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your front matter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` -> `title: Part 1: "my part1 title"`.
+Front matter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your front matter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` → `title: "Part 1: my part1 title"`.
 
 **Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
 

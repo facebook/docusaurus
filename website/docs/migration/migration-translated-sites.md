@@ -136,7 +136,7 @@ The Crowdin Markdown parser is evolving other time and each Crowdin project has 
 
 This parser version is undocumented, and you will have to ask the Crowdin support to know your project's parser version and fix one specific version.
 
-Using the same cli version and parser version across the 2 Crowdin projects might give better results.
+Using the same CLI version and parser version across the 2 Crowdin projects might give better results.
 
 :::
 

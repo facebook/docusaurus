@@ -70,7 +70,7 @@ If your browser supports it, you should be able to install a Docusaurus site as 
 
 :::note
 
-App installation requires the https protocol and a valid manifest.
+App installation requires the HTTPS protocol and a valid manifest.
 
 :::
 
