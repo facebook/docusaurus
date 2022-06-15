@@ -35,7 +35,6 @@ export {
   parseLanguage,
   parseLines,
   containsLineNumbers,
-  getPrismCssVariables,
 } from './utils/codeBlockUtils';
 
 export {

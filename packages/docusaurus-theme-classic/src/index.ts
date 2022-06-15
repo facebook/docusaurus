@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {CSSProperties} from 'react';
 import path from 'path';
 import {createRequire} from 'module';
 import rtlcss from 'rtlcss';
@@ -15,6 +16,7 @@ import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import type {Options} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
+import type {PrismTheme} from 'prism-react-renderer';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
@@ -22,6 +24,22 @@ const requireFromDocusaurusCore = createRequire(
 const ContextReplacementPlugin = requireFromDocusaurusCore(
   'webpack/lib/ContextReplacementPlugin',
 ) as typeof webpack.ContextReplacementPlugin;
+
+const getPrismCssVariables = (prismTheme: PrismTheme): CSSProperties => {
+  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
+    color: '--prism-color',
+    backgroundColor: '--prism-background-color',
+  };
+
+  const properties: {[key: string]: string} = {};
+  Object.entries(prismTheme.plain).forEach(([key, value]) => {
+    const varName = mapping[key];
+    if (varName && typeof value === 'string') {
+      properties[varName] = value;
+    }
+  });
+  return properties;
+};
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
@@ -104,10 +122,14 @@ export default function themeClassic(
   const {
     announcementBar,
     colorMode,
-    prism: {additionalLanguages},
+    prism: {additionalLanguages, theme, darkTheme},
   } = themeConfig;
   const {customCss} = options ?? {};
   const {direction} = localeConfigs[currentLocale]!;
+  const prismBaseStyles = {
+    ':root': getPrismCssVariables(theme),
+    '[data-theme="dark"]': getPrismCssVariables(darkTheme),
+  };
 
   return {
     name: 'docusaurus-theme-classic',
@@ -200,6 +222,17 @@ export default function themeClassic(
 ${noFlashColorMode(colorMode)}
 ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
             `,
+          },
+          {
+            tagName: 'style',
+            innerHTML: Object.entries(prismBaseStyles)
+              .map(
+                ([selector, properties]) =>
+                  `${selector} {${Object.entries(properties)
+                    .map(([name, value]) => `${name}:${value};`)
+                    .join('')}}`,
+              )
+              .join(' '),
           },
         ],
       };

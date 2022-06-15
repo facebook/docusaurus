@@ -5,9 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
-import type {PrismTheme} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -232,20 +230,4 @@ export function parseLines(
     });
   });
   return {lineClassNames, code};
-}
-
-export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
-  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
-    color: '--prism-color',
-    backgroundColor: '--prism-background-color',
-  };
-
-  const properties: {[key: string]: string} = {};
-  Object.entries(prismTheme.plain).forEach(([key, value]) => {
-    const varName = mapping[key];
-    if (varName && typeof value === 'string') {
-      properties[varName] = value;
-    }
-  });
-  return properties;
 }
