@@ -1634,6 +1634,14 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
+    title: 'react-chat-elements',
+    description: 'Chat UI package for React',
+    preview: require('./showcase/react-chat-elements.png'),
+    website: 'https://detaysoft.github.io/docs-react-chat-elements/',
+    source: 'https://github.com/Detaysoft/react-chat-elements',
+    tags: ['opensource'],
+  },
+  {
     title: 'React Complex Tree',
     description:
       'Unopinionated Accessible React Tree Component with Multi-Select and Drag-And-Drop',
