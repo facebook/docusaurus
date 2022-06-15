@@ -1341,6 +1341,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Nhost',
+    description: 'The Open Source Firebase Alternative with GraphQL',
+    preview: require('./showcase/nhost.png'),
+    website: 'https://docs.nhost.io',
+    source: 'https://github.com/nhost/nhost/tree/main/docs',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'Nocalhost',
     description:
       'An open-source toolsets help to build cloud-native applications easier and faster.',
