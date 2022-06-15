@@ -479,7 +479,7 @@ Prefer a `require()` call for [assets](./guides/markdown-features/markdown-featu
 
 ### `useBaseUrlUtils` {#useBaseUrlUtils}
 
-Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
+Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base URL.
 
 - `withBaseUrl`: useful if you need to add base URLs to multiple URLs at once.
 

@@ -69,7 +69,7 @@ You write a link like this: [Download this document](/files/note.docx)
 Docusaurus changes that to: <a href={require('static/files/note.docx')}>Download this document</a>
 ```
 
-:::caution use markdown syntax
+:::caution use Markdown syntax
 
 Docusaurus will only parse links that are in Markdown syntax. If your asset references are using the JSX tag `<a>` / `<img>`, nothing will be done.
 

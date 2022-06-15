@@ -284,7 +284,7 @@ Accepted fields:
 | `keywords` | `string[]` | `undefined` | Keywords meta tag for the document page, for search engines. |
 | `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
-| `slug` | `string` | File path | Allows to customize the document url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
+| `slug` | `string` | File path | Allows to customize the document URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 | `draft` | `boolean` | `false` | A boolean flag to indicate that a document is a work-in-progress. Draft documents will only be displayed during development. |
 | `last_update` | `FileChange` | `undefined` | Allows overriding the last updated author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |

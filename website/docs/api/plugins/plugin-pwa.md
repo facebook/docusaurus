@@ -160,7 +160,7 @@ module.exports = {
           modifyURLPrefix: {
             //...
           },
-          // We already add regular static assets (html, images...) to be available offline
+          // We already add regular static assets (HTML, images...) to be available offline
           // You can add more files according to your needs
           globPatterns: ['**/*.{pdf,docx,xlsx}'],
           // ...

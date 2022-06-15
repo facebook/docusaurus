@@ -90,7 +90,7 @@ module.exports = {
 
 ### Metadata {#metadata}
 
-You can configure additional html metadata (and override existing ones).
+You can configure additional HTML metadata (and override existing ones).
 
 Accepted fields:
 
@@ -901,7 +901,7 @@ Accepted fields of each `FooterItem`:
 | `label` | `string` | **Required** | Text to be displayed for this link. |
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
-| `html` | `string` | `undefined` | Renders the html pass-through instead of a simple link. In case `html` is used, no other options should be provided. |
+| `html` | `string` | `undefined` | Renders the HTML pass-through instead of a simple link. In case `html` is used, no other options should be provided. |
 
 ```mdx-code-block
 </APITable>

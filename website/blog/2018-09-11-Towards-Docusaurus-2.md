@@ -83,9 +83,9 @@ For Docusaurus 2, **layout and styling should be controlled by the user**. Docus
 
 ### Markdown
 
-Our markdown parsing is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user wants to use [markdown-it](https://github.com/markdown-it/markdown-it) or even [MDX](https://github.com/mdx-js/mdx)? And then there is an issue of which syntax highlighter to use, (e.g: [Prism](https://prismjs.com/) vs [Highlight.js](https://highlightjs.org/)). We should leave these choices open to the user.
+Our Markdown parsing is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user wants to use [Markdown-it](https://github.com/Markdown-it/Markdown-it) or even [MDX](https://github.com/mdx-js/mdx)? And then there is an issue of which syntax highlighter to use, (e.g: [Prism](https://prismjs.com/) vs [Highlight.js](https://highlightjs.org/)). We should leave these choices open to the user.
 
-For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use another markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house markdown parser. As a rule of thumb, the user has to provide a React component, in which we will provide a children props containing the _RAW string of markdown_. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
+For Docusaurus 2, **users can eject and choose their own Markdown parser**. It does not matter if they want to use another Markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house Markdown parser. As a rule of thumb, the user has to provide a React component, in which we will provide a children props containing the _RAW string of Markdown_. By default, we will use Remarkable for the Markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different Markdown parsers.
 
 ### Search
 

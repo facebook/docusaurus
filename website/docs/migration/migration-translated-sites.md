@@ -110,21 +110,21 @@ Unfortunately, Crowdin does not have any "Duplicate/clone Project" feature, whic
 - Download the Crowdin translations locally
 - Try to run/build your site and see if there are any errors
 
-You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (front matter, admonition, code blocks...), and the translated md files might be invalid for the MDX parser.
+You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (front matter, admonition, code blocks...), and the translated MD files might be invalid for the MDX parser.
 
-You will have to fix all the errors until your site builds. You can do that by modifying the translated md files locally, and fix your site for one locale at a time using `docusaurus build --locale fr`.
+You will have to fix all the errors until your site builds. You can do that by modifying the translated MD files locally, and fix your site for one locale at a time using `docusaurus build --locale fr`.
 
 There is no ultimate guide we could write to fix these errors, but common errors are due to:
 
 - Not marking enough strings as "hidden strings" in Crowdin, leading to pre-translation trying to translate these strings.
-- Having bad v1 translations, leading to invalid markup in v2: bad html elements inside translations and unclosed tags
+- Having bad v1 translations, leading to invalid markup in v2: bad HTML elements inside translations and unclosed tags
 - Anything rejected by the MDX parser, like using HTML elements instead of JSX elements (use the [MDX playground](https://mdxjs.com/playground/) for debugging)
 
 You might want to repeat this pre-translation process, eventually trying the "Perfect" option and limiting pre-translation only some languages/files.
 
 :::tip
 
-Use [`mdx-code-block`](../i18n/i18n-crowdin.mdx#mdx-solutions) around problematic markdown elements: Crowdin is less likely mess things up with code blocks.
+Use [`mdx-code-block`](../i18n/i18n-crowdin.mdx#mdx-solutions) around problematic Markdown elements: Crowdin is less likely mess things up with code blocks.
 
 :::
 

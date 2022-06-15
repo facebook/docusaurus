@@ -14,7 +14,7 @@ The versioned docs should normally be migrated correctly by the [migration CLI](
 
 ## Migrate your `versioned_docs` front matter {#migrate-your-versioned_docs-front-matter}
 
-Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual ID field. See scenario below for better explanation.
+Unlike v1, The Markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual ID field. See scenario below for better explanation.
 
 For example, if you have a `docs/hello.md`.
 

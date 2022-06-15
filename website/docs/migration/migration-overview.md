@@ -68,7 +68,7 @@ There are multiple things to migrate to obtain a fully functional Docusaurus 2 w
 - packages
 - CLI commands
 - site configuration
-- markdown files
+- Markdown files
 - sidebars file
 - pages, components and CSS
 - versioned docs

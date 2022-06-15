@@ -15,4 +15,4 @@ Fancy things we can test for here:
 - \_ prefix convention
 - Huge sidebars impact
 - Using folders with spaces on purpose
-- Importing md docs that are out of content plugin folders as partials (such as this README file!)
+- Importing MD docs that are out of content plugin folders as partials (such as this README file!)

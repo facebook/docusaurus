@@ -63,7 +63,7 @@ module.exports = {
 
 - Type: `string`
 
-URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [baseUrl](#baseurl) field.
+URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [`baseUrl`](#baseUrl) field.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -75,7 +75,7 @@ module.exports = {
 
 - Type: `string`
 
-Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field. Always has both leading and trailing slash.
+Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [`url`](#url) field. Always has both leading and trailing slash.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -152,7 +152,7 @@ module.exports = {
 - `locales`: List of locales deployed on your site. Must contain `defaultLocale`.
 - `localeConfigs`: Individual options for each locale.
   - `label`: The label displayed for this locale in the locales dropdown.
-  - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Farsi, Arabic, Hebrew, etc.). Used to select the locale's CSS and html meta attribute.
+  - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Farsi, Arabic, Hebrew, etc.). Used to select the locale's CSS and HTML meta attribute.
   - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
 
@@ -188,9 +188,9 @@ The broken links detection is only available for a production build (`docusaurus
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
-The behavior of Docusaurus when it detects any broken markdown link.
+The behavior of Docusaurus when it detects any broken Markdown link.
 
-By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
+By default, it prints a warning, to let you know about your broken Markdown link, but you can change this security if needed.
 
 ### `onDuplicateRoutes` {#onDuplicateRoutes}
 
@@ -547,7 +547,7 @@ module.exports = {
 };
 ```
 
-### `baseUrlIssueBanner` {#baseurlIssueBanner}
+### `baseUrlIssueBanner` {#baseUrlIssueBanner}
 
 - Type: `boolean`
 

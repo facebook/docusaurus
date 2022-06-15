@@ -418,8 +418,8 @@ The following fields are all deprecated, you may remove from your configuration 
 - `facebookPixelId`
 - `fonts`
 - `highlight` - We now use [Prism](https://prismjs.com/) instead of [highlight.js](https://highlightjs.org/).
-- `markdownOptions` - We use MDX in v2 instead of Remarkable. Your markdown options have to be converted to Remark/Rehype plugins.
-- `markdownPlugins` - We use MDX in v2 instead of Remarkable. Your markdown plugins have to be converted to Remark/Rehype plugins.
+- `markdownOptions` - We use MDX in v2 instead of Remarkable. Your Markdown options have to be converted to Remark/Rehype plugins.
+- `markdownPlugins` - We use MDX in v2 instead of Remarkable. Your Markdown plugins have to be converted to Remark/Rehype plugins.
 - `manifest`
 - `onPageNav` - This is turned on by default now.
 - `separateCss` - It can imported in the same manner as `custom.css` mentioned above.
@@ -470,7 +470,7 @@ module.exports = {
 };
 ```
 
-If you want to keep the `.html` extension as the canonical url of a page, docs can declare a `slug: installation.html` front matter.
+If you want to keep the `.html` extension as the canonical URL of a page, docs can declare a `slug: installation.html` front matter.
 
 ## Components {#components}
 
@@ -577,7 +577,7 @@ This feature is replaced by [inline table of content](../guides/markdown-feature
 
 ### Update Markdown syntax to be MDX-compatible {#update-markdown-syntax-to-be-mdx-compatible}
 
-In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
+In Docusaurus 2, the Markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
 Front matter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your front matter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` → `title: "Part 1: my part1 title"`.
 

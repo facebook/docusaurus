@@ -17,7 +17,7 @@ We created [Docusaurus](https://docusaurus.io) for the following reasons:
 
 <!--truncate-->
 
-Docusaurus is a tool designed to make it easy for teams to publish documentation websites without having to worry about the infrastructure and design details. At its core, all a user has to provide are documentation files written in markdown, customization of a provided home page written in React, and a few configuration modifications. Docusaurus handles the rest by providing default styles, site formatting, and simple document navigation. Getting started is easy, as users can [install](https://v1.docusaurus.io/docs/en/installation.html) it using `npm` or `yarn` via a simple initialization script that [creates a working example website out of the box](https://v1.docusaurus.io/docs/en/site-preparation.html).
+Docusaurus is a tool designed to make it easy for teams to publish documentation websites without having to worry about the infrastructure and design details. At its core, all a user has to provide are documentation files written in Markdown, customization of a provided home page written in React, and a few configuration modifications. Docusaurus handles the rest by providing default styles, site formatting, and simple document navigation. Getting started is easy, as users can [install](https://v1.docusaurus.io/docs/en/installation.html) it using `npm` or `yarn` via a simple initialization script that [creates a working example website out of the box](https://v1.docusaurus.io/docs/en/site-preparation.html).
 
 Docusaurus also provides core website and documentation features out-of-the-box including [blog support](https://v1.docusaurus.io/docs/en/blog.html), [internationalization](https://v1.docusaurus.io/docs/en/translation.html), [search](https://v1.docusaurus.io/docs/en/search.html), and [versioning](https://v1.docusaurus.io/docs/en/versioning.html). While some projects may not require any of these features, enabling them is generally a matter of updating configuration options instead of having to add the infrastructure from the ground up. As more features get added to Docusaurus, users just can easily update to the latest version. This can be done by simply running npm or yarn update and updating configuration options. Users or teams will no longer need to manually rework their entire website infrastructure each time a new feature gets added.
 
@@ -67,11 +67,11 @@ root-of-repo
 │   └── static
 ```
 
-With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your [blog posts](https://v1.docusaurus.io/docs/en/blog.html); `siteConfig.js` is where you make most of the [customizations](https://v1.docusaurus.io/docs/en/site-config.html) for your site; `sidebars.json` is where you maintain the layout and content of the [sidebar](https://v1.docusaurus.io/docs/en/navigation.html) for your documentation; the `pages` folder is where you add [custom](https://v1.docusaurus.io/docs/en/custom-pages.html) pages for your site; the `static` folder is where all of your static assets go (e.g., CSS stylesheets and images); and the `core` folder is where you can customize core components of the site, in this case the footer.
+With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your Markdown that represents your documentation; the blog folder is where you add your Markdown for your [blog posts](https://v1.docusaurus.io/docs/en/blog.html); `siteConfig.js` is where you make most of the [customizations](https://v1.docusaurus.io/docs/en/site-config.html) for your site; `sidebars.json` is where you maintain the layout and content of the [sidebar](https://v1.docusaurus.io/docs/en/navigation.html) for your documentation; the `pages` folder is where you add [custom](https://v1.docusaurus.io/docs/en/custom-pages.html) pages for your site; the `static` folder is where all of your static assets go (e.g., CSS stylesheets and images); and the `core` folder is where you can customize core components of the site, in this case the footer.
 
 ## How does Docusaurus work?
 
-Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing Jekyll which we used in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebook/docusaurus/). The general structure looks like:
+Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing Jekyll which we used in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our Markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebook/docusaurus/). The general structure looks like:
 
 ```bash
 root-of-Docusaurus
@@ -92,12 +92,12 @@ root-of-Docusaurus
 │   └── write-translations.js
 ```
 
-The key files here are build-files.js and start-server.js. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the markdown and configuration to create a runnable website:
+The key files here are build-files.js and start-server.js. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the Markdown and configuration to create a runnable website:
 
 1. Process your website settings in `siteConfig.js`
-1. Read the document metadata that exists in all the markdown files in your docs directory.
-1. Create a table of contents for your documents based upon the ids extracted from the metadata.
-1. Convert the markdown to HTML, including doing link replacement.
+1. Read the document metadata that exists in all the Markdown files in your docs directory.
+1. Create a table of contents for your documents based upon the IDs extracted from the metadata.
+1. Convert the Markdown to HTML, including doing link replacement.
 1. These files will go in a build/docs directory of the compiled site, and any translated versions will go into a language specific folder within the build/docs folder.
 1. Repeat 1-3 for blog posts.
 1. The blog file will go in a build/blog directory of the compiled site.

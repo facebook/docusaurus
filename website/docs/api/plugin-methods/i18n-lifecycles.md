@@ -103,7 +103,7 @@ module.exports = function (context, options) {
 
 Themes using the `<Translate>` API can provide default code translation messages.
 
-It should return messages in `Record<string, string>`, where keys are translation ids and values are messages (without the description) localized using the site's current locale.
+It should return messages in `Record<string, string>`, where keys are translation IDs and values are messages (without the description) localized using the site's current locale.
 
 Example:
 
