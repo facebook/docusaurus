@@ -1346,7 +1346,7 @@ const Users: User[] = [
     preview: require('./showcase/nhost.png'),
     website: 'https://docs.nhost.io',
     source: 'https://github.com/nhost/nhost/tree/main/docs',
-    tags: ['opensource', 'product']
+    tags: ['opensource', 'product', 'design'],
   },
   {
     title: 'Nocalhost',
