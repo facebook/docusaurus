@@ -6,9 +6,18 @@
   "sideEffects": false,
   "exports": {
     "./src/*": "./src/*",
-    "./client": "./lib/client/index.js",
-    "./server": "./lib/server-export.js",
-    ".": "./lib/index.js"
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    "./server": {
+      "type": "./lib/server-export.d.ts",
+      "default": "./lib/server-export.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-docs.d.ts",
+      "default": "./lib/index.js"
+    }
   },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {

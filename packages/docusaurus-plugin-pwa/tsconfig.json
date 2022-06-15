@@ -8,7 +8,6 @@
     "noEmit": false,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "module": "commonjs",
     "rootDir": "src",
     "outDir": "lib"
   },

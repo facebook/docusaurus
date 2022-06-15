@@ -3259,9 +3259,9 @@
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
 "@tsconfig/docusaurus@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@tsconfig/docusaurus/-/docusaurus-1.0.5.tgz#5298c5b0333c6263f06c3149b38ebccc9f169a4e"
-  integrity sha512-KM/TuJa9fugo67dTGx+ktIqf3fVc077J6jwHu845Hex4EQf7LABlNonP/mohDKT0cmncdtlYVHHF74xR/YpThg==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@tsconfig/docusaurus/-/docusaurus-1.0.6.tgz#7305a7fa590decc0d5968500234e95fd68788978"
+  integrity sha512-1QxDaP54hpzM6bq9E+yFEo4F9WbWHhsDe4vktZXF/iDlc9FqGr9qlg+3X/nuKQXx8QxHV7ue8NXFazzajsxFBA==
 
 "@types/babel__core@^7.1.14":
   version "7.1.19"
@@ -14884,15 +14884,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^4.6.4:
+typescript@^4.7.3, typescript@~4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.3.tgz#8364b502d5257b540f9de4c40be84c98e23a129d"
   integrity sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==
-
-typescript@~4.6.4:
-  version "4.6.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
-  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
 
 ua-parser-js@^0.7.30:
   version "0.7.31"
@@ -15365,9 +15360,9 @@ vfile@^4.0.0:
     vfile-message "^2.0.0"
 
 vfile@^5.0.0:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/vfile/-/vfile-5.3.2.tgz#b499fbc50197ea50ad3749e9b60beb16ca5b7c54"
-  integrity sha512-w0PLIugRY3Crkgw89TeMvHCzqCs/zpreR31hl4D92y6SOE07+bfJe+dK5Q2akwS+i/c801kzjoOr9gMcTe6IAA==
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/vfile/-/vfile-5.3.3.tgz#70b75779d99e0698a8cb6536a09361ac37f800a0"
+  integrity sha512-xwALvwUKmXzHOri5dGXqXNN8JDEvxPhf8avC+E+pJEl32e4/grLdRdsgx23HpK7QI0cwgR4+QfaM8D5KUnki3g==
   dependencies:
     "@types/unist" "^2.0.0"
     is-buffer "^2.0.0"

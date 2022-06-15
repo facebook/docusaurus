@@ -28,6 +28,8 @@
     "noUnusedParameters": false,
     "importsNotUsedAsValues": "remove",
 
+    "moduleResolution": "NodeNext",
+
     // This is important. We run `yarn tsc` in website so we can catch issues
     // with our declaration files (mostly names that are forgotten to be
     // imported, invalid semantics...). Because we don't have end-to-end type

@@ -7,8 +7,14 @@
     "*.css"
   ],
   "exports": {
-    "./client": "./lib/client/index.js",
-    ".": "./lib/index.js"
+    "./client": {
+      "types": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/theme-search-algolia.d.ts",
+      "default": "./lib/index.js"
+    }
   },
   "types": "src/theme-search-algolia.d.ts",
   "publishConfig": {
