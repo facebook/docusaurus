@@ -108,7 +108,7 @@ Our shared goal—to help your users quickly find what they need and understand 
   - HTML files are statically generated for every possible path.
   - Page-specific SEO to help your users land on your official docs directly relating their problems at hand.
 - 📝 **Powered by MDX**:
-  - Write interactive components via JSX and React embedded in markdown.
+  - Write interactive components via JSX and React embedded in Markdown.
   - Share your code in live editors to get your users to love your products on the spot.
 - 🔍 **Search**: Your full site is searchable.
 - 💾 **Document Versioning**: Helps you keep documentation in sync with project releases.

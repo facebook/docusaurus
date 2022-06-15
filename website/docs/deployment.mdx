@@ -183,8 +183,8 @@ Some Docusaurus sites put the `docs` folder outside of `website` (most likely fo
 
 ```bash
 repo           # git root
-├── docs       # md files
-└── website    # docusaurus root
+├── docs       # MD files
+└── website    # Docusaurus root
 ```
 
 If you decide to use the `website` folder as Netlify's base directory, Netlify will not trigger builds when you update the `docs` folder, and you need to configure a [custom `ignore` command](https://docs.netlify.com/configure-builds/common-configurations/ignore-builds/):
@@ -622,7 +622,7 @@ steps:
 ### Using Drone {#using-drone}
 
 1. Create a new SSH key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
-2. Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+2. Name your private and public keys to be specific and so that it does not overwrite your other [SSH keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 3. Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in the public key you just generated.
 4. Open your Drone.io dashboard and log in. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.
 5. Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.

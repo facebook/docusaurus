@@ -21,14 +21,14 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
     "type": "mdx",
   },
   {
-    "description": "my mdx page",
+    "description": "my MDX page",
     "frontMatter": {
-      "description": "my mdx page",
-      "title": "mdx page",
+      "description": "my MDX page",
+      "title": "MDX page",
     },
     "permalink": "/hello/mdxPage",
     "source": "@site/src/pages/hello/mdxPage.mdx",
-    "title": "mdx page",
+    "title": "MDX page",
     "type": "mdx",
   },
   {
@@ -37,7 +37,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
     "type": "jsx",
   },
   {
-    "description": "translated markdown page",
+    "description": "translated Markdown page",
     "frontMatter": {},
     "permalink": "/hello/translatedMd",
     "source": "@site/src/pages/hello/translatedMd.md",
@@ -73,14 +73,14 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
     "type": "mdx",
   },
   {
-    "description": "my mdx page",
+    "description": "my MDX page",
     "frontMatter": {
-      "description": "my mdx page",
-      "title": "mdx page",
+      "description": "my MDX page",
+      "title": "MDX page",
     },
     "permalink": "/fr/hello/mdxPage",
     "source": "@site/src/pages/hello/mdxPage.mdx",
-    "title": "mdx page",
+    "title": "MDX page",
     "type": "mdx",
   },
   {
@@ -89,7 +89,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
     "type": "jsx",
   },
   {
-    "description": "translated markdown page (fr)",
+    "description": "translated Markdown page (fr)",
     "frontMatter": {},
     "permalink": "/fr/hello/translatedMd",
     "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedMd.md",

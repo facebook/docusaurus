@@ -455,7 +455,7 @@ To use the plugin, create a code block with `live` attached to the language meta
 function Clock(props) {
   const [date, setDate] = useState(new Date());
   useEffect(() => {
-    var timerID = setInterval(() => tick(), 1000);
+    const timerID = setInterval(() => tick(), 1000);
 
     return function cleanup() {
       clearInterval(timerID);
@@ -485,7 +485,7 @@ The code block will be rendered as an interactive editor. Changes to the code wi
 function Clock(props) {
   const [date, setDate] = useState(new Date());
   useEffect(() => {
-    var timerID = setInterval(() => tick(), 1000);
+    const timerID = setInterval(() => tick(), 1000);
 
     return function cleanup() {
       clearInterval(timerID);

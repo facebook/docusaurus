@@ -79,7 +79,7 @@ module.exports = {
 };
 ```
 
-## Multi-instance plugins and plugin ids {#multi-instance-plugins-and-plugin-ids}
+## Multi-instance plugins and plugin IDs {#multi-instance-plugins-and-plugin-ids}
 
 All Docusaurus content plugins can support multiple plugin instances. For example, it may be useful to have [multiple docs plugin instances](./guides/docs/docs-multi-instance.mdx) or [multiple blogs](./blog.mdx#multiple-blogs). It is required to assign a unique ID to each plugin instance, and by default, the plugin ID is `default`.
 

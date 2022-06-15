@@ -420,18 +420,18 @@ We only copy `.md` and `.mdx` files, as React pages are translated through JSON 
 
 :::
 
-:::tip Use explicit heading ids
+:::tip Use explicit heading IDs
 
-By default, a Markdown heading `### Hello World` will have a generated id `hello-world`. Other documents can link it with `[link](#hello-world)`. However, after translation, the heading becomes `### Bonjour le Monde`, with id `bonjour-le-monde`.
+By default, a Markdown heading `### Hello World` will have a generated ID `hello-world`. Other documents can link it with `[link](#hello-world)`. However, after translation, the heading becomes `### Bonjour le Monde`, with ID `bonjour-le-monde`.
 
-Generated ids are not always a good fit for localized sites, as it requires you to localize all the anchor links:
+Generated IDs are not always a good fit for localized sites, as it requires you to localize all the anchor links:
 
 ```diff
 - [link](#hello-world).
 + [link](#bonjour-le-monde)
 ```
 
-For localized sites, it is recommended to use **[explicit heading ids](../guides/markdown-features/markdown-features-toc.mdx#explicit-ids)**.
+For localized sites, it is recommended to use **[explicit heading IDs](../guides/markdown-features/markdown-features-toc.mdx#explicit-ids)**.
 
 :::
 

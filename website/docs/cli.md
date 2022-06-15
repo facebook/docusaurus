@@ -41,7 +41,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as a fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
-| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
+| `--config` | `undefined` | Path to Docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
@@ -87,7 +87,7 @@ Compiles your site for production.
 | --- | --- | --- |
 | `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
-| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
+| `--config` | `undefined` | Path to Docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
 :::info
@@ -137,7 +137,7 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--skip-build` | `false` | Deploy website without building it. This may be useful when using a custom deploy script. |
-| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
+| `--config` | `undefined` | Path to Docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 
 ### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
 
@@ -148,7 +148,7 @@ Serve your built website locally.
 | `--port` | `3000` | Use specified port |
 | `--dir` | `build` | The full path for the output directory, relative to the current workspace |
 | `--build` | `false` | Build website before serving |
-| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
+| `--config` | `undefined` | Path to Docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--no-open` | `false` locally, `true` in CI | Do not open a browser window to the server location. |
 
@@ -168,12 +168,12 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | --- | --- | --- |
 | `--locale` | `<defaultLocale>` | Define which locale folder you want to write translations the JSON files in |
 | `--override` | `false` | Override existing translation messages |
-| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
+| `--config` | `undefined` | Path to Docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--messagePrefix` | `''` | Allows adding a prefix to each translation message, to help you highlight untranslated strings |
 
 ### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
 
-Add [explicit heading ids](./guides/markdown-features/markdown-features-toc.mdx#explicit-ids) to the Markdown documents of your site.
+Add [explicit heading IDs](./guides/markdown-features/markdown-features-toc.mdx#explicit-ids) to the Markdown documents of your site.
 
 | Name | Default | Description |
 | --- | --- | --- |
