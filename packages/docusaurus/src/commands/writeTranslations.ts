@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import path from 'path';
 import {loadContext, type LoadContextOptions} from '../server';
 import {initPlugins} from '../server/plugins/init';
@@ -75,9 +76,11 @@ async function writePluginTranslationFiles({
 }
 
 export async function writeTranslations(
-  siteDir: string,
-  options: Partial<WriteTranslationsCLIOptions>,
+  siteDirParam: string = '.',
+  options: Partial<WriteTranslationsCLIOptions> = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const context = await loadContext({
     siteDir,
     config: options.config,

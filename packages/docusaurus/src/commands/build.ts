@@ -38,14 +38,16 @@ export type BuildCLIOptions = Pick<
 };
 
 export async function build(
-  siteDir: string,
-  cliOptions: Partial<BuildCLIOptions>,
+  siteDirParam: string = '.',
+  cliOptions: Partial<BuildCLIOptions> = {},
   // When running build, we force terminate the process to prevent async
   // operations from never returning. However, if run as part of docusaurus
   // deploy, we have to let deploy finish.
   // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig, () => process.exit());
   });

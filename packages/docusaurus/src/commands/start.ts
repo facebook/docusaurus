@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
@@ -35,9 +36,11 @@ export type StartCLIOptions = HostPortOptions &
   };
 
 export async function start(
-  siteDir: string,
-  cliOptions: Partial<StartCLIOptions>,
+  siteDirParam: string = '.',
+  cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
   logger.info('Starting the development server...');

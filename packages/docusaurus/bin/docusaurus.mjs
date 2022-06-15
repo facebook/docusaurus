@@ -8,7 +8,6 @@
 
 // @ts-check
 
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
@@ -26,8 +25,6 @@ import {
 import beforeCli from './beforeCli.mjs';
 
 await beforeCli();
-
-const resolveDir = (dir = '.') => fs.realpath(dir);
 
 cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 
@@ -54,9 +51,9 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action(async (siteDir, options) => {
-    await build(await resolveDir(siteDir), options);
-  });
+  // @ts-expect-error: Promise<string> is not assignable to Promise<void>... but
+  // good enough here.
+  .action(build);
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')
@@ -80,9 +77,7 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
-  .action(async (themeName, componentName, siteDir, options) =>
-    swizzle(await resolveDir(siteDir), themeName, componentName, options),
-  );
+  .action(swizzle);
 
 cli
   .command('deploy [siteDir]')
@@ -103,9 +98,7 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action(async (siteDir, options) =>
-    deploy(await resolveDir(siteDir), options),
-  );
+  .action(deploy);
 
 cli
   .command('start [siteDir]')
@@ -130,9 +123,7 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action(async (siteDir, options) =>
-    start(await resolveDir(siteDir), options),
-  );
+  .action(start);
 
 cli
   .command('serve [siteDir]')
@@ -152,14 +143,12 @@ cli
     '--no-open',
     'do not open page in the browser (default: false, or true in CI)',
   )
-  .action(async (siteDir, options) =>
-    serve(await resolveDir(siteDir), options),
-  );
+  .action(serve);
 
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action(async (siteDir) => clear(await resolveDir(siteDir)));
+  .action(clear);
 
 cli
   .command('write-translations [siteDir]')
@@ -180,9 +169,7 @@ cli
     '--messagePrefix <messagePrefix>',
     'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message by making them stand out in the UI (default: "")',
   )
-  .action(async (siteDir, options) =>
-    writeTranslations(await resolveDir(siteDir), options),
-  );
+  .action(writeTranslations);
 
 cli
   .command('write-heading-ids [siteDir] [files...]')
@@ -192,9 +179,7 @@ cli
     "keep the headings' casing, otherwise make all lowercase (default: false)",
   )
   .option('--overwrite', 'overwrite existing heading IDs (default: false)')
-  .action(async (siteDir, files, options) =>
-    writeHeadingIds(await resolveDir(siteDir), files, options),
-  );
+  .action(writeHeadingIds);
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
@@ -221,7 +206,7 @@ function isInternalCommand(command) {
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {
-  await externalCommand(cli, await resolveDir('.'));
+  await externalCommand(cli);
 }
 
 if (!process.argv.slice(2).length) {
