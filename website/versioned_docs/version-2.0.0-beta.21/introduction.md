@@ -36,7 +36,7 @@ cd my-website
 npx docusaurus start
 ```
 
-Open `http://localhost:3000` and follow the tutorial.
+Open [http://localhost:3000](http://localhost:3000) and follow the tutorial.
 
 :::tip
 

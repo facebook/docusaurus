@@ -1,6 +1,6 @@
 # Markdown tests
 
-This is a test page to see if Docusaurus markdown features are working properly
+This is a test page to see if Docusaurus Markdown features are working properly
 
 ## Linking to assets
 

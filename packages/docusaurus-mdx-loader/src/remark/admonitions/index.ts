@@ -70,7 +70,11 @@ const plugin: Plugin = function plugin(
     }
 
     const now = eat.now();
-    const [opening, keyword, title] = match;
+    const [opening, keyword, title] = match as string[] as [
+      string,
+      string,
+      string,
+    ];
     const food = [];
     const content = [];
 
@@ -169,7 +173,7 @@ const plugin: Plugin = function plugin(
     visit(
       root,
       (node: unknown): node is Literal =>
-        (node as Literal)?.type !== admonitionNodeType,
+        (node as Literal | undefined)?.type !== admonitionNodeType,
       (node: Literal) => {
         if (node.value) {
           node.value = node.value.replace(escapeTag, options.tag);

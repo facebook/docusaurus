@@ -549,6 +549,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'difranca | Tech-Notes',
+    description: 'This documentation aims to comprise my learning notes on various tech subjects.',
+    preview: require('./showcase/difranca-technotes.png'),
+    website: 'https://difranca.github.io/',
+    source: 'https://github.com/difranca/difranca.github.io',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Dime.Scheduler',
     description:
       'The resource and project planning solution for the Microsoft Dynamics product suite. Stop puzzling and start planning.',
@@ -1220,6 +1228,15 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
+    title: 'Metalyoung Blog',
+    description:
+      'A personal blog to record open source community contributions and open source projects',
+    preview: require('./showcase/metalyoung.png'),
+    website: 'https://www.metalyoung.com',
+    source: null,
+    tags: ['personal'],
+  },
+  {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',
     preview: require('./showcase/metro.png'),
@@ -1322,6 +1339,14 @@ const Users: User[] = [
     website: 'https://next-auth.js.org/',
     source: 'https://github.com/nextauthjs/next-auth/tree/main/docs',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Nhost',
+    description: 'The Open Source Firebase Alternative with GraphQL',
+    preview: require('./showcase/nhost.png'),
+    website: 'https://docs.nhost.io',
+    source: 'https://github.com/nhost/nhost/tree/main/docs',
+    tags: ['opensource', 'product', 'design'],
   },
   {
     title: 'Nocalhost',
@@ -1443,6 +1468,15 @@ const Users: User[] = [
     source:
       'https://github.com/agrawal-rohit/pearl-ui/tree/main/documentationwebsite',
     tags: ['opensource', 'design', 'product'],
+  },
+  {
+    title: 'Peradaban',
+    description:
+      'Peradaban is a Discord Server Bots made with NAFF designed only for Warung International Discord Server',
+    preview: require('./showcase/peradaban.png'),
+    website: 'https://docs.warunginternational.eu.org/',
+    source: 'https://github.com/warung-international/docs',
+    tags: ['opensource'],
   },
   {
     title: 'Pglet',
@@ -1606,6 +1640,14 @@ const Users: User[] = [
     website: 'https://rivalis.io',
     source: 'https://github.com/rivalis/rivalis.github.io',
     tags: ['opensource', 'design', 'product'],
+  },
+  {
+    title: 'react-chat-elements',
+    description: 'Chat UI package for React',
+    preview: require('./showcase/react-chat-elements.png'),
+    website: 'https://detaysoft.github.io/docs-react-chat-elements/',
+    source: 'https://github.com/Detaysoft/react-chat-elements',
+    tags: ['opensource'],
   },
   {
     title: 'React Complex Tree',
@@ -2106,6 +2148,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Sado0823',
+    description: "Sado0823's Blog and Portfolio Website",
+    preview: require('./showcase/sado0823.png'),
+    website: 'https://sado0823.github.io',
+    source: 'https://github.com/sado0823/sado0823.github.io',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'T-Regx',
     description: 'Programmer-oriented Regular Expressions library for PHP',
     preview: require('./showcase/t-regx.png'),
@@ -2348,7 +2398,7 @@ const Users: User[] = [
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
     tags: ['product', 'personal'],
-    source: null
+    source: null,
   },
   {
     title: 'Zowe',

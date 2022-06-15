@@ -18,9 +18,9 @@ Last but not least, we implemented a plugins architecture and turned the repo in
 
 ## GitHub Activity
 
-- Stars: 10050 -> 14632 (+45.6% y/y)
-- Total Contributors: 182 -> 303 (+66.4% y/y). Most of which are non-Facebook contributors
-- Daily npm Downloads: 728 -> 2320 (+218.7% y/y). The peak was in November
+- Stars: 10050 → 14632 (+45.6% y/y)
+- Total Contributors: 182 → 303 (+66.4% y/y). Most of which are non-Facebook contributors
+- Daily npm Downloads: 728 → 2320 (+218.7% y/y). The peak was in November
 - D1 is currently used by 3872 projects on GitHub while D2 is used by 247 projects on GitHub
 - We now have 4 active core contributors! (+100% y/y)
 

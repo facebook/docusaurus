@@ -70,7 +70,13 @@ class PendingNavigation extends React.Component<Props, State> {
         this.routeUpdateCleanupCb();
         this.setState({nextRouteHasLoaded: true});
       })
-      .catch((e: unknown) => console.warn(e));
+      .catch((e: unknown) => {
+        console.warn(e);
+        // If chunk loading failed, it could be because the path to a chunk
+        // no longer exists due to a new deployment. Force refresh the page
+        // instead of just not navigating.
+        window.location.reload();
+      });
     return false;
   }
 

@@ -69,9 +69,9 @@ We also saw the **[first right-to-left](https://datagit.ir/)** Docusaurus 2 site
 
 ## GitHub Activity
 
-- **Stars**: 14632 -> 20946 (+43.2% y/y)
-- **Total Contributors**: 303 -> 512 (+68.9% y/y). Most of which are non-Facebook contributors
-- **Weekly npm Downloads**: 2356 -> 25592 (+986% y/y)
+- **Stars**: 14632 → 20946 (+43.2% y/y)
+- **Total Contributors**: 303 → 512 (+68.9% y/y). Most of which are non-Facebook contributors
+- **Weekly npm Downloads**: 2356 → 25592 (+986% y/y)
 - **On GitHub**, Docusaurus 1 is used by 6311 projects (+62.9% y/y) while Docusaurus 2 is used by 5039 projects (+1940% y/y)
 
 ## Collaboration with Major League Hacking

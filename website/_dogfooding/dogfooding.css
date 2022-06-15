@@ -20,3 +20,7 @@ html.plugin-blog.plugin-id-blog-tests .navbar {
 html.plugin-pages.plugin-id-pages-tests .navbar {
   border-bottom: solid thin yellow;
 }
+
+#z-index-test {
+  z-index: 100;
+}

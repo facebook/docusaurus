@@ -6,7 +6,7 @@ wrapperClassName: docusaurus-markdown-example
 
 # Markdown page tests
 
-This is a page generated from markdown to illustrate the Markdown page feature and test some edge cases.
+This is a page generated from Markdown to illustrate the Markdown page feature and test some edge cases.
 
 :::info
 
@@ -160,7 +160,7 @@ function Clock(props) {
 }
 ```
 
-## Custom heading id {#custom}
+## Custom heading ID {#custom}
 
 ## Pipe
 

@@ -29,3 +29,4 @@ import Readme from "../README.md"
 - [TOC tests](/tests/pages/page-toc-tests)
 - [Diagram tests](/tests/pages/diagrams)
 - [Tabs tests](/tests/pages/tabs-tests)
+- [z-index tests](/tests/pages/z-index-tests)
