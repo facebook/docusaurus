@@ -85,7 +85,7 @@ export const useAllDocsData = (): {[pluginId: string]: GlobalPluginData} =>
       }
     | undefined) ?? StableEmptyObject;
 
-export const useDocsData = (pluginId?: string): GlobalPluginData =>
+export const useDocsData = (pluginId: string | undefined): GlobalPluginData =>
   usePluginData('docusaurus-plugin-content-docs', pluginId, {
     failfast: true,
   }) as GlobalPluginData;
@@ -117,12 +117,12 @@ export function useActivePluginAndVersion(
 }
 
 /** Versions are returned ordered (most recent first). */
-export function useVersions(pluginId?: string): GlobalVersion[] {
+export function useVersions(pluginId: string | undefined): GlobalVersion[] {
   const data = useDocsData(pluginId);
   return data.versions;
 }
 
-export function useLatestVersion(pluginId?: string): GlobalVersion {
+export function useLatestVersion(pluginId: string | undefined): GlobalVersion {
   const data = useDocsData(pluginId);
   return getLatestVersion(data);
 }
@@ -131,13 +131,17 @@ export function useLatestVersion(pluginId?: string): GlobalVersion {
  * Returns `undefined` on doc-unrelated pages, because there's no version
  * currently considered as active.
  */
-export function useActiveVersion(pluginId?: string): GlobalVersion | undefined {
+export function useActiveVersion(
+  pluginId: string | undefined,
+): GlobalVersion | undefined {
   const data = useDocsData(pluginId);
   const {pathname} = useLocation();
   return getActiveVersion(data, pathname);
 }
 
-export function useActiveDocContext(pluginId?: string): ActiveDocContext {
+export function useActiveDocContext(
+  pluginId: string | undefined,
+): ActiveDocContext {
   const data = useDocsData(pluginId);
   const {pathname} = useLocation();
   return getActiveDocContext(data, pathname);
@@ -146,7 +150,7 @@ export function useActiveDocContext(pluginId?: string): ActiveDocContext {
  * Useful to say "hey, you are not on the latest docs version, please switch"
  */
 export function useDocVersionSuggestions(
-  pluginId?: string,
+  pluginId: string | undefined,
 ): DocVersionSuggestions {
   const data = useDocsData(pluginId);
   const {pathname} = useLocation();
