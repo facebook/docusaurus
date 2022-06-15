@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {JSXElementConstructor} from 'react';
 import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
@@ -758,3 +759,24 @@ export type UseDataOptions = {
    */
   failfast?: boolean;
 };
+
+/**
+ * This type is almost the same as `React.ComponentProps`, but with one minor
+ * fix: when the component is a function with no parameters, it produces `{}`
+ * instead of `unknown`, allowing us to spread the props derived from another
+ * component. This is useful for wrap swizzling.
+ *
+ * @see https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/60766
+ */
+export type WrapperProps<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
+> = T extends JSXElementConstructor<infer P>
+  ? unknown extends P
+    ? // eslint-disable-next-line @typescript-eslint/ban-types
+      {}
+    : P
+  : T extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[T]
+  : // eslint-disable-next-line @typescript-eslint/ban-types
+    {};
