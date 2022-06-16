@@ -1359,7 +1359,7 @@ const Users: User[] = [
     preview: require('./showcase/outerbounds.png'),
     website: 'https://outerbounds.com',
     source: null,
-    tags: ['product', 'design'],
+    tags: ['favorite', 'product', 'design'],
   },
   {
     title: 'Oxidizer',
