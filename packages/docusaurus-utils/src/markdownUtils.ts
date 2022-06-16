@@ -14,8 +14,8 @@ import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
 // content. Most parsing is still done in MDX through the mdx-loader.
 
 /**
- * Parses custom ID from a heading. The ID must be composed of letters,
- * underscores, and dashes only.
+ * Parses custom ID from a heading. The ID can contain any characters except
+ * `{#` and `}`.
  *
  * @param heading e.g. `## Some heading {#some-heading}` where the last
  * character must be `}` for the ID to be recognized
@@ -26,9 +26,9 @@ export function parseMarkdownHeadingId(heading: string): {
    */
   text: string;
   /** The heading ID. e.g. `some-heading` */
-  id?: string;
+  id: string | undefined;
 } {
-  const customHeadingIdRegex = /\s*\{#(?<id>[\w-]+)\}$/;
+  const customHeadingIdRegex = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
   const matches = customHeadingIdRegex.exec(heading);
   if (matches) {
     return {

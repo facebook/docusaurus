@@ -833,6 +833,53 @@ describe('parseMarkdownHeadingId', () => {
       id: 'id',
     });
   });
+
+  it('does not parse empty id', () => {
+    expect(parseMarkdownHeadingId('## a {#}')).toEqual({
+      text: '## a {#}',
+      id: undefined,
+    });
+  });
+
+  it('can parse id with more characters', () => {
+    expect(parseMarkdownHeadingId('## a {#你好}')).toEqual({
+      text: '## a',
+      id: '你好',
+    });
+
+    expect(parseMarkdownHeadingId('## a {#2022.1.1}')).toEqual({
+      text: '## a',
+      id: '2022.1.1',
+    });
+
+    expect(parseMarkdownHeadingId('## a {#a#b}')).toEqual({
+      text: '## a',
+      id: 'a#b',
+    });
+  });
+
+  // The actual behavior is unspecified, just need to ensure it stays consistent
+  it('handles unmatched boundaries', () => {
+    expect(parseMarkdownHeadingId('## a {# a {#bcd}')).toEqual({
+      text: '## a {# a',
+      id: 'bcd',
+    });
+
+    expect(parseMarkdownHeadingId('## a {#bcd}}')).toEqual({
+      text: '## a {#bcd}}',
+      id: undefined,
+    });
+
+    expect(parseMarkdownHeadingId('## a {#b{cd}')).toEqual({
+      text: '## a',
+      id: 'b{cd',
+    });
+
+    expect(parseMarkdownHeadingId('## a {#b{#b}')).toEqual({
+      text: '## a {#b',
+      id: 'b',
+    });
+  });
 });
 
 describe('writeMarkdownHeadingId', () => {
