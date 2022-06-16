@@ -1,6 +1,6 @@
 ---
-slug: first-blog-post
-title: First Blog Post
+slug: Hexamind Technologies 
+title: First Blog Post from Hexamind Team
 authors:
   name: Gao Wei
   title: Docusaurus Core Team
@@ -9,4 +9,4 @@ authors:
 tags: [hola, docusaurus]
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet
+Welcome to Hexamind 
