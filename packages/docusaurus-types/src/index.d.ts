@@ -62,8 +62,9 @@ export type I18nLocaleConfig = {
    */
   calendar: string;
   /**
-   * Root folder that all plugin localization folders are relative to. Will be
-   * resolved against `i18n.path`. Defaults to the locale's name.
+   * Root folder that all plugin localization folders of this locale are
+   * relative to. Will be resolved against `i18n.path`. Defaults to the locale's
+   * name.
    */
   path: string;
 };
