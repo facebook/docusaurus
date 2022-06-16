@@ -44,6 +44,12 @@ export function normalizeItem(
     // This will never throw anyways
     return normalizeSidebar(item, 'sidebar items slice');
   }
+  if (
+    (item.type === 'doc' || item.type === 'ref') &&
+    typeof item.label === 'string'
+  ) {
+    return [{...item, translatable: true}];
+  }
   if (item.type === 'category') {
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,

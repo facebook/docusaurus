@@ -16,9 +16,17 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The generated-index page title for category Getting started in sidebar docs",
         "message": "Getting started index title",
       },
+      "sidebar.docs.doc.Second doc translatable": {
+        "description": "The label for the doc item Second doc translatable in sidebar docs, linking to the doc doc2",
+        "message": "Second doc translatable",
+      },
       "sidebar.docs.link.Link label": {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
+      },
+      "sidebar.otherSidebar.doc.Fifth doc translatable": {
+        "description": "The label for the doc item Fifth doc translatable in sidebar otherSidebar, linking to the doc doc5",
+        "message": "Fifth doc translatable",
       },
       "version.label": {
         "description": "The label for version current",
@@ -41,9 +49,17 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The generated-index page title for category Getting started in sidebar docs",
         "message": "Getting started index title",
       },
+      "sidebar.docs.doc.Second doc translatable": {
+        "description": "The label for the doc item Second doc translatable in sidebar docs, linking to the doc doc2",
+        "message": "Second doc translatable",
+      },
       "sidebar.docs.link.Link label": {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
+      },
+      "sidebar.otherSidebar.doc.Fifth doc translatable": {
+        "description": "The label for the doc item Fifth doc translatable in sidebar otherSidebar, linking to the doc doc5",
+        "message": "Fifth doc translatable",
       },
       "version.label": {
         "description": "The label for version 2.0.0",
@@ -66,9 +82,17 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The generated-index page title for category Getting started in sidebar docs",
         "message": "Getting started index title",
       },
+      "sidebar.docs.doc.Second doc translatable": {
+        "description": "The label for the doc item Second doc translatable in sidebar docs, linking to the doc doc2",
+        "message": "Second doc translatable",
+      },
       "sidebar.docs.link.Link label": {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
+      },
+      "sidebar.otherSidebar.doc.Fifth doc translatable": {
+        "description": "The label for the doc item Fifth doc translatable in sidebar otherSidebar, linking to the doc doc5",
+        "message": "Fifth doc translatable",
       },
       "version.label": {
         "description": "The label for version 1.0.0",
@@ -214,6 +238,8 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
               },
               {
                 "id": "doc2",
+                "label": "Second doc translatable (translated)",
+                "translatable": true,
                 "type": "doc",
               },
               {
@@ -248,7 +274,9 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
           {
             "id": "doc5",
-            "type": "doc",
+            "label": "Fifth doc translatable (translated)",
+            "translatable": true,
+            "type": "ref",
           },
         ],
       },
@@ -386,6 +414,8 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
               },
               {
                 "id": "doc2",
+                "label": "Second doc translatable (translated)",
+                "translatable": true,
                 "type": "doc",
               },
               {
@@ -420,7 +450,9 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
           {
             "id": "doc5",
-            "type": "doc",
+            "label": "Fifth doc translatable (translated)",
+            "translatable": true,
+            "type": "ref",
           },
         ],
       },
@@ -558,6 +590,8 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
               },
               {
                 "id": "doc2",
+                "label": "Second doc translatable (translated)",
+                "translatable": true,
                 "type": "doc",
               },
               {
@@ -592,7 +626,9 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
           {
             "id": "doc5",
-            "type": "doc",
+            "label": "Fifth doc translatable (translated)",
+            "translatable": true,
+            "type": "ref",
           },
         ],
       },
