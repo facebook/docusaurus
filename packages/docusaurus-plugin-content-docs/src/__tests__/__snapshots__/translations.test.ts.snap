@@ -16,7 +16,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The generated-index page title for category Getting started in sidebar docs",
         "message": "Getting started index title",
       },
-      "sidebar.docs.docLink.Second doc translatable": {
+      "sidebar.docs.doc.Second doc translatable": {
         "description": "The label for the doc item Second doc translatable in sidebar docs, linking to the doc doc2",
         "message": "Second doc translatable",
       },
@@ -24,7 +24,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
       },
-      "sidebar.otherSidebar.docLink.Fifth doc translatable": {
+      "sidebar.otherSidebar.doc.Fifth doc translatable": {
         "description": "The label for the doc item Fifth doc translatable in sidebar otherSidebar, linking to the doc doc5",
         "message": "Fifth doc translatable",
       },
@@ -49,7 +49,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The generated-index page title for category Getting started in sidebar docs",
         "message": "Getting started index title",
       },
-      "sidebar.docs.docLink.Second doc translatable": {
+      "sidebar.docs.doc.Second doc translatable": {
         "description": "The label for the doc item Second doc translatable in sidebar docs, linking to the doc doc2",
         "message": "Second doc translatable",
       },
@@ -57,7 +57,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
       },
-      "sidebar.otherSidebar.docLink.Fifth doc translatable": {
+      "sidebar.otherSidebar.doc.Fifth doc translatable": {
         "description": "The label for the doc item Fifth doc translatable in sidebar otherSidebar, linking to the doc doc5",
         "message": "Fifth doc translatable",
       },
@@ -82,7 +82,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The generated-index page title for category Getting started in sidebar docs",
         "message": "Getting started index title",
       },
-      "sidebar.docs.docLink.Second doc translatable": {
+      "sidebar.docs.doc.Second doc translatable": {
         "description": "The label for the doc item Second doc translatable in sidebar docs, linking to the doc doc2",
         "message": "Second doc translatable",
       },
@@ -90,7 +90,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
       },
-      "sidebar.otherSidebar.docLink.Fifth doc translatable": {
+      "sidebar.otherSidebar.doc.Fifth doc translatable": {
         "description": "The label for the doc item Fifth doc translatable in sidebar otherSidebar, linking to the doc doc5",
         "message": "Fifth doc translatable",
       },

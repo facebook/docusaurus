@@ -118,7 +118,7 @@ function getSidebarTranslationFileContent(
     .filter((item) => item.translatable);
   const docLinksContent: TranslationFileContent = Object.fromEntries(
     docs.map((doc) => [
-      `sidebar.${sidebarName}.docLink.${doc.label!}`,
+      `sidebar.${sidebarName}.doc.${doc.label!}`,
       {
         message: doc.label!,
         description: `The label for the doc item ${doc.label!} in sidebar ${sidebarName}, linking to the doc ${
@@ -187,7 +187,7 @@ function translateSidebar({
       return {
         ...item,
         label:
-          sidebarsTranslations[`sidebar.${sidebarName}.docLink.${item.label!}`]
+          sidebarsTranslations[`sidebar.${sidebarName}.doc.${item.label!}`]
             ?.message ?? item.label,
       };
     }
