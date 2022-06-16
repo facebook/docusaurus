@@ -47,6 +47,7 @@ const sidebarItemDocSchema = sidebarItemBaseSchema.append<SidebarItemDoc>({
   type: Joi.string().valid('doc', 'ref').required(),
   id: Joi.string().required(),
   label: Joi.string(),
+  translatable: Joi.boolean(),
 });
 
 const sidebarItemHtmlSchema = sidebarItemBaseSchema.append<SidebarItemHtml>({
