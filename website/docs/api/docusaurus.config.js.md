@@ -136,12 +136,14 @@ module.exports = {
         direction: 'ltr',
         htmlLang: 'en-US',
         calendar: 'gregory',
+        path: 'en',
       },
       fa: {
         label: 'فارسی',
         direction: 'rtl',
         htmlLang: 'fa-IR',
         calendar: 'persian',
+        path: 'fa',
       },
     },
   },
@@ -155,6 +157,7 @@ module.exports = {
   - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Farsi, Arabic, Hebrew, etc.). Used to select the locale's CSS and HTML meta attribute.
   - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
+  - `path`: Root folder that all plugin localization folders are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name. Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
 
 ### `noIndex` {#noIndex}
 
