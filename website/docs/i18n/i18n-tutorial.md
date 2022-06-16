@@ -73,7 +73,7 @@ module.exports = {
 Start your localized site in dev mode, using the locale of your choice:
 
 ```bash npm2yarn
-npm run start -- --locale fr
+npm run start --locale fr
 ```
 
 Your site is accessible at [http://localhost:3000/fr/](http://localhost:3000/fr/).
