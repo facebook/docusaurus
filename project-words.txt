@@ -197,6 +197,7 @@ nuxt
 onboarded
 opensearch
 opensearchdescription
+opensource
 optimizt
 optind
 orta
