@@ -224,7 +224,7 @@ module.exports = {
     footer: {
       logo: {
         alt: 'Meta Open Source Logo',
-        src: '/img/oss_logo.png',
+        src: '/img/meta_oss_logo.png',
         href: 'https://opensource.facebook.com/',
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here.
@@ -508,7 +508,7 @@ module.exports = {
     footer: {
       logo: {
         alt: 'Meta Open Source Logo',
-        src: 'img/oss_logo.png',
+        src: '/img/meta_oss_logo.png',
         href: 'https://opensource.facebook.com',
       },
     },
