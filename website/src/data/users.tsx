@@ -1143,6 +1143,15 @@ const Users: User[] = [
     tags: ['opensource', 'versioning', 'i18n'],
   },
   {
+    title: 'Lerna',
+    description:
+      'A fast modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.',
+    preview: require('./showcase/lerna.png'),
+    website: 'https://lerna.js.org',
+    source: 'https://github.com/lerna/lerna/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Liqvid',
     description: 'Interactive videos in React',
     preview: require('./showcase/liqvid.png'),
