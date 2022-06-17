@@ -858,9 +858,9 @@ module.exports = {
     // highlight-start
     footer: {
       logo: {
-        alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com',
+        alt: 'Meta Open Source Logo',
+        src: 'img/meta_oss_logo.png',
+        href: 'https://opensource.fb.com',
         width: 160,
         height: 51,
       },

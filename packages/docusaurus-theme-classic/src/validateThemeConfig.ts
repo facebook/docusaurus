@@ -300,6 +300,18 @@ const CustomCssSchema = Joi.alternatives()
   .try(Joi.array().items(Joi.string().required()), Joi.string().required())
   .optional();
 
+const LogoSchema = Joi.object({
+  alt: Joi.string().allow(''),
+  src: Joi.string().required(),
+  srcDark: Joi.string(),
+  width: Joi.alternatives().try(Joi.string(), Joi.number()),
+  height: Joi.alternatives().try(Joi.string(), Joi.number()),
+  href: Joi.string(),
+  target: Joi.string(),
+  style: Joi.object(),
+  className: Joi.string(),
+});
+
 export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   // TODO temporary (@alpha-58)
   // @ts-expect-error: forbidden
@@ -344,28 +356,11 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
       .items(NavbarItemSchema)
       .default(DEFAULT_CONFIG.navbar.items),
     title: Joi.string().allow('', null),
-    logo: Joi.object({
-      alt: Joi.string().allow(''),
-      src: Joi.string().required(),
-      srcDark: Joi.string(),
-      width: Joi.alternatives().try(Joi.string(), Joi.number()),
-      height: Joi.alternatives().try(Joi.string(), Joi.number()),
-      href: Joi.string(),
-      target: Joi.string(),
-    }),
+    logo: LogoSchema,
   }).default(DEFAULT_CONFIG.navbar),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
-    logo: Joi.object({
-      alt: Joi.string().allow(''),
-      src: Joi.string().required(),
-      srcDark: Joi.string(),
-      // TODO infer this from reading the image
-      width: Joi.alternatives().try(Joi.string(), Joi.number()),
-      height: Joi.alternatives().try(Joi.string(), Joi.number()),
-      href: Joi.string(),
-      target: Joi.string(),
-    }),
+    logo: LogoSchema,
     copyright: Joi.string(),
     links: Joi.alternatives(
       Joi.array().items(
