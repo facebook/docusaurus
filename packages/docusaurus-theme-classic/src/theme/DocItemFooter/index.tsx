@@ -7,13 +7,16 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  useDoc,
+  type DocContextValue,
+} from '@docusaurus/theme-common';
 import LastUpdated from '@theme/LastUpdated';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {
   type Props as TagsListInlineProps,
 } from '@theme/TagsListInline';
-import type {Props} from '@theme/DocItem';
 
 import styles from './styles.module.css';
 
@@ -32,7 +35,7 @@ function TagsRow(props: TagsListInlineProps) {
 }
 
 type EditMetaRowProps = Pick<
-  Props['content']['metadata'],
+  DocContextValue['metadata'],
   'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy' | 'formattedLastUpdatedAt'
 >;
 function EditMetaRow({
@@ -58,9 +61,8 @@ function EditMetaRow({
   );
 }
 
-export default function DocItemFooter(props: Props): JSX.Element | null {
-  const {content: DocContent} = props;
-  const {metadata} = DocContent;
+export default function DocItemFooter(): JSX.Element | null {
+  const {metadata} = useDoc();
   const {editUrl, lastUpdatedAt, formattedLastUpdatedAt, lastUpdatedBy, tags} =
     metadata;
 

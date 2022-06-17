@@ -25,6 +25,8 @@ export {
 } from './contexts/docSidebarItemsExpandedState';
 export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
+export {DocProvider, useDoc} from './contexts/doc';
+export type {DocContextValue} from './contexts/doc';
 
 export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 

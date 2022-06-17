@@ -324,7 +324,7 @@ export function useDocRouteMetadata({
     ? versionMetadata.docsSidebars[sidebarName]
     : undefined;
 
-  const docElement = renderRoutes(docRoutes, {versionMetadata});
+  const docElement = renderRoutes(docRoutes);
 
   return {
     docElement,

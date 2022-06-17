@@ -8,7 +8,8 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 declare module '@docusaurus/plugin-content-docs' {
-  import type {MDXOptions} from '@docusaurus/mdx-loader';
+  import type {MDXOptions, LoadedMDXContent} from '@docusaurus/mdx-loader';
+
   import type {
     ContentPaths,
     FrontMatterTag,
@@ -491,6 +492,12 @@ declare module '@docusaurus/plugin-content-docs' {
     [docId: string]: PropVersionDoc;
   };
 
+  export type PropDocContent = LoadedMDXContent<
+    DocFrontMatter,
+    DocMetadata,
+    Assets
+  >;
+
   export type PropVersionMetadata = Pick<
     VersionMetadata,
     'label' | 'banner' | 'badge' | 'className' | 'isLast'
@@ -549,13 +556,7 @@ declare module '@docusaurus/plugin-content-docs' {
 }
 
 declare module '@theme/DocItem' {
-  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
-  import type {
-    PropVersionMetadata,
-    Assets,
-    DocMetadata,
-    DocFrontMatter,
-  } from '@docusaurus/plugin-content-docs';
+  import type {PropDocContent} from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -566,8 +567,7 @@ declare module '@theme/DocItem' {
 
   export interface Props {
     readonly route: DocumentRoute;
-    readonly versionMetadata: PropVersionMetadata;
-    readonly content: LoadedMDXContent<DocFrontMatter, DocMetadata, Assets>;
+    readonly content: PropDocContent;
   }
 
   export default function DocItem(props: Props): JSX.Element;
