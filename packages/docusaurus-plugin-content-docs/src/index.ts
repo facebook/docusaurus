@@ -352,6 +352,7 @@ export default async function pluginContentDocs(
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
               options: {
+                admonitions: options.admonitions,
                 remarkPlugins,
                 rehypePlugins,
                 beforeDefaultRehypePlugins,

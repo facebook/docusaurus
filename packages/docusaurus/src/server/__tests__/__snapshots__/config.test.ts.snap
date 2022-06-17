@@ -13,6 +13,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -49,6 +50,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -87,6 +89,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -125,6 +128,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -166,6 +170,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "locales": [
         "en",
       ],
+      "path": "i18n",
     },
     "noIndex": false,
     "onBrokenLinks": "throw",

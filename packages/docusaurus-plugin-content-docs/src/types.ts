@@ -8,7 +8,6 @@
 import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
 import type {
   VersionMetadata,
-  LastUpdateData,
   LoadedVersion,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
@@ -19,7 +18,6 @@ export type DocFile = {
   filePath: string; // /!\ may be localized
   source: string;
   content: string;
-  lastUpdate: LastUpdateData;
 };
 
 export type SourceToPermalink = {

@@ -1,5 +1,7 @@
 import CodeBlock from '@theme/CodeBlock';
 import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Code block tests
 
@@ -190,3 +192,60 @@ function PageLayout(props) {
   );
 }
 ```
+
+## Code block wrapping tests
+
+[// spell-checker:disable]: #
+
+```bash
+mkdir this_is_a_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong_string_to_test_code_block_wrapping
+echo "this is a long string made up of many separate words that should be broken between words when possible"
+curl https://docusaurus.io/tests/pages/code-block-tests
+```
+
+<Tabs>
+
+<TabItem value="short-tab-1" label="Short tab">
+
+```bash
+echo "hi"
+```
+
+</TabItem>
+<TabItem value="long-tab" label="Long tab">
+
+```bash
+echo this will test whether a long string that is initially hidden will have the option to wrap when made visible
+```
+
+</TabItem>
+
+<TabItem value="short-tab-2" label="Short tab">
+
+```bash
+rm short_initially_hidden_string
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs>
+
+<TabItem value="long-tab" label="Long tab">
+
+```bash
+echo medium_length_string_will_have_the_option_to_wrap_after_window_resized_while_it_is_hidden
+```
+
+</TabItem>
+
+<TabItem value="short-tab" label="Short tab">
+
+```bash
+echo "short_initially_hidden_string"
+```
+
+</TabItem>
+</Tabs>
+
+[// spell-checker:enable]: #

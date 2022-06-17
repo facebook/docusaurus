@@ -6,7 +6,7 @@ wrapperClassName: docusaurus-markdown-example
 
 # Markdown page tests
 
-This is a page generated from markdown to illustrate the Markdown page feature and test some edge cases.
+This is a page generated from Markdown to illustrate the Markdown page feature and test some edge cases.
 
 :::info
 
@@ -160,7 +160,17 @@ function Clock(props) {
 }
 ```
 
-## Custom heading id {#custom}
+## Custom heading ID {#custom}
+
+### Weird heading {#你好}
+
+### Weird heading {#2022.1.1}
+
+### Weird heading {#a#b}
+
+### Weird heading {#a b}
+
+### Weird heading {#a{b}
 
 ## Pipe
 
@@ -221,3 +231,11 @@ Can be arbitrarily nested:
     - [ ] Task
     - [ ] Task
 - [ ] Task
+
+## Admonitions
+
+:::caution Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button>
+
+Admonition body
+
+:::

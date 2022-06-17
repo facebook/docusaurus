@@ -38,6 +38,6 @@
 
 [<span style={{color: "red"}}>Stylized link to asset file</span>](./asset.pdf)
 
-[json](./data.json)
+[JSON](./data.json)
 
-[static json](/static-json.json)
+[static JSON](/static-json.json)

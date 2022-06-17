@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {JSXElementConstructor} from 'react';
 import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
@@ -60,6 +61,12 @@ export type I18nLocaleConfig = {
    * or `en-US` (`en` means `en-US`).
    */
   calendar: string;
+  /**
+   * Root folder that all plugin localization folders of this locale are
+   * relative to. Will be resolved against `i18n.path`. Defaults to the locale's
+   * name.
+   */
+  path: string;
 };
 
 export type I18nConfig = {
@@ -70,6 +77,11 @@ export type I18nConfig = {
    * 3. Will be used for the `<link hrefLang="x-default">` tag
    */
   defaultLocale: string;
+  /**
+   * Root folder which all locale folders are relative to. Can be absolute or
+   * relative to the config file. e.g. `i18n`
+   */
+  path: string;
   /** List of locales deployed on your site. Must contain `defaultLocale`. */
   locales: [string, ...string[]];
   /** Individual options for each locale. */
@@ -417,6 +429,12 @@ export type LoadContext = {
   siteConfigPath: string;
   outDir: string;
   /**
+   * Directory where all source translations for the current locale can be found
+   * in. Constructed with `i18n.path` + `i18n.currentLocale.path` (e.g.
+   * `<siteDir>/i18n/en`)
+   */
+  localizationDir: string;
+  /**
    * Duplicated from `siteConfig.baseUrl`, but probably worth keeping. We mutate
    * `siteConfig` to make `baseUrl` there localized as well, but that's mostly
    * for client-side. `context.baseUrl` is still more convenient for plugins.
@@ -747,3 +765,24 @@ export type UseDataOptions = {
    */
   failfast?: boolean;
 };
+
+/**
+ * This type is almost the same as `React.ComponentProps`, but with one minor
+ * fix: when the component is a function with no parameters, it produces `{}`
+ * instead of `unknown`, allowing us to spread the props derived from another
+ * component. This is useful for wrap swizzling.
+ *
+ * @see https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/60766
+ */
+export type WrapperProps<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
+> = T extends JSXElementConstructor<infer P>
+  ? unknown extends P
+    ? // eslint-disable-next-line @typescript-eslint/ban-types
+      {}
+    : P
+  : T extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[T]
+  : // eslint-disable-next-line @typescript-eslint/ban-types
+    {};

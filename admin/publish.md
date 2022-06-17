@@ -121,7 +121,7 @@ Test running the website with the new version locally.
 
 To keep versions number small, delete the oldest version and add a link to it in `archivedVersions.json`.
 
-Check [Netlify site deployments](https://app.netlify.com/sites/docusaurus-2/deploys) to pick a recent immutable deployment url.
+Check [Netlify site deployments](https://app.netlify.com/sites/docusaurus-2/deploys) to pick a recent immutable deployment URL.
 
 ### 5. Create a Pull Request
 

@@ -85,11 +85,14 @@ export async function loadContext(
 
   const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
 
+  const localizationDir = path.resolve(
+    siteDir,
+    i18n.path,
+    i18n.localeConfigs[i18n.currentLocale]!.path,
+  );
+
   const codeTranslationFileContent =
-    (await readCodeTranslationFileContent({
-      siteDir,
-      locale: i18n.currentLocale,
-    })) ?? {};
+    (await readCodeTranslationFileContent({localizationDir})) ?? {};
 
   // We only need key->message for code translations
   const codeTranslations = _.mapValues(
@@ -100,6 +103,7 @@ export async function loadContext(
   return {
     siteDir,
     generatedFilesDir,
+    localizationDir,
     siteConfig,
     siteConfigPath,
     outDir,
@@ -125,6 +129,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     outDir,
     baseUrl,
     i18n,
+    localizationDir,
     codeTranslations: siteCodeTranslations,
   } = context;
   const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
@@ -145,6 +150,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
 
   const genWarning = generate(
     generatedFilesDir,
+    // cSpell:ignore DONT
     'DONT-EDIT-THIS-FOLDER',
     `This folder stores temp files that Docusaurus' client bundler accesses.
 
@@ -246,6 +252,7 @@ ${Object.entries(registry)
     outDir,
     baseUrl,
     i18n,
+    localizationDir,
     generatedFilesDir,
     routes: pluginsRouteConfigs,
     routesPaths,

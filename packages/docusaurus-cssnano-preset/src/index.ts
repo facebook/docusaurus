@@ -13,6 +13,8 @@ const preset: typeof advancedBasePreset = function preset(opts) {
   const advancedPreset = advancedBasePreset({
     autoprefixer: {add: false},
     discardComments: {removeAll: true},
+    /* cSpell:ignore zindex */
+    zindex: false,
     ...opts,
   });
 

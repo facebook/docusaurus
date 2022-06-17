@@ -33,14 +33,18 @@ You can configure this plugin through the preset options.
 
 Accepted fields:
 
+```mdx-code-block
 <APITable>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `trackingID` | `string` | **Required** | The tracking ID of your analytics service. |
 | `anonymizeIP` | `boolean` | `false` | Whether the IP should be anonymized when sending requests. |
 
+```mdx-code-block
 </APITable>
+```
 
 ### Example configuration {#ex-config}
 

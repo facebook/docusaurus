@@ -6,9 +6,18 @@
   "sideEffects": false,
   "exports": {
     "./src/*": "./src/*",
-    "./client": "./lib/client/index.js",
-    "./server": "./lib/server-export.js",
-    ".": "./lib/index.js"
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    "./server": {
+      "type": "./lib/server-export.d.ts",
+      "default": "./lib/server-export.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-docs.d.ts",
+      "default": "./lib/index.js"
+    }
   },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
@@ -38,10 +47,9 @@
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "remark-admonitions": "^1.2.1",
     "tslib": "^2.4.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.72.1"
+    "webpack": "^5.73.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.21",

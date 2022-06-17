@@ -33,8 +33,10 @@ import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
 import styles from './styles.module.css';
 
-const TITLE = 'Docusaurus Site Showcase';
-const DESCRIPTION = 'List of websites people are building with Docusaurus';
+const TITLE = translate({message: 'Docusaurus Site Showcase'});
+const DESCRIPTION = translate({
+  message: 'List of websites people are building with Docusaurus',
+});
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
 

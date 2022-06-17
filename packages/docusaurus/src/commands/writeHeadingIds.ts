@@ -41,10 +41,12 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 }
 
 export async function writeHeadingIds(
-  siteDir: string,
-  files: string[] | undefined,
-  options: WriteHeadingIDOptions,
+  siteDirParam: string = '.',
+  files: string[] = [],
+  options: WriteHeadingIDOptions = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const markdownFiles = await safeGlobby(
     files ?? (await getPathsToWatch(siteDir)),
     {

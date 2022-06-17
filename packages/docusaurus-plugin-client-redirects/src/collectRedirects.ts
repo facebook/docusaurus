@@ -7,52 +7,57 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {
-  applyTrailingSlash,
-  type ApplyTrailingSlashParams,
-} from '@docusaurus/utils-common';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
 } from './extensionRedirects';
 import {validateRedirect} from './redirectValidation';
 import type {PluginOptions, RedirectOption} from './options';
-import type {PluginContext, RedirectMetadata} from './types';
+import type {PluginContext, RedirectItem} from './types';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
   trailingSlash: boolean | undefined,
-): RedirectMetadata[] {
-  let redirects = doCollectRedirects(pluginContext);
-
-  redirects = applyRedirectsTrailingSlash(redirects, {
-    trailingSlash,
-    baseUrl: pluginContext.baseUrl,
-  });
+): RedirectItem[] {
+  // For each plugin config option, create the appropriate redirects
+  const redirects = [
+    ...createFromExtensionsRedirects(
+      pluginContext.relativeRoutesPaths,
+      pluginContext.options.fromExtensions,
+    ),
+    ...createToExtensionsRedirects(
+      pluginContext.relativeRoutesPaths,
+      pluginContext.options.toExtensions,
+    ),
+    ...createRedirectsOptionRedirects(pluginContext.options.redirects),
+    ...createCreateRedirectsOptionRedirects(
+      pluginContext.relativeRoutesPaths,
+      pluginContext.options.createRedirects,
+    ),
+  ].map((redirect) => ({
+    ...redirect,
+    // Given a redirect with `to: "/abc"` and `trailingSlash` enabled:
+    //
+    // - We don't want to reject `to: "/abc"`, as that unambiguously points to
+    // `/abc/` now;
+    // - We want to redirect `to: /abc/` without the user having to change all
+    // her redirect plugin options
+    //
+    // It should be easy to toggle `trailingSlash` option without having to
+    // change other configs
+    to: applyTrailingSlash(redirect.to, {
+      trailingSlash,
+      baseUrl: pluginContext.baseUrl,
+    }),
+  }));
 
   validateCollectedRedirects(redirects, pluginContext);
   return filterUnwantedRedirects(redirects, pluginContext);
 }
 
-// If users wants to redirect to=/abc and they enable trailingSlash=true then
-// => we don't want to reject the to=/abc (as only /abc/ is an existing/valid
-// path now)
-// => we want to redirect to=/abc/ without the user having to change all its
-// redirect plugin options
-// It should be easy to toggle siteConfig.trailingSlash option without having to
-// change other configs
-function applyRedirectsTrailingSlash(
-  redirects: RedirectMetadata[],
-  params: ApplyTrailingSlashParams,
-) {
-  return redirects.map((redirect) => ({
-    ...redirect,
-    to: applyTrailingSlash(redirect.to, params),
-  }));
-}
-
 function validateCollectedRedirects(
-  redirects: RedirectMetadata[],
+  redirects: RedirectItem[],
   pluginContext: PluginContext,
 ) {
   const redirectValidationErrors = redirects
@@ -89,9 +94,9 @@ Valid paths you can redirect to:
 }
 
 function filterUnwantedRedirects(
-  redirects: RedirectMetadata[],
+  redirects: RedirectItem[],
   pluginContext: PluginContext,
-): RedirectMetadata[] {
+): RedirectItem[] {
   // We don't want to create the same redirect twice, since that would lead to
   // writing the same html redirection file twice.
   Object.entries(_.groupBy(redirects, (redirect) => redirect.from)).forEach(
@@ -120,37 +125,15 @@ It is not possible to redirect the same pathname to multiple destinations: ${gro
   );
 }
 
-// For each plugin config option, create the appropriate redirects
-function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
-  return [
-    ...createFromExtensionsRedirects(
-      pluginContext.relativeRoutesPaths,
-      pluginContext.options.fromExtensions,
-    ),
-    ...createToExtensionsRedirects(
-      pluginContext.relativeRoutesPaths,
-      pluginContext.options.toExtensions,
-    ),
-    ...createRedirectsOptionRedirects(pluginContext.options.redirects),
-    ...createCreateRedirectsOptionRedirects(
-      pluginContext.relativeRoutesPaths,
-      pluginContext.options.createRedirects,
-    ),
-  ];
-}
-
 function createRedirectsOptionRedirects(
   redirectsOption: PluginOptions['redirects'],
-): RedirectMetadata[] {
+): RedirectItem[] {
   // For convenience, user can use a string or a string[]
-  function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
+  function optionToRedirects(option: RedirectOption): RedirectItem[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];
     }
-    return option.from.map((from) => ({
-      from,
-      to: option.to,
-    }));
+    return option.from.map((from) => ({from, to: option.to}));
   }
 
   return redirectsOption.flatMap(optionToRedirects);
@@ -160,17 +143,14 @@ function createRedirectsOptionRedirects(
 function createCreateRedirectsOptionRedirects(
   paths: string[],
   createRedirects: PluginOptions['createRedirects'],
-): RedirectMetadata[] {
-  function createPathRedirects(path: string): RedirectMetadata[] {
+): RedirectItem[] {
+  function createPathRedirects(path: string): RedirectItem[] {
     const fromsMixed: string | string[] = createRedirects?.(path) ?? [];
 
     const froms: string[] =
       typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;
 
-    return froms.map((from) => ({
-      from,
-      to: path,
-    }));
+    return froms.map((from) => ({from, to: path}));
   }
 
   return paths.flatMap(createPathRedirects);

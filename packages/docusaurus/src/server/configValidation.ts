@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DEFAULT_STATIC_DIR_NAME} from '@docusaurus/utils';
+import {
+  DEFAULT_STATIC_DIR_NAME,
+  DEFAULT_I18N_DIR_NAME,
+} from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
@@ -13,6 +16,7 @@ const DEFAULT_I18N_LOCALE = 'en';
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
+  path: DEFAULT_I18N_DIR_NAME,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
 };
@@ -131,10 +135,12 @@ const LocaleConfigSchema = Joi.object({
   htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
   calendar: Joi.string(),
+  path: Joi.string(),
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   defaultLocale: Joi.string().required(),
+  path: Joi.string().default(DEFAULT_I18N_CONFIG.path),
   locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
   localeConfigs: Joi.object()
     .pattern(/.*/, LocaleConfigSchema)

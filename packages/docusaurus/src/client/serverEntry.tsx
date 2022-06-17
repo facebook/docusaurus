@@ -142,6 +142,10 @@ async function doRender(locals: Locals & {path: string}) {
   });
 
   try {
+    if (process.env.SKIP_HTML_MINIFICATION === 'true') {
+      return renderedHtml;
+    }
+
     // Minify html with https://github.com/DanielRuf/html-minifier-terser
     return await minify(renderedHtml, {
       removeComments: false,

@@ -23,6 +23,14 @@ declare module '@docusaurus/plugin-content-docs' {
     image?: string;
   };
 
+  export type FileChange = {
+    author?: string;
+    /** Date can be any
+     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+     */
+    date?: Date | string;
+  };
+
   /**
    * Custom callback for parsing number prefixes from file/folder names.
    */
@@ -198,7 +206,6 @@ declare module '@docusaurus/plugin-content-docs' {
       docTagsListComponent: string;
       /** Root component of the generated category index page. */
       docCategoryGeneratedIndexComponent: string;
-      admonitions: {[key: string]: unknown};
       sidebarItemsGenerator: import('./sidebars/types').SidebarItemsGeneratorOption;
       /**
        * URL route for the tags section of your doc version. Will be appended to
@@ -371,6 +378,8 @@ declare module '@docusaurus/plugin-content-docs' {
     pagination_prev?: string | null;
     /** Should this doc be excluded from production builds? */
     draft?: boolean;
+    /** Allows overriding the last updated author and/or date. */
+    last_update?: FileChange;
   };
 
   export type LastUpdateData = {
@@ -606,90 +615,4 @@ declare module '@theme/DocPage' {
   }
 
   export default function DocPage(props: Props): JSX.Element;
-}
-
-// TODO TS only supports reading `exports` in 4.7. We will need to merge the
-// type defs (and JSDoc) here with the implementation after that
-declare module '@docusaurus/plugin-content-docs/client' {
-  import type {UseDataOptions} from '@docusaurus/types';
-
-  export type ActivePlugin = {
-    pluginId: string;
-    pluginData: GlobalPluginData;
-  };
-  export type ActiveDocContext = {
-    activeVersion?: GlobalVersion;
-    activeDoc?: GlobalDoc;
-    alternateDocVersions: {[versionName: string]: GlobalDoc};
-  };
-  export type GlobalDoc = {
-    /**
-     * For generated index pages, this is the `slug`, **not** `permalink`
-     * (without base URL). Because slugs have leading slashes but IDs don't,
-     * there won't be clashes.
-     */
-    id: string;
-    path: string;
-    sidebar: string | undefined;
-  };
-
-  export type GlobalVersion = {
-    name: string;
-    label: string;
-    isLast: boolean;
-    path: string;
-    /** The doc with `slug: /`, or first doc in first sidebar */
-    mainDocId: string;
-    docs: GlobalDoc[];
-    /** Unversioned IDs. In development, this list is empty. */
-    draftIds: string[];
-    sidebars?: {[sidebarId: string]: GlobalSidebar};
-  };
-
-  export type GlobalSidebar = {
-    link?: {
-      label: string;
-      path: string;
-    };
-    // ... we may add other things here later
-  };
-  export type GlobalPluginData = {
-    path: string;
-    versions: GlobalVersion[];
-    breadcrumbs: boolean;
-  };
-  export type DocVersionSuggestions = {
-    /** Suggest the latest version */
-    latestVersionSuggestion: GlobalVersion;
-    /** Suggest the same doc, in latest version (if one exists) */
-    latestDocSuggestion?: GlobalDoc;
-  };
-
-  export const useAllDocsData: () => {[pluginId: string]: GlobalPluginData};
-  export const useDocsData: (pluginId?: string) => GlobalPluginData;
-  export const useActivePlugin: (
-    options?: UseDataOptions,
-  ) => ActivePlugin | undefined;
-  export const useActivePluginAndVersion: (
-    options?: UseDataOptions,
-  ) =>
-    | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
-    | undefined;
-  /** Versions are returned ordered (most recent first). */
-  export const useVersions: (pluginId?: string) => GlobalVersion[];
-  export const useLatestVersion: (pluginId?: string) => GlobalVersion;
-  /**
-   * Returns `undefined` on doc-unrelated pages, because there's no version
-   * currently considered as active.
-   */
-  export const useActiveVersion: (
-    pluginId?: string,
-  ) => GlobalVersion | undefined;
-  export const useActiveDocContext: (pluginId?: string) => ActiveDocContext;
-  /**
-   * Useful to say "hey, you are not on the latest docs version, please switch"
-   */
-  export const useDocVersionSuggestions: (
-    pluginId?: string,
-  ) => DocVersionSuggestions;
 }

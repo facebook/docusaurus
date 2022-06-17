@@ -10,7 +10,7 @@ tags:
     permalink: tag2-custom-permalink
 ---
 
-# Baz markdown title
+# Baz Markdown title
 
 ## Images
 

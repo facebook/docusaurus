@@ -12,6 +12,8 @@ import {
   collectSidebarCategories,
   transformSidebarItems,
   collectSidebarLinks,
+  collectSidebarDocItems,
+  collectSidebarRefs,
 } from './sidebars/utils';
 import type {
   LoadedVersion,
@@ -111,7 +113,22 @@ function getSidebarTranslationFileContent(
     ]),
   );
 
-  return mergeTranslations([categoryContent, linksContent]);
+  const docs = collectSidebarDocItems(sidebar)
+    .concat(collectSidebarRefs(sidebar))
+    .filter((item) => item.translatable);
+  const docLinksContent: TranslationFileContent = Object.fromEntries(
+    docs.map((doc) => [
+      `sidebar.${sidebarName}.doc.${doc.label!}`,
+      {
+        message: doc.label!,
+        description: `The label for the doc item ${doc.label!} in sidebar ${sidebarName}, linking to the doc ${
+          doc.id
+        }`,
+      },
+    ]),
+  );
+
+  return mergeTranslations([categoryContent, linksContent, docLinksContent]);
 }
 
 function translateSidebar({
@@ -163,6 +180,14 @@ function translateSidebar({
         ...item,
         label:
           sidebarsTranslations[`sidebar.${sidebarName}.link.${item.label}`]
+            ?.message ?? item.label,
+      };
+    }
+    if ((item.type === 'doc' || item.type === 'ref') && item.translatable) {
+      return {
+        ...item,
+        label:
+          sidebarsTranslations[`sidebar.${sidebarName}.doc.${item.label!}`]
             ?.message ?? item.label,
       };
     }

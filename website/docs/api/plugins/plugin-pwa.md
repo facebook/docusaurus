@@ -70,7 +70,7 @@ If your browser supports it, you should be able to install a Docusaurus site as 
 
 :::note
 
-App installation requires the https protocol and a valid manifest.
+App installation requires the HTTPS protocol and a valid manifest.
 
 :::
 
@@ -120,7 +120,7 @@ Strategies used to turn the offline mode on:
 - `appInstalled`: activates for users having installed the site as an app (not 100% reliable)
 - `standalone`: activates for users running the app as standalone (often the case once a PWA is installed)
 - `queryString`: activates if queryString contains `offlineMode=true` (convenient for PWA debugging)
-- `mobile`: activates for mobile users (width <= 940px)
+- `mobile`: activates for mobile users (width <= 996px)
 - `saveData`: activates for users with `navigator.connection.saveData === true`
 - `always`: activates for all users
 
@@ -160,7 +160,7 @@ module.exports = {
           modifyURLPrefix: {
             //...
           },
-          // We already add regular static assets (html, images...) to be available offline
+          // We already add regular static assets (HTML, images...) to be available offline
           // You can add more files according to your needs
           globPatterns: ['**/*.{pdf,docx,xlsx}'],
           // ...

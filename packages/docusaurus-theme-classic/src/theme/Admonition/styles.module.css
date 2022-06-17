@@ -5,35 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.admonition h5 {
-  margin-top: 0;
-  margin-bottom: 8px;
-  text-transform: uppercase;
+.admonition {
+  margin-bottom: 1em;
 }
 
-.admonition h5 code {
+.admonitionHeading {
+  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
+    var(--ifm-heading-line-height) var(--ifm-heading-font-family);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.admonitionHeading code {
   text-transform: none;
 }
 
-.admonition-icon {
+.admonitionIcon {
   display: inline-block;
   vertical-align: middle;
   margin-right: 0.4em;
 }
 
-.admonition-icon svg {
+.admonitionIcon svg {
   display: inline-block;
-  width: 22px;
-  height: 22px;
-  stroke-width: 0;
+  height: 1.6em;
+  width: 1.6em;
   fill: var(--ifm-alert-foreground-color);
-  stroke: var(--ifm-alert-foreground-color);
 }
 
-.admonition-content > :last-child {
+.admonitionContent > :last-child {
   margin-bottom: 0;
-}
-
-.admonition {
-  margin-bottom: 1em;
 }

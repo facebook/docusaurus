@@ -50,6 +50,7 @@ contravariance
 corejs
 crawlable
 creativecommons
+cssnano
 csvg
 customizability
 daishi
@@ -196,6 +197,7 @@ nuxt
 onboarded
 opensearch
 opensearchdescription
+opensource
 optimizt
 optind
 orta
@@ -227,6 +229,7 @@ prefetch
 prefetching
 preloads
 prepended
+preprocess
 preprocessors
 prerendered
 prerendering

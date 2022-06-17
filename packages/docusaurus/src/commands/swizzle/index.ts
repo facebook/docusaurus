@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
@@ -87,11 +88,13 @@ If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you 
 }
 
 export async function swizzle(
-  siteDir: string,
-  themeNameParam: string | undefined,
-  componentNameParam: string | undefined,
-  optionsParam: Partial<SwizzleCLIOptions>,
+  themeNameParam: string | undefined = undefined,
+  componentNameParam: string | undefined = undefined,
+  siteDirParam: string = '.',
+  optionsParam: Partial<SwizzleCLIOptions> = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const options = normalizeOptions(optionsParam);
   const {list, danger, typescript} = options;
 

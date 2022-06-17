@@ -30,11 +30,10 @@
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "reading-time": "^1.5.0",
-    "remark-admonitions": "^1.2.1",
     "tslib": "^2.4.0",
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",
-    "webpack": "^5.72.1"
+    "webpack": "^5.73.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.21",

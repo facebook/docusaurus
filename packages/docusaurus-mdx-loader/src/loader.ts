@@ -23,8 +23,10 @@ import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 
+import transformAdmonitions from './remark/admonitions';
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
+import type {AdmonitionOptions} from './remark/admonitions';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -37,6 +39,7 @@ const pragma = `
 `;
 
 const DEFAULT_OPTIONS: MDXOptions = {
+  admonitions: true,
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
@@ -48,7 +51,9 @@ const compilerCache = new Map<string | Options, [Processor, Options]>();
 export type MDXPlugin =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [Plugin<any[]>, any] | Plugin<any[]>;
+
 export type MDXOptions = {
+  admonitions: boolean | AdmonitionOptions;
   remarkPlugins: MDXPlugin[];
   rehypePlugins: MDXPlugin[];
   beforeDefaultRemarkPlugins: MDXPlugin[];
@@ -132,6 +137,19 @@ function createAssetsExportCode(assets: unknown) {
   return `{\n${codeLines.join('\n')}\n}`;
 }
 
+function getAdmonitionsPlugins(
+  admonitionsOption: MDXOptions['admonitions'],
+): MDXPlugin[] {
+  if (admonitionsOption) {
+    const plugin: MDXPlugin =
+      admonitionsOption === true
+        ? transformAdmonitions
+        : [transformAdmonitions, admonitionsOption];
+    return [plugin];
+  }
+  return [];
+}
+
 export async function mdxLoader(
   this: LoaderContext<Options>,
   fileString: string,
@@ -149,32 +167,37 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
+    const remarkPlugins: MDXPlugin[] = [
+      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
+      ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
+      ...DEFAULT_OPTIONS.remarkPlugins,
+      [
+        transformImage,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
+      [
+        transformLinks,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
+      ...(reqOptions.remarkPlugins ?? []),
+    ];
+
+    const rehypePlugins: MDXPlugin[] = [
+      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
+      ...DEFAULT_OPTIONS.rehypePlugins,
+      ...(reqOptions.rehypePlugins ?? []),
+    ];
+
     const options: Options = {
       ...reqOptions,
-      remarkPlugins: [
-        ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-        ...DEFAULT_OPTIONS.remarkPlugins,
-        [
-          transformImage,
-          {
-            staticDirs: reqOptions.staticDirs,
-            siteDir: reqOptions.siteDir,
-          },
-        ],
-        [
-          transformLinks,
-          {
-            staticDirs: reqOptions.staticDirs,
-            siteDir: reqOptions.siteDir,
-          },
-        ],
-        ...(reqOptions.remarkPlugins ?? []),
-      ],
-      rehypePlugins: [
-        ...(reqOptions.beforeDefaultRehypePlugins ?? []),
-        ...DEFAULT_OPTIONS.rehypePlugins,
-        ...(reqOptions.rehypePlugins ?? []),
-      ],
+      remarkPlugins,
+      rehypePlugins,
     };
     compilerCache.set(this.query, [createCompiler(options), options]);
   }

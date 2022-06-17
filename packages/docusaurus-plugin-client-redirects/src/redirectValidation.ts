@@ -6,14 +6,14 @@
  */
 
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
-import type {RedirectMetadata} from './types';
+import type {RedirectItem} from './types';
 
-const RedirectSchema = Joi.object<RedirectMetadata>({
+const RedirectSchema = Joi.object<RedirectItem>({
   from: PathnameSchema.required(),
   to: PathnameSchema.required(),
 });
 
-export function validateRedirect(redirect: RedirectMetadata): void {
+export function validateRedirect(redirect: RedirectItem): void {
   const {error} = RedirectSchema.validate(redirect, {
     abortEarly: true,
     convert: false,

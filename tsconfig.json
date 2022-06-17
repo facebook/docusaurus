@@ -11,8 +11,8 @@
     "jsx": "react-native",
     "importHelpers": true,
     "noEmitHelpers": true,
-    // Will be overridden in every project
-    "module": "esnext",
+    // Will be overridden in client projects
+    "module": "NodeNext",
     // Avoid accidentally using this config to build
     "noEmit": true,
 
@@ -42,7 +42,7 @@
     "importsNotUsedAsValues": "remove",
 
     /* Module Resolution */
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

@@ -8,7 +8,7 @@
 import {jest} from '@jest/globals';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
-import type {I18nConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
   return Object.fromEntries(
@@ -18,10 +18,9 @@ function testLocaleConfigsFor(locales: string[]) {
 
 function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
   return loadI18n(
-    // @ts-expect-error: enough for this test
     {
       i18n: i18nConfig,
-    },
+    } as DocusaurusConfig,
     {locale},
   );
 }
@@ -33,42 +32,49 @@ describe('defaultLocaleConfig', () => {
       direction: 'ltr',
       htmlLang: 'fr',
       calendar: 'gregory',
+      path: 'fr',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
       label: 'Français (France)',
       direction: 'ltr',
       htmlLang: 'fr-FR',
       calendar: 'gregory',
+      path: 'fr-FR',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
       label: 'English',
       direction: 'ltr',
       htmlLang: 'en',
       calendar: 'gregory',
+      path: 'en',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: 'American English',
       direction: 'ltr',
       htmlLang: 'en-US',
       calendar: 'gregory',
+      path: 'en-US',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
       label: '中文',
       direction: 'ltr',
       htmlLang: 'zh',
       calendar: 'gregory',
+      path: 'zh',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
       label: '中文（中国）',
       direction: 'ltr',
       htmlLang: 'zh-CN',
       calendar: 'gregory',
+      path: 'zh-CN',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: 'American English',
       direction: 'ltr',
       htmlLang: 'en-US',
       calendar: 'gregory',
+      path: 'en-US',
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
       // cSpell:ignore فارسی
@@ -76,6 +82,7 @@ describe('defaultLocaleConfig', () => {
       direction: 'rtl',
       htmlLang: 'fa',
       calendar: 'gregory',
+      path: 'fa',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
       // cSpell:ignore ایران فارسیا
@@ -83,12 +90,14 @@ describe('defaultLocaleConfig', () => {
       direction: 'rtl',
       htmlLang: 'fa-IR',
       calendar: 'gregory',
+      path: 'fa-IR',
     });
     expect(getDefaultLocaleConfig('en-US-u-ca-buddhist')).toEqual({
       label: 'American English',
       direction: 'ltr',
       htmlLang: 'en-US-u-ca-buddhist',
       calendar: 'buddhist',
+      path: 'en-US-u-ca-buddhist',
     });
   });
 });
@@ -101,6 +110,7 @@ describe('loadI18n', () => {
 
   it('loads I18n for default config', async () => {
     await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
+      path: 'i18n',
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
@@ -111,12 +121,14 @@ describe('loadI18n', () => {
   it('loads I18n for multi-lang config', async () => {
     await expect(
       loadI18nTest({
+        path: 'i18n',
         defaultLocale: 'fr',
         locales: ['en', 'fr', 'de'],
         localeConfigs: {},
       }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'fr',
       localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
@@ -127,6 +139,7 @@ describe('loadI18n', () => {
     await expect(
       loadI18nTest(
         {
+          path: 'i18n',
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {},
@@ -135,6 +148,7 @@ describe('loadI18n', () => {
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
@@ -145,6 +159,7 @@ describe('loadI18n', () => {
     await expect(
       loadI18nTest(
         {
+          path: 'i18n',
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {
@@ -156,6 +171,7 @@ describe('loadI18n', () => {
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
+      path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
@@ -164,6 +180,7 @@ describe('loadI18n', () => {
           direction: 'ltr',
           htmlLang: 'fr',
           calendar: 'gregory',
+          path: 'fr',
         },
         en: getDefaultLocaleConfig('en'),
         de: getDefaultLocaleConfig('de'),
@@ -174,6 +191,7 @@ describe('loadI18n', () => {
   it('warns when trying to load undeclared locale', async () => {
     await loadI18nTest(
       {
+        path: 'i18n',
         defaultLocale: 'fr',
         locales: ['en', 'fr', 'de'],
         localeConfigs: {},

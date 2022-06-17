@@ -85,13 +85,17 @@ export async function cliDocsVersionCommand(
 
   await Promise.all(
     i18n.locales.map(async (locale) => {
+      const localizationDir = path.resolve(
+        siteDir,
+        i18n.path,
+        i18n.localeConfigs[locale]!.path,
+      );
       // Copy docs files.
       const docsDir =
         locale === i18n.defaultLocale
           ? path.resolve(siteDir, docsPath)
           : getDocsDirPathLocalized({
-              siteDir,
-              locale,
+              localizationDir,
               pluginId,
               versionName: CURRENT_VERSION_NAME,
             });
@@ -114,8 +118,7 @@ export async function cliDocsVersionCommand(
         locale === i18n.defaultLocale
           ? getVersionDocsDirPath(siteDir, pluginId, version)
           : getDocsDirPathLocalized({
-              siteDir,
-              locale,
+              localizationDir,
               pluginId,
               versionName: version,
             });

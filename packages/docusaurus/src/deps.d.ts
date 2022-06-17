@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module 'remark-admonitions';
-
 declare module 'react-loadable-ssr-addon-v5-slorber' {
   import type {WebpackPluginInstance, Compiler} from 'webpack';
 
@@ -64,6 +62,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
       paths: string[];
       preferFoldersOutput?: boolean;
       globals: {[key: string]: unknown};
+      concurrency?: number;
     });
     apply(compiler: Compiler): void;
   }
@@ -73,4 +72,23 @@ declare module 'webpack/lib/HotModuleReplacementPlugin' {
   import type {HotModuleReplacementPlugin} from 'webpack';
 
   export default HotModuleReplacementPlugin;
+}
+
+// TODO incompatible declaration file: https://github.com/unjs/webpackbar/pull/108
+declare module 'webpackbar' {
+  import webpack from 'webpack';
+
+  export default class WebpackBarPlugin extends webpack.ProgressPlugin {
+    constructor(options: {name: string; color?: string});
+  }
+}
+
+// TODO incompatible declaration file
+declare module 'eta' {
+  export const defaultConfig: object;
+
+  export function compile(
+    template: string,
+    options?: object,
+  ): (data: object, config: object) => string;
 }

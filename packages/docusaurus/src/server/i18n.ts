@@ -26,6 +26,7 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
     htmlLang: locale,
     // If the locale name includes -u-ca-xxx the calendar will be defined
     calendar: new Intl.Locale(locale).calendar ?? 'gregory',
+    path: locale,
   };
 }
 
@@ -60,6 +61,7 @@ Note: Docusaurus only support running one locale at a time.`;
   return {
     defaultLocale: i18nConfig.defaultLocale,
     locales,
+    path: i18nConfig.path,
     currentLocale,
     localeConfigs,
   };
