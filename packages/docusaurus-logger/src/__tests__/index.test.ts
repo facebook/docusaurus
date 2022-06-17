@@ -124,3 +124,33 @@ describe('success', () => {
     expect(consoleMock.mock.calls).toMatchSnapshot();
   });
 });
+
+describe('report', () => {
+  beforeAll(() => jest.clearAllMocks());
+  it('works with all severities', () => {
+    const consoleLog = jest.spyOn(console, 'info').mockImplementation(() => {});
+    const consoleWarn = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    logger.report('ignore')('hey');
+    logger.report('log')('hey');
+    logger.report('warn')('hey');
+    expect(() =>
+      logger.report('throw')('hey'),
+    ).toThrowErrorMatchingInlineSnapshot(`"hey"`);
+    expect(() =>
+      // @ts-expect-error: for test
+      logger.report('foo')('hey'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected "reportingSeverity" value: foo."`,
+    );
+    expect(consoleLog).toBeCalledTimes(1);
+    expect(consoleLog).toBeCalledWith(
+      expect.stringMatching(/.*\[INFO\].* hey/),
+    );
+    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toBeCalledWith(
+      expect.stringMatching(/.*\[WARNING\].* hey/),
+    );
+  });
+});

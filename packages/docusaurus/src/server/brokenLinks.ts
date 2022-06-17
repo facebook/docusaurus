@@ -11,12 +11,7 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
 import {matchRoutes} from 'react-router-config';
-import {
-  removePrefix,
-  removeSuffix,
-  reportMessage,
-  resolvePathname,
-} from '@docusaurus/utils';
+import {removePrefix, removeSuffix, resolvePathname} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
@@ -247,6 +242,6 @@ export async function handleBrokenLinks({
 
   const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
   if (errorMessage) {
-    reportMessage(errorMessage, onBrokenLinks);
+    logger.report(onBrokenLinks)(errorMessage);
   }
 }

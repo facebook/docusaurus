@@ -40,7 +40,6 @@ export {
   removePrefix,
   mapAsyncSequential,
   findAsyncSequential,
-  reportMessage,
 } from './jsUtils';
 export {
   normalizeUrl,

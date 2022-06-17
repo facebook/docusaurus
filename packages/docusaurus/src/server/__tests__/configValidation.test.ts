@@ -308,6 +308,20 @@ describe('normalizeConfig', () => {
       ),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('throws for "error" reporting severity', () => {
+    expect(() =>
+      validateConfig(
+        {
+          title: 'Site',
+          url: 'https://example.com',
+          baseUrl: '/',
+          onBrokenLinks: 'error',
+        },
+        'docusaurus.config.js',
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
 });
 
 describe('config warnings', () => {
