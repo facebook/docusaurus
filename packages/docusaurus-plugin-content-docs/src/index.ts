@@ -13,7 +13,6 @@ import {
   docuHash,
   aliasedSitePath,
   getContentPathList,
-  reportMessage,
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
@@ -330,13 +329,9 @@ export default async function pluginContentDocs(
         sourceToPermalink: getSourceToPermalink(),
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
-            return;
-          }
-          reportMessage(
-            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.contentPaths.versionName}`,
+          logger.report(
             siteConfig.onBrokenMarkdownLinks,
-          );
+          )`Docs markdown link couldn't be resolved: (url=${brokenMarkdownLink.link}) in path=${brokenMarkdownLink.filePath} for version number=${brokenMarkdownLink.contentPaths.versionName}`;
         },
       };
 

@@ -32,6 +32,7 @@ It exports a single object as default export: `logger`. `logger` has the followi
   - `warn`: prints a warning that should be payed attention to.
   - `error`: prints an error (not necessarily halting the program) that signals significant problems.
   - `success`: prints a success message.
+- The `report` function. It takes a `ReportingSeverity` value (`ignore`, `log`, `warn`, `throw`) and reports a message according to the severity.
 
 :::caution A word on the `error` formatter
 

@@ -21,7 +21,7 @@ import type {Location} from 'history';
 
 // === Configuration ===
 
-export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
+export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
