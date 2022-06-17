@@ -590,8 +590,6 @@ const config = {
         ],
         logo: {
           alt: 'Meta Open Source Logo',
-          // This default includes a positive & negative version, allowing for
-          // appropriate use depending on your site's style.
           src: '/img/meta_opensource_logo_negative.svg',
           href: 'https://opensource.fb.com',
           style: {
