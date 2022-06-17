@@ -26,6 +26,7 @@ const DefaultI18N: I18n = {
       direction: 'ltr',
       htmlLang: 'en',
       calendar: 'gregory',
+      path: 'en',
     },
   },
 };

@@ -61,6 +61,12 @@ export type I18nLocaleConfig = {
    * or `en-US` (`en` means `en-US`).
    */
   calendar: string;
+  /**
+   * Root folder that all plugin localization folders of this locale are
+   * relative to. Will be resolved against `i18n.path`. Defaults to the locale's
+   * name.
+   */
+  path: string;
 };
 
 export type I18nConfig = {

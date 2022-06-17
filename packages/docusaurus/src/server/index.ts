@@ -85,8 +85,11 @@ export async function loadContext(
 
   const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
 
-  // TODO allow customizing localizationDir per-locale
-  const localizationDir = path.resolve(siteDir, i18n.path, i18n.currentLocale);
+  const localizationDir = path.resolve(
+    siteDir,
+    i18n.path,
+    i18n.localeConfigs[i18n.currentLocale]!.path,
+  );
 
   const codeTranslationFileContent =
     (await readCodeTranslationFileContent({localizationDir})) ?? {};

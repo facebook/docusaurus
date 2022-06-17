@@ -130,18 +130,21 @@ module.exports = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fa'],
+    path: 'i18n',
     localeConfigs: {
       en: {
         label: 'English',
         direction: 'ltr',
         htmlLang: 'en-US',
         calendar: 'gregory',
+        path: 'en',
       },
       fa: {
         label: 'فارسی',
         direction: 'rtl',
         htmlLang: 'fa-IR',
         calendar: 'persian',
+        path: 'fa',
       },
     },
   },
@@ -150,11 +153,13 @@ module.exports = {
 
 - `defaultLocale`: The locale that (1) does not have its name in the base URL (2) gets started with `docusaurus start` without `--locale` option (3) will be used for the `<link hrefLang="x-default">` tag
 - `locales`: List of locales deployed on your site. Must contain `defaultLocale`.
+- `path`: Root folder which all locale folders are relative to. Can be absolute or relative to the config file. Defaults to `i18n`.
 - `localeConfigs`: Individual options for each locale.
   - `label`: The label displayed for this locale in the locales dropdown.
   - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Farsi, Arabic, Hebrew, etc.). Used to select the locale's CSS and HTML meta attribute.
   - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
+  - `path`: Root folder that all plugin localization folders of this locale are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name. Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
 
 ### `noIndex` {#noIndex}
 

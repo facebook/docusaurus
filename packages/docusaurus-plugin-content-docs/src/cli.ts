@@ -85,9 +85,11 @@ export async function cliDocsVersionCommand(
 
   await Promise.all(
     i18n.locales.map(async (locale) => {
-      // TODO duplicated logic from core, so duplicate comment as well: we need
-      // to support customization per-locale in the future
-      const localizationDir = path.resolve(siteDir, i18n.path, locale);
+      const localizationDir = path.resolve(
+        siteDir,
+        i18n.path,
+        i18n.localeConfigs[locale]!.path,
+      );
       // Copy docs files.
       const docsDir =
         locale === i18n.defaultLocale
