@@ -1144,7 +1144,8 @@ const Users: User[] = [
   },
   {
     title: 'Lerna',
-    description: 'Lerna is a fast modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.',
+    description:
+      'A fast modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.',
     preview: require('./showcase/lerna.png'),
     website: 'https://lerna.js.org',
     source: 'https://github.com/lerna/lerna/tree/main/website',
