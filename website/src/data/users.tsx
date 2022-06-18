@@ -2415,8 +2415,8 @@ const Users: User[] = [
       'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
-    tags: ['product', 'personal'],
-    source: null,
+    tags: ['product', 'personal', 'opensource'],
+    source: 'https://github.com/Gary50613/yeecord-docs',
   },
   {
     title: 'Zowe',
