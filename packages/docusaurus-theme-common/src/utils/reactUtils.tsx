@@ -76,21 +76,17 @@ export class ReactContextError extends Error {
 }
 
 /**
- * Shallow-memoize an object
- *
- * This means the returned object will be the same as the previous render
- * if the attribute names and identities did not change.
- *
- * This works for simple cases: when attributes are primitives or stable objects
+ * Shallow-memoize an object. This means the returned object will be the same as
+ * the previous render if the property keys and values did not change. This
+ * works for simple cases: when property values are primitives or stable
+ * objects.
  *
  * @param obj
  */
-export function useShallowMemoObject<O>(obj: O): O {
-  return useMemo(
-    () => obj,
-    // Is this safe?
-    // TODO make this implementation not order-dependent?
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...Object.keys(obj), ...Object.values(obj)],
-  );
+export function useShallowMemoObject<O extends object>(obj: O): O {
+  const deps = Object.entries(obj);
+  // Sort by keys to make it order-insensitive
+  deps.sort((a, b) => a[0].localeCompare(b[0]));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => obj, deps.flat());
 }
