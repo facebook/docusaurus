@@ -6,6 +6,8 @@ sidebar_position: 1
 
 Let's discover **Docusaurus in less than 5 minutes**.
 
+This will be our _new_ docs tool at **Pure Storage**. We will be using `markdown`.
+
 ## Getting Started
 
 Get started by **creating a new site**.
