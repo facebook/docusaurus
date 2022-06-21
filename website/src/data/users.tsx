@@ -23,7 +23,8 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * - Add your site in the json array below
  * - `title` is your project's name (no need for the "Docs" suffix)
  * - A short (≤120 characters) description of your project
- * - Use relevant tags to categorize your site (read the tag descriptions below)
+ * - Use relevant tags to categorize your site (read the tag descriptions on the
+ *   https://docusaurus.io/showcase page and some further clarifications below)
  * - Add a local image preview (decent screenshot of your Docusaurus site)
  * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
@@ -31,7 +32,7 @@ import {sortBy} from '@site/src/utils/jsUtils';
  *   to a directory containing the `docusaurus.config.js` file
  * - Open a PR and check for reported CI errors
  *
- * Example PR: https://github.com/facebook/docusaurus/pull/3976
+ * Example PR: https://github.com/facebook/docusaurus/pull/7620
  *
  * If you edit this file through the GitHub interface, you can:
  * - Submit first your users.tsx edit PR
@@ -46,139 +47,29 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * - Add missing Docusaurus sites (if the site owner agreed)
  */
 
-export type Tag = {
-  label: string;
-  description: string;
-  color: string;
-};
-
-export type TagType =
-  | 'favorite'
-  | 'opensource'
-  | 'product'
-  | 'design'
-  | 'i18n'
-  | 'versioning'
-  | 'large'
-  | 'meta'
-  | 'personal'
-  | 'rtl';
-
-export type User = {
-  title: string;
-  description: string;
-  preview: string;
-  website: string;
-  source: string | null;
-  tags: TagType[];
-};
-
 // LIST OF AVAILABLE TAGS
 // Available tags to assign to your site
 // Please choose all tags that you think might apply.
 // We'll remove inappropriate tags, but it's less likely that we add tags.
-export const Tags: {[type in TagType]: Tag} = {
+export type TagType =
   // DO NOT USE THIS TAG: we choose sites to add to favorites
-  favorite: {
-    label: translate({message: 'Favorite'}),
-    description: translate({
-      message:
-        'Our favorite Docusaurus sites that you must absolutely check out!',
-      id: 'showcase.tag.favorite.description',
-    }),
-    color: '#e9669e',
-  },
-
-  // For open-source sites, a link to the source code is required
+  | 'favorite'
+  // For open-source sites, a link to the source code is required.
   // The source should be your *website's* source, not your project's source!
-  opensource: {
-    label: translate({message: 'Open-Source'}),
-    description: translate({
-      message: 'Open-Source Docusaurus sites can be useful for inspiration!',
-      id: 'showcase.tag.opensource.description',
-    }),
-    color: '#39ca30',
-  },
-
-  product: {
-    label: translate({message: 'Product'}),
-    description: translate({
-      message: 'Docusaurus sites associated to a commercial product!',
-      id: 'showcase.tag.product.description',
-    }),
-    color: '#dfd545',
-  },
-
-  design: {
-    label: translate({message: 'Design'}),
-    description: translate({
-      message:
-        'Beautiful Docusaurus sites, polished and standing out from the initial template!',
-      id: 'showcase.tag.design.description',
-    }),
-    color: '#a44fb7',
-  },
-
-  i18n: {
-    label: translate({message: 'I18n'}),
-    description: translate({
-      message:
-        'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
-      id: 'showcase.tag.i18n.description',
-    }),
-    color: '#127f82',
-  },
-
-  versioning: {
-    label: translate({message: 'Versioning'}),
-    description: translate({
-      message:
-        'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
-      id: 'showcase.tag.versioning.description',
-    }),
-    color: '#fe6829',
-  },
-
-  // Large sites, with a lot of content (> 200 pages, excluding versions)
-  large: {
-    label: translate({message: 'Large'}),
-    description: translate({
-      message:
-        'Very large Docusaurus sites, including many more pages than the average!',
-      id: 'showcase.tag.large.description',
-    }),
-    color: '#8c2f00',
-  },
-
-  meta: {
-    label: translate({message: 'Meta'}),
-    description: translate({
-      message: 'Docusaurus sites of Meta (formerly Facebook) projects',
-      id: 'showcase.tag.meta.description',
-    }),
-    color: '#4267b2', // Facebook blue
-  },
-
-  personal: {
-    label: translate({message: 'Personal'}),
-    description: translate({
-      message:
-        'Personal websites, blogs and digital gardens built with Docusaurus',
-      id: 'showcase.tag.personal.description',
-    }),
-    color: '#14cfc3',
-  },
-
-  rtl: {
-    label: translate({message: 'RTL Direction'}),
-    description: translate({
-      message:
-        'Docusaurus sites using the right-to-left reading direction support.',
-      id: 'showcase.tag.rtl.description',
-    }),
-    color: '#ffcfc3',
-  },
-};
+  | 'opensource'
+  | 'product'
+  // Feel free to add the 'design' tag as long as there's _some_ level of
+  // CSS/swizzling.
+  | 'design'
+  // Site must have more than one locale.
+  | 'i18n'
+  | 'versioning'
+  // Large sites are defined as those with > 200 pages, excluding versions.
+  | 'large'
+  | 'meta'
+  | 'personal'
+  // Right-to-left direction.
+  | 'rtl';
 
 // Add your site to this list
 // prettier-ignore
@@ -2440,6 +2331,120 @@ const Users: User[] = [
   Appending your site here (at the end) is more likely to produce Git conflicts.
    */
 ];
+
+export type User = {
+  title: string;
+  description: string;
+  preview: string;
+  website: string;
+  source: string | null;
+  tags: TagType[];
+};
+
+export type Tag = {
+  label: string;
+  description: string;
+  color: string;
+};
+
+export const Tags: {[type in TagType]: Tag} = {
+  favorite: {
+    label: translate({message: 'Favorite'}),
+    description: translate({
+      message:
+        'Our favorite Docusaurus sites that you must absolutely check out!',
+      id: 'showcase.tag.favorite.description',
+    }),
+    color: '#e9669e',
+  },
+
+  opensource: {
+    label: translate({message: 'Open-Source'}),
+    description: translate({
+      message: 'Open-Source Docusaurus sites can be useful for inspiration!',
+      id: 'showcase.tag.opensource.description',
+    }),
+    color: '#39ca30',
+  },
+
+  product: {
+    label: translate({message: 'Product'}),
+    description: translate({
+      message: 'Docusaurus sites associated to a commercial product!',
+      id: 'showcase.tag.product.description',
+    }),
+    color: '#dfd545',
+  },
+
+  design: {
+    label: translate({message: 'Design'}),
+    description: translate({
+      message:
+        'Beautiful Docusaurus sites, polished and standing out from the initial template!',
+      id: 'showcase.tag.design.description',
+    }),
+    color: '#a44fb7',
+  },
+
+  i18n: {
+    label: translate({message: 'I18n'}),
+    description: translate({
+      message:
+        'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
+      id: 'showcase.tag.i18n.description',
+    }),
+    color: '#127f82',
+  },
+
+  versioning: {
+    label: translate({message: 'Versioning'}),
+    description: translate({
+      message:
+        'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
+      id: 'showcase.tag.versioning.description',
+    }),
+    color: '#fe6829',
+  },
+
+  large: {
+    label: translate({message: 'Large'}),
+    description: translate({
+      message:
+        'Very large Docusaurus sites, including many more pages than the average!',
+      id: 'showcase.tag.large.description',
+    }),
+    color: '#8c2f00',
+  },
+
+  meta: {
+    label: translate({message: 'Meta'}),
+    description: translate({
+      message: 'Docusaurus sites of Meta (formerly Facebook) projects',
+      id: 'showcase.tag.meta.description',
+    }),
+    color: '#4267b2', // Facebook blue
+  },
+
+  personal: {
+    label: translate({message: 'Personal'}),
+    description: translate({
+      message:
+        'Personal websites, blogs and digital gardens built with Docusaurus',
+      id: 'showcase.tag.personal.description',
+    }),
+    color: '#14cfc3',
+  },
+
+  rtl: {
+    label: translate({message: 'RTL Direction'}),
+    description: translate({
+      message:
+        'Docusaurus sites using the right-to-left reading direction support.',
+      id: 'showcase.tag.rtl.description',
+    }),
+    color: '#ffcfc3',
+  },
+};
 
 export const TagList = Object.keys(Tags) as TagType[];
 function sortUsers() {
