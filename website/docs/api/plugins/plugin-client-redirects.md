@@ -50,6 +50,12 @@ Accepted fields:
 </APITable>
 ```
 
+:::note
+
+This plugin will also read the [`siteConfig.onDuplicateRoutes`](../docusaurus.config.js.md#onDuplicateRoutes) config to adjust its logging level when multiple files will be emitted to the same location.
+
+:::
+
 ### Types {#types}
 
 #### `RedirectRule` {#RedirectRule}

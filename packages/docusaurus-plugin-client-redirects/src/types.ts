@@ -11,7 +11,7 @@ import type {PluginOptions} from './options';
 /**
  * The minimal infos the plugin needs to work
  */
-export type PluginContext = Pick<Props, 'outDir' | 'baseUrl'> & {
+export type PluginContext = Pick<Props, 'outDir' | 'baseUrl' | 'siteConfig'> & {
   options: PluginOptions;
   relativeRoutesPaths: string[];
 };
