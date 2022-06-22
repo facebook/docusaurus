@@ -9,6 +9,10 @@ import React, {useMemo, type ReactNode, useContext} from 'react';
 import {ReactContextError} from '../utils/reactUtils';
 import type {PropDocContent} from '@docusaurus/plugin-content-docs';
 
+/**
+ * The React context value returned by the useDoc() hook.
+ * It contains useful data related to the currently browsed doc.
+ */
 export type DocContextValue = {MDXComponent: () => JSX.Element} & Pick<
   PropDocContent,
   'metadata' | 'frontMatter' | 'toc' | 'assets' | 'contentTitle'
@@ -37,7 +41,7 @@ function useContextValue(content: PropDocContent): DocContextValue {
 }
 
 /**
- * Provide the current doc content to children.
+ * Provide the current doc data and component to children.
  */
 export function DocProvider({
   children,
@@ -51,8 +55,8 @@ export function DocProvider({
 }
 
 /**
- * Gets the current doc content (MDX component).
- * Note: this is also how you access
+ * Reads React context and returns data of the currently browsed doc.
+ * Gives access to the doc MDX Component, frontMatter, metadata, toc...
  */
 export function useDoc(): DocContextValue {
   const doc = useContext(Context);
