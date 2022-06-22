@@ -7,11 +7,11 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
-  ThemeClassNames,
   useSidebarBreadcrumbs,
   useHomePageRoute,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {translate} from '@docusaurus/Translate';

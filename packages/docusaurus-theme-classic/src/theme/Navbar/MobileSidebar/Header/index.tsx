@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 import IconClose from '@theme/IconClose';
 import NavbarLogo from '@theme/Navbar/Logo';

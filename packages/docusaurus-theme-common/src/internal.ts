@@ -5,19 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// This re-export permits to handle some level of retro-compatibility
+// Users might swizzle unsafe components, using our internal apis.
+// When we move an API from internal to public, former internal imports
+// should keep working => less annoying for users.
+// TODO: how do we detect legacy internal imports in our own code?
+ 
+// export * from './index';
+
 export {
-  useThemeConfig,
-  type ThemeConfig,
-  type UserThemeConfig,
   type Navbar,
   type NavbarItem,
   type NavbarLogo,
-  type MultiColumnFooter,
-  type SimpleFooter,
-  type Footer,
-  type FooterLogo,
-  type FooterLinkItem,
-  type ColorModeConfig,
 } from './utils/useThemeConfig';
 export {
   DocSidebarItemsExpandedStateProvider,
@@ -37,21 +36,15 @@ export {
   parseLanguage,
   parseLines,
   containsLineNumbers,
-  getPrismCssVariables,
 } from './utils/codeBlockUtils';
 
-export {
-  docVersionSearchTag,
-  DEFAULT_SEARCH_TAG,
-  useContextualSearchFilters,
-} from './utils/searchUtils';
+export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {
   isDocsPluginEnabled,
   useDocById,
   findSidebarCategory,
   findFirstCategoryLink,
-  useCurrentSidebarCategory,
   isActiveSidebarItem,
   useSidebarBreadcrumbs,
   useDocsVersionCandidates,
@@ -61,8 +54,6 @@ export {
 } from './utils/docsUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
-
-export {usePluralForm} from './utils/usePluralForm';
 
 export {useLocationChange} from './utils/useLocationChange';
 
@@ -76,20 +67,12 @@ export {
 
 export {duplicates, uniq} from './utils/jsUtils';
 
-export {ThemeClassNames} from './utils/ThemeClassNames';
-
 export {
   AnnouncementBarProvider,
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
 export {useLocalPathname} from './utils/useLocalPathname';
-
-export {
-  translateTagsPageTitle,
-  listTagsByLetters,
-  type TagLetterEntry,
-} from './utils/tagsUtils';
 
 export {useHistoryPopHandler} from './utils/historyUtils';
 
@@ -103,8 +86,6 @@ export {
   useTreeifiedTOC,
   type TOCTreeNode,
 } from './utils/tocUtils';
-
-export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {
   ScrollControllerProvider,
@@ -121,21 +102,11 @@ export {
   ReactContextError,
 } from './utils/reactUtils';
 
-export {isRegexpStringMatch} from './utils/regexpUtils';
-
 export {useHomePageRoute, isSamePath} from './utils/routesUtils';
 
-export {
-  PageMetadata,
-  HtmlClassNameProvider,
-  PluginHtmlClassNameProvider,
-} from './utils/metadataUtils';
+export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
-export {
-  useColorMode,
-  ColorModeProvider,
-  type ColorMode,
-} from './contexts/colorMode';
+export {ColorModeProvider, type ColorMode} from './contexts/colorMode';
 
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
@@ -145,21 +116,14 @@ export {
 } from './contexts/tabGroupChoice';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
-export {
-  NavbarSecondaryMenuFiller,
-  type NavbarSecondaryMenuComponent,
-} from './contexts/navbarSecondaryMenu/content';
 export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
 
-export {useBackToTopButton} from './hooks/useBackToTopButton';
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   useKeyboardNavigation,
   keyboardFocusedClassName,
 } from './hooks/useKeyboardNavigation';
-export {usePrismTheme} from './hooks/usePrismTheme';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
-export {useWindowSize} from './hooks/useWindowSize';
 export {useSearchPage} from './hooks/useSearchPage';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useSkipToContent} from './hooks/useSkipToContent';

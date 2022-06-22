@@ -8,9 +8,9 @@
 import React, {type ComponentProps} from 'react';
 import clsx from 'clsx';
 import {
+  ThemeClassNames,
   usePrismTheme,
   getPrismCssVariables,
-  ThemeClassNames,
 } from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 

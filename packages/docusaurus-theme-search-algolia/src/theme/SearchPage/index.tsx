@@ -18,12 +18,14 @@ import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
   HtmlClassNameProvider,
-  useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
+} from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
   useDynamicCallback,
   useSearchPage,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Translate, {translate} from '@docusaurus/Translate';

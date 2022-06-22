@@ -10,7 +10,7 @@ import renderer from 'react-test-renderer';
 import {
   TabGroupChoiceProvider,
   ScrollControllerProvider,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import Tabs from '../index';
 import TabItem from '../../TabItem';
 

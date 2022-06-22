@@ -12,7 +12,7 @@ import React, {
   useRef,
   type ReactNode,
 } from 'react';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {useDocsPreferredVersion} from '@docusaurus/theme-common/internal';
 import {useVersions} from '@docusaurus/plugin-content-docs/client';
 import Translate from '@docusaurus/Translate';
 import CodeBlock from '@theme/CodeBlock';

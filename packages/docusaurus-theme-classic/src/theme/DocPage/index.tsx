@@ -7,14 +7,13 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import {HtmlClassNameProvider, ThemeClassNames} from '@docusaurus/theme-common';
 import {
-  HtmlClassNameProvider,
-  ThemeClassNames,
   docVersionSearchTag,
   DocsSidebarProvider,
   DocsVersionProvider,
   useDocRouteMetadata,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import DocPageLayout from '@theme/DocPage/Layout';
 import NotFound from '@theme/NotFound';
 import SearchMetadata from '@theme/SearchMetadata';

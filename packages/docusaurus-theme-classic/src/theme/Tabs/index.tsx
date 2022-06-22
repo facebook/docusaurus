@@ -17,7 +17,7 @@ import {
   useScrollPositionBlocker,
   duplicates,
   useTabGroupChoice,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 

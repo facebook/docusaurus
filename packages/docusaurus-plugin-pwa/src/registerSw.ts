@@ -6,7 +6,7 @@
  */
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {createStorageSlot} from '@docusaurus/theme-common';
+import {createStorageSlot} from '@docusaurus/theme-common/internal';
 
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
