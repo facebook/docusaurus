@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import {ThemeClassNames, useDoc} from '@docusaurus/theme-common';
 import Heading from '@theme/Heading';
 import MDXContent from '@theme/MDXContent';
+import type {Props} from '@theme/DocItem/Content';
 
 /**
  Title can be declared inside md content or declared through
@@ -31,8 +32,7 @@ function useSyntheticTitle(): string | null {
   return metadata.title;
 }
 
-export default function DocItemContent(): JSX.Element {
-  const {MDXComponent} = useDoc();
+export default function DocItemContent({children}: Props): JSX.Element {
   const syntheticTitle = useSyntheticTitle();
   return (
     <div className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
@@ -41,9 +41,7 @@ export default function DocItemContent(): JSX.Element {
           <Heading as="h1">{syntheticTitle}</Heading>
         </header>
       )}
-      <MDXContent>
-        <MDXComponent />
-      </MDXContent>
+      <MDXContent>{children}</MDXContent>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import type {PropDocContent} from '@docusaurus/plugin-content-docs';
  * The React context value returned by the `useDoc()` hook.
  * It contains useful data related to the currently browsed doc.
  */
-export type DocContextValue = {MDXComponent: () => JSX.Element} & Pick<
+export type DocContextValue = Pick<
   PropDocContent,
   'metadata' | 'frontMatter' | 'toc' | 'assets' | 'contentTitle'
 >;
@@ -30,7 +30,6 @@ const Context = React.createContext<DocContextValue | null>(null);
 function useContextValue(content: PropDocContent): DocContextValue {
   return useMemo(
     () => ({
-      MDXComponent: content,
       metadata: content.metadata,
       frontMatter: content.frontMatter,
       assets: content.assets,

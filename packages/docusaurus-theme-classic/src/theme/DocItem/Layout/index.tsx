@@ -16,6 +16,7 @@ import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
+import type {Props} from '@theme/DocItem/Layout';
 
 import styles from './styles.module.css';
 
@@ -43,7 +44,7 @@ function useDocTOC() {
   };
 }
 
-export default function DocItemLayout(): JSX.Element {
+export default function DocItemLayout({children}: Props): JSX.Element {
   const docTOC = useDocTOC();
   return (
     <div className="row">
@@ -54,7 +55,7 @@ export default function DocItemLayout(): JSX.Element {
             <DocBreadcrumbs />
             <DocVersionBadge />
             {docTOC.mobile}
-            <DocItemContent />
+            <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />
           </article>
           <DocItemPaginator />

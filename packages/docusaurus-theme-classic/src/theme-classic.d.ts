@@ -262,7 +262,11 @@ declare module '@theme/DocCardList' {
 }
 
 declare module '@theme/DocItem/Layout' {
-  export default function DocItemLayout(): JSX.Element;
+  export interface Props {
+    readonly children: JSX.Element;
+  }
+
+  export default function DocItemLayout(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocItem/Metadata' {
@@ -270,7 +274,11 @@ declare module '@theme/DocItem/Metadata' {
 }
 
 declare module '@theme/DocItem/Content' {
-  export default function DocItemContent(): JSX.Element;
+  export interface Props {
+    readonly children: JSX.Element;
+  }
+
+  export default function DocItemContent(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocItem/TOC/Mobile' {
