@@ -32,7 +32,7 @@ export default function Logo(props: Props): JSX.Element {
       sources={sources}
       height={logo.height}
       width={logo.width}
-      alt={logo.alt ?? navbarTitle ?? title}
+      alt={logo.alt ?? (navbarTitle || title)}
     />
   );
 
