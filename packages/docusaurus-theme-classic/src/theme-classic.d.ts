@@ -261,10 +261,40 @@ declare module '@theme/DocCardList' {
   export default function DocCardList(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocItemFooter' {
-  import type {Props} from '@theme/DocItem';
+declare module '@theme/DocItem/Layout' {
+  export interface Props {
+    readonly children: JSX.Element;
+  }
 
-  export default function DocItemFooter(props: Props): JSX.Element;
+  export default function DocItemLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocItem/Metadata' {
+  export default function DocItemMetadata(): JSX.Element;
+}
+
+declare module '@theme/DocItem/Content' {
+  export interface Props {
+    readonly children: JSX.Element;
+  }
+
+  export default function DocItemContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocItem/TOC/Mobile' {
+  export default function DocItemTOCMobile(): JSX.Element;
+}
+
+declare module '@theme/DocItem/TOC/Desktop' {
+  export default function DocItemTOCDesktop(): JSX.Element;
+}
+
+declare module '@theme/DocItem/Paginator' {
+  export default function DocItemPaginator(): JSX.Element;
+}
+
+declare module '@theme/DocItem/Footer' {
+  export default function DocItemFooter(): JSX.Element;
 }
 
 declare module '@theme/DocPage/Layout' {
