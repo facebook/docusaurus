@@ -1103,7 +1103,7 @@ declare module '@theme/TOCItems' {
 }
 
 declare module '@theme/TOCItems/Tree' {
-  import type {TOCTreeNode} from '@docusaurus/theme-common';
+  import type {TOCTreeNode} from '@docusaurus/theme-common/internal';
 
   export interface Props {
     readonly toc: readonly TOCTreeNode[];

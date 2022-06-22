@@ -17,7 +17,7 @@ export type {
   ColorModeConfig,
 } from './utils/useThemeConfig';
 
-export {useColorMode} from './contexts/colorMode';
+export {useColorMode, type ColorMode} from './contexts/colorMode';
 
 export {usePrismTheme} from './hooks/usePrismTheme';
 export {getPrismCssVariables} from './utils/codeBlockUtils';

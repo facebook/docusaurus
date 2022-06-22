@@ -10,7 +10,7 @@
 // When we move an API from internal to public, former internal imports
 // should keep working => less annoying for users.
 // TODO: how do we detect legacy internal imports in our own code?
- 
+
 // export * from './index';
 
 export {
@@ -106,7 +106,7 @@ export {useHomePageRoute, isSamePath} from './utils/routesUtils';
 
 export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
-export {ColorModeProvider, type ColorMode} from './contexts/colorMode';
+export {ColorModeProvider} from './contexts/colorMode';
 
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
