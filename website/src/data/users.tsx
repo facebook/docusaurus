@@ -450,7 +450,7 @@ const Users: User[] = [
     preview: require('./showcase/comp-labs.png'),
     website: 'https://complabs.in/',
     source: 'https://github.com/Comp-Labs/comp-labs-website',
-    tags: ['opensource', 'design', 'large', 'personal'],
+    tags: ['opensource'],
   },
   {
     title: 'Component Kit',
