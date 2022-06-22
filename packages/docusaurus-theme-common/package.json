@@ -10,6 +10,7 @@
   ],
   "exports": {
     ".": "./lib/index.js",
+    "./internal": "./lib/internal.js",
     "./Details": "./lib/components/Details/index.js"
   },
   "scripts": {
