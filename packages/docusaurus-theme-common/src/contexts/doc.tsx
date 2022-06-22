@@ -10,7 +10,7 @@ import {ReactContextError} from '../utils/reactUtils';
 import type {PropDocContent} from '@docusaurus/plugin-content-docs';
 
 /**
- * The React context value returned by the useDoc() hook.
+ * The React context value returned by the `useDoc()` hook.
  * It contains useful data related to the currently browsed doc.
  */
 export type DocContextValue = {MDXComponent: () => JSX.Element} & Pick<
@@ -21,10 +21,11 @@ export type DocContextValue = {MDXComponent: () => JSX.Element} & Pick<
 const Context = React.createContext<DocContextValue | null>(null);
 
 /**
- * Note: we don't use PropDoc as context value on purpose
- * Metadata is currently stored inside the MDX component,
- * but we may want to change that in the future.
- * This layer is a good opportunity to decouple storage from consuming API.
+ * Note: we don't use `PropDoc` as context value on purpose. Metadata is
+ * currently stored inside the MDX component, but we may want to change that in
+ * the future. This layer is a good opportunity to decouple storage from
+ * consuming API, potentially allowing us to provide metadata as both props and
+ * route context without duplicating the chunks in the future.
  */
 function useContextValue(content: PropDocContent): DocContextValue {
   return useMemo(
@@ -41,7 +42,9 @@ function useContextValue(content: PropDocContent): DocContextValue {
 }
 
 /**
- * Provide the current doc data and component to children.
+ * This is a very thin layer around the `content` received from the MDX loader.
+ * It provides the component to be rendered and other metadata about the doc to
+ * the children.
  */
 export function DocProvider({
   children,
@@ -55,8 +58,11 @@ export function DocProvider({
 }
 
 /**
- * Reads React context and returns data of the currently browsed doc.
- * Gives access to the doc MDX Component, frontMatter, metadata, toc...
+ * Returns the data of the currently browsed doc. Gives access to the doc's MDX
+ * Component, front matter, metadata, TOC, etc. When swizzling a low-level
+ * component (e.g. the "Edit this page" link) and you need some extra metadata,
+ * you don't have to drill the props all the way through the component tree:
+ * simply use this hook instead.
  */
 export function useDoc(): DocContextValue {
   const doc = useContext(Context);
