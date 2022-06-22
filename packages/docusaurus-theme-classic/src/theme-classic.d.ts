@@ -285,7 +285,7 @@ declare module '@theme/DocItem/Paginator' {
   export default function DocItemPaginator(): JSX.Element;
 }
 
-declare module '@theme/DocItemFooter' {
+declare module '@theme/DocItem/Footer' {
   export default function DocItemFooter(): JSX.Element;
 }
 
