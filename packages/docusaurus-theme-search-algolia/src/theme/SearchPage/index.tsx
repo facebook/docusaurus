@@ -20,10 +20,10 @@ import {
   HtmlClassNameProvider,
   usePluralForm,
   isRegexpStringMatch,
+  useDynamicCallback,
 } from '@docusaurus/theme-common';
 import {
   useTitleFormatter,
-  useDynamicCallback,
   useSearchPage,
 } from '@docusaurus/theme-common/internal';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';

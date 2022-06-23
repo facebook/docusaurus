@@ -14,11 +14,6 @@
 // export * from './index';
 
 export {
-  type Navbar,
-  type NavbarItem,
-  type NavbarLogo,
-} from './utils/useThemeConfig';
-export {
   DocSidebarItemsExpandedStateProvider,
   useDocSidebarItemsExpandedState,
 } from './contexts/docSidebarItemsExpandedState';
@@ -95,12 +90,7 @@ export {
   useSmoothScrollTo,
 } from './utils/scrollUtils';
 
-export {
-  useIsomorphicLayoutEffect,
-  useDynamicCallback,
-  usePrevious,
-  ReactContextError,
-} from './utils/reactUtils';
+export {ReactContextError} from './utils/reactUtils';
 
 export {useHomePageRoute, isSamePath} from './utils/routesUtils';
 

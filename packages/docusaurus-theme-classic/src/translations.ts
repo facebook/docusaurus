@@ -10,12 +10,12 @@ import {mergeTranslations} from '@docusaurus/utils';
 import type {TranslationFile, TranslationFileContent} from '@docusaurus/types';
 import type {
   ThemeConfig,
+  Navbar,
+  NavbarItem,
   Footer,
   MultiColumnFooter,
   SimpleFooter,
 } from '@docusaurus/theme-common';
-
-import type {Navbar, NavbarItem} from '@docusaurus/theme-common/internal';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!

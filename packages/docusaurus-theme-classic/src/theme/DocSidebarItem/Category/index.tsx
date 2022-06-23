@@ -7,10 +7,13 @@
 
 import React, {type ComponentProps, useEffect, useMemo} from 'react';
 import clsx from 'clsx';
-import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  useThemeConfig,
+  usePrevious,
+} from '@docusaurus/theme-common';
 import {
   isActiveSidebarItem,
-  usePrevious,
   Collapsible,
   useCollapsible,
   findFirstCategoryLink,

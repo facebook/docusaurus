@@ -9,6 +9,9 @@ export {useThemeConfig} from './utils/useThemeConfig';
 export type {
   ThemeConfig,
   UserThemeConfig,
+  Navbar,
+  NavbarItem,
+  NavbarLogo,
   MultiColumnFooter,
   SimpleFooter,
   Footer,
@@ -51,3 +54,12 @@ export {
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
+
+export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
+
+export {
+  useIsomorphicLayoutEffect,
+  useDynamicCallback, // TODO rename to useEvent()
+  usePrevious,
+  ReactContextError,
+} from './utils/reactUtils';
