@@ -6,6 +6,7 @@
  */
 
 import chalk from 'chalk';
+import type {ReportingSeverity} from '@docusaurus/types';
 
 type InterpolatableValue = string | number | (string | number)[];
 
@@ -122,9 +123,52 @@ function success(msg: unknown, ...values: InterpolatableValue[]): void {
     }`,
   );
 }
+function throwError(msg: unknown): void;
+function throwError(
+  msg: TemplateStringsArray,
+  ...values: [InterpolatableValue, ...InterpolatableValue[]]
+): void;
+function throwError(msg: unknown, ...values: InterpolatableValue[]): void {
+  throw new Error(
+    values.length === 0
+      ? stringify(msg)
+      : interpolate(msg as TemplateStringsArray, ...values),
+  );
+}
 
 function newLine(): void {
   console.log();
+}
+
+/**
+ * Takes a message and reports it according to the severity that the user wants.
+ *
+ * - `ignore`: completely no-op
+ * - `log`: uses the `INFO` log level
+ * - `warn`: uses the `WARN` log level
+ * - `throw`: aborts the process, throws the error.
+ *
+ * Since the logger doesn't have logging level filters yet, these severities
+ * mostly just differ by their colors.
+ *
+ * @throws In addition to throwing when `reportingSeverity === "throw"`, this
+ * function also throws if `reportingSeverity` is not one of the above.
+ */
+function report(reportingSeverity: ReportingSeverity): typeof success {
+  const reportingMethods = {
+    ignore: () => {},
+    log: info,
+    warn,
+    throw: throwError,
+  };
+  if (
+    !Object.prototype.hasOwnProperty.call(reportingMethods, reportingSeverity)
+  ) {
+    throw new Error(
+      `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
+    );
+  }
+  return reportingMethods[reportingSeverity];
 }
 
 const logger = {
@@ -144,6 +188,7 @@ const logger = {
   warn,
   error,
   success,
+  report,
   newLine,
 };
 

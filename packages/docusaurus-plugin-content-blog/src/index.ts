@@ -6,12 +6,12 @@
  */
 
 import path from 'path';
+import logger from '@docusaurus/logger';
 import {
   normalizeUrl,
   docuHash,
   aliasedSitePath,
   getPluginI18nPath,
-  reportMessage,
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
@@ -391,10 +391,9 @@ export default async function pluginContentBlog(
           if (onBrokenMarkdownLinks === 'ignore') {
             return;
           }
-          reportMessage(
-            `Blog markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath}`,
+          logger.report(
             onBrokenMarkdownLinks,
-          );
+          )`Blog markdown link couldn't be resolved: (url=${brokenMarkdownLink.link}) in path=${brokenMarkdownLink.filePath}`;
         },
       };
 

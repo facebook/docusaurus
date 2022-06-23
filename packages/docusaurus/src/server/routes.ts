@@ -7,12 +7,12 @@
 
 import query from 'querystring';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {
   docuHash,
   normalizeUrl,
   simpleHash,
   escapePath,
-  reportMessage,
 } from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {
@@ -228,15 +228,13 @@ export function handleDuplicateRoutes(
     return false;
   });
   if (duplicatePaths.length > 0) {
-    const finalMessage = `Duplicate routes found!
-${duplicatePaths
-  .map(
-    (duplicateRoute) =>
-      `- Attempting to create page at ${duplicateRoute}, but a page already exists at this route.`,
-  )
-  .join('\n')}
+    logger.report(
+      onDuplicateRoutes,
+    )`Duplicate routes found!${duplicatePaths.map(
+      (duplicateRoute) =>
+        logger.interpolate`Attempting to create page at url=${duplicateRoute}, but a page already exists at this route.`,
+    )}
 This could lead to non-deterministic routing behavior.`;
-    reportMessage(finalMessage, onDuplicateRoutes);
   }
 }
 

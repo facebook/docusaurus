@@ -31,6 +31,7 @@ export default function pluginClientRedirectsPages(
         baseUrl: props.baseUrl,
         outDir: props.outDir,
         options,
+        siteConfig: props.siteConfig,
       };
 
       const redirects: RedirectItem[] = collectRedirects(

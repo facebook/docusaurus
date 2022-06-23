@@ -177,7 +177,7 @@ module.exports = {
 
 ### `onBrokenLinks` {#onBrokenLinks}
 
-- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
+- Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
 The behavior of Docusaurus when it detects any broken link.
 
@@ -191,7 +191,7 @@ The broken links detection is only available for a production build (`docusaurus
 
 ### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
 
-- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
+- Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
 The behavior of Docusaurus when it detects any broken Markdown link.
 
@@ -199,7 +199,7 @@ By default, it prints a warning, to let you know about your broken Markdown link
 
 ### `onDuplicateRoutes` {#onDuplicateRoutes}
 
-- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
+- Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
 The behavior of Docusaurus when it detects any [duplicate routes](/guides/creating-pages.md#duplicate-routes).
 

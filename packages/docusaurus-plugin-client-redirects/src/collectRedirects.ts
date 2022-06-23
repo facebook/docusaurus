@@ -102,8 +102,10 @@ function filterUnwantedRedirects(
   Object.entries(_.groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
-        logger.error`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
-It is not possible to redirect the same pathname to multiple destinations: ${groupedFromRedirects.map(
+        logger.report(
+          pluginContext.siteConfig.onDuplicateRoutes,
+        )`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
+It is not possible to redirect the same pathname to multiple destinations:${groupedFromRedirects.map(
           (r) => JSON.stringify(r),
         )}`;
       }
@@ -111,18 +113,18 @@ It is not possible to redirect the same pathname to multiple destinations: ${gro
   );
   const collectedRedirects = _.uniqBy(redirects, (redirect) => redirect.from);
 
-  // We don't want to override an already existing route with a redirect file!
-  const redirectsOverridingExistingPath = collectedRedirects.filter(
-    (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
-  );
+  const {false: newRedirects = [], true: redirectsOverridingExistingPath = []} =
+    _.groupBy(collectedRedirects, (redirect) =>
+      pluginContext.relativeRoutesPaths.includes(redirect.from),
+    );
   if (redirectsOverridingExistingPath.length > 0) {
-    logger.error`name=${'@docusaurus/plugin-client-redirects'}: some redirects would override existing paths, and will be ignored: ${redirectsOverridingExistingPath.map(
+    logger.report(
+      pluginContext.siteConfig.onDuplicateRoutes,
+    )`name=${'@docusaurus/plugin-client-redirects'}: some redirects would override existing paths, and will be ignored:${redirectsOverridingExistingPath.map(
       (r) => JSON.stringify(r),
     )}`;
   }
-  return collectedRedirects.filter(
-    (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
-  );
+  return newRedirects;
 }
 
 function createRedirectsOptionRedirects(

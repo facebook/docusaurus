@@ -57,6 +57,14 @@ export default function Logo(props: Props): JSX.Element {
   const {imageClassName, titleClassName, ...propsRest} = props;
   const logoLink = useBaseUrl(logo?.href || '/');
 
+  // If visible title is shown, fallback alt text should be
+  // an empty string to mark the logo as decorative.
+  const fallbackAlt = navbarTitle ? '' : title;
+
+  // Use logo alt text if provided (including empty string),
+  // and provide a sensible fallback otherwise.
+  const alt = logo?.alt ?? fallbackAlt;
+
   return (
     <Link
       to={logoLink}
@@ -65,7 +73,7 @@ export default function Logo(props: Props): JSX.Element {
       {logo && (
         <LogoThemedImage
           logo={logo}
-          alt={logo.alt || navbarTitle || title}
+          alt={alt}
           imageClassName={imageClassName}
         />
       )}
