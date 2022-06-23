@@ -150,9 +150,6 @@ const config = {
           // appropriate use depending on your site's style.
           src: '/img/meta_opensource_logo_negative.svg',
           href: 'https://opensource.fb.com',
-          style: {
-            maxWidth: '500px',
-          },
         },
         // Please do not remove the credits, help to publicize Docusaurus :)
         copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,

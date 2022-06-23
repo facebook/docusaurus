@@ -592,9 +592,6 @@ const config = {
           alt: 'Meta Open Source Logo',
           src: '/img/meta_opensource_logo_negative.svg',
           href: 'https://opensource.fb.com',
-          style: {
-            maxWidth: '500px',
-          },
         },
         copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
       },
