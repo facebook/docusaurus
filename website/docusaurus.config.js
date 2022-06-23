@@ -589,13 +589,11 @@ const config = {
           },
         ],
         logo: {
-          alt: 'Facebook Open Source Logo',
-          src: 'img/oss_logo.png',
-          width: 160,
-          height: 51,
-          href: 'https://opensource.facebook.com',
+          alt: 'Meta Open Source Logo',
+          src: '/img/meta_opensource_logo_negative.svg',
+          href: 'https://opensource.fb.com',
         },
-        copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
       },
     }),
 };

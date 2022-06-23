@@ -57,14 +57,5 @@ module.exports = {
         srcDark: 'img/docusaurus_keytar.svg',
       },
     },
-    footer: {
-      style: 'dark',
-      logo: {
-        alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com',
-      },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
-    },
   },
 };

@@ -68,6 +68,11 @@ describe('themeConfig', () => {
           alt: 'Docusaurus Logo',
           src: 'img/docusaurus.svg',
           srcDark: 'img/docusaurus_keytar.svg',
+          target: '_self',
+          className: 'navbar__logo__custom',
+          style: {
+            maxWidth: 42,
+          },
         },
         items: [
           {
@@ -99,10 +104,14 @@ describe('themeConfig', () => {
           },
         ],
         logo: {
-          alt: 'Facebook Open Source Logo',
-          src: 'img/oss_logo.png',
+          alt: 'Meta Open Source Logo',
+          src: 'img/footer_logo.png',
           href: 'https://opensource.facebook.com',
           target: '_self',
+          className: 'footer__logo__custom',
+          style: {
+            maxWidth: 42,
+          },
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
