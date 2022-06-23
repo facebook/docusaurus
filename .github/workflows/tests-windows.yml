@@ -49,8 +49,6 @@ jobs:
       # Lightweight version of tests-swizzle.yml workflow, but for Windows
       - name: Swizzle Wrap TS
         run: yarn workspace website test:swizzle:wrap:ts
-      - name: Remove Theme Internal Re-export
-        run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         run: yarn build:website:fast
       - name: TypeCheck website
