@@ -15,7 +15,7 @@
   "theme.SearchModal.noResultsScreen.reportMissingResultsLinkText": "請告知我們。",
   "theme.SearchModal.noResultsScreen.reportMissingResultsText": "認為這個查詢應該有結果？",
   "theme.SearchModal.noResultsScreen.suggestedQueryText": "試試搜索",
-  "theme.SearchModal.placeholder": "Search docs",
+  "theme.SearchModal.placeholder": "搜索文檔",
   "theme.SearchModal.searchBox.cancelButtonText": "取消",
   "theme.SearchModal.searchBox.resetButtonTitle": "清除查詢",
   "theme.SearchModal.startScreen.favoriteSearchesTitle": "收藏",
