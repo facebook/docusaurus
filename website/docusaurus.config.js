@@ -399,7 +399,7 @@ const config = {
         hideOnScroll: true,
         title: 'Docusaurus',
         logo: {
-          alt: 'Docusaurus Logo',
+          alt: '',
           src: 'img/docusaurus.svg',
           srcDark: 'img/docusaurus_keytar.svg',
           width: 32,

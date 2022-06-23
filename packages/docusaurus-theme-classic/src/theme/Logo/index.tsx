@@ -27,12 +27,21 @@ export default function Logo(props: Props): JSX.Element {
     light: useBaseUrl(logo.src),
     dark: useBaseUrl(logo.srcDark || logo.src),
   };
+
+  // If visible title is shown, fallback alt text should be
+  // an empty string to mark the logo as decorative.
+  const fallbackAlt = navbarTitle ? '' : title;
+
+  // Use logo alt text if provided (including empty string),
+  // and provide a sensible fallback otherwise.
+  const alt = logo.alt ?? fallbackAlt;
+
   const themedImage = (
     <ThemedImage
       sources={sources}
       height={logo.height}
       width={logo.width}
-      alt={logo.alt || navbarTitle || title}
+      alt={alt}
     />
   );
 
