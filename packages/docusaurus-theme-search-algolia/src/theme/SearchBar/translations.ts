@@ -170,4 +170,4 @@ const placeholderDocSearchTranslation = translate({
   description: 'The placeholder of the input of the DocSearch pop-up modal',
 });
 
-export default {docSearchTranslations, placeholderDocSearchTranslation};
+export {docSearchTranslations, placeholderDocSearchTranslation};
