@@ -9,7 +9,7 @@ import React from 'react';
 import {
   PageMetadata,
   useCurrentSidebarCategory,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocCardList from '@theme/DocCardList';
 import DocPaginator from '@theme/DocPaginator';

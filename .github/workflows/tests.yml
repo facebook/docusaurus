@@ -40,3 +40,7 @@ jobs:
         run: yarn test
       - name: TypeCheck website
         run: yarn workspace website typecheck
+      - name: Remove Theme Internal Re-export
+        run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
+      - name: Docusaurus Build
+        run: yarn build:website:fast

@@ -9,9 +9,14 @@
 // Users might swizzle unsafe components, using our internal apis.
 // When we move an API from internal to public, former internal imports
 // should keep working => less annoying for users.
-// TODO: how do we detect legacy internal imports in our own code?
-
-// export * from './index';
+//
+// Important: this line is removed from build output for CI checks only
+// See node script "removeThemeInternalReexport"
+// This ensures that none of our internal code relies on this re-export
+// and that we don't forget to migrate theme internal imports to public imports
+//
+// eslint-disable-next-line no-restricted-syntax
+export * from './index';
 
 export {
   DocSidebarItemsExpandedStateProvider,
