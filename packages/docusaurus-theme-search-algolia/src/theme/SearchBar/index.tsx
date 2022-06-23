@@ -16,10 +16,7 @@ import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
-import {
-  docSearchTranslations,
-  placeholderDocSearchTranslation,
-} from './translations';
+import translations from '@theme/SearchTranslations';
 
 import type {
   DocSearchModal as DocSearchModalType,
@@ -238,7 +235,7 @@ function DocSearch({
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={onOpen}
         ref={searchButtonRef}
-        translations={docSearchTranslations.button}
+        translations={translations.button}
       />
 
       {isOpen &&
@@ -258,8 +255,8 @@ function DocSearch({
             })}
             {...props}
             searchParameters={searchParameters}
-            placeholder={placeholderDocSearchTranslation}
-            translations={docSearchTranslations.modal}
+            placeholder={translations.placeholder}
+            translations={translations.modal}
           />,
           searchContainer.current,
         )}

@@ -9,7 +9,7 @@ import {translate} from '@docusaurus/Translate';
 
 import type {DocSearchTranslations} from '@docsearch/react';
 
-const docSearchTranslations: DocSearchTranslations = {
+const translations: DocSearchTranslations & {placeholder: string} = {
   button: {
     buttonText: translate({
       id: 'theme.SearchBar.label',
@@ -162,12 +162,11 @@ const docSearchTranslations: DocSearchTranslations = {
       }),
     },
   },
+  placeholder: translate({
+    id: 'theme.SearchModal.placeholder',
+    message: 'Search docs',
+    description: 'The placeholder of the input of the DocSearch pop-up modal',
+  }),
 };
 
-const placeholderDocSearchTranslation = translate({
-  id: 'theme.SearchModal.placeholder',
-  message: 'Search docs',
-  description: 'The placeholder of the input of the DocSearch pop-up modal',
-});
-
-export {docSearchTranslations, placeholderDocSearchTranslation};
+export default translations;
