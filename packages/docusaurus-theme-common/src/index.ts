@@ -27,7 +27,6 @@ export type {
 export {useColorMode, type ColorMode} from './contexts/colorMode';
 
 export {usePrismTheme} from './hooks/usePrismTheme';
-export {getPrismCssVariables} from './utils/codeBlockUtils';
 
 export {useCurrentSidebarCategory} from './utils/docsUtils';
 
@@ -46,8 +45,9 @@ APIs kept undocumented, on purpose
 Note: we still guarantee retro-compatibility on those
  */
 
-export {useBackToTopButton} from './hooks/useBackToTopButton';
 export {useWindowSize} from './hooks/useWindowSize';
+
+export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {
   NavbarSecondaryMenuFiller,
