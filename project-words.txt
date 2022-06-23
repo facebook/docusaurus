@@ -89,7 +89,7 @@ eslintcache
 estree
 evaluable
 execa
-Execa
+execa
 externalwaiting
 failfast
 fbid
@@ -106,6 +106,7 @@ globbing
 globby
 goss
 goyal
+gruntfuggly
 gtag
 hahaha
 hardcoding

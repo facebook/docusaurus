@@ -20,15 +20,19 @@ export type NavbarItem = {
   position?: 'left' | 'right';
 } & {[key: string]: unknown};
 
-export type NavbarLogo = {
+type BaseLogo = {
+  alt?: string;
   src: string;
   srcDark?: string;
+  href?: string;
   width?: string | number;
   height?: string | number;
-  href?: string;
   target?: string;
-  alt?: string;
+  style?: object;
+  className?: string;
 };
+
+export type NavbarLogo = BaseLogo;
 
 // TODO improve
 export type Navbar = {
@@ -69,15 +73,7 @@ export type FooterLinkItem = {
   prependBaseUrlToHref?: string;
 } & {[key: string]: unknown};
 
-export type FooterLogo = {
-  alt?: string;
-  src: string;
-  srcDark?: string;
-  width?: string | number;
-  height?: string | number;
-  target?: string;
-  href?: string;
-};
+export type FooterLogo = BaseLogo;
 
 export type FooterBase = {
   style: 'light' | 'dark';

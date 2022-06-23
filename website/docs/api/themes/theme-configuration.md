@@ -199,6 +199,8 @@ Accepted fields:
 | `width` | <code>string \| number</code> | `undefined` | Specifies the `width` attribute. |
 | `height` | <code>string \| number</code> | `undefined` | Specifies the `height` attribute. |
 | `target` | `string` | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
+| `className` | `string` | `undefined` | CSS class applied to the image. |
+| `style` | `object` | `undefined` | CSS inline style object. React/JSX flavor, using camelCase properties. |
 
 ```mdx-code-block
 </APITable>
@@ -220,6 +222,8 @@ module.exports = {
         target: '_self',
         width: 32,
         height: 32,
+        className: 'custom-navbar-logo-class',
+        style: {border: 'solid red'},
       },
       // highlight-end
     },
@@ -858,9 +862,9 @@ module.exports = {
     // highlight-start
     footer: {
       logo: {
-        alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com',
+        alt: 'Meta Open Source Logo',
+        src: 'img/meta_oss_logo.png',
+        href: 'https://opensource.fb.com',
         width: 160,
         height: 51,
       },
