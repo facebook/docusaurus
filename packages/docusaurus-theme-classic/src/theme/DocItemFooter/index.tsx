@@ -56,24 +56,24 @@ function EditMetaRow({
       <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
 
       <div className={clsx('col', styles.lastUpdated)}>
-        <div>
-          {(lastUpdatedAt || lastUpdatedBy) && (
+        {(lastUpdatedAt || lastUpdatedBy) && (
+          <div>
             <LastUpdated
               lastUpdatedAt={lastUpdatedAt}
               formattedLastUpdatedAt={formattedLastUpdatedAt}
               lastUpdatedBy={lastUpdatedBy}
             />
-          )}
-        </div>
-        <div>
-          {(createdAt || createdBy) && (
+          </div>
+        )}
+        {(createdAt || createdBy) && (
+          <div>
             <Created
               createdAt={createdAt}
               formattedCreatedAt={formattedCreatedAt}
               createdBy={createdBy}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
