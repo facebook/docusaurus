@@ -114,8 +114,6 @@
   "theme.lastUpdated.byUser___DESCRIPTION": "The words used to describe by who the page has been last updated",
   "theme.lastUpdated.lastUpdatedAtBy": "Last updated{atDate}{byUser}",
   "theme.lastUpdated.lastUpdatedAtBy___DESCRIPTION": "The sentence used to display when a page has been last updated, and by who",
-  "theme.navbar.mobileLanguageDropdown.label": "Languages",
-  "theme.navbar.mobileLanguageDropdown.label___DESCRIPTION": "The label for the mobile language switcher dropdown",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel___DESCRIPTION": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)",
   "theme.navbar.mobileVersionsDropdown.label": "Versions",
