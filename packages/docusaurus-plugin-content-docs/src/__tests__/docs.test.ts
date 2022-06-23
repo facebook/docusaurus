@@ -606,7 +606,7 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with last_update front matter disabled', async () => {
+  it('docs with showLastUpdate disabled', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
@@ -801,7 +801,7 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with create front matter disabled', async () => {
+  it('docs with showCreate disabled', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
