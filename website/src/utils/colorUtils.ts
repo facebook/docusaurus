@@ -6,7 +6,7 @@
  */
 
 import Color from 'color';
-import {createStorageSlot} from '@docusaurus/theme-common/internal';
+import {createStorageSlot} from '@docusaurus/theme-common';
 
 // These values are shared between the Toggle component and the ColorGenerator
 

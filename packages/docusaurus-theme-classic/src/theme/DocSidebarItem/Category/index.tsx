@@ -11,11 +11,11 @@ import {
   ThemeClassNames,
   useThemeConfig,
   usePrevious,
+  Collapsible,
+  useCollapsible,
 } from '@docusaurus/theme-common';
 import {
   isActiveSidebarItem,
-  Collapsible,
-  useCollapsible,
   findFirstCategoryLink,
   useDocSidebarItemsExpandedState,
   isSamePath,

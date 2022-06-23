@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+APIs to document
+ */
+
 export {useThemeConfig} from './utils/useThemeConfig';
 export type {
   ThemeConfig,
@@ -35,7 +39,12 @@ export {ThemeClassNames} from './utils/ThemeClassNames';
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 
-// TODO Should these APIs bellow be public?
+export {useCollapsible, Collapsible} from './components/Collapsible';
+
+/*
+APIs kept undocumented, on purpose
+Note: we still guarantee retro-compatibility on those
+ */
 
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 export {useWindowSize} from './hooks/useWindowSize';
@@ -63,3 +72,5 @@ export {
   usePrevious,
   ReactContextError,
 } from './utils/reactUtils';
+
+export {duplicates, uniq} from './utils/jsUtils';

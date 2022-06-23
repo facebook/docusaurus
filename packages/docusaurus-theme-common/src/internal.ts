@@ -22,8 +22,6 @@ export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 export {DocProvider, useDoc} from './contexts/doc';
 export type {DocContextValue} from './contexts/doc';
 
-export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
-
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {
@@ -52,15 +50,11 @@ export {useTitleFormatter} from './utils/generalUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 
-export {useCollapsible, Collapsible} from './components/Collapsible';
-
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
   DocsPreferredVersionContextProvider,
 } from './contexts/docsPreferredVersion';
-
-export {duplicates, uniq} from './utils/jsUtils';
 
 export {
   AnnouncementBarProvider,

@@ -13,9 +13,9 @@ import React, {
 } from 'react';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import {duplicates} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
-  duplicates,
   useTabGroupChoice,
 } from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/Tabs';
