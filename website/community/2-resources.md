@@ -8,6 +8,7 @@ A curated list of interesting Docusaurus community projects.
 
 ## Articles {#articles}
 
+- [Awesome Docusaurus](https://github.com/webbertakken/awesome-docusaurus#readme) - Community curated list of Docusaurus resources.
 - [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-ux-at-its-best-2hj1)
 
 ## Showcase {#showcase}
