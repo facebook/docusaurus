@@ -24,17 +24,15 @@ export {
   type ColorModeConfig,
 } from './utils/useThemeConfig';
 
-export {useColorMode, type ColorMode} from './contexts/colorMode';
+export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
-export {usePrismTheme} from './hooks/usePrismTheme';
-
-export {useWindowSize} from './hooks/useWindowSize';
+export {useContextualSearchFilters} from './utils/searchUtils';
 
 export {useCurrentSidebarCategory} from './utils/docsUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
-export {PageMetadata, HtmlClassNameProvider} from './utils/metadataUtils';
+export {useCollapsible, Collapsible} from './components/Collapsible';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
 
@@ -45,23 +43,21 @@ export {
   ReactContextError,
 } from './utils/reactUtils';
 
-export {useContextualSearchFilters} from './utils/searchUtils';
+export {PageMetadata, HtmlClassNameProvider} from './utils/metadataUtils';
 
-export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
-
-export {useCollapsible, Collapsible} from './components/Collapsible';
+export {useColorMode, type ColorMode} from './contexts/colorMode';
 
 export {
   NavbarSecondaryMenuFiller,
   type NavbarSecondaryMenuComponent,
 } from './contexts/navbarSecondaryMenu/content';
 
+export {useWindowSize} from './hooks/useWindowSize';
+
 /*
  * APIs kept undocumented, on purpose
  * Note: we still guarantee retro-compatibility on those
  */
-
-export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {
   translateTagsPageTitle,
@@ -74,3 +70,7 @@ export {isMultiColumnFooterLinks} from './utils/footerUtils';
 export {isRegexpStringMatch} from './utils/regexpUtils';
 
 export {duplicates, uniq} from './utils/jsUtils';
+
+export {useBackToTopButton} from './hooks/useBackToTopButton';
+
+export {usePrismTheme} from './hooks/usePrismTheme';

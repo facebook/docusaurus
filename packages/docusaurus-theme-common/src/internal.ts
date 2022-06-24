@@ -26,6 +26,27 @@ export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
 
+export {
+  useDocsPreferredVersion,
+  useDocsPreferredVersionByPluginId,
+  DocsPreferredVersionContextProvider,
+} from './contexts/docsPreferredVersion';
+
+export {
+  AnnouncementBarProvider,
+  useAnnouncementBar,
+} from './contexts/announcementBar';
+
+export {
+  useTabGroupChoice,
+  TabGroupChoiceProvider,
+} from './contexts/tabGroupChoice';
+
+export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
+export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
+
+export {ColorModeProvider} from './contexts/colorMode';
+
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {
@@ -54,25 +75,9 @@ export {useTitleFormatter} from './utils/generalUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 
-export {
-  useDocsPreferredVersion,
-  useDocsPreferredVersionByPluginId,
-  DocsPreferredVersionContextProvider,
-} from './contexts/docsPreferredVersion';
-
-export {
-  AnnouncementBarProvider,
-  useAnnouncementBar,
-} from './contexts/announcementBar';
-
 export {useLocalPathname} from './utils/useLocalPathname';
 
 export {useHistoryPopHandler} from './utils/historyUtils';
-
-export {
-  useTOCHighlight,
-  type TOCHighlightConfig,
-} from './hooks/useTOCHighlight';
 
 export {
   useFilteredAndTreeifiedTOC,
@@ -92,17 +97,12 @@ export {useHomePageRoute, isSamePath} from './utils/routesUtils';
 
 export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
-export {ColorModeProvider} from './contexts/colorMode';
-
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
 export {
-  useTabGroupChoice,
-  TabGroupChoiceProvider,
-} from './contexts/tabGroupChoice';
-
-export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
-export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
+  useTOCHighlight,
+  type TOCHighlightConfig,
+} from './hooks/useTOCHighlight';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
