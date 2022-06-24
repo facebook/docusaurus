@@ -34,8 +34,6 @@ export {usePluralForm} from './utils/usePluralForm';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
 
-export {ThemeCommonProvider} from './components/ThemeCommonProvider';
-
 export {ThemeClassNames} from './utils/ThemeClassNames';
 
 export {
