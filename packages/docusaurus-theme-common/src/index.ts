@@ -71,6 +71,4 @@ export {isRegexpStringMatch} from './utils/regexpUtils';
 
 export {duplicates, uniq} from './utils/jsUtils';
 
-export {useBackToTopButton} from './hooks/useBackToTopButton';
-
 export {usePrismTheme} from './hooks/usePrismTheme';

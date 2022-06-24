@@ -8,7 +8,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
-import {ThemeClassNames, useBackToTopButton} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import {useBackToTopButton} from '@docusaurus/theme-common/internal';
 
 import styles from './styles.module.css';
 
