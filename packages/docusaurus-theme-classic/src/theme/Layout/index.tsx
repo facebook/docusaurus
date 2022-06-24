@@ -14,7 +14,7 @@ import SkipToContent from '@theme/SkipToContent';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
-import LayoutProviders from '@theme/LayoutProviders';
+import LayoutProvider from '@theme/Layout/Provider';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 import type {Props} from '@theme/Layout';
@@ -32,7 +32,7 @@ export default function Layout(props: Props): JSX.Element {
   useKeyboardNavigation();
 
   return (
-    <LayoutProviders>
+    <LayoutProvider>
       <PageMetadata title={title} description={description} />
 
       <SkipToContent />
@@ -48,6 +48,6 @@ export default function Layout(props: Props): JSX.Element {
       </div>
 
       {!noFooter && <Footer />}
-    </LayoutProviders>
+    </LayoutProvider>
   );
 }
