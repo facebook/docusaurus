@@ -20,7 +20,7 @@ import {
   HtmlClassNameProvider,
   usePluralForm,
   isRegexpStringMatch,
-  useDynamicCallback,
+  useEvent,
 } from '@docusaurus/theme-common';
 import {
   useTitleFormatter,
@@ -316,7 +316,7 @@ function SearchPageContent(): JSX.Element {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = useDynamicCallback((page: number = 0) => {
+  const makeSearch = useEvent((page: number = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 

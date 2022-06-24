@@ -38,7 +38,7 @@ export {ThemeClassNames} from './utils/ThemeClassNames';
 
 export {
   useIsomorphicLayoutEffect,
-  useDynamicCallback, // TODO rename to useEvent()
+  useEvent,
   usePrevious,
   ReactContextError,
 } from './utils/reactUtils';

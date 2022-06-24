@@ -21,18 +21,18 @@ export const useIsomorphicLayoutEffect = ExecutionEnvironment.canUseDOM
   : useEffect;
 
 /**
+ * Temporary userland implementation until an official hook is implemented
+ * See RFC: https://github.com/reactjs/rfcs/pull/220
+ *
  * Permits to transform an unstable callback (like an arrow function provided as
  * props) to a "stable" callback that is safe to use in a `useEffect` dependency
  * array. Useful to avoid React stale closure problems + avoid useless effect
  * re-executions.
  *
- * Workaround until the React team recommends a good solution, see
- * https://github.com/facebook/react/issues/16956
- *
  * This generally works but has some potential drawbacks, such as
  * https://github.com/facebook/react/issues/16956#issuecomment-536636418
  */
-export function useDynamicCallback<T extends (...args: never[]) => unknown>(
+export function useEvent<T extends (...args: never[]) => unknown>(
   callback: T,
 ): T {
   const ref = useRef<T>(callback);
