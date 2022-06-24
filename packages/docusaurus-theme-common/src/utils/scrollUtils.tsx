@@ -16,7 +16,7 @@ import React, {
 } from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import {useDynamicCallback, ReactContextError} from './reactUtils';
+import {useEvent, ReactContextError} from './reactUtils';
 
 type ScrollController = {
   /** A boolean ref tracking whether scroll events are enabled. */
@@ -104,7 +104,7 @@ export function useScrollPosition(
   const {scrollEventsEnabledRef} = useScrollController();
   const lastPositionRef = useRef<ScrollPosition | null>(getScrollPosition());
 
-  const dynamicEffect = useDynamicCallback(effect);
+  const dynamicEffect = useEvent(effect);
 
   useEffect(() => {
     const handleScroll = () => {
