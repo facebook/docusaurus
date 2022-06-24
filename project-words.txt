@@ -196,6 +196,7 @@ nprogress
 ntfs
 nuxt
 onboarded
+openapi
 opensearch
 opensearchdescription
 opensource
