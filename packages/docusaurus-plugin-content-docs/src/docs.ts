@@ -274,7 +274,7 @@ async function doProcessDocMetadata({
     try {
       return new Intl.DateTimeFormat(locale, {
         day: 'numeric',
-        month: 'long',
+        month: 'short',
         year: 'numeric',
         timeZone: 'UTC',
         calendar,
