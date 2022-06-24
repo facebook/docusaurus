@@ -280,7 +280,7 @@ async function doProcessDocMetadata({
         calendar,
       }).format(date);
     } catch (err) {
-      logger.error`Can't format blog post date "${String(date)}"`;
+      logger.error`Can't format docs lastUpdatedAt date "${String(date)}"`;
       throw err;
     }
   };
