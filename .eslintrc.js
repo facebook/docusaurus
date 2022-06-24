@@ -9,6 +9,18 @@ const OFF = 0;
 const WARNING = 1;
 const ERROR = 2;
 
+const ClientRestrictedImportPatterns = [
+  // Prevent importing lodash in client bundle for bundle size
+  'lodash',
+  'lodash.**',
+  'lodash/**',
+  // Prevent importing server code in client bundle
+  '**/../babel/**',
+  '**/../server/**',
+  '**/../commands/**',
+  '**/../webpack/**',
+];
+
 module.exports = {
   root: true,
   env: {
@@ -371,25 +383,32 @@ module.exports = {
   },
   overrides: [
     {
-      files: [
-        'packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}',
-        'packages/docusaurus/src/client/**/*.{js,ts,tsx}',
-      ],
+      files: ['packages/docusaurus/src/client/**/*.{js,ts,tsx}'],
       rules: {
         'no-restricted-imports': [
           'error',
           {
-            patterns: [
-              // Prevent importing lodash in client bundle for bundle size
-              'lodash',
-              'lodash.**',
-              'lodash/**',
-              // Prevent importing server code in client bundle
-              '**/../babel/**',
-              '**/../server/**',
-              '**/../commands/**',
-              '**/../webpack/**',
-            ],
+            patterns: ClientRestrictedImportPatterns,
+          },
+        ],
+      },
+    },
+    {
+      files: ['packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}'],
+      excludedFiles: '*.test.{js,ts,tsx}',
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: ClientRestrictedImportPatterns.concat(
+              // Prevents relative imports between React theme components
+              [
+                '../**',
+                './**',
+                // Allows relative styles module import with consistent filename
+                '!./styles.module.css',
+              ],
+            ),
           },
         ],
       },

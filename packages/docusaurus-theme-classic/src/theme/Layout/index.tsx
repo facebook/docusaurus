@@ -16,8 +16,8 @@ import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
 import LayoutProviders from '@theme/LayoutProviders';
 import ErrorPageContent from '@theme/ErrorPageContent';
-import './styles.css';
 import type {Props} from '@theme/Layout';
+import styles from './styles.module.css';
 
 export default function Layout(props: Props): JSX.Element {
   const {
@@ -41,7 +41,12 @@ export default function Layout(props: Props): JSX.Element {
 
       <Navbar />
 
-      <div className={clsx(ThemeClassNames.wrapper.main, wrapperClassName)}>
+      <div
+        className={clsx(
+          ThemeClassNames.wrapper.main,
+          styles.mainWrapper,
+          wrapperClassName,
+        )}>
         <ErrorBoundary fallback={(params) => <ErrorPageContent {...params} />}>
           {children}
         </ErrorBoundary>
