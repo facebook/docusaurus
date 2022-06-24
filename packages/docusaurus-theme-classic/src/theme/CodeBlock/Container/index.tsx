@@ -7,11 +7,8 @@
 
 import React, {type ComponentProps} from 'react';
 import clsx from 'clsx';
-import {
-  usePrismTheme,
-  getPrismCssVariables,
-  ThemeClassNames,
-} from '@docusaurus/theme-common';
+import {ThemeClassNames, usePrismTheme} from '@docusaurus/theme-common';
+import {getPrismCssVariables} from '@docusaurus/theme-common/internal';
 import styles from './styles.module.css';
 
 export default function CodeBlockContainer<T extends 'div' | 'pre'>({

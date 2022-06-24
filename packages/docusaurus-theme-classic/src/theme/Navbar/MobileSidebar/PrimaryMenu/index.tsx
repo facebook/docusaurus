@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import {useNavbarMobileSidebar, useThemeConfig} from '@docusaurus/theme-common';
+import {useThemeConfig} from '@docusaurus/theme-common';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
 
 function useNavbarItems() {

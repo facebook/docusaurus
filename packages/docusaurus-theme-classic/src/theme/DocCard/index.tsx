@@ -8,7 +8,10 @@
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import {findFirstCategoryLink, useDocById} from '@docusaurus/theme-common';
+import {
+  findFirstCategoryLink,
+  useDocById,
+} from '@docusaurus/theme-common/internal';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocCard';

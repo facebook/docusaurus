@@ -451,6 +451,7 @@ module.exports = {
         'admin/**',
         'jest/**',
         'website/**',
+        'packages/docusaurus-theme-common/removeThemeInternalReexport.mjs',
         'packages/docusaurus-theme-translations/update.mjs',
         'packages/docusaurus-theme-translations/src/utils.ts',
       ],

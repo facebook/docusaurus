@@ -8,11 +8,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
-import {
-  PageMetadata,
-  ThemeClassNames,
-  useKeyboardNavigation,
-} from '@docusaurus/theme-common';
+import {PageMetadata, ThemeClassNames} from '@docusaurus/theme-common';
+import {useKeyboardNavigation} from '@docusaurus/theme-common/internal';
 import SkipToContent from '@theme/SkipToContent';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';

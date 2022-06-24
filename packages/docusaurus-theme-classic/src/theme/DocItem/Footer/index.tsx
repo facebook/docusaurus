@@ -7,11 +7,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {
-  ThemeClassNames,
-  useDoc,
-  type DocContextValue,
-} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import {useDoc, type DocContextValue} from '@docusaurus/theme-common/internal';
 import LastUpdated from '@theme/LastUpdated';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {

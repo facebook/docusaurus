@@ -7,7 +7,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
+import {useThemeConfig} from '@docusaurus/theme-common';
+import {useAnnouncementBar} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
 import IconClose from '@theme/IconClose';
 

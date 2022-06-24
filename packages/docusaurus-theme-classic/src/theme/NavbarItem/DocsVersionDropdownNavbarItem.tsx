@@ -13,7 +13,7 @@ import {
 import {
   useDocsPreferredVersion,
   useDocsVersionCandidates,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';

@@ -14,7 +14,7 @@ import {
   ScrollControllerProvider,
   NavbarProvider,
   PluginHtmlClassNameProvider,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/LayoutProviders';
 
 export default function LayoutProviders({children}: Props): JSX.Element {

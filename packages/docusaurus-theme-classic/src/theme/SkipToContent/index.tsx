@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Translate from '@docusaurus/Translate';
-import {useSkipToContent} from '@docusaurus/theme-common';
+import {useSkipToContent} from '@docusaurus/theme-common/internal';
 
 import styles from './styles.module.css';
 

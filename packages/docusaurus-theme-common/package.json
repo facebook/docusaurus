@@ -10,13 +10,15 @@
   ],
   "exports": {
     ".": "./lib/index.js",
+    "./internal": "./lib/internal.js",
     "./Details": "./lib/components/Details/index.js"
   },
   "scripts": {
     "build": "tsc && node ../../admin/scripts/copyUntypedFiles.js",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch",
+    "removeThemeInternalReexport": "node removeThemeInternalReexport.mjs"
   },
   "publishConfig": {
     "access": "public"
