@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// This re-export permits to handle some level of retro-compatibility
-// Users might swizzle unsafe components, using our internal apis.
-// When we move an API from internal to public, former internal imports
-// should keep working => less annoying for users.
+// This re-export permits to handle some level of retro-compatibility. Users
+// might swizzle unsafe components and expose these internal imports. When we
+// move an API from internal to public, former internal imports should keep
+// working, so that the change doesn't become breaking.
 //
-// Important: this line is removed from build output for CI checks only
-// See node script "removeThemeInternalReexport"
-// This ensures that none of our internal code relies on this re-export
-// and that we don't forget to migrate theme internal imports to public imports
+// Important: this line is removed from build output with the
+// "removeThemeInternalReexport" script for CI checks. This ensures that none of
+// our internal code relies on this re-export and that we don't forget to
+// migrate theme internal imports to public imports.
 //
 // eslint-disable-next-line no-restricted-syntax
 export * from './index';
@@ -24,8 +24,7 @@ export {
 } from './contexts/docSidebarItemsExpandedState';
 export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
-export {DocProvider, useDoc} from './contexts/doc';
-export type {DocContextValue} from './contexts/doc';
+export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
@@ -88,8 +87,6 @@ export {
   useScrollPositionBlocker,
   useSmoothScrollTo,
 } from './utils/scrollUtils';
-
-export {ReactContextError} from './utils/reactUtils';
 
 export {useHomePageRoute, isSamePath} from './utils/routesUtils';
 
