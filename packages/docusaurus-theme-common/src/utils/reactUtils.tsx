@@ -5,7 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
@@ -89,4 +97,33 @@ export function useShallowMemoObject<O extends object>(obj: O): O {
   deps.sort((a, b) => a[0].localeCompare(b[0]));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => obj, deps.flat());
+}
+
+type SimpleProvider = ComponentType<{children: ReactNode}>;
+
+/**
+ * Creates a single React provider from an array of existing providers
+ * assuming providers only take "children" as props.
+ *
+ * Prevents the annoying React element nesting
+ * Example here: https://getfrontend.tips/compose-multiple-react-providers/
+ *
+ * The order matters:
+ * - The first provider is at the top of the tree.
+ * - The last provider is the most nested one
+ *
+ * @param providers array of providers to compose
+ */
+export function composeProviders(providers: SimpleProvider[]): SimpleProvider {
+  // Creates a single React component: it's cheaper to compose JSX elements
+  return ({children}) => (
+    <>
+      {providers.reduceRight(
+        (element, CurrentProvider) => (
+          <CurrentProvider>{element}</CurrentProvider>
+        ),
+        children,
+      )}
+    </>
+  );
 }

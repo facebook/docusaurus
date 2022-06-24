@@ -40,6 +40,7 @@ export {
   useIsomorphicLayoutEffect,
   useEvent,
   usePrevious,
+  composeProviders,
   ReactContextError,
 } from './utils/reactUtils';
 
