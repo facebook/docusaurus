@@ -401,8 +401,13 @@ module.exports = {
           'error',
           {
             patterns: ClientRestrictedImportPatterns.concat(
-              // Also prevents relative imports between React theme components
-              ['../**', './**', '!./*.css'],
+              // Prevents relative imports between React theme components
+              [
+                '../**',
+                './**',
+                // Allows relative styles module import with consistent filename
+                '!./styles.module.css',
+              ],
             ),
           },
         ],
