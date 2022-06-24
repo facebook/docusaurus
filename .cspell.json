@@ -19,6 +19,7 @@
       "noSuggest": true
     }
   ],
+  "words": ["OpenAPI"],
   "ignorePaths": [
     "CHANGELOG.md",
     "packages/docusaurus-theme-translations/locales",
