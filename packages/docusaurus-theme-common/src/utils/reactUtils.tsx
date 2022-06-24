@@ -5,9 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  ComponentType,
-  ReactNode} from 'react';
+import type {ComponentType, ReactNode} from 'react';
 import React, {
   useCallback,
   useEffect,
@@ -109,13 +107,17 @@ type SimpleProvider = ComponentType<{children: ReactNode}>;
  * Prevents the annoying React element nesting
  * Example here: https://getfrontend.tips/compose-multiple-react-providers/
  *
- * @param providers array of
+ * The order matters:
+ * - The first provider is at the top of the tree.
+ * - The last provider is the most nested one
+ *
+ * @param providers array of providers to compose
  */
 export function composeProviders(providers: SimpleProvider[]): SimpleProvider {
   // Creates a single React component: it's cheaper to compose JSX elements
   return ({children}) => (
     <>
-      {providers.reduce(
+      {providers.reduceRight(
         (element, CurrentProvider) => (
           <CurrentProvider>{element}</CurrentProvider>
         ),
