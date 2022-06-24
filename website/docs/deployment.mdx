@@ -459,12 +459,13 @@ jobs:
 
 A cross-repo publish is more difficult to set up, because you need to push to another repo with permission checks. We will be using SSH to do the authentication.
 
-1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). Since this SSH key will be used in CI, make sure to not enter any passphrase.
 2. By default, your public key should have been created in `~/.ssh/id_rsa.pub`; otherwise, use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
-3. Copy the key to clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy the file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
+3. Copy the key to clipboard with `pbcopy < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in the deployment repository. Copy the file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
 4. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
-5. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY`. Copy the file content if the command line doesn't work for you. Save your secret.
+5. Copy your private key with `pbcopy < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY` on your source repository. Copy the file content if the command line doesn't work for you. Save your secret.
 6. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `deploy.yml`.
+7. You should have essentially: the source repo with the GitHub workflow set with the private SSH key as GitHub Secret and your deployment repo set with the public SSH key in GitHub Deploy Keys.
 
 <details>
 
