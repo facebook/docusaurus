@@ -6,28 +6,9 @@
  */
 
 import React from 'react';
-import {composeProviders} from '@docusaurus/theme-common';
-import {
-  ColorModeProvider,
-  TabGroupChoiceProvider,
-  AnnouncementBarProvider,
-  DocsPreferredVersionContextProvider,
-  ScrollControllerProvider,
-  NavbarProvider,
-  PluginHtmlClassNameProvider,
-} from '@docusaurus/theme-common/internal';
+import {ThemeCommonProvider} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Layout/Provider';
 
-const Provider = composeProviders([
-  ColorModeProvider,
-  AnnouncementBarProvider,
-  TabGroupChoiceProvider,
-  ScrollControllerProvider,
-  DocsPreferredVersionContextProvider,
-  PluginHtmlClassNameProvider,
-  NavbarProvider,
-]);
-
 export default function LayoutProvider({children}: Props): JSX.Element {
-  return <Provider>{children}</Provider>;
+  return <ThemeCommonProvider>{children}</ThemeCommonProvider>;
 }
