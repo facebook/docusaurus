@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ComponentType, ReactNode} from 'react';
 import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
+  type ComponentType,
+  type ReactNode,
 } from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
