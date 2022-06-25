@@ -2056,6 +2056,15 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'SweetCode',
+    description:
+      'SweetCode company website and documentation for the Pixel Manager for WooCommerce',
+    preview: require('./showcase/sweetcode.png'),
+    website: 'https://sweetcode.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Synergies',
     description:
       'A performant and distributed state library for creating reusable React state logic by synergyzing atomar context pieces',
