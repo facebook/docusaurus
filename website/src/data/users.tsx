@@ -2057,9 +2057,11 @@ const Users: User[] = [
   },
   {
     title: 'SweetCode',
-    description: 'SweetCode company website and documentation for the Pixel Manager for WooCommerce',
+    description:
+      'SweetCode company website and documentation for the Pixel Manager for WooCommerce',
     preview: require('./showcase/sweetcode.png'),
     website: 'https://sweetcode.com/',
+    source: null,
     tags: ['product'],
   },
   {
