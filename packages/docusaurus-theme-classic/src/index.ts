@@ -29,7 +29,9 @@ const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) => `(function() {
+}: ThemeConfig['colorMode']) =>
+  /* language=js */
+  `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
@@ -76,6 +78,7 @@ const AnnouncementBarDismissDataAttribute =
 // We always render the announcement bar html on the server, to prevent layout
 // shifts on React hydration. The theme can use CSS + the data attribute to hide
 // the announcement bar asap (before React hydration)
+/* language=js */
 const AnnouncementBarInlineJavaScript = `
 (function() {
   function isDismissed() {
