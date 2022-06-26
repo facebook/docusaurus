@@ -82,7 +82,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "2.0.0-beta.21",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@types/jest": "^28.1.2",
+    "@types/jest": "^28.1.3",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }
