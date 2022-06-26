@@ -27,7 +27,6 @@
     "node": ">=16.14"
   },
   "devDependencies": {
-    "@types/supports-color": "^8.1.1",
-    "jest-serializer-ansi-escapes": "^2.0.1"
+    "@types/supports-color": "^8.1.1"
   }
 }

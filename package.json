@@ -94,6 +94,7 @@
     "image-size": "^1.0.1",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
+    "jest-serializer-ansi-escapes": "^2.0.1",
     "jest-serializer-react-helmet-async": "^1.0.21",
     "lerna": "^5.1.4",
     "lerna-changelog": "^2.2.0",

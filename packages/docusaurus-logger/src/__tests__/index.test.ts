@@ -6,10 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
-import ansiEscapesSerializer from 'jest-serializer-ansi-escapes';
 import logger from '../index';
-
-expect.addSnapshotSerializer(ansiEscapesSerializer);
 
 describe('formatters', () => {
   it('path', () => {
