@@ -9470,6 +9470,11 @@ jest-runtime@^28.1.1:
     slash "^3.0.0"
     strip-bom "^4.0.0"
 
+jest-serializer-ansi-escapes@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/jest-serializer-ansi-escapes/-/jest-serializer-ansi-escapes-2.0.1.tgz#053fc7f2d8629ad127afb6a31e542b65c6ad7806"
+  integrity sha512-+BuVKZQutcejSuODTleG/CV+8OVONZSOSrtrQRG8isTLu367JVKK+/yaG2jGs5O6MPBZ88WNy5jg8hqhd/p6pw==
+
 jest-serializer-react-helmet-async@^1.0.21:
   version "1.0.21"
   resolved "https://registry.yarnpkg.com/jest-serializer-react-helmet-async/-/jest-serializer-react-helmet-async-1.0.21.tgz#bf2aee7522909bc4c933a0911db236b92db4685c"
