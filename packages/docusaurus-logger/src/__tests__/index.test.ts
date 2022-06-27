@@ -8,25 +8,31 @@
 import {jest} from '@jest/globals';
 import logger from '../index';
 
-// cSpell:ignore mkeep
-
 describe('formatters', () => {
   it('path', () => {
-    expect(logger.path('keepAnsi')).toMatchInlineSnapshot(`"[36m[4m"keepAnsi"[24m[39m"`);
+    expect(logger.path('keepAnsi')).toMatchInlineSnapshot(
+      `"<cyan><underline>"keepAnsi"</underline></color>"`,
+    );
   });
   it('url', () => {
     expect(logger.url('https://docusaurus.io/keepAnsi')).toMatchInlineSnapshot(
-      `"[36m[4mhttps://docusaurus.io/keepAnsi[24m[39m"`,
+      `"<cyan><underline>https://docusaurus.io/keepAnsi</underline></color>"`,
     );
   });
   it('id', () => {
-    expect(logger.name('keepAnsi')).toMatchInlineSnapshot(`"[34m[1mkeepAnsi[22m[39m"`);
+    expect(logger.name('keepAnsi')).toMatchInlineSnapshot(
+      `"<blue><bold>keepAnsi</intensity></color>"`,
+    );
   });
   it('code', () => {
-    expect(logger.code('keepAnsi')).toMatchInlineSnapshot(`"[36m\`keepAnsi\`[39m"`);
+    expect(logger.code('keepAnsi')).toMatchInlineSnapshot(
+      `"<cyan>\`keepAnsi\`</color>"`,
+    );
   });
   it('subdue', () => {
-    expect(logger.subdue('keepAnsi')).toMatchInlineSnapshot(`"[90mkeepAnsi[39m"`);
+    expect(logger.subdue('keepAnsi')).toMatchInlineSnapshot(
+      `"<gray>keepAnsi</color>"`,
+    );
   });
 });
 
@@ -47,7 +53,7 @@ describe('interpolate', () => {
     expect(
       logger.interpolate`(keepAnsi) The package at path=${'packages/docusaurus'} has number=${10} files. name=${'Babel'} is exported here subdue=${'(as a preset)'} that you can with code=${"require.resolve('@docusaurus/core/lib/babel/preset')"}`,
     ).toMatchInlineSnapshot(
-      `"(keepAnsi) The package at [36m[4m"packages/docusaurus"[24m[39m has [33m10[39m files. [34m[1mBabel[22m[39m is exported here [90m(as a preset)[39m that you can with [36m\`require.resolve('@docusaurus/core/lib/babel/preset')\`[39m"`,
+      `"(keepAnsi) The package at <cyan><underline>"packages/docusaurus"</underline></color> has <yellow>10</color> files. <blue><bold>Babel</intensity></color> is exported here <gray>(as a preset)</color> that you can with <cyan>\`require.resolve('@docusaurus/core/lib/babel/preset')\`</color>"`,
     );
   });
   it('interpolates arrays with flags', () => {
@@ -59,9 +65,9 @@ describe('interpolate', () => {
       ]}`,
     ).toMatchInlineSnapshot(`
       "(keepAnsi) The following commands are available:
-      - [36m\`docusaurus start\`[39m
-      - [36m\`docusaurus build\`[39m
-      - [36m\`docusaurus deploy\`[39m"
+      - <cyan>\`docusaurus start\`</color>
+      - <cyan>\`docusaurus build\`</color>
+      - <cyan>\`docusaurus deploy\`</color>"
     `);
   });
   it('prints detached flags as-is', () => {
