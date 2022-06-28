@@ -2344,9 +2344,9 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
-    title: '7Wate`s Wiki',
+    title: "7Wate's Wiki",
     description: 'Developer Wiki and Blog',
-    preview: require('./showcase/7Wate`s-Wiki.png'),
+    preview: require('./showcase/7wate-wiki.png'),
     website: 'https://wiki.7wate.com/',
     source: 'https://github.com/7Wate/wiki',
     tags: ['opensource', 'personal'],
