@@ -20,8 +20,7 @@ import {
   normalizeFrontMatterTags,
 } from '@docusaurus/utils';
 
-import {getFileLastUpdate} from './lastUpdate';
-import {getFileCreate} from './create';
+import {getFileLastUpdate, getFileCreate} from './fileChangeData';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import {stripPathNumberPrefixes} from './numberPrefix';

@@ -11,7 +11,7 @@ import path from 'path';
 import shell from 'shelljs';
 import {createTempRepo} from '@testing-utils/git';
 
-import {getFileLastUpdate} from '../lastUpdate';
+import {getFileLastUpdate} from '../fileChangeData';
 
 describe('getFileLastUpdate', () => {
   const existingFilePath = path.join(
