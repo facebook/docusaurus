@@ -2327,6 +2327,15 @@ const Users: User[] = [
     source: 'https://github.com/Gary50613/yeecord-docs',
   },
   {
+    title: 'Zap!',
+    description:
+      "The Docuementation for zap! http client.",
+    website: 'https://sas2k.github.io/Zap/docs/build/',
+    preview: require('./showcase/Zap.png'),
+    tags: ['documentation', 'opensource'],
+    source: 'https://github.com/Sas2k/Zap'
+  },
+  {
     title: 'Zowe',
     description:
       'Open source framework for leveraging data and applications in z/OS',
