@@ -450,47 +450,44 @@ describe('validateDocFrontMatter create', () => {
   testField({
     prefix: 'create',
     validFrontMatters: [
-      {last_update: undefined},
-      {last_update: {author: 'test author', date: undefined}},
-      {last_update: {author: undefined, date: '1/1/2000'}},
-      {last_update: {author: undefined, date: new Date('1/1/2000')}},
-      {last_update: {author: 'test author', date: '1/1/2000'}},
-      {last_update: {author: 'test author', date: '1995-12-17T03:24:00'}},
-      {last_update: {author: undefined, date: 'December 17, 1995 03:24:00'}},
+      {create: undefined},
+      {create: {author: 'test author', date: undefined}},
+      {create: {author: undefined, date: '1/1/2000'}},
+      {create: {author: undefined, date: new Date('1/1/2000')}},
+      {create: {author: 'test author', date: '1/1/2000'}},
+      {create: {author: 'test author', date: '1995-12-17T03:24:00'}},
+      {create: {author: undefined, date: 'December 17, 1995 03:24:00'}},
     ],
     invalidFrontMatters: [
       [
-        {last_update: null},
+        {create: null},
         'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
       ],
       [
-        {last_update: {}},
+        {create: {}},
         'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
       ],
       [
-        {last_update: ''},
+        {create: ''},
         'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
       ],
       [
-        {last_update: {invalid: 'key'}},
+        {create: {invalid: 'key'}},
         'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
       ],
       [
-        {last_update: {author: 'test author', date: 'I am not a date :('}},
+        {create: {author: 'test author', date: 'I am not a date :('}},
         'must be a valid date',
       ],
       [
-        {last_update: {author: 'test author', date: '2011-10-45'}},
+        {create: {author: 'test author', date: '2011-10-45'}},
         'must be a valid date',
       ],
       [
-        {last_update: {author: 'test author', date: '2011-0-10'}},
+        {create: {author: 'test author', date: '2011-0-10'}},
         'must be a valid date',
       ],
-      [
-        {last_update: {author: 'test author', date: ''}},
-        'must be a valid date',
-      ],
+      [{create: {author: 'test author', date: ''}}, 'must be a valid date'],
     ],
   });
 });
