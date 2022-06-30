@@ -33,106 +33,77 @@ import type {
   DocMetadataBase,
   DocMetadata,
   PropNavigationLink,
-  LastUpdateData,
   VersionMetadata,
   DocFrontMatter,
   LoadedVersion,
   FileChange,
-  CreationData,
+  FileChangeData,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
 import type {DocFile} from './types';
 
-type LastUpdateOptions = Pick<
+type FileChangeOptions = Pick<
   PluginOptions,
-  'showLastUpdateAuthor' | 'showLastUpdateTime'
+  | 'showLastUpdateAuthor'
+  | 'showLastUpdateTime'
+  | 'showCreationAuthor'
+  | 'showCreationTime'
 >;
 
-async function readLastUpdateData(
+async function readFileChangeData(
   filePath: string,
-  options: LastUpdateOptions,
-  lastUpdateFrontMatter: FileChange | undefined,
-): Promise<LastUpdateData> {
-  const {showLastUpdateAuthor, showLastUpdateTime} = options;
-  if (showLastUpdateAuthor || showLastUpdateTime) {
-    const frontMatterTimestamp = lastUpdateFrontMatter?.date
-      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+  options: FileChangeOptions,
+  frontMatter: FileChange | undefined,
+  type: 'lastUpdate' | 'creation',
+): Promise<FileChangeData> {
+  const isLastUpdate = type === 'lastUpdate';
+  const showAuthor = isLastUpdate
+    ? options.showLastUpdateAuthor
+    : options.showCreationAuthor;
+  const showTime = isLastUpdate
+    ? options.showLastUpdateTime
+    : options.showCreationTime;
+  if (showAuthor || showTime) {
+    const frontMatterTimestamp = frontMatter?.date
+      ? new Date(frontMatter.date).getTime() / 1000
       : undefined;
 
-    if (lastUpdateFrontMatter?.author && lastUpdateFrontMatter.date) {
+    if (frontMatter?.author && frontMatter.date) {
       return {
-        lastUpdatedAt: frontMatterTimestamp,
-        lastUpdatedBy: lastUpdateFrontMatter.author,
+        changedAt: frontMatterTimestamp,
+        changedBy: frontMatter.author,
       };
     }
 
-    // Use fake data in dev for faster development.
-    const fileLastUpdateData =
+    const getLastUpdateData = async () =>
+      // Use fake data in dev for faster development.
       process.env.NODE_ENV === 'production'
-        ? await getFileLastUpdate(filePath)
+        ? getFileLastUpdate(filePath)
         : {
             author: 'Author',
             timestamp: 1539502055,
           };
-    const {author, timestamp} = fileLastUpdateData ?? {};
 
-    return {
-      lastUpdatedBy: showLastUpdateAuthor
-        ? lastUpdateFrontMatter?.author ?? author
-        : undefined,
-      lastUpdatedAt: showLastUpdateTime
-        ? frontMatterTimestamp ?? timestamp
-        : undefined,
-    };
-  }
-
-  return {};
-}
-
-type CreationOptions = Pick<
-  PluginOptions,
-  'showCreationAuthor' | 'showCreationTime'
->;
-
-async function readCreationData(
-  filePath: string,
-  options: CreationOptions,
-  createFrontMatter: FileChange | undefined,
-): Promise<CreationData> {
-  const {showCreationAuthor, showCreationTime} = options;
-  if (showCreationAuthor || showCreationTime) {
-    const frontMatterTimestamp = createFrontMatter?.date
-      ? new Date(createFrontMatter.date).getTime() / 1000
-      : undefined;
-
-    if (createFrontMatter?.author && createFrontMatter.date) {
-      return {
-        createdAt: frontMatterTimestamp,
-        createdBy: createFrontMatter.author,
-      };
-    }
-
-    // Use fake data in dev for faster development.
-    const fileCreateData =
+    const getCreationData = async () =>
+      // Use fake data in dev for faster development.
       process.env.NODE_ENV === 'production'
-        ? await getFileCreation(filePath)
+        ? getFileCreation(filePath)
         : {
             author: 'Creator',
             timestamp: 1539415655,
           };
-    const {author, timestamp} = fileCreateData ?? {};
+
+    const fileData = isLastUpdate
+      ? await getLastUpdateData()
+      : await getCreationData();
+    const {author, timestamp} = fileData ?? {};
 
     return {
-      createdBy: showCreationAuthor
-        ? createFrontMatter?.author ?? author
-        : undefined,
-      createdAt: showCreationTime
-        ? frontMatterTimestamp ?? timestamp
-        : undefined,
+      changedBy: showAuthor ? frontMatter?.author ?? author : undefined,
+      changedAt: showTime ? frontMatterTimestamp ?? timestamp : undefined,
     };
   }
-
   return {};
 }
 
@@ -217,16 +188,18 @@ async function doProcessDocMetadata({
     creation: creationFrontMatter,
   } = frontMatter;
 
-  const lastUpdate = await readLastUpdateData(
+  const lastUpdate = await readFileChangeData(
     filePath,
     options,
     lastUpdateFrontMatter,
+    'lastUpdate',
   );
 
-  const creation = await readCreationData(
+  const creation = await readFileChangeData(
     filePath,
     options,
     creationFrontMatter,
+    'creation',
   );
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
@@ -347,15 +320,15 @@ async function doProcessDocMetadata({
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
-    lastUpdatedBy: lastUpdate.lastUpdatedBy,
-    lastUpdatedAt: lastUpdate.lastUpdatedAt,
-    formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
-      ? formatTimestamp(lastUpdate.lastUpdatedAt)
+    lastUpdatedBy: lastUpdate.changedBy,
+    lastUpdatedAt: lastUpdate.changedAt,
+    formattedLastUpdatedAt: lastUpdate.changedAt
+      ? formatTimestamp(lastUpdate.changedAt)
       : undefined,
-    createdBy: creation.createdBy,
-    createdAt: creation.createdAt,
-    formattedCreatedAt: creation.createdAt
-      ? formatTimestamp(creation.createdAt)
+    createdBy: creation.changedBy,
+    createdAt: creation.changedAt,
+    formattedCreatedAt: creation.changedAt
+      ? formatTimestamp(creation.changedAt)
       : undefined,
     sidebarPosition,
     frontMatter,

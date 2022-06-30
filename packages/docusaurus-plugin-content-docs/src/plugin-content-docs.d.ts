@@ -389,22 +389,13 @@ declare module '@docusaurus/plugin-content-docs' {
     creation?: FileChange;
   };
 
-  export type LastUpdateData = {
+  export type FileChangeData = {
     /** A timestamp in **seconds**, directly acquired from `git log`. */
-    lastUpdatedAt?: number;
-    /** `lastUpdatedAt` formatted as a date according to the current locale. */
-    formattedLastUpdatedAt?: string;
+    changedAt?: number;
+    /** `changedAt` formatted as a date according to the current locale. */
+    formattedChangedAt?: string;
     /** The author's name directly acquired from `git log`. */
-    lastUpdatedBy?: string;
-  };
-
-  export type CreationData = {
-    /** A timestamp in **seconds**, directly acquired from `git log`. */
-    createdAt?: number;
-    /** `createdAt` formatted as a date according to the current locale. */
-    formattedCreatedAt?: string;
-    /** The author's name directly acquired from `git log`. */
-    createdBy?: string;
+    changedBy?: string;
   };
 
   export type DocMetadataBase = LastUpdateData &
