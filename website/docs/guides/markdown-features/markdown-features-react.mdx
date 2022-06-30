@@ -200,6 +200,33 @@ We use lower-case tag names like `highlight` to "pretend" that they are intrinsi
 
 :::
 
+:::caution
+
+This feature is powered by [a wrapper provider](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/advanced/components#mdxprovider). If you are importing Markdown in a React page, you have to supply this provider yourself through the `MDXContent` theme component.
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import FeatureDisplay from './_featureDisplay.mdx';
+// highlight-next-line
+import MDXContent from '@theme/MDXContent';
+
+export default function LandingPage() {
+  return (
+    <div>
+      {/* highlight-start */}
+      <MDXContent>
+        <FeatureDisplay />
+      </MDXContent>
+      {/* highlight-end */}
+    </div>
+  );
+}
+```
+
+If you don't wrap your imported MDX with `MDXContent`, the global scope will not be available.
+
+:::
+
 ### Markdown and JSX interoperability {#markdown-and-jsx-interoperability}
 
 Docusaurus v2 is using MDX v1, which has a lot of known cases where the content fails to be correctly parsed as Markdown. Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
@@ -420,8 +447,9 @@ Now I'm actually just text
 </div>
 </TabItem>
 </Tabs>
-</details>
 ```
+
+</details>
 
 ## Importing code snippets {#importing-code-snippets}
 
