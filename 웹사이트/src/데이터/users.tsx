@@ -1705,7 +1705,7 @@ const Users: User[] = [
     description: 'CSS Gradient Editor',
     preview: require('./showcase/red-gradient.png'),
     website: 'https://doc.red-gradient.com/',
-    source: 'https://github.com/redcamel/RedGradient',
+    source: 'https://github.com/redcamel/RedGradientDoc',
     tags: ['opensource'],
   },
   {
