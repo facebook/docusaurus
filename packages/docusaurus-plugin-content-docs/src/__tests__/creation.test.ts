@@ -13,16 +13,16 @@ import {createTempRepo} from '@testing-utils/git';
 
 import {getFileCreation} from '../fileChangeData';
 
-describe('getFileCreate', () => {
+describe('getFileCreation', () => {
   const existingFilePath = path.join(
     __dirname,
     '__fixtures__/simple-site/docs/hello.md',
   );
   it('existing test file in repository with Git timestamp', async () => {
-    const lastUpdateData = await getFileCreation(existingFilePath);
-    expect(lastUpdateData).not.toBeNull();
+    const creationData = await getFileCreation(existingFilePath);
+    expect(creationData).not.toBeNull();
 
-    const {author, timestamp} = lastUpdateData;
+    const {author, timestamp} = creationData;
     expect(author).not.toBeNull();
     expect(typeof author).toBe('string');
 
@@ -35,10 +35,10 @@ describe('getFileCreate', () => {
       __dirname,
       '__fixtures__/simple-site/docs/doc with space.md',
     );
-    const lastUpdateData = await getFileCreation(filePathWithSpace);
-    expect(lastUpdateData).not.toBeNull();
+    const creationData = await getFileCreation(filePathWithSpace);
+    expect(creationData).not.toBeNull();
 
-    const {author, timestamp} = lastUpdateData;
+    const {author, timestamp} = creationData;
     expect(author).not.toBeNull();
     expect(typeof author).toBe('string');
 
@@ -105,8 +105,8 @@ describe('getFileCreate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const lastUpdateData = await getFileCreation(existingFilePath);
-    expect(lastUpdateData).toBeNull();
+    const creationData = await getFileCreation(existingFilePath);
+    expect(creationData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* Sorry, the docs plugin creation options require Git\..*/,
