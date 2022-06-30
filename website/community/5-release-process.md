@@ -4,13 +4,13 @@ Let's see how Docusaurus handles **versioning, releases and breaking changes**.
 
 :::info
 
-This topic is particularly important for **highly customized sites** that have **difficulties to upgrade**.
+This topic is particularly important for **highly customized sites** that may have **difficulties to upgrade**.
 
 :::
 
-## Semantic versioning
+## Semantic versioning {#semantic-versioning}
 
-Docusaurus versioning is based on the `major.minor.patch` scheme and [Semantic Versioning](https://semver.org/).
+Docusaurus versioning is based on the `major.minor.patch` scheme and respects [Semantic Versioning](https://semver.org/).
 
 Respecting Semantic Versioning is important for multiple reasons:
 
@@ -59,13 +59,13 @@ If you only use our [public API surface](##public-api-surface), you should be ab
 
 :::
 
-### `patch` versions {#minor-versions}
+### `patch` versions {#patch-versions}
 
 The `patch` version number is incremented on bugfixes releases.
 
 Whenever a new patch version is released, we only publish an exhaustive changelog entry.
 
-## Versions development
+## Versions {#versions}
 
 ```mdx-code-block
 import {
@@ -76,18 +76,26 @@ import {
 } from "@site/src/components/Versions";
 ```
 
-The Docusaurus team is working on 2 major versions at the same time:
+The Docusaurus team is usually working on 2 major versions at the same time:
 
 - **Docusaurus <StableMajorVersion/>**: the **stable**, on the <StableMajorBranchLink/> branch
 - **Docusaurus <NextMajorVersion/>**: the **next** version, on the <NextMajorBranchLink/> branch
 
-### Stable version
+### Stable version {#stable-version}
 
 The stable version (v<StableMajorVersion/>, on <StableMajorBranchLink/>) is recommended for most Docusaurus users.
 
 We regularly backport retro-compatible features, bug and security fixes from <NextMajorBranchLink/> to <StableMajorBranchLink/> with `git cherry-pick` to make them available as soon as possible on a stable release.
 
-### Next version
+:::info
+
+When a new stable version is released, the former stable version will continue receiving support for **major security issues** during **3 months**.
+
+It is recommended to upgrade within that time frame to the new stable version.
+
+:::
+
+### Next version {#next-version}
 
 The next version (v<NextMajorVersion/>, on <NextMajorBranchLink/>) is the version the Docusaurus team is currently working on.
 
@@ -95,17 +103,101 @@ The <NextMajorBranchLink/> branch is the **default target branch** for all pull-
 
 This version is recommended for **early adopters** that want to use the latest Docusaurus features as soon as possible. It is also a good way to help us by reporting bugs and giving some feedback.
 
-There are 2 ways to use the next version:
+There are 3 ways to use the next version:
 
-- use a pre-release with an `alpha`, `beta` or `rc` tag
+- use an `alpha`, `beta` or `rc` pre-release
+- use the `@next` npm dist tag for the latest pre-release
 - use a [canary release](./4-canary.md) for the very latest features
+
+:::tip
+
+The next version passes all our automated tests and is used by the Docusaurus site itself.
+
+It is relatively safe: don't be afraid to give it a try.
+
+:::
 
 :::caution
 
-Breaking changes can happen on the next version, but they will be documented, and you shouldn't be afraid to give it a try.
+Breaking changes can happen on the next version: detailed upgrade instructions are available in the changelog and pull-requests.
 
-In particular at the `beta` and `rc` (release candidate) stage where we avoid introducing new breaking changes.
+At the `beta` and `rc` (release candidate), we avoid introducing new breaking changes.
 
 :::
 
 ## Public API surface {#public-api-surface}
+
+Respecting Semantic Versioning means incrementing the `major` version number on any change in Docusaurus public APIs that does not maintain backward compatibility.
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions.
+
+Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+Let's define what is our public API exactly.
+
+### Core public API {#core-public-api}
+
+✅ Our public API includes:
+
+- Docusaurus config
+- Docusaurus client APIs
+- Docusaurus CLI
+- Preset options
+- Plugin options
+- Plugin lifecycle APIs
+- Theme config
+- TypeScript types
+- Browser support
+
+:::tip
+
+Any documented API is considered public.
+
+Any undocumented API is considered as internal.
+
+:::
+
+### Theming public API {#theming-public-api}
+
+Docusaurus has a very flexible theming system:
+
+- You can use custom CSS
+- You can [swizzle](/docs/swizzling) any theme React component
+
+This system also implicitly creates a very large API surface.
+
+To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+
+✅ Our public theming API includes:
+
+- [Theme class names](/docs/styling-layout#theme-class-names)
+- [Infima](/docs/styling-layout#styling-your-site-with-infima) class names and CSS variables
+- React components that are [safe to swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- The theme user experience
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ Our public theming API **excludes**:
+
+- The DOM structure
+- CSS module class names with a hash suffix (usually targeted with `[class*='myClassName']` selectors)
+- React components that are [unsafe or forbidden to swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- React components importing from `@docusaurus/theme-common/internal`
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components importing undocumented APIs from `@docusaurus/theme-common`.
+
+We maintain retro-compatibility on those APIs, but don't encourage a direct usage.
+
+:::
