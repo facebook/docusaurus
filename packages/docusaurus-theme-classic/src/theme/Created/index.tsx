@@ -54,7 +54,7 @@ export default function Created({
   createdBy,
 }: Props): JSX.Element {
   return (
-    <span className={ThemeClassNames.common.lastUpdated}>
+    <span className={ThemeClassNames.common.created}>
       <Translate
         id="theme.created.createdAtBy"
         description="The sentence used to display when a page was created, and by who"
@@ -72,12 +72,6 @@ export default function Created({
         }}>
         {'Created{atDate}{byUser}'}
       </Translate>
-      {process.env.NODE_ENV === 'development' && (
-        <div>
-          {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
-          <small> (Simulated during dev for better perf)</small>
-        </div>
-      )}
     </span>
   );
 }

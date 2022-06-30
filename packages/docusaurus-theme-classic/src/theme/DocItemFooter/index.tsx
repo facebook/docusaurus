@@ -74,6 +74,13 @@ function EditMetaRow({
             />
           </div>
         )}
+        {process.env.NODE_ENV === 'development' &&
+          (lastUpdatedAt || lastUpdatedBy || createdAt || createdBy) && (
+            <div>
+              {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
+              <small> (Simulated during dev for better perf)</small>
+            </div>
+          )}
       </div>
     </div>
   );

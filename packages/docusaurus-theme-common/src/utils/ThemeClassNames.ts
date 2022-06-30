@@ -38,6 +38,7 @@ export const ThemeClassNames = {
   common: {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
+    created: 'theme-created',
     backToTopButton: 'theme-back-to-top-button',
     codeBlock: 'theme-code-block',
   },
