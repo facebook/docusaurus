@@ -74,14 +74,6 @@ export type TagType =
 // Add your site to this list
 // prettier-ignore
 const Users: User[] = [
-    {
-    title: 'RedGradient',
-    description: 'Css Gradient Editor',
-    preview: require('./showcase/red-gradient.png'),
-    website: 'https://doc.red-gradient.com/',
-    source: 'https://github.com/redcamel/RedGradient',
-    tags: ['opensource'],
-  },
   {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
@@ -1707,6 +1699,14 @@ const Users: User[] = [
     website: 'https://arifszn.github.io/reddit-image-fetcher',
     source: null,
     tags: [],
+  },
+  {
+    title: 'RedGradient',
+    description: 'CSS Gradient Editor',
+    preview: require('./showcase/red-gradient.png'),
+    website: 'https://doc.red-gradient.com/',
+    source: 'https://github.com/redcamel/RedGradient',
+    tags: ['opensource'],
   },
   {
     title: 'Redis Labs Developer Site',
