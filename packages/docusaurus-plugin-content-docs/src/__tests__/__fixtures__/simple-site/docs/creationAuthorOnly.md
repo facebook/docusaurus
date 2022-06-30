@@ -1,6 +1,6 @@
 ---
-title: Create Author Only
-create:
+title: Creation Author Only
+creation:
   author: Creator
 ---
 

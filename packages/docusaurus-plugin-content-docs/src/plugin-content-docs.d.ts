@@ -96,9 +96,9 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Whether to display the author who last updated the doc. */
     showLastUpdateAuthor?: boolean;
     /**	Whether to display the date the doc was created. */
-    showCreateTime?: boolean;
+    showCreationTime?: boolean;
     /** Whether to display the author who created the doc. */
-    showCreateAuthor?: boolean;
+    showCreationAuthor?: boolean;
     /**
      * Custom parsing logic to extract number prefixes from file names. Use
      * `false` to disable this behavior and leave the docs untouched, and `true`
@@ -385,8 +385,8 @@ declare module '@docusaurus/plugin-content-docs' {
     draft?: boolean;
     /** Allows overriding the last updated author and/or date. */
     last_update?: FileChange;
-    /** Allows overriding the created author and/or date. */
-    create?: FileChange;
+    /** Allows overriding the creation author and/or date. */
+    creation?: FileChange;
   };
 
   export type LastUpdateData = {
@@ -398,7 +398,7 @@ declare module '@docusaurus/plugin-content-docs' {
     lastUpdatedBy?: string;
   };
 
-  export type CreateData = {
+  export type CreationData = {
     /** A timestamp in **seconds**, directly acquired from `git log`. */
     createdAt?: number;
     /** `createdAt` formatted as a date according to the current locale. */
@@ -408,7 +408,7 @@ declare module '@docusaurus/plugin-content-docs' {
   };
 
   export type DocMetadataBase = LastUpdateData &
-    CreateData & {
+    CreationData & {
       // TODO
       /**
        * Legacy versioned ID. Will be refactored in the future to be unversioned.

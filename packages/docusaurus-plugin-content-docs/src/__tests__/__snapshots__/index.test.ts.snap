@@ -22,9 +22,9 @@ These sidebar document ids do not exist:
 - nonExistent
 
 Available document ids are:
-- createAuthorOnly
-- createDateOnly
-- customCreate
+- creationAuthorOnly
+- creationDateOnly
+- customCreation
 - customLastUpdate
 - doc with space
 - doc-draft
@@ -283,18 +283,18 @@ exports[`simple website content 5`] = `
         {
           "docs": [
             {
-              "id": "createAuthorOnly",
-              "path": "/docs/createAuthorOnly",
+              "id": "creationAuthorOnly",
+              "path": "/docs/creationAuthorOnly",
               "sidebar": undefined,
             },
             {
-              "id": "createDateOnly",
-              "path": "/docs/createDateOnly",
+              "id": "creationDateOnly",
+              "path": "/docs/creationDateOnly",
               "sidebar": undefined,
             },
             {
-              "id": "customCreate",
-              "path": "/docs/customCreate",
+              "id": "customCreation",
+              "path": "/docs/customCreation",
               "sidebar": undefined,
             },
             {
@@ -436,59 +436,59 @@ exports[`simple website content: data 1`] = `
     }
   }
 }",
-  "site-docs-create-author-only-md-e35.json": "{
-  "unversionedId": "createAuthorOnly",
-  "id": "createAuthorOnly",
-  "title": "Create Author Only",
+  "site-docs-creation-author-only-md-a64.json": "{
+  "unversionedId": "creationAuthorOnly",
+  "id": "creationAuthorOnly",
+  "title": "Creation Author Only",
   "description": "Only custom author, so it will still use the date from Git",
-  "source": "@site/docs/createAuthorOnly.md",
+  "source": "@site/docs/creationAuthorOnly.md",
   "sourceDirName": ".",
-  "slug": "/createAuthorOnly",
-  "permalink": "/docs/createAuthorOnly",
+  "slug": "/creationAuthorOnly",
+  "permalink": "/docs/creationAuthorOnly",
   "draft": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
-    "title": "Create Author Only",
-    "create": {
+    "title": "Creation Author Only",
+    "creation": {
       "author": "Creator"
     }
   }
 }",
-  "site-docs-create-date-only-md-b89.json": "{
-  "unversionedId": "createDateOnly",
-  "id": "createDateOnly",
-  "title": "Create Date Only",
+  "site-docs-creation-date-only-md-a25.json": "{
+  "unversionedId": "creationDateOnly",
+  "id": "creationDateOnly",
+  "title": "Creation Date Only",
   "description": "Only custom date, so it will still use the author from Git",
-  "source": "@site/docs/createDateOnly.md",
+  "source": "@site/docs/creationDateOnly.md",
   "sourceDirName": ".",
-  "slug": "/createDateOnly",
-  "permalink": "/docs/createDateOnly",
+  "slug": "/creationDateOnly",
+  "permalink": "/docs/creationDateOnly",
   "draft": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
-    "title": "Create Date Only",
-    "create": {
+    "title": "Creation Date Only",
+    "creation": {
       "date": "1/1/1999"
     }
   }
 }",
-  "site-docs-custom-create-md-00b.json": "{
-  "unversionedId": "customCreate",
-  "id": "customCreate",
-  "title": "Custom Create",
-  "description": "Custom create",
-  "source": "@site/docs/customCreate.md",
+  "site-docs-custom-creation-md-4e2.json": "{
+  "unversionedId": "customCreation",
+  "id": "customCreation",
+  "title": "Custom Creation",
+  "description": "Custom creation",
+  "source": "@site/docs/customCreation.md",
   "sourceDirName": ".",
-  "slug": "/customCreate",
-  "permalink": "/docs/customCreate",
+  "slug": "/customCreation",
+  "permalink": "/docs/customCreation",
   "draft": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
-    "title": "Custom Create",
-    "create": {
+    "title": "Custom Creation",
+    "creation": {
       "author": "Creator",
       "date": "1/1/1999"
     }
@@ -1085,20 +1085,20 @@ exports[`simple website content: data 1`] = `
     ]
   },
   "docs": {
-    "createAuthorOnly": {
-      "id": "createAuthorOnly",
-      "title": "Create Author Only",
+    "creationAuthorOnly": {
+      "id": "creationAuthorOnly",
+      "title": "Creation Author Only",
       "description": "Only custom author, so it will still use the date from Git"
     },
-    "createDateOnly": {
-      "id": "createDateOnly",
-      "title": "Create Date Only",
+    "creationDateOnly": {
+      "id": "creationDateOnly",
+      "title": "Creation Date Only",
       "description": "Only custom date, so it will still use the author from Git"
     },
-    "customCreate": {
-      "id": "customCreate",
-      "title": "Custom Create",
-      "description": "Custom create"
+    "customCreation": {
+      "id": "customCreation",
+      "title": "Custom Creation",
+      "description": "Custom creation"
     },
     "customLastUpdate": {
       "id": "customLastUpdate",
@@ -1218,18 +1218,18 @@ exports[`simple website content: global data 1`] = `
         {
           "docs": [
             {
-              "id": "createAuthorOnly",
-              "path": "/docs/createAuthorOnly",
+              "id": "creationAuthorOnly",
+              "path": "/docs/creationAuthorOnly",
               "sidebar": undefined,
             },
             {
-              "id": "createDateOnly",
-              "path": "/docs/createDateOnly",
+              "id": "creationDateOnly",
+              "path": "/docs/creationDateOnly",
               "sidebar": undefined,
             },
             {
-              "id": "customCreate",
-              "path": "/docs/customCreate",
+              "id": "customCreation",
+              "path": "/docs/customCreation",
               "sidebar": undefined,
             },
             {
@@ -1427,25 +1427,25 @@ exports[`simple website content: route config 1`] = `
         "component": "@theme/DocItem",
         "exact": true,
         "modules": {
-          "content": "@site/docs/createAuthorOnly.md",
+          "content": "@site/docs/creationAuthorOnly.md",
         },
-        "path": "/docs/createAuthorOnly",
+        "path": "/docs/creationAuthorOnly",
       },
       {
         "component": "@theme/DocItem",
         "exact": true,
         "modules": {
-          "content": "@site/docs/createDateOnly.md",
+          "content": "@site/docs/creationDateOnly.md",
         },
-        "path": "/docs/createDateOnly",
+        "path": "/docs/creationDateOnly",
       },
       {
         "component": "@theme/DocItem",
         "exact": true,
         "modules": {
-          "content": "@site/docs/customCreate.md",
+          "content": "@site/docs/customCreation.md",
         },
-        "path": "/docs/customCreate",
+        "path": "/docs/customCreation",
       },
       {
         "component": "@theme/DocItem",

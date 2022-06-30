@@ -31,8 +31,8 @@ const dogfoodingPluginInstances = [
       path: '_dogfooding/_docs tests',
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
-      showCreateTime: true,
-      showCreateAuthor: true,
+      showCreationTime: true,
+      showCreationAuthor: true,
       sidebarItemsGenerator(args) {
         return args.defaultSidebarItemsGenerator({
           ...args,

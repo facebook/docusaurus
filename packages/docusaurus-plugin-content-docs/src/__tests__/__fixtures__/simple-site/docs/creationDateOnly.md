@@ -1,6 +1,6 @@
 ---
-title: Create Date Only
-create:
+title: Creation Date Only
+creation:
   date: 1/1/1999
 ---
 

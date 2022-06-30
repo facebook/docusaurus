@@ -234,9 +234,9 @@ describe('simple site', () => {
         'customLastUpdate.md',
         'lastUpdateAuthorOnly.md',
         'lastUpdateDateOnly.md',
-        'customCreate.md',
-        'createAuthorOnly.md',
-        'createDateOnly.md',
+        'customCreation.md',
+        'creationAuthorOnly.md',
+        'creationDateOnly.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -646,12 +646,12 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with create time and author', async () => {
+  it('docs with creation time and author', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
-          showCreateAuthor: true,
-          showCreateTime: true,
+          showCreationAuthor: true,
+          showCreationTime: true,
         },
       });
 
@@ -683,12 +683,12 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with create front matter', async () => {
+  it('docs with creation front matter', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
-          showCreateAuthor: true,
-          showCreateTime: true,
+          showCreationAuthor: true,
+          showCreationTime: true,
         },
       });
 
@@ -699,21 +699,21 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    await testUtilsLocal.testMeta('customCreate.md', {
+    await testUtilsLocal.testMeta('customCreation.md', {
       version: 'current',
-      id: 'customCreate',
-      unversionedId: 'customCreate',
+      id: 'customCreation',
+      unversionedId: 'customCreation',
       sourceDirName: '.',
-      permalink: '/docs/customCreate',
-      slug: '/customCreate',
-      title: 'Custom Create',
-      description: 'Custom create',
+      permalink: '/docs/customCreation',
+      slug: '/customCreation',
+      title: 'Custom Creation',
+      description: 'Custom creation',
       frontMatter: {
-        create: {
+        creation: {
           author: 'Creator',
           date: '1/1/1999',
         },
-        title: 'Custom Create',
+        title: 'Custom Creation',
       },
       createdAt: new Date('1/1/1999').getTime() / 1000,
       formattedCreatedAt: '1/1/1999',
@@ -723,12 +723,12 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with only create author front matter', async () => {
+  it('docs with only creation author front matter', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
-          showCreateAuthor: true,
-          showCreateTime: true,
+          showCreationAuthor: true,
+          showCreationTime: true,
         },
       });
 
@@ -739,20 +739,20 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    await testUtilsLocal.testMeta('createAuthorOnly.md', {
+    await testUtilsLocal.testMeta('creationAuthorOnly.md', {
       version: 'current',
-      id: 'createAuthorOnly',
-      unversionedId: 'createAuthorOnly',
+      id: 'creationAuthorOnly',
+      unversionedId: 'creationAuthorOnly',
       sourceDirName: '.',
-      permalink: '/docs/createAuthorOnly',
-      slug: '/createAuthorOnly',
-      title: 'Create Author Only',
+      permalink: '/docs/creationAuthorOnly',
+      slug: '/creationAuthorOnly',
+      title: 'Creation Author Only',
       description: 'Only custom author, so it will still use the date from Git',
       frontMatter: {
-        create: {
+        creation: {
           author: 'Creator',
         },
-        title: 'Create Author Only',
+        title: 'Creation Author Only',
       },
       createdAt: 1539415655,
       formattedCreatedAt: '10/13/2018',
@@ -762,12 +762,12 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with only create date front matter', async () => {
+  it('docs with only creation date front matter', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
-          showCreateAuthor: true,
-          showCreateTime: true,
+          showCreationAuthor: true,
+          showCreationTime: true,
         },
       });
 
@@ -778,20 +778,20 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    await testUtilsLocal.testMeta('createDateOnly.md', {
+    await testUtilsLocal.testMeta('creationDateOnly.md', {
       version: 'current',
-      id: 'createDateOnly',
-      unversionedId: 'createDateOnly',
+      id: 'creationDateOnly',
+      unversionedId: 'creationDateOnly',
       sourceDirName: '.',
-      permalink: '/docs/createDateOnly',
-      slug: '/createDateOnly',
-      title: 'Create Date Only',
+      permalink: '/docs/creationDateOnly',
+      slug: '/creationDateOnly',
+      title: 'Creation Date Only',
       description: 'Only custom date, so it will still use the author from Git',
       frontMatter: {
-        create: {
+        creation: {
           date: '1/1/1999',
         },
-        title: 'Create Date Only',
+        title: 'Creation Date Only',
       },
       createdAt: new Date('1/1/1999').getTime() / 1000,
       formattedCreatedAt: '1/1/1999',
@@ -801,12 +801,12 @@ describe('simple site', () => {
     });
   });
 
-  it('docs with showCreate disabled', async () => {
+  it('docs with showCreation disabled', async () => {
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
         options: {
-          showCreateAuthor: false,
-          showCreateTime: false,
+          showCreationAuthor: false,
+          showCreationTime: false,
         },
       });
 
@@ -817,21 +817,21 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    await testUtilsLocal.testMeta('customCreate.md', {
+    await testUtilsLocal.testMeta('customCreation.md', {
       version: 'current',
-      id: 'customCreate',
-      unversionedId: 'customCreate',
+      id: 'customCreation',
+      unversionedId: 'customCreation',
       sourceDirName: '.',
-      permalink: '/docs/customCreate',
-      slug: '/customCreate',
-      title: 'Custom Create',
-      description: 'Custom create',
+      permalink: '/docs/customCreation',
+      slug: '/customCreation',
+      title: 'Custom Creation',
+      description: 'Custom creation',
       frontMatter: {
-        create: {
+        creation: {
           author: 'Creator',
           date: '1/1/1999',
         },
-        title: 'Custom Create',
+        title: 'Custom Creation',
       },
       createdAt: undefined,
       formattedCreatedAt: undefined,

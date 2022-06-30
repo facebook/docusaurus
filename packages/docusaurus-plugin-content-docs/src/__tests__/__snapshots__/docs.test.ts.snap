@@ -4,33 +4,33 @@ exports[`simple site custom pagination 1`] = `
 {
   "pagination": [
     {
-      "id": "createAuthorOnly",
+      "id": "creationAuthorOnly",
       "next": {
-        "permalink": "/docs/createDateOnly",
-        "title": "Create Date Only",
+        "permalink": "/docs/creationDateOnly",
+        "title": "Creation Date Only",
       },
       "prev": undefined,
     },
     {
-      "id": "createDateOnly",
+      "id": "creationDateOnly",
       "next": {
-        "permalink": "/docs/customCreate",
-        "title": "Custom Create",
+        "permalink": "/docs/customCreation",
+        "title": "Custom Creation",
       },
       "prev": {
-        "permalink": "/docs/createAuthorOnly",
-        "title": "Create Author Only",
+        "permalink": "/docs/creationAuthorOnly",
+        "title": "Creation Author Only",
       },
     },
     {
-      "id": "customCreate",
+      "id": "customCreation",
       "next": {
         "permalink": "/docs/customLastUpdate",
         "title": "Custom Last Update",
       },
       "prev": {
-        "permalink": "/docs/createDateOnly",
-        "title": "Create Date Only",
+        "permalink": "/docs/creationDateOnly",
+        "title": "Creation Date Only",
       },
     },
     {
@@ -40,8 +40,8 @@ exports[`simple site custom pagination 1`] = `
         "title": "Hoo hoo, if this path tricks you...",
       },
       "prev": {
-        "permalink": "/docs/customCreate",
-        "title": "Custom Create",
+        "permalink": "/docs/customCreation",
+        "title": "Custom Creation",
       },
     },
     {
@@ -237,15 +237,15 @@ exports[`simple site custom pagination 1`] = `
   "sidebars": {
     "defaultSidebar": [
       {
-        "id": "createAuthorOnly",
+        "id": "creationAuthorOnly",
         "type": "doc",
       },
       {
-        "id": "createDateOnly",
+        "id": "creationDateOnly",
         "type": "doc",
       },
       {
-        "id": "customCreate",
+        "id": "customCreation",
         "type": "doc",
       },
       {

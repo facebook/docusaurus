@@ -55,8 +55,8 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the doc. |
 | `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the doc was updated. |
-| `showCreateAuthor` | `boolean` | `false` | Whether to display the author who created the doc. |
-| `showCreateTime` | `boolean` | `false` | Whether to display the date the doc was created. |
+| `showCreationAuthor` | `boolean` | `false` | Whether to display the author who created the doc. |
+| `showCreationTime` | `boolean` | `false` | Whether to display the date the doc was created. |
 | `breadcrumbs` | `boolean` | `true` | Enable or disable the breadcrumbs on doc pages. |
 | `disableVersioning` | `boolean` | `false` | Explicitly disable versioning even when multiple versions exist. This will make the site only include the current version. Will error if `includeCurrentVersion: false` and `disableVersioning: true`. |
 | `includeCurrentVersion` | `boolean` | `true` | Include the current version of your docs. |
@@ -284,7 +284,7 @@ Accepted fields:
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 | `draft` | `boolean` | `false` | A boolean flag to indicate that a document is a work-in-progress. Draft documents will only be displayed during development. |
 | `last_update` | `FileChange` | `undefined` | Allows overriding the last updated author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
-| `create` | `FileChange` | `undefined` | Allows overriding the created author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
+| `create` | `FileChange` | `undefined` | Allows overriding the creation author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
 
 </APITable>
 

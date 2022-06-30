@@ -56,7 +56,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   draft: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
   last_update: fileChangeValidation,
-  create: fileChangeValidation,
+  creation: fileChangeValidation,
 }).unknown();
 
 export function validateDocFrontMatter(frontMatter: {

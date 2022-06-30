@@ -23,7 +23,7 @@ const sidebars = {
     'doc-without-sidebar',
     'doc-with-another-sidebar',
     'doc-with-last-update',
-    'doc-with-create',
+    'doc-with-creation',
     {
       type: 'category',
       label: 'Tests',

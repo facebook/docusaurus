@@ -53,7 +53,7 @@ export async function getFileLastUpdate(
 let showedCreationGitRequirementError = false;
 let showedCreationFileNotTrackedError = false;
 
-export async function getFileCreate(
+export async function getFileCreation(
   filePath?: string,
 ): Promise<{timestamp: number; author: string} | null> {
   if (!filePath) {
@@ -71,13 +71,13 @@ export async function getFileCreate(
   } catch (err) {
     if (err instanceof GitNotFoundError) {
       if (!showedCreationGitRequirementError) {
-        logger.warn('Sorry, the docs plugin create options require Git.');
+        logger.warn('Sorry, the docs plugin creation options require Git.');
         showedCreationGitRequirementError = true;
       }
     } else if (err instanceof FileNotTrackedError) {
       if (!showedCreationFileNotTrackedError) {
         logger.warn(
-          'Cannot infer the create date for some files, as they are not tracked by git.',
+          'Cannot infer the creation date for some files, as they are not tracked by git.',
         );
         showedCreationFileNotTrackedError = true;
       }

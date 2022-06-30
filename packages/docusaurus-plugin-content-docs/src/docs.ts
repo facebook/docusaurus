@@ -20,7 +20,7 @@ import {
   normalizeFrontMatterTags,
 } from '@docusaurus/utils';
 
-import {getFileLastUpdate, getFileCreate} from './fileChangeData';
+import {getFileLastUpdate, getFileCreation} from './fileChangeData';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -38,7 +38,7 @@ import type {
   DocFrontMatter,
   LoadedVersion,
   FileChange,
-  CreateData,
+  CreationData,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -90,15 +90,18 @@ async function readLastUpdateData(
   return {};
 }
 
-type CreateOptions = Pick<PluginOptions, 'showCreateAuthor' | 'showCreateTime'>;
+type CreationOptions = Pick<
+  PluginOptions,
+  'showCreationAuthor' | 'showCreationTime'
+>;
 
-async function readCreateData(
+async function readCreationData(
   filePath: string,
-  options: CreateOptions,
+  options: CreationOptions,
   createFrontMatter: FileChange | undefined,
-): Promise<CreateData> {
-  const {showCreateAuthor, showCreateTime} = options;
-  if (showCreateAuthor || showCreateTime) {
+): Promise<CreationData> {
+  const {showCreationAuthor, showCreationTime} = options;
+  if (showCreationAuthor || showCreationTime) {
     const frontMatterTimestamp = createFrontMatter?.date
       ? new Date(createFrontMatter.date).getTime() / 1000
       : undefined;
@@ -113,7 +116,7 @@ async function readCreateData(
     // Use fake data in dev for faster development.
     const fileCreateData =
       process.env.NODE_ENV === 'production'
-        ? await getFileCreate(filePath)
+        ? await getFileCreation(filePath)
         : {
             author: 'Creator',
             timestamp: 1539415655,
@@ -121,10 +124,12 @@ async function readCreateData(
     const {author, timestamp} = fileCreateData ?? {};
 
     return {
-      createdBy: showCreateAuthor
+      createdBy: showCreationAuthor
         ? createFrontMatter?.author ?? author
         : undefined,
-      createdAt: showCreateTime ? frontMatterTimestamp ?? timestamp : undefined,
+      createdAt: showCreationTime
+        ? frontMatterTimestamp ?? timestamp
+        : undefined,
     };
   }
 
@@ -209,7 +214,7 @@ async function doProcessDocMetadata({
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
-    create: createFrontMatter,
+    creation: creationFrontMatter,
   } = frontMatter;
 
   const lastUpdate = await readLastUpdateData(
@@ -218,7 +223,11 @@ async function doProcessDocMetadata({
     lastUpdateFrontMatter,
   );
 
-  const create = await readCreateData(filePath, options, createFrontMatter);
+  const creation = await readCreationData(
+    filePath,
+    options,
+    creationFrontMatter,
+  );
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -343,10 +352,10 @@ async function doProcessDocMetadata({
     formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
       ? formatTimestamp(lastUpdate.lastUpdatedAt)
       : undefined,
-    createdBy: create.createdBy,
-    createdAt: create.createdAt,
-    formattedCreatedAt: create.createdAt
-      ? formatTimestamp(create.createdAt)
+    createdBy: creation.createdBy,
+    createdAt: creation.createdAt,
+    formattedCreatedAt: creation.createdAt
+      ? formatTimestamp(creation.createdAt)
       : undefined,
     sidebarPosition,
     frontMatter,
