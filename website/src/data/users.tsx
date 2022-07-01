@@ -48,7 +48,7 @@ import {sortBy} from '@site/src/utils/jsUtils';
  */
 
 // LIST OF AVAILABLE TAGS
-// Available tags to assign to your site 
+// Available tags to assign to your site
 // Please choose all tags that you think might apply.
 // We'll remove inappropriate tags, but it's less likely that we add tags.
 export type TagType =
