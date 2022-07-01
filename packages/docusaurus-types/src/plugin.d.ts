@@ -91,7 +91,7 @@ export type ThemeConfigValidationContext<In, Out = In> = {
   themeConfig: In;
 };
 
-type HtmlTagObject = {
+export type HtmlTagObject = {
   /**
    * Attributes of the html tag.
    * E.g. `{ disabled: true, value: "demo", rel: "preconnect" }`

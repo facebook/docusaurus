@@ -59,6 +59,7 @@ export {
   AllContent,
   ConfigureWebpackUtils,
   PostCssOptions,
+  HtmlTagObject,
   HtmlTags,
 } from './plugin';
 
