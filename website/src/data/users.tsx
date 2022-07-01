@@ -1260,10 +1260,10 @@ const Users: User[] = [
     title: 'Novu',
     description:
       'The open-source notification infrastructure for developers',
-    preview: require('./showcase/nocalhost.png'),
+    preview: require('./showcase/novu-docs.png'),
     website: 'https://docs.novu.co/',
     source: 'https://github.com/novuhq/novu',
-    tags: ['opensource', 'product', 'design', 'notifications'],
+    tags: ['opensource', 'product', 'design'],
   },
   {
     title: 'Nocalhost',
