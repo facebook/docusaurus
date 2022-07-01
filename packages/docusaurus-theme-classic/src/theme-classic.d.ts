@@ -114,9 +114,9 @@ declare module '@theme/BlogPostItem/Container' {
   import type {ReactNode} from 'react';
   import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
 
-  export interface Props extends BlogPostItemProps {
+  export type Props = Omit<BlogPostItemProps, 'children'> & {
     children: ReactNode;
-  }
+  };
 
   export default function BlogPostItemContainer(props: Props): JSX.Element;
 }
@@ -124,7 +124,7 @@ declare module '@theme/BlogPostItem/Container' {
 declare module '@theme/BlogPostItem/Header' {
   import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
 
-  export interface Props extends BlogPostItemProps {}
+  export type Props = Omit<BlogPostItemProps, 'children'>;
 
   export default function BlogPostItemHeader(props: Props): JSX.Element;
 }
@@ -132,7 +132,7 @@ declare module '@theme/BlogPostItem/Header' {
 declare module '@theme/BlogPostItem/Header/Title' {
   import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
 
-  export interface Props extends BlogPostItemProps {}
+  export type Props = Omit<BlogPostItemProps, 'children'>;
 
   export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
 }
@@ -140,7 +140,7 @@ declare module '@theme/BlogPostItem/Header/Title' {
 declare module '@theme/BlogPostItem/Header/Metadata' {
   import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
 
-  export interface Props extends BlogPostItemProps {}
+  export type Props = Omit<BlogPostItemProps, 'children'>;
 
   export default function BlogPostItemHeaderMetadata(props: Props): JSX.Element;
 }
@@ -156,7 +156,7 @@ declare module '@theme/BlogPostItem/Content' {
 declare module '@theme/BlogPostItem/Footer' {
   import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
 
-  export interface Props extends BlogPostItemProps {}
+  export type Props = Omit<BlogPostItemProps, 'children'>;
 
   export default function BlogPostItemFooter(props: Props): JSX.Element | null;
 }
