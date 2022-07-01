@@ -228,6 +228,12 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   clientModules: Joi.array()
     .items(Joi.string())
     .default(DEFAULT_CONFIG.clientModules),
+  orphanPages: Joi.object({
+    onOrphanPage: Joi.string()
+      .equal('ignore', 'log', 'warn', 'error', 'throw')
+      .default('warn'),
+    entryPoints: Joi.array().items(Joi.string()).default([]),
+  }),
   tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
   titleDelimiter: Joi.string().default(DEFAULT_CONFIG.titleDelimiter),
   noIndex: Joi.bool().default(DEFAULT_CONFIG.noIndex),

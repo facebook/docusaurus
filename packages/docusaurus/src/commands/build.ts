@@ -134,12 +134,7 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {
-      baseUrl,
-      onBrokenLinks,
-      staticDirectories: staticDirectoriesOption,
-    },
-    routes,
+    siteConfig: {staticDirectories: staticDirectoriesOption},
   } = props;
 
   const clientManifestPath = path.join(
@@ -266,13 +261,7 @@ async function buildLocale({
     }),
   );
 
-  await handleBrokenLinks({
-    allCollectedLinks,
-    routes,
-    onBrokenLinks,
-    outDir,
-    baseUrl,
-  });
+  await handleBrokenLinks({allCollectedLinks, props});
 
   logger.success`Generated static files in path=${path.relative(
     process.cwd(),
