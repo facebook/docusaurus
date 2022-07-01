@@ -92,7 +92,7 @@ export function StableVersion(): JSX.Element {
   return <span>{currentVersion}</span>;
 }
 
-// TODO temporary: assumes main is already on v3 (not already the case)
+// TODO temporary: assumes main is already on v3 (not the case yet)
 function useNextMajorVersionNumber(): number {
   return 3; // TODO later read from main@package.json or something...
 }
