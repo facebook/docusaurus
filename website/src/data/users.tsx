@@ -1701,6 +1701,14 @@ const Users: User[] = [
     tags: [],
   },
   {
+    title: 'RedGradient',
+    description: 'CSS Gradient Editor',
+    preview: require('./showcase/red-gradient.png'),
+    website: 'https://doc.red-gradient.com/',
+    source: 'https://github.com/redcamel/RedGradientDoc',
+    tags: ['opensource'],
+  },
+  {
     title: 'Redis Labs Developer Site',
     description: 'The Home of Redis Developers',
     preview: require('./showcase/redis-developer.png'),
