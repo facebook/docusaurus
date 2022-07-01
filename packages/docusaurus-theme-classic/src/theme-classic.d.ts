@@ -110,6 +110,69 @@ declare module '@theme/BlogPostItem' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/BlogPostItem/Container' {
+  import type {ReactNode} from 'react';
+  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+
+  export interface Props extends BlogPostItemProps {
+    children: ReactNode;
+  }
+
+  export default function BlogPostItemContainer(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header' {
+  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+
+  export interface Props extends BlogPostItemProps {}
+
+  export default function BlogPostItemHeader(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Title' {
+  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+
+  export interface Props extends BlogPostItemProps {}
+
+  export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Metadata' {
+  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+
+  export interface Props extends BlogPostItemProps {}
+
+  export default function BlogPostItemHeaderMetadata(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Content' {
+  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+
+  export interface Props extends BlogPostItemProps {}
+
+  export default function BlogPostItemContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Footer' {
+  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+
+  export interface Props extends BlogPostItemProps {}
+
+  export default function BlogPostItemFooter(props: Props): JSX.Element | null;
+}
+
+declare module '@theme/BlogPostItem/Footer/ReadMoreLink' {
+  import type {Props as LinkProps} from '@docusaurus/Link';
+
+  export type Props = LinkProps & {
+    blogPostTitle: string;
+  };
+
+  export default function BlogPostItemFooterReadMoreLink(
+    props: Props,
+  ): JSX.Element | null;
+}
+
 declare module '@theme/BlogPostAuthor' {
   import type {Metadata} from '@theme/BlogPostPage';
 
