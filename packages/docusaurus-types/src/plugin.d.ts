@@ -14,6 +14,7 @@ import type {HelmetServerState} from 'react-helmet-async';
 import type {ThemeConfig} from './config';
 import type {LoadContext, Props} from './context';
 import type {SwizzleConfig} from './swizzle';
+import type {RouteConfig} from './routing';
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
