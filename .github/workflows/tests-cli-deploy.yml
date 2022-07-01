@@ -49,9 +49,9 @@ jobs:
       # We run twice the same CLI deployment command
       # The script has different code for new vs existing remote branch
       - name: Test CLI deployment 1 (new branch)
-        run: DEPLOYMENT_BRANCH=ci-deploy-test-branch yarn workspace website deploy --skip-build
+        run: GIT_USER=docusaurus-bot USE_SSH=false DEPLOYMENT_BRANCH=ci-deploy-test-branch yarn workspace website deploy --skip-build
       - name: Test CLI deployment 2 (existing branch)
-        run: DEPLOYMENT_BRANCH=ci-deploy-test-branch yarn workspace website deploy --skip-build
+        run: GIT_USER=docusaurus-bot USE_SSH=false DEPLOYMENT_BRANCH=ci-deploy-test-branch yarn workspace website deploy --skip-build
 
       - name: Cleanup Deployment Git Branch
         run: git push origin --delete ci-deploy-test-branch
