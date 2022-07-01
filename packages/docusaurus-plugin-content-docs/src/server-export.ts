@@ -6,6 +6,10 @@
  */
 
 // APIs available to Node.js
+// Those are undocumented but used by some third-party plugins
+// For this reason it's preferable to avoid doing breaking changes
+// See also https://github.com/facebook/docusaurus/pull/6477
+
 export {
   CURRENT_VERSION_NAME,
   VERSIONED_DOCS_DIR,
