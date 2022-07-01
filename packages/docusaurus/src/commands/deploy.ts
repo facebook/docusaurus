@@ -14,8 +14,6 @@ import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext, type LoadContextOptions} from '../server';
 import {build} from './build';
 
-// Test temporary comment to trigger CI
-
 export type DeployCLIOptions = Pick<
   LoadContextOptions,
   'config' | 'locale' | 'outDir'

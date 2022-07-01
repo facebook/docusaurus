@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - packages/docusaurus/src/commands/deploy.ts
+      - .github/workflows/tests-cli-deploy.yml
 
 # We queue those jobs on purpose to avoid race conditions
 # Using a single static deploy branch: good enough
