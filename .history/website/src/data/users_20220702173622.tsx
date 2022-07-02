@@ -74,14 +74,6 @@ export type TagType =
 // Add your site to this list
 // prettier-ignore
 const Users: User[] = [
-   {
-    title: 'pincman\'s website',
-    description: 'A very good full stack development teaching website',
-    preview: require('./showcase/pincman.png'),
-    website: 'https://pincman.com/',
-    source: 'https://github.com/rowfishjs/rowfis',
-    tags: ['opensource','design','personal'],
-  },
   {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
