@@ -3,7 +3,6 @@ __mocks__
 dist
 node_modules
 .yarn
-.history
 build
 coverage
 jest.config.js
