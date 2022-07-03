@@ -1,0 +1,12 @@
+{
+  "theme.SearchBar.label": "Sök",
+  "theme.SearchBar.seeAll": "Se alla {count} resultat",
+  "theme.SearchPage.algoliaLabel": "Search by Algolia",
+  "theme.SearchPage.documentsFound.plurals": "Ett dokument hittades|{count} dokument hittades",
+  "theme.SearchPage.emptyResultsTitle": "Sök genom dokumentationen",
+  "theme.SearchPage.existingResultsTitle": "Sökresultat för \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "Hämtar nya resultat...",
+  "theme.SearchPage.inputLabel": "Sök",
+  "theme.SearchPage.inputPlaceholder": "Skriv din sökning här",
+  "theme.SearchPage.noResultsText": "Inget resultat hittades"
+}
