@@ -39,9 +39,9 @@
     "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",
-    "clsx": "^1.1.1",
+    "clsx": "^1.2.0",
     "parse-numeric-range": "^1.3.0",
-    "prism-react-renderer": "^1.3.3",
+    "prism-react-renderer": "^1.3.5",
     "tslib": "^2.4.0",
     "utility-types": "^3.10.0"
   },
