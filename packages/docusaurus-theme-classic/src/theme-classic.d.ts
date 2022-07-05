@@ -596,14 +596,14 @@ declare module '@theme/Layout' {
   export default function Layout(props: Props): JSX.Element;
 }
 
-declare module '@theme/LayoutProviders' {
+declare module '@theme/Layout/Provider' {
   import type {ReactNode} from 'react';
 
   export interface Props {
     readonly children: ReactNode;
   }
 
-  export default function LayoutProviders(props: Props): JSX.Element;
+  export default function LayoutProvider(props: Props): JSX.Element;
 }
 
 declare module '@theme/SearchMetadata' {
@@ -1103,7 +1103,7 @@ declare module '@theme/TOCItems' {
 }
 
 declare module '@theme/TOCItems/Tree' {
-  import type {TOCTreeNode} from '@docusaurus/theme-common';
+  import type {TOCTreeNode} from '@docusaurus/theme-common/internal';
 
   export interface Props {
     readonly toc: readonly TOCTreeNode[];

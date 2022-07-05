@@ -16,7 +16,7 @@ import {
 import BlogLayout from '@theme/BlogLayout';
 import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/BlogTagsListPage';
-import SearchMetadata from '../SearchMetadata';
+import SearchMetadata from '@theme/SearchMetadata';
 
 export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
   const title = translateTagsPageTitle();

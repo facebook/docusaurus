@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import {ThemeClassNames, useDoc} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import {useDoc} from '@docusaurus/theme-common/internal';
 
 import TOC from '@theme/TOC';
 

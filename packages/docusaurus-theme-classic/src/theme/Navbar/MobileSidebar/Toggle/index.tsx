@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import IconMenu from '@theme/IconMenu';
 
 export default function MobileSidebarToggle(): JSX.Element {

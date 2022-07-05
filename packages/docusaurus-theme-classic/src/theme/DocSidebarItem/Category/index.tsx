@@ -8,16 +8,18 @@
 import React, {type ComponentProps, useEffect, useMemo} from 'react';
 import clsx from 'clsx';
 import {
-  isActiveSidebarItem,
+  ThemeClassNames,
+  useThemeConfig,
   usePrevious,
   Collapsible,
   useCollapsible,
+} from '@docusaurus/theme-common';
+import {
+  isActiveSidebarItem,
   findFirstCategoryLink,
-  ThemeClassNames,
-  useThemeConfig,
   useDocSidebarItemsExpandedState,
   isSamePath,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import useIsBrowser from '@docusaurus/useIsBrowser';

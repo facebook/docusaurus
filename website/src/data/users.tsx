@@ -1257,6 +1257,15 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'design'],
   },
   {
+    title: 'Novu',
+    description:
+      'The open-source notification infrastructure for developers',
+    preview: require('./showcase/novu-docs.png'),
+    website: 'https://docs.novu.co/',
+    source: 'https://github.com/novuhq/novu',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'Nocalhost',
     description:
       'An open-source toolsets help to build cloud-native applications easier and faster.',
@@ -1701,6 +1710,14 @@ const Users: User[] = [
     tags: [],
   },
   {
+    title: 'RedGradient',
+    description: 'CSS Gradient Editor',
+    preview: require('./showcase/red-gradient.png'),
+    website: 'https://doc.red-gradient.com/',
+    source: 'https://github.com/redcamel/RedGradientDoc',
+    tags: ['opensource'],
+  },
+  {
     title: 'Redis Labs Developer Site',
     description: 'The Home of Redis Developers',
     preview: require('./showcase/redis-developer.png'),
@@ -2056,6 +2073,15 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'SweetCode',
+    description:
+      'SweetCode company website and documentation for the Pixel Manager for WooCommerce',
+    preview: require('./showcase/sweetcode.png'),
+    website: 'https://sweetcode.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Synergies',
     description:
       'A performant and distributed state library for creating reusable React state logic by synergyzing atomar context pieces',
@@ -2332,6 +2358,14 @@ const Users: User[] = [
     preview: require('./showcase/404lab-wiki.png'),
     website: 'https://wiki.404lab.top',
     source: 'https://github.com/HiChen404/MyWikiSite',
+    tags: ['opensource', 'personal'],
+  },
+  {
+    title: "7Wate's Wiki",
+    description: 'Developer Wiki and Blog',
+    preview: require('./showcase/7wate-wiki.png'),
+    website: 'https://wiki.7wate.com/',
+    source: 'https://github.com/7Wate/wiki',
     tags: ['opensource', 'personal'],
   },
   /*

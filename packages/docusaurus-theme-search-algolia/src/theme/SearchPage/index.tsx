@@ -18,12 +18,14 @@ import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
   HtmlClassNameProvider,
-  useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
-  useDynamicCallback,
-  useSearchPage,
+  useEvent,
 } from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
+  useSearchPage,
+} from '@docusaurus/theme-common/internal';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Translate, {translate} from '@docusaurus/Translate';
@@ -314,7 +316,7 @@ function SearchPageContent(): JSX.Element {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = useDynamicCallback((page: number = 0) => {
+  const makeSearch = useEvent((page: number = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 

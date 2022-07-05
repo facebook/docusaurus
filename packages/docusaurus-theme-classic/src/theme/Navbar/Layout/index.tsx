@@ -7,11 +7,11 @@
 
 import React, {type ComponentProps} from 'react';
 import clsx from 'clsx';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import {
-  useThemeConfig,
   useHideableNavbar,
   useNavbarMobileSidebar,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar';
 import type {Props} from '@theme/Navbar/Layout';
 

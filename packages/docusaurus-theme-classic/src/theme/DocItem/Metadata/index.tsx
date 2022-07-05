@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import {PageMetadata, useDoc} from '@docusaurus/theme-common';
+import {PageMetadata} from '@docusaurus/theme-common';
+import {useDoc} from '@docusaurus/theme-common/internal';
 
 export default function DocItemMetadata(): JSX.Element {
   const {metadata, frontMatter, assets} = useDoc();

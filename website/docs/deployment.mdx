@@ -459,12 +459,13 @@ jobs:
 
 A cross-repo publish is more difficult to set up, because you need to push to another repo with permission checks. We will be using SSH to do the authentication.
 
-1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). Since this SSH key will be used in CI, make sure to not enter any passphrase.
 2. By default, your public key should have been created in `~/.ssh/id_rsa.pub`; otherwise, use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
-3. Copy the key to clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy the file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
+3. Copy the key to clipboard with `pbcopy < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in the deployment repository. Copy the file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
 4. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
-5. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY`. Copy the file content if the command line doesn't work for you. Save your secret.
+5. Copy your private key with `pbcopy < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY` on your source repository. Copy the file content if the command line doesn't work for you. Save your secret.
 6. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `deploy.yml`.
+7. You should have essentially: the source repo with the GitHub workflow set with the private SSH key as GitHub Secret and your deployment repo set with the public SSH key in GitHub Deploy Keys.
 
 <details>
 
@@ -529,6 +530,20 @@ jobs:
 </TabItem>
 </Tabs>
 ```
+
+<details>
+
+<summary>Site not deployed properly?</summary>
+
+After pushing to main, if you don't see your site published at the desired location (for example, it says "There isn't a GitHub Pages site here", or it's showing your repo's README.md file), check the following:
+
+- It may take a few minutes for GitHub pages to pick up the new files, so wait for about 3 minutes and refresh before concluding it isn't working.
+- On your repo's landing page, you should see a little green tick next to the last commit's title, indicating the CI has passed. If you see a cross, it means the build or deployment failed, and you should check the log for more debugging information.
+- Click on the tick and make sure your see a "Deploy to GitHub Pages" workflow. Names like "pages build and deployment / deploy" are GitHub's default workflows, indicating your custom deployment workflow failed to be triggered at all. Make sure the YAML files are put under the `.github/workflows` folder, and the trigger condition is set correctly (for example, if your default branch is "master" instead of "main", you need to change the `on.push` property).
+- We are using `gh-pages` as the deployment branch. Under your repo's Settings > Pages, make sure the "Source" (which is the source for the _deployment_ files, not "source" as in our terminology) is set to "gh-pages" + "/ (root)".
+- If you are using a custom domain, make sure the DNS record is pointing to the GitHub pages servers' IP.
+
+</details>
 
 ### Triggering deployment with Travis CI {#triggering-deployment-with-travis-ci}
 

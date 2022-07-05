@@ -270,6 +270,21 @@ async function doProcessDocMetadata({
 
   const draft = isDraftForEnvironment({env, frontMatter});
 
+  const formatDate = (locale: string, date: Date, calendar: string): string => {
+    try {
+      return new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        timeZone: 'UTC',
+        calendar,
+      }).format(date);
+    } catch (err) {
+      logger.error`Can't format docs lastUpdatedAt date "${String(date)}"`;
+      throw err;
+    }
+  };
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -290,9 +305,11 @@ async function doProcessDocMetadata({
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
-      ? new Intl.DateTimeFormat(i18n.currentLocale, {
-          calendar: i18n.localeConfigs[i18n.currentLocale]!.calendar,
-        }).format(lastUpdate.lastUpdatedAt * 1000)
+      ? formatDate(
+          i18n.currentLocale,
+          new Date(lastUpdate.lastUpdatedAt * 1000),
+          i18n.localeConfigs[i18n.currentLocale]!.calendar,
+        )
       : undefined,
     sidebarPosition,
     frontMatter,

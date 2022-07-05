@@ -7,7 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {findFirstCategoryLink} from '@docusaurus/theme-common';
+import {findFirstCategoryLink} from '@docusaurus/theme-common/internal';
 import DocCard from '@theme/DocCard';
 import type {Props} from '@theme/DocCardList';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';

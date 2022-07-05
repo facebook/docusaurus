@@ -28,7 +28,7 @@
     "@docusaurus/theme-translations": "2.0.0-beta.21",
     "@docusaurus/utils-validation": "2.0.0-beta.21",
     "@philpl/buble": "^0.19.7",
-    "clsx": "^1.1.1",
+    "clsx": "^1.2.0",
     "fs-extra": "^10.1.0",
     "react-live": "2.2.3",
     "tslib": "^2.4.0"
