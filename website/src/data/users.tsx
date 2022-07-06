@@ -1258,8 +1258,7 @@ const Users: User[] = [
   },
   {
     title: 'Novu',
-    description:
-      'The open-source notification infrastructure for developers',
+    description: 'The open-source notification infrastructure for developers',
     preview: require('./showcase/novu-docs.png'),
     website: 'https://docs.novu.co/',
     source: 'https://github.com/novuhq/novu',
@@ -1421,6 +1420,14 @@ const Users: User[] = [
     source: null,
     tags: ['favorite', 'product', 'design'],
   },
+  {
+   title: "pincman's website",
+   description: 'A very good full stack development teaching website',
+   preview: require('./showcase/pincman.png'),
+   website: 'https://pincman.com/',
+   source: 'https://github.com/rowfishjs/rowfish',
+   tags: ['opensource', 'design', 'personal'],
+ },
   {
     title: 'Pipeline UI',
     description: 'Pipeline UI Documentation',

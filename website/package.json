@@ -49,7 +49,7 @@
     "@docusaurus/utils-common": "2.0.0-beta.21",
     "@popperjs/core": "^2.11.5",
     "@swc/core": "1.2.197",
-    "clsx": "^1.1.1",
+    "clsx": "^1.2.0",
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",
     "netlify-plugin-cache": "^1.0.3",
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "2.0.0-beta.21",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@types/jest": "^28.1.2",
+    "@types/jest": "^28.1.4",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }
