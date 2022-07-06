@@ -1,0 +1,195 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import type {TranslationFile} from './i18n';
+import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
+import type {CustomizeRuleString} from 'webpack-merge/dist/types';
+import type {CommanderStatic} from 'commander';
+import type Joi from 'joi';
+import type {HelmetServerState} from 'react-helmet-async';
+import type {ThemeConfig} from './config';
+import type {LoadContext, Props} from './context';
+import type {SwizzleConfig} from './swizzle';
+import type {RouteConfig} from './routing';
+
+export type PluginOptions = {id?: string} & {[key: string]: unknown};
+
+export type PluginConfig =
+  | string
+  | [string, PluginOptions]
+  | [PluginModule, PluginOptions]
+  | PluginModule
+  | false
+  | null;
+
+export type PresetConfig =
+  | string
+  | [string, {[key: string]: unknown}]
+  | false
+  | null;
+
+/**
+ * - `type: 'package'`, plugin is in a different package.
+ * - `type: 'project'`, plugin is in the same docusaurus project.
+ * - `type: 'local'`, none of the plugin's ancestor directories contains a
+ * package.json.
+ * - `type: 'synthetic'`, docusaurus generated internal plugin.
+ */
+export type PluginVersionInformation =
+  | {
+      readonly type: 'package';
+      readonly name?: string;
+      readonly version?: string;
+    }
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+export type PluginContentLoadedActions = {
+  addRoute: (config: RouteConfig) => void;
+  createData: (name: string, data: string) => Promise<string>;
+  setGlobalData: (data: unknown) => void;
+};
+
+export type ConfigureWebpackUtils = {
+  getStyleLoaders: (
+    isServer: boolean,
+    cssOptions: {[key: string]: unknown},
+  ) => RuleSetRule[];
+  getJSLoader: (options: {
+    isServer: boolean;
+    babelOptions?: {[key: string]: unknown};
+  }) => RuleSetRule;
+};
+
+export type AllContent = {
+  [pluginName: string]: {
+    [pluginID: string]: unknown;
+  };
+};
+
+// TODO improve type (not exposed by postcss-loader)
+export type PostCssOptions = {plugins: unknown[]; [key: string]: unknown};
+
+export type ValidationSchema<T> = Joi.ObjectSchema<T>;
+
+export type Validate<In, Out> = (
+  validationSchema: ValidationSchema<Out>,
+  options: In,
+) => Out;
+
+export type OptionValidationContext<In, Out> = {
+  validate: Validate<In, Out>;
+  options: In;
+};
+
+export type ThemeConfigValidationContext<In, Out = In> = {
+  validate: Validate<In, Out>;
+  themeConfig: In;
+};
+
+export type HtmlTagObject = {
+  /**
+   * Attributes of the html tag.
+   * E.g. `{ disabled: true, value: "demo", rel: "preconnect" }`
+   */
+  attributes?: Partial<{[key: string]: string | boolean}>;
+  /** The tag name, e.g. `div`, `script`, `link`, `meta` */
+  tagName: string;
+  /** The inner HTML */
+  innerHTML?: string;
+};
+
+export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+export type Plugin<Content = unknown> = {
+  name: string;
+  loadContent?: () => Promise<Content> | Content;
+  contentLoaded?: (args: {
+    /** The content loaded by this plugin instance */
+    content: Content; //
+    /** Content loaded by ALL the plugins */
+    allContent: AllContent;
+    actions: PluginContentLoadedActions;
+  }) => Promise<void> | void;
+  postBuild?: (
+    props: Props & {
+      content: Content;
+      head: {[location: string]: HelmetServerState};
+    },
+  ) => Promise<void> | void;
+  // TODO refactor the configureWebpack API surface: use an object instead of
+  // multiple params (requires breaking change)
+  configureWebpack?: (
+    config: WebpackConfiguration,
+    isServer: boolean,
+    utils: ConfigureWebpackUtils,
+    content: Content,
+  ) => WebpackConfiguration & {
+    mergeStrategy?: {
+      [key: string]: CustomizeRuleString;
+    };
+  };
+  configurePostCss?: (options: PostCssOptions) => PostCssOptions;
+  getThemePath?: () => string;
+  getTypeScriptThemePath?: () => string;
+  getPathsToWatch?: () => string[];
+  getClientModules?: () => string[];
+  extendCli?: (cli: CommanderStatic) => void;
+  injectHtmlTags?: (args: {content: Content}) => {
+    headTags?: HtmlTags;
+    preBodyTags?: HtmlTags;
+    postBodyTags?: HtmlTags;
+  };
+  // TODO before/afterDevServer implementation
+
+  // translations
+  getTranslationFiles?: (args: {
+    content: Content;
+  }) => Promise<TranslationFile[]> | TranslationFile[];
+  getDefaultCodeTranslationMessages?: () =>
+    | Promise<{[id: string]: string}>
+    | {[id: string]: string};
+  translateContent?: (args: {
+    /** The content loaded by this plugin instance. */
+    content: Content;
+    translationFiles: TranslationFile[];
+  }) => Content;
+  translateThemeConfig?: (args: {
+    themeConfig: ThemeConfig;
+    translationFiles: TranslationFile[];
+  }) => ThemeConfig;
+};
+
+export type InitializedPlugin = Plugin & {
+  readonly options: Required<PluginOptions>;
+  readonly version: PluginVersionInformation;
+  /** The absolute path to the folder containing the entry point file. */
+  readonly path: string;
+};
+
+export type LoadedPlugin = InitializedPlugin & {
+  readonly content: unknown;
+};
+
+export type PluginModule = {
+  (context: LoadContext, options: unknown): Plugin | Promise<Plugin>;
+  validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
+  validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
+
+  getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
+  getSwizzleConfig?: () => SwizzleConfig | undefined;
+};
+
+export type Preset = {
+  plugins?: PluginConfig[];
+  themes?: PluginConfig[];
+};
+
+export type PresetModule = {
+  (context: LoadContext, presetOptions: unknown): Preset;
+};
