@@ -21,7 +21,7 @@ export default function BlogPostItemFooter(props: Props): JSX.Element | null {
   const truncatedPost = !isBlogPostPage && truncated;
   const tagsExists = tags.length > 0;
 
-  const renderFooter = tagsExists || truncated;
+  const renderFooter = tagsExists || truncated || editUrl;
 
   if (!renderFooter) {
     return null;
