@@ -110,7 +110,7 @@ export default function BlogPostItem(props: Props): JSX.Element {
         <MDXContent>{children}</MDXContent>
       </div>
 
-      {(tagsExists || truncated) && (
+      {(tagsExists || truncated || editUrl) && (
         <footer
           className={clsx(
             'row docusaurus-mt-lg',
