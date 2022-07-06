@@ -33,3 +33,10 @@ declare module '@theme/SearchPage' {
 declare module '@theme/SearchBar' {
   export default function SearchBar(): JSX.Element;
 }
+
+declare module '@theme/SearchTranslations' {
+  import type {DocSearchTranslations} from '@docsearch/react';
+
+  const translations: DocSearchTranslations & {placeholder: string};
+  export default translations;
+}
