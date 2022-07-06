@@ -73,3 +73,5 @@ export {isRegexpStringMatch} from './utils/regexpUtils';
 export {duplicates, uniq} from './utils/jsUtils';
 
 export {usePrismTheme} from './hooks/usePrismTheme';
+
+export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';

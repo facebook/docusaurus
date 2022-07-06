@@ -27,7 +27,6 @@ export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
 
 export {
-  useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
   DocsPreferredVersionContextProvider,
 } from './contexts/docsPreferredVersion';

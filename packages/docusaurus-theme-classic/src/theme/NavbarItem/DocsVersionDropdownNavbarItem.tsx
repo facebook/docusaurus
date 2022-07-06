@@ -10,10 +10,8 @@ import {
   useVersions,
   useActiveDocContext,
 } from '@docusaurus/plugin-content-docs/client';
-import {
-  useDocsPreferredVersion,
-  useDocsVersionCandidates,
-} from '@docusaurus/theme-common/internal';
+import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {useDocsVersionCandidates} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
