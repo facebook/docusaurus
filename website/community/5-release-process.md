@@ -87,7 +87,7 @@ We regularly backport retro-compatible features, bug and security fixes from <Ne
 
 :::info
 
-After a new stable version has been released, the former stable version will continue to receive support for **major security issues** for **3 months**, but all features will be frozen, as well as non-critical bugs.
+After a new stable version has been released, the former stable version will continue to receive support only for **major security issues** for **3 months**. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
 
 It is recommended to upgrade within that time frame to the new stable version.
 
