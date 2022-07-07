@@ -1185,7 +1185,7 @@ const Users: User[] = [
       'Fully Open Source ASP.Net Core / Dotnet Core CMS UI Toolkit',
     preview: require('./showcase/mixcore.png'),
     website: 'https://docs.mixcore.org/',
-    source: null,
+    source: 'https://github.com/mixcore/docs/tree/master/website',
     tags: ['opensource'],
   },
   {
