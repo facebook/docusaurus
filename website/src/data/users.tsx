@@ -1180,6 +1180,15 @@ const Users: User[] = [
     tags: ['design'],
   },
   {
+    title: 'Mixcore CMS',
+    description:
+      'Fully Open Source ASP.Net Core / Dotnet Core CMS UI Toolkit',
+    preview: require('./showcase/mixcore.png'),
+    website: 'https://docs.mixcore.org/',
+    source: 'https://github.com/mixcore/docs/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'moja global',
     description:
       'A non-profit project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
