@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogPostItem/Container';
@@ -15,15 +14,12 @@ export default function BlogPostItemContainer({
   children,
   className,
 }: Props): JSX.Element {
-  const {frontMatter, assets, isBlogPostPage} = useBlogPost();
+  const {frontMatter, assets} = useBlogPost();
   const {withBaseUrl} = useBaseUrlUtils();
   const image = assets.image ?? frontMatter.image;
   return (
     <article
-      className={clsx(
-        !isBlogPostPage ? 'margin-bottom--xl' : undefined,
-        className,
-      )}
+      className={className}
       itemProp="blogPost"
       itemScope
       itemType="http://schema.org/BlogPosting">
