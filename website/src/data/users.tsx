@@ -1186,7 +1186,7 @@ const Users: User[] = [
     preview: require('./showcase/mixcore.png'),
     website: 'https://docs.mixcore.org/',
     source: null,
-    tags: ['opensource', 'cms', 'opensource-cms', 'dotnet-core'],
+    tags: ['opensource'],
   },
   {
     title: 'moja global',
