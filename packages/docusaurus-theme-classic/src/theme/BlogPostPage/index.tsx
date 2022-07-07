@@ -12,16 +12,17 @@ import {
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import {BlogPostProvider, useBlogPost} from '@docusaurus/theme-common/internal';
 import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogPostPage';
 
-function BlogPostPageMetadata(props: Props): JSX.Element {
-  const {content: BlogPostContents} = props;
-  const {assets, metadata} = BlogPostContents;
+function BlogPostPageMetadata(): JSX.Element {
+  const {assets, metadata} = useBlogPost();
   const {title, description, date, tags, authors, frontMatter} = metadata;
+
   const {keywords} = frontMatter;
   const image = assets.image ?? frontMatter.image;
   return (
@@ -90,13 +91,15 @@ function BlogPostPageContent(props: Props): JSX.Element {
 
 export default function BlogPostPage(props: Props): JSX.Element {
   return (
-    <HtmlClassNameProvider
-      className={clsx(
-        ThemeClassNames.wrapper.blogPages,
-        ThemeClassNames.page.blogPostPage,
-      )}>
-      <BlogPostPageMetadata {...props} />
-      <BlogPostPageContent {...props} />
-    </HtmlClassNameProvider>
+    <BlogPostProvider content={props.content} isBlogPostPage>
+      <HtmlClassNameProvider
+        className={clsx(
+          ThemeClassNames.wrapper.blogPages,
+          ThemeClassNames.page.blogPostPage,
+        )}>
+        <BlogPostPageMetadata />
+        <BlogPostPageContent {...props} />
+      </HtmlClassNameProvider>
+    </BlogPostProvider>
   );
 }

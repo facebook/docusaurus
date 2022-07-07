@@ -14,6 +14,7 @@ import {
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import {BlogPostProvider} from '@docusaurus/theme-common/internal';
 import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
@@ -41,14 +42,17 @@ function BlogListPageContent(props: Props): JSX.Element {
   return (
     <BlogLayout sidebar={sidebar}>
       {items.map(({content: BlogPostContent}) => (
-        <BlogPostItem
+        <BlogPostProvider
           key={BlogPostContent.metadata.permalink}
-          frontMatter={BlogPostContent.frontMatter}
-          assets={BlogPostContent.assets}
-          metadata={BlogPostContent.metadata}
-          truncated={BlogPostContent.metadata.truncated}>
-          <BlogPostContent />
-        </BlogPostItem>
+          content={BlogPostContent}>
+          <BlogPostItem
+            frontMatter={BlogPostContent.frontMatter}
+            assets={BlogPostContent.assets}
+            metadata={BlogPostContent.metadata}
+            truncated={BlogPostContent.metadata.truncated}>
+            <BlogPostContent />
+          </BlogPostItem>
+        </BlogPostProvider>
       ))}
       <BlogListPaginator metadata={metadata} />
     </BlogLayout>

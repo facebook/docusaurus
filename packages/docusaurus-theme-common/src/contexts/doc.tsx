@@ -42,8 +42,7 @@ function useContextValue(content: PropDocContent): DocContextValue {
 
 /**
  * This is a very thin layer around the `content` received from the MDX loader.
- * It provides the component to be rendered and other metadata about the doc to
- * the children.
+ * It provides metadata about the doc to the children tree.
  */
 export function DocProvider({
   children,

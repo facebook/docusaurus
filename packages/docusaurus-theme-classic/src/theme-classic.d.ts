@@ -95,13 +95,13 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
-  import type {Assets} from '@docusaurus/plugin-content-blog';
+  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
+  // TODO remove props?
   export interface Props {
-    readonly frontMatter: FrontMatter;
-    readonly assets: Assets;
-    readonly metadata: Metadata;
+    readonly frontMatter: PropBlogPostContent['frontMatter'];
+    readonly assets: PropBlogPostContent['assets'];
+    readonly metadata: PropBlogPostContent['metadata'];
     readonly truncated?: string | boolean;
     readonly isBlogPostPage?: boolean;
     readonly children: JSX.Element;
@@ -174,21 +174,23 @@ declare module '@theme/BlogPostItem/Footer/ReadMoreLink' {
 }
 
 declare module '@theme/BlogPostAuthor' {
-  import type {Metadata} from '@theme/BlogPostPage';
+  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly author: Metadata['authors'][number];
+    readonly author: PropBlogPostContent['metadata']['authors'][number];
   }
 
   export default function BlogPostAuthor(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostAuthors' {
-  import type {Metadata} from '@theme/BlogPostPage';
-  import type {Assets} from '@docusaurus/plugin-content-blog';
+  import type {
+    Assets,
+    PropBlogPostContent,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly authors: Metadata['authors'];
+    readonly authors: PropBlogPostContent['metadata']['authors'];
     readonly assets: Assets;
   }
 
