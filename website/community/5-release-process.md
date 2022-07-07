@@ -123,7 +123,7 @@ At the `beta` and `rc` (release candidate) phases, we avoid introducing major br
 
 ## Public API surface {#public-api-surface}
 
-Docusaurus commits to respect Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
+Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
 
 :::tip
 
