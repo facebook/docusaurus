@@ -66,6 +66,10 @@ async function myPlugin(context, opts) {
       // `actions` are set of functional API provided by Docusaurus (e.g. addRoute)
     },
 
+    async postCompile(props) {
+      // After docusaurus webpack finishes compiling.
+    },
+
     async postBuild(props) {
       // After docusaurus <build> finish.
     },

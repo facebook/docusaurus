@@ -116,6 +116,7 @@ export type Plugin<Content = unknown> = {
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
+  postCompile?: () => Promise<void> | void;
   postBuild?: (
     props: Props & {
       content: Content;

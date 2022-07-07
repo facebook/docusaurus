@@ -286,6 +286,26 @@ module.exports = function (context, options) {
 };
 ```
 
+## `postCompile()` {#postCompile}
+
+Called when a build compiles.
+
+Example:
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    async postCompile() {
+      // Creates index of all built output used for search
+      await createSearchIndex();
+    },
+    // highlight-end
+  };
+};
+```
+
 ## `postBuild(props)` {#postBuild}
 
 Called when a (production) build finishes.

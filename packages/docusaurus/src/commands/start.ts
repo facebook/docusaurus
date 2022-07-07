@@ -167,6 +167,19 @@ export async function start(
   });
 
   const compiler = webpack(config);
+
+  compiler.hooks.done.tap('done', async () => {
+    // Plugin Lifecycle - postCompile.
+    await Promise.all(
+      plugins.map(async (plugin) => {
+        if (!plugin.postCompile) {
+          return;
+        }
+        await plugin.postCompile();
+      }),
+    );
+  });
+
   if (process.env.E2E_TEST) {
     compiler.hooks.done.tap('done', (stats) => {
       if (stats.hasErrors()) {
