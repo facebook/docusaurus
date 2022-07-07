@@ -15,13 +15,15 @@ import ReadMoreLink from '@theme/BlogPostItem/Footer/ReadMoreLink';
 import styles from './styles.module.css';
 
 export default function BlogPostItemFooter(): JSX.Element | null {
-  const {metadata, truncated, isBlogPostPage} = useBlogPost();
-  const {tags, title, editUrl} = metadata;
+  const {metadata, isBlogPostPage} = useBlogPost();
+  const {tags, title, editUrl, truncateMarker} = metadata;
 
-  const truncatedPost = !isBlogPostPage && truncated;
+  // A post is truncated if it's in the "list view" and it has a truncate marker
+  const truncatedPost = !isBlogPostPage && truncateMarker;
+
   const tagsExists = tags.length > 0;
 
-  const renderFooter = tagsExists || truncated || editUrl;
+  const renderFooter = tagsExists || truncatedPost || editUrl;
 
   if (!renderFooter) {
     return null;

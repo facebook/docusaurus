@@ -210,7 +210,7 @@ describe('linkify', () => {
           permalink: '/blog/2019/01/01/date-matter',
           title: 'date-matter',
         },
-        truncated: false,
+        truncateMarker: false,
         frontMatter: {},
         authors: [],
         formattedDate: '',

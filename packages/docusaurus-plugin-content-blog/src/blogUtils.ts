@@ -323,7 +323,7 @@ async function processBlogSourceFile(
             defaultReadingTime,
           })
         : undefined,
-      truncated: truncateMarker.test(content),
+      truncateMarker: truncateMarker.test(content),
       authors,
       frontMatter,
     },

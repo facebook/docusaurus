@@ -18,7 +18,6 @@ export type BlogPostContextValue = Pick<
   PropBlogPostContent,
   'metadata' | 'frontMatter' | 'assets'
 > & {
-  readonly truncated: boolean;
   readonly isBlogPostPage: boolean;
 };
 
@@ -41,7 +40,6 @@ function useContextValue({
       metadata: content.metadata,
       frontMatter: content.frontMatter,
       assets: content.assets,
-      truncated: content.metadata.truncated ?? false,
       isBlogPostPage,
     }),
     [content, isBlogPostPage],
