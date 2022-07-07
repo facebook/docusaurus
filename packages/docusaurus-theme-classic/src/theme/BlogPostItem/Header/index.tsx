@@ -6,19 +6,18 @@
  */
 
 import React from 'react';
+import {useBlogPost} from '@docusaurus/theme-common/internal';
 import BlogPostAuthors from '@theme/BlogPostAuthors';
-
 import BlogPostItemHeaderTitle from '@theme/BlogPostItem/Header/Title';
 import BlogPostItemHeaderMetadata from '@theme/BlogPostItem/Header/Metadata';
 
-import type {Props} from '@theme/BlogPostItem/Header';
-
-export default function BlogPostItemHeader(props: Props): JSX.Element {
+export default function BlogPostItemHeader(): JSX.Element {
+  const {metadata, assets} = useBlogPost();
   return (
     <header>
-      <BlogPostItemHeaderTitle {...props} />
-      <BlogPostItemHeaderMetadata {...props} />
-      <BlogPostAuthors authors={props.metadata.authors} assets={props.assets} />
+      <BlogPostItemHeaderTitle />
+      <BlogPostItemHeaderMetadata />
+      <BlogPostAuthors authors={metadata.authors} assets={assets} />
     </header>
   );
 }

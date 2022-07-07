@@ -95,16 +95,20 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostItem' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    children: ReactNode;
+  }
+
+  export default function BlogPostItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItemList' {
   import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
-  // TODO remove props?
   export interface Props {
-    readonly frontMatter: PropBlogPostContent['frontMatter'];
-    readonly assets: PropBlogPostContent['assets'];
-    readonly metadata: PropBlogPostContent['metadata'];
-    readonly truncated?: string | boolean;
-    readonly isBlogPostPage?: boolean;
-    readonly children: JSX.Element;
+    items: readonly PropBlogPostContent[];
   }
 
   export default function BlogPostItem(props: Props): JSX.Element;
@@ -112,53 +116,38 @@ declare module '@theme/BlogPostItem' {
 
 declare module '@theme/BlogPostItem/Container' {
   import type {ReactNode} from 'react';
-  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
 
-  export type Props = Omit<BlogPostItemProps, 'children'> & {
+  export interface Props {
     children: ReactNode;
-  };
+  }
 
   export default function BlogPostItemContainer(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header' {
-  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
-
-  export type Props = Omit<BlogPostItemProps, 'children'>;
-
-  export default function BlogPostItemHeader(props: Props): JSX.Element;
+  export default function BlogPostItemHeader(): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Title' {
-  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
-
-  export type Props = Omit<BlogPostItemProps, 'children'>;
-
-  export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
+  export default function BlogPostItemHeaderTitle(): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Metadata' {
-  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
-
-  export type Props = Omit<BlogPostItemProps, 'children'>;
-
-  export default function BlogPostItemHeaderMetadata(props: Props): JSX.Element;
+  export default function BlogPostItemHeaderMetadata(): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Content' {
-  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
+  import type {ReactNode} from 'react';
 
-  export interface Props extends BlogPostItemProps {}
+  export interface Props {
+    children: ReactNode;
+  }
 
   export default function BlogPostItemContent(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Footer' {
-  import type {Props as BlogPostItemProps} from '@theme/BlogPostItem';
-
-  export type Props = Omit<BlogPostItemProps, 'children'>;
-
-  export default function BlogPostItemFooter(props: Props): JSX.Element | null;
+  export default function BlogPostItemFooter(): JSX.Element | null;
 }
 
 declare module '@theme/BlogPostItem/Footer/ReadMoreLink' {

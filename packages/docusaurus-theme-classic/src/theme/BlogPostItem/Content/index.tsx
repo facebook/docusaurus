@@ -7,11 +7,12 @@
 
 import React from 'react';
 import {blogPostContainerID} from '@docusaurus/utils-common';
+import {useBlogPost} from '@docusaurus/theme-common/internal';
 import MDXContent from '@theme/MDXContent';
 import type {Props} from '@theme/BlogPostItem/Content';
 
-export default function BlogPostItemContent(props: Props): JSX.Element {
-  const {children, isBlogPostPage = false} = props;
+export default function BlogPostItemContent({children}: Props): JSX.Element {
+  const {isBlogPostPage} = useBlogPost();
   return (
     <div
       // This ID is used for the feed generation to locate the main content

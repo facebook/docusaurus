@@ -13,12 +13,12 @@ import BlogPostItemFooter from '@theme/BlogPostItem/Footer';
 
 import type {Props} from '@theme/BlogPostItem';
 
-export default function BlogPostItem(props: Props): JSX.Element {
+export default function BlogPostItem({children}: Props): JSX.Element {
   return (
-    <BlogPostItemContainer {...props}>
-      <BlogPostItemHeader {...props} />
-      <BlogPostItemContent {...props} />
-      <BlogPostItemFooter {...props} />
+    <BlogPostItemContainer>
+      <BlogPostItemHeader />
+      <BlogPostItemContent>{children}</BlogPostItemContent>
+      <BlogPostItemFooter />
     </BlogPostItemContainer>
   );
 }

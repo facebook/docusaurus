@@ -9,8 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {usePluralForm} from '@docusaurus/theme-common';
-
-import type {Props} from '@theme/BlogPostItem/Header/Metadata';
+import {useBlogPost} from '@docusaurus/theme-common/internal';
 
 import styles from './styles.module.css';
 
@@ -39,8 +38,8 @@ function ReadingTime({readingTime}: {readingTime: number}) {
   return <>{readingTimePlural(readingTime)}</>;
 }
 
-export default function BlogPostItemHeaderMetadata(props: Props): JSX.Element {
-  const {metadata} = props;
+export default function BlogPostItemHeaderMetadata(): JSX.Element {
+  const {metadata} = useBlogPost();
   const {date, formattedDate, readingTime} = metadata;
 
   return (

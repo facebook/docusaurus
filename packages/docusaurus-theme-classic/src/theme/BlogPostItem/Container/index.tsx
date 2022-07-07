@@ -7,12 +7,13 @@
 
 import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {useBlogPost} from '@docusaurus/theme-common/internal';
 
 import type {Props} from '@theme/BlogPostItem';
 
-export default function BlogPostItemContainer(props: Props): JSX.Element {
+export default function BlogPostItemContainer({children}: Props): JSX.Element {
+  const {frontMatter, assets, isBlogPostPage} = useBlogPost();
   const {withBaseUrl} = useBaseUrlUtils();
-  const {children, frontMatter, assets, isBlogPostPage = false} = props;
   const image = assets.image ?? frontMatter.image;
   return (
     <article

@@ -55,7 +55,7 @@ function BlogPostPageMetadata(): JSX.Element {
 
 function BlogPostPageContent(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
-  const {assets, metadata} = BlogPostContents;
+  const {metadata} = BlogPostContents;
   const {nextItem, prevItem, frontMatter} = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
@@ -74,11 +74,7 @@ function BlogPostPageContent(props: Props): JSX.Element {
           />
         ) : undefined
       }>
-      <BlogPostItem
-        frontMatter={frontMatter}
-        assets={assets}
-        metadata={metadata}
-        isBlogPostPage>
+      <BlogPostItem>
         <BlogPostContents />
       </BlogPostItem>
 

@@ -7,15 +7,15 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import {useBlogPost} from '@docusaurus/theme-common/internal';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline from '@theme/TagsListInline';
 import ReadMoreLink from '@theme/BlogPostItem/Footer/ReadMoreLink';
-import type {Props} from '@theme/BlogPostItem/Footer';
 
 import styles from './styles.module.css';
 
-export default function BlogPostItemFooter(props: Props): JSX.Element | null {
-  const {metadata, truncated, isBlogPostPage = false} = props;
+export default function BlogPostItemFooter(): JSX.Element | null {
+  const {metadata, truncated, isBlogPostPage} = useBlogPost();
   const {tags, title, editUrl} = metadata;
 
   const truncatedPost = !isBlogPostPage && truncated;

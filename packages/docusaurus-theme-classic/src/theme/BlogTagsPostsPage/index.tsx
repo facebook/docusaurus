@@ -87,12 +87,7 @@ function BlogTagsPostsPageContent({
         <BlogPostProvider
           key={BlogPostContent.metadata.permalink}
           content={BlogPostContent}>
-          <BlogPostItem
-            key={BlogPostContent.metadata.permalink}
-            frontMatter={BlogPostContent.frontMatter}
-            assets={BlogPostContent.assets}
-            metadata={BlogPostContent.metadata}
-            truncated>
+          <BlogPostItem>
             <BlogPostContent />
           </BlogPostItem>
         </BlogPostProvider>
