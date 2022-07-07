@@ -14,13 +14,12 @@ import {
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
-import {BlogPostProvider} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
-import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogTagsPostsPage';
+import BlogPostItemList from '@theme/BlogPostItemList';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -82,16 +81,7 @@ function BlogTagsPostsPageContent({
           </Translate>
         </Link>
       </header>
-
-      {items.map(({content: BlogPostContent}) => (
-        <BlogPostProvider
-          key={BlogPostContent.metadata.permalink}
-          content={BlogPostContent}>
-          <BlogPostItem>
-            <BlogPostContent />
-          </BlogPostItem>
-        </BlogPostProvider>
-      ))}
+      <BlogPostItemList items={items} />
       <BlogListPaginator metadata={listMetadata} />
     </BlogLayout>
   );

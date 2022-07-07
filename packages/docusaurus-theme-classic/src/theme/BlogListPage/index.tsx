@@ -14,12 +14,11 @@ import {
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {BlogPostProvider} from '@docusaurus/theme-common/internal';
 import BlogLayout from '@theme/BlogLayout';
-import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogListPage';
+import BlogPostItemList from '@theme/BlogPostItemList';
 
 function BlogListPageMetadata(props: Props): JSX.Element {
   const {metadata} = props;
@@ -41,15 +40,7 @@ function BlogListPageContent(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   return (
     <BlogLayout sidebar={sidebar}>
-      {items.map(({content: BlogPostContent}) => (
-        <BlogPostProvider
-          key={BlogPostContent.metadata.permalink}
-          content={BlogPostContent}>
-          <BlogPostItem>
-            <BlogPostContent />
-          </BlogPostItem>
-        </BlogPostProvider>
-      ))}
+      <BlogPostItemList items={items} />
       <BlogListPaginator metadata={metadata} />
     </BlogLayout>
   );

@@ -108,7 +108,7 @@ declare module '@theme/BlogPostItemList' {
   import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    items: readonly PropBlogPostContent[];
+    items: readonly {content: PropBlogPostContent}[];
   }
 
   export default function BlogPostItem(props: Props): JSX.Element;

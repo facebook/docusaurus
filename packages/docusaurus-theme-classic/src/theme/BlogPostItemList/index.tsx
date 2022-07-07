@@ -8,7 +8,7 @@
 import React from 'react';
 import {BlogPostProvider} from '@docusaurus/theme-common/internal';
 import BlogPostItem from '@theme/BlogPostItem';
-import type {Props} from '@theme/BlogTagsPostsPage';
+import type {Props} from '@theme/BlogPostItemList';
 
 export default function BlogPostItemList({items}: Props): JSX.Element {
   return (
