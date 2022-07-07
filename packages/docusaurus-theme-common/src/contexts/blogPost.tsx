@@ -16,7 +16,7 @@ import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
  */
 export type BlogPostContextValue = Pick<
   PropBlogPostContent,
-  'metadata' | 'frontMatter' | 'assets'
+  'metadata' | 'frontMatter' | 'assets' | 'toc'
 > & {
   readonly isBlogPostPage: boolean;
 };
@@ -40,6 +40,7 @@ function useContextValue({
       metadata: content.metadata,
       frontMatter: content.frontMatter,
       assets: content.assets,
+      toc: content.toc,
       isBlogPostPage,
     }),
     [content, isBlogPostPage],

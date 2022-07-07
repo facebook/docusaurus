@@ -99,16 +99,19 @@ declare module '@theme/BlogPostItem' {
 
   export interface Props {
     children: ReactNode;
+    className?: string;
   }
 
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostItemList' {
+  import type {ComponentType, ReactNode} from 'react';
   import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     items: readonly {content: PropBlogPostContent}[];
+    component?: ComponentType<{children: ReactNode}>;
   }
 
   export default function BlogPostItem(props: Props): JSX.Element;
@@ -119,6 +122,7 @@ declare module '@theme/BlogPostItem/Container' {
 
   export interface Props {
     children: ReactNode;
+    className?: string;
   }
 
   export default function BlogPostItemContainer(props: Props): JSX.Element;
@@ -129,7 +133,11 @@ declare module '@theme/BlogPostItem/Header' {
 }
 
 declare module '@theme/BlogPostItem/Header/Title' {
-  export default function BlogPostItemHeaderTitle(): JSX.Element;
+  export interface Props {
+    className?: string;
+  }
+
+  export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Metadata' {
@@ -141,6 +149,7 @@ declare module '@theme/BlogPostItem/Content' {
 
   export interface Props {
     children: ReactNode;
+    className?: string;
   }
 
   export default function BlogPostItemContent(props: Props): JSX.Element;

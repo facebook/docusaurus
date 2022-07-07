@@ -13,9 +13,12 @@ import BlogPostItemFooter from '@theme/BlogPostItem/Footer';
 
 import type {Props} from '@theme/BlogPostItem';
 
-export default function BlogPostItem({children}: Props): JSX.Element {
+export default function BlogPostItem({
+  children,
+  className,
+}: Props): JSX.Element {
   return (
-    <BlogPostItemContainer>
+    <BlogPostItemContainer className={className}>
       <BlogPostItemHeader />
       <BlogPostItemContent>{children}</BlogPostItemContent>
       <BlogPostItemFooter />

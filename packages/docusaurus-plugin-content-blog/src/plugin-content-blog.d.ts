@@ -504,6 +504,10 @@ declare module '@theme/BlogPostPage' {
   export default function BlogPostPage(props: Props): JSX.Element;
 }
 
+declare module '@theme/BlogPostPage/Metadata' {
+  export default function BlogPostPageMetadata(): JSX.Element;
+}
+
 declare module '@theme/BlogListPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
