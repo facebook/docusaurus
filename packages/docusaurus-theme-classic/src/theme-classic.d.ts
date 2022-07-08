@@ -140,8 +140,8 @@ declare module '@theme/BlogPostItem/Header/Title' {
   export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogPostItem/Header/Metadata' {
-  export default function BlogPostItemHeaderMetadata(): JSX.Element;
+declare module '@theme/BlogPostItem/Header/Date' {
+  export default function BlogPostItemHeaderDate(): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Content' {

@@ -38,12 +38,12 @@ function ReadingTime({readingTime}: {readingTime: number}) {
   return <>{readingTimePlural(readingTime)}</>;
 }
 
-export default function BlogPostItemHeaderMetadata(): JSX.Element {
+export default function BlogPostItemHeaderDate(): JSX.Element {
   const {metadata} = useBlogPost();
   const {date, formattedDate, readingTime} = metadata;
 
   return (
-    <div className={clsx(styles.metadata, 'margin-vert--md')}>
+    <div className={clsx(styles.dateContainer, 'margin-vert--md')}>
       <time dateTime={date} itemProp="datePublished">
         {formattedDate}
       </time>
