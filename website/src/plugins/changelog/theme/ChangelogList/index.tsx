@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/theme-common';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
-import BlogPostItemList from '@theme/BlogPostItemList';
+import BlogPostItems from '@theme/BlogPostItems';
 import SearchMetadata from '@theme/SearchMetadata';
 import ChangelogItem from '@theme/ChangelogItem';
 import ChangelogListHeader from '@theme/ChangelogList/Header';
@@ -37,7 +37,7 @@ function ChangelogListContent(props: Props): JSX.Element {
   return (
     <BlogLayout sidebar={sidebar}>
       <ChangelogListHeader blogTitle={blogTitle} />
-      <BlogPostItemList items={items} component={ChangelogItem} />
+      <BlogPostItems items={items} component={ChangelogItem} />
       <BlogListPaginator metadata={metadata} />
     </BlogLayout>
   );
