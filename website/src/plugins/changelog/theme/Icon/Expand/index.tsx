@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-import type {Props} from '@theme/IconExpand';
+import type {Props} from '@theme/Icon/Expand';
 
 export default function IconExpand({expanded, ...props}: Props): JSX.Element {
   if (expanded) {

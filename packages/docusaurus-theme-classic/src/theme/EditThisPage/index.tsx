@@ -8,7 +8,7 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import IconEdit from '@theme/IconEdit';
+import IconEdit from '@theme/Icon/Edit';
 import type {Props} from '@theme/EditThisPage';
 
 export default function EditThisPage({editUrl}: Props): JSX.Element {

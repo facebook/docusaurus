@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
-import IconArrow from '@theme/IconArrow';
+import IconArrow from '@theme/Icon/Arrow';
 import type {Props} from '@theme/DocSidebar/Desktop/CollapseButton';
 
 import styles from './styles.module.css';

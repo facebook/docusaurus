@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconHome';
+import type {Props} from '@theme/Icon/Home';
 
 export default function IconHome(props: Props): JSX.Element {
   return (

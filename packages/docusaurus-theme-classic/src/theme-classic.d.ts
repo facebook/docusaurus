@@ -1256,7 +1256,7 @@ declare module '@theme/Logo' {
   export default function Logo(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconArrow' {
+declare module '@theme/Icon/Arrow' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1264,7 +1264,7 @@ declare module '@theme/IconArrow' {
   export default function IconArrow(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconDarkMode' {
+declare module '@theme/Icon/DarkMode' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1272,7 +1272,7 @@ declare module '@theme/IconDarkMode' {
   export default function IconDarkMode(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconEdit' {
+declare module '@theme/Icon/Edit' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1280,7 +1280,7 @@ declare module '@theme/IconEdit' {
   export default function IconEdit(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconHome' {
+declare module '@theme/Icon/Home' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1288,7 +1288,7 @@ declare module '@theme/IconHome' {
   export default function IconHome(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconLightMode' {
+declare module '@theme/Icon/LightMode' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1296,7 +1296,7 @@ declare module '@theme/IconLightMode' {
   export default function IconLightMode(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconMenu' {
+declare module '@theme/Icon/Menu' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1304,7 +1304,7 @@ declare module '@theme/IconMenu' {
   export default function IconMenu(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconClose' {
+declare module '@theme/Icon/Close' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1312,7 +1312,7 @@ declare module '@theme/IconClose' {
   export default function IconClose(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconLanguage' {
+declare module '@theme/Icon/Language' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
@@ -1320,7 +1320,7 @@ declare module '@theme/IconLanguage' {
   export default function IconLanguage(props: Props): JSX.Element;
 }
 
-declare module '@theme/IconExternalLink' {
+declare module '@theme/Icon/ExternalLink' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}

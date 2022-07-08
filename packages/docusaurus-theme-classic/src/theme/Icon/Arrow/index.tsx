@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconArrow';
+import type {Props} from '@theme/Icon/Arrow';
 
 export default function IconArrow(props: Props): JSX.Element {
   return (

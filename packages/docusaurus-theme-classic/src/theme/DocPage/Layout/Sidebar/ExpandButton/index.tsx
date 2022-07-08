@@ -7,7 +7,7 @@
 
 import React from 'react';
 import {translate} from '@docusaurus/Translate';
-import IconArrow from '@theme/IconArrow';
+import IconArrow from '@theme/Icon/Arrow';
 import type {Props} from '@theme/DocPage/Layout/Sidebar/ExpandButton';
 
 import styles from './styles.module.css';
