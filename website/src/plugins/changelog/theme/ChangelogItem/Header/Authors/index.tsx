@@ -9,7 +9,7 @@ import React, {useState} from 'react';
 import clsx from 'clsx';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
 import BlogPostItemHeaderAuthor from '@theme/BlogPostItem/Header/Author';
-import IconExpand from '@theme/IconExpand';
+import IconExpand from '@theme/Icon/Expand';
 import type {Props} from '@theme/BlogPostItem/Header/Authors';
 
 import styles from './styles.module.css';

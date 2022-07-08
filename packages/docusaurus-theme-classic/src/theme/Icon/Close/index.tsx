@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconClose';
+import type {Props} from '@theme/Icon/Close';
 
 export default function IconClose({
   width = 21,

@@ -9,8 +9,8 @@ import React from 'react';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
-import IconLightMode from '@theme/IconLightMode';
-import IconDarkMode from '@theme/IconDarkMode';
+import IconLightMode from '@theme/Icon/LightMode';
+import IconDarkMode from '@theme/Icon/DarkMode';
 import type {Props} from '@theme/ColorModeToggle';
 
 import styles from './styles.module.css';
