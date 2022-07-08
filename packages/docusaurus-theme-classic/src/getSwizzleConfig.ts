@@ -93,35 +93,35 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The footer logo',
       },
-      IconArrow: {
+      'Icon/Arrow': {
         actions: {
           eject: 'safe',
           wrap: 'safe',
         },
         description: 'The arrow icon component',
       },
-      IconDarkMode: {
+      'Icon/DarkMode': {
         actions: {
           eject: 'safe',
           wrap: 'safe',
         },
         description: 'The dark mode icon component.',
       },
-      IconEdit: {
+      'Icon/Edit': {
         actions: {
           eject: 'safe',
           wrap: 'safe',
         },
         description: 'The edit icon component',
       },
-      IconLightMode: {
+      'Icon/LightMode': {
         actions: {
           eject: 'safe',
           wrap: 'safe',
         },
         description: 'The light mode icon component.',
       },
-      IconMenu: {
+      'Icon/Menu': {
         actions: {
           eject: 'safe',
           wrap: 'safe',
