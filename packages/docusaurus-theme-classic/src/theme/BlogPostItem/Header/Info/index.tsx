@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {usePluralForm} from '@docusaurus/theme-common';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
+import type {Props} from '@theme/BlogPostItem/Header/Info';
 
 import styles from './styles.module.css';
 
@@ -38,19 +39,30 @@ function ReadingTime({readingTime}: {readingTime: number}) {
   return <>{readingTimePlural(readingTime)}</>;
 }
 
-export default function BlogPostItemHeaderDate(): JSX.Element {
+function Date({date, formattedDate}: {date: string; formattedDate: string}) {
+  return (
+    <time dateTime={date} itemProp="datePublished">
+      {formattedDate}
+    </time>
+  );
+}
+
+function Spacer() {
+  return <>{' · '}</>;
+}
+
+export default function BlogPostItemHeaderInfo({
+  className,
+}: Props): JSX.Element {
   const {metadata} = useBlogPost();
   const {date, formattedDate, readingTime} = metadata;
 
   return (
-    <div className={clsx(styles.dateContainer, 'margin-vert--md')}>
-      <time dateTime={date} itemProp="datePublished">
-        {formattedDate}
-      </time>
-
+    <div className={clsx(styles.container, 'margin-vert--md', className)}>
+      <Date date={date} formattedDate={formattedDate} />
       {typeof readingTime !== 'undefined' && (
         <>
-          {' · '}
+          <Spacer />
           <ReadingTime readingTime={readingTime} />
         </>
       )}

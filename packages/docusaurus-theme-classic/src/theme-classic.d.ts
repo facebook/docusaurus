@@ -140,8 +140,12 @@ declare module '@theme/BlogPostItem/Header/Title' {
   export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogPostItem/Header/Date' {
-  export default function BlogPostItemHeaderDate(): JSX.Element;
+declare module '@theme/BlogPostItem/Header/Info' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function BlogPostItemHeaderInfo(): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Author' {
