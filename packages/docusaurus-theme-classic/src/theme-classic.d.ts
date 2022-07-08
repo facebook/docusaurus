@@ -144,6 +144,25 @@ declare module '@theme/BlogPostItem/Header/Date' {
   export default function BlogPostItemHeaderDate(): JSX.Element;
 }
 
+declare module '@theme/BlogPostItem/Header/Author' {
+  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Authors' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthors(props: Props): JSX.Element;
+}
+
 declare module '@theme/BlogPostItem/Content' {
   import type {ReactNode} from 'react';
 
@@ -169,30 +188,6 @@ declare module '@theme/BlogPostItem/Footer/ReadMoreLink' {
   export default function BlogPostItemFooterReadMoreLink(
     props: Props,
   ): JSX.Element | null;
-}
-
-declare module '@theme/BlogPostAuthor' {
-  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
-
-  export interface Props {
-    readonly author: PropBlogPostContent['metadata']['authors'][number];
-  }
-
-  export default function BlogPostAuthor(props: Props): JSX.Element;
-}
-
-declare module '@theme/BlogPostAuthors' {
-  import type {
-    Assets,
-    PropBlogPostContent,
-  } from '@docusaurus/plugin-content-blog';
-
-  export interface Props {
-    readonly authors: PropBlogPostContent['metadata']['authors'];
-    readonly assets: Assets;
-  }
-
-  export default function BlogPostAuthors(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostPaginator' {

@@ -7,10 +7,10 @@
 
 import React from 'react';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
-import ChangelogAuthors from '@theme/ChangelogAuthors';
 
 import BlogPostItemHeaderTitle from '@theme/BlogPostItem/Header/Title';
 import BlogPostItemHeaderDate from '@theme/BlogPostItem/Header/Date';
+import BlogPostItemHeaderAuthors from '@theme/BlogPostItem/Header/Authors';
 
 import styles from './styles.module.css';
 
@@ -25,13 +25,11 @@ function ChangelogTitle() {
 }
 
 export default function ChangelogItemHeader(): JSX.Element {
-  const {assets, metadata} = useBlogPost();
-  const {authors} = metadata;
   return (
     <header>
       <ChangelogTitle />
       <BlogPostItemHeaderDate />
-      <ChangelogAuthors authors={authors} assets={assets} />
+      <BlogPostItemHeaderAuthors />
     </header>
   );
 }

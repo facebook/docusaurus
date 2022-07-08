@@ -7,16 +7,19 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import BlogPostAuthor from '@theme/BlogPostAuthor';
-import type {Props} from '@theme/BlogPostAuthors';
-
+import {useBlogPost} from '@docusaurus/theme-common/internal';
+import BlogPostItemHeaderAuthor from '@theme/BlogPostItem/Header/Author';
+import type {Props} from '@theme/BlogPostItem/Header/Authors';
 import styles from './styles.module.css';
 
 // Component responsible for the authors layout
-export default function BlogPostAuthors({
-  authors,
-  assets,
+export default function BlogPostItemHeaderAuthors({
+  className,
 }: Props): JSX.Element | null {
+  const {
+    metadata: {authors},
+    assets,
+  } = useBlogPost();
   const authorsCount = authors.length;
   if (authorsCount === 0) {
     return null;
@@ -27,6 +30,7 @@ export default function BlogPostAuthors({
       className={clsx(
         'margin-top--md margin-bottom--sm',
         imageOnly ? styles.imageOnlyAuthorRow : 'row',
+        className,
       )}>
       {authors.map((author, idx) => (
         <div
@@ -35,7 +39,7 @@ export default function BlogPostAuthors({
             imageOnly ? styles.imageOnlyAuthorCol : styles.authorCol,
           )}
           key={idx}>
-          <BlogPostAuthor
+          <BlogPostItemHeaderAuthor
             author={{
               ...author,
               // Handle author images using relative paths
