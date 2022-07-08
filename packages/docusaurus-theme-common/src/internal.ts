@@ -24,7 +24,13 @@ export {
 } from './contexts/docSidebarItemsExpandedState';
 export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
+
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
+export {
+  BlogPostProvider,
+  useBlogPost,
+  type BlogPostContextValue,
+} from './contexts/blogPost';
 
 export {
   useDocsPreferredVersionByPluginId,

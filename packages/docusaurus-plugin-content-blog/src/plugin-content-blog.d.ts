@@ -6,6 +6,7 @@
  */
 
 declare module '@docusaurus/plugin-content-blog' {
+  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
@@ -201,7 +202,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /**
      * Whether the truncate marker exists in the post's content.
      */
-    readonly truncated?: boolean;
+    readonly hasTruncateMarker: boolean;
     /**
      * Used in pagination. Generated after the other metadata, so not readonly.
      * Content is just a subset of another post's metadata.
@@ -462,25 +463,7 @@ declare module '@docusaurus/plugin-content-blog' {
     items: string[];
   };
 
-  export default function pluginContentBlog(
-    context: LoadContext,
-    options: PluginOptions,
-  ): Promise<Plugin<BlogContent>>;
-}
-
-declare module '@theme/BlogPostPage' {
-  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
-  import type {
-    BlogPostFrontMatter,
-    BlogPostMetadata,
-    Assets,
-    BlogSidebar,
-  } from '@docusaurus/plugin-content-blog';
-  import type {Overwrite} from 'utility-types';
-
-  export type FrontMatter = BlogPostFrontMatter;
-
-  export type Metadata = Overwrite<
+  type PropBlogPostMetadata = Overwrite<
     BlogPostMetadata,
     {
       /** The publish date of the post. Serialized from the `Date` object. */
@@ -488,7 +471,28 @@ declare module '@theme/BlogPostPage' {
     }
   >;
 
-  export type Content = LoadedMDXContent<FrontMatter, Metadata, Assets>;
+  export type PropBlogPostContent = LoadedMDXContent<
+    BlogPostFrontMatter,
+    PropBlogPostMetadata,
+    Assets
+  >;
+
+  export default function pluginContentBlog(
+    context: LoadContext,
+    options: PluginOptions,
+  ): Promise<Plugin<BlogContent>>;
+}
+
+declare module '@theme/BlogPostPage' {
+  import type {
+    BlogPostFrontMatter,
+    BlogSidebar,
+    PropBlogPostContent,
+  } from '@docusaurus/plugin-content-blog';
+
+  export type FrontMatter = BlogPostFrontMatter;
+
+  export type Content = PropBlogPostContent;
 
   export interface Props {
     /** Blog sidebar. */
@@ -498,6 +502,10 @@ declare module '@theme/BlogPostPage' {
   }
 
   export default function BlogPostPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostPage/Metadata' {
+  export default function BlogPostPageMetadata(): JSX.Element;
 }
 
 declare module '@theme/BlogListPage' {

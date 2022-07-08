@@ -5,6 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.changelogItemContainer {
-  margin-bottom: 1rem;
+.rss,
+.rss:hover {
+  color: #f26522;
+}
+
+.twitter,
+.twitter:hover {
+  color: #1da1f2;
 }

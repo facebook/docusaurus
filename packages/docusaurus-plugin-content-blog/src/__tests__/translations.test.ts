@@ -32,7 +32,7 @@ const sampleBlogPosts: BlogPost[] = [
       formattedDate: 'June 19, 2021',
       tags: [],
       title: 'Hello',
-      truncated: true,
+      hasTruncateMarker: true,
       authors: [],
       frontMatter: {},
     },

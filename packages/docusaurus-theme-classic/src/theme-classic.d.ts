@@ -95,41 +95,103 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
-  import type {Assets} from '@docusaurus/plugin-content-blog';
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly frontMatter: FrontMatter;
-    readonly assets: Assets;
-    readonly metadata: Metadata;
-    readonly truncated?: string | boolean;
-    readonly isBlogPostPage?: boolean;
-    readonly children: JSX.Element;
+    children: ReactNode;
+    className?: string;
   }
 
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogPostAuthor' {
-  import type {Metadata} from '@theme/BlogPostPage';
+declare module '@theme/BlogPostItems' {
+  import type {ComponentType, ReactNode} from 'react';
+  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly author: Metadata['authors'][number];
+    items: readonly {content: PropBlogPostContent}[];
+    component?: ComponentType<{children: ReactNode}>;
   }
 
-  export default function BlogPostAuthor(props: Props): JSX.Element;
+  export default function BlogPostItem(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogPostAuthors' {
-  import type {Metadata} from '@theme/BlogPostPage';
-  import type {Assets} from '@docusaurus/plugin-content-blog';
+declare module '@theme/BlogPostItem/Container' {
+  import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly authors: Metadata['authors'];
-    readonly assets: Assets;
+    children: ReactNode;
+    className?: string;
   }
 
-  export default function BlogPostAuthors(props: Props): JSX.Element;
+  export default function BlogPostItemContainer(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header' {
+  export default function BlogPostItemHeader(): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Title' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function BlogPostItemHeaderTitle(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Info' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function BlogPostItemHeaderInfo(): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Author' {
+  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Authors' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthors(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Content' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    children: ReactNode;
+    className?: string;
+  }
+
+  export default function BlogPostItemContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Footer' {
+  export default function BlogPostItemFooter(): JSX.Element | null;
+}
+
+declare module '@theme/BlogPostItem/Footer/ReadMoreLink' {
+  import type {Props as LinkProps} from '@docusaurus/Link';
+
+  export type Props = LinkProps & {
+    blogPostTitle: string;
+  };
+
+  export default function BlogPostItemFooterReadMoreLink(
+    props: Props,
+  ): JSX.Element | null;
 }
 
 declare module '@theme/BlogPostPaginator' {
