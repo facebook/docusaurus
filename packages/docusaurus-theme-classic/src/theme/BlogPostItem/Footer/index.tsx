@@ -16,10 +16,10 @@ import styles from './styles.module.css';
 
 export default function BlogPostItemFooter(): JSX.Element | null {
   const {metadata, isBlogPostPage} = useBlogPost();
-  const {tags, title, editUrl, truncateMarker} = metadata;
+  const {tags, title, editUrl, hasTruncateMarker} = metadata;
 
   // A post is truncated if it's in the "list view" and it has a truncate marker
-  const truncatedPost = !isBlogPostPage && truncateMarker;
+  const truncatedPost = !isBlogPostPage && hasTruncateMarker;
 
   const tagsExists = tags.length > 0;
 

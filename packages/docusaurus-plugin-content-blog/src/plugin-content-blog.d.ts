@@ -202,7 +202,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /**
      * Whether the truncate marker exists in the post's content.
      */
-    readonly truncateMarker: boolean;
+    readonly hasTruncateMarker: boolean;
     /**
      * Used in pagination. Generated after the other metadata, so not readonly.
      * Content is just a subset of another post's metadata.

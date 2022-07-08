@@ -171,7 +171,7 @@ describe('blog plugin', () => {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
       },
-      truncateMarker: false,
+      hasTruncateMarker: false,
     });
 
     expect(
@@ -214,7 +214,7 @@ describe('blog plugin', () => {
         permalink: '/blog/date-matter',
         title: 'date-matter',
       },
-      truncateMarker: false,
+      hasTruncateMarker: false,
     });
 
     expect({
@@ -251,7 +251,7 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/complex',
         },
       ],
-      truncateMarker: false,
+      hasTruncateMarker: false,
     });
 
     expect({
@@ -288,7 +288,7 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       tags: [],
-      truncateMarker: false,
+      hasTruncateMarker: false,
     });
 
     expect({
@@ -313,7 +313,7 @@ describe('blog plugin', () => {
         permalink: '/blog/date-matter',
         title: 'date-matter',
       },
-      truncateMarker: false,
+      hasTruncateMarker: false,
     });
   });
 
@@ -470,7 +470,7 @@ describe('blog plugin', () => {
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
-      truncateMarker: false,
+      hasTruncateMarker: false,
     });
   });
 
