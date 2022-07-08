@@ -19,7 +19,7 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogTagsPostsPage';
-import BlogPostItemList from '@theme/BlogPostItemList';
+import BlogPostItems from '@theme/BlogPostItems';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -81,7 +81,7 @@ function BlogTagsPostsPageContent({
           </Translate>
         </Link>
       </header>
-      <BlogPostItemList items={items} />
+      <BlogPostItems items={items} />
       <BlogListPaginator metadata={listMetadata} />
     </BlogLayout>
   );

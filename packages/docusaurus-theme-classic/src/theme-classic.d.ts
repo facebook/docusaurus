@@ -105,7 +105,7 @@ declare module '@theme/BlogPostItem' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogPostItemList' {
+declare module '@theme/BlogPostItems' {
   import type {ComponentType, ReactNode} from 'react';
   import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 

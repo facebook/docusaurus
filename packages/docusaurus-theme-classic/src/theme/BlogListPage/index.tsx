@@ -18,7 +18,7 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogListPage';
-import BlogPostItemList from '@theme/BlogPostItemList';
+import BlogPostItems from '@theme/BlogPostItems';
 
 function BlogListPageMetadata(props: Props): JSX.Element {
   const {metadata} = props;
@@ -40,7 +40,7 @@ function BlogListPageContent(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   return (
     <BlogLayout sidebar={sidebar}>
-      <BlogPostItemList items={items} />
+      <BlogPostItems items={items} />
       <BlogListPaginator metadata={metadata} />
     </BlogLayout>
   );
