@@ -14,6 +14,8 @@
   - [#7644](https://github.com/facebook/docusaurus/pull/7644) refactor(docs,theme): split DocItem comp, useDoc hook ([@slorber](https://github.com/slorber))
 - `docusaurus-logger`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
   - [#7642](https://github.com/facebook/docusaurus/pull/7642) refactor: remove "error" reporting level, move reportMessage to logger ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils-validation`, `docusaurus`
+  - [#7152](https://github.com/facebook/docusaurus/pull/7152) refactor: handle all admonitions via JSX component ([@lex111](https://github.com/lex111))
 
 #### :rocket: New Feature
 
@@ -83,8 +85,6 @@
   - [#7520](https://github.com/facebook/docusaurus/pull/7520) feat: add engines field to templates' package.json ([@johnnyreilly](https://github.com/johnnyreilly))
 - `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus`
   - [#7579](https://github.com/facebook/docusaurus/pull/7579) refactor(pwa): simplify registerSW code, fix ESLint errors ([@Josh-Cena](https://github.com/Josh-Cena))
-- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils-validation`, `docusaurus`
-  - [#7152](https://github.com/facebook/docusaurus/pull/7152) refactor: handle all admonitions via JSX component ([@lex111](https://github.com/lex111))
 - `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`
   - [#7545](https://github.com/facebook/docusaurus/pull/7545) feat(analytics): allow query/hash changes to be sent to GA ([@lanegoolsby](https://github.com/lanegoolsby))
 
