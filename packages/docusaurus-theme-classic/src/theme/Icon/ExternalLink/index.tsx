@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconExternalLink';
+import type {Props} from '@theme/Icon/ExternalLink';
 
 import styles from './styles.module.css';
 

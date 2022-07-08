@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconLightMode';
+import type {Props} from '@theme/Icon/LightMode';
 
 export default function IconLightMode(props: Props): JSX.Element {
   return (

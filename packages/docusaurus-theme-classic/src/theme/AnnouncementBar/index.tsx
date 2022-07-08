@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import {useAnnouncementBar} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
-import IconClose from '@theme/IconClose';
+import IconClose from '@theme/Icon/Close';
 
 import styles from './styles.module.css';
 

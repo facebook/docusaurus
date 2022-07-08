@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconMenu';
+import type {Props} from '@theme/Icon/Menu';
 
 export default function IconMenu({
   width = 30,

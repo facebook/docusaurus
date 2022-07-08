@@ -15,7 +15,7 @@ import {
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {translate} from '@docusaurus/Translate';
-import IconHome from '@theme/IconHome';
+import IconHome from '@theme/Icon/Home';
 
 import styles from './styles.module.css';
 
