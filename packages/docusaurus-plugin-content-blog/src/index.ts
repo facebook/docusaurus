@@ -195,6 +195,21 @@ export default async function pluginContentBlog(
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
+      function blogPostItemsModule(items: string[]) {
+        return items.map((postId) => {
+          const blogPostMetadata = blogItemsToMetadata[postId]!;
+          return {
+            content: {
+              __import: true,
+              path: blogPostMetadata.source,
+              query: {
+                truncated: true,
+              },
+            },
+          };
+        });
+      }
+
       if (archiveBasePath && blogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
@@ -275,15 +290,7 @@ export default async function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => ({
-                content: {
-                  __import: true,
-                  path: blogItemsToMetadata[postID]!.source,
-                  query: {
-                    truncated: true,
-                  },
-                },
-              })),
+              items: blogPostItemsModule(items),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -344,18 +351,7 @@ export default async function pluginContentBlog(
               exact: true,
               modules: {
                 sidebar: aliasedSource(sidebarProp),
-                items: items.map((postID) => {
-                  const blogPostMetadata = blogItemsToMetadata[postID]!;
-                  return {
-                    content: {
-                      __import: true,
-                      path: blogPostMetadata.source,
-                      query: {
-                        truncated: true,
-                      },
-                    },
-                  };
-                }),
+                items: blogPostItemsModule(items),
                 tag: aliasedSource(tagPropPath),
                 listMetadata: aliasedSource(listMetadataPath),
               },

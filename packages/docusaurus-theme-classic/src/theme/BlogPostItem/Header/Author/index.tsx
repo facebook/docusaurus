@@ -6,8 +6,10 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
-import type {Props} from '@theme/BlogPostAuthor';
+
+import type {Props} from '@theme/BlogPostItem/Header/Author';
 
 function MaybeLink(props: LinkProps): JSX.Element {
   if (props.href) {
@@ -16,11 +18,14 @@ function MaybeLink(props: LinkProps): JSX.Element {
   return <>{props.children}</>;
 }
 
-export default function BlogPostAuthor({author}: Props): JSX.Element {
+export default function BlogPostItemHeaderAuthor({
+  author,
+  className,
+}: Props): JSX.Element {
   const {name, title, url, imageURL, email} = author;
   const link = url || (email && `mailto:${email}`) || undefined;
   return (
-    <div className="avatar margin-bottom--sm">
+    <div className={clsx('avatar margin-bottom--sm', className)}>
       {imageURL && (
         <MaybeLink href={link} className="avatar__photo-link">
           <img className="avatar__photo" src={imageURL} alt={name} />

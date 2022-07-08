@@ -5,24 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.blogPostTitle {
+.changelogItemTitleList {
   font-size: 2rem;
-}
-
-.blogPostData {
-  font-size: 0.9rem;
-}
-
-.blogPostDetailsFull {
-  flex-direction: column;
-}
-
-.rss,
-.rss:hover {
-  color: #f26522;
-}
-
-.twitter,
-.twitter:hover {
-  color: #1da1f2;
 }
