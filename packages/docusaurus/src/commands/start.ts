@@ -237,7 +237,7 @@ export async function start(
 
   const devServer = new WebpackDevServer(devServerConfig, compiler);
   devServer.startCallback(async () => {
-    // Plugin Lifecycle - postBuild.
+    // Plugin Lifecycle - postStart.
     await Promise.all(
       plugins.map(async (plugin) => {
         if (!plugin.postStart) {
