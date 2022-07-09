@@ -23,9 +23,11 @@
 declare module '@docusaurus/theme-classic' {
   import type {LoadContext, Plugin, PluginModule} from '@docusaurus/types';
 
-  export type Options = {
-    customCss?: string | string[];
+  export type PluginOptions = {
+    customCss: string | string[];
   };
+
+  export type Options = Partial<PluginOptions>;
 
   export const getSwizzleConfig: PluginModule['getSwizzleConfig'];
 
