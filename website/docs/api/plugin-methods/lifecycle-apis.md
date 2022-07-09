@@ -324,6 +324,43 @@ module.exports = function (context, options) {
 };
 ```
 
+## `postStart(props)` {#postStart}
+
+Called when a (development) server finishes starting.
+
+```ts
+interface Props {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+  preBodyTags: string;
+  postBodyTags: string;
+  routesPaths: string[];
+  plugins: Plugin<any>[];
+  content: Content;
+}
+```
+
+Example:
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    async postStart({siteConfig = {}, routesPaths = [], outDir}) {
+      // Print out to console all the rendered routes.
+      routesPaths.map((route) => {
+        console.log(route);
+      });
+    },
+    // highlight-end
+  };
+};
+```
+
 ## `injectHtmlTags({content})` {#injectHtmlTags}
 
 Inject head and/or body HTML tags to Docusaurus generated HTML.

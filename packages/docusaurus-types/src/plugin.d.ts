@@ -122,6 +122,11 @@ export type Plugin<Content = unknown> = {
       head: {[location: string]: HelmetServerState};
     },
   ) => Promise<void> | void;
+  postStart?: (
+    props: Props & {
+      content: Content;
+    },
+  ) => Promise<void> | void;
   // TODO refactor the configureWebpack API surface: use an object instead of
   // multiple params (requires breaking change)
   configureWebpack?: (

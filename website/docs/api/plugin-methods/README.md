@@ -70,7 +70,6 @@ async function myPlugin(context, opts) {
       // After docusaurus <build> finish.
     },
 
-    // TODO
     async postStart(props) {
       // docusaurus <start> finish
     },

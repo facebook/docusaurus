@@ -236,7 +236,20 @@ export async function start(
   );
 
   const devServer = new WebpackDevServer(devServerConfig, compiler);
-  devServer.startCallback(() => {
+  devServer.startCallback(async () => {
+    // Plugin Lifecycle - postBuild.
+    await Promise.all(
+      plugins.map(async (plugin) => {
+        if (!plugin.postStart) {
+          return;
+        }
+        await plugin.postStart({
+          ...props,
+          content: plugin.content,
+        });
+      }),
+    );
+
     if (cliOptions.open) {
       openBrowser(openUrl);
     }
