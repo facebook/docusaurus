@@ -33,7 +33,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.8",
+    "@crowdin/cli": "^3.7.9",
     "@crowdin/crowdin-api-client": "^1.18.2",
     "@docusaurus/core": "2.0.0-beta.22",
     "@docusaurus/logger": "2.0.0-beta.22",
@@ -49,7 +49,7 @@
     "@docusaurus/utils-common": "2.0.0-beta.22",
     "@popperjs/core": "^2.11.5",
     "@swc/core": "1.2.197",
-    "clsx": "^1.2.0",
+    "clsx": "^1.2.1",
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",
     "netlify-plugin-cache": "^1.0.3",
