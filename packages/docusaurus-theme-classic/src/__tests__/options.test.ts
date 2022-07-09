@@ -843,7 +843,7 @@ describe('validateOptions', () => {
         }),
       ).toEqual({
         id: 'default',
-        customCss: './path/to/cssFile.css',
+        customCss: ['./path/to/cssFile.css'],
       });
     });
 
@@ -865,7 +865,7 @@ describe('validateOptions', () => {
           customCss: 42,
         }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""customCss" must be one of [array, string]"`,
+        `""customCss" must be a string or an array of strings"`,
       );
     });
   });

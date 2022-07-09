@@ -448,7 +448,15 @@ const DEFAULT_OPTIONS = {
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
   customCss: Joi.alternatives()
-    .try(Joi.array().items(Joi.string().required()), Joi.string().required())
+    .try(
+      Joi.array().items(Joi.string().required()),
+      Joi.alternatives().conditional(Joi.string().required(), {
+        then: Joi.custom((val: string) => [val]),
+        otherwise: Joi.forbidden().messages({
+          'any.unknown': '"customCss" must be a string or an array of strings',
+        }),
+      }),
+    )
     .default(DEFAULT_OPTIONS.customCss),
 });
 
