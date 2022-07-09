@@ -29,7 +29,7 @@
     "@docusaurus/utils": "2.0.0-beta.22",
     "@docusaurus/utils-validation": "2.0.0-beta.22",
     "babel-loader": "^8.2.5",
-    "clsx": "^1.2.0",
+    "clsx": "^1.2.1",
     "core-js": "^3.23.3",
     "terser-webpack-plugin": "^5.3.3",
     "tslib": "^2.4.0",
