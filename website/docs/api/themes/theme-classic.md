@@ -27,13 +27,19 @@ Accepted fields:
 <APITable>
 ```
 
-| Option      | Type      | Default | Description |
-| ----------- | --------- | ------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `customCss` | `string[] | string` | `[]`        | Stylesheets to be imported globally as [client modules](../../advanced/client.md#client-modules). Relative paths are resolved against the site directory. |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `customCss` | <code>string[] \| string</code> | `[]` | Stylesheets to be imported globally as [client modules](../../advanced/client.md#client-modules). Relative paths are resolved against the site directory. |
 
 ```mdx-code-block
 </APITable>
 ```
+
+:::note
+
+Most configuration for the theme is done in `themeConfig`, which can be found in [theme configuration](./theme-configuration.md).
+
+:::
 
 ### Example configuration {#ex-config}
 
