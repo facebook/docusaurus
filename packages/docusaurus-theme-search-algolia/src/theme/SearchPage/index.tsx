@@ -280,7 +280,7 @@ function SearchPageContent(): JSX.Element {
   const [loaderRef, setLoaderRef] = useState<HTMLDivElement | null>(null);
   const prevY = useRef(0);
   const observer = useRef(
-    ExecutionEnvironment.canUseDOM &&
+    ExecutionEnvironment.canUseIntersectionObserver &&
       new IntersectionObserver(
         (entries) => {
           const {
