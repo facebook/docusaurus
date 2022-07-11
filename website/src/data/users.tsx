@@ -2060,11 +2060,11 @@ const Users: User[] = [
     title: 'StackQL Provider Registry',
     description:
       'Cloud infra and SaaS provider documentation for StackQL providers.',
-    preview: require('./showcase/registry.stackql.io-screenshot.png'),
+    preview: require('./showcase/registry.stackql.io.png'),
     website: 'https://registry.stackql.io/',
     source: 'https://github.com/stackql/registry.stackql.io',
     tags: ['opensource', 'product', 'large'],
-  },  
+  },
   {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
