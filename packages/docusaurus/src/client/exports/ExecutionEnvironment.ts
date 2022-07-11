@@ -5,23 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const canUseDOM = !!(
+const canUseDOM =
   typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
-);
+  'document' in window &&
+  'createElement' in window.document;
 
 const ExecutionEnvironment = {
   canUseDOM,
 
+  // window.attachEvent is IE-specific; it's very likely Docusaurus won't work
+  // on IE anyway.
   canUseEventListeners:
-    // @ts-expect-error: window.attachEvent is IE specific.
-    // See https://github.com/Microsoft/TypeScript/issues/3953#issuecomment-123396830
-    canUseDOM && !!(window.addEventListener || window.attachEvent),
+    canUseDOM && ('addEventListener' in window || 'attachEvent' in window),
 
   canUseIntersectionObserver: canUseDOM && 'IntersectionObserver' in window,
 
-  canUseViewport: canUseDOM && !!window.screen,
+  canUseViewport: canUseDOM && 'screen' in window,
 };
 
 export default ExecutionEnvironment;
