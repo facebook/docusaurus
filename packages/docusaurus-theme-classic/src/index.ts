@@ -13,7 +13,7 @@ import {getTranslationFiles, translateThemeConfig} from './translations';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
-import type {Options} from '@docusaurus/theme-classic';
+import type {PluginOptions} from '@docusaurus/theme-classic';
 import type webpack from 'webpack';
 
 const requireFromDocusaurusCore = createRequire(
@@ -98,7 +98,7 @@ function getInfimaCSSFile(direction: string) {
 
 export default function themeClassic(
   context: LoadContext,
-  options: Options,
+  options: PluginOptions,
 ): Plugin<undefined> {
   const {
     i18n: {currentLocale, localeConfigs},
@@ -109,7 +109,7 @@ export default function themeClassic(
     colorMode,
     prism: {additionalLanguages},
   } = themeConfig;
-  const {customCss} = options ?? {};
+  const {customCss} = options;
   const {direction} = localeConfigs[currentLocale]!;
 
   return {
@@ -145,13 +145,7 @@ export default function themeClassic(
         './nprogress',
       ];
 
-      if (customCss) {
-        modules.push(
-          ...(Array.isArray(customCss) ? customCss : [customCss]).map((p) =>
-            path.resolve(context.siteDir, p),
-          ),
-        );
-      }
+      modules.push(...customCss.map((p) => path.resolve(context.siteDir, p)));
 
       return modules;
     },
@@ -211,4 +205,4 @@ ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
 }
 
 export {default as getSwizzleConfig} from './getSwizzleConfig';
-export {validateThemeConfig} from './validateThemeConfig';
+export {validateThemeConfig, validateOptions} from './options';
