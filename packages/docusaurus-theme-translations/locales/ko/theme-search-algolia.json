@@ -27,7 +27,7 @@
   "theme.SearchPage.algoliaLabel": "Algolia로 검색",
   "theme.SearchPage.documentsFound.plurals": "{count}개의 문서를 찾았습니다.",
   "theme.SearchPage.emptyResultsTitle": "문서를 검색합니다.",
-  "theme.SearchPage.existingResultsTitle": "\"{query}\"에 대한 검색 결과",
+  "theme.SearchPage.existingResultsTitle": "\"{query}\" 검색 결과",
   "theme.SearchPage.fetchingNewResults": "새로운 검색 결과를 불러오는 중입니다.",
   "theme.SearchPage.inputLabel": "검색",
   "theme.SearchPage.inputPlaceholder": "검색어를 입력하세요.",
