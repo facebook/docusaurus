@@ -2357,7 +2357,7 @@ const Users: User[] = [
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
     tags: ['product', 'personal', 'opensource'],
-    source: 'https://github.com/Gary50613/yeecord-docs',
+    source: 'https://github.com/yeecord/docs',
   },
   {
     title: 'Zowe',
