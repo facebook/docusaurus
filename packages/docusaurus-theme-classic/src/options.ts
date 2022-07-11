@@ -7,8 +7,12 @@
 
 import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
-import type {ThemeConfigValidationContext} from '@docusaurus/types';
+import type {
+  ThemeConfigValidationContext,
+  OptionValidationContext,
+} from '@docusaurus/types';
 
 const DEFAULT_DOCS_CONFIG: ThemeConfig['docs'] = {
   versionPersistence: 'localStorage',
@@ -296,10 +300,6 @@ const FooterLinkItemSchema = Joi.object({
   // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
-const CustomCssSchema = Joi.alternatives()
-  .try(Joi.array().items(Joi.string().required()), Joi.string().required())
-  .optional();
-
 const LogoSchema = Joi.object({
   alt: Joi.string().allow(''),
   src: Joi.string().required(),
@@ -324,7 +324,6 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
-  customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
   docs: DocsSchema,
@@ -441,4 +440,30 @@ export function validateThemeConfig({
   themeConfig,
 }: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   return validate(ThemeConfigSchema, themeConfig);
+}
+
+const DEFAULT_OPTIONS = {
+  customCss: [],
+};
+
+const PluginOptionSchema = Joi.object<PluginOptions>({
+  customCss: Joi.alternatives()
+    .try(
+      Joi.array().items(Joi.string().required()),
+      Joi.alternatives().conditional(Joi.string().required(), {
+        then: Joi.custom((val: string) => [val]),
+        otherwise: Joi.forbidden().messages({
+          'any.unknown': '"customCss" must be a string or an array of strings',
+        }),
+      }),
+    )
+    .default(DEFAULT_OPTIONS.customCss),
+});
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

@@ -7,11 +7,16 @@
 
 import _ from 'lodash';
 
-import {normalizeThemeConfig} from '@docusaurus/utils-validation';
+import {
+  normalizeThemeConfig,
+  normalizePluginOptions,
+} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
-import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
+import {ThemeConfigSchema, DEFAULT_CONFIG, validateOptions} from '../options';
+import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
+import type {Validate} from '@docusaurus/types';
 
 function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -20,12 +25,10 @@ function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   });
 }
 
-function testOk(partialThemeConfig: {[key: string]: unknown}) {
-  expect(
-    testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
-  ).toEqual({
-    ...DEFAULT_CONFIG,
-    ...partialThemeConfig,
+function testValidateOptions(options: Options) {
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+    options,
   });
 }
 
@@ -642,36 +645,6 @@ describe('themeConfig', () => {
     });
   });
 
-  describe('customCss config', () => {
-    it('accepts customCss undefined', () => {
-      testOk({
-        customCss: undefined,
-      });
-    });
-
-    it('accepts customCss string', () => {
-      testOk({
-        customCss: './path/to/cssFile.css',
-      });
-    });
-
-    it('accepts customCss string array', () => {
-      testOk({
-        customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
-      });
-    });
-
-    it('rejects customCss number', () => {
-      expect(() =>
-        testValidateThemeConfig({
-          customCss: 42,
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `""customCss" must be one of [array, string]"`,
-      );
-    });
-  });
-
   describe('color mode config', () => {
     const withDefaultValues = (colorMode?: ThemeConfig['colorMode']) =>
       _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
@@ -845,6 +818,54 @@ describe('themeConfig', () => {
         testValidateThemeConfig({tableOfContents}),
       ).toThrowErrorMatchingInlineSnapshot(
         `""tableOfContents.minHeadingLevel" must be less than or equal to ref:maxHeadingLevel"`,
+      );
+    });
+  });
+});
+
+describe('validateOptions', () => {
+  describe('customCss config', () => {
+    it('accepts customCss undefined', () => {
+      expect(
+        testValidateOptions({
+          customCss: undefined,
+        }),
+      ).toEqual({
+        id: 'default',
+        customCss: [],
+      });
+    });
+
+    it('accepts customCss string', () => {
+      expect(
+        testValidateOptions({
+          customCss: './path/to/cssFile.css',
+        }),
+      ).toEqual({
+        id: 'default',
+        customCss: ['./path/to/cssFile.css'],
+      });
+    });
+
+    it('accepts customCss string array', () => {
+      expect(
+        testValidateOptions({
+          customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
+        }),
+      ).toEqual({
+        id: 'default',
+        customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
+      });
+    });
+
+    it('rejects customCss number', () => {
+      expect(() =>
+        testValidateOptions({
+          // @ts-expect-error: test
+          customCss: 42,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""customCss" must be a string or an array of strings"`,
       );
     });
   });
