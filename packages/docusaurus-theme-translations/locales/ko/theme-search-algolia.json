@@ -8,7 +8,7 @@
   "theme.SearchModal.footer.navigateDownKeyAriaLabel": "화살표 아래 키",
   "theme.SearchModal.footer.navigateText": "로 이동",
   "theme.SearchModal.footer.navigateUpKeyAriaLabel": "화살표 위 키",
-  "theme.SearchModal.footer.searchByText": "Search by",
+  "theme.SearchModal.footer.searchByText": "검색 제공",
   "theme.SearchModal.footer.selectKeyAriaLabel": "엔터 키",
   "theme.SearchModal.footer.selectText": "로 선택",
   "theme.SearchModal.noResultsScreen.noResultsText": "검색 결과 없음",
