@@ -607,7 +607,7 @@ const Users: User[] = [
     description: 'An open-source e-commerce platform with NodeJS and ReactJS',
     preview: require('./showcase/evershop.png'),
     website: 'https://evershop.io/',
-    source: 'https://github.com/evershopcommerce/evershop',
+    source: 'https://github.com/evershopcommerce/docs',
     tags: ['opensource', 'product'],
   },
   {
