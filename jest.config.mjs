@@ -52,9 +52,6 @@ export default {
           },
           target: 'es2020',
         },
-        module: {
-          ignoreDynamic: true,
-        },
       },
     ],
   },
