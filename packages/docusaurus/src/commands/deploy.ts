@@ -183,9 +183,6 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   // Save the commit hash that triggers publish-gh-pages before checking
   // out to deployment branch.
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
-  const currentGitRootDir = shellExecLog(
-    'git rev-parse --show-toplevel',
-  ).stdout.trim();
 
   const runDeploy = async (outputDirectory: string) => {
     const fromPath = outputDirectory;
@@ -216,16 +213,6 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
       logger.error`Copying build assets from path=${fromPath} to path=${toPath} failed.`;
       throw err;
     }
-
-    const gitConfigFromPath = path.join(currentGitRootDir, `.git`, `config`);
-    const gitConfigToPath = path.join(toPath, `.git`, `config`);
-    try {
-      await fs.copy(gitConfigFromPath, gitConfigToPath);
-    } catch (err) {
-      logger.error`Copying git config from path=${gitConfigFromPath} to path=${gitConfigToPath} failed.`;
-      throw err;
-    }
-
     shellExecLog('git add --all');
 
     const commitMessage =
