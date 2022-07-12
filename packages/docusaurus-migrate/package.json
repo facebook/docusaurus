@@ -32,7 +32,6 @@
     "fs-extra": "^10.1.0",
     "hast-util-to-string": "^1.0.4",
     "html-tags": "^3.2.0",
-    "import-fresh": "^3.3.0",
     "jscodeshift": "^0.13.1",
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
