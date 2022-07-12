@@ -236,23 +236,20 @@ export async function start(
   );
 
   const devServer = new WebpackDevServer(devServerConfig, compiler);
-  devServer.startCallback(async () => {
-    // Plugin Lifecycle - postStart.
-    await Promise.all(
-      plugins.map(async (plugin) => {
-        if (!plugin.postStart) {
-          return;
-        }
-        await plugin.postStart({
-          ...props,
-          content: plugin.content,
-        });
-      }),
-    );
-
+  devServer.startCallback(() => {
     if (cliOptions.open) {
       openBrowser(openUrl);
     }
+
+    // Plugin Lifecycle - postStart.
+    return Promise.all(
+      plugins.map((plugin) =>
+        plugin.postStart?.({
+          ...props,
+          content: plugin.content,
+        }),
+      ),
+    );
   });
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
