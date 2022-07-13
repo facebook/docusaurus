@@ -124,7 +124,7 @@ Read more about the robots file in [the Google documentation](https://developers
 
 :::caution
 
-**Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed. Use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata) to prevent it from appearing in search results entirely.
+**Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed. Use [`noIndex`](https://docusaurus.io/docs/api/docusaurus-config#noIndex) parameter to prevent it from appearing in search results entirely.
 
 :::
 
