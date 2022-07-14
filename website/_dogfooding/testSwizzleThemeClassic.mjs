@@ -30,7 +30,7 @@ const classicThemePathBase = path.join(
   '../../packages/docusaurus-theme-classic',
 );
 
-const themePath = swizzleConfig
+const themePath = typescript
   ? path.join(classicThemePathBase, 'src/theme')
   : path.join(classicThemePathBase, 'lib/theme');
 
