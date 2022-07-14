@@ -144,6 +144,7 @@ We will outline what accounts as the public API surface.
 - Plugin options
 - Plugin lifecycle APIs
 - Theme config
+- Core plugins route component props
 - TypeScript types
   - We still retain the freedom to make types stricter (which may break type-checking).
 
