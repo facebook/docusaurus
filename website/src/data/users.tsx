@@ -262,7 +262,7 @@ const Users: User[] = [
   },
   {
     title: "Bruce's Wiki",
-    description: 'A personal wiki by Bruce',
+    description: 'A personal wiki by Bruce Song',
     preview: require('./showcase/bruce-wiki.png'),
     website: 'https://bruce-wiki.vercel.app/',
     source: 'https://github.com/recallwei/wiki',
