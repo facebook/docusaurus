@@ -145,6 +145,7 @@ Created wrapper of name=${componentName} from name=${themeName} in path=${result
           siteDir,
           themePath,
           componentName,
+          typescript,
         });
         logger.success`
 Ejected name=${componentName} from name=${themeName} to path=${result.createdFiles}
