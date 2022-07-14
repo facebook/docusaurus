@@ -61,7 +61,9 @@ If you only use our [public API surface](##public-api-surface), you should be ab
 
 The `patch` version number is incremented on bugfixes releases.
 
-Whenever a new patch version is released, we only publish an exhaustive changelog entry.
+Whenever a new patch version is released, we publish:
+
+- an exhaustive changelog entry
 
 ## Versions {#versions}
 
