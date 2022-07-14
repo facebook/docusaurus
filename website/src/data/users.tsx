@@ -261,6 +261,14 @@ const Users: User[] = [
     tags: ['product', 'design'],
   },
   {
+    title: "Bruce's Wiki",
+    description: 'A personal wiki by Bruce Song',
+    preview: require('./showcase/bruce-wiki.png'),
+    website: 'https://bruce-wiki.vercel.app/',
+    source: 'https://github.com/recallwei/wiki',
+    tags: ['opensource', 'design', 'personal'],
+  },
+  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
