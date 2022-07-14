@@ -125,7 +125,7 @@ The next version passes all our automated tests and is used by the Docusaurus si
 
 Breaking changes can happen on the next version: detailed upgrade instructions are available in the changelog and pull requests.
 
-At the`rc` (release candidate) phase, we avoid introducing major breaking changes.
+At the `beta` and `rc` (release candidate) phases, we avoid introducing major breaking changes.
 
 :::
 
@@ -153,7 +153,7 @@ We will outline what accounts as the public API surface.
 - Plugin lifecycle APIs
 - Theme config
 - Core plugins route component props
-- TypeScript types
+- `@docusaurus/types` TypeScript types
   - We still retain the freedom to make types stricter (which may break type-checking).
 
 :::tip
