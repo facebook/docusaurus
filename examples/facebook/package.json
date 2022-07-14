@@ -19,10 +19,10 @@
     "dev": "docusaurus start"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.22",
-    "@docusaurus/preset-classic": "2.0.0-beta.22",
+    "@docusaurus/core": "2.0.0-rc.1",
+    "@docusaurus/preset-classic": "2.0.0-rc.1",
     "@mdx-js/react": "^1.6.22",
-    "clsx": "^1.2.0",
+    "clsx": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
