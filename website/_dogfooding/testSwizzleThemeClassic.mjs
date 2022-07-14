@@ -30,7 +30,7 @@ const classicThemePathBase = path.join(
   '../../packages/docusaurus-theme-classic',
 );
 
-const themePath = swizzleConfig
+const themePath = typescript
   ? path.join(classicThemePathBase, 'src/theme')
   : path.join(classicThemePathBase, 'lib/theme');
 
@@ -98,13 +98,13 @@ for (const componentName of componentNames) {
       siteDir: toPath,
       themePath,
       componentName,
+      typescript,
     };
     switch (action) {
       case 'wrap':
         return wrap({
           ...baseParams,
           importType: 'init', // For these tests, "theme-original" imports are causing an expected infinite loop
-          typescript,
         });
       case 'eject':
         return eject(baseParams);

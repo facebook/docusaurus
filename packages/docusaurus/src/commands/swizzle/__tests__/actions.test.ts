@@ -24,13 +24,18 @@ function stableCreatedFiles(
 }
 
 describe('eject', () => {
-  async function testEject(action: SwizzleAction, componentName: string) {
+  async function testEject(
+    action: SwizzleAction,
+    componentName: string,
+    {typescript}: {typescript: boolean} = {typescript: true},
+  ) {
     const siteDir = await createTempSiteDir();
     const siteThemePath = path.join(siteDir, 'src/theme');
     const result = await eject({
       siteDir,
       componentName,
       themePath: ThemePath,
+      typescript,
     });
     return {
       siteDir,
@@ -50,6 +55,22 @@ describe('eject', () => {
       "theme
       ├── FirstLevelComponent.css
       └── FirstLevelComponent.tsx"
+    `);
+  });
+
+  it(`eject ${Components.JsComponent} JS`, async () => {
+    const result = await testEject('eject', Components.JsComponent, {
+      typescript: false,
+    });
+    expect(result.createdFiles).toEqual([
+      'JsComponent/index.css',
+      'JsComponent/index.js',
+    ]);
+    expect(result.tree).toMatchInlineSnapshot(`
+      "theme
+      └── JsComponent
+          ├── index.css
+          └── index.js"
     `);
   });
 
