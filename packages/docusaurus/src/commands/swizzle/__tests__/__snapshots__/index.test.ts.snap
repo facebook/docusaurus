@@ -7,27 +7,9 @@ exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/Sibling.css 1`] =
 "
 `;
 
-exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/Sibling.tsx 1`] = `
-"import React from 'react';
-
-export default function Sibling() {
-  return <div>Sibling</div>;
-}
-"
-`;
-
 exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/index.css 1`] = `
 ".testClass {
   background: black;
-}
-"
-`;
-
-exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/index.tsx 1`] = `
-"import React from 'react';
-
-export default function ComponentInFolder() {
-  return <div>ComponentInFolder</div>;
 }
 "
 `;
@@ -36,9 +18,7 @@ exports[`swizzle eject ComponentInFolder JS: theme dir tree 1`] = `
 "theme
 └── ComponentInFolder
     ├── Sibling.css
-    ├── Sibling.tsx
-    ├── index.css
-    └── index.tsx"
+    └── index.css"
 `;
 
 exports[`swizzle eject ComponentInFolder TS: ComponentInFolder/Sibling.css 1`] = `
@@ -89,15 +69,6 @@ exports[`swizzle eject ComponentInFolder/ComponentInSubFolder JS: ComponentInFol
 "
 `;
 
-exports[`swizzle eject ComponentInFolder/ComponentInSubFolder JS: ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
-"import React from 'react';
-
-export default function ComponentInSubFolder() {
-  return <div>ComponentInSubFolder</div>;
-}
-"
-`;
-
 exports[`swizzle eject ComponentInFolder/ComponentInSubFolder JS: ComponentInFolder/ComponentInSubFolder/styles.css 1`] = `
 ".testClass {
   background: black;
@@ -117,7 +88,6 @@ exports[`swizzle eject ComponentInFolder/ComponentInSubFolder JS: theme dir tree
 └── ComponentInFolder
     └── ComponentInSubFolder
         ├── index.css
-        ├── index.tsx
         ├── styles.css
         └── styles.module.css"
 `;
@@ -169,20 +139,10 @@ exports[`swizzle eject ComponentInFolder/Sibling JS: ComponentInFolder/Sibling.c
 "
 `;
 
-exports[`swizzle eject ComponentInFolder/Sibling JS: ComponentInFolder/Sibling.tsx 1`] = `
-"import React from 'react';
-
-export default function Sibling() {
-  return <div>Sibling</div>;
-}
-"
-`;
-
 exports[`swizzle eject ComponentInFolder/Sibling JS: theme dir tree 1`] = `
 "theme
 └── ComponentInFolder
-    ├── Sibling.css
-    └── Sibling.tsx"
+    └── Sibling.css"
 `;
 
 exports[`swizzle eject ComponentInFolder/Sibling TS: ComponentInFolder/Sibling.css 1`] = `
@@ -215,19 +175,9 @@ exports[`swizzle eject FirstLevelComponent JS: FirstLevelComponent.css 1`] = `
 "
 `;
 
-exports[`swizzle eject FirstLevelComponent JS: FirstLevelComponent.tsx 1`] = `
-"import React from 'react';
-
-export default function FirstLevelComponent() {
-  return <div>First level component</div>;
-}
-"
-`;
-
 exports[`swizzle eject FirstLevelComponent JS: theme dir tree 1`] = `
 "theme
-├── FirstLevelComponent.css
-└── FirstLevelComponent.tsx"
+└── FirstLevelComponent.css"
 `;
 
 exports[`swizzle eject FirstLevelComponent TS: FirstLevelComponent.css 1`] = `
