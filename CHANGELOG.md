@@ -1,5 +1,53 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-rc.1 (2022-07-14)
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#7776](https://github.com/facebook/docusaurus/pull/7776) fix(core): swizzle --eject js should not copy theme .d.ts files ([@slorber](https://github.com/slorber))
+  - [#7750](https://github.com/facebook/docusaurus/pull/7750) fix(deploy): revert "feat(deploy): copy local git config to tmp repo (#7702)" ([@ghostsquad](https://github.com/ghostsquad))
+- `docusaurus-plugin-sitemap`
+  - [#7774](https://github.com/facebook/docusaurus/pull/7774) fix(sitemap): complete gracefully when all pages have noIndex meta ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-theme-classic`
+  - [#7771](https://github.com/facebook/docusaurus/pull/7771) chore: bump Infima to 0.2.0-alpha.42, fix a:hover link bug ([@slorber](https://github.com/slorber))
+  - [#7755](https://github.com/facebook/docusaurus/pull/7755) fix(theme-classic): validate options properly ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#7752](https://github.com/facebook/docusaurus/pull/7752) fix(theme-classic): fix Layout theme height CSS ([@LichLord91](https://github.com/LichLord91))
+- `docusaurus-migrate`
+  - [#7766](https://github.com/facebook/docusaurus/pull/7766) fix(migrate): import siteConfig with file extension ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-theme-search-algolia`
+  - [#7761](https://github.com/facebook/docusaurus/pull/7761) fix(algolia-search): test for canUseIntersectionObserver ([@RoiArthurB](https://github.com/RoiArthurB))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-translations`
+  - [#7762](https://github.com/facebook/docusaurus/pull/7762) chore(theme-translations): complete ko translations ([@anaclumos](https://github.com/anaclumos))
+
+#### :memo: Documentation
+
+- `docusaurus-plugin-content-docs`
+  - [#7706](https://github.com/facebook/docusaurus/pull/7706) docs: release process, versioning, breaking changes, public API surface ([@slorber](https://github.com/slorber))
+
+#### :wrench: Maintenance
+
+- `docusaurus-theme-classic`
+  - [#7777](https://github.com/facebook/docusaurus/pull/7777) refactor(theme): fix duplicate page metadata usage ([@slorber](https://github.com/slorber))
+  - [#7771](https://github.com/facebook/docusaurus/pull/7771) chore: bump Infima to 0.2.0-alpha.42, fix a:hover link bug ([@slorber](https://github.com/slorber))
+
+#### Committers: 11
+
+- Arthur Brugière ([@RoiArthurB](https://github.com/RoiArthurB))
+- Bruce Song ([@recallwei](https://github.com/recallwei))
+- Evan ([@DigiPie](https://github.com/DigiPie))
+- Jeffrey Aven ([@jeffreyaven](https://github.com/jeffreyaven))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Sunghyun Cho ([@anaclumos](https://github.com/anaclumos))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- The Nguyen ([@treoden](https://github.com/treoden))
+- Wes McNamee ([@ghostsquad](https://github.com/ghostsquad))
+- [@LichLord91](https://github.com/LichLord91)
+- 凱恩 Kane ([@Gary50613](https://github.com/Gary50613))
+
 ## 2.0.0-beta.22 (2022-07-08)
 
 #### :boom: Breaking Change
