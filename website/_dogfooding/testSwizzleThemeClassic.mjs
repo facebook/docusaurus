@@ -98,13 +98,13 @@ for (const componentName of componentNames) {
       siteDir: toPath,
       themePath,
       componentName,
+      typescript,
     };
     switch (action) {
       case 'wrap':
         return wrap({
           ...baseParams,
           importType: 'init', // For these tests, "theme-original" imports are causing an expected infinite loop
-          typescript,
         });
       case 'eject':
         return eject(baseParams);
