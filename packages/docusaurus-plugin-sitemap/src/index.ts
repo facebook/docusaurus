@@ -30,6 +30,9 @@ export default function pluginSitemap(
         head,
         options,
       );
+      if (!generatedSitemap) {
+        return;
+      }
 
       // Write sitemap file.
       const sitemapPath = path.join(outDir, options.filename);

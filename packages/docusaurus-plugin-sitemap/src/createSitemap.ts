@@ -18,7 +18,7 @@ export default async function createSitemap(
   routesPaths: string[],
   head: {[location: string]: HelmetServerState},
   options: PluginOptions,
-): Promise<string> {
+): Promise<string | null> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
@@ -27,9 +27,7 @@ export default async function createSitemap(
 
   const ignoreMatcher = createMatcher(ignorePatterns);
 
-  const sitemapStream = new SitemapStream({hostname});
-
-  function routeShouldBeIncluded(route: string) {
+  const includedRoutes = routesPaths.filter((route) => {
     if (route.endsWith('404.html') || ignoreMatcher(route)) {
       return false;
     }
@@ -40,9 +38,15 @@ export default async function createSitemap(
     return !meta?.some(
       (tag) => tag.props.name === 'robots' && tag.props.content === 'noindex',
     );
+  });
+
+  if (includedRoutes.length === 0) {
+    return null;
   }
 
-  routesPaths.filter(routeShouldBeIncluded).forEach((routePath) =>
+  const sitemapStream = new SitemapStream({hostname});
+
+  includedRoutes.forEach((routePath) =>
     sitemapStream.write({
       url: applyTrailingSlash(routePath, {
         trailingSlash: siteConfig.trailingSlash,
