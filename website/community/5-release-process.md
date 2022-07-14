@@ -76,8 +76,14 @@ import {
 
 The Docusaurus team is usually working on 2 major versions at the same time:
 
-- **Docusaurus <StableMajorVersion/>**: the **stable**, on the <StableMajorBranchLink/> branch
+- **Docusaurus <StableMajorVersion/>**: the **stable** version, on the <StableMajorBranchLink/> branch
 - **Docusaurus <NextMajorVersion/>**: the **next** version, on the <NextMajorBranchLink/> branch
+
+:::note
+
+The <StableMajorBranchLink/> branch is created just before releasing the first v<StableMajorVersion/> release candidate.
+
+:::
 
 ### Stable version {#stable-version}
 
@@ -117,7 +123,7 @@ The next version passes all our automated tests and is used by the Docusaurus si
 
 Breaking changes can happen on the next version: detailed upgrade instructions are available in the changelog and pull requests.
 
-At the `beta` and `rc` (release candidate) phases, we avoid introducing major breaking changes.
+At the`rc` (release candidate) phase, we avoid introducing major breaking changes.
 
 :::
 
