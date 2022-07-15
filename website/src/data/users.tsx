@@ -2174,6 +2174,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Tauri',
+    description:
+      'Build an optimized, secure, and frontend-independent application for multi-platform deployment.',
+    preview: require('./showcase/tauri.png'),
+    website: 'https://tauri.app/',
+    source: 'https://github.com/tauri-apps/tauri-docs',
+    tags: ['opensource', 'i18n', 'product', 'design']
+  },
+  {
     title: 'TechHarvesting',
     description:
       'Learn full stack web development from tutorials and blog posts',
