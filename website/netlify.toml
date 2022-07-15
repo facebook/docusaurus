@@ -16,6 +16,9 @@
 [context.production]
   command = "yarn --cwd .. build:packages && yarn netlify:build:production"
 
+[context.branch-deploy]
+  command = "yarn --cwd .. build:packages && yarn netlify:build:production"
+
 [context.deploy-preview]
   command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
 
