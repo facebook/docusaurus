@@ -46,6 +46,10 @@ const isDev = process.env.NODE_ENV === 'development';
 const isDeployPreview =
   !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
+// Netlify branch deploy like "docusaurus-v2"
+const isBranchDeploy =
+  !!process.env.NETLIFY && process.env.CONTEXT === 'branch-deploy';
+
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
 
@@ -82,15 +86,16 @@ const config = {
   ],
   i18n: {
     defaultLocale: 'en',
-    // eslint-disable-next-line no-nested-ternary
-    locales: isDeployPreview
-      ? // Deploy preview: keep it fast!
-        ['en']
-      : isI18nStaging
-      ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-        ['en', 'ja']
-      : // Production locales
-        ['en', 'fr', 'pt-BR', 'ko', 'zh-CN'],
+     
+    locales:
+      isDeployPreview || isBranchDeploy
+        ? // Deploy preview and branch deploys: keep them fast!
+          ['en']
+        : isI18nStaging
+        ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+          ['en', 'ja']
+        : // Production locales
+          ['en', 'fr', 'pt-BR', 'ko', 'zh-CN'],
   },
   webpack: {
     jsLoader: (isServer) => ({
@@ -299,11 +304,15 @@ const config = {
           remarkPlugins: [math, [npm2yarn, {sync: true}]],
           rehypePlugins: [],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          lastVersion:
+            isDev || isDeployPreview || isBranchDeploy ? 'current' : undefined,
           onlyIncludeVersions: (() => {
             if (isBuildFast) {
               return ['current'];
-            } else if (!isVersioningDisabled && (isDev || isDeployPreview)) {
+            } else if (
+              !isVersioningDisabled &&
+              (isDev || isDeployPreview || isBranchDeploy)
+            ) {
               return ['current', ...versions.slice(0, 2)];
             }
             return undefined;
@@ -341,7 +350,7 @@ const config = {
             './_dogfooding/dogfooding.css',
           ],
         },
-        gtag: !isDeployPreview
+        gtag: !(isDeployPreview || isBranchDeploy)
           ? {
               trackingID: 'UA-141789564-1',
             }
