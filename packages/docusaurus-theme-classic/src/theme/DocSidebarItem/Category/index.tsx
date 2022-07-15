@@ -136,7 +136,7 @@ export default function DocSidebarItemCategory({
   useEffect(() => {
     if (
       collapsible &&
-      expandedItem &&
+      expandedItem != null &&
       expandedItem !== index &&
       autoCollapseCategories
     ) {
