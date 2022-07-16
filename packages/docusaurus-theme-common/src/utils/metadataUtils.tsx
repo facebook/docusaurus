@@ -18,6 +18,7 @@ type PageMetadataProps = {
   readonly keywords?: readonly string[] | string;
   readonly image?: string;
   readonly children?: ReactNode;
+  readonly socialCardUrl?: string;
 };
 
 /**
@@ -30,6 +31,7 @@ export function PageMetadata({
   keywords,
   image,
   children,
+  socialCardUrl,
 }: PageMetadataProps): JSX.Element {
   const pageTitle = useTitleFormatter(title);
   const {withBaseUrl} = useBaseUrlUtils();
@@ -52,9 +54,13 @@ export function PageMetadata({
           }
         />
       )}
-
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
+
+      {socialCardUrl && <meta property="og:image" content={socialCardUrl} />}
+      {socialCardUrl && (
+        <meta property="twitter:image" content={socialCardUrl} />
+      )}
 
       {children}
     </Head>
