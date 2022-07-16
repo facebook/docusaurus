@@ -96,6 +96,10 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "plugins": [],
     "presets": [],
     "scripts": [],
+    "socialCardService": {
+      "getUrl": [Function],
+      "options": {},
+    },
     "staticDirectories": [
       "static",
     ],

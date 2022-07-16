@@ -76,6 +76,7 @@ export type SidebarItemCategoryLinkGeneratedIndex = {
   description?: string;
   image?: string;
   keywords?: string | readonly string[];
+  socialCardUrl?: string;
 };
 
 export type SidebarItemCategoryLinkConfig =

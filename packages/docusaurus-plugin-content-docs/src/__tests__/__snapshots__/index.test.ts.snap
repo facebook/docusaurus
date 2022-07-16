@@ -407,7 +407,8 @@ exports[`simple website content: data 1`] = `
       "title": "rootAbsoluteSlug",
       "permalink": "/docs/rootAbsoluteSlug"
     }
-  }
+  },
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Slugs?version=current&"
 }",
   "site-docs-custom-last-update-md-b8d.json": "{
   "unversionedId": "customLastUpdate",

@@ -225,6 +225,8 @@ export default async function pluginContentDocs(
           categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
             docs: version.docs,
             sidebarsUtils,
+            context,
+            version: version.versionName,
           }),
         };
       });

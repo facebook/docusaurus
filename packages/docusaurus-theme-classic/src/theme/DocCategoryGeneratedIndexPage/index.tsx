@@ -31,6 +31,7 @@ function DocCategoryGeneratedIndexPageMetadata({
       keywords={categoryGeneratedIndex.keywords}
       // TODO `require` this?
       image={useBaseUrl(categoryGeneratedIndex.image)}
+      socialCardUrl={categoryGeneratedIndex.socialCardUrl}
     />
   );
 }
