@@ -40,6 +40,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'tagline'
   | 'baseUrlIssueBanner'
   | 'staticDirectories'
+  | 'socialCardService'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -58,6 +59,31 @@ export const DEFAULT_CONFIG: Pick<
   tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
+  socialCardService: {
+    getUrl: (data, options) => {
+      if (data.type === '404') {
+        return `https://docusaurus-og-image.vercel.app/${encodeURI(
+          'Page Not Found',
+        )}`;
+      } else if (data.type === 'default') {
+        return `https://docusaurus-og-image.vercel.app/${encodeURI(
+          'Docusaurus Project',
+        )}`;
+      }
+      return `https://docusaurus-og-image.vercel.app/${
+        data.title ? encodeURI(data.title) : ''
+      }?${data.author ? `author=${encodeURI(data.author)}&` : ''}${
+        data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''
+      }${data.docVersion ? `version=${encodeURI(data.docVersion)}&` : ''}${
+        options.projectTitle ? `name=${encodeURI(options.projectTitle)}&` : ''
+      }${options.projectLogo ? `logo=${encodeURI(options.projectLogo)}&` : ''}${
+        options.markdown === false ? 'md=false&' : ''
+      }${options.docusaurus === false ? 'docusaurus=false&' : ''}${
+        options.theme ? `theme=${options.theme}` : ''
+      }`;
+    },
+    options: {},
+  },
 };
 
 function createPluginSchema(theme: boolean) {
@@ -236,6 +262,16 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
+  socialCardService: Joi.object({
+    getUrl: Joi.function(),
+    options: Joi.object({
+      projectTitle: Joi.string().optional(),
+      projectLogo: Joi.string().optional(),
+      docusaurus: Joi.boolean().optional(),
+      markdown: Joi.boolean().optional(),
+      theme: Joi.string().valid('light', 'dark').optional(),
+    }),
+  }).default(DEFAULT_CONFIG.socialCardService),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
