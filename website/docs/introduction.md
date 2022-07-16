@@ -33,6 +33,7 @@ Start the site:
 
 ```bash
 cd my-website
+npm install
 npx docusaurus start
 ```
 
