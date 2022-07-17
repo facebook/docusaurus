@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.9",
-    "@crowdin/crowdin-api-client": "^1.18.2",
+    "@crowdin/crowdin-api-client": "^1.19.0",
     "@docusaurus/core": "2.0.0-rc.1",
     "@docusaurus/logger": "2.0.0-rc.1",
     "@docusaurus/plugin-client-redirects": "2.0.0-rc.1",
@@ -83,7 +83,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "2.0.0-rc.1",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@types/jest": "^28.1.4",
+    "@types/jest": "^28.1.6",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }

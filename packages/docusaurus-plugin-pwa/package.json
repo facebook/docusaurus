@@ -30,7 +30,7 @@
     "@docusaurus/utils-validation": "2.0.0-rc.1",
     "babel-loader": "^8.2.5",
     "clsx": "^1.2.1",
-    "core-js": "^3.23.3",
+    "core-js": "^3.23.4",
     "terser-webpack-plugin": "^5.3.3",
     "tslib": "^2.4.0",
     "webpack": "^5.73.0",
