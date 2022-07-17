@@ -267,14 +267,16 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .optional(),
   }).optional(),
   socialCardService: Joi.object({
-    getUrl: Joi.function(),
+    getUrl: Joi.function().default(
+      () => DEFAULT_CONFIG.socialCardService.getUrl,
+    ),
     options: Joi.object({
-      projectTitle: Joi.string().optional(),
+      projectName: Joi.string().optional(),
       projectLogo: Joi.string().optional(),
       docusaurus: Joi.boolean().optional(),
       markdown: Joi.boolean().optional(),
       theme: Joi.string().valid('light', 'dark').optional(),
-    }),
+    }).default(DEFAULT_CONFIG.socialCardService.options),
   }).default(DEFAULT_CONFIG.socialCardService),
 }).messages({
   'docusaurus.configValidationWarning':
