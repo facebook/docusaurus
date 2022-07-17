@@ -46,7 +46,7 @@ function getCategoryGeneratedIndexMetadata({
     socialCardUrl: context?.siteConfig.socialCardService.getUrl(
       {
         title,
-        docVersion: version,
+        version,
         type: 'docs',
         slug,
       },

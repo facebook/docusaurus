@@ -11,7 +11,7 @@ import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig} from './plugin';
 
 export type SocialCardOptions = {
-  projectTitle?: string;
+  projectName?: string;
   projectLogo?: string;
   docusaurus?: boolean;
   markdown?: boolean;
@@ -22,9 +22,9 @@ export type SocialCardData = {
   type: 'docs' | 'blog' | 'jsxPage' | 'mdxPage' | '404' | 'default';
   slug: string;
   title?: string;
-  author?: string;
+  authorName?: string;
   authorImage?: string;
-  docVersion?: string;
+  version?: string;
 };
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';

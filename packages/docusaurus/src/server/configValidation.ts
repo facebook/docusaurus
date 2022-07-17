@@ -72,15 +72,19 @@ export const DEFAULT_CONFIG: Pick<
       }
       return `https://docusaurus-og-image.vercel.app/${
         data.title ? encodeURI(data.title) : ''
-      }?${data.author ? `author=${encodeURI(data.author)}&` : ''}${
+      }?${data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''}${
         data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''
-      }${data.docVersion ? `version=${encodeURI(data.docVersion)}&` : ''}${
-        options.projectTitle ? `name=${encodeURI(options.projectTitle)}&` : ''
-      }${options.projectLogo ? `logo=${encodeURI(options.projectLogo)}&` : ''}${
-        options.markdown === false ? 'md=false&' : ''
-      }${options.docusaurus === false ? 'docusaurus=false&' : ''}${
-        options.theme ? `theme=${options.theme}` : ''
-      }`;
+      }${data.version ? `version=${encodeURI(data.version)}&` : ''}${
+        options.projectName
+          ? `projectName=${encodeURI(options.projectName)}&`
+          : ''
+      }${
+        options.projectLogo
+          ? `projectLogo=${encodeURI(options.projectLogo)}&`
+          : ''
+      }${options.markdown === false ? 'markdown=false&' : ''}${
+        options.docusaurus === false ? 'docusaurus=false&' : ''
+      }${options.theme ? `theme=${options.theme}` : ''}`;
     },
     options: {},
   },
