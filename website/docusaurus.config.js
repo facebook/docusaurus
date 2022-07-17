@@ -84,9 +84,18 @@ const config = {
       type: 'text/css',
     },
   ],
+  socialCardService: {
+    options: {
+      projectName: 'Docusaurus',
+      projectLogo: 'https://docusaurus.io/img/docusaurus.svg',
+      docusaurus: true,
+      markdown: true,
+      theme: 'light',
+    }
+  },
   i18n: {
     defaultLocale: 'en',
-     
+
     locales:
       isDeployPreview || isBranchDeploy
         ? // Deploy preview and branch deploys: keep them fast!
