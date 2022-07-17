@@ -26,7 +26,7 @@
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
-    "image-size": "^1.0.1",
+    "image-size": "^1.0.2",
     "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.2.0",
     "stringify-object": "^3.3.0",
