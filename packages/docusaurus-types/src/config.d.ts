@@ -20,7 +20,7 @@ export type SocialCardOptions = {
 
 export type SocialCardData = {
   type: 'docs' | 'blog' | 'jsxPage' | 'mdxPage' | '404' | 'default';
-  slug: string;
+  permalink: string;
   title?: string;
   authorName?: string;
   authorImage?: string;

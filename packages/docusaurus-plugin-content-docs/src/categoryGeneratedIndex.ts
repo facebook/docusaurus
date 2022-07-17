@@ -30,14 +30,14 @@ function getCategoryGeneratedIndexMetadata({
   const {sidebarName, previous, next} =
     sidebarsUtils.getCategoryGeneratedIndexNavigation(category.link.permalink);
   const title = category.link.title ?? category.label;
-  const {slug} = category.link;
+  const {permalink} = category.link;
   return {
     title,
     description: category.link.description,
     image: category.link.image,
     keywords: category.link.keywords,
-    slug,
-    permalink: category.link.permalink,
+    slug: category.link.slug,
+    permalink,
     sidebar: sidebarName!,
     navigation: {
       previous: toNavigationLink(previous, docsById),
@@ -48,7 +48,7 @@ function getCategoryGeneratedIndexMetadata({
         title,
         version,
         type: 'docs',
-        slug,
+        permalink,
       },
       context.siteConfig.socialCardService.options,
     ),

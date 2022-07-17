@@ -317,7 +317,7 @@ async function doProcessDocMetadata({
       {
         type: 'docs',
         title,
-        slug: docSlug,
+        permalink,
         version: versionMetadata.versionName,
       },
       context.siteConfig.socialCardService.options,
