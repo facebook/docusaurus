@@ -17,6 +17,7 @@ export default function DocItemMetadata(): JSX.Element {
       description={metadata.description}
       keywords={frontMatter.keywords}
       image={assets.image ?? frontMatter.image}
+      socialCardUrl={metadata.socialCardUrl}
     />
   );
 }

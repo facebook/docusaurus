@@ -313,6 +313,15 @@ async function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
+    socialCardUrl: context.siteConfig.socialCardService.getUrl(
+      {
+        type: 'docs',
+        title,
+        slug: docSlug,
+        version: versionMetadata.versionName,
+      },
+      context.siteConfig.socialCardService.options,
+    ),
   };
 }
 

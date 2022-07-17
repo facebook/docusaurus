@@ -262,6 +262,9 @@ describe('simple site', () => {
         pagination_next: null,
         pagination_prev: null,
       },
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Bar',
+      )}?version=current&`,
       tags: [],
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
@@ -290,6 +293,9 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag-3',
         },
       ],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Hello, World !',
+      )}?version=current&`,
     });
   });
 
@@ -340,6 +346,9 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'baz',
+      )}?version=current&`,
     });
   });
 
@@ -360,6 +369,9 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'lorem',
+      )}?version=current&`,
       tags: [],
     });
   });
@@ -414,6 +426,9 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'baz',
+      )}?version=current&`,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -460,6 +475,9 @@ describe('simple site', () => {
       formattedLastUpdatedAt: 'Oct 14, 2018',
       lastUpdatedBy: 'Author',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'lorem',
+      )}?version=current&`,
     });
   });
 
@@ -522,6 +540,9 @@ describe('simple site', () => {
       lastUpdatedBy: 'Custom Author',
       sidebarPosition: undefined,
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Custom Last Update',
+      )}?version=current&`,
     });
   });
 
@@ -561,6 +582,9 @@ describe('simple site', () => {
       lastUpdatedBy: 'Custom Author',
       sidebarPosition: undefined,
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Last Update Author Only',
+      )}?version=current&`,
     });
   });
 
@@ -600,6 +624,9 @@ describe('simple site', () => {
       lastUpdatedBy: 'Author',
       sidebarPosition: undefined,
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Last Update Date Only',
+      )}?version=current&`,
     });
   });
 
@@ -640,6 +667,9 @@ describe('simple site', () => {
       lastUpdatedBy: undefined,
       sidebarPosition: undefined,
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Custom Last Update',
+      )}?version=current&`,
     });
   });
 
@@ -826,6 +856,9 @@ describe('versioned site', () => {
           permalink: '/docs/next/tags/barTag-3-permalink',
         },
       ],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'bar',
+      )}?version=current&`,
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
@@ -840,6 +873,9 @@ describe('versioned site', () => {
         slug: '/',
       },
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=current&`,
     });
   });
 
@@ -857,6 +893,9 @@ describe('versioned site', () => {
       frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'bar',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
@@ -873,6 +912,9 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
@@ -885,6 +927,9 @@ describe('versioned site', () => {
       version: '1.0.1',
       frontMatter: {},
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'bar',
+      )}?version=${encodeURI('1.0.1')}&`,
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
@@ -899,6 +944,9 @@ describe('versioned site', () => {
         slug: '/',
       },
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.1')}&`,
     });
   });
 
@@ -995,6 +1043,9 @@ describe('versioned site', () => {
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl: hardcodedEditUrl,
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -1038,6 +1089,9 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
   });
 
@@ -1073,6 +1127,9 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
   });
 
@@ -1109,6 +1166,9 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
   });
 
@@ -1146,6 +1206,9 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
       tags: [],
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'hello',
+      )}?version=${encodeURI('1.0.0')}&`,
     });
   });
 });

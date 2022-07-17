@@ -444,6 +444,7 @@ declare module '@docusaurus/plugin-content-docs' {
     tags: Tag[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
+    socialCardUrl: string;
   };
 
   export type DocMetadata = DocMetadataBase &
