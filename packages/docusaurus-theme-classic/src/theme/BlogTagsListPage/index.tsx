@@ -18,7 +18,11 @@ import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/BlogTagsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
 
-export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
+export default function BlogTagsListPage({
+  tags,
+  sidebar,
+  socialCardUrl,
+}: Props): JSX.Element {
   const title = translateTagsPageTitle();
   return (
     <HtmlClassNameProvider
@@ -26,7 +30,7 @@ export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
         ThemeClassNames.wrapper.blogPages,
         ThemeClassNames.page.blogTagsListPage,
       )}>
-      <PageMetadata title={title} />
+      <PageMetadata title={title} socialCardUrl={socialCardUrl} />
       <SearchMetadata tag="blog_tags_list" />
       <BlogLayout sidebar={sidebar}>
         <h1>{title}</h1>

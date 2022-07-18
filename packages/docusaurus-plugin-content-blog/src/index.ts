@@ -330,6 +330,22 @@ export default async function pluginContentBlog(
           JSON.stringify(tagsProp, null, 2),
         );
 
+        const socialCardUrlPropPath = await createData(
+          `${docuHash(`${blogTagsListPath}-social-card-url`)}.json`,
+          JSON.stringify(
+            context.siteConfig.socialCardService.getUrl(
+              {
+                type: 'blog',
+                permalink: blogTagsListPath,
+                title: 'Blog Tags',
+              },
+              context.siteConfig.socialCardService.options,
+            ),
+            null,
+            2,
+          ),
+        );
+
         addRoute({
           path: blogTagsListPath,
           component: blogTagsListComponent,
@@ -337,6 +353,7 @@ export default async function pluginContentBlog(
           modules: {
             sidebar: aliasedSource(sidebarProp),
             tags: aliasedSource(tagsPropPath),
+            socialCardUrl: aliasedSource(socialCardUrlPropPath),
           },
         });
       }

@@ -543,6 +543,7 @@ declare module '@theme/BlogTagsListPage' {
     readonly sidebar: BlogSidebar;
     /** All tags declared in this blog. */
     readonly tags: TagsListItem[];
+    readonly socialCardUrl: string;
   }
 
   export default function BlogTagsListPage(props: Props): JSX.Element;
