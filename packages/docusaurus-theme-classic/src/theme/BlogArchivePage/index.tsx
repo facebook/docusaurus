@@ -77,7 +77,11 @@ export default function BlogArchive({archive}: Props): JSX.Element {
   const years = listPostsByYears(archive.blogPosts);
   return (
     <>
-      <PageMetadata title={title} description={description} />
+      <PageMetadata
+        title={title}
+        description={description}
+        socialCardUrl={archive.socialCardUrl}
+      />
       <Layout>
         <header className="hero hero--primary">
           <div className="container">

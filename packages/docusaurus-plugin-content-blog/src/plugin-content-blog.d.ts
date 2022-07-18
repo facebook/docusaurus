@@ -584,6 +584,7 @@ declare module '@theme/BlogArchivePage' {
     readonly archive: {
       /** All posts. Can select any useful data/metadata to render. */
       readonly blogPosts: readonly ArchiveBlogPost[];
+      readonly socialCardUrl: string;
     };
   }
 

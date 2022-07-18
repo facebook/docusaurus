@@ -221,7 +221,21 @@ export default async function pluginContentBlog(
         // Create a blog archive route
         const archiveProp = await createData(
           `${docuHash(archiveUrl)}.json`,
-          JSON.stringify({blogPosts}, null, 2),
+          JSON.stringify(
+            {
+              blogPosts,
+              socialCardUrl: context.siteConfig.socialCardService.getUrl(
+                {
+                  type: 'blog',
+                  permalink: archiveBasePath,
+                  title: 'Blog Archive',
+                },
+                context.siteConfig.socialCardService.options,
+              ),
+            },
+            null,
+            2,
+          ),
         );
         addRoute({
           path: archiveUrl,
