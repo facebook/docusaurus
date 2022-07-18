@@ -82,21 +82,19 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
   const brokenMarkdownLinks: BrokenMarkdownLink<T>[] = [];
 
   // Replace internal markdown linking (except in fenced blocks).
-  let fencedBlock = false;
-  let lastCodeFence = '';
+  let lastCodeFence: string | null = null;
   const lines = fileString.split('\n').map((line) => {
-    if (line.trim().startsWith('```')) {
-      const codeFence = line.trim().match(/^`+/)![0]!;
-      if (!fencedBlock) {
-        fencedBlock = true;
+    const codeFence = line.trimStart().match(/^`{3,}|^~{3,}/)?.[0];
+    if (codeFence) {
+      if (!lastCodeFence) {
         lastCodeFence = codeFence;
         // If we are in a ````-fenced block, all ``` would be plain text instead
         // of fences
-      } else if (codeFence.length >= lastCodeFence.length) {
-        fencedBlock = false;
+      } else if (codeFence.startsWith(lastCodeFence)) {
+        lastCodeFence = null;
       }
     }
-    if (fencedBlock) {
+    if (lastCodeFence) {
       return line;
     }
 
