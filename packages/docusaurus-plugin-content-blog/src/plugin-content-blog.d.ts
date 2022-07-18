@@ -569,6 +569,7 @@ declare module '@theme/BlogTagsPostsPage' {
      * available.
      */
     readonly items: readonly {readonly content: Content}[];
+    readonly socialCardUrl: string;
   }
 
   export default function BlogTagsPostsPage(props: Props): JSX.Element;

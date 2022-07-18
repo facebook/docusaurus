@@ -51,11 +51,11 @@ function useBlogTagsPostsPageTitle(tag: Props['tag']): string {
   );
 }
 
-function BlogTagsPostsPageMetadata({tag}: Props): JSX.Element {
+function BlogTagsPostsPageMetadata({tag, socialCardUrl}: Props): JSX.Element {
   const title = useBlogTagsPostsPageTitle(tag);
   return (
     <>
-      <PageMetadata title={title} />
+      <PageMetadata title={title} socialCardUrl={socialCardUrl} />
       <SearchMetadata tag="blog_tags_posts" />
     </>
   );

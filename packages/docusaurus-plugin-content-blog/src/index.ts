@@ -378,6 +378,20 @@ export default async function pluginContentBlog(
               JSON.stringify(metadata, null, 2),
             );
 
+            const socialCardUrlPropPath = await createData(
+              `${docuHash(`${metadata.permalink}-social-card-url`)}.json`,
+              JSON.stringify(
+                context.siteConfig.socialCardService.getUrl(
+                  {
+                    type: 'blog',
+                    permalink: tag.permalink,
+                    title: tag.label,
+                  },
+                  context.siteConfig.socialCardService.options,
+                ),
+              ),
+            );
+
             addRoute({
               path: metadata.permalink,
               component: blogTagsPostsComponent,
@@ -387,6 +401,7 @@ export default async function pluginContentBlog(
                 items: blogPostItemsModule(items),
                 tag: aliasedSource(tagPropPath),
                 listMetadata: aliasedSource(listMetadataPath),
+                socialCardUrl: aliasedSource(socialCardUrlPropPath),
               },
             });
           }),
