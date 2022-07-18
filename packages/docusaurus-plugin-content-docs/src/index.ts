@@ -232,7 +232,11 @@ export default async function pluginContentDocs(
       });
 
       async function createVersionTagsRoutes(version: FullVersion) {
-        const versionTags = getVersionTags(version.docs);
+        const versionTags = getVersionTags(
+          version.docs,
+          context,
+          version.versionName,
+        );
 
         // TODO tags should be a sub route of the version route
         async function createTagsListPage() {

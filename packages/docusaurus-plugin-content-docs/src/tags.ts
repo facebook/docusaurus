@@ -7,14 +7,28 @@
 
 import _ from 'lodash';
 import {groupTaggedItems} from '@docusaurus/utils';
+import type {LoadContext} from '@docusaurus/types';
 import type {VersionTags} from './types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
-export function getVersionTags(docs: DocMetadata[]): VersionTags {
+export function getVersionTags(
+  docs: DocMetadata[],
+  context: LoadContext,
+  versionName: string,
+): VersionTags {
   const groups = groupTaggedItems(docs, (doc) => doc.tags);
   return _.mapValues(groups, (group) => ({
     label: group.tag.label,
     docIds: group.items.map((item) => item.id),
     permalink: group.tag.permalink,
+    socialCardUrl: context?.siteConfig.socialCardService.getUrl(
+      {
+        title: group.tag.label,
+        version: versionName,
+        type: 'docs',
+        permalink: group.tag.permalink,
+      },
+      context.siteConfig.socialCardService.options,
+    ),
   }));
 }

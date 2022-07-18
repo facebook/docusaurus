@@ -18,7 +18,10 @@ import TagsListByLetter from '@theme/TagsListByLetter';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagsListPage';
 
-export default function DocTagsListPage({tags}: Props): JSX.Element {
+export default function DocTagsListPage({
+  tags,
+  socialCardUrl,
+}: Props): JSX.Element {
   const title = translateTagsPageTitle();
   return (
     <HtmlClassNameProvider
@@ -26,7 +29,7 @@ export default function DocTagsListPage({tags}: Props): JSX.Element {
         ThemeClassNames.wrapper.docsPages,
         ThemeClassNames.page.docsTagsListPage,
       )}>
-      <PageMetadata title={title} />
+      <PageMetadata title={title} socialCardUrl={socialCardUrl} />
       <SearchMetadata tag="doc_tags_list" />
       <Layout>
         <div className="container margin-vert--lg">

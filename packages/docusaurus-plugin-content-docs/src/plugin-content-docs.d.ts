@@ -541,6 +541,7 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type PropTagsListPage = {
     tags: TagsListItem[];
+    socialCardUrl: string;
   };
 
   export type LoadedVersion = VersionMetadata & {
