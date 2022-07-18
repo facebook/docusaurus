@@ -36,6 +36,10 @@ export function PageMetadata({
   const pageTitle = useTitleFormatter(title);
   const {withBaseUrl} = useBaseUrlUtils();
   const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
+  // Social card url can be a path relative to "static" directory
+  const pageSocialCardUrl = socialCardUrl
+    ? withBaseUrl(socialCardUrl, {absolute: true})
+    : undefined;
 
   return (
     <Head>
@@ -57,9 +61,11 @@ export function PageMetadata({
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
 
-      {socialCardUrl && <meta property="og:image" content={socialCardUrl} />}
-      {socialCardUrl && (
-        <meta property="twitter:image" content={socialCardUrl} />
+      {pageSocialCardUrl && (
+        <meta property="og:image" content={pageSocialCardUrl} />
+      )}
+      {pageSocialCardUrl && (
+        <meta property="twitter:image" content={pageSocialCardUrl} />
       )}
 
       {children}
