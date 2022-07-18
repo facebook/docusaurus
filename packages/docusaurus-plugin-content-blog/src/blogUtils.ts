@@ -54,12 +54,14 @@ export function paginateBlogPosts({
   blogTitle,
   blogDescription,
   postsPerPageOption,
+  context,
 }: {
   blogPosts: BlogPost[];
   basePageUrl: string;
   blogTitle: string;
   blogDescription: string;
   postsPerPageOption: number | 'ALL';
+  context: LoadContext;
 }): BlogPaginated[] {
   const totalCount = blogPosts.length;
   const postsPerPage =
@@ -75,12 +77,13 @@ export function paginateBlogPosts({
   }
 
   for (let page = 0; page < numberOfPages; page += 1) {
+    const pagePermalink = permalink(page);
     pages.push({
       items: blogPosts
         .slice(page * postsPerPage, (page + 1) * postsPerPage)
         .map((item) => item.id),
       metadata: {
-        permalink: permalink(page),
+        permalink: pagePermalink,
         page: page + 1,
         postsPerPage,
         totalPages: numberOfPages,
@@ -89,6 +92,14 @@ export function paginateBlogPosts({
         nextPage: page < numberOfPages - 1 ? permalink(page + 1) : undefined,
         blogDescription,
         blogTitle,
+        socialCardUrl: context.siteConfig.socialCardService.getUrl(
+          {
+            type: 'blog',
+            title: blogTitle,
+            permalink: pagePermalink,
+          },
+          context.siteConfig.socialCardService.options,
+        ),
       },
     });
   }
@@ -98,11 +109,13 @@ export function paginateBlogPosts({
 
 export function getBlogTags({
   blogPosts,
+  context,
   ...params
 }: {
   blogPosts: BlogPost[];
   blogTitle: string;
   blogDescription: string;
+  context: LoadContext;
   postsPerPageOption: number | 'ALL';
 }): BlogTags {
   const groups = groupTaggedItems(
@@ -118,6 +131,7 @@ export function getBlogTags({
       blogPosts: tagBlogPosts,
       basePageUrl: tag.permalink,
       ...params,
+      context,
     }),
   }));
 }

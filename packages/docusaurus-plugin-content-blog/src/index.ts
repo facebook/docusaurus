@@ -150,6 +150,7 @@ export default async function pluginContentBlog(
         blogDescription,
         postsPerPageOption,
         basePageUrl: baseBlogUrl,
+        context,
       });
 
       const blogTags: BlogTags = getBlogTags({
@@ -157,6 +158,7 @@ export default async function pluginContentBlog(
         postsPerPageOption,
         blogDescription,
         blogTitle,
+        context,
       });
 
       return {

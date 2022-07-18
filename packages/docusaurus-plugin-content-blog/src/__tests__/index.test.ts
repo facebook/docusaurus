@@ -9,6 +9,7 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getFileCommitDate} from '@docusaurus/utils';
+import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -81,6 +82,7 @@ const getPlugin = async (
     title: 'Hello',
     baseUrl: '/',
     url: 'https://docusaurus.io',
+    socialCardService: DEFAULT_CONFIG.socialCardService,
   } as DocusaurusConfig;
   return pluginContentBlog(
     {

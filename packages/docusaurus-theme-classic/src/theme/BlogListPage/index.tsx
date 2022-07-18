@@ -30,7 +30,11 @@ function BlogListPageMetadata(props: Props): JSX.Element {
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
     <>
-      <PageMetadata title={title} description={blogDescription} />
+      <PageMetadata
+        title={title}
+        description={blogDescription}
+        socialCardUrl={metadata.socialCardUrl}
+      />
       <SearchMetadata tag="blog_posts_list" />
     </>
   );

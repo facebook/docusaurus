@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
+import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import {
   truncate,
   parseBlogFileName,
@@ -16,8 +17,14 @@ import {
   paginateBlogPosts,
   type LinkifyParams,
 } from '../blogUtils';
+import type {LoadContext} from '@docusaurus/types';
 import type {BlogBrokenMarkdownLink, BlogContentPaths} from '../types';
 import type {BlogPost} from '@docusaurus/plugin-content-blog';
+
+// only socialCardService is needed
+const mockContext = {
+  siteConfig: DEFAULT_CONFIG,
+} as unknown as LoadContext;
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -53,6 +60,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 2,
+        context: mockContext,
       }),
     ).toMatchSnapshot();
     expect(
@@ -62,6 +70,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 2,
+        context: mockContext,
       }),
     ).toMatchSnapshot();
     expect(
@@ -71,6 +80,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 10,
+        context: mockContext,
       }),
     ).toMatchSnapshot();
   });

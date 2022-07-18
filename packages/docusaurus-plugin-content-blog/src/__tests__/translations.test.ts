@@ -55,6 +55,7 @@ const sampleBlogContent: BlogContent = {
         nextPage: undefined,
         blogTitle: sampleBlogOptions.blogTitle,
         blogDescription: sampleBlogOptions.blogDescription,
+        socialCardUrl: 'social card url',
       },
     },
   ],

@@ -455,6 +455,8 @@ declare module '@docusaurus/plugin-content-blog' {
     readonly totalCount: number;
     /** Total number of list pages. */
     readonly totalPages: number;
+    /** Social card url */
+    readonly socialCardUrl: string;
   };
 
   export type BlogPaginated = {
