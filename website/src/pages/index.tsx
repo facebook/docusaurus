@@ -235,7 +235,12 @@ export default function Home(): JSX.Element {
   } = useDocusaurusContext();
   const {description} = customFields as {description: string};
   return (
-    <Layout title={tagline} description={description}>
+    <Layout
+      title={tagline}
+      description={description}
+      socialCardUrl={`https://docusaurus-og-image.vercel.app/${encodeURI(
+        tagline,
+      )}?projectName=Docusaurus&projectLogo=https://docusaurus.io/img/docusaurus.svg&theme=light`}>
       <main>
         <div>
           <div className={styles.banner}>

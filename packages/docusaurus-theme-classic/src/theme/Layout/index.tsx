@@ -27,13 +27,18 @@ export default function Layout(props: Props): JSX.Element {
     // Not really layout-related, but kept for convenience/retro-compatibility
     title,
     description,
+    socialCardUrl,
   } = props;
 
   useKeyboardNavigation();
 
   return (
     <LayoutProvider>
-      <PageMetadata title={title} description={description} />
+      <PageMetadata
+        title={title}
+        description={description}
+        socialCardUrl={socialCardUrl}
+      />
 
       <SkipToContent />
 

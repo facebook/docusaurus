@@ -657,6 +657,7 @@ declare module '@theme/Layout' {
     // Not really layout-related, but kept for convenience/retro-compatibility
     readonly title?: string;
     readonly description?: string;
+    readonly socialCardUrl?: string;
   }
 
   export default function Layout(props: Props): JSX.Element;
