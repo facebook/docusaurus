@@ -536,7 +536,7 @@ declare module '@docusaurus/plugin-content-docs' {
   >;
   export type PropTagDocList = TagModule & {
     items: PropTagDocListDoc[];
-    socialCardUrl?: string;
+    socialCardUrl: string;
   };
 
   export type PropTagsListPage = {

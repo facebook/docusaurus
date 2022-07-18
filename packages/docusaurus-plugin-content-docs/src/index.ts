@@ -226,7 +226,7 @@ export default async function pluginContentDocs(
             docs: version.docs,
             sidebarsUtils,
             context,
-            version: version.versionName,
+            versionName: version.versionName,
           }),
         };
       });

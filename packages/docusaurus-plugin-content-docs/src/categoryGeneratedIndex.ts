@@ -19,13 +19,13 @@ function getCategoryGeneratedIndexMetadata({
   sidebarsUtils,
   docsById,
   context,
-  version,
+  versionName,
 }: {
   category: SidebarItemCategoryWithGeneratedIndex;
   sidebarsUtils: SidebarsUtils;
   docsById: {[docId: string]: DocMetadataBase};
-  context?: LoadContext;
-  version?: string;
+  context: LoadContext;
+  versionName: string;
 }): CategoryGeneratedIndexMetadata {
   const {sidebarName, previous, next} =
     sidebarsUtils.getCategoryGeneratedIndexNavigation(category.link.permalink);
@@ -46,7 +46,7 @@ function getCategoryGeneratedIndexMetadata({
     socialCardUrl: context?.siteConfig.socialCardService.getUrl(
       {
         title,
-        version,
+        version: versionName,
         type: 'docs',
         permalink,
       },
@@ -59,12 +59,12 @@ export function getCategoryGeneratedIndexMetadataList({
   docs,
   sidebarsUtils,
   context,
-  version,
+  versionName,
 }: {
   sidebarsUtils: SidebarsUtils;
   docs: DocMetadataBase[];
-  context?: LoadContext;
-  version?: string;
+  context: LoadContext;
+  versionName: string;
 }): CategoryGeneratedIndexMetadata[] {
   const docsById = createDocsByIdIndex(docs);
 
@@ -76,7 +76,7 @@ export function getCategoryGeneratedIndexMetadataList({
       sidebarsUtils,
       docsById,
       context,
-      version,
+      versionName,
     }),
   );
 }

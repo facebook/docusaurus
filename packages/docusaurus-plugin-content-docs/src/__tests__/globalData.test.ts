@@ -5,11 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import {toGlobalDataVersion} from '../globalData';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
 import type {Sidebars} from '../sidebars/types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
+import type {LoadContext} from '@docusaurus/types';
+
+// only socialCardService is needed
+const mockContext = {
+  siteConfig: DEFAULT_CONFIG,
+} as unknown as LoadContext;
 
 describe('toGlobalDataVersion', () => {
   it('generates the right docs, sidebars, and metadata', () => {
@@ -102,6 +109,8 @@ describe('toGlobalDataVersion', () => {
         categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
           docs,
           sidebarsUtils,
+          versionName: 'current',
+          context: mockContext,
         }),
         sidebarsUtils,
         banner: 'unreleased',
