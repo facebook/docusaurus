@@ -174,6 +174,9 @@ describe('blog plugin', () => {
         title: 'Happy 1st Birthday Slash! (translated)',
       },
       hasTruncateMarker: false,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'date-matter',
+      )}?`,
     });
 
     expect(
@@ -217,6 +220,9 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Happy 1st Birthday Slash! (translated)',
+      )}?authorName=${encodeURI('Yangshun Tay (translated)')}&`,
     });
 
     expect({
@@ -254,6 +260,9 @@ describe('blog plugin', () => {
         },
       ],
       hasTruncateMarker: false,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Complex Slug',
+      )}?`,
     });
 
     expect({
@@ -291,6 +300,9 @@ describe('blog plugin', () => {
       },
       tags: [],
       hasTruncateMarker: false,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Simple Slug',
+      )}?authorName=${encodeURI('Sébastien Lorber')}&`,
     });
 
     expect({
@@ -316,6 +328,9 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'some heading',
+      )}?`,
     });
   });
 
@@ -473,6 +488,9 @@ describe('blog plugin', () => {
       prevItem: undefined,
       nextItem: undefined,
       hasTruncateMarker: false,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'no date',
+      )}?`,
     });
   });
 

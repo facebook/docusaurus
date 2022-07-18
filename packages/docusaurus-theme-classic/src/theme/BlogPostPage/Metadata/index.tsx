@@ -20,7 +20,8 @@ export default function BlogPostPageMetadata(): JSX.Element {
       title={title}
       description={description}
       keywords={keywords}
-      image={image}>
+      image={image}
+      socialCardUrl={metadata.socialCardUrl}>
       <meta property="og:type" content="article" />
       <meta property="article:published_time" content={date} />
       {/* TODO double check those article meta array syntaxes, see https://ogp.me/#array */}

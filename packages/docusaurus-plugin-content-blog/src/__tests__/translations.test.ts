@@ -35,6 +35,7 @@ const sampleBlogPosts: BlogPost[] = [
       hasTruncateMarker: true,
       authors: [],
       frontMatter: {},
+      socialCardUrl: 'social card url',
     },
     content: '',
   },

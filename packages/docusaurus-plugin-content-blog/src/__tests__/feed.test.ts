@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
+import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import {DEFAULT_OPTIONS} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
@@ -72,6 +73,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      socialCardService: DEFAULT_CONFIG.socialCardService,
     };
     const outDir = path.join(siteDir, 'build-snap');
 
@@ -110,6 +112,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      socialCardService: DEFAULT_CONFIG.socialCardService,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and

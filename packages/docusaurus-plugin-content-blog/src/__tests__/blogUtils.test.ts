@@ -224,6 +224,9 @@ describe('linkify', () => {
         frontMatter: {},
         authors: [],
         formattedDate: '',
+        socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+          'Happy 1st Birthday Slash!',
+        )}`,
       },
       content: '',
     },
