@@ -6,6 +6,7 @@
  */
 
 import _ from 'lodash';
+import {getSocialCardUrl} from '@docusaurus/utils';
 import {createDocsByIdIndex} from './docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {VersionTag} from './types';
@@ -183,14 +184,11 @@ export function toTagDocListProp({
     allTagsPath,
     count: tag.docIds.length,
     items: toDocListProp(),
-    socialCardUrl: context.siteConfig.socialCardService.getUrl(
-      {
-        type: 'docs',
-        title: tag.label,
-        permalink: tag.permalink,
-        version: versionName,
-      },
-      context.siteConfig.socialCardService.options,
-    ),
+    socialCardUrl: getSocialCardUrl(context, {
+      type: 'docs',
+      title: tag.label,
+      permalink: tag.permalink,
+      version: versionName,
+    }),
   };
 }

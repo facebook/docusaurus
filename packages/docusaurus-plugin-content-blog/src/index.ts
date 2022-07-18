@@ -20,6 +20,7 @@ import {
   DEFAULT_PLUGIN_ID,
   type TagsListItem,
   type TagModule,
+  getSocialCardUrl,
 } from '@docusaurus/utils';
 import {
   generateBlogPosts,
@@ -224,14 +225,11 @@ export default async function pluginContentBlog(
           JSON.stringify(
             {
               blogPosts,
-              socialCardUrl: context.siteConfig.socialCardService.getUrl(
-                {
-                  type: 'blog',
-                  permalink: archiveBasePath,
-                  title: 'Blog Archive',
-                },
-                context.siteConfig.socialCardService.options,
-              ),
+              socialCardUrl: getSocialCardUrl(context, {
+                type: 'blog',
+                permalink: archiveBasePath,
+                title: 'Blog Archive',
+              }),
             },
             null,
             2,
@@ -333,14 +331,11 @@ export default async function pluginContentBlog(
         const socialCardUrlPropPath = await createData(
           `${docuHash(`${blogTagsListPath}-social-card-url`)}.json`,
           JSON.stringify(
-            context.siteConfig.socialCardService.getUrl(
-              {
-                type: 'blog',
-                permalink: blogTagsListPath,
-                title: 'Blog Tags',
-              },
-              context.siteConfig.socialCardService.options,
-            ),
+            getSocialCardUrl(context, {
+              type: 'blog',
+              permalink: blogTagsListPath,
+              title: 'Blog Tags',
+            }),
             null,
             2,
           ),
@@ -381,14 +376,13 @@ export default async function pluginContentBlog(
             const socialCardUrlPropPath = await createData(
               `${docuHash(`${metadata.permalink}-social-card-url`)}.json`,
               JSON.stringify(
-                context.siteConfig.socialCardService.getUrl(
-                  {
-                    type: 'blog',
-                    permalink: tag.permalink,
-                    title: tag.label,
-                  },
-                  context.siteConfig.socialCardService.options,
-                ),
+                getSocialCardUrl(context, {
+                  type: 'blog',
+                  permalink: tag.permalink,
+                  title: tag.label,
+                }),
+                null,
+                2,
               ),
             );
 

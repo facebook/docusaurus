@@ -10,6 +10,19 @@ import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig} from './plugin';
 
+export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+
+export type ThemeConfig = {
+  [key: string]: unknown;
+};
+
+export type SocialCardGenerator = {
+  getUrl: (data: SocialCardData, options: SocialCardOptions) => string;
+  options: SocialCardOptions;
+};
+
+export type SocialCardService = SocialCardGenerator | string;
+
 export type SocialCardOptions = {
   projectName?: string;
   projectLogo?: string;
@@ -19,18 +32,12 @@ export type SocialCardOptions = {
 };
 
 export type SocialCardData = {
-  type: 'docs' | 'blog' | 'jsxPage' | 'mdxPage' | '404' | 'default';
-  permalink: string;
+  type: 'docs' | 'blog' | 'jsxPage' | 'mdxPage' | '404' | 'default' = 'default';
+  permalink?: string;
   title?: string;
   authorName?: string;
   authorImage?: string;
   version?: string;
-};
-
-export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
-
-export type ThemeConfig = {
-  [key: string]: unknown;
 };
 
 /**
@@ -290,10 +297,7 @@ export type DocusaurusConfig = {
   /**
    * Function to generate open graph/twitter card images for each page
    */
-  socialCardService: {
-    getUrl: (data: SocialCardData, options: SocialCardOptions) => string;
-    options: SocialCardOptions;
-  };
+  socialCardService: SocialCardService;
 };
 
 /**

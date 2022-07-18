@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {getSocialCardUrl} from '@docusaurus/utils';
 import {type SidebarsUtils, toNavigationLink} from './sidebars/utils';
 import {createDocsByIdIndex} from './docs';
 import type {LoadContext} from '@docusaurus/types';
@@ -43,15 +44,12 @@ function getCategoryGeneratedIndexMetadata({
       previous: toNavigationLink(previous, docsById),
       next: toNavigationLink(next, docsById),
     },
-    socialCardUrl: context?.siteConfig.socialCardService.getUrl(
-      {
-        title,
-        version: versionName,
-        type: 'docs',
-        permalink,
-      },
-      context.siteConfig.socialCardService.options,
-    ),
+    socialCardUrl: getSocialCardUrl(context, {
+      title,
+      version: versionName,
+      type: 'docs',
+      permalink,
+    }),
   };
 }
 

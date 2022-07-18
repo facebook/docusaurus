@@ -8,6 +8,7 @@
 import {
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
+  isSocialCardString,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
@@ -266,18 +267,29 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
-  socialCardService: Joi.object({
-    getUrl: Joi.function().default(
-      () => DEFAULT_CONFIG.socialCardService.getUrl,
-    ),
-    options: Joi.object({
-      projectName: Joi.string().optional(),
-      projectLogo: Joi.string().optional(),
-      docusaurus: Joi.boolean().optional(),
-      markdown: Joi.boolean().optional(),
-      theme: Joi.string().valid('light', 'dark').optional(),
-    }).default(DEFAULT_CONFIG.socialCardService.options),
-  }).default(DEFAULT_CONFIG.socialCardService),
+  socialCardService: Joi.alternatives()
+    .try(
+      Joi.string(),
+      Joi.object({
+        getUrl: Joi.function().default(() =>
+          isSocialCardString(DEFAULT_CONFIG.socialCardService)
+            ? undefined
+            : DEFAULT_CONFIG.socialCardService.getUrl,
+        ),
+        options: Joi.object({
+          projectName: Joi.string().optional(),
+          projectLogo: Joi.string().optional(),
+          docusaurus: Joi.boolean().optional(),
+          markdown: Joi.boolean().optional(),
+          theme: Joi.string().valid('light', 'dark').optional(),
+        }).default(
+          isSocialCardString(DEFAULT_CONFIG.socialCardService)
+            ? undefined
+            : DEFAULT_CONFIG.socialCardService.options,
+        ),
+      }),
+    )
+    .default(DEFAULT_CONFIG.socialCardService),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',

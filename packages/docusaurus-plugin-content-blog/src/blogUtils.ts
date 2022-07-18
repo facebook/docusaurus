@@ -23,6 +23,7 @@ import {
   groupTaggedItems,
   getFileCommitDate,
   getContentPathList,
+  getSocialCardUrl,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -92,14 +93,11 @@ export function paginateBlogPosts({
         nextPage: page < numberOfPages - 1 ? permalink(page + 1) : undefined,
         blogDescription,
         blogTitle,
-        socialCardUrl: context.siteConfig.socialCardService.getUrl(
-          {
-            type: 'blog',
-            title: blogTitle,
-            permalink: pagePermalink,
-          },
-          context.siteConfig.socialCardService.options,
-        ),
+        socialCardUrl: getSocialCardUrl(context, {
+          type: 'blog',
+          title: blogTitle,
+          permalink: pagePermalink,
+        }),
       },
     });
   }
@@ -340,16 +338,13 @@ async function processBlogSourceFile(
       hasTruncateMarker: truncateMarker.test(content),
       authors,
       frontMatter,
-      socialCardUrl: context.siteConfig.socialCardService.getUrl(
-        {
-          type: 'blog',
-          title,
-          permalink,
-          authorName: authors[0]?.name,
-          authorImage: authors[0]?.imageURL,
-        },
-        context.siteConfig.socialCardService.options,
-      ),
+      socialCardUrl: getSocialCardUrl(context, {
+        type: 'blog',
+        title,
+        permalink,
+        authorName: authors[0]?.name,
+        authorImage: authors[0]?.imageURL,
+      }),
     },
     content,
   };

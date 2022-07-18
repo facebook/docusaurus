@@ -20,6 +20,7 @@ import {
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
+  getSocialCardUrl,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 
@@ -118,14 +119,11 @@ export default function pluginContentPages(
           title,
           description: frontMatter.description ?? excerpt,
           frontMatter,
-          socialCardUrl: context.siteConfig.socialCardService.getUrl(
-            {
-              type: 'mdxPage',
-              permalink,
-              title,
-            },
-            context.siteConfig.socialCardService.options,
-          ),
+          socialCardUrl: getSocialCardUrl(context, {
+            type: 'mdxPage',
+            permalink,
+            title,
+          }),
         };
       }
 

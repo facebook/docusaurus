@@ -18,6 +18,7 @@ import {
   posixPath,
   Globby,
   normalizeFrontMatterTags,
+  getSocialCardUrl,
 } from '@docusaurus/utils';
 
 import {getFileLastUpdate} from './lastUpdate';
@@ -313,15 +314,12 @@ async function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
-    socialCardUrl: context.siteConfig.socialCardService.getUrl(
-      {
-        type: 'docs',
-        title,
-        permalink,
-        version: versionMetadata.versionName,
-      },
-      context.siteConfig.socialCardService.options,
-    ),
+    socialCardUrl: getSocialCardUrl(context, {
+      type: 'docs',
+      title,
+      permalink,
+      version: versionMetadata.versionName,
+    }),
   };
 }
 
