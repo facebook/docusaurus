@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';
+import type {LoadContext} from '@docusaurus/types';
 import type {VersionTag} from './types';
 import type {
   SidebarItemDoc,
@@ -153,10 +154,14 @@ export function toTagDocListProp({
   allTagsPath,
   tag,
   docs,
+  context,
+  versionName,
 }: {
   allTagsPath: string;
   tag: VersionTag;
   docs: DocMetadata[];
+  context: LoadContext;
+  versionName: string;
 }): PropTagDocList {
   function toDocListProp(): PropTagDocListDoc[] {
     const list = _.compact(
@@ -178,5 +183,14 @@ export function toTagDocListProp({
     allTagsPath,
     count: tag.docIds.length,
     items: toDocListProp(),
+    socialCardUrl: context.siteConfig.socialCardService.getUrl(
+      {
+        type: 'docs',
+        title: tag.label,
+        permalink: tag.permalink,
+        version: versionName,
+      },
+      context.siteConfig.socialCardService.options,
+    ),
   };
 }

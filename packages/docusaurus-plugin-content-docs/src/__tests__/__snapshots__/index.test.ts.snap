@@ -871,7 +871,8 @@ exports[`simple website content: data 1`] = `
       "description": "Hi, Endilie here :)",
       "permalink": "/docs/"
     }
-  ]
+  ],
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/tag%201?version=current&"
 }",
   "tag-docs-tags-tag-2-custom-permalink-825.json": "{
   "label": "tag 2",
@@ -885,7 +886,8 @@ exports[`simple website content: data 1`] = `
       "description": "Images",
       "permalink": "/docs/foo/bazSlug.html"
     }
-  ]
+  ],
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/tag%202?version=current&"
 }",
   "tag-docs-tags-tag-3-ab5.json": "{
   "label": "tag 3",
@@ -899,7 +901,8 @@ exports[`simple website content: data 1`] = `
       "description": "Hi, Endilie here :)",
       "permalink": "/docs/"
     }
-  ]
+  ],
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/tag%203?version=current&"
 }",
   "tags-list-current-prop-15a.json": "[
   {
@@ -3493,7 +3496,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/barTag%201?version=current&"
 }",
   "tag-docs-next-tags-bar-tag-2-216.json": "{
   "label": "barTag-2",
@@ -3507,7 +3511,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/barTag-2?version=current&"
 }",
   "tag-docs-next-tags-bar-tag-3-permalink-94a.json": "{
   "label": "barTag 3",
@@ -3521,7 +3526,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/barTag%203?version=current&"
 }",
   "tags-list-current-prop-15a.json": "[
   {

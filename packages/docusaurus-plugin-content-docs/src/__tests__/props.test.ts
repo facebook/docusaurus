@@ -5,7 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import {toTagDocListProp} from '../props';
+import type {LoadContext} from '@docusaurus/types/src/context';
+
+// only socialCardService is needed
+const mockContext = {
+  siteConfig: DEFAULT_CONFIG,
+} as unknown as LoadContext;
 
 describe('toTagDocListProp', () => {
   type Params = Parameters<typeof toTagDocListProp>[0];
@@ -50,6 +57,8 @@ describe('toTagDocListProp', () => {
       allTagsPath,
       tag,
       docs: [doc1, doc2, doc3, doc4],
+      context: mockContext,
+      versionName: 'version name',
     });
 
     expect(result).toEqual({
@@ -57,7 +66,10 @@ describe('toTagDocListProp', () => {
       count: 2,
       label: tag.label,
       permalink: tag.permalink,
-      items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence
+      items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence,
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+        tag.label,
+      )}?version=${encodeURI('version name')}&`,
     });
   });
 });

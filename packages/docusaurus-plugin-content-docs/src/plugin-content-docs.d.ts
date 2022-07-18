@@ -534,7 +534,10 @@ declare module '@docusaurus/plugin-content-docs' {
     DocMetadata,
     'id' | 'title' | 'description' | 'permalink'
   >;
-  export type PropTagDocList = TagModule & {items: PropTagDocListDoc[]};
+  export type PropTagDocList = TagModule & {
+    items: PropTagDocListDoc[];
+    socialCardUrl?: string;
+  };
 
   export type PropTagsListPage = {
     tags: TagsListItem[];

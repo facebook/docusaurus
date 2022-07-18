@@ -267,6 +267,8 @@ export default async function pluginContentDocs(
             allTagsPath: version.tagsPath,
             tag,
             docs: version.docs,
+            context,
+            versionName: version.versionName,
           });
           const tagPropPath = await createData(
             `${docuHash(`tag-${tag.permalink}`)}.json`,

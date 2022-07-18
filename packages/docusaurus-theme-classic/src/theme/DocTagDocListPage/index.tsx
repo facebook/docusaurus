@@ -65,7 +65,7 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
         ThemeClassNames.wrapper.docsPages,
         ThemeClassNames.page.docsTagDocListPage,
       )}>
-      <PageMetadata title={title} />
+      <PageMetadata title={title} socialCardUrl={tag.socialCardUrl} />
       <SearchMetadata tag="doc_tag_doc_list" />
       <Layout>
         <div className="container margin-vert--lg">
