@@ -22,7 +22,7 @@ import styles from './styles.module.css';
 export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
-    metadata: {title, description, frontMatter},
+    metadata: {title, description, frontMatter, socialCardUrl},
   } = MDXPageContent;
   const {wrapperClassName, hide_table_of_contents: hideTableOfContents} =
     frontMatter;
@@ -33,7 +33,11 @@ export default function MDXPage(props: Props): JSX.Element {
         wrapperClassName ?? ThemeClassNames.wrapper.mdxPages,
         ThemeClassNames.page.mdxPage,
       )}>
-      <PageMetadata title={title} description={description} />
+      <PageMetadata
+        title={title}
+        description={description}
+        socialCardUrl={socialCardUrl}
+      />
       <Layout>
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>

@@ -110,13 +110,22 @@ export default function pluginContentPages(
           excerpt,
         } = parseMarkdownString(content);
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+        const title = frontMatter.title ?? contentTitle;
         return {
           type: 'mdx',
           permalink,
           source: aliasedSourcePath,
-          title: frontMatter.title ?? contentTitle,
+          title,
           description: frontMatter.description ?? excerpt,
           frontMatter,
+          socialCardUrl: context.siteConfig.socialCardService.getUrl(
+            {
+              type: 'mdxPage',
+              permalink,
+              title,
+            },
+            context.siteConfig.socialCardService.options,
+          ),
         };
       }
 
