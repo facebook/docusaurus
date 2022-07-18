@@ -25,7 +25,11 @@ function ChangelogListMetadata(props: Props): JSX.Element {
   const {blogTitle, blogDescription} = metadata;
   return (
     <>
-      <PageMetadata title={blogTitle} description={blogDescription} />
+      <PageMetadata
+        title={blogTitle}
+        description={blogDescription}
+        socialCardUrl={props.metadata.socialCardUrl}
+      />
       <SearchMetadata tag="blog_posts_list" />
     </>
   );
