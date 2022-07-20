@@ -122,7 +122,7 @@ export default function pluginContentPages(
           socialCardUrl: getSocialCardUrl(
             context.siteConfig.socialCardService,
             {
-              type: 'mdxPage',
+              type: 'page',
               permalink,
               title,
             },

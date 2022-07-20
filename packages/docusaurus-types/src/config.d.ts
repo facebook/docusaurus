@@ -32,7 +32,7 @@ export type SocialCardOptions = {
 };
 
 export type SocialCardData = {
-  type: 'docs' | 'blog' | 'jsxPage' | 'mdxPage' | '404' | 'default' = 'default';
+  type: 'docs' | 'blog' | 'page' | 'default';
   permalink?: string;
   title?: string;
   authorName?: string;

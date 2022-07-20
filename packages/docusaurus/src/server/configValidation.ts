@@ -62,11 +62,7 @@ export const DEFAULT_CONFIG: Pick<
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
   socialCardService: {
     getUrl: (data, options) => {
-      if (data.type === '404') {
-        return `https://docusaurus-og-image.vercel.app/${encodeURI(
-          'Page Not Found',
-        )}`;
-      } else if (data.type === 'default') {
+      if (data.type === 'default') {
         return `https://docusaurus-og-image.vercel.app/${encodeURI(
           'Docusaurus Project',
         )}`;
