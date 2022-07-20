@@ -18,7 +18,7 @@ export type ThemeConfig = {
 
 export type SocialCardGenerator = {
   getUrl: (data: SocialCardData, options: SocialCardOptions) => string;
-  options: SocialCardOptions;
+  options?: SocialCardOptions;
 };
 
 export type SocialCardService = SocialCardGenerator | string;

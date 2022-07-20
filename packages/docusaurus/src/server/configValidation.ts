@@ -285,7 +285,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
             .default(
               isSocialCardString(DEFAULT_CONFIG.socialCardService)
                 ? undefined
-                : DEFAULT_CONFIG.socialCardService.options.baseUrl,
+                : DEFAULT_CONFIG.socialCardService.options?.baseUrl,
             ),
         }).default(
           isSocialCardString(DEFAULT_CONFIG.socialCardService)
