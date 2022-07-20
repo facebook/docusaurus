@@ -85,7 +85,16 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 export default function SiteMetadata(): JSX.Element {
   const {
     i18n: {currentLocale},
+    siteConfig: {socialCardService},
   } = useDocusaurusContext();
+
+  let defaultSocialCardService: string;
+  if (typeof socialCardService === 'string') {
+    defaultSocialCardService = socialCardService;
+  } else {
+    // getUrl is evaluated to a string during serialization
+    defaultSocialCardService = socialCardService.getUrl as unknown as string;
+  }
 
   // TODO maybe move these 2 themeConfig to siteConfig?
   // These seems useful for other themes as well
@@ -101,6 +110,8 @@ export default function SiteMetadata(): JSX.Element {
       </Head>
 
       {defaultImage && <PageMetadata image={defaultImage} />}
+
+      <PageMetadata socialCardUrl={defaultSocialCardService} />
 
       <CanonicalUrlHeaders />
 

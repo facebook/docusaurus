@@ -14,6 +14,8 @@ import {
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
+  getSocialCardUrl,
+  isSocialCardString,
 } from '@docusaurus/utils';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
@@ -168,7 +170,21 @@ next build. You can clear all build artifacts (including this folder) with the
  * Your edits in this file will be overwritten in the next build!
  * Modify the docusaurus.config.js file at your site's root instead.
  */
-export default ${JSON.stringify(siteConfig, null, 2)};
+export default ${JSON.stringify(
+      siteConfig,
+      (key, value) => {
+        if (key === 'socialCardService' && !isSocialCardString(value)) {
+          return {
+            ...value,
+            getUrl: getSocialCardUrl(siteConfig.socialCardService, {
+              type: 'default',
+            }),
+          };
+        }
+        return value;
+      },
+      2,
+    )};
 `,
   );
 
