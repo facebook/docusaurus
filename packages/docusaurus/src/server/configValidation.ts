@@ -64,7 +64,7 @@ export const DEFAULT_CONFIG: Pick<
     getUrl: (data, options) => {
       if (data.type === 'default') {
         return `https://docusaurus-og-image.vercel.app/${encodeURI(
-          'Docusaurus Project',
+          options.projectName ?? 'Docusaurus Project',
         )}`;
       }
       return `https://docusaurus-og-image.vercel.app/${
