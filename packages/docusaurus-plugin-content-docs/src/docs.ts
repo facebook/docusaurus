@@ -314,7 +314,7 @@ async function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
-    socialCardUrl: getSocialCardUrl(context, {
+    socialCardUrl: getSocialCardUrl(context.siteConfig.socialCardService, {
       type: 'docs',
       title,
       permalink,

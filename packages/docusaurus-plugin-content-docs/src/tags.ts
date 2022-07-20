@@ -21,7 +21,7 @@ export function getVersionTags(
     label: group.tag.label,
     docIds: group.items.map((item) => item.id),
     permalink: group.tag.permalink,
-    socialCardUrl: getSocialCardUrl(context, {
+    socialCardUrl: getSocialCardUrl(context.siteConfig.socialCardService, {
       title: group.tag.label,
       version: versionName,
       type: 'docs',

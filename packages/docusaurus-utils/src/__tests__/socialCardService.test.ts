@@ -7,7 +7,6 @@
 
 import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import {getSocialCardUrl, isSocialCardString} from '../socialCardService';
-import type {LoadContext} from '@docusaurus/types';
 
 describe('isSocialCardString', () => {
   it('correctly identifies social card service url generator', () => {
@@ -27,26 +26,15 @@ describe('isSocialCardString', () => {
 describe('getSocialCardUrl', () => {
   it('calls getUrl when social card service url generator provided', () => {
     expect(
-      getSocialCardUrl(
-        {
-          siteConfig: DEFAULT_CONFIG,
-        } as unknown as LoadContext,
-        {
-          type: 'docs',
-          title: 'test',
-          permalink: 'a permalink',
-        },
-      ),
+      getSocialCardUrl(DEFAULT_CONFIG.socialCardService, {
+        type: 'docs',
+        title: 'test',
+        permalink: 'a permalink',
+      }),
     ).toBe(`https://docusaurus-og-image.vercel.app/${encodeURI('test')}?`);
   });
 
   it('returns url if social card service is a url string', () => {
-    expect(
-      getSocialCardUrl({
-        siteConfig: {
-          socialCardService: 'test url',
-        },
-      } as unknown as LoadContext),
-    ).toBe('test url');
+    expect(getSocialCardUrl('test url')).toBe('test url');
   });
 });
