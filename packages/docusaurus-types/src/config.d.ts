@@ -29,6 +29,7 @@ export type SocialCardOptions = {
   docusaurus?: boolean;
   markdown?: boolean;
   theme?: 'light' | 'dark';
+  baseUrl?: string;
 };
 
 export type SocialCardData = {

@@ -63,13 +63,13 @@ export const DEFAULT_CONFIG: Pick<
   socialCardService: {
     getUrl: (data, options) => {
       if (data.type === 'default') {
-        return `https://docusaurus-og-image.vercel.app/${encodeURI(
+        return `${options.baseUrl}${encodeURI(
           options.projectName ?? 'Docusaurus Project',
         )}`;
       }
-      return `https://docusaurus-og-image.vercel.app/${
-        data.title ? encodeURI(data.title) : ''
-      }?${data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''}${
+      return `${options.baseUrl}${data.title ? encodeURI(data.title) : ''}?${
+        data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''
+      }${
         data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''
       }${data.version ? `version=${encodeURI(data.version)}&` : ''}${
         options.projectName
@@ -81,9 +81,11 @@ export const DEFAULT_CONFIG: Pick<
           : ''
       }${options.markdown === false ? 'markdown=false&' : ''}${
         options.docusaurus === false ? 'docusaurus=false&' : ''
-      }${options.theme ? `theme=${options.theme}` : ''}`;
+      }${options.theme ? `theme=${encodeURI(options.theme)}` : ''}`;
     },
-    options: {},
+    options: {
+      baseUrl: 'https://docusaurus-og-image.vercel.app/',
+    },
   },
 };
 
@@ -278,6 +280,13 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
           docusaurus: Joi.boolean().optional(),
           markdown: Joi.boolean().optional(),
           theme: Joi.string().valid('light', 'dark').optional(),
+          baseUrl: Joi.string()
+            .optional()
+            .default(
+              isSocialCardString(DEFAULT_CONFIG.socialCardService)
+                ? undefined
+                : DEFAULT_CONFIG.socialCardService.options.baseUrl,
+            ),
         }).default(
           isSocialCardString(DEFAULT_CONFIG.socialCardService)
             ? undefined
