@@ -18,6 +18,7 @@ import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 import {minify} from 'html-minifier-terser';
+import logger from '@docusaurus/logger';
 import preload from './preload';
 import App from './App';
 import {
@@ -109,6 +110,24 @@ async function doRender(locals: Locals & {path: string}) {
   ];
   onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
+
+  const ogImage = helmet.meta
+    .toComponent()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    .find((thing) => thing.props.property === 'og:image').props.content;
+
+  // Hardcoded. For testing/demo purposes only. Will be removed.
+  if (
+    ogImage ===
+      `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'Docusaurus Project',
+      )}` ||
+    ogImage ===
+      `https://docusaurus-og-image.vercel.app/${encodeURI('Docusaurus')}`
+  ) {
+    logger.warn(`${location} is using the default url: ${ogImage}`);
+  }
 
   const {generatedFilesDir} = locals;
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
