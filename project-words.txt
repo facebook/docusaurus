@@ -195,6 +195,7 @@ npmrc
 nprogress
 ntfs
 nuxt
+O’Shannessy
 onboarded
 openapi
 opensearch
@@ -362,3 +363,4 @@ yangshun
 yangshunz
 zhou
 zoomable
+zpao
