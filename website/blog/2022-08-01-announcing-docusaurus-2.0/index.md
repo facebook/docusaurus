@@ -9,7 +9,7 @@ Today we are extremely happy to finally **announce Docusaurus 2.0**!
 
 After **4 years of work, [75 alphas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.75) and [22 betas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-beta.22)**, the next generation of Docusaurus is **ready for prime-time**.
 
-We now plan to **respect [Semantic Versioning](https://semver.org/)**: expect more **frequent major versions** in the future.
+From now on, we now plan to **respect [Semantic Versioning](https://semver.org/)**: expect more **frequent major versions** in the future.
 
 At [**Meta Open Source**](https://opensource.fb.com/), we believe Docusaurus will help you build the **best documentation websites** with a **minimal time and effort**, letting you focus on **what really matters: writing the content**.
 
