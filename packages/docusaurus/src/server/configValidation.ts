@@ -63,25 +63,25 @@ export const DEFAULT_CONFIG: Pick<
   socialCardService: {
     getUrl: (data, options) => {
       if (data.type === 'default') {
-        return `${options.baseUrl}${encodeURI(
-          options.projectName ?? 'Docusaurus Project',
+        return `${options?.baseUrl}${encodeURI(
+          options?.projectName ?? 'Docusaurus Project',
         )}`;
       }
-      return `${options.baseUrl}${data.title ? encodeURI(data.title) : ''}?${
+      return `${options?.baseUrl}${data.title ? encodeURI(data.title) : ''}?${
         data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''
       }${
         data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''
       }${data.version ? `version=${encodeURI(data.version)}&` : ''}${
-        options.projectName
+        options?.projectName
           ? `projectName=${encodeURI(options.projectName)}&`
           : ''
       }${
-        options.projectLogo
+        options?.projectLogo
           ? `projectLogo=${encodeURI(options.projectLogo)}&`
           : ''
-      }${options.markdown === false ? 'markdown=false&' : ''}${
-        options.docusaurus === false ? 'docusaurus=false&' : ''
-      }${options.theme ? `theme=${encodeURI(options.theme)}` : ''}`;
+      }${options?.markdown === false ? 'markdown=false&' : ''}${
+        options?.docusaurus === false ? 'docusaurus=false&' : ''
+      }${options?.theme ? `theme=${encodeURI(options.theme)}` : ''}`;
     },
     options: {
       baseUrl: 'https://docusaurus-og-image.vercel.app/',
