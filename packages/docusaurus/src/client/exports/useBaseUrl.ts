@@ -5,39 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {addBaseUrl} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
-import {hasProtocol} from './isInternalUrl';
 import type {BaseUrlOptions, BaseUrlUtils} from '@docusaurus/useBaseUrl';
-
-function addBaseUrl(
-  siteUrl: string,
-  baseUrl: string,
-  url: string,
-  {forcePrependBaseUrl = false, absolute = false}: BaseUrlOptions = {},
-): string {
-  // It never makes sense to add base url to a local anchor url, or one with a
-  // protocol
-  if (!url || url.startsWith('#') || hasProtocol(url)) {
-    return url;
-  }
-
-  if (forcePrependBaseUrl) {
-    return baseUrl + url.replace(/^\//, '');
-  }
-
-  // /baseUrl -> /baseUrl/
-  // https://github.com/facebook/docusaurus/issues/6315
-  if (url === baseUrl.replace(/\/$/, '')) {
-    return baseUrl;
-  }
-
-  // We should avoid adding the baseurl twice if it's already there
-  const shouldAddBaseUrl = !url.startsWith(baseUrl);
-
-  const basePath = shouldAddBaseUrl ? baseUrl + url.replace(/^\//, '') : url;
-
-  return absolute ? siteUrl + basePath : basePath;
-}
 
 export function useBaseUrlUtils(): BaseUrlUtils {
   const {

@@ -259,10 +259,7 @@ declare module '@docusaurus/useIsBrowser' {
 }
 
 declare module '@docusaurus/useBaseUrl' {
-  export type BaseUrlOptions = {
-    forcePrependBaseUrl?: boolean;
-    absolute?: boolean;
-  };
+  export type {BaseUrlOptions} from '@docusaurus/types';
 
   export type BaseUrlUtils = {
     withBaseUrl: (url: string, options?: BaseUrlOptions) => string;
@@ -301,11 +298,6 @@ declare module '@docusaurus/BrowserOnly' {
     readonly fallback?: JSX.Element;
   }
   export default function BrowserOnly(props: Props): JSX.Element | null;
-}
-
-declare module '@docusaurus/isInternalUrl' {
-  export function hasProtocol(url: string): boolean;
-  export default function isInternalUrl(url?: string): boolean;
 }
 
 declare module '@docusaurus/Noop' {

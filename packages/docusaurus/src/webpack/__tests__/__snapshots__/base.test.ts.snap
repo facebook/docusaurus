@@ -12,7 +12,6 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@docusaurus/Noop": "../../../../client/exports/Noop.ts",
   "@docusaurus/Translate": "../../../../client/exports/Translate.tsx",
   "@docusaurus/constants": "../../../../client/exports/constants.ts",
-  "@docusaurus/isInternalUrl": "../../../../client/exports/isInternalUrl.ts",
   "@docusaurus/renderRoutes": "../../../../client/exports/renderRoutes.ts",
   "@docusaurus/router": "../../../../client/exports/router.ts",
   "@docusaurus/useBaseUrl": "../../../../client/exports/useBaseUrl.ts",

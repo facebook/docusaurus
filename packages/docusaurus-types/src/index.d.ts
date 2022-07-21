@@ -74,4 +74,4 @@ export {
   ChunkNames,
 } from './routing';
 
-export {UseDataOptions} from './utils';
+export {UseDataOptions, BaseUrlOptions} from './utils';

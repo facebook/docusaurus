@@ -10,3 +10,5 @@ export {
   default as applyTrailingSlash,
   type ApplyTrailingSlashParams,
 } from './applyTrailingSlash';
+export {addBaseUrl} from './addBaseUrl';
+export {hasProtocol, default as isInternalUrl} from './isInternalUrl';

@@ -12,3 +12,8 @@ export type UseDataOptions = {
    */
   failfast?: boolean;
 };
+
+export type BaseUrlOptions = {
+  forcePrependBaseUrl?: boolean;
+  absolute?: boolean;
+};

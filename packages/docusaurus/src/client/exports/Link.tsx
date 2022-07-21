@@ -12,9 +12,8 @@ import React, {
   type ComponentType,
 } from 'react';
 import {NavLink, Link as RRLink} from 'react-router-dom';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {isInternalUrl, applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
-import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';

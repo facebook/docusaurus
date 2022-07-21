@@ -12,7 +12,6 @@ exports[`getDocusaurusAliases returns appropriate webpack aliases 1`] = `
   "@docusaurus/Noop": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Noop.ts",
   "@docusaurus/Translate": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/Translate.tsx",
   "@docusaurus/constants": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/constants.ts",
-  "@docusaurus/isInternalUrl": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/isInternalUrl.ts",
   "@docusaurus/renderRoutes": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/renderRoutes.ts",
   "@docusaurus/router": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/router.ts",
   "@docusaurus/useBaseUrl": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useBaseUrl.ts",
