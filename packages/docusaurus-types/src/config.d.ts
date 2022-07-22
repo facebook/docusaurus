@@ -16,12 +16,12 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
-export type SocialCardGenerator = {
-  getUrl: (data: SocialCardData, options?: SocialCardOptions) => string;
-  options?: SocialCardOptions;
-};
-
-export type SocialCardService = SocialCardGenerator | string;
+export type SocialCardService =
+  | {
+      getUrl: (data: SocialCardData, options?: SocialCardOptions) => string;
+      options?: SocialCardOptions;
+    }
+  | string;
 
 export type SocialCardOptions = {
   projectName?: string;
@@ -296,7 +296,9 @@ export type DocusaurusConfig = {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /**
-   * Function to generate open graph/twitter card images for each page
+   * Link to social card image or function to generate social card images.
+   * Links can be full URLs, including external URLs, or paths relative to
+   * your site's "static" directory
    */
   socialCardService: SocialCardService;
 };
