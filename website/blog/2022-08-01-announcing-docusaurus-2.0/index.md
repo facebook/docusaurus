@@ -7,23 +7,28 @@ image: ./img/social-card.png
 
 Today we are extremely happy to finally **announce Docusaurus 2.0**!
 
-After **4 years of work, [75 alphas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.75) and [22 betas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-beta.22)**, the next generation of Docusaurus is **ready for prime-time**.
+At [**Meta Open Source**](https://opensource.fb.com/), we believe Docusaurus will help you build the **best documentation websites** with **minimal effort**, letting you **focus on what really matters**: writing the content.
 
-From now on, we now plan to **respect [Semantic Versioning](https://semver.org/)**: expect more **frequent major versions** in the future.
-
-At [**Meta Open Source**](https://opensource.fb.com/), we believe Docusaurus will help you build the **best documentation websites** with a **minimal time and effort**, letting you focus on **what really matters: writing the content**.
+After **4 years of work, [75 alphas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.75) and [22 betas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-beta.22)**, the next generation of Docusaurus is **ready for prime-time**. From now on, we now plan to **respect [Semantic Versioning](https://semver.org/)** and will release more **frequent major versions**.
 
 ![social-card image](./img/social-card.png)
 
 <!--truncate-->
 
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import ColorModeToggle from '@theme/Navbar/ColorModeToggle';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+```
+
 ## What is Docusaurus exactly?
 
 Docusaurus helps you ship **beautiful documentation websites** in **no time**.
 
-Focus on your content: just write **Markdown files**. Docusaurus will generate an **optimized static website** for you, easy to **host anywhere**.
+Focus on your content: just write **Markdown files**. Docusaurus will generate an optimized **static website** for you, easy to **host anywhere**.
 
-Docusaurus is **full-featured** and very flexible: docs, blog, landing pages, versioning, search, i18n, a11y, theming, plugin system... You can easily **adapt its theme to match your brand** so that it integrates nicely with your main website or documentation portal. Its usage of **React** enables a **modern client-side navigation**, and the ability build an **interactive documentation**.
+Docusaurus is **full-featured** and very **flexible**: docs, blog, landing pages, versioning, search, i18n, a11y, theming, plugin system... You can easily **adapt its theme to match your brand** so that it integrates nicely with your main website or documentation portal. Its usage of **React** enables a **modern client-side navigation**, and the ability build an **interactive documentation**.
 
 The Docusaurus philosophy is akin to **Pareto's law**: you can get **80% of the results** for **20% of the effort**. This enables you to compete with top-notch documentations with **minimal effort**.
 
@@ -68,7 +73,7 @@ TODO better table + self-hosted images:
   </tr>
 </table>
 
-The work on Docusaurus v2 started in 2018, and the community has been quick to adopt it. It didn't take long for Docusaurus v2 to outgrow Docusaurus v1, despite being in beta.
+The work on Docusaurus v2 [started in 2018](/blog/2018/09/11/Towards-Docusaurus-2). Since then, the community has been quick to adopt it. It didn't take long for Docusaurus v2 to outgrow Docusaurus v1, despite being in beta.
 
 TODO fix screenshot legend
 
@@ -84,9 +89,7 @@ Today, Docusaurus v2 is a great success even before its launch:
 
 - We received so many [lovely testimonials](https://twitter.com/sebastienlorber/timelines/1392048416872706049)
 - Companies like [1Password](https://blog.1password.com/docusaurus-documentation-framework/) and [Courier](https://www.courier.com/blog/how-we-built-our-documentation/) are writing down their positive experience
-- Our [site showcase](/showcase) references hundreds of Docusaurus v2 websites (check our [favorites](/showcase?tags=favorite)).
-
-This is only the tip of the iceberg, and Docusaurus is widely used in so many companies: Microsoft, IBM, SAP, Figma, Snapchat...
+- Our [site showcase](/showcase) references hundreds of Docusaurus v2 websites (check our [favorites](/showcase?tags=favorite)), and this is only the tip of the iceberg.
 
 TODO present a more exhaustive list of sites by vertical? + some screenshots?
 
@@ -96,30 +99,121 @@ Please add your site to our showcase!
 
 :::
 
-## Differences between v1 and v2
+## From v1 to v2
 
-[**Docusaurus v1**](http://v1.docusaurus.io/) has been successful, but we **questioned some of our initial architectural choices**:
+[**Docusaurus v1**](http://v1.docusaurus.io/) has been very successful, but we **questioned some of our initial architectural choices**:
 
 - React was only used as a **server-side templating language**, and not even used on the client
 - The **theming system was pretty limited**, and apart from changing a few colors with CSS, it was difficult to do more advanced customizations
 - The **docs versioning system was confusing**, based on a diff algorithm
 - The **codebase was monolithic**, not really scalable nor easy to extend
 
-[**Docusaurus v2**](https://docusaurus.io/) was **rebuilt** from the ground up with a **new modular architecture**:
+[**Docusaurus v2**](https://docusaurus.io/) has been **rebuilt** from the ground up with a new **modular architecture**:
 
 - React is used on the server-side (SSR) and client-side (CSR / hydration), enabling a modern **Single-Page-Application navigation**
 - The theming system is more flexible than ever: you can **swap default React components** with your own implementations, or create your own theme from scratch
 - The docs versioning is now based on snapshot copies, much easier to understand
 - The **plugin system** lets the community contribute useful features as third-party packages
-- We kept **everything good from v1** and implemented several new useful features
+- We kept **everything good from v1**: docs, blog, pages, versioning, i18n...
+- We implemented several new useful features
 
-See also [how to migrate from v1 to v2](https://docusaurus.io/docs/migration)
-
----
+More details in the [Docusaurus 2 project announcement](https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2) and [v1 to v2 migration guide](https://docusaurus.io/docs/migration)
 
 ## What's New?
 
-TODO major new v2 features not in v1 (autogenerated sidebars, plugins)
+It would be difficult to list every single new feature that we added in Docusaurus v2, so let's focus on what we believe are the most important ones.
+
+### Plugins
+
+Docusaurus now has a modular architecture with a plugin system, also powering the core features like docs, blog, pages, search...
+
+More importantly, it enables our community to enhance Docusaurus with additional features.
+
+Let's highlight some good examples:
+
+- [Redocusaurus](https://github.com/rohit-gohri/redocusaurus) allows you to integrate nicely an OpenAPI Redoc documentation in Docusaurus:
+
+![image](https://user-images.githubusercontent.com/749374/180414317-2b62648a-3789-44ff-87be-155b3fbf08c4.png)
+
+- [MDX-Mermaid](https://github.com/sjwall/mdx-mermaid) allows you to display Mermaid diagrams in your documentation:
+
+![image](https://user-images.githubusercontent.com/749374/180417576-44131548-2ff8-41d9-bfff-e305c1c5393a.png)
+
+- [Docusaurus Plugin Image Zoom](https://github.com/flexanalytics/plugin-image-zoom) allows users to click documentation images to zoom them:
+
+![image](https://raw.githubusercontent.com/flexanalytics/plugin-image-zoom/master/img/zoom_example.gif)
+
+:::tip
+
+We reference some interesting plugins in our [community resources](/community/resources) page.
+
+:::
+
+### Theming
+
+Theming is one of the most important features of Docusaurus: we believe your documentation should adapt to your company's brand.
+
+Docusaurus gives a lot of flexibility on multiple levels:
+
+- Customize CSS variables to adjust colors, fonts...
+- Provide your own stylesheets
+- Implement your own theme from scratch
+- Override any React component of our default theme (we call this [Swizzling](https://docusaurus.io/docs/swizzling)).
+
+This enables users willing to invest a bit more time on customizations to look very different one from another, including changing completely the layout.
+
+TODO better table + self-hosted images:
+
+<table>
+  <tr>
+    <td>
+      <img src="https://user-images.githubusercontent.com/749374/180420765-11009bec-525f-4ad2-a2a6-33d82f0739bf.png" />
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/749374/180421278-e0636886-4350-4cd6-9545-8708e39e80c6.png" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://user-images.githubusercontent.com/749374/180422160-bf3b9b10-b7ac-4bac-b337-918f2b0ab842.png" />
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/749374/180422673-c2175d7a-7c82-4fd5-a17d-99f8c1adbb41.png" />
+    </td>
+  </tr>
+</table>
+
+### MDX
+
+[MDX](https://github.com/mdx-js/mdx) allows you to **interleave React components** in your documentation.
+
+This enables you to very easily build **interactive** documentation experiences.
+
+A demo is worth a thousand words:
+
+```md title="docs/my-document.mdx"
+import ColorModeToggle from '@theme/ColorModeToggle';
+
+### Give it a try!
+
+Click me: <ColorModeToggle/>
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+<h3>Give it a try!</h3>
+
+<ColorModeToggle/>
+
+</BrowserWindow>
+```
+
+:::info
+
+MDX has its own [plugin system](https://mdxjs.com/docs/extending-mdx/): it enables you to customize your Markdown authoring experience, and even create your own Markdown syntax.
+
+:::
 
 ## Design decision
 
