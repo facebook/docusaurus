@@ -179,9 +179,7 @@ export default ${JSON.stringify(
         ) {
           return {
             ...value,
-            getUrl: getSocialCardUrl(context, {
-              type: 'default',
-            }),
+            getUrl: getSocialCardUrl(context),
           };
         }
         return value;

@@ -122,7 +122,7 @@ export default function pluginContentPages(
           socialCardUrl: getSocialCardUrl(context, {
             type: 'page',
             permalink,
-            title,
+            title: title ?? 'Page',
           }),
         };
       }

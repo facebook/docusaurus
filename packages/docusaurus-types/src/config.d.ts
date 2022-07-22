@@ -34,8 +34,8 @@ export type SocialCardOptions = {
 
 export type SocialCardData = {
   type: 'docs' | 'blog' | 'page' | 'default';
+  title: string;
   permalink?: string;
-  title?: string;
   authorName?: string;
   authorImage?: string;
   version?: string;
