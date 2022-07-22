@@ -55,17 +55,39 @@ Try Docusaurus now with our [online playgrounds](docs/playground) and [5 minutes
 
 ## The story behind Docusaurus
 
-Docusaurus was **created at Facebook Open Source in 2016** (now [Meta Open Source](https://opensource.fb.com/)). We had a lot of internal and open-source projects to document. It's **complicated enough to write good documentation**, let alone creating the HTML, CSS and JavaScript for a good-looking website. We wanted project leaders to be able to **focus on the content**, and **Markdown** is great for that.
+Docusaurus was created at **Facebook Open Source** in **2017** (now [Meta Open Source](https://opensource.fb.com/)). We had a lot of internal and open-source projects to document. It's **complicated enough to write good documentation**, let alone creating the HTML, CSS and JavaScript for a good-looking website. We wanted project leaders to be able to **focus on the content**, and **Markdown** is great for that.
 
 At that time, our solution was to **copy/paste a Jekyll template** over and over again. This naturally became **hard to maintain**, so we created a tool to **solve our own pain** once for all.
 
-**Docusaurus was born.**
+**[Docusaurus v1 was born](/blog/2017/12/14/introducing-docusaurus)!**
+
+![Birth of Slash](/img/slash-birth.png)
 
 ![image docusaurus was born](./img/docusaurus-was-born.png)
 
+## From 1.0 to 2.0
+
+[**Docusaurus v1**](http://v1.docusaurus.io/) has been very successful, but we **questioned some of our initial architectural choices**:
+
+- React was only used as a **server-side templating language**, and not used on the client
+- **Theming system was pretty limited**, and apart from changing a few colors with CSS, it was difficult to do more advanced customizations
+- The **docs versioning system was confusing**, based on a diff algorithm
+- The codebase was **monolithic**, not well-tested, scalable nor easy to extend
+
+[**Docusaurus v2**](https://docusaurus.io/) has been **rebuilt** from the ground up with a new **modular architecture**:
+
+- React is now also use on the client, enabling a **modern Single Page Application navigation**
+- **Plugins** let the community contribute useful features as third-party packages
+- **Theming** is more **flexible** than ever
+- Docs versioning is now based on snapshot copies, much easier to understand
+- We kept **everything good from v1**: docs, blog, pages, versioning, i18n...
+- We implemented **several new features**
+
+More details in the [Docusaurus 2 project announcement](https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2) and [v1 to v2 migration guide](https://docusaurus.io/docs/migration)
+
 ## Who is using Docusaurus?
 
-[Docusaurus v1](http://v1.docusaurus.io/) built momentum at Facebook and in the frontend ecosystem, adopted by many popular projects: [React-Native](https://archive.reactnative.dev/), [Jest](https://archive.jestjs.io/), [Prettier](https://prettier.io/), [Babel](https://babeljs.io/)...
+[Docusaurus v1](http://v1.docusaurus.io/) quickly built momentum at Facebook and in the frontend ecosystem, adopted by many popular projects: [React-Native](https://archive.reactnative.dev/), [Jest](https://archive.jestjs.io/), [Prettier](https://prettier.io/), [Babel](https://babeljs.io/)...
 
 TODO better table + self-hosted images:
 
@@ -105,26 +127,6 @@ TODO present a more exhaustive list of sites by vertical? + some screenshots?
 Please add your site to our showcase!
 
 :::
-
-## From 1.0 to 2.0
-
-[**Docusaurus v1**](http://v1.docusaurus.io/) has been very successful, but we **questioned some of our initial architectural choices**:
-
-- React was only used as a **server-side templating language**, and not used on the client
-- **Theming system was pretty limited**, and apart from changing a few colors with CSS, it was difficult to do more advanced customizations
-- The **docs versioning system was confusing**, based on a diff algorithm
-- The codebase was **monolithic**, not well-tested, scalable nor easy to extend
-
-[**Docusaurus v2**](https://docusaurus.io/) has been **rebuilt** from the ground up with a new **modular architecture**:
-
-- React is now also use on the client, enabling a **modern Single Page Application navigation**
-- **Plugins** let the community contribute useful features as third-party packages
-- **Theming** is more **flexible** than ever
-- Docs versioning is now based on snapshot copies, much easier to understand
-- We kept **everything good from v1**: docs, blog, pages, versioning, i18n...
-- We implemented **several new features**
-
-More details in the [Docusaurus 2 project announcement](https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2) and [v1 to v2 migration guide](https://docusaurus.io/docs/migration)
 
 ## What's New in 2.0?
 
@@ -206,7 +208,7 @@ We reference some interesting plugins in our [community resources](/community/re
 
 ### Theming
 
-Theming is one of the most important features of Docusaurus: we believe your documentation should **adapt to your company's brand** and create a consistent experience with your other websites.
+Theming is one of the most important features of Docusaurus: we believe a documentation should **adapt to your company's brand** and create a consistent experience.
 
 Docusaurus theming gives a lot of **flexibility** on multiple levels:
 
@@ -285,6 +287,8 @@ Check our [release process](/community/release-process) documentation for detail
 :::
 
 ## What's Next?
+
+![Slash Up and Running](/img/slash-up-and-running.png)
 
 The work on Docusaurus 3.0 has started, and this next version will be released only in a few months. We will backport retro-compatible changes in Docusaurus `2.x` minor versions to make them available as soon as possible to the community on a stable channel.
 
