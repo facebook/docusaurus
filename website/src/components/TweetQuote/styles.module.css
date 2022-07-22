@@ -7,7 +7,7 @@
 
 .tweetQuote {
   padding: 0;
-  margin: 1rem;
+  margin: 2rem 1rem;
   --ifm-link-color: var(--ifm-color-emphasis-700);
   --ifm-link-hover-color: var(--ifm-color-emphasis-900);
 }
@@ -47,4 +47,9 @@ blockquote::after {
 
 .tweetQuote p {
   display: inline;
+}
+
+.avatarImg {
+  width: 48px;
+  height: 48px;
 }

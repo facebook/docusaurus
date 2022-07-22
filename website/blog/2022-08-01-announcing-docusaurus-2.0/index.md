@@ -31,6 +31,8 @@ import ThemedImage from '@theme/ThemedImage';
 
 ## What is Docusaurus exactly?
 
+![Introducing Slash](/img/slash-introducing.svg)
+
 Docusaurus helps you ship **beautiful documentation websites** in **no time**.
 
 Focus on your content: just write **Markdown files**. Docusaurus will generate an optimized **static website** for you, easy to **host anywhere**.
@@ -39,7 +41,7 @@ Docusaurus is **full-featured** and very **flexible**: docs, blog, landing pages
 
 The Docusaurus philosophy is akin to **Pareto's law**: you can get **80% of the results** for **20% of the effort**. This enables you to compete with top-notch documentations with **minimal effort**.
 
-<TweetQuote url="https://twitter.com/rachelnabors/status/1452697991039660038" handle="rachelnabors" name="Rachel Nabors">Unless you're spinning up a documentation team with engineering resources, you probably want Docusaurus!</TweetQuote>
+<TweetQuote url="https://twitter.com/rachelnabors/status/1452697991039660038" handle="rachelnabors" name="Rachel Nabors" job="React & React-Native documentation leader">Unless you're spinning up a documentation team with engineering resources, you probably want Docusaurus!</TweetQuote>
 
 Technically, Docusaurus is a flexible **static-site generator**. Think of it as a **simpler, opinionated alternative to [Gatsby](https://www.gatsbyjs.com/)**, GraphQL layer removed. We market it as a **documentation tool**, but you can use it for **other use-cases** as well: a blog, a knowledge base, a developer portfolio, a second brain, landing pages...
 
@@ -176,13 +178,16 @@ Markdown Front Matter and `_category_.json` allow you to customize the behavior:
 
 :::
 
+<TweetQuote url="https://twitter.com/paularmstrong/status/1387059593373700100" handle="paularmstrong" name="
+Paul Armstrong" job="Principal Engineer @ Microsoft for Startups"> Continue to be impressed and excited about Docusaurus v2 alpha releases. Already using the sidebar items generator to help monorepo workspace devs create their own doc pages without any configuration needed. </TweetQuote>
+
 ### Plugins
 
 Docusaurus now has a **modular architecture** with a plugin system, also **powering the core features** like docs, blog, pages, search...
 
 More importantly, it enables our community to **enhance Docusaurus** with additional features.
 
-Let's highlight some good examples:
+Let's highlight some examples:
 
 - [Redocusaurus](https://github.com/rohit-gohri/redocusaurus) allows you to integrate nicely an OpenAPI Redoc documentation in Docusaurus:
 
@@ -235,6 +240,9 @@ TODO better display
     </td>
   </tr>
 </table>
+
+<TweetQuote url="https://twitter.com/hung_dev/status/1546918275065741312" handle="hung_dev" name="
+Hung Viet Nguyen" job="Creator of JestPreview">I love Docusaurus Swizzling feature. It’s opinionated and flexible at the same time. This is super cool since a framework usually needs to sacrifice for one for other. But with Swizzling, you have both without losing the other. </TweetQuote>
 
 ### Other features
 

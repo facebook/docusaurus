@@ -15,6 +15,7 @@ export interface Props {
   url: string;
   handle: string;
   name: string;
+  job: string;
   children: ReactNode;
 }
 
@@ -22,6 +23,7 @@ export default function TweetQuote({
   url,
   handle,
   name,
+  job,
   children,
 }: Props): JSX.Element {
   const avatar = `https://unavatar.io/twitter/${handle}`;
@@ -41,15 +43,17 @@ export default function TweetQuote({
           <div className="avatar">
             <img
               alt={name}
-              className="avatar__photo"
+              className={clsx('avatar__photo', styles.avatarImg)}
               src={avatar}
-              style={{width: 32, height: 32}}
               loading="lazy"
             />
             <div className={clsx('avatar__intro')}>
               <strong className="avatar__name">
                 <cite>{name}</cite>
               </strong>
+              <small className="avatar__subtitle" itemProp="description">
+                {job}
+              </small>
             </div>
           </div>
         </a>
