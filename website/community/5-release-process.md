@@ -38,7 +38,7 @@ Whenever a new major version is released, we publish:
 
 :::tip
 
-Read our [public API surface](##public-api-surface) section to clearly understand what we consider as a breaking change.
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
 
 :::
 
