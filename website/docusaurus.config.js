@@ -87,7 +87,7 @@ const config = {
   socialCardService: {
     options: {
       projectName: 'Docusaurus',
-      projectLogo: 'https://docusaurus.io/img/docusaurus.svg',
+      projectLogo: 'img/docusaurus.svg',
       docusaurus: true,
       markdown: true,
       theme: 'light',
