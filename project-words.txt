@@ -250,6 +250,7 @@ quasis
 quddus
 quddús
 quotify
+rachelnabors
 ramón
 reactjs
 rearchitecture

@@ -39,11 +39,7 @@ Docusaurus is **full-featured** and very **flexible**: docs, blog, landing pages
 
 The Docusaurus philosophy is akin to **Pareto's law**: you can get **80% of the results** for **20% of the effort**. This enables you to compete with top-notch documentations with **minimal effort**.
 
-TODO better quote design
-
-> Unless you're spinning up a documentation team with engineering resources, you probably want Docusaurus!
->
-> [Rachel Nabors](https://twitter.com/rachelnabors/status/1452697991039660038)
+<TweetQuote url="https://twitter.com/rachelnabors/status/1452697991039660038" handle="rachelnabors" name="Rachel Nabors">Unless you're spinning up a documentation team with engineering resources, you probably want Docusaurus!</TweetQuote>
 
 Technically, Docusaurus is a flexible **static-site generator**. Think of it as a **simpler, opinionated alternative to [Gatsby](https://www.gatsbyjs.com/)**, GraphQL layer removed. We market it as a **documentation tool**, but you can use it for **other use-cases** as well: a blog, a knowledge base, a developer portfolio, a second brain, landing pages...
 

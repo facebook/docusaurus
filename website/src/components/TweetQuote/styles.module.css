@@ -1,0 +1,50 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.tweetQuote {
+  padding: 0;
+  margin: 1rem;
+  --ifm-link-color: var(--ifm-color-emphasis-700);
+  --ifm-link-hover-color: var(--ifm-color-emphasis-900);
+}
+
+.tweetQuote blockquote {
+  font-weight: 200;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  position: relative;
+  border: none;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.tweetQuote blockquote::before,
+blockquote::after {
+  position: absolute;
+  color: #f1efe6;
+  font-size: 6rem;
+  width: 3rem;
+  height: 3rem;
+  font-family: cursive;
+  line-height: 1;
+}
+
+.tweetQuote blockquote::before {
+  content: '“';
+  left: -2rem;
+  top: -1rem;
+}
+
+.tweetQuote blockquote::after {
+  content: '”';
+  right: -1rem;
+  bottom: -1rem;
+}
+
+.tweetQuote p {
+  display: inline;
+}
