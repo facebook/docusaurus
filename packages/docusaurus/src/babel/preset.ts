@@ -29,6 +29,7 @@ function getTransformOptions(isServer: boolean): TransformOptions {
         : [
             require.resolve('@babel/preset-env'),
             {
+              targets: "defaults",
               useBuiltIns: 'entry',
               loose: true,
               corejs: '3',
