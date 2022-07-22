@@ -14,7 +14,7 @@ Docusaurus versioning is based on the `major.minor.patch` scheme and respects [S
 
 Respecting Semantic Versioning is important for multiple reasons:
 
-- It **guarantees simple minor version upgrades**, as long as you only use the [public API](##public-api-surface)
+- It **guarantees simple minor version upgrades**, as long as you only use the [public API](/community/release-process#public-api-surface)
 - It follows front-end ecosystem conventions
 - A new major version is an opportunity to thoroughly document breaking changes
 - A new major/minor version is an opportunity to communicate new features through a blog post
