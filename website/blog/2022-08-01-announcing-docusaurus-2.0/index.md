@@ -90,10 +90,10 @@ TODO better table + self-hosted images:
 <table>
   <tr>
     <td>
-<img src="https://lh3.googleusercontent.com/6YzonSinOWYnOtwb8wFAnG9cHpF84WWOnbV1jEaGXDK6caCRzqonOe3XhozVNzbDa7QIN8RonNytTk31Tw3cgcQzzdke4jqtf6ALylu9yyVSVha03FNrJK74dH7qyZORYoxgt1UImKoj75EPr6LfiNs" />
+<img src="https://user-images.githubusercontent.com/749374/180484894-0485d3b9-0d1c-4333-aec0-6816c819da3f.png" />
 </td>
     <td>
-<img src="https://lh6.googleusercontent.com/mXh70kOCNK83Vc24Urb6ByAEE3GMUhZp7QYwVjvteEfsH0P6C7OQrfIiLCUP8PwvGvWmfMV8zC6n4T2gF42x-pwsq3bNeUu5-32uyfmaqciDwx-w-VssO6ooWF20Ufr6Ms68Y5ShMCgVKRs3ZDufPJw" />
+<img src="https://user-images.githubusercontent.com/749374/180484926-1be22298-d167-4229-b3b7-ec699c487541.png" />
 </td>
   </tr>
 </table>
@@ -158,7 +158,7 @@ import ColorModeToggle from '@theme/ColorModeToggle';
 
 :::info
 
-MDX has its own [plugin system](https://mdxjs.com/docs/extending-mdx/): it enables you to customize your Markdown authoring experience, and even create your own Markdown syntax.
+MDX has its own [plugin system](https://mdxjs.com/docs/extending-mdx/). You to customize your Markdown authoring experience, and even create your own Markdown syntax.
 
 :::
 
