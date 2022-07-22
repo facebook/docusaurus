@@ -1,6 +1,13 @@
 ---
 title: Announcing Docusaurus 2.0
-authors: [slorber, Josh-Cena, zpao, yangshun, lex111]
+authors:
+  - slorber
+  - Josh-Cena
+  - yangshun
+  - lex111
+  - zpao
+  - key: JMarcey
+    title: Creator of Docusaurus 1
 tags: [recap]
 image: ./img/social-card.png
 ---
@@ -103,14 +110,14 @@ Please add your site to our showcase!
 
 [**Docusaurus v1**](http://v1.docusaurus.io/) has been very successful, but we **questioned some of our initial architectural choices**:
 
-- React was only used as a **server-side templating language**, and not even used on the client
+- React was only used as a **server-side templating language**, and not used on the client
 - **Theming system was pretty limited**, and apart from changing a few colors with CSS, it was difficult to do more advanced customizations
 - The **docs versioning system was confusing**, based on a diff algorithm
 - The codebase was **monolithic**, not well-tested, scalable nor easy to extend
 
 [**Docusaurus v2**](https://docusaurus.io/) has been **rebuilt** from the ground up with a new **modular architecture**:
 
-- React is used on the server-side (SSR) and client-side (CSR / hydration), enabling a modern **Single-Page-Application navigation**
+- React is now also use on the client, enabling a **modern Single Page Application navigation**
 - **Plugins** let the community contribute useful features as third-party packages
 - **Theming** is more **flexible** than ever
 - Docs versioning is now based on snapshot copies, much easier to understand
@@ -199,16 +206,16 @@ We reference some interesting plugins in our [community resources](/community/re
 
 ### Theming
 
-Theming is one of the most important features of Docusaurus: we believe your documentation should adapt to your company's brand.
+Theming is one of the most important features of Docusaurus: we believe your documentation should **adapt to your company's brand** and create a consistent experience with your other websites.
 
-Docusaurus gives a lot of flexibility on multiple levels:
+Docusaurus theming gives a lot of **flexibility** on multiple levels:
 
 - Customize CSS variables to adjust colors, fonts...
-- Provide your own stylesheets
+- Provide your own CSS stylesheets
 - Implement your own theme from scratch
-- Override any React component of our default theme (we call this [Swizzling](https://docusaurus.io/docs/swizzling)).
+- **Override any React component** of our default theme (we call this [Swizzling](https://docusaurus.io/docs/swizzling)).
 
-This enables users willing to invest a bit more time on customizations to look very different one from another, including changing completely the layout.
+This enables users willing to invest a bit more time on **customizations** to build sites that **look different** one from another.
 
 TODO better display
 
@@ -254,7 +261,7 @@ Docusaurus 2 comes with many other useful features:
 
 ## Why 2.0 now?
 
-It is legitimate to **wonder why it took us 4 years to release Docusaurus 2.0**, considering the beta is already so successful and widely used by many companies in production.
+It is legitimate to **wonder why it took us 4 years to release Docusaurus 2.0**, considering the beta is already successful and **widely used in production**.
 
 The reason is to be able to **respect [Semantic Versioning](https://semver.org/)**, which means Docusaurus major version will be incremented whenever we release a **breaking change**.
 
@@ -279,7 +286,7 @@ Check our [release process](/community/release-process) documentation for detail
 
 ## What's Next?
 
-The work on Docusaurus 3.0 is starting now. This next version will be released in a few months with some major features. We will backport retro-compatible changes in Docusaurus `2.x` minor versions
+The work on Docusaurus 3.0 has started, and this next version will be released only in a few months. We will backport retro-compatible changes in Docusaurus `2.x` minor versions to make them available as soon as possible to the community on a stable channel.
 
 A sample of the features on our roadmap for the upcoming major versions of Docusaurus:
 
@@ -297,4 +304,18 @@ A sample of the features on our roadmap for the upcoming major versions of Docus
 
 ## Thank You
 
-TODO
+We'd like to express our gratitude to [all our contributors](https://github.com/facebook/docusaurus/graphs/contributors), including:
+
+- The Docusaurus core team: [Alexey Pyltsyn](https://github.com/lex111), [Joshua Chen](https://github.com/Josh-Cena), [Sébastien Lorber](https://github.com/slorber), [Yangshun Tay](https://github.com/yangshun) and all our [former team members](https://docusaurus.io/community/team)
+- [Joel Marcey](https://github.com/JoelMarcey) for creating Docusaurus 1.0 and supporting the Docusaurus 2.0 project at Meta Open source
+- [Paul O’Shannessy](https://github.com/zpao) for supporting the development of all the next versions of Docusaurus at Meta Open source
+- [Eric Nakagawa](https://github.com/ericnakagawa) for creating our cutest mascot Slash
+- [Endilie Yacop Sucipto](https://github.com/endiliey) for his significant [initial work on Docusaurus v2](/blog/2020/01/07/tribute-to-endi)
+- [Clément Vannicatte](https://github.com/shortcuts), [Kevin Granger](https://github.com/Shipow) and the whole Algolia team for their support
+- All the community members for making valuable code contributions, improving our documentation, and answering questions on [Discord](https://discordapp.com/invite/docusaurus)
+
+We'd like to thank in particular all our **Docusaurus 2.0 early adopters** for assessing it alpha, beta and canary releases, providing a ton of **invaluable feedback**. We sincerely hope you had a great experience using it, and that you will continue to provide feedback on the upcoming releases of Docusaurus 3.0.
+
+At [Meta Open Source](https://opensource.fb.com/), Docusaurus is one of our **most successful project**. We can't wait to see all the outstanding documentation websites that you will create! Don't forget to submit them to our [site showcase](/showcase).
+
+**Now, let your imagination run wild 🤪!**
