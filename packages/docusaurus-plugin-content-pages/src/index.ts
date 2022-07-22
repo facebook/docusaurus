@@ -119,14 +119,11 @@ export default function pluginContentPages(
           title,
           description: frontMatter.description ?? excerpt,
           frontMatter,
-          socialCardUrl: getSocialCardUrl(
-            context.siteConfig.socialCardService,
-            {
-              type: 'page',
-              permalink,
-              title,
-            },
-          ),
+          socialCardUrl: getSocialCardUrl(context, {
+            type: 'page',
+            permalink,
+            title,
+          }),
         };
       }
 

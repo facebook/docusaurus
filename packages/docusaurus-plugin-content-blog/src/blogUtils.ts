@@ -93,7 +93,7 @@ export function paginateBlogPosts({
         nextPage: page < numberOfPages - 1 ? permalink(page + 1) : undefined,
         blogDescription,
         blogTitle,
-        socialCardUrl: getSocialCardUrl(context.siteConfig.socialCardService, {
+        socialCardUrl: getSocialCardUrl(context, {
           type: 'blog',
           title: blogTitle,
           permalink: pagePermalink,
@@ -338,7 +338,7 @@ async function processBlogSourceFile(
       hasTruncateMarker: truncateMarker.test(content),
       authors,
       frontMatter,
-      socialCardUrl: getSocialCardUrl(context.siteConfig.socialCardService, {
+      socialCardUrl: getSocialCardUrl(context, {
         type: 'blog',
         title,
         permalink,

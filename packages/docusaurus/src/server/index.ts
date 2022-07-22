@@ -173,10 +173,13 @@ next build. You can clear all build artifacts (including this folder) with the
 export default ${JSON.stringify(
       siteConfig,
       (key, value) => {
-        if (key === 'socialCardService' && !isSocialCardString(value)) {
+        if (
+          key === 'socialCardService' &&
+          !isSocialCardString(siteConfig.socialCardService)
+        ) {
           return {
             ...value,
-            getUrl: getSocialCardUrl(siteConfig.socialCardService, {
+            getUrl: getSocialCardUrl(context, {
               type: 'default',
             }),
           };

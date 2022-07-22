@@ -225,14 +225,11 @@ export default async function pluginContentBlog(
           JSON.stringify(
             {
               blogPosts,
-              socialCardUrl: getSocialCardUrl(
-                context.siteConfig.socialCardService,
-                {
-                  type: 'blog',
-                  permalink: archiveBasePath,
-                  title: 'Blog Archive',
-                },
-              ),
+              socialCardUrl: getSocialCardUrl(context, {
+                type: 'blog',
+                permalink: archiveBasePath,
+                title: 'Blog Archive',
+              }),
             },
             null,
             2,
@@ -334,7 +331,7 @@ export default async function pluginContentBlog(
         const socialCardUrlPropPath = await createData(
           `${docuHash(`${blogTagsListPath}-social-card-url`)}.json`,
           JSON.stringify(
-            getSocialCardUrl(context.siteConfig.socialCardService, {
+            getSocialCardUrl(context, {
               type: 'blog',
               permalink: blogTagsListPath,
               title: 'Blog Tags',
@@ -379,7 +376,7 @@ export default async function pluginContentBlog(
             const socialCardUrlPropPath = await createData(
               `${docuHash(`${metadata.permalink}-social-card-url`)}.json`,
               JSON.stringify(
-                getSocialCardUrl(context.siteConfig.socialCardService, {
+                getSocialCardUrl(context, {
                   type: 'blog',
                   permalink: tag.permalink,
                   title: tag.label,

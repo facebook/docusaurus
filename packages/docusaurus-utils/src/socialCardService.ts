@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {LoadContext} from '@docusaurus/types';
 import type {
   SocialCardData,
   SocialCardService,
@@ -20,15 +21,15 @@ export function isSocialCardString(
 }
 
 export function getSocialCardUrl(
-  socialCardService: SocialCardService,
+  context: LoadContext,
   data?: SocialCardData,
 ): string {
-  return isSocialCardString(socialCardService)
-    ? socialCardService
-    : socialCardService.getUrl(
+  return isSocialCardString(context.siteConfig.socialCardService)
+    ? context.siteConfig.socialCardService
+    : context.siteConfig.socialCardService.getUrl(
         data ?? {
           type: 'default',
         },
-        socialCardService.options,
+        context.siteConfig.socialCardService.options,
       );
 }

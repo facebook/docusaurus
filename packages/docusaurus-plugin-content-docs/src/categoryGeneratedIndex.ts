@@ -44,7 +44,7 @@ function getCategoryGeneratedIndexMetadata({
       previous: toNavigationLink(previous, docsById),
       next: toNavigationLink(next, docsById),
     },
-    socialCardUrl: getSocialCardUrl(context.siteConfig.socialCardService, {
+    socialCardUrl: getSocialCardUrl(context, {
       title,
       version: versionName,
       type: 'docs',

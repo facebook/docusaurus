@@ -184,7 +184,7 @@ export function toTagDocListProp({
     allTagsPath,
     count: tag.docIds.length,
     items: toDocListProp(),
-    socialCardUrl: getSocialCardUrl(context.siteConfig.socialCardService, {
+    socialCardUrl: getSocialCardUrl(context, {
       type: 'docs',
       title: tag.label,
       permalink: tag.permalink,
