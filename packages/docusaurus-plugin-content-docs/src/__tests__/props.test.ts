@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
+import {
+  DEFAULT_CONFIG,
+  DEFAULT_SOCIAL_CARD_SERVICE_CONFIG,
+} from '@docusaurus/core/src/server/configValidation';
 import {toTagDocListProp} from '../props';
 import type {LoadContext} from '@docusaurus/types/src/context';
 
@@ -67,9 +70,9 @@ describe('toTagDocListProp', () => {
       label: tag.label,
       permalink: tag.permalink,
       items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
-        tag.label,
-      )}?version=${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(tag.label)}?version=${encodeURIComponent(
         'version name',
       )}&markdown=true&docusaurus=true&theme=light&`,
     });

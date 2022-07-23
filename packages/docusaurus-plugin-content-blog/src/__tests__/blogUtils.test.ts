@@ -8,7 +8,10 @@
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
-import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
+import {
+  DEFAULT_CONFIG,
+  DEFAULT_SOCIAL_CARD_SERVICE_CONFIG,
+} from '@docusaurus/core/src/server/configValidation';
 import {
   truncate,
   parseBlogFileName,
@@ -224,9 +227,9 @@ describe('linkify', () => {
         frontMatter: {},
         authors: [],
         formattedDate: '',
-        socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
-          'Happy 1st Birthday Slash!',
-        )}`,
+        socialCardUrl: `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent('Happy 1st Birthday Slash!')}`,
       },
       content: '',
     },

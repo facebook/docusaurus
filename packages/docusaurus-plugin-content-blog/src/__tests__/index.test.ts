@@ -9,7 +9,10 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getFileCommitDate} from '@docusaurus/utils';
-import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
+import {
+  DEFAULT_CONFIG,
+  DEFAULT_SOCIAL_CARD_SERVICE_CONFIG,
+} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -174,7 +177,9 @@ describe('blog plugin', () => {
         title: 'Happy 1st Birthday Slash! (translated)',
       },
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(
         'date-matter',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });
@@ -220,7 +225,9 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(
         'Happy 1st Birthday Slash! (translated)',
       )}?authorName=${encodeURIComponent(
         'Yangshun Tay (translated)',
@@ -262,7 +269,9 @@ describe('blog plugin', () => {
         },
       ],
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(
         'Complex Slug',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });
@@ -302,9 +311,9 @@ describe('blog plugin', () => {
       },
       tags: [],
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
-        'Simple Slug',
-      )}?authorName=${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent('Simple Slug')}?authorName=${encodeURIComponent(
         'Sébastien Lorber',
       )}&markdown=true&docusaurus=true&theme=light&`,
     });
@@ -332,7 +341,9 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(
         'some heading',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });
@@ -492,7 +503,9 @@ describe('blog plugin', () => {
       prevItem: undefined,
       nextItem: undefined,
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+      socialCardUrl: `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(
         'no date',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });

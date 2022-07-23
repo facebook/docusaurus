@@ -22,7 +22,9 @@ describe('socialCardService', () => {
           DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
           'Docusaurus Project',
         )}?markdown=true&docusaurus=true&theme=light&`,
       );
@@ -41,7 +43,9 @@ describe('socialCardService', () => {
           },
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
           'custom project name',
         )}?markdown=true&docusaurus=true&theme=light&`,
       );
@@ -60,7 +64,7 @@ describe('socialCardService', () => {
           },
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
+        `${DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl}${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
       );
     });
   });
@@ -80,7 +84,7 @@ describe('socialCardService', () => {
           DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
+        `${DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl}${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
       );
     });
 
@@ -95,7 +99,9 @@ describe('socialCardService', () => {
           DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
           'title',
         )}?version=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -112,7 +118,9 @@ describe('socialCardService', () => {
           DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
           'title',
         )}?authorName=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -129,7 +137,9 @@ describe('socialCardService', () => {
           DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
           'title',
         )}?authorImage=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -172,7 +182,9 @@ describe('socialCardService', () => {
           },
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
           'title',
         )}?projectName=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -192,9 +204,9 @@ describe('socialCardService', () => {
           },
         ),
       ).toBe(
-        `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
-          'title',
-        )}?projectLogo=${encodeURI(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent('title')}?projectLogo=${encodeURI(
           projectLogo,
         )}&markdown=true&docusaurus=true&theme=light&`,
       );

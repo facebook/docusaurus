@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DEFAULT_CONFIG} from '@docusaurus/core/src/server/configValidation';
+import {
+  DEFAULT_CONFIG,
+  DEFAULT_SOCIAL_CARD_SERVICE_CONFIG,
+} from '@docusaurus/core/src/server/configValidation';
 import {getSocialCardUrl, isSocialCardString} from '../socialCardService';
 import type {LoadContext} from '@docusaurus/types';
 
@@ -38,7 +41,9 @@ describe('getSocialCardUrl', () => {
         },
       ),
     ).toBe(
-      `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+      `${
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+      }${encodeURIComponent(
         'test',
       )}?markdown=true&docusaurus=true&theme=light&`,
     );
