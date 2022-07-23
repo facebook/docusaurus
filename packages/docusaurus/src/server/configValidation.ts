@@ -8,9 +8,9 @@
 import {
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
-  isSocialCardString,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
+import type {SocialCardGenerator} from '@docusaurus/types/src/config';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -20,6 +20,39 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   path: DEFAULT_I18N_DIR_NAME,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
+};
+
+export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
+  getUrl: (data, options) => {
+    if (data.type === 'default') {
+      return `${options?.baseUrl}${encodeURI(
+        options?.projectName ?? 'Docusaurus Project',
+      )}`;
+    }
+    return `${options?.baseUrl}${data.title ? encodeURI(data.title) : ''}?${
+      data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''
+    }${data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''}${
+      data.version ? `version=${encodeURI(data.version)}&` : ''
+    }${
+      options?.projectName
+        ? `projectName=${encodeURI(options.projectName)}&`
+        : ''
+    }${
+      options?.projectLogo
+        ? `projectLogo=${encodeURI(options.projectLogo)}&`
+        : ''
+    }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
+      options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
+    }${options?.theme ? `theme=${encodeURI(options.theme)}&` : ''}`;
+  },
+  options: {
+    projectName: undefined,
+    projectLogo: undefined,
+    docusaurus: true,
+    markdown: true,
+    theme: 'light',
+    baseUrl: 'https://docusaurus-og-image.vercel.app/',
+  },
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -60,38 +93,7 @@ export const DEFAULT_CONFIG: Pick<
   tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
-  socialCardService: {
-    getUrl: (data, options) => {
-      if (data.type === 'default') {
-        return `${options?.baseUrl}${encodeURI(
-          options?.projectName ?? 'Docusaurus Project',
-        )}`;
-      }
-      return `${options?.baseUrl}${data.title ? encodeURI(data.title) : ''}?${
-        data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''
-      }${
-        data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''
-      }${data.version ? `version=${encodeURI(data.version)}&` : ''}${
-        options?.projectName
-          ? `projectName=${encodeURI(options.projectName)}&`
-          : ''
-      }${
-        options?.projectLogo
-          ? `projectLogo=${encodeURI(options.projectLogo)}&`
-          : ''
-      }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
-        options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
-      }${options?.theme ? `theme=${encodeURI(options.theme)}&` : ''}`;
-    },
-    options: {
-      projectName: undefined,
-      projectLogo: undefined,
-      docusaurus: true,
-      markdown: true,
-      theme: 'light',
-      baseUrl: 'https://docusaurus-og-image.vercel.app/',
-    },
-  },
+  socialCardService: DEFAULT_SOCIAL_CARD_SERVICE_CONFIG,
 };
 
 function createPluginSchema(theme: boolean) {
@@ -274,51 +276,29 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .try(
       Joi.string(),
       Joi.object({
-        getUrl: Joi.function().default(() =>
-          isSocialCardString(DEFAULT_CONFIG.socialCardService)
-            ? undefined
-            : DEFAULT_CONFIG.socialCardService.getUrl,
+        getUrl: Joi.function().default(
+          () => DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl,
         ),
         options: Joi.object({
           projectName: Joi.string().optional(),
           projectLogo: Joi.string().optional(),
           docusaurus: Joi.boolean()
             .optional()
-            .default(
-              isSocialCardString(DEFAULT_CONFIG.socialCardService)
-                ? undefined
-                : DEFAULT_CONFIG.socialCardService.options?.docusaurus,
-            ),
+            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.docusaurus),
           markdown: Joi.boolean()
             .optional()
-            .default(
-              isSocialCardString(DEFAULT_CONFIG.socialCardService)
-                ? undefined
-                : DEFAULT_CONFIG.socialCardService.options?.markdown,
-            ),
+            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.markdown),
           theme: Joi.string()
             .valid('light', 'dark')
             .optional()
-            .default(
-              isSocialCardString(DEFAULT_CONFIG.socialCardService)
-                ? undefined
-                : DEFAULT_CONFIG.socialCardService.options?.theme,
-            ),
+            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.theme),
           baseUrl: Joi.string()
             .optional()
-            .default(
-              isSocialCardString(DEFAULT_CONFIG.socialCardService)
-                ? undefined
-                : DEFAULT_CONFIG.socialCardService.options?.baseUrl,
-            ),
-        }).default(
-          isSocialCardString(DEFAULT_CONFIG.socialCardService)
-            ? undefined
-            : DEFAULT_CONFIG.socialCardService.options,
-        ),
+            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl),
+        }).default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options),
       }),
     )
-    .default(DEFAULT_CONFIG.socialCardService),
+    .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
