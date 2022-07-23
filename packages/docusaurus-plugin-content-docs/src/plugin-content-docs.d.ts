@@ -444,6 +444,7 @@ declare module '@docusaurus/plugin-content-docs' {
     tags: Tag[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
+    /** Social card url. */
     socialCardUrl: string;
   };
 

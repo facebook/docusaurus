@@ -16,28 +16,106 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+/**
+ * URL to image or path to local image relative to your site's "static"
+ * directory. Can be an external URL.
+ *
+ * Alternatively, a function can be specified to generate URLs
+ * dynamically based on page data. Example function in documentation.
+ *
+ * Used for `og:image` and `twitter:image` meta tags.
+ *
+ * @see https://docusaurus.io/docs/api/docusaurus-config#socialCardService
+ */
 export type SocialCardService =
   | {
+      /** Function to generate URLs based on page data. Run in a Node
+       * environment, allowing access to Node APIs (e.g. fs).
+       *
+       * The function can specify the social card URL for all pages except
+       * for JSX pages.
+       *
+       * In React Docusaurus context (useDocusaurusContext), serialized to
+       * the URL returned when called with
+       * data = { type: 'default', title: 'Default' }. The default URL is set
+       * automatically, so **do not call getUrl in React**.
+       *
+       * @see https://docusaurus.io/docs/api/docusaurus-config#socialCardService
+       */
       getUrl: (data: SocialCardData, options?: SocialCardOptions) => string;
+      /**
+       * Options that are primarily designed to be used for the default
+       * Docusaurus social card service or one that follows the same
+       * query parameter pattern.
+       *
+       * Can be accessed in React.
+       *
+       * @see insert link to Docusaurus service GitHub
+       */
       options?: SocialCardOptions;
     }
   | string;
 
 export type SocialCardOptions = {
+  /**
+   * Name of project to be displayed on card.
+   * @default undefined
+   */
   projectName?: string;
+  /**
+   * URL to image. Can also be a path relative to your website's "static"
+   * directory.
+   * @default undefined
+   */
   projectLogo?: string;
+  /**
+   * Whether to display "made with Docusaurus" text on card.
+   * @default true
+   */
   docusaurus?: boolean;
+  /**
+   * Whether to parse `title` as markdown or plaintext.
+   * @default true
+   */
   markdown?: boolean;
+  /**
+   * Whether to have light or dark theme cards.
+   * @default "light"
+   */
   theme?: 'light' | 'dark';
+  /**
+   * URL to social card service. Useful if your social card service follows the
+   * same query parameter pattern as the Docusaurus social card service.
+   * @see insert link to Docusaurus service GitHub
+   * @default "https://docusaurus-og-image.vercel.app/"
+   */
   baseUrl?: string;
 };
 
+/**
+ * Data passed into getUrl
+ */
 export type SocialCardData = {
   type: 'docs' | 'blog' | 'page' | 'default';
+  /**
+   * Can use Markdown.
+   */
   title: string;
+  /**
+   * Can be used to differentiate between specific pages
+   */
   permalink?: string;
+  /**
+   * Only available in blog posts.
+   */
   authorName?: string;
+  /**
+   * Only available in blog posts.
+   */
   authorImage?: string;
+  /**
+   * Only available in docs.
+   */
   version?: string;
 };
 
