@@ -79,11 +79,16 @@ export const DEFAULT_CONFIG: Pick<
         options?.projectLogo
           ? `projectLogo=${encodeURI(options.projectLogo)}&`
           : ''
-      }${options?.markdown === false ? 'markdown=false&' : ''}${
-        options?.docusaurus === false ? 'docusaurus=false&' : ''
-      }${options?.theme ? `theme=${encodeURI(options.theme)}` : ''}`;
+      }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
+        options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
+      }${options?.theme ? `theme=${encodeURI(options.theme)}&` : ''}`;
     },
     options: {
+      projectName: undefined,
+      projectLogo: undefined,
+      docusaurus: true,
+      markdown: true,
+      theme: 'light',
       baseUrl: 'https://docusaurus-og-image.vercel.app/',
     },
   },
@@ -277,9 +282,28 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         options: Joi.object({
           projectName: Joi.string().optional(),
           projectLogo: Joi.string().optional(),
-          docusaurus: Joi.boolean().optional(),
-          markdown: Joi.boolean().optional(),
-          theme: Joi.string().valid('light', 'dark').optional(),
+          docusaurus: Joi.boolean()
+            .optional()
+            .default(
+              isSocialCardString(DEFAULT_CONFIG.socialCardService)
+                ? undefined
+                : DEFAULT_CONFIG.socialCardService.options?.docusaurus,
+            ),
+          markdown: Joi.boolean()
+            .optional()
+            .default(
+              isSocialCardString(DEFAULT_CONFIG.socialCardService)
+                ? undefined
+                : DEFAULT_CONFIG.socialCardService.options?.markdown,
+            ),
+          theme: Joi.string()
+            .valid('light', 'dark')
+            .optional()
+            .default(
+              isSocialCardString(DEFAULT_CONFIG.socialCardService)
+                ? undefined
+                : DEFAULT_CONFIG.socialCardService.options?.theme,
+            ),
           baseUrl: Joi.string()
             .optional()
             .default(

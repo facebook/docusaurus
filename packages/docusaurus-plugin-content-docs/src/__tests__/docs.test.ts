@@ -264,7 +264,7 @@ describe('simple site', () => {
       },
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'Bar',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
       tags: [],
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
@@ -295,7 +295,7 @@ describe('simple site', () => {
       ],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'Hello, World !',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -348,7 +348,7 @@ describe('simple site', () => {
       ],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'baz',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -371,7 +371,7 @@ describe('simple site', () => {
       },
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'lorem',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
       tags: [],
     });
   });
@@ -428,7 +428,7 @@ describe('simple site', () => {
       ],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'baz',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -477,7 +477,7 @@ describe('simple site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'lorem',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -542,7 +542,7 @@ describe('simple site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'Custom Last Update',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -584,7 +584,7 @@ describe('simple site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'Last Update Author Only',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -626,7 +626,7 @@ describe('simple site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'Last Update Date Only',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -669,7 +669,7 @@ describe('simple site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'Custom Last Update',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -858,7 +858,7 @@ describe('versioned site', () => {
       ],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'bar',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
@@ -875,7 +875,7 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=current&`,
+      )}?version=current&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -895,7 +895,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'bar',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
@@ -914,7 +916,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
@@ -929,7 +933,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'bar',
-      )}?version=${encodeURI('1.0.1')}&`,
+      )}?version=${encodeURI(
+        '1.0.1',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
@@ -946,7 +952,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.1')}&`,
+      )}?version=${encodeURI(
+        '1.0.1',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -1045,7 +1053,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -1091,7 +1101,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -1129,7 +1141,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -1168,7 +1182,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 
@@ -1208,7 +1224,9 @@ describe('versioned site', () => {
       tags: [],
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         'hello',
-      )}?version=${encodeURI('1.0.0')}&`,
+      )}?version=${encodeURI(
+        '1.0.0',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 });

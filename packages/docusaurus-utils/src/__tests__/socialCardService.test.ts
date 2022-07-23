@@ -37,7 +37,11 @@ describe('getSocialCardUrl', () => {
           permalink: 'a permalink',
         },
       ),
-    ).toBe(`https://docusaurus-og-image.vercel.app/${encodeURI('test')}?`);
+    ).toBe(
+      `https://docusaurus-og-image.vercel.app/${encodeURI(
+        'test',
+      )}?markdown=true&docusaurus=true&theme=light&`,
+    );
   });
 
   it('returns url if social card service is a url string', () => {

@@ -26,6 +26,11 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
+        "docusaurus": true,
+        "markdown": true,
+        "projectLogo": undefined,
+        "projectName": undefined,
+        "theme": "light",
       },
     },
     "staticDirectories": [
@@ -71,6 +76,11 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
+        "docusaurus": true,
+        "markdown": true,
+        "projectLogo": undefined,
+        "projectName": undefined,
+        "theme": "light",
       },
     },
     "staticDirectories": [
@@ -116,6 +126,11 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
+        "docusaurus": true,
+        "markdown": true,
+        "projectLogo": undefined,
+        "projectName": undefined,
+        "theme": "light",
       },
     },
     "staticDirectories": [
@@ -161,6 +176,11 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
+        "docusaurus": true,
+        "markdown": true,
+        "projectLogo": undefined,
+        "projectName": undefined,
+        "theme": "light",
       },
     },
     "staticDirectories": [
@@ -217,6 +237,11 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
+        "docusaurus": true,
+        "markdown": true,
+        "projectLogo": undefined,
+        "projectName": undefined,
+        "theme": "light",
       },
     },
     "staticDirectories": [

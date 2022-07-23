@@ -100,6 +100,11 @@ exports[`load loads props for site with custom i18n path 1`] = `
       "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
+        "docusaurus": true,
+        "markdown": true,
+        "projectLogo": undefined,
+        "projectName": undefined,
+        "theme": "light",
       },
     },
     "staticDirectories": [

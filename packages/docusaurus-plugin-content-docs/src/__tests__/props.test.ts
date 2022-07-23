@@ -69,7 +69,9 @@ describe('toTagDocListProp', () => {
       items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence,
       socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
         tag.label,
-      )}?version=${encodeURI('version name')}&`,
+      )}?version=${encodeURI(
+        'version name',
+      )}&markdown=true&docusaurus=true&theme=light&`,
     });
   });
 });
