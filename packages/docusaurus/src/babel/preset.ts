@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import browserslist from 'browserslist';
 import type {ConfigAPI, TransformOptions} from '@babel/core';
 
 function getTransformOptions(isServer: boolean): TransformOptions {
@@ -29,7 +30,8 @@ function getTransformOptions(isServer: boolean): TransformOptions {
         : [
             require.resolve('@babel/preset-env'),
             {
-              targets: "defaults",
+              // set targets to browserslist config source
+              targets: browserslist(),
               useBuiltIns: 'entry',
               loose: true,
               corejs: '3',
