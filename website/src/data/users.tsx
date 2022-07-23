@@ -1938,7 +1938,7 @@ const Users: User[] = [
     title: 'Sequence',
     description:
       'Automation toolkit for creating repeatable, predictable, and defensible end-to-end forensic and ediscovery workflows.',
-    preview: require('./showcase/Sequence.png'),
+    preview: require('./showcase/sequence.png'),
     website: 'https://sequence.sh/',
     source: 'https://gitlab.com/reductech/sequence/sequence-docs',
     tags: ['large', 'opensource', 'versioning'],
