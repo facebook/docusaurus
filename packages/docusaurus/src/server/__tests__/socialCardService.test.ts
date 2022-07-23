@@ -71,8 +71,6 @@ describe('socialCardService', () => {
 
   const types: ('docs' | 'blog' | 'page')[] = ['docs', 'blog', 'page'];
 
-  // Cards are generated based on parameters provided, rather than having
-  // separate endpoints for docs, blogs, or pages.
   describe.each(types)('type = %s', (type) => {
     it('title with special characters', () => {
       expect(
@@ -212,7 +210,6 @@ describe('socialCardService', () => {
       );
     });
 
-    // Very unlikely user will want this, but it is possible.
     it('undefined baseUrl', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
