@@ -29,7 +29,7 @@ export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
         options?.projectName ?? 'Docusaurus Project',
       )}?${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
         options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
-      }${options?.theme ? `theme=${encodeURIComponent(options.theme)}&` : ''}`;
+      }theme=${encodeURIComponent(options?.theme ?? 'light')}&`;
     }
     return `${options?.baseUrl ?? ''}${
       data.title ? encodeURIComponent(data.title) : ''
@@ -51,7 +51,7 @@ export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
         : ''
     }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
       options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
-    }${options?.theme ? `theme=${encodeURIComponent(options.theme)}&` : ''}`;
+    }theme=${encodeURIComponent(options?.theme ?? 'light')}&`;
   },
   options: {
     projectName: undefined,
