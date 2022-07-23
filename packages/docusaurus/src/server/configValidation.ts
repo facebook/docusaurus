@@ -25,13 +25,13 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
 export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
   getUrl: (data, options) => {
     if (data.type === 'default') {
-      return `${options?.baseUrl}${encodeURIComponent(
+      return `${options?.baseUrl ?? ''}${encodeURIComponent(
         options?.projectName ?? 'Docusaurus Project',
       )}?${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
         options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
       }${options?.theme ? `theme=${encodeURIComponent(options.theme)}&` : ''}`;
     }
-    return `${options?.baseUrl}${
+    return `${options?.baseUrl ?? ''}${
       data.title ? encodeURIComponent(data.title) : ''
     }?${
       data.authorName
