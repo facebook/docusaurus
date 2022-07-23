@@ -47,7 +47,7 @@ export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
         : ''
     }${
       options?.projectLogo
-        ? `projectLogo=${encodeURIComponent(options.projectLogo)}&`
+        ? `projectLogo=${encodeURI(options.projectLogo)}&`
         : ''
     }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
       options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
