@@ -174,7 +174,7 @@ describe('blog plugin', () => {
         title: 'Happy 1st Birthday Slash! (translated)',
       },
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'date-matter',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });
@@ -220,9 +220,9 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'Happy 1st Birthday Slash! (translated)',
-      )}?authorName=${encodeURI(
+      )}?authorName=${encodeURIComponent(
         'Yangshun Tay (translated)',
       )}&markdown=true&docusaurus=true&theme=light&`,
     });
@@ -262,7 +262,7 @@ describe('blog plugin', () => {
         },
       ],
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'Complex Slug',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });
@@ -302,9 +302,9 @@ describe('blog plugin', () => {
       },
       tags: [],
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'Simple Slug',
-      )}?authorName=${encodeURI(
+      )}?authorName=${encodeURIComponent(
         'Sébastien Lorber',
       )}&markdown=true&docusaurus=true&theme=light&`,
     });
@@ -332,7 +332,7 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'some heading',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });
@@ -492,7 +492,7 @@ describe('blog plugin', () => {
       prevItem: undefined,
       nextItem: undefined,
       hasTruncateMarker: false,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'no date',
       )}?markdown=true&docusaurus=true&theme=light&`,
     });

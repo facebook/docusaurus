@@ -67,9 +67,9 @@ describe('toTagDocListProp', () => {
       label: tag.label,
       permalink: tag.permalink,
       items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence,
-      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURI(
+      socialCardUrl: `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         tag.label,
-      )}?version=${encodeURI(
+      )}?version=${encodeURIComponent(
         'version name',
       )}&markdown=true&docusaurus=true&theme=light&`,
     });

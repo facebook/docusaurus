@@ -38,7 +38,7 @@ describe('getSocialCardUrl', () => {
         },
       ),
     ).toBe(
-      `https://docusaurus-og-image.vercel.app/${encodeURI(
+      `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'test',
       )}?markdown=true&docusaurus=true&theme=light&`,
     );

@@ -25,25 +25,31 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
 export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
   getUrl: (data, options) => {
     if (data.type === 'default') {
-      return `${options?.baseUrl}${encodeURI(
+      return `${options?.baseUrl}${encodeURIComponent(
         options?.projectName ?? 'Docusaurus Project',
       )}`;
     }
-    return `${options?.baseUrl}${data.title ? encodeURI(data.title) : ''}?${
-      data.authorName ? `authorName=${encodeURI(data.authorName)}&` : ''
-    }${data.authorImage ? `authorImage=${encodeURI(data.authorImage)}&` : ''}${
-      data.version ? `version=${encodeURI(data.version)}&` : ''
+    return `${options?.baseUrl}${
+      data.title ? encodeURIComponent(data.title) : ''
+    }?${
+      data.authorName
+        ? `authorName=${encodeURIComponent(data.authorName)}&`
+        : ''
     }${
+      data.authorImage
+        ? `authorImage=${encodeURIComponent(data.authorImage)}&`
+        : ''
+    }${data.version ? `version=${encodeURIComponent(data.version)}&` : ''}${
       options?.projectName
-        ? `projectName=${encodeURI(options.projectName)}&`
+        ? `projectName=${encodeURIComponent(options.projectName)}&`
         : ''
     }${
       options?.projectLogo
-        ? `projectLogo=${encodeURI(options.projectLogo)}&`
+        ? `projectLogo=${encodeURIComponent(options.projectLogo)}&`
         : ''
     }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
       options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
-    }${options?.theme ? `theme=${encodeURI(options.theme)}&` : ''}`;
+    }${options?.theme ? `theme=${encodeURIComponent(options.theme)}&` : ''}`;
   },
   options: {
     projectName: undefined,

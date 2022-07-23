@@ -125,7 +125,7 @@ exports[`simple website content 2`] = `
   "sidebar": "docs",
   "sidebarPosition": undefined,
   "slug": "/",
-  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Hello,%20World%20!?version=current&markdown=true&docusaurus=true&theme=light&",
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Hello%2C%20World%20!?version=current&markdown=true&docusaurus=true&theme=light&",
   "source": "@site/docs/hello.md",
   "sourceDirName": ".",
   "tags": [
@@ -464,7 +464,7 @@ exports[`simple website content: data 1`] = `
   "tags": [],
   "version": "current",
   "frontMatter": {},
-  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Hoo%20hoo,%20if%20this%20path%20tricks%20you...?version=current&markdown=true&docusaurus=true&theme=light&"
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Hoo%20hoo%2C%20if%20this%20path%20tricks%20you...?version=current&markdown=true&docusaurus=true&theme=light&"
 }",
   "site-docs-foo-bar-md-8c2.json": "{
   "unversionedId": "foo/bar",
@@ -589,7 +589,7 @@ exports[`simple website content: data 1`] = `
     ],
     "slug": "/"
   },
-  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Hello,%20World%20!?version=current&markdown=true&docusaurus=true&theme=light&",
+  "socialCardUrl": "https://docusaurus-og-image.vercel.app/Hello%2C%20World%20!?version=current&markdown=true&docusaurus=true&theme=light&",
   "sidebar": "docs",
   "previous": {
     "title": "My heading as title",
