@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "2.0.0-rc.1",
-    "@svgr/webpack": "^6.2.1",
+    "@svgr/webpack": "^6.3.1",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
     "github-slugger": "^1.4.0",
