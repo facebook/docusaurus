@@ -115,7 +115,7 @@ async function doRender(locals: Locals & {path: string}) {
     .toComponent()
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    .find((thing) => thing.props.property === 'og:image').props.content;
+    .find((attribute) => attribute.props.property === 'og:image').props.content;
 
   // Hardcoded. For testing/demo purposes only. Will be removed.
   if (
