@@ -103,4 +103,4 @@ export {
   findFolderContainingFile,
   getFolderContainingFile,
 } from './dataFileUtils';
-export {isSocialCardString, getSocialCardUrl} from './socialCardService';
+export {getSocialCardUrl} from './socialCardService';

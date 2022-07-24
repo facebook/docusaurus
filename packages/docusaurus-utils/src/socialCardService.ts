@@ -5,21 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {addBaseUrl} from '@docusaurus/utils-common';
+import {addBaseUrl, isSocialCardString} from '@docusaurus/utils-common';
 import type {LoadContext} from '@docusaurus/types';
-import type {
-  SocialCardData,
-  SocialCardService,
-} from '@docusaurus/types/src/config';
-
-/** Determines whether socialCardService is a function that
- * generates url or a url string.
- */
-export function isSocialCardString(
-  socialCardService: SocialCardService,
-): socialCardService is string {
-  return typeof socialCardService === 'string';
-}
+import type {SocialCardData} from '@docusaurus/types/src/config';
 
 export function getSocialCardUrl(
   context: LoadContext,

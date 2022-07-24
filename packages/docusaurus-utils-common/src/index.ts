@@ -12,3 +12,4 @@ export {
 } from './applyTrailingSlash';
 export {addBaseUrl} from './addBaseUrl';
 export {hasProtocol, default as isInternalUrl} from './isInternalUrl';
+export {isSocialCardString} from './isSocialCardString';

@@ -9,23 +9,8 @@ import {
   DEFAULT_CONFIG,
   DEFAULT_SOCIAL_CARD_SERVICE_CONFIG,
 } from '@docusaurus/core/src/server/configValidation';
-import {getSocialCardUrl, isSocialCardString} from '../socialCardService';
+import {getSocialCardUrl} from '../socialCardService';
 import type {LoadContext} from '@docusaurus/types';
-
-describe('isSocialCardString', () => {
-  it('correctly identifies social card service url generator', () => {
-    expect(
-      isSocialCardString({
-        getUrl: () => 'a social card service url',
-        options: {},
-      }),
-    ).toBe(false);
-  });
-
-  it('correctly identifies social card string', () => {
-    expect(isSocialCardString('a social card url')).toBe(true);
-  });
-});
 
 describe('getSocialCardUrl', () => {
   it('calls getUrl when social card service url generator provided', () => {
