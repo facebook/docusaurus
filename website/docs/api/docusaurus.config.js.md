@@ -576,3 +576,172 @@ This banner needs to inline CSS / JS in case all asset loading fails due to wron
 If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
 
 :::
+
+### `socialCardService` {#socialCardService}
+
+- Type: `SocialCardService`
+
+```ts
+type SocialCardService = SocialCardGenerator | string;
+```
+
+Used to generate images for `og:image` and `twitter:image` meta tags. This can be either a URL to the image or a function that generates URLs based on data for each page. URLs can be either a full URL or a path relative to your website's "static" directory.
+
+:::caution
+
+Images cannot be SVGs.
+
+:::
+
+```ts
+type SocialCardGenerator = {
+  getUrl: (data: SocialCardData, options?: SocialCardOptions) => string;
+  options?: SocialCardOptions;
+};
+```
+
+`getUrl` is a function to generate URLs or paths relative to your website's "static" directory. The function is run in a Node environment, allowing access to Node APIs (e.g. fs). The function is run for every page except JSX pages.
+
+:::warning
+
+When accessing the Docusaurus context in React (through `useDocusaurusContext`), it is serialized to the default URL:
+
+```ts
+const serializedValue = getUrl(
+  data: {
+    type: 'default'
+  },
+  options
+);
+```
+
+The default URL is set automatically. Do not call getUrl in React. :::
+
+`SocialCardOptions` is designed to be used for the default Docusaurus social card service, or one that follows the same query parameter pattern. They can be accessed in React. To create a custom social card service following the same query parameter patterns, you can clone the [Docusaurus social card service](link-to-github).
+
+```ts
+type SocialCardOptions = {
+  /**
+   * Name of project to be displayed on card.
+   */
+  projectName?: string;
+  /**
+   * URL to image. Can also be a path relative to your website's "static"
+   * directory.
+   * @default undefined
+   */
+  projectLogo?: string;
+  /**
+   * Whether to display "made with Docusaurus" text on card.
+   * @default true
+   */
+  docusaurus?: boolean;
+  /**
+   * Whether to parse `title` as markdown or plaintext.
+   * @default true
+   */
+  markdown?: boolean;
+  /**
+   * Whether to have light or dark theme cards.
+   * @default "light"
+   */
+  theme?: 'light' | 'dark';
+  /**
+   * URL to social card service. Useful if your social card service follows the
+   * same query parameter pattern as the Docusaurus social card service.
+   * @see insert link to Docusaurus service GitHub
+   * @default "https://docusaurus-og-image.vercel.app/"
+   */
+  baseUrl?: string;
+};
+```
+
+`SocialCardData` contains data specific to each page.
+
+```ts
+export type SocialCardData = {
+  type: 'docs' | 'blog' | 'page' | 'default';
+  /**
+   * Can use Markdown.
+   */
+  title?: string;
+  /**
+   * Can be used to differentiate between specific pages
+   */
+  permalink?: string;
+  /**
+   * Only available in blog posts.
+   */
+  authorName?: string;
+  /**
+   * Only available in blog posts.
+   */
+  authorImage?: string;
+  /**
+   * Only available in docs.
+   */
+  version?: string;
+};
+```
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  socialCardService: {
+    getUrl: (data, options) => {
+      const title =
+        data.title ??
+        (() => {
+          switch (data.type) {
+            case 'docs':
+              return 'Docs';
+            case 'blog':
+              return 'Blog';
+            case 'page':
+              return 'Page';
+            default:
+              return 'Default';
+          }
+        })();
+
+      const encodeData = (parameter: keyof SocialCardData): string => {
+        const value = data[parameter];
+        return value !== undefined && value !== null
+          ? `${parameter}=${encodeURIComponent(value)}&`
+          : '';
+      };
+
+      const encodeOption = (option: keyof SocialCardOptions): string => {
+        const value = options?.[option];
+        return value !== undefined && value !== null
+          ? `${option}=${encodeURIComponent(value)}&`
+          : '';
+      };
+
+      if (data.type === 'default') {
+        return `${options?.baseUrl ?? ''}${encodeURIComponent(
+          options?.projectName ?? 'Docusaurus Project',
+        )}?${encodeOption('markdown')}${encodeOption('docusaurus')}${encodeOption(
+          'theme',
+        )}`;
+      }
+      return `${options?.baseUrl ?? ''}${encodeURIComponent(title)}?${encodeData(
+        'authorName',
+      )}${encodeData('authorImage')}${encodeData('version')}${encodeOption(
+        'projectName',
+      )}${encodeOption('projectLogo')}${encodeOption('markdown')}${encodeOption(
+        'docusaurus',
+      )}${encodeOption('theme')}`;
+    },
+    options: {
+      projectName: undefined,
+      projectLogo: undefined,
+      docusaurus: true,
+      markdown: true,
+      theme: 'light',
+      baseUrl: 'https://docusaurus-og-image.vercel.app/',
+    },
+  },
+};
+```
