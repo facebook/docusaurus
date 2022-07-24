@@ -28,6 +28,21 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
 
 export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
   getUrl: (data, options) => {
+    const title =
+      data.title ??
+      (() => {
+        switch (data.type) {
+          case 'docs':
+            return 'Docs';
+          case 'blog':
+            return 'Blog';
+          case 'page':
+            return 'Page';
+          default:
+            return 'Default';
+        }
+      })();
+
     const encodeData = (parameter: keyof SocialCardData): string => {
       const value = data[parameter];
       return value !== undefined && value !== null
@@ -49,15 +64,13 @@ export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
         'theme',
       )}`;
     }
-    return `${options?.baseUrl ?? ''}${
-      data.title ? encodeURIComponent(data.title) : ''
-    }?${encodeData('authorName')}${encodeData('authorImage')}${encodeData(
-      'version',
-    )}${encodeOption('projectName')}${encodeOption(
-      'projectLogo',
-    )}${encodeOption('markdown')}${encodeOption('docusaurus')}${encodeOption(
-      'theme',
-    )}`;
+    return `${options?.baseUrl ?? ''}${encodeURIComponent(title)}?${encodeData(
+      'authorName',
+    )}${encodeData('authorImage')}${encodeData('version')}${encodeOption(
+      'projectName',
+    )}${encodeOption('projectLogo')}${encodeOption('markdown')}${encodeOption(
+      'docusaurus',
+    )}${encodeOption('theme')}`;
   },
   options: {
     projectName: undefined,

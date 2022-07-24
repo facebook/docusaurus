@@ -72,6 +72,34 @@ describe('socialCardService', () => {
   const types: ('docs' | 'blog' | 'page')[] = ['docs', 'blog', 'page'];
 
   describe.each(types)('type = %s', (type) => {
+    it('undefined title', () => {
+      expect(
+        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+          {
+            type,
+          },
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+        ),
+      ).toBe(
+        `${
+          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
+        }${encodeURIComponent(
+          (() => {
+            switch (type) {
+              case 'docs':
+                return 'Docs';
+              case 'blog':
+                return 'Blog';
+              case 'page':
+                return 'Page';
+              default:
+                return '';
+            }
+          })(),
+        )}?markdown=true&docusaurus=true&theme=light&`,
+      );
+    });
+
     it('title with special characters', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
