@@ -33,7 +33,7 @@ export type SocialCardService = SocialCardGenerator | string;
  * Has function to dynamically generate social card URLs.
  */
 export type SocialCardGenerator = {
-  /** Function to generate URLs based on page data. Run in a Node
+  /** Function to generate URLs based on page data. Runs in a Node
    * environment, allowing access to Node APIs (e.g. fs).
    *
    * The function can specify the social card URL for all pages except
@@ -41,7 +41,7 @@ export type SocialCardGenerator = {
    *
    * In React Docusaurus context (useDocusaurusContext), serialized to
    * the URL returned when called with
-   * data = { type: 'default', title: 'Default' }. The default URL is set
+data = { type: 'default' }. The default URL is set
    * automatically, so **do not call getUrl in React**.
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#socialCardService
