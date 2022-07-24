@@ -103,7 +103,7 @@ export type SocialCardData = {
   /**
    * Can use Markdown.
    */
-  title: string;
+  title?: string;
   /**
    * Can be used to differentiate between specific pages
    */

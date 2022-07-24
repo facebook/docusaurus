@@ -30,7 +30,6 @@ export function getSocialCardUrl(
     : context.siteConfig.socialCardService.getUrl(
         data ?? {
           type: 'default',
-          title: 'Default',
         },
         {
           ...context.siteConfig.socialCardService.options,
