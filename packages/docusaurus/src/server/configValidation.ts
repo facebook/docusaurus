@@ -10,7 +10,11 @@ import {
   DEFAULT_I18N_DIR_NAME,
 } from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
-import type {SocialCardGenerator} from '@docusaurus/types/src/config';
+import type {
+  SocialCardData,
+  SocialCardGenerator,
+  SocialCardOptions,
+} from '@docusaurus/types/src/config';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -24,34 +28,36 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
 
 export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
   getUrl: (data, options) => {
+    const encodeData = (parameter: keyof SocialCardData): string => {
+      const value = data[parameter];
+      return value !== undefined && value !== null
+        ? `${parameter}=${encodeURIComponent(value)}&`
+        : '';
+    };
+
+    const encodeOption = (option: keyof SocialCardOptions): string => {
+      const value = options?.[option];
+      return value !== undefined && value !== null
+        ? `${option}=${encodeURIComponent(value)}&`
+        : '';
+    };
+
     if (data.type === 'default') {
       return `${options?.baseUrl ?? ''}${encodeURIComponent(
         options?.projectName ?? 'Docusaurus Project',
-      )}?${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
-        options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
-      }theme=${encodeURIComponent(options?.theme ?? 'light')}&`;
+      )}?${encodeOption('markdown')}${encodeOption('docusaurus')}${encodeOption(
+        'theme',
+      )}`;
     }
     return `${options?.baseUrl ?? ''}${
       data.title ? encodeURIComponent(data.title) : ''
-    }?${
-      data.authorName
-        ? `authorName=${encodeURIComponent(data.authorName)}&`
-        : ''
-    }${
-      data.authorImage
-        ? `authorImage=${encodeURIComponent(data.authorImage)}&`
-        : ''
-    }${data.version ? `version=${encodeURIComponent(data.version)}&` : ''}${
-      options?.projectName
-        ? `projectName=${encodeURIComponent(options.projectName)}&`
-        : ''
-    }${
-      options?.projectLogo
-        ? `projectLogo=${encodeURIComponent(options.projectLogo)}&`
-        : ''
-    }${options?.markdown === false ? 'markdown=false&' : 'markdown=true&'}${
-      options?.docusaurus === false ? 'docusaurus=false&' : 'docusaurus=true&'
-    }theme=${encodeURIComponent(options?.theme ?? 'light')}&`;
+    }?${encodeData('authorName')}${encodeData('authorImage')}${encodeData(
+      'version',
+    )}${encodeOption('projectName')}${encodeOption(
+      'projectLogo',
+    )}${encodeOption('markdown')}${encodeOption('docusaurus')}${encodeOption(
+      'theme',
+    )}`;
   },
   options: {
     projectName: undefined,

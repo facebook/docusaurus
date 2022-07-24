@@ -210,7 +210,7 @@ describe('socialCardService', () => {
       );
     });
 
-    it('undefined baseUrl', () => {
+    it('baseUrl = undefined', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
           {
@@ -219,14 +219,10 @@ describe('socialCardService', () => {
           },
           {},
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?`);
     });
 
-    it('undefined docusaurus', () => {
+    it('docusaurus = undefined', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
           {
@@ -235,11 +231,7 @@ describe('socialCardService', () => {
           },
           {},
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?`);
     });
 
     it('docusaurus = true', () => {
@@ -253,11 +245,7 @@ describe('socialCardService', () => {
             docusaurus: true,
           },
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?docusaurus=true&`);
     });
 
     it('docusaurus = false', () => {
@@ -271,14 +259,10 @@ describe('socialCardService', () => {
             docusaurus: false,
           },
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=false&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?docusaurus=false&`);
     });
 
-    it('undefined markdown', () => {
+    it('markdown = undefined', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
           {
@@ -287,11 +271,7 @@ describe('socialCardService', () => {
           },
           {},
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?`);
     });
 
     it('markdown = true', () => {
@@ -305,11 +285,7 @@ describe('socialCardService', () => {
             markdown: true,
           },
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?markdown=true&`);
     });
 
     it('markdown = false', () => {
@@ -323,14 +299,10 @@ describe('socialCardService', () => {
             markdown: false,
           },
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=false&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?markdown=false&`);
     });
 
-    it('undefined theme', () => {
+    it('theme = undefined', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
           {
@@ -339,11 +311,7 @@ describe('socialCardService', () => {
           },
           {},
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?`);
     });
 
     it('theme = light', () => {
@@ -357,14 +325,10 @@ describe('socialCardService', () => {
             theme: 'light',
           },
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=light&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?theme=light&`);
     });
 
-    it('theme =  dark', () => {
+    it('theme = dark', () => {
       expect(
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
           {
@@ -375,11 +339,7 @@ describe('socialCardService', () => {
             theme: 'dark',
           },
         ),
-      ).toBe(
-        `${encodeURIComponent(
-          'title',
-        )}?markdown=true&docusaurus=true&theme=dark&`,
-      );
+      ).toBe(`${encodeURIComponent('title')}?theme=dark&`);
     });
   });
 });
