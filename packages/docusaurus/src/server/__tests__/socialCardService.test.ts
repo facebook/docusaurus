@@ -204,7 +204,7 @@ describe('socialCardService', () => {
       ).toBe(
         `${
           DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent('title')}?projectLogo=${encodeURI(
+        }${encodeURIComponent('title')}?projectLogo=${encodeURIComponent(
           projectLogo,
         )}&markdown=true&docusaurus=true&theme=light&`,
       );

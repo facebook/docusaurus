@@ -75,7 +75,7 @@ describe('getSocialCardUrl', () => {
     ).toBe(
       `${
         DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-      }${encodeURIComponent('test')}?projectLogo=${encodeURI(
+      }${encodeURIComponent('test')}?projectLogo=${encodeURIComponent(
         `https://docusaurus.io/${path}`,
       )}&markdown=true&docusaurus=true&theme=light&`,
     );
