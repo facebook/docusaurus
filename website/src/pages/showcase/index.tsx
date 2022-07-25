@@ -37,8 +37,7 @@ const TITLE = translate({message: 'Docusaurus Site Showcase'});
 const DESCRIPTION = translate({
   message: 'List of websites people are building with Docusaurus',
 });
-const EDIT_URL =
-  'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
+const SUBMIT_URL = 'https://github.com/facebook/docusaurus/discussions/7826';
 
 type UserState = {
   scrollTopPosition: number;
@@ -126,7 +125,7 @@ function ShowcaseHeader() {
       <p>{DESCRIPTION}</p>
       <a
         className="button button--primary"
-        href={EDIT_URL}
+        href={SUBMIT_URL}
         target="_blank"
         rel="noreferrer">
         <Translate id="showcase.header.button">
