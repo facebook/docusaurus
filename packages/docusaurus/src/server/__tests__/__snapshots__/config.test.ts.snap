@@ -23,7 +23,6 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "presets": [],
     "scripts": [],
     "socialCardService": {
-      "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
         "docusaurus": true,
@@ -32,6 +31,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
         "projectName": undefined,
         "theme": "light",
       },
+      "url": [Function],
     },
     "staticDirectories": [
       "static",
@@ -73,7 +73,6 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "projectName": "hello",
     "scripts": [],
     "socialCardService": {
-      "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
         "docusaurus": true,
@@ -82,6 +81,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
         "projectName": undefined,
         "theme": "light",
       },
+      "url": [Function],
     },
     "staticDirectories": [
       "static",
@@ -123,7 +123,6 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "projectName": "hello",
     "scripts": [],
     "socialCardService": {
-      "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
         "docusaurus": true,
@@ -132,6 +131,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
         "projectName": undefined,
         "theme": "light",
       },
+      "url": [Function],
     },
     "staticDirectories": [
       "static",
@@ -173,7 +173,6 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "projectName": "hello",
     "scripts": [],
     "socialCardService": {
-      "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
         "docusaurus": true,
@@ -182,6 +181,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
         "projectName": undefined,
         "theme": "light",
       },
+      "url": [Function],
     },
     "staticDirectories": [
       "static",
@@ -234,7 +234,6 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "projectName": "hello",
     "scripts": [],
     "socialCardService": {
-      "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
         "docusaurus": true,
@@ -243,6 +242,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
         "projectName": undefined,
         "theme": "light",
       },
+      "url": [Function],
     },
     "staticDirectories": [
       "static",

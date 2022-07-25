@@ -16,7 +16,6 @@ import {
   GENERATED_FILES_DIR_NAME,
   getSocialCardUrl,
 } from '@docusaurus/utils';
-import {isSocialCardString} from '@docusaurus/utils-common';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
@@ -173,13 +172,10 @@ next build. You can clear all build artifacts (including this folder) with the
 export default ${JSON.stringify(
       siteConfig,
       (key, value) => {
-        if (
-          key === 'socialCardService' &&
-          !isSocialCardString(siteConfig.socialCardService)
-        ) {
+        if (key === 'socialCardService') {
           return {
             ...value,
-            getUrl: getSocialCardUrl(context),
+            url: getSocialCardUrl(context),
           };
         }
         return value;

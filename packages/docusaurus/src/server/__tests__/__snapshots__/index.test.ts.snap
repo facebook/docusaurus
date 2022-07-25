@@ -97,7 +97,6 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "presets": [],
     "scripts": [],
     "socialCardService": {
-      "getUrl": [Function],
       "options": {
         "baseUrl": "https://docusaurus-og-image.vercel.app/",
         "docusaurus": true,
@@ -106,6 +105,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "projectName": undefined,
         "theme": "light",
       },
+      "url": [Function],
     },
     "staticDirectories": [
       "static",

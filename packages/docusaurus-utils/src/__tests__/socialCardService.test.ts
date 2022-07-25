@@ -43,7 +43,7 @@ describe('getSocialCardUrl', () => {
             url: 'https://docusaurus.io',
             baseUrl: '/',
             socialCardService: {
-              getUrl: DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl,
+              url: DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.url,
               options: {
                 ...DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
                 projectLogo: path,
@@ -70,7 +70,9 @@ describe('getSocialCardUrl', () => {
     expect(
       getSocialCardUrl({
         siteConfig: {
-          socialCardService: 'test url',
+          socialCardService: {
+            url: 'test url',
+          },
         },
       } as unknown as LoadContext),
     ).toBe('test url');

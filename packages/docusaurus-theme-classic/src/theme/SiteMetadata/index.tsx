@@ -88,17 +88,13 @@ export default function SiteMetadata(): JSX.Element {
     siteConfig: {socialCardService},
   } = useDocusaurusContext();
 
-  let defaultSocialCardService: string;
-  if (typeof socialCardService === 'string') {
-    defaultSocialCardService = socialCardService;
-  } else {
-    // getUrl is evaluated to a string during serialization
-    defaultSocialCardService = socialCardService.getUrl as unknown as string;
-  }
-
   // TODO maybe move these 2 themeConfig to siteConfig?
   // These seems useful for other themes as well
   const {metadata, image: defaultImage} = useThemeConfig();
+
+  // If url is a function, it will have been serialized to a string already
+  // but this avoids type assertion
+  const defaultSocialCardServiceUrl = socialCardService.url.toString();
 
   return (
     <>
@@ -111,7 +107,7 @@ export default function SiteMetadata(): JSX.Element {
 
       {defaultImage && <PageMetadata image={defaultImage} />}
 
-      <PageMetadata socialCardUrl={defaultSocialCardService} />
+      <PageMetadata socialCardUrl={defaultSocialCardServiceUrl} />
 
       <CanonicalUrlHeaders />
 

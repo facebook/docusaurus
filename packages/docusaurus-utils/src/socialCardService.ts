@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {addBaseUrl, isSocialCardString} from '@docusaurus/utils-common';
+import {addBaseUrl, isSocialCardFunction} from '@docusaurus/utils-common';
 import type {LoadContext} from '@docusaurus/types';
 import type {SocialCardData} from '@docusaurus/types/src/config';
 
@@ -13,9 +13,9 @@ export function getSocialCardUrl(
   context: LoadContext,
   data?: SocialCardData,
 ): string {
-  return isSocialCardString(context.siteConfig.socialCardService)
-    ? context.siteConfig.socialCardService
-    : context.siteConfig.socialCardService.getUrl(
+  const {url} = context.siteConfig.socialCardService;
+  return isSocialCardFunction(url)
+    ? url(
         data ?? {
           type: 'default',
         },
@@ -30,5 +30,6 @@ export function getSocialCardUrl(
               )
             : undefined,
         },
-      );
+      )
+    : url;
 }

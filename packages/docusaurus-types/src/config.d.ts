@@ -17,7 +17,7 @@ export type ThemeConfig = {
 };
 
 /**
- * URL to image or path to local image relative to your site's "static"
+ * Contains URL to image or path to local image relative to your site's "static"
  * directory. Can be an external URL.
  *
  * Alternatively, a function can be specified to generate URLs
@@ -27,38 +27,38 @@ export type ThemeConfig = {
  *
  * @see https://docusaurus.io/docs/api/docusaurus-config#socialCardService
  */
-export type SocialCardService = SocialCardGenerator | string;
-
-/**
- * Has function to dynamically generate social card URLs.
- */
-export type SocialCardGenerator = {
-  /** Function to generate URLs based on page data. Runs in a Node
-   * environment, allowing access to Node APIs (e.g. fs).
-   *
-   * The function can specify the social card URL for all pages except
-   * for JSX pages.
-   *
-   * In React Docusaurus context (useDocusaurusContext), serialized to
-   * the URL returned when called with
-data = { type: 'default' }. The default URL is set
-   * automatically, so **do not call getUrl in React**.
-   *
-   * @see https://docusaurus.io/docs/api/docusaurus-config#socialCardService
-   */
-  getUrl: (data: SocialCardData, options?: SocialCardOptions) => string;
-  /**
-   * Options that are primarily designed to be used for the default
-   * Docusaurus social card service or one that follows the same
-   * query parameter pattern.
-   *
-   * Can be accessed in React.
-   *
-   * @see insert link to Docusaurus service GitHub
-   */
+export type SocialCardService = {
+  url: string | SocialCardFunction;
   options?: SocialCardOptions;
 };
 
+/** Function to generate URLs based on page data. Runs in a Node
+ * environment, allowing access to Node APIs (e.g. fs).
+ *
+ * The function can specify the social card URL for all pages except
+ * for JSX pages.
+ *
+ * In React Docusaurus context (useDocusaurusContext), serialized to
+ * the URL returned when called with `data = { type: 'default' }`.
+ * The default URL is set automatically, so **you should not need to
+ * call `url` in React.**
+ *
+ * @see https://docusaurus.io/docs/api/docusaurus-config#socialCardService
+ */
+export type SocialCardFunction = (
+  data: SocialCardData,
+  options?: SocialCardOptions,
+) => string;
+
+/**
+ * Options that are primarily designed to be used for the default
+ * Docusaurus social card service or one that follows the same
+ * query parameter pattern.
+ *
+ * Can be accessed in React.
+ *
+ * @see insert link to Docusaurus service GitHub
+ */
 export type SocialCardOptions = {
   /**
    * Name of project to be displayed on card.
@@ -96,7 +96,7 @@ export type SocialCardOptions = {
 };
 
 /**
- * Data passed into getUrl
+ * Data passed into `url`.
  */
 export type SocialCardData = {
   type: 'docs' | 'blog' | 'page' | 'default';

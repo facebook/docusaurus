@@ -12,8 +12,8 @@ import {
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 import type {
   SocialCardData,
-  SocialCardGenerator,
   SocialCardOptions,
+  SocialCardService,
 } from '@docusaurus/types/src/config';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
@@ -26,8 +26,8 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   localeConfigs: {},
 };
 
-export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardGenerator = {
-  getUrl: (data, options) => {
+export const DEFAULT_SOCIAL_CARD_SERVICE_CONFIG: SocialCardService = {
+  url: (data, options) => {
     const title =
       data.title ??
       (() => {
@@ -299,33 +299,28 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
-  socialCardService: Joi.alternatives()
-    .try(
-      Joi.string(),
-      Joi.object({
-        getUrl: Joi.function().default(
-          () => DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl,
-        ),
-        options: Joi.object({
-          projectName: Joi.string().optional(),
-          projectLogo: Joi.string().optional(),
-          docusaurus: Joi.boolean()
-            .optional()
-            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.docusaurus),
-          markdown: Joi.boolean()
-            .optional()
-            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.markdown),
-          theme: Joi.string()
-            .valid('light', 'dark')
-            .optional()
-            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.theme),
-          baseUrl: Joi.string()
-            .optional()
-            .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl),
-        }).default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options),
-      }),
-    )
-    .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG),
+  socialCardService: Joi.object({
+    url: Joi.alternatives()
+      .try(Joi.string(), Joi.function())
+      .default(() => DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.url),
+    options: Joi.object({
+      projectName: Joi.string().optional(),
+      projectLogo: Joi.string().optional(),
+      docusaurus: Joi.boolean()
+        .optional()
+        .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.docusaurus),
+      markdown: Joi.boolean()
+        .optional()
+        .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.markdown),
+      theme: Joi.string()
+        .valid('light', 'dark')
+        .optional()
+        .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.theme),
+      baseUrl: Joi.string()
+        .optional()
+        .default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl),
+    }).default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options),
+  }).default(DEFAULT_SOCIAL_CARD_SERVICE_CONFIG),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',

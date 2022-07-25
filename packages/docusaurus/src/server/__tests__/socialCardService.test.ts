@@ -6,25 +6,27 @@
  */
 
 import {DEFAULT_SOCIAL_CARD_SERVICE_CONFIG} from '../configValidation';
+import type {SocialCardFunction} from '@docusaurus/types/src/config';
 
 const URI_ENCODING_TEST_STRING = 'this has spaces and an & symbol';
 const ENCODED_TEST_STRING = encodeURIComponent(URI_ENCODING_TEST_STRING);
+const urlFunction =
+  DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.url as SocialCardFunction;
+const {options} = DEFAULT_SOCIAL_CARD_SERVICE_CONFIG;
 
 describe('socialCardService', () => {
   describe('type = default', () => {
     it('default value', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type: 'default',
             title: 'Default',
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           'Docusaurus Project',
         )}?markdown=true&docusaurus=true&theme=light&`,
       );
@@ -32,20 +34,18 @@ describe('socialCardService', () => {
 
     it('default value with custom projectName', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type: 'default',
             title: 'Default',
           },
           {
-            ...DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+            ...options,
             projectName: 'custom project name',
           },
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           'custom project name',
         )}?markdown=true&docusaurus=true&theme=light&`,
       );
@@ -53,18 +53,18 @@ describe('socialCardService', () => {
 
     it('default value with custom projectName with special characters', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type: 'default',
             title: 'Default',
           },
           {
-            ...DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+            ...options,
             projectName: URI_ENCODING_TEST_STRING,
           },
         ),
       ).toBe(
-        `${DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl}${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
+        `${options?.baseUrl}${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
       );
     });
   });
@@ -74,16 +74,14 @@ describe('socialCardService', () => {
   describe.each(types)('type = %s', (type) => {
     it('undefined title', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           (() => {
             switch (type) {
               case 'docs':
@@ -102,32 +100,30 @@ describe('socialCardService', () => {
 
     it('title with special characters', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: URI_ENCODING_TEST_STRING,
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        `${DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl}${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
+        `${options?.baseUrl}${ENCODED_TEST_STRING}?markdown=true&docusaurus=true&theme=light&`,
       );
     });
 
     it('version with special characters', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
             version: URI_ENCODING_TEST_STRING,
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           'title',
         )}?version=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -135,18 +131,16 @@ describe('socialCardService', () => {
 
     it('authorName with special characters', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
             authorName: URI_ENCODING_TEST_STRING,
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           'title',
         )}?authorName=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -154,18 +148,16 @@ describe('socialCardService', () => {
 
     it('authorImage with special characters', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
             authorImage: URI_ENCODING_TEST_STRING,
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           'title',
         )}?authorImage=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -173,44 +165,42 @@ describe('socialCardService', () => {
 
     it("permalink doesn't affect URL", () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
             authorImage: URI_ENCODING_TEST_STRING,
             permalink: 'permalink 1',
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       ).toBe(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
             authorImage: URI_ENCODING_TEST_STRING,
             permalink: 'permalink 2',
           },
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+          options,
         ),
       );
     });
 
     it('projectName with special characters', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
           },
           {
-            ...DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+            ...options,
             projectName: URI_ENCODING_TEST_STRING,
           },
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
           'title',
         )}?projectName=${ENCODED_TEST_STRING}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -219,20 +209,20 @@ describe('socialCardService', () => {
     it('projectLogo with special characters', () => {
       const projectLogo = 'https://docusaurus.io/img/docusaurus.svg& abcd?';
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
           },
           {
-            ...DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options,
+            ...options,
             projectLogo,
           },
         ),
       ).toBe(
-        `${
-          DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.options?.baseUrl
-        }${encodeURIComponent('title')}?projectLogo=${encodeURIComponent(
+        `${options?.baseUrl}${encodeURIComponent(
+          'title',
+        )}?projectLogo=${encodeURIComponent(
           projectLogo,
         )}&markdown=true&docusaurus=true&theme=light&`,
       );
@@ -240,7 +230,7 @@ describe('socialCardService', () => {
 
     it('baseUrl = undefined', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -252,7 +242,7 @@ describe('socialCardService', () => {
 
     it('docusaurus = undefined', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -264,7 +254,7 @@ describe('socialCardService', () => {
 
     it('docusaurus = true', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -278,7 +268,7 @@ describe('socialCardService', () => {
 
     it('docusaurus = false', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -292,7 +282,7 @@ describe('socialCardService', () => {
 
     it('markdown = undefined', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -304,7 +294,7 @@ describe('socialCardService', () => {
 
     it('markdown = true', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -318,7 +308,7 @@ describe('socialCardService', () => {
 
     it('markdown = false', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -332,7 +322,7 @@ describe('socialCardService', () => {
 
     it('theme = undefined', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -344,7 +334,7 @@ describe('socialCardService', () => {
 
     it('theme = light', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
@@ -358,7 +348,7 @@ describe('socialCardService', () => {
 
     it('theme = dark', () => {
       expect(
-        DEFAULT_SOCIAL_CARD_SERVICE_CONFIG.getUrl(
+        urlFunction(
           {
             type,
             title: 'title',
