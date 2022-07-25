@@ -300,6 +300,11 @@ declare module '@docusaurus/BrowserOnly' {
   export default function BrowserOnly(props: Props): JSX.Element | null;
 }
 
+declare module '@docusaurus/isInternalUrl' {
+  export function hasProtocol(url: string): boolean;
+  export default function isInternalUrl(url?: string): boolean;
+}
+
 declare module '@docusaurus/Noop' {
   export default function (): null;
 }
