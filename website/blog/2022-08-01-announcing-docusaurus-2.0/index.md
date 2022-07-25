@@ -122,7 +122,7 @@ TODO present a more exhaustive list of sites by vertical? + some screenshots?
 
 :::tip
 
-Please add your site to our showcase!
+Please add your site to our [showcase](/showcase)! It only takes a few seconds: just [post a comment here](https://github.com/facebook/docusaurus/discussions/7826).
 
 :::
 
