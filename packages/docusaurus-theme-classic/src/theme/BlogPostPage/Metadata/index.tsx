@@ -11,7 +11,8 @@ import {useBlogPost} from '@docusaurus/theme-common/internal';
 
 export default function BlogPostPageMetadata(): JSX.Element {
   const {assets, metadata} = useBlogPost();
-  const {title, description, date, tags, authors, frontMatter} = metadata;
+  const {title, description, date, tags, authors, frontMatter, socialCardUrl} =
+    metadata;
 
   const {keywords} = frontMatter;
   const image = assets.image ?? frontMatter.image;
@@ -21,7 +22,7 @@ export default function BlogPostPageMetadata(): JSX.Element {
       description={description}
       keywords={keywords}
       image={image}
-      socialCardUrl={metadata.socialCardUrl}>
+      socialCardUrl={socialCardUrl}>
       <meta property="og:type" content="article" />
       <meta property="article:published_time" content={date} />
       {/* TODO double check those article meta array syntaxes, see https://ogp.me/#array */}

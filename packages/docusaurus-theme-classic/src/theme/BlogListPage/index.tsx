@@ -25,7 +25,7 @@ function BlogListPageMetadata(props: Props): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const {blogDescription, blogTitle, permalink} = metadata;
+  const {blogDescription, blogTitle, permalink, socialCardUrl} = metadata;
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
@@ -33,7 +33,7 @@ function BlogListPageMetadata(props: Props): JSX.Element {
       <PageMetadata
         title={title}
         description={blogDescription}
-        socialCardUrl={metadata.socialCardUrl}
+        socialCardUrl={socialCardUrl}
       />
       <SearchMetadata tag="blog_posts_list" />
     </>
