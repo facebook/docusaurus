@@ -617,7 +617,7 @@ const serializedValue = getUrl(
 
 The default URL is set automatically. Do not call getUrl in React. :::
 
-`SocialCardOptions` is designed to be used for the default Docusaurus social card service, or one that follows the same query parameter pattern. They can be accessed in React. To create a custom social card service following the same query parameter patterns, you can clone the [Docusaurus social card service](link-to-github).
+`SocialCardOptions` is designed to be used for the default Docusaurus social card service, or one that follows the same query parameter pattern. They can be accessed in React. To create a custom social card service following the same query parameter patterns, you can clone the Docusaurus social card service (insert link to GitHub repo).
 
 ```ts
 type SocialCardOptions = {
