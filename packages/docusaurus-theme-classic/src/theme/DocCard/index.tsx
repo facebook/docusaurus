@@ -12,7 +12,7 @@ import {
   findFirstCategoryLink,
   useDocById,
 } from '@docusaurus/theme-common/internal';
-import {isInternalUrl} from '@docusaurus/utils-common';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocCard';
 
