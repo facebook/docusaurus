@@ -95,7 +95,6 @@ const config = {
   },
   i18n: {
     defaultLocale: 'en',
-
     locales:
       isDeployPreview || isBranchDeploy
         ? // Deploy preview and branch deploys: keep them fast!
