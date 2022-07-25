@@ -377,9 +377,8 @@ export type DocusaurusConfig = {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /**
-   * Link to social card image or function to generate social card images.
-   * Links can be full URLs, including external URLs, or paths relative to
-   * your site's "static" directory
+   * Has URL to social card image or function to generate social card URLs.
+   * URLs can also be local paths relative your site's "static" directory.
    */
   socialCardService: SocialCardService;
 };

@@ -582,10 +582,13 @@ If you have a strict [Content Security Policy](https://developer.mozilla.org/en-
 - Type: `SocialCardService`
 
 ```ts
-type SocialCardService = SocialCardGenerator | string;
+export type SocialCardService = {
+  url: string | SocialCardFunction;
+  options?: SocialCardOptions;
+};
 ```
 
-Used to generate images for `og:image` and `twitter:image` meta tags. This can be either a URL to the image or a function that generates URLs based on data for each page. URLs can be either a full URL or a path relative to your website's "static" directory.
+Used to generate images for `og:image` and `twitter:image` meta tags. `url` can be either a URL or a function that generates URLs based on data for each page. `url` can also be a local path relative to your website's "static" directory.
 
 :::caution
 
@@ -593,21 +596,21 @@ Images cannot be SVGs.
 
 :::
 
-```ts
-type SocialCardGenerator = {
-  getUrl: (data: SocialCardData, options?: SocialCardOptions) => string;
-  options?: SocialCardOptions;
-};
-```
+SocialCardFunction to generate URLs or paths relative to your website's "static" directory. The function is run in a Node environment, allowing access to Node APIs (e.g. fs). The function is run for every page except JSX pages.
 
-`getUrl` is a function to generate URLs or paths relative to your website's "static" directory. The function is run in a Node environment, allowing access to Node APIs (e.g. fs). The function is run for every page except JSX pages.
+```ts
+export type SocialCardFunction = (
+  data: SocialCardData,
+  options?: SocialCardOptions,
+) => string;
+```
 
 :::warning
 
-When accessing the Docusaurus context in React (through `useDocusaurusContext`), it is serialized to the default URL:
+When accessing the Docusaurus context in React (through `useDocusaurusContext`), `url` is a SocialCardFunction, it is serialized to the default URL:
 
 ```ts
-const serializedValue = getUrl(
+url = url(
   data: {
     type: 'default'
   },
@@ -615,7 +618,7 @@ const serializedValue = getUrl(
 );
 ```
 
-The default URL is set automatically. Do not call getUrl in React. :::
+The default URL is set automatically. You should not need to call `url` in React. :::
 
 `SocialCardOptions` is designed to be used for the default Docusaurus social card service, or one that follows the same query parameter pattern. They can be accessed in React. To create a custom social card service following the same query parameter patterns, you can clone the Docusaurus social card service (insert link to GitHub repo).
 
@@ -689,7 +692,7 @@ Example:
 ```js title="docusaurus.config.js"
 module.exports = {
   socialCardService: {
-    getUrl: (data, options) => {
+    url: (data, options) => {
       const title =
         data.title ??
         (() => {
