@@ -120,11 +120,13 @@ async function doRender(locals: Locals & {path: string}) {
   // Hardcoded. For testing/demo purposes only. Will be removed.
   if (
     ogImage ===
-      `https://docusaurus-og-image.vercel.app/${encodeURI(
+      `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
         'Docusaurus Project',
-      )}` ||
+      )}?markdown=true&docusaurus=true&theme=light&` ||
     ogImage ===
-      `https://docusaurus-og-image.vercel.app/${encodeURI('Docusaurus')}`
+      `https://docusaurus-og-image.vercel.app/${encodeURIComponent(
+        'Docusaurus',
+      )}?markdown=true&docusaurus=true&theme=light&`
   ) {
     logger.warn(`${location} is using the default url: ${ogImage}`);
   }
