@@ -22,13 +22,13 @@ import type {Props} from '@theme/BlogListPage';
 
 function ChangelogListMetadata(props: Props): JSX.Element {
   const {metadata} = props;
-  const {blogTitle, blogDescription} = metadata;
+  const {blogTitle, blogDescription, socialCardUrl} = metadata;
   return (
     <>
       <PageMetadata
         title={blogTitle}
         description={blogDescription}
-        socialCardUrl={props.metadata.socialCardUrl}
+        socialCardUrl={socialCardUrl}
       />
       <SearchMetadata tag="blog_posts_list" />
     </>
