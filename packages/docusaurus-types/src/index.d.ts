@@ -7,6 +7,10 @@
 
 export {
   ReportingSeverity,
+  SocialCardService,
+  SocialCardData,
+  SocialCardFunction,
+  SocialCardOptions,
   ThemeConfig,
   DocusaurusConfig,
   Config,

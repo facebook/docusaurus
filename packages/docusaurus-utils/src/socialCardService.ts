@@ -6,8 +6,7 @@
  */
 
 import {addBaseUrl, isSocialCardFunction} from '@docusaurus/utils-common';
-import type {LoadContext} from '@docusaurus/types';
-import type {SocialCardData} from '@docusaurus/types/src/config';
+import type {LoadContext, SocialCardData} from '@docusaurus/types';
 
 export function getSocialCardUrl(
   context: LoadContext,

@@ -6,7 +6,7 @@
  */
 
 import {DEFAULT_SOCIAL_CARD_SERVICE_CONFIG} from '../configValidation';
-import type {SocialCardFunction} from '@docusaurus/types/src/config';
+import type {SocialCardFunction} from '@docusaurus/types';
 
 const URI_ENCODING_TEST_STRING = 'this has spaces and an & symbol';
 const ENCODED_TEST_STRING = encodeURIComponent(URI_ENCODING_TEST_STRING);

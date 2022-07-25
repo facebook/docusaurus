@@ -14,8 +14,9 @@ import type {
   SocialCardData,
   SocialCardOptions,
   SocialCardService,
-} from '@docusaurus/types/src/config';
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+  DocusaurusConfig,
+  I18nConfig,
+} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 

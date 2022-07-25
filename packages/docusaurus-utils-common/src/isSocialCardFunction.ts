@@ -4,10 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import type {
-  SocialCardFunction,
-  SocialCardService,
-} from '@docusaurus/types/src/config';
+import type {SocialCardFunction, SocialCardService} from '@docusaurus/types';
 
 export function isSocialCardFunction(
   url: SocialCardService['url'],
