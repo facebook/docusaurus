@@ -590,13 +590,15 @@ export type SocialCardService = {
 
 Used to generate images for `og:image` and `twitter:image` meta tags. `url` can be either a URL or a function that generates URLs based on data for each page. `url` can also be a local path relative to your website's "static" directory.
 
+The default image generation service can be found here: (insert link to GitHub). If you want to self-host, you can clone the repository, deploy to Vercel, and change `baseUrl` in `SocialCardOptions`.
+
 :::caution
 
 Images cannot be SVGs.
 
 :::
 
-SocialCardFunction to generate URLs or paths relative to your website's "static" directory. The function is run in a Node environment, allowing access to Node APIs (e.g. fs). The function is run for every page except JSX pages.
+SocialCardFunction generates URLs or paths relative to your website's "static" directory. The function is run in a Node environment, allowing access to Node APIs (e.g. fs). The function is run for every page except JSX pages.
 
 ```ts
 export type SocialCardFunction = (
@@ -607,7 +609,7 @@ export type SocialCardFunction = (
 
 :::warning
 
-When accessing the Docusaurus context in React (through `useDocusaurusContext`), `url` is a SocialCardFunction, it is serialized to the default URL:
+When accessing the Docusaurus context in React (through `useDocusaurusContext`), if `url` is a SocialCardFunction, it is serialized to the default URL:
 
 ```ts
 url = url(
@@ -618,9 +620,13 @@ url = url(
 );
 ```
 
-The default URL is set automatically. You should not need to call `url` in React. :::
+The default URL is set automatically. You should not need to call `url` in React.
 
-`SocialCardOptions` is designed to be used for the default Docusaurus social card service, or one that follows the same query parameter pattern. They can be accessed in React. To create a custom social card service following the same query parameter patterns, you can clone the Docusaurus social card service (insert link to GitHub repo).
+:::
+
+`SocialCardOptions` is designed to be used for the default Docusaurus social card service. It allows customization of social card URLs without needing to modify the `url` function.
+
+Options can be accessed in React.
 
 ```ts
 type SocialCardOptions = {
