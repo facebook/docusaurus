@@ -1935,6 +1935,15 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'Sequence',
+    description:
+      'Automation toolkit for creating repeatable, predictable, and defensible end-to-end forensic and ediscovery workflows.',
+    preview: require('./showcase/sequence.png'),
+    website: 'https://sequence.sh/',
+    source: 'https://gitlab.com/reductech/sequence/sequence-docs',
+    tags: ['large', 'opensource', 'versioning'],
+  },
+  {
     title: 'Seven-innovation-base official website',
     description: 'About seven-innovation-base',
     preview: require('./showcase/seven-innovation-base.png'),
