@@ -19,6 +19,11 @@ const allImages = (
 const [, , ...selectedImages] = process.argv;
 const images = selectedImages.length > 0 ? selectedImages : allImages;
 
+const stats = {
+  skipped: 0,
+  resized: 0,
+};
+
 await Promise.all(
   images.map(async (img) => {
     const imgPath = fileURLToPath(
@@ -28,6 +33,7 @@ await Promise.all(
     if (width === 640 && height === 320 && imgPath.endsWith('.png')) {
       // Do not emit if not resized. Important because we can't guarantee
       // idempotency during resize -> optimization
+      stats.skipped += 1;
       return;
     }
     logger.info`Resized path=${imgPath}: Before number=${width}×number=${height}`;
@@ -36,8 +42,12 @@ await Promise.all(
       .png()
       .toBuffer();
     await fs.writeFile(imgPath.replace(/jpe?g/, 'png'), data);
+    stats.resized += 1;
   }),
 );
+
+console.log(`Showcase images resizing complete.
+${JSON.stringify(stats, null, 2)}`);
 
 // You should also run
 // optimizt `find website/src/data/showcase -type f -name '*.png'`.
