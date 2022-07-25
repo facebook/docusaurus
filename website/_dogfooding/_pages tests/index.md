@@ -29,3 +29,4 @@ import Readme from "../README.md"
 - [TOC tests](/tests/pages/page-toc-tests)
 - [Tabs tests](/tests/pages/tabs-tests)
 - [z-index tests](/tests/pages/z-index-tests)
+- [Social Card Service tests](/tests/pages/social-card-service-tests)
