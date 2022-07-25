@@ -7,7 +7,7 @@ authors:
   - lex111
   - zpao
   - key: JMarcey
-    title: Creator of Docusaurus 1
+    title: Co-creator of Docusaurus 1
 tags: [recap]
 image: ./img/social-card.png
 ---
