@@ -220,6 +220,9 @@ Docusaurus theming gives a lot of **flexibility** on multiple levels:
 
 This enables users willing to invest a bit more time on **customizations** to build sites that **look different** from others.
 
+<TweetQuote url="https://twitter.com/hung_dev/status/1546918275065741312" handle="hung_dev" name="
+Hung Viet Nguyen" job="Creator of JestPreview">I love Docusaurus Swizzling feature. It’s opinionated and flexible at the same time. This is super cool since a framework usually needs to sacrifice for one for the other.</TweetQuote>
+
 TODO better display
 
 <table>
@@ -241,8 +244,7 @@ TODO better display
   </tr>
 </table>
 
-<TweetQuote url="https://twitter.com/hung_dev/status/1546918275065741312" handle="hung_dev" name="
-Hung Viet Nguyen" job="Creator of JestPreview">I love Docusaurus Swizzling feature. It’s opinionated and flexible at the same time. This is super cool since a framework usually needs to sacrifice for one for the other.</TweetQuote>
+<TweetQuote url="https://twitter.com/dabit3/status/1382855449813389315" handle="dabit3" name="Nader Dabit" job="Web3 developer, Developer DAO founder">So far it’s working out really nicely. It’s been really easy to style up the way that we wanted it to look. No blockers at all.</TweetQuote>
 
 ### Other features
 
@@ -264,6 +266,8 @@ Docusaurus 2 comes with many other useful features:
 - Playgrounds: assess Docusaurus easily from your browser with [docusaurus.new](https://docusaurus.new)
 - Canary releases: use the @canary npm tag to use the upcoming release before anyone else
 - Tests: Docusaurus is well-tested, we dogfood features and ensure they keep working
+
+<TweetQuote url="https://twitter.com/alexbdebrie/status/1540010328335032320" handle="alexbdebrie" name="Alex DeBrie" job="AWS Data Hero, author of The DynamoDB Book">Recently, I was shocked at how good Docusaurus is out of the box. Super solid, a good bit of configuration without being overwhelming, and the ability to really customize the styling if you're braver than I am.</TweetQuote>
 
 ## Why 2.0 now?
 
