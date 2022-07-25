@@ -13,7 +13,7 @@ import {getSocialCardUrl} from '../socialCardService';
 import type {LoadContext} from '@docusaurus/types';
 
 describe('getSocialCardUrl', () => {
-  it('calls getUrl when social card service url generator provided', () => {
+  it('calls function when social card service url generator provided', () => {
     expect(
       getSocialCardUrl(
         {
@@ -66,7 +66,7 @@ describe('getSocialCardUrl', () => {
     );
   });
 
-  it('returns url if social card service is a url string', () => {
+  it('returns url if social card service url is a string', () => {
     expect(
       getSocialCardUrl({
         siteConfig: {
