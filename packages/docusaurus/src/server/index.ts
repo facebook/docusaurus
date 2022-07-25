@@ -15,8 +15,8 @@ import {
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
   getSocialCardUrl,
-  isSocialCardString,
 } from '@docusaurus/utils';
+import {isSocialCardString} from '@docusaurus/utils-common';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
