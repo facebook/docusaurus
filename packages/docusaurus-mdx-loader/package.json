@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.18.8",
-    "@babel/traverse": "^7.18.8",
+    "@babel/parser": "^7.18.9",
+    "@babel/traverse": "^7.18.9",
     "@docusaurus/logger": "2.0.0-rc.1",
     "@docusaurus/utils": "2.0.0-rc.1",
     "@mdx-js/mdx": "^1.6.22",
