@@ -41,7 +41,7 @@
     "@docusaurus/theme-translations": "2.0.0-rc.1",
     "@docusaurus/utils": "2.0.0-rc.1",
     "@docusaurus/utils-validation": "2.0.0-rc.1",
-    "algoliasearch": "^4.13.1",
+    "algoliasearch": "^4.14.1",
     "algoliasearch-helper": "^3.10.0",
     "clsx": "^1.2.1",
     "eta": "^1.12.3",
