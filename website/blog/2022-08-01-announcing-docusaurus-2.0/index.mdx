@@ -87,11 +87,21 @@ At that time, our solution was to **copy/paste a Jekyll template** over and over
 
 ![Birth of Slash](/img/slash-birth.png)
 
-![image docusaurus was born](./img/docusaurus-was-born.png)
+It quickly built momentum at Facebook and in the frontend ecosystem, adopted by many popular projects such as [Prettier](https://prettier.io/), [Babel](https://babeljs.io/), [React-Native](https://archive.reactnative.dev/), [KaTeX](https://katex.org/docs/), and of course [Docusaurus v1](http://v1.docusaurus.io/) itself.
 
-## From 1.0 to 2.0
+<ShowcaseCarouselV1 />
 
-[**Docusaurus v1**](http://v1.docusaurus.io/) has been very successful, but we **questioned some of our initial architectural choices**:
+<br />
+
+:::note
+
+Notice that the sample sites above use different colors, but still look quite the same.
+
+:::
+
+## Toward Docusaurus 2.0
+
+[**Docusaurus v1**](http://v1.docusaurus.io/) has been very successful, but we started to **question some architectural choices**:
 
 - React was only used as a **server-side templating language**, and not used on the client
 - **Theming system was pretty limited**, and apart from changing a few colors with CSS, it was difficult to do more advanced customizations
@@ -107,21 +117,15 @@ At that time, our solution was to **copy/paste a Jekyll template** over and over
 - We kept **everything good from v1**: docs, blog, pages, versioning, i18n...
 - We implemented **several new features**
 
-More details in the [Docusaurus 2 project announcement](https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2) and [v1 to v2 migration guide](https://docusaurus.io/docs/migration)
+More details in the [Docusaurus 2 project announcement](/blog/2018/09/11/Towards-Docusaurus-2) and [v1 to v2 migration guide](https://docusaurus.io/docs/migration)
 
-## Who is using Docusaurus?
+## Who uses Docusaurus 2.0?
 
-[Docusaurus v1](http://v1.docusaurus.io/) quickly built momentum at Facebook and in the frontend ecosystem, adopted by many popular projects: [React-Native](https://archive.reactnative.dev/), [Jest](https://archive.jestjs.io/), [Prettier](https://prettier.io/), [Babel](https://babeljs.io/)...
-
-<ShowcaseCarouselV1 />
-
-<br />
-
-The work on Docusaurus v2 [started in 2018](/blog/2018/09/11/Towards-Docusaurus-2). Since then, the community has been quick to adopt it. It didn't take long for **Docusaurus v2 to outgrow Docusaurus v1** in terms of NPM downloads, despite being in beta:
+Despite being in pre-release, it didn't take long for **Docusaurus v2 to outgrow Docusaurus v1** in terms of NPM downloads:
 
 [![NPM downloads: v2 outgrows v1](./img/npm-downloads.png)](https://npmtrends.com/docusaurus-vs-@docusaurus/core)
 
-Our GitHub star trend is very positive, and we compete with major frameworks:
+Our GitHub star trend is very positive, competing with major frameworks:
 
 [![GitHub stars: Docusaurus is well-positioned](./img/star-history.png)](https://star-history.com/#facebook/docusaurus&vercel/next.js&gatsbyjs/gatsby&hexojs/hexo&nuxt/nuxt.js&vuejs/vuepress&11ty/eleventy&gohugoio/hugo&remix-run/remix&mkdocs/mkdocs&Timeline)
 
