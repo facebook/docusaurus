@@ -28,9 +28,6 @@ export default function TweetQuote({
 }: Props): JSX.Element {
   const avatar = `https://unavatar.io/twitter/${handle}`;
   const profileUrl = `https://twitter.com/${handle}`;
-
-  // TODO this is quit ugly...
-
   return (
     <figure className={styles.tweetQuote}>
       <blockquote>
