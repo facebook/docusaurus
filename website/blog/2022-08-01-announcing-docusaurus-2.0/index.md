@@ -12,22 +12,31 @@ tags: [recap]
 image: ./img/social-card.png
 ---
 
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import ProductHuntCard from '@site/src/components/ProductHuntCard';
+import ColorModeToggle from '@theme/Navbar/ColorModeToggle';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+```
+
 Today we are extremely happy to finally **announce Docusaurus 2.0**!
 
 At [**Meta Open Source**](https://opensource.fb.com/), we believe Docusaurus will help you build the **best documentation websites** with **minimal effort**, letting you **focus on what really matters**: writing the content.
 
 After **4 years of work, [75 alphas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.75) and [22 betas](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-beta.22)**, the next generation of Docusaurus is **ready for prime time**. From now on, we now plan to **respect [Semantic Versioning](https://semver.org/)** and will release **major versions more frequently**.
 
+:::info We are on [ProductHunt](https://www.producthunt.com/) today!
+
+If you like Docusaurus, now is the best time to tell the world!
+
+<ProductHuntCard />
+
+:::
+
 ![social-card image](./img/social-card.png)
 
 <!--truncate-->
-
-```mdx-code-block
-import BrowserWindow from '@site/src/components/BrowserWindow';
-import ColorModeToggle from '@theme/Navbar/ColorModeToggle';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import ThemedImage from '@theme/ThemedImage';
-```
 
 ## What is Docusaurus exactly?
 
@@ -331,3 +340,11 @@ We'd like to thank in particular all our **Docusaurus 2.0 early adopters** for a
 At [Meta Open Source](https://opensource.fb.com/), Docusaurus is one of our **most successful projects**. We can't wait to see all the outstanding documentation websites that you will create! Don't forget to submit them to our [site showcase](/showcase).
 
 **Now, let your imagination run wild 🤪!**
+
+:::info We are on [ProductHunt](https://www.producthunt.com/) today!
+
+If you like Docusaurus, now is the best time to tell the world!
+
+<ProductHuntCard />
+
+:::
