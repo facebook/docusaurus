@@ -7,7 +7,7 @@
 
 .tweetQuote {
   padding: 0;
-  margin: 2rem 1rem;
+  margin: 3rem 1rem;
   --ifm-link-color: var(--ifm-color-emphasis-700);
   --ifm-link-hover-color: var(--ifm-color-emphasis-900);
 }
@@ -22,8 +22,12 @@
   text-align: center;
 }
 
+.tweetQuote :global(.avatar__subtitle) {
+  margin-top: 0;
+}
+
 .tweetQuote blockquote::before,
-blockquote::after {
+.tweetQuote blockquote::after {
   position: absolute;
   color: #f1efe6;
   font-size: 6rem;
@@ -35,21 +39,26 @@ blockquote::after {
 
 .tweetQuote blockquote::before {
   content: '“';
-  left: -2rem;
-  top: -1rem;
+  left: -2.4rem;
+  top: -1.1rem;
 }
 
 .tweetQuote blockquote::after {
   content: '”';
-  right: -1rem;
-  bottom: -1rem;
+  right: -1.6rem;
+  bottom: -1.1rem;
+}
+
+[data-theme='dark'] .tweetQuote blockquote::before,
+[data-theme='dark'] .tweetQuote blockquote::after {
+  color: #3b3b3b;
 }
 
 .tweetQuote p {
   display: inline;
 }
 
-.avatarImg {
-  width: 48px;
-  height: 48px;
+.tweetQuote .avatarImg {
+  width: 42px;
+  height: 42px;
 }
