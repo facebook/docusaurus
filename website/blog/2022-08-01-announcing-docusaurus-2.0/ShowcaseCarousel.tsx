@@ -11,7 +11,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from 'react';
+
+import React, {type ComponentProps} from 'react';
 import {
   CarouselProvider,
   Slider,
@@ -22,25 +23,26 @@ import {
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import Link from '@docusaurus/Link';
+import Image from '@theme/IdealImage';
 import styles from './ShowcaseCarousel.module.css';
 
 type Site = {
   name: string;
-  image: string;
+  image: ComponentProps<typeof Image>['img'];
   url: string;
 };
 
 function SiteSlide({index, site}: {index: number; site: Site}) {
   return (
-    <Slide index={index}>
-      <img
-        src={site.image}
+    <Slide index={index} className={styles.siteSlide}>
+      <Image
+        img={site.image}
         alt={site.name}
         loading={index === 0 ? 'eager' : 'lazy'}
       />
-      <div className={styles.site}>
-        🔗 <Link to={site.url}>{site.name}</Link>
-      </div>
+      <Link to={site.url} className={styles.siteLink} target="_blank">
+        🔗 {site.name}
+      </Link>
     </Slide>
   );
 }
@@ -78,19 +80,32 @@ export default function ShowcaseCarousel({
 export function ShowcaseCarouselV1(): JSX.Element {
   return (
     <ShowcaseCarousel
-      aspectRatio={100 / 62}
+      aspectRatio={1072 / 584}
       sites={[
         {
           name: 'Prettier',
-          image:
-            'https://user-images.githubusercontent.com/749374/180484894-0485d3b9-0d1c-4333-aec0-6816c819da3f.png',
+          image: require('./img/v1/prettier-border.png'),
           url: 'https://prettier.io/',
         },
         {
           name: 'Babel',
-          image:
-            'https://user-images.githubusercontent.com/749374/180484926-1be22298-d167-4229-b3b7-ec699c487541.png',
+          image: require('./img/v1/babel-border.png'),
           url: 'https://babeljs.io/',
+        },
+        {
+          name: 'React-Native',
+          image: require('./img/v1/react-native-border.png'),
+          url: 'https://archive.reactnative.dev/',
+        },
+        {
+          name: 'Katex',
+          image: require('./img/v1/katex-border.png'),
+          url: 'https://katex.org/docs/',
+        },
+        {
+          name: 'Docusaurus',
+          image: require('./img/v1/docusaurus-border.png'),
+          url: 'https://v1.docusaurus.io/',
         },
       ]}
     />
