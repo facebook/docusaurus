@@ -84,27 +84,27 @@ export function ShowcaseCarouselV1(): JSX.Element {
       sites={[
         {
           name: 'Prettier',
-          image: require('./img/v1/prettier-border.png'),
+          image: require('./img/v1/prettier.png'),
           url: 'https://prettier.io/',
         },
         {
           name: 'Babel',
-          image: require('./img/v1/babel-border.png'),
+          image: require('./img/v1/babel.png'),
           url: 'https://babeljs.io/',
         },
         {
           name: 'React-Native',
-          image: require('./img/v1/react-native-border.png'),
+          image: require('./img/v1/react-native.png'),
           url: 'https://archive.reactnative.dev/',
         },
         {
           name: 'Katex',
-          image: require('./img/v1/katex-border.png'),
+          image: require('./img/v1/katex.png'),
           url: 'https://katex.org/docs/',
         },
         {
           name: 'Docusaurus',
-          image: require('./img/v1/docusaurus-border.png'),
+          image: require('./img/v1/docusaurus.png'),
           url: 'https://v1.docusaurus.io/',
         },
       ]}
