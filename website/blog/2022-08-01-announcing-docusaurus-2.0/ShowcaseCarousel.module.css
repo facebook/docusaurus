@@ -1,0 +1,44 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.carousel {
+  position: relative;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(0 0 0 / 30%);
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+}
+
+.dotGroup {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.site {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  padding: 4px 12px;
+  background-color: rgb(0 0 0 / 30%);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 18px;
+  --ifm-link-color: var(--ifm-color-emphasis-400);
+  --ifm-link-hover-color: var(--ifm-color-emphasis-200);
+}
