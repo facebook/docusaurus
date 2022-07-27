@@ -18,6 +18,7 @@ import {
   createAbsoluteFilePathMatcher,
   createSlugger,
   DEFAULT_PLUGIN_ID,
+  getSocialCardUrl,
 } from '@docusaurus/utils';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
@@ -254,12 +255,26 @@ export default async function pluginContentDocs(
               `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
               JSON.stringify(tagsProp, null, 2),
             );
+            const socialCardUrlPropPath = await createData(
+              `${docuHash(
+                `tags-list-${version.versionName}-social-card-url`,
+              )}.json`,
+              JSON.stringify(
+                getSocialCardUrl(context, {
+                  type: 'docs',
+                  title: 'Doc Tags',
+                }),
+                null,
+                2,
+              ),
+            );
             addRoute({
               path: version.tagsPath,
               exact: true,
               component: options.docTagsListComponent,
               modules: {
                 tags: aliasedSource(tagsPropPath),
+                socialCardUrl: aliasedSource(socialCardUrlPropPath),
               },
             });
           }

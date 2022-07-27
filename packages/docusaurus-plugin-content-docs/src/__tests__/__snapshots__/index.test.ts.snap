@@ -921,6 +921,7 @@ exports[`simple website content: data 1`] = `
     "count": 1
   }
 ]",
+  "tags-list-current-social-card-url-7e1.json": ""https://docusaurus-og-image.vercel.app/Doc%20Tags?markdown=true&docusaurus=true&theme=light&"",
   "version-current-metadata-prop-751.json": "{
   "pluginId": "default",
   "version": "current",
@@ -1271,6 +1272,7 @@ exports[`simple website content: route config 1`] = `
     "component": "@theme/DocTagsListPage",
     "exact": true,
     "modules": {
+      "socialCardUrl": "~docs/tags-list-current-social-card-url-7e1.json",
       "tags": "~docs/tags-list-current-prop-15a.json",
     },
     "path": "/docs/tags",
@@ -3546,6 +3548,7 @@ exports[`versioned website content: data 1`] = `
     "count": 1
   }
 ]",
+  "tags-list-current-social-card-url-7e1.json": ""https://docusaurus-og-image.vercel.app/Doc%20Tags?markdown=true&docusaurus=true&theme=light&"",
   "version-1-0-0-metadata-prop-608.json": "{
   "pluginId": "default",
   "version": "1.0.0",
@@ -4002,6 +4005,7 @@ exports[`versioned website content: route config 1`] = `
     "component": "@theme/DocTagsListPage",
     "exact": true,
     "modules": {
+      "socialCardUrl": "~docs/tags-list-current-social-card-url-7e1.json",
       "tags": "~docs/tags-list-current-prop-15a.json",
     },
     "path": "/docs/next/tags",
