@@ -384,3 +384,7 @@ Csapo
 Hasura
 Solana
 solana
+shiki
+twoslash
+Shiki
+Therox

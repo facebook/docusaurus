@@ -255,17 +255,26 @@ More importantly, it enables our community to **enhance Docusaurus** with additi
 
 Let's highlight some examples:
 
-- [Redocusaurus](https://github.com/rohit-gohri/redocusaurus) allows you to seamlessly integrate an OpenAPI Redoc documentation in Docusaurus:
+- [redocusaurus](https://github.com/rohit-gohri/redocusaurus): seamless integration with [OpenAPI](https://www.openapis.org/) and [Redoc](https://github.com/Redocly/redoc)
 
-![image](https://user-images.githubusercontent.com/749374/180414317-2b62648a-3789-44ff-87be-155b3fbf08c4.png)
+![redocusaurus plugin example](./img/plugins/redocusaurus.png)
 
-- [MDX-Mermaid](https://github.com/sjwall/mdx-mermaid) allows you to display Mermaid diagrams in your documentation:
+- [docusaurus-preset-shiki-twoslash](https://www.npmjs.com/package/docusaurus-preset-shiki-twoslash): use [Shiki](https://github.com/shikijs/shiki) code block syntax highlighting with [TwoSlash](https://shikijs.github.io/twoslash/) TypeScript compiler hints
 
-![image](https://user-images.githubusercontent.com/749374/180417576-44131548-2ff8-41d9-bfff-e305c1c5393a.png)
+![shiki-twoslash plugin example](./img/plugins/shiki-twoslash.png)
 
-- [Docusaurus Plugin Image Zoom](https://github.com/flexanalytics/plugin-image-zoom) allows users to click documentation images to zoom them:
+<TweetQuote
+  url="https://twitter.com/orta"
+  handle="orta"
+  name="Orta Therox"
+  job="Former TypeScript core team at Microsoft">
+  The plugin API was a breeze to use, and powerful enough that I could port the
+  code sample renderer from the TypeScript website site in a couple of hours.
+</TweetQuote>
 
-![image](https://raw.githubusercontent.com/flexanalytics/plugin-image-zoom/master/img/zoom_example.gif)
+- [docusaurus-search-local](https://github.com/easyops-cn/docusaurus-search-local): one of the various local search alternatives to the built-in Algolia plugin
+
+![local search plugin example](./img/plugins/search.png)
 
 :::tip
 
@@ -291,7 +300,7 @@ Docusaurus theming gives a lot of **flexibility** on multiple levels:
 - Customize CSS variables to adjust colors, fonts, and more
 - Provide your own CSS stylesheets
 - Implement your own theme from scratch
-- **Override any React component** provided by our default theme (we call this [Swizzling](https://docusaurus.io/docs/swizzling)).
+- **Override any React component** provided by our default theme: we call this [swizzling](https://docusaurus.io/docs/swizzling)
 
 <TweetQuote
   url="https://twitter.com/hung_dev/status/1546918275065741312"
@@ -319,7 +328,7 @@ This enables users willing to invest a bit more time on **customizations** to bu
 
 ### Other features
 
-Docusaurus 2 comes with many other useful features:
+Docusaurus 2 comes with a very long list of useful features:
 
 - Theme: dark mode, better UI and UX, flexible `themeConfig` options...
 - Docs versioning: flexible plugin options to adapt to your workflow
