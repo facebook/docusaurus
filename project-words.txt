@@ -381,3 +381,6 @@ Heavener
 maxlynch
 gabrielcsapo
 Csapo
+Hasura
+Solana
+solana

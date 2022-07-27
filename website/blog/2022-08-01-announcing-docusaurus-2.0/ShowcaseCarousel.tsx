@@ -115,31 +115,112 @@ export function ShowcaseCarouselV1(): JSX.Element {
 export function ShowcaseCarouselV2(): JSX.Element {
   return (
     <ShowcaseCarousel
-      aspectRatio={100 / 62}
+      aspectRatio={2148 / 1194}
       sites={[
         {
-          name: 'React-Native',
-          image:
-            'https://user-images.githubusercontent.com/749374/180420765-11009bec-525f-4ad2-a2a6-33d82f0739bf.png',
-          url: 'https://reactnative.dev/',
+          name: 'Tauri',
+          image: require('./img/v2/tauri.png'),
+          url: 'https://tauri.app/',
         },
         {
+          name: 'Figma',
+          image: require('./img/v2/figma.png'),
+          url: 'https://www.figma.com/plugin-docs/',
+        },
+        {
+          name: 'Snapchat',
+          image: require('./img/v2/snapchat.png'),
+          url: 'https://docs.snap.com/',
+        },
+        {
+          name: 'Iota',
+          image: require('./img/v2/iota.png'),
+          url: 'https://wiki.iota.org/',
+        },
+        {
+          name: 'SAP Cloud',
+          image: require('./img/v2/sap-cloud.png'),
+          url: 'https://sap.github.io/cloud-sdk/',
+        },
+        {
+          name: 'Supabase',
+          image: require('./img/v2/supabase.png'),
+          url: 'https://supabase.com/docs',
+        },
+        {
+          name: 'StackBlitz',
+          image: require('./img/v2/stackblitz.png'),
+          url: 'https://developer.stackblitz.com/',
+        },
+        {
+          name: 'Lacework',
+          image: require('./img/v2/lacework.png'),
+          url: 'https://docs.lacework.com/',
+        },
+        {
+          name: 'React-Navigation',
+          image: require('./img/v2/react-navigation.png'),
+          url: 'https://reactnavigation.org/',
+        },
+        {
+          name: 'Solana',
+          image: require('./img/v2/solana.png'),
+          url: 'https://docs.solana.com/',
+        },
+        {
+          name: 'Gulp',
+          image: require('./img/v2/gulp.png'),
+          url: 'https://gulpjs.com/',
+        },
+      ]}
+    />
+  );
+}
+
+export function ShowcaseCarouselV2Theming(): JSX.Element {
+  return (
+    <ShowcaseCarousel
+      aspectRatio={2148 / 1194}
+      sites={[
+        {
           name: 'Ionic',
-          image:
-            'https://user-images.githubusercontent.com/749374/180421278-e0636886-4350-4cd6-9545-8708e39e80c6.png',
+          image: require('./img/v2-theming/ionic.png'),
           url: 'https://ionicframework.com/docs/',
         },
         {
+          name: 'Outerbounds',
+          image: require('./img/v2-theming/outerbounds.png'),
+          url: 'https://outerbounds.com/docs/',
+        },
+        {
           name: 'Courier',
-          image:
-            'https://user-images.githubusercontent.com/749374/180422160-bf3b9b10-b7ac-4bac-b337-918f2b0ab842.png',
-          url: 'https://www.courier.com/docs',
+          image: require('./img/v2-theming/courier.png'),
+          url: 'https://www.courier.com/docs/',
         },
         {
           name: 'Quickwit',
-          image:
-            'https://user-images.githubusercontent.com/749374/180422673-c2175d7a-7c82-4fd5-a17d-99f8c1adbb41.png',
+          image: require('./img/v2-theming/quickwit.png'),
           url: 'https://quickwit.io/docs/',
+        },
+        {
+          name: 'Dyte',
+          image: require('./img/v2-theming/dyte.png'),
+          url: 'https://docs.dyte.io/',
+        },
+        {
+          name: 'React-Native',
+          image: require('./img/v2-theming/react-native.png'),
+          url: 'https://reactnative.dev/',
+        },
+        {
+          name: 'Hasura',
+          image: require('./img/v2-theming/hasura.png'),
+          url: 'https://hasura.io/docs/',
+        },
+        {
+          name: 'Datagit',
+          image: require('./img/v2-theming/datagit.png'),
+          url: 'https://www.datagit.ir/',
         },
       ]}
     />
