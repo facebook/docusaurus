@@ -263,6 +263,7 @@ export default async function pluginContentDocs(
                 getSocialCardUrl(context, {
                   type: 'docs',
                   title: 'Doc Tags',
+                  permalink: version.tagsPath,
                 }),
                 null,
                 2,
