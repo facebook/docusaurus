@@ -388,3 +388,4 @@ shiki
 twoslash
 Shiki
 Therox
+plushies
