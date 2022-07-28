@@ -6,6 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
+import pinyin_ from './pinyin/pinyin.json';
 import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
@@ -18,7 +19,10 @@ export const translateTagsPageTitle = (): string =>
 export type TagLetterEntry = {letter: string; tags: TagsListItem[]};
 
 function getTagLetter(tag: string): string {
-  return tag[0]!.toUpperCase();
+  // add feature of grouping chinese tag into alphabet
+  const pinyin: {[key: string]: string} = pinyin_;
+  const key = Object.keys(pinyin).find((k) => k === tag[0]);
+  return (key ? pinyin[key]![0] : tag[0])!.toUpperCase();
 }
 
 /**
