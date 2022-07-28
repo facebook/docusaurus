@@ -23,7 +23,7 @@ export default function ProductHuntCard({
       className={className}
       style={{display: 'block', width: 250, height: 54, ...style}}>
       <img
-        src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=352735&theme=light"
+        src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=353916&theme=light"
         alt="Docusaurus 2.0 - Build optimized websites quickly, focus on your content. | Product Hunt"
         style={{width: 250, height: 54, maxWidth: 'initial'}}
         width={250}

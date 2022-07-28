@@ -78,6 +78,10 @@
   -webkit-text-fill-color: transparent;
 }
 
+.topBannerTitleText:hover {
+  border-bottom: solid 2px;
+}
+
 html[data-theme='dark'] .topBannerTitleText {
   background: linear-gradient(45deg, #399cff, #00ff95 80%);
   background-clip: text;

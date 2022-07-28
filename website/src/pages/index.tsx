@@ -23,6 +23,7 @@ import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
 
 import ProductHuntCard from '@site/src/components/ProductHuntCard';
+import HackerNewsIcon from '@site/src/components/HackerNewsIcon';
 import styles from './styles.module.css';
 
 function HeroBanner() {
@@ -268,23 +269,26 @@ function TopBanner() {
         </Link>
         {'\xa0🥳'}
       </div>
-      <div className="row" style={{alignItems: 'center'}}>
-        <div className="col col--8">
+      <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
+        <div style={{flex: 1, whiteSpace: 'nowrap'}}>
           <div className={styles.topBannerDescription}>
             We are on{' '}
             <b>
-              <Link to="https://www.producthunt.com/">ProductHunt</Link> today!
+              <Link to="https://www.producthunt.com/">ProductHunt</Link> and{' '}
+              <Link to="https://news.ycombinator.com/">Hacker News</Link> today!
             </b>
           </div>
         </div>
         <div
-          className="col col--4"
           style={{
+            flexGrow: 1,
+            flexShrink: 0,
             padding: '0.5rem',
             display: 'flex',
             justifyContent: 'center',
           }}>
           <ProductHuntCard />
+          <HackerNewsIcon />
         </div>
       </div>
     </div>
