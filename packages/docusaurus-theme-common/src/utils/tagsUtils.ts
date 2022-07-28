@@ -6,7 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import pinyin_ from './pinyin/pinyin.json';
+import {ChineseWord2Pinyin} from './pinyin/src/index';
 import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
@@ -18,11 +18,22 @@ export const translateTagsPageTitle = (): string =>
 
 export type TagLetterEntry = {letter: string; tags: TagsListItem[]};
 
-function getTagLetter(tag: string): string {
-  // add feature of grouping chinese tag into alphabet
-  const pinyin: {[key: string]: string} = pinyin_;
-  const key = Object.keys(pinyin).find((k) => k === tag[0]);
-  return (key ? pinyin[key]![0] : tag[0])!.toUpperCase();
+/**
+ *
+ * @param tag: the tag of blog
+ * @param lang: the potential parameter for accepting lang info from upper-level config
+ */
+function getTagLetter(tag: string, lang = 'zh'): string {
+  let tagNormed: string;
+  switch (lang) {
+    case 'zh':
+      tagNormed = ChineseWord2Pinyin(tag).join('');
+      break;
+    default:
+      tagNormed = tag;
+      break;
+  }
+  return tagNormed[0]!.toUpperCase();
 }
 
 /**

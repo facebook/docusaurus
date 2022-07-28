@@ -32,8 +32,8 @@
     "*.docx",
     "versioned_docs",
     "*.min.*",
-    "packages/docusaurus-theme-common/src/utils/pinyin/dict.ts",
-    "packages/docusaurus-theme-common/src/utils/pinyin/pinyin.json"
+    "packages/docusaurus-theme-common/src/utils/pinyin/src/genMap/dict.ts",
+    "packages/docusaurus-theme-common/src/utils/pinyin/data/pinyin.json"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }
