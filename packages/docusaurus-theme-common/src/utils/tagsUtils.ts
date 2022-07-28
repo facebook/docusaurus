@@ -6,7 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import {ChineseWord2Pinyin} from './pinyin/src/index';
+import type {CharMap} from '@docusaurus/types/src/i18n';
 import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
@@ -18,22 +18,13 @@ export const translateTagsPageTitle = (): string =>
 
 export type TagLetterEntry = {letter: string; tags: TagsListItem[]};
 
-/**
- *
- * @param tag: the tag of blog
- * @param lang: the potential parameter for accepting lang info from upper-level config
- */
-function getTagLetter(tag: string, lang = 'zh'): string {
-  let tagNormed: string;
-  switch (lang) {
-    case 'zh':
-      tagNormed = ChineseWord2Pinyin(tag).join('');
-      break;
-    default:
-      tagNormed = tag;
-      break;
-  }
-  return tagNormed[0]!.toUpperCase();
+function getTagLetter(tag: string, charMap: CharMap | undefined): string {
+  /**
+   * tag[0] to get the first char, e.g. `开` in `开发笔记`
+   * and then get its pinyin of `kai` from charMap
+   * finally got the first alphabet of `k`
+   */
+  return (charMap?.[tag[0]!] || tag)[0]!.toUpperCase();
 }
 
 /**
@@ -42,10 +33,11 @@ function getTagLetter(tag: string, lang = 'zh'): string {
  */
 export function listTagsByLetters(
   tags: readonly TagsListItem[],
+  charMap: CharMap | undefined,
 ): TagLetterEntry[] {
   const groups: {[initial: string]: TagsListItem[]} = {};
   Object.values(tags).forEach((tag) => {
-    const initial = getTagLetter(tag.label);
+    const initial = getTagLetter(tag.label, charMap);
     groups[initial] ??= [];
     groups[initial]!.push(tag);
   });

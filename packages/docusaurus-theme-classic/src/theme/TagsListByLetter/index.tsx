@@ -6,7 +6,9 @@
  */
 
 import React from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
+import {type CharMap} from '@docusaurus/types/src/i18n';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
 
@@ -29,7 +31,11 @@ function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
 }
 
 export default function TagsListByLetter({tags}: Props): JSX.Element {
-  const letterList = listTagsByLetters(tags);
+  const {
+    i18n: {localeConfigs, currentLocale},
+  } = useDocusaurusContext();
+  const charMap: CharMap | undefined = localeConfigs[currentLocale]?.charMap;
+  const letterList: TagLetterEntry[] = listTagsByLetters(tags, charMap);
   return (
     <section className="margin-vert--lg">
       {letterList.map((letterEntry) => (

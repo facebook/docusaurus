@@ -27,6 +27,7 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
     // If the locale name includes -u-ca-xxx the calendar will be defined
     calendar: new Intl.Locale(locale).calendar ?? 'gregory',
     path: locale,
+    charMap: {},
   };
 }
 

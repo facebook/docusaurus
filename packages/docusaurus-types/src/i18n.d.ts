@@ -7,6 +7,8 @@
 
 import type {DeepRequired} from 'utility-types';
 
+export type CharMap = {[char: string]: string};
+
 export type I18nLocaleConfig = {
   /** The label displayed for this locale in the locales dropdown. */
   label: string;
@@ -31,6 +33,10 @@ export type I18nLocaleConfig = {
    * name.
    */
   path: string;
+  /**
+   * character map for English (e.g. Chinese pinyin using English)
+   */
+  charMap: CharMap;
 };
 
 export type I18nConfig = {
