@@ -8,7 +8,7 @@
 .tweetQuote {
   padding: 0;
   margin: 3rem 1rem;
-  --ifm-link-color: var(--ifm-color-emphasis-700);
+  --ifm-link-color: var(--ifm-color-emphasis-900);
   --ifm-link-hover-color: var(--ifm-color-emphasis-900);
 }
 
