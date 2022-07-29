@@ -16,9 +16,9 @@ import globby from 'globby';
 
 const imgDir = 'website/blog/2022-08-01-announcing-docusaurus-2.0/img';
 
-const imgWidth = 1000;
+const imgWidth = 1200;
 
-const allImages = (await globby(`${imgDir  }/**`)).filter((file) =>
+const allImages = (await globby(`${imgDir}/**`)).filter((file) =>
   ['.png', 'jpg', '.jpeg'].includes(path.extname(file)),
 );
 
@@ -40,7 +40,10 @@ await Promise.all(
       return;
     }
     logger.info`Resized path=${imgPath}: Before number=${width}×number=${height}`;
-    const data = await sharp(imgPath).resize(imgWidth).png().toBuffer();
+    const data = await sharp(imgPath)
+      .resize(imgWidth)
+      .png({quality: 100})
+      .toBuffer();
     await fs.writeFile(imgPath.replace(/jpe?g/, 'png'), data);
     stats.resized += 1;
   }),
