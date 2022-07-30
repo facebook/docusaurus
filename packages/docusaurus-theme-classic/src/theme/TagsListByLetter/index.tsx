@@ -10,8 +10,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
-import styles from './styles.module.css';
 import type {CharMap} from '@docusaurus/types';
+
+import styles from './styles.module.css';
 
 function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
