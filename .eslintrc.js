@@ -263,8 +263,19 @@ module.exports = {
           {pattern: '@site/**', group: 'internal'},
           {pattern: '@theme-init/**', group: 'internal'},
           {pattern: '@theme-original/**', group: 'internal'},
+          // always put css import to the last
+          // see more: https://github.com/import-js/eslint-plugin-import/issues/1239
+          {
+            pattern: '*.+(css|sass|less|scss|pcss|styl)',
+            group: 'unknown',
+            patternOptions: {matchBase: true},
+            position: 'after',
+          },
         ],
         pathGroupsExcludedImportTypes: [],
+        // it's even better for understanding import layers at first glance
+        // see more: https://github.com/import-js/eslint-plugin-import/blob/v2.26.0/docs/rules/order.md#newlines-between-ignorealwaysalways-and-inside-groupsnever
+        //  {"newlines-between": "always-and-inside-groups"}
       },
     ],
     'import/prefer-default-export': OFF,
