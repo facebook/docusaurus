@@ -33,6 +33,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'fr',
       calendar: 'gregory',
       path: 'fr',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
       label: 'Français (France)',
@@ -40,6 +41,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'fr-FR',
       calendar: 'gregory',
       path: 'fr-FR',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
       label: 'English',
@@ -47,6 +49,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'en',
       calendar: 'gregory',
       path: 'en',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: 'American English',
@@ -54,6 +57,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'en-US',
       calendar: 'gregory',
       path: 'en-US',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
       label: '中文',
@@ -61,6 +65,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'zh',
       calendar: 'gregory',
       path: 'zh',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
       label: '中文（中国）',
@@ -68,6 +73,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'zh-CN',
       calendar: 'gregory',
       path: 'zh-CN',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: 'American English',
@@ -75,6 +81,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'en-US',
       calendar: 'gregory',
       path: 'en-US',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
       // cSpell:ignore فارسی
@@ -83,6 +90,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'fa',
       calendar: 'gregory',
       path: 'fa',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
       // cSpell:ignore ایران فارسیا
@@ -91,6 +99,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'fa-IR',
       calendar: 'gregory',
       path: 'fa-IR',
+      charMap: {},
     });
     expect(getDefaultLocaleConfig('en-US-u-ca-buddhist')).toEqual({
       label: 'American English',
@@ -98,6 +107,7 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'en-US-u-ca-buddhist',
       calendar: 'buddhist',
       path: 'en-US-u-ca-buddhist',
+      charMap: {},
     });
   });
 });
@@ -163,8 +173,8 @@ describe('loadI18n', () => {
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {
-            fr: {label: 'Français'},
-            en: {},
+            fr: {label: 'Français', charMap: {}},
+            en: {charMap: {}},
           },
         },
         'de',
@@ -181,6 +191,7 @@ describe('loadI18n', () => {
           htmlLang: 'fr',
           calendar: 'gregory',
           path: 'fr',
+          charMap: {},
         },
         en: getDefaultLocaleConfig('en'),
         de: getDefaultLocaleConfig('de'),

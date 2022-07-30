@@ -259,7 +259,6 @@ module.exports = {
           // before `import styles from "styles.module.css"`, which is what we
           // always did. This should be removable once we stop using ambient
           // module declarations for theme aliases.
-          {pattern: '@docusaurus/**', group: 'internal'},
           {pattern: '@theme/**', group: 'internal'},
           {pattern: '@site/**', group: 'internal'},
           {pattern: '@theme-init/**', group: 'internal'},
