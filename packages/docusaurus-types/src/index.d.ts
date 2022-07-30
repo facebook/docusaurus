@@ -38,6 +38,7 @@ export {
   TranslationFileContent,
   TranslationMessage,
   TranslationFile,
+  CharMap,
 } from './i18n';
 
 export {

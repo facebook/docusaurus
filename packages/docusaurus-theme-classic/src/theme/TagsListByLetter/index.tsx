@@ -8,11 +8,10 @@
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
-import {type CharMap} from '@docusaurus/types/src/i18n';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
-
 import styles from './styles.module.css';
+import type {CharMap} from '@docusaurus/types';
 
 function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
