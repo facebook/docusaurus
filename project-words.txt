@@ -213,6 +213,7 @@ paraiso
 pathinfo
 pathnames
 pbcopy
+pcss
 peaceiris
 philpl
 photoshop
@@ -309,6 +310,7 @@ subsubsubfolder
 sucipto
 supabase
 svgr
+styl
 swizzlable
 teik
 templating

@@ -6,8 +6,9 @@
  */
 
 import nprogress from 'nprogress';
-import './nprogress.css';
 import type {ClientModule} from '@docusaurus/types';
+
+import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
