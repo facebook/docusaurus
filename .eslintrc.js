@@ -249,6 +249,14 @@ module.exports = {
           'type',
         ],
         pathGroups: [
+          // always put css import to the last, ref:
+          // https://github.com/import-js/eslint-plugin-import/issues/1239
+          {
+            pattern: '*.+(css|sass|less|scss|pcss|styl)',
+            group: 'unknown',
+            patternOptions: {matchBase: true},
+            position: 'after',
+          },
           {pattern: '@jest/globals', group: 'builtin', position: 'before'},
           {pattern: 'react', group: 'builtin', position: 'before'},
           {pattern: 'fs-extra', group: 'builtin'},
@@ -265,6 +273,10 @@ module.exports = {
           {pattern: '@theme-original/**', group: 'internal'},
         ],
         pathGroupsExcludedImportTypes: [],
+        // example: let `import './nprogress.css';` after importing others
+        // in `packages/docusaurus-theme-classic/src/nprogress.ts`
+        // see more: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#warnonunassignedimports-truefalse
+        warnOnUnassignedImports: true,
       },
     ],
     'import/prefer-default-export': OFF,

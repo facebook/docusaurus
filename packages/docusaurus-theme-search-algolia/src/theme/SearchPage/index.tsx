@@ -31,8 +31,9 @@ import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Translate, {translate} from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
 
-import styles from './styles.module.css';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
+
+import styles from './styles.module.css';
 
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {

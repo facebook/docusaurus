@@ -8,7 +8,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -23,6 +22,7 @@ import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
 
 import styles from './styles.module.css';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 function HeroBanner() {
   return (
