@@ -230,10 +230,10 @@ export function handleDuplicateRoutes(
   if (duplicatePaths.length > 0) {
     logger.report(
       onDuplicateRoutes,
-    )`Duplicate routes found!${duplicatePaths.map(
-      (duplicateRoute) =>
-        logger.interpolate`Attempting to create page at url=${duplicateRoute}, but a page already exists at this route.`,
-    )}
+    )`Duplicate routes found!${logger.interpolate`Attempting to create page at url=${duplicatePaths[0]!}, 
+        but ${duplicatePaths.length} page${
+      duplicatePaths.length > 0 ? 's' : ''
+    } already exists at this route.`}
 This could lead to non-deterministic routing behavior.`;
   }
 }
