@@ -12,16 +12,7 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: 'Missing copyright in the header comment',
 });
 
-type SecondaryOption =
-  | {header?: string}
-  // FIX: the SecondOption is potential to be undefined in the following files:
-  // - examples/facebook/src/pages/styles.module.css
-  // - examples/facebook/src/css/custom.css
-  // - packages/create-docusaurus/templates/facebook/src/css/custom.css
-  // - packages/create-docusaurus/templates/facebook/src/pages/styles.module.css
-  //
-  // And the file info can be derived from `result.opts.from`
-  | undefined;
+type SecondaryOption = {header?: string};
 
 const plugin = stylelint.createPlugin(
   ruleName,
@@ -47,12 +38,12 @@ const plugin = stylelint.createPlugin(
         root.first.source?.start?.column === 1
       ) {
         const {text} = root.first;
-        if (text === secondaryOption?.header) {
+        if (text === secondaryOption.header) {
           return;
         }
       }
       if (context.fix) {
-        root.first?.before(`/*${secondaryOption?.header}\n */`);
+        root.first?.before(`/*${secondaryOption.header!}\n */`);
         return;
       }
 
