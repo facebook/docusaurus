@@ -13,10 +13,11 @@ import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {usePrismTheme} from '@docusaurus/theme-common';
+
 import type {Props} from '@theme/Playground';
+import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
 import styles from './styles.module.css';
-import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
 function Header({children}: {children: React.ReactNode}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
