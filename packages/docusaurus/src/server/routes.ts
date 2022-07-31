@@ -232,7 +232,7 @@ export function handleDuplicateRoutes(
       onDuplicateRoutes,
     )`Duplicate routes found!${logger.interpolate`Attempting to create page at url=${duplicatePaths[0]!}, 
         but ${duplicatePaths.length} page${
-      duplicatePaths.length > 0 ? 's' : ''
+      duplicatePaths.length > 1 ? 's' : ''
     } already exists at this route.`}
 This could lead to non-deterministic routing behavior.`;
   }
