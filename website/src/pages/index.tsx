@@ -21,6 +21,8 @@ import Tweets, {type TweetItem} from '@site/src/data/tweets';
 import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
 
+import ProductHuntCard from '@site/src/components/ProductHuntCard';
+import HackerNewsIcon from '@site/src/components/HackerNewsIcon';
 import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
@@ -171,6 +173,15 @@ function VideoContainer() {
               webp
             />
           </div>
+          <div className="video-container">
+            <LiteYouTubeEmbed
+              id="T3S8GyFIXjo"
+              params="autoplay=1&autohide=1&showinfo=0&rel=0"
+              title="Explain Like I'm 5: Docusaurus"
+              poster="maxresdefault"
+              webp
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -229,6 +240,61 @@ function FeaturesContainer() {
   );
 }
 
+function TopBanner() {
+  /* TODO restore Ukraine banner after launch
+    <Translate
+        id="homepage.banner"
+        values={{
+          link: (
+            <Link to="https://opensource.facebook.com/support-ukraine">
+              <Translate id="homepage.banner.link">
+                Help Provide Humanitarian Aid to Ukraine
+              </Translate>
+            </Link>
+          ),
+        }}>
+        {'Support Ukraine 🇺🇦 {link}.'}
+      </Translate>
+   */
+  return (
+    <div className={styles.topBanner}>
+      <div className={styles.topBannerTitle}>
+        {'🎉\xa0'}
+        <Link
+          to="/blog/2022/08/01/announcing-docusaurus-2.0"
+          className={styles.topBannerTitleText}>
+          <Translate id="homepage.banner.launch.2.0">
+            {'Docusaurus\xa02.0 is\xa0out!️'}
+          </Translate>
+        </Link>
+        {'\xa0🥳'}
+      </div>
+      <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
+        <div style={{flex: 1, whiteSpace: 'nowrap'}}>
+          <div className={styles.topBannerDescription}>
+            We are on{' '}
+            <b>
+              <Link to="https://www.producthunt.com/">ProductHunt</Link> and{' '}
+              <Link to="https://news.ycombinator.com/">Hacker News</Link> today!
+            </b>
+          </div>
+        </div>
+        <div
+          style={{
+            flexGrow: 1,
+            flexShrink: 0,
+            padding: '0.5rem',
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+          <ProductHuntCard />
+          <HackerNewsIcon />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
@@ -237,23 +303,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout title={tagline} description={description}>
       <main>
-        <div>
-          <div className={styles.banner}>
-            <Translate
-              id="homepage.banner"
-              values={{
-                link: (
-                  <Link to="https://opensource.facebook.com/support-ukraine">
-                    <Translate id="homepage.banner.link">
-                      Help Provide Humanitarian Aid to Ukraine
-                    </Translate>
-                  </Link>
-                ),
-              }}>
-              {'Support Ukraine 🇺🇦 {link}.'}
-            </Translate>
-          </div>
-        </div>
+        <TopBanner />
         <HeroBanner />
         <MigrationAnnouncement />
         <div className={styles.section}>
