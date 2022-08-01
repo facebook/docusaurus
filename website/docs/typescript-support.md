@@ -55,7 +55,7 @@ function MyPlugin(context, options) {
 }
 
 // highlight-next-line
-/** @type {import('@docusaurus/types').Config} */
+/** @type {import('@docusaurus/types').DocusaurusConfig} */
 const config = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
