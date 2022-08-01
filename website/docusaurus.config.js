@@ -23,6 +23,8 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
 
 // This probably only makes sense for the alpha/beta/rc phase, temporary
 function getNextVersionName() {
+  return 'Canary';
+  /*
   const expectedPrefix = '2.0.0-rc.';
 
   const lastReleasedVersion = versions[0];
@@ -33,6 +35,8 @@ function getNextVersionName() {
   }
   const version = parseInt(lastReleasedVersion.replace(expectedPrefix, ''), 10);
   return `${expectedPrefix}${version + 1}`;
+
+   */
 }
 
 const allDocHomesPaths = [
@@ -86,7 +90,7 @@ const config = {
   ],
   i18n: {
     defaultLocale: 'en',
-     
+
     locales:
       isDeployPreview || isBranchDeploy
         ? // Deploy preview and branch deploys: keep them fast!
