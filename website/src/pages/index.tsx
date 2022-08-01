@@ -274,8 +274,14 @@ function TopBanner() {
           <div className={styles.topBannerDescription}>
             We are on{' '}
             <b>
-              <Link to="https://www.producthunt.com/">ProductHunt</Link> and{' '}
-              <Link to="https://news.ycombinator.com/">Hacker News</Link> today!
+              <Link to="https://www.producthunt.com/posts/docusaurus-2-0">
+                ProductHunt
+              </Link>{' '}
+              and{' '}
+              <Link to="https://news.ycombinator.com/item?id=32303052">
+                Hacker News
+              </Link>{' '}
+              today!
             </b>
           </div>
         </div>

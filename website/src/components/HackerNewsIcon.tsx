@@ -14,7 +14,7 @@ export default function HackerNewsIcon({
 }): JSX.Element {
   return (
     <a
-      href="https://news.ycombinator.com/"
+      href="https://news.ycombinator.com/item?id=32303052"
       target="_blank"
       rel="noreferrer"
       style={{display: 'block', width: size, height: size}}>
