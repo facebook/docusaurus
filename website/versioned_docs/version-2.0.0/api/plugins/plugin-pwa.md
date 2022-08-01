@@ -142,7 +142,7 @@ The [`standalone` strategy](https://petelepage.com/blog/2019/07/is-my-pwa-instal
 
 ### `injectManifestConfig` {#injectmanifestconfig}
 
-[Workbox options](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest) to pass to `workbox.injectManifest()`. This gives you control over which assets will be precached, and be available offline.
+[Workbox options](https://developer.chrome.com/docs/workbox/reference/workbox-build/#type-InjectManifestOptions) to pass to `workbox.injectManifest()`. This gives you control over which assets will be precached, and be available offline.
 
 - Type: `InjectManifestOptions`
 - Default: `{}`
