@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/logger",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0",
   "description": "An encapsulated logger for semantically formatting console messages.",
   "main": "./lib/index.js",
   "repository": {
