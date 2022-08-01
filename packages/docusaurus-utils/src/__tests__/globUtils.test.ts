@@ -113,4 +113,21 @@ describe('createAbsoluteFilePathMatcher', () => {
       `"createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=/bad/path/myDoc.md was not contained in any of the root folders: /_root/docs, /root/_docs/, /__test__/website/src"`,
     );
   });
+
+  it('matches paths with overlapping paths', () => {
+    const overlapMatcher = createAbsoluteFilePathMatcher(GlobExcludeDefault, [
+      '/root/docs',
+      '/root/versioned_docs/version-2.0.0',
+      '/root/versioned_docs/version-2.0.0-rc.1',
+    ]);
+    expect(
+      overlapMatcher('/root/versioned_docs/version-2.0.0-rc.1/_partial.mdx'),
+    ).toBe(true);
+    expect(
+      overlapMatcher('/root/versioned_docs/version-2.0.0/_partial.mdx'),
+    ).toBe(true);
+    expect(
+      overlapMatcher('/root/versioned_docs/version-2.0.0/no-partial.mdx'),
+    ).toBe(false);
+  });
 });

@@ -49,13 +49,52 @@
   max-width: 768px;
 }
 
-.banner {
-  font-weight: bold;
+.topBanner {
   font-size: 20px;
   padding: 20px;
-  max-width: 768px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topBannerTitle {
+  font-size: 54px;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .topBannerTitle {
+    font-size: 34px;
+  }
+}
+
+.topBannerTitleText {
+  background: linear-gradient(45deg, #399cff, #00c775 80%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.topBannerTitleText:hover {
+  border-bottom: solid 2px;
+}
+
+html[data-theme='dark'] .topBannerTitleText {
+  background: linear-gradient(45deg, #399cff, #00ff95 80%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.topBannerDescription {
+  font-size: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .topBannerDescription {
+    font-size: 16px;
+  }
 }
 
 .hero {
