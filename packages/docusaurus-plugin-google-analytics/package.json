@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-google-analytics",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.1",
   "description": "Global analytics (analytics.js) plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-rc.1",
-    "@docusaurus/types": "2.0.0-rc.1",
-    "@docusaurus/utils-validation": "2.0.0-rc.1",
+    "@docusaurus/core": "2.0.1",
+    "@docusaurus/types": "2.0.1",
+    "@docusaurus/utils-validation": "2.0.1",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
