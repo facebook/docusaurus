@@ -1,5 +1,15 @@
 # Docusaurus 2 Changelog
 
+#### :nail_care: Polish
+
+- `docusaurus`
+  - [#7781](https://github.com/facebook/docusaurus/pull/7781) refactor(core): log Docusaurus & Node version before exiting ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### Committers: 2
+
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 2.0.0-rc.1 (2022-07-14)
 
 #### :bug: Bug Fix
