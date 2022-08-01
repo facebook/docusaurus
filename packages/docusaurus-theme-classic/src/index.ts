@@ -9,6 +9,7 @@ import path from 'path';
 import {createRequire} from 'module';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import {generateScriptForSSR} from 'prism-react-renderer';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
@@ -107,7 +108,7 @@ export default function themeClassic(
   const {
     announcementBar,
     colorMode,
-    prism: {additionalLanguages},
+    prism: {additionalLanguages, theme, darkTheme},
   } = themeConfig;
   const {customCss} = options;
   const {direction} = localeConfigs[currentLocale]!;
@@ -197,6 +198,17 @@ export default function themeClassic(
 ${noFlashColorMode(colorMode)}
 ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
             `,
+          },
+          {
+            tagName: 'script',
+            innerHTML: generateScriptForSSR(
+              [theme, darkTheme],
+              `() => (
+                document.documentElement.getAttribute('data-theme') === 'dark'
+                ? ${darkTheme.id}
+                : ${theme.id}
+              )`,
+            ),
           },
         ],
       };
