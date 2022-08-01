@@ -205,8 +205,8 @@ ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
               [theme, darkTheme],
               `() => (
                 document.documentElement.getAttribute('data-theme') === 'dark'
-                ? ${darkTheme.id}
-                : ${theme.id}
+                ? '${darkTheme.id}'
+                : '${theme.id}'
               )`,
             ),
           },
