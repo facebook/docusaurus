@@ -69,11 +69,12 @@ export default function CodeBlockString({
           theme={prismTheme}
           code={code}
           language={(language ?? 'text') as Language}>
-          {({className, tokens, getLineProps, getTokenProps}) => (
+          {({className, tokens, getLineProps, getTokenProps, style}) => (
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
               ref={wordWrap.codeBlockRef}
+              style={style}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
               <code
                 className={clsx(
