@@ -9,7 +9,7 @@
 
 import path from 'path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
-import {addTrailingSlash} from './urlUtils';
+import {addTrailingPathSeparator} from './pathUtils';
 
 /** A re-export of the globby instance. */
 export {default as Globby} from 'globby';
@@ -69,7 +69,7 @@ export function createAbsoluteFilePathMatcher(
 
   function getRelativeFilePath(absoluteFilePath: string) {
     const rootFolder = rootFolders.find((folderPath) =>
-      absoluteFilePath.startsWith(addTrailingSlash(folderPath)),
+      absoluteFilePath.startsWith(addTrailingPathSeparator(folderPath)),
     );
     if (!rootFolder) {
       throw new Error(
