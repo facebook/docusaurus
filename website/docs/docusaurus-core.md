@@ -15,7 +15,6 @@ This component creates a [React error boundary](https://reactjs.org/docs/error-b
 Use it to wrap components that might throw, and display a fallback when that happens instead of crashing the whole app.
 
 ```jsx
-import React from 'react';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
 const SafeComponent = () => (
@@ -70,7 +69,6 @@ This reusable React component will manage all of your changes to the document he
 Usage Example:
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import Head from '@docusaurus/Head';
 
@@ -125,7 +123,6 @@ The component is a wrapper around react-router’s `<Link>` component that adds 
 External links also work, and automatically have these props: `target="_blank" rel="noopener noreferrer"`.
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import Link from '@docusaurus/Link';
 
@@ -164,7 +161,6 @@ Rendering a `<Redirect>` will navigate to a new location. The new location will 
 Example usage:
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import {Redirect} from '@docusaurus/router';
 
@@ -246,7 +242,6 @@ The placeholders will be replaced with the provided dynamic values and JSX eleme
 - `values`: object containing interpolation placeholder values
 
 ```jsx
-import React from 'react';
 import Link from '@docusaurus/Link';
 import Interpolate from '@docusaurus/Interpolate';
 
@@ -293,7 +288,6 @@ Apart from the `values` prop used for interpolation, it is **not possible to use
 #### Example {#example}
 
 ```jsx title="src/pages/index.js"
-import React from 'react';
 import Layout from '@theme/Layout';
 
 // highlight-start
@@ -377,7 +371,6 @@ type DocusaurusContext = {
 Usage example:
 
 ```jsx
-import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const MyComponent = () => {
@@ -416,7 +409,6 @@ The first client-side render output (in the browser) **must be exactly the same*
 Usage example:
 
 ```jsx
-import React from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
 const MyComponent = () => {
@@ -454,7 +446,6 @@ type BaseUrlOptions = {
 #### Example usage: {#example-usage}
 
 ```jsx
-import React from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const SomeImage = () => {
@@ -484,7 +475,6 @@ Sometimes `useBaseUrl` is not good enough. This hook return additional utils rel
 - `withBaseUrl`: useful if you need to add base URLs to multiple URLs at once.
 
 ```jsx
-import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 const Component = () => {
@@ -522,7 +512,6 @@ type GlobalData = Record<
 Usage example:
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import useGlobalData from '@docusaurus/useGlobalData';
 
@@ -560,7 +549,6 @@ function usePluginData(
 Usage example:
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import {usePluginData} from '@docusaurus/useGlobalData';
 
@@ -586,7 +574,6 @@ function useAllPluginInstancesData(
 Usage example:
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
 
@@ -653,7 +640,6 @@ function translate(
 #### Example {#example-2}
 
 ```jsx title="src/pages/index.js"
-import React from 'react';
 import Layout from '@theme/Layout';
 
 // highlight-next-line
