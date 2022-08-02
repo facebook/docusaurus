@@ -95,12 +95,13 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
-    title: 'Algolia Docsearch',
+    title: 'Algolia DocSearch',
     description:
       'The best search experience for docs, integrates in minutes, for free',
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
-    source: 'https://github.com/algolia/docsearch-website',
+    source:
+      'https://github.com/algolia/docsearch/tree/main/packages/website',
     tags: ['favorite', 'opensource', 'product'],
   },
   {
