@@ -33,7 +33,7 @@
     "tslib": "^2.4.0",
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",
-    "webpack": "^5.73.0"
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.21",
