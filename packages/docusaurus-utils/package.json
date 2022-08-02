@@ -32,7 +32,7 @@
     "shelljs": "^0.8.5",
     "tslib": "^2.4.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.73.0"
+    "webpack": "^5.74.0"
   },
   "engines": {
     "node": ">=16.14"

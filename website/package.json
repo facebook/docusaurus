@@ -54,20 +54,20 @@
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",
     "netlify-plugin-cache": "^1.0.3",
-    "pure-react-carousel": "^1.28.1",
+    "pure-react-carousel": "^1.29.0",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-lite-youtube-embed": "^2.2.2",
+    "react-lite-youtube-embed": "^2.3.1",
     "react-medium-image-zoom": "^4.4.3",
     "react-popper": "^2.3.0",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "swc-loader": "^0.2.3",
     "unist-util-visit": "^2.0.3",
-    "webpack": "^5.73.0",
-    "workbox-routing": "^6.5.3",
-    "workbox-strategies": "^6.5.3"
+    "webpack": "^5.74.0",
+    "workbox-routing": "^6.5.4",
+    "workbox-strategies": "^6.5.4"
   },
   "browserslist": {
     "production": [

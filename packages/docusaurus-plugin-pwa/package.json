@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.18.9",
-    "@babel/preset-env": "^7.18.9",
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
     "@docusaurus/core": "2.0.0-rc.1",
     "@docusaurus/theme-common": "2.0.0-rc.1",
     "@docusaurus/theme-translations": "2.0.0-rc.1",
@@ -30,14 +30,14 @@
     "@docusaurus/utils-validation": "2.0.0-rc.1",
     "babel-loader": "^8.2.5",
     "clsx": "^1.2.1",
-    "core-js": "^3.23.5",
+    "core-js": "^3.24.1",
     "terser-webpack-plugin": "^5.3.3",
     "tslib": "^2.4.0",
-    "webpack": "^5.73.0",
+    "webpack": "^5.74.0",
     "webpack-merge": "^5.8.0",
-    "workbox-build": "^6.5.3",
-    "workbox-precaching": "^6.5.3",
-    "workbox-window": "^6.5.3"
+    "workbox-build": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-window": "^6.5.4"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-rc.1",
