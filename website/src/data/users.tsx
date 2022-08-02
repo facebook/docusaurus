@@ -100,7 +100,8 @@ const Users: User[] = [
       'The best search experience for docs, integrates in minutes, for free',
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
-    source: 'https://github.com/algolia/docsearch',
+    source:
+      'https://github.com/algolia/docsearch/tree/main/packages/website',
     tags: ['favorite', 'opensource', 'product'],
   },
   {
