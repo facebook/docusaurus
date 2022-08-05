@@ -8,7 +8,7 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
-import BlogPostItemHeaderAuthor from '@theme/BlogPostItem/Header/Author';
+import ChangelogItemHeaderAuthor from '@theme/ChangelogItem/Header/Author';
 import IconExpand from '@theme/Icon/Expand';
 import type {Props} from '@theme/BlogPostItem/Header/Authors';
 
@@ -37,7 +37,7 @@ export default function BlogPostAuthors({
       )}>
       {filteredAuthors.map((author, idx) => (
         <div className={styles.imageOnlyAuthorCol} key={idx}>
-          <BlogPostItemHeaderAuthor
+          <ChangelogItemHeaderAuthor
             author={{
               ...author,
               // Handle author images using relative paths
