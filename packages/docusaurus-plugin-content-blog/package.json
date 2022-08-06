@@ -36,7 +36,6 @@
     "webpack": "^5.74.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.21",
     "escape-string-regexp": "^4.0.0"
   },
   "peerDependencies": {
