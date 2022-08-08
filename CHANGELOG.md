@@ -1,5 +1,17 @@
 # Docusaurus 2 Changelog
 
+## 2.0.1 (2022-08-01)
+
+Fix bad npm publish of 2.0.0
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
+## 2.0.0 (2022-08-01)
+
+Bad npm publish, please use 2.0.1
+
 #### :nail_care: Polish
 
 - `docusaurus`
