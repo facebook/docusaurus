@@ -220,3 +220,10 @@ div[class^='announcementBar_'] {
   padding: 0 var(--ifm-pre-padding);
   border-left: 3px solid #ff000080;
 }
+
+/* to fix algolia mobile search modal responsiveness issue */
+@media (max-width: 750px) {
+  .DocSearch-Container {
+    position: fixed !important;
+  }
+}
