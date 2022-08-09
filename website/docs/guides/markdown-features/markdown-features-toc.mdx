@@ -49,7 +49,7 @@ A special Markdown syntax lets you set an **explicit heading id**:
 
 :::tip
 
-Use the **[write-heading-ids](../../cli.md#docusaurus-write-heading-ids-sitedir)** CLI command to add explicit IDs to all your Markdown documents.
+Use the **[`write-heading-ids`](../../cli.md#docusaurus-write-heading-ids-sitedir)** CLI command to add explicit IDs to all your Markdown documents.
 
 :::
 
@@ -59,9 +59,46 @@ Generated heading IDs will be guaranteed to be unique on each page, but if you u
 
 :::
 
+## Table of contents heading level {#table-of-contents-heading-level}
+
+Each Markdown document displays a table of contents on the top-right corner. By default, this table only shows h2 and h3 headings, which should be sufficient for an overview of the page structure. In case you need to change the range of headings displayed, you can customize the minimum and maximum heading level — either per page or globally.
+
+To set the heading level for a particular page, use the `toc_min_heading_level` and `toc_max_heading_level` front matter.
+
+```md title="myDoc.md"
+---
+# Display h2 to h5 headings
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---
+```
+
+To set the heading level for _all_ pages, use the [`themeConfig.tableOfContents`](../../api/themes/theme-configuration.md#table-of-contents) option.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    tableOfContents: {
+      // highlight-start
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+      // highlight-end
+    },
+  },
+};
+```
+
+If you've set the options globally, you can still override them locally via front matter.
+
+:::note
+
+The `themeConfig` option would apply to all TOC on the site, including [inline TOC](#inline-table-of-contents), but front matter options only affect the top-right TOC. You need to use the `minHeadingLevel` and `maxHeadingLevel` props to customize each `<TOCInline />` component.
+
+:::
+
 ## Inline table of contents {#inline-table-of-contents}
 
-Each Markdown document displays a table of contents on the top-right corner. But it is also possible to display an inline table of contents directly inside a Markdown document, thanks to MDX.
+It is also possible to display an inline table of contents directly inside a Markdown document, thanks to MDX.
 
 The `toc` variable is available in any MDX document and contains all the headings of an MDX document. By default, only `h2` and `h3` headings are displayed in the TOC. You can change which heading levels are visible by setting `minHeadingLevel` or `maxHeadingLevel` for individual `TOCInline` components.
 
