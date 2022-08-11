@@ -34,6 +34,7 @@ export default function LocaleDropdownNavbarItem({
     })}`;
     return {
       label: localeConfigs[locale]!.label,
+      lang: localeConfigs[locale]!.htmlLang,
       to,
       target: '_self',
       autoAddBaseUrl: false,
