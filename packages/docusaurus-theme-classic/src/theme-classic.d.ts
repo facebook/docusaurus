@@ -51,6 +51,46 @@ declare module '@theme/Admonition' {
   export default function Admonition(props: Props): JSX.Element;
 }
 
+declare module '@theme/Admonition/Icon/Note' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconNote(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Tip' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconTip(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Caution' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Danger' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconDanger(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Info' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconInfo(props: Props): JSX.Element;
+}
+
 declare module '@theme/AnnouncementBar' {
   export default function AnnouncementBar(): JSX.Element | null;
 }
