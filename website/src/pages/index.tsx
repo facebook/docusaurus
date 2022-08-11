@@ -15,6 +15,7 @@ import useBaseUrl, {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
+import DocLink from '@theme/DocLink';
 
 import Tweet from '@site/src/components/Tweet';
 import Tweets, {type TweetItem} from '@site/src/data/tweets';
@@ -88,9 +89,9 @@ function MigrationAnnouncement() {
               </Link>
             ),
             migrationGuideLink: (
-              <Link to="/docs/migration">
+              <DocLink docId="migration/migration-overview" label="Test">
                 <Translate>v1 to v2 migration guide</Translate>
-              </Link>
+              </DocLink>
             ),
           }}>
           {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}.`}
