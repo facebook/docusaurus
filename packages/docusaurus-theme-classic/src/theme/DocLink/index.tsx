@@ -8,7 +8,7 @@
 import React from 'react';
 import {useLayoutDoc} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
-import type {Props} from '@theme/NavbarItem/DocNavbarItem';
+import type {Props} from '@theme/DocLink';
 
 export default function DocLink({
   docId,
@@ -24,11 +24,8 @@ export default function DocLink({
   }
 
   return (
-    <Link
-      exact
-      {...props}
-      // label={staticLabel ?? doc.id}
-      to={doc.path}
-    />
+    <Link exact {...props} to={doc.path}>
+      {staticLabel ?? doc.id}
+    </Link>
   );
 }
