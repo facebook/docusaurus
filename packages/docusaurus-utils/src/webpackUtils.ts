@@ -100,7 +100,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
      */
     media: () => ({
       use: [loaders.url({folder: 'medias'})],
-      test: /\.(?:mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
+      test: /\.(?:mp4|avi|mov|mkv|mpg|mpeg|vob|wmv|m4v|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
     }),
 
     svg: () => ({
