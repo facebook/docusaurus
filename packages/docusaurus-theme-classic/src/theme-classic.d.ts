@@ -363,6 +363,18 @@ declare module '@theme/DocItem/Footer' {
   export default function DocItemFooter(): JSX.Element;
 }
 
+declare module '@theme/DocLink' {
+  import type {Props as LinkProps} from '@docusaurus/Link';
+
+  export interface Props extends LinkProps {
+    readonly docId: string;
+    readonly label: string;
+    readonly docsPluginId?: string;
+  }
+
+  export default function DocLink(props: Props): JSX.Element | null;
+}
+
 declare module '@theme/DocPage/Layout' {
   import type {ReactNode} from 'react';
 
