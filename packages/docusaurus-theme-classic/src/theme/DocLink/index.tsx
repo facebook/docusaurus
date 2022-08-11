@@ -18,14 +18,14 @@ export default function DocLink({
 }: Props): JSX.Element | null {
   const doc = useLayoutDoc(docId, docsPluginId);
 
-  // Draft items are not displayed in the navbar.
+  // Will error out if the doc doesn't exist
   if (doc === null) {
     return null;
   }
 
   return (
     <Link exact {...props} to={doc.path}>
-      {children ?? doc.id}
+      {children ?? doc.title}
     </Link>
   );
 }
