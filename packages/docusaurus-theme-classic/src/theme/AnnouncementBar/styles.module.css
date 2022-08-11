@@ -29,26 +29,16 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
 .announcementBarClose {
   flex: 0 0 30px;
   align-self: stretch;
-  padding: 0;
-  line-height: 0;
 }
 
 .announcementBarContent {
   flex: 1 1 auto;
-  font-size: 85%;
-  text-align: center;
-  padding: 5px 0;
 }
 
 @media print {
   .announcementBar {
     display: none;
   }
-}
-
-.announcementBarContent a {
-  color: inherit;
-  text-decoration: underline;
 }
 
 @media (min-width: 997px) {
