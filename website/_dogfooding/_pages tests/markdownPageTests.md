@@ -239,3 +239,9 @@ Can be arbitrarily nested:
 Admonition body
 
 :::
+
+:::important
+
+Admonition alias `:::important` should have Important title
+
+:::

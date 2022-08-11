@@ -12,6 +12,14 @@ import type {SwizzleConfig} from '@docusaurus/types';
 export default function getSwizzleConfig(): SwizzleConfig {
   return {
     components: {
+      'Admonition/Types': {
+        actions: {
+          eject: 'unsafe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The admonition types configurations. Can be ejected to add custom admonition types.',
+      },
       CodeBlock: {
         actions: {
           eject: 'safe',

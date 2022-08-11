@@ -52,6 +52,23 @@ declare module '@theme/Admonition' {
   export default function Admonition(props: Props): JSX.Element;
 }
 
+declare module '@theme/Admonition/Types' {
+  import type {ComponentType, ReactNode} from 'react';
+
+  export type AdmonitionTypeConfig = {
+    className: string;
+    iconComponent: ComponentType;
+    label: ReactNode;
+  };
+
+  type AdmonitionTypesObject = {
+    [admonitionType: string]: AdmonitionTypeConfig;
+  };
+
+  const AdmonitionTypes: AdmonitionTypesObject;
+  export default AdmonitionTypes;
+}
+
 declare module '@theme/Admonition/Layout' {
   import type {ReactNode} from 'react';
 
