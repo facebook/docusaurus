@@ -89,7 +89,7 @@ function MigrationAnnouncement() {
               </Link>
             ),
             migrationGuideLink: (
-              <DocLink docId="migration/migration-overview" label="Test">
+              <DocLink docId="migration/migration-overview">
                 <Translate>v1 to v2 migration guide</Translate>
               </DocLink>
             ),

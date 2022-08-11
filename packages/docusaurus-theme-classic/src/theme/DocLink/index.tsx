@@ -12,8 +12,8 @@ import type {Props} from '@theme/DocLink';
 
 export default function DocLink({
   docId,
-  label: staticLabel,
   docsPluginId,
+  children,
   ...props
 }: Props): JSX.Element | null {
   const doc = useLayoutDoc(docId, docsPluginId);
@@ -25,7 +25,7 @@ export default function DocLink({
 
   return (
     <Link exact {...props} to={doc.path}>
-      {staticLabel ?? doc.id}
+      {children ?? doc.id}
     </Link>
   );
 }

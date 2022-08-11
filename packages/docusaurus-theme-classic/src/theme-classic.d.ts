@@ -40,7 +40,7 @@ declare module '@docusaurus/theme-classic' {
 }
 
 declare module '@theme/Admonition' {
-  import type {ReactNode} from 'react';
+  import type {ReactNode, ReactNode} from 'react';
 
   export interface Props {
     readonly children: ReactNode;
@@ -368,7 +368,7 @@ declare module '@theme/DocLink' {
 
   export interface Props extends LinkProps {
     readonly docId: string;
-    readonly label: string;
+    readonly children?: ReactNode;
     readonly docsPluginId?: string;
   }
 
