@@ -86,7 +86,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
      */
     images: () => ({
       use: [loaders.url({folder: 'images'})],
-      test: /\.(?:ico|jpe?g|png|gif|webp)(?:\?.*)?$/i,
+      test: /\.(?:ico|jpe?g|png|gif|webp|avif)(?:\?.*)?$/i,
     }),
 
     fonts: () => ({
