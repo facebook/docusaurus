@@ -7,30 +7,30 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
-import {
-  ThemeClassNames,
-  processAdmonitionProps,
-} from '@docusaurus/theme-common';
+import {processAdmonitionProps} from '@docusaurus/theme-common';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/Admonition';
+import AdmonitionLayout from '@theme/Admonition/Layout';
 import IconNote from '@theme/Admonition/Icon/Note';
 import IconTip from '@theme/Admonition/Icon/Tip';
 import IconInfo from '@theme/Admonition/Icon/Info';
 import IconCaution from '@theme/Admonition/Icon/Caution';
 import IconDanger from '@theme/Admonition/Icon/Danger';
 
-import styles from './styles.module.css';
+function getInfimaClassName(suffix: string) {
+  return `alert alert--${suffix}`;
+}
 
 type AdmonitionConfig = {
+  className: string;
   iconComponent: React.ComponentType;
-  infimaClassName: string;
   label: ReactNode;
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
   note: {
-    infimaClassName: 'secondary',
+    className: getInfimaClassName('secondary'),
     iconComponent: IconNote,
     label: (
       <Translate
@@ -41,7 +41,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
     ),
   },
   tip: {
-    infimaClassName: 'success',
+    className: getInfimaClassName('success'),
     iconComponent: IconTip,
     label: (
       <Translate
@@ -52,7 +52,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
     ),
   },
   danger: {
-    infimaClassName: 'danger',
+    className: getInfimaClassName('danger'),
     iconComponent: IconDanger,
     label: (
       <Translate
@@ -63,7 +63,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
     ),
   },
   info: {
-    infimaClassName: 'info',
+    className: getInfimaClassName('info'),
     iconComponent: IconInfo,
     label: (
       <Translate
@@ -74,7 +74,7 @@ const AdmonitionConfigs: Record<Props['type'], AdmonitionConfig> = {
     ),
   },
   caution: {
-    infimaClassName: 'warning',
+    className: getInfimaClassName('warning'),
     iconComponent: IconCaution,
     label: (
       <Translate
@@ -91,6 +91,8 @@ const aliases = {
   secondary: 'note',
   important: 'info',
   success: 'tip',
+  // TODO warning => danger: weird unconventional mapping...
+  // breaking change required, in another PR
   warning: 'danger',
 } as const;
 
@@ -107,27 +109,17 @@ function getAdmonitionConfig(unsafeType: string): AdmonitionConfig {
   return AdmonitionConfigs.info;
 }
 
-export default function Admonition(props: Props): JSX.Element {
-  const {children, type, title, icon: iconProp} = processAdmonitionProps(props);
-
-  const typeConfig = getAdmonitionConfig(type);
-  const titleLabel = title ?? typeConfig.label;
-  const {iconComponent: IconComponent} = typeConfig;
-  const icon = iconProp ?? <IconComponent />;
+export default function Admonition(unprocessedProps: Props): JSX.Element {
+  const props = processAdmonitionProps(unprocessedProps);
+  const admonitionConfig = getAdmonitionConfig(props.type);
+  const {iconComponent: IconComponent} = admonitionConfig;
   return (
-    <div
-      className={clsx(
-        ThemeClassNames.common.admonition,
-        ThemeClassNames.common.admonitionType(props.type),
-        'alert',
-        `alert--${typeConfig.infimaClassName}`,
-        styles.admonition,
-      )}>
-      <div className={styles.admonitionHeading}>
-        <span className={styles.admonitionIcon}>{icon}</span>
-        {titleLabel}
-      </div>
-      <div className={styles.admonitionContent}>{children}</div>
-    </div>
+    <AdmonitionLayout
+      type={props.type}
+      icon={props.icon ?? <IconComponent />}
+      title={props.title ?? admonitionConfig.label}
+      className={clsx(admonitionConfig.className, props.className)}>
+      {props.children}
+    </AdmonitionLayout>
   );
 }

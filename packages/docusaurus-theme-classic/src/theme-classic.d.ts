@@ -47,8 +47,22 @@ declare module '@theme/Admonition' {
     readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
+    readonly className?: string;
   }
   export default function Admonition(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: ReactNode;
+    readonly className?: string;
+  }
+  export default function AdmonitionLayout(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Icon/Note' {
