@@ -12,8 +12,7 @@ export type I18nLocaleConfig = {
   label: string;
   /**
    * BCP 47 language tag to use in:
-   * - `<html lang="...">`
-   * - `<li lang="...">`
+   * - `<html lang="...">` (or any other DOM tag name)
    * - `<link ... hreflang="...">`
    */
   htmlLang: string;
