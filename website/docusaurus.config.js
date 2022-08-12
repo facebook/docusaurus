@@ -402,7 +402,14 @@ const config = {
         ],
       },
       image: 'img/docusaurus-soc.png',
-      // metadata: [{name: 'twitter:card', content: 'summary'}],
+
+      // TODO remove, temporary test
+      metadata: [
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1.0, override=true',
+        },
+      ],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',

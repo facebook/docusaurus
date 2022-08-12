@@ -9,12 +9,6 @@ export default `
 <!DOCTYPE html>
 <html <%~ it.htmlAttributes %>>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="Docusaurus v<%= it.version %>">
-    <% if (it.noIndex) { %>
-      <meta name="robots" content="noindex, nofollow" />
-    <% } %>
     <%~ it.headTags %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
