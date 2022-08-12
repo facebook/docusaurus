@@ -9,10 +9,10 @@ export default `
 <!DOCTYPE html>
 <html <%~ it.htmlAttributes %>>
   <head>
-    <%~ it.headTags %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
     <% }); %>
+    <%~ it.headTags %>
     <% it.stylesheets.forEach((stylesheet) => { %>
       <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
