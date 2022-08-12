@@ -71,10 +71,27 @@ const sidebars = {
       ],
     },
     {
-      type: 'link',
-      label: 'External link',
-      href: 'https://github.com/facebook/docusaurus',
+      type: 'category',
+      label: 'Link tests',
       className: 'red',
+      items: [
+        {
+          type: 'link',
+          label: 'External link absolute',
+          href: 'https://github.com/facebook/docusaurus',
+        },
+        {
+          type: 'link',
+          label: 'pathname:/// link',
+          href: 'pathname:///some/local/path',
+        },
+        {
+          type: 'link',
+          label: 'pathname:/// link (no baseUrl)',
+          href: 'pathname:///some/local/path',
+          autoAddBaseUrl: false,
+        },
+      ],
     },
     {
       type: 'category',
