@@ -190,8 +190,8 @@ export async function start(
       },
       webSocketURL: {
         hostname: "0.0.0.0",
-        port: 0
-      }
+        port: 0,
+      },
     },
     headers: {
       'access-control-allow-origin': '*',
