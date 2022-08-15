@@ -7,8 +7,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Cabin X Design',
-  tagline: '设计助力企业提高经营效率，改善消费者体验',
-  url: 'https://test.dmall.design',
+  tagline: '设计助力企业提高经营效率，改善消费者体验', 
+  url: 'http://doc.dmall.design',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
