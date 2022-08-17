@@ -360,7 +360,8 @@ const config = {
             }
           : undefined,
         sitemap: {
-          ignorePatterns: ['/tests/**'],
+          // Note: /tests/docs already has noIndex: true
+          ignorePatterns: ['/tests/{blog,pages}/**'],
         },
       }),
     ],
