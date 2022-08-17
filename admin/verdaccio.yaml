@@ -21,6 +21,10 @@ uplinks:
   npmjs:
     url: https://registry.npmjs.org/
 packages:
+  '@docusaurus/react-loadable':
+    access: $all
+    publish: $all
+    proxy: npmjs  
   '@docusaurus/*':
     access: $all
     publish: $all
