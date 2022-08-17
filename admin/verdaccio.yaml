@@ -13,11 +13,21 @@
 
 storage: ../storage
 
+publish:
+  allow_offline: false
+
 # A list of other known repositories we can talk to
 uplinks:
   npmjs:
     url: https://registry.npmjs.org/
 packages:
+  '@docusaurus/*':
+    access: $all
+    publish: $all
+  '@*/*':
+      access: $all
+      publish: $authenticated
+      proxy: npmjs    
   '**':
     # Allow all users (including non-authenticated users) to read and
     # publish all packages
