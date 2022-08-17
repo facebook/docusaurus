@@ -76,6 +76,7 @@ describe('normalizeDocsPluginOptions', () => {
         version1: {
           path: 'hello',
           label: 'world',
+          noIndex: true,
         },
       },
       sidebarCollapsible: false,
