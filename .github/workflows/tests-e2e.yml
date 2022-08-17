@@ -12,10 +12,9 @@ on:
       - packages/**
       - tsconfig.json
   pull_request:
-    # force E2E on PR for this PR (test)
-    # branches:
-    #   - main
-    #   - docusaurus-v**
+    branches:
+      - main
+      - docusaurus-v**
     paths:
       - package.json
       - yarn.lock
