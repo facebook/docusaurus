@@ -158,7 +158,10 @@ describe('createSitemap', () => {
           meta: {
             // @ts-expect-error: bad lib def
             toComponent: () => [
-              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+              React.createElement('meta', {
+                name: 'robots',
+                content: 'NoFolloW, NoiNDeX',
+              }),
             ],
           },
         },
