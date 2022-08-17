@@ -5,9 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {docuHash, createSlugger} from '@docusaurus/utils';
-import {toTagDocListProp, toVersionMetadataProp} from './props';
+import {
+  toTagDocListProp,
+  toTagsListTagsProp,
+  toVersionMetadataProp,
+} from './props';
 import {getVersionTags} from './tags';
 import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import type {FullVersion, VersionTag} from './types';
@@ -17,15 +22,15 @@ import type {
   PropTagsListPage,
 } from '@docusaurus/plugin-content-docs';
 
-async function createVersionCategoryGeneratedIndexRoutes({
+async function buildVersionCategoryGeneratedIndexRoutes({
   version,
   actions,
   options,
   aliasedSource,
-}: CreateVersionRoutesParam): Promise<RouteConfig[]> {
+}: BuildVersionRoutesParam): Promise<RouteConfig[]> {
   const slugs = createSlugger();
 
-  async function createCategoryGeneratedIndexRoute(
+  async function buildCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
     const {sidebar, ...prop} = categoryGeneratedIndex;
@@ -53,7 +58,7 @@ async function createVersionCategoryGeneratedIndexRoutes({
   }
 
   return Promise.all(
-    version.categoryGeneratedIndices.map(createCategoryGeneratedIndexRoute),
+    version.categoryGeneratedIndices.map(buildCategoryGeneratedIndexRoute),
   );
 }
 
@@ -61,7 +66,7 @@ async function createVersionDocRoutes({
   version,
   actions,
   options,
-}: CreateVersionRoutesParam): Promise<RouteConfig[]> {
+}: BuildVersionRoutesParam): Promise<RouteConfig[]> {
   return Promise.all(
     version.docs.map(async (metadataItem) => {
       await actions.createData(
@@ -91,32 +96,92 @@ async function createVersionDocRoutes({
   );
 }
 
-type CreateVersionRoutesParam = Omit<CreateAllRoutesParam, 'versions'> & {
+async function buildVersionTagsRoutes(
+  param: BuildVersionRoutesParam,
+): Promise<RouteConfig[]> {
+  const {version, options, actions, aliasedSource} = param;
+  const versionTags = getVersionTags(version.docs);
+
+  async function buildTagsListRoute(): Promise<RouteConfig | null> {
+    // Don't create a tags list page if there's no tag
+    if (Object.keys(versionTags).length === 0) {
+      return null;
+    }
+    const tagsProp: PropTagsListPage['tags'] = toTagsListTagsProp(versionTags);
+    const tagsPropPath = await actions.createData(
+      `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
+      JSON.stringify(tagsProp, null, 2),
+    );
+    return {
+      path: version.tagsPath,
+      exact: true,
+      component: options.docTagsListComponent,
+      modules: {
+        tags: aliasedSource(tagsPropPath),
+      },
+    };
+  }
+
+  async function buildTagDocListRoute(tag: VersionTag): Promise<RouteConfig> {
+    const tagProps = toTagDocListProp({
+      allTagsPath: version.tagsPath,
+      tag,
+      docs: version.docs,
+    });
+    const tagPropPath = await actions.createData(
+      `${docuHash(`tag-${tag.permalink}`)}.json`,
+      JSON.stringify(tagProps, null, 2),
+    );
+    return {
+      path: tag.permalink,
+      component: options.docTagDocListComponent,
+      exact: true,
+      modules: {
+        tag: aliasedSource(tagPropPath),
+      },
+    };
+  }
+
+  const [tagsListRoute, allTagsDocListRoutes] = await Promise.all([
+    buildTagsListRoute(),
+    Promise.all(Object.values(versionTags).map(buildTagDocListRoute)),
+  ]);
+
+  return _.compact([tagsListRoute, ...allTagsDocListRoutes]);
+}
+
+type BuildVersionRoutesParam = Omit<BuildAllRoutesParam, 'versions'> & {
   version: FullVersion;
 };
 
-async function createVersionRoutes(
-  param: CreateVersionRoutesParam,
-): Promise<void> {
+async function buildVersionRoutes(
+  param: BuildVersionRoutesParam,
+): Promise<RouteConfig> {
   const {version, actions, options, aliasedSource} = param;
-  async function doCreateVersionRoutes(): Promise<void> {
+
+  async function createVersionSubRoutes() {
+    const [docRoutes, categoryGeneratedIndexRoutes, tagsRoutes] =
+      await Promise.all([
+        createVersionDocRoutes(param),
+        buildVersionCategoryGeneratedIndexRoutes(param),
+        buildVersionTagsRoutes(param),
+      ]);
+
+    const routes = [
+      ...docRoutes,
+      ...categoryGeneratedIndexRoutes,
+      ...tagsRoutes,
+    ];
+    return routes.sort((a, b) => a.path.localeCompare(b.path));
+  }
+
+  async function doBuildVersionRoutes(): Promise<RouteConfig> {
     const versionMetadata = toVersionMetadataProp(options.id, version);
     const versionMetadataPropPath = await actions.createData(
       `${docuHash(`version-${version.versionName}-metadata-prop`)}.json`,
       JSON.stringify(versionMetadata, null, 2),
     );
-
-    async function createVersionSubRoutes() {
-      const [docRoutes, sidebarsRoutes] = await Promise.all([
-        createVersionDocRoutes(param),
-        createVersionCategoryGeneratedIndexRoutes(param),
-      ]);
-
-      const routes = [...docRoutes, ...sidebarsRoutes];
-      return routes.sort((a, b) => a.path.localeCompare(b.path));
-    }
-
-    actions.addRoute({
+    return {
       path: version.path,
       // Allow matching /docs/* since this is the wrapping route
       exact: false,
@@ -126,26 +191,56 @@ async function createVersionRoutes(
         versionMetadata: aliasedSource(versionMetadataPropPath),
       },
       priority: version.routePriority,
-    });
+    };
   }
 
   try {
-    return await doCreateVersionRoutes();
+    return doBuildVersionRoutes();
   } catch (err) {
     logger.error`Can't create version routes for version name=${version.versionName}`;
     throw err;
   }
 }
 
-async function createVersionsRoutes(param: CreateAllRoutesParam) {
-  await Promise.all(
+async function buildVersionsRoutes(
+  param: BuildAllRoutesParam,
+): Promise<RouteConfig[]> {
+  return Promise.all(
     param.versions.map((version) =>
-      createVersionRoutes({
+      buildVersionRoutes({
         ...param,
         version,
       }),
     ),
   );
+}
+
+type BuildAllRoutesParam = {
+  versions: FullVersion[];
+  options: PluginOptions;
+  actions: Omit<PluginContentLoadedActions, 'addRoute' | 'setGlobalData'>;
+  aliasedSource: (str: string) => string;
+};
+
+// TODO we want this build function to be easily testable
+// Ideally, we should avoid side effects here (ie not injecting actions)
+export async function buildAllRoutes(
+  param: BuildAllRoutesParam,
+): Promise<RouteConfig[]> {
+  const versionRoutes = Promise.all(
+    param.versions.map((version) =>
+      buildVersionRoutes({
+        ...param,
+        version,
+      }),
+    ),
+  );
+
+  // TODO do we want to wrap all versions under a single parent component?
+  // ie have a "root docs root" at the very top?
+  // could be convenient to register a global docs plugin provider?
+
+  return versionRoutes;
 }
 
 type CreateAllRoutesParam = {
@@ -158,66 +253,6 @@ type CreateAllRoutesParam = {
 export async function createAllRoutes(
   param: CreateAllRoutesParam,
 ): Promise<void> {
-  const {versions, options, actions, aliasedSource} = param;
-  const {addRoute, createData} = actions;
-
-  async function createVersionTagsRoutes(version: FullVersion) {
-    const versionTags = getVersionTags(version.docs);
-
-    // TODO tags should be a sub route of the version route
-    async function createTagsListPage() {
-      const tagsProp: PropTagsListPage['tags'] = Object.values(versionTags).map(
-        (tagValue) => ({
-          label: tagValue.label,
-          permalink: tagValue.permalink,
-          count: tagValue.docIds.length,
-        }),
-      );
-
-      // Only create /tags page if there are tags.
-      if (tagsProp.length > 0) {
-        const tagsPropPath = await createData(
-          `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
-          JSON.stringify(tagsProp, null, 2),
-        );
-        addRoute({
-          path: version.tagsPath,
-          exact: true,
-          component: options.docTagsListComponent,
-          modules: {
-            tags: aliasedSource(tagsPropPath),
-          },
-        });
-      }
-    }
-
-    // TODO tags should be a sub route of the version route
-    async function createTagDocListPage(tag: VersionTag) {
-      const tagProps = toTagDocListProp({
-        allTagsPath: version.tagsPath,
-        tag,
-        docs: version.docs,
-      });
-      const tagPropPath = await createData(
-        `${docuHash(`tag-${tag.permalink}`)}.json`,
-        JSON.stringify(tagProps, null, 2),
-      );
-      addRoute({
-        path: tag.permalink,
-        component: options.docTagDocListComponent,
-        exact: true,
-        modules: {
-          tag: aliasedSource(tagPropPath),
-        },
-      });
-    }
-
-    await createTagsListPage();
-    await Promise.all(Object.values(versionTags).map(createTagDocListPage));
-  }
-
-  await createVersionsRoutes(param);
-
-  // TODO tags should be a sub route of the version route
-  await Promise.all(versions.map(createVersionTagsRoutes));
+  const versionRoutes = await buildVersionsRoutes(param);
+  versionRoutes.forEach((versionRoute) => param.actions.addRoute(versionRoute));
 }

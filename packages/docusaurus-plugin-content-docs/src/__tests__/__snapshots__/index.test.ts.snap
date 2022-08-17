@@ -1243,38 +1243,6 @@ exports[`simple website content: global data 1`] = `
 exports[`simple website content: route config 1`] = `
 [
   {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/docs/tags",
-  },
-  {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": {
-      "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
-    },
-    "path": "/docs/tags/tag-1",
-  },
-  {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": {
-      "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
-    },
-    "path": "/docs/tags/tag-3",
-  },
-  {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": {
-      "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
-    },
-    "path": "/docs/tags/tag2-custom-permalink",
-  },
-  {
     "component": "@theme/DocPage",
     "exact": false,
     "modules": {
@@ -1443,6 +1411,38 @@ exports[`simple website content: route config 1`] = `
           "content": "@site/docs/slugs/relativeSlug.md",
         },
         "path": "/docs/slugs/relativeSlug",
+      },
+      {
+        "component": "@theme/DocTagsListPage",
+        "exact": true,
+        "modules": {
+          "tags": "~docs/tags-list-current-prop-15a.json",
+        },
+        "path": "/docs/tags",
+      },
+      {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": {
+          "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
+        },
+        "path": "/docs/tags/tag-1",
+      },
+      {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": {
+          "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
+        },
+        "path": "/docs/tags/tag-3",
+      },
+      {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": {
+          "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
+        },
+        "path": "/docs/tags/tag2-custom-permalink",
       },
       {
         "component": "@theme/DocItem",
@@ -3931,38 +3931,6 @@ exports[`versioned website content: global data 1`] = `
 exports[`versioned website content: route config 1`] = `
 [
   {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/docs/next/tags",
-  },
-  {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": {
-      "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
-    },
-    "path": "/docs/next/tags/bar-tag-1",
-  },
-  {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": {
-      "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
-    },
-    "path": "/docs/next/tags/bar-tag-2",
-  },
-  {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": {
-      "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
-    },
-    "path": "/docs/next/tags/barTag-3-permalink",
-  },
-  {
     "component": "@theme/DocPage",
     "exact": false,
     "modules": {
@@ -4050,6 +4018,38 @@ exports[`versioned website content: route config 1`] = `
           "content": "@site/docs/slugs/relativeSlug.md",
         },
         "path": "/docs/next/slugs/relativeSlug",
+      },
+      {
+        "component": "@theme/DocTagsListPage",
+        "exact": true,
+        "modules": {
+          "tags": "~docs/tags-list-current-prop-15a.json",
+        },
+        "path": "/docs/next/tags",
+      },
+      {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": {
+          "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
+        },
+        "path": "/docs/next/tags/bar-tag-1",
+      },
+      {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": {
+          "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
+        },
+        "path": "/docs/next/tags/bar-tag-2",
+      },
+      {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": {
+          "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
+        },
+        "path": "/docs/next/tags/barTag-3-permalink",
       },
       {
         "component": "@theme/DocItem",
