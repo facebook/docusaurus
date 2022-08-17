@@ -21,17 +21,21 @@ uplinks:
   npmjs:
     url: https://registry.npmjs.org/
 packages:
+  # this package is hosted outside the monorepo
+  # https://github.com/slorber/react-loadable
+  # thus requires to be fetched from npmjs
   '@docusaurus/react-loadable':
     access: $all
     publish: $all
-    proxy: npmjs  
+    proxy: npmjs
+  # group and isolate all local packages, avoid being proxy from outside
   '@docusaurus/*':
     access: $all
     publish: $all
   '@*/*':
-      access: $all
-      publish: $authenticated
-      proxy: npmjs    
+    access: $all
+    publish: $authenticated
+    proxy: npmjs
   '**':
     # Allow all users (including non-authenticated users) to read and
     # publish all packages
