@@ -142,23 +142,25 @@ type CategoryIndexMatcher = (param: {
 #### `VersionsConfig` {#VersionsConfig}
 
 ```ts
-type VersionsConfig = {
-  [versionName: string]: {
-    /**
-     * The base path of the version, will be appended to `baseUrl` +
-     * `routeBasePath`.
-     */
-    path?: string;
-    /** The label of the version to be used in badges, dropdowns, etc. */
-    label?: string;
-    /** The banner to show at the top of a doc of that version. */
-    banner?: 'none' | 'unreleased' | 'unmaintained';
-    /** Show a badge with the version label at the top of each doc. */
-    badge?: boolean;
-    /** Add a custom class name to the <html> element of each doc */
-    className?: string;
-  };
+type VersionConfig = {
+  /**
+   * The base path of the version, will be appended to `baseUrl` +
+   * `routeBasePath`.
+   */
+  path?: string;
+  /** The label of the version to be used in badges, dropdowns, etc. */
+  label?: string;
+  /** The banner to show at the top of a doc of that version. */
+  banner?: 'none' | 'unreleased' | 'unmaintained';
+  /** Show a badge with the version label at the top of each doc. */
+  badge?: boolean;
+  /** Prevents search engines from indexing this version */
+  noIndex?: boolean;
+  /** Add a custom class name to the <html> element of each doc */
+  className?: string;
 };
+
+type VersionsConfig = {[versionName: string]: VersionConfig};
 ```
 
 ### Example configuration {#ex-config}
