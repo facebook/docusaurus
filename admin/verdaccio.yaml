@@ -13,6 +13,9 @@
 
 storage: ../storage
 
+## verdaccio does not allow to publish packages when the client is offline, to avoid
+## errors on publish it is disabled
+## https://verdaccio.org/docs/configuration#offline-publish
 publish:
   allow_offline: false
 
@@ -47,7 +50,7 @@ packages:
 
 # Log settings
 logs:
-  - {type: stdout, format: pretty, level: http}
+  - {type: stdout, format: json, level: warn}
 
 # Fix 413 errors in e2e CI
 max_body_size: 1000mb
