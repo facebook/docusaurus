@@ -207,6 +207,52 @@ describe('sortConfig', () => {
     expect(routes).toMatchSnapshot();
   });
 
+  it('sorts route config recursively', () => {
+    const routes: RouteConfig[] = [
+      {
+        path: '/docs',
+        component: '',
+        routes: [
+          {
+            path: '/docs/tags',
+            component: '',
+            exact: true,
+          },
+          {
+            path: '/docs',
+            component: '',
+            routes: [
+              {
+                path: '/docs/doc1',
+                component: '',
+                exact: true,
+              },
+              {
+                path: '/docs/doc2',
+                component: '',
+                exact: true,
+              },
+            ],
+          },
+          {
+            path: '/docs/tags/someTag',
+            component: '',
+            exact: true,
+          },
+        ],
+      },
+      {
+        path: '/some/page',
+        component: '',
+        exact: true,
+      },
+    ];
+
+    sortConfig(routes);
+
+    expect(routes).toMatchSnapshot();
+  });
+
   it('sorts route config given a baseURL', () => {
     const baseURL = '/latest/';
     const routes: RouteConfig[] = [
