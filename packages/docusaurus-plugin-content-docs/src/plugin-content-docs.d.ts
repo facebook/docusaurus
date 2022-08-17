@@ -198,8 +198,19 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       exclude: string[];
       /**
-       * Root layout component of each doc page. Provides the version data
-       * context, and is not unmounted when switching docs.
+       * Parent layout component of all versioned pages including:
+       * - docs pages with sidebars
+       * - tags pages
+       * Stays mounted when navigation between such pages.
+       * Provides the version data in context.
+       */
+      docVersionLayoutComponent: string;
+      /**
+       * Parent layout component of doc page with sidebars:
+       * - regular docs pages
+       * - category generated index pages
+       * Stays mounted when navigation between such pages.
+       * Provides the sidebar data in context.
        */
       docLayoutComponent: string;
       /** Main doc container, with TOC, pagination, etc. */
@@ -610,14 +621,23 @@ declare module '@theme/DocBreadcrumbs' {
   export default function DocBreadcrumbs(): JSX.Element;
 }
 
-declare module '@theme/DocPage' {
+declare module '@theme/DocVersionPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
   export interface Props extends Required<RouteConfigComponentProps, 'route'> {
-    readonly versionMetadata: PropVersionMetadata;
+    readonly version: PropVersionMetadata;
   }
+
+  export default function DocPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage' {
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
+
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
 
   export default function DocPage(props: Props): JSX.Element;
 }

@@ -294,10 +294,7 @@ Available doc ids are:
  * @returns The data of the relevant document at the current location, or `null`
  * if no document associated with the current location can be found.
  */
-export function useDocRouteMetadata({
-  route,
-  versionMetadata,
-}: DocPageProps): null | {
+export function useDocRouteMetadata({route}: DocPageProps): null | {
   /** The element that should be rendered at the current location. */
   docElement: JSX.Element;
   /**
@@ -309,6 +306,7 @@ export function useDocRouteMetadata({
   sidebarItems: PropSidebar | undefined;
 } {
   const location = useLocation();
+  const versionMetadata = useDocsVersion();
   const docRoutes = route.routes!;
   const currentDocRoute = docRoutes.find((docRoute) =>
     matchPath(location.pathname, docRoute),

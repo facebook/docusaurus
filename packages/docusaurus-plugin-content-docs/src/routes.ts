@@ -22,6 +22,12 @@ import type {
   PropTagsListPage,
 } from '@docusaurus/plugin-content-docs';
 
+function sortRoutes(routes: RouteConfig[]): RouteConfig[] {
+  const result = [...routes];
+  result.sort((a, b) => a.path.localeCompare(b.path));
+  return result;
+}
+
 async function buildVersionCategoryGeneratedIndexRoutes({
   version,
   actions,
@@ -62,7 +68,7 @@ async function buildVersionCategoryGeneratedIndexRoutes({
   );
 }
 
-async function createVersionDocRoutes({
+async function buildVersionDocRoutes({
   version,
   actions,
   options,
@@ -94,6 +100,21 @@ async function createVersionDocRoutes({
       return docRoute;
     }),
   );
+}
+
+async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
+  const [docRoutes, categoryGeneratedIndexRoutes] = await Promise.all([
+    buildVersionDocRoutes(param),
+    buildVersionCategoryGeneratedIndexRoutes(param),
+  ]);
+  const subRoutes = sortRoutes([...docRoutes, ...categoryGeneratedIndexRoutes]);
+  return {
+    path: param.version.path,
+    exact: false,
+    component: param.options.docLayoutComponent,
+    routes: subRoutes,
+    modules: {},
+  };
 }
 
 async function buildVersionTagsRoutes(
@@ -159,36 +180,29 @@ async function buildVersionRoutes(
 ): Promise<RouteConfig> {
   const {version, actions, options, aliasedSource} = param;
 
-  async function createVersionSubRoutes() {
-    const [docRoutes, categoryGeneratedIndexRoutes, tagsRoutes] =
-      await Promise.all([
-        createVersionDocRoutes(param),
-        buildVersionCategoryGeneratedIndexRoutes(param),
-        buildVersionTagsRoutes(param),
-      ]);
+  async function buildVersionSubRoutes() {
+    const [sidebarRoute, tagsRoutes] = await Promise.all([
+      buildVersionSidebarRoute(param),
+      buildVersionTagsRoutes(param),
+    ]);
 
-    const routes = [
-      ...docRoutes,
-      ...categoryGeneratedIndexRoutes,
-      ...tagsRoutes,
-    ];
-    return routes.sort((a, b) => a.path.localeCompare(b.path));
+    return [sidebarRoute, ...tagsRoutes];
   }
 
   async function doBuildVersionRoutes(): Promise<RouteConfig> {
-    const versionMetadata = toVersionMetadataProp(options.id, version);
-    const versionMetadataPropPath = await actions.createData(
+    const versionProp = toVersionMetadataProp(options.id, version);
+    const versionPropPath = await actions.createData(
       `${docuHash(`version-${version.versionName}-metadata-prop`)}.json`,
-      JSON.stringify(versionMetadata, null, 2),
+      JSON.stringify(versionProp, null, 2),
     );
+    const subRoutes = await buildVersionSubRoutes();
     return {
       path: version.path,
-      // Allow matching /docs/* since this is the wrapping route
       exact: false,
-      component: options.docLayoutComponent,
-      routes: await createVersionSubRoutes(),
+      component: options.docVersionLayoutComponent,
+      routes: subRoutes,
       modules: {
-        versionMetadata: aliasedSource(versionMetadataPropPath),
+        version: aliasedSource(versionPropPath),
       },
       priority: version.routePriority,
     };
