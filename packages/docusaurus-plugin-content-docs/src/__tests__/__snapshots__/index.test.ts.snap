@@ -1245,7 +1245,7 @@ exports[`simple website content: route config 1`] = `
   {
     "component": "@theme/DocsRoot",
     "exact": false,
-    "path": "docs",
+    "path": "/docs",
     "routes": [
       {
         "component": "@theme/DocVersionRoot",
@@ -1291,7 +1291,6 @@ exports[`simple website content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/docs",
             "routes": [
               {
@@ -2741,7 +2740,7 @@ exports[`versioned website (community) content: route config 1`] = `
   {
     "component": "@theme/DocsRoot",
     "exact": false,
-    "path": "community",
+    "path": "/community",
     "routes": [
       {
         "component": "@theme/DocVersionRoot",
@@ -2755,7 +2754,6 @@ exports[`versioned website (community) content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/community/next",
             "routes": [
               {
@@ -2783,7 +2781,6 @@ exports[`versioned website (community) content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/community",
             "routes": [
               {
@@ -3971,7 +3968,7 @@ exports[`versioned website content: route config 1`] = `
   {
     "component": "@theme/DocsRoot",
     "exact": false,
-    "path": "docs",
+    "path": "/docs",
     "routes": [
       {
         "component": "@theme/DocVersionRoot",
@@ -3985,7 +3982,6 @@ exports[`versioned website content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/docs/1.0.0",
             "routes": [
               {
@@ -4063,7 +4059,6 @@ exports[`versioned website content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/docs/next",
             "routes": [
               {
@@ -4132,7 +4127,6 @@ exports[`versioned website content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/docs/withSlugs",
             "routes": [
               {
@@ -4216,7 +4210,6 @@ exports[`versioned website content: route config 1`] = `
           {
             "component": "@theme/DocRoot",
             "exact": false,
-            "modules": {},
             "path": "/docs",
             "routes": [
               {

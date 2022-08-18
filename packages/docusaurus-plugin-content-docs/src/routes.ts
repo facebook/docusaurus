@@ -107,7 +107,6 @@ async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
     exact: false,
     component: param.options.docRootComponent,
     routes: subRoutes,
-    modules: {},
   };
 }
 
@@ -228,7 +227,8 @@ export async function buildAllRoutes(
     ),
   );
 
-  //
+  // all docs routes are wrapped under a single parent route, this ensures
+  // the theme layout never unmounts/remounts when navigating between versions
   return [
     {
       path: normalizeUrl([param.baseUrl, param.options.routeBasePath]),
