@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';
-import type {VersionTag} from './types';
+import type {VersionTag, VersionTags} from './types';
 import type {
   SidebarItemDoc,
   SidebarItem,
@@ -21,6 +21,7 @@ import type {
   PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
+  PropTagsListPage,
   PropSidebarItemLink,
   PropVersionDocs,
   DocMetadata,
@@ -180,4 +181,14 @@ export function toTagDocListProp({
     count: tag.docIds.length,
     items: toDocListProp(),
   };
+}
+
+export function toTagsListTagsProp(
+  versionTags: VersionTags,
+): PropTagsListPage['tags'] {
+  return Object.values(versionTags).map((tagValue) => ({
+    label: tagValue.label,
+    permalink: tagValue.permalink,
+    count: tagValue.docIds.length,
+  }));
 }

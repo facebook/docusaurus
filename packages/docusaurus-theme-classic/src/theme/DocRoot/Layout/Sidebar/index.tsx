@@ -11,8 +11,8 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 import {useDocsSidebar} from '@docusaurus/theme-common/internal';
 import {useLocation} from '@docusaurus/router';
 import DocSidebar from '@theme/DocSidebar';
-import ExpandButton from '@theme/DocPage/Layout/Sidebar/ExpandButton';
-import type {Props} from '@theme/DocPage/Layout/Sidebar';
+import ExpandButton from '@theme/DocRoot/Layout/Sidebar/ExpandButton';
+import type {Props} from '@theme/DocRoot/Layout/Sidebar';
 
 import styles from './styles.module.css';
 
@@ -28,7 +28,7 @@ function ResetOnSidebarChange({children}: {children: ReactNode}) {
   );
 }
 
-export default function DocPageLayoutSidebar({
+export default function DocRootLayoutSidebar({
   sidebar,
   hiddenSidebarContainer,
   setHiddenSidebarContainer,

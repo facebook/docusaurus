@@ -27,22 +27,18 @@ import {
   addDocNavigation,
   type DocEnv,
 } from './docs';
-import {readVersionsMetadata} from './versions';
+import {readVersionsMetadata, toFullVersion} from './versions';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
-import {toTagDocListProp} from './props';
-import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import {getVersionTags} from './tags';
-import {createVersionRoutes} from './routes';
+import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
 
 import type {
-  PropTagsListPage,
   PluginOptions,
   DocMetadataBase,
   VersionMetadata,
@@ -55,7 +51,6 @@ import type {
   SourceToPermalink,
   DocFile,
   DocsMarkdownOption,
-  VersionTag,
   FullVersion,
 } from './types';
 import type {RuleSetRule} from 'webpack';
@@ -209,102 +204,20 @@ export default async function pluginContentDocs(
     },
 
     async contentLoaded({content, actions}) {
-      const {loadedVersions} = content;
-      const {
-        docLayoutComponent,
-        docItemComponent,
-        docCategoryGeneratedIndexComponent,
-        breadcrumbs,
-      } = options;
-      const {addRoute, createData, setGlobalData} = actions;
-      const versions: FullVersion[] = loadedVersions.map((version) => {
-        const sidebarsUtils = createSidebarsUtils(version.sidebars);
-        return {
-          ...version,
-          sidebarsUtils,
-          categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
-            docs: version.docs,
-            sidebarsUtils,
-          }),
-        };
+      const versions: FullVersion[] = content.loadedVersions.map(toFullVersion);
+
+      await createAllRoutes({
+        baseUrl,
+        versions,
+        options,
+        actions,
+        aliasedSource,
       });
 
-      async function createVersionTagsRoutes(version: FullVersion) {
-        const versionTags = getVersionTags(version.docs);
-
-        // TODO tags should be a sub route of the version route
-        async function createTagsListPage() {
-          const tagsProp: PropTagsListPage['tags'] = Object.values(
-            versionTags,
-          ).map((tagValue) => ({
-            label: tagValue.label,
-            permalink: tagValue.permalink,
-            count: tagValue.docIds.length,
-          }));
-
-          // Only create /tags page if there are tags.
-          if (tagsProp.length > 0) {
-            const tagsPropPath = await createData(
-              `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
-              JSON.stringify(tagsProp, null, 2),
-            );
-            addRoute({
-              path: version.tagsPath,
-              exact: true,
-              component: options.docTagsListComponent,
-              modules: {
-                tags: aliasedSource(tagsPropPath),
-              },
-            });
-          }
-        }
-
-        // TODO tags should be a sub route of the version route
-        async function createTagDocListPage(tag: VersionTag) {
-          const tagProps = toTagDocListProp({
-            allTagsPath: version.tagsPath,
-            tag,
-            docs: version.docs,
-          });
-          const tagPropPath = await createData(
-            `${docuHash(`tag-${tag.permalink}`)}.json`,
-            JSON.stringify(tagProps, null, 2),
-          );
-          addRoute({
-            path: tag.permalink,
-            component: options.docTagDocListComponent,
-            exact: true,
-            modules: {
-              tag: aliasedSource(tagPropPath),
-            },
-          });
-        }
-
-        await createTagsListPage();
-        await Promise.all(Object.values(versionTags).map(createTagDocListPage));
-      }
-
-      await Promise.all(
-        versions.map((version) =>
-          createVersionRoutes({
-            version,
-            docItemComponent,
-            docLayoutComponent,
-            docCategoryGeneratedIndexComponent,
-            pluginId,
-            aliasedSource,
-            actions,
-          }),
-        ),
-      );
-
-      // TODO tags should be a sub route of the version route
-      await Promise.all(versions.map(createVersionTagsRoutes));
-
-      setGlobalData({
+      actions.setGlobalData({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
         versions: versions.map(toGlobalDataVersion),
-        breadcrumbs,
+        breadcrumbs: options.breadcrumbs,
       });
     },
 

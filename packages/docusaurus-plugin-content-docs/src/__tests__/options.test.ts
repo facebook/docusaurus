@@ -49,7 +49,9 @@ describe('normalizeDocsPluginOptions', () => {
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
       sidebarItemsGenerator: DefaultSidebarItemsGenerator,
       numberPrefixParser: DefaultNumberPrefixParser,
-      docLayoutComponent: '@theme/DocPage',
+      docsRootComponent: '@theme/DocsRoot',
+      docVersionRootComponent: '@theme/DocVersionRoot',
+      docRootComponent: '@theme/DocRoot',
       docItemComponent: '@theme/DocItem',
       docTagDocListComponent: '@theme/DocTagDocListPage',
       docTagsListComponent: '@theme/DocTagsListPage',

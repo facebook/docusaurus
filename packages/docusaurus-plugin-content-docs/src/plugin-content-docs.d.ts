@@ -198,10 +198,24 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       exclude: string[];
       /**
-       * Root layout component of each doc page. Provides the version data
-       * context, and is not unmounted when switching docs.
+       * Parent component of all the docs plugin pages (including all versions).
+       * Stays mounted when navigation between docs pages and versions.
        */
-      docLayoutComponent: string;
+      docsRootComponent: string;
+      /**
+       * Parent component of all docs pages of an individual version:
+       * - docs pages with sidebars
+       * - tags pages
+       * Stays mounted when navigation between pages of that specific version.
+       */
+      docVersionRootComponent: string;
+      /**
+       * Parent component of all docs pages with sidebars:
+       * - regular docs pages
+       * - category generated index pages
+       * Stays mounted when navigation between such pages.
+       */
+      docRootComponent: string;
       /** Main doc container, with TOC, pagination, etc. */
       docItemComponent: string;
       /** Root component of the "docs containing tag X" page. */
@@ -610,14 +624,32 @@ declare module '@theme/DocBreadcrumbs' {
   export default function DocBreadcrumbs(): JSX.Element;
 }
 
-declare module '@theme/DocPage' {
+declare module '@theme/DocsRoot' {
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
+
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
+
+  export default function DocsRoot(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionRoot' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
   export interface Props extends Required<RouteConfigComponentProps, 'route'> {
-    readonly versionMetadata: PropVersionMetadata;
+    readonly version: PropVersionMetadata;
   }
 
-  export default function DocPage(props: Props): JSX.Element;
+  export default function DocVersionRoot(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocRoot' {
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
+
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
+
+  export default function DocRoot(props: Props): JSX.Element;
 }

@@ -8,11 +8,11 @@
 import React from 'react';
 import {translate} from '@docusaurus/Translate';
 import IconArrow from '@theme/Icon/Arrow';
-import type {Props} from '@theme/DocPage/Layout/Sidebar/ExpandButton';
+import type {Props} from '@theme/DocRoot/Layout/Sidebar/ExpandButton';
 
 import styles from './styles.module.css';
 
-export default function DocPageLayoutSidebarExpandButton({
+export default function DocRootLayoutSidebarExpandButton({
   toggleSidebar,
 }: Props): JSX.Element {
   return (

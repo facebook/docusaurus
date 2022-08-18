@@ -14,12 +14,16 @@ import {
   getVersionMetadataPaths,
   readVersionNames,
 } from './files';
+import {createSidebarsUtils} from '../sidebars/utils';
+import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
+import type {FullVersion} from '../types';
+import type {LoadContext} from '@docusaurus/types';
 import type {
+  LoadedVersion,
   PluginOptions,
   VersionBanner,
   VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {LoadContext} from '@docusaurus/types';
 
 export type VersionContext = {
   /** The version name to get banner of. */
@@ -251,4 +255,16 @@ export async function readVersionsMetadata({
     ),
   );
   return versionsMetadata;
+}
+
+export function toFullVersion(version: LoadedVersion): FullVersion {
+  const sidebarsUtils = createSidebarsUtils(version.sidebars);
+  return {
+    ...version,
+    sidebarsUtils,
+    categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+      docs: version.docs,
+      sidebarsUtils,
+    }),
+  };
 }
