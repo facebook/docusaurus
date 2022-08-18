@@ -203,7 +203,7 @@ async function buildVersionRoutes(
   }
 
   try {
-    return doBuildVersionRoutes();
+    return await doBuildVersionRoutes();
   } catch (err) {
     logger.error`Can't create version routes for version name=${version.versionName}`;
     throw err;
