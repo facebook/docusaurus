@@ -662,6 +662,14 @@ declare module '@theme/Heading' {
   export default function Heading(props: Props): JSX.Element;
 }
 
+declare module '@theme/NotFound/Content' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function NotFoundContent(props: Props): JSX.Element;
+}
+
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 

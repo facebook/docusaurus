@@ -13,13 +13,15 @@ import {
   useDocRootMetadata,
 } from '@docusaurus/theme-common/internal';
 import DocRootLayout from '@theme/DocRoot/Layout';
-import NotFound from '@theme/NotFound';
+import NotFoundContent from '@theme/NotFound/Content';
 import type {Props} from '@theme/DocRoot';
 
 export default function DocRoot(props: Props): JSX.Element {
   const currentDocRouteMetadata = useDocRootMetadata(props);
   if (!currentDocRouteMetadata) {
-    return <NotFound />;
+    // We only render the not found content to avoid a double layout
+    // see https://github.com/facebook/docusaurus/pull/7966#pullrequestreview-1077276692
+    return <NotFoundContent />;
   }
   const {docElement, sidebarName, sidebarItems} = currentDocRouteMetadata;
   return (
