@@ -198,15 +198,15 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       exclude: string[];
       /**
-       * Parent component of all the docs plugin pages (all versions).
-       * Stays mounted when navigation between versions.
+       * Parent component of all the docs plugin pages (including all versions).
+       * Stays mounted when navigation between docs pages and versions.
        */
       docsRootComponent: string;
       /**
-       * Parent component of all versioned docs pages:
+       * Parent component of all docs pages of an individual version:
        * - docs pages with sidebars
        * - tags pages
-       * Stays mounted when navigation between such pages.
+       * Stays mounted when navigation between pages of that specific version.
        */
       docVersionRootComponent: string;
       /**
