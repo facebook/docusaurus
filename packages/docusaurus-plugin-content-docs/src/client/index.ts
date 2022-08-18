@@ -36,6 +36,7 @@ export type GlobalDoc = {
    * there won't be clashes.
    */
   id: string;
+  title: string;
   path: string;
   sidebar: string | undefined;
 };

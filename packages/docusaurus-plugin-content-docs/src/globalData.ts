@@ -22,6 +22,7 @@ import type {Sidebars} from './sidebars/types';
 function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
     id: doc.unversionedId,
+    title: doc.title,
     path: doc.permalink,
     sidebar: doc.sidebar,
   };
@@ -32,6 +33,7 @@ function toGlobalDataGeneratedIndex(
 ): GlobalDoc {
   return {
     id: doc.slug,
+    title: doc.title,
     path: doc.permalink,
     sidebar: doc.sidebar,
   };
