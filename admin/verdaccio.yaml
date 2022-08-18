@@ -13,9 +13,9 @@
 
 storage: ../storage
 
-## verdaccio does not allow to publish packages when the client is offline, to avoid
-## errors on publish it is disabled
-## https://verdaccio.org/docs/configuration#offline-publish
+# Verdaccio does not allow to publish packages when the client is offline, to avoid
+# errors on publish
+# https://verdaccio.org/docs/configuration#offline-publish
 publish:
   allow_offline: false
 
@@ -24,14 +24,12 @@ uplinks:
   npmjs:
     url: https://registry.npmjs.org/
 packages:
-  # this package is hosted outside the monorepo
-  # https://github.com/slorber/react-loadable
-  # thus requires to be fetched from npmjs
+  # Forked packages need to be fetched from npm
   '@docusaurus/react-loadable':
     access: $all
     publish: $all
     proxy: npmjs
-  # group and isolate all local packages, avoid being proxy from outside
+  # Group and isolate all local packages, avoid being proxy from outside
   '@docusaurus/*':
     access: $all
     publish: $all
