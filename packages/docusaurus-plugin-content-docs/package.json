@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "sideEffects": false,
   "exports": {
+    "./lib/*": "./lib/*",
     "./src/*": "./src/*",
     "./client": {
       "type": "./lib/client/index.d.ts",
