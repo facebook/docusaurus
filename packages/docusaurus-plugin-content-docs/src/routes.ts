@@ -22,12 +22,6 @@ import type {
   PropTagsListPage,
 } from '@docusaurus/plugin-content-docs';
 
-function sortRoutes(routes: RouteConfig[]): RouteConfig[] {
-  const result = [...routes];
-  result.sort((a, b) => a.path.localeCompare(b.path));
-  return result;
-}
-
 async function buildVersionCategoryGeneratedIndexRoutes({
   version,
   actions,
@@ -107,7 +101,7 @@ async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
     buildVersionDocRoutes(param),
     buildVersionCategoryGeneratedIndexRoutes(param),
   ]);
-  const subRoutes = sortRoutes([...docRoutes, ...categoryGeneratedIndexRoutes]);
+  const subRoutes = [...docRoutes, ...categoryGeneratedIndexRoutes];
   return {
     path: param.version.path,
     exact: false,
