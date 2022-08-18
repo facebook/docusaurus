@@ -18,7 +18,8 @@ import {createSidebarsUtils} from '../sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
 import type {FullVersion} from '../types';
 import type {LoadContext} from '@docusaurus/types';
-import type {LoadedVersion,
+import type {
+  LoadedVersion,
   PluginOptions,
   VersionBanner,
   VersionMetadata,
