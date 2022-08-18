@@ -198,19 +198,17 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       exclude: string[];
       /**
-       * Parent layout component of all versioned pages including:
+       * Parent layout component of all versioned docs pages:
        * - docs pages with sidebars
        * - tags pages
        * Stays mounted when navigation between such pages.
-       * Provides the version data in context.
        */
       docVersionLayoutComponent: string;
       /**
-       * Parent layout component of doc page with sidebars:
+       * Parent layout component of docs pages with sidebars:
        * - regular docs pages
        * - category generated index pages
        * Stays mounted when navigation between such pages.
-       * Provides the sidebar data in context.
        */
       docLayoutComponent: string;
       /** Main doc container, with TOC, pagination, etc. */
