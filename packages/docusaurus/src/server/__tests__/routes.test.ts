@@ -103,7 +103,7 @@ describe('handleDuplicateRoutes', () => {
 describe('loadRoutes', () => {
   it('loads nested route config', () => {
     const nestedRouteConfig: RouteConfig = {
-      component: '@theme/DocPage',
+      component: '@theme/DocRoot',
       path: '/docs:route',
       modules: {
         docsMetadata: 'docs-b5f.json',

@@ -10,14 +10,14 @@ import clsx from 'clsx';
 import {HtmlClassNameProvider, ThemeClassNames} from '@docusaurus/theme-common';
 import {
   DocsSidebarProvider,
-  useDocRouteMetadata,
+  useDocRootMetadata,
 } from '@docusaurus/theme-common/internal';
-import DocPageLayout from '@theme/DocPage/Layout';
+import DocRootLayout from '@theme/DocRoot/Layout';
 import NotFound from '@theme/NotFound';
-import type {Props} from '@theme/DocPage';
+import type {Props} from '@theme/DocRoot';
 
-export default function DocPage(props: Props): JSX.Element {
-  const currentDocRouteMetadata = useDocRouteMetadata(props);
+export default function DocRoot(props: Props): JSX.Element {
+  const currentDocRouteMetadata = useDocRootMetadata(props);
   if (!currentDocRouteMetadata) {
     return <NotFound />;
   }
@@ -25,7 +25,7 @@ export default function DocPage(props: Props): JSX.Element {
   return (
     <HtmlClassNameProvider className={clsx(ThemeClassNames.page.docsDocPage)}>
       <DocsSidebarProvider name={sidebarName} items={sidebarItems}>
-        <DocPageLayout>{docElement}</DocPageLayout>
+        <DocRootLayout>{docElement}</DocRootLayout>
       </DocsSidebarProvider>
     </HtmlClassNameProvider>
   );

@@ -6,23 +6,17 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
-import {
-  ThemeClassNames,
-  HtmlClassNameProvider,
-  PageMetadata,
-} from '@docusaurus/theme-common';
+import {HtmlClassNameProvider, PageMetadata} from '@docusaurus/theme-common';
 import {
   docVersionSearchTag,
   DocsVersionProvider,
 } from '@docusaurus/theme-common/internal';
 import renderRoutes from '@docusaurus/renderRoutes';
 import SearchMetadata from '@theme/SearchMetadata';
-import Layout from '@theme/Layout';
 
-import type {Props} from '@theme/DocVersionPage';
+import type {Props} from '@theme/DocVersionRoot';
 
-function DocVersionPageMetadata(props: Props): JSX.Element {
+function DocVersionRootMetadata(props: Props): JSX.Element {
   const {version} = props;
   return (
     <>
@@ -37,24 +31,21 @@ function DocVersionPageMetadata(props: Props): JSX.Element {
   );
 }
 
-function DocVersionPageContent(props: Props): JSX.Element {
+function DocVersionRootContent(props: Props): JSX.Element {
   const {version, route} = props;
   return (
-    <Layout>
-      <HtmlClassNameProvider
-        className={clsx(ThemeClassNames.wrapper.docsPages, version.className)}>
-        <DocsVersionProvider version={version}>
-          {renderRoutes(route.routes!)}
-        </DocsVersionProvider>
-      </HtmlClassNameProvider>
-    </Layout>
+    <HtmlClassNameProvider className={version.className}>
+      <DocsVersionProvider version={version}>
+        {renderRoutes(route.routes!)}
+      </DocsVersionProvider>
+    </HtmlClassNameProvider>
   );
 }
-export default function DocVersionPage(props: Props): JSX.Element {
+export default function DocVersionRoot(props: Props): JSX.Element {
   return (
     <>
-      <DocVersionPageMetadata {...props} />
-      <DocVersionPageContent {...props} />
+      <DocVersionRootMetadata {...props} />
+      <DocVersionRootContent {...props} />
     </>
   );
 }

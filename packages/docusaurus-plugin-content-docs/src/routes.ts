@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {docuHash, createSlugger} from '@docusaurus/utils';
+import {docuHash, createSlugger, normalizeUrl} from '@docusaurus/utils';
 import {
   toTagDocListProp,
   toTagsListTagsProp,
@@ -83,7 +83,7 @@ async function buildVersionDocRoutes({
         modules: {
           content: metadataItem.source,
         },
-        // Because the parent (DocPage) comp need to access it easily
+        // Because the parent (DocRoot) comp need to access it easily
         // This permits to render the sidebar once without unmount/remount when
         // navigating (and preserve sidebar state)
         ...(metadataItem.sidebar && {
@@ -105,7 +105,7 @@ async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
   return {
     path: param.version.path,
     exact: false,
-    component: param.options.docLayoutComponent,
+    component: param.options.docRootComponent,
     routes: subRoutes,
     modules: {},
   };
@@ -193,7 +193,7 @@ async function buildVersionRoutes(
     return {
       path: version.path,
       exact: false,
-      component: options.docVersionLayoutComponent,
+      component: options.docVersionRootComponent,
       routes: subRoutes,
       modules: {
         version: aliasedSource(versionPropPath),
@@ -210,32 +210,16 @@ async function buildVersionRoutes(
   }
 }
 
-async function buildVersionsRoutes(
-  param: BuildAllRoutesParam,
-): Promise<RouteConfig[]> {
-  return Promise.all(
-    param.versions.map((version) =>
-      buildVersionRoutes({
-        ...param,
-        version,
-      }),
-    ),
-  );
-}
-
-type BuildAllRoutesParam = {
-  versions: FullVersion[];
-  options: PluginOptions;
+type BuildAllRoutesParam = Omit<CreateAllRoutesParam, 'actions'> & {
   actions: Omit<PluginContentLoadedActions, 'addRoute' | 'setGlobalData'>;
-  aliasedSource: (str: string) => string;
 };
 
-// TODO we want this build function to be easily testable
+// TODO we want this buildAllRoutes function to be easily testable
 // Ideally, we should avoid side effects here (ie not injecting actions)
 export async function buildAllRoutes(
   param: BuildAllRoutesParam,
 ): Promise<RouteConfig[]> {
-  const versionRoutes = Promise.all(
+  const subRoutes = await Promise.all(
     param.versions.map((version) =>
       buildVersionRoutes({
         ...param,
@@ -244,14 +228,19 @@ export async function buildAllRoutes(
     ),
   );
 
-  // TODO do we want to wrap all versions under a single parent component?
-  // ie have a "root docs root" at the very top?
-  // could be convenient to register a global docs plugin provider?
-
-  return versionRoutes;
+  //
+  return [
+    {
+      path: normalizeUrl([param.baseUrl, param.options.routeBasePath]),
+      exact: false,
+      component: param.options.docsRootComponent,
+      routes: subRoutes,
+    },
+  ];
 }
 
 type CreateAllRoutesParam = {
+  baseUrl: string;
   versions: FullVersion[];
   options: PluginOptions;
   actions: PluginContentLoadedActions;
@@ -261,6 +250,6 @@ type CreateAllRoutesParam = {
 export async function createAllRoutes(
   param: CreateAllRoutesParam,
 ): Promise<void> {
-  const versionRoutes = await buildVersionsRoutes(param);
-  versionRoutes.forEach((versionRoute) => param.actions.addRoute(versionRoute));
+  const routes = await buildAllRoutes(param);
+  routes.forEach(param.actions.addRoute);
 }

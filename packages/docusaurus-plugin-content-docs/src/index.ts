@@ -207,6 +207,7 @@ export default async function pluginContentDocs(
       const versions: FullVersion[] = content.loadedVersions.map(toFullVersion);
 
       await createAllRoutes({
+        baseUrl,
         versions,
         options,
         actions,

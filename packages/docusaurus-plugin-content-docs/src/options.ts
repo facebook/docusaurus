@@ -30,8 +30,9 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   numberPrefixParser: DefaultNumberPrefixParser,
-  docVersionLayoutComponent: '@theme/DocVersionPage',
-  docLayoutComponent: '@theme/DocPage',
+  docsRootComponent: '@theme/DocsRoot',
+  docVersionRootComponent: '@theme/DocVersionRoot',
+  docRootComponent: '@theme/DocRoot',
   docItemComponent: '@theme/DocItem',
   docTagDocListComponent: '@theme/DocTagDocListPage',
   docTagsListComponent: '@theme/DocTagsListPage',
@@ -105,10 +106,11 @@ const OptionsSchema = Joi.object<PluginOptions>({
       }),
     )
     .default(() => DEFAULT_OPTIONS.numberPrefixParser),
-  docVersionLayoutComponent: Joi.string().default(
-    DEFAULT_OPTIONS.docVersionLayoutComponent,
+  docsRootComponent: Joi.string().default(DEFAULT_OPTIONS.docsRootComponent),
+  docVersionRootComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docVersionRootComponent,
   ),
-  docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
+  docRootComponent: Joi.string().default(DEFAULT_OPTIONS.docRootComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   docTagsListComponent: Joi.string().default(
     DEFAULT_OPTIONS.docTagsListComponent,
