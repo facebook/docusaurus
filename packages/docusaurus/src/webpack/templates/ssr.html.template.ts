@@ -9,6 +9,7 @@ export default `
 <!DOCTYPE html>
 <html <%~ it.htmlAttributes %>>
   <head>
+    <meta name="generator" content="Docusaurus v<%= it.version %>" data-rh="true">
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
     <% }); %>
