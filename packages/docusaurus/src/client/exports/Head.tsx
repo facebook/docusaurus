@@ -10,5 +10,5 @@ import {Helmet} from 'react-helmet-async';
 import type {Props} from '@docusaurus/Head';
 
 export default function Head(props: Props): JSX.Element {
-  return <Helmet prioritizeSeoTags {...props} />;
+  return <Helmet {...props} />;
 }
