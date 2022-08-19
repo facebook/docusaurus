@@ -50,6 +50,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [plugin-image-zoom](https://github.com/flexanalytics/plugin-image-zoom) - An Image Zoom plugin for Docusaurus 2
 - [docusaurus-plugin-typedoc](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/docusaurus-plugin-typedoc) - A Docusaurus 2 plugin to build documentation with [TypeDoc](https://typedoc.org/)
 - [docusaurus-openapi-docs](https://github.com/PaloAltoNetworks/docusaurus-openapi-docs) - A Docusaurus v2 plugin and theme for generating interactive OpenAPI docs
+- [docusaurus-post-generator](https://github.com/moojing/docusaurus-post-generator) - A command line tool for user to add a blog/doc file quickly by command like `yarn gen-post new [template] [post_name]`.
 
 ## Enterprise usage {#enterprise-usage}
 

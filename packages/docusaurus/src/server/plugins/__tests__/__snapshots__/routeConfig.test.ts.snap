@@ -103,3 +103,45 @@ exports[`sortConfig sorts route config given a baseURL 1`] = `
   },
 ]
 `;
+
+exports[`sortConfig sorts route config recursively 1`] = `
+[
+  {
+    "component": "",
+    "exact": true,
+    "path": "/some/page",
+  },
+  {
+    "component": "",
+    "path": "/docs",
+    "routes": [
+      {
+        "component": "",
+        "exact": true,
+        "path": "/docs/tags",
+      },
+      {
+        "component": "",
+        "exact": true,
+        "path": "/docs/tags/someTag",
+      },
+      {
+        "component": "",
+        "path": "/docs",
+        "routes": [
+          {
+            "component": "",
+            "exact": true,
+            "path": "/docs/doc1",
+          },
+          {
+            "component": "",
+            "exact": true,
+            "path": "/docs/doc2",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;

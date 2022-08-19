@@ -73,7 +73,7 @@ export {
   useDocsVersionCandidates,
   useLayoutDoc,
   useLayoutDocsSidebar,
-  useDocRouteMetadata,
+  useDocRootMetadata,
 } from './utils/docsUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
