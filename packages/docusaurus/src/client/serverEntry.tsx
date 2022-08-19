@@ -103,7 +103,6 @@ async function doRender(locals: Locals & {path: string}) {
   const bodyAttributes = helmet.bodyAttributes.toString();
   const metaStrings = [
     helmet.title.toString(),
-    helmet.priority.toString(),
     helmet.meta.toString(),
     helmet.link.toString(),
     helmet.script.toString(),
