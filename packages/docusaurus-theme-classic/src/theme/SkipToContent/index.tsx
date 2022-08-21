@@ -14,7 +14,7 @@ import styles from './styles.module.css';
 export default function SkipToContent(): JSX.Element {
   const {containerRef, handleSkip} = useSkipToContent();
   return (
-    <div 
+    <div
       ref={containerRef}
       role="region"
       aria-label={translate({id: 'theme.common.skipToMainContent'})}>
