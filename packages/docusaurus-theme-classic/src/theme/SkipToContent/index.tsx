@@ -14,7 +14,11 @@ import styles from './styles.module.css';
 export default function SkipToContent(): JSX.Element {
   const {containerRef, handleSkip} = useSkipToContent();
   return (
-    <div ref={containerRef} role="region" aria-label="Skip to main content">
+    <div ref={containerRef} role="region" aria-label={<Translate
+          id="theme.common.skipToMainContentAriaLabel"
+          description="The skip to content aria label used for accessibility of the region div ">
+          Skip to main content
+        </Translate>}
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
