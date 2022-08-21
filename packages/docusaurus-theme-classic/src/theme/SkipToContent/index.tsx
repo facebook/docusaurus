@@ -17,11 +17,7 @@ export default function SkipToContent(): JSX.Element {
     <div 
       ref={containerRef}
       role="region"
-      aria-label={translate({
-        id: 'theme.common.skipToMainContent',
-        message: 'Skip to main content',
-        description: 'The skip to content aria label used for accessibility of the region div',
-      })}>
+      aria-label={translate({id: 'theme.common.skipToMainContent'})}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
