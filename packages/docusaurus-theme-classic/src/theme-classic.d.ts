@@ -74,7 +74,6 @@ declare module '@theme/AnnouncementBar/CloseButton' {
 declare module '@theme/BackToTopButton' {
   export default function BackToTopButton(): JSX.Element;
 }
-
 declare module '@theme/BlogListPaginator' {
   import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
@@ -900,7 +899,7 @@ declare module '@theme/Navbar/Search' {
     readonly className?: string;
   }
 
-  export default function NavbarSearch(props: Props): JSX.Element;
+  export default function NavbarSearch(props: Props): JSX.Element | null;
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
