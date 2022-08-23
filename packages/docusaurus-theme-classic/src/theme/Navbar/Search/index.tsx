@@ -15,6 +15,8 @@ export default function NavbarSearch({
   children,
   className,
 }: Props): JSX.Element {
-  if (!children) return <></>;
+  if (!children) {
+    return null;
+  }
   return <div className={clsx(className, styles.searchBox)}>{children}</div>;
 }
