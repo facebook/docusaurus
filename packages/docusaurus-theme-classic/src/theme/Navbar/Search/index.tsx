@@ -14,7 +14,7 @@ import styles from './styles.module.css';
 export default function NavbarSearch({
   children,
   className,
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
   if (!children) {
     return null;
   }
