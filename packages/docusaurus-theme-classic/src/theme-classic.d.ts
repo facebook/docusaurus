@@ -74,6 +74,7 @@ declare module '@theme/AnnouncementBar/CloseButton' {
 declare module '@theme/BackToTopButton' {
   export default function BackToTopButton(): JSX.Element;
 }
+
 declare module '@theme/BlogListPaginator' {
   import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
