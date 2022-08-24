@@ -19,7 +19,7 @@ Provide global meta attributes for the entire site through the [site configurati
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
-    metadata: [{name: 'keywords', content: 'cooking, blog'}],
+    metadatas: [{name: 'keywords', content: 'cooking, blog'}],
     // This would become <meta name="keywords" content="cooking, blog"> in the generated HTML
   },
 };
