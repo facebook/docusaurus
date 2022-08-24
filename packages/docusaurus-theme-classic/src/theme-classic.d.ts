@@ -1117,7 +1117,7 @@ declare module '@theme/PaginatorNavLink' {
 }
 
 declare module '@theme/SearchBar' {
-  export default function SearchBar(): JSX.Element;
+  export default function SearchBar(): JSX.Element | null;
 }
 
 declare module '@theme/TabItem' {
