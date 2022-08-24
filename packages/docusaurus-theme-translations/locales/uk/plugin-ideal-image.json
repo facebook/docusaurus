@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Зображення не знайдено",
+  "theme.IdealImageMessage.error": "Помилка. Натисніть, щоб перезавантажити",
+  "theme.IdealImageMessage.load": "Натисніть, щоб завантажити {sizeMessage}",
+  "theme.IdealImageMessage.loading": "Завантаження...",
+  "theme.IdealImageMessage.offline": "Ваш браузер перебуває в автономному режимі. Зображення не завантажено"
+}

@@ -362,6 +362,11 @@ describe('versioned website', () => {
       options: {
         routeBasePath,
         sidebarPath,
+        versions: {
+          '1.0.1': {
+            noIndex: true,
+          },
+        },
       },
     });
     const plugin = await pluginContentDocs(context, options);

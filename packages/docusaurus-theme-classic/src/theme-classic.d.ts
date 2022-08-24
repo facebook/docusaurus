@@ -126,6 +126,22 @@ declare module '@theme/AnnouncementBar' {
   export default function AnnouncementBar(): JSX.Element | null;
 }
 
+declare module '@theme/AnnouncementBar/Content' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'div'> {}
+
+  export default function AnnouncementBarContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/AnnouncementBar/CloseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {}
+
+  export default function AnnouncementBarCloseButton(props: Props): JSX.Element;
+}
+
 declare module '@theme/BackToTopButton' {
   export default function BackToTopButton(): JSX.Element;
 }
@@ -434,17 +450,17 @@ declare module '@theme/DocItem/Footer' {
   export default function DocItemFooter(): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout' {
+declare module '@theme/DocRoot/Layout' {
   import type {ReactNode} from 'react';
 
   export interface Props {
     readonly children: ReactNode;
   }
 
-  export default function DocPageLayout(props: Props): JSX.Element;
+  export default function DocRootLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Sidebar' {
+declare module '@theme/DocRoot/Layout/Sidebar' {
   import type {Dispatch, SetStateAction} from 'react';
   import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -454,20 +470,20 @@ declare module '@theme/DocPage/Layout/Sidebar' {
     readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
   }
 
-  export default function DocPageLayoutSidebar(props: Props): JSX.Element;
+  export default function DocRootLayoutSidebar(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Sidebar/ExpandButton' {
+declare module '@theme/DocRoot/Layout/Sidebar/ExpandButton' {
   export interface Props {
     toggleSidebar: () => void;
   }
 
-  export default function DocPageLayoutSidebarExpandButton(
+  export default function DocRootLayoutSidebarExpandButton(
     props: Props,
   ): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Main' {
+declare module '@theme/DocRoot/Layout/Main' {
   import type {ReactNode} from 'react';
 
   export interface Props {
@@ -475,7 +491,7 @@ declare module '@theme/DocPage/Layout/Main' {
     readonly children: ReactNode;
   }
 
-  export default function DocPageLayoutMain(props: Props): JSX.Element;
+  export default function DocRootLayoutMain(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPaginator' {
@@ -715,6 +731,14 @@ declare module '@theme/Heading' {
   }
 
   export default function Heading(props: Props): JSX.Element;
+}
+
+declare module '@theme/NotFound/Content' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function NotFoundContent(props: Props): JSX.Element;
 }
 
 declare module '@theme/Layout' {

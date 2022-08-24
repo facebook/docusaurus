@@ -30,7 +30,9 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   numberPrefixParser: DefaultNumberPrefixParser,
-  docLayoutComponent: '@theme/DocPage',
+  docsRootComponent: '@theme/DocsRoot',
+  docVersionRootComponent: '@theme/DocVersionRoot',
+  docRootComponent: '@theme/DocRoot',
   docItemComponent: '@theme/DocItem',
   docTagDocListComponent: '@theme/DocTagDocListPage',
   docTagsListComponent: '@theme/DocTagsListPage',
@@ -59,6 +61,7 @@ const VersionOptionsSchema = Joi.object({
   banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
   badge: Joi.boolean().optional(),
   className: Joi.string().optional(),
+  noIndex: Joi.boolean().optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()
@@ -103,7 +106,11 @@ const OptionsSchema = Joi.object<PluginOptions>({
       }),
     )
     .default(() => DEFAULT_OPTIONS.numberPrefixParser),
-  docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
+  docsRootComponent: Joi.string().default(DEFAULT_OPTIONS.docsRootComponent),
+  docVersionRootComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docVersionRootComponent,
+  ),
+  docRootComponent: Joi.string().default(DEFAULT_OPTIONS.docRootComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   docTagsListComponent: Joi.string().default(
     DEFAULT_OPTIONS.docTagsListComponent,

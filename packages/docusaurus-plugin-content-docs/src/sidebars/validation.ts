@@ -59,6 +59,7 @@ const sidebarItemHtmlSchema = sidebarItemBaseSchema.append<SidebarItemHtml>({
 const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
   type: 'link',
   href: URISchema.required(),
+  autoAddBaseUrl: Joi.boolean(),
   label: Joi.string()
     .required()
     .messages({'any.unknown': '"label" must be a string'}),

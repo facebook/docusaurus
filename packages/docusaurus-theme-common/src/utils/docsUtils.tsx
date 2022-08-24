@@ -17,7 +17,7 @@ import {
   type GlobalSidebar,
   type GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
-import type {Props as DocPageProps} from '@theme/DocPage';
+import type {Props as DocRootProps} from '@theme/DocRoot';
 import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
 import {useDocsVersion} from '../contexts/docsVersion';
 import {useDocsSidebar} from '../contexts/docsSidebar';
@@ -290,14 +290,11 @@ Available doc ids are:
  * version metadata, and the subroutes creating individual doc pages. This hook
  * will match the current location against all known sub-routes.
  *
- * @param props The props received by `@theme/DocPage`
+ * @param props The props received by `@theme/DocRoot`
  * @returns The data of the relevant document at the current location, or `null`
  * if no document associated with the current location can be found.
  */
-export function useDocRouteMetadata({
-  route,
-  versionMetadata,
-}: DocPageProps): null | {
+export function useDocRootMetadata({route}: DocRootProps): null | {
   /** The element that should be rendered at the current location. */
   docElement: JSX.Element;
   /**
@@ -309,6 +306,7 @@ export function useDocRouteMetadata({
   sidebarItems: PropSidebar | undefined;
 } {
   const location = useLocation();
+  const versionMetadata = useDocsVersion();
   const docRoutes = route.routes!;
   const currentDocRoute = docRoutes.find((docRoute) =>
     matchPath(location.pathname, docRoute),
