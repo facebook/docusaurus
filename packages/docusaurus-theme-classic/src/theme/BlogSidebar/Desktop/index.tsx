@@ -9,11 +9,14 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
+import {useLocation} from '@docusaurus/router';
+import {isSamePath} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogSidebar/Desktop';
 
 import styles from './styles.module.css';
 
 export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
+  const {pathname} = useLocation();
   return (
     <aside className="col col--3">
       <nav
@@ -27,17 +30,25 @@ export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
           {sidebar.title}
         </div>
         <ul className={clsx(styles.sidebarItemList, 'clean-list')}>
-          {sidebar.items.map((item) => (
-            <li key={item.permalink} className={styles.sidebarItem}>
-              <Link
-                isNavLink
-                to={item.permalink}
-                className={styles.sidebarItemLink}
-                activeClassName={styles.sidebarItemLinkActive}>
-                {item.title}
-              </Link>
-            </li>
-          ))}
+          {sidebar.items
+            .filter((item) => {
+              if (item.unlisted && !isSamePath(item.permalink, pathname)) {
+                return false;
+              }
+
+              return true;
+            })
+            .map((item) => (
+              <li key={item.permalink} className={styles.sidebarItem}>
+                <Link
+                  isNavLink
+                  to={item.permalink}
+                  className={styles.sidebarItemLink}
+                  activeClassName={styles.sidebarItemLinkActive}>
+                  {item.title}
+                </Link>
+              </li>
+            ))}
         </ul>
       </nav>
     </aside>

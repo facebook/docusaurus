@@ -7,23 +7,34 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import {useLocation} from '@docusaurus/router';
+import {isSamePath} from '@docusaurus/theme-common/internal';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogSidebar/Mobile';
 
 function BlogSidebarMobileSecondaryMenu({sidebar}: Props): JSX.Element {
+  const {pathname} = useLocation();
   return (
     <ul className="menu__list">
-      {sidebar.items.map((item) => (
-        <li key={item.permalink} className="menu__list-item">
-          <Link
-            isNavLink
-            to={item.permalink}
-            className="menu__link"
-            activeClassName="menu__link--active">
-            {item.title}
-          </Link>
-        </li>
-      ))}
+      {sidebar.items
+        .filter((item) => {
+          if (item.unlisted && !isSamePath(item.permalink, pathname)) {
+            return false;
+          }
+
+          return true;
+        })
+        .map((item) => (
+          <li key={item.permalink} className="menu__list-item">
+            <Link
+              isNavLink
+              to={item.permalink}
+              className="menu__link"
+              activeClassName="menu__link--active">
+              {item.title}
+            </Link>
+          </li>
+        ))}
     </ul>
   );
 }

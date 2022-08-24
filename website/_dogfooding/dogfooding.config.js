@@ -72,7 +72,8 @@ const dogfoodingPluginInstances = [
         frontMatter.hide_reading_time
           ? undefined
           : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
-      sortPosts: 'ascending',
+      // TODO: undo this
+      sortPosts: 'descending',
     }),
   ],
 

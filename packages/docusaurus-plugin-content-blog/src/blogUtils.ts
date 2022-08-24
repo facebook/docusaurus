@@ -33,6 +33,7 @@ import type {
   BlogPost,
   BlogTags,
   BlogPaginated,
+  BlogPostFrontMatter,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
@@ -186,6 +187,16 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
+function isHiddenForProduction({
+  type,
+  frontMatter,
+}: {
+  type: 'draft' | 'unlisted';
+  frontMatter: BlogPostFrontMatter;
+}): boolean {
+  return (process.env.NODE_ENV === 'production' && frontMatter[type]) ?? false;
+}
+
 async function processBlogSourceFile(
   blogSourceRelative: string,
   contentPaths: BlogContentPaths,
@@ -219,7 +230,10 @@ async function processBlogSourceFile(
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
-  if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+  const draft = isHiddenForProduction({type: 'draft', frontMatter});
+  const unlisted = isHiddenForProduction({type: 'unlisted', frontMatter});
+
+  if (draft) {
     return undefined;
   }
 
@@ -326,6 +340,7 @@ async function processBlogSourceFile(
       hasTruncateMarker: truncateMarker.test(content),
       authors,
       frontMatter,
+      unlisted,
     },
     content,
   };

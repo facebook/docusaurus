@@ -112,6 +112,9 @@ export default async function pluginContentBlog(
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
       const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const listedBlogPosts = blogPosts.filter(
+        (blogPost) => !blogPost.metadata.unlisted,
+      );
 
       if (!blogPosts.length) {
         return {
@@ -125,8 +128,8 @@ export default async function pluginContentBlog(
       }
 
       // Colocate next and prev metadata.
-      blogPosts.forEach((blogPost, index) => {
-        const prevItem = index > 0 ? blogPosts[index - 1] : null;
+      listedBlogPosts.forEach((blogPost, index) => {
+        const prevItem = index > 0 ? listedBlogPosts[index - 1] : null;
         if (prevItem) {
           blogPost.metadata.prevItem = {
             title: prevItem.metadata.title,
@@ -135,7 +138,9 @@ export default async function pluginContentBlog(
         }
 
         const nextItem =
-          index < blogPosts.length - 1 ? blogPosts[index + 1] : null;
+          index < listedBlogPosts.length - 1
+            ? listedBlogPosts[index + 1]
+            : null;
         if (nextItem) {
           blogPost.metadata.nextItem = {
             title: nextItem.metadata.title,
@@ -145,7 +150,7 @@ export default async function pluginContentBlog(
       });
 
       const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
-        blogPosts,
+        blogPosts: listedBlogPosts,
         blogTitle,
         blogDescription,
         postsPerPageOption,
@@ -153,7 +158,7 @@ export default async function pluginContentBlog(
       });
 
       const blogTags: BlogTags = getBlogTags({
-        blogPosts,
+        blogPosts: listedBlogPosts,
         postsPerPageOption,
         blogDescription,
         blogTitle,
@@ -242,6 +247,7 @@ export default async function pluginContentBlog(
             items: sidebarBlogPosts.map((blogPost) => ({
               title: blogPost.metadata.title,
               permalink: blogPost.metadata.permalink,
+              unlisted: blogPost.metadata.unlisted,
             })),
           },
           null,

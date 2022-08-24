@@ -33,6 +33,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   description: Joi.string().allow(''),
   tags: FrontMatterTagsSchema,
   draft: Joi.boolean(),
+  unlisted: Joi.boolean(),
   date: Joi.date().raw(),
 
   // New multi-authors front matter:

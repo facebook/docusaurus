@@ -365,6 +365,21 @@ describe('validateBlogPostFrontMatter draft', () => {
   });
 });
 
+describe('validateBlogPostFrontMatter unlisted', () => {
+  testField({
+    fieldName: 'unlisted',
+    validFrontMatters: [{unlisted: true}, {unlisted: false}],
+    convertibleFrontMatter: [
+      [{unlisted: 'true'}, {unlisted: true}],
+      [{unlisted: 'false'}, {unlisted: false}],
+    ],
+    invalidFrontMatters: [
+      [{unlisted: 'yes'}, 'must be a boolean'],
+      [{unlisted: 'no'}, 'must be a boolean'],
+    ],
+  });
+});
+
 describe('validateBlogPostFrontMatter hide_table_of_contents', () => {
   testField({
     fieldName: 'hide_table_of_contents',

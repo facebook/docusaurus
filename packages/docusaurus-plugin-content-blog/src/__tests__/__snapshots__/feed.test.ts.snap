@@ -51,6 +51,14 @@ exports[`atom has feed item for each post 1`] = `
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[unlisted]]></title>
+        <id>/unlisted</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/unlisted"/>
+        <updated>2020-02-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[this post is unlisted]]></summary>
+        <content type="html"><![CDATA[<p>this post is unlisted</p>]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[some heading]]></title>
         <id>/heading-as-title</id>
         <link href="https://docusaurus.io/myBaseUrl/blog/heading-as-title"/>
@@ -136,6 +144,15 @@ exports[`json has feed item for each post 1`] = `
             "tags": []
         },
         {
+            "id": "/unlisted",
+            "content_html": "<p>this post is unlisted</p>",
+            "url": "https://docusaurus.io/myBaseUrl/blog/unlisted",
+            "title": "unlisted",
+            "summary": "this post is unlisted",
+            "date_modified": "2020-02-27T00:00:00.000Z",
+            "tags": []
+        },
+        {
             "id": "/heading-as-title",
             "content_html": "",
             "url": "https://docusaurus.io/myBaseUrl/blog/heading-as-title",
@@ -217,6 +234,14 @@ exports[`rss has feed item for each post 1`] = `
             <pubDate>Sat, 15 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[simple url slug]]></description>
             <content:encoded><![CDATA[<p>simple url slug</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[unlisted]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/unlisted</link>
+            <guid>/unlisted</guid>
+            <pubDate>Thu, 27 Feb 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[this post is unlisted]]></description>
+            <content:encoded><![CDATA[<p>this post is unlisted</p>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[some heading]]></title>
