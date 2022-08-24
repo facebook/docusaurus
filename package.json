@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.10",
-    "@swc/core": "^1.2.242",
+    "@swc/core": "1.2.197",
     "@swc/jest": "^0.2.22",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/fs-extra": "^9.0.13",
