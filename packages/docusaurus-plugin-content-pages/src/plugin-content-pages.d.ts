@@ -27,6 +27,7 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly hide_table_of_contents?: string;
     readonly toc_min_heading_level?: number;
     readonly toc_max_heading_level?: number;
+    readonly unlisted?: boolean;
   };
 
   export type JSXPageMetadata = {
