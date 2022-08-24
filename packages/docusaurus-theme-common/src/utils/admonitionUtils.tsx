@@ -31,9 +31,13 @@ export function processAdmonitionProps<
   Props extends {readonly children: ReactNode; readonly title?: ReactNode},
 >(props: Props): Props {
   const {mdxAdmonitionTitle, rest} = extractMDXAdmonitionTitle(props.children);
+  const title = props.title ?? mdxAdmonitionTitle;
   return {
     ...props,
-    title: props.title ?? mdxAdmonitionTitle,
+    // Do not return "title: undefined" prop
+    // this might create unwanted props overrides when merging props
+    // For example: {...default,...props}
+    ...(title && {title}),
     children: rest,
   };
 }

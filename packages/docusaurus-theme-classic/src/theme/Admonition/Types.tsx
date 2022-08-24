@@ -6,100 +6,33 @@
  */
 
 import React from 'react';
-import Translate from '@docusaurus/Translate';
-import type {Props} from '@theme/Admonition';
-import IconNote from '@theme/Admonition/Icon/Note';
-import IconTip from '@theme/Admonition/Icon/Tip';
-import IconInfo from '@theme/Admonition/Icon/Info';
-import IconCaution from '@theme/Admonition/Icon/Caution';
-import IconDanger from '@theme/Admonition/Icon/Danger';
-import type {AdmonitionTypeConfig} from '@theme/Admonition/Types';
+import AdmonitionTypeNote from '@theme/Admonition/Type/Note';
+import AdmonitionTypeTip from '@theme/Admonition/Type/Tip';
+import AdmonitionTypeInfo from '@theme/Admonition/Type/Info';
+import AdmonitionTypeCaution from '@theme/Admonition/Type/Caution';
+import AdmonitionTypeDanger from '@theme/Admonition/Type/Danger';
+import type AdmonitionTypes from '@theme/Admonition/Types';
 
-function getInfimaClassName(suffix: string) {
-  return `alert alert--${suffix}`;
-}
-
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-const admonitionTypes: Record<Props['type'], AdmonitionTypeConfig> = {
-  note: {
-    className: getInfimaClassName('secondary'),
-    iconComponent: IconNote,
-    label: (
-      <Translate
-        id="theme.admonition.note"
-        description="The default label used for the Note admonition (:::note)">
-        note
-      </Translate>
-    ),
-  },
-  tip: {
-    className: getInfimaClassName('success'),
-    iconComponent: IconTip,
-    label: (
-      <Translate
-        id="theme.admonition.tip"
-        description="The default label used for the Tip admonition (:::tip)">
-        tip
-      </Translate>
-    ),
-  },
-  danger: {
-    className: getInfimaClassName('danger'),
-    iconComponent: IconDanger,
-    label: (
-      <Translate
-        id="theme.admonition.danger"
-        description="The default label used for the Danger admonition (:::danger)">
-        danger
-      </Translate>
-    ),
-  },
-  info: {
-    className: getInfimaClassName('info'),
-    iconComponent: IconInfo,
-    label: (
-      <Translate
-        id="theme.admonition.info"
-        description="The default label used for the Info admonition (:::info)">
-        info
-      </Translate>
-    ),
-  },
-  caution: {
-    className: getInfimaClassName('warning'),
-    iconComponent: IconCaution,
-    label: (
-      <Translate
-        id="theme.admonition.caution"
-        description="The default label used for the Caution admonition (:::caution)">
-        caution
-      </Translate>
-    ),
-  },
+const admonitionTypes: typeof AdmonitionTypes = {
+  note: AdmonitionTypeNote,
+  tip: AdmonitionTypeTip,
+  info: AdmonitionTypeInfo,
+  caution: AdmonitionTypeCaution,
+  danger: AdmonitionTypeDanger,
 };
 
-function createLegacyAlias(
-  alias: string,
-  config: AdmonitionTypeConfig,
-): AdmonitionTypeConfig {
-  return {
-    ...config,
-    // An alias "important" should display "Important", not "Info"
-    // Not translated on purpose: legacy, to remove later
-    label: alias,
-  };
-}
-
-// Legacy admonition type aliases, undocumented but kept for retro-compatibility
-const aliases: {[key: string]: AdmonitionTypeConfig} = {
-  secondary: createLegacyAlias('secondary', admonitionTypes.note),
-  important: createLegacyAlias('important', admonitionTypes.info),
-  success: createLegacyAlias('success', admonitionTypes.tip),
+// Undocumented legacy admonition type aliases
+// Provide hardcoded/untranslated retrocompatible label
+// See also https://github.com/facebook/docusaurus/issues/7767
+const admonitionAliases: typeof AdmonitionTypes = {
+  secondary: (props) => <AdmonitionTypeNote title="secondary" {...props} />,
+  important: (props) => <AdmonitionTypeInfo title="important" {...props} />,
+  success: (props) => <AdmonitionTypeTip title="success" {...props} />,
   // TODO bad legacy mapping, warning is usually yellow, not red...
-  warning: createLegacyAlias('warning', admonitionTypes.danger),
-} as const;
+  warning: (props) => <AdmonitionTypeDanger title="warning" {...props} />,
+};
 
 export default {
   ...admonitionTypes,
-  ...aliases,
+  ...admonitionAliases,
 };

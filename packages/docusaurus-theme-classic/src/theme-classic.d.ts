@@ -44,28 +44,58 @@ declare module '@theme/Admonition' {
 
   export interface Props {
     readonly children: ReactNode;
-    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly type: string;
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
     readonly className?: string;
   }
+
   export default function Admonition(props: Props): JSX.Element;
 }
 
+declare module '@theme/Admonition/Type/Note' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeNote(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Info' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeInfo(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Tip' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeTip(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Caution' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Danger' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeDanger(props: Props): JSX.Element;
+}
+
 declare module '@theme/Admonition/Types' {
-  import type {ComponentType, ReactNode} from 'react';
+  import type {ComponentType} from 'react';
+  import type {Props} from '@theme/Admonition';
 
-  export type AdmonitionTypeConfig = {
-    className: string;
-    iconComponent: ComponentType;
-    label: ReactNode;
+  const AdmonitionTypes: {
+    [admonitionType: string]: ComponentType<Props>;
   };
 
-  type AdmonitionTypesObject = {
-    [admonitionType: string]: AdmonitionTypeConfig;
-  };
-
-  const AdmonitionTypes: AdmonitionTypesObject;
   export default AdmonitionTypes;
 }
 
@@ -74,7 +104,7 @@ declare module '@theme/Admonition/Layout' {
 
   export interface Props {
     readonly children: ReactNode;
-    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly type: string;
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
     readonly className?: string;
