@@ -216,13 +216,13 @@ You can customize how each individual admonition type is rendered through [swizz
 ```jsx title="src/theme/Admonition.js"
 import React from 'react';
 import Admonition from '@theme-original/Admonition';
-import MyIcon from '@site/static/img/info.svg';
+import MyCustomNoteIcon from '@site/static/img/info.svg';
 
 export default function AdmonitionWrapper(props) {
   if (props.type !== 'info') {
-    return <Admonition {...props} />;
+    return <Admonition title="My Custom Admonition Title" {...props} />;
   }
-  return <Admonition icon={<MyIcon />} {...props} />;
+  return <Admonition icon={<MyCustomNoteIcon />} {...props} />;
 }
 ```
 
@@ -240,6 +240,7 @@ module.exports = {
           admonitions: {
             tag: ':::',
             keywords: ['note', 'tip', 'info', 'caution', 'danger'],
+            appendKeywords: true,
           },
         },
       },
@@ -248,9 +249,70 @@ module.exports = {
 };
 ```
 
-The plugin accepts two options:
+The plugin accepts the following options:
 
 - `tag`: The tag that encloses the admonition. Defaults to `:::`.
-- `keywords`: An array of keywords that can be used as the type for the admonition. Note that if you override this, the default values will not be applied.
+- `keywords`: An array of keywords that can be used as the type for the admonition.
+- `appendKeywords`: Should the provided option `keywords` be merged into the existing default keywords. Defaults to `true`.
 
-The `keyword` will be passed as the `type` prop of the `Admonition` component. If you register more types than the default, you are also responsible for providing their implementation—including the container's style, icon, default title text, etc. You would usually need to [eject](../../swizzling.md#ejecting) the `@theme/Admonition` component, so you could re-use the same infrastructure as the other types.
+The `keyword` will be passed as the `type` prop of the `Admonition` component.
+
+### Custom admonition type components {#custom-admonition-type-components}
+
+By default, the theme doesn't know what do to with custom admonition keywords such as `:::my-custom-admonition`. It is your responsibility to map each admonition keyword to a React component so that the theme knows how to render them.
+
+Let's consider the following config:
+
+```js
+const admonitionOptions = {
+  tag: ':::',
+  keywords: ['my-custom-admonition'],
+  appendKeywords: true,
+};
+```
+
+You can register a custom React component for `:::my-custom-admonition` by creating the following file:
+
+```js title="src/theme/Admonition/Types.js"
+import React from 'react';
+import DefaultAdmonitionTypes from '@theme-original/Admonition/Types';
+
+function MyCustomAdmonition(props) {
+  return (
+    <div style={{border: 'solid red', padding: 10}}>
+      <h5 style={{color: 'blue', fontSize: 30}}>{props.title}</h5>
+      <div>{props.children}</div>
+    </div>
+  );
+}
+
+const AdmonitionTypes = {
+  ...DefaultAdmonitionTypes,
+
+  // Add all your custom admonition types here...
+  // You can also override the default ones if you want
+  'my-custom-admonition': MyCustomAdmonition,
+};
+
+export default AdmonitionTypes;
+```
+
+Now you can use your new admonition keyword in Markdown file, and it will be with your custom rendering logic:
+
+```md
+:::my-custom-admonition Custom Admonition
+
+It works!
+
+:::
+```
+
+<BrowserWindow>
+
+:::my-custom-admonition Custom Admonition
+
+It works!
+
+:::
+
+</BrowserWindow>
