@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Props} from '@theme/Navbar/Search';
 
 import styles from './styles.module.css';
@@ -16,8 +15,7 @@ export default function NavbarSearch({
   children,
   className,
 }: Props): JSX.Element | null {
-  const {siteConfig} = useDocusaurusContext();
-  if (!siteConfig.themeConfig?.algolia) {
+  if ((children as any)?.type?.() === null) {
     return null;
   }
   return <div className={clsx(className, styles.searchBox)}>{children}</div>;
