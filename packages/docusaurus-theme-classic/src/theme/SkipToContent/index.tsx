@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 import {useSkipToContent} from '@docusaurus/theme-common/internal';
 
 import styles from './styles.module.css';
@@ -14,7 +14,10 @@ import styles from './styles.module.css';
 export default function SkipToContent(): JSX.Element {
   const {containerRef, handleSkip} = useSkipToContent();
   return (
-    <div ref={containerRef} role="region">
+    <div
+      ref={containerRef}
+      role="region"
+      aria-label={translate({id: 'theme.common.skipToMainContent'})}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
