@@ -28,6 +28,6 @@
   },
   "devDependencies": {
     "@types/file-loader": "^5.0.1",
-    "@types/sharp": "^0.30.4"
+    "@types/sharp": "^0.30.5"
   }
 }
