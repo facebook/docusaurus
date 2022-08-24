@@ -24,6 +24,7 @@ function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
     id: doc.unversionedId,
     path: doc.permalink,
     sidebar: doc.sidebar,
+    unlisted: doc.unlisted,
   };
 }
 

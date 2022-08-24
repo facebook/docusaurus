@@ -292,6 +292,7 @@ Accepted fields:
 | `slug` | `string` | File path | Allows to customize the document URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 | `draft` | `boolean` | `false` | A boolean flag to indicate that a document is a work-in-progress. Draft documents will only be displayed during development. |
+| `unlisted` | `boolean` | `false` | A boolean flag to indicate that the document should be accessible if linked to directly, but visibly hidden on the site otherwise and ignored by search engines. Unlisted documents are fully visible in development. |
 | `last_update` | `FileChange` | `undefined` | Allows overriding the last updated author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
 
 ```mdx-code-block

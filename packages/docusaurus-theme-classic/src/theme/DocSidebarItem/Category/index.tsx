@@ -46,6 +46,22 @@ function useAutoExpandActiveCategory({
   }, [isActive, wasActive, collapsed, updateCollapsed]);
 }
 
+function onlyInactiveUnlistedLinks(
+  activePath: string,
+  items: Props['item']['items'],
+): boolean {
+  return items.every((item) => {
+    switch (item.type) {
+      case 'category':
+        return onlyInactiveUnlistedLinks(activePath, item.items);
+      case 'link':
+        return item.unlisted === true && !isActiveSidebarItem(item, activePath);
+      default:
+        return false;
+    }
+  });
+}
+
 /**
  * When a collapsible category has no link, we still link it to its first child
  * during SSR as a temporary fallback. This allows to be able to navigate inside
@@ -103,7 +119,7 @@ export default function DocSidebarItemCategory({
   level,
   index,
   ...props
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
   const {items, label, collapsible, className, href} = item;
   const {
     docs: {
@@ -143,6 +159,10 @@ export default function DocSidebarItemCategory({
       setCollapsed(true);
     }
   }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
+
+  if (onlyInactiveUnlistedLinks(activePath, items)) {
+    return null;
+  }
 
   return (
     <li

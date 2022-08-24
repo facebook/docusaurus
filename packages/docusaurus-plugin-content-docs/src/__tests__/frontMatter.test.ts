@@ -397,6 +397,22 @@ describe('validateDocFrontMatter draft', () => {
   });
 });
 
+describe('validateDocFrontMatter unlisted', () => {
+  testField({
+    prefix: 'unlisted',
+    validFrontMatters: [{unlisted: true}, {unlisted: false}],
+    convertibleFrontMatter: [
+      [{unlisted: 'true'}, {unlisted: true}],
+      [{unlisted: 'false'}, {unlisted: false}],
+    ],
+    invalidFrontMatters: [
+      [{unlisted: 'yes'}, 'must be a boolean'],
+      [{unlisted: 'no'}, 'must be a boolean'],
+      [{unlisted: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
 describe('validateDocFrontMatter last_update', () => {
   testField({
     prefix: 'last_update',

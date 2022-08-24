@@ -38,6 +38,7 @@ export type GlobalDoc = {
   id: string;
   path: string;
   sidebar: string | undefined;
+  unlisted?: boolean;
 };
 
 export type GlobalVersion = {

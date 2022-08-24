@@ -58,6 +58,9 @@ Available document ids are:
       customProps:
         item.customProps ?? docMetadata.frontMatter.sidebar_custom_props,
       docId: docMetadata.unversionedId,
+      unlisted:
+        process.env.NODE_ENV === 'production' &&
+        docMetadata.frontMatter.unlisted === true,
     };
   };
 

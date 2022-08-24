@@ -139,6 +139,7 @@ export type SidebarsUtils = {
     unversionedId: string,
     versionedId: string,
     displayedSidebar: string | null | undefined,
+    unlistedIds: string[],
   ) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
@@ -196,6 +197,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     unversionedId: string,
     versionedId: string,
     displayedSidebar: string | null | undefined,
+    unlistedIds: string[],
   ): SidebarNavigation {
     // TODO legacy id retro-compatibility!
     let docId = unversionedId;
@@ -211,12 +213,16 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     if (!sidebarName) {
       return emptySidebarNavigation();
     }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    let navigationItems = sidebarNameToNavigationItems[sidebarName];
     if (!navigationItems) {
       throw new Error(
         `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
       );
     }
+    navigationItems = navigationItems.filter(
+      (item) => !(item.type === 'doc' && unlistedIds.includes(item.id)),
+    );
+
     const currentItemIndex = navigationItems.findIndex((item) => {
       if (item.type === 'doc') {
         return item.id === docId;

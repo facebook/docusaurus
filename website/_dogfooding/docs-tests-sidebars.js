@@ -20,6 +20,7 @@ const sidebars = {
       label: 'Index',
     },
     'test-draft',
+    'test-unlisted',
     'doc-without-sidebar',
     'doc-with-another-sidebar',
     'doc-with-last-update',
@@ -46,6 +47,17 @@ const sidebars = {
       label: 'section',
       collapsible: false,
       items: ['index', 'more-test'],
+    },
+    {
+      type: 'category',
+      label: 'Category with only unlisted doc',
+      items: [
+        {
+          type: 'category',
+          label: 'Sub-category with only unlisted doc',
+          items: ['test-unlisted'],
+        },
+      ],
     },
     {
       type: 'category',

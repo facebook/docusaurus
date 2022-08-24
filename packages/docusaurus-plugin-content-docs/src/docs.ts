@@ -125,15 +125,20 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-/** Docs with draft front matter are only considered draft in production. */
-function isDraftForEnvironment({
+/**
+ * Docs with draft or unlisted front matter are only
+ * considered to be so in production.
+ */
+function isHiddenForEnvironment({
+  type,
   env,
   frontMatter,
 }: {
+  type: 'draft' | 'unlisted';
   frontMatter: DocFrontMatter;
   env: DocEnv;
 }): boolean {
-  return (env === 'production' && frontMatter.draft) ?? false;
+  return (env === 'production' && frontMatter[type]) ?? false;
 }
 
 async function doProcessDocMetadata({
@@ -268,7 +273,8 @@ async function doProcessDocMetadata({
     return undefined;
   }
 
-  const draft = isDraftForEnvironment({env, frontMatter});
+  const draft = isHiddenForEnvironment({type: 'draft', env, frontMatter});
+  const unlisted = isHiddenForEnvironment({type: 'unlisted', env, frontMatter});
 
   const formatDate = (locale: string, date: Date, calendar: string): string => {
     try {
@@ -299,6 +305,7 @@ async function doProcessDocMetadata({
     slug: docSlug,
     permalink,
     draft,
+    unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
@@ -335,6 +342,7 @@ export function addDocNavigation(
   docsBase: DocMetadataBase[],
   sidebarsUtils: SidebarsUtils,
   sidebarFilePath: string,
+  unlistedIds: string[],
 ): LoadedVersion['docs'] {
   const docsById = createDocsByIdIndex(docsBase);
 
@@ -349,6 +357,7 @@ export function addDocNavigation(
       doc.unversionedId,
       doc.id,
       doc.frontMatter.displayed_sidebar,
+      unlistedIds,
     );
 
     const toNavigationLinkByDocId = (
@@ -364,6 +373,10 @@ export function addDocNavigation(
         throw new Error(
           `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
         );
+      }
+      // Gracefully handle explicitly providing an unlisted doc ID in production
+      if (process.env.NODE_ENV === 'production' && navDoc.unlisted) {
+        return undefined;
       }
       return toDocNavigationLink(navDoc);
     };

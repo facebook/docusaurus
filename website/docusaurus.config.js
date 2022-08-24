@@ -444,7 +444,15 @@ const config = {
           {
             type: 'doc',
             docId: 'test-draft',
-            label: 'Tests',
+            label: 'Draft',
+            docsPluginId: 'docs-tests',
+          },
+          // This item links to an unlisted doc: only displayed
+          // in dev or when directly access
+          {
+            type: 'doc',
+            docId: 'test-unlisted',
+            label: 'Unlisted',
             docsPluginId: 'docs-tests',
           },
           // Custom item for dogfooding: only displayed in /tests/ routes

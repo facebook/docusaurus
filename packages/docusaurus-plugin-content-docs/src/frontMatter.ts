@@ -44,6 +44,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_next: Joi.string().allow(null),
   pagination_prev: Joi.string().allow(null),
   draft: Joi.boolean(),
+  unlisted: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
   last_update: Joi.object({
     author: Joi.string(),

@@ -25,12 +25,23 @@ exports[`simple site custom pagination 1`] = `
     {
       "id": "doc-draft",
       "next": {
-        "permalink": "/docs/foo/bar",
-        "title": "Bar",
+        "permalink": "/docs/doc-unlisted",
+        "title": "doc-unlisted",
       },
       "prev": {
         "permalink": "/docs/doc with space",
         "title": "Hoo hoo, if this path tricks you...",
+      },
+    },
+    {
+      "id": "doc-unlisted",
+      "next": {
+        "permalink": "/docs/foo/bar",
+        "title": "Bar",
+      },
+      "prev": {
+        "permalink": "/docs/doc-draft",
+        "title": "doc-draft",
       },
     },
     {
@@ -213,6 +224,10 @@ exports[`simple site custom pagination 1`] = `
       },
       {
         "id": "doc-draft",
+        "type": "doc",
+      },
+      {
+        "id": "doc-unlisted",
         "type": "doc",
       },
       {
