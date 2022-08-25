@@ -100,8 +100,7 @@ const Users: User[] = [
       'The best search experience for docs, integrates in minutes, for free',
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
-    source:
-      'https://github.com/algolia/docsearch/tree/main/packages/website',
+    source: 'https://github.com/algolia/docsearch/tree/main/packages/website',
     tags: ['favorite', 'opensource', 'product'],
   },
   {
@@ -445,7 +444,8 @@ const Users: User[] = [
   },
   {
     title: 'difranca | Tech-Notes',
-    description: 'This documentation aims to comprise my learning notes on various tech subjects.',
+    description:
+      'This documentation aims to comprise my learning notes on various tech subjects.',
     preview: require('./showcase/difranca-technotes.png'),
     website: 'https://difranca.github.io/',
     source: 'https://github.com/difranca/difranca.github.io',
@@ -1185,8 +1185,7 @@ const Users: User[] = [
   },
   {
     title: 'Mixcore CMS',
-    description:
-      'Fully Open Source ASP.Net Core / Dotnet Core CMS UI Toolkit',
+    description: 'Fully Open Source ASP.Net Core / Dotnet Core CMS UI Toolkit',
     preview: require('./showcase/mixcore.png'),
     website: 'https://docs.mixcore.org/',
     source: 'https://github.com/mixcore/docs/tree/master/website',
@@ -1833,7 +1832,7 @@ const Users: User[] = [
     title: 'Resoto',
     description:
       'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
-    preview: require('./showcase/resoto.png'),
+    preview: require('./showcase/resoto.png'), // TODO update screenshot
     website: 'https://resoto.com',
     source: 'https://github.com/someengineering/resoto.com',
     tags: ['opensource', 'product', 'design'],
@@ -2195,7 +2194,7 @@ const Users: User[] = [
     preview: require('./showcase/tauri.png'),
     website: 'https://tauri.app/',
     source: 'https://github.com/tauri-apps/tauri-docs',
-    tags: ['opensource', 'i18n', 'product', 'design']
+    tags: ['opensource', 'i18n', 'product', 'design'],
   },
   {
     title: 'TechHarvesting',
@@ -2433,6 +2432,198 @@ const Users: User[] = [
     source: 'https://github.com/7Wate/wiki',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: 'Discord API Types',
+    description: 'Discord API Types',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://discord-api-types.dev/',
+    source: 'https://github.com/discordjs/discord-api-types/tree/main/website',
+    tags: ['opensource', 'versioning', 'large'],
+  },
+  {
+    title: 'IsaacScript',
+    description: 'Write Binding of Isaac: Repentance mods with TypeScript',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://isaacscript.github.io/',
+    source: 'https://github.com/IsaacScript/isaacscript/tree/main/packages/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Jest Preview',
+    description: 'Debug your Jest tests. Effortlessly.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.jest-preview.com/',
+    source: 'https://github.com/nvh95/jest-preview/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Paweł Kosiec',
+    description: 'Personal website and blog of Paweł Kosiec, Full-stack Cloud Developer.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://kosiec.dev/',
+    source: 'https://github.com/pkosiec/website',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Homarr',
+    description: 'Homarr is a simple and lightweight homepage for your server.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://homarr.vercel.app/',
+    source: 'https://github.com/ajnart/homarr/tree/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Wings',
+    description: 'Wings is a modern website-as-service for progressive campaigns',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://wings.dev/',
+    source: null,
+    tags: ['product','i18n'],
+  },
+  {
+    title: 'Kishan Gajera',
+    description: 'Personal portfolio and blog of Kishan Gajera',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.kgajera.com/',
+    source: 'https://github.com/kgajera/blog',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Harvest CLI',
+    description: 'A CLI for Harvest\'s time tracking software',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://kgajera.github.io/hrvst-cli/',
+    source: 'https://github.com/kgajera/hrvst-cli/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Tremor',
+    description: 'Tremor Event Processing Engine',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.tremor.rs/',
+    source: 'https://github.com/tremor-rs/tremor-www/',
+    tags: ['opensource','versioning','large'],
+  },
+  {
+    title: 'TSEI.JP',
+    description: 'TSEI.JP personal website, articles and docs',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://tsei.jp/',
+    source: '', // TODO
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Brobot',
+    description: 'Testable state-based GUI automation.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://jspinak.github.io/brobot/',
+    source: 'https://github.com/jspinak/brobot/tree/main/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Fathym Blog',
+    description: 'Fathym deploys, hosts and integrates your favorite tech stacks.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.fathym.com/blog',
+    source: 'https://github.com/lowcodeunit/public-web-blog',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Tech Interview Handbook',
+    description: 'Free curated tech interview preparation materials for busy software engineers.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.techinterviewhandbook.org/',
+    source: 'https://github.com/yangshun/tech-interview-handbook',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Front End Interview Handbook',
+    description: 'Free curated tech interview preparation materials for busy software engineers',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.frontendinterviewhandbook.com/',
+    source: 'https://github.com/yangshun/front-end-interview-handbook',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+
+
+
+
+
+
+  {
+    title: '',
+    description: '',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: '',
+    source: '',
+    tags: ['opensource'],
+  },
+
+
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
