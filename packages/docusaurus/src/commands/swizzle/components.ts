@@ -50,7 +50,7 @@ function sortComponentNames(componentNames: string[]): string[] {
  *
  * @param componentNames the original list of component names
  */
-function getMissingIntermediateComponentFolderNames(
+export function getMissingIntermediateComponentFolderNames(
   componentNames: string[],
 ): string[] {
   function getAllIntermediatePaths(componentName: string): string[] {

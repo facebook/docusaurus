@@ -13,7 +13,10 @@ import logger from '@docusaurus/logger';
 import classicTheme from '@docusaurus/theme-classic';
 
 // Unsafe imports
-import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/components.js';
+import {
+  readComponentNames,
+  getMissingIntermediateComponentFolderNames,
+} from '@docusaurus/core/lib/commands/swizzle/components.js';
 import {normalizeSwizzleConfig} from '@docusaurus/core/lib/commands/swizzle/config.js';
 import {wrap, eject} from '@docusaurus/core/lib/commands/swizzle/actions.js';
 
@@ -50,7 +53,12 @@ console.log('\n');
 
 await fs.remove(toPath);
 
-let componentNames = await readComponentNames(themePath);
+async function getAllComponentNames() {
+  const names = await readComponentNames(themePath);
+  return names.concat(await getMissingIntermediateComponentFolderNames(names));
+}
+
+let componentNames = await getAllComponentNames();
 
 const componentsNotFound = Object.keys(swizzleConfig.components).filter(
   (componentName) => !componentNames.includes(componentName),

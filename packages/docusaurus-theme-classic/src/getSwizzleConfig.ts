@@ -127,6 +127,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The color mode toggle to switch between light and dark mode.',
       },
+      'DocItem/TOC': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The DocItem TOC is not directly swizzle-able, but you can swizzle its sub-components.',
+      },
       DocSidebar: {
         actions: {
           eject: 'unsafe', // Too much technical code in sidebar, not very safe atm
@@ -191,6 +202,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'safe',
         },
         description: 'The footer logo',
+      },
+      Icon: {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Icon folder is not directly swizzle-able, but you can swizzle its sub-components.',
       },
       'Icon/Arrow': {
         actions: {
