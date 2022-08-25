@@ -18,7 +18,7 @@ import {matchRoutes} from 'react-router-config';
  */
 export default function preload(pathname: string): Promise<void[]> {
   const matches = Array.from(new Set([pathname, decodeURI(pathname)]))
-    .map(p => matchRoutes(routes, p))
+    .map((p) => matchRoutes(routes, p))
     .flat();
 
   return Promise.all(matches.map((match) => match.route.component.preload?.()));
