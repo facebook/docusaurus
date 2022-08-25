@@ -310,8 +310,6 @@ import DocCardList from '@theme/DocCardList';
 </BrowserWindow>
 ```
 
-See this in action on the [sidebar guides page](index.md).
-
 ### Collapsible categories {#collapsible-categories}
 
 We support the option to expand/collapse categories. Categories are collapsible by default, but you can disable collapsing with `collapsible: false`.
