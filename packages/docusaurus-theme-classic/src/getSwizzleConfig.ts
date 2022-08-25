@@ -62,6 +62,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The standard admonition layout applied to all default admonition types',
       },
+      'Admonition/Type': {
+        actions: {
+          eject: 'safe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The folder containing all the admonition type components.',
+      },
       'Admonition/Type/Caution': {
         actions: {
           eject: 'safe',
@@ -118,6 +126,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The component used to render multi-line code blocks, generally used in Markdown files.',
+      },
+      'CodeBlock/Content': {
+        actions: {
+          eject: 'unsafe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The folder containing components responsible for rendering different types of CodeBlock content.',
       },
       ColorModeToggle: {
         actions: {
