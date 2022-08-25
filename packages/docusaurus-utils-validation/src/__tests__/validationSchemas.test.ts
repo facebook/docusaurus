@@ -96,13 +96,20 @@ describe('validation schemas', () => {
     testOK({});
     testOK({tag: '+++'});
     testOK({keywords: ['info', 'tip']});
+    testOK({keywords: ['info', 'tip'], appendKeywords: true});
+    testOK({keywords: ['info', 'tip'], appendKeywords: false});
+    testOK({keywords: []});
+    testOK({keywords: [], appendKeywords: true}); // noop
+    testOK({keywords: [], appendKeywords: false}); // disable admonitions
     testOK({tag: '+++', keywords: ['info', 'tip']});
+    testOK({tag: '+++', keywords: ['custom-keyword'], appendKeywords: true});
+    testOK({tag: '+++', keywords: ['custom-keyword'], appendKeywords: false});
 
     testFail(3);
     testFail([]);
     testFail({unknownAttribute: 'val'});
     testFail({tag: ''});
-    testFail({keywords: []});
+    testFail({keywords: ['custom-keyword'], appendKeywords: 42});
 
     // Legacy types
     testFail({
