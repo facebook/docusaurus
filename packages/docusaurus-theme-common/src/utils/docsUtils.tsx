@@ -361,3 +361,18 @@ export function useDocRootMetadata({route}: DocRootProps): null | {
     sidebarItems,
   };
 }
+
+/**
+ * Filter categories that don't have a link.
+ * @param items
+ */
+export function filterDocCardListItems(
+  items: PropSidebarItem[],
+): PropSidebarItem[] {
+  return items.filter((item) => {
+    if (item.type === 'category') {
+      return !!findFirstCategoryLink(item);
+    }
+    return true;
+  });
+}

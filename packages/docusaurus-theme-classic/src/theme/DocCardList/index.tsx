@@ -7,21 +7,12 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {findFirstCategoryLink} from '@docusaurus/theme-common/internal';
-import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+import {
+  useCurrentSidebarCategory,
+  filterDocCardListItems,
+} from '@docusaurus/theme-common';
 import DocCard from '@theme/DocCard';
 import type {Props} from '@theme/DocCardList';
-import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-
-// Filter categories that don't have a link.
-function filterItems(items: PropSidebarItem[]): PropSidebarItem[] {
-  return items.filter((item) => {
-    if (item.type === 'category') {
-      return !!findFirstCategoryLink(item);
-    }
-    return true;
-  });
-}
 
 function DocCardListForCurrentSidebarCategory({className}: Props) {
   const category = useCurrentSidebarCategory();
@@ -33,9 +24,10 @@ export default function DocCardList(props: Props): JSX.Element {
   if (!items) {
     return <DocCardListForCurrentSidebarCategory {...props} />;
   }
+  const filteredItems = filterDocCardListItems(items);
   return (
     <section className={clsx('row', className)}>
-      {filterItems(items).map((item, index) => (
+      {filteredItems.map((item, index) => (
         <article key={index} className="col col--6 margin-bottom--lg">
           <DocCard item={item} />
         </article>
