@@ -441,24 +441,85 @@ describe('useCurrentSidebarCategory', () => {
           </DocsSidebarProvider>
         ),
       }).result.current;
-  it('works', () => {
-    const category: PropSidebarItemCategory = {
-      type: 'category',
-      label: 'Category',
+
+  it('works for sidebar category', () => {
+    const category: PropSidebarItemCategory = testCategory({
       href: '/cat',
-      collapsible: true,
-      collapsed: false,
-      items: [
-        {type: 'link', href: '/cat/foo', label: 'Foo'},
-        {type: 'link', href: '/cat/bar', label: 'Bar'},
-        {type: 'link', href: '/baz', label: 'Baz'},
-      ],
-    };
-    const mockUseCurrentSidebarCategory = createUseCurrentSidebarCategoryMock([
-      {type: 'link', href: '/cat/fake', label: 'Fake'},
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
       category,
-    ]);
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarCategoryMock(sidebar);
+
     expect(mockUseCurrentSidebarCategory('/cat')).toEqual(category);
+  });
+
+  it('works for nested sidebar category', () => {
+    const category2: PropSidebarItemCategory = testCategory({
+      href: '/cat2',
+    });
+    const category1: PropSidebarItemCategory = testCategory({
+      href: '/cat1',
+      items: [testLink(), testLink(), category2, testCategory()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category1,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarCategoryMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/cat2')).toEqual(category2);
+  });
+
+  it('works for category link item', () => {
+    const link = testLink({href: '/my/link/path'});
+    const category: PropSidebarItemCategory = testCategory({
+      href: '/cat1',
+      items: [testLink(), testLink(), link, testCategory()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarCategoryMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(category);
+  });
+
+  it('works for nested category link item', () => {
+    const link = testLink({href: '/my/link/path'});
+    const category2: PropSidebarItemCategory = testCategory({
+      href: '/cat2',
+      items: [testLink(), testLink(), link, testCategory()],
+    });
+    const category1: PropSidebarItemCategory = testCategory({
+      href: '/cat1',
+      items: [testLink(), testLink(), category2, testCategory()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category1,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarCategoryMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(category2);
   });
 
   it('throws for non-category index page', () => {

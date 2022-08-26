@@ -28,7 +28,10 @@ export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 
-export {useCurrentSidebarCategory} from './utils/docsUtils';
+export {
+  useCurrentSidebarCategory,
+  filterDocCardListItems,
+} from './utils/docsUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
