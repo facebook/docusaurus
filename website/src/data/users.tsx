@@ -2509,8 +2509,8 @@ const Users: User[] = [
     description: 'TSEI.JP personal website, articles and docs',
     preview: require('./showcase/7wate-wiki.png'), // TODO
     website: 'https://tsei.jp/',
-    source: '', // TODO
-    tags: ['opensource','personal'],
+    source: null,
+    tags: ['personal'],
   },
   {
     title: 'Brobot',
