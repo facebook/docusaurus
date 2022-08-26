@@ -2441,6 +2441,14 @@ const Users: User[] = [
     tags: ['opensource', 'versioning', 'large'],
   },
   {
+    title: 'Hanabi',
+    description: 'A list of Hanabi card game strategies',
+    preview: null,
+    website: 'https://hanabi.github.io/',
+    source: 'https://github.com/hanabi/hanabi.github.io',
+    tags: ['opensource'],
+  },
+  {
     title: 'IsaacScript',
     description: 'Write Binding of Isaac: Repentance mods with TypeScript',
     preview: null,
