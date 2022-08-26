@@ -1832,7 +1832,7 @@ const Users: User[] = [
     title: 'Resoto',
     description:
       'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
-    preview: require('./showcase/resoto.png'), // TODO update screenshot
+    preview: null,
     website: 'https://resoto.com',
     source: 'https://github.com/someengineering/resoto.com',
     tags: ['opensource', 'product', 'design'],
@@ -2435,7 +2435,7 @@ const Users: User[] = [
   {
     title: 'Discord API Types',
     description: 'Discord API Types',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://discord-api-types.dev/',
     source: 'https://github.com/discordjs/discord-api-types/tree/main/website',
     tags: ['opensource', 'versioning', 'large'],
@@ -2443,7 +2443,7 @@ const Users: User[] = [
   {
     title: 'IsaacScript',
     description: 'Write Binding of Isaac: Repentance mods with TypeScript',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://isaacscript.github.io/',
     source: 'https://github.com/IsaacScript/isaacscript/tree/main/packages/docs',
     tags: ['opensource'],
@@ -2451,7 +2451,7 @@ const Users: User[] = [
   {
     title: 'Jest Preview',
     description: 'Debug your Jest tests. Effortlessly.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.jest-preview.com/',
     source: 'https://github.com/nvh95/jest-preview/tree/main/website',
     tags: ['opensource'],
@@ -2459,7 +2459,7 @@ const Users: User[] = [
   {
     title: 'Paweł Kosiec',
     description: 'Personal website and blog of Paweł Kosiec, Full-stack Cloud Developer.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://kosiec.dev/',
     source: 'https://github.com/pkosiec/website',
     tags: ['opensource','personal'],
@@ -2467,7 +2467,7 @@ const Users: User[] = [
   {
     title: 'Homarr',
     description: 'Homarr is a simple and lightweight homepage for your server.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://homarr.vercel.app/',
     source: 'https://github.com/ajnart/homarr/tree/docs',
     tags: ['opensource'],
@@ -2475,7 +2475,7 @@ const Users: User[] = [
   {
     title: 'Wings',
     description: 'Wings is a modern website-as-service for progressive campaigns',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://wings.dev/',
     source: null,
     tags: ['product','i18n'],
@@ -2483,7 +2483,7 @@ const Users: User[] = [
   {
     title: 'Kishan Gajera',
     description: 'Personal portfolio and blog of Kishan Gajera',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.kgajera.com/',
     source: 'https://github.com/kgajera/blog',
     tags: ['opensource','personal'],
@@ -2491,7 +2491,7 @@ const Users: User[] = [
   {
     title: 'Harvest CLI',
     description: 'A CLI for Harvest\'s time tracking software',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://kgajera.github.io/hrvst-cli/',
     source: 'https://github.com/kgajera/hrvst-cli/tree/main/website',
     tags: ['opensource'],
@@ -2499,7 +2499,7 @@ const Users: User[] = [
   {
     title: 'Tremor',
     description: 'Tremor Event Processing Engine',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.tremor.rs/',
     source: 'https://github.com/tremor-rs/tremor-www/',
     tags: ['opensource','versioning','large'],
@@ -2507,7 +2507,7 @@ const Users: User[] = [
   {
     title: 'TSEI.JP',
     description: 'TSEI.JP personal website, articles and docs',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://tsei.jp/',
     source: null,
     tags: ['personal'],
@@ -2515,7 +2515,7 @@ const Users: User[] = [
   {
     title: 'Brobot',
     description: 'Testable state-based GUI automation.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://jspinak.github.io/brobot/',
     source: 'https://github.com/jspinak/brobot/tree/main/docs',
     tags: ['opensource'],
@@ -2523,7 +2523,7 @@ const Users: User[] = [
   {
     title: 'Fathym Blog',
     description: 'Fathym deploys, hosts and integrates your favorite tech stacks.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.fathym.com/blog',
     source: 'https://github.com/lowcodeunit/public-web-blog',
     tags: ['opensource'],
@@ -2531,7 +2531,7 @@ const Users: User[] = [
   {
     title: 'Tech Interview Handbook',
     description: 'Free curated tech interview preparation materials for busy software engineers.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.techinterviewhandbook.org/',
     source: 'https://github.com/yangshun/tech-interview-handbook',
     tags: ['opensource','personal'],
@@ -2539,7 +2539,7 @@ const Users: User[] = [
   {
     title: 'Front End Interview Handbook',
     description: 'Free curated tech interview preparation materials for busy software engineers',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.frontendinterviewhandbook.com/',
     source: 'https://github.com/yangshun/front-end-interview-handbook',
     tags: ['opensource','personal'],
@@ -2547,7 +2547,7 @@ const Users: User[] = [
   {
     title: 'WIZnet',
     description: 'Documentation for various WIZnet products',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.wiznet.io/',
     source: 'https://github.com/Wiznet/document_framework',
     tags: ['opensource','product'],
@@ -2555,7 +2555,7 @@ const Users: User[] = [
   {
     title: 'Xiaohai\'s Mind Palace',
     description: 'A place for organizing notes, writing blogs, and showcasing projects.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://xiaohai.wiki/',
     source: 'https://github.com/xiaohai-huang/learning-notes',
     tags: ['opensource','personal'],
@@ -2563,7 +2563,7 @@ const Users: User[] = [
   {
     title: 'Cho.sh',
     description: 'Sunghyun Sho\'s Second Brain on the Web.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://cho.sh/',
     source: 'https://github.com/anaclumos/www',
     tags: ['opensource','personal','i18n'],
@@ -2571,7 +2571,7 @@ const Users: User[] = [
   {
     title: 'i18n-tools',
     description: 'CLI to make common operations around i18n files simpler',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://jy95.github.io/i18n-tools/',
     source: 'https://github.com/jy95/i18n-tools/tree/master/website',
     tags: ['opensource'],
@@ -2579,7 +2579,7 @@ const Users: User[] = [
   {
     title: 'Pure.css',
     description: 'A set of small, responsive CSS modules that you can use in every web project.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://purecss.io/',
     source: 'https://github.com/pure-css/pure',
     tags: ['opensource','design'],
@@ -2587,7 +2587,7 @@ const Users: User[] = [
   {
     title: 'Moodle Developer Resources',
     description: 'Moodle - the world\'s open source learning platform',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://moodledev.io/',
     source: 'https://github.com/moodle/devdocs',
     tags: ['opensource','product','large'],
@@ -2595,7 +2595,7 @@ const Users: User[] = [
   {
     title: 'Toggle',
     description: 'Open Source real-time feature flags deployment without need of a server with SDK',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.togglee.com/',
     source: 'https://github.com/togglee/togglee-web',
     tags: ['opensource','product'],
@@ -2603,7 +2603,7 @@ const Users: User[] = [
   {
     title: 'Barklarm',
     description: 'Open Source multiplatform alarm and build status monitoring application',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.barklarm.com/',
     source: 'https://github.com/kanekotic/barklarm-website',
     tags: ['opensource','product'],
@@ -2611,7 +2611,7 @@ const Users: User[] = [
   {
     title: 'Nikita\'s Everything I Know Wiki',
     description: 'Digital wiki with notes/links.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://wiki.nikiv.dev/',
     source: 'https://github.com/nikitavoloboev/knowledge',
     tags: ['opensource','personal','large'],
@@ -2619,7 +2619,7 @@ const Users: User[] = [
   {
     title: 'Infinity Works Company Handbook',
     description: 'An online company handbook, acting as a one-stop shop for all relevant information needed for colleagues.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://handbook.infinityworks.com/',
     source: null,
     tags: ['design'], // TODO need a tag for company's corporate websites?
@@ -2627,7 +2627,7 @@ const Users: User[] = [
   {
     title: 'Neo Blockchain Developer Portal',
     description: 'A collection of tools and resources to help you build outstanding applications on Neo',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://developers.neo.org/',
     source: 'https://github.com/neo-project/neo-dev-portal',
     tags: ['opensource'], // TODO create crypto/web3 tag?
@@ -2635,7 +2635,7 @@ const Users: User[] = [
   {
     title: 'Yew',
     description: 'Documentation of Yew web framework',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://yew.rs/',
     source: 'https://github.com/yewstack/yew/tree/master/website',
     tags: ['opensource','versioning','i18n','large'],
@@ -2643,7 +2643,7 @@ const Users: User[] = [
   {
     title: 'Sensory Percussion help',
     description: 'On-line manual for Sensory Percussion, a music production tool for electronic drums.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://help.sunhou.se/',
     source: null,
     tags: ['product'],
@@ -2651,7 +2651,7 @@ const Users: User[] = [
   {
     title: 'The Fundraising Lore',
     description: 'A guide to help founders successfully raise early-stage VC financing',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.lore.vc/',
     source: 'https://github.com/dvitanov/lorevc',
     tags: ['opensource','personal'], // TODO find better tag?
@@ -2659,7 +2659,7 @@ const Users: User[] = [
   {
     title: 'LifeOmic PHC Documentation',
     description: 'Help and information for LifeOmic PHC',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://phc.docs.lifeomic.com/',
     source: null,
     tags: ['product'],
@@ -2667,7 +2667,7 @@ const Users: User[] = [
   {
     title: 'Kanekotic\'s Page',
     description: 'List of open-source projects and blog',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.kanekotic.com/',
     source: 'https://github.com/kanekotic/kanekotic-page',
     tags: ['opensource','personal'],
@@ -2675,7 +2675,7 @@ const Users: User[] = [
   {
     title: 'DevTomek',
     description: 'A Polish blog about programming, electronics and IoT',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://devtomek.pl/',
     source: null,
     tags: ['personal'],
@@ -2683,7 +2683,7 @@ const Users: User[] = [
   {
     title: 'Vantevo Analytics',
     description: 'The most complete and secure Google Analytics alternative.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://vantevo.io/docs/',
     source: null,
     tags: ['product','i18n'],
@@ -2691,7 +2691,7 @@ const Users: User[] = [
   {
     title: 'lsfusion platform documentation',
     description: 'A declarative open-source language-based platform for information systems development',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.lsfusion.org/',
     source: 'https://github.com/lsfusion/docusaurus',
     tags: ['opensource','i18n','versioning'],
@@ -2699,7 +2699,7 @@ const Users: User[] = [
   {
     title: 'Rokt Docs',
     description: 'Rokt\'s product documentation',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.rokt.com/',
     source: null,
     tags: ['product'],
@@ -2707,7 +2707,7 @@ const Users: User[] = [
   {
     title: 'Harmonoid',
     description: 'A beautiful material-design cross platform music player',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://harmonoid.com/',
     source: null,
     tags: ['product','design'],
@@ -2715,7 +2715,7 @@ const Users: User[] = [
   {
     title: 'Mentorship Guide',
     description: 'Making mentorship accessible to all, for mentors and mentees.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://mentorship.guide/',
     source: 'https://github.com/mentorship-sponsorship/mentorship-guide-docs',
     tags: ['opensource','design'],
@@ -2723,7 +2723,7 @@ const Users: User[] = [
   {
     title: 'Vishal Gandhi',
     description: 'The Data Column - Blog by Vishal Gandhi',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://vishalgandhi.in/',
     source: null,
     tags: ['personal'],
@@ -2731,7 +2731,7 @@ const Users: User[] = [
   {
     title: 'Daily.dev Documentation',
     description: 'Official product documentation for daily.dev',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.daily.dev/',
     source: 'https://github.com/dailydotdev/docs',
     tags: ['opensource','product','design'],
@@ -2739,7 +2739,7 @@ const Users: User[] = [
   {
     title: 'Formiz',
     description: 'React forms with ease! Composable, headless & with built-in multi steps',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://formiz-react.com/',
     source: 'https://github.com/ivan-dalmet/formiz/tree/master/documentation',
     tags: ['opensource'],
@@ -2747,7 +2747,7 @@ const Users: User[] = [
   {
     title: 'Wener Live & Life',
     description: 'Notes, Stories, Awesomes',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://wener.me/',
     source: 'https://github.com/wenerme/wener/tree/master/site',
     tags: ['opensource','personal'],
@@ -2755,7 +2755,7 @@ const Users: User[] = [
   {
     title: 'Modrinth Documentation',
     description: 'The documentation for Modrinth, an open source Minecraft modding platform',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.modrinth.com/',
     source: 'https://github.com/modrinth/docs',
     tags: ['opensource'],
@@ -2763,7 +2763,7 @@ const Users: User[] = [
   {
     title: 'Codiga Documentation',
     description: 'Documentation for Codiga, your Code Analysis & Coding Assistant',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://doc.codiga.io/',
     source: 'https://github.com/codiga/doc.codiga.io/tree/main/website',
     tags: ['opensource','product'],
@@ -2771,7 +2771,7 @@ const Users: User[] = [
   {
     title: 'Takken.io',
     description: 'Webber\'s personal website',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://takken.io/',
     source: 'https://github.com/webbertakken/takken.io',
     tags: ['opensource','personal'],
@@ -2779,7 +2779,7 @@ const Users: User[] = [
   {
     title: 'GameCI',
     description: 'Open source continuous integration for games',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://game.ci/',
     source: 'https://github.com/game-ci/documentation',
     tags: ['opensource','product','versioning'],
@@ -2787,7 +2787,7 @@ const Users: User[] = [
   {
     title: 'Batect',
     description: 'The fast, consistent way to run your development and testing tasks everywhere.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://batect.dev/',
     source: 'https://github.com/batect/batect.dev',
     tags: ['opensource'],
@@ -2795,7 +2795,7 @@ const Users: User[] = [
   {
     title: 'Boyka-Framework',
     description: 'Ultimate test automation for testing any application on any platform',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://wasiqbhamla.github.io/boyka-framework/',
     source: 'https://github.com/WasiqBhamla/boyka-framework/tree/main/website',
     tags: ['opensource'],
@@ -2803,7 +2803,7 @@ const Users: User[] = [
   {
     title: 'Nango',
     description: 'Open-source infrastructure for native integrations in SaaS products',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.nango.dev/',
     source: 'https://github.com/NangoHQ/nango/tree/main/docs',
     tags: ['opensource','product'],
@@ -2811,7 +2811,7 @@ const Users: User[] = [
   {
     title: 'YepCode Docs',
     description: 'Docs for the all-in-one platform that connects your services and APIs',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.yepcode.io/',
     source: null,
     tags: ['product'],
@@ -2819,7 +2819,7 @@ const Users: User[] = [
   {
     title: 'YepCode Recipes',
     description: 'Recipes for the all-in-one platform that connects your services and APIs',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://yepcode.io/recipes/',
     source: null,
     tags: ['product','large'],
@@ -2827,7 +2827,7 @@ const Users: User[] = [
   {
     title: 'Appcircle Docs',
     description: 'Appcircle is an easy-to-setup mobile CI/CD platform.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.appcircle.io/',
     source: 'https://github.com/appcircleio/appcircle-docusaurus/tree/master/',
     tags: ['opensource','product'],
@@ -2835,7 +2835,7 @@ const Users: User[] = [
   {
     title: 'Rowy Docs',
     description: 'Open-source low-code platform for Firebase, Cloud Functions and GCP',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.rowy.io/',
     source: 'https://github.com/rowyio/docs',
     tags: ['opensource','product','design'],
@@ -2843,7 +2843,7 @@ const Users: User[] = [
   {
     title: 'Keebio Documentation',
     description: 'Mechanical keyboard build guides and keyboard reprogramming info',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.keeb.io/',
     source: 'https://github.com/keebio/keebio-docs',
     tags: ['opensource','product'],
@@ -2851,7 +2851,7 @@ const Users: User[] = [
   {
     title: 'SR50 Finance',
     description: 'Reference handbook for personal finance',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://sr50.finance/',
     source: 'https://github.com/tpascarella/sr50',
     tags: ['opensource'],
@@ -2859,7 +2859,7 @@ const Users: User[] = [
   {
     title: '前端大刘',
     description: 'Record and share to make progress every day!',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://lzwdot.com/',
     source: 'https://github.com/lzwdot/lzwdot.github.io',
     tags: ['opensource','personal'],
@@ -2867,7 +2867,7 @@ const Users: User[] = [
   {
     title: 'DipScope',
     description: 'Open source tools to develop high quality software',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://dipscope.com/',
     source: null,
     tags: ['versioning'],
@@ -2875,7 +2875,7 @@ const Users: User[] = [
   {
     title: 'MutableSecurity',
     description: 'Platform for automating the lifecycle of cybersecurity solutions',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.mutablesecurity.io/',
     source: 'https://github.com/MutableSecurity/website',
     tags: ['opensource','product'],
@@ -2883,7 +2883,7 @@ const Users: User[] = [
   {
     title: 'Atlas',
     description: 'Atlas CLI helps developers manage their database schemas by applying DevOps principles.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://atlasgo.io/',
     source: 'https://github.com/ariga/atlas',
     tags: ['opensource','product'],
@@ -2891,7 +2891,7 @@ const Users: User[] = [
   {
     title: 'Ent',
     description: 'An entity framework for Go',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://entgo.io/',
     source: 'https://github.com/ent/ent/tree/master/doc/website',
     tags: ['opensource','i18n'],
@@ -2899,7 +2899,7 @@ const Users: User[] = [
   {
     title: 'NAYAtel ',
     description: 'Documentation for TAC Department',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://nayatel.shoaibsajid.com/',
     source: null,
     tags: [], // TODO not sure which tag to use here
@@ -2907,7 +2907,7 @@ const Users: User[] = [
   {
     title: 'WPShop',
     description: 'Docs site for the ShopWP WordPress plugin',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.wpshop.io/',
     source: null,
     tags: ['product'],
@@ -2915,7 +2915,7 @@ const Users: User[] = [
   {
     title: 'Polkadot Wiki',
     description: 'The central source of truth for Polkadot Network',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://wiki.polkadot.network/',
     source: 'https://github.com/w3f/polkadot-wiki/tree/master/polkadot-wiki',
     tags: ['opensource'], // TODO add web3 tag?
@@ -2923,7 +2923,7 @@ const Users: User[] = [
   {
     title: 'CodingHabits',
     description: 'An interactive learning environment for developers',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www.codinghabits.online/',
     source: null,
     tags: ['product'],
@@ -2931,7 +2931,7 @@ const Users: User[] = [
   {
     title: 'Crawlee',
     description: 'Scalable web crawling, scraping and automation library for JS/Node.js',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://crawlee.dev/',
     source: 'https://github.com/apify/crawlee/tree/master/website',
     tags: ['opensource','versioning'],
@@ -2939,7 +2939,7 @@ const Users: User[] = [
   {
     title: 'codehooks',
     description: 'Fast Serverless Backend made Easy',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://codehooks.io/',
     source: null,
     tags: ['product'],
@@ -2947,7 +2947,7 @@ const Users: User[] = [
   {
     title: 'HiCA',
     description: 'Free SSL Certificate Provider, supports ACME',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://www1.hi.cn/',
     source: null,
     tags: ['product'],
@@ -2955,7 +2955,7 @@ const Users: User[] = [
   {
     title: 'Ouch1978',
     description: 'Personal site of @Ouch1978',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://ouch1978.github.io/',
     source: 'https://github.com/Ouch1978/ouch1978.github.io',
     tags: ['opensource','personal'],
@@ -2963,7 +2963,7 @@ const Users: User[] = [
   {
     title: 'Dojo Documentation',
     description: 'Take faster card payments with Dojo.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.dojo.tech/',
     source: null,
     tags: ['product'],
@@ -2971,7 +2971,7 @@ const Users: User[] = [
   {
     title: 'Computer Science Turkish Resource',
     description: 'A Computer Science portal for enthusiasts.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://bb-tr-kaynak.netlify.app/',
     source: 'https://github.com/Fire-Oceann/bb-tr-kaynak/',
     tags: ['opensource'],
@@ -2979,7 +2979,7 @@ const Users: User[] = [
   {
     title: 'OKP4',
     description: 'Documentation portal for the OKP4 blockchain',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.okp4.network/',
     source: 'https://github.com/okp4/docs',
     tags: ['opensource','product','design'], // TODO add web3 tag
@@ -2987,7 +2987,7 @@ const Users: User[] = [
   {
     title: 'Konkatsu Strategy Guide',
     description: 'Support konkatsu (marriage hunting) in Japan',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://hikonkatsu.com/',
     source: null,
     tags: ['personal'],
@@ -2995,7 +2995,7 @@ const Users: User[] = [
   {
     title: 'Zondax Documentation',
     description: 'Building back-end tech solutions for the Web3 Space.',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.zondax.ch/',
     source: null,
     tags: ['product','design'], // TODO add web3 tag
@@ -3003,7 +3003,7 @@ const Users: User[] = [
   {
     title: 'Embedded IDE',
     description: 'A c/c++ development environment for microcontrollers',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://em-ide.com/',
     source: 'https://github.com/github0null/eide-docs',
     tags: ['opensource','i18n'],
@@ -3011,7 +3011,7 @@ const Users: User[] = [
   {
     title: 'ShellHub Documentation',
     description: 'A centralized SSH server for the the edge and cloud computing',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://docs.shellhub.io/',
     source: 'https://github.com/shellhub-io/docs',
     tags: ['opensource','product'],
@@ -3019,7 +3019,7 @@ const Users: User[] = [
   {
     title: 'Dynamoose',
     description: 'A modeling tool for Amazon\'s DynamoDB',
-    preview: require('./showcase/7wate-wiki.png'), // TODO
+    preview: null,
     website: 'https://dynamoosejs.com/',
     source: 'https://github.com/dynamoose/dynamoose/tree/main/docs',
     tags: ['opensource'],
@@ -3034,7 +3034,7 @@ const Users: User[] = [
 export type User = {
   title: string;
   description: string;
-  preview: string;
+  preview: string | null; // null = use our serverless screenshot service
   website: string;
   source: string | null;
   tags: TagType[];
