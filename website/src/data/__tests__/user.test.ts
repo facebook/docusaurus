@@ -62,6 +62,7 @@ describe('users data', () => {
         // The preview should be jest/emptyModule
         preview: Joi.object({default: Joi.any()})
           .unknown(false)
+          .allow(null)
           .required()
           .messages({
             'object.base':
