@@ -28,6 +28,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The color mode toggle to switch between light and dark mode.',
       },
+      DocCardList: {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a list of sidebar items cards.\nNotable used on the category generated-index pages.',
+      },
       DocSidebar: {
         actions: {
           eject: 'unsafe', // Too much technical code in sidebar, not very safe atm

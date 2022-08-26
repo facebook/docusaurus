@@ -35,9 +35,8 @@ This section serves as an overview of miscellaneous features of the doc sidebar.
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';
-import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
 
-<DocCardList items={useCurrentSidebarCategory().items}/>
+<DocCardList />
 ```
 
 ## Default sidebar {#default-sidebar}
