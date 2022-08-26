@@ -2545,84 +2545,485 @@ const Users: User[] = [
     tags: ['opensource','personal'],
   },
   {
-    title: '',
-    description: '',
+    title: 'WIZnet',
+    description: 'Documentation for various WIZnet products',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://docs.wiznet.io/',
+    source: 'https://github.com/Wiznet/document_framework',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Xiaohai\'s Mind Palace',
+    description: 'A place for organizing notes, writing blogs, and showcasing projects.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://xiaohai.wiki/',
+    source: 'https://github.com/xiaohai-huang/learning-notes',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Cho.sh',
+    description: 'Sunghyun Sho\'s Second Brain on the Web.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://cho.sh/',
+    source: 'https://github.com/anaclumos/www',
+    tags: ['opensource','personal','i18n'],
+  },
+  {
+    title: 'i18n-tools',
+    description: 'CLI to make common operations around i18n files simpler',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://jy95.github.io/i18n-tools/',
+    source: 'https://github.com/jy95/i18n-tools/tree/master/website',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: 'Pure.css',
+    description: 'A set of small, responsive CSS modules that you can use in every web project.',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://purecss.io/',
+    source: 'https://github.com/pure-css/pure',
+    tags: ['opensource','design'],
+  },
+  {
+    title: 'Moodle Developer Resources',
+    description: 'Moodle - the world\'s open source learning platform',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://moodledev.io/',
+    source: 'https://github.com/moodle/devdocs',
+    tags: ['opensource','product','large'],
+  },
+  {
+    title: 'Toggle',
+    description: 'Open Source real-time feature flags deployment without need of a server with SDK',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.togglee.com/',
+    source: 'https://github.com/togglee/togglee-web',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Barklarm',
+    description: 'Open Source multiplatform alarm and build status monitoring application',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.barklarm.com/',
+    source: 'https://github.com/kanekotic/barklarm-website',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Nikita\'s Everything I Know Wiki',
+    description: 'Digital wiki with notes/links.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://wiki.nikiv.dev/',
+    source: 'https://github.com/nikitavoloboev/knowledge',
+    tags: ['opensource','personal','large'],
+  },
+  {
+    title: 'Infinity Works Company Handbook',
+    description: 'An online company handbook, acting as a one-stop shop for all relevant information needed for colleagues.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://handbook.infinityworks.com/',
+    source: null,
+    tags: ['design'], // TODO need a tag for company's corporate websites?
+  },
+  {
+    title: 'Neo Blockchain Developer Portal',
+    description: 'A collection of tools and resources to help you build outstanding applications on Neo',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://developers.neo.org/',
+    source: 'https://github.com/neo-project/neo-dev-portal',
+    tags: ['opensource'], // TODO create crypto/web3 tag?
+  },
+  {
+    title: 'Yew',
+    description: 'Documentation of Yew web framework',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://yew.rs/',
+    source: 'https://github.com/yewstack/yew/tree/master/website',
+    tags: ['opensource','versioning','i18n','large'],
+  },
+  {
+    title: 'Sensory Percussion help',
+    description: 'On-line manual for Sensory Percussion, a music production tool for electronic drums.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://help.sunhou.se/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'The Fundraising Lore',
+    description: 'A guide to help founders successfully raise early-stage VC financing',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.lore.vc/',
+    source: 'https://github.com/dvitanov/lorevc',
+    tags: ['opensource','personal'], // TODO find better tag?
+  },
+  {
+    title: 'LifeOmic PHC Documentation',
+    description: 'Help and information for LifeOmic PHC',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://phc.docs.lifeomic.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Kanekotic\'s Page',
+    description: 'List of open-source projects and blog',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.kanekotic.com/',
+    source: 'https://github.com/kanekotic/kanekotic-page',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'DevTomek',
+    description: 'A Polish blog about programming, electronics and IoT',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://devtomek.pl/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'Vantevo Analytics',
+    description: 'The most complete and secure Google Analytics alternative.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://vantevo.io/docs/',
+    source: null,
+    tags: ['product','i18n'],
+  },
+  {
+    title: 'lsfusion platform documentation',
+    description: 'A declarative open-source language-based platform for information systems development',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.lsfusion.org/',
+    source: 'https://github.com/lsfusion/docusaurus',
+    tags: ['opensource','i18n','versioning'],
+  },
+  {
+    title: 'Rokt Docs',
+    description: 'Rokt\'s product documentation',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.rokt.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Harmonoid',
+    description: 'A beautiful material-design cross platform music player',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://harmonoid.com/',
+    source: null,
+    tags: ['product','design'],
+  },
+  {
+    title: 'Mentorship Guide',
+    description: 'Making mentorship accessible to all, for mentors and mentees.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://mentorship.guide/',
+    source: 'https://github.com/mentorship-sponsorship/mentorship-guide-docs',
+    tags: ['opensource','design'],
+  },
+  {
+    title: 'Vishal Gandhi',
+    description: 'The Data Column - Blog by Vishal Gandhi',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://vishalgandhi.in/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'Daily.dev Documentation',
+    description: 'Official product documentation for daily.dev',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.daily.dev/',
+    source: 'https://github.com/dailydotdev/docs',
+    tags: ['opensource','product','design'],
+  },
+  {
+    title: 'Formiz',
+    description: 'React forms with ease! Composable, headless & with built-in multi steps',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://formiz-react.com/',
+    source: 'https://github.com/ivan-dalmet/formiz/tree/master/documentation',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: 'Wener Live & Life',
+    description: 'Notes, Stories, Awesomes',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://wener.me/',
+    source: 'https://github.com/wenerme/wener/tree/master/site',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Modrinth Documentation',
+    description: 'The documentation for Modrinth, an open source Minecraft modding platform',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.modrinth.com/',
+    source: 'https://github.com/modrinth/docs',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: 'Codiga Documentation',
+    description: 'Documentation for Codiga, your Code Analysis & Coding Assistant',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://doc.codiga.io/',
+    source: 'https://github.com/codiga/doc.codiga.io/tree/main/website',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Takken.io',
+    description: 'Webber\'s personal website',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://takken.io/',
+    source: 'https://github.com/webbertakken/takken.io',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'GameCI',
+    description: 'Open source continuous integration for games',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://game.ci/',
+    source: 'https://github.com/game-ci/documentation',
+    tags: ['opensource','product','versioning'],
+  },
+  {
+    title: 'Batect',
+    description: 'The fast, consistent way to run your development and testing tasks everywhere.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://batect.dev/',
+    source: 'https://github.com/batect/batect.dev',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: 'Boyka-Framework',
+    description: 'Ultimate test automation for testing any application on any platform',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://wasiqbhamla.github.io/boyka-framework/',
+    source: 'https://github.com/WasiqBhamla/boyka-framework/tree/main/website',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: 'Nango',
+    description: 'Open-source infrastructure for native integrations in SaaS products',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://docs.nango.dev/',
+    source: 'https://github.com/NangoHQ/nango/tree/main/docs',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'YepCode Docs',
+    description: 'Docs for the all-in-one platform that connects your services and APIs',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.yepcode.io/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'YepCode Recipes',
+    description: 'Recipes for the all-in-one platform that connects your services and APIs',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://yepcode.io/recipes/',
+    source: null,
+    tags: ['product','large'],
+  },
+  {
+    title: 'Appcircle Docs',
+    description: 'Appcircle is an easy-to-setup mobile CI/CD platform.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.appcircle.io/',
+    source: 'https://github.com/appcircleio/appcircle-docusaurus/tree/master/',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Rowy Docs',
+    description: 'Open-source low-code platform for Firebase, Cloud Functions and GCP',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.rowy.io/',
+    source: 'https://github.com/rowyio/docs',
+    tags: ['opensource','product','design'],
+  },
+  {
+    title: 'Keebio Documentation',
+    description: 'Mechanical keyboard build guides and keyboard reprogramming info',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.keeb.io/',
+    source: 'https://github.com/keebio/keebio-docs',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'SR50 Finance',
+    description: 'Reference handbook for personal finance',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://sr50.finance/',
+    source: 'https://github.com/tpascarella/sr50',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: '前端大刘',
+    description: 'Record and share to make progress every day!',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://lzwdot.com/',
+    source: 'https://github.com/lzwdot/lzwdot.github.io',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'DipScope',
+    description: 'Open source tools to develop high quality software',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://dipscope.com/',
+    source: null,
+    tags: ['versioning'],
+  },
+  {
+    title: 'MutableSecurity',
+    description: 'Platform for automating the lifecycle of cybersecurity solutions',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.mutablesecurity.io/',
+    source: 'https://github.com/MutableSecurity/website',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Atlas',
+    description: 'Atlas CLI helps developers manage their database schemas by applying DevOps principles.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://atlasgo.io/',
+    source: 'https://github.com/ariga/atlas',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Ent',
+    description: 'An entity framework for Go',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://entgo.io/',
+    source: 'https://github.com/ent/ent/tree/master/doc/website',
+    tags: ['opensource','i18n'],
+  },
+  {
+    title: 'NAYAtel ',
+    description: 'Documentation for TAC Department',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://nayatel.shoaibsajid.com/',
+    source: null,
+    tags: [], // TODO not sure which tag to use here
+  },
+  {
+    title: 'WPShop',
+    description: 'Docs site for the ShopWP WordPress plugin',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.wpshop.io/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Polkadot Wiki',
+    description: 'The central source of truth for Polkadot Network',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://wiki.polkadot.network/',
+    source: 'https://github.com/w3f/polkadot-wiki/tree/master/polkadot-wiki',
+    tags: ['opensource'], // TODO add web3 tag?
+  },
+  {
+    title: 'CodingHabits',
+    description: 'An interactive learning environment for developers',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www.codinghabits.online/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Crawlee',
+    description: 'Scalable web crawling, scraping and automation library for JS/Node.js',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://crawlee.dev/',
+    source: 'https://github.com/apify/crawlee/tree/master/website',
+    tags: ['opensource','versioning'],
+  },
+  {
+    title: 'codehooks',
+    description: 'Fast Serverless Backend made Easy',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://codehooks.io/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'HiCA',
+    description: 'Free SSL Certificate Provider, supports ACME',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://www1.hi.cn/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Ouch1978',
+    description: 'Personal site of @Ouch1978',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://ouch1978.github.io/',
+    source: 'https://github.com/Ouch1978/ouch1978.github.io',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Dojo Documentation',
+    description: 'Take faster card payments with Dojo.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.dojo.tech/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Computer Science Turkish Resource',
+    description: 'A Computer Science portal for enthusiasts.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://bb-tr-kaynak.netlify.app/',
+    source: 'https://github.com/Fire-Oceann/bb-tr-kaynak/',
     tags: ['opensource'],
   },
   {
-    title: '',
-    description: '',
+    title: 'OKP4',
+    description: 'Documentation portal for the OKP4 blockchain',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
-    tags: ['opensource'],
+    website: 'https://docs.okp4.network/',
+    source: 'https://github.com/okp4/docs',
+    tags: ['opensource','product','design'], // TODO add web3 tag
   },
-
-
-
-
-
-
   {
-    title: '',
-    description: '',
+    title: 'Konkatsu Strategy Guide',
+    description: 'Support konkatsu (marriage hunting) in Japan',
     preview: require('./showcase/7wate-wiki.png'), // TODO
-    website: '',
-    source: '',
+    website: 'https://hikonkatsu.com/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'Zondax Documentation',
+    description: 'Building back-end tech solutions for the Web3 Space.',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.zondax.ch/',
+    source: null,
+    tags: ['product','design'], // TODO add web3 tag
+  },
+  {
+    title: 'Embedded IDE',
+    description: 'A c/c++ development environment for microcontrollers',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://em-ide.com/',
+    source: 'https://github.com/github0null/eide-docs',
+    tags: ['opensource','i18n'],
+  },
+  {
+    title: 'ShellHub Documentation',
+    description: 'A centralized SSH server for the the edge and cloud computing',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://docs.shellhub.io/',
+    source: 'https://github.com/shellhub-io/docs',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Dynamoose',
+    description: 'A modeling tool for Amazon\'s DynamoDB',
+    preview: require('./showcase/7wate-wiki.png'), // TODO
+    website: 'https://dynamoosejs.com/',
+    source: 'https://github.com/dynamoose/dynamoose/tree/main/docs',
     tags: ['opensource'],
   },
-
 
   /*
   Pro Tip: add your site in alphabetical order.
