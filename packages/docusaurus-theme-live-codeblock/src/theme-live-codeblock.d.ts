@@ -25,7 +25,6 @@ declare module '@theme/Playground' {
   export interface Props extends CodeBlockProps, LiveProviderProps {
     children: string;
   }
-
   export default function Playground(props: LiveProviderProps): JSX.Element;
 }
 
