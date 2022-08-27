@@ -88,11 +88,7 @@ function ErrorFallback({error, tryAgain}: ErrorProps): JSX.Element {
     <div>
       <p>{error.message}</p>
       <button type="button" onClick={tryAgain}>
-        <Translate
-          id="theme.Playground.retry.button"
-          description="The label of the try again button">
-          Try Again!
-        </Translate>
+        <Translate>Try Again!</Translate>
       </button>
     </div>
   );
