@@ -14,10 +14,45 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {usePrismTheme} from '@docusaurus/theme-common';
 
-import type {Props} from '@theme/Playground';
+import type {Props, BoundaryProps, BoundaryState} from '@theme/Playground';
 import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
 import styles from './styles.module.css';
+
+class ErrorBoundary extends React.Component<BoundaryProps, BoundaryState> {
+  constructor(props: BoundaryProps) {
+    super(props);
+    this.state = {error: null};
+  }
+
+  override componentDidCatch(error: Error) {
+    // Catch errors in any components below and re-render with error message
+    this.setState({
+      error,
+    });
+    // You can also log error messages to an error reporting service here
+  }
+
+  override render() {
+    if (this.state.error) {
+      // Error path
+      return (
+        <div>
+          <Translate
+            id="theme.Playground.error"
+            description="The error label of the live codeblocks">
+            Something went wrong.
+          </Translate>
+          <details style={{whiteSpace: 'pre-wrap'}}>
+            {this.state.error?.toString()}
+          </details>
+        </div>
+      );
+    }
+    // Normally, just render children
+    return this.props.children;
+  }
+}
 
 function Header({children}: {children: React.ReactNode}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
@@ -107,13 +142,17 @@ export default function Playground({
         {...props}>
         {playgroundPosition === 'top' ? (
           <>
-            <ResultWithHeader />
+            <ErrorBoundary>
+              <ResultWithHeader />
+            </ErrorBoundary>
             <EditorWithHeader />
           </>
         ) : (
           <>
             <EditorWithHeader />
-            <ResultWithHeader />
+            <ErrorBoundary>
+              <ResultWithHeader />
+            </ErrorBoundary>
           </>
         )}
       </LiveProvider>
