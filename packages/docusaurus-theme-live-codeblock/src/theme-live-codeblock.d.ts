@@ -17,7 +17,6 @@ declare module '@docusaurus/theme-live-codeblock' {
 }
 
 declare module '@theme/Playground' {
-  import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';
   import type {LiveProviderProps} from 'react-live';
 
@@ -25,14 +24,6 @@ declare module '@theme/Playground' {
 
   export interface Props extends CodeBlockProps, LiveProviderProps {
     children: string;
-  }
-
-  export interface BoundaryProps {
-    children: ReactNode;
-  }
-
-  export interface BoundaryState {
-    error: null | Error;
   }
 
   export default function Playground(props: LiveProviderProps): JSX.Element;
