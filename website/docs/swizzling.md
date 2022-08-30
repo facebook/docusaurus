@@ -39,7 +39,7 @@ Docusaurus provides an convenient **interactive CLI** to swizzle components. You
 npm run swizzle
 ```
 
-It will generate a new component your `src/theme` directory, which should look like this example:
+It will generate a new component in your `src/theme` directory, which should look like this example:
 
 ```mdx-code-block
 <Tabs>
