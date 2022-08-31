@@ -2728,7 +2728,7 @@ const Users: User[] = [
     tags: ['personal'],
   },
   {
-    title: 'Daily.dev Documentation',
+    title: 'daily.dev Documentation',
     description: 'Official product documentation for daily.dev',
     preview: null,
     website: 'https://docs.daily.dev/',
