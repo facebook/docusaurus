@@ -6,12 +6,17 @@ on:
       - main
       - docusaurus-v**
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
   lighthouse-report:
+    permissions:
+      pull-requests: write # for marocchino/sticky-pull-request-comment
     name: Lighthouse Report
     runs-on: ubuntu-latest
     steps:
