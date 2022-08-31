@@ -2258,12 +2258,11 @@ const Users: User[] = [
   },
   {
     title: 'Tremor',
-    description:
-      'Early-stage event processing system for unstructured data with structural pattern-matching, filtering and transformation',
+    description: 'Tremor Event Processing Engine',
     preview: require('./showcase/tremor.png'),
     website: 'https://www.tremor.rs/',
     source: 'https://github.com/tremor-rs/tremor-www',
-    tags: ['opensource', 'versioning'],
+    tags: ['opensource', 'versioning','large'],
   },
   {
     title: 'TRPG Engine',
@@ -2503,14 +2502,6 @@ const Users: User[] = [
     website: 'https://kgajera.github.io/hrvst-cli/',
     source: 'https://github.com/kgajera/hrvst-cli/tree/main/website',
     tags: ['opensource'],
-  },
-  {
-    title: 'Tremor',
-    description: 'Tremor Event Processing Engine',
-    preview: null,
-    website: 'https://www.tremor.rs/',
-    source: 'https://github.com/tremor-rs/tremor-www/',
-    tags: ['opensource','versioning','large'],
   },
   {
     title: 'TSEI.JP',
