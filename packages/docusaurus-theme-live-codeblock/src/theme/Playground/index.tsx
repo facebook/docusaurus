@@ -46,7 +46,9 @@ function ResultWithHeader() {
         <BrowserOnly fallback={<LivePreviewLoader />}>
           {() => (
             <>
-              <LivePreview />
+              <ErrorBoundary fallback={ErrorFallback}>
+                <LivePreview />
+              </ErrorBoundary>
               <LiveError />
             </>
           )}
@@ -83,26 +85,17 @@ function EditorWithHeader() {
   );
 }
 
-function ErrorFallbackWithHeader({error, tryAgain}: ErrorProps): JSX.Element {
+function ErrorFallback({error, tryAgain}: ErrorProps): JSX.Element {
   return (
     <>
-      <Header>
+      <p>{error.message}</p>
+      <button type="button" onClick={tryAgain}>
         <Translate
-          id="theme.Playground.result"
-          description="The result label of the live codeblocks">
-          Result
+          id="theme.ErrorPageContent.tryAgain"
+          description="The try again label of the error fallback">
+          Try Again!
         </Translate>
-      </Header>
-      <div className={styles.playgroundPreview}>
-        <p>{error.message}</p>
-        <button type="button" onClick={tryAgain}>
-          <Translate
-            id="theme.ErrorPageContent.tryAgain"
-            description="The try again label of the error fallback">
-            Try Again!
-          </Translate>
-        </button>
-      </div>
+      </button>
     </>
   );
 }
@@ -133,17 +126,13 @@ export default function Playground({
         {...props}>
         {playgroundPosition === 'top' ? (
           <>
-            <ErrorBoundary fallback={ErrorFallbackWithHeader}>
-              <ResultWithHeader />
-            </ErrorBoundary>
+            <ResultWithHeader />
             <EditorWithHeader />
           </>
         ) : (
           <>
             <EditorWithHeader />
-            <ErrorBoundary fallback={ErrorFallbackWithHeader}>
-              <ResultWithHeader />
-            </ErrorBoundary>
+            <ResultWithHeader />
           </>
         )}
       </LiveProvider>
