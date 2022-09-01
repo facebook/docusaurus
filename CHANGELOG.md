@@ -5,7 +5,7 @@
 #### :rocket: New Feature
 
 - `docusaurus-theme-classic`, `docusaurus-theme-common`
-  - [#8008](https://github.com/facebook/docusaurus/pull/8008) feat(theme): ability to use <DocCardList> without items prop, on any doc page ([@slorber](https://github.com/slorber))
+  - [#8008](https://github.com/facebook/docusaurus/pull/8008) feat(theme): ability to use `<DocCardList>` without items prop, on any doc page ([@slorber](https://github.com/slorber))
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
   - [#7963](https://github.com/facebook/docusaurus/pull/7963) feat(docs): allow to configure noIndex per doc version ([@slorber](https://github.com/slorber))
   - [#7949](https://github.com/facebook/docusaurus/pull/7949) feat(plugin-docs): docs sidebar item link: support "autoAddBaseUrl" attribute ([@slorber](https://github.com/slorber))
