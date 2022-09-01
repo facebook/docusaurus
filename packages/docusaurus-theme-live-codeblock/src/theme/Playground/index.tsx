@@ -83,14 +83,27 @@ function EditorWithHeader() {
   );
 }
 
-function ErrorFallback({error, tryAgain}: ErrorProps): JSX.Element {
+function ErrorFallbackWithHeader({error, tryAgain}: ErrorProps): JSX.Element {
   return (
-    <div>
-      <p>{error.message}</p>
-      <button type="button" onClick={tryAgain}>
-        <Translate>Try Again!</Translate>
-      </button>
-    </div>
+    <>
+      <Header>
+        <Translate
+          id="theme.Playground.result"
+          description="The result label of the live codeblocks">
+          Result
+        </Translate>
+      </Header>
+      <div className={styles.playgroundPreview}>
+        <p>{error.message}</p>
+        <button type="button" onClick={tryAgain}>
+          <Translate
+            id="theme.ErrorPageContent.tryAgain"
+            description="The try again label of the error fallback">
+            Try Again!
+          </Translate>
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -120,7 +133,7 @@ export default function Playground({
         {...props}>
         {playgroundPosition === 'top' ? (
           <>
-            <ErrorBoundary fallback={ErrorFallback}>
+            <ErrorBoundary fallback={ErrorFallbackWithHeader}>
               <ResultWithHeader />
             </ErrorBoundary>
             <EditorWithHeader />
@@ -128,7 +141,7 @@ export default function Playground({
         ) : (
           <>
             <EditorWithHeader />
-            <ErrorBoundary fallback={ErrorFallback}>
+            <ErrorBoundary fallback={ErrorFallbackWithHeader}>
               <ResultWithHeader />
             </ErrorBoundary>
           </>
