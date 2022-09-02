@@ -87,7 +87,7 @@ function EditorWithHeader() {
 
 function ErrorFallback({error, tryAgain}: ErrorProps): JSX.Element {
   return (
-    <>
+    <div className={styles.errorFallback}>
       <p>{error.message}</p>
       <button type="button" onClick={tryAgain}>
         <Translate
@@ -96,7 +96,7 @@ function ErrorFallback({error, tryAgain}: ErrorProps): JSX.Element {
           Try Again!
         </Translate>
       </button>
-    </>
+    </div>
   );
 }
 
