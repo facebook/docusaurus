@@ -124,13 +124,31 @@ Read more about the robots file in [the Google documentation](https://developers
 
 :::caution
 
-**Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed. Use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata) to prevent it from appearing in search results entirely.
+**Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed.
+
+To prevent your whole Docusaurus site from being indexed, use the [`noIndex`](./api/docusaurus.config.js.md#noIndex) site config. Some [hosting providers](./deployment.mdx) may also let you configure a `X-Robots-Tag: noindex` HTTP header (GitHub Pages does not support this).
+
+To prevent a single page from being indexed, use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata). Read more about the [robots meta tag](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag).
 
 :::
 
 ## Sitemap file {#sitemap-file}
 
 Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) plugin, which is shipped with `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/[baseUrl]/sitemap.xml` after the production build. This sitemap metadata helps search engine crawlers crawl your site more accurately.
+
+:::tip
+
+The sitemap plugin automatically filters pages containing a `noindex` [robots meta directive](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag).
+
+For example, [`/examples/noIndex`](/examples/noIndex) is not included in the [Docusaurus sitemap.xml file](pathname:///sitemap.xml) because it contains the following [page metadata](#single-page-metadata):
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::
 
 ## Human readable links {#human-readable-links}
 

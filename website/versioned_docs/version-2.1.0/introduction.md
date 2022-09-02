@@ -65,11 +65,9 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 </div>
 ```
 
-## Disclaimer {#disclaimer}
+## Migrating from v1 {#migrating-from-v1}
 
-Docusaurus v2 is **beta** but already quite stable and widely used.
-
-We highly encourage you to **use Docusaurus v2 over Docusaurus v1**, as Docusaurus v1 will be deprecated soon.
+Docusaurus v2 has been a total rewrite from Docusaurus v1, taking advantage of a completely modernized toolchain. After [v2's official release](https://docusaurus.io/blog/2022/08/01/announcing-docusaurus-2.0), we highly encourage you to **use Docusaurus v2 over Docusaurus v1**, as Docusaurus v1 has been deprecated.
 
 A [lot of users](/showcase) are already using Docusaurus v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)).
 
@@ -83,7 +81,9 @@ A [lot of users](/showcase) are already using Docusaurus v2 ([trends](https://ww
 **Use [Docusaurus v1](https://v1.docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
-- :x: You need support for IE11
+- :x: You need support for IE11 (...do you? IE [has already reached end-of-life](https://docs.microsoft.com/en-us/lifecycle/products/internet-explorer-11) and is no longer officially supported)
+
+For existing v1 users that are seeking to upgrade to v2, you can follow our [migration guide](./migration/migration-overview.md).
 
 ## Features {#features}
 
