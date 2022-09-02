@@ -180,26 +180,6 @@ module.exports = {
 };
 ```
 
-In addition to these plugins and themes, `@docusaurus/theme-classic` adds [`remark-admonitions`](https://github.com/elviswolcott/remark-admonitions) as a remark plugin to `@docusaurus/plugin-content-blog` and `@docusaurus/plugin-content-docs`.
-
-The `admonitions` key will be passed as the [options](https://github.com/elviswolcott/remark-admonitions#options) to `remark-admonitions`. Passing `false` will prevent the plugin from being added to MDX.
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          // options for remark-admonitions
-          admonitions: {},
-        },
-      },
-    ],
-  ],
-};
-```
-
 ### Installing presets {#installing-presets}
 
 A preset is usually an npm package, so you install them like other npm packages using npm.

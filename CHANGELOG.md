@@ -1,5 +1,66 @@
 # Docusaurus 2 Changelog
 
+## 2.1.0 (2022-09-01)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#8008](https://github.com/facebook/docusaurus/pull/8008) feat(theme): ability to use `<DocCardList>` without items prop, on any doc page ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#7963](https://github.com/facebook/docusaurus/pull/7963) feat(docs): allow to configure noIndex per doc version ([@slorber](https://github.com/slorber))
+  - [#7949](https://github.com/facebook/docusaurus/pull/7949) feat(plugin-docs): docs sidebar item link: support "autoAddBaseUrl" attribute ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#7953](https://github.com/facebook/docusaurus/pull/7953) feat(theme): adds Ukrainian default theme translations ([@b-ovsepian](https://github.com/b-ovsepian))
+
+#### :bug: Bug Fix
+
+- `create-docusaurus`
+  - [#8032](https://github.com/facebook/docusaurus/pull/8032) fix(create-docusaurus): tutorial and init template improvements ([@slorber](https://github.com/slorber))
+- `docusaurus-preset-classic`
+  - [#8029](https://github.com/facebook/docusaurus/pull/8029) fix(preset-classic): broken link in "unrecognized keys" error message ([@mdubus](https://github.com/mdubus))
+- `docusaurus`
+  - [#7977](https://github.com/facebook/docusaurus/pull/7977) fix(core): preload should support encoded page links ([@adventure-yunfei](https://github.com/adventure-yunfei))
+  - [#7996](https://github.com/facebook/docusaurus/pull/7996) fix(core): CLI command write-translations should extract translations from @docu… ([@slorber](https://github.com/slorber))
+  - [#7952](https://github.com/facebook/docusaurus/pull/7952) fix(core): allow overriding ssr/dev template meta tags ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-sitemap`
+  - [#7964](https://github.com/facebook/docusaurus/pull/7964) fix(sitemap): filter all routes with robots meta containing noindex ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#7910](https://github.com/facebook/docusaurus/pull/7910) fix(theme-classic): code block line number display with line wrapping ([@yzhe819](https://github.com/yzhe819))
+  - [#7786](https://github.com/facebook/docusaurus/pull/7786) fix: collapse siblings when first category is selected ([@whiteand](https://github.com/whiteand))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#7982](https://github.com/facebook/docusaurus/pull/7982) fix(theme): add aria-label to skip to content link region ([@YoniChechik](https://github.com/YoniChechik))
+  - [#7940](https://github.com/facebook/docusaurus/pull/7940) refactor(theme-classic): split AnnouncementBar, increase z-index, use shadow ([@slorber](https://github.com/slorber))
+  - [#7876](https://github.com/facebook/docusaurus/pull/7876) refactor(theme-classic): make tag text visually certered ([@Kosai106](https://github.com/Kosai106))
+- `docusaurus-utils`
+  - [#7941](https://github.com/facebook/docusaurus/pull/7941) feat(core): add new Webpack file-loader extensions: avif, mov, mkv, mpg, avi... ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-types`
+  - [#7942](https://github.com/facebook/docusaurus/pull/7942) feat(theme-classic): use lang attribute in navbar locale dropdown items ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#7928](https://github.com/facebook/docusaurus/pull/7928) chore(theme-translations): complete vi translations ([@datlechin](https://github.com/datlechin))
+
+#### :memo: Documentation
+
+- `create-docusaurus`
+  - [#8032](https://github.com/facebook/docusaurus/pull/8032) fix(create-docusaurus): tutorial and init template improvements ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`
+  - [#7905](https://github.com/facebook/docusaurus/pull/7905) docs: remove mention of beta ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### Committers: 10
+
+- Bagdasar Ovsepyan ([@b-ovsepian](https://github.com/b-ovsepian))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Kevin Østerkilde ([@Kosai106](https://github.com/Kosai106))
+- Morgane Dubus ([@mdubus](https://github.com/mdubus))
+- Ngô Quốc Đạt ([@datlechin](https://github.com/datlechin))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Yoni Chechik ([@YoniChechik](https://github.com/YoniChechik))
+- [@whiteand](https://github.com/whiteand)
+- [@yzhe819](https://github.com/yzhe819)
+- adventure-yunfei ([@adventure-yunfei](https://github.com/adventure-yunfei))
+
 ## 2.0.1 (2022-08-01)
 
 Fix bad npm publish of 2.0.0
