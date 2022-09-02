@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/eslint-plugin",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "ESLint plugin to enforce best Docusaurus practices.",
   "main": "lib/index.js",
   "keywords": [
