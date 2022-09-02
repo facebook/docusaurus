@@ -7,7 +7,11 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {HtmlClassNameProvider, ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  HtmlClassNameProvider,
+  ThemeClassNames,
+  PageMetadata,
+} from '@docusaurus/theme-common';
 import {
   docVersionSearchTag,
   DocsSidebarProvider,
@@ -19,13 +23,8 @@ import NotFound from '@theme/NotFound';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocPage';
 
-export default function DocPage(props: Props): JSX.Element {
+function DocPageMetadata(props: Props): JSX.Element {
   const {versionMetadata} = props;
-  const currentDocRouteMetadata = useDocRouteMetadata(props);
-  if (!currentDocRouteMetadata) {
-    return <NotFound />;
-  }
-  const {docElement, sidebarName, sidebarItems} = currentDocRouteMetadata;
   return (
     <>
       <SearchMetadata
@@ -35,6 +34,25 @@ export default function DocPage(props: Props): JSX.Element {
           versionMetadata.version,
         )}
       />
+      <PageMetadata>
+        {versionMetadata.noIndex && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
+      </PageMetadata>
+    </>
+  );
+}
+
+export default function DocPage(props: Props): JSX.Element {
+  const {versionMetadata} = props;
+  const currentDocRouteMetadata = useDocRouteMetadata(props);
+  if (!currentDocRouteMetadata) {
+    return <NotFound />;
+  }
+  const {docElement, sidebarName, sidebarItems} = currentDocRouteMetadata;
+  return (
+    <>
+      <DocPageMetadata {...props} />
       <HtmlClassNameProvider
         className={clsx(
           // TODO: it should be removed from here

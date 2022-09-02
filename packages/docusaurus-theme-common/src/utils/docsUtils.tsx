@@ -110,15 +110,18 @@ export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   if (!sidebar) {
     throw new Error('Unexpected: cant find current sidebar in context');
   }
-  const category = findSidebarCategory(sidebar.items, (item) =>
-    isSamePath(item.href, pathname),
-  );
-  if (!category) {
+  const categoryBreadcrumbs = getSidebarBreadcrumbs({
+    sidebarItems: sidebar.items,
+    pathname,
+    onlyCategories: true,
+  });
+  const deepestCategory = categoryBreadcrumbs.slice(-1)[0];
+  if (!deepestCategory) {
     throw new Error(
       `${pathname} is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages.`,
     );
   }
-  return category;
+  return deepestCategory;
 }
 
 const isActive = (testedPath: string | undefined, activePath: string) =>
@@ -149,6 +152,55 @@ export function isActiveSidebarItem(
   return false;
 }
 
+function getSidebarBreadcrumbs(param: {
+  sidebarItems: PropSidebar;
+  pathname: string;
+  onlyCategories: true;
+}): PropSidebarItemCategory[];
+
+function getSidebarBreadcrumbs(param: {
+  sidebarItems: PropSidebar;
+  pathname: string;
+}): PropSidebarBreadcrumbsItem[];
+
+/**
+ * Get the sidebar the breadcrumbs for a given pathname
+ * Ordered from top to bottom
+ */
+function getSidebarBreadcrumbs({
+  sidebarItems,
+  pathname,
+  onlyCategories = false,
+}: {
+  sidebarItems: PropSidebar;
+  pathname: string;
+  onlyCategories?: boolean;
+}): PropSidebarBreadcrumbsItem[] {
+  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
+
+  function extract(items: PropSidebarItem[]) {
+    for (const item of items) {
+      if (
+        (item.type === 'category' &&
+          (isSamePath(item.href, pathname) || extract(item.items))) ||
+        (item.type === 'link' && isSamePath(item.href, pathname))
+      ) {
+        const filtered = onlyCategories && item.type !== 'category';
+        if (!filtered) {
+          breadcrumbs.unshift(item);
+        }
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  extract(sidebarItems);
+
+  return breadcrumbs;
+}
+
 /**
  * Gets the breadcrumbs of the current doc page, based on its sidebar location.
  * Returns `null` if there's no sidebar or breadcrumbs are disabled.
@@ -157,31 +209,10 @@ export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
   const breadcrumbsOption = useActivePlugin()?.pluginData.breadcrumbs;
-
   if (breadcrumbsOption === false || !sidebar) {
     return null;
   }
-
-  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
-
-  function extract(items: PropSidebar) {
-    for (const item of items) {
-      if (
-        (item.type === 'category' &&
-          (isSamePath(item.href, pathname) || extract(item.items))) ||
-        (item.type === 'link' && isSamePath(item.href, pathname))
-      ) {
-        breadcrumbs.push(item);
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  extract(sidebar.items);
-
-  return breadcrumbs.reverse();
+  return getSidebarBreadcrumbs({sidebarItems: sidebar.items, pathname});
 }
 
 /**
@@ -331,4 +362,19 @@ export function useDocRouteMetadata({
     sidebarName,
     sidebarItems,
   };
+}
+
+/**
+ * Filter categories that don't have a link.
+ * @param items
+ */
+export function filterDocCardListItems(
+  items: PropSidebarItem[],
+): PropSidebarItem[] {
+  return items.filter((item) => {
+    if (item.type === 'category') {
+      return !!findFirstCategoryLink(item);
+    }
+    return true;
+  });
 }

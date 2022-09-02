@@ -122,6 +122,13 @@ export function getVersionBadge({
   return options.versions[versionName]?.badge ?? defaultVersionBadge;
 }
 
+export function getVersionNoIndex({
+  versionName,
+  options,
+}: VersionContext): VersionMetadata['noIndex'] {
+  return options.versions[versionName]?.noIndex ?? false;
+}
+
 function getVersionClassName({
   versionName,
   options,
@@ -179,6 +186,7 @@ async function createVersionMetadata(
     label: getVersionLabel(context),
     banner: getVersionBanner(context),
     badge: getVersionBadge(context),
+    noIndex: getVersionNoIndex(context),
     className: getVersionClassName(context),
     path: routePath,
     tagsPath: normalizeUrl([routePath, options.tagsBasePath]),

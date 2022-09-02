@@ -901,6 +901,7 @@ exports[`simple website content: data 1`] = `
   "label": "Next",
   "banner": null,
   "badge": false,
+  "noIndex": false,
   "className": "docs-version-current",
   "isLast": true,
   "docsSidebars": {
@@ -2608,6 +2609,7 @@ exports[`versioned website (community) content: data 1`] = `
   "label": "1.0.0",
   "banner": null,
   "badge": true,
+  "noIndex": false,
   "className": "docs-version-1.0.0",
   "isLast": true,
   "docsSidebars": {
@@ -2635,6 +2637,7 @@ exports[`versioned website (community) content: data 1`] = `
   "label": "Next",
   "banner": "unreleased",
   "badge": true,
+  "noIndex": false,
   "className": "docs-version-current",
   "isLast": false,
   "docsSidebars": {
@@ -3477,6 +3480,7 @@ exports[`versioned website content: data 1`] = `
   "label": "1.0.0",
   "banner": "unmaintained",
   "badge": true,
+  "noIndex": false,
   "className": "docs-version-1.0.0",
   "isLast": false,
   "docsSidebars": {
@@ -3544,6 +3548,7 @@ exports[`versioned website content: data 1`] = `
   "label": "1.0.1",
   "banner": null,
   "badge": true,
+  "noIndex": true,
   "className": "docs-version-1.0.1",
   "isLast": true,
   "docsSidebars": {
@@ -3599,6 +3604,7 @@ exports[`versioned website content: data 1`] = `
   "label": "Next",
   "banner": "unreleased",
   "badge": true,
+  "noIndex": false,
   "className": "docs-version-current",
   "isLast": false,
   "docsSidebars": {
@@ -3674,6 +3680,7 @@ exports[`versioned website content: data 1`] = `
   "label": "withSlugs",
   "banner": "unmaintained",
   "badge": true,
+  "noIndex": false,
   "className": "docs-version-withSlugs",
   "isLast": false,
   "docsSidebars": {

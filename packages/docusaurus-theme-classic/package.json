@@ -47,8 +47,6 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.21",
-    "@docusaurus/types": "2.0.0-beta.21",
     "@types/mdx-js__react": "^1.5.5",
     "@types/nprogress": "^0.2.0",
     "@types/prismjs": "^1.26.0",

@@ -55,6 +55,22 @@ declare module '@theme/AnnouncementBar' {
   export default function AnnouncementBar(): JSX.Element | null;
 }
 
+declare module '@theme/AnnouncementBar/Content' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'div'> {}
+
+  export default function AnnouncementBarContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/AnnouncementBar/CloseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {}
+
+  export default function AnnouncementBarCloseButton(props: Props): JSX.Element;
+}
+
 declare module '@theme/BackToTopButton' {
   export default function BackToTopButton(): JSX.Element;
 }
@@ -320,7 +336,7 @@ declare module '@theme/DocCardList' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
-    readonly items: PropSidebarItem[];
+    readonly items?: PropSidebarItem[];
     readonly className?: string;
   }
 

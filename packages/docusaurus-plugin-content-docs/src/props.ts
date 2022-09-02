@@ -142,6 +142,7 @@ export function toVersionMetadataProp(
     label: loadedVersion.label,
     banner: loadedVersion.banner,
     badge: loadedVersion.badge,
+    noIndex: loadedVersion.noIndex,
     className: loadedVersion.className,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),

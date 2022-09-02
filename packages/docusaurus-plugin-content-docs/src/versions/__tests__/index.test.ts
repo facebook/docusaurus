@@ -56,6 +56,7 @@ describe('readVersionsMetadata', () => {
         path: '/docs',
         banner: null,
         badge: false,
+        noIndex: false,
         className: 'docs-version-current',
       };
       return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
@@ -218,6 +219,7 @@ describe('readVersionsMetadata', () => {
         path: '/docs/next',
         banner: 'unreleased',
         badge: true,
+        noIndex: false,
         className: 'docs-version-current',
       };
 
@@ -242,6 +244,7 @@ describe('readVersionsMetadata', () => {
         path: '/docs',
         banner: null,
         badge: true,
+        noIndex: false,
         className: 'docs-version-1.0.1',
       };
 
@@ -266,6 +269,7 @@ describe('readVersionsMetadata', () => {
         path: '/docs/1.0.0',
         banner: 'unmaintained',
         badge: true,
+        noIndex: false,
         className: 'docs-version-1.0.0',
       };
 
@@ -290,6 +294,7 @@ describe('readVersionsMetadata', () => {
         path: '/docs/withSlugs',
         banner: 'unmaintained',
         badge: true,
+        noIndex: false,
         className: 'docs-version-withSlugs',
       };
 
@@ -657,6 +662,7 @@ describe('readVersionsMetadata', () => {
         path: '/communityBasePath/next',
         banner: 'unreleased',
         badge: true,
+        noIndex: false,
         className: 'docs-version-current',
       };
 
@@ -681,6 +687,7 @@ describe('readVersionsMetadata', () => {
         path: '/communityBasePath',
         banner: null,
         badge: true,
+        noIndex: false,
         className: 'docs-version-1.0.0',
       };
 
