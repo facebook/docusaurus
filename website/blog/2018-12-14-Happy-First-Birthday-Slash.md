@@ -6,7 +6,7 @@ authors:
 tags: [birth]
 ---
 
-![First Birthday Slash](/img/docusaurus-slash-first-birthday.svg)
+![Docusaurus makes 1 year! Happy Birthday Slash!](/img/docusaurus-slash-first-birthday.svg)
 
 Docusaurus [went live](https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus) on December 14, 2017. At the time, we had [8 early adopters](https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus#acknowledgements).
 
