@@ -58,7 +58,7 @@ We have made it possible to **upgrade** a **translated Docusaurus 1 site** to Do
 
 The Docusaurus 2 migration was successful and the new site is now deployed in production ([announcement post](https://jestjs.io/blog/2021/03/09/jest-website-upgrade)).
 
-[![Jest i18n screenshot](/img/blog/2021-03-09-releasing-docusaurus-i18n/jest.png)](https://jestjs.io)
+[![Jest's website front page in Japanese](/img/blog/2021-03-09-releasing-docusaurus-i18n/jest.png)](https://jestjs.io)
 
 ### Redwood: adopting Docusaurus
 
@@ -66,7 +66,7 @@ The Docusaurus 2 migration was successful and the new site is now deployed in pr
 
 They were looking for a solution to create an **internationalized learning platform**, and became early adopters of Docusaurus 2 i18n for [learn.redwoodjs.com](https://learn.redwoodjs.com/), using Crowdin to get it translated to French.
 
-[![Redwood i18n screenshot](/img/blog/2021-03-09-releasing-docusaurus-i18n/redwood.png)](https://learn.redwoodjs.com/)
+[![Redwood's doc page in French](/img/blog/2021-03-09-releasing-docusaurus-i18n/redwood.png)](https://learn.redwoodjs.com/)
 
 ### Datagit: using LTR support
 
@@ -74,7 +74,7 @@ The i18n system should work with any language, including **Right-to-Left languag
 
 [Datagit.ir](https://datagit.ir/) is using Farsi, and a simple configuration option is able to **flip the Docusaurus theme** to add the required Right-to-Left support.
 
-[![Datagit i18n screenshot](/img/blog/2021-03-09-releasing-docusaurus-i18n/datagit.png)](https://datagit.ir/)
+[![Datagit's website in Persian, a right-to-left language. The sidebar appears on the right of the window and the TOC appears on the left.](/img/blog/2021-03-09-releasing-docusaurus-i18n/datagit.png)](https://datagit.ir/)
 
 ## Conclusion
 
