@@ -563,7 +563,7 @@ module.exports = {
 };
 ```
 
-![baseUrlIssueBanner](/img/baseUrlIssueBanner.png)
+![A sample base URL issue banner. The style is very raw since the stylesheets failed to load. The text says "Your Docusaurus site did not load properly... Current configured baseUrl = / (default value); We suggest trying baseUrl = /build/](/img/baseUrlIssueBanner.png)
 
 :::caution
 
