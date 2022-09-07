@@ -13,6 +13,7 @@ import {
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {useDocsVersionCandidates} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
+import {useLocation} from '@docusaurus/router';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
@@ -29,6 +30,7 @@ export default function DocsVersionDropdownNavbarItem({
   dropdownItemsAfter,
   ...props
 }: Props): JSX.Element {
+  const {search, hash} = useLocation();
   const activeDocContext = useActiveDocContext(docsPluginId);
   const versions = useVersions(docsPluginId);
   const {savePreferredVersionName} = useDocsPreferredVersion(docsPluginId);
@@ -40,7 +42,8 @@ export default function DocsVersionDropdownNavbarItem({
       getVersionMainDoc(version);
     return {
       label: version.label,
-      to: versionDoc.path,
+      // preserve ?search#hash suffix on version switches
+      to: `${versionDoc.path}${search}${hash}`,
       isActive: () => version === activeDocContext.activeVersion,
       onClick: () => savePreferredVersionName(version.name),
     };
