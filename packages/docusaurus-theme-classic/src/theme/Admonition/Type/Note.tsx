@@ -14,7 +14,7 @@ import IconNote from '@theme/Admonition/Icon/Note';
 
 const infimaClassName = 'alert alert--secondary';
 
-const defaults = {
+const defaultProps = {
   icon: <IconNote />,
   title: (
     <Translate
@@ -28,7 +28,7 @@ const defaults = {
 export default function AdmonitionTypeNote(props: Props): JSX.Element {
   return (
     <AdmonitionLayout
-      {...defaults}
+      {...defaultProps}
       {...props}
       className={clsx(infimaClassName, props.className)}>
       {props.children}

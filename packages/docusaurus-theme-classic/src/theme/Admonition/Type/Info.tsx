@@ -14,7 +14,7 @@ import IconInfo from '@theme/Admonition/Icon/Info';
 
 const infimaClassName = 'alert alert--info';
 
-const defaults = {
+const defaultProps = {
   icon: <IconInfo />,
   title: (
     <Translate
@@ -28,7 +28,7 @@ const defaults = {
 export default function AdmonitionTypeInfo(props: Props): JSX.Element {
   return (
     <AdmonitionLayout
-      {...defaults}
+      {...defaultProps}
       {...props}
       className={clsx(infimaClassName, props.className)}>
       {props.children}

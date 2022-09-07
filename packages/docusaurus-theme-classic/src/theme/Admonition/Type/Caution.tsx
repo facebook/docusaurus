@@ -14,7 +14,7 @@ import IconCaution from '@theme/Admonition/Icon/Caution';
 
 const infimaClassName = 'alert alert--warning';
 
-const defaults = {
+const defaultProps = {
   icon: <IconCaution />,
   title: (
     <Translate
@@ -28,7 +28,7 @@ const defaults = {
 export default function AdmonitionTypeCaution(props: Props): JSX.Element {
   return (
     <AdmonitionLayout
-      {...defaults}
+      {...defaultProps}
       {...props}
       className={clsx(infimaClassName, props.className)}>
       {props.children}

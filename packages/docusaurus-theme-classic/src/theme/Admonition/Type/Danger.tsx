@@ -14,7 +14,7 @@ import IconDanger from '@theme/Admonition/Icon/Danger';
 
 const infimaClassName = 'alert alert--danger';
 
-const defaults = {
+const defaultProps = {
   icon: <IconDanger />,
   title: (
     <Translate
@@ -28,7 +28,7 @@ const defaults = {
 export default function AdmonitionTypeDanger(props: Props): JSX.Element {
   return (
     <AdmonitionLayout
-      {...defaults}
+      {...defaultProps}
       {...props}
       className={clsx(infimaClassName, props.className)}>
       {props.children}
