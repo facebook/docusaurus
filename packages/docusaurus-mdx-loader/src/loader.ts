@@ -53,7 +53,7 @@ export type MDXPlugin =
   [Plugin<any[]>, any] | Plugin<any[]>;
 
 export type MDXOptions = {
-  admonitions: boolean | AdmonitionOptions;
+  admonitions: boolean | Partial<AdmonitionOptions>;
   remarkPlugins: MDXPlugin[];
   rehypePlugins: MDXPlugin[];
   beforeDefaultRemarkPlugins: MDXPlugin[];

@@ -12,6 +12,113 @@ import type {SwizzleConfig} from '@docusaurus/types';
 export default function getSwizzleConfig(): SwizzleConfig {
   return {
     components: {
+      'Admonition/Icon': {
+        actions: {
+          eject: 'safe',
+          wrap: 'forbidden', // Can't wrap a folder
+        },
+        description: 'The folder containing all admonition icons',
+      },
+      'Admonition/Icon/Caution': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition caution icon',
+      },
+      'Admonition/Icon/Danger': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition danger icon',
+      },
+      'Admonition/Icon/Info': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition info icon',
+      },
+      'Admonition/Icon/Note': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition note icon',
+      },
+      'Admonition/Icon/Tip': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition tip icon',
+      },
+      'Admonition/Layout': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The standard admonition layout applied to all default admonition types',
+      },
+      'Admonition/Type': {
+        actions: {
+          eject: 'safe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The folder containing all the admonition type components.',
+      },
+      'Admonition/Type/Caution': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::caution admonition type',
+      },
+      'Admonition/Type/Danger': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::danger admonition type',
+      },
+      'Admonition/Type/Info': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::info admonition type',
+      },
+      'Admonition/Type/Note': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::note admonition type',
+      },
+      'Admonition/Type/Tip': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::tip admonition type',
+      },
+      'Admonition/Types': {
+        actions: {
+          eject: 'safe',
+          // TODO the swizzle CLI should provide a way to wrap such objects
+          wrap: 'forbidden',
+        },
+        description:
+          'The object mapping admonition type to a React component.\nUse it to add custom admonition type components, or replace existing ones.\nCan be ejected or wrapped (only manually, see our documentation).',
+      },
       CodeBlock: {
         actions: {
           eject: 'safe',
@@ -19,6 +126,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The component used to render multi-line code blocks, generally used in Markdown files.',
+      },
+      'CodeBlock/Content': {
+        actions: {
+          eject: 'unsafe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The folder containing components responsible for rendering different types of CodeBlock content.',
       },
       ColorModeToggle: {
         actions: {
@@ -35,6 +150,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The component responsible for rendering a list of sidebar items cards.\nNotable used on the category generated-index pages.',
+      },
+      'DocItem/TOC': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The DocItem TOC is not directly swizzle-able, but you can swizzle its sub-components.',
       },
       DocSidebar: {
         actions: {
@@ -100,6 +226,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'safe',
         },
         description: 'The footer logo',
+      },
+      Icon: {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Icon folder is not directly swizzle-able, but you can swizzle its sub-components.',
       },
       'Icon/Arrow': {
         actions: {
@@ -220,7 +357,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'forbidden',
         },
         description:
-          'The Navbar item components mapping. Can be ejected to add custom navbar item types. See https://github.com/facebook/docusaurus/issues/7227.',
+          'The Navbar item components mapping. Can be ejected to add custom navbar item types.\nSee https://github.com/facebook/docusaurus/issues/7227.',
       },
       NotFound: {
         actions: {

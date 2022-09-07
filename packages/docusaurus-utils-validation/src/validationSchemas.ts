@@ -44,8 +44,12 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
     JoiFrontMatter.object({
       tag: JoiFrontMatter.string(),
       keywords: JoiFrontMatter.array().items(
-        JoiFrontMatter.string().required(),
+        JoiFrontMatter.string(),
+        // Apparently this is how we tell job to accept empty arrays...
+        // .required(),
       ),
+      extendDefaults: JoiFrontMatter.boolean(),
+
       // TODO Remove before 2023
       customTypes: LegacyAdmonitionConfigSchema,
       icons: LegacyAdmonitionConfigSchema,

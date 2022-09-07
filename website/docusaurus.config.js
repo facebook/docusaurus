@@ -303,6 +303,9 @@ const config = {
             const nextVersionDocsDirPath = 'docs';
             return `https://github.com/facebook/docusaurus/edit/main/website/${nextVersionDocsDirPath}/${docPath}`;
           },
+          admonitions: {
+            keywords: ['my-custom-admonition'],
+          },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [math, [npm2yarn, {sync: true}]],
