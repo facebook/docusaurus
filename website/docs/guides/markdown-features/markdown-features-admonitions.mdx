@@ -261,15 +261,27 @@ The `keyword` will be passed as the `type` prop of the `Admonition` component.
 
 By default, the theme doesn't know what do to with custom admonition keywords such as `:::my-custom-admonition`. It is your responsibility to map each admonition keyword to a React component so that the theme knows how to render them.
 
-Let's consider the following config:
+If you registered a new admonition type `my-custom-admonition` via the following config:
 
-```js
-const admonitionOptions = {
-  tag: ':::',
-  keywords: ['my-custom-admonition'],
-  appendKeywords: true,
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      'classic',
+      {
+        // ...
+        docs: {
+          admonitions: {
+            tag: ':::',
+            keywords: ['my-custom-admonition'],
+            appendKeywords: true,
+          },
+        },
+      },
+    ],
+  ],
 };
-```
 
 You can provide the corresponding React component for `:::my-custom-admonition` by creating the following file (unfortunately, since it's not a React component file, it's not swizzlable):
 
