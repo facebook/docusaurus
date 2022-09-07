@@ -285,7 +285,7 @@ Accepted fields:
 | `pagination_next` | <code>string \| null</code> | Next doc in the sidebar | The ID of the documentation you want the "Next" pagination to link to. Use `null` to disable showing "Next" for this page. |
 | `pagination_prev` | <code>string \| null</code> | Previous doc in the sidebar | The ID of the documentation you want the "Previous" pagination to link to. Use `null` to disable showing "Previous" for this page. |
 | `parse_number_prefixes` | `boolean` | `numberPrefixParser` plugin option | Whether number prefix parsing is disabled on this doc. See also [Using number prefixes](/docs/sidebar#using-number-prefixes). |
-| `custom_edit_url` | `string` | Computed using the `editUrl` plugin option | The URL for editing this document. |
+| `custom_edit_url` | <code>string \| null</code> | Computed using the `editUrl` plugin option | The URL for editing this document. Use `null` to disable showing "Edit this page" for this page. |
 | `keywords` | `string[]` | `undefined` | Keywords meta tag for the document page, for search engines. |
 | `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
