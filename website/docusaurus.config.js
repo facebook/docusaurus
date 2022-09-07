@@ -305,6 +305,7 @@ const config = {
           },
           admonitions: {
             keywords: ['my-custom-admonition'],
+            extendDefaults: true,
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
