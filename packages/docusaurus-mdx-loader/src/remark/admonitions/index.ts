@@ -18,7 +18,7 @@ const NEWLINE = '\n';
 export type AdmonitionOptions = {
   tag: string;
   keywords: string[];
-  appendKeywords: boolean;
+  extendDefaults: boolean;
 };
 
 export const DefaultAdmonitionOptions: AdmonitionOptions = {
@@ -34,7 +34,7 @@ export const DefaultAdmonitionOptions: AdmonitionOptions = {
     'important',
     'caution',
   ],
-  appendKeywords: true,
+  extendDefaults: false, // TODO make it true by default: breaking change
 };
 
 function escapeRegExp(s: string): string {
@@ -48,10 +48,10 @@ function normalizeOptions(
 
   // By default it makes more sense to append keywords to the default ones
   // Adding custom keywords is more common than disabling existing ones
-  if (options.appendKeywords) {
+  if (options.extendDefaults) {
     options.keywords = [
       ...DefaultAdmonitionOptions.keywords,
-      ...(providedOptions.keywords ?? []),
+      ...options.keywords,
     ];
   }
 

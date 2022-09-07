@@ -240,7 +240,7 @@ module.exports = {
           admonitions: {
             tag: ':::',
             keywords: ['note', 'tip', 'info', 'caution', 'danger'],
-            appendKeywords: true,
+            extendDefaults: true,
           },
         },
       },
@@ -253,7 +253,7 @@ The plugin accepts the following options:
 
 - `tag`: The tag that encloses the admonition. Defaults to `:::`.
 - `keywords`: An array of keywords that can be used as the type for the admonition.
-- `appendKeywords`: Should the provided option `keywords` be merged into the existing default keywords. Defaults to `true`.
+- `extendDefaults`: Should the provided options (such as `keywords`) be merged into the existing defaults. Defaults to `false`.
 
 The `keyword` will be passed as the `type` prop of the `Admonition` component.
 
@@ -263,7 +263,7 @@ By default, the theme doesn't know what do to with custom admonition keywords su
 
 If you registered a new admonition type `my-custom-admonition` via the following config:
 
-```js title="docusaurus.config.js"
+````js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -275,7 +275,7 @@ module.exports = {
           admonitions: {
             tag: ':::',
             keywords: ['my-custom-admonition'],
-            appendKeywords: true,
+            extendDefaults: true,
           },
         },
       },
@@ -307,7 +307,7 @@ const AdmonitionTypes = {
 };
 
 export default AdmonitionTypes;
-```
+````
 
 Now you can use your new admonition keyword in a Markdown file, and it will be parsed and rendered with your custom logic:
 
