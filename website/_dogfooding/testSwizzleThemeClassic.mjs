@@ -53,12 +53,33 @@ console.log('\n');
 
 await fs.remove(toPath);
 
-async function getAllComponentNames() {
-  const names = await readComponentNames(themePath);
-  return names.concat(await getMissingIntermediateComponentFolderNames(names));
+function filterComponentNames(componentNames) {
+  // TODO temp workaround: non-comps should be forbidden to wrap
+  if (action === 'wrap') {
+    const WrapBlocklist = [
+      'Layout', // Due to theme-fallback?
+    ];
+
+    return componentNames.filter((componentName) => {
+      const blocked = WrapBlocklist.includes(componentName);
+      if (blocked) {
+        logger.warn(`${componentName} is blocked and will not be wrapped`);
+      }
+      return !blocked;
+    });
+  }
+  return componentNames;
 }
 
-let componentNames = await getAllComponentNames();
+async function getAllComponentNames() {
+  const names = await readComponentNames(themePath);
+  const allNames = names.concat(
+    await getMissingIntermediateComponentFolderNames(names),
+  );
+  return filterComponentNames(allNames);
+}
+
+const componentNames = await getAllComponentNames();
 
 const componentsNotFound = Object.keys(swizzleConfig.components).filter(
   (componentName) => !componentNames.includes(componentName),
@@ -73,21 +94,6 @@ Please double-check or clean up these components from the config:
 `,
   );
   process.exit(1);
-}
-
-// TODO temp workaround: non-comps should be forbidden to wrap
-if (action === 'wrap') {
-  const WrapBlocklist = [
-    'Layout', // Due to theme-fallback?
-  ];
-
-  componentNames = componentNames.filter((componentName) => {
-    const blocked = WrapBlocklist.includes(componentName);
-    if (blocked) {
-      logger.warn(`${componentName} is blocked and will not be wrapped`);
-    }
-    return !blocked;
-  });
 }
 
 /**
