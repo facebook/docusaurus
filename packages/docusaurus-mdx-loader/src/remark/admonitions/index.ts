@@ -34,7 +34,7 @@ export const DefaultAdmonitionOptions: AdmonitionOptions = {
     'important',
     'caution',
   ],
-  extendDefaults: false, // TODO make it true by default: breaking change
+  extendDefaults: true,
 };
 
 function escapeRegExp(s: string): string {
