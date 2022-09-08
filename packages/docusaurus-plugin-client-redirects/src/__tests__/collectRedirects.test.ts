@@ -220,6 +220,69 @@ describe('collectRedirects', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
+  it('tolerates mismatched trailing slash if option is undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/somePath',
+              },
+            ],
+          },
+          ['/', '/somePath/'],
+          {trailingSlash: undefined},
+        ),
+        undefined,
+      ),
+    ).toEqual([
+      {
+        from: '/someLegacyPath',
+        to: '/somePath',
+      },
+    ]);
+  });
+
+  it('throw if plugin option redirects contain to paths with mismatching trailing slash', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath/',
+              },
+            ],
+          },
+          ['/', '/someExistingPath', '/anotherExistingPath'],
+          {trailingSlash: false},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath',
+              },
+            ],
+          },
+          ['/', '/someExistingPath/', '/anotherExistingPath/'],
+          {trailingSlash: true},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
   it('collects redirects with custom redirect creator', () => {
     expect(
       collectRedirects(
