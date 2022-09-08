@@ -22,8 +22,8 @@
     "docusaurus-migrate": "bin/index.mjs"
   },
   "dependencies": {
-    "@babel/core": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
+    "@babel/core": "^7.19.0",
+    "@babel/preset-env": "^7.19.0",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "@mapbox/hast-util-to-jsx": "^2.0.0",

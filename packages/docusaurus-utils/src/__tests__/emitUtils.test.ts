@@ -104,7 +104,7 @@ describe('generate', () => {
 
   it('works with existing cache', async () => {
     await generate(__dirname, 'foo', 'bar');
-    expect(writeMock).toBeCalledTimes(1);
+    expect(writeMock).toHaveBeenCalledTimes(1);
   });
 
   it('works with existing file but no cache', async () => {
@@ -112,7 +112,7 @@ describe('generate', () => {
     // @ts-expect-error: seems the typedef doesn't understand overload
     readMock.mockImplementationOnce(() => Promise.resolve('bar'));
     await generate(__dirname, 'baz', 'bar');
-    expect(writeMock).toBeCalledTimes(1);
+    expect(writeMock).toHaveBeenCalledTimes(1);
   });
 
   it('works when force skipping cache', async () => {

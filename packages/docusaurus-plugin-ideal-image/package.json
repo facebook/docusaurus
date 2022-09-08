@@ -28,7 +28,7 @@
     "@docusaurus/utils-validation": "^3.0.0-alpha.0",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.3.0",
-    "sharp": "^0.30.7",
+    "sharp": "^0.31.0",
     "tslib": "^2.4.0",
     "webpack": "^5.74.0"
   },

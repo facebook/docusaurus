@@ -184,7 +184,7 @@ describe('normalizeConfig', () => {
       normalizeConfig({
         plugins,
       } as Config);
-    }).not.toThrowError();
+    }).not.toThrow();
   });
 
   it.each([
@@ -223,7 +223,7 @@ describe('normalizeConfig', () => {
       normalizeConfig({
         themes,
       } as Config);
-    }).not.toThrowError();
+    }).not.toThrow();
   });
 
   it('throws error if themes is not array', () => {
