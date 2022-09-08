@@ -24,6 +24,7 @@ import type {PluginOptions, Options} from '@docusaurus/plugin-content-docs';
 
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
+  versionedDocsPath: undefined,
   routeBasePath: 'docs', // URL Route.
   tagsBasePath: 'tags', // URL Tags Route.
   include: ['**/*.{md,mdx}'], // Extensions to include.
@@ -70,6 +71,7 @@ const VersionsOptionsSchema = Joi.object()
 
 const OptionsSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
+  versionedDocsPath: Joi.string(),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
   editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),

@@ -2814,6 +2814,311 @@ exports[`versioned website (community) getPathToWatch 1`] = `
 ]
 `;
 
+exports[`versioned website (community) with custom versions dir content 1`] = `
+{
+  "description": "Team current version (translated)",
+  "draft": false,
+  "editUrl": undefined,
+  "formattedLastUpdatedAt": undefined,
+  "frontMatter": {
+    "title": "Team title translated",
+  },
+  "id": "team",
+  "lastUpdatedAt": undefined,
+  "lastUpdatedBy": undefined,
+  "next": undefined,
+  "permalink": "/community/next/team",
+  "previous": undefined,
+  "sidebar": "community",
+  "sidebarPosition": undefined,
+  "slug": "/team",
+  "source": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
+  "sourceDirName": ".",
+  "tags": [],
+  "title": "Team title translated",
+  "unversionedId": "team",
+  "version": "current",
+}
+`;
+
+exports[`versioned website (community) with custom versions dir content 2`] = `
+{
+  "description": "Team 1.0.0",
+  "draft": false,
+  "editUrl": undefined,
+  "formattedLastUpdatedAt": undefined,
+  "frontMatter": {},
+  "id": "version-1.0.0/team",
+  "lastUpdatedAt": undefined,
+  "lastUpdatedBy": undefined,
+  "next": undefined,
+  "permalink": "/community/team",
+  "previous": undefined,
+  "sidebar": "version-1.0.0/community",
+  "sidebarPosition": undefined,
+  "slug": "/team",
+  "source": "@site/community-versions/community_versioned_docs/version-1.0.0/team.md",
+  "sourceDirName": ".",
+  "tags": [],
+  "title": "team",
+  "unversionedId": "team",
+  "version": "1.0.0",
+}
+`;
+
+exports[`versioned website (community) with custom versions dir content: 100 version sidebars 1`] = `
+{
+  "version-1.0.0/community": [
+    {
+      "id": "version-1.0.0/team",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`versioned website (community) with custom versions dir content: current version sidebars 1`] = `
+{
+  "community": [
+    {
+      "id": "team",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`versioned website (community) with custom versions dir content: data 1`] = `
+{
+  "site-community-versions-community-versioned-docs-version-1-0-0-team-md-9c8.json": "{
+  "unversionedId": "team",
+  "id": "version-1.0.0/team",
+  "title": "team",
+  "description": "Team 1.0.0",
+  "source": "@site/community-versions/community_versioned_docs/version-1.0.0/team.md",
+  "sourceDirName": ".",
+  "slug": "/team",
+  "permalink": "/community/team",
+  "draft": false,
+  "tags": [],
+  "version": "1.0.0",
+  "frontMatter": {},
+  "sidebar": "version-1.0.0/community"
+}",
+  "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
+  "unversionedId": "team",
+  "id": "team",
+  "title": "Team title translated",
+  "description": "Team current version (translated)",
+  "source": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
+  "sourceDirName": ".",
+  "slug": "/team",
+  "permalink": "/community/next/team",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Team title translated"
+  },
+  "sidebar": "community"
+}",
+  "version-1-0-0-metadata-prop-608.json": "{
+  "pluginId": "community",
+  "version": "1.0.0",
+  "label": "1.0.0",
+  "banner": null,
+  "badge": true,
+  "noIndex": false,
+  "className": "docs-version-1.0.0",
+  "isLast": true,
+  "docsSidebars": {
+    "version-1.0.0/community": [
+      {
+        "type": "link",
+        "label": "team",
+        "href": "/community/team",
+        "docId": "team"
+      }
+    ]
+  },
+  "docs": {
+    "team": {
+      "id": "team",
+      "title": "team",
+      "description": "Team 1.0.0",
+      "sidebar": "version-1.0.0/community"
+    }
+  }
+}",
+  "version-current-metadata-prop-751.json": "{
+  "pluginId": "community",
+  "version": "current",
+  "label": "Next",
+  "banner": "unreleased",
+  "badge": true,
+  "noIndex": false,
+  "className": "docs-version-current",
+  "isLast": false,
+  "docsSidebars": {
+    "community": [
+      {
+        "type": "link",
+        "label": "Team title translated",
+        "href": "/community/next/team",
+        "docId": "team"
+      }
+    ]
+  },
+  "docs": {
+    "team": {
+      "id": "team",
+      "title": "Team title translated",
+      "description": "Team current version (translated)",
+      "sidebar": "community"
+    }
+  }
+}",
+}
+`;
+
+exports[`versioned website (community) with custom versions dir content: global data 1`] = `
+{
+  "pluginName": {
+    "pluginId": {
+      "breadcrumbs": true,
+      "path": "/community",
+      "versions": [
+        {
+          "docs": [
+            {
+              "id": "team",
+              "path": "/community/next/team",
+              "sidebar": "community",
+            },
+          ],
+          "draftIds": [],
+          "isLast": false,
+          "label": "Next",
+          "mainDocId": "team",
+          "name": "current",
+          "path": "/community/next",
+          "sidebars": {
+            "community": {
+              "link": {
+                "label": "team",
+                "path": "/community/next/team",
+              },
+            },
+          },
+        },
+        {
+          "docs": [
+            {
+              "id": "team",
+              "path": "/community/team",
+              "sidebar": "version-1.0.0/community",
+            },
+          ],
+          "draftIds": [],
+          "isLast": true,
+          "label": "1.0.0",
+          "mainDocId": "team",
+          "name": "1.0.0",
+          "path": "/community",
+          "sidebars": {
+            "version-1.0.0/community": {
+              "link": {
+                "label": "version-1.0.0/team",
+                "path": "/community/team",
+              },
+            },
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`versioned website (community) with custom versions dir content: route config 1`] = `
+[
+  {
+    "component": "@theme/DocsRoot",
+    "exact": false,
+    "path": "/community",
+    "routes": [
+      {
+        "component": "@theme/DocVersionRoot",
+        "exact": false,
+        "modules": {
+          "version": "~docs/version-current-metadata-prop-751.json",
+        },
+        "path": "/community/next",
+        "priority": undefined,
+        "routes": [
+          {
+            "component": "@theme/DocRoot",
+            "exact": false,
+            "path": "/community/next",
+            "routes": [
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
+                  "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
+                },
+                "path": "/community/next/team",
+                "sidebar": "community",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        "component": "@theme/DocVersionRoot",
+        "exact": false,
+        "modules": {
+          "version": "~docs/version-1-0-0-metadata-prop-608.json",
+        },
+        "path": "/community",
+        "priority": -1,
+        "routes": [
+          {
+            "component": "@theme/DocRoot",
+            "exact": false,
+            "path": "/community",
+            "routes": [
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
+                  "content": "@site/community-versions/community_versioned_docs/version-1.0.0/team.md",
+                },
+                "path": "/community/team",
+                "sidebar": "version-1.0.0/community",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`versioned website (community) with custom versions dir getPathToWatch 1`] = `
+[
+  "community_sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
+  "community/**/*.{md,mdx}",
+  "community/**/_category_.{json,yml,yaml}",
+  "community-versions/community_versioned_sidebars/version-1.0.0-sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
+  "community-versions/community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+  "community-versions/community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+]
+`;
+
 exports[`versioned website content 1`] = `
 {
   "description": "This is next version of bar.",

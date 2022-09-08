@@ -584,6 +584,119 @@ describe('versioned website (community)', () => {
   });
 });
 
+describe('versioned website (community) with custom versions dir', () => {
+  async function loadSite() {
+    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+    const context = await loadContext({siteDir});
+    const sidebarPath = path.join(siteDir, 'community_sidebars.json');
+    const routeBasePath = 'community';
+    const pluginId = 'community';
+    const options = validateOptions({
+      validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+      options: {
+        id: 'community',
+        path: 'community',
+        versionedDocsPath: 'community-versions',
+        routeBasePath,
+        sidebarPath,
+      },
+    });
+    const plugin = await pluginContentDocs(context, options);
+    const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+    return {
+      siteDir,
+      context,
+      routeBasePath,
+      sidebarPath,
+      pluginId,
+      options,
+      plugin,
+      pluginContentDir,
+    };
+  }
+
+  it('extendCli - docsVersion', async () => {
+    const {pluginId, plugin, options, context} = await loadSite();
+    const mock = jest
+      .spyOn(cliDocs, 'cliDocsVersionCommand')
+      .mockImplementation(async () => {});
+    const cli = new commander.Command();
+    // @ts-expect-error: in actual usage, we pass the static commander instead
+    // of the new command
+    plugin.extendCli!(cli);
+    cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
+    expect(mock).toHaveBeenCalledTimes(1);
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context);
+    mock.mockRestore();
+  });
+
+  it('getPathToWatch', async () => {
+    const {siteDir, plugin} = await loadSite();
+    const pathToWatch = plugin.getPathsToWatch!();
+    const matchPattern = pathToWatch.map((filepath) =>
+      posixPath(path.relative(siteDir, filepath)),
+    );
+    expect(matchPattern).not.toEqual([]);
+    expect(matchPattern).toMatchSnapshot();
+    expect(isMatch('community/team.md', matchPattern)).toBe(true);
+    expect(
+      isMatch(
+        'community-versions/community_versioned_docs/version-1.0.0/team.md',
+        matchPattern,
+      ),
+    ).toBe(true);
+
+    // Non existing version
+    expect(
+      isMatch(
+        'community-versions/community_versioned_docs/version-2.0.0/team.md',
+        matchPattern,
+      ),
+    ).toBe(false);
+    expect(
+      isMatch(
+        'community_versioned_sidebars/version-2.0.0-sidebars.json',
+        matchPattern,
+      ),
+    ).toBe(false);
+
+    expect(isMatch('community/team.js', matchPattern)).toBe(false);
+    expect(
+      isMatch(
+        'community-versions/community_versioned_docs/version-1.0.0/team.js',
+        matchPattern,
+      ),
+    ).toBe(false);
+  });
+
+  it('content', async () => {
+    const {plugin, pluginContentDir} = await loadSite();
+    const content = await plugin.loadContent!();
+    expect(content.loadedVersions).toHaveLength(2);
+    const [currentVersion, version100] = content.loadedVersions;
+
+    expect(getDocById(currentVersion, 'team')).toMatchSnapshot();
+    expect(getDocById(version100, 'team')).toMatchSnapshot();
+
+    expect(currentVersion!.sidebars).toMatchSnapshot(
+      'current version sidebars',
+    );
+    expect(version100!.sidebars).toMatchSnapshot('100 version sidebars');
+
+    const {actions, utils} = createFakeActions(pluginContentDir);
+    await plugin.contentLoaded!({
+      content,
+      actions,
+      allContent: {},
+    });
+
+    utils.checkVersionMetadataPropCreated(currentVersion);
+    utils.checkVersionMetadataPropCreated(version100);
+
+    utils.expectSnapshot();
+  });
+});
+
 describe('site with doc label', () => {
   async function loadSite() {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
