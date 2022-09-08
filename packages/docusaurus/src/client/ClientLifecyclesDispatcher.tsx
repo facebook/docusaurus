@@ -52,8 +52,12 @@ function ClientLifecyclesDispatcher({
       if (previousLocation) {
         scrollAfterNavigation(location);
       }
-      dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
+      return dispatchLifecycleAction('onRouteDidUpdate', {
+        previousLocation,
+        location,
+      });
     }
+    return undefined;
   }, [previousLocation, location]);
   return children;
 }

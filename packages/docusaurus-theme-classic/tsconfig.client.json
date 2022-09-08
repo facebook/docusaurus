@@ -13,6 +13,7 @@
   "include": [
     "src/nprogress.ts",
     "src/prism-include-languages.ts",
+    "src/routeAnnouncer.ts",
     "src/theme",
     "src/*.d.ts"
   ],

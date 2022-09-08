@@ -10,6 +10,7 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@docusaurus/Interpolate": "../../../../client/exports/Interpolate.tsx",
   "@docusaurus/Link": "../../../../client/exports/Link.tsx",
   "@docusaurus/Noop": "../../../../client/exports/Noop.ts",
+  "@docusaurus/Portal": "../../../../client/exports/Portal.tsx",
   "@docusaurus/Translate": "../../../../client/exports/Translate.tsx",
   "@docusaurus/constants": "../../../../client/exports/constants.ts",
   "@docusaurus/isInternalUrl": "../../../../client/exports/isInternalUrl.ts",

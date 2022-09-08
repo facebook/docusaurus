@@ -143,6 +143,7 @@ export default function themeClassic(
         require.resolve(getInfimaCSSFile(direction)),
         './prism-include-languages',
         './nprogress',
+        './routeAnnouncer',
       ];
 
       modules.push(...customCss.map((p) => path.resolve(context.siteDir, p)));
