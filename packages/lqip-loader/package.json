@@ -20,7 +20,7 @@
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
-    "sharp": "^0.30.7",
+    "sharp": "^0.31.0",
     "tslib": "^2.4.0"
   },
   "engines": {
