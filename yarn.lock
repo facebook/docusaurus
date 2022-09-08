@@ -7657,11 +7657,6 @@ flux@^4.0.1:
     fbemitter "^3.0.0"
     fbjs "^3.0.1"
 
-focus-options-polyfill@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/focus-options-polyfill/-/focus-options-polyfill-1.5.1.tgz#0f422580d9d1fb65651f2968b547032eb17dab3c"
-  integrity sha512-7yH20IePROHJLLbJvqqtsG420jE6DuukccapiB/WagtUpnc98r9NzHbX5rnjCDgdZqLgcqlzGjn+8l0Zb8Zf9w==
-
 follow-redirects@^1.0.0, follow-redirects@^1.14.0, follow-redirects@^1.14.7:
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
@@ -12669,13 +12664,10 @@ react-loadable-ssr-addon-v5-slorber@^1.0.1:
   dependencies:
     "@babel/runtime" "^7.10.3"
 
-react-medium-image-zoom@^4.4.3:
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/react-medium-image-zoom/-/react-medium-image-zoom-4.4.3.tgz#d5e3074becef7be4bfe35ebcd291eac462093bf5"
-  integrity sha512-I928Z6mEMRUup4CPa+XtASiSuFzdVb1ecztXpF7xAJddXv4XZSE4n5gleZNYCn5wEU1LQY5LiN4aNW4KgrOVIA==
-  dependencies:
-    focus-options-polyfill "1.5.1"
-    tslib "^2.4.0"
+react-medium-image-zoom@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-medium-image-zoom/-/react-medium-image-zoom-5.0.2.tgz#2ec051205e7bfc53759f8a3a1bfd1c594f96100c"
+  integrity sha512-DGdsNaixDgXnEFFpCV6YHJYG4VQOvzs3PHS3h+nfIV82GO0cWetXrBQFGA77DMGODe6DuBX2SQPqZAQVKpLdcw==
 
 react-popper@^2.3.0:
   version "2.3.0"
