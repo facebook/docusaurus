@@ -107,7 +107,7 @@ describe('handleBrokenLinks', () => {
 
   it('do not report anything for correct paths', async () => {
     const consoleMock = jest
-      .spyOn(console, 'error')
+      .spyOn(console, 'warn')
       .mockImplementation(() => {});
     const allCollectedCorrectLinks = {
       '/docs/good doc with space': [
@@ -136,12 +136,12 @@ describe('handleBrokenLinks', () => {
     };
     await handleBrokenLinks({
       allCollectedLinks: allCollectedCorrectLinks,
-      onBrokenLinks: 'error',
+      onBrokenLinks: 'warn',
       routes,
       baseUrl: '/',
       outDir,
     });
-    expect(consoleMock).toBeCalledTimes(0);
+    expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 
   it('reports all broken links', async () => {
@@ -167,7 +167,7 @@ describe('handleBrokenLinks', () => {
       baseUrl: '/',
       outDir,
     });
-    expect(lodashMock).toBeCalledTimes(0);
+    expect(lodashMock).toHaveBeenCalledTimes(0);
     lodashMock.mockRestore();
   });
 

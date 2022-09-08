@@ -98,7 +98,7 @@ describe('normalizeLocation', () => {
       search: '',
       hash: '#features',
     });
-    expect(replaceMock).toBeCalledTimes(1);
+    expect(replaceMock).toHaveBeenCalledTimes(1);
 
     expect(
       normalizeLocation({
