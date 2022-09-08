@@ -20,7 +20,7 @@
 }
 
 .tagRegular {
-  border-radius: 0.5rem;
+  border-radius: var(--ifm-global-radius);
   padding: 0.2rem 0.5rem 0.3rem;
   font-size: 90%;
 }
