@@ -38,14 +38,7 @@ export default function DocNavbarItem({
       {...props}
       isActive={(_match, location) => {
         if (activeBaseRegex) {
-          console.log('using activeBaseRegex', activeBaseRegex);
-          console.log('location', location.pathname);
-          const matched = isRegexpStringMatch(
-            activeBaseRegex,
-            location.pathname,
-          );
-          console.log('matched', matched);
-          return matched;
+          return isRegexpStringMatch(activeBaseRegex, location.pathname);
         }
         if (activeBasePath) {
           return location.pathname.startsWith(activeBaseUrl);

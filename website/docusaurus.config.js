@@ -438,6 +438,12 @@ const config = {
             activeBaseRegex: `/docs/playground`,
           },
           {
+            type: 'doc',
+            position: 'left',
+            docId: 'playground',
+            label: 'Playground',
+          },
+          {
             type: 'docSidebar',
             position: 'left',
             sidebarId: 'api',
