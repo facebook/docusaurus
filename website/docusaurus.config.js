@@ -431,6 +431,13 @@ const config = {
             label: 'Docs',
           },
           {
+            type: 'doc',
+            position: 'left',
+            docId: 'playground',
+            label: 'Playground',
+            activeBaseRegex: `/docs/playground`,
+          },
+          {
             type: 'docSidebar',
             position: 'left',
             sidebarId: 'api',
