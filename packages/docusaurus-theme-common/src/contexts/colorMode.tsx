@@ -36,6 +36,12 @@ const Context = React.createContext<ContextValue | undefined>(undefined);
 const ColorModeStorageKey = 'theme';
 const ColorModeStorage = createStorageSlot(ColorModeStorageKey);
 
+const PrefersDarkModeStorageKey = 'prefers-dark-mode';
+const PrefersDarkModeStorage = createStorageSlot(PrefersDarkModeStorageKey);
+const storePrefersDarkMode = (prefers: boolean) => {
+  PrefersDarkModeStorage.set(prefers.toString());
+};
+
 const ColorModes = {
   light: 'light',
   dark: 'dark',
@@ -47,10 +53,36 @@ export type ColorMode = typeof ColorModes[keyof typeof ColorModes];
 const coerceToColorMode = (colorMode?: string | null): ColorMode =>
   colorMode === ColorModes.dark ? ColorModes.dark : ColorModes.light;
 
-const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode =>
-  ExecutionEnvironment.canUseDOM
-    ? coerceToColorMode(document.documentElement.getAttribute('data-theme'))
-    : coerceToColorMode(defaultMode);
+const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode => {
+  // The preferred color mode is stored in localStorage so we can compare it
+  // with the preferred scheme when the user revisits the site. We compare if
+  // it has changed since the last time they visited the site, and if so,
+  // we update the color mode to match their preferred scheme.
+  if (!ExecutionEnvironment.canUseDOM) {
+    return coerceToColorMode(defaultMode);
+  }
+
+  // preferredDarkMode is what was last stored
+  const preferredDarkMode = PrefersDarkModeStorage.get();
+  // prefersDarkMode is what the user prefers now
+  const prefersDarkMode = window.matchMedia(
+    '(prefers-color-scheme: dark)',
+  ).matches;
+
+  if (prefersDarkMode && preferredDarkMode === 'false') {
+    // User preferred light mode but prefers dark mode now
+    storePrefersDarkMode(true);
+    return ColorModes.dark;
+  }
+  if (!prefersDarkMode && preferredDarkMode === 'true') {
+    // User preferred dark mode but prefers light mode now
+    storePrefersDarkMode(false);
+    return ColorModes.light;
+  }
+
+  // No data => use document tag
+  return coerceToColorMode(document.documentElement.getAttribute('data-theme'));
+};
 
 const storeColorMode = (newColorMode: ColorMode) => {
   ColorModeStorage.set(coerceToColorMode(newColorMode));
@@ -73,6 +105,16 @@ function useContextValue(): ContextValue {
       ColorModeStorage.del();
     }
   }, [disableSwitch]);
+
+  useEffect(() => {
+    // A site is deployed with respectPrefersColorScheme
+    // => User visits the site and has a persisted value
+    // => Site later disabled respectPrefersColorScheme
+    // => Clear the previously stored value to apply the site's setting
+    if (!respectPrefersColorScheme) {
+      PrefersDarkModeStorage.del();
+    }
+  }, [respectPrefersColorScheme]);
 
   const setColorMode = useCallback(
     (newColorMode: ColorMode | null, options: {persist?: boolean} = {}) => {
@@ -133,15 +175,16 @@ function useContextValue(): ContextValue {
       return undefined;
     }
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = () => {
+    const onChange = (e: MediaQueryListEvent) => {
       if (window.matchMedia('print').matches || previousMediaIsPrint.current) {
         previousMediaIsPrint.current = window.matchMedia('print').matches;
         return;
       }
       setColorMode(null);
+      storePrefersDarkMode(e.matches);
     };
-    mql.addListener(onChange);
-    return () => mql.removeListener(onChange);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
   }, [setColorMode, disableSwitch, respectPrefersColorScheme]);
 
   return useMemo(
