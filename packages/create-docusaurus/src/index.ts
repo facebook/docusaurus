@@ -458,7 +458,7 @@ export default async function init(
 ): Promise<void> {
   const [templates, siteName] = await Promise.all([
     readTemplates(),
-    getSiteName(reqName, rootDir)
+    getSiteName(reqName, rootDir),
   ]);
   const dest = path.resolve(rootDir, siteName);
   const source = await getSource(reqTemplate, templates, cliOptions);
