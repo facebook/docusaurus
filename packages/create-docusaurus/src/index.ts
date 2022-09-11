@@ -456,8 +456,10 @@ export default async function init(
   reqTemplate?: string,
   cliOptions: CLIOptions = {},
 ): Promise<void> {
-  const templates = await readTemplates();
-  const siteName = await getSiteName(reqName, rootDir);
+  const [templates, siteName] = await Promise.all([
+    readTemplates(),
+    getSiteName(reqName, rootDir),
+  ]);
   const dest = path.resolve(rootDir, siteName);
   const source = await getSource(reqTemplate, templates, cliOptions);
 
