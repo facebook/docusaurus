@@ -31,4 +31,4 @@ export default `
     <%~ it.postBodyTags %>
   </body>
 </html>
-`; 
+`;
