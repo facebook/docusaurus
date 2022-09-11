@@ -20,7 +20,7 @@ You now need to swizzle the admonitions component to provide UI customizations s
 Please refer to https://github.com/facebook/docusaurus/pull/7152 for detailed upgrade instructions."
 `;
 
-exports[`validation schemas admonitionsSchema: for value={"keywords":[]} 1`] = `""keywords" does not contain 1 required value(s)"`;
+exports[`validation schemas admonitionsSchema: for value={"keywords":["custom-keyword"],"extendDefaults":42} 1`] = `""extendDefaults" must be a boolean"`;
 
 exports[`validation schemas admonitionsSchema: for value={"tag":""} 1`] = `""tag" is not allowed to be empty"`;
 

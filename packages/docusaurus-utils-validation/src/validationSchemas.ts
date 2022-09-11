@@ -44,8 +44,12 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
     JoiFrontMatter.object({
       tag: JoiFrontMatter.string(),
       keywords: JoiFrontMatter.array().items(
-        JoiFrontMatter.string().required(),
+        JoiFrontMatter.string(),
+        // Apparently this is how we tell job to accept empty arrays...
+        // .required(),
       ),
+      extendDefaults: JoiFrontMatter.boolean(),
+
       // TODO Remove before 2023
       customTypes: LegacyAdmonitionConfigSchema,
       icons: LegacyAdmonitionConfigSchema,
@@ -65,6 +69,9 @@ export const URISchema = Joi.alternatives(
   // This custom validation logic is required notably because Joi does not
   // accept paths like /a/b/c ...
   Joi.custom((val: unknown, helpers) => {
+    if (typeof val !== 'string') {
+      return helpers.error('any.invalid');
+    }
     try {
       // eslint-disable-next-line no-new
       new URL(String(val));

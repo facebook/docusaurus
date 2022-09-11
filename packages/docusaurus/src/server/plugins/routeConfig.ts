@@ -63,6 +63,8 @@ export function sortConfig(
   });
 
   routeConfigs.forEach((routeConfig) => {
-    routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
+    if (routeConfig.routes) {
+      sortConfig(routeConfig.routes, baseUrl);
+    }
   });
 }

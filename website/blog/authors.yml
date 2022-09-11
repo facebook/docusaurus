@@ -1,10 +1,18 @@
 JMarcey:
   name: Joel Marcey
-  title: Technical Lead & Developer Advocate at Facebook
-  url: http://twitter.com/JoelMarcey
+  title: Developer Advocate at Meta
+  url: https://twitter.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
   email: jimarcey@gmail.com
   twitter: JoelMarcey
+
+zpao:
+  name: Paul O’Shannessy
+  title: Engineering Manager at Meta
+  url: https://twitter.com/zpao
+  image_url: https://github.com/zpao.png
+  email: jimarcey@gmail.com
+  twitter: zpao
 
 slorber:
   name: Sébastien Lorber
@@ -16,7 +24,7 @@ slorber:
 
 yangshun:
   name: Yangshun Tay
-  title: Front End Engineer at Facebook
+  title: Front End Engineer at Meta
   url: https://github.com/yangshun
   image_url: https://github.com/yangshun.png
   twitter: yangshunz

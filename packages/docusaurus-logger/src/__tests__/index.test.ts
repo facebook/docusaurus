@@ -150,12 +150,12 @@ describe('report', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Unexpected "reportingSeverity" value: foo."`,
     );
-    expect(consoleLog).toBeCalledTimes(1);
-    expect(consoleLog).toBeCalledWith(
+    expect(consoleLog).toHaveBeenCalledTimes(1);
+    expect(consoleLog).toHaveBeenCalledWith(
       expect.stringMatching(/.*\[INFO\].* hey/),
     );
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringMatching(/.*\[WARNING\].* hey/),
     );
   });

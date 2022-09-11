@@ -62,7 +62,13 @@ export function useHideableNavbar(hideOnScroll: boolean): {
       return;
     }
 
-    if (locationChangeEvent.location.hash) {
+    // See https://github.com/facebook/docusaurus/pull/8059#issuecomment-1239639480
+    const currentHash = locationChangeEvent.location.hash;
+    const currentHashAnchor = currentHash
+      ? document.getElementById(currentHash.substring(1))
+      : undefined;
+
+    if (currentHashAnchor) {
       isFocusedAnchor.current = true;
       setIsNavbarVisible(false);
       return;

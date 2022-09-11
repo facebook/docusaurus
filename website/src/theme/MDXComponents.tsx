@@ -7,8 +7,10 @@
 
 import MDXComponents from '@theme-original/MDXComponents';
 import Highlight from '@site/src/components/Highlight';
+import TweetQuote from '@site/src/components/TweetQuote';
 
 export default {
   ...MDXComponents,
   highlight: Highlight,
+  TweetQuote,
 };

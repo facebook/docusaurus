@@ -20,4 +20,4 @@ We are working on ways to honor Endi's contributions - a commemorative sticker, 
 
 The Docusaurus project will not be the same without Endi, and those of us who worked with him will miss him greatly. 😔
 
-![Endi](/img/endi.jpg)
+![A photo from behind Endi's back, with Endi sitting on a rock cliff, facing the vast sea. His right hand forms a V pose.](/img/endi.jpg)

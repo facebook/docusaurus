@@ -6,12 +6,17 @@ on:
       - main
       - docusaurus-v**
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
   lighthouse-report:
+    permissions:
+      pull-requests: write # for marocchino/sticky-pull-request-comment
     name: Lighthouse Report
     runs-on: ubuntu-latest
     steps:
@@ -37,7 +42,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number}}
       - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@7a5c598405937d486b0331594b5da2b14db670da # v6
+        uses: actions/github-script@c713e510dbd7d213d92d41b7a7805a986f4c5c66 # v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/types",
-  "version": "2.0.0-rc.1",
+  "version": "3.0.0-alpha.0",
   "description": "Common types for Docusaurus packages.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -19,7 +19,7 @@
     "joi": "^17.6.0",
     "react-helmet-async": "^1.3.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.73.0",
+    "webpack": "^5.74.0",
     "webpack-merge": "^5.8.0"
   },
   "peerDependencies": {

@@ -17,7 +17,7 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   themes: ['live-codeblock'],
-  plugins: [],
+  plugins: ['ideal-image'],
   presets: [
     [
       'classic',

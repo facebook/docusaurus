@@ -11,8 +11,9 @@ export type I18nLocaleConfig = {
   /** The label displayed for this locale in the locales dropdown. */
   label: string;
   /**
-   * BCP 47 language tag to use in `<html lang="...">` and in
-   * `<link ... hreflang="...">`
+   * BCP 47 language tag to use in:
+   * - `<html lang="...">` (or any other DOM tag name)
+   * - `<link ... hreflang="...">`
    */
   htmlLang: string;
   /** Used to select the locale's CSS and html meta attribute. */

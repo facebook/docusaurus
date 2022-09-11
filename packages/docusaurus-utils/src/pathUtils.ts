@@ -119,5 +119,5 @@ export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep)
     ? str
     : // If this is Windows, we need to change the forward slash to backward
-      `${str.replace(/\/$/, '')}${path.sep}`;
+      `${str.replace(/[\\/]$/, '')}${path.sep}`;
 }

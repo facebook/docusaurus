@@ -122,6 +122,6 @@ describe('base webpack config', () => {
       .mockImplementation(() => fileLoaderUtils);
 
     await createBaseConfig(props, false, false);
-    expect(mockSvg).toBeCalled();
+    expect(mockSvg).toHaveBeenCalled();
   });
 });

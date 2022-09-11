@@ -28,7 +28,10 @@ export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 
-export {useCurrentSidebarCategory} from './utils/docsUtils';
+export {
+  useCurrentSidebarCategory,
+  filterDocCardListItems,
+} from './utils/docsUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
@@ -75,3 +78,5 @@ export {duplicates, uniq} from './utils/jsUtils';
 export {usePrismTheme} from './hooks/usePrismTheme';
 
 export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';
+
+export {processAdmonitionProps} from './utils/admonitionUtils';

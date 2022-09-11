@@ -36,13 +36,34 @@ describe('admonitions remark plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('custom keywords', async () => {
-    const result = await processFixture('base', {keywords: ['tip']});
+  it('default behavior for custom keyword', async () => {
+    const result = await processFixture('base', {
+      keywords: ['tip'],
+      // extendDefaults: false, // By default we don't extend
+    });
+    expect(result).toMatchSnapshot();
+  });
+
+  it('add custom keyword', async () => {
+    const result = await processFixture('base', {
+      keywords: ['tip'],
+      extendDefaults: true,
+    });
+    expect(result).toMatchSnapshot();
+  });
+
+  it('replace custom keyword', async () => {
+    const result = await processFixture('base', {
+      keywords: ['tip'],
+      extendDefaults: false,
+    });
     expect(result).toMatchSnapshot();
   });
 
   it('custom tag', async () => {
-    const result = await processFixture('base', {tag: '++++'});
+    const result = await processFixture('base', {
+      tag: '++++',
+    });
     expect(result).toMatchSnapshot();
   });
 

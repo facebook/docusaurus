@@ -44,15 +44,132 @@ declare module '@theme/Admonition' {
 
   export interface Props {
     readonly children: ReactNode;
-    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly type: string;
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
+    readonly className?: string;
   }
+
   export default function Admonition(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Note' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeNote(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Info' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeInfo(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Tip' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeTip(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Caution' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Danger' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeDanger(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Types' {
+  import type {ComponentType} from 'react';
+  import type {Props} from '@theme/Admonition';
+
+  const AdmonitionTypes: {
+    [admonitionType: string]: ComponentType<Props>;
+  };
+
+  export default AdmonitionTypes;
+}
+
+declare module '@theme/Admonition/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: string;
+    readonly icon?: ReactNode;
+    readonly title?: ReactNode;
+    readonly className?: string;
+  }
+  export default function AdmonitionLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Note' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconNote(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Tip' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconTip(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Caution' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Danger' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconDanger(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Icon/Info' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function AdmonitionIconInfo(props: Props): JSX.Element;
 }
 
 declare module '@theme/AnnouncementBar' {
   export default function AnnouncementBar(): JSX.Element | null;
+}
+
+declare module '@theme/AnnouncementBar/Content' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'div'> {}
+
+  export default function AnnouncementBarContent(props: Props): JSX.Element;
+}
+
+declare module '@theme/AnnouncementBar/CloseButton' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {}
+
+  export default function AnnouncementBarCloseButton(props: Props): JSX.Element;
 }
 
 declare module '@theme/BackToTopButton' {
@@ -320,7 +437,7 @@ declare module '@theme/DocCardList' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
-    readonly items: PropSidebarItem[];
+    readonly items?: PropSidebarItem[];
     readonly className?: string;
   }
 
@@ -363,17 +480,17 @@ declare module '@theme/DocItem/Footer' {
   export default function DocItemFooter(): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout' {
+declare module '@theme/DocRoot/Layout' {
   import type {ReactNode} from 'react';
 
   export interface Props {
     readonly children: ReactNode;
   }
 
-  export default function DocPageLayout(props: Props): JSX.Element;
+  export default function DocRootLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Sidebar' {
+declare module '@theme/DocRoot/Layout/Sidebar' {
   import type {Dispatch, SetStateAction} from 'react';
   import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -383,20 +500,20 @@ declare module '@theme/DocPage/Layout/Sidebar' {
     readonly setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
   }
 
-  export default function DocPageLayoutSidebar(props: Props): JSX.Element;
+  export default function DocRootLayoutSidebar(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Sidebar/ExpandButton' {
+declare module '@theme/DocRoot/Layout/Sidebar/ExpandButton' {
   export interface Props {
     toggleSidebar: () => void;
   }
 
-  export default function DocPageLayoutSidebarExpandButton(
+  export default function DocRootLayoutSidebarExpandButton(
     props: Props,
   ): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout/Main' {
+declare module '@theme/DocRoot/Layout/Main' {
   import type {ReactNode} from 'react';
 
   export interface Props {
@@ -404,7 +521,7 @@ declare module '@theme/DocPage/Layout/Main' {
     readonly children: ReactNode;
   }
 
-  export default function DocPageLayoutMain(props: Props): JSX.Element;
+  export default function DocRootLayoutMain(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPaginator' {
@@ -644,6 +761,14 @@ declare module '@theme/Heading' {
   }
 
   export default function Heading(props: Props): JSX.Element;
+}
+
+declare module '@theme/NotFound/Content' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function NotFoundContent(props: Props): JSX.Element;
 }
 
 declare module '@theme/Layout' {
