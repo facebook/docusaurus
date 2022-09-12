@@ -207,12 +207,16 @@ Wrapping a theme is a great way to **add extra components around existing one** 
 import React from 'react';
 import BlogPostItem from '@theme-original/BlogPostItem';
 import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+import { useBlogPost } from '@docusaurus/theme-common/internal':
 
 export default function BlogPostItemWrapper(props) {
+  // use this hook to determine that it is currently in blog posts or blog page
+  const { isBlogPostPage } = useBlogPost();
+  
   return (
     <>
       <BlogPostItem {...props} />
-      <MyCustomCommentSystem />
+      {isBlogPostPage && <MyCustomCommentSystem />}
     </>
   );
 }
