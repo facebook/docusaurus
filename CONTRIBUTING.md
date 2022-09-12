@@ -116,6 +116,7 @@ You can also try using the new [github.dev](https://github.dev/facebook/docusaur
 - **For documentation**: Do not wrap lines at 80 characters - configure your editor to soft-wrap when editing documentation.
 
 Don't worry too much about styles in general—the maintainers will help you fix them as they review your code.
+For addditonal Code Conventions tips visit CONTRIBUTING_ADDITONAL_TIPS.md. 
 
 ## Pull Requests
 
