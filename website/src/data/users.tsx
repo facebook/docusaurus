@@ -1913,6 +1913,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Seaography - 🧭 A GraphQL framework and code generator for SeaORM',
+    description:
+      'Seaography is a GraphQL framework for building GraphQL resolvers using SeaORM entities.',
+    preview: require('./showcase/Seaography.png'),
+    website: 'https://www.sea-ql.org/Seaography/',
+    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/Seaography',
+    tags: ['opensource'],
+  },
+  {
     title: 'SeaORM - 🐚 An async & dynamic ORM for Rust',
     description:
       'A relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
