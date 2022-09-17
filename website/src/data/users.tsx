@@ -1918,7 +1918,7 @@ const Users: User[] = [
       'A relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
     preview: require('./showcase/SeaORM.png'),
     website: 'https://www.sea-ql.org/SeaORM/',
-    source: 'https://github.com/SeaQL/seaql.github.io',
+    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/SeaORM',
     tags: ['opensource', 'versioning'],
   },
   {
