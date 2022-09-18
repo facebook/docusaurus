@@ -19,6 +19,7 @@ import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
+import RouteAnnouncer from './exports/RouteAnnouncer';
 
 // TODO, quick fix for CSS insertion order
 // eslint-disable-next-line import/order
@@ -38,6 +39,7 @@ export default function App(): JSX.Element {
             <PendingNavigation location={normalizeLocation(location)}>
               {routeElement}
             </PendingNavigation>
+            <RouteAnnouncer />
           </Root>
         </BrowserContextProvider>
       </DocusaurusContextProvider>
