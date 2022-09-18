@@ -27,6 +27,21 @@ import type {Props} from '@docusaurus/Link';
 // like "introduction" to "/baseUrl/introduction" => bad behavior to fix
 const shouldAddBaseUrlAutomatically = (to: string) => to.startsWith('/');
 
+const isSlowConnection = () => {
+  if (!window) {
+    return;
+  }
+
+  const cn = (navigator as any).connection as {
+    saveData: boolean;
+    effectiveType: string;
+  } | null;
+  if (cn && (cn.saveData || /2g/.test(cn.effectiveType))) {
+    return true;
+  }
+  return false;
+};
+
 function Link(
   {
     isNavLink,
@@ -105,7 +120,7 @@ function Link(
             if (entry.isIntersecting || entry.intersectionRatio > 0) {
               ioRef.current!.unobserve(el);
               ioRef.current!.disconnect();
-              if (targetLink != null) {
+              if (targetLink != null && !isSlowConnection()) {
                 window.docusaurus.prefetch(targetLink);
               }
             }
@@ -126,7 +141,7 @@ function Link(
 
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once).
-    if (!IOSupported && isInternal) {
+    if (!IOSupported && isInternal && !isSlowConnection()) {
       if (targetLink != null) {
         window.docusaurus.prefetch(targetLink);
       }
