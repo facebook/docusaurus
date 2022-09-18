@@ -31,7 +31,7 @@ export const RouteAnnouncer = React.memo(() => {
 
       setRouteAnnouncement(content || pathname);
     }
-  }, [asPath]);
+  }, [pathname]);
 
   return (
     <p
