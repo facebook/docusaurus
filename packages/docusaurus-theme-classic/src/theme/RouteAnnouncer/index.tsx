@@ -1,20 +1,8 @@
 import React from "react";
 import {useLocation} from "@docusaurus/router";
+import styles from './styles.module.css';
 
-const docusaurusjsRouteAnnouncerStyles: React.CSSProperties = {
-  border: 0,
-  clip: "rect(0 0 0 0)",
-  height: "1px",
-  margin: "-1px",
-  overflow: "hidden",
-  padding: 0,
-  position: "absolute",
-  width: "1px",
-  whiteSpace: "nowrap",
-  wordWrap: "normal",
-};
-
-export const RouteAnnouncer = React.memo(() => {
+const RouteAnnouncer = React.memo(() => {
   const { pathname } = useLocation();
   const [routeAnnouncement, setRouteAnnouncement] = React.useState("");
   const previouslyLoadedPath = React.useRef(pathname);
@@ -38,7 +26,7 @@ export const RouteAnnouncer = React.memo(() => {
       aria-live="assertive"
       id="__docusaurus-route-announcer__"
       role="alert"
-      style={docusaurusjsRouteAnnouncerStyles}
+      style={styles.docusaurusjsRouteAnnouncerStyles}
     >
       {routeAnnouncement}
     </p>
