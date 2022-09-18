@@ -7,8 +7,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
+import {BrowserRouter} from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
 
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
@@ -17,7 +17,7 @@ import docusaurus from './docusaurus';
 
 declare global {
   interface NodeModule {
-    hot?: { accept: () => void };
+    hot?: {accept: () => void};
   }
 }
 
