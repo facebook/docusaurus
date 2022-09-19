@@ -507,11 +507,13 @@ By convention, using the **`_` filename prefix** will not create any doc page an
 This is text some content from `_markdown-partial-example.mdx`.
 ```
 
+<!-- prettier-ignore-start -->
 ```jsx title="someOtherDoc.mdx"
 import PartialExample from './_markdown-partial-example.mdx';
 
-<PartialExample name="Sebastien" />;
+<PartialExample name="Sebastien" />
 ```
+<!-- prettier-ignore-end -->
 
 ```mdx-code-block
 import PartialExample from './_markdown-partial-example.mdx';
