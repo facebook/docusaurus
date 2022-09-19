@@ -28,7 +28,10 @@ Then add `tsconfig.json` to your project root with the following content:
 
 ```json title="tsconfig.json"
 {
-  "extends": "@tsconfig/docusaurus/tsconfig.json"
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  }
 }
 ```
 
