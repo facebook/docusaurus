@@ -25,6 +25,7 @@ import {DisabledSidebars} from '../sidebars';
 import * as cliDocs from '../cli';
 import {validateOptions} from '../options';
 
+import type {FullVersion} from '../types';
 import type {RouteConfig, Validate, Plugin} from '@docusaurus/types';
 import type {
   LoadedVersion,
@@ -108,7 +109,9 @@ Entries created:
       const versionMetadataProp = getCreatedDataByPrefix(
         `version-${_.kebabCase(version.versionName)}-metadata-prop`,
       );
-      expect(versionMetadataProp.docsSidebars).toEqual(toSidebarsProp(version));
+      expect(versionMetadataProp.docsSidebars).toEqual(
+        toSidebarsProp(version as FullVersion),
+      );
     },
 
     expectSnapshot: () => {
@@ -608,7 +611,7 @@ describe('site with doc label', () => {
   it('label in sidebar.json is used', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0]!;
-    const sidebarProps = toSidebarsProp(loadedVersion);
+    const sidebarProps = toSidebarsProp(loadedVersion as FullVersion);
 
     expect((sidebarProps.docs![0] as PropSidebarItemLink).label).toBe(
       'Hello One',
@@ -618,7 +621,7 @@ describe('site with doc label', () => {
   it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0]!;
-    const sidebarProps = toSidebarsProp(loadedVersion);
+    const sidebarProps = toSidebarsProp(loadedVersion as FullVersion);
 
     expect((sidebarProps.docs![1] as PropSidebarItemLink).label).toBe(
       'Hello 2 From Doc',

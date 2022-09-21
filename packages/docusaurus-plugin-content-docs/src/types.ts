@@ -9,6 +9,7 @@ import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
 import type {
   VersionMetadata,
   LoadedVersion,
+  DocMetadata,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -32,7 +33,9 @@ export type VersionTags = {
   [permalink: string]: VersionTag;
 };
 
-export type FullVersion = LoadedVersion & {
+export type FullVersion = Omit<LoadedVersion, 'docs' | 'drafts'> & {
+  docs: DocMetadata[];
+  drafts: DocMetadata[];
   sidebarsUtils: SidebarsUtils;
   categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
 };
