@@ -2560,11 +2560,11 @@ const Users: User[] = [
     tags: ['opensource','personal'],
   },
   {
-    title: 'Cho.sh',
-    description: 'Sunghyun Sho\'s Second Brain on the Web.',
+    title: 'Extracranial',
+    description: 'Sunghyun Cho\'s Second Brain on the Web.',
     preview: null,
     website: 'https://cho.sh/',
-    source: 'https://github.com/anaclumos/www',
+    source: 'https://github.com/anaclumos/extracranial',
     tags: ['opensource','personal','i18n'],
   },
   {
