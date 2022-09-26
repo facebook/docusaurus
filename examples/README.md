@@ -6,7 +6,7 @@ These example projects are generated with the init CLI:
 npx @docusaurus/init@latest init examples/<templateName> <templateName>`
 ```
 
-You can run them in CodeSandbox:
+You can run them in CodeSandbox: 
 
 - [classic](https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic)
 - [classic-typescript](https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic-typescript)
