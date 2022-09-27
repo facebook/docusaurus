@@ -15,6 +15,8 @@ import type {
 } from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
+export {useGoogleAnalytics} from './useGoogleAnalytics';
+
 export default function pluginGoogleGtag(
   context: LoadContext,
   options: PluginOptions,

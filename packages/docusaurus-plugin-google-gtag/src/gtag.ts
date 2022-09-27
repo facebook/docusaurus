@@ -23,11 +23,13 @@ const clientModule: ClientModule = {
       setTimeout(() => {
         // Always refer to the variable on window in case it gets overridden
         // elsewhere.
-        window.gtag('event', 'page_view', {
-          page_title: document.title,
-          page_location: window.location.href,
-          page_path: location.pathname + location.search + location.hash,
-        });
+        // See https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
+        window.gtag(
+          'set',
+          'page_path',
+          location.pathname + location.search + location.hash,
+        );
+        window.gtag('event', 'page_view');
       });
     }
   },

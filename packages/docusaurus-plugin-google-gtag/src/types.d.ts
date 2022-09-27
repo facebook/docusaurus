@@ -10,11 +10,13 @@
 interface Window {
   gtag: (
     command: string,
-    fields: string,
-    params: {
-      page_title?: string;
-      page_location?: string;
-      page_path?: string;
-    },
+    action: string,
+    params?:
+      | string
+      | {
+          event_category?: string;
+          event_label?: string;
+          value?: string;
+        },
   ) => void;
 }
