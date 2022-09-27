@@ -156,7 +156,7 @@ describe('posixPath', () => {
   it('works', () => {
     const asserts: {[key: string]: string} = {
       'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
+      'c:\\aaaa\\bbbb\\★': 'c:/aaaa/bbbb/★',
       '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
       'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
       'foo\\bar': 'foo/bar',
