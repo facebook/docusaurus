@@ -13,8 +13,6 @@ import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl, {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
-// import {useGoogleAnalytics} from '@docusaurus/plugin-google-gtag';
-
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
@@ -29,8 +27,6 @@ import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 function HeroBanner() {
-  // const {sendEvent} = useGoogleAnalytics();
-
   return (
     <div className={styles.hero} data-theme="dark">
       <div className={styles.heroInner}>
