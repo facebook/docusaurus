@@ -4,6 +4,13 @@
   "description": "Global Site Tag (gtag.js) plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js",
+    "./utils": {
+      "type": "./lib/utils.d.ts",
+      "default": "./lib/utils.js"
+    }
+  },
   "scripts": {
     "build": "tsc --build",
     "watch": "tsc --build --watch"
