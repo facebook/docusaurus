@@ -193,6 +193,13 @@ export type DocusaurusConfig = {
    */
   staticDirectories: string[];
   /**
+   * An array of tags that will be inserted in the HTML `<head>`.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#head
+   * @default []
+   */
+  headTags: HtmlTagObject[];
+  /**
    * An array of scripts to load. The values can be either strings or plain
    * objects of attribute-value maps. The `<script>` tags will be inserted in
    * the HTML `<head>`.

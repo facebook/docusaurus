@@ -82,6 +82,15 @@ const config = {
   // - force trailing slashes for deploy previews
   // - avoid trailing slashes in prod
   trailingSlash: isDeployPreview,
+  headTags: [
+    {
+      tagName: "link", 
+      attributes: {
+        rel: "monetization", 
+        href: "https://ilp.uphold.com/LwQQhXdpwxeJ"
+      }
+    },
+  ],
   stylesheets: [
     {
       href: '/katex/katex.min.css',
