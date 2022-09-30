@@ -8,7 +8,7 @@
 import type {RuleSetRule} from 'webpack';
 import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
-import type {PluginConfig, PresetConfig} from './plugin';
+import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
