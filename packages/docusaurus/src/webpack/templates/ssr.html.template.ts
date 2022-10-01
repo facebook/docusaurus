@@ -11,12 +11,14 @@ export default `
   <head>
     <meta charset="UTF-8">
     <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <% it.stylesheets.forEach((stylesheet) => { %>
+      <link rel="preload" href="<%= it.baseUrl %><%= stylesheet %>" as="style" />
+    <% }); %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
     <% }); %>
     <%~ it.headTags %>
     <% it.stylesheets.forEach((stylesheet) => { %>
-      <link rel="preload" href="<%= it.baseUrl %><%= stylesheet %>" as="style" />
       <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
     <% it.scripts.forEach((script) => { %>
