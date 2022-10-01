@@ -13,12 +13,14 @@ export = {
     recommended: {
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
+        '@docusaurus/no-html-links': 'warn',
       },
     },
     all: {
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
         '@docusaurus/no-untranslated-text': 'warn',
+        '@docusaurus/no-html-links': 'warn',
       },
     },
   },
