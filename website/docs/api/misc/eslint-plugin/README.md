@@ -53,6 +53,7 @@ Each config contains a set of rules. For more fine-grained control, you can also
 | --- | --- | --- |
 | [`@docusaurus/no-untranslated-text`](./no-untranslated-text.md) | Enforce text labels in JSX to be wrapped by translate calls |  |
 | [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.md) | Enforce translate APIs to be called on plain text labels | ✅ |
+| [`@docusaurus/no-html-links`](./no-html-links.md) | Ensures @docusaurus/Link is used instead of a tags | ✅ |
 
 ✅ = recommended
 
