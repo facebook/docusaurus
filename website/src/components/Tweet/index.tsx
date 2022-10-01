@@ -9,6 +9,7 @@ import React, {type ReactNode} from 'react';
 
 import clsx from 'clsx';
 
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -50,9 +51,9 @@ export default function Tweet({
       <div className={clsx('card__body', styles.tweet)}>{content}</div>
 
       <div className="card__footer">
-        <a className={clsx(styles.tweetMeta, styles.tweetDate)} href={url}>
+        <Link className={clsx(styles.tweetMeta, styles.tweetDate)} to={url}>
           {date}
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Link from '@docusaurus/Link';
 
 export default function HackerNewsIcon({
   size = 54,
@@ -13,10 +14,8 @@ export default function HackerNewsIcon({
   size?: number;
 }): JSX.Element {
   return (
-    <a
-      href="https://news.ycombinator.com/item?id=32303052"
-      target="_blank"
-      rel="noreferrer"
+    <Link
+      to="https://news.ycombinator.com/item?id=32303052"
       style={{display: 'block', width: size, height: size}}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -30,6 +29,6 @@ export default function HackerNewsIcon({
           d="M23 32h2v-6l5.5-10h-2.1L24 24.1 19.6 16h-2.1L23 26z"
         />
       </svg>
-    </a>
+    </Link>
   );
 }
