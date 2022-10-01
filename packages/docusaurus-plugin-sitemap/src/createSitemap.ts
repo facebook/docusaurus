@@ -77,16 +77,20 @@ export default async function createSitemap(
 
   const sitemapStream = new SitemapStream({hostname});
 
-  includedRoutes.forEach((routePath) =>
-    sitemapStream.write({
-      url: applyTrailingSlash(routePath, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
+  try {
+    includedRoutes.forEach((routePath) =>
+      sitemapStream.write({
+        url: applyTrailingSlash(routePath, {
+          trailingSlash: siteConfig.trailingSlash,
+          baseUrl: siteConfig.baseUrl,
+        }),
+        changefreq,
+        priority,
       }),
-      changefreq,
-      priority,
-    }),
-  );
+    );
+  } catch (err) {
+    throw new Error('URL in docusaurus.config.js must be a valid URL.');
+  }
 
   sitemapStream.end();
 
