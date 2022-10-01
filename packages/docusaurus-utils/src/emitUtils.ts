@@ -81,7 +81,7 @@ export async function readOutputHTMLFile(
   const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
   const withoutTrailingSlashPath = path.join(
     outDir,
-    `${permalink.replace(/\/$/, '')}.html`,
+    `${permalink.replace(/\/$/, '').replace(/.html$/, '')}.html`,
   );
   const HTMLPath = await findAsyncSequential(
     [

@@ -73,6 +73,22 @@ describe('readOutputHTMLFile', () => {
       ).then(String),
     ).resolves.toBe('file\n');
   });
+  it('reads file ending in .html', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/htmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        false,
+      ).then(String),
+    ).resolves.toBe('htmlFile.html\n');
+    await expect(
+      readOutputHTMLFile(
+        '/htmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('htmlFile.html\n');
+  });
   // Can it ever happen?
   it('throws if file does not exist', async () => {
     await expect(
