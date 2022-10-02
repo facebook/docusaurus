@@ -39,6 +39,7 @@ export default function NavbarLayout({children}: Props): JSX.Element {
       className={clsx(
         'navbar',
         'navbar--fixed-top',
+        styles.stackNavbarOnTop,
         hideOnScroll && [
           styles.navbarHideable,
           !isNavbarVisible && styles.navbarHidden,

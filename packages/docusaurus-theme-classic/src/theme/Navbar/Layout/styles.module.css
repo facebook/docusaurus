@@ -12,3 +12,7 @@
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
 }
+
+.stackNavbarOnTop {
+  z-index: calc(var(--ifm-z-index-fixed) + 1);
+}
