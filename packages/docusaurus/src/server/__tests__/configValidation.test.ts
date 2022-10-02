@@ -94,7 +94,19 @@ describe('normalizeConfig', () => {
         url: 1,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""url" contains an invalid value
+      ""url" must be a string
+      "
+    `);
+  });
+
+  it('throws for URLs missing protocol', () => {
+    expect(() =>
+      normalizeConfig({
+        url: 'docusaurus.io',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Field "url" must be a valid URL, (value='docusaurus.io'). Ensure you are not missing the protocol in the URL e.g. https://docusaurus.io.
+      "url" contains an invalid value
       "
     `);
   });
