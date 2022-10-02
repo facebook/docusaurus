@@ -22,7 +22,7 @@ It exports a single object as default export: `logger`. `logger` has the followi
 - The `interpolate` function. It is a template literal tag. The syntax can be found below.
 - Logging functions. All logging functions can both be used as normal functions (similar to the `console.log` family, but only accepts one parameter) or template literal tags.
   - `info`: prints information.
-  - `warn`: prints a warning that should be payed attention to.
+  - `warn`: prints a warning that should be paid attention to.
   - `error`: prints an error (not necessarily halting the program) that signals significant problems.
   - `success`: prints a success message.
 - The `report` function. It takes a `ReportingSeverity` value (`ignore`, `log`, `warn`, `throw`) and reports a message according to the severity.
