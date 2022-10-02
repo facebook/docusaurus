@@ -12,7 +12,7 @@ import {
   addTrailingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils';
-import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
+import {Joi, printWarning} from '@docusaurus/utils-validation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -152,17 +152,26 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const SiteUrlSchema = URISchema.required().custom((value: string, helpers) => {
-  try {
-    const {pathname} = new URL(String(value));
-    if (pathname !== '/') {
-      helpers.warn('docusaurus.configValidationWarning', {
-        warningMessage: `The url is not supposed to contain a sub-path like '${pathname}'. Please use the baseUrl field for sub-paths.`,
-      });
+const SiteUrlSchema = Joi.string()
+  .uri()
+  .required()
+  .custom((value: string, helpers) => {
+    try {
+      const {pathname} = new URL(String(value));
+      if (pathname !== '/') {
+        helpers.warn('docusaurus.configValidationWarning', {
+          warningMessage: `The url is not supposed to contain a sub-path like '${pathname}'. Please use the baseUrl field for sub-paths.`,
+        });
+      }
+    } catch {
+      return helpers.error('any.invalid');
     }
-  } catch {}
-  return removeTrailingSlash(value);
-});
+
+    return removeTrailingSlash(value);
+  })
+  .messages({
+    'string.uri': `Field {{#label}} must be a valid URL, (value='{{#value}}'). Ensure you are not missing the protocol in the URL e.g. https://docusaurus.io.`,
+  });
 
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
