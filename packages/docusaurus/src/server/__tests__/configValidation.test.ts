@@ -94,7 +94,18 @@ describe('normalizeConfig', () => {
         url: 1,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""url" contains an invalid value
+      ""url" must be a string
+      "
+    `);
+  });
+
+  it('throws for invalid URL', () => {
+    expect(() =>
+      normalizeConfig({
+        url: 'mysite.com',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""mysite.com" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".
       "
     `);
   });
