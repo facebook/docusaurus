@@ -99,6 +99,17 @@ describe('normalizeConfig', () => {
     `);
   });
 
+  it('throws for invalid URL', () => {
+    expect(() =>
+      normalizeConfig({
+        url: 'mysite.com',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""url" contains an invalid value
+      "
+    `);
+  });
+
   it('normalizes various URLs', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')

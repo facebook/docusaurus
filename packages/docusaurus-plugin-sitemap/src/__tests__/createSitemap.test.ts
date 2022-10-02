@@ -39,24 +39,6 @@ describe('createSitemap', () => {
       'URL in docusaurus.config.js cannot be empty/undefined.',
     ));
 
-  it('invalid URL', () =>
-    expect(async () => {
-      // @ts-expect-error: test
-      await createSitemap(
-        {
-          url: 'example.com',
-        } as DocusaurusConfig,
-        ['/', '/test'],
-        {},
-        {
-          changefreq: EnumChangefreq.DAILY,
-          priority: 0.7,
-          ignorePatterns: [],
-          filename: 'sitemap.xml',
-        },
-      );
-    }).rejects.toThrow('URL in docusaurus.config.js must be a valid URL.'));
-
   it('exclusion of 404 page', async () => {
     const sitemap = await createSitemap(
       {
