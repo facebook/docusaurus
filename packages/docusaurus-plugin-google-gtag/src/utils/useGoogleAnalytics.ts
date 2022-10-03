@@ -7,18 +7,11 @@
 
 import {useCallback} from 'react';
 
-export interface Event {
-  action: string;
-  event_category?: string;
-  event_label?: string;
-  value?: string;
-}
-
 export function useGoogleAnalytics(): {
-  sendEvent: (event: Event) => void;
+  sendEvent: (action: string, event: Gtag.EventParams) => void;
 } {
-  const sendEvent = useCallback((event: Event) => {
-    window.gtag('event', event.action, event);
+  const sendEvent = useCallback((action: string, event: Gtag.EventParams) => {
+    window.gtag('event', action, event);
   }, []);
 
   return {sendEvent};

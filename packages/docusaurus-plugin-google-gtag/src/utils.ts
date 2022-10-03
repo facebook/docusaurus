@@ -5,4 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {useGoogleAnalytics, type Event} from './utils/useGoogleAnalytics';
+export {useGoogleAnalytics} from './utils/useGoogleAnalytics';

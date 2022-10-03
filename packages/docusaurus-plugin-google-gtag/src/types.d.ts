@@ -11,12 +11,6 @@ interface Window {
   gtag: (
     command: string,
     action: string,
-    params?:
-      | string
-      | {
-          event_category?: string;
-          event_label?: string;
-          value?: string;
-        },
+    params?: string | Gtag.EventParams,
   ) => void;
 }
