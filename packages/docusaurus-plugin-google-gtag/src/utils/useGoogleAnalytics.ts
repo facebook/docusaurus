@@ -11,7 +11,9 @@ export function useGoogleAnalytics(): {
   sendEvent: (action: string, event: Gtag.EventParams) => void;
 } {
   const sendEvent = useCallback((action: string, event: Gtag.EventParams) => {
-    window.gtag('event', action, event);
+    if (window.gtag) {
+      window.gtag('event', action, event);
+    }
   }, []);
 
   return {sendEvent};
