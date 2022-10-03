@@ -747,6 +747,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'George\'s Digital Garden',
+    description: 'A computer science student\'s digital garden for notes. Support for LaTeX, PlantUML, Jupyter Notebooks, Search etc.',
+    preview: require('./showcase/GeorgesDigitalGarden.png'),
+    website: 'https://georgerowlands.ch',
+    source: 'https://github.com/LuciferUchiha/georgerowlands.ch',
+    tags: ['opensource', 'large', 'personal', 'design'],
+  },
+  {
     title: 'Ghostly',
     description: 'A divine template/print formatter engine',
     preview: require('./showcase/ghostly.png'),
