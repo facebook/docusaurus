@@ -52,7 +52,8 @@ function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
         onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}
         disabled={!isBrowser}
         title={title}
-        aria-label={title}>
+        aria-label={title}
+        aria-live="polite">
         <IconLightMode
           className={clsx(styles.toggleIcon, styles.lightToggleIcon)}
         />
