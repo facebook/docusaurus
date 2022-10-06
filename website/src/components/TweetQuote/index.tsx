@@ -35,7 +35,7 @@ export default function TweetQuote({
         <Link to={url}>{children}</Link>
       </blockquote>
       <figcaption>
-        <Link to={profileUrl}>
+        <Link to={profileUrl} rel="nofollow">
           <div className="avatar">
             <img
               alt={name}
