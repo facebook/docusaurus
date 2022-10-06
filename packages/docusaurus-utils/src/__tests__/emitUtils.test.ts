@@ -89,6 +89,22 @@ describe('readOutputHTMLFile', () => {
       ).then(String),
     ).resolves.toBe('htmlFile.html\n');
   });
+  it('reads file ending in .html in folder containing .html', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/weird.html.folder/nestedHtmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('nestedHtmlFile.html\n');
+    await expect(
+      readOutputHTMLFile(
+        '/weird.html.folder/nestedHtmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('nestedHtmlFile.html\n');
+  });
   // Can it ever happen?
   it('throws if file does not exist', async () => {
     await expect(
@@ -98,7 +114,7 @@ describe('readOutputHTMLFile', () => {
         undefined,
       ).then(String),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html."`,
+      `"Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html for permalink /nonExistent."`,
     );
   });
 });
