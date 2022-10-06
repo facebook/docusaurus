@@ -1,18 +1,4 @@
----
-description: Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
-slug: /
----
-
-# Introduction
-
-⚡️ Docusaurus will help you ship a **beautiful documentation site in no time**.
-
-💸 Building a custom tech stack is expensive. Instead, **focus on your content** and just write Markdown files.
-
-💥 Ready for more? Use **advanced features** like versioning, i18n, search and theme customizations.
-
-💅 Check the **[best Docusaurus sites](/showcase?tags=favorite)** for inspiration and read some **[testimonials](https://twitter.com/sebastienlorber/timelines/1392048416872706049)**.
-
+rrrrrrrrrr
 🧐 Docusaurus is a **static-site generator**. It builds a **single-page application** with fast client-side navigation, leveraging the full power of **React** to make your site interactive. It provides out-of-the-box **documentation features** but can be used to create **any kind of site** (personal website, product, blog, marketing landing pages, etc).
 
 ![](/img/slash-introducing.svg)
