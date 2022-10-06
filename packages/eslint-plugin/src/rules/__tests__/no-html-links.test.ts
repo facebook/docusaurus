@@ -27,6 +27,18 @@ ruleTester.run('prefer-docusaurus-link', rule, {
     {
       code: '<Link to="https://twitter.com/docusaurus">Twitter</Link>',
     },
+    {
+      code: '<a href="https://twitter.com/docusaurus">Twitter</a>',
+      options: [{ignoreFullyResolved: true}],
+    },
+    {
+      code: '<a href="mailto:viktor@malmedal.dev">Contact</a>  ',
+      options: [{ignoreFullyResolved: true}],
+    },
+    {
+      code: '<a href="tel:123456789">Call</a>',
+      options: [{ignoreFullyResolved: true}],
+    },
   ],
   invalid: [
     {
@@ -39,6 +51,19 @@ ruleTester.run('prefer-docusaurus-link', rule, {
     },
     {
       code: '<a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer">test</a>',
+      errors: errorsJSX,
+    },
+    {
+      code: '<a href="mailto:viktor@malmedal.dev">Contact</a>  ',
+      errors: errorsJSX,
+    },
+    {
+      code: '<a href="tel:123456789">Call</a>',
+      errors: errorsJSX,
+    },
+    {
+      code: '<a href="www.twitter.com/docusaurus">Twitter</a>',
+      options: [{ignoreFullyResolved: true}],
       errors: errorsJSX,
     },
   ],
