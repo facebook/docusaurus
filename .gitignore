@@ -1,12 +1,15 @@
 .DS_Store
-.vscode
+.vscode/*
+!.vscode/extensions.json
 .idea
 *.iml
 *.code-workspace
 .changelog
+.history
 
 node_modules
 .yarn
+package-lock.json
 
 .eslintcache
 

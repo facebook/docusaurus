@@ -92,6 +92,43 @@ export function StableVersion(): JSX.Element {
   return <span>{currentVersion}</span>;
 }
 
+// TODO temporary: assumes main is already on v3 (not the case yet)
+function useNextMajorVersionNumber(): number {
+  return 3; // TODO later read from main@package.json or something...
+}
+function useStableMajorVersionNumber(): number {
+  // -1 because website is published from main, which is the next version
+  return useNextMajorVersionNumber() - 1;
+}
+
+export function NextMajorVersion(): JSX.Element {
+  const majorVersionNumber = useNextMajorVersionNumber();
+  return <span>{majorVersionNumber}</span>;
+}
+
+export function StableMajorVersion(): JSX.Element {
+  const majorVersionNumber = useStableMajorVersionNumber();
+  return <span>{majorVersionNumber}</span>;
+}
+
+function GitBranchLink({branch}: {branch: string}): JSX.Element {
+  return (
+    <a href={`https://github.com/facebook/docusaurus/tree/${branch}`}>
+      <code>{branch}</code>
+    </a>
+  );
+}
+
+export function StableMajorBranchLink(): JSX.Element {
+  const majorVersionNumber = useStableMajorVersionNumber();
+  const branch = `docusaurus-v${majorVersionNumber}`;
+  return <GitBranchLink branch={branch} />;
+}
+
+export function NextMajorBranchLink(): JSX.Element {
+  return <GitBranchLink branch="main" />;
+}
+
 export function InsertIfCanaryVersionUnknown({
   children,
 }: {

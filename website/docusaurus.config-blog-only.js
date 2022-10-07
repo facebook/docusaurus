@@ -17,7 +17,7 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   themes: ['live-codeblock'],
-  plugins: [],
+  plugins: ['ideal-image'],
   presets: [
     [
       'classic',
@@ -56,15 +56,6 @@ module.exports = {
         src: 'img/docusaurus.svg',
         srcDark: 'img/docusaurus_keytar.svg',
       },
-    },
-    footer: {
-      style: 'dark',
-      logo: {
-        alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com',
-      },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
 };

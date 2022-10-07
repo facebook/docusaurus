@@ -7,10 +7,11 @@
 
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useAlternatePageUtils} from '@docusaurus/theme-common';
+import {useAlternatePageUtils} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
+import {useLocation} from '@docusaurus/router';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import IconLanguage from '@theme/IconLanguage';
+import IconLanguage from '@theme/Icon/Language';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 
@@ -26,14 +27,18 @@ export default function LocaleDropdownNavbarItem({
     i18n: {currentLocale, locales, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
+  const {search, hash} = useLocation();
 
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
-    const to = `pathname://${alternatePageUtils.createUrl({
+    const baseTo = `pathname://${alternatePageUtils.createUrl({
       locale,
       fullyQualified: false,
     })}`;
+    // preserve ?search#hash suffix on locale switches
+    const to = `${baseTo}${search}${hash}`;
     return {
       label: localeConfigs[locale]!.label,
+      lang: localeConfigs[locale]!.htmlLang,
       to,
       target: '_self',
       autoAddBaseUrl: false,

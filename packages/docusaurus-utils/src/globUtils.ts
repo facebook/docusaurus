@@ -9,6 +9,7 @@
 
 import path from 'path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
+import {addSuffix} from './jsUtils';
 
 /** A re-export of the globby instance. */
 export {default as Globby} from 'globby';
@@ -68,7 +69,9 @@ export function createAbsoluteFilePathMatcher(
 
   function getRelativeFilePath(absoluteFilePath: string) {
     const rootFolder = rootFolders.find((folderPath) =>
-      absoluteFilePath.startsWith(folderPath),
+      [addSuffix(folderPath, '/'), addSuffix(folderPath, '\\')].some((p) =>
+        absoluteFilePath.startsWith(p),
+      ),
     );
     if (!rootFolder) {
       throw new Error(

@@ -58,12 +58,7 @@ export function shortName(str: string): string {
 export function posixPath(str: string): string {
   const isExtendedLengthPath = str.startsWith('\\\\?\\');
 
-  // Forward slashes are only valid Windows paths when they don't contain non-
-  // ascii characters.
-  // eslint-disable-next-line no-control-regex
-  const hasNonAscii = /[^\u0000-\u0080]+/.test(str);
-
-  if (isExtendedLengthPath || hasNonAscii) {
+  if (isExtendedLengthPath) {
     return str;
   }
   return str.replace(/\\/g, '/');
@@ -119,5 +114,5 @@ export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep)
     ? str
     : // If this is Windows, we need to change the forward slash to backward
-      `${str.replace(/\/$/, '')}${path.sep}`;
+      `${str.replace(/[\\/]$/, '')}${path.sep}`;
 }

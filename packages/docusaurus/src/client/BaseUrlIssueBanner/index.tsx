@@ -43,6 +43,7 @@ function createInlineHtmlBanner(baseUrl: string) {
 
 // Needs to work for older browsers!
 function createInlineScript(baseUrl: string) {
+  /* language=js */
   return `
 window['${InsertBannerWindowAttribute}'] = true;
 

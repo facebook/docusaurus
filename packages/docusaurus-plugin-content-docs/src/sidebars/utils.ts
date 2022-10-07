@@ -81,6 +81,9 @@ export function collectSidebarCategories(
 export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
   return collectSidebarItemsOfType('link', sidebar);
 }
+export function collectSidebarRefs(sidebar: Sidebar): SidebarItemDoc[] {
+  return collectSidebarItemsOfType('ref', sidebar);
+}
 
 // /!\ docId order matters for navigation!
 export function collectSidebarDocIds(sidebar: Sidebar): string[] {

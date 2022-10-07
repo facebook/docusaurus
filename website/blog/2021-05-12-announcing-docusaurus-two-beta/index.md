@@ -15,7 +15,7 @@ After a lengthy alpha stage in order to ensure feature parity and quality, we ar
 
 With the announcement of this beta, the team is even more confident that Docusaurus 2 is **ready for mainstream adoption**!
 
-![Docusaurus beta party](./img/image_cropped.png)
+![](./img/image_cropped.png)
 
 <!--truncate-->
 
@@ -25,13 +25,13 @@ With the announcement of this beta, the team is even more confident that Docusau
 
 Docusaurus 2 is widely adopted and growing fast:
 
-[![Docusaurus growth](./img/trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
+[![Docusaurus v1 vs. v2 npm trends from 2019 to mid 2021. The installations of Docusaurus v2 is sharply rising, while v1 is mostly stable. V1 fluctuates between 10000 and 20000, while v2 starts at 0 and ends at almost 60000. The intersection happens around June 2020.](./img/trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
 To get a fuller understanding of the quality of current Docusaurus 2 sites, our new [showcase](https://docusaurus.io/showcase) page allows you to filter Docusaurus sites by features, so you may get inspired by real-world production sites with a similar use-case as yours!
 
 Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites; they all stand out with something unique:
 
-[![Docusaurus growth](./img/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
+[![A screenshot of the showcase's favorites section, with 12 cards each displaying the information and preview of one site](./img/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
 
 ## Why was Docusaurus v2 in alpha for so long?
 

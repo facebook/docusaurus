@@ -76,7 +76,7 @@ describe('writeCodeTranslations', () => {
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/3.* translations will be written/),
     );
   });
@@ -100,7 +100,7 @@ describe('writeCodeTranslations', () => {
       key2: {message: 'PREFIX key2 message'},
       key3: {message: 'PREFIX key3 message'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/3.* translations will be written/),
     );
   });
@@ -129,7 +129,7 @@ describe('writeCodeTranslations', () => {
       key3: {message: 'key3 message'},
       key4: {message: 'key4 message new'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/4.* translations will be written/),
     );
   });
@@ -154,7 +154,7 @@ describe('writeCodeTranslations', () => {
       key1: {message: 'key1 message'},
       key2: {message: 'PREFIX key2 message new'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/2.* translations will be written/),
     );
   });
@@ -179,7 +179,7 @@ describe('writeCodeTranslations', () => {
       key1: {message: 'key1 message new'},
       key2: {message: 'key2 message new'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/2.* translations will be written/),
     );
   });
@@ -205,7 +205,7 @@ describe('writeCodeTranslations', () => {
       key1: {message: 'PREFIX key1 message new'},
       key2: {message: 'PREFIX key2 message new'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/2.* translations will be written/),
     );
   });
@@ -232,7 +232,7 @@ describe('writeCodeTranslations', () => {
       key2: {message: 'key2 message', description: 'key2 desc new'},
       key3: {message: 'key3 message', description: 'key3 desc new'},
     });
-    expect(consoleInfoMock).toBeCalledWith(
+    expect(consoleInfoMock).toHaveBeenCalledWith(
       expect.stringMatching(/3.* translations will be written/),
     );
   });
@@ -242,10 +242,10 @@ describe('writeCodeTranslations', () => {
 
     await writeCodeTranslations({localizationDir}, {}, {});
 
-    await expect(readFile()).rejects.toThrowError(
+    await expect(readFile()).rejects.toThrow(
       /ENOENT: no such file or directory, open /,
     );
-    expect(consoleInfoMock).toBeCalledTimes(0);
+    expect(consoleInfoMock).toHaveBeenCalledTimes(0);
   });
 
   it('throws for invalid content', async () => {

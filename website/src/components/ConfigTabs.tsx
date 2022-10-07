@@ -19,12 +19,14 @@ type Props = {
   presetOptionName: string;
 };
 
+const docsPluginId = undefined; // Default docs plugin instance
+
 export default function ConfigTabs({
   code,
   pluginName,
   presetOptionName,
 }: Props): JSX.Element {
-  const versionPath = useActiveVersion()!.path;
+  const versionPath = useActiveVersion(docsPluginId)!.path;
 
   return (
     <Tabs groupId="api-config-ex">

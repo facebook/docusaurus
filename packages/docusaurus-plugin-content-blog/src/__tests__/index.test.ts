@@ -54,6 +54,7 @@ function getI18n(locale: string): I18n {
         label: locale,
         htmlLang: locale,
         direction: 'ltr',
+        path: locale,
       },
     },
   };
@@ -71,7 +72,11 @@ const getPlugin = async (
   i18n: I18n = DefaultI18N,
 ) => {
   const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
-  const localizationDir = path.join(siteDir, i18n.path, i18n.currentLocale);
+  const localizationDir = path.join(
+    siteDir,
+    i18n.path,
+    i18n.localeConfigs[i18n.currentLocale]!.path,
+  );
   const siteConfig = {
     title: 'Hello',
     baseUrl: '/',
@@ -166,7 +171,7 @@ describe('blog plugin', () => {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
       },
-      truncated: false,
+      hasTruncateMarker: false,
     });
 
     expect(
@@ -209,7 +214,7 @@ describe('blog plugin', () => {
         permalink: '/blog/date-matter',
         title: 'date-matter',
       },
-      truncated: false,
+      hasTruncateMarker: false,
     });
 
     expect({
@@ -246,7 +251,7 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/complex',
         },
       ],
-      truncated: false,
+      hasTruncateMarker: false,
     });
 
     expect({
@@ -283,7 +288,7 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       tags: [],
-      truncated: false,
+      hasTruncateMarker: false,
     });
 
     expect({
@@ -308,7 +313,7 @@ describe('blog plugin', () => {
         permalink: '/blog/date-matter',
         title: 'date-matter',
       },
-      truncated: false,
+      hasTruncateMarker: false,
     });
   });
 
@@ -465,7 +470,7 @@ describe('blog plugin', () => {
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
-      truncated: false,
+      hasTruncateMarker: false,
     });
   });
 

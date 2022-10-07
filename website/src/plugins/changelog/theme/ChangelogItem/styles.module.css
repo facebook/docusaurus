@@ -5,18 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.blogPostTitle {
-  font-size: 2rem;
-}
-
-.blogPostPageTitle {
-  font-size: 3rem;
-}
-
-.blogPostData {
-  font-size: 0.9rem;
-}
-
-.blogPostDetailsFull {
-  flex-direction: column;
+.changelogItemContainer {
+  margin-bottom: 1rem;
 }

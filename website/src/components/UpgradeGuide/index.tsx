@@ -17,9 +17,11 @@ import Translate from '@docusaurus/Translate';
 import Admonition from '@theme/Admonition';
 import CodeBlock from '@theme/CodeBlock';
 
+const docsPluginId = undefined; // Default docs plugin instance
+
 function PackageJson() {
-  const latestVersion = useLatestVersion();
-  const allVersions = useVersions();
+  const latestVersion = useLatestVersion(docsPluginId);
+  const allVersions = useVersions(docsPluginId);
   // Only happens in deploy preview / local dev, but still nice
   const versionName =
     latestVersion.name === 'current' && allVersions.length > 1
@@ -37,8 +39,8 @@ function PackageJson() {
 }
 
 function VersionNotice() {
-  const latestVersion = useLatestVersion();
-  const activeVersion = useActiveDocContext().activeVersion!;
+  const latestVersion = useLatestVersion(docsPluginId);
+  const activeVersion = useActiveDocContext(docsPluginId).activeVersion!;
   const isBrowser = useIsBrowser();
   // It's possible that the user is browsing a snapshot version
   // which is only detectable once we are in the browser

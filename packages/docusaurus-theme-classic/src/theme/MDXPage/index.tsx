@@ -38,9 +38,11 @@ export default function MDXPage(props: Props): JSX.Element {
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
-              <MDXContent>
-                <MDXPageContent />
-              </MDXContent>
+              <article>
+                <MDXContent>
+                  <MDXPageContent />
+                </MDXContent>
+              </article>
             </div>
             {!hideTableOfContents && MDXPageContent.toc.length > 0 && (
               <div className="col col--2">

@@ -12,7 +12,6 @@ import type {Props} from '@theme/DocPaginator';
 
 export default function DocPaginator(props: Props): JSX.Element {
   const {previous, next} = props;
-
   return (
     <nav
       className="pagination-nav docusaurus-mt-lg"

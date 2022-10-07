@@ -8,8 +8,11 @@
 import {
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
+  addLeadingSlash,
+  addTrailingSlash,
+  removeTrailingSlash,
 } from '@docusaurus/utils';
-import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
+import {Joi, printWarning} from '@docusaurus/utils-validation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -135,6 +138,7 @@ const LocaleConfigSchema = Joi.object({
   htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
   calendar: Joi.string(),
+  path: Joi.string(),
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
@@ -148,24 +152,31 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const SiteUrlSchema = URISchema.required().custom((value: unknown, helpers) => {
-  try {
-    const {pathname} = new URL(String(value));
-    if (pathname !== '/') {
-      helpers.warn('docusaurus.configValidationWarning', {
-        warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
-      });
+const SiteUrlSchema = Joi.string()
+  .required()
+  .custom((value: string, helpers) => {
+    try {
+      const {pathname} = new URL(value);
+      if (pathname !== '/') {
+        helpers.warn('docusaurus.configValidationWarning', {
+          warningMessage: `The url is not supposed to contain a sub-path like '${pathname}'. Please use the baseUrl field for sub-paths.`,
+        });
+      }
+    } catch {
+      return helpers.error('any.invalid');
     }
-  } catch {}
-  return value;
-}, 'siteUrlCustomValidation');
+    return removeTrailingSlash(value);
+  })
+  .messages({
+    'any.invalid':
+      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
+  });
 
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
   baseUrl: Joi.string()
     .required()
-    .regex(/\/$/m)
-    .message('{{#label}} must be a string with a trailing slash.'),
+    .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
@@ -173,13 +184,13 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
-    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
   onBrokenMarkdownLinks: Joi.string()
-    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
-    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
   staticDirectories: Joi.array()

@@ -1,14 +1,24 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-beta.21",
+  "version": "3.0.0-alpha.0",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": false,
   "exports": {
+    "./lib/*": "./lib/*",
     "./src/*": "./src/*",
-    "./client": "./lib/client/index.js",
-    "./server": "./lib/server-export.js",
-    ".": "./lib/index.js"
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    "./server": {
+      "type": "./lib/server-export.d.ts",
+      "default": "./lib/server-export.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-docs.d.ts",
+      "default": "./lib/index.js"
+    }
   },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
@@ -25,13 +35,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.21",
-    "@docusaurus/logger": "2.0.0-beta.21",
-    "@docusaurus/mdx-loader": "2.0.0-beta.21",
-    "@docusaurus/module-type-aliases": "2.0.0-beta.21",
-    "@docusaurus/types": "2.0.0-beta.21",
-    "@docusaurus/utils": "2.0.0-beta.21",
-    "@docusaurus/utils-validation": "2.0.0-beta.21",
+    "@docusaurus/core": "^3.0.0-alpha.0",
+    "@docusaurus/logger": "^3.0.0-alpha.0",
+    "@docusaurus/mdx-loader": "^3.0.0-alpha.0",
+    "@docusaurus/module-type-aliases": "^3.0.0-alpha.0",
+    "@docusaurus/types": "^3.0.0-alpha.0",
+    "@docusaurus/utils": "^3.0.0-alpha.0",
+    "@docusaurus/utils-validation": "^3.0.0-alpha.0",
     "@types/react-router-config": "^5.0.6",
     "combine-promises": "^1.1.0",
     "fs-extra": "^10.1.0",
@@ -40,10 +50,9 @@
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.73.0"
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.21",
     "@types/js-yaml": "^4.0.5",
     "@types/picomatch": "^2.3.0",
     "commander": "^5.1.0",

@@ -80,6 +80,7 @@ export default {
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',
+    'jest-serializer-ansi-escapes',
     'jest-serializer-react-helmet-async',
   ],
   snapshotFormat: {

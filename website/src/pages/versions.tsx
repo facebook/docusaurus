@@ -17,6 +17,8 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import VersionsArchived from '@site/versionsArchived.json';
 
+const docsPluginId = undefined; // Default docs plugin instance
+
 const VersionsArchivedList = Object.entries(VersionsArchived);
 
 function DocumentationLabel() {
@@ -37,8 +39,8 @@ export default function Version(): JSX.Element {
   const {
     siteConfig: {organizationName, projectName},
   } = useDocusaurusContext();
-  const versions = useVersions();
-  const latestVersion = useLatestVersion();
+  const versions = useVersions(docsPluginId);
+  const latestVersion = useLatestVersion(docsPluginId);
   const currentVersion = versions.find(
     (version) => version.name === 'current',
   )!;

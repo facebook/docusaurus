@@ -91,4 +91,30 @@ describe('normalization', () => {
       `"Invalid sidebar items collection \`"item"\` in sidebar sidebar: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a \`type\` property). See https://docusaurus.io/docs/sidebar/items for all valid syntaxes."`,
     );
   });
+
+  it('adds a translatable marker for labels defined in sidebars.js', () => {
+    expect(
+      normalizeSidebars({
+        sidebar: [
+          {
+            type: 'doc',
+            id: 'google',
+            label: 'Google',
+          },
+          {
+            'Category 1': ['doc1', 'doc2'],
+            'Category 2': [
+              'doc3',
+              'doc4',
+              {
+                type: 'ref',
+                id: 'msft',
+                label: 'Microsoft',
+              },
+            ],
+          },
+        ],
+      }),
+    ).toMatchSnapshot();
+  });
 });

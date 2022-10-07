@@ -33,6 +33,7 @@ export type ActionParams = {
   siteDir: string;
   themePath: string;
   componentName: string;
+  typescript: boolean;
 };
 
 export type ActionResult = {
@@ -49,6 +50,7 @@ export async function eject({
   siteDir,
   themePath,
   componentName,
+  typescript,
 }: ActionParams): Promise<ActionResult> {
   const fromPath = path.join(themePath, componentName);
   const isDirectory = await isDir(fromPath);
@@ -60,7 +62,12 @@ export async function eject({
   const globPatternPosix = posixPath(globPattern);
 
   const filesToCopy = await Globby(globPatternPosix, {
-    ignore: ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'],
+    ignore: _.compact([
+      '**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}',
+      // When ejecting JS components, we want to avoid emitting TS files
+      // In particular the .d.ts files that theme build output contains
+      typescript ? null : '**/*.{d.ts,ts,tsx}',
+    ]),
   });
 
   if (filesToCopy.length === 0) {
@@ -103,7 +110,6 @@ export async function wrap({
   typescript,
   importType = 'original',
 }: ActionParams & {
-  typescript: boolean;
   importType?: 'original' | 'init';
 }): Promise<ActionResult> {
   const isDirectory = await isDir(path.join(themePath, themeComponentName));
@@ -121,11 +127,12 @@ export async function wrap({
   const toPath = path.resolve(siteDir, THEME_PATH, wrapperFileName);
 
   const content = typescript
-    ? `import React, {ComponentProps} from 'react';
+    ? `import React from 'react';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 import type ${componentName}Type from '@theme/${themeComponentName}';
+import type {WrapperProps} from '@docusaurus/types';
 
-type Props = ComponentProps<typeof ${componentName}Type>;
+type Props = WrapperProps<typeof ${componentName}Type>;
 
 export default function ${wrapperComponentName}(props: Props): JSX.Element {
   return (

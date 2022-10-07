@@ -21,18 +21,22 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   5,
 );
 
-// This probably only makes sense for the beta phase, temporary
-function getNextBetaVersionName() {
-  const expectedPrefix = '2.0.0-beta.';
+// This probably only makes sense for the alpha/beta/rc phase, temporary
+function getNextVersionName() {
+  return 'Canary';
+  /*
+  const expectedPrefix = '2.0.0-rc.';
 
   const lastReleasedVersion = versions[0];
   if (!lastReleasedVersion || !lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
-      'this code is only meant to be used during the 2.0 beta phase.',
+      'this code is only meant to be used during the 2.0 alpha/beta/rc phase.',
     );
   }
   const version = parseInt(lastReleasedVersion.replace(expectedPrefix, ''), 10);
   return `${expectedPrefix}${version + 1}`;
+
+   */
 }
 
 const allDocHomesPaths = [
@@ -45,6 +49,10 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
   !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+
+// Netlify branch deploy like "docusaurus-v2"
+const isBranchDeploy =
+  !!process.env.NETLIFY && process.env.CONTEXT === 'branch-deploy';
 
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
@@ -82,15 +90,16 @@ const config = {
   ],
   i18n: {
     defaultLocale: 'en',
-    // eslint-disable-next-line no-nested-ternary
-    locales: isDeployPreview
-      ? // Deploy preview: keep it fast!
-        ['en']
-      : isI18nStaging
-      ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-        ['en', 'ja']
-      : // Production locales
-        ['en', 'fr', 'pt-BR', 'ko', 'zh-CN'],
+
+    locales:
+      isDeployPreview || isBranchDeploy
+        ? // Deploy preview and branch deploys: keep them fast!
+          ['en']
+        : isI18nStaging
+        ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+          ['en', 'ja']
+        : // Production locales
+          ['en', 'fr', 'pt-BR', 'ko', 'zh-CN'],
   },
   webpack: {
     jsLoader: (isServer) => ({
@@ -298,23 +307,31 @@ const config = {
             const nextVersionDocsDirPath = 'docs';
             return `https://github.com/facebook/docusaurus/edit/main/website/${nextVersionDocsDirPath}/${docPath}`;
           },
+          admonitions: {
+            keywords: ['my-custom-admonition'],
+            extendDefaults: true,
+          },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [math, [npm2yarn, {sync: true}]],
           rehypePlugins: [],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          lastVersion:
+            isDev || isDeployPreview || isBranchDeploy ? 'current' : undefined,
           onlyIncludeVersions: (() => {
             if (isBuildFast) {
               return ['current'];
-            } else if (!isVersioningDisabled && (isDev || isDeployPreview)) {
+            } else if (
+              !isVersioningDisabled &&
+              (isDev || isDeployPreview || isBranchDeploy)
+            ) {
               return ['current', ...versions.slice(0, 2)];
             }
             return undefined;
           })(),
           versions: {
             current: {
-              label: `${getNextBetaVersionName()} 🚧`,
+              label: `${getNextVersionName()} 🚧`,
             },
           },
         },
@@ -345,13 +362,14 @@ const config = {
             './_dogfooding/dogfooding.css',
           ],
         },
-        gtag: !isDeployPreview
+        gtag: !(isDeployPreview || isBranchDeploy)
           ? {
               trackingID: 'UA-141789564-1',
             }
           : undefined,
         sitemap: {
-          ignorePatterns: ['/tests/**'],
+          // Note: /tests/docs already has noIndex: true
+          ignorePatterns: ['/tests/{blog,pages}/**'],
         },
       }),
     ],
@@ -403,7 +421,7 @@ const config = {
         hideOnScroll: true,
         title: 'Docusaurus',
         logo: {
-          alt: 'Docusaurus Logo',
+          alt: '',
           src: 'img/docusaurus.svg',
           srcDark: 'img/docusaurus_keytar.svg',
           width: 32,
@@ -593,13 +611,11 @@ const config = {
           },
         ],
         logo: {
-          alt: 'Facebook Open Source Logo',
-          src: 'img/oss_logo.png',
-          width: 160,
-          height: 51,
-          href: 'https://opensource.facebook.com',
+          alt: 'Meta Open Source Logo',
+          src: '/img/meta_opensource_logo_negative.svg',
+          href: 'https://opensource.fb.com',
         },
-        copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
       },
     }),
 };

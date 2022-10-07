@@ -27,9 +27,12 @@ describe('useShallowMemoObject', () => {
     const someArray = ['hello', 'world'];
 
     const obj1 = {a: 1, b: '2', someObj, someArray};
-    const {result, rerender} = renderHook((val) => useShallowMemoObject(val), {
-      initialProps: obj1,
-    });
+    const {result, rerender} = renderHook<object, object>(
+      (val) => useShallowMemoObject(val),
+      {
+        initialProps: obj1,
+      },
+    );
     expect(result.current).toBe(obj1);
 
     const obj2 = {a: 1, b: '2', someObj, someArray};
@@ -40,17 +43,31 @@ describe('useShallowMemoObject', () => {
     rerender(obj3);
     expect(result.current).toBe(obj1);
 
-    // Current implementation is basic and sensitive to order
     const obj4 = {b: '2', a: 1, someObj, someArray};
     rerender(obj4);
-    expect(result.current).toBe(obj4);
+    expect(result.current).toBe(obj1);
 
     const obj5 = {b: '2', a: 1, someObj, someArray};
     rerender(obj5);
-    expect(result.current).toBe(obj4);
+    expect(result.current).toBe(obj1);
 
-    const obj6 = {b: '2', a: 1, someObj: {...someObj}, someArray};
+    const obj6 = {b: 1, a: '2', someObj, someArray};
     rerender(obj6);
     expect(result.current).toBe(obj6);
+    expect(result.current).not.toBe(obj5);
+
+    const obj7 = {b: 1, a: '2', someObj: {...someObj}, someArray};
+    rerender(obj7);
+    expect(result.current).toBe(obj7);
+    expect(result.current).not.toBe(obj6);
+
+    const obj8 = {...obj7};
+    rerender(obj8);
+    expect(result.current).toBe(obj7);
+
+    const obj9 = {...obj7, another: true};
+    rerender(obj9);
+    expect(result.current).toBe(obj9);
+    expect(result.current).not.toBe(obj7);
   });
 });

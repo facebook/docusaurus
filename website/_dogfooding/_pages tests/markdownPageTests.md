@@ -162,6 +162,16 @@ function Clock(props) {
 
 ## Custom heading ID {#custom}
 
+### Weird heading {#你好}
+
+### Weird heading {#2022.1.1}
+
+### Weird heading {#a#b}
+
+### Weird heading {#a b}
+
+### Weird heading {#a{b}
+
 ## Pipe
 
 Code tag + double pipe: <code>&#124;&#124;</code>
@@ -227,5 +237,11 @@ Can be arbitrarily nested:
 :::caution Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button>
 
 Admonition body
+
+:::
+
+:::important
+
+Admonition alias `:::important` should have Important title
 
 :::

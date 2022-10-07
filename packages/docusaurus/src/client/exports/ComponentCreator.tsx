@@ -132,7 +132,7 @@ export default function ComponentCreator(
       // Is there any way to put this RouteContextProvider upper in the tree?
       return (
         <RouteContextProvider value={routeContext}>
-          <Component {...loadedModules} {...props} />
+          <Component {...loadedModules} {...(props as object)} />
         </RouteContextProvider>
       );
     },

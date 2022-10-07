@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - docusaurus-v**
     paths:
       - package.json
       - yarn.lock
@@ -30,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # v3
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -40,3 +41,7 @@ jobs:
         run: yarn test
       - name: TypeCheck website
         run: yarn workspace website typecheck
+      - name: Remove Theme Internal Re-export
+        run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
+      - name: Docusaurus Build
+        run: yarn build:website:fast

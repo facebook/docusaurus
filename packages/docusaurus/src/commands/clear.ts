@@ -26,7 +26,9 @@ async function removePath(entry: {path: string; description: string}) {
   }
 }
 
-export async function clear(siteDir: string): Promise<void> {
+export async function clear(siteDirParam: string = '.'): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const generatedFolder = {
     path: path.join(siteDir, GENERATED_FILES_DIR_NAME),
     description: 'generated folder',

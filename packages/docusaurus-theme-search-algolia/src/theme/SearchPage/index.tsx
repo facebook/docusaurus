@@ -18,19 +18,22 @@ import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
   HtmlClassNameProvider,
-  useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
-  useDynamicCallback,
-  useSearchPage,
+  useEvent,
 } from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
+  useSearchPage,
+} from '@docusaurus/theme-common/internal';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Translate, {translate} from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
 
-import styles from './styles.module.css';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
+
+import styles from './styles.module.css';
 
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {
@@ -278,7 +281,7 @@ function SearchPageContent(): JSX.Element {
   const [loaderRef, setLoaderRef] = useState<HTMLDivElement | null>(null);
   const prevY = useRef(0);
   const observer = useRef(
-    ExecutionEnvironment.canUseDOM &&
+    ExecutionEnvironment.canUseIntersectionObserver &&
       new IntersectionObserver(
         (entries) => {
           const {
@@ -314,7 +317,7 @@ function SearchPageContent(): JSX.Element {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = useDynamicCallback((page: number = 0) => {
+  const makeSearch = useEvent((page: number = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 

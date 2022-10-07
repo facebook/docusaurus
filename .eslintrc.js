@@ -9,6 +9,18 @@ const OFF = 0;
 const WARNING = 1;
 const ERROR = 2;
 
+const ClientRestrictedImportPatterns = [
+  // Prevent importing lodash in client bundle for bundle size
+  'lodash',
+  'lodash.**',
+  'lodash/**',
+  // Prevent importing server code in client bundle
+  '**/../babel/**',
+  '**/../server/**',
+  '**/../commands/**',
+  '**/../webpack/**',
+];
+
 module.exports = {
   root: true,
   env: {
@@ -211,10 +223,12 @@ module.exports = {
     ],
 
     'import/extensions': OFF,
-    // Ignore certain webpack aliases because they can't be resolved
+    // This rule doesn't yet support resolving .js imports when the actual file
+    // is .ts. Plus it's not all that useful when our code is fully TS-covered.
     'import/no-unresolved': [
-      ERROR,
+      OFF,
       {
+        // Ignore certain webpack aliases because they can't be resolved
         ignore: [
           '^@theme',
           '^@docusaurus',
@@ -235,6 +249,14 @@ module.exports = {
           'type',
         ],
         pathGroups: [
+          // always put css import to the last, ref:
+          // https://github.com/import-js/eslint-plugin-import/issues/1239
+          {
+            pattern: '*.+(css|sass|less|scss|pcss|styl)',
+            group: 'unknown',
+            patternOptions: {matchBase: true},
+            position: 'after',
+          },
           {pattern: '@jest/globals', group: 'builtin', position: 'before'},
           {pattern: 'react', group: 'builtin', position: 'before'},
           {pattern: 'fs-extra', group: 'builtin'},
@@ -251,6 +273,10 @@ module.exports = {
           {pattern: '@theme-original/**', group: 'internal'},
         ],
         pathGroupsExcludedImportTypes: [],
+        // example: let `import './nprogress.css';` after importing others
+        // in `packages/docusaurus-theme-classic/src/nprogress.ts`
+        // see more: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#warnonunassignedimports-truefalse
+        warnOnUnassignedImports: true,
       },
     ],
     'import/prefer-default-export': OFF,
@@ -369,25 +395,32 @@ module.exports = {
   },
   overrides: [
     {
-      files: [
-        'packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}',
-        'packages/docusaurus/src/client/**/*.{js,ts,tsx}',
-      ],
+      files: ['packages/docusaurus/src/client/**/*.{js,ts,tsx}'],
       rules: {
         'no-restricted-imports': [
           'error',
           {
-            patterns: [
-              // Prevent importing lodash in client bundle for bundle size
-              'lodash',
-              'lodash.**',
-              'lodash/**',
-              // Prevent importing server code in client bundle
-              '**/../babel/**',
-              '**/../server/**',
-              '**/../commands/**',
-              '**/../webpack/**',
-            ],
+            patterns: ClientRestrictedImportPatterns,
+          },
+        ],
+      },
+    },
+    {
+      files: ['packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}'],
+      excludedFiles: '*.test.{js,ts,tsx}',
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: ClientRestrictedImportPatterns.concat(
+              // Prevents relative imports between React theme components
+              [
+                '../**',
+                './**',
+                // Allows relative styles module import with consistent filename
+                '!./styles.module.css',
+              ],
+            ),
           },
         ],
       },
@@ -449,6 +482,7 @@ module.exports = {
         'admin/**',
         'jest/**',
         'website/**',
+        'packages/docusaurus-theme-common/removeThemeInternalReexport.mjs',
         'packages/docusaurus-theme-translations/update.mjs',
         'packages/docusaurus-theme-translations/src/utils.ts',
       ],

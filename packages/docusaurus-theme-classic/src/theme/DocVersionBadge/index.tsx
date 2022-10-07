@@ -8,7 +8,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import {ThemeClassNames, useDocsVersion} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import {useDocsVersion} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/DocVersionBadge';
 
 export default function DocVersionBadge({

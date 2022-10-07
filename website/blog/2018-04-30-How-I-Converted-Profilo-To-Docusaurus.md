@@ -46,39 +46,43 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 
 **Content creation:**
 
-1.  Added metadata to the existing Markdown files found in the `docs` folder, for example:
+1. Added metadata to the existing Markdown files found in the `docs` folder, for example:
 
-        +---
-        +id: architecture
-        +title: Architecture
-        +sidebar_label: Architecture
-        +---
+   ```md
+   ---
+   id: architecture
+   title: Architecture
+   sidebar_label: Architecture
+   ---
+   ```
 
-1.  Added the logo assets to the `website/static/img` folder.
-1.  Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
-1.  Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
-1.  Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
-1.  Modified `website/sidebars.json` that specifies the sidebar navigation. Listed all the docs and customized it based on the metadata added to the Markdown files.
-1.  Edited the website configuration file to specify the GitHub properties, logo images, header links, and the website link.
-1.  Tested the website locally throughout this phase. (I ran `yarn start` from the `website` folder to start the server.)
+2. Added the logo assets to the `website/static/img` folder.
+3. Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
+4. Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
+5. Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
+6. Modified `website/sidebars.json` that specifies the sidebar navigation. Listed all the docs and customized it based on the metadata added to the Markdown files.
+7. Edited the website configuration file to specify the GitHub properties, logo images, header links, and the website link.
+8. Tested the website locally throughout this phase. (I ran `yarn start` from the `website` folder to start the server.)
 
 **Feedback and review changes:**
 
 1. Sent a [pull request](https://github.com/facebookincubator/profilo/pull/6) to the project.
-1. Updated the colors after the designer rightly gasped at the ones I had chosen (IANAD).
-1. Updated the colors and updated the PR.
-1. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Yay!
+2. Updated the colors after the designer rightly gasped at the ones I had chosen (IANAD).
+3. Updated the colors and updated the PR.
+4. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Yay!
 
 **Website publishing:**
 
-1.  Pushed the first website version by running the Docusaurus publish script from the command line:
+1. Pushed the first website version by running the Docusaurus publish script from the command line:
 
-        USE_SSH=true \
-          GIT_USER=caabernathy \
-          CURRENT_BRANCH=master \
-          yarn run publish-gh-pages
+   ```bash
+   USE_SSH=true \
+     GIT_USER=caabernathy \
+     CURRENT_BRANCH=master \
+     yarn run publish-gh-pages
+   ```
 
-1.  Configured CircleCI using the [provided Docusaurus instructions](https://v1.docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure CircleCI only triggered for changes in the master branch (thanks Joel Marcey!).
+2. Configured CircleCI using the [provided Docusaurus instructions](https://v1.docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure CircleCI only triggered for changes in the master branch (thanks Joel Marcey!).
 
 The final website was published on https://facebookincubator.github.io/profilo/. It had taken 1.5 hours to get to the initial PR stage and another half an hour or so to respond to review feedback and publish the website.
 
@@ -86,15 +90,15 @@ The final website was published on https://facebookincubator.github.io/profilo/.
 
 Here's what the initial website looked like when the first pull request was sent out:
 
-![Website Initial Design](/img/profilo_blog_post_website_initial.png)
+![The website's front page, with a quite bright and saturated red color as the primary color, closely resembling the Profilo logo color, making the logo unrecognizable in the navbar](/img/profilo_blog_post_website_initial.png)
 
 Most of the time in the content creation was spent picking colors that worked reasonably well with the given logo. These colors were a good jumping off point for designer feedback. I used Photoshop to sample various portions of the logo.
 
-![Picking Color Photoshop](/img/profilo_blog_post_photoshop_color_picker.png)
+![Picking colors in Photoshop, with the Profilo logo and the main working area in the background and a color picker dialog in the foreground, selected to a red shade](/img/profilo_blog_post_photoshop_color_picker.png)
 
 I then took the RGB representation of the color and set it as the baseline color on [Paletton](http://paletton.com/). The website then gave me various color options to try on the website by editing the Docusaurus website configuration file.
 
-![Picking Color Paletton](/img/profilo_blog_post_palette_website_color_picker.png)
+![Using Paletton to generate a full palette from the red shade selected. There's a color wheel showing all hues on the left, and a square showing various shades of red on the right.](/img/profilo_blog_post_palette_website_color_picker.png)
 
 The selected primary and secondary colors were a good jumping off point for designer feedback.
 
@@ -102,17 +106,17 @@ There were also modifications made to the default website generated by Docusauru
 
 Here's what the final website looked like:
 
-![Website Final Design](/img/profilo_blog_post_website_final.png)
+![The website's front page, with a much darker red color as the primary color, making both the logo and the primary-colored title text clearly legible.](/img/profilo_blog_post_website_final.png)
 
 This is an example page showing the core content, in this case the Getting Started page:
 
-![Website Docs Example](/img/profilo_blog_post_website_final_docs.png)
+![A doc page with the sidebar on the left quarter of the screen and the main content occupying the rest. Some text is using the primary color and the main body uses multiple kinds of typesetting including bold, list, and code](/img/profilo_blog_post_website_final_docs.png)
 
 This also shows the sidebar structure that was set up through editing `website/sidebars.json`.
 
 Lastly, I didn't have to worry about handling responsive design. You get this out of the box with Docusaurus!
 
-![Mobile Site](/img/profilo_blog_post_android_ios.png)
+![Mobile screenshots of the front page and sample doc page. The layout is automatically adjusted to make it appear more natural. The doc sidebar is hidden behind a button.](/img/profilo_blog_post_android_ios.png)
 
 ## Final Thoughts
 

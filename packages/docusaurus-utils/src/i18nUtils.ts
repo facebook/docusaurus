@@ -68,6 +68,9 @@ export function getPluginI18nPath({
 /**
  * Takes a path and returns a localized a version (which is basically `path +
  * i18n.currentLocale`).
+ *
+ * This is used to resolve the `outDir` and `baseUrl` of each locale; it is NOT
+ * used to determine plugin localization file locations.
  */
 export function localizePath({
   pathType,
@@ -94,13 +97,15 @@ export function localizePath({
   };
 }): string {
   const shouldLocalizePath: boolean =
-    //
     options.localizePath ?? i18n.currentLocale !== i18n.defaultLocale;
 
   if (!shouldLocalizePath) {
     return originalPath;
   }
-  // FS paths need special care, for Windows support
+  // FS paths need special care, for Windows support. Note: we don't use the
+  // locale config's `path` here, because this function is used for resolving
+  // outDir, which must be the same as baseUrl. When we have the baseUrl config,
+  // we need to sync the two.
   if (pathType === 'fs') {
     return path.join(originalPath, i18n.currentLocale);
   }

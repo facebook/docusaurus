@@ -1,6 +1,7 @@
 abernathyca
 adriaan
 agan
+alexbdebrie
 alexey
 algoliasearch
 anonymized
@@ -50,9 +51,12 @@ contravariance
 corejs
 crawlable
 creativecommons
+csapo
 cssnano
 csvg
 customizability
+dabit
+dabit
 daishi
 datagit
 datas
@@ -63,6 +67,7 @@ deduplicated
 déja
 deps
 devcontainers
+devs
 devspace
 devto
 dmitry
@@ -89,7 +94,7 @@ eslintcache
 estree
 evaluable
 execa
-Execa
+execa
 externalwaiting
 failfast
 fbid
@@ -100,7 +105,11 @@ formik
 fouc
 froms
 funboxteam
+<<<<<<< HEAD
 gantt
+=======
+gabrielcsapo
+>>>>>>> main
 getopts
 gitgraph
 gitpod
@@ -108,9 +117,13 @@ globbing
 globby
 goss
 goyal
+gruntfuggly
 gtag
 hahaha
+hamel
 hardcoding
+hasura
+heavener
 héctor
 héllô
 heuristical
@@ -119,6 +132,7 @@ hola
 horiz
 hostman
 hoverable
+husain
 ianad
 idempotency
 immer
@@ -127,11 +141,13 @@ inlines
 intelli
 interactiveness
 interpolatable
+investec
 jakepartusch
 jamstack
 janvier
 javadoc
 jmarcey
+jodyheavener
 joshcena
 jscodeshift
 jssdk
@@ -158,6 +174,7 @@ marcey
 marocchino
 massoud
 mathjax
+maxlynch
 maxresdefault
 mdast
 mdxa
@@ -196,12 +213,16 @@ npmrc
 nprogress
 ntfs
 nuxt
+o’shannessy
 onboarded
+openapi
 opensearch
 opensearchdescription
+opensource
 optimizt
 optind
 orta
+outerbounds
 overrideable
 pageview
 palenight
@@ -210,6 +231,9 @@ palo
 paraiso
 pathinfo
 pathnames
+paularmstrong
+pbcopy
+pcss
 peaceiris
 philpl
 photoshop
@@ -218,6 +242,7 @@ picomatch
 playbtn
 pluggable
 plushie
+plushies
 pnpm
 posthog
 preactjs
@@ -246,7 +271,9 @@ qovery
 quasis
 quddus
 quddús
+quickwit
 quotify
+rachelnabors
 ramón
 reactjs
 rearchitecture
@@ -263,6 +290,7 @@ reqs
 requireindex
 retrocompatibility
 retrocompatible
+rmiz
 roadmap
 rocketvalidator
 rtcts
@@ -277,6 +305,8 @@ sensical
 serializers
 setaf
 setext
+shiki
+shiki
 showinfo
 sida
 simen
@@ -284,11 +314,14 @@ slorber
 sluggified
 sluggifies
 sluggify
+solana
+solana
 spâce
 stackblitz
 stackblitzrc
 strikethrough
 strikethroughs
+styl
 stylelint
 stylelintrc
 subdir
@@ -310,6 +343,7 @@ swizzlable
 teik
 templating
 thanos
+therox
 toolset
 toplevel
 transifex
@@ -320,6 +354,7 @@ treeify
 treosh
 triaging
 tses
+twoslash
 typecheck
 typechecks
 typedoc
@@ -344,6 +379,7 @@ vetter
 vfile
 vicenti
 vieira
+viet
 viewports
 vinnik
 vjeux
@@ -362,3 +398,4 @@ yangshun
 yangshunz
 zhou
 zoomable
+zpao

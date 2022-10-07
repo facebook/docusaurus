@@ -43,11 +43,12 @@ export default function FirstLevelComponentWrapper(props) {
 `;
 
 exports[`wrap TypeScript wrap ComponentInFolder 2`] = `
-"import React, {ComponentProps} from 'react';
+"import React from 'react';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
 import type ComponentInFolderType from '@theme/ComponentInFolder';
+import type {WrapperProps} from '@docusaurus/types';
 
-type Props = ComponentProps<typeof ComponentInFolderType>;
+type Props = WrapperProps<typeof ComponentInFolderType>;
 
 export default function ComponentInFolderWrapper(props: Props): JSX.Element {
   return (
@@ -60,11 +61,12 @@ export default function ComponentInFolderWrapper(props: Props): JSX.Element {
 `;
 
 exports[`wrap TypeScript wrap ComponentInFolder/ComponentInSubFolder 2`] = `
-"import React, {ComponentProps} from 'react';
+"import React from 'react';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
+import type {WrapperProps} from '@docusaurus/types';
 
-type Props = ComponentProps<typeof ComponentInSubFolderType>;
+type Props = WrapperProps<typeof ComponentInSubFolderType>;
 
 export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
   return (
@@ -77,11 +79,12 @@ export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
 `;
 
 exports[`wrap TypeScript wrap FirstLevelComponent 2`] = `
-"import React, {ComponentProps} from 'react';
+"import React from 'react';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 import type FirstLevelComponentType from '@theme/FirstLevelComponent';
+import type {WrapperProps} from '@docusaurus/types';
 
-type Props = ComponentProps<typeof FirstLevelComponentType>;
+type Props = WrapperProps<typeof FirstLevelComponentType>;
 
 export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
   return (

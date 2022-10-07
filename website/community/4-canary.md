@@ -16,7 +16,7 @@ import {
 
 Docusaurus has a canary releases system.
 
-It permits you to **test new unreleased features** as soon as the pull requests are merged.
+It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
 
 It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
 

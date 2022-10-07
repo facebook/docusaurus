@@ -120,7 +120,7 @@ describe('getFileCommitDate', () => {
         age: 'newest',
         includeAuthor: true,
       }),
-    ).toThrowError(FileNotTrackedError);
+    ).toThrow(FileNotTrackedError);
   });
   it('throws when file not found', async () => {
     expect(() =>
@@ -128,7 +128,7 @@ describe('getFileCommitDate', () => {
         age: 'newest',
         includeAuthor: true,
       }),
-    ).toThrowError(
+    ).toThrow(
       /Failed to retrieve git history for ".*nonexistent.txt" because the file does not exist./,
     );
   });

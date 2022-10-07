@@ -13,11 +13,11 @@ import React, {
 } from 'react';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import {duplicates} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
-  duplicates,
   useTabGroupChoice,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -104,7 +104,10 @@ function TabsComponent(props: Props): JSX.Element {
   }
 
   const handleTabChange = (
-    event: React.FocusEvent<HTMLLIElement> | React.MouseEvent<HTMLLIElement>,
+    event:
+      | React.FocusEvent<HTMLLIElement>
+      | React.MouseEvent<HTMLLIElement>
+      | React.KeyboardEvent<HTMLLIElement>,
   ) => {
     const newTab = event.currentTarget;
     const newTabIndex = tabRefs.indexOf(newTab);
@@ -124,6 +127,10 @@ function TabsComponent(props: Props): JSX.Element {
     let focusElement: HTMLLIElement | null = null;
 
     switch (event.key) {
+      case 'Enter': {
+        handleTabChange(event);
+        break;
+      }
       case 'ArrowRight': {
         const nextTab = tabRefs.indexOf(event.currentTarget) + 1;
         focusElement = tabRefs[nextTab] ?? tabRefs[0]!;
@@ -161,7 +168,6 @@ function TabsComponent(props: Props): JSX.Element {
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={handleKeydown}
-            onFocus={handleTabChange}
             onClick={handleTabChange}
             {...attributes}
             className={clsx(

@@ -9,18 +9,21 @@ import {removeTrailingSlash} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import collectRedirects from '../collectRedirects';
 import {validateOptions} from '../options';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import type {Options} from '../options';
 import type {PluginContext} from '../types';
 
 function createTestPluginContext(
   options?: Options,
   relativeRoutesPaths: string[] = [],
+  siteConfig: Partial<DocusaurusConfig> = {},
 ): PluginContext {
   return {
     outDir: '/tmp',
     baseUrl: 'https://docusaurus.io',
     relativeRoutesPaths,
     options: validateOptions({validate: normalizePluginOptions, options}),
+    siteConfig: {onDuplicateRoutes: 'warn', ...siteConfig} as DocusaurusConfig,
   };
 }
 
@@ -217,6 +220,69 @@ describe('collectRedirects', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
+  it('tolerates mismatched trailing slash if option is undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/somePath',
+              },
+            ],
+          },
+          ['/', '/somePath/'],
+          {trailingSlash: undefined},
+        ),
+        undefined,
+      ),
+    ).toEqual([
+      {
+        from: '/someLegacyPath',
+        to: '/somePath',
+      },
+    ]);
+  });
+
+  it('throw if plugin option redirects contain to paths with mismatching trailing slash', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath/',
+              },
+            ],
+          },
+          ['/', '/someExistingPath', '/anotherExistingPath'],
+          {trailingSlash: false},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath',
+              },
+            ],
+          },
+          ['/', '/someExistingPath/', '/anotherExistingPath/'],
+          {trailingSlash: true},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
   it('collects redirects with custom redirect creator', () => {
     expect(
       collectRedirects(
@@ -308,9 +374,10 @@ describe('collectRedirects', () => {
       collectRedirects(
         createTestPluginContext(
           {
-            createRedirects: (routePath) => {
+            // @ts-expect-error: for test
+            createRedirects(routePath) {
               if (routePath === '/') {
-                return [[`/fromPath`]] as unknown as string;
+                return [[`/fromPath`]];
               }
               return undefined;
             },
@@ -355,5 +422,45 @@ describe('collectRedirects', () => {
         to: '/fromShouldWork.html',
       },
     ]);
+  });
+
+  it('throws when creating duplicate redirect routes and onDuplicateRoutes=throw', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects() {
+              return '/random-path';
+            },
+          },
+          ['/path-one', '/path-two'],
+          {onDuplicateRoutes: 'throw'},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname: "/random-path"
+      It is not possible to redirect the same pathname to multiple destinations:
+      - {"from":"/random-path","to":"/path-one"}
+      - {"from":"/random-path","to":"/path-two"}"
+    `);
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {from: '/path-three', to: '/path-one'},
+              {from: '/path-two', to: '/path-one'},
+            ],
+          },
+          ['/path-one', '/path-two'],
+          {onDuplicateRoutes: 'throw'},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
+      - {"from":"/path-two","to":"/path-one"}"
+    `);
   });
 });

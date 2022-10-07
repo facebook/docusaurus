@@ -158,7 +158,10 @@ describe('createSitemap', () => {
           meta: {
             // @ts-expect-error: bad lib def
             toComponent: () => [
-              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+              React.createElement('meta', {
+                name: 'robots',
+                content: 'NoFolloW, NoiNDeX',
+              }),
             ],
           },
         },
@@ -171,5 +174,40 @@ describe('createSitemap', () => {
     );
 
     expect(sitemap).not.toContain('/noindex');
+  });
+
+  it('does not generate anything for all pages with noindex', async () => {
+    const sitemap = await createSitemap(
+      {
+        url: 'https://example.com',
+        trailingSlash: false,
+      } as DocusaurusConfig,
+      ['/', '/noindex'],
+      {
+        '/': {
+          meta: {
+            // @ts-expect-error: bad lib def
+            toComponent: () => [
+              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+            ],
+          },
+        },
+        '/noindex': {
+          meta: {
+            // @ts-expect-error: bad lib def
+            toComponent: () => [
+              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+            ],
+          },
+        },
+      },
+      {
+        changefreq: EnumChangefreq.DAILY,
+        priority: 0.7,
+        ignorePatterns: [],
+      },
+    );
+
+    expect(sitemap).toBeNull();
   });
 });

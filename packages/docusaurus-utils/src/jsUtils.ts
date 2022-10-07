@@ -5,8 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
-import type {ReportingSeverity} from '@docusaurus/types';
+/** Adds a given string prefix to `str`. */
+export function addPrefix(str: string, prefix: string): string {
+  return str.startsWith(prefix) ? str : `${prefix}${str}`;
+}
+
+/** Adds a given string suffix to `str`. */
+export function addSuffix(str: string, suffix: string): string {
+  return str.endsWith(suffix) ? str : `${str}${suffix}`;
+}
 
 /** Removes a given string suffix from `str`. */
 export function removeSuffix(str: string, suffix: string): string {
@@ -59,44 +66,4 @@ export async function findAsyncSequential<T>(
     }
   }
   return undefined;
-}
-
-/**
- * Takes a message and reports it according to the severity that the user wants.
- *
- * - `ignore`: completely no-op
- * - `log`: uses the `INFO` log level
- * - `warn`: uses the `WARN` log level
- * - `error`: uses the `ERROR` log level
- * - `throw`: aborts the process, throws the error.
- *
- * Since the logger doesn't have logging level filters yet, these severities
- * mostly just differ by their colors.
- *
- * @throws In addition to throwing when `reportingSeverity === "throw"`, this
- * function also throws if `reportingSeverity` is not one of the above.
- */
-export function reportMessage(
-  message: string,
-  reportingSeverity: ReportingSeverity,
-): void {
-  switch (reportingSeverity) {
-    case 'ignore':
-      break;
-    case 'log':
-      logger.info(message);
-      break;
-    case 'warn':
-      logger.warn(message);
-      break;
-    case 'error':
-      logger.error(message);
-      break;
-    case 'throw':
-      throw new Error(message);
-    default:
-      throw new Error(
-        `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
-      );
-  }
 }

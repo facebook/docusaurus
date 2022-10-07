@@ -26,6 +26,7 @@ const DefaultI18N: I18n = {
       direction: 'ltr',
       htmlLang: 'en',
       calendar: 'gregory',
+      path: 'en',
     },
   },
 };
@@ -97,7 +98,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       } as PluginOptions,
     );
 
-    expect(fsMock).toBeCalledTimes(0);
+    expect(fsMock).toHaveBeenCalledTimes(0);
     fsMock.mockClear();
   });
 

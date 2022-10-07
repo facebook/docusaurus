@@ -6,12 +6,12 @@
  */
 
 import React, {useMemo} from 'react';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import {
-  type TOCHighlightConfig,
-  useThemeConfig,
   useTOCHighlight,
   useFilteredAndTreeifiedTOC,
-} from '@docusaurus/theme-common';
+  type TOCHighlightConfig,
+} from '@docusaurus/theme-common/internal';
 import TOCItemTree from '@theme/TOCItems/Tree';
 import type {Props} from '@theme/TOCItems';
 

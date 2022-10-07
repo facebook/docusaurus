@@ -20,7 +20,7 @@ const createContainer = () => {
   return container;
 };
 
-export default function renderReloadPopup(props: Props): Promise<void> {
+export function renderReloadPopup(props: Props): Promise<void> {
   const container = getContainer() ?? createContainer();
   return import('@theme/PwaReloadPopup').then(({default: ReloadPopup}) => {
     ReactDOM.render(<ReloadPopup {...props} />, container);

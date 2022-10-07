@@ -6,12 +6,12 @@
  */
 
 import path from 'path';
+import logger from '@docusaurus/logger';
 import {
   normalizeUrl,
   docuHash,
   aliasedSitePath,
   getPluginI18nPath,
-  reportMessage,
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
@@ -195,6 +195,21 @@ export default async function pluginContentBlog(
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
+      function blogPostItemsModule(items: string[]) {
+        return items.map((postId) => {
+          const blogPostMetadata = blogItemsToMetadata[postId]!;
+          return {
+            content: {
+              __import: true,
+              path: blogPostMetadata.source,
+              query: {
+                truncated: true,
+              },
+            },
+          };
+        });
+      }
+
       if (archiveBasePath && blogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
@@ -275,15 +290,7 @@ export default async function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => ({
-                content: {
-                  __import: true,
-                  path: blogItemsToMetadata[postID]!.source,
-                  query: {
-                    truncated: true,
-                  },
-                },
-              })),
+              items: blogPostItemsModule(items),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -344,18 +351,7 @@ export default async function pluginContentBlog(
               exact: true,
               modules: {
                 sidebar: aliasedSource(sidebarProp),
-                items: items.map((postID) => {
-                  const blogPostMetadata = blogItemsToMetadata[postID]!;
-                  return {
-                    content: {
-                      __import: true,
-                      path: blogPostMetadata.source,
-                      query: {
-                        truncated: true,
-                      },
-                    },
-                  };
-                }),
+                items: blogPostItemsModule(items),
                 tag: aliasedSource(tagPropPath),
                 listMetadata: aliasedSource(listMetadataPath),
               },
@@ -391,10 +387,9 @@ export default async function pluginContentBlog(
           if (onBrokenMarkdownLinks === 'ignore') {
             return;
           }
-          reportMessage(
-            `Blog markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath}`,
+          logger.report(
             onBrokenMarkdownLinks,
-          );
+          )`Blog markdown link couldn't be resolved: (url=${brokenMarkdownLink.link}) in path=${brokenMarkdownLink.filePath}`;
         },
       };
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import http from 'http';
 import path from 'path';
 import logger from '@docusaurus/logger';
@@ -24,9 +25,11 @@ export type ServeCLIOptions = HostPortOptions &
   };
 
 export async function serve(
-  siteDir: string,
-  cliOptions: Partial<ServeCLIOptions>,
+  siteDirParam: string = '.',
+  cliOptions: Partial<ServeCLIOptions> = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const buildDir = cliOptions.dir ?? DEFAULT_BUILD_DIR_NAME;
   let dir = path.resolve(siteDir, buildDir);
 

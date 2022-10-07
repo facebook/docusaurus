@@ -27,6 +27,9 @@ export const ThemeClassNames = {
   },
   wrapper: {
     main: 'main-wrapper',
+    // TODO these wrapper class names are now quite useless
+    // TODO do breaking change later in 3.0
+    // we already add plugin name/id class on <html>: that's enough
     blogPages: 'blog-wrapper',
     docsPages: 'docs-wrapper',
     mdxPages: 'mdx-wrapper',
@@ -37,8 +40,7 @@ export const ThemeClassNames = {
     backToTopButton: 'theme-back-to-top-button',
     codeBlock: 'theme-code-block',
     admonition: 'theme-admonition',
-    admonitionType: (type: 'note' | 'tip' | 'danger' | 'info' | 'caution') =>
-      `theme-admonition-${type}`,
+    admonitionType: (type: string) => `theme-admonition-${type}`,
   },
   layout: {
     // TODO add other stable classNames here

@@ -41,9 +41,11 @@ function shellExecLog(cmd: string) {
 }
 
 export async function deploy(
-  siteDir: string,
-  cliOptions: Partial<DeployCLIOptions>,
+  siteDirParam: string = '.',
+  cliOptions: Partial<DeployCLIOptions> = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,
     config: cliOptions.config,

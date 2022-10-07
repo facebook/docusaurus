@@ -11,176 +11,54 @@ import {translate} from '@docusaurus/Translate';
 import {sortBy} from '@site/src/utils/jsUtils';
 
 /*
- * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
+ * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE
  *
- * Requirements for adding your site to our showcase:
- * - It is a production-ready site with real content and decent customizations
- * (different from the init templates)
- * - It is NOT a work-in-progress with empty pages
- * - It has a stable domain (a Netlify/Vercel deploy preview is not allowed)
+ * Please don't submit a PR yourself: use the Github Discussion instead:
+ * https://github.com/facebook/docusaurus/discussions/7826
  *
- * Instructions:
- * - Add your site in the json array below
- * - `title` is your project's name (no need for the "Docs" suffix)
- * - A short (≤120 characters) description of your project
- * - Use relevant tags to categorize your site (read the tag descriptions below)
- * - Add a local image preview (decent screenshot of your Docusaurus site)
+ * Instructions for maintainers:
+ * - Add the site in the json array below
+ * - `title` is the project's name (no need for the "Docs" suffix)
+ * - A short (≤120 characters) description of the project
+ * - Use relevant tags to categorize the site (read the tag descriptions on the
+ *   https://docusaurus.io/showcase page and some further clarifications below)
+ * - Add a local image preview (decent screenshot of the Docusaurus site)
  * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
- * - If your website is open-source, add your source link. The link should open
+ * - If a website is open-source, add a source link. The link should open
  *   to a directory containing the `docusaurus.config.js` file
+ * - Resize images: node admin/scripts/resizeImage.js
+ * - Run optimizt manually (see resize image script comment)
  * - Open a PR and check for reported CI errors
  *
- * Example PR: https://github.com/facebook/docusaurus/pull/3976
- *
- * If you edit this file through the GitHub interface, you can:
- * - Submit first your users.tsx edit PR
- * - This will create a branch on your Docusaurus fork (usually "patch-1")
- * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
- * - Drag-and-drop an image here to add it to your existing PR
- *
- * Please help us maintain this showcase page data:
- * - Update sites with wrong data
- * - Ensure site tags remain correct over time
- * - Remove sites not using Docusaurus anymore
- * - Add missing Docusaurus sites (if the site owner agreed)
+ * Example PR: https://github.com/facebook/docusaurus/pull/7620
  */
 
-export type Tag = {
-  label: string;
-  description: string;
-  color: string;
-};
-
+// LIST OF AVAILABLE TAGS
+// Available tags to assign to a showcase site
+// Please choose all tags that you think might apply.
+// We'll remove inappropriate tags, but it's less likely that we add tags.
 export type TagType =
+  // DO NOT USE THIS TAG: we choose sites to add to favorites
   | 'favorite'
+  // For open-source sites, a link to the source code is required.
+  // The source should be the *website's* source, not the project's source!
   | 'opensource'
   | 'product'
+  // Feel free to add the 'design' tag as long as there's _some_ level of
+  // CSS/swizzling.
   | 'design'
+  // Site must have more than one locale.
   | 'i18n'
   | 'versioning'
+  // Large sites are defined as those with > 200 pages, excluding versions.
   | 'large'
   | 'meta'
   | 'personal'
+  // Right-to-left direction.
   | 'rtl';
 
-export type User = {
-  title: string;
-  description: string;
-  preview: string;
-  website: string;
-  source: string | null;
-  tags: TagType[];
-};
-
-// LIST OF AVAILABLE TAGS
-// Available tags to assign to your site
-// Please choose all tags that you think might apply.
-// We'll remove inappropriate tags, but it's less likely that we add tags.
-export const Tags: {[type in TagType]: Tag} = {
-  // DO NOT USE THIS TAG: we choose sites to add to favorites
-  favorite: {
-    label: translate({message: 'Favorite'}),
-    description: translate({
-      message:
-        'Our favorite Docusaurus sites that you must absolutely check out!',
-      id: 'showcase.tag.favorite.description',
-    }),
-    color: '#e9669e',
-  },
-
-  // For open-source sites, a link to the source code is required
-  // The source should be your *website's* source, not your project's source!
-  opensource: {
-    label: translate({message: 'Open-Source'}),
-    description: translate({
-      message: 'Open-Source Docusaurus sites can be useful for inspiration!',
-      id: 'showcase.tag.opensource.description',
-    }),
-    color: '#39ca30',
-  },
-
-  product: {
-    label: translate({message: 'Product'}),
-    description: translate({
-      message: 'Docusaurus sites associated to a commercial product!',
-      id: 'showcase.tag.product.description',
-    }),
-    color: '#dfd545',
-  },
-
-  design: {
-    label: translate({message: 'Design'}),
-    description: translate({
-      message:
-        'Beautiful Docusaurus sites, polished and standing out from the initial template!',
-      id: 'showcase.tag.design.description',
-    }),
-    color: '#a44fb7',
-  },
-
-  i18n: {
-    label: translate({message: 'I18n'}),
-    description: translate({
-      message:
-        'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
-      id: 'showcase.tag.i18n.description',
-    }),
-    color: '#127f82',
-  },
-
-  versioning: {
-    label: translate({message: 'Versioning'}),
-    description: translate({
-      message:
-        'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
-      id: 'showcase.tag.versioning.description',
-    }),
-    color: '#fe6829',
-  },
-
-  // Large sites, with a lot of content (> 200 pages, excluding versions)
-  large: {
-    label: translate({message: 'Large'}),
-    description: translate({
-      message:
-        'Very large Docusaurus sites, including many more pages than the average!',
-      id: 'showcase.tag.large.description',
-    }),
-    color: '#8c2f00',
-  },
-
-  meta: {
-    label: translate({message: 'Meta'}),
-    description: translate({
-      message: 'Docusaurus sites of Meta (formerly Facebook) projects',
-      id: 'showcase.tag.meta.description',
-    }),
-    color: '#4267b2', // Facebook blue
-  },
-
-  personal: {
-    label: translate({message: 'Personal'}),
-    description: translate({
-      message:
-        'Personal websites, blogs and digital gardens built with Docusaurus',
-      id: 'showcase.tag.personal.description',
-    }),
-    color: '#14cfc3',
-  },
-
-  rtl: {
-    label: translate({message: 'RTL Direction'}),
-    description: translate({
-      message:
-        'Docusaurus sites using the right-to-left reading direction support.',
-      id: 'showcase.tag.rtl.description',
-    }),
-    color: '#ffcfc3',
-  },
-};
-
-// Add your site to this list
+// Add sites to this list
 // prettier-ignore
 const Users: User[] = [
   {
@@ -217,12 +95,12 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
-    title: 'Algolia Docsearch',
+    title: 'Algolia DocSearch',
     description:
       'The best search experience for docs, integrates in minutes, for free',
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
-    source: 'https://github.com/algolia/docsearch-website',
+    source: 'https://github.com/algolia/docsearch/tree/main/packages/website',
     tags: ['favorite', 'opensource', 'product'],
   },
   {
@@ -370,6 +248,14 @@ const Users: User[] = [
     tags: ['product', 'design'],
   },
   {
+    title: "Bruce's Wiki",
+    description: 'A personal wiki by Bruce Song',
+    preview: require('./showcase/bruce-wiki.png'),
+    website: 'https://wiki.bruceworld.top/',
+    source: 'https://github.com/recallwei/wiki',
+    tags: ['opensource', 'design', 'personal'],
+  },
+  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
@@ -443,6 +329,14 @@ const Users: User[] = [
     website: 'https://syllabus.codeyourfuture.io/',
     source: 'https://github.com/CodeYourFuture/syllabus',
     tags: ['opensource', 'product'],
+  },
+  {
+    title: 'Comp Labs',
+    description: 'Tech-based Blog, Enterprise-Grade Solutions and more...',
+    preview: require('./showcase/comp-labs.png'),
+    website: 'https://complabs.in/',
+    source: 'https://github.com/Comp-Labs/comp-labs-website',
+    tags: ['opensource'],
   },
   {
     title: 'Component Kit',
@@ -550,7 +444,8 @@ const Users: User[] = [
   },
   {
     title: 'difranca | Tech-Notes',
-    description: 'This documentation aims to comprise my learning notes on various tech subjects.',
+    description:
+      'This documentation aims to comprise my learning notes on various tech subjects.',
     preview: require('./showcase/difranca-technotes.png'),
     website: 'https://difranca.github.io/',
     source: 'https://github.com/difranca/difranca.github.io',
@@ -702,6 +597,14 @@ const Users: User[] = [
     website: 'https://eta.js.org/',
     source: 'https://github.com/eta-dev/eta-docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'EverShop',
+    description: 'An open-source e-commerce platform with Node and React',
+    preview: require('./showcase/evershop.png'),
+    website: 'https://evershop.io/',
+    source: 'https://github.com/evershopcommerce/docs',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'FAST',
@@ -1143,6 +1046,15 @@ const Users: User[] = [
     tags: ['opensource', 'versioning', 'i18n'],
   },
   {
+    title: 'Lerna',
+    description:
+      'A fast modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.',
+    preview: require('./showcase/lerna.png'),
+    website: 'https://lerna.js.org',
+    source: 'https://github.com/lerna/lerna/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Liqvid',
     description: 'Interactive videos in React',
     preview: require('./showcase/liqvid.png'),
@@ -1272,6 +1184,14 @@ const Users: User[] = [
     tags: ['design'],
   },
   {
+    title: 'Mixcore CMS',
+    description: 'Fully Open Source ASP.Net Core / Dotnet Core CMS UI Toolkit',
+    preview: require('./showcase/mixcore.png'),
+    website: 'https://docs.mixcore.org/',
+    source: 'https://github.com/mixcore/docs/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'moja global',
     description:
       'A non-profit project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
@@ -1349,6 +1269,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'design'],
   },
   {
+    title: 'Novu',
+    description: 'The open-source notification infrastructure for developers',
+    preview: require('./showcase/novu-docs.png'),
+    website: 'https://docs.novu.co/',
+    source: 'https://github.com/novuhq/novu',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'Nocalhost',
     description:
       'An open-source toolsets help to build cloud-native applications easier and faster.',
@@ -1407,6 +1335,15 @@ const Users: User[] = [
     website: 'https://ossinsight.io',
     source: 'https://github.com/pingcap/ossinsight',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Outerbounds',
+    description:
+      'Resources for data scientists and engineers, authored in jupyter notebooks using nbdoc and docusaurus.',
+    preview: require('./showcase/outerbounds.png'),
+    website: 'https://outerbounds.com',
+    source: null,
+    tags: ['favorite', 'product', 'design'],
   },
   {
     title: 'Oxidizer',
@@ -1494,6 +1431,14 @@ const Users: User[] = [
     website: 'https://developers.atinternet-solutions.com/piano-analytics/',
     source: null,
     tags: ['favorite', 'product', 'design'],
+  },
+  {
+    title: "pincman's website",
+    description: 'A very good full stack development teaching website',
+    preview: require('./showcase/pincman.png'),
+    website: 'https://pincman.com/',
+    source: 'https://github.com/rowfishjs/rowfish',
+    tags: ['opensource', 'design', 'personal'],
   },
   {
     title: 'Pipeline UI',
@@ -1784,6 +1729,14 @@ const Users: User[] = [
     tags: [],
   },
   {
+    title: 'RedGradient',
+    description: 'CSS Gradient Editor',
+    preview: require('./showcase/red-gradient.png'),
+    website: 'https://doc.red-gradient.com/',
+    source: 'https://github.com/redcamel/RedGradientDoc',
+    tags: ['opensource'],
+  },
+  {
     title: 'Redis Labs Developer Site',
     description: 'The Home of Redis Developers',
     preview: require('./showcase/redis-developer.png'),
@@ -1879,7 +1832,7 @@ const Users: User[] = [
     title: 'Resoto',
     description:
       'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
-    preview: require('./showcase/resoto.png'),
+    preview: null,
     website: 'https://resoto.com',
     source: 'https://github.com/someengineering/resoto.com',
     tags: ['opensource', 'product', 'design'],
@@ -1960,13 +1913,40 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Seaography - 🧭 A GraphQL framework and code generator for SeaORM',
+    description:
+      'Seaography is a GraphQL framework for building GraphQL resolvers using SeaORM entities.',
+    preview: require('./showcase/Seaography.png'),
+    website: 'https://www.sea-ql.org/Seaography/',
+    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/Seaography',
+    tags: ['opensource'],
+  },
+  {
     title: 'SeaORM - 🐚 An async & dynamic ORM for Rust',
     description:
       'A relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
     preview: require('./showcase/SeaORM.png'),
     website: 'https://www.sea-ql.org/SeaORM/',
-    source: 'https://github.com/SeaQL/seaql.github.io',
+    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/SeaORM',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'SeaQL - Building data intensive applications in Rust',
+    description:
+      'We help developers in building data intensive applications in Rust, such as web services, command line tools or apps.',
+    preview: require('./showcase/SeaQL-blog.png'),
+    website: 'https://www.sea-ql.org/blog/',
+    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/Blog',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Sequence',
+    description:
+      'Automation toolkit for creating repeatable, predictable, and defensible end-to-end forensic and ediscovery workflows.',
+    preview: require('./showcase/sequence.png'),
+    website: 'https://sequence.sh/',
+    source: 'https://gitlab.com/reductech/sequence/sequence-docs',
+    tags: ['large', 'opensource', 'versioning'],
   },
   {
     title: 'Seven-innovation-base official website',
@@ -2107,6 +2087,24 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'StackQL Provider Registry',
+    description:
+      'Cloud infra and SaaS provider documentation for StackQL providers.',
+    preview: require('./showcase/registry.stackql.io.png'),
+    website: 'https://registry.stackql.io/',
+    source: 'https://github.com/stackql/registry.stackql.io',
+    tags: ['opensource', 'product', 'large'],
+  },
+  {
+    title: 'StarfishQL - ✴️ A graph database and query engine',
+    description:
+      'StarfishQL is experimental graph database and query engine to enable graph analysis and visualization on the web.',
+    preview: require('./showcase/StarfishQL.png'),
+    website: 'https://www.sea-ql.org/StarfishQL/',
+    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/StarfishQL',
+    tags: ['opensource'],
+  },
+  {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
     preview: require('./showcase/stryker-mutator.png'),
@@ -2137,6 +2135,15 @@ const Users: User[] = [
     website: 'https://docs.svix.com/',
     source: 'https://github.com/svix/svix-docs',
     tags: ['opensource', 'product'],
+  },
+  {
+    title: 'SweetCode',
+    description:
+      'SweetCode company website and documentation for the Pixel Manager for WooCommerce',
+    preview: require('./showcase/sweetcode.png'),
+    website: 'https://sweetcode.com/',
+    source: null,
+    tags: ['product'],
   },
   {
     title: 'Synergies',
@@ -2173,6 +2180,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'TamalWeb',
+    description: 'A web developers personal blog and portfolio helping other developers with tips',
+    preview: require('./showcase/tamalwebsite.png'),
+    website: 'https://tamalweb.com/',
+    source: 'https://github.com/tamalchowdhury/tamalwebsite',
+    tags: ['personal', 'opensource'],
+  },
+  {
     title: 'Taro',
     description: 'An open cross-end and cross-frame solution',
     preview: require('./showcase/docs-taro-zone.png'),
@@ -2188,6 +2203,15 @@ const Users: User[] = [
     website: 'https://docs.tasit.io/',
     source: 'https://github.com/tasitlabs/tasit-sdk/tree/develop/packages/docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'Tauri',
+    description:
+      'Build an optimized, secure, and frontend-independent application for multi-platform deployment.',
+    preview: require('./showcase/tauri.png'),
+    website: 'https://tauri.app/',
+    source: 'https://github.com/tauri-apps/tauri-docs',
+    tags: ['opensource', 'i18n', 'product', 'design'],
   },
   {
     title: 'TechHarvesting',
@@ -2251,12 +2275,11 @@ const Users: User[] = [
   },
   {
     title: 'Tremor',
-    description:
-      'Early-stage event processing system for unstructured data with structural pattern-matching, filtering and transformation',
+    description: 'Tremor Event Processing Engine',
     preview: require('./showcase/tremor.png'),
     website: 'https://www.tremor.rs/',
     source: 'https://github.com/tremor-rs/tremor-www',
-    tags: ['opensource', 'versioning'],
+    tags: ['opensource', 'versioning','large'],
   },
   {
     title: 'TRPG Engine',
@@ -2397,8 +2420,8 @@ const Users: User[] = [
       'A fully Chinese Discord bot with epic features that makes Discord more than just chatting platform.',
     website: 'https://yeecord.com/',
     preview: require('./showcase/yeecord.png'),
-    tags: ['product', 'personal'],
-    source: null,
+    tags: ['product', 'personal', 'opensource'],
+    source: 'https://github.com/yeecord/docs',
   },
   {
     title: 'Zowe',
@@ -2417,11 +2440,726 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: "7Wate's Wiki",
+    description: 'Developer Wiki and Blog',
+    preview: require('./showcase/7wate-wiki.png'),
+    website: 'https://wiki.7wate.com/',
+    source: 'https://github.com/7Wate/wiki',
+    tags: ['opensource', 'personal'],
+  },
+  {
+    title: 'Discord API Types',
+    description: 'Discord API Types',
+    preview: null,
+    website: 'https://discord-api-types.dev/',
+    source: 'https://github.com/discordjs/discord-api-types/tree/main/website',
+    tags: ['opensource', 'versioning', 'large'],
+  },
+  {
+    title: 'Hanabi',
+    description: 'A list of Hanabi card game strategies',
+    preview: null,
+    website: 'https://hanabi.github.io/',
+    source: 'https://github.com/hanabi/hanabi.github.io',
+    tags: ['opensource'],
+  },
+  {
+    title: 'IsaacScript',
+    description: 'Write Binding of Isaac: Repentance mods with TypeScript',
+    preview: null,
+    website: 'https://isaacscript.github.io/',
+    source: 'https://github.com/IsaacScript/isaacscript/tree/main/packages/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Jest Preview',
+    description: 'Debug your Jest tests. Effortlessly.',
+    preview: null,
+    website: 'https://www.jest-preview.com/',
+    source: 'https://github.com/nvh95/jest-preview/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Paweł Kosiec',
+    description: 'Personal website and blog of Paweł Kosiec, Full-stack Cloud Developer.',
+    preview: null,
+    website: 'https://kosiec.dev/',
+    source: 'https://github.com/pkosiec/website',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Homarr',
+    description: 'Homarr is a simple and lightweight homepage for your server.',
+    preview: null,
+    website: 'https://homarr.vercel.app/',
+    source: 'https://github.com/ajnart/homarr/tree/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Wings',
+    description: 'Wings is a modern website-as-service for progressive campaigns',
+    preview: null,
+    website: 'https://wings.dev/',
+    source: null,
+    tags: ['product','i18n'],
+  },
+  {
+    title: 'Kishan Gajera',
+    description: 'Personal portfolio and blog of Kishan Gajera',
+    preview: null,
+    website: 'https://www.kgajera.com/',
+    source: 'https://github.com/kgajera/blog',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Harvest CLI',
+    description: 'A CLI for Harvest\'s time tracking software',
+    preview: null,
+    website: 'https://kgajera.github.io/hrvst-cli/',
+    source: 'https://github.com/kgajera/hrvst-cli/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'TSEI.JP',
+    description: 'TSEI.JP personal website, articles and docs',
+    preview: null,
+    website: 'https://tsei.jp/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'Brobot',
+    description: 'Testable state-based GUI automation.',
+    preview: null,
+    website: 'https://jspinak.github.io/brobot/',
+    source: 'https://github.com/jspinak/brobot/tree/main/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Fathym Blog',
+    description: 'Fathym deploys, hosts and integrates your favorite tech stacks.',
+    preview: null,
+    website: 'https://www.fathym.com/blog',
+    source: 'https://github.com/lowcodeunit/public-web-blog',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Tech Interview Handbook',
+    description: 'Free curated tech interview preparation materials for busy software engineers.',
+    preview: null,
+    website: 'https://www.techinterviewhandbook.org/',
+    source: 'https://github.com/yangshun/tech-interview-handbook',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Front End Interview Handbook',
+    description: 'Free curated tech interview preparation materials for busy software engineers',
+    preview: null,
+    website: 'https://www.frontendinterviewhandbook.com/',
+    source: 'https://github.com/yangshun/front-end-interview-handbook',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'WIZnet',
+    description: 'Documentation for various WIZnet products',
+    preview: null,
+    website: 'https://docs.wiznet.io/',
+    source: 'https://github.com/Wiznet/document_framework',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Xiaohai\'s Mind Palace',
+    description: 'A place for organizing notes, writing blogs, and showcasing projects.',
+    preview: null,
+    website: 'https://xiaohai.wiki/',
+    source: 'https://github.com/xiaohai-huang/learning-notes',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Extracranial',
+    description: 'Sunghyun Cho\'s Second Brain on the Web.',
+    preview: null,
+    website: 'https://cho.sh/',
+    source: 'https://github.com/anaclumos/extracranial',
+    tags: ['opensource','personal','i18n'],
+  },
+  {
+    title: 'i18n-tools',
+    description: 'CLI to make common operations around i18n files simpler',
+    preview: null,
+    website: 'https://jy95.github.io/i18n-tools/',
+    source: 'https://github.com/jy95/i18n-tools/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Pure.css',
+    description: 'A set of small, responsive CSS modules that you can use in every web project.',
+    preview: null,
+    website: 'https://purecss.io/',
+    source: 'https://github.com/pure-css/pure',
+    tags: ['opensource','design'],
+  },
+  {
+    title: 'Moodle Developer Resources',
+    description: 'Moodle - the world\'s open source learning platform',
+    preview: null,
+    website: 'https://moodledev.io/',
+    source: 'https://github.com/moodle/devdocs',
+    tags: ['opensource','product','large'],
+  },
+  {
+    title: 'Toggle',
+    description: 'Open Source real-time feature flags deployment without need of a server with SDK',
+    preview: null,
+    website: 'https://www.togglee.com/',
+    source: 'https://github.com/togglee/togglee-web',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Barklarm',
+    description: 'Open Source multiplatform alarm and build status monitoring application',
+    preview: null,
+    website: 'https://www.barklarm.com/',
+    source: 'https://github.com/kanekotic/barklarm-website',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Nikita\'s Everything I Know Wiki',
+    description: 'Digital wiki with notes/links.',
+    preview: null,
+    website: 'https://wiki.nikiv.dev/',
+    source: 'https://github.com/nikitavoloboev/knowledge',
+    tags: ['opensource','personal','large'],
+  },
+  {
+    title: 'Infinity Works Company Handbook',
+    description: 'An online company handbook, acting as a one-stop shop for all relevant information needed for colleagues.',
+    preview: null,
+    website: 'https://handbook.infinityworks.com/',
+    source: null,
+    tags: ['design'], // TODO need a tag for company's corporate websites?
+  },
+  {
+    title: 'Neo Blockchain Developer Portal',
+    description: 'A collection of tools and resources to help you build outstanding applications on Neo',
+    preview: null,
+    website: 'https://developers.neo.org/',
+    source: 'https://github.com/neo-project/neo-dev-portal',
+    tags: ['opensource'], // TODO create crypto/web3 tag?
+  },
+  {
+    title: 'Yew',
+    description: 'Documentation of Yew web framework',
+    preview: null,
+    website: 'https://yew.rs/',
+    source: 'https://github.com/yewstack/yew/tree/master/website',
+    tags: ['opensource','versioning','i18n','large'],
+  },
+  {
+    title: 'Sensory Percussion help',
+    description: 'On-line manual for Sensory Percussion, a music production tool for electronic drums.',
+    preview: null,
+    website: 'https://help.sunhou.se/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'The Fundraising Lore',
+    description: 'A guide to help founders successfully raise early-stage VC financing',
+    preview: null,
+    website: 'https://www.lore.vc/',
+    source: 'https://github.com/dvitanov/lorevc',
+    tags: ['opensource','personal'], // TODO find better tag?
+  },
+  {
+    title: 'LifeOmic PHC Documentation',
+    description: 'Help and information for LifeOmic PHC',
+    preview: null,
+    website: 'https://phc.docs.lifeomic.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Kanekotic\'s Page',
+    description: 'List of open-source projects and blog',
+    preview: null,
+    website: 'https://www.kanekotic.com/',
+    source: 'https://github.com/kanekotic/kanekotic-page',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'DevTomek',
+    description: 'A Polish blog about programming, electronics and IoT',
+    preview: null,
+    website: 'https://devtomek.pl/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'Vantevo Analytics',
+    description: 'The most complete and secure Google Analytics alternative.',
+    preview: null,
+    website: 'https://vantevo.io/docs/',
+    source: null,
+    tags: ['product','i18n'],
+  },
+  {
+    title: 'lsfusion platform documentation',
+    description: 'A declarative open-source language-based platform for information systems development',
+    preview: null,
+    website: 'https://docs.lsfusion.org/',
+    source: 'https://github.com/lsfusion/docusaurus',
+    tags: ['opensource','i18n','versioning'],
+  },
+  {
+    title: 'Rokt Docs',
+    description: 'Rokt\'s product documentation',
+    preview: null,
+    website: 'https://docs.rokt.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Harmonoid',
+    description: 'A beautiful material-design cross platform music player',
+    preview: null,
+    website: 'https://harmonoid.com/',
+    source: null,
+    tags: ['product','design'],
+  },
+  {
+    title: 'Mentorship Guide',
+    description: 'Making mentorship accessible to all, for mentors and mentees.',
+    preview: null,
+    website: 'https://mentorship.guide/',
+    source: 'https://github.com/mentorship-sponsorship/mentorship-guide-docs',
+    tags: ['opensource','design'],
+  },
+  {
+    title: 'Vishal Gandhi',
+    description: 'The Data Column - Blog by Vishal Gandhi',
+    preview: null,
+    website: 'https://vishalgandhi.in/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'daily.dev',
+    description: 'Official product documentation for daily.dev',
+    preview: null,
+    website: 'https://docs.daily.dev/',
+    source: 'https://github.com/dailydotdev/docs',
+    tags: ['opensource','product','design'],
+  },
+  {
+    title: 'Formiz',
+    description: 'React forms with ease! Composable, headless & with built-in multi steps',
+    preview: null,
+    website: 'https://formiz-react.com/',
+    source: 'https://github.com/ivan-dalmet/formiz/tree/master/documentation',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Wener Live & Life',
+    description: 'Notes, Stories, Awesomes',
+    preview: null,
+    website: 'https://wener.me/',
+    source: 'https://github.com/wenerme/wener/tree/master/site',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Modrinth Documentation',
+    description: 'The documentation for Modrinth, an open source Minecraft modding platform',
+    preview: null,
+    website: 'https://docs.modrinth.com/',
+    source: 'https://github.com/modrinth/docs',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Codiga Documentation',
+    description: 'Documentation for Codiga, your Code Analysis & Coding Assistant',
+    preview: null,
+    website: 'https://doc.codiga.io/',
+    source: 'https://github.com/codiga/doc.codiga.io/tree/main/website',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Takken.io',
+    description: 'Webber\'s personal website',
+    preview: null,
+    website: 'https://takken.io/',
+    source: 'https://github.com/webbertakken/takken.io',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'GameCI',
+    description: 'Open source continuous integration for games',
+    preview: null,
+    website: 'https://game.ci/',
+    source: 'https://github.com/game-ci/documentation',
+    tags: ['opensource','product','versioning'],
+  },
+  {
+    title: 'Batect',
+    description: 'The fast, consistent way to run your development and testing tasks everywhere.',
+    preview: null,
+    website: 'https://batect.dev/',
+    source: 'https://github.com/batect/batect.dev',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Boyka-Framework',
+    description: 'Ultimate test automation for testing any application on any platform',
+    preview: null,
+    website: 'https://wasiqbhamla.github.io/boyka-framework/',
+    source: 'https://github.com/WasiqBhamla/boyka-framework/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Nango',
+    description: 'Open-source infrastructure for native integrations in SaaS products',
+    preview: null,
+    website: 'https://docs.nango.dev/',
+    source: 'https://github.com/NangoHQ/nango/tree/main/docs',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'YepCode Docs',
+    description: 'Docs for the all-in-one platform that connects your services and APIs',
+    preview: null,
+    website: 'https://docs.yepcode.io/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'YepCode Recipes',
+    description: 'Recipes for the all-in-one platform that connects your services and APIs',
+    preview: null,
+    website: 'https://yepcode.io/recipes/',
+    source: null,
+    tags: ['product','large'],
+  },
+  {
+    title: 'Appcircle Docs',
+    description: 'Appcircle is an easy-to-setup mobile CI/CD platform.',
+    preview: null,
+    website: 'https://docs.appcircle.io/',
+    source: 'https://github.com/appcircleio/appcircle-docusaurus/tree/master/',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Rowy Docs',
+    description: 'Open-source low-code platform for Firebase, Cloud Functions and GCP',
+    preview: null,
+    website: 'https://docs.rowy.io/',
+    source: 'https://github.com/rowyio/docs',
+    tags: ['opensource','product','design'],
+  },
+  {
+    title: 'Keebio Documentation',
+    description: 'Mechanical keyboard build guides and keyboard reprogramming info',
+    preview: null,
+    website: 'https://docs.keeb.io/',
+    source: 'https://github.com/keebio/keebio-docs',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'SR50 Finance',
+    description: 'Reference handbook for personal finance',
+    preview: null,
+    website: 'https://sr50.finance/',
+    source: 'https://github.com/tpascarella/sr50',
+    tags: ['opensource'],
+  },
+  {
+    title: '前端大刘',
+    description: 'Record and share to make progress every day!',
+    preview: null,
+    website: 'https://lzwdot.com/',
+    source: 'https://github.com/lzwdot/lzwdot.github.io',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'DipScope',
+    description: 'Open source tools to develop high quality software',
+    preview: null,
+    website: 'https://dipscope.com/',
+    source: null,
+    tags: ['versioning'],
+  },
+  {
+    title: 'MutableSecurity',
+    description: 'Platform for automating the lifecycle of cybersecurity solutions',
+    preview: null,
+    website: 'https://www.mutablesecurity.io/',
+    source: 'https://github.com/MutableSecurity/website',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Atlas',
+    description: 'Atlas CLI helps developers manage their database schemas by applying DevOps principles.',
+    preview: null,
+    website: 'https://atlasgo.io/',
+    source: 'https://github.com/ariga/atlas',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Ent',
+    description: 'An entity framework for Go',
+    preview: null,
+    website: 'https://entgo.io/',
+    source: 'https://github.com/ent/ent/tree/master/doc/website',
+    tags: ['opensource','i18n'],
+  },
+  {
+    title: 'NAYAtel ',
+    description: 'Documentation for TAC Department',
+    preview: null,
+    website: 'https://nayatel.shoaibsajid.com/',
+    source: null,
+    tags: [], // TODO not sure which tag to use here
+  },
+  {
+    title: 'WPShop',
+    description: 'Docs site for the ShopWP WordPress plugin',
+    preview: null,
+    website: 'https://docs.wpshop.io/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Polkadot Wiki',
+    description: 'The central source of truth for Polkadot Network',
+    preview: null,
+    website: 'https://wiki.polkadot.network/',
+    source: 'https://github.com/w3f/polkadot-wiki/tree/master/polkadot-wiki',
+    tags: ['opensource'], // TODO add web3 tag?
+  },
+  {
+    title: 'CodingHabits',
+    description: 'An interactive learning environment for developers',
+    preview: null,
+    website: 'https://www.codinghabits.online/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Crawlee',
+    description: 'Scalable web crawling, scraping and automation library for JS/Node.js',
+    preview: null,
+    website: 'https://crawlee.dev/',
+    source: 'https://github.com/apify/crawlee/tree/master/website',
+    tags: ['opensource','versioning'],
+  },
+  {
+    title: 'codehooks',
+    description: 'Fast Serverless Backend made Easy',
+    preview: null,
+    website: 'https://codehooks.io/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'HiCA',
+    description: 'Free SSL Certificate Provider, supports ACME',
+    preview: null,
+    website: 'https://www1.hi.cn/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Ouch1978',
+    description: 'Personal site of @Ouch1978',
+    preview: null,
+    website: 'https://ouch1978.github.io/',
+    source: 'https://github.com/Ouch1978/ouch1978.github.io',
+    tags: ['opensource','personal'],
+  },
+  {
+    title: 'Dojo Documentation',
+    description: 'Take faster card payments with Dojo.',
+    preview: null,
+    website: 'https://docs.dojo.tech/',
+    source: null,
+    tags: ['product'],
+  },
+  {
+    title: 'Computer Science Turkish Resource',
+    description: 'A Computer Science portal for enthusiasts.',
+    preview: null,
+    website: 'https://bb-tr-kaynak.netlify.app/',
+    source: 'https://github.com/Fire-Oceann/bb-tr-kaynak/',
+    tags: ['opensource'],
+  },
+  {
+    title: 'OKP4',
+    description: 'Documentation portal for the OKP4 blockchain',
+    preview: null,
+    website: 'https://docs.okp4.network/',
+    source: 'https://github.com/okp4/docs',
+    tags: ['opensource','product','design'], // TODO add web3 tag
+  },
+  {
+    title: 'Konkatsu Strategy Guide',
+    description: 'Support konkatsu (marriage hunting) in Japan',
+    preview: null,
+    website: 'https://hikonkatsu.com/',
+    source: null,
+    tags: ['personal'],
+  },
+  {
+    title: 'Zondax Documentation',
+    description: 'Building back-end tech solutions for the Web3 Space.',
+    preview: null,
+    website: 'https://docs.zondax.ch/',
+    source: null,
+    tags: ['product','design'], // TODO add web3 tag
+  },
+  {
+    title: 'Embedded IDE',
+    description: 'A c/c++ development environment for microcontrollers',
+    preview: null,
+    website: 'https://em-ide.com/',
+    source: 'https://github.com/github0null/eide-docs',
+    tags: ['opensource','i18n'],
+  },
+  {
+    title: 'ShellHub Documentation',
+    description: 'A centralized SSH server for the the edge and cloud computing',
+    preview: null,
+    website: 'https://docs.shellhub.io/',
+    source: 'https://github.com/shellhub-io/docs',
+    tags: ['opensource','product'],
+  },
+  {
+    title: 'Dynamoose',
+    description: 'A modeling tool for Amazon\'s DynamoDB',
+    preview: null,
+    website: 'https://dynamoosejs.com/',
+    source: 'https://github.com/dynamoose/dynamoose/tree/main/docs',
+    tags: ['opensource'],
+  },
+
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
    */
 ];
+
+export type User = {
+  title: string;
+  description: string;
+  preview: string | null; // null = use our serverless screenshot service
+  website: string;
+  source: string | null;
+  tags: TagType[];
+};
+
+export type Tag = {
+  label: string;
+  description: string;
+  color: string;
+};
+
+export const Tags: {[type in TagType]: Tag} = {
+  favorite: {
+    label: translate({message: 'Favorite'}),
+    description: translate({
+      message:
+        'Our favorite Docusaurus sites that you must absolutely check out!',
+      id: 'showcase.tag.favorite.description',
+    }),
+    color: '#e9669e',
+  },
+
+  opensource: {
+    label: translate({message: 'Open-Source'}),
+    description: translate({
+      message: 'Open-Source Docusaurus sites can be useful for inspiration!',
+      id: 'showcase.tag.opensource.description',
+    }),
+    color: '#39ca30',
+  },
+
+  product: {
+    label: translate({message: 'Product'}),
+    description: translate({
+      message: 'Docusaurus sites associated to a commercial product!',
+      id: 'showcase.tag.product.description',
+    }),
+    color: '#dfd545',
+  },
+
+  design: {
+    label: translate({message: 'Design'}),
+    description: translate({
+      message:
+        'Beautiful Docusaurus sites, polished and standing out from the initial template!',
+      id: 'showcase.tag.design.description',
+    }),
+    color: '#a44fb7',
+  },
+
+  i18n: {
+    label: translate({message: 'I18n'}),
+    description: translate({
+      message:
+        'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
+      id: 'showcase.tag.i18n.description',
+    }),
+    color: '#127f82',
+  },
+
+  versioning: {
+    label: translate({message: 'Versioning'}),
+    description: translate({
+      message:
+        'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
+      id: 'showcase.tag.versioning.description',
+    }),
+    color: '#fe6829',
+  },
+
+  large: {
+    label: translate({message: 'Large'}),
+    description: translate({
+      message:
+        'Very large Docusaurus sites, including many more pages than the average!',
+      id: 'showcase.tag.large.description',
+    }),
+    color: '#8c2f00',
+  },
+
+  meta: {
+    label: translate({message: 'Meta'}),
+    description: translate({
+      message: 'Docusaurus sites of Meta (formerly Facebook) projects',
+      id: 'showcase.tag.meta.description',
+    }),
+    color: '#4267b2', // Facebook blue
+  },
+
+  personal: {
+    label: translate({message: 'Personal'}),
+    description: translate({
+      message:
+        'Personal websites, blogs and digital gardens built with Docusaurus',
+      id: 'showcase.tag.personal.description',
+    }),
+    color: '#14cfc3',
+  },
+
+  rtl: {
+    label: translate({message: 'RTL Direction'}),
+    description: translate({
+      message:
+        'Docusaurus sites using the right-to-left reading direction support.',
+      id: 'showcase.tag.rtl.description',
+    }),
+    color: '#ffcfc3',
+  },
+};
 
 export const TagList = Object.keys(Tags) as TagType[];
 function sortUsers() {

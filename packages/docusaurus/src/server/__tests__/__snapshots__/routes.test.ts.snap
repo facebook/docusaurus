@@ -60,7 +60,7 @@ exports[`loadRoutes loads nested route config 1`] = `
 {
   "registry": {
     "__comp---theme-doc-item-178-a40": "@theme/DocItem",
-    "__comp---theme-doc-page-1-be-9be": "@theme/DocPage",
+    "__comp---theme-doc-roota-94-67a": "@theme/DocRoot",
     "content---docs-foo-baz-8-ce-61e": "docs/foo/baz.md",
     "content---docs-helloaff-811": "docs/hello.md",
     "docsMetadata---docs-routef-34-881": "docs-b5f.json",
@@ -77,8 +77,8 @@ exports[`loadRoutes loads nested route config 1`] = `
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-502": {
-      "__comp": "__comp---theme-doc-page-1-be-9be",
+    "/docs:route-9d0": {
+      "__comp": "__comp---theme-doc-roota-94-67a",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
     "docs/foo/baz-eb2": {
@@ -96,7 +96,7 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route', '502'),
+    component: ComponentCreator('/docs:route', '9d0'),
     routes: [
       {
         path: '/docs/hello',

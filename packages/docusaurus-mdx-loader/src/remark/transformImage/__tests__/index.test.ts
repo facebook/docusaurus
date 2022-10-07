@@ -66,6 +66,6 @@ describe('transformImage plugin', () => {
     const errorMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const result = await processFixture('invalid-img', {staticDirs});
     expect(result).toMatchSnapshot();
-    expect(errorMock).toBeCalledTimes(1);
+    expect(errorMock).toHaveBeenCalledTimes(1);
   });
 });

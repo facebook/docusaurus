@@ -41,7 +41,8 @@ async function generateTemplateExample(template) {
       // too new and could generate upcoming/unavailable config options.
       // Remember CodeSandbox templates will use the published version,
       // not the repo version.
-      `npm init docusaurus@latest examples/${template} ${command}`,
+      // Using "yarn create" because "npm init" still try to use local pkg
+      `yarn create docusaurus examples/${template} ${command}`,
     );
 
     const templatePackageJson =
@@ -77,9 +78,9 @@ async function generateTemplateExample(template) {
       hardReloadOnChange: true,
       view: 'browser',
       template: 'docusaurus',
-      node: '14',
+      node: '16',
       container: {
-        node: '14',
+        node: '16',
       },
     };
     await fs.writeFile(

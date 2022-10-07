@@ -8,18 +8,18 @@
 import webpack from 'webpack';
 
 import createClientConfig from '../client';
-import loadSetup from '../../server/__tests__/testUtils';
+import {loadSetup} from '../../server/__tests__/testUtils';
 
 describe('webpack dev config', () => {
   it('simple', async () => {
-    const props = await loadSetup('simple');
+    const props = await loadSetup('simple-site');
     const config = await createClientConfig(props);
     const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
 
   it('custom', async () => {
-    const props = await loadSetup('custom');
+    const props = await loadSetup('custom-site');
     const config = await createClientConfig(props);
     const errors = webpack.validate(config);
     expect(errors).toBeUndefined();

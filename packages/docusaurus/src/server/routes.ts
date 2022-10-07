@@ -7,12 +7,12 @@
 
 import query from 'querystring';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {
   docuHash,
   normalizeUrl,
   simpleHash,
   escapePath,
-  reportMessage,
 } from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {
@@ -123,23 +123,9 @@ ${indent(subroutesCodeStrings.join(',\n'))}
   }
 
   Object.entries(props).forEach(([propName, propValue]) => {
-    // Inspired by https://github.com/armanozak/should-quote/blob/main/packages/should-quote/src/lib/should-quote.ts
-    const shouldQuote = ((key: string) => {
-      // Pre-sanitation to prevent injection
-      if (/[.,;:}/\s]/.test(key)) {
-        return true;
-      }
-      try {
-        // If this key can be used in an expression like ({a:0}).a
-        // eslint-disable-next-line no-eval
-        eval(`({${key}:0}).${key}`);
-        return false;
-      } catch {
-        return true;
-      }
-    })(propName);
-    // Escape quotes as well
-    const key = shouldQuote ? JSON.stringify(propName) : propName;
+    const isIdentifier =
+      /^[$_\p{ID_Start}][$\u200c\u200d\p{ID_Continue}]*$/u.test(propName);
+    const key = isIdentifier ? propName : JSON.stringify(propName);
     parts.push(`${key}: ${JSON.stringify(propValue)}`);
   });
 
@@ -228,15 +214,13 @@ export function handleDuplicateRoutes(
     return false;
   });
   if (duplicatePaths.length > 0) {
-    const finalMessage = `Duplicate routes found!
-${duplicatePaths
-  .map(
-    (duplicateRoute) =>
-      `- Attempting to create page at ${duplicateRoute}, but a page already exists at this route.`,
-  )
-  .join('\n')}
+    logger.report(
+      onDuplicateRoutes,
+    )`Duplicate routes found!${duplicatePaths.map(
+      (duplicateRoute) =>
+        logger.interpolate`Attempting to create page at url=${duplicateRoute}, but a page already exists at this route.`,
+    )}
 This could lead to non-deterministic routing behavior.`;
-    reportMessage(finalMessage, onDuplicateRoutes);
   }
 }
 

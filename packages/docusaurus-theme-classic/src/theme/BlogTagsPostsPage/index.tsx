@@ -16,10 +16,10 @@ import {
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
-import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogTagsPostsPage';
+import BlogPostItems from '@theme/BlogPostItems';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -39,14 +39,9 @@ function useBlogPostsPlural() {
     );
 }
 
-export default function BlogTagsPostsPage({
-  tag,
-  items,
-  sidebar,
-  listMetadata,
-}: Props): JSX.Element {
+function useBlogTagsPostsPageTitle(tag: Props['tag']): string {
   const blogPostsPlural = useBlogPostsPlural();
-  const title = translate(
+  return translate(
     {
       id: 'theme.blog.tagTitle',
       description: 'The title of the page for a blog tag',
@@ -54,40 +49,52 @@ export default function BlogTagsPostsPage({
     },
     {nPosts: blogPostsPlural(tag.count), tagName: tag.label},
   );
+}
 
+function BlogTagsPostsPageMetadata({tag}: Props): JSX.Element {
+  const title = useBlogTagsPostsPageTitle(tag);
+  return (
+    <>
+      <PageMetadata title={title} />
+      <SearchMetadata tag="blog_tags_posts" />
+    </>
+  );
+}
+
+function BlogTagsPostsPageContent({
+  tag,
+  items,
+  sidebar,
+  listMetadata,
+}: Props): JSX.Element {
+  const title = useBlogTagsPostsPageTitle(tag);
+  return (
+    <BlogLayout sidebar={sidebar}>
+      <header className="margin-bottom--xl">
+        <h1>{title}</h1>
+
+        <Link href={tag.allTagsPath}>
+          <Translate
+            id="theme.tags.tagsPageLink"
+            description="The label of the link targeting the tag list page">
+            View All Tags
+          </Translate>
+        </Link>
+      </header>
+      <BlogPostItems items={items} />
+      <BlogListPaginator metadata={listMetadata} />
+    </BlogLayout>
+  );
+}
+export default function BlogTagsPostsPage(props: Props): JSX.Element {
   return (
     <HtmlClassNameProvider
       className={clsx(
         ThemeClassNames.wrapper.blogPages,
         ThemeClassNames.page.blogTagPostListPage,
       )}>
-      <PageMetadata title={title} />
-      <SearchMetadata tag="blog_tags_posts" />
-      <BlogLayout sidebar={sidebar}>
-        <header className="margin-bottom--xl">
-          <h1>{title}</h1>
-
-          <Link href={tag.allTagsPath}>
-            <Translate
-              id="theme.tags.tagsPageLink"
-              description="The label of the link targeting the tag list page">
-              View All Tags
-            </Translate>
-          </Link>
-        </header>
-
-        {items.map(({content: BlogPostContent}) => (
-          <BlogPostItem
-            key={BlogPostContent.metadata.permalink}
-            frontMatter={BlogPostContent.frontMatter}
-            assets={BlogPostContent.assets}
-            metadata={BlogPostContent.metadata}
-            truncated>
-            <BlogPostContent />
-          </BlogPostItem>
-        ))}
-        <BlogListPaginator metadata={listMetadata} />
-      </BlogLayout>
+      <BlogTagsPostsPageMetadata {...props} />
+      <BlogTagsPostsPageContent {...props} />
     </HtmlClassNameProvider>
   );
 }

@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';
-import type {VersionTag} from './types';
+import type {VersionTag, VersionTags} from './types';
 import type {
   SidebarItemDoc,
   SidebarItem,
@@ -21,6 +21,7 @@ import type {
   PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
+  PropTagsListPage,
   PropSidebarItemLink,
   PropVersionDocs,
   DocMetadata,
@@ -73,10 +74,28 @@ Available document ids are:
     }
   }
 
+  function getCategoryLinkCustomProps(
+    link: SidebarItemCategoryLink | undefined,
+  ) {
+    switch (link?.type) {
+      case 'doc':
+        return getDocById(link.id).frontMatter.sidebar_custom_props;
+      default:
+        return undefined;
+    }
+  }
+
   function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
     const {link, ...rest} = item;
     const href = getCategoryLinkHref(link);
-    return {...rest, items: item.items.map(normalizeItem), ...(href && {href})};
+    const customProps = item.customProps ?? getCategoryLinkCustomProps(link);
+
+    return {
+      ...rest,
+      items: item.items.map(normalizeItem),
+      ...(href && {href}),
+      ...(customProps && {customProps}),
+    };
   }
 
   function normalizeItem(item: SidebarItem): PropSidebarItem {
@@ -124,6 +143,7 @@ export function toVersionMetadataProp(
     label: loadedVersion.label,
     banner: loadedVersion.banner,
     badge: loadedVersion.badge,
+    noIndex: loadedVersion.noIndex,
     className: loadedVersion.className,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
@@ -161,4 +181,14 @@ export function toTagDocListProp({
     count: tag.docIds.length,
     items: toDocListProp(),
   };
+}
+
+export function toTagsListTagsProp(
+  versionTags: VersionTags,
+): PropTagsListPage['tags'] {
+  return Object.values(versionTags).map((tagValue) => ({
+    label: tagValue.label,
+    permalink: tagValue.permalink,
+    count: tagValue.docIds.length,
+  }));
 }

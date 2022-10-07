@@ -11,7 +11,7 @@ We've **reached full feature parity** with v1 after [the release of internationa
 
 The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for any latest news.
 
-![thumbnail image](./img/thumbnail.png)
+![](./img/thumbnail.png)
 
 <!--truncate-->
 
@@ -38,7 +38,7 @@ Our codebase has been polished over time as well. We have improved test coverage
 
 Docusaurus v2 continues to grow steadily. V2 installation is now 8 times more than v1. In terms of weekly downloads, we have witnessed another three-fold increase (+209.4%), growing from 28,066 in early January to a peak of 86,846 in mid-December.
 
-[![npm download trend](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
+[![Docusaurus v1 vs. v2 npm trends of the year 2021. The installations of Docusaurus v2 is constantly rising, while v1 is almost constant. V1 stays at 10000, while v2 grows from 30000 to almost 90000. There's a sharp drop from 90000 to 40000 just before the Jan 2022 line.](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
 (Ah, the classic Christmas dip...)
 
@@ -55,11 +55,11 @@ We released 18 versions, going from `2.0.0-alpha.71` to `2.0.0-beta.14`. That's 
 
 Our star trend is also very positive. Compared to similar projects, we are **growing at a faster rate**:
 
-![stars trend by year](./img/star-history.png)
+![Stars trend by year of 9 static site generators. Next.js grows the fastest, with Docusaurus at the 4th place in terms of growth rate.](./img/star-history.png)
 
 With an 8.4k increase in stars, we are ranked number 3 in this year's [JavaScript rising stars of static site generators](https://risingstars.js.org/2021/en#section-ssg), preceded only by Next.js and Astro.
 
-![rising stars ranking](./img/rising-stars.png)
+![Docusaurus placing 3rd in the "Static Sites" ranking list](./img/rising-stars.png)
 
 ## Featured adoptions
 
@@ -67,15 +67,15 @@ Our showcase has welcomed a few new ["favorite" sites](/showcase?tags=favorite) 
 
 - [**IOTA-wiki**](https://wiki.iota.org/)
 
-![Iota wiki light](./img/iota-light.png#gh-light-mode-only)![Iota wiki dark](./img/iota-dark.png#gh-dark-mode-only)
+![Iota wiki light mode](./img/iota-light.png#gh-light-mode-only)![Iota wiki dark mode](./img/iota-dark.png#gh-dark-mode-only)
 
 - [**Dyte**](https://docs.dyte.io/docs/home/introduction/)
 
-![Dyte light](./img/dyte-light.png#gh-light-mode-only)![Dyte dark](./img/dyte-dark.png#gh-dark-mode-only)
+![Dyte light mode](./img/dyte-light.png#gh-light-mode-only)![Dyte dark mode](./img/dyte-dark.png#gh-dark-mode-only)
 
 - [**Ionic**](https://ionicframework.com/docs)
 
-![Ionic light](./img/ionic-light.png#gh-light-mode-only)![Ionic dark](./img/ionic-dark.png#gh-dark-mode-only)
+![Ionic light mode](./img/ionic-light.png#gh-light-mode-only)![Ionic dark mode](./img/ionic-dark.png#gh-dark-mode-only)
 
 - [**Courier**](https://www.courier.com/docs/)
 

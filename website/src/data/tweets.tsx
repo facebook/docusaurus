@@ -117,7 +117,7 @@ const TWEETS: TweetItem[] = [
     name: "Debbie O'Brien",
     date: 'Mar 24, 2021',
     avatar:
-      'https://pbs.twimg.com/profile_images/1252900852156772352/JLIVJ-TC_400x400.jpg',
+      'https://pbs.twimg.com/profile_images/1537114604278530048/FMrBa87o_400x400.jpg',
     content: (
       <>
         Been doing a lot of work with <b>@docusaurus</b> lately and I have to

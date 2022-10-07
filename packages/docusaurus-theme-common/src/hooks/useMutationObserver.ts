@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {useEffect} from 'react';
-import {useDynamicCallback, useShallowMemoObject} from '../utils/reactUtils';
+import {useEvent, useShallowMemoObject} from '../utils/reactUtils';
 
 type Options = MutationObserverInit;
 
@@ -21,7 +21,7 @@ export function useMutationObserver(
   callback: MutationCallback,
   options: Options = DefaultOptions,
 ): void {
-  const stableCallback = useDynamicCallback(callback);
+  const stableCallback = useEvent(callback);
 
   // MutationObserver options are not nested much
   // so this should be to memo options in 99%

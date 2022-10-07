@@ -9,7 +9,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {Globby, DOCUSAURUS_VERSION} from '@docusaurus/utils';
-import importFresh from 'import-fresh';
 import Color from 'color';
 
 import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
@@ -79,7 +78,7 @@ export async function migrateDocusaurusProject(
   shouldMigratePages: boolean = false,
 ): Promise<void> {
   async function createMigrationContext(): Promise<MigrationContext> {
-    const v1Config = (await import(`${siteDir}/siteConfig`))
+    const v1Config = (await import(`${siteDir}/siteConfig.js`))
       .default as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
     const deps = {
@@ -709,12 +708,13 @@ async function migrateLatestDocs(context: MigrationContext) {
 
 async function migratePackageFile(context: MigrationContext): Promise<void> {
   const {deps, siteDir, newDir} = context;
-  const packageFile = importFresh<{
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  const packageFile = (await require(`${siteDir}/package.json`)) as {
     scripts?: {[key: string]: string};
     dependencies?: {[key: string]: string};
     devDependencies?: {[key: string]: string};
     [otherKey: string]: unknown;
-  }>(`${siteDir}/package.json`);
+  };
   packageFile.scripts = {
     ...packageFile.scripts,
     start: 'docusaurus start',

@@ -96,14 +96,14 @@ describe('handleDuplicateRoutes', () => {
     }).toThrowErrorMatchingSnapshot();
     const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     handleDuplicateRoutes(routes, 'ignore');
-    expect(consoleMock).toBeCalledTimes(0);
+    expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 });
 
 describe('loadRoutes', () => {
   it('loads nested route config', () => {
     const nestedRouteConfig: RouteConfig = {
-      component: '@theme/DocPage',
+      component: '@theme/DocRoot',
       path: '/docs:route',
       modules: {
         docsMetadata: 'docs-b5f.json',

@@ -47,6 +47,7 @@ const sidebarItemDocSchema = sidebarItemBaseSchema.append<SidebarItemDoc>({
   type: Joi.string().valid('doc', 'ref').required(),
   id: Joi.string().required(),
   label: Joi.string(),
+  translatable: Joi.boolean(),
 });
 
 const sidebarItemHtmlSchema = sidebarItemBaseSchema.append<SidebarItemHtml>({
@@ -58,6 +59,7 @@ const sidebarItemHtmlSchema = sidebarItemBaseSchema.append<SidebarItemHtml>({
 const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
   type: 'link',
   href: URISchema.required(),
+  autoAddBaseUrl: Joi.boolean(),
   label: Joi.string()
     .required()
     .messages({'any.unknown': '"label" must be a string'}),
