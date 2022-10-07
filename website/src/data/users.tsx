@@ -1080,6 +1080,14 @@ const Users: User[] = [
     tags: ['design', 'i18n', 'product'],
   },
   {
+    title: 'Madeline',
+    description: 'A Multifunctional SA-MP/open.mp Discord Bot written in NAFF (Python)',
+    preview: require('./showcase/madeline.png'),
+    website: 'https://www.madeline.my.id/',
+    source: 'https://github.com/madeline-bot/docs',
+    tags: ['opensource', 'design', 'i18n', 'product'],
+  },
+  {
     title: 'Mailgo',
     description: 'A new concept of mailto and tel links',
     preview: require('./showcase/mailgo.png'),
