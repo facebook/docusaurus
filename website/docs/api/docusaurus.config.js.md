@@ -443,15 +443,15 @@ module.exports = {
     {
       tagName: 'link',
       attributes: {
-        rel: 'monetization',
-        href: 'https://ilp.uphold.com/LwQQhXdpwxeJ',
+        rel: 'icon',
+        href: 'img/docusaurus.png',
       },
     },
   ],
 };
 ```
 
-This would become `<link rel="monetization" href="https://ilp.uphold.com/LwQQhXdpwxeJ" />` in the generated HTML.
+This would become `<link rel="icon" href="img/docusaurus.png" />` in the generated HTML.
 
 ### `scripts` {#scripts}
 

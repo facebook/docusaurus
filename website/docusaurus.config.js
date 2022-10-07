@@ -86,8 +86,8 @@ const config = {
     {
       tagName: "link", 
       attributes: {
-        rel: "monetization", 
-        href: "https://ilp.uphold.com/LwQQhXdpwxeJ"
+        rel: "icon", 
+        href: "img/docusaurus.png"
       }
     },
   ],

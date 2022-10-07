@@ -220,7 +220,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .items(
       Joi.object({
         tagName: Joi.string().required(),
-        attributes: Joi.object().required(),
+        attributes: Joi.object()
+          .pattern(/[\w-]+/, Joi.string())
+          .required(),
       }).unknown(),
     )
     .messages({
