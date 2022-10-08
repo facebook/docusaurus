@@ -124,6 +124,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
                         },
                       },
                     },
+                    'prefixIds'
                   ],
                 },
                 titleProp: true,
