@@ -211,3 +211,29 @@ module.exports = {
   },
 };
 ```
+
+In case of the examples given in https://docusaurus.io/docs/docs-multi-instance#setup the configuration would looks as below:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+          {
+            type: 'doc',
+            docId: 'intro',    //assuming there is a website/docs/intro.md
+            position: 'left',
+            label: 'Product Docs',
+          },
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'intro',   //assuming there is a website/docs/intro.md
+            docsPluginId: 'community',
+            label: 'Community Docs',
+          }
+      ],
+    },
+  },
+};
+```
