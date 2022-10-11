@@ -42,6 +42,7 @@ export default function Layout(props: Props): JSX.Element {
       <Navbar />
 
       <div
+        id="main-wrapper"
         className={clsx(
           ThemeClassNames.wrapper.main,
           styles.mainWrapper,
