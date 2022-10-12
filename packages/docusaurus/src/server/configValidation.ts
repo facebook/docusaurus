@@ -33,6 +33,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'plugins'
   | 'themes'
   | 'presets'
+  | 'headTags'
   | 'stylesheets'
   | 'scripts'
   | 'clientModules'
@@ -51,6 +52,7 @@ export const DEFAULT_CONFIG: Pick<
   plugins: [],
   themes: [],
   presets: [],
+  headTags: [],
   stylesheets: [],
   scripts: [],
   clientModules: [],
@@ -222,6 +224,20 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     })
     .default(DEFAULT_CONFIG.scripts),
   ssrTemplate: Joi.string(),
+  headTags: Joi.array()
+    .items(
+      Joi.object({
+        tagName: Joi.string().required(),
+        attributes: Joi.object()
+          .pattern(/[\w-]+/, Joi.string())
+          .required(),
+      }).unknown(),
+    )
+    .messages({
+      'array.includes':
+        '{#label} is invalid. A headTag must be an object with at least a "tagName" and an "attributes" property.',
+    })
+    .default(DEFAULT_CONFIG.headTags),
   stylesheets: Joi.array()
     .items(
       Joi.string(),

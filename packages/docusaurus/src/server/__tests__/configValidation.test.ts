@@ -351,6 +351,74 @@ describe('normalizeConfig', () => {
     `);
   });
 
+  it('accepts headTags with tagName and attributes', () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'icon',
+              href: 'img/docusaurus.png',
+            },
+          },
+        ],
+      });
+    }).not.toThrow();
+  });
+
+  it("throws error if headTags doesn't have tagName", () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            attributes: {
+              rel: 'icon',
+              href: 'img/docusaurus.png',
+            },
+          },
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""headTags[0].tagName" is required
+      "
+    `);
+  });
+
+  it("throws error if headTags doesn't have attributes", () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'link',
+          },
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""headTags[0].attributes" is required
+      "
+    `);
+  });
+
+  it("throws error if headTags doesn't have string attributes", () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: false,
+              href: 'img/docusaurus.png',
+            },
+          },
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""headTags[0].attributes.rel" must be a string
+      "
+    `);
+  });
+
   it("throws error if css doesn't have href", () => {
     expect(() => {
       normalizeConfig({

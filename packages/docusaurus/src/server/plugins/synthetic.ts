@@ -21,6 +21,7 @@ export function createBootstrapPlugin({
   const {
     stylesheets,
     scripts,
+    headTags,
     clientModules: siteConfigClientModules,
   } = siteConfig;
   return {
@@ -58,7 +59,7 @@ export function createBootstrapPlugin({
             },
       );
       return {
-        headTags: [...stylesheetsTags, ...scriptsTags],
+        headTags: [...headTags, ...stylesheetsTags, ...scriptsTags],
       };
     },
   };
