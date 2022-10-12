@@ -8,7 +8,7 @@
 import type {RuleSetRule} from 'webpack';
 import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
-import type {PluginConfig, PresetConfig} from './plugin';
+import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
@@ -192,6 +192,13 @@ export type DocusaurusConfig = {
    * @default ["static"]
    */
   staticDirectories: string[];
+  /**
+   * An array of tags that will be inserted in the HTML `<head>`.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#head
+   * @default []
+   */
+  headTags: HtmlTagObject[];
   /**
    * An array of scripts to load. The values can be either strings or plain
    * objects of attribute-value maps. The `<script>` tags will be inserted in
