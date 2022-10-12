@@ -444,7 +444,7 @@ module.exports = {
       tagName: 'link',
       attributes: {
         rel: 'icon',
-        href: 'img/docusaurus.png',
+        href: '/img/docusaurus.png',
       },
     },
   ],
