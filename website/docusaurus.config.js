@@ -82,15 +82,6 @@ const config = {
   // - force trailing slashes for deploy previews
   // - avoid trailing slashes in prod
   trailingSlash: isDeployPreview,
-  headTags: [
-    {
-      tagName: "link", 
-      attributes: {
-        rel: "icon", 
-        href: "img/docusaurus.png"
-      }
-    },
-  ],
   stylesheets: [
     {
       href: '/katex/katex.min.css',
