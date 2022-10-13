@@ -62,20 +62,19 @@ export type MDXOptions = {
   beforeDefaultRehypePlugins: MDXPlugin[];
 };
 
-export type Options = Partial<MDXOptions> &
-  MarkdownConfig & {
-    staticDirs: string[];
-    siteDir: string;
-    isMDXPartial?: (filePath: string) => boolean;
-    isMDXPartialFrontMatterWarningDisabled?: boolean;
-    removeContentTitle?: boolean;
-    metadataPath?: string | ((filePath: string) => string);
-    createAssets?: (metadata: {
-      frontMatter: {[key: string]: unknown};
-      metadata: {[key: string]: unknown};
-    }) => {[key: string]: unknown};
-    filepath: string;
-  };
+export type Options = Partial<MDXOptions> & {
+  markdownConfig: MarkdownConfig;
+  staticDirs: string[];
+  siteDir: string;
+  isMDXPartial?: (filePath: string) => boolean;
+  isMDXPartialFrontMatterWarningDisabled?: boolean;
+  removeContentTitle?: boolean;
+  metadataPath?: string | ((filePath: string) => string);
+  createAssets?: (metadata: {
+    frontMatter: {[key: string]: unknown};
+    metadata: {[key: string]: unknown};
+  }) => {[key: string]: unknown};
+};
 
 /**
  * When this throws, it generally means that there's no metadata file associated
@@ -174,7 +173,7 @@ export async function mdxLoader(
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      ...(reqOptions.mermaid ? [mermaid] : []),
+      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
       [
         transformImage,
         {
