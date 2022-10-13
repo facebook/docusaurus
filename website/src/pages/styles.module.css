@@ -94,6 +94,7 @@ html[data-theme='dark'] .topBannerTitleText {
 @media only screen and (max-width: 768px) {
   .topBannerDescription {
     font-size: 16px;
+    white-space: normal;
   }
 }
 
@@ -119,7 +120,7 @@ html[data-theme='dark'] .topBannerTitleText {
 }
 
 @keyframes jack-in-the-box {
-  from {
+  0% {
     opacity: 0;
     transform: scale(0.1) rotate(30deg);
     transform-origin: center bottom;
@@ -133,7 +134,7 @@ html[data-theme='dark'] .topBannerTitleText {
     transform: rotate(3deg);
   }
 
-  to {
+  100% {
     opacity: 1;
     transform: scale(1);
   }

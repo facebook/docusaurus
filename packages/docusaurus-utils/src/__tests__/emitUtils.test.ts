@@ -73,6 +73,38 @@ describe('readOutputHTMLFile', () => {
       ).then(String),
     ).resolves.toBe('file\n');
   });
+  it('reads file ending in .html', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/htmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        false,
+      ).then(String),
+    ).resolves.toBe('htmlFile.html\n');
+    await expect(
+      readOutputHTMLFile(
+        '/htmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('htmlFile.html\n');
+  });
+  it('reads file ending in .html in folder containing .html', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/weird.html.folder/nestedHtmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('nestedHtmlFile.html\n');
+    await expect(
+      readOutputHTMLFile(
+        '/weird.html.folder/nestedHtmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('nestedHtmlFile.html\n');
+  });
   // Can it ever happen?
   it('throws if file does not exist', async () => {
     await expect(
@@ -82,7 +114,7 @@ describe('readOutputHTMLFile', () => {
         undefined,
       ).then(String),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html."`,
+      `"Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html for permalink /nonExistent."`,
     );
   });
 });
@@ -104,7 +136,7 @@ describe('generate', () => {
 
   it('works with existing cache', async () => {
     await generate(__dirname, 'foo', 'bar');
-    expect(writeMock).toBeCalledTimes(1);
+    expect(writeMock).toHaveBeenCalledTimes(1);
   });
 
   it('works with existing file but no cache', async () => {
@@ -112,7 +144,7 @@ describe('generate', () => {
     // @ts-expect-error: seems the typedef doesn't understand overload
     readMock.mockImplementationOnce(() => Promise.resolve('bar'));
     await generate(__dirname, 'baz', 'bar');
-    expect(writeMock).toBeCalledTimes(1);
+    expect(writeMock).toHaveBeenCalledTimes(1);
   });
 
   it('works when force skipping cache', async () => {

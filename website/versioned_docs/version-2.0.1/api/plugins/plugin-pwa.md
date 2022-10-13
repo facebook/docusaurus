@@ -66,7 +66,7 @@ For a more exhaustive list of what it takes for your site to be a PWA, refer to 
 
 If your browser supports it, you should be able to install a Docusaurus site as an app.
 
-![pwa_install.gif](/img/pwa_install.gif)
+![A screen recording of the installation process. A button appears in the address bar of the browser, which displays a dialog asking "install this application?" when clicked. After clicking the "Install" button, a new application is opened in the operating system, opening to the Docusaurus homepage.](/img/pwa_install.gif)
 
 :::note
 
@@ -298,6 +298,6 @@ The `@theme/PwaReloadPopup` component is rendered when a new service worker is w
 
 The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://infima.dev/docs/components/alert).
 
-![pwa_reload.gif](/img/pwa_reload.gif)
+![A screen recording of the reload process. An alert box shows in the bottom right of the window, saying "New content available". After clicking the "Refresh" button, the page's main heading changes from "Introduction" to "PWA :))".](/img/pwa_reload.gif)
 
 Your component can render `null`, but this is not recommended: users won't have a way to get up-to-date content.

@@ -34,8 +34,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.9",
-    "@crowdin/crowdin-api-client": "^1.19.0",
+    "@crowdin/cli": "^3.7.10",
+    "@crowdin/crowdin-api-client": "^1.19.1",
     "@docusaurus/core": "^3.0.0-alpha.0",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/plugin-client-redirects": "^3.0.0-alpha.0",
@@ -48,7 +48,7 @@
     "@docusaurus/theme-live-codeblock": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "@docusaurus/utils-common": "^3.0.0-alpha.0",
-    "@popperjs/core": "^2.11.5",
+    "@popperjs/core": "^2.11.6",
     "@swc/core": "1.2.197",
     "clsx": "^1.2.1",
     "color": "^4.2.3",
@@ -59,7 +59,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-lite-youtube-embed": "^2.3.1",
-    "react-medium-image-zoom": "^4.4.3",
+    "react-medium-image-zoom": "^5.0.2",
     "react-popper": "^2.3.0",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
@@ -84,7 +84,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "^3.0.0-alpha.0",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@types/jest": "^28.1.6",
+    "@types/jest": "^29.0.0",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }

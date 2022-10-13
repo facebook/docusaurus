@@ -39,11 +39,9 @@ export default function CodeBlockLine({
           <span className={styles.codeLineContent}>{lineTokens}</span>
         </>
       ) : (
-        <>
-          {lineTokens}
-          <br />
-        </>
+        lineTokens
       )}
+      <br />
     </span>
   );
 }

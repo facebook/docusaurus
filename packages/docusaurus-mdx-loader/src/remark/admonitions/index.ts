@@ -11,9 +11,14 @@ import type {Literal} from 'mdast';
 
 const NEWLINE = '\n';
 
+// TODO not ideal option shape
+// First let upgrade to MDX 2.0
+// Maybe we'll want to provide different tags for different admonition types?
+// Also maybe rename "keywords" to "types"?
 export type AdmonitionOptions = {
   tag: string;
   keywords: string[];
+  extendDefaults: boolean;
 };
 
 export const DefaultAdmonitionOptions: AdmonitionOptions = {
@@ -29,6 +34,7 @@ export const DefaultAdmonitionOptions: AdmonitionOptions = {
     'important',
     'caution',
   ],
+  extendDefaults: false, // TODO make it true by default: breaking change
 };
 
 function escapeRegExp(s: string): string {
@@ -36,9 +42,20 @@ function escapeRegExp(s: string): string {
 }
 
 function normalizeOptions(
-  options: Partial<AdmonitionOptions>,
+  providedOptions: Partial<AdmonitionOptions>,
 ): AdmonitionOptions {
-  return {...DefaultAdmonitionOptions, ...options};
+  const options = {...DefaultAdmonitionOptions, ...providedOptions};
+
+  // By default it makes more sense to append keywords to the default ones
+  // Adding custom keywords is more common than disabling existing ones
+  if (options.extendDefaults) {
+    options.keywords = [
+      ...DefaultAdmonitionOptions.keywords,
+      ...options.keywords,
+    ];
+  }
+
+  return options;
 }
 
 // This string value does not matter much

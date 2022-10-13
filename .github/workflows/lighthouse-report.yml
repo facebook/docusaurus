@@ -6,17 +6,22 @@ on:
       - main
       - docusaurus-v**
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
   lighthouse-report:
+    permissions:
+      pull-requests: write # for marocchino/sticky-pull-request-comment
     name: Lighthouse Report
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3
       - name: Wait for the Netlify Preview
         uses: jakepartusch/wait-for-netlify-action@7ccf91c9ba3d64aa4389c0d3adcba0a6e77e5421 # v1
         id: netlify
@@ -37,7 +42,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number}}
       - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@d50f485531ba88479582bc2da03ff424389af5c1 # v6
+        uses: actions/github-script@7dff1a87643417cf3b95bb10b29f4c4bc60d8ebd # v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

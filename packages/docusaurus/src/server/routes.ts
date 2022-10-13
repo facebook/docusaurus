@@ -123,23 +123,9 @@ ${indent(subroutesCodeStrings.join(',\n'))}
   }
 
   Object.entries(props).forEach(([propName, propValue]) => {
-    // Inspired by https://github.com/armanozak/should-quote/blob/main/packages/should-quote/src/lib/should-quote.ts
-    const shouldQuote = ((key: string) => {
-      // Pre-sanitation to prevent injection
-      if (/[.,;:}/\s]/.test(key)) {
-        return true;
-      }
-      try {
-        // If this key can be used in an expression like ({a:0}).a
-        // eslint-disable-next-line no-eval
-        eval(`({${key}:0}).${key}`);
-        return false;
-      } catch {
-        return true;
-      }
-    })(propName);
-    // Escape quotes as well
-    const key = shouldQuote ? JSON.stringify(propName) : propName;
+    const isIdentifier =
+      /^[$_\p{ID_Start}][$\u200c\u200d\p{ID_Continue}]*$/u.test(propName);
+    const key = isIdentifier ? propName : JSON.stringify(propName);
     parts.push(`${key}: ${JSON.stringify(propValue)}`);
   });
 

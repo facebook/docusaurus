@@ -74,9 +74,9 @@ DocSearch now leverages the [Algolia Crawler](https://www.algolia.com/products/s
 - Edit your config file from a live editor
 - Test your results with DocSearch v3
 
-![Algolia crawler overview](./img/crawler-overview.png)
+![The Algolia crawler front page showing the project's overview, such as last complete crawl and indices](./img/crawler-overview.png)
 
-![Algolia config editor](./img/editor.png)
+![The Algolia config editor opened to the docusaurus-2 config. The right pane shows the results for index and various facet filters.](./img/editor.png)
 
 But also, more Algolia features in **your own Algolia app**:
 
@@ -84,9 +84,9 @@ But also, more Algolia features in **your own Algolia app**:
 - Browse and see how your records are indexed in Algolia
 - Try other Algolia features with free trials
 
-![Algolia index overview](./img/index-overview.png)
+![The Algolia index overview page, showing various filters and the details of every single index](./img/index-overview.png)
 
-![Algolia index analytics](./img/index-analytics.png)
+![The Algolia index analytics page, showing trends for total users, total searches, etc.](./img/index-analytics.png)
 
 And of course, **a lot more, for free**.
 
