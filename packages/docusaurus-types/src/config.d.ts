@@ -285,7 +285,7 @@ export type DocusaurusConfig = {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /** Markdown-related options. */
-  markdown?: MarkdownConfig;
+  markdown: MarkdownConfig;
 };
 
 /**
