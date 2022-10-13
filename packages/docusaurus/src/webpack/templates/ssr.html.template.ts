@@ -19,7 +19,7 @@ export default `
       <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
     <% it.scripts.forEach((script) => { %>
-      <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
+      <script src="<%= it.baseUrl %><%= script %>" defer></script>
     <% }); %>
   </head>
   <body <%~ it.bodyAttributes %>>
@@ -27,9 +27,6 @@ export default `
     <div id="__docusaurus">
       <%~ it.appHtml %>
     </div>
-    <% it.scripts.forEach((script) => { %>
-      <script src="<%= it.baseUrl %><%= script %>"></script>
-    <% }); %>
     <%~ it.postBodyTags %>
   </body>
 </html>
