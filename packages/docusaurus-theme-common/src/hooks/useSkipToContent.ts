@@ -9,7 +9,7 @@ import type React from 'react';
 import {useCallback, useRef} from 'react';
 import {useHistory} from '@docusaurus/router';
 import {useLocationChange} from '../utils/useLocationChange';
-import {ThemeClassNames} from '../utils/ThemeClassNames';
+import {SkipToContentId} from '../utils/layoutUtils';
 
 function programmaticFocus(el: HTMLElement) {
   el.setAttribute('tabindex', '-1');
@@ -41,7 +41,7 @@ export function useSkipToContent(): {
 
     const targetElement: HTMLElement | null =
       document.querySelector('main:first-of-type') ??
-      document.querySelector(`.${ThemeClassNames.wrapper.main}`);
+      document.getElementById(SkipToContentId);
 
     if (targetElement) {
       programmaticFocus(targetElement);

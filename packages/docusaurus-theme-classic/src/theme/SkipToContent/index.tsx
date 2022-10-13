@@ -8,6 +8,7 @@
 import React from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 import {useSkipToContent} from '@docusaurus/theme-common/internal';
+import {SkipToContentId} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -19,7 +20,7 @@ export default function SkipToContent(): JSX.Element {
       role="region"
       aria-label={translate({id: 'theme.common.skipToMainContent'})}>
       <a
-        href="#main-wrapper"
+        href={`#${SkipToContentId}`}
         className={styles.skipToContent}
         onClick={handleSkip}>
         <Translate
