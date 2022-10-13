@@ -11,12 +11,20 @@ import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
+// TODO expose as client API?
+function useMermaidThemeConfig() {
+  return (useThemeConfig() as unknown as ThemeConfig).mermaid;
+}
+
 export default function useMermaidTheme(): mermaidAPI.Theme {
   const {colorMode} = useColorMode();
-  const {mermaid: options} = useThemeConfig() as unknown as ThemeConfig;
-  const theme = options.theme[colorMode];
+  const mermaidThemeConfig = useMermaidThemeConfig();
+
+  const theme = mermaidThemeConfig.theme[colorMode];
+  const {options} = mermaidThemeConfig;
+
   useEffect(() => {
-    mermaid.initialize({startOnLoad: true, ...options.mermaidOptions, theme});
+    mermaid.initialize({startOnLoad: true, ...options, theme});
   }, [theme, options]);
 
   return theme;

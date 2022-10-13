@@ -18,7 +18,7 @@ declare module '@docusaurus/theme-mermaid' {
         light: mermaidAPI.Theme;
         dark: mermaidAPI.Theme;
       };
-      mermaidOptions: mermaidAPI.Config;
+      options: mermaidAPI.Config;
     };
   };
   export type UserThemeConfig = DeepPartial<ThemeConfig>;

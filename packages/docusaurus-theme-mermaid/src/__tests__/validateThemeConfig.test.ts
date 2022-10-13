@@ -59,9 +59,9 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  it('mermaidOptions', () => {
+  it('mermaid options', () => {
     const mermaid = {
-      mermaidOptions: {
+      options: {
         fontFamily: 'Ariel',
       },
     };

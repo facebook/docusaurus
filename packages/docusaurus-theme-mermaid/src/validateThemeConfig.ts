@@ -16,7 +16,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
       dark: 'dark' as mermaidAPI.Theme,
       light: 'default' as mermaidAPI.Theme,
     },
-    mermaidOptions: {},
+    options: {},
   },
 };
 
@@ -26,9 +26,7 @@ export const Schema = Joi.object<ThemeConfig>({
       dark: Joi.string().default(DEFAULT_THEME_CONFIG.mermaid.theme.dark),
       light: Joi.string().default(DEFAULT_THEME_CONFIG.mermaid.theme.light),
     }).default(DEFAULT_THEME_CONFIG.mermaid.theme),
-    mermaidOptions: Joi.object().default(
-      DEFAULT_THEME_CONFIG.mermaid.mermaidOptions,
-    ),
+    options: Joi.object().default(DEFAULT_THEME_CONFIG.mermaid.options),
   }).default(DEFAULT_THEME_CONFIG.mermaid),
 });
 
