@@ -160,9 +160,7 @@ const SiteUrlSchema = Joi.string()
     try {
       const {pathname} = new URL(value);
       if (pathname !== '/') {
-        helpers.warn('docusaurus.configValidationWarning', {
-          warningMessage: `The url is not supposed to contain a sub-path like '${pathname}'. Please use the baseUrl field for sub-paths.`,
-        });
+        return helpers.error('docusaurus.subPathError', {pathname});
       }
     } catch {
       return helpers.error('any.invalid');
@@ -172,6 +170,8 @@ const SiteUrlSchema = Joi.string()
   .messages({
     'any.invalid':
       '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
+    'docusaurus.subPathError':
+      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
   });
 
 // TODO move to @docusaurus/utils-validation
