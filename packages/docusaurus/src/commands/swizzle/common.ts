@@ -67,6 +67,7 @@ export type SwizzleCLIOptions = {
   list: boolean;
   wrap: boolean;
   eject: boolean;
+  config?: string;
 };
 
 export function normalizeOptions(
@@ -78,6 +79,7 @@ export function normalizeOptions(
     list: options.list ?? false,
     wrap: options.wrap ?? false,
     eject: options.eject ?? false,
+    config: options.config ?? undefined,
   };
 }
 
