@@ -109,21 +109,12 @@ describe('normalizeConfig', () => {
     `);
   });
 
-  it('normalizes various URLs', () => {
+  it('normalizes URL', () => {
     expect(
       normalizeConfig({
         url: 'https://mysite.com/',
       }).url,
     ).toBe('https://mysite.com');
-    expect(() =>
-      normalizeConfig({
-        // This shouldn't happen
-        url: 'https://mysite.com/foo/',
-      }),
-    ).toThrowErrorMatchingInlineSnapshot(`
-      "The url is not supposed to contain a sub-path like "". Please use the baseUrl field for sub-paths.
-      "
-    `);
   });
 
   it('throws for non-string base URLs', () => {
@@ -403,7 +394,7 @@ describe('config warning and error', () => {
     });
     expect(error).toBeDefined();
     expect(error.message).toBe(
-      'The url is not supposed to contain a sub-path like "". Please use the baseUrl field for sub-paths.',
+      'The url is not supposed to contain a sub-path like "/someSubpath". Please use the baseUrl field for sub-paths.',
     );
   });
 });
