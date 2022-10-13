@@ -9,7 +9,8 @@ import React, {useState, useMemo} from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import mermaid from 'mermaid';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import useMermaidTheme from '@theme/useMermaidTheme';
+import {useMermaidTheme} from '@docusaurus/theme-mermaid/client';
+
 import type {Props} from '@theme/Mermaid';
 
 const clientId = {

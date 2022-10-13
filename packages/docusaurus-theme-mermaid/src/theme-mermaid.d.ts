@@ -26,12 +26,6 @@ declare module '@docusaurus/theme-mermaid' {
   export default function themeMermaid(): Plugin<undefined>;
 }
 
-declare module '@theme/useMermaidTheme' {
-  import type mermaidAPI from 'mermaid/mermaidAPI';
-
-  export default function useMermaidTheme(): mermaidAPI.Theme;
-}
-
 declare module '@theme/Mermaid' {
   export interface Props {
     value: string;
