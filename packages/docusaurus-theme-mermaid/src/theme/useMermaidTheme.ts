@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect} from 'react';
+import {useMemo} from 'react';
 import mermaid from 'mermaid';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import type mermaidAPI from 'mermaid/mermaidAPI';
@@ -23,7 +23,8 @@ export default function useMermaidTheme(): mermaidAPI.Theme {
   const theme = mermaidThemeConfig.theme[colorMode];
   const {options} = mermaidThemeConfig;
 
-  useEffect(() => {
+  // TODO bad location
+  useMemo(() => {
     mermaid.initialize({startOnLoad: true, ...options, theme});
   }, [theme, options]);
 
