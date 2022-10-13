@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
@@ -110,26 +109,12 @@ describe('normalizeConfig', () => {
     `);
   });
 
-  it('normalizes various URLs', () => {
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
-
+  it('normalizes URL', () => {
     expect(
       normalizeConfig({
         url: 'https://mysite.com/',
       }).url,
     ).toBe('https://mysite.com');
-    expect(
-      normalizeConfig({
-        // This shouldn't happen
-        url: 'https://mysite.com/foo/',
-      }).url,
-    ).toBe('https://mysite.com/foo');
-
-    expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(
-      `"[WARNING] Docusaurus config validation warning. Field "url": The url is not supposed to contain a sub-path like '/foo/'. Please use the baseUrl field for sub-paths."`,
-    );
   });
 
   it('throws for non-string base URLs', () => {
@@ -460,7 +445,7 @@ describe('normalizeConfig', () => {
   });
 });
 
-describe('config warnings', () => {
+describe('config warning and error', () => {
   function getWarning(config: unknown) {
     return ConfigSchema.validate(config).warning;
   }
@@ -470,15 +455,14 @@ describe('config warnings', () => {
     expect(warning).toBeUndefined();
   });
 
-  it('site url has warning when using subpath', () => {
-    const warning = getWarning({
+  it('site url fails validation when using subpath', () => {
+    const {error} = ConfigSchema.validate({
       ...baseConfig,
       url: 'https://mysite.com/someSubpath',
-    })!;
-    expect(warning).toBeDefined();
-    expect(warning.details).toHaveLength(1);
-    expect(warning.details[0]!.message).toMatchInlineSnapshot(
-      `"Docusaurus config validation warning. Field "url": The url is not supposed to contain a sub-path like '/someSubpath'. Please use the baseUrl field for sub-paths."`,
+    });
+    expect(error).toBeDefined();
+    expect(error.message).toBe(
+      'The url is not supposed to contain a sub-path like "/someSubpath". Please use the baseUrl field for sub-paths.',
     );
   });
 });
