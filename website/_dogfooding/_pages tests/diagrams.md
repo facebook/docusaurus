@@ -16,16 +16,16 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
-## Sequence Diagram (always dark)
+## Sequence Diagram (forest theme directive)
 
 It is possible to override default config locally with Mermaid text directives such as:
 
 ```
-%%{init: { 'theme': 'dark' } }%%
+%%{init: { "theme": "forest" } }%%
 ```
 
 ```mermaid
-%%{init: { 'theme': 'dark' } }%%
+%%{init: { "theme": "forest" } }%%
 
 sequenceDiagram
     participant Alice
@@ -144,6 +144,12 @@ journey
       Go downstairs: 5: Me
       Sit down: 5: Me
 ```
+
+:::note
+
+If there's too much space above it's due to a [Mermaid bug](https://github.com/mermaid-js/mermaid/issues/3501)
+
+:::
 
 ## Pie Chart
 
