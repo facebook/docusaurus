@@ -16,6 +16,30 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
+## Sequence Diagram (always dark)
+
+It is possible to override default config locally with Mermaid text directives such as:
+
+```
+%%{init: { 'theme': 'dark' } }%%
+```
+
+```mermaid
+%%{init: { 'theme': 'dark' } }%%
+
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Health check
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
+
 ## Gantt Chart
 
 ```mermaid

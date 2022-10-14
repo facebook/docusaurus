@@ -6,8 +6,8 @@
  */
 
 import {useMemo} from 'react';
-import mermaid from 'mermaid';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
+import mermaid from 'mermaid';
 import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
@@ -15,17 +15,61 @@ export function useMermaidThemeConfig(): ThemeConfig['mermaid'] {
   return (useThemeConfig() as unknown as ThemeConfig).mermaid;
 }
 
-export function useMermaidTheme(): mermaidAPI.Theme {
+export function useMermaidConfig(): mermaidAPI.Config {
   const {colorMode} = useColorMode();
   const mermaidThemeConfig = useMermaidThemeConfig();
 
   const theme = mermaidThemeConfig.theme[colorMode];
   const {options} = mermaidThemeConfig;
 
-  // TODO bad location
-  useMemo(() => {
-    mermaid.initialize({startOnLoad: true, ...options, theme});
-  }, [theme, options]);
+  return useMemo(
+    () => ({startOnLoad: false, ...options, theme}),
+    [theme, options],
+  );
+}
 
-  return theme;
+export function useMermaidSvg(
+  txt: string,
+  mermaidConfigParam?: mermaidAPI.Config,
+): string {
+  /*
+  For flexibility, we allow the hook to receive a custom Mermaid config
+  The user could inject a modified version of the default config for example
+   */
+  const defaultMermaidConfig = useMermaidConfig();
+  const mermaidConfig = mermaidConfigParam ?? defaultMermaidConfig;
+
+  return useMemo(() => {
+    /*
+    Mermaid API is really weird :s
+    It is a big mutable singleton with multiple config levels
+    Note: most recent API type definitions are missing
+
+    There are 2 kind of configs:
+
+    - siteConfig: some kind of global/protected shared config
+      you can only set with "initialize"
+
+    - config/currentConfig
+      the config the renderer will use
+      it is reset to siteConfig before each render
+      but it can be altered by the mermaid txt content itself through directives
+
+    To use a new mermaid config (on colorMode change for example) we should
+    update siteConfig, and it can only be done with initialize()
+     */
+    mermaid.mermaidAPI.initialize(mermaidConfig);
+
+    /*
+    Random client-only id, we don't care much about it
+    But mermaid want an id so...
+    */
+    const mermaidId = `mermaid-svg-${Math.round(Math.random() * 10000)}`;
+
+    /*
+    Not even documented: mermaid.render returns the svg string
+    Using the documented form is un-necessary
+     */
+    return mermaid.render(mermaidId, txt);
+  }, [txt, mermaidConfig]);
 }
