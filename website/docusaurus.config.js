@@ -114,6 +114,9 @@ const config = {
       },
     }),
   },
+  markdown: {
+    mermaid: true,
+  },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
@@ -276,6 +279,7 @@ const config = {
         ],
       },
     ],
+    '@docusaurus/theme-mermaid',
     ...dogfoodingPluginInstances,
   ],
   presets: [
