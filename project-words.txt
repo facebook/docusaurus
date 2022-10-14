@@ -105,11 +105,8 @@ formik
 fouc
 froms
 funboxteam
-<<<<<<< HEAD
 gantt
-=======
 gabrielcsapo
->>>>>>> main
 getopts
 gitgraph
 gitpod
