@@ -7,16 +7,26 @@
 
 import React from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import {useMermaidSvg} from '@docusaurus/theme-mermaid/client';
+import {
+  MermaidContainerClassName,
+  useMermaidSvg,
+} from '@docusaurus/theme-mermaid/client';
 
 import type {Props} from '@theme/Mermaid';
 
-function MermaidRenderer({value}: Props): JSX.Element {
+import styles from './styles.module.css';
+
+function MermaidDiagram({value}: Props): JSX.Element {
   const svg = useMermaidSvg(value);
-  // eslint-disable-next-line react/no-danger
-  return <div dangerouslySetInnerHTML={{__html: svg}} />;
+  return (
+    <div
+      className={`${MermaidContainerClassName} ${styles.container}`}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{__html: svg}}
+    />
+  );
 }
 
 export default function Mermaid(props: Props): JSX.Element {
-  return <BrowserOnly>{() => <MermaidRenderer {...props} />}</BrowserOnly>;
+  return <BrowserOnly>{() => <MermaidDiagram {...props} />}</BrowserOnly>;
 }

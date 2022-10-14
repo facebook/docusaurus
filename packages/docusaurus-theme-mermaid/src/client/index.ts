@@ -11,6 +11,9 @@ import mermaid from 'mermaid';
 import type mermaidAPI from 'mermaid/mermaidAPI';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
+// Stable className to allow users to easily target with CSS
+export const MermaidContainerClassName = 'docusaurus-mermaid-container';
+
 export function useMermaidThemeConfig(): ThemeConfig['mermaid'] {
   return (useThemeConfig() as unknown as ThemeConfig).mermaid;
 }
