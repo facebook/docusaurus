@@ -64,7 +64,7 @@ export function useMermaidSvg(
     Random client-only id, we don't care much about it
     But mermaid want an id so...
     */
-    const mermaidId = `mermaid-svg-${Math.round(Math.random() * 10000)}`;
+    const mermaidId = `mermaid-svg-${Math.round(Math.random() * 10000000)}`;
 
     /*
     Not even documented: mermaid.render returns the svg string
