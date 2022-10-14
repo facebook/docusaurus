@@ -281,3 +281,35 @@ pie showData
         checkout develop
         merge release
 ```
+
+## Mermaid in tabs
+
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="tab-a">
+
+The following mermaid diagram is shown:
+
+```mermaid
+graph LR
+  a ---> c(10)
+  b ---> c(10)
+```
+
+</TabItem>
+
+<TabItem value="tab-b">
+
+This mermaid diagram is not displayed:
+
+```mermaid
+graph LR
+  d ---> z(42)
+  e ---> z(42)
+```
+
+</TabItem>
+</Tabs>
