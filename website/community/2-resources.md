@@ -44,7 +44,6 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-plugin-module-alias](https://github.com/atomicpages/docusaurus-plugin-module-alias) - A Docusaurus v2 plugin for quickly aliasing local modules
 - [docusaurus-protobuffet](https://github.com/protobuffet/docusaurus-protobuffet) - Docusaurus toolset for Protobuf contract documentation
 - [docusaurus-prince-pdf](https://github.com/signcl/docusaurus-prince-pdf) - Generate PDF with PrinceXML for better font subsetting and ToC features. Support Docusaurus v2 sites
-- [mdx-mermaid](https://github.com/sjwall/mdx-mermaid) - A Docusaurus v2 compatible MDX plugin for displaying [Mermaid](https://mermaid-js.github.io/mermaid) diagrams
 - [redocusaurus](https://github.com/rohit-gohri/redocusaurus) - A Docusaurus preset for integrating OpenAPI documentation into your docs with [Redoc](https://github.com/redocly/redoc)
 - [plugin-image-zoom](https://github.com/flexanalytics/plugin-image-zoom) - An Image Zoom plugin for Docusaurus 2
 - [docusaurus-plugin-typedoc](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/docusaurus-plugin-typedoc) - A Docusaurus 2 plugin to build documentation with [TypeDoc](https://typedoc.org/)

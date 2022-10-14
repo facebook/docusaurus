@@ -10,7 +10,8 @@ import {
   DEFAULT_CONFIG,
   validateConfig,
 } from '../configValidation';
-import type {Config} from '@docusaurus/types';
+import type {Config, DocusaurusConfig} from '@docusaurus/types';
+import type {DeepPartial} from 'utility-types';
 
 const baseConfig = {
   baseUrl: '/',
@@ -18,7 +19,7 @@ const baseConfig = {
   url: 'https://mysite.com',
 } as Config;
 
-const normalizeConfig = (config: Partial<Config>) =>
+const normalizeConfig = (config: DeepPartial<Config>) =>
   validateConfig({...baseConfig, ...config}, 'docusaurus.config.js');
 
 describe('normalizeConfig', () => {
@@ -57,6 +58,9 @@ describe('normalizeConfig', () => {
           crossorigin: 'anonymous',
         },
       ],
+      markdown: {
+        mermaid: true,
+      },
     };
     const normalizedConfig = normalizeConfig(userConfig);
     expect(normalizedConfig).toEqual(userConfig);
@@ -464,5 +468,46 @@ describe('config warning and error', () => {
     expect(error.message).toBe(
       'The url is not supposed to contain a sub-path like "/someSubpath". Please use the baseUrl field for sub-paths.',
     );
+  });
+});
+
+describe('markdown', () => {
+  it('accepts undefined object', () => {
+    expect(
+      normalizeConfig({
+        markdown: undefined,
+      }),
+    ).toEqual(expect.objectContaining({markdown: DEFAULT_CONFIG.markdown}));
+  });
+
+  it('accepts empty object', () => {
+    expect(
+      normalizeConfig({
+        markdown: {},
+      }),
+    ).toEqual(expect.objectContaining({markdown: DEFAULT_CONFIG.markdown}));
+  });
+
+  it('accepts valid markdown object', () => {
+    const markdown: DocusaurusConfig['markdown'] = {
+      mermaid: true,
+    };
+    expect(
+      normalizeConfig({
+        markdown,
+      }),
+    ).toEqual(expect.objectContaining({markdown}));
+  });
+
+  it('throw for null object', () => {
+    expect(() => {
+      normalizeConfig({
+        // @ts-expect-error: test
+        markdown: null,
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown" must be of type object
+      "
+    `);
   });
 });

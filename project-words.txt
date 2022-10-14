@@ -105,8 +105,10 @@ formik
 fouc
 froms
 funboxteam
+gantt
 gabrielcsapo
 getopts
+gitgraph
 gitpod
 globbing
 globby
@@ -281,6 +283,7 @@ refactorings
 regexes
 rehype
 reponame
+reqs
 requireindex
 retrocompatibility
 retrocompatible
@@ -368,6 +371,7 @@ urlset
 userland
 vannicatte
 vercel
+verifymethod
 vetter
 vfile
 vicenti

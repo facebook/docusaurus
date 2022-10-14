@@ -44,6 +44,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'tagline'
   | 'baseUrlIssueBanner'
   | 'staticDirectories'
+  | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -63,6 +64,9 @@ export const DEFAULT_CONFIG: Pick<
   tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
+  markdown: {
+    mermaid: false,
+  },
 };
 
 function createPluginSchema(theme: boolean) {
@@ -262,6 +266,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
+  markdown: Joi.object({
+    mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+  }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
