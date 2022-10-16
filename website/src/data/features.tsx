@@ -50,7 +50,7 @@ const FEATURES: FeatureItem[] = [
     },
     text: (
       <Translate id="homepage.features.built-using-react.text">
-        Extend and customize your project&apos;s layout by writing React
+        Extend and customize your project & api's layout by writing React
         components. Leverage the pluggable architecture, and design your own
         site while reusing the same data created by Docusaurus plugins.
       </Translate>
