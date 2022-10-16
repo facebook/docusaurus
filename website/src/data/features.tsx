@@ -33,7 +33,7 @@ const FEATURES: FeatureItem[] = [
       <Translate id="homepage.features.powered-by-mdx.text">
         Save time and focus on text documents. Simply write docs and blog posts
         with MDX, and Docusaurus builds them into static HTML files ready to be
-        served. You can even embed React components in your Markdown thanks to
+        served. You can even embed React components in your Markdown, thanks to
         MDX.
       </Translate>
     ),
