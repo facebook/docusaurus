@@ -46,6 +46,7 @@ export const DEFAULT_CONFIG: ThemeConfig = {
   prism: {
     additionalLanguages: [],
     theme: defaultPrismTheme,
+    darkTheme: defaultPrismTheme,
     magicComments: [
       {
         className: 'theme-code-block-highlighted-line',
@@ -377,10 +378,12 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   }).optional(),
   prism: Joi.object({
     theme: Joi.object({
+      id: Joi.string(),
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }).default(DEFAULT_CONFIG.prism.theme),
     darkTheme: Joi.object({
+      id: Joi.string(),
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
