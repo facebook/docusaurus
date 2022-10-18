@@ -33,6 +33,9 @@ function isTabItem(
 
 const NON_GROUP_TAB_KEY = '__noGroup__';
 function getValueFromSearchParams(groupId = NON_GROUP_TAB_KEY): string | null {
+  if (typeof window === 'undefined') {
+    return null; // Ignore during SSR.
+  }
   const searchParams = new URLSearchParams(window.location.search);
   const prevSearchParams = searchParams.get('tabs');
   return prevSearchParams ? JSON.parse(prevSearchParams)[groupId] : null;
@@ -77,6 +80,21 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
+  // Warn user about passing incorrect defaultValue as prop.
+  if (
+    defaultValueProp !== null &&
+    defaultValueProp !== undefined &&
+    !values.some((a) => a.value === defaultValueProp)
+  ) {
+    throw new Error(
+      `Docusaurus error: The <Tabs> has a defaultValue "${defaultValueProp}" but none of its children has the corresponding value. Available values are: ${values
+        .map((a) => a.value)
+        .join(
+          ', ',
+        )}. If you intend to show no default tab, use defaultValue={null} instead.`,
+    );
+  }
+
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
   // search params >
   // local storage >
@@ -103,21 +121,6 @@ function TabsComponent(props: Props): JSX.Element {
         ? defaultValueProp
         : children.find((child) => child.props.default)?.props.value ??
           children[0]!.props.value;
-  }
-
-  // Warn user about passing incorrect defaultValue as prop.
-  if (
-    defaultValueProp !== null &&
-    defaultValueProp !== undefined &&
-    !values.some((a) => a.value === defaultValueProp)
-  ) {
-    throw new Error(
-      `Docusaurus error: The <Tabs> has a defaultValue "${defaultValue}" but none of its children has the corresponding value. Available values are: ${values
-        .map((a) => a.value)
-        .join(
-          ', ',
-        )}. If you intend to show no default tab, use defaultValue={null} instead.`,
-    );
   }
 
   const [selectedValue, setSelectedValue] = useState(defaultValue);
