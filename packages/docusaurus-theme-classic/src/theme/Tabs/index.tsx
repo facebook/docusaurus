@@ -31,6 +31,13 @@ function isTabItem(
   return 'value' in comp.props;
 }
 
+const NON_GROUP_TAB_KEY = '__noGroup__';
+function getValueFromSearchParams(groupId = NON_GROUP_TAB_KEY): string | null {
+  const searchParams = new URLSearchParams(window.location.search);
+  const prevSearchParams = searchParams.get('tabs');
+  return prevSearchParams ? JSON.parse(prevSearchParams)[groupId] : null;
+}
+
 function TabsComponent(props: Props): JSX.Element {
   const {
     lazy,
@@ -69,14 +76,41 @@ function TabsComponent(props: Props): JSX.Element {
         .join(', ')}" found in <Tabs>. Every value needs to be unique.`,
     );
   }
-  // When defaultValueProp is null, don't show a default tab
-  const defaultValue =
-    defaultValueProp === null
-      ? defaultValueProp
-      : defaultValueProp ??
-        children.find((child) => child.props.default)?.props.value ??
-        children[0]!.props.value;
-  if (defaultValue !== null && !values.some((a) => a.value === defaultValue)) {
+
+  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
+  // search params >
+  // local storage >
+  // specified defaultValue >
+  // first child with "default" attr >
+  // first tab item.
+  let defaultValue: string | null | undefined =
+    getValueFromSearchParams(groupId);
+  if (!defaultValue && groupId != null) {
+    const relevantTabGroupChoice = tabGroupChoices[groupId];
+    if (
+      relevantTabGroupChoice != null &&
+      relevantTabGroupChoice !== defaultValue &&
+      values.some((value) => value.value === relevantTabGroupChoice)
+    ) {
+      defaultValue = relevantTabGroupChoice;
+    }
+  }
+  // If we didn't find the right value in search params or local storage,
+  // fallback to props > child with "default" specified > first tab.
+  if (!defaultValue || !values.some((a) => a.value === defaultValue)) {
+    defaultValue =
+      defaultValueProp !== undefined
+        ? defaultValueProp
+        : children.find((child) => child.props.default)?.props.value ??
+          children[0]!.props.value;
+  }
+
+  // Warn user about passing incorrect defaultValue as prop.
+  if (
+    defaultValueProp !== null &&
+    defaultValueProp !== undefined &&
+    !values.some((a) => a.value === defaultValueProp)
+  ) {
     throw new Error(
       `Docusaurus error: The <Tabs> has a defaultValue "${defaultValue}" but none of its children has the corresponding value. Available values are: ${values
         .map((a) => a.value)
@@ -86,22 +120,10 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
-  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
     useScrollPositionBlocker();
-
-  if (groupId != null) {
-    const relevantTabGroupChoice = tabGroupChoices[groupId];
-    if (
-      relevantTabGroupChoice != null &&
-      relevantTabGroupChoice !== selectedValue &&
-      values.some((value) => value.value === relevantTabGroupChoice)
-    ) {
-      setSelectedValue(relevantTabGroupChoice);
-    }
-  }
 
   const handleTabChange = (
     event:
@@ -116,6 +138,18 @@ function TabsComponent(props: Props): JSX.Element {
     if (newTabValue !== selectedValue) {
       blockElementScrollPositionUntilNextRender(newTab);
       setSelectedValue(newTabValue);
+
+      const searchParams = new URLSearchParams(window.location.search);
+      const prevSearchParams = searchParams.get('tabs');
+      const prevVal = prevSearchParams ? JSON.parse(prevSearchParams) : null;
+      const newVal = {[groupId || NON_GROUP_TAB_KEY]: newTabValue};
+      const url = new URL(window.location.origin + window.location.pathname);
+      searchParams.set(
+        'tabs',
+        JSON.stringify(prevVal ? {...prevVal, ...newVal} : newVal),
+      );
+      url.search = searchParams.toString();
+      window.history.replaceState({}, '', url);
 
       if (groupId != null) {
         setTabGroupChoices(groupId, String(newTabValue));
