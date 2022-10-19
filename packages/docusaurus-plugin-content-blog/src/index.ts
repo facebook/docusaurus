@@ -455,6 +455,7 @@ export default async function pluginContentBlog(
                         (author) => author.imageURL,
                       ),
                     }),
+                    markdownConfig: siteConfig.markdown,
                   },
                 },
                 {
