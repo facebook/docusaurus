@@ -25,7 +25,7 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 ### Join our Discord Channel
 
-We have the [`#contributors`](https://discord.gg/6g6ASPA) channel on [Discord](https://discord.gg/docusaurus) to discuss all things about Docusaurus development. You can also be of great help by helping other users in the [`#help-and-questions`](https://discord.gg/GjwjTDasTF) channel.
+We have the [`#contributors`](https://discord.gg/6g6ASPA) channel on [Discord](https://discord.gg/docusaurus) to discuss all things about Docusaurus development. You can also be of great help by helping other users in the [`#help-and-questions`](https://discord.gg/fwbcrQ3dHR) channel.
 
 ### Triaging Issues and Pull Requests
 
