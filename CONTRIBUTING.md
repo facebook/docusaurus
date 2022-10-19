@@ -50,7 +50,7 @@ Docusaurus has one primary branch `main` and we use feature branches with deploy
 
 When [opening a new issue](https://github.com/facebook/docusaurus/issues/new/choose), always make sure to fill out the issue template. **This step is very important!** Not doing so may result in your issue not being managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
 
-> **Note**: **Please don't use the GitHub issue tracker for questions.** If you have questions about using Docusaurus, use any of our [support channels](https://docusaurus.io/community/support), and we will do our best to answer your questions.
+**Please don't use the GitHub issue tracker for questions.** If you have questions about using Docusaurus, use any of our [support channels](https://docusaurus.io/community/support), and we will do our best to answer your questions.
 
 ### Bugs
 
