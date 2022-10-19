@@ -54,16 +54,13 @@ function useSkipToContent(): {
   const containerRef = useRef<HTMLDivElement>(null);
   const {action} = useHistory();
 
-  const onSkipToContentClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      const targetElement = getSkipToContentTarget();
-      if (targetElement) {
-        programmaticFocus(targetElement);
-      }
-    },
-    [],
-  );
+  const onClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const targetElement = getSkipToContentTarget();
+    if (targetElement) {
+      programmaticFocus(targetElement);
+    }
+  }, []);
 
   // "Reset" focus when navigating.
   // See https://github.com/facebook/docusaurus/pull/8204#issuecomment-1276547558
@@ -73,7 +70,7 @@ function useSkipToContent(): {
     }
   });
 
-  return {containerRef, onClick: onSkipToContentClick};
+  return {containerRef, onClick};
 }
 
 const DefaultSkipToContentLabel = translate({
