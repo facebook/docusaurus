@@ -240,6 +240,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The search bar component of your site, appearing in the navbar.',
       },
+      SkipToContent: {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for implementing the accessibility "skip to content" link (https://www.w3.org/TR/WCAG20-TECHS/G1.html)',
+      },
       'prism-include-languages': {
         actions: {
           eject: 'safe',
