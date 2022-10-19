@@ -7,7 +7,7 @@
 
 import React, {useCallback, useRef, type ComponentProps} from 'react';
 import {useHistory} from '@docusaurus/router';
-import Translate, {translate} from '@docusaurus/Translate';
+import {translate} from '@docusaurus/Translate';
 import {useLocationChange} from './useLocationChange';
 
 /**
@@ -76,26 +76,23 @@ function useSkipToContent(): {
   return {containerRef, onClick: onSkipToContentClick};
 }
 
-function SkipToContentLabel() {
-  return (
-    <Translate
-      id="theme.common.skipToMainContent"
-      description="The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation">
-      Skip to main content
-    </Translate>
-  );
-}
+const DefaultSkipToContentLabel = translate({
+  id: 'theme.common.skipToMainContent',
+  description:
+    'The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation',
+  message: 'Skip to main content',
+});
 
 type SkipToContentLinkProps = Omit<ComponentProps<'a'>, 'href' | 'onClick'>;
 
 export function SkipToContentLink(props: SkipToContentLinkProps): JSX.Element {
-  const linkLabel = props.children ?? <SkipToContentLabel />;
+  const linkLabel = props.children ?? DefaultSkipToContentLabel;
   const {containerRef, onClick} = useSkipToContent();
   return (
     <div
       ref={containerRef}
       role="region"
-      aria-label={translate({id: 'theme.common.skipToMainContent'})}>
+      aria-label={DefaultSkipToContentLabel}>
       <a
         {...props}
         // Note this is a fallback href in case JS is disabled
