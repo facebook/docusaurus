@@ -81,4 +81,7 @@ export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';
 
 export {processAdmonitionProps} from './utils/admonitionUtils';
 
-export {SkipToContentId} from './utils/layoutUtils';
+export {
+  SkipToContentFallbackId,
+  SkipToContentLink,
+} from './utils/skipToContentUtils';
