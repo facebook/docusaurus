@@ -23,7 +23,6 @@ const clientModule: ClientModule = {
       setTimeout(() => {
         // Always refer to the variable on window in case it gets overridden
         // elsewhere.
-        // See https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
         window.gtag(
           'set',
           'page_path',
