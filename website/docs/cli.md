@@ -113,15 +113,16 @@ The swizzle CLI is interactive and will guide you through the whole [swizzle pro
 
 #### Options {#options-swizzle}
 
-| Name            | Description                                          |
-| --------------- | ---------------------------------------------------- |
-| `themeName`     | The name of the theme to swizzle from.               |
-| `componentName` | The name of the theme component to swizzle.          |
-| `--list`        | Display components available for swizzling           |
-| `--eject`       | [Eject](./swizzling.md#ejecting) the theme component |
-| `--wrap`        | [Wrap](./swizzling.md#wrapping) the theme component  |
-| `--danger`      | Allow immediate swizzling of unsafe components       |
-| `--typescript`  | Swizzle the TypeScript variant component             |
+| Name | Description |
+| --- | --- |
+| `themeName` | The name of the theme to swizzle from. |
+| `componentName` | The name of the theme component to swizzle. |
+| `--list` | Display components available for swizzling |
+| `--eject` | [Eject](./swizzling.md#ejecting) the theme component |
+| `--wrap` | [Wrap](./swizzling.md#wrapping) the theme component |
+| `--danger` | Allow immediate swizzling of unsafe components |
+| `--typescript` | Swizzle the TypeScript variant component |
+| `--config` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 
 :::caution
 
