@@ -182,7 +182,7 @@ const config = {
         fromExtensions: ['html'],
         createRedirects(routePath) {
           // Redirect to /docs from /docs/introduction (now docs root doc)
-          if (routePath === '/docs') {
+          if (routePath === '/docs' || routePath === '/docs/') {
             return [`${routePath}/introduction`];
           }
           return [];
