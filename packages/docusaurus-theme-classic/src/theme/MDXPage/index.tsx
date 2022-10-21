@@ -22,13 +22,10 @@ import styles from './styles.module.css';
 export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
-    metadata: {title, description, frontMatter},
+    metadata: {title, description, frontMatter, unlisted},
   } = MDXPageContent;
-  const {
-    wrapperClassName,
-    hide_table_of_contents: hideTableOfContents,
-    unlisted,
-  } = frontMatter;
+  const {wrapperClassName, hide_table_of_contents: hideTableOfContents} =
+    frontMatter;
 
   return (
     <HtmlClassNameProvider
@@ -37,9 +34,7 @@ export default function MDXPage(props: Props): JSX.Element {
         ThemeClassNames.page.mdxPage,
       )}>
       <PageMetadata title={title} description={description}>
-        {process.env.NODE_ENV === 'production' && unlisted && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
+        {unlisted && <meta name="robots" content="noindex, nofollow" />}
       </PageMetadata>
       <Layout>
         <main className="container container--fluid margin-vert--lg">
