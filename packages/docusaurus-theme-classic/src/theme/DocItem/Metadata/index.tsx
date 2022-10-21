@@ -17,9 +17,7 @@ export default function DocItemMetadata(): JSX.Element {
       description={metadata.description}
       keywords={frontMatter.keywords}
       image={assets.image ?? frontMatter.image}>
-      {process.env.NODE_ENV === 'production' && frontMatter.unlisted && (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
+      {metadata.unlisted && <meta name="robots" content="noindex, nofollow" />}
     </PageMetadata>
   );
 }

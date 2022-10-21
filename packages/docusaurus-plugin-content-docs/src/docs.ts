@@ -18,6 +18,8 @@ import {
   posixPath,
   Globby,
   normalizeFrontMatterTags,
+  isUnlisted,
+  isDraft,
 } from '@docusaurus/utils';
 
 import {getFileLastUpdate} from './lastUpdate';
@@ -35,7 +37,6 @@ import type {
   PropNavigationLink,
   LastUpdateData,
   VersionMetadata,
-  DocFrontMatter,
   LoadedVersion,
   FileChange,
 } from '@docusaurus/plugin-content-docs';
@@ -124,22 +125,6 @@ export async function readVersionDocs(
 }
 
 export type DocEnv = 'production' | 'development';
-
-/**
- * Docs with draft or unlisted front matter are only
- * considered to be so in production.
- */
-function isHiddenForEnvironment({
-  type,
-  env,
-  frontMatter,
-}: {
-  type: 'draft' | 'unlisted';
-  frontMatter: DocFrontMatter;
-  env: DocEnv;
-}): boolean {
-  return (env === 'production' && frontMatter[type]) ?? false;
-}
 
 async function doProcessDocMetadata({
   docFile,
@@ -273,8 +258,8 @@ async function doProcessDocMetadata({
     return undefined;
   }
 
-  const draft = isHiddenForEnvironment({type: 'draft', env, frontMatter});
-  const unlisted = isHiddenForEnvironment({type: 'unlisted', env, frontMatter});
+  const draft = isDraft({env, frontMatter});
+  const unlisted = isUnlisted({env, frontMatter});
 
   const formatDate = (locale: string, date: Date, calendar: string): string => {
     try {

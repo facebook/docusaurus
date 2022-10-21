@@ -23,6 +23,8 @@ import {
   groupTaggedItems,
   getFileCommitDate,
   getContentPathList,
+  isUnlisted,
+  isDraft,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -33,7 +35,6 @@ import type {
   BlogPost,
   BlogTags,
   BlogPaginated,
-  BlogPostFrontMatter,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
@@ -187,16 +188,6 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
-function isHiddenForProduction({
-  type,
-  frontMatter,
-}: {
-  type: 'draft' | 'unlisted';
-  frontMatter: BlogPostFrontMatter;
-}): boolean {
-  return (process.env.NODE_ENV === 'production' && frontMatter[type]) ?? false;
-}
-
 async function processBlogSourceFile(
   blogSourceRelative: string,
   contentPaths: BlogContentPaths,
@@ -230,8 +221,8 @@ async function processBlogSourceFile(
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
-  const draft = isHiddenForProduction({type: 'draft', frontMatter});
-  const unlisted = isHiddenForProduction({type: 'unlisted', frontMatter});
+  const draft = isDraft({frontMatter});
+  const unlisted = isUnlisted({frontMatter});
 
   if (draft) {
     return undefined;
