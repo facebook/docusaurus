@@ -7,6 +7,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "headTags": [],
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {},
@@ -14,6 +15,9 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
         "en",
       ],
       "path": "i18n",
+    },
+    "markdown": {
+      "mermaid": false,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -44,6 +48,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "headTags": [],
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {},
@@ -51,6 +56,9 @@ exports[`loadSiteConfig website with valid async config 1`] = `
         "en",
       ],
       "path": "i18n",
+    },
+    "markdown": {
+      "mermaid": false,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -83,6 +91,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "headTags": [],
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {},
@@ -90,6 +99,9 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
         "en",
       ],
       "path": "i18n",
+    },
+    "markdown": {
+      "mermaid": false,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -122,6 +134,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "headTags": [],
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {},
@@ -129,6 +142,9 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
         "en",
       ],
       "path": "i18n",
+    },
+    "markdown": {
+      "mermaid": false,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
@@ -164,6 +180,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     ],
     "customFields": {},
     "favicon": "img/docusaurus.ico",
+    "headTags": [],
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {},
@@ -171,6 +188,9 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
         "en",
       ],
       "path": "i18n",
+    },
+    "markdown": {
+      "mermaid": false,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",
