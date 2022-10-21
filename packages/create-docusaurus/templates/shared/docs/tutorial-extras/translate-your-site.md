@@ -43,7 +43,7 @@ Your localized site is accessible at [http://localhost:3000/fr/](http://localhos
 
 :::caution
 
-In development, you can only use one locale at a same time.
+In development, you can only use one locale at a time.
 
 :::
 

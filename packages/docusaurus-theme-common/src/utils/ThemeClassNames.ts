@@ -40,8 +40,7 @@ export const ThemeClassNames = {
     backToTopButton: 'theme-back-to-top-button',
     codeBlock: 'theme-code-block',
     admonition: 'theme-admonition',
-    admonitionType: (type: 'note' | 'tip' | 'danger' | 'info' | 'caution') =>
-      `theme-admonition-${type}`,
+    admonitionType: (type: string) => `theme-admonition-${type}`,
   },
   layout: {
     // TODO add other stable classNames here

@@ -22,8 +22,10 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
+import mermaid from './remark/mermaid';
 
 import transformAdmonitions from './remark/admonitions';
+import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 import type {Processor, Plugin} from 'unified';
 import type {AdmonitionOptions} from './remark/admonitions';
@@ -53,7 +55,7 @@ export type MDXPlugin =
   [Plugin<any[]>, any] | Plugin<any[]>;
 
 export type MDXOptions = {
-  admonitions: boolean | AdmonitionOptions;
+  admonitions: boolean | Partial<AdmonitionOptions>;
   remarkPlugins: MDXPlugin[];
   rehypePlugins: MDXPlugin[];
   beforeDefaultRemarkPlugins: MDXPlugin[];
@@ -61,6 +63,7 @@ export type MDXOptions = {
 };
 
 export type Options = Partial<MDXOptions> & {
+  markdownConfig: MarkdownConfig;
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
@@ -71,7 +74,6 @@ export type Options = Partial<MDXOptions> & {
     frontMatter: {[key: string]: unknown};
     metadata: {[key: string]: unknown};
   }) => {[key: string]: unknown};
-  filepath: string;
 };
 
 /**
@@ -171,6 +173,7 @@ export async function mdxLoader(
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
+      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
       [
         transformImage,
         {

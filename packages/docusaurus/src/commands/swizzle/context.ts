@@ -8,12 +8,13 @@
 import {loadContext} from '../../server';
 import {initPlugins} from '../../server/plugins/init';
 import {loadPluginConfigs} from '../../server/plugins/configs';
-import type {SwizzleContext} from './common';
+import type {SwizzleCLIOptions, SwizzleContext} from './common';
 
 export async function initSwizzleContext(
   siteDir: string,
+  options: SwizzleCLIOptions,
 ): Promise<SwizzleContext> {
-  const context = await loadContext({siteDir});
+  const context = await loadContext({siteDir, config: options.config});
   const plugins = await initPlugins(context);
   const pluginConfigs = await loadPluginConfigs(context);
 

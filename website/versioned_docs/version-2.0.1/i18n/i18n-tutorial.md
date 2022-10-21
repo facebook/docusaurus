@@ -110,10 +110,16 @@ For any React code you've written yourself: React pages, React components, etc.,
 
 Locate all text labels in your React code that will be visible to your users, and mark them with the translation APIs. There are two kinds of APIs:
 
-- The `<Translate>` component wraps a string as a JSX component;
+- The `<Translate>` component wraps a string as a JSX element;
 - The `translate()` callback takes a message and returns a string.
 
 Use the one that better fits the context semantically. For example, the `<Translate>` can be used as React children, while for props that expect a string, the callback can be used.
+
+:::caution
+
+A JSX element is an _object_, not a string. Using it in contexts expecting strings (such as the children of [`<option>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option)) would [coerce it to a string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString), which returns `"[object Object]"`. While we encourage you to use `<Translate>` as JSX children, only use the element form when it actually works.
+
+:::
 
 ```mdx-code-block
 <Tabs>

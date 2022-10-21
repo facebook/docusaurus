@@ -117,6 +117,5 @@ export {
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useSearchPage} from './hooks/useSearchPage';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
-export {useSkipToContent} from './hooks/useSkipToContent';
 export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';

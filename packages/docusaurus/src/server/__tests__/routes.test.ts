@@ -96,7 +96,7 @@ describe('handleDuplicateRoutes', () => {
     }).toThrowErrorMatchingSnapshot();
     const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     handleDuplicateRoutes(routes, 'ignore');
-    expect(consoleMock).toBeCalledTimes(0);
+    expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 });
 

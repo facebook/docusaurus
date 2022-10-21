@@ -79,20 +79,22 @@ export async function readOutputHTMLFile(
   trailingSlash: boolean | undefined,
 ): Promise<Buffer> {
   const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
-  const withoutTrailingSlashPath = path.join(
-    outDir,
-    `${permalink.replace(/\/$/, '')}.html`,
-  );
-  const HTMLPath = await findAsyncSequential(
-    [
-      trailingSlash !== false && withTrailingSlashPath,
-      trailingSlash !== true && withoutTrailingSlashPath,
-    ].filter((p): p is string => Boolean(p)),
-    fs.pathExists,
-  );
+  const withoutTrailingSlashPath = (() => {
+    const basePath = path.join(outDir, permalink.replace(/\/$/, ''));
+    const htmlSuffix = /\.html?$/i.test(basePath) ? '' : '.html';
+    return `${basePath}${htmlSuffix}`;
+  })();
+
+  const possibleHtmlPaths = [
+    trailingSlash !== false && withTrailingSlashPath,
+    trailingSlash !== true && withoutTrailingSlashPath,
+  ].filter((p): p is string => Boolean(p));
+
+  const HTMLPath = await findAsyncSequential(possibleHtmlPaths, fs.pathExists);
+
   if (!HTMLPath) {
     throw new Error(
-      `Expected output HTML file to be found at ${withTrailingSlashPath}.`,
+      `Expected output HTML file to be found at ${withTrailingSlashPath} for permalink ${permalink}.`,
     );
   }
   return fs.readFile(HTMLPath);

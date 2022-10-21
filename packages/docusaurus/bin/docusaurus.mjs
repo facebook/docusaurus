@@ -77,6 +77,10 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
+  .option(
+    '--config <config>',
+    'path to Docusaurus config file (default: `[siteDir]/docusaurus.config.js`)',
+  )
   .action(swizzle);
 
 cli

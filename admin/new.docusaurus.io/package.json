@@ -6,6 +6,6 @@
     "start": "npx --package netlify-cli netlify dev"
   },
   "dependencies": {
-    "@netlify/functions": "^1.0.0"
+    "@netlify/functions": "^1.2.0"
   }
 }

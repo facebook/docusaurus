@@ -295,6 +295,7 @@ export default async function pluginContentDocs(
                 }) => ({
                   image: frontMatter.image,
                 }),
+                markdownConfig: siteConfig.markdown,
               },
             },
             {

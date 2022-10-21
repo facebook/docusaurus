@@ -13,7 +13,7 @@ We now **recommend Docusaurus 2** as the **default choice** to start a new Docus
 
 We are **still in alpha**, but expect **some good news very soon**!
 
-![Docusaurus v1 vs v2 npm trends](/img/blog/2020-recap/docusaurus-plushie-banner.jpeg)
+![Three Docusaurus plushies laid side-by-side on the table](/img/blog/2020-recap/docusaurus-plushie-banner.jpeg)
 
 <!--truncate-->
 
@@ -40,7 +40,7 @@ We have worked on many features this year, and would like to highlight the most 
 
 The plan to [rebuild Docusaurus from scratch in 2019](https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap) paid off: after a slow start, Docusaurus 2 has been widely adopted and has **already outgrown Docusaurus 1** usage.
 
-![Docusaurus v1 vs v2 npm trends](/img/blog/2020-recap/docusaurus-npm-trends.png)
+![Docusaurus v1 vs. v2 npm trends of the year 2020. The installations of Docusaurus v2 is visibly up-growing, while v1 is slightly downward. V1 starts at 15000 and ends at 10000, while v2 starts at 2000 and ends at 25000. The intersection happens around June 2020.](/img/blog/2020-recap/docusaurus-npm-trends.png)
 
 Notable **projects, startups, large companies, and individuals** adopted Docusaurus 2 ([showcase](https://docusaurus.io/showcase)):
 
@@ -57,15 +57,15 @@ We helped **large scale Docusaurus 1 sites to upgrade**, ensuring a proper **mig
 
 [React Native](https://reactnative.dev/) was successfully upgraded to Docusaurus 2 ([archived v1 site](http://archive.reactnative.dev/)):
 
-![React Native screenshot](/img/blog/2020-recap/react-native-screenshot.png)
+![React Native's new website built with Docusaurus v2](/img/blog/2020-recap/react-native-screenshot.png)
 
 Localized Docusaurus 1 sites (like **Jest**) will be able to upgrade too:
 
-![Jest in Japanese screenshot](/img/blog/2020-recap/jest-screenshot.png)
+![Jest's new website built with Docusaurus v2 in Japanese](/img/blog/2020-recap/jest-screenshot.png)
 
 We also saw the **[first right-to-left](https://datagit.ir/)** Docusaurus 2 site published:
 
-![Datagit screenshot](/img/blog/2020-recap/datagit-rtl-screenshot.png)
+![Datagit's website in Persian, a right-to-left language. The sidebar appears on the right of the window and the TOC appears on the left.](/img/blog/2020-recap/datagit-rtl-screenshot.png)
 
 ## GitHub Activity
 

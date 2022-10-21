@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+@import 'react-medium-image-zoom/dist/styles.css';
+
 :root {
   /*
   See css var + hsl color palette technique:
@@ -219,4 +221,12 @@ div[class^='announcementBar_'] {
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
   border-left: 3px solid #ff000080;
+}
+
+[data-rmiz-modal-overlay='visible'] {
+  background-color: rgba(255 255 255 / 95%);
+}
+
+[data-theme='dark'] [data-rmiz-modal-overlay='visible'] {
+  background-color: rgba(0 0 0 / 95%);
 }
