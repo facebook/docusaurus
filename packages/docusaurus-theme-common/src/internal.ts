@@ -109,6 +109,8 @@ export {
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
 
+export {useVisibleBlogSidebarItems} from './utils/blogUtils';
+
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   useKeyboardNavigation,

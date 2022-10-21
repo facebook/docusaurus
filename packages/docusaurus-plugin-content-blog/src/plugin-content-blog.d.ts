@@ -415,9 +415,15 @@ declare module '@docusaurus/plugin-content-blog' {
     }
   >;
 
+  export type BlogSidebarItem = {
+    title: string;
+    permalink: string;
+    unlisted: boolean;
+  };
+
   export type BlogSidebar = {
     title: string;
-    items: {title: string; permalink: string; unlisted: boolean}[];
+    items: BlogSidebarItem[];
   };
 
   export type BlogContent = {
