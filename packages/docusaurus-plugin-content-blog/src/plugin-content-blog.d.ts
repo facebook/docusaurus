@@ -229,7 +229,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /**
      * Marks the post as unlisted and visibly hides it unless directly accessed.
      */
-    readonly unlisted?: boolean;
+    readonly unlisted: boolean;
   };
   /**
    * @returns The edit URL that's directly plugged into metadata.
