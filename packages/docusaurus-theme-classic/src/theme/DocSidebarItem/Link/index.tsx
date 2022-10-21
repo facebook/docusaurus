@@ -23,14 +23,10 @@ export default function DocSidebarItemLink({
   level,
   index,
   ...props
-}: Props): JSX.Element | null {
-  const {href, label, className, autoAddBaseUrl, unlisted} = item;
+}: Props): JSX.Element {
+  const {href, label, className, autoAddBaseUrl} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   const isInternalLink = isInternalUrl(href);
-
-  if (unlisted && !isActive) {
-    return null;
-  }
 
   return (
     <li
