@@ -324,10 +324,9 @@ export async function processDocMetadata(args: {
   env: DocEnv;
 }): Promise<DocMetadataBase> {
   try {
-    const docMetaData = await doProcessDocMetadata(args);
-    return docMetaData;
+    return await doProcessDocMetadata(args);
   } catch (err) {
-    throw new Error(`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`);
+    throw new Error(`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`, {cause: err});
   }
 }
 
