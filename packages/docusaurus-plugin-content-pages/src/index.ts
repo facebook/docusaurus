@@ -20,6 +20,7 @@ import {
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
+  isUnlisted,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 
@@ -110,6 +111,10 @@ export default function pluginContentPages(
           excerpt,
         } = parseMarkdownString(content);
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+
+        // TODO draft support is missing
+        const unlisted = isUnlisted({frontMatter});
+
         return {
           type: 'mdx',
           permalink,
@@ -117,6 +122,7 @@ export default function pluginContentPages(
           title: frontMatter.title ?? contentTitle,
           description: frontMatter.description ?? excerpt,
           frontMatter,
+          unlisted,
         };
       }
 

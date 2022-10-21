@@ -43,6 +43,7 @@ declare module '@docusaurus/plugin-content-pages' {
     frontMatter: FrontMatter & {[key: string]: unknown};
     title?: string;
     description?: string;
+    unlisted: boolean;
   };
 
   export type Metadata = JSXPageMetadata | MDXPageMetadata;
