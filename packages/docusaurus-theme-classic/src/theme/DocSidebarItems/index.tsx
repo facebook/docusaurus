@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {
   DocSidebarItemsExpandedStateProvider,
   isVisibleSidebarItem,
@@ -14,13 +14,20 @@ import DocSidebarItem from '@theme/DocSidebarItem';
 
 import type {Props} from '@theme/DocSidebarItems';
 
-// TODO this item should probably not receive the "activePath" props
-// TODO this triggers whole sidebar re-renders on navigation
-function DocSidebarItems({items, ...props}: Props): JSX.Element {
-  const visibleItems = items.filter((item) =>
-    isVisibleSidebarItem(item, props.activePath),
-  );
+// TODO "technical" component: move it to theme-common later
 
+function useVisibleItems(
+  items: Props['items'],
+  activePath: string,
+): Props['items'] {
+  return useMemo(
+    () => items.filter((item) => isVisibleSidebarItem(item, activePath)),
+    [items, activePath],
+  );
+}
+
+function DocSidebarItems({items, ...props}: Props): JSX.Element {
+  const visibleItems = useVisibleItems(items, props.activePath);
   return (
     <DocSidebarItemsExpandedStateProvider>
       {visibleItems.map((item, index) => (
