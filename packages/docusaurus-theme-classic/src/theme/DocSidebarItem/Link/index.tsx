@@ -27,7 +27,6 @@ export default function DocSidebarItemLink({
   const {href, label, className, autoAddBaseUrl} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   const isInternalLink = isInternalUrl(href);
-
   return (
     <li
       className={clsx(
