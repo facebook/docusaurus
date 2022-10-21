@@ -31,5 +31,5 @@ import Readme from "../README.md"
 - [Tabs tests](/tests/pages/tabs-tests)
 - [z-index tests](/tests/pages/z-index-tests)
 - [Head metadata tests](/tests/pages/head-metadata)
-- [Unlisted page test](/tests/pages/test-unlisted
+- [Unlisted page](/tests/pages/unlisted)
 - [Analytics](/tests/pages/analytics)

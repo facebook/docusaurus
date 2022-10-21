@@ -444,7 +444,7 @@ const config = {
           // This item links to a draft doc: only displayed in dev
           {
             type: 'doc',
-            docId: 'test-draft',
+            docId: 'tests/visibility/only-drafts/draft1',
             label: 'Draft',
             docsPluginId: 'docs-tests',
           },
@@ -452,7 +452,7 @@ const config = {
           // in dev or when directly access
           {
             type: 'doc',
-            docId: 'test-unlisted',
+            docId: 'tests/visibility/some-unlisteds/unlisted1',
             label: 'Unlisted',
             docsPluginId: 'docs-tests',
           },
