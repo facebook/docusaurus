@@ -152,6 +152,24 @@ export function isActiveSidebarItem(
   return false;
 }
 
+export function isVisibleSidebarItem(
+  item: PropSidebarItem,
+  activePath: string,
+): boolean {
+  switch (item.type) {
+    case 'category':
+      return (
+        isActiveSidebarItem(item, activePath) ||
+        item.items.some((subItem) => isVisibleSidebarItem(subItem, activePath))
+      );
+    case 'link':
+      // An unlisted item remains visible if it is active
+      return !item.unlisted || isActiveSidebarItem(item, activePath);
+    default:
+      return false;
+  }
+}
+
 function getSidebarBreadcrumbs(param: {
   sidebarItems: PropSidebar;
   pathname: string;

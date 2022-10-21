@@ -6,7 +6,10 @@
  */
 
 import React, {memo} from 'react';
-import {DocSidebarItemsExpandedStateProvider} from '@docusaurus/theme-common/internal';
+import {
+  DocSidebarItemsExpandedStateProvider,
+  isVisibleSidebarItem,
+} from '@docusaurus/theme-common/internal';
 import DocSidebarItem from '@theme/DocSidebarItem';
 
 import type {Props} from '@theme/DocSidebarItems';
@@ -14,9 +17,13 @@ import type {Props} from '@theme/DocSidebarItems';
 // TODO this item should probably not receive the "activePath" props
 // TODO this triggers whole sidebar re-renders on navigation
 function DocSidebarItems({items, ...props}: Props): JSX.Element {
+  const visibleItems = items.filter((item) =>
+    isVisibleSidebarItem(item, props.activePath),
+  );
+
   return (
     <DocSidebarItemsExpandedStateProvider>
-      {items.map((item, index) => (
+      {visibleItems.map((item, index) => (
         <DocSidebarItem key={index} item={item} index={index} {...props} />
       ))}
     </DocSidebarItemsExpandedStateProvider>

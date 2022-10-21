@@ -69,6 +69,7 @@ export {
   findSidebarCategory,
   findFirstCategoryLink,
   isActiveSidebarItem,
+  isVisibleSidebarItem,
   useSidebarBreadcrumbs,
   useDocsVersionCandidates,
   useLayoutDoc,
