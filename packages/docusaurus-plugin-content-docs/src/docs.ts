@@ -326,7 +326,7 @@ export async function processDocMetadata(args: {
   try {
     return await doProcessDocMetadata(args);
   } catch (err) {
-    throw new Error(`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`, {cause: err});
+    throw new Error(`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`, {cause: err as Error});
   }
 }
 
