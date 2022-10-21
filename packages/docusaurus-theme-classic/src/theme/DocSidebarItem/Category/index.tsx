@@ -103,7 +103,7 @@ export default function DocSidebarItemCategory({
   level,
   index,
   ...props
-}: Props): JSX.Element | null {
+}: Props): JSX.Element {
   const {items, label, collapsible, className, href} = item;
   const {
     docs: {
