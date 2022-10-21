@@ -10,7 +10,11 @@
 interface Window {
   gtag: (
     command: string,
-    action: string,
-    params?: string | Gtag.EventParams,
+    fields: string,
+    params: {
+      page_title?: string;
+      page_location?: string;
+      page_path?: string;
+    },
   ) => void;
 }
