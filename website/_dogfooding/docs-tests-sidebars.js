@@ -39,6 +39,12 @@ const sidebars = {
           label: 'External Link test',
           href: 'https://docusaurus.io',
         },
+        {
+          type: 'link',
+          label: 'External Link with description',
+          href: 'https://docusaurus.io',
+          description: 'Some description',
+        },
       ],
     },
     {
