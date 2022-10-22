@@ -693,7 +693,7 @@ describe('simple site', () => {
         }),
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Document id "Hello/world" cannot include slash."`,
+      `"Can't process doc metadata for doc at path path=some/fake/path in version name=current"`,
     );
   });
 
