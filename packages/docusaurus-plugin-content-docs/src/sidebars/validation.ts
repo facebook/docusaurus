@@ -63,6 +63,9 @@ const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
   label: Joi.string()
     .required()
     .messages({'any.unknown': '"label" must be a string'}),
+  description: Joi.string().optional().messages({
+    'any.unknown': '"description" must be a string',
+  }),
 });
 
 const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
