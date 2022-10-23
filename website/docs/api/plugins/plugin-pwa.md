@@ -132,7 +132,7 @@ Use this carefully: some users may not like to be forced to use the offline mode
 
 :::danger
 
-It is not possible to detect if an as a PWA in a very reliable way.
+It is not possible to detect if a page is rendered as a PWA in a reliable manner.
 
 The `appinstalled` event has been [removed from the specification](https://github.com/w3c/manifest/pull/836), and the [`navigator.getInstalledRelatedApps()`](https://web.dev/get-installed-related-apps/) API is only supported in recent Chrome versions and require `related_applications` declared in the manifest.
 
