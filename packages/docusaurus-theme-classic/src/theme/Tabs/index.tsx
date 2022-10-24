@@ -100,16 +100,6 @@ function TabsComponent(props: Props): JSX.Element {
       typeof queryString === 'string' ? queryString : groupId || '';
     defaultValue = new URLSearchParams(location.search).get(searchKey);
   }
-  if (!defaultValue && groupId != null) {
-    const relevantTabGroupChoice = tabGroupChoices[groupId];
-    if (
-      relevantTabGroupChoice != null &&
-      relevantTabGroupChoice !== defaultValue &&
-      values.some((value) => value.value === relevantTabGroupChoice)
-    ) {
-      defaultValue = relevantTabGroupChoice;
-    }
-  }
   // If we didn't find the right value in search params or local storage,
   // fallback to props > child with "default" specified > first tab.
   if (!defaultValue || !values.some((a) => a.value === defaultValue)) {
@@ -124,6 +114,17 @@ function TabsComponent(props: Props): JSX.Element {
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
     useScrollPositionBlocker();
+
+  if (groupId != null) {
+    const relevantTabGroupChoice = tabGroupChoices[groupId];
+    if (
+      relevantTabGroupChoice != null &&
+      relevantTabGroupChoice !== selectedValue &&
+      values.some((value) => value.value === relevantTabGroupChoice)
+    ) {
+      setSelectedValue(relevantTabGroupChoice);
+    }
+  }
 
   const handleTabChange = (
     event:
