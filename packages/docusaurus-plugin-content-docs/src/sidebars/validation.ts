@@ -119,6 +119,9 @@ const sidebarItemCategorySchema =
     collapsible: Joi.boolean().messages({
       'any.unknown': '"collapsible" must be a boolean',
     }),
+    description: Joi.string().optional().messages({
+      'any.unknown': '"description" must be a string',
+    }),
   });
 
 const sidebarItemSchema = Joi.object<SidebarItemConfig>().when('.type', {

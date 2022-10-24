@@ -78,6 +78,8 @@ function CardCategory({
     return null;
   }
 
+  console.log(item);
+
   return (
     <CardLayout
       href={href}
@@ -85,12 +87,12 @@ function CardCategory({
       title={item.label}
       description={translate(
         {
-          message: '{count} items',
+          message: '({count} items) {description}',
           id: 'theme.docs.DocCard.categoryDescription',
           description:
             'The default description for a category card in the generated index about how many items this category includes',
         },
-        {count: item.items.length},
+        {description: item.description ?? '', count: item.items.length},
       )}
     />
   );

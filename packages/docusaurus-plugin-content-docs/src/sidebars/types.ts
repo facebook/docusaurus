@@ -60,7 +60,10 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   collapsible: boolean;
 };
 
-export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
+export type SidebarItemCategoryLinkDoc = {
+  type: 'doc';
+  id: string;
+};
 
 export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   type: 'generated-index';
@@ -94,6 +97,7 @@ export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
     items: SidebarCategoriesShorthand | SidebarItemConfig[];
     link?: SidebarItemCategoryLinkConfig;
+    description?: string;
   }
 >;
 
@@ -185,6 +189,7 @@ export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
     href?: string;
+    description?: string;
   }
 >;
 
