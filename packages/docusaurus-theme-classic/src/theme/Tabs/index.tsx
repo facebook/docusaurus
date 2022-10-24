@@ -6,21 +6,21 @@
  */
 
 import React, {
-  useState,
   cloneElement,
   isValidElement,
+  useState,
   type ReactElement,
 } from 'react';
 import clsx from 'clsx';
-import useIsBrowser from '@docusaurus/useIsBrowser';
+import {useHistory, useLocation} from '@docusaurus/router';
 import {duplicates} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
   useTabGroupChoice,
 } from '@docusaurus/theme-common/internal';
-import type {Props} from '@theme/Tabs';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props as TabItemProps} from '@theme/TabItem';
-
+import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
 // A very rough duck type, but good enough to guard against mistakes while
@@ -31,16 +31,6 @@ function isTabItem(
   return 'value' in comp.props;
 }
 
-const NON_GROUP_TAB_KEY = '__noGroup__';
-function getValueFromSearchParams(groupId = NON_GROUP_TAB_KEY): string | null {
-  if (typeof window === 'undefined') {
-    return null; // Ignore during SSR.
-  }
-  const searchParams = new URLSearchParams(window.location.search);
-  const prevSearchParams = searchParams.get('tabs');
-  return prevSearchParams ? JSON.parse(prevSearchParams)[groupId] : null;
-}
-
 function TabsComponent(props: Props): JSX.Element {
   const {
     lazy,
@@ -49,7 +39,10 @@ function TabsComponent(props: Props): JSX.Element {
     values: valuesProp,
     groupId,
     className,
+    queryString = false,
   } = props;
+  const location = useLocation();
+  const history = useHistory();
   const children = React.Children.map(props.children, (child) => {
     if (isValidElement(child) && isTabItem(child)) {
       return child;
@@ -101,8 +94,12 @@ function TabsComponent(props: Props): JSX.Element {
   // specified defaultValue >
   // first child with "default" attr >
   // first tab item.
-  let defaultValue: string | null | undefined =
-    getValueFromSearchParams(groupId);
+  let defaultValue: string | null | undefined;
+  if (queryString) {
+    const searchKey =
+      typeof queryString === 'string' ? queryString : groupId || '';
+    defaultValue = new URLSearchParams(location.search).get(searchKey);
+  }
   if (!defaultValue && groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
     if (
@@ -142,17 +139,13 @@ function TabsComponent(props: Props): JSX.Element {
       blockElementScrollPositionUntilNextRender(newTab);
       setSelectedValue(newTabValue);
 
-      const searchParams = new URLSearchParams(window.location.search);
-      const prevSearchParams = searchParams.get('tabs');
-      const prevVal = prevSearchParams ? JSON.parse(prevSearchParams) : null;
-      const newVal = {[groupId || NON_GROUP_TAB_KEY]: newTabValue};
-      const url = new URL(window.location.origin + window.location.pathname);
-      searchParams.set(
-        'tabs',
-        JSON.stringify(prevVal ? {...prevVal, ...newVal} : newVal),
-      );
-      url.search = searchParams.toString();
-      window.history.replaceState({}, '', url);
+      if (queryString) {
+        const searchKey =
+          typeof queryString === 'string' ? queryString : groupId || '';
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set(searchKey, newTabValue);
+        history.push({...location, search: searchParams.toString()});
+      }
 
       if (groupId != null) {
         setTabGroupChoices(groupId, String(newTabValue));
