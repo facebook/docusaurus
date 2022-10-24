@@ -62,10 +62,13 @@ export default function NavbarNavLink({
       to={toUrl}
       isNavLink
       {...((activeBasePath || activeBaseRegex) && {
-        isActive: (_match, location) =>
-          activeBaseRegex
-            ? isRegexpStringMatch(activeBaseRegex, location.pathname)
-            : location.pathname.startsWith(activeBaseUrl),
+        isActive: (_match, location) => {
+          const currentPath = location.pathname + location.hash;
+
+          return activeBaseRegex
+            ? isRegexpStringMatch(activeBaseRegex, currentPath)
+            : currentPath.startsWith(activeBaseUrl);
+        },
       })}
       {...props}
       {...linkContentProps}
