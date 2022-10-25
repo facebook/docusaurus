@@ -14,15 +14,21 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
   rest: ReactNode;
 } {
   const items = React.Children.toArray(children);
-  const mdxAdmonitionTitle = items.find(
-    (item) =>
-      React.isValidElement(item) &&
-      (item.props as {mdxType: string} | null)?.mdxType ===
-        'mdxAdmonitionTitle',
-  );
+  const mdxAdmonitionTitle = items.find((item) => {
+    if (!React.isValidElement(item)) {
+      return false;
+    }
+    const props = item.props as {
+      mdxType: string;
+      'data-admonition-title'?: boolean;
+    } | null;
+    return (
+      props?.mdxType === 'template' && props['data-admonition-title'] === true
+    );
+  }) as JSX.Element | undefined;
   const rest = <>{items.filter((item) => item !== mdxAdmonitionTitle)}</>;
   return {
-    mdxAdmonitionTitle,
+    mdxAdmonitionTitle: mdxAdmonitionTitle?.props.children,
     rest,
   };
 }

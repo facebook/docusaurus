@@ -149,8 +149,12 @@ const plugin: Plugin = function plugin(
           !isSimpleTextTitle && {
             type: admonitionNodeType,
             data: {
-              hName: 'mdxAdmonitionTitle',
-              hProperties: {},
+              // Note: this has to be valid markup itself, because it's replaced
+              // by client code, not MDX loader, so React sees the content
+              hName: 'template',
+              hProperties: {
+                'data-admonition-title': true,
+              },
             },
             children: titleNodes,
           },
