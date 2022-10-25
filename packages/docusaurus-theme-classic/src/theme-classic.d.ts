@@ -1263,7 +1263,7 @@ declare module '@theme/Tabs' {
     }[];
     readonly groupId?: string;
     readonly className?: string;
-    readonly queryString: string | boolean;
+    readonly queryString?: string | boolean;
   }
 
   export default function Tabs(props: Props): JSX.Element;
