@@ -35,7 +35,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 - **Simple to Start**
 
-> Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+> Docusaurus is built in a way that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
 
 - **Localizable**
 
@@ -57,7 +57,7 @@ npm init docusaurus@latest
 
 ## Contributing
 
-We've released Docusaurus because it helps us better scale and supports the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
+We've released Docusaurus because it helps us better scale and support many OSS projects on Facebook. We hope that other organizations can benefit from this project. We are thankful for any contributions from the community.
 
 ### [Code of Conduct](https://code.fb.com/codeofconduct)
 
