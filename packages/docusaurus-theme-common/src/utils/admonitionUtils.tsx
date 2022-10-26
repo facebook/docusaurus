@@ -19,10 +19,10 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
       React.isValidElement(item) &&
       (item.props as {mdxType: string} | null)?.mdxType ===
         'mdxAdmonitionTitle',
-  );
+  ) as JSX.Element | undefined;
   const rest = <>{items.filter((item) => item !== mdxAdmonitionTitle)}</>;
   return {
-    mdxAdmonitionTitle,
+    mdxAdmonitionTitle: mdxAdmonitionTitle?.props.children,
     rest,
   };
 }
