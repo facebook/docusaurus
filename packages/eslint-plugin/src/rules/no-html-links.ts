@@ -38,7 +38,7 @@ export default createRule<Options, MessageIds>({
       },
     ],
     messages: {
-      link: `Do not use an \`<a>\` element to navigate. Use \`<Link />\` from \`@docusaurus/Link\` instead. See: ${docsUrl}`,
+      link: `Do not use an \`<a>\` element to navigate. Use the \`<Link />\` component from \`@docusaurus/Link\` instead. See: ${docsUrl}`,
     },
   },
   defaultOptions: [
@@ -58,13 +58,13 @@ export default createRule<Options, MessageIds>({
 
         if (ignoreFullyResolved) {
           const hrefAttr = node.attributes.find(
-            (attr) => (attr as TSESTree.JSXAttribute).name.name === 'href',
-          ) as TSESTree.JSXAttribute | undefined;
+            (attr): attr is TSESTree.JSXAttribute => attr.type === 'JSXAttribute' && attr.name.name === 'href',
+          );
 
-          if (hrefAttr?.value && hrefAttr.value.type === 'Literal') {
-            const href = hrefAttr.value.value as string;
+          if (hrefAttr?.value?.type === 'Literal') {
             try {
-              const url = new URL(href);
+              // href gets coerced to a string when it gets rendered anyway
+              const url = new URL(String(hrefAttr.value.value));
               if (url.protocol) {
                 return;
               }
