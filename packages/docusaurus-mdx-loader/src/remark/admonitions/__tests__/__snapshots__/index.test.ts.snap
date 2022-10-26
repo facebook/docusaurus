@@ -51,7 +51,7 @@ exports[`admonitions remark plugin default behavior for custom keyword 1`] = `
 
 exports[`admonitions remark plugin interpolation 1`] = `
 "<p>Test admonition with interpolated title/body</p>
-<admonition type="tip"><template data-admonition-title></template><p><code>body</code> <strong>interpolated</strong> content</p></admonition>"
+<admonition type="tip"><mdxAdmonitionTitle>My <code>interpolated</code> <strong>title</strong> &#x3C;button style={{color: "red"}} onClick={() => alert("click")}>test</mdxAdmonitionTitle><p><code>body</code> <strong>interpolated</strong> content</p></admonition>"
 `;
 
 exports[`admonitions remark plugin replace custom keyword 1`] = `
