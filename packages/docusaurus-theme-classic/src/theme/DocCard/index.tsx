@@ -78,8 +78,6 @@ function CardCategory({
     return null;
   }
 
-  console.log(item);
-
   return (
     <CardLayout
       href={href}
