@@ -81,7 +81,7 @@ function getMessage(icon: IconKey, state: State) {
 }
 
 export default function IdealImage(props: Props): JSX.Element {
-  const {alt, className, img} = props;
+  const {alt, className, img, ...propsRest} = props;
 
   // In dev env just use regular img with original file
   if (typeof img === 'string' || 'default' in img) {
@@ -90,14 +90,14 @@ export default function IdealImage(props: Props): JSX.Element {
         src={typeof img === 'string' ? img : img.default}
         className={className}
         alt={alt}
-        {...props}
+        {...propsRest}
       />
     );
   }
 
   return (
     <ReactIdealImage
-      {...props}
+      {...propsRest}
       alt={alt}
       className={className}
       height={img.src.height ?? 100}
