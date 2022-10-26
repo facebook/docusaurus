@@ -118,7 +118,7 @@
     "@types/webpack-bundle-analyzer": "^4.4.2",
     "react-test-renderer": "^17.0.2",
     "tmp-promise": "^3.0.3",
-    "tree-node-cli": "^1.5.2"
+    "tree-node-cli": "^1.6.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

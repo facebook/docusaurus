@@ -7928,10 +7928,10 @@ fast-equals@^4.0.3:
   resolved "https://registry.yarnpkg.com/fast-equals/-/fast-equals-4.0.3.tgz#72884cc805ec3c6679b99875f6b7654f39f0e8c7"
   integrity sha512-G3BSX9cfKttjr+2o1O22tYMLq0DPluZnYtq1rXumE1SpL/F/SLIfHx08WYQoWSIpeMYf8sRbJ8++71+v6Pnxfg==
 
-fast-folder-size@^1.6.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/fast-folder-size/-/fast-folder-size-1.7.1.tgz#0d4c457cbb3ae5ac7b8daf0a58acd0dea3e7b5ba"
-  integrity sha512-YnQ/pHgeSxpTKnJ/LVe/0mWP3lafWmPFpcCVRLo2s251lD+qaksG2Ce1a7RTuLpN5W6PgFA4T5NYpW7sxWmDXA==
+fast-folder-size@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/fast-folder-size/-/fast-folder-size-1.6.1.tgz#1dc1674842854032cf07a387ba77c66546c547eb"
+  integrity sha512-F3tRpfkAzb7TT2JNKaJUglyuRjRa+jelQD94s9OSqkfEeytLmupCqQiD+H2KoIXGtp4pB5m4zNmv5m2Ktcr+LA==
   dependencies:
     unzipper "^0.10.11"
 
@@ -15309,13 +15309,13 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.3.9.tgz#717b8f220cc0bb7b44e40514c22b2e8bbc70d8b9"
   integrity sha512-iawgk0hLP3SxGKDfnDJf8wTz4p2qImnyihM5Hh/sGvQ3K37dPi/w8sRhdNIxYA1TwFwc5mDhIJq+O0RsvXBKdQ==
 
-tree-node-cli@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.5.2.tgz#c684fb9e7c2b9b29aa023eebaa9a095b6f93bf93"
-  integrity sha512-lBUNLk3NpRDkdsneWxa6mj5zfV/RZ5TWUniGuGprgmhijatHPcSMxyCs7bKpAqCLfPLZq7moQYLIiuVaWG/FOQ==
+tree-node-cli@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.6.0.tgz#15b76fd7381be650746f5ea06bd70049a3448c08"
+  integrity sha512-M8um5Lbl76rWU5aC8oOeEhruiCM29lFCKnwpxrwMjpRicHXJx+bb9Cak11G3zYLrMb6Glsrhnn90rHIzDJrjvg==
   dependencies:
     commander "^5.0.0"
-    fast-folder-size "^1.6.1"
+    fast-folder-size "1.6.1"
     pretty-bytes "^5.6.0"
 
 treeverse@^2.0.0:
