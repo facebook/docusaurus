@@ -93,6 +93,18 @@ function createTestUtils({
     });
   }
 
+  // Makes it easier to assert failure cases
+  async function getProcessDocFileError(
+    docFileArg: DocFile | string,
+  ): Promise<Error> {
+    try {
+      await processDocFile(docFileArg);
+      return new Error("unexpected: getProcessDocFileError didn't crash");
+    } catch (e) {
+      return e as Error;
+    }
+  }
+
   async function testMeta(
     docFileSource: string,
     expectedMetadata: Optional<
@@ -172,7 +184,13 @@ function createTestUtils({
     };
   }
 
-  return {processDocFile, testMeta, testSlug, generateNavigation};
+  return {
+    processDocFile,
+    getProcessDocFileError,
+    testMeta,
+    testSlug,
+    generateNavigation,
+  };
 }
 
 describe('simple site', () => {
@@ -683,16 +701,21 @@ describe('simple site', () => {
 
   it('docs with invalid id', async () => {
     const {defaultTestUtils} = await loadSite();
-    await expect(async () =>
-      defaultTestUtils.processDocFile(
-        createFakeDocFile({
-          source: 'some/fake/path',
-          frontMatter: {
-            id: 'Hello/world',
-          },
-        }),
-      ),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
+
+    const error = await defaultTestUtils.getProcessDocFileError(
+      createFakeDocFile({
+        source: 'some/fake/path',
+        frontMatter: {
+          id: 'Hello/world',
+        },
+      }),
+    );
+
+    expect(error.message).toMatchInlineSnapshot(
+      `"Can't process doc metadata for doc at path path=some/fake/path in version name=current"`,
+    );
+    expect(error.cause).toBeDefined();
+    expect(error.cause!.message).toMatchInlineSnapshot(
       `"Document id "Hello/world" cannot include slash."`,
     );
   });
