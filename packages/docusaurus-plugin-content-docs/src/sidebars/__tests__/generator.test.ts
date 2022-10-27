@@ -550,8 +550,8 @@ describe('DefaultSidebarItemsGenerator', () => {
             - intro"
           `);
   });
-  
-  it(('respects sidebar_custom_props', async () => {
+
+  it('respects sidebar_custom_props', async () => {
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       item: {
@@ -582,8 +582,8 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {
             sidebar_custom_props: {
-              testBool: true
-            }
+              testBool: true,
+            },
           },
           title: '',
           unversionedId: 'parent/doc1',
@@ -594,8 +594,8 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {
             sidebar_custom_props: {
-              testNum: 123
-            }
+              testNum: 123,
+            },
           },
           title: '',
           unversionedId: 'parent/doc2',
@@ -606,8 +606,8 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {
             sidebar_custom_props: {
-              testString: "test"
-            }
+              testString: 'test',
+            },
           },
           title: '',
           unversionedId: 'parent/doc3',

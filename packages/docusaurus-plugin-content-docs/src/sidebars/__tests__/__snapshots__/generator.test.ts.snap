@@ -259,29 +259,29 @@ exports[`DefaultSidebarItemsGenerator respects sidebar_custom_props 1`] = `
   {
     "collapsed": undefined,
     "collapsible": undefined,
+    "customProps": {
+      "testString": "test",
+    },
     "items": [
       {
+        "customProps": {
+          "testNum": 123,
+        },
         "id": "parent/doc2",
         "type": "doc",
-        "customProps": {
-          testNum: 123
-        }
       },
       {
+        "customProps": {
+          "testBool": true,
+        },
         "id": "parent/doc1",
         "type": "doc",
-        "customProps": {
-          testBool: true
-        }
       },
     ],
     "label": "Category label",
     "link": {
       "id": "parent/doc3",
       "type": "doc",
-      "customProps": {
-        testString: "test"
-      }
     },
     "type": "category",
   },
