@@ -893,7 +893,8 @@ exports[`simple website content: data 1`] = `
       "description": "Hi, Endilie here :)",
       "permalink": "/docs/"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-tags-tag-2-custom-permalink-825.json": "{
   "label": "tag 2",
@@ -907,7 +908,8 @@ exports[`simple website content: data 1`] = `
       "description": "Images",
       "permalink": "/docs/foo/bazSlug.html"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-tags-tag-3-ab5.json": "{
   "label": "tag 3",
@@ -921,7 +923,8 @@ exports[`simple website content: data 1`] = `
       "description": "Hi, Endilie here :)",
       "permalink": "/docs/"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tags-list-current-prop-15a.json": "[
   {
@@ -3582,7 +3585,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-next-tags-bar-tag-2-216.json": "{
   "label": "barTag-2",
@@ -3596,7 +3600,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-next-tags-bar-tag-3-permalink-94a.json": "{
   "label": "barTag 3",
@@ -3610,7 +3615,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tags-list-current-prop-15a.json": "[
   {
