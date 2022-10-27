@@ -94,7 +94,6 @@ export default function SiteMetadata(): JSX.Element {
   return (
     <>
       <Head>
-        <meta name="twitter:card" content="summary_large_image" />
         {/* The keyboard focus class name need to be applied when SSR so links
         are outlined when JS is disabled */}
         <body className={keyboardFocusedClassName} />

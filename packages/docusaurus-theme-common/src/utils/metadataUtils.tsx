@@ -37,11 +37,19 @@ export function PageMetadata({
 
   return (
     <Head>
-      {title && <title>{pageTitle}</title>}
-      {title && <meta property="og:title" content={pageTitle} />}
+      {title && (
+        <>
+          <title>{pageTitle}</title>
+          <meta property="og:title" content={pageTitle} />
+        </>
+      )}
 
-      {description && <meta name="description" content={description} />}
-      {description && <meta property="og:description" content={description} />}
+      {description && (
+        <>
+          <meta name="description" content={description} />
+          <meta property="og:description" content={description} />
+        </>
+      )}
 
       {keywords && (
         <meta
@@ -53,8 +61,13 @@ export function PageMetadata({
         />
       )}
 
-      {pageImage && <meta property="og:image" content={pageImage} />}
-      {pageImage && <meta name="twitter:image" content={pageImage} />}
+      {pageImage && (
+        <>
+          <meta property="og:image" content={pageImage} />
+          <meta name="twitter:image" content={pageImage} />
+          <meta name="twitter:card" content="summary_large_image" />
+        </>
+      )}
 
       {children}
     </Head>
