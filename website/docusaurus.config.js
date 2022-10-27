@@ -444,8 +444,8 @@ const config = {
           // This item links to a draft doc: only displayed in dev
           {
             type: 'doc',
-            docId: 'tests/visibility/only-drafts/draft1',
-            label: 'Draft',
+            docId: 'index',
+            label: 'Tests',
             docsPluginId: 'docs-tests',
           },
           // This item links to an unlisted doc: only displayed

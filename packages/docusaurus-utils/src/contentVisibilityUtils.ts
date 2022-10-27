@@ -8,11 +8,21 @@
 type Env = 'production' | 'development';
 
 /**
+ * To easily work on draft/unlisted in dev mode, use this env variable!
+ * SIMULATE_PRODUCTION_VISIBILITY=true yarn start:website
+ */
+const simulateProductionVisibility =
+  process.env.SIMULATE_PRODUCTION_VISIBILITY === 'true';
+
+/**
  * draft/unlisted is a production-only concept
  * In dev it is ignored and all content files are included
  */
 function isProduction(env: Env | undefined): boolean {
-  return (env ?? process.env.NODE_ENV) === 'production';
+  return (
+    simulateProductionVisibility ||
+    (env ?? process.env.NODE_ENV) === 'production'
+  );
 }
 
 /**

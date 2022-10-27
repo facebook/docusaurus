@@ -42,12 +42,6 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'section',
-      collapsible: false,
-      items: ['index', 'more-test'],
-    },
-    {
-      type: 'category',
       label: 'Another category with index',
       collapsible: false,
       link: {
