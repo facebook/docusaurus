@@ -205,9 +205,11 @@ export function toTagDocListProp({
 export function toTagsListTagsProp(
   versionTags: VersionTags,
 ): PropTagsListPage['tags'] {
-  return Object.values(versionTags).map((tagValue) => ({
-    label: tagValue.label,
-    permalink: tagValue.permalink,
-    count: tagValue.docIds.length,
-  }));
+  return Object.values(versionTags)
+    .filter((tagValue) => !tagValue.unlisted)
+    .map((tagValue) => ({
+      label: tagValue.label,
+      permalink: tagValue.permalink,
+      count: tagValue.docIds.length,
+    }));
 }
