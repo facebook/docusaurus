@@ -11,8 +11,7 @@ import {useBlogPost} from '@docusaurus/theme-common/internal';
 
 export default function BlogPostPageMetadata(): JSX.Element {
   const {assets, metadata} = useBlogPost();
-  const {title, description, date, tags, authors, frontMatter, unlisted} =
-    metadata;
+  const {title, description, date, tags, authors, frontMatter} = metadata;
 
   const {keywords} = frontMatter;
   const image = assets.image ?? frontMatter.image;
@@ -40,7 +39,6 @@ export default function BlogPostPageMetadata(): JSX.Element {
           content={tags.map((tag) => tag.label).join(',')}
         />
       )}
-      {unlisted && <meta name="robots" content="noindex, nofollow" />}
     </PageMetadata>
   );
 }

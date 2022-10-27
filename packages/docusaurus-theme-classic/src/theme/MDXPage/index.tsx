@@ -15,6 +15,7 @@ import {
 import Layout from '@theme/Layout';
 import MDXContent from '@theme/MDXContent';
 import TOC from '@theme/TOC';
+import Unlisted from '@theme/Unlisted';
 import type {Props} from '@theme/MDXPage';
 
 import styles from './styles.module.css';
@@ -33,10 +34,9 @@ export default function MDXPage(props: Props): JSX.Element {
         wrapperClassName ?? ThemeClassNames.wrapper.mdxPages,
         ThemeClassNames.page.mdxPage,
       )}>
-      <PageMetadata title={title} description={description}>
-        {unlisted && <meta name="robots" content="noindex, nofollow" />}
-      </PageMetadata>
+      <PageMetadata title={title} description={description} />
       <Layout>
+        {unlisted && <Unlisted />}
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>

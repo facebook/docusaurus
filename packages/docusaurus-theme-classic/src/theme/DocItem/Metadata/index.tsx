@@ -16,8 +16,7 @@ export default function DocItemMetadata(): JSX.Element {
       title={metadata.title}
       description={metadata.description}
       keywords={frontMatter.keywords}
-      image={assets.image ?? frontMatter.image}>
-      {metadata.unlisted && <meta name="robots" content="noindex, nofollow" />}
-    </PageMetadata>
+      image={assets.image ?? frontMatter.image}
+    />
   );
 }
