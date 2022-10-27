@@ -14,6 +14,7 @@ import {
   PluginIdSchema,
   URISchema,
   PathnameSchema,
+  RouteBasePathSchema,
 } from '../validationSchemas';
 
 function createTestHelpers({
@@ -165,5 +166,22 @@ describe('validation schemas', () => {
     testOK('/foo');
     testFail('foo');
     testFail('https://github.com/foo');
+  });
+
+  it('routeBasePathSchema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: RouteBasePathSchema,
+      defaultValue: '',
+    });
+
+    testOK('');
+    testOK('/foo');
+    testOK('blog');
+    testOK(undefined);
+
+    testFail(3);
+    testFail([]);
+    testFail(null);
+    testFail({});
   });
 });

@@ -97,7 +97,7 @@ export const PathnameSchema = Joi.string()
   );
 
 // joi empty string not allowed by default. so using empty('') for custom use
-export const RouteBasePathSchema = Joi.string().empty('');
+export const RouteBasePathSchema = Joi.string().empty('').default('');
 
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()
   .try(
