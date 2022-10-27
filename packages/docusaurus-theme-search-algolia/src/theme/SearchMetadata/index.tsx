@@ -17,15 +17,9 @@ export default function SearchMetadata({
 }: Props): JSX.Element {
   return (
     <Head>
-      {/*
-      Docusaurus metadata, used by third-party search plugin
-      See https://github.com/cmfcmf/docusaurus-search-local/issues/99
-
-      TODO: move this component to `docusaurus-search-local` ?
-      */}
-      {locale && <meta name="docusaurus_locale" content={locale} />}
-      {version && <meta name="docusaurus_version" content={version} />}
-      {tag && <meta name="docusaurus_tag" content={tag} />}
+      {locale && <meta name="docsearch:language" content={locale} />}
+      {version && <meta name="docsearch:version" content={version} />}
+      {tag && <meta name="docsearch:docusaurus_tag" content={tag} />}
     </Head>
   );
 }
