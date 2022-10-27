@@ -28,6 +28,37 @@ import type {
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 
+export function toSidebarDocItemLinkProp({
+  item,
+  doc,
+}: {
+  item: SidebarItemDoc;
+  doc: Pick<
+    DocMetadata,
+    'id' | 'title' | 'permalink' | 'unlisted' | 'frontMatter' | 'unversionedId'
+  >;
+}): PropSidebarItemLink {
+  const {
+    title,
+    permalink,
+    frontMatter: {
+      sidebar_label: sidebarLabel,
+      sidebar_custom_props: customProps,
+    },
+    unlisted,
+    unversionedId,
+  } = doc;
+  return {
+    type: 'link',
+    label: sidebarLabel ?? item.label ?? title,
+    href: permalink,
+    className: item.className,
+    customProps: item.customProps ?? customProps,
+    docId: unversionedId,
+    unlisted,
+  };
+}
+
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = createDocsByIdIndex(loadedVersion.docs);
 
@@ -44,24 +75,8 @@ Available document ids are:
   }
 
   const convertDocLink = (item: SidebarItemDoc): PropSidebarItemLink => {
-    const docMetadata = getDocById(item.id);
-    const {
-      title,
-      permalink,
-      frontMatter: {sidebar_label: sidebarLabel},
-    } = docMetadata;
-    return {
-      type: 'link',
-      label: sidebarLabel ?? item.label ?? title,
-      href: permalink,
-      className: item.className,
-      customProps:
-        item.customProps ?? docMetadata.frontMatter.sidebar_custom_props,
-      docId: docMetadata.unversionedId,
-      unlisted:
-        process.env.NODE_ENV === 'production' &&
-        docMetadata.frontMatter.unlisted === true,
-    };
+    const doc = getDocById(item.id);
+    return toSidebarDocItemLinkProp({item, doc});
   };
 
   function getCategoryLinkHref(
