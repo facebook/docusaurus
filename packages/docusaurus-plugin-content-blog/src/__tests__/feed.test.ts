@@ -54,7 +54,7 @@ async function testGenerateFeeds(
   );
 
   await createBlogFeedFiles({
-    blogPosts: blogPosts.filter((post) => !post.metadata.frontMatter.draft),
+    blogPosts,
     options,
     siteConfig: context.siteConfig,
     outDir: context.outDir,

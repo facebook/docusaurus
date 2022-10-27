@@ -133,8 +133,15 @@ async function createBlogFeedFile({
   }
 }
 
+function shouldBeInFeed(blogPost: BlogPost): boolean {
+  const excluded =
+    blogPost.metadata.frontMatter.draft ||
+    blogPost.metadata.frontMatter.unlisted;
+  return !excluded;
+}
+
 export async function createBlogFeedFiles({
-  blogPosts,
+  blogPosts: allBlogPosts,
   options,
   siteConfig,
   outDir,
@@ -146,6 +153,8 @@ export async function createBlogFeedFiles({
   outDir: string;
   locale: string;
 }): Promise<void> {
+  const blogPosts = allBlogPosts.filter(shouldBeInFeed);
+
   const feed = await generateBlogFeed({
     blogPosts,
     options,
