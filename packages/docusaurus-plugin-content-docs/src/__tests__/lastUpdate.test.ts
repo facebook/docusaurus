@@ -13,6 +13,10 @@ import {createTempRepo} from '@testing-utils/git';
 
 import {getFileLastUpdate} from '../lastUpdate';
 
+// The 5s default timeout fails sometimes fail on Windows?
+// https://github.com/facebook/docusaurus/actions/runs/3335697149/jobs/5519968190
+jest.setTimeout(15000);
+
 describe('getFileLastUpdate', () => {
   const existingFilePath = path.join(
     __dirname,
