@@ -96,6 +96,9 @@ export const PathnameSchema = Joi.string()
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
 
+// joi empty string not allowed by default. so using empty('') for custom use
+export const RouteBasePathSchema = Joi.string().empty('');
+
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()
   .try(
     JoiFrontMatter.string().required(),

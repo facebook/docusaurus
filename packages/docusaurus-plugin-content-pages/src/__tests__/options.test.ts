@@ -51,4 +51,15 @@ describe('normalizePagesPluginOptions', () => {
       });
     }).toThrowErrorMatchingInlineSnapshot(`""path" must be a string"`);
   });
+
+  it('empty routeBasePath replace default path("/")', () => {
+    expect(
+      testValidate({
+        routeBasePath: '',
+      }),
+    ).toEqual({
+      ...defaultOptions,
+      routeBasePath: '/',
+    });
+  });
 });

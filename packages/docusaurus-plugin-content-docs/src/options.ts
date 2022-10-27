@@ -11,6 +11,7 @@ import {
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
+  RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
@@ -73,10 +74,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
   editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
-  routeBasePath: Joi.string()
-    // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
-    // .allow('') ""
-    .default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   // @ts-expect-error: deprecated
   homePageId: Joi.any().forbidden().messages({
