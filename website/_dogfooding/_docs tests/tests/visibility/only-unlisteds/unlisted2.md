@@ -1,7 +1,8 @@
 ---
 unlisted: true
+tags: [visibility, unlisted]
 ---
 
-# Unlisted 2
+# Only Unlisteds - Unlisted 2
 
 Doc with unlisted front matter

@@ -1,3 +1,7 @@
-# Listed 1
+---
+tags: [visibility, listed]
+---
+
+# Some Unlisteds - Listed 1
 
 Regular doc

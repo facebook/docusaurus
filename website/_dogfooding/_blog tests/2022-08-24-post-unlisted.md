@@ -1,8 +1,10 @@
 ---
 title: Unlisted blog post
 unlisted: true
-tags: [blog, unlisted]
-slug: /unlisted-blog-post-test
+tags: [blog, visibility, unlisted]
+slug: /unlisted-post
 ---
 
-This unlisted blog post should always be directly accessible in any environment, but in production the sidebar link and pagination should only be visible when on the page itself
+This unlisted blog post should be "hidden" in production, but remain accessible.
+
+It is filtered from the sidebar, sitemap, SEO indexation...

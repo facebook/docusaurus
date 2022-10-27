@@ -1,7 +1,8 @@
 ---
 draft: true
+tags: [visibility, draft]
 ---
 
-# Draft 2
+# Some Drafts - Draft 2
 
 Doc with draft front matter

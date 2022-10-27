@@ -1,3 +1,7 @@
+---
+tags: [visibility]
+---
+
 # Visibility
 
 A category to play with draft/unlisted front matter.
