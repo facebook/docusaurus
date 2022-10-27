@@ -53,7 +53,7 @@ Whenever a new minor version is released, we publish:
 
 :::tip
 
-If you only use our [public API surface](##public-api-surface), you should be able to upgrade in no time!
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
 
 :::
 
