@@ -8,7 +8,7 @@
 import {toTagsProp} from '../props';
 
 describe('toTagsProp', () => {
-  type Tags = Parameters<typeof toTagsProp>[0];
+  type Tags = Parameters<typeof toTagsProp>[0]['blogTags'];
   type Tag = Tags[number];
 
   const tag1: Tag = {
@@ -16,6 +16,7 @@ describe('toTagsProp', () => {
     permalink: '/tag1',
     items: ['item1', 'item2'],
     pages: [],
+    unlisted: false,
   };
 
   const tag2: Tag = {
@@ -23,14 +24,15 @@ describe('toTagsProp', () => {
     permalink: '/tag2',
     items: ['item3'],
     pages: [],
+    unlisted: false,
   };
 
   function testTags(...tags: Tag[]) {
-    const tagsObject: Tags = {};
+    const blogTags: Tags = {};
     tags.forEach((tag) => {
-      tagsObject[tag.permalink] = tag;
+      blogTags[tag.permalink] = tag;
     });
-    return toTagsProp(tagsObject);
+    return toTagsProp({blogTags});
   }
 
   it('works', () => {
