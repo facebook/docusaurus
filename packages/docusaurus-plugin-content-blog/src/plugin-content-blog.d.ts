@@ -442,6 +442,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];
+    unlisted: boolean;
   };
 
   export type BlogPost = {

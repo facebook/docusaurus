@@ -72,7 +72,6 @@ function BlogTagsPostsPageContent({
     <BlogLayout sidebar={sidebar}>
       <header className="margin-bottom--xl">
         <h1>{title}</h1>
-
         <Link href={tag.allTagsPath}>
           <Translate
             id="theme.tags.tagsPageLink"

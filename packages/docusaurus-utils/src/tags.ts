@@ -25,6 +25,8 @@ export type TagsListItem = Tag & {
 export type TagModule = TagsListItem & {
   /** The tags list page's permalink. */
   allTagsPath: string;
+  /** Is this tag unlisted? (when it only contains unlisted items) */
+  unlisted: boolean;
 };
 
 export type FrontMatterTag = string | Tag;

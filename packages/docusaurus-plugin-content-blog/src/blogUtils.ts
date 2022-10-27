@@ -98,6 +98,30 @@ export function paginateBlogPosts({
   return pages;
 }
 
+export function shouldBeListed(blogPost: BlogPost): boolean {
+  return !blogPost.metadata.unlisted;
+}
+
+function getTagListing(tagsBlogPosts: BlogPost[]): {
+  unlisted: boolean;
+  listedBlogPosts: BlogPost[];
+} {
+  const allPostsAreUnlisted = tagsBlogPosts.every(
+    (blogPost) => blogPost.metadata.unlisted,
+  );
+  // When a tag is full of unlisted blog posts, we display all the blog posts
+  // on that tag but we mark the tag as unlisted
+  if (allPostsAreUnlisted) {
+    return {unlisted: true, listedBlogPosts: tagsBlogPosts};
+  }
+  // When a tag has some listed blog posts, the tag remains listed
+  // but we filter its unlisted blog posts
+  return {
+    unlisted: false,
+    listedBlogPosts: tagsBlogPosts.filter(shouldBeListed),
+  };
+}
+
 export function getBlogTags({
   blogPosts,
   ...params
@@ -112,16 +136,20 @@ export function getBlogTags({
     (blogPost) => blogPost.metadata.tags,
   );
 
-  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
-    label: tag.label,
-    items: tagBlogPosts.map((item) => item.id),
-    permalink: tag.permalink,
-    pages: paginateBlogPosts({
-      blogPosts: tagBlogPosts,
-      basePageUrl: tag.permalink,
-      ...params,
-    }),
-  }));
+  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => {
+    const {unlisted, listedBlogPosts} = getTagListing(tagBlogPosts);
+    return {
+      label: tag.label,
+      items: listedBlogPosts.map((item) => item.id),
+      permalink: tag.permalink,
+      pages: paginateBlogPosts({
+        blogPosts: listedBlogPosts,
+        basePageUrl: tag.permalink,
+        ...params,
+      }),
+      unlisted,
+    };
+  });
 }
 
 const DATE_FILENAME_REGEX =
