@@ -501,7 +501,7 @@ describe('blog plugin', () => {
       postsPerPage: 2,
     });
 
-    expect(Object.keys(blogTags)).toHaveLength(2);
+    expect(Object.keys(blogTags)).toHaveLength(3);
     expect(blogTags).toMatchSnapshot();
   });
 
