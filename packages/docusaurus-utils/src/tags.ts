@@ -146,16 +146,16 @@ export function getTagVisibility<Item>({
   unlisted: boolean;
   listedItems: Item[];
 } {
-  const allTagItemsUnlisted = items.every(isUnlisted);
+  const allItemsUnlisted = items.every(isUnlisted);
   // When a tag is full of unlisted items, we display all the items
   // when tag is browsed, but we mark the tag as unlisted
-  if (allTagItemsUnlisted) {
+  if (allItemsUnlisted) {
     return {unlisted: true, listedItems: items};
   }
   // When a tag has some listed items, the tag remains listed
   // but we filter its unlisted items
   return {
     unlisted: false,
-    listedItems: items.filter(isUnlisted),
+    listedItems: items.filter((item) => !isUnlisted(item)),
   };
 }
