@@ -253,3 +253,57 @@ exports[`DefaultSidebarItemsGenerator uses explicit link over the index/readme.{
   },
 ]
 `;
+
+exports[`DefaultSidebarItemsGenerator respects sidebar_custom_props 1`] = `
+[
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "parent/doc2",
+        "type": "doc",
+        "customProps": {
+          testNum: 123
+        }
+      },
+      {
+        "id": "parent/doc1",
+        "type": "doc",
+        "customProps": {
+          testBool: true
+        }
+      },
+    ],
+    "label": "Category label",
+    "link": {
+      "id": "parent/doc3",
+      "type": "doc",
+      "customProps": {
+        testString: "test"
+      }
+    },
+    "type": "category",
+  },
+  {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": [
+      {
+        "id": "parent/doc4",
+        "type": "doc",
+      },
+      {
+        "id": "parent/doc6",
+        "type": "doc",
+      },
+      {
+        "id": "parent/doc5",
+        "type": "doc",
+      },
+    ],
+    "label": "Category 2 label",
+    "type": "category",
+  },
+]
+`;
