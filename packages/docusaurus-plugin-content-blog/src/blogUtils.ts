@@ -21,6 +21,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getTagVisibility,
   getFileCommitDate,
   getContentPathList,
   isUnlisted,
@@ -102,26 +103,6 @@ export function shouldBeListed(blogPost: BlogPost): boolean {
   return !blogPost.metadata.unlisted;
 }
 
-function getTagListing(tagsBlogPosts: BlogPost[]): {
-  unlisted: boolean;
-  listedBlogPosts: BlogPost[];
-} {
-  const allPostsAreUnlisted = tagsBlogPosts.every(
-    (blogPost) => blogPost.metadata.unlisted,
-  );
-  // When a tag is full of unlisted blog posts, we display all the blog posts
-  // on that tag but we mark the tag as unlisted
-  if (allPostsAreUnlisted) {
-    return {unlisted: true, listedBlogPosts: tagsBlogPosts};
-  }
-  // When a tag has some listed blog posts, the tag remains listed
-  // but we filter its unlisted blog posts
-  return {
-    unlisted: false,
-    listedBlogPosts: tagsBlogPosts.filter(shouldBeListed),
-  };
-}
-
 export function getBlogTags({
   blogPosts,
   ...params
@@ -135,19 +116,21 @@ export function getBlogTags({
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-
   return _.mapValues(groups, ({tag, items: tagBlogPosts}) => {
-    const {unlisted, listedBlogPosts} = getTagListing(tagBlogPosts);
+    const tagVisibility = getTagVisibility({
+      items: tagBlogPosts,
+      isUnlisted: (item) => item.metadata.unlisted,
+    });
     return {
       label: tag.label,
-      items: listedBlogPosts.map((item) => item.id),
+      items: tagVisibility.listedItems.map((item) => item.id),
       permalink: tag.permalink,
       pages: paginateBlogPosts({
-        blogPosts: listedBlogPosts,
+        blogPosts: tagVisibility.listedItems,
         basePageUrl: tag.permalink,
         ...params,
       }),
-      unlisted,
+      unlisted: tagVisibility.unlisted,
     };
   });
 }

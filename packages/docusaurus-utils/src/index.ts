@@ -62,6 +62,7 @@ export {
   type FrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getTagVisibility,
 } from './tags';
 export {
   parseMarkdownHeadingId,

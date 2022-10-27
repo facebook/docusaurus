@@ -90,6 +90,6 @@ export {
   UnlistedBannerTitle,
   UnlistedBannerMessage,
   UnlistedMetadata,
-} from './utils/unlistedContentUtils';
+} from './utils/unlistedUtils';
 
 export {ErrorBoundaryTryAgainButton} from './utils/errorBoundaryUtils';

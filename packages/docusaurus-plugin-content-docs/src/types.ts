@@ -27,6 +27,7 @@ export type SourceToPermalink = {
 export type VersionTag = Tag & {
   /** All doc ids having this tag. */
   docIds: string[];
+  unlisted: boolean;
 };
 export type VersionTags = {
   [permalink: string]: VersionTag;

@@ -198,6 +198,7 @@ export function toTagDocListProp({
     allTagsPath,
     count: tag.docIds.length,
     items: toDocListProp(),
+    unlisted: tag.unlisted,
   };
 }
 

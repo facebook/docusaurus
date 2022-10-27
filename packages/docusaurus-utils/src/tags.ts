@@ -130,3 +130,32 @@ export function groupTaggedItems<Item>(
 
   return result;
 }
+
+/**
+ * Permits to get the "tag visibility" (hard to find a better name)
+ * IE, is this tag listed or unlisted
+ * And which items should be listed when this tag is browsed
+ */
+export function getTagVisibility<Item>({
+  items,
+  isUnlisted,
+}: {
+  items: Item[];
+  isUnlisted: (item: Item) => boolean;
+}): {
+  unlisted: boolean;
+  listedItems: Item[];
+} {
+  const allTagItemsUnlisted = items.every(isUnlisted);
+  // When a tag is full of unlisted items, we display all the items
+  // when tag is browsed, but we mark the tag as unlisted
+  if (allTagItemsUnlisted) {
+    return {unlisted: true, listedItems: items};
+  }
+  // When a tag has some listed items, the tag remains listed
+  // but we filter its unlisted items
+  return {
+    unlisted: false,
+    listedItems: items.filter(isUnlisted),
+  };
+}
