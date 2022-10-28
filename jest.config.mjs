@@ -36,6 +36,9 @@ export default {
   },
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
+  // Default 5s timeout often fails on Windows :s,
+  // see https://github.com/facebook/docusaurus/pull/8259
+  testTimeout: 15000,
   coveragePathIgnorePatterns: [
     ...ignorePatterns,
     // We also ignore all package entry points
