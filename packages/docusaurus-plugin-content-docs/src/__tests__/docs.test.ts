@@ -34,8 +34,6 @@ import type {
 import type {LoadContext} from '@docusaurus/types';
 import type {Optional} from 'utility-types';
 
-jest.setTimeout(15000);
-
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
 const createFakeDocFile = ({
