@@ -36,10 +36,10 @@ export default function MDXPage(props: Props): JSX.Element {
       )}>
       <PageMetadata title={title} description={description} />
       <Layout>
-        {unlisted && <Unlisted />}
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
+              {unlisted && <Unlisted />}
               <article>
                 <MDXContent>
                   <MDXPageContent />
