@@ -6,7 +6,7 @@ image: ./img/social-card.png
 date: 2022-10-28
 ---
 
-We are happy announce **Docusaurus 2.2**.
+We are happy to announce **Docusaurus 2.2**.
 
 The upgrade should be easy: as explained in our [release process documentation](/community/release-process), minor versions respect [Semantic Versioning](https://semver.org/).
 
@@ -16,9 +16,50 @@ The upgrade should be easy: as explained in our [release process documentation](
 
 ## Highlights
 
-TODO
+### Mermaid diagrams support
 
-### DocCardList improvements
+- [#7490](https://github.com/facebook/docusaurus/pull/7490) feat: support mermaid code blocks in Markdown ([author](https://github.com/sjwall))
+
+### `siteConfig.headTags` API
+
+- [#8151](https://github.com/facebook/docusaurus/pull/8151) feat(core): siteConfig.headTags API to render extra tags in document head ([author](https://github.com/johnnyreilly))
+
+### Swizzle `--config`
+
+- [#8210](https://github.com/facebook/docusaurus/pull/8210) feat(core): add --config param to swizzle command ([author](https://github.com/e-im))
+
+### Accessibility:
+
+- `docusaurus-theme-classic`, `docusaurus-theme-translations`
+- [#8207](https://github.com/facebook/docusaurus/pull/8207) fix(theme-classic): hamburger menu control navigation by keyboard ([author](https://github.com/jeferson-sb))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+- [#8204](https://github.com/facebook/docusaurus/pull/8204) fix(theme-classic): fix SkipToContent without JS , refactor, make it public theming API ([author](https://github.com/mturoci))
+- [#8174](https://github.com/facebook/docusaurus/pull/8174) fix(theme): announce theme switches ([author](https://github.com/mturoci))
+- [#8161](https://github.com/facebook/docusaurus/pull/8161) fix(theme): do not show tab content when tabbing over it; show after selection only ([author](https://github.com/mturoci))
+
+### Developer experience
+
+- [#8234](https://github.com/facebook/docusaurus/pull/8234) fix(plugin-content-docs): fix error message context (error cause) when doc processing fails ([author](https://github.com/shanpriyan))
+- [#8192](https://github.com/facebook/docusaurus/pull/8192) fix(core): throw error for invalid URL in config file ([author](https://github.com/forgeRW))
+- `docusaurus-theme-classic`
+- [#8159](https://github.com/facebook/docusaurus/pull/8159) fix(core): throw error for invalid URL in config file ([author](https://github.com/forgeRW))
+- [#8066](https://github.com/facebook/docusaurus/pull/8066) fix(core): normalize slashes for url/baseUrl instead of throwing ([author](https://github.com/Josh-Cena))
+
+### Translations:
+
+- [#8105](https://github.com/facebook/docusaurus/pull/8105) fix(theme-translations): complete turkish theme default translations ([author](https://github.com/ramazansancar))
+- [#8253](https://github.com/facebook/docusaurus/pull/8253) chore(theme-translations): complete ru translations ([author](https://github.com/lex111))
+- [#8243](https://github.com/facebook/docusaurus/pull/8243) chore(theme-translations): complete French translations ([author](https://github.com/forresst))
+- [#8075](https://github.com/facebook/docusaurus/pull/8075) fix(theme-translation): complete Japanese theme default translation ([author](https://github.com/pasora))
+
+### Navigation (???):
+
+- [#8059](https://github.com/facebook/docusaurus/pull/8059) fix(theme): preserve url ?search#hash on navbar version/locale dropdowns navigations ([author](https://github.com/slorber))
+- [#8227](https://github.com/facebook/docusaurus/pull/8227) feat(plugin-client-redirects): keep the query string + hash ([author](https://github.com/Xabilahu))
+
+### Performance
+
+- [#8109](https://github.com/facebook/docusaurus/pull/8109) feat(core): prefetch on mobile touchstart ([author](https://github.com/sanjaiyan-dev))
 
 ## Other changes
 
