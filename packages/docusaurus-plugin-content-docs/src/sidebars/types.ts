@@ -58,6 +58,7 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   label: string;
   collapsed: boolean;
   collapsible: boolean;
+  description?: string;
 };
 
 export type SidebarItemCategoryLinkDoc = {
@@ -97,7 +98,6 @@ export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
     items: SidebarCategoriesShorthand | SidebarItemConfig[];
     link?: SidebarItemCategoryLinkConfig;
-    description?: string;
   }
 >;
 
@@ -189,7 +189,6 @@ export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
     href?: string;
-    description?: string;
   }
 >;
 

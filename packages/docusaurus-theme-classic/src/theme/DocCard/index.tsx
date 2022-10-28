@@ -83,15 +83,18 @@ function CardCategory({
       href={href}
       icon="🗃️"
       title={item.label}
-      description={translate(
-        {
-          message: '({count} items) {description}',
-          id: 'theme.docs.DocCard.categoryDescription',
-          description:
-            'The default description for a category card in the generated index about how many items this category includes',
-        },
-        {description: item.description ?? '', count: item.items.length},
-      )}
+      description={
+        item.description ??
+        translate(
+          {
+            message: '{count} items',
+            id: 'theme.docs.DocCard.categoryDescription',
+            description:
+              'The default description for a category card in the generated index about how many items this category includes',
+          },
+          {count: item.items.length},
+        )
+      }
     />
   );
 }
@@ -104,9 +107,7 @@ function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
       href={item.href}
       icon={icon}
       title={item.label}
-      description={
-        isInternalUrl(item.href) ? doc?.description : item.description
-      }
+      description={item.description ?? doc?.description}
     />
   );
 }
