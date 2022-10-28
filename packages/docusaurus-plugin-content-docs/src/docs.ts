@@ -325,30 +325,32 @@ export async function processDocMetadata(args: {
   }
 }
 
-export function addDocNavigation(
-  docsBase: DocMetadataBase[],
-  sidebarsUtils: SidebarsUtils,
-  sidebarFilePath: string,
-): LoadedVersion['docs'] {
-  const docsById = createDocsByIdIndex(docsBase);
+function getUnlistedIds(docs: DocMetadataBase[]): Set<string> {
+  return new Set(docs.filter((doc) => doc.unlisted).map((doc) => doc.id));
+}
 
-  const unlistedIds = docsBase
-    .filter((doc) => doc.unlisted)
-    .map((doc) => doc.id);
+export function addDocNavigation({
+  docs,
+  sidebarsUtils,
+  sidebarFilePath,
+}: {
+  docs: DocMetadataBase[];
+  sidebarsUtils: SidebarsUtils;
+  sidebarFilePath: string;
+}): LoadedVersion['docs'] {
+  const docsById = createDocsByIdIndex(docs);
+  const unlistedIds = getUnlistedIds(docs);
 
-  sidebarsUtils.checkSidebarsDocIds(
-    docsBase.flatMap(getDocIds),
-    sidebarFilePath,
-  );
+  sidebarsUtils.checkSidebarsDocIds(docs.flatMap(getDocIds), sidebarFilePath);
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
-    const navigation = sidebarsUtils.getDocNavigation(
-      doc.unversionedId,
-      doc.id,
-      doc.frontMatter.displayed_sidebar,
+    const navigation = sidebarsUtils.getDocNavigation({
+      unversionedId: doc.unversionedId,
+      versionedId: doc.id,
+      displayedSidebar: doc.frontMatter.displayed_sidebar,
       unlistedIds,
-    );
+    });
 
     const toNavigationLinkByDocId = (
       docId: string | null | undefined,
@@ -383,7 +385,7 @@ export function addDocNavigation(
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
 
-  const docsWithNavigation = docsBase.map(addNavData);
+  const docsWithNavigation = docs.map(addNavData);
   // Sort to ensure consistent output for tests
   docsWithNavigation.sort((a, b) => a.id.localeCompare(b.id));
   return docsWithNavigation;

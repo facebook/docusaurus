@@ -173,12 +173,11 @@ function createTestUtils({
     const sidebarsUtils = createSidebarsUtils(sidebars);
 
     return {
-      pagination: addDocNavigation(
-        rawDocs,
+      pagination: addDocNavigation({
+        docs: rawDocs,
         sidebarsUtils,
-        versionMetadata.sidebarFilePath as string,
-        [],
-      ).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
+        sidebarFilePath: versionMetadata.sidebarFilePath as string,
+      }).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
       sidebars,
     };
   }

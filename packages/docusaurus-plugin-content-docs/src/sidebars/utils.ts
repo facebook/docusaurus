@@ -135,12 +135,12 @@ export type SidebarsUtils = {
   sidebars: Sidebars;
   getFirstDocIdOfFirstSidebar: () => string | undefined;
   getSidebarNameByDocId: (docId: string) => string | undefined;
-  getDocNavigation: (
-    unversionedId: string,
-    versionedId: string,
-    displayedSidebar: string | null | undefined,
-    unlistedIds: string[],
-  ) => SidebarNavigation;
+  getDocNavigation: (params: {
+    unversionedId: string;
+    versionedId: string;
+    displayedSidebar: string | null | undefined;
+    unlistedIds: Set<string>;
+  }) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
@@ -193,12 +193,17 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     };
   }
 
-  function getDocNavigation(
-    unversionedId: string,
-    versionedId: string,
-    displayedSidebar: string | null | undefined,
-    unlistedIds: string[],
-  ): SidebarNavigation {
+  function getDocNavigation({
+    unversionedId,
+    versionedId,
+    displayedSidebar,
+    unlistedIds,
+  }: {
+    unversionedId: string;
+    versionedId: string;
+    displayedSidebar: string | null | undefined;
+    unlistedIds: Set<string>;
+  }): SidebarNavigation {
     // TODO legacy id retro-compatibility!
     let docId = unversionedId;
     let sidebarName =
@@ -220,7 +225,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       );
     }
     navigationItems = navigationItems.filter(
-      (item) => !(item.type === 'doc' && unlistedIds.includes(item.id)),
+      (item) => !(item.type === 'doc' && unlistedIds.has(item.id)),
     );
 
     const currentItemIndex = navigationItems.findIndex((item) => {

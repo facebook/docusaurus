@@ -175,11 +175,11 @@ export default async function pluginContentDocs(
 
         return {
           ...versionMetadata,
-          docs: addDocNavigation(
+          docs: addDocNavigation({
             docs,
             sidebarsUtils,
-            versionMetadata.sidebarFilePath as string,
-          ),
+            sidebarFilePath: versionMetadata.sidebarFilePath as string,
+          }),
           drafts,
           sidebars,
         };
