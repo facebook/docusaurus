@@ -83,7 +83,9 @@ export default function pluginContentPages(
         ignore: options.exclude,
       });
 
-      async function toMetadata(relativeSource: string): Promise<Metadata> {
+      async function processPageSourceFile(
+        relativeSource: string,
+      ): Promise<Metadata | undefined> {
         // Lookup in localized folder in priority
         const contentPath = await getFolderContainingFile(
           getContentPathList(contentPaths),
@@ -126,7 +128,20 @@ export default function pluginContentPages(
         };
       }
 
-      return Promise.all(pagesFiles.map(toMetadata));
+      async function doProcessPageSourceFile(relativeSource: string) {
+        try {
+          return await processPageSourceFile(relativeSource);
+        } catch (err) {
+          throw new Error(
+            `Processing of page source file path=${relativeSource} failed.`,
+            {cause: err as Error},
+          );
+        }
+      }
+
+      return (
+        await Promise.all(pagesFiles.map(doProcessPageSourceFile))
+      ).filter(Boolean) as Metadata[];
     },
 
     async contentLoaded({content, actions}) {
