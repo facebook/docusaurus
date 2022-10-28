@@ -21,6 +21,7 @@ import {
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
   isUnlisted,
+  isDraft,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 
@@ -114,7 +115,9 @@ export default function pluginContentPages(
         } = parseMarkdownString(content);
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
 
-        // TODO draft support is missing
+        if (isDraft({frontMatter})) {
+          return undefined;
+        }
         const unlisted = isUnlisted({frontMatter});
 
         return {
