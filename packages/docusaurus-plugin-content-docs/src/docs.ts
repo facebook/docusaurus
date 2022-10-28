@@ -329,9 +329,12 @@ export function addDocNavigation(
   docsBase: DocMetadataBase[],
   sidebarsUtils: SidebarsUtils,
   sidebarFilePath: string,
-  unlistedIds: string[],
 ): LoadedVersion['docs'] {
   const docsById = createDocsByIdIndex(docsBase);
+
+  const unlistedIds = docsBase
+    .filter((doc) => doc.unlisted)
+    .map((doc) => doc.id);
 
   sidebarsUtils.checkSidebarsDocIds(
     docsBase.flatMap(getDocIds),

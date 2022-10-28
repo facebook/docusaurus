@@ -157,12 +157,6 @@ export default async function pluginContentDocs(
         );
 
         const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
-        const unlistedIds = docs.reduce<string[]>((acc, doc) => {
-          if (doc.unlisted) {
-            acc.push(doc.id);
-          }
-          return acc;
-        }, []);
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
@@ -185,7 +179,6 @@ export default async function pluginContentDocs(
             docs,
             sidebarsUtils,
             versionMetadata.sidebarFilePath as string,
-            unlistedIds,
           ),
           drafts,
           sidebars,
