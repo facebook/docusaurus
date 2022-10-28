@@ -175,6 +175,7 @@ describe('validation schemas', () => {
     });
 
     testOK('');
+    testOK('/');
     testOK('/foo');
     testOK('blog');
     testOK(undefined);

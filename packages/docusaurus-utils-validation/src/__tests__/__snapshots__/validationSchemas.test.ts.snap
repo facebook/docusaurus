@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validation schemas RouteBasePathSchema: for value=[] 1`] = `""value" must be a string"`;
-
-exports[`validation schemas RouteBasePathSchema: for value={} 1`] = `""value" must be a string"`;
-
-exports[`validation schemas RouteBasePathSchema: for value=3 1`] = `""value" must be a string"`;
-
-exports[`validation schemas RouteBasePathSchema: for value=null 1`] = `""value" must be a string"`;
-
 exports[`validation schemas admonitionsSchema: for value=[] 1`] = `""value" does not look like a valid admonitions config"`;
 
 exports[`validation schemas admonitionsSchema: for value={"customTypes":{"myKeyword":{"keyword":"myKeyword","infima":true,"svg":"<svg width=\\"512px\\" height=\\"512px\\" viewBox=\\"0 0 512 512\\" xmlns=\\"http://www.w3.org/2000/svg\\"></svg>"}}} 1`] = `
@@ -127,5 +119,13 @@ exports[`validation schemas remarkPluginsSchema: for value=3 1`] = `""value" mus
 exports[`validation schemas remarkPluginsSchema: for value=false 1`] = `""value" must be an array"`;
 
 exports[`validation schemas remarkPluginsSchema: for value=null 1`] = `""value" must be an array"`;
+
+exports[`validation schemas routeBasePathSchema: for value=[] 1`] = `""value" must be a string"`;
+
+exports[`validation schemas routeBasePathSchema: for value={} 1`] = `""value" must be a string"`;
+
+exports[`validation schemas routeBasePathSchema: for value=3 1`] = `""value" must be a string"`;
+
+exports[`validation schemas routeBasePathSchema: for value=null 1`] = `""value" must be a string"`;
 
 exports[`validation schemas uRISchema: for value="spaces are invalid in a URL" 1`] = `""value" does not look like a valid url (value='')"`;
