@@ -34,8 +34,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.10",
-    "@crowdin/crowdin-api-client": "^1.19.1",
+    "@crowdin/cli": "^3.9.0",
+    "@crowdin/crowdin-api-client": "^1.19.2",
     "@docusaurus/core": "^3.0.0-alpha.0",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/plugin-client-redirects": "^3.0.0-alpha.0",
@@ -45,8 +45,8 @@
     "@docusaurus/remark-plugin-npm2yarn": "^3.0.0-alpha.0",
     "@docusaurus/theme-classic": "^3.0.0-alpha.0",
     "@docusaurus/theme-common": "^3.0.0-alpha.0",
-    "@docusaurus/theme-mermaid": "^3.0.0-alpha.0",
     "@docusaurus/theme-live-codeblock": "^3.0.0-alpha.0",
+    "@docusaurus/theme-mermaid": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "@docusaurus/utils-common": "^3.0.0-alpha.0",
     "@popperjs/core": "^2.11.6",
