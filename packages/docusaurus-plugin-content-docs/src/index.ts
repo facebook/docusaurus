@@ -156,6 +156,9 @@ export default async function pluginContentDocs(
           versionMetadata,
         );
 
+        // TODO we only ever need draftIds in further code, not full draft items
+        // To simplify and prevent mistakes, avoid exposing draft
+        // replace draft=>draftIds in content loaded
         const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
