@@ -369,23 +369,25 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  async function doProcessBlogSourceFile(blogSourceFile: string) {
+    try {
+      return await processBlogSourceFile(
+        blogSourceFile,
+        contentPaths,
+        context,
+        options,
+        authorsMap,
+      );
+    } catch (err) {
+      throw new Error(
+        `Processing of blog source file path=${blogSourceFile} failed.`,
+        {cause: err as Error},
+      );
+    }
+  }
+
   const blogPosts = (
-    await Promise.all(
-      blogSourceFiles.map(async (blogSourceFile: string) => {
-        try {
-          return await processBlogSourceFile(
-            blogSourceFile,
-            contentPaths,
-            context,
-            options,
-            authorsMap,
-          );
-        } catch (err) {
-          logger.error`Processing of blog source file path=${blogSourceFile} failed.`;
-          throw err;
-        }
-      }),
-    )
+    await Promise.all(blogSourceFiles.map(doProcessBlogSourceFile))
   ).filter(Boolean) as BlogPost[];
 
   blogPosts.sort(
