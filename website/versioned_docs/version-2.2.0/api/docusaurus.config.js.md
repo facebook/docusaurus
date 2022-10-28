@@ -429,6 +429,30 @@ module.exports = {
 };
 ```
 
+### `headTags` {#headTags}
+
+An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map.
+
+- Type: `{ tagName: string; attributes: Object; }[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        href: '/img/docusaurus.png',
+      },
+    },
+  ],
+};
+```
+
+This would become `<link rel="icon" href="img/docusaurus.png" />` in the generated HTML.
+
 ### `scripts` {#scripts}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`. If you use a plain object, the only required attribute is `src`, and any other attributes are permitted (each one should have boolean/string values).
