@@ -10,7 +10,8 @@ import {
   DEFAULT_CONFIG,
   validateConfig,
 } from '../configValidation';
-import type {Config} from '@docusaurus/types';
+import type {Config, DocusaurusConfig} from '@docusaurus/types';
+import type {DeepPartial} from 'utility-types';
 
 const baseConfig = {
   baseUrl: '/',
@@ -18,7 +19,7 @@ const baseConfig = {
   url: 'https://mysite.com',
 } as Config;
 
-const normalizeConfig = (config: Partial<Config>) =>
+const normalizeConfig = (config: DeepPartial<Config>) =>
   validateConfig({...baseConfig, ...config}, 'docusaurus.config.js');
 
 describe('normalizeConfig', () => {
@@ -57,6 +58,9 @@ describe('normalizeConfig', () => {
           crossorigin: 'anonymous',
         },
       ],
+      markdown: {
+        mermaid: true,
+      },
     };
     const normalizedConfig = normalizeConfig(userConfig);
     expect(normalizedConfig).toEqual(userConfig);
@@ -86,12 +90,65 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  it('throws error for baseUrl without trailing `/`', () => {
-    expect(() => {
+  it('throws for non-string URLs', () => {
+    expect(() =>
+      normalizeConfig({
+        // @ts-expect-error: test
+        url: 1,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""url" must be a string
+      "
+    `);
+  });
+
+  it('throws for invalid URL', () => {
+    expect(() =>
+      normalizeConfig({
+        url: 'mysite.com',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""mysite.com" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".
+      "
+    `);
+  });
+
+  it('normalizes URL', () => {
+    expect(
+      normalizeConfig({
+        url: 'https://mysite.com/',
+      }).url,
+    ).toBe('https://mysite.com');
+  });
+
+  it('throws for non-string base URLs', () => {
+    expect(() =>
+      normalizeConfig({
+        // @ts-expect-error: test
+        baseUrl: 1,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""baseUrl" must be a string
+      "
+    `);
+  });
+
+  it('normalizes various base URLs', () => {
+    expect(
       normalizeConfig({
         baseUrl: 'noSlash',
-      });
-    }).toThrowErrorMatchingSnapshot();
+      }).baseUrl,
+    ).toBe('/noSlash/');
+    expect(
+      normalizeConfig({
+        baseUrl: '/noSlash',
+      }).baseUrl,
+    ).toBe('/noSlash/');
+    expect(
+      normalizeConfig({
+        baseUrl: 'noSlash/foo',
+      }).baseUrl,
+    ).toBe('/noSlash/foo/');
   });
 
   it.each([
@@ -283,6 +340,74 @@ describe('normalizeConfig', () => {
     `);
   });
 
+  it('accepts headTags with tagName and attributes', () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'icon',
+              href: 'img/docusaurus.png',
+            },
+          },
+        ],
+      });
+    }).not.toThrow();
+  });
+
+  it("throws error if headTags doesn't have tagName", () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            attributes: {
+              rel: 'icon',
+              href: 'img/docusaurus.png',
+            },
+          },
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""headTags[0].tagName" is required
+      "
+    `);
+  });
+
+  it("throws error if headTags doesn't have attributes", () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'link',
+          },
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""headTags[0].attributes" is required
+      "
+    `);
+  });
+
+  it("throws error if headTags doesn't have string attributes", () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: false,
+              href: 'img/docusaurus.png',
+            },
+          },
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""headTags[0].attributes.rel" must be a string
+      "
+    `);
+  });
+
   it("throws error if css doesn't have href", () => {
     expect(() => {
       normalizeConfig({
@@ -324,7 +449,7 @@ describe('normalizeConfig', () => {
   });
 });
 
-describe('config warnings', () => {
+describe('config warning and error', () => {
   function getWarning(config: unknown) {
     return ConfigSchema.validate(config).warning;
   }
@@ -334,15 +459,55 @@ describe('config warnings', () => {
     expect(warning).toBeUndefined();
   });
 
-  it('site url has warning when using subpath', () => {
-    const warning = getWarning({
+  it('site url fails validation when using subpath', () => {
+    const {error} = ConfigSchema.validate({
       ...baseConfig,
       url: 'https://mysite.com/someSubpath',
-    })!;
-    expect(warning).toBeDefined();
-    expect(warning.details).toHaveLength(1);
-    expect(warning.details[0]!.message).toMatchInlineSnapshot(
-      `"Docusaurus config validation warning. Field "url": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
+    });
+    expect(error).toBeDefined();
+    expect(error.message).toBe(
+      'The url is not supposed to contain a sub-path like "/someSubpath". Please use the baseUrl field for sub-paths.',
     );
+  });
+});
+
+describe('markdown', () => {
+  it('accepts undefined object', () => {
+    expect(
+      normalizeConfig({
+        markdown: undefined,
+      }),
+    ).toEqual(expect.objectContaining({markdown: DEFAULT_CONFIG.markdown}));
+  });
+
+  it('accepts empty object', () => {
+    expect(
+      normalizeConfig({
+        markdown: {},
+      }),
+    ).toEqual(expect.objectContaining({markdown: DEFAULT_CONFIG.markdown}));
+  });
+
+  it('accepts valid markdown object', () => {
+    const markdown: DocusaurusConfig['markdown'] = {
+      mermaid: true,
+    };
+    expect(
+      normalizeConfig({
+        markdown,
+      }),
+    ).toEqual(expect.objectContaining({markdown}));
+  });
+
+  it('throw for null object', () => {
+    expect(() => {
+      normalizeConfig({
+        // @ts-expect-error: test
+        markdown: null,
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown" must be of type object
+      "
+    `);
   });
 });

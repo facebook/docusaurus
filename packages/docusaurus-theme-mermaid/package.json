@@ -1,0 +1,57 @@
+{
+  "name": "@docusaurus/theme-mermaid",
+  "version": "2.2.0",
+  "description": "Mermaid components for Docusaurus.",
+  "main": "lib/index.js",
+  "types": "src/theme-mermaid.d.ts",
+  "sideEffects": false,
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/theme-mermaid.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-mermaid"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+  },
+  "dependencies": {
+    "@docusaurus/core": "2.2.0",
+    "@docusaurus/module-type-aliases": "2.2.0",
+    "@docusaurus/theme-common": "2.2.0",
+    "@docusaurus/types": "2.2.0",
+    "@docusaurus/utils-validation": "2.2.0",
+    "@mdx-js/react": "^1.6.22",
+    "mermaid": "^9.1.1",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/mdx-js__react": "^1.5.5",
+    "@types/mermaid": "^8.2.9",
+    "react-test-renderer": "^17.0.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
+  },
+  "engines": {
+    "node": ">=16.14"
+  }
+}

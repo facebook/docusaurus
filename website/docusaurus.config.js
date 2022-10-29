@@ -35,12 +35,6 @@ function getNextVersionName() {
   return `${expectedPrefix}${version + 1}`;
 }
 
-const allDocHomesPaths = [
-  '/docs/',
-  '/docs/next/',
-  ...versions.slice(1).map((version) => `/docs/${version}/`),
-];
-
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
@@ -114,6 +108,9 @@ const config = {
       },
     }),
   },
+  markdown: {
+    mermaid: true,
+  },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
@@ -180,9 +177,8 @@ const config = {
       ({
         fromExtensions: ['html'],
         createRedirects(routePath) {
-          // Redirect to /docs from /docs/introduction, as introduction has been
-          // made the home doc
-          if (allDocHomesPaths.includes(routePath)) {
+          // Redirect to /docs from /docs/introduction (now docs root doc)
+          if (routePath === '/docs' || routePath === '/docs/') {
             return [`${routePath}/introduction`];
           }
           return [];
@@ -276,6 +272,7 @@ const config = {
         ],
       },
     ],
+    '@docusaurus/theme-mermaid',
     ...dogfoodingPluginInstances,
   ],
   presets: [

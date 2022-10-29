@@ -65,6 +65,9 @@ export const URISchema = Joi.alternatives(
   // This custom validation logic is required notably because Joi does not
   // accept paths like /a/b/c ...
   Joi.custom((val: unknown, helpers) => {
+    if (typeof val !== 'string') {
+      return helpers.error('any.invalid');
+    }
     try {
       // eslint-disable-next-line no-new
       new URL(String(val));

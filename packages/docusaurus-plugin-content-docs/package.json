@@ -1,10 +1,11 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": false,
   "exports": {
+    "./lib/*": "./lib/*",
     "./src/*": "./src/*",
     "./client": {
       "type": "./lib/client/index.d.ts",
@@ -34,13 +35,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.1.0",
-    "@docusaurus/logger": "2.1.0",
-    "@docusaurus/mdx-loader": "2.1.0",
-    "@docusaurus/module-type-aliases": "2.1.0",
-    "@docusaurus/types": "2.1.0",
-    "@docusaurus/utils": "2.1.0",
-    "@docusaurus/utils-validation": "2.1.0",
+    "@docusaurus/core": "2.2.0",
+    "@docusaurus/logger": "2.2.0",
+    "@docusaurus/mdx-loader": "2.2.0",
+    "@docusaurus/module-type-aliases": "2.2.0",
+    "@docusaurus/types": "2.2.0",
+    "@docusaurus/utils": "2.2.0",
+    "@docusaurus/utils-validation": "2.2.0",
     "@types/react-router-config": "^5.0.6",
     "combine-promises": "^1.1.0",
     "fs-extra": "^10.1.0",

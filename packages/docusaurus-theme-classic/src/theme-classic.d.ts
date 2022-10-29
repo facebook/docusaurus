@@ -788,6 +788,7 @@ declare module '@theme/MDXComponents' {
   import type MDXUl from '@theme/MDXComponents/Ul';
   import type MDXImg from '@theme/MDXComponents/Img';
   import type Admonition from '@theme/Admonition';
+  import type Mermaid from '@theme/Mermaid';
 
   export type MDXComponentsObject = {
     readonly head: typeof MDXHead;
@@ -804,6 +805,7 @@ declare module '@theme/MDXComponents' {
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
     readonly admonition: typeof Admonition;
+    readonly mermaid: typeof Mermaid;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [tagName: string]: ComponentType<any>;
   };
@@ -1110,6 +1112,14 @@ declare module '@theme/PaginatorNavLink' {
 
 declare module '@theme/SearchBar' {
   export default function SearchBar(): JSX.Element;
+}
+
+declare module '@theme/Mermaid' {
+  export interface Props {
+    value: string;
+  }
+
+  export default function Mermaid(props: Props): JSX.Element;
 }
 
 declare module '@theme/TabItem' {

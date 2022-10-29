@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
+import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {
   createFromExtensionsRedirects,
@@ -80,16 +81,59 @@ function validateCollectedRedirects(
 
   const allowedToPaths = pluginContext.relativeRoutesPaths;
   const toPaths = redirects.map((redirect) => redirect.to);
-  const illegalToPaths = _.difference(toPaths, allowedToPaths);
-  if (illegalToPaths.length > 0) {
-    throw new Error(
-      `You are trying to create client-side redirections to paths that do not exist:
-- ${illegalToPaths.join('\n- ')}
+  const trailingSlashConfig = pluginContext.siteConfig.trailingSlash;
+  // Key is the path, value is whether a valid toPath with a different trailing
+  // slash exists; if the key doesn't exist it means it's valid
+  const differByTrailSlash = new Map(toPaths.map((path) => [path, false]));
+  allowedToPaths.forEach((toPath) => {
+    if (differByTrailSlash.has(toPath)) {
+      differByTrailSlash.delete(toPath);
+    } else if (differByTrailSlash.has(removeTrailingSlash(toPath))) {
+      if (trailingSlashConfig === true) {
+        differByTrailSlash.set(removeTrailingSlash(toPath), true);
+      } else {
+        differByTrailSlash.delete(removeTrailingSlash(toPath));
+      }
+    } else if (differByTrailSlash.has(addTrailingSlash(toPath))) {
+      if (trailingSlashConfig === false) {
+        differByTrailSlash.set(addTrailingSlash(toPath), true);
+      } else {
+        differByTrailSlash.delete(addTrailingSlash(toPath));
+      }
+    }
+  });
+  if (differByTrailSlash.size > 0) {
+    console.log(differByTrailSlash);
+    const errors = Array.from(differByTrailSlash.entries());
+
+    let message =
+      'You are trying to create client-side redirections to invalid paths.\n';
+
+    const [trailingSlashIssues, invalidPaths] = _.partition(
+      errors,
+      ([, differ]) => differ,
+    );
+
+    if (trailingSlashIssues.length) {
+      message += `
+These paths do exist, but because you have explicitly set trailingSlash=${trailingSlashConfig}, you need to write the path ${
+        trailingSlashConfig ? 'with trailing slash' : 'without trailing slash'
+      }:
+- ${trailingSlashIssues.map(([p]) => p).join('\n- ')}
+`;
+    }
+
+    if (invalidPaths.length) {
+      message += `
+These paths are redirected to but do not exist:
+- ${invalidPaths.map(([p]) => p).join('\n- ')}
 
 Valid paths you can redirect to:
 - ${allowedToPaths.join('\n- ')}
-`,
-    );
+`;
+    }
+
+    throw new Error(message);
   }
 }
 

@@ -78,3 +78,10 @@ export {duplicates, uniq} from './utils/jsUtils';
 export {usePrismTheme} from './hooks/usePrismTheme';
 
 export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';
+
+export {processAdmonitionProps} from './utils/admonitionUtils';
+
+export {
+  SkipToContentFallbackId,
+  SkipToContentLink,
+} from './utils/skipToContentUtils';

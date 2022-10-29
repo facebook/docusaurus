@@ -98,7 +98,7 @@ export async function swizzle(
   const options = normalizeOptions(optionsParam);
   const {list, danger, typescript} = options;
 
-  const {plugins} = await initSwizzleContext(siteDir);
+  const {plugins} = await initSwizzleContext(siteDir, options);
   const themeNames = getThemeNames(plugins);
 
   if (list && !themeNameParam) {
