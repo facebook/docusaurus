@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## 2.2.0 (2022-10-28)
+## 2.2.0 (2022-10-29)
 
 #### :rocket: New Feature
 
