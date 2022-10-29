@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Simple sitemap generation plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,12 +18,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.1.0",
-    "@docusaurus/logger": "2.1.0",
-    "@docusaurus/types": "2.1.0",
-    "@docusaurus/utils": "2.1.0",
-    "@docusaurus/utils-common": "2.1.0",
-    "@docusaurus/utils-validation": "2.1.0",
+    "@docusaurus/core": "2.2.0",
+    "@docusaurus/logger": "2.2.0",
+    "@docusaurus/types": "2.2.0",
+    "@docusaurus/utils": "2.2.0",
+    "@docusaurus/utils-common": "2.2.0",
+    "@docusaurus/utils-validation": "2.2.0",
     "fs-extra": "^10.1.0",
     "sitemap": "^7.1.1",
     "tslib": "^2.4.0"
