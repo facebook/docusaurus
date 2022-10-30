@@ -149,7 +149,8 @@ describe('Tabs', () => {
       renderer.create(
         <StaticRouter location={{pathname: '/'}}>
           <Tabs queryString>
-            <TabItem value="good">Good</TabItem>
+            <TabItem value="val1">Val1</TabItem>
+            <TabItem value="val2">Val2</TabItem>
           </Tabs>
         </StaticRouter>,
       );

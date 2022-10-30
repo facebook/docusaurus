@@ -8,6 +8,8 @@
 import React, {
   cloneElement,
   isValidElement,
+  useCallback,
+  useEffect,
   useState,
   type ReactElement,
 } from 'react';
@@ -31,6 +33,32 @@ function isTabItem(
   return 'value' in comp.props;
 }
 
+const getSearchKey = (queryString?: string | boolean, groupId = '') =>
+  typeof queryString === 'string' ? queryString : groupId;
+const useTabQueryString = () => {
+  const location = useLocation();
+  const history = useHistory();
+
+  const get = useCallback(
+    (queryString?: string | boolean, groupId = '') => {
+      const searchKey = getSearchKey(queryString, groupId);
+      return new URLSearchParams(location.search).get(searchKey);
+    },
+    [location.search],
+  );
+  const set = useCallback(
+    (newTabValue: string, queryString: string | boolean, groupId = '') => {
+      const searchKey = getSearchKey(queryString, groupId);
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set(searchKey, newTabValue);
+      history.replace({...location, search: searchParams.toString()});
+    },
+    [history, location],
+  );
+
+  return {get, set};
+};
+
 function TabsComponent(props: Props): JSX.Element {
   const {
     lazy,
@@ -41,8 +69,6 @@ function TabsComponent(props: Props): JSX.Element {
     className,
     queryString = false,
   } = props;
-  const location = useLocation();
-  const history = useHistory();
   const children = React.Children.map(props.children, (child) => {
     if (isValidElement(child) && isTabItem(child)) {
       return child;
@@ -56,6 +82,7 @@ function TabsComponent(props: Props): JSX.Element {
       }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
     );
   });
+  const tabQueryString = useTabQueryString();
   const values =
     valuesProp ??
     // Only pick keys that we recognize. MDX would inject some keys by default
@@ -95,17 +122,11 @@ function TabsComponent(props: Props): JSX.Element {
   }
 
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
-  // search params >
   // local storage >
   // specified defaultValue >
   // first child with "default" attr >
   // first tab item.
   let defaultValue: string | null | undefined;
-  if (queryString) {
-    const searchKey =
-      typeof queryString === 'string' ? queryString : groupId || '';
-    defaultValue = new URLSearchParams(location.search).get(searchKey);
-  }
   // If we didn't find the right value in search params or local storage,
   // fallback to props > child with "default" specified > first tab.
   if (!defaultValue || !values.some((a) => a.value === defaultValue)) {
@@ -147,11 +168,7 @@ function TabsComponent(props: Props): JSX.Element {
       setSelectedValue(newTabValue);
 
       if (queryString) {
-        const searchKey =
-          typeof queryString === 'string' ? queryString : groupId || '';
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set(searchKey, newTabValue);
-        history.push({...location, search: searchParams.toString()});
+        tabQueryString.set(newTabValue, queryString, groupId);
       }
 
       if (groupId != null) {
@@ -184,6 +201,15 @@ function TabsComponent(props: Props): JSX.Element {
 
     focusElement?.focus();
   };
+  useEffect(() => {
+    if (queryString) {
+      const queryValue = tabQueryString.get(queryString, groupId);
+      if (queryValue) {
+        setSelectedValue(queryValue);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={clsx('tabs-container', styles.tabList)}>
