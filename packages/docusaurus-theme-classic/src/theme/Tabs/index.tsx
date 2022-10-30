@@ -88,6 +88,12 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
+  if (queryString === true && !groupId) {
+    throw new Error(
+      `Docusaurus error: The <Tabs> component needs to have groupId specified if queryString is true.`,
+    );
+  }
+
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
   // search params >
   // local storage >

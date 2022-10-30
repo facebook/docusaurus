@@ -24,7 +24,6 @@ describe('Tabs', () => {
             <div>Naughty</div>
             <TabItem value="good">Good</TabItem>
           </Tabs>
-          ,
         </StaticRouter>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
@@ -144,5 +143,18 @@ describe('Tabs', () => {
         </StaticRouter>,
       );
     }).not.toThrow();
+  });
+  it('rejects if querystring is true, but groupId falsy', () => {
+    expect(() => {
+      renderer.create(
+        <StaticRouter location={{pathname: '/'}}>
+          <Tabs queryString>
+            <TabItem value="good">Good</TabItem>
+          </Tabs>
+        </StaticRouter>,
+      );
+    }).toThrow(
+      'Docusaurus error: The <Tabs> component needs to have groupId specified if queryString is true.',
+    );
   });
 });
