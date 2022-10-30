@@ -11,17 +11,21 @@ import {
   TabGroupChoiceProvider,
   ScrollControllerProvider,
 } from '@docusaurus/theme-common/internal';
+import {StaticRouter} from 'react-router-dom';
 import Tabs from '../index';
 import TabItem from '../../TabItem';
 
-describe.skip('Tabs', () => {
+describe('Tabs', () => {
   it('rejects bad Tabs child', () => {
     expect(() => {
       renderer.create(
-        <Tabs>
-          <div>Naughty</div>
-          <TabItem value="good">Good</TabItem>
-        </Tabs>,
+        <StaticRouter location={{pathname: '/'}}>
+          <Tabs>
+            <div>Naughty</div>
+            <TabItem value="good">Good</TabItem>
+          </Tabs>
+          ,
+        </StaticRouter>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop."`,
@@ -30,10 +34,12 @@ describe.skip('Tabs', () => {
   it('rejects bad Tabs defaultValue', () => {
     expect(() => {
       renderer.create(
-        <Tabs defaultValue="bad">
-          <TabItem value="v1">Tab 1</TabItem>
-          <TabItem value="v2">Tab 2</TabItem>
-        </Tabs>,
+        <StaticRouter location={{pathname: '/'}}>
+          <Tabs defaultValue="bad">
+            <TabItem value="v1">Tab 1</TabItem>
+            <TabItem value="v2">Tab 2</TabItem>
+          </Tabs>
+        </StaticRouter>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus error: The <Tabs> has a defaultValue "bad" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
@@ -42,14 +48,16 @@ describe.skip('Tabs', () => {
   it('rejects duplicate values', () => {
     expect(() => {
       renderer.create(
-        <Tabs>
-          <TabItem value="v1">Tab 1</TabItem>
-          <TabItem value="v2">Tab 2</TabItem>
-          <TabItem value="v3">Tab 3</TabItem>
-          <TabItem value="v4">Tab 4</TabItem>
-          <TabItem value="v1">Tab 5</TabItem>
-          <TabItem value="v2">Tab 6</TabItem>
-        </Tabs>,
+        <StaticRouter location={{pathname: '/'}}>
+          <Tabs>
+            <TabItem value="v1">Tab 1</TabItem>
+            <TabItem value="v2">Tab 2</TabItem>
+            <TabItem value="v3">Tab 3</TabItem>
+            <TabItem value="v4">Tab 4</TabItem>
+            <TabItem value="v1">Tab 5</TabItem>
+            <TabItem value="v2">Tab 6</TabItem>
+          </Tabs>
+        </StaticRouter>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus error: Duplicate values "v1, v2" found in <Tabs>. Every value needs to be unique."`,
@@ -58,54 +66,56 @@ describe.skip('Tabs', () => {
   it('accepts valid Tabs config', () => {
     expect(() => {
       renderer.create(
-        <ScrollControllerProvider>
-          <TabGroupChoiceProvider>
-            <Tabs>
-              <TabItem value="v1">Tab 1</TabItem>
-              <TabItem value="v2">Tab 2</TabItem>
-            </Tabs>
-            <Tabs>
-              <TabItem value="v1">Tab 1</TabItem>
-              <TabItem value="v2" default>
-                Tab 2
-              </TabItem>
-            </Tabs>
-            <Tabs defaultValue="v1">
-              <TabItem value="v1" label="V1">
-                Tab 1
-              </TabItem>
-              <TabItem value="v2" label="V2">
-                Tab 2
-              </TabItem>
-            </Tabs>
-            <Tabs
-              defaultValue="v1"
-              values={[
-                {value: 'v1', label: 'V1'},
-                {value: 'v2', label: 'V2'},
-              ]}>
-              <TabItem value="v1">Tab 1</TabItem>
-              <TabItem value="v2">Tab 2</TabItem>
-            </Tabs>
-            <Tabs
-              defaultValue={null}
-              values={[
-                {value: 'v1', label: 'V1'},
-                {value: 'v2', label: 'V2'},
-              ]}>
-              <TabItem value="v1">Tab 1</TabItem>
-              <TabItem value="v2">Tab 2</TabItem>
-            </Tabs>
-            <Tabs defaultValue={null}>
-              <TabItem value="v1" label="V1">
-                Tab 1
-              </TabItem>
-              <TabItem value="v2" label="V2">
-                Tab 2
-              </TabItem>
-            </Tabs>
-          </TabGroupChoiceProvider>
-        </ScrollControllerProvider>,
+        <StaticRouter location={{pathname: '/'}}>
+          <ScrollControllerProvider>
+            <TabGroupChoiceProvider>
+              <Tabs>
+                <TabItem value="v1">Tab 1</TabItem>
+                <TabItem value="v2">Tab 2</TabItem>
+              </Tabs>
+              <Tabs>
+                <TabItem value="v1">Tab 1</TabItem>
+                <TabItem value="v2" default>
+                  Tab 2
+                </TabItem>
+              </Tabs>
+              <Tabs defaultValue="v1">
+                <TabItem value="v1" label="V1">
+                  Tab 1
+                </TabItem>
+                <TabItem value="v2" label="V2">
+                  Tab 2
+                </TabItem>
+              </Tabs>
+              <Tabs
+                defaultValue="v1"
+                values={[
+                  {value: 'v1', label: 'V1'},
+                  {value: 'v2', label: 'V2'},
+                ]}>
+                <TabItem value="v1">Tab 1</TabItem>
+                <TabItem value="v2">Tab 2</TabItem>
+              </Tabs>
+              <Tabs
+                defaultValue={null}
+                values={[
+                  {value: 'v1', label: 'V1'},
+                  {value: 'v2', label: 'V2'},
+                ]}>
+                <TabItem value="v1">Tab 1</TabItem>
+                <TabItem value="v2">Tab 2</TabItem>
+              </Tabs>
+              <Tabs defaultValue={null}>
+                <TabItem value="v1" label="V1">
+                  Tab 1
+                </TabItem>
+                <TabItem value="v2" label="V2">
+                  Tab 2
+                </TabItem>
+              </Tabs>
+            </TabGroupChoiceProvider>
+          </ScrollControllerProvider>
+        </StaticRouter>,
       );
     }).not.toThrow(); // TODO Better Jest infrastructure to mock the Layout
   });
@@ -114,22 +124,24 @@ describe.skip('Tabs', () => {
     expect(() => {
       const tabs = ['Apple', 'Banana', 'Carrot'];
       renderer.create(
-        <ScrollControllerProvider>
-          <TabGroupChoiceProvider>
-            <Tabs
-              // @ts-expect-error: for an edge-case that we didn't write types for
-              values={tabs.map((t, idx) => ({label: t, value: idx}))}
-              // @ts-expect-error: for an edge-case that we didn't write types for
-              defaultValue={0}>
-              {tabs.map((t, idx) => (
+        <StaticRouter location={{pathname: '/'}}>
+          <ScrollControllerProvider>
+            <TabGroupChoiceProvider>
+              <Tabs
                 // @ts-expect-error: for an edge-case that we didn't write types for
-                <TabItem key={idx} value={idx}>
-                  {t}
-                </TabItem>
-              ))}
-            </Tabs>
-          </TabGroupChoiceProvider>
-        </ScrollControllerProvider>,
+                values={tabs.map((t, idx) => ({label: t, value: idx}))}
+                // @ts-expect-error: for an edge-case that we didn't write types for
+                defaultValue={0}>
+                {tabs.map((t, idx) => (
+                  // @ts-expect-error: for an edge-case that we didn't write types for
+                  <TabItem key={idx} value={idx}>
+                    {t}
+                  </TabItem>
+                ))}
+              </Tabs>
+            </TabGroupChoiceProvider>
+          </ScrollControllerProvider>
+        </StaticRouter>,
       );
     }).not.toThrow();
   });
