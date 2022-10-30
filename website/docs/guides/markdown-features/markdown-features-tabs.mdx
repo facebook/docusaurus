@@ -318,3 +318,33 @@ li[role='tab'][data-value='apple'] {
 ```
 
 :::
+
+## Query string
+
+If you need to share a URL with some tabs already preselected (e.g. a specific programming language) you can use a `queryString`. It can be a string that represents the search query key for the corresponding tab.
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString='query1'>
+    <TabItem value="android" label="Android">Android content</TabItem>
+    <TabItem value="ios" label="iOS">iOS content</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+Another option is to specify it as a boolean with a value of `true`. This configuration uses existing `groupId` as a search query key, thus the `groupId` attribute must be specified.
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString={true} groupId='operating-systems'>
+    <TabItem value="android" label="Android">Android content</TabItem>
+    <TabItem value="ios" label="iOS">iOS content</TabItem>
+  </Tabs>
+  <Tabs queryString={true} groupId='operating-systems'>
+    <TabItem value="android" label="Android">Android content</TabItem>
+    <TabItem value="ios" label="iOS">iOS content</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+The `queryString` param is `false` by default.
