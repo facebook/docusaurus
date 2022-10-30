@@ -122,13 +122,7 @@ function TabsComponent(props: Props): JSX.Element {
   }
 
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
-  // local storage >
-  // specified defaultValue >
-  // first child with "default" attr >
-  // first tab item.
   let defaultValue: string | null | undefined;
-  // If we didn't find the right value in search params or local storage,
-  // fallback to props > child with "default" specified > first tab.
   if (!defaultValue || !values.some((a) => a.value === defaultValue)) {
     defaultValue =
       defaultValueProp !== undefined
