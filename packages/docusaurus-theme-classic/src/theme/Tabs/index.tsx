@@ -122,14 +122,11 @@ function TabsComponent(props: Props): JSX.Element {
   }
 
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
-  let defaultValue: string | null | undefined;
-  if (!defaultValue || !values.some((a) => a.value === defaultValue)) {
-    defaultValue =
-      defaultValueProp !== undefined
-        ? defaultValueProp
-        : children.find((child) => child.props.default)?.props.value ??
-          children[0]!.props.value;
-  }
+  const defaultValue =
+    defaultValueProp !== undefined
+      ? defaultValueProp
+      : children.find((child) => child.props.default)?.props.value ??
+        children[0]!.props.value;
 
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
