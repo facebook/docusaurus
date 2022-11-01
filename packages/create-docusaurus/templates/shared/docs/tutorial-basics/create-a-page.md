@@ -2,42 +2,38 @@
 sidebar_position: 1
 ---
 
-# Create a Page
+# Gösterge Paneli (Dashboard)
 
-Add **Markdown or React** files to `src/pages` to create a **standalone page**:
+Ana sayfada, **Gösterge Paneli** açılmaktadır.
 
-- `src/pages/index.js` → `localhost:3000/`
-- `src/pages/foo.md` → `localhost:3000/foo`
-- `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
+İçeride olan tüm işlemleri liste halinde veya grafik halinde gösteren alan **Gösterge Paneli**dir.
 
-## Create your first React Page
+**Yeni Panel Ekle** butonundan yeni panel ekleme, **Panel Temizle** butonundan yapılan değişiklikler temizlenmektedir.
 
-Create a file at `src/pages/my-react-page.js`:
+![Gösterge Paneli](./img/gostergepaneli1.png)
 
-```jsx title="src/pages/my-react-page.js"
-import React from 'react';
-import Layout from '@theme/Layout';
+**Yeni Panel Ekle** butonuna tıklandığında aşağıdaki ekran çıkmaktadır.
 
-export default function MyReactPage() {
-  return (
-    <Layout>
-      <h1>My React page</h1>
-      <p>This is a React page</p>
-    </Layout>
-  );
-}
-```
+![Gösterge Paneli](./img/gostergepaneli2.png)
 
-A new page is now available at [http://localhost:3000/my-react-page](http://localhost:3000/my-react-page).
+Panel tasarımı sürükle bırak yöntemi ile düzenlenebilmektedir.
 
-## Create your first Markdown Page
+Resimde görüldüğü gibi grafiği istenildiği yöne sürüklediğinizde diğer grafiklerin yerlerini tercihe göre ayarlar.
 
-Create a file at `src/pages/my-markdown-page.md`:
+![Gösterge Paneli](./img/gostergepaneli3.png)
 
-```mdx title="src/pages/my-markdown-page.md"
-# My Markdown page
+Gösterge Panelinden ilgili grafiğe tıklayarak detaylı verinin olduğu sayfaya yönlendirilirsiniz.
 
-This is a Markdown page
-```
+![Gösterge Paneli](./img/gostergepaneli4.png)
 
-A new page is now available at [http://localhost:3000/my-markdown-page](http://localhost:3000/my-markdown-page).
+Resimde gösterildiği gibi **Açık Olaylar**’a tıklandığında ayrı bir sayfa açıp kayıtları göstermektedir.
+
+![Gösterge Paneli](./img/gostergepaneli5.png)
+
+**Atanmayan Olay Listesi**, **Açık Olay Listem** de ise kayıtları liste halinde göstermektedir. 
+
+![Gösterge Paneli](./img/gostergepaneli6.png)
+
+Bir kayıta tıkladığınızda kayıtın içeriği aşağıdaki gibi görünmektedir.
+
+![Gösterge Paneli](./img/gostergepaneli7.png)
