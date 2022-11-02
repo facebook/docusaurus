@@ -9,6 +9,7 @@ import {
   Joi,
   validateFrontMatter,
   FrontMatterTOCHeadingLevels,
+  ContentVisibilitySchema,
 } from '@docusaurus/utils-validation';
 import type {FrontMatter} from '@docusaurus/plugin-content-pages';
 
@@ -17,10 +18,8 @@ const PageFrontMatterSchema = Joi.object<FrontMatter>({
   description: Joi.string(),
   wrapperClassName: Joi.string(),
   hide_table_of_contents: Joi.boolean(),
-  draft: Joi.boolean(),
-  unlisted: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
-});
+}).concat(ContentVisibilitySchema);
 
 export function validatePageFrontMatter(frontMatter: {
   [key: string]: unknown;
