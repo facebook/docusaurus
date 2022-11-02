@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "选择版本",
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
-  "theme.tags.tagsPageTitle": "标签"
+  "theme.tags.tagsPageTitle": "标签",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

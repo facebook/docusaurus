@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versiones",
   "theme.tags.tagsListLabel": "Etiquetas:",
   "theme.tags.tagsPageLink": "Ver Todas las Etiquetas",
-  "theme.tags.tagsPageTitle": "Etiquetas"
+  "theme.tags.tagsPageTitle": "Etiquetas",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

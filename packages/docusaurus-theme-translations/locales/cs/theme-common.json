@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tagy:",
   "theme.tags.tagsPageLink": "Zobrazit všechny tagy",
-  "theme.tags.tagsPageTitle": "Tagy"
+  "theme.tags.tagsPageTitle": "Tagy",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

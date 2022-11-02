@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Версии",
   "theme.tags.tagsListLabel": "Теги:",
   "theme.tags.tagsPageLink": "Посмотреть все теги",
-  "theme.tags.tagsPageTitle": "Теги"
+  "theme.tags.tagsPageTitle": "Теги",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

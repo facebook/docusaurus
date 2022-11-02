@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versioner",
   "theme.tags.tagsListLabel": "Taggar:",
   "theme.tags.tagsPageLink": "Visa Alla Taggar",
-  "theme.tags.tagsPageTitle": "Taggar"
+  "theme.tags.tagsPageTitle": "Taggar",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

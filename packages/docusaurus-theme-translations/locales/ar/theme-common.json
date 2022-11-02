@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "إصدارات",
   "theme.tags.tagsListLabel": "الوسوم:",
   "theme.tags.tagsPageLink": "عرض كل الوسوم",
-  "theme.tags.tagsPageTitle": "الوسوم"
+  "theme.tags.tagsPageTitle": "الوسوم",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

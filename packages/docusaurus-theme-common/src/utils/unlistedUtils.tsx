@@ -14,7 +14,7 @@ export function UnlistedBannerTitle(): JSX.Element {
     <Translate
       id="theme.unlistedContent.title"
       description="The unlisted content banner title">
-      Unlisted content
+      Unlisted page
     </Translate>
   );
 }
@@ -24,7 +24,8 @@ export function UnlistedBannerMessage(): JSX.Element {
     <Translate
       id="theme.unlistedContent.message"
       description="The unlisted content banner message">
-      This page is unlisted and can only be accessed directly.
+      This page is unlisted. Search engines will not index it, and only users
+      having a direct link can access it.
     </Translate>
   );
 }
