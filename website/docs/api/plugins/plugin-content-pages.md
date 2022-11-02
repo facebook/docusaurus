@@ -95,7 +95,7 @@ Accepted fields:
 | `description` | `string` | The first line of Markdown content | The description of your page, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
 | `draft` | `boolean` | `false` | Draft pages will only be available during development. |
-| `unlisted` | `boolean` | `false` | Unlisted pages will be available in both development and production. They will be "hidden" in production and can only be accessed if the url is known. |
+| `unlisted` | `boolean` | `false` | Unlisted pages will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
 
 ```mdx-code-block
 </APITable>
@@ -133,8 +133,4 @@ website/i18n/[locale]/docusaurus-plugin-content-pages
 │ # translations for website/src/pages
 ├── first-markdown-page.md
 └── second-markdown-page.md
-```
-
-```
-
 ```

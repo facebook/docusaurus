@@ -193,7 +193,7 @@ Accepted fields:
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
 | `draft` | `boolean` | `false` | Draft blog posts will only be available during development. |
-| `unlisted` | `boolean` | `false` | Unlisted blog posts will be available in both development and production. They will be "hidden" in production and can only be accessed if the url is known. |
+| `unlisted` | `boolean` | `false` | Unlisted blog posts will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
 | `toc_min_heading_level` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
 | `toc_max_heading_level` | `number` | `3` | The max heading level shown in the table of contents. Must be between 2 and 6. |
