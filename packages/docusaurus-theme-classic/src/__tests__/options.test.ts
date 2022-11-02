@@ -62,7 +62,7 @@ describe('themeConfig', () => {
         textColor: '#000',
         isCloseable: true,
       },
-      image: 'img/docusaurus-soc.png',
+      image: 'img/docusaurus-social-card.jpg',
       navbar: {
         style: 'primary',
         hideOnScroll: true,
