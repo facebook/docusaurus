@@ -57,6 +57,7 @@ function createSampleVersion(
     badge: true,
     className: '',
     drafts: [],
+    noIndex: false,
     docs: [
       createSampleDoc({id: 'doc1'}),
       createSampleDoc({id: 'doc2'}),

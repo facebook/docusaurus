@@ -25,6 +25,7 @@ import {DisabledSidebars} from '../sidebars';
 import * as cliDocs from '../cli';
 import {validateOptions} from '../options';
 
+import type {FullVersion} from '../types';
 import type {RouteConfig, Validate, Plugin} from '@docusaurus/types';
 import type {
   LoadedVersion,
@@ -81,19 +82,19 @@ const createFakeActions = (contentDir: string) => {
     },
   };
 
-  // Query by prefix, because files have a hash at the end so it's not
+  // Query by substring, because files have a hash at the end so it's not
   // convenient to query by full filename
-  function getCreatedDataByPrefix(prefix: string) {
+  function searchCreatedData(search: string) {
     const entry = Object.entries(dataContainer).find(([key]) =>
-      key.startsWith(prefix),
+      key.includes(search),
     );
     if (!entry) {
-      throw new Error(`No created entry found for prefix "${prefix}".
+      throw new Error(`No created entry found for substring "${search}".
 Entries created:
 - ${Object.keys(dataContainer).join('\n- ')}
         `);
     }
-    return JSON.parse(entry[1] as string) as PropSidebars;
+    return JSON.parse(entry[1] as string) as unknown;
   }
 
   // Extra fns useful for tests!
@@ -101,14 +102,23 @@ Entries created:
     getGlobalData: () => globalDataContainer,
     getRouteConfigs: () => routeConfigs,
 
-    checkVersionMetadataPropCreated: (version: LoadedVersion | undefined) => {
+    checkVersionMetadataPropCreated: (
+      version: LoadedVersion | undefined,
+      docIds: string[],
+    ) => {
       if (!version) {
         throw new Error('Version not found');
       }
-      const versionMetadataProp = getCreatedDataByPrefix(
+      const versionMetadataProp = searchCreatedData(
         `version-${_.kebabCase(version.versionName)}-metadata-prop`,
+      ) as PropSidebars;
+      expect(versionMetadataProp.docsSidebars).toEqual(
+        toSidebarsProp(version as FullVersion),
       );
-      expect(versionMetadataProp.docsSidebars).toEqual(toSidebarsProp(version));
+      docIds.forEach((id) => {
+        const docMetadataProp = searchCreatedData(_.kebabCase(id));
+        expect(docMetadataProp).toMatchSnapshot();
+      });
     },
 
     expectSnapshot: () => {
@@ -142,7 +152,11 @@ describe('sidebar', () => {
         },
       }),
     );
-    await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
+    const content = await plugin.loadContent!();
+    const {actions} = createFakeActions(siteDir);
+    await expect(
+      plugin.contentLoaded!({content, actions, allContent: {}}),
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 
   it('site with wrong sidebar file path', async () => {
@@ -327,12 +341,6 @@ describe('simple website', () => {
     expect(content.loadedVersions).toHaveLength(1);
     const [currentVersion] = content.loadedVersions;
 
-    expect(findDocById(currentVersion, 'foo/baz')).toMatchSnapshot();
-
-    expect(findDocById(currentVersion, 'hello')).toMatchSnapshot();
-
-    expect(getDocById(currentVersion, 'foo/bar')).toMatchSnapshot();
-
     expect(currentVersion!.sidebars).toMatchSnapshot();
 
     const {actions, utils} = createFakeActions(pluginContentDir);
@@ -343,7 +351,11 @@ describe('simple website', () => {
       allContent: {},
     });
 
-    utils.checkVersionMetadataPropCreated(currentVersion);
+    utils.checkVersionMetadataPropCreated(currentVersion, [
+      'foo/baz',
+      'hello',
+      'foo/bar',
+    ]);
 
     utils.expectSnapshot();
 
@@ -449,13 +461,6 @@ describe('versioned website', () => {
     expect(findDocById(version101, 'foo/baz')).toBeUndefined();
     expect(findDocById(versionWithSlugs, 'foo/baz')).toBeUndefined();
 
-    expect(getDocById(currentVersion, 'foo/bar')).toMatchSnapshot();
-    expect(getDocById(version101, 'foo/bar')).toMatchSnapshot();
-
-    expect(getDocById(currentVersion, 'hello')).toMatchSnapshot();
-    expect(getDocById(version101, 'hello')).toMatchSnapshot();
-    expect(getDocById(version100, 'foo/baz')).toMatchSnapshot();
-
     expect(currentVersion!.sidebars).toMatchSnapshot(
       'current version sidebars',
     );
@@ -472,10 +477,10 @@ describe('versioned website', () => {
       allContent: {},
     });
 
-    utils.checkVersionMetadataPropCreated(currentVersion);
-    utils.checkVersionMetadataPropCreated(version101);
-    utils.checkVersionMetadataPropCreated(version100);
-    utils.checkVersionMetadataPropCreated(versionWithSlugs);
+    utils.checkVersionMetadataPropCreated(currentVersion, ['foo/bar', 'hello']);
+    utils.checkVersionMetadataPropCreated(version101, ['foo/bar', 'hello']);
+    utils.checkVersionMetadataPropCreated(version100, ['foo/baz']);
+    utils.checkVersionMetadataPropCreated(versionWithSlugs, []);
 
     utils.expectSnapshot();
   });
@@ -562,9 +567,6 @@ describe('versioned website (community)', () => {
     expect(content.loadedVersions).toHaveLength(2);
     const [currentVersion, version100] = content.loadedVersions;
 
-    expect(getDocById(currentVersion, 'team')).toMatchSnapshot();
-    expect(getDocById(version100, 'team')).toMatchSnapshot();
-
     expect(currentVersion!.sidebars).toMatchSnapshot(
       'current version sidebars',
     );
@@ -577,8 +579,8 @@ describe('versioned website (community)', () => {
       allContent: {},
     });
 
-    utils.checkVersionMetadataPropCreated(currentVersion);
-    utils.checkVersionMetadataPropCreated(version100);
+    utils.checkVersionMetadataPropCreated(currentVersion, ['team']);
+    utils.checkVersionMetadataPropCreated(version100, ['team']);
 
     utils.expectSnapshot();
   });
@@ -608,7 +610,7 @@ describe('site with doc label', () => {
   it('label in sidebar.json is used', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0]!;
-    const sidebarProps = toSidebarsProp(loadedVersion);
+    const sidebarProps = toSidebarsProp(loadedVersion as FullVersion);
 
     expect((sidebarProps.docs![0] as PropSidebarItemLink).label).toBe(
       'Hello One',
@@ -618,7 +620,7 @@ describe('site with doc label', () => {
   it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0]!;
-    const sidebarProps = toSidebarsProp(loadedVersion);
+    const sidebarProps = toSidebarsProp(loadedVersion as FullVersion);
 
     expect((sidebarProps.docs![1] as PropSidebarItemLink).label).toBe(
       'Hello 2 From Doc',

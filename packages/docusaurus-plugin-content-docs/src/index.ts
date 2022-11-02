@@ -21,12 +21,7 @@ import {
 } from '@docusaurus/utils';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {
-  readVersionDocs,
-  processDocMetadata,
-  addDocNavigation,
-  type DocEnv,
-} from './docs';
+import {readVersionDocs, processDocMetadata, type DocEnv} from './docs';
 import {readVersionsMetadata, toFullVersion} from './versions';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
@@ -36,7 +31,6 @@ import {
   getLoadedContentTranslationFiles,
 } from './translations';
 import {createAllRoutes} from './routes';
-import {createSidebarsUtils} from './sidebars/utils';
 
 import type {
   PluginOptions,
@@ -171,18 +165,7 @@ export default async function pluginContentDocs(
           categoryLabelSlugger: createSlugger(),
         });
 
-        const sidebarsUtils = createSidebarsUtils(sidebars);
-
-        return {
-          ...versionMetadata,
-          docs: addDocNavigation(
-            docs,
-            sidebarsUtils,
-            versionMetadata.sidebarFilePath as string,
-          ),
-          drafts,
-          sidebars,
-        };
+        return {...versionMetadata, docs, drafts, sidebars};
       }
 
       async function loadVersion(versionMetadata: VersionMetadata) {

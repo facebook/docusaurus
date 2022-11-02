@@ -45,136 +45,6 @@ Available document ids are:
 
 exports[`simple website content 1`] = `
 {
-  "description": "Images",
-  "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
-  "frontMatter": {
-    "id": "baz",
-    "pagination_label": "baz pagination_label",
-    "slug": "bazSlug.html",
-    "tags": [
-      "tag 1",
-      "tag-1",
-      {
-        "label": "tag 2",
-        "permalink": "tag2-custom-permalink",
-      },
-    ],
-    "title": "baz",
-  },
-  "id": "foo/baz",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/category/slugs",
-    "title": "Slugs",
-  },
-  "permalink": "/docs/foo/bazSlug.html",
-  "previous": {
-    "permalink": "/docs/foo/bar",
-    "title": "Bar",
-  },
-  "sidebar": "docs",
-  "sidebarPosition": undefined,
-  "slug": "/foo/bazSlug.html",
-  "source": "@site/docs/foo/baz.md",
-  "sourceDirName": "foo",
-  "tags": [
-    {
-      "label": "tag 1",
-      "permalink": "/docs/tags/tag-1",
-    },
-    {
-      "label": "tag 2",
-      "permalink": "/docs/tags/tag2-custom-permalink",
-    },
-  ],
-  "title": "baz",
-  "unversionedId": "foo/baz",
-  "version": "current",
-}
-`;
-
-exports[`simple website content 2`] = `
-{
-  "description": "Hi, Endilie here :)",
-  "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
-  "frontMatter": {
-    "id": "hello",
-    "sidebar_label": "Hello sidebar_label",
-    "slug": "/",
-    "tags": [
-      "tag-1",
-      "tag 3",
-    ],
-    "title": "Hello, World !",
-  },
-  "id": "hello",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": undefined,
-  "permalink": "/docs/",
-  "previous": {
-    "permalink": "/docs/headingAsTitle",
-    "title": "My heading as title",
-  },
-  "sidebar": "docs",
-  "sidebarPosition": undefined,
-  "slug": "/",
-  "source": "@site/docs/hello.md",
-  "sourceDirName": ".",
-  "tags": [
-    {
-      "label": "tag-1",
-      "permalink": "/docs/tags/tag-1",
-    },
-    {
-      "label": "tag 3",
-      "permalink": "/docs/tags/tag-3",
-    },
-  ],
-  "title": "Hello, World !",
-  "unversionedId": "hello",
-  "version": "current",
-}
-`;
-
-exports[`simple website content 3`] = `
-{
-  "description": "This is custom description",
-  "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
-  "frontMatter": {
-    "description": "This is custom description",
-    "id": "bar",
-    "pagination_next": null,
-    "pagination_prev": null,
-    "title": "Bar",
-  },
-  "id": "foo/bar",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": undefined,
-  "permalink": "/docs/foo/bar",
-  "previous": undefined,
-  "sidebar": "docs",
-  "sidebarPosition": undefined,
-  "slug": "/foo/bar",
-  "source": "@site/docs/foo/bar.md",
-  "sourceDirName": "foo",
-  "tags": [],
-  "title": "Bar",
-  "unversionedId": "foo/bar",
-  "version": "current",
-}
-`;
-
-exports[`simple website content 4`] = `
-{
   "docs": [
     {
       "collapsed": true,
@@ -258,6 +128,118 @@ exports[`simple website content 4`] = `
       "type": "category",
     },
   ],
+}
+`;
+
+exports[`simple website content 2`] = `
+{
+  "description": "Images",
+  "draft": false,
+  "frontMatter": {
+    "id": "baz",
+    "pagination_label": "baz pagination_label",
+    "slug": "bazSlug.html",
+    "tags": [
+      "tag 1",
+      "tag-1",
+      {
+        "label": "tag 2",
+        "permalink": "tag2-custom-permalink",
+      },
+    ],
+    "title": "baz",
+  },
+  "id": "foo/baz",
+  "next": {
+    "permalink": "/docs/category/slugs",
+    "title": "Slugs",
+  },
+  "permalink": "/docs/foo/bazSlug.html",
+  "previous": {
+    "permalink": "/docs/foo/bar",
+    "title": "Bar",
+  },
+  "sidebar": "docs",
+  "slug": "/foo/bazSlug.html",
+  "source": "@site/docs/foo/baz.md",
+  "sourceDirName": "foo",
+  "tags": [
+    {
+      "label": "tag 1",
+      "permalink": "/docs/tags/tag-1",
+    },
+    {
+      "label": "tag 2",
+      "permalink": "/docs/tags/tag2-custom-permalink",
+    },
+  ],
+  "title": "baz",
+  "unversionedId": "foo/baz",
+  "version": "current",
+}
+`;
+
+exports[`simple website content 3`] = `
+{
+  "description": "Hi, Endilie here :)",
+  "draft": false,
+  "frontMatter": {
+    "id": "hello",
+    "sidebar_label": "Hello sidebar_label",
+    "slug": "/",
+    "tags": [
+      "tag-1",
+      "tag 3",
+    ],
+    "title": "Hello, World !",
+  },
+  "id": "hello",
+  "permalink": "/docs/",
+  "previous": {
+    "permalink": "/docs/headingAsTitle",
+    "title": "My heading as title",
+  },
+  "sidebar": "docs",
+  "slug": "/",
+  "source": "@site/docs/hello.md",
+  "sourceDirName": ".",
+  "tags": [
+    {
+      "label": "tag-1",
+      "permalink": "/docs/tags/tag-1",
+    },
+    {
+      "label": "tag 3",
+      "permalink": "/docs/tags/tag-3",
+    },
+  ],
+  "title": "Hello, World !",
+  "unversionedId": "hello",
+  "version": "current",
+}
+`;
+
+exports[`simple website content 4`] = `
+{
+  "description": "This is custom description",
+  "draft": false,
+  "frontMatter": {
+    "description": "This is custom description",
+    "id": "bar",
+    "pagination_next": null,
+    "pagination_prev": null,
+    "title": "Bar",
+  },
+  "id": "foo/bar",
+  "permalink": "/docs/foo/bar",
+  "sidebar": "docs",
+  "slug": "/foo/bar",
+  "source": "@site/docs/foo/bar.md",
+  "sourceDirName": "foo",
+  "tags": [],
+  "title": "Bar",
+  "unversionedId": "foo/bar",
+  "version": "current",
 }
 `;
 
@@ -1774,13 +1756,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "getting-started",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/installation",
-    "title": "Installation",
-  },
   "permalink": "/docs/getting-started",
-  "previous": undefined,
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 0,
   "slug": "/getting-started",
   "source": "@site/docs/0-getting-started.md",
@@ -1802,16 +1778,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "installation",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/Guides/guide1",
-    "title": "Guide 1",
-  },
   "permalink": "/docs/installation",
-  "previous": {
-    "permalink": "/docs/getting-started",
-    "title": "Getting Started",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 1,
   "slug": "/installation",
   "source": "@site/docs/1-installation.md",
@@ -1836,16 +1803,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "Guides/guide1",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/Guides/guide2",
-    "title": "Guide 2",
-  },
   "permalink": "/docs/Guides/guide1",
-  "previous": {
-    "permalink": "/docs/installation",
-    "title": "Installation",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 1,
   "slug": "/Guides/guide1",
   "source": "@site/docs/Guides/z-guide1.md",
@@ -1869,16 +1827,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "Guides/guide2",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/Guides/guide2.5",
-    "title": "Guide 2.5",
-  },
   "permalink": "/docs/Guides/guide2",
-  "previous": {
-    "permalink": "/docs/Guides/guide1",
-    "title": "Guide 1",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 2,
   "slug": "/Guides/guide2",
   "source": "@site/docs/Guides/02-guide2.md",
@@ -1903,16 +1852,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "Guides/guide2.5",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/Guides/guide3",
-    "title": "Guide 3",
-  },
   "permalink": "/docs/Guides/guide2.5",
-  "previous": {
-    "permalink": "/docs/Guides/guide2",
-    "title": "Guide 2",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 2.5,
   "slug": "/Guides/guide2.5",
   "source": "@site/docs/Guides/0-guide2.5.md",
@@ -1937,16 +1877,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "Guides/guide3",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/Guides/guide4",
-    "title": "Guide 4",
-  },
   "permalink": "/docs/Guides/guide3",
-  "previous": {
-    "permalink": "/docs/Guides/guide2.5",
-    "title": "Guide 2.5",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 3,
   "slug": "/Guides/guide3",
   "source": "@site/docs/Guides/guide3.md",
@@ -1970,16 +1901,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "Guides/guide4",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/Guides/guide5",
-    "title": "Guide 5",
-  },
   "permalink": "/docs/Guides/guide4",
-  "previous": {
-    "permalink": "/docs/Guides/guide3",
-    "title": "Guide 3",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": undefined,
   "slug": "/Guides/guide4",
   "source": "@site/docs/Guides/a-guide4.md",
@@ -2003,16 +1925,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "Guides/guide5",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/api-overview",
-    "title": "API Overview",
-  },
   "permalink": "/docs/Guides/guide5",
-  "previous": {
-    "permalink": "/docs/Guides/guide4",
-    "title": "Guide 4",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": undefined,
   "slug": "/Guides/guide5",
   "source": "@site/docs/Guides/b-guide5.md",
@@ -2034,16 +1947,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "API/api-overview",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/Core APIs/Client API",
-    "title": "Client API",
-  },
   "permalink": "/docs/API/api-overview",
-  "previous": {
-    "permalink": "/docs/Guides/guide5",
-    "title": "Guide 5",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 0,
   "slug": "/API/api-overview",
   "source": "@site/docs/3-API/00_api-overview.md",
@@ -2065,16 +1969,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "API/Core APIs/Client API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/Core APIs/Server API",
-    "title": "Server API",
-  },
   "permalink": "/docs/API/Core APIs/Client API",
-  "previous": {
-    "permalink": "/docs/API/api-overview",
-    "title": "API Overview",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 0,
   "slug": "/API/Core APIs/Client API",
   "source": "@site/docs/3-API/01_Core APIs/0 --- Client API.md",
@@ -2096,16 +1991,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "API/Core APIs/Server API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/Extension APIs/Plugin API",
-    "title": "Plugin API",
-  },
   "permalink": "/docs/API/Core APIs/Server API",
-  "previous": {
-    "permalink": "/docs/API/Core APIs/Client API",
-    "title": "Client API",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 1,
   "slug": "/API/Core APIs/Server API",
   "source": "@site/docs/3-API/01_Core APIs/1 --- Server API.md",
@@ -2127,16 +2013,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "API/Extension APIs/Plugin API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/Extension APIs/Theme API",
-    "title": "Theme API",
-  },
   "permalink": "/docs/API/Extension APIs/Plugin API",
-  "previous": {
-    "permalink": "/docs/API/Core APIs/Server API",
-    "title": "Server API",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 0,
   "slug": "/API/Extension APIs/Plugin API",
   "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
@@ -2158,16 +2035,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "API/Extension APIs/Theme API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/api-end",
-    "title": "API End",
-  },
   "permalink": "/docs/API/Extension APIs/Theme API",
-  "previous": {
-    "permalink": "/docs/API/Extension APIs/Plugin API",
-    "title": "Plugin API",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 1,
   "slug": "/API/Extension APIs/Theme API",
   "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
@@ -2189,13 +2057,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "id": "API/api-end",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": undefined,
   "permalink": "/docs/API/api-end",
-  "previous": {
-    "permalink": "/docs/API/Extension APIs/Theme API",
-    "title": "Theme API",
-  },
-  "sidebar": "defaultSidebar",
   "sidebarPosition": 3,
   "slug": "/API/api-end",
   "source": "@site/docs/3-API/03_api-end.md",
@@ -2369,13 +2231,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "id": "API/api-end",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/api-overview",
-    "title": "API Overview",
-  },
   "permalink": "/docs/API/api-end",
-  "previous": undefined,
-  "sidebar": "someSidebar",
   "sidebarPosition": 3,
   "slug": "/API/api-end",
   "source": "@site/docs/3-API/03_api-end.md",
@@ -2397,16 +2253,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "id": "API/api-overview",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/Extension APIs/Plugin API",
-    "title": "Plugin API",
-  },
   "permalink": "/docs/API/api-overview",
-  "previous": {
-    "permalink": "/docs/API/api-end",
-    "title": "API End",
-  },
-  "sidebar": "someSidebar",
   "sidebarPosition": 0,
   "slug": "/API/api-overview",
   "source": "@site/docs/3-API/00_api-overview.md",
@@ -2428,16 +2275,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "id": "API/Extension APIs/Plugin API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/API/Extension APIs/Theme API",
-    "title": "Theme API",
-  },
   "permalink": "/docs/API/Extension APIs/Plugin API",
-  "previous": {
-    "permalink": "/docs/API/api-overview",
-    "title": "API Overview",
-  },
-  "sidebar": "someSidebar",
   "sidebarPosition": 0,
   "slug": "/API/Extension APIs/Plugin API",
   "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
@@ -2459,13 +2297,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "id": "API/Extension APIs/Theme API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": undefined,
   "permalink": "/docs/API/Extension APIs/Theme API",
-  "previous": {
-    "permalink": "/docs/API/Extension APIs/Plugin API",
-    "title": "Plugin API",
-  },
-  "sidebar": "someSidebar",
   "sidebarPosition": 1,
   "slug": "/API/Extension APIs/Theme API",
   "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
@@ -2513,19 +2345,12 @@ exports[`versioned website (community) content 1`] = `
 {
   "description": "Team current version (translated)",
   "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "title": "Team title translated",
   },
   "id": "team",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": undefined,
   "permalink": "/community/next/team",
-  "previous": undefined,
   "sidebar": "community",
-  "sidebarPosition": undefined,
   "slug": "/team",
   "source": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
   "sourceDirName": ".",
@@ -2538,26 +2363,21 @@ exports[`versioned website (community) content 1`] = `
 
 exports[`versioned website (community) content 2`] = `
 {
-  "description": "Team 1.0.0",
+  "description": "Team current version (translated)",
   "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
-  "frontMatter": {},
-  "id": "version-1.0.0/team",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": undefined,
-  "permalink": "/community/team",
-  "previous": undefined,
-  "sidebar": "version-1.0.0/community",
-  "sidebarPosition": undefined,
+  "frontMatter": {
+    "title": "Team title translated",
+  },
+  "id": "team",
+  "permalink": "/community/next/team",
+  "sidebar": "community",
   "slug": "/team",
-  "source": "@site/community_versioned_docs/version-1.0.0/team.md",
+  "source": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
   "sourceDirName": ".",
   "tags": [],
-  "title": "team",
+  "title": "Team title translated",
   "unversionedId": "team",
-  "version": "1.0.0",
+  "version": "current",
 }
 `;
 
@@ -2818,8 +2638,6 @@ exports[`versioned website content 1`] = `
 {
   "description": "This is next version of bar.",
   "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "barSlug",
     "tags": [
@@ -2832,16 +2650,12 @@ exports[`versioned website content 1`] = `
     ],
   },
   "id": "foo/bar",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
   "next": {
     "permalink": "/docs/next/",
     "title": "hello",
   },
   "permalink": "/docs/next/foo/barSlug",
-  "previous": undefined,
   "sidebar": "docs",
-  "sidebarPosition": undefined,
   "slug": "/foo/barSlug",
   "source": "@site/docs/foo/bar.md",
   "sourceDirName": "foo",
@@ -2867,52 +2681,18 @@ exports[`versioned website content 1`] = `
 
 exports[`versioned website content 2`] = `
 {
-  "description": "Bar 1.0.1 !",
-  "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
-  "frontMatter": {},
-  "id": "version-1.0.1/foo/bar",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": {
-    "permalink": "/docs/",
-    "title": "hello",
-  },
-  "permalink": "/docs/foo/bar",
-  "previous": undefined,
-  "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
-  "sidebarPosition": undefined,
-  "slug": "/foo/bar",
-  "source": "@site/versioned_docs/version-1.0.1/foo/bar.md",
-  "sourceDirName": "foo",
-  "tags": [],
-  "title": "bar",
-  "unversionedId": "foo/bar",
-  "version": "1.0.1",
-}
-`;
-
-exports[`versioned website content 3`] = `
-{
   "description": "Hello next !",
   "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "/",
   },
   "id": "hello",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": undefined,
   "permalink": "/docs/next/",
   "previous": {
     "permalink": "/docs/next/foo/barSlug",
     "title": "bar",
   },
   "sidebar": "docs",
-  "sidebarPosition": undefined,
   "slug": "/",
   "source": "@site/docs/hello.md",
   "sourceDirName": ".",
@@ -2923,33 +2703,72 @@ exports[`versioned website content 3`] = `
 }
 `;
 
+exports[`versioned website content 3`] = `
+{
+  "description": "This is next version of bar.",
+  "draft": false,
+  "frontMatter": {
+    "slug": "barSlug",
+    "tags": [
+      "barTag 1",
+      "barTag-2",
+      {
+        "label": "barTag 3",
+        "permalink": "barTag-3-permalink",
+      },
+    ],
+  },
+  "id": "foo/bar",
+  "next": {
+    "permalink": "/docs/next/",
+    "title": "hello",
+  },
+  "permalink": "/docs/next/foo/barSlug",
+  "sidebar": "docs",
+  "slug": "/foo/barSlug",
+  "source": "@site/docs/foo/bar.md",
+  "sourceDirName": "foo",
+  "tags": [
+    {
+      "label": "barTag 1",
+      "permalink": "/docs/next/tags/bar-tag-1",
+    },
+    {
+      "label": "barTag-2",
+      "permalink": "/docs/next/tags/bar-tag-2",
+    },
+    {
+      "label": "barTag 3",
+      "permalink": "/docs/next/tags/barTag-3-permalink",
+    },
+  ],
+  "title": "bar",
+  "unversionedId": "foo/bar",
+  "version": "current",
+}
+`;
+
 exports[`versioned website content 4`] = `
 {
-  "description": "Hello 1.0.1 !",
+  "description": "Hello next !",
   "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "/",
   },
-  "id": "version-1.0.1/hello",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
-  "next": undefined,
-  "permalink": "/docs/",
+  "id": "hello",
+  "permalink": "/docs/next/",
   "previous": {
-    "permalink": "/docs/foo/bar",
+    "permalink": "/docs/next/foo/barSlug",
     "title": "bar",
   },
-  "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
-  "sidebarPosition": undefined,
+  "sidebar": "docs",
   "slug": "/",
-  "source": "@site/versioned_docs/version-1.0.1/hello.md",
+  "source": "@site/docs/hello.md",
   "sourceDirName": ".",
   "tags": [],
   "title": "hello",
   "unversionedId": "hello",
-  "version": "1.0.1",
+  "version": "current",
 }
 `;
 
@@ -2957,12 +2776,8 @@ exports[`versioned website content 5`] = `
 {
   "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
   "draft": false,
-  "editUrl": undefined,
-  "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.0/foo/baz",
-  "lastUpdatedAt": undefined,
-  "lastUpdatedBy": undefined,
   "next": {
     "permalink": "/docs/1.0.0/",
     "title": "hello",
@@ -2973,7 +2788,6 @@ exports[`versioned website content 5`] = `
     "title": "bar",
   },
   "sidebar": "version-1.0.0/docs",
-  "sidebarPosition": undefined,
   "slug": "/foo/baz",
   "source": "@site/versioned_docs/version-1.0.0/foo/baz.md",
   "sourceDirName": "foo",

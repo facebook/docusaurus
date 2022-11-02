@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';
-import type {VersionTag, VersionTags} from './types';
+import type {VersionTag, VersionTags, FullVersion} from './types';
 import type {
   SidebarItemDoc,
   SidebarItem,
@@ -25,10 +25,9 @@ import type {
   PropSidebarItemLink,
   PropVersionDocs,
   DocMetadata,
-  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 
-export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
+export function toSidebarsProp(loadedVersion: FullVersion): PropSidebars {
   const docsById = createDocsByIdIndex(loadedVersion.docs);
 
   function getDocById(docId: string): DocMetadata {
@@ -119,7 +118,7 @@ Available document ids are:
   );
 }
 
-function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
+function toVersionDocsProp(loadedVersion: FullVersion): PropVersionDocs {
   return Object.fromEntries(
     loadedVersion.docs.map((doc) => [
       doc.unversionedId,
@@ -135,7 +134,7 @@ function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
 
 export function toVersionMetadataProp(
   pluginId: string,
-  loadedVersion: LoadedVersion,
+  loadedVersion: FullVersion,
 ): PropVersionMetadata {
   return {
     pluginId,

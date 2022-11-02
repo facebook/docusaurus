@@ -559,8 +559,8 @@ declare module '@docusaurus/plugin-content-docs' {
   };
 
   export type LoadedVersion = VersionMetadata & {
-    docs: DocMetadata[];
-    drafts: DocMetadata[];
+    docs: DocMetadataBase[];
+    drafts: DocMetadataBase[];
     sidebars: import('./sidebars/types').Sidebars;
   };
 

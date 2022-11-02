@@ -16,6 +16,7 @@ import {
 } from './files';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
+import {addDocNavigation} from '../docs';
 import type {FullVersion} from '../types';
 import type {LoadContext} from '@docusaurus/types';
 import type {
@@ -261,6 +262,11 @@ export function toFullVersion(version: LoadedVersion): FullVersion {
   const sidebarsUtils = createSidebarsUtils(version.sidebars);
   return {
     ...version,
+    docs: addDocNavigation(
+      version.docs,
+      sidebarsUtils,
+      version.sidebarFilePath as string,
+    ),
     sidebarsUtils,
     categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
       docs: version.docs,

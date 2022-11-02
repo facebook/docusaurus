@@ -36,7 +36,6 @@ import type {
   LastUpdateData,
   VersionMetadata,
   DocFrontMatter,
-  LoadedVersion,
   FileChange,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
@@ -337,7 +336,7 @@ export function addDocNavigation(
   docsBase: DocMetadataBase[],
   sidebarsUtils: SidebarsUtils,
   sidebarFilePath: string,
-): LoadedVersion['docs'] {
+): DocMetadata[] {
   const docsById = createDocsByIdIndex(docsBase);
 
   sidebarsUtils.checkSidebarsDocIds(
