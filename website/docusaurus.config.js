@@ -403,7 +403,7 @@ const config = {
           },
         ],
       },
-      image: 'img/docusaurus-soc.png',
+      image: 'img/docusaurus-social-card.jpg',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
