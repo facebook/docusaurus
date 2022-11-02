@@ -53,6 +53,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      image: 'img/docusaurus-social-card.jpg',
       navbar: {
         title: 'My Meta Project',
         logo: {
