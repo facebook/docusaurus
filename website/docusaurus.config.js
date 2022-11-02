@@ -428,6 +428,19 @@ const config = {
             label: 'Docs',
           },
           {
+            type: 'doc',
+            position: 'left',
+            docId: 'playground',
+            label: 'Playground',
+            activeBaseRegex: `/docs/playground`,
+          },
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'playground',
+            label: 'Playground',
+          },
+          {
             type: 'docSidebar',
             position: 'left',
             sidebarId: 'api',
