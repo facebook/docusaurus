@@ -40,11 +40,13 @@ type Target = [node: Link, index: number, parent: Parent];
 /**
  * Transforms the link node to a JSX `<a>` element with a `require()` call.
  */
-function toAssetRequireNode(
+async function toAssetRequireNode(
   [node, index, parent]: Target,
   assetPath: string,
   filePath: string,
 ) {
+  const {toString} = await import('mdast-util-to-string');
+
   // require("assets/file.pdf") means requiring from a package called assets
   const relativeAssetPath = `./${posixPath(
     path.relative(path.dirname(filePath), assetPath),
@@ -62,7 +64,7 @@ function toAssetRequireNode(
   }${inlineMarkdownLinkFileLoader}${
     escapePath(relativeAssetPath) + search
   }').default${hash ? ` + '${hash}'` : ''}`;
-  const children = stringifyContent(node);
+  const children = stringifyContent(node, toString);
   const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
 
   const jsxNode: Literal = {
@@ -144,7 +146,7 @@ async function processLinkNode(target: Target, context: Context) {
     context,
   );
   if (assetPath) {
-    toAssetRequireNode(target, assetPath, context.filePath);
+    await toAssetRequireNode(target, assetPath, context.filePath);
   }
 }
 

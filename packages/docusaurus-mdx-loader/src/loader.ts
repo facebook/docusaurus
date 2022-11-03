@@ -14,6 +14,7 @@ import {
   getFileLoaderUtils,
 } from '@docusaurus/utils';
 import emoji from 'remark-emoji';
+
 import stringifyObject from 'stringify-object';
 
 import headings from './remark/headings';
@@ -26,6 +27,7 @@ import mermaid from './remark/mermaid';
 // import transformAdmonitions from './remark/admonitions';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
+
 import type {Processor, PluggableList} from 'unified';
 import type {AdmonitionOptions} from './remark/admonitions';
 
@@ -45,7 +47,7 @@ const pragma = `
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
-  // @ts-expect-error: todo
+  // @ts-expect-error: TODO
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
@@ -165,6 +167,7 @@ export async function mdxLoader(
   const reqOptions = this.getOptions();
 
   const {createProcessor} = await import('@mdx-js/mdx');
+  const gfm = await import('remark-gfm');
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -195,6 +198,7 @@ export async function mdxLoader(
           siteDir: reqOptions.siteDir,
         },
       ],
+      gfm,
       ...(reqOptions.remarkPlugins ?? []),
     ];
 

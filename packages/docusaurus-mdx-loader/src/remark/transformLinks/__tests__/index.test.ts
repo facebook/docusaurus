@@ -6,13 +6,13 @@
  */
 
 import path from 'path';
-import remark from 'remark';
-import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '..';
 import transformImage, {type PluginOptions} from '../../transformImage';
 
 const processFixture = async (name: string, options?: PluginOptions) => {
+  const remark = (await import('remark')).default;
+  const mdx = (await import('remark-mdx')).default;
   const siteDir = path.join(__dirname, `__fixtures__`);
   const staticDirs = [
     path.join(siteDir, 'static'),

@@ -162,7 +162,7 @@ const plugin: Plugin = function plugin(
   }
 
   // add tokenizer to parser after fenced code blocks
-  const Parser = this.Parser.prototype;
+  const Parser = this.Parser!.prototype;
   Parser.blockTokenizers.admonition = blockTokenizer;
   Parser.blockMethods.splice(
     Parser.blockMethods.indexOf('fencedCode') + 1,

@@ -8,9 +8,7 @@
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
-import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
-import {valueToEstree} from 'estree-util-value-to-estree'; // TODO upgrade to v2 ESM?
 import {toValue} from '../utils';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
@@ -51,7 +49,10 @@ const isTarget = (child: Literal, name: string) => {
   return found;
 };
 
-const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
+const getOrCreateExistingTargetIndex = async (
+  children: Node[],
+  name: string,
+) => {
   let importsIndex = -1;
   let targetIndex = -1;
 
@@ -64,7 +65,7 @@ const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
   });
 
   if (targetIndex === -1) {
-    const target = createExportNode(name, []);
+    const target = await createExportNode(name, []);
 
     targetIndex = hasImports(importsIndex) ? importsIndex + 1 : 0;
     children.splice(targetIndex, 0, target);
@@ -76,7 +77,8 @@ const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
 export default function plugin(options: PluginOptions = {}): Transformer {
   const name = options.name || 'toc';
 
-  return (root) => {
+  return async (root) => {
+    const {toString} = await import('mdast-util-to-string');
     const headings: TOCItem[] = [];
 
     visit(root, 'heading', (child: Heading) => {
@@ -88,21 +90,23 @@ export default function plugin(options: PluginOptions = {}): Transformer {
       }
 
       headings.push({
-        value: toValue(child),
+        value: toValue(child, toString),
         id: child.data!.id as string,
         level: child.depth,
       });
     });
     const {children} = root as Parent<Literal>;
-    const targetIndex = getOrCreateExistingTargetIndex(children, name);
+    const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
     if (headings?.length) {
-      children[targetIndex] = createExportNode(name, headings);
+      children[targetIndex] = await createExportNode(name, headings);
     }
   };
 }
 
-function createExportNode(name: string, object: any) {
+async function createExportNode(name: string, object: any) {
+  const {valueToEstree} = await import('estree-util-value-to-estree');
+
   return {
     type: 'mdxjsEsm',
     value: `export const ${name} = ${stringifyObject(object)}`,

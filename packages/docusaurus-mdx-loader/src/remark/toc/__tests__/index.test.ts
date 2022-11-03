@@ -6,13 +6,13 @@
  */
 
 import path from 'path';
-import remark from 'remark';
-import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name: string) => {
+  const remark = (await import('remark')).default;
+  const mdx = (await import('remark-mdx')).default;
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
   const result = await remark()
