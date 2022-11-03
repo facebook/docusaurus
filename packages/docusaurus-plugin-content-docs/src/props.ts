@@ -83,8 +83,13 @@ Available document ids are:
     link: SidebarItemCategoryLink | undefined,
   ): string | undefined {
     switch (link?.type) {
-      case 'doc':
-        return getDocById(link.id).permalink;
+      case 'doc': {
+        const doc = getDocById(link.id);
+        if (doc.unlisted) {
+          return undefined;
+        }
+        return doc.permalink;
+      }
       case 'generated-index':
         return link.permalink;
       default:
