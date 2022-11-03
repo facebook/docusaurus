@@ -224,9 +224,21 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
         `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
       );
     }
-    navigationItems = navigationItems.filter(
-      (item) => !(item.type === 'doc' && unlistedIds.has(item.id)),
-    );
+
+    // Filter unlisted items from navigation
+    navigationItems = navigationItems.filter((item) => {
+      if (item.type === 'doc' && unlistedIds.has(item.id)) {
+        return false;
+      }
+      if (
+        item.type === 'category' &&
+        item.link.type === 'doc' &&
+        unlistedIds.has(item.link.id)
+      ) {
+        return false;
+      }
+      return true;
+    });
 
     const currentItemIndex = navigationItems.findIndex((item) => {
       if (item.type === 'doc') {
