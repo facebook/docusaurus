@@ -1494,6 +1494,14 @@ declare module '@theme/Tag' {
   export default function Tag(props: Props): JSX.Element;
 }
 
+declare module '@theme/Unlisted' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function Unlisted(props: Props): JSX.Element;
+}
+
 declare module '@theme/prism-include-languages' {
   import type * as PrismNamespace from 'prismjs';
 

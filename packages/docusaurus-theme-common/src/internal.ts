@@ -69,6 +69,8 @@ export {
   findSidebarCategory,
   findFirstCategoryLink,
   isActiveSidebarItem,
+  isVisibleSidebarItem,
+  useVisibleSidebarItems,
   useSidebarBreadcrumbs,
   useDocsVersionCandidates,
   useLayoutDoc,
@@ -108,6 +110,8 @@ export {
   useTOCHighlight,
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
+
+export {useVisibleBlogSidebarItems} from './utils/blogUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {

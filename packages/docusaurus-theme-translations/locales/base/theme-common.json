@@ -16,7 +16,7 @@
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.title___DESCRIPTION": "The title of the fallback page when the page crashed",
   "theme.ErrorPageContent.tryAgain": "Try again",
-  "theme.ErrorPageContent.tryAgain___DESCRIPTION": "The label of the button to try again when the page crashed",
+  "theme.ErrorPageContent.tryAgain___DESCRIPTION": "The label of the button to try again rendering when the React error boundary captures an error",
   "theme.NotFound.p1": "We could not find what you were looking for.",
   "theme.NotFound.p1___DESCRIPTION": "The first paragraph of the 404 page",
   "theme.NotFound.p2": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
@@ -129,5 +129,9 @@
   "theme.tags.tagsPageLink": "View All Tags",
   "theme.tags.tagsPageLink___DESCRIPTION": "The label of the link targeting the tag list page",
   "theme.tags.tagsPageTitle": "Tags",
-  "theme.tags.tagsPageTitle___DESCRIPTION": "The title of the tag list page"
+  "theme.tags.tagsPageTitle___DESCRIPTION": "The title of the tag list page",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.message___DESCRIPTION": "The unlisted content banner message",
+  "theme.unlistedContent.title": "Unlisted page",
+  "theme.unlistedContent.title___DESCRIPTION": "The unlisted content banner title"
 }

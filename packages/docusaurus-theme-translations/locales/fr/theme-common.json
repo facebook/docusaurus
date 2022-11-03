@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tags :",
   "theme.tags.tagsPageLink": "Voir tous les tags",
-  "theme.tags.tagsPageTitle": "Tags"
+  "theme.tags.tagsPageTitle": "Tags",
+  "theme.unlistedContent.message": "Cette page n'est pas répertoriée. Les moteurs de recherche ne l'indexeront pas, et seuls les utilisateurs ayant un lien direct peuvent y accéder.",
+  "theme.unlistedContent.title": "Page non répertoriée"
 }

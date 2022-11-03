@@ -126,3 +126,26 @@ export const FrontMatterTOCHeadingLevels = {
   }),
   toc_max_heading_level: JoiFrontMatter.number().min(2).max(6),
 };
+
+export type ContentVisibility = {
+  draft: boolean;
+  unlisted: boolean;
+};
+
+export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
+  {
+    draft: JoiFrontMatter.boolean(),
+    unlisted: JoiFrontMatter.boolean(),
+  },
+)
+  .custom((frontMatter: ContentVisibility, helpers) => {
+    if (frontMatter.draft && frontMatter.unlisted) {
+      return helpers.error('frontMatter.draftAndUnlistedError');
+    }
+    return frontMatter;
+  })
+  .messages({
+    'frontMatter.draftAndUnlistedError':
+      "Can't be draft and unlisted at the same time.",
+  })
+  .unknown();

@@ -21,8 +21,11 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getTagVisibility,
   getFileCommitDate,
   getContentPathList,
+  isUnlisted,
+  isDraft,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -96,6 +99,10 @@ export function paginateBlogPosts({
   return pages;
 }
 
+export function shouldBeListed(blogPost: BlogPost): boolean {
+  return !blogPost.metadata.unlisted;
+}
+
 export function getBlogTags({
   blogPosts,
   ...params
@@ -109,17 +116,23 @@ export function getBlogTags({
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-
-  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
-    label: tag.label,
-    items: tagBlogPosts.map((item) => item.id),
-    permalink: tag.permalink,
-    pages: paginateBlogPosts({
-      blogPosts: tagBlogPosts,
-      basePageUrl: tag.permalink,
-      ...params,
-    }),
-  }));
+  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => {
+    const tagVisibility = getTagVisibility({
+      items: tagBlogPosts,
+      isUnlisted: (item) => item.metadata.unlisted,
+    });
+    return {
+      label: tag.label,
+      items: tagVisibility.listedItems.map((item) => item.id),
+      permalink: tag.permalink,
+      pages: paginateBlogPosts({
+        blogPosts: tagVisibility.listedItems,
+        basePageUrl: tag.permalink,
+        ...params,
+      }),
+      unlisted: tagVisibility.unlisted,
+    };
+  });
 }
 
 const DATE_FILENAME_REGEX =
@@ -219,7 +232,10 @@ async function processBlogSourceFile(
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
-  if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+  const draft = isDraft({frontMatter});
+  const unlisted = isUnlisted({frontMatter});
+
+  if (draft) {
     return undefined;
   }
 
@@ -326,6 +342,7 @@ async function processBlogSourceFile(
       hasTruncateMarker: truncateMarker.test(content),
       authors,
       frontMatter,
+      unlisted,
     },
     content,
   };
@@ -352,23 +369,25 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  async function doProcessBlogSourceFile(blogSourceFile: string) {
+    try {
+      return await processBlogSourceFile(
+        blogSourceFile,
+        contentPaths,
+        context,
+        options,
+        authorsMap,
+      );
+    } catch (err) {
+      throw new Error(
+        `Processing of blog source file path=${blogSourceFile} failed.`,
+        {cause: err as Error},
+      );
+    }
+  }
+
   const blogPosts = (
-    await Promise.all(
-      blogSourceFiles.map(async (blogSourceFile: string) => {
-        try {
-          return await processBlogSourceFile(
-            blogSourceFile,
-            contentPaths,
-            context,
-            options,
-            authorsMap,
-          );
-        } catch (err) {
-          logger.error`Processing of blog source file path=${blogSourceFile} failed.`;
-          throw err;
-        }
-      }),
-    )
+    await Promise.all(blogSourceFiles.map(doProcessBlogSourceFile))
   ).filter(Boolean) as BlogPost[];
 
   blogPosts.sort(

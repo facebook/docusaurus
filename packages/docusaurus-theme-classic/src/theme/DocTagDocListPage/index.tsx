@@ -17,6 +17,7 @@ import {
 import Translate, {translate} from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
+import Unlisted from '@theme/Unlisted';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {
@@ -80,6 +81,7 @@ function DocTagDocListPageContent({
       <div className="container margin-vert--lg">
         <div className="row">
           <main className="col col--8 col--offset-2">
+            {tag.unlisted && <Unlisted />}
             <header className="margin-bottom--xl">
               <h1>{title}</h1>
               <Link href={tag.allTagsPath}>

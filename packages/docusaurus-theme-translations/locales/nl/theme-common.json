@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versies",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Laat alle tags zien",
-  "theme.tags.tagsPageTitle": "Tags"
+  "theme.tags.tagsPageTitle": "Tags",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

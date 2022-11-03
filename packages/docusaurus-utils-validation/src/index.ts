@@ -24,4 +24,5 @@ export {
   PathnameSchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
+  ContentVisibilitySchema,
 } from './validationSchemas';

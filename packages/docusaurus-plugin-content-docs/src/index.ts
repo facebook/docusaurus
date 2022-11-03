@@ -75,6 +75,9 @@ export default async function pluginContentDocs(
   const aliasedSource = (source: string) =>
     `~docs/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  // TODO env should be injected into all plugins
+  const env = process.env.NODE_ENV as DocEnv;
+
   return {
     name: 'docusaurus-plugin-content-docs',
 
@@ -143,7 +146,7 @@ export default async function pluginContentDocs(
             versionMetadata,
             context,
             options,
-            env: process.env.NODE_ENV as DocEnv,
+            env,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -156,6 +159,9 @@ export default async function pluginContentDocs(
           versionMetadata,
         );
 
+        // TODO we only ever need draftIds in further code, not full draft items
+        // To simplify and prevent mistakes, avoid exposing draft
+        // replace draft=>draftIds in content loaded
         const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
@@ -175,11 +181,11 @@ export default async function pluginContentDocs(
 
         return {
           ...versionMetadata,
-          docs: addDocNavigation(
+          docs: addDocNavigation({
             docs,
             sidebarsUtils,
-            versionMetadata.sidebarFilePath as string,
-          ),
+            sidebarFilePath: versionMetadata.sidebarFilePath as string,
+          }),
           drafts,
           sidebars,
         };

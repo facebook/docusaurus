@@ -16,6 +16,7 @@ import {
   findSidebarCategory,
   useCurrentSidebarCategory,
   useSidebarBreadcrumbs,
+  isVisibleSidebarItem,
 } from '../docsUtils';
 import {DocsSidebarProvider} from '../../contexts/docsSidebar';
 import {DocsVersionProvider} from '../../contexts/docsVersion';
@@ -290,6 +291,98 @@ describe('isActiveSidebarItem', () => {
     expect(isActiveSidebarItem(item, '/sub-link-path/')).toBe(true);
     expect(isActiveSidebarItem(item, '/sub-category-path/')).toBe(true);
     expect(isActiveSidebarItem(item, '/sub-sub-link-path/')).toBe(true);
+  });
+});
+
+describe('isVisibleSidebarItem', () => {
+  it('works with item', () => {
+    const item: PropSidebarItem = {
+      type: 'link',
+      href: '/itemPath',
+      label: 'Label',
+    };
+
+    expect(isVisibleSidebarItem(item, item.href)).toBe(true);
+    expect(isVisibleSidebarItem(item, '/nonexistentPath/')).toBe(true);
+
+    expect(isVisibleSidebarItem({...item, unlisted: false}, item.href)).toBe(
+      true,
+    );
+    expect(
+      isVisibleSidebarItem({...item, unlisted: undefined}, item.href),
+    ).toBe(true);
+
+    expect(isVisibleSidebarItem({...item, unlisted: true}, item.href)).toBe(
+      true,
+    );
+    expect(
+      isVisibleSidebarItem({...item, unlisted: true}, '/nonexistentPath/'),
+    ).toBe(false);
+  });
+
+  it('works with category', () => {
+    const subCategoryAllUnlisted = testCategory({
+      href: '/sub-category-path',
+      items: [
+        {
+          type: 'link',
+          href: '/sub-sub-link-path',
+          label: 'Label',
+          unlisted: true,
+        },
+        {
+          type: 'link',
+          href: '/sub-sub-link-path',
+          label: 'Label',
+          unlisted: true,
+        },
+        testCategory({
+          href: '/sub-sub-category-path',
+          items: [
+            {
+              type: 'link',
+              href: '/sub-sub-sub-link-path',
+              label: 'Label',
+              unlisted: true,
+            },
+          ],
+        }),
+      ],
+    });
+
+    expect(
+      isVisibleSidebarItem(subCategoryAllUnlisted, '/nonexistentPath'),
+    ).toBe(false);
+    expect(
+      isVisibleSidebarItem(
+        subCategoryAllUnlisted,
+        subCategoryAllUnlisted.href!,
+      ),
+    ).toBe(true);
+    expect(
+      isVisibleSidebarItem(subCategoryAllUnlisted, '/sub-sub-link-path'),
+    ).toBe(true);
+    expect(
+      isVisibleSidebarItem(subCategoryAllUnlisted, '/sub-sub-sub-link-path'),
+    ).toBe(true);
+
+    const categorySomeUnlisted = testCategory({
+      href: '/category-path',
+      items: [
+        {
+          type: 'link',
+          href: '/sub-link-path',
+          label: 'Label',
+        },
+        subCategoryAllUnlisted,
+      ],
+    });
+    expect(isVisibleSidebarItem(categorySomeUnlisted, '/nonexistentPath')).toBe(
+      true,
+    );
+    expect(
+      isVisibleSidebarItem(categorySomeUnlisted, categorySomeUnlisted.href!),
+    ).toBe(true);
   });
 });
 

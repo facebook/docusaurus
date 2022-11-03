@@ -7,13 +7,15 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogSidebar/Mobile';
 
 function BlogSidebarMobileSecondaryMenu({sidebar}: Props): JSX.Element {
+  const items = useVisibleBlogSidebarItems(sidebar.items);
   return (
     <ul className="menu__list">
-      {sidebar.items.map((item) => (
+      {items.map((item) => (
         <li key={item.permalink} className="menu__list-item">
           <Link
             isNavLink

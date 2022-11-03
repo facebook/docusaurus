@@ -64,5 +64,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "نسخه‌ها",
   "theme.tags.tagsListLabel": "برچسب‌ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب‌ها",
-  "theme.tags.tagsPageTitle": "برچسب‌ها"
+  "theme.tags.tagsPageTitle": "برچسب‌ها",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

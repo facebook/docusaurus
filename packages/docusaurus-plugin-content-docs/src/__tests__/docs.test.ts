@@ -153,7 +153,7 @@ function createTestUtils({
           versionMetadata,
           context,
           options,
-          env: 'production',
+          env,
         }),
       ),
     );
@@ -173,11 +173,11 @@ function createTestUtils({
     const sidebarsUtils = createSidebarsUtils(sidebars);
 
     return {
-      pagination: addDocNavigation(
-        rawDocs,
+      pagination: addDocNavigation({
+        docs: rawDocs,
         sidebarsUtils,
-        versionMetadata.sidebarFilePath as string,
-      ).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
+        sidebarFilePath: versionMetadata.sidebarFilePath as string,
+      }).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
       sidebars,
     };
   }
@@ -247,6 +247,7 @@ describe('simple site', () => {
         'headingAsTitle.md',
         'doc with space.md',
         'doc-draft.md',
+        'doc-unlisted.md',
         'customLastUpdate.md',
         'lastUpdateAuthorOnly.md',
         'lastUpdateDateOnly.md',
@@ -256,6 +257,8 @@ describe('simple site', () => {
         'slugs/relativeSlug.md',
         'slugs/resolvedSlug.md',
         'slugs/tryToEscapeSlug.md',
+        'unlisted-category/index.md',
+        'unlisted-category/unlisted-category-doc.md',
       ].sort(),
     );
   });
@@ -279,6 +282,7 @@ describe('simple site', () => {
         pagination_prev: null,
       },
       tags: [],
+      unlisted: false,
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
@@ -306,6 +310,7 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag-3',
         },
       ],
+      unlisted: false,
     });
   });
 
@@ -356,6 +361,7 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
+      unlisted: false,
     });
   });
 
@@ -377,6 +383,7 @@ describe('simple site', () => {
         unrelated_front_matter: "won't be part of metadata",
       },
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -430,6 +437,7 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
+      unlisted: false,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -476,6 +484,7 @@ describe('simple site', () => {
       formattedLastUpdatedAt: 'Oct 14, 2018',
       lastUpdatedBy: 'Author',
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -498,6 +507,44 @@ describe('simple site', () => {
       testUtilsDev.processDocFile('doc-draft.md'),
     ).resolves.toMatchObject({
       draft: false,
+    });
+  });
+
+  it('docs with unlisted frontmatter', async () => {
+    const {createTestUtilsPartial} = await loadSite();
+
+    const baseMeta = {
+      version: 'current',
+      id: 'doc-unlisted',
+      unversionedId: 'doc-unlisted',
+      sourceDirName: '.',
+      permalink: '/docs/doc-unlisted',
+      slug: '/doc-unlisted',
+      title: 'doc-unlisted',
+      description: 'This is an unlisted document',
+      frontMatter: {
+        unlisted: true,
+      },
+      sidebarPosition: undefined,
+      tags: [],
+    };
+
+    const testUtilsProd = createTestUtilsPartial({
+      env: 'production',
+    });
+
+    await testUtilsProd.testMeta('doc-unlisted.md', {
+      ...baseMeta,
+      unlisted: true,
+    });
+
+    const testUtilsDev = createTestUtilsPartial({
+      env: 'development',
+    });
+
+    await testUtilsDev.testMeta('doc-unlisted.md', {
+      ...baseMeta,
+      unlisted: false,
     });
   });
 
@@ -538,6 +585,7 @@ describe('simple site', () => {
       lastUpdatedBy: 'Custom Author',
       sidebarPosition: undefined,
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -577,6 +625,7 @@ describe('simple site', () => {
       lastUpdatedBy: 'Custom Author',
       sidebarPosition: undefined,
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -616,6 +665,7 @@ describe('simple site', () => {
       lastUpdatedBy: 'Author',
       sidebarPosition: undefined,
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -656,6 +706,7 @@ describe('simple site', () => {
       lastUpdatedBy: undefined,
       sidebarPosition: undefined,
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -718,12 +769,20 @@ describe('simple site', () => {
     );
   });
 
-  it('custom pagination', async () => {
-    const {defaultTestUtils, options, versionsMetadata} = await loadSite();
+  it('custom pagination - production', async () => {
+    const {createTestUtilsPartial, options, versionsMetadata} =
+      await loadSite();
+    const testUtils = createTestUtilsPartial({env: 'production'});
     const docs = await readVersionDocs(versionsMetadata[0]!, options);
-    await expect(
-      defaultTestUtils.generateNavigation(docs),
-    ).resolves.toMatchSnapshot();
+    await expect(testUtils.generateNavigation(docs)).resolves.toMatchSnapshot();
+  });
+
+  it('custom pagination - development', async () => {
+    const {createTestUtilsPartial, options, versionsMetadata} =
+      await loadSite();
+    const testUtils = createTestUtilsPartial({env: 'development'});
+    const docs = await readVersionDocs(versionsMetadata[0]!, options);
+    await expect(testUtils.generateNavigation(docs)).resolves.toMatchSnapshot();
   });
 
   it('bad pagination', async () => {
@@ -847,6 +906,7 @@ describe('versioned site', () => {
           permalink: '/docs/next/tags/barTag-3-permalink',
         },
       ],
+      unlisted: false,
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
@@ -861,6 +921,7 @@ describe('versioned site', () => {
         slug: '/',
       },
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -878,6 +939,7 @@ describe('versioned site', () => {
       frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
       tags: [],
+      unlisted: false,
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
@@ -894,6 +956,7 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       tags: [],
+      unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
@@ -906,6 +969,7 @@ describe('versioned site', () => {
       version: '1.0.1',
       frontMatter: {},
       tags: [],
+      unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
@@ -920,6 +984,7 @@ describe('versioned site', () => {
         slug: '/',
       },
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -1016,6 +1081,7 @@ describe('versioned site', () => {
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl: hardcodedEditUrl,
       tags: [],
+      unlisted: false,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -1059,6 +1125,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -1094,6 +1161,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -1130,6 +1198,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       tags: [],
+      unlisted: false,
     });
   });
 
@@ -1167,6 +1236,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
       tags: [],
+      unlisted: false,
     });
   });
 });
