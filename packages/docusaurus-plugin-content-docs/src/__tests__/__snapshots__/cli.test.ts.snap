@@ -10,6 +10,7 @@ exports[`docsVersion first time versioning 1`] = `
       {
         "items": [
           "foo/bar",
+          "doc-unlisted",
           "foo/baz",
         ],
         "label": "foo",

@@ -75,6 +75,9 @@ export default async function pluginContentDocs(
   const aliasedSource = (source: string) =>
     `~docs/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  // TODO env should be injected into all plugins
+  const env = process.env.NODE_ENV as DocEnv;
+
   return {
     name: 'docusaurus-plugin-content-docs',
 
@@ -143,7 +146,7 @@ export default async function pluginContentDocs(
             versionMetadata,
             context,
             options,
-            env: process.env.NODE_ENV as DocEnv,
+            env,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -182,6 +185,7 @@ export default async function pluginContentDocs(
             docs,
             sidebarsUtils,
             sidebarFilePath: versionMetadata.sidebarFilePath as string,
+            env,
           }),
           drafts,
           sidebars,

@@ -153,7 +153,7 @@ function createTestUtils({
           versionMetadata,
           context,
           options,
-          env: 'production',
+          env,
         }),
       ),
     );
@@ -177,6 +177,7 @@ function createTestUtils({
         docs: rawDocs,
         sidebarsUtils,
         sidebarFilePath: versionMetadata.sidebarFilePath as string,
+        env,
       }).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
       sidebars,
     };
@@ -257,6 +258,8 @@ describe('simple site', () => {
         'slugs/relativeSlug.md',
         'slugs/resolvedSlug.md',
         'slugs/tryToEscapeSlug.md',
+        'unlisted-category/index.md',
+        'unlisted-category/unlisted-category-doc.md',
       ].sort(),
     );
   });
@@ -767,12 +770,20 @@ describe('simple site', () => {
     );
   });
 
-  it('custom pagination', async () => {
-    const {defaultTestUtils, options, versionsMetadata} = await loadSite();
+  it('custom pagination - production', async () => {
+    const {createTestUtilsPartial, options, versionsMetadata} =
+      await loadSite();
+    const testUtils = createTestUtilsPartial({env: 'production'});
     const docs = await readVersionDocs(versionsMetadata[0]!, options);
-    await expect(
-      defaultTestUtils.generateNavigation(docs),
-    ).resolves.toMatchSnapshot();
+    await expect(testUtils.generateNavigation(docs)).resolves.toMatchSnapshot();
+  });
+
+  it('custom pagination - development', async () => {
+    const {createTestUtilsPartial, options, versionsMetadata} =
+      await loadSite();
+    const testUtils = createTestUtilsPartial({env: 'development'});
+    const docs = await readVersionDocs(versionsMetadata[0]!, options);
+    await expect(testUtils.generateNavigation(docs)).resolves.toMatchSnapshot();
   });
 
   it('bad pagination', async () => {

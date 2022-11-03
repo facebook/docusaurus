@@ -73,8 +73,8 @@ exports[`simple website content 1`] = `
   },
   "permalink": "/docs/foo/bazSlug.html",
   "previous": {
-    "permalink": "/docs/foo/bar",
-    "title": "Bar",
+    "permalink": "/docs/doc-unlisted",
+    "title": "doc-unlisted",
   },
   "sidebar": "docs",
   "sidebarPosition": undefined,
@@ -193,6 +193,10 @@ exports[`simple website content 4`] = `
               "type": "doc",
             },
             {
+              "id": "doc-unlisted",
+              "type": "doc",
+            },
+            {
               "id": "foo/baz",
               "type": "doc",
             },
@@ -292,7 +296,7 @@ exports[`simple website content 5`] = `
             {
               "id": "doc-unlisted",
               "path": "/docs/doc-unlisted",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             {
               "id": "foo/bar",
@@ -471,6 +475,15 @@ exports[`simple website content: data 1`] = `
   "version": "current",
   "frontMatter": {
     "unlisted": true
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Bar",
+    "permalink": "/docs/foo/bar"
+  },
+  "next": {
+    "title": "baz pagination_label",
+    "permalink": "/docs/foo/bazSlug.html"
   }
 }",
   "site-docs-doc-with-space-md-e90.json": "{
@@ -548,8 +561,8 @@ exports[`simple website content: data 1`] = `
   },
   "sidebar": "docs",
   "previous": {
-    "title": "Bar",
-    "permalink": "/docs/foo/bar"
+    "title": "doc-unlisted",
+    "permalink": "/docs/doc-unlisted"
   },
   "next": {
     "title": "Slugs",
@@ -633,7 +646,12 @@ exports[`simple website content: data 1`] = `
   "tags": [],
   "version": "current",
   "frontMatter": {
-    "custom_edit_url": null
+    "custom_edit_url": null,
+    "pagination_next": "doc-unlisted"
+  },
+  "next": {
+    "title": "doc-unlisted",
+    "permalink": "/docs/doc-unlisted"
   }
 }",
   "site-docs-last-update-author-only-md-352.json": "{
@@ -971,6 +989,13 @@ exports[`simple website content: data 1`] = `
               },
               {
                 "type": "link",
+                "label": "doc-unlisted",
+                "href": "/docs/doc-unlisted",
+                "docId": "doc-unlisted",
+                "unlisted": false
+              },
+              {
+                "type": "link",
                 "label": "baz",
                 "href": "/docs/foo/bazSlug.html",
                 "docId": "foo/baz",
@@ -1076,7 +1101,8 @@ exports[`simple website content: data 1`] = `
     "doc-unlisted": {
       "id": "doc-unlisted",
       "title": "doc-unlisted",
-      "description": "This is an unlisted document"
+      "description": "This is an unlisted document",
+      "sidebar": "docs"
     },
     "foo/bar": {
       "id": "foo/bar",
@@ -1198,7 +1224,7 @@ exports[`simple website content: global data 1`] = `
             {
               "id": "doc-unlisted",
               "path": "/docs/doc-unlisted",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             {
               "id": "foo/bar",
@@ -1417,6 +1443,7 @@ exports[`simple website content: route config 1`] = `
                   "content": "@site/docs/doc-unlisted.md",
                 },
                 "path": "/docs/doc-unlisted",
+                "sidebar": "docs",
               },
               {
                 "component": "@theme/DocItem",

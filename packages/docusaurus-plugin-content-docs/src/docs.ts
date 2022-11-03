@@ -333,10 +333,12 @@ export function addDocNavigation({
   docs,
   sidebarsUtils,
   sidebarFilePath,
+  env,
 }: {
   docs: DocMetadataBase[];
   sidebarsUtils: SidebarsUtils;
   sidebarFilePath: string;
+  env: DocEnv;
 }): LoadedVersion['docs'] {
   const docsById = createDocsByIdIndex(docs);
   const unlistedIds = getUnlistedIds(docs);
@@ -367,7 +369,7 @@ export function addDocNavigation({
         );
       }
       // Gracefully handle explicitly providing an unlisted doc ID in production
-      if (process.env.NODE_ENV === 'production' && navDoc.unlisted) {
+      if (env === 'production' && navDoc.unlisted) {
         return undefined;
       }
       return toDocNavigationLink(navDoc);
