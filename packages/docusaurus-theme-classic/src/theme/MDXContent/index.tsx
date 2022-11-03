@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+// @ts-expect-error: todo
 import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/MDXContent';

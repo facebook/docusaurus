@@ -13,7 +13,6 @@ import {
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
-import {createCompiler} from '@mdx-js/mdx';
 import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
 
@@ -24,11 +23,14 @@ import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
 
-import transformAdmonitions from './remark/admonitions';
+// import transformAdmonitions from './remark/admonitions';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
-import type {Processor, Plugin} from 'unified';
+import type {Processor, PluggableList} from 'unified';
 import type {AdmonitionOptions} from './remark/admonitions';
+
+// @ts-expect-error: TODO
+import type {ProcessorOptions} from '@mdx-js/mdx';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -43,6 +45,7 @@ const pragma = `
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
+  // @ts-expect-error: todo
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
@@ -50,9 +53,7 @@ const DEFAULT_OPTIONS: MDXOptions = {
 
 const compilerCache = new Map<string | Options, [Processor, Options]>();
 
-export type MDXPlugin =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [Plugin<any[]>, any] | Plugin<any[]>;
+export type MDXPlugin = PluggableList;
 
 export type MDXOptions = {
   admonitions: boolean | Partial<AdmonitionOptions>;
@@ -143,12 +144,15 @@ function getAdmonitionsPlugins(
   admonitionsOption: MDXOptions['admonitions'],
 ): MDXPlugin[] {
   if (admonitionsOption) {
+    /*
     const plugin: MDXPlugin =
       admonitionsOption === true
         ? transformAdmonitions
         : [transformAdmonitions, admonitionsOption];
-    return [plugin];
+    // return [plugin]; TODO
+     */
   }
+
   return [];
 }
 
@@ -160,6 +164,8 @@ export async function mdxLoader(
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions();
 
+  const {createProcessor} = await import('@mdx-js/mdx');
+
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
   const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
@@ -169,7 +175,8 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
-    const remarkPlugins: MDXPlugin[] = [
+    // @ts-expect-error: TODO
+    const remarkPlugins: ProcessorOptions['remarkPlugins'] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
@@ -191,18 +198,21 @@ export async function mdxLoader(
       ...(reqOptions.remarkPlugins ?? []),
     ];
 
-    const rehypePlugins: MDXPlugin[] = [
+    // @ts-expect-error: TODO
+    const rehypePlugins: ProcessorOptions['rehypePlugins'] = [
       ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
       ...(reqOptions.rehypePlugins ?? []),
     ];
 
-    const options: Options = {
+    const options: ProcessorOptions = {
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
     };
-    compilerCache.set(this.query, [createCompiler(options), options]);
+
+    // @ts-expect-error: TODO
+    compilerCache.set(this.query, [createProcessor(options), options]);
   }
 
   const [compiler, options] = compilerCache.get(this.query)!;
