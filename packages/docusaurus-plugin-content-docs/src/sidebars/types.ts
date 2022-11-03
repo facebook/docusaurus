@@ -183,6 +183,12 @@ export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
     href?: string;
+
+    // Weird name => it would have been more convenient to have link.unlisted
+    // Note it is the category link that is unlisted, not the category itself
+    // We want to prevent users from clicking on an unlisted category link
+    // We can't use "href: undefined" otherwise sidebar item is not highlighted
+    linkUnlisted?: boolean;
   }
 >;
 

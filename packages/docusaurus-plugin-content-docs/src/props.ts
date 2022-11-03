@@ -83,20 +83,22 @@ Available document ids are:
     link: SidebarItemCategoryLink | undefined,
   ): string | undefined {
     switch (link?.type) {
-      case 'doc': {
-        const doc = getDocById(link.id);
-        if (doc.unlisted) {
-          // TODO, not ideal solution because an unlisted category link
-          // can't be displayed/highlighted in sidebar when browsed
-          return undefined;
-        }
-        return doc.permalink;
-      }
+      case 'doc':
+        return getDocById(link.id).permalink;
       case 'generated-index':
         return link.permalink;
       default:
         return undefined;
     }
+  }
+
+  function getCategoryLinkUnlisted(
+    link: SidebarItemCategoryLink | undefined,
+  ): boolean {
+    if (link?.type === 'doc') {
+      return getDocById(link.id).unlisted;
+    }
+    return false;
   }
 
   function getCategoryLinkCustomProps(
@@ -113,12 +115,14 @@ Available document ids are:
   function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
     const {link, ...rest} = item;
     const href = getCategoryLinkHref(link);
+    const linkUnlisted = getCategoryLinkUnlisted(link);
     const customProps = item.customProps ?? getCategoryLinkCustomProps(link);
 
     return {
       ...rest,
       items: item.items.map(normalizeItem),
       ...(href && {href}),
+      ...(linkUnlisted && {linkUnlisted}),
       ...(customProps && {customProps}),
     };
   }

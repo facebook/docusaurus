@@ -59,7 +59,7 @@ function useCategoryHrefWithSSRFallback(
 ): string | undefined {
   const isBrowser = useIsBrowser();
   return useMemo(() => {
-    if (item.href) {
+    if (item.href && !item.linkUnlisted) {
       return item.href;
     }
     // In these cases, it's not necessary to render a fallback
