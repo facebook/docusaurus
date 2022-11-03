@@ -177,7 +177,6 @@ function createTestUtils({
         docs: rawDocs,
         sidebarsUtils,
         sidebarFilePath: versionMetadata.sidebarFilePath as string,
-        env,
       }).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
       sidebars,
     };

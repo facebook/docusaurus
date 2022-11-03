@@ -185,7 +185,6 @@ export default async function pluginContentDocs(
             docs,
             sidebarsUtils,
             sidebarFilePath: versionMetadata.sidebarFilePath as string,
-            env,
           }),
           drafts,
           sidebars,

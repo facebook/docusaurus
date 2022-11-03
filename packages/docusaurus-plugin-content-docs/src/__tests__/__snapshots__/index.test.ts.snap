@@ -41,7 +41,9 @@ Available document ids are:
 - slugs/absoluteSlug
 - slugs/relativeSlug
 - slugs/resolvedSlug
-- slugs/tryToEscapeSlug"
+- slugs/tryToEscapeSlug
+- unlisted-category/unlisted-category-doc
+- unlisted-category/unlisted-category-index"
 `;
 
 exports[`simple website content 1`] = `
@@ -68,8 +70,8 @@ exports[`simple website content 1`] = `
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
-    "permalink": "/docs/category/slugs",
-    "title": "Slugs",
+    "permalink": "/docs/unlisted-category/",
+    "title": "unlisted-category-index",
   },
   "permalink": "/docs/foo/bazSlug.html",
   "previous": {
@@ -203,6 +205,22 @@ exports[`simple website content 4`] = `
           ],
           "label": "foo",
           "link": undefined,
+          "type": "category",
+        },
+        {
+          "collapsed": true,
+          "collapsible": true,
+          "items": [
+            {
+              "id": "unlisted-category/unlisted-category-doc",
+              "type": "doc",
+            },
+          ],
+          "label": "Unlisted category",
+          "link": {
+            "id": "unlisted-category/unlisted-category-index",
+            "type": "doc",
+          },
           "type": "category",
         },
         {
@@ -379,6 +397,16 @@ exports[`simple website content 5`] = `
               "sidebar": undefined,
             },
             {
+              "id": "unlisted-category/unlisted-category-doc",
+              "path": "/docs/unlisted-category/unlisted-category-doc",
+              "sidebar": "docs",
+            },
+            {
+              "id": "unlisted-category/unlisted-category-index",
+              "path": "/docs/unlisted-category/",
+              "sidebar": "docs",
+            },
+            {
               "id": "/category/slugs",
               "path": "/docs/category/slugs",
               "sidebar": "docs",
@@ -413,8 +441,8 @@ exports[`simple website content: data 1`] = `
   "permalink": "/docs/category/slugs",
   "navigation": {
     "previous": {
-      "title": "baz pagination_label",
-      "permalink": "/docs/foo/bazSlug.html"
+      "title": "unlisted-category-doc",
+      "permalink": "/docs/unlisted-category/unlisted-category-doc"
     },
     "next": {
       "title": "rootAbsoluteSlug",
@@ -565,8 +593,8 @@ exports[`simple website content: data 1`] = `
     "permalink": "/docs/doc-unlisted"
   },
   "next": {
-    "title": "Slugs",
-    "permalink": "/docs/category/slugs"
+    "title": "unlisted-category-index",
+    "permalink": "/docs/unlisted-category/"
   }
 }",
   "site-docs-heading-as-title-md-c6d.json": "{
@@ -893,6 +921,60 @@ exports[`simple website content: data 1`] = `
     "slug": "../../../../../../../../tryToEscapeSlug"
   }
 }",
+  "site-docs-unlisted-category-index-md-efa.json": "{
+  "unversionedId": "unlisted-category/unlisted-category-index",
+  "id": "unlisted-category/unlisted-category-index",
+  "title": "unlisted-category-index",
+  "description": "This is an unlisted category index",
+  "source": "@site/docs/unlisted-category/index.md",
+  "sourceDirName": "unlisted-category",
+  "slug": "/unlisted-category/",
+  "permalink": "/docs/unlisted-category/",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "unlisted-category-index",
+    "unlisted": true
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "baz pagination_label",
+    "permalink": "/docs/foo/bazSlug.html"
+  },
+  "next": {
+    "title": "unlisted-category-doc",
+    "permalink": "/docs/unlisted-category/unlisted-category-doc"
+  }
+}",
+  "site-docs-unlisted-category-unlisted-category-doc-md-bd6.json": "{
+  "unversionedId": "unlisted-category/unlisted-category-doc",
+  "id": "unlisted-category/unlisted-category-doc",
+  "title": "unlisted-category-doc",
+  "description": "This is an unlisted category doc",
+  "source": "@site/docs/unlisted-category/unlisted-category-doc.md",
+  "sourceDirName": "unlisted-category",
+  "slug": "/unlisted-category/unlisted-category-doc",
+  "permalink": "/docs/unlisted-category/unlisted-category-doc",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "unlisted-category-doc",
+    "unlisted": true
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "unlisted-category-index",
+    "permalink": "/docs/unlisted-category/"
+  },
+  "next": {
+    "title": "Slugs",
+    "permalink": "/docs/category/slugs"
+  }
+}",
   "tag-docs-tags-tag-1-b3f.json": "{
   "label": "tag 1",
   "permalink": "/docs/tags/tag-1",
@@ -1004,6 +1086,22 @@ exports[`simple website content: data 1`] = `
             ],
             "collapsed": true,
             "collapsible": true
+          },
+          {
+            "type": "category",
+            "label": "Unlisted category",
+            "items": [
+              {
+                "type": "link",
+                "label": "unlisted-category-doc",
+                "href": "/docs/unlisted-category/unlisted-category-doc",
+                "docId": "unlisted-category/unlisted-category-doc",
+                "unlisted": false
+              }
+            ],
+            "collapsed": true,
+            "collapsible": true,
+            "href": "/docs/unlisted-category/"
           },
           {
             "type": "category",
@@ -1191,6 +1289,18 @@ exports[`simple website content: data 1`] = `
       "id": "slugs/tryToEscapeSlug",
       "title": "tryToEscapeSlug",
       "description": "Lorem"
+    },
+    "unlisted-category/unlisted-category-doc": {
+      "id": "unlisted-category/unlisted-category-doc",
+      "title": "unlisted-category-doc",
+      "description": "This is an unlisted category doc",
+      "sidebar": "docs"
+    },
+    "unlisted-category/unlisted-category-index": {
+      "id": "unlisted-category/unlisted-category-index",
+      "title": "unlisted-category-index",
+      "description": "This is an unlisted category index",
+      "sidebar": "docs"
     }
   }
 }",
@@ -1305,6 +1415,16 @@ exports[`simple website content: global data 1`] = `
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
+            },
+            {
+              "id": "unlisted-category/unlisted-category-doc",
+              "path": "/docs/unlisted-category/unlisted-category-doc",
+              "sidebar": "docs",
+            },
+            {
+              "id": "unlisted-category/unlisted-category-index",
+              "path": "/docs/unlisted-category/",
+              "sidebar": "docs",
             },
             {
               "id": "/category/slugs",
@@ -1563,6 +1683,24 @@ exports[`simple website content: route config 1`] = `
                   "content": "@site/docs/slugs/tryToEscapeSlug.md",
                 },
                 "path": "/docs/tryToEscapeSlug",
+              },
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
+                  "content": "@site/docs/unlisted-category/index.md",
+                },
+                "path": "/docs/unlisted-category/",
+                "sidebar": "docs",
+              },
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
+                  "content": "@site/docs/unlisted-category/unlisted-category-doc.md",
+                },
+                "path": "/docs/unlisted-category/unlisted-category-doc",
+                "sidebar": "docs",
               },
             ],
           },
