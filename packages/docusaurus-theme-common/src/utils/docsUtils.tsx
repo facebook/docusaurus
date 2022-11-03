@@ -170,6 +170,16 @@ export function isVisibleSidebarItem(
   }
 }
 
+export function useVisibleSidebarItems(
+  items: readonly PropSidebarItem[],
+  activePath: string,
+): PropSidebarItem[] {
+  return useMemo(
+    () => items.filter((item) => isVisibleSidebarItem(item, activePath)),
+    [items, activePath],
+  );
+}
+
 function getSidebarBreadcrumbs(param: {
   sidebarItems: PropSidebar;
   pathname: string;
