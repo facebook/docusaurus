@@ -24,6 +24,7 @@
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "@mdx-js/mdx": "^2.1.5",
     "escape-html": "^1.0.3",
+    "estree-util-value-to-estree": "^1.3.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
     "image-size": "^1.0.2",

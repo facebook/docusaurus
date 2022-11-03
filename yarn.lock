@@ -7823,6 +7823,13 @@ estree-util-to-js@^1.1.0:
     astring "^1.8.0"
     source-map "^0.7.0"
 
+estree-util-value-to-estree@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/estree-util-value-to-estree/-/estree-util-value-to-estree-1.3.0.tgz#1d3125594b4d6680f666644491e7ac1745a3df49"
+  integrity sha512-Y+ughcF9jSUJvncXwqRageavjrNPAI+1M/L3BI3PyLp1nmgYTGUXU6t5z1Y7OWuThoDdhPME07bQU+d5LxdJqw==
+  dependencies:
+    is-plain-obj "^3.0.0"
+
 estree-util-visit@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/estree-util-visit/-/estree-util-visit-1.2.0.tgz#aa0311a9c2f2aa56e9ae5e8b9d87eac14e4ec8f8"

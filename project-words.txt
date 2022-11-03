@@ -177,6 +177,7 @@ mdast
 mdxa
 mdxast
 mdxhast
+mdxjs
 metadatum
 metastring
 metrica
