@@ -1,6 +1,6 @@
 ---
 title: Draft blog post
-unlisted: true
+draft: true
 tags: [blog, visibility, draft]
 slug: /draft-post
 ---
