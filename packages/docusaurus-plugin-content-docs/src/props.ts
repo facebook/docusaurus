@@ -86,6 +86,8 @@ Available document ids are:
       case 'doc': {
         const doc = getDocById(link.id);
         if (doc.unlisted) {
+          // TODO, not ideal solution because an unlisted category link
+          // can't be displayed/highlighted in sidebar when browsed
           return undefined;
         }
         return doc.permalink;
