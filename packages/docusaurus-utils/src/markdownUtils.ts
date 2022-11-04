@@ -54,14 +54,20 @@ export function escapeMarkdownHeadingIds(content: string): string {
   );
 }
 
-// TODO support other levels...
+// TODO support other levels?
 export function unwrapMdxCodeBlocks(content: string): string {
-  const markdownHeadingRegexp =
-    /(?:^|\n)```mdx-code-block\n(?<children>.*?)\n```\n/gs;
-  return content.replaceAll(markdownHeadingRegexp, (substring, ...args) => {
-    const groups = args[3];
-    return `\n${groups.children}\n`;
-  });
+  const regexp3 =
+    /(?<begin>^|\n)```mdx-code-block\n(?<children>.*?)\n```(?<end>\n|$)/gs;
+  const regexp4 =
+    /(?<begin>^|\n)````mdx-code-block\n(?<children>.*?)\n````(?<end>\n|$)/gs;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const replacer = (substring: string, ...args: any[]) => {
+    const groups = args.at(-1);
+    return `${groups.begin}${groups.children}${groups.end}`;
+  };
+
+  return content.replaceAll(regexp3, replacer).replaceAll(regexp4, replacer);
 }
 
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,

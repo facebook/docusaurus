@@ -1079,8 +1079,6 @@ describe('unwrapMdxCodeBlocks', () => {
         \`\`\`mdx-code-block
         </VersionsProvider>
         \`\`\`
-
-        Some extra text
     `),
     ).toEqual(dedent`
         # Canary releases
@@ -1104,8 +1102,6 @@ describe('unwrapMdxCodeBlocks', () => {
         A canary release passes all automated tests and is used in production by the Docusaurus site itself.
 
         </VersionsProvider>
-
-        Some extra text
     `);
   });
 });
