@@ -181,11 +181,15 @@ export async function mdxLoader(
 
   const content = escapeMarkdownHeadingIds(
     unwrapMdxCodeBlocks(contentUnprocessed),
-  );
+  )
+    // TODO MDX 2 doesn't like unescaped <
+    .replace('\n<!--truncate-->', '');
 
+  /*
   if (filePath.endsWith('website/blog/releases/2.2/index.mdx')) {
     console.log(content);
   }
+   */
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
