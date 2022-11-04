@@ -289,7 +289,6 @@ const config = {
       ({
         debug: true, // force debug plugin usage
         docs: false,
-        blog: false,
         /*
         docs: {
           // routeBasePath: '/',
@@ -336,7 +335,7 @@ const config = {
         },
 
          */
-        /*
+
         blog: {
           // routeBasePath: '/',
           path: 'blog',
@@ -354,8 +353,6 @@ const config = {
           blogSidebarCount: 'ALL',
           blogSidebarTitle: 'All our posts',
         },
-
-         */
         pages: {
           remarkPlugins: [npm2yarn],
         },
@@ -447,7 +444,7 @@ const config = {
           },
 
            */
-          // {to: 'blog', label: 'Blog', position: 'left'},
+          {to: 'blog', label: 'Blog', position: 'left'},
           {to: 'showcase', label: 'Showcase', position: 'left'},
           {
             to: '/community/support',

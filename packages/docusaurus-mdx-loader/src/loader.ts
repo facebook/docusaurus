@@ -183,7 +183,7 @@ export async function mdxLoader(
     unwrapMdxCodeBlocks(contentUnprocessed),
   );
 
-  if (filePath.endsWith('website/community/4-canary.md')) {
+  if (filePath.endsWith('website/blog/releases/2.2/index.mdx')) {
     console.log(content);
   }
 
