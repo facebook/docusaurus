@@ -45,15 +45,23 @@ export function parseMarkdownHeadingId(heading: string): {
  */
 export function escapeMarkdownHeadingIds(content: string): string {
   const markdownHeadingRegexp = /(?:^|\n)#{1,6}(?!#).*/g;
-  return content.replaceAll(markdownHeadingRegexp, (substring, ...args) => 
+  return content.replaceAll(markdownHeadingRegexp, (substring, ...args) =>
     // TODO probably not the most efficient impl...
-     (
-      substring
-        .replace('{#', '\\{#')
-        // prevent duplicate escaping
-        .replace('\\\\{#', '\\{#')
-    )
+    substring
+      .replace('{#', '\\{#')
+      // prevent duplicate escaping
+      .replace('\\\\{#', '\\{#'),
   );
+}
+
+// TODO support other levels...
+export function unwrapMdxCodeBlocks(content: string): string {
+  const markdownHeadingRegexp =
+    /(?:^|\n)```mdx-code-block\n(?<children>.*?)\n```\n/gs;
+  return content.replaceAll(markdownHeadingRegexp, (substring, ...args) => {
+    const groups = args[3];
+    return `\n${groups.children}\n`;
+  });
 }
 
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,

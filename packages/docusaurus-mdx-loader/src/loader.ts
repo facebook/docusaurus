@@ -13,6 +13,7 @@ import {
   escapePath,
   getFileLoaderUtils,
   escapeMarkdownHeadingIds,
+  unwrapMdxCodeBlocks,
 } from '@docusaurus/utils';
 import emoji from 'remark-emoji';
 
@@ -20,7 +21,6 @@ import stringifyObject from 'stringify-object';
 
 import headings from './remark/headings';
 import toc from './remark/toc';
-import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
@@ -49,7 +49,7 @@ const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
   // @ts-expect-error: TODO
-  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
+  remarkPlugins: [emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
@@ -172,14 +172,20 @@ export async function mdxLoader(
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
-  const {content: contentUnescaped, contentTitle} = parseMarkdownContentTitle(
+  const {content: contentUnprocessed, contentTitle} = parseMarkdownContentTitle(
     contentWithTitle,
     {
       removeContentTitle: reqOptions.removeContentTitle,
     },
   );
 
-  const content = escapeMarkdownHeadingIds(contentUnescaped);
+  const content = escapeMarkdownHeadingIds(
+    unwrapMdxCodeBlocks(contentUnprocessed),
+  );
+
+  if (filePath.endsWith('website/community/4-canary.md')) {
+    console.log(content);
+  }
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 

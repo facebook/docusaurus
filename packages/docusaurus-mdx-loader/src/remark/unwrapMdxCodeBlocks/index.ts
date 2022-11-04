@@ -9,6 +9,8 @@ import visit from 'unist-util-visit';
 import type {Transformer, Processor} from 'unified';
 import type {Code, Parent} from 'mdast';
 
+// TODO to delete? Doesn't work with mdx 2
+
 // This plugin is mostly to help integrating Docusaurus with translation systems
 // that do not support well MDX embedded JSX syntax (like Crowdin).
 // We wrap the JSX syntax in code blocks so that translation tools don't mess up

@@ -13,6 +13,7 @@ import {
   parseMarkdownHeadingId,
   writeMarkdownHeadingId,
   escapeMarkdownHeadingIds,
+  unwrapMdxCodeBlocks,
 } from '../markdownUtils';
 
 describe('createExcerpt', () => {
@@ -952,7 +953,7 @@ describe('escapeMarkdownHeadingIds', () => {
     `);
   });
 
-  it('real world', () => {
+  it('works for realistic example', () => {
     expect(
       escapeMarkdownHeadingIds(dedent`
         # Support
@@ -1013,6 +1014,98 @@ describe('escapeMarkdownHeadingIds', () => {
         ## News \{#news}
 
         For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+    `);
+  });
+});
+
+describe('unwrapMdxCodeBlocks', () => {
+  it('can unwrap a simple mdx code block', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        \`\`\`mdx-code-block
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+        \`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+        # Title
+
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+
+        text
+    `);
+  });
+
+  it('works for realistic example', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Canary releases
+
+        \`\`\`mdx-code-block
+        import {
+          VersionsProvider,
+        } from "@site/src/components/Versions";
+
+        <VersionsProvider prop={{attr: 42}} test="yes">
+        \`\`\`
+
+        Docusaurus has a canary releases system.
+
+        It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
+
+        It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+        :::note
+
+        Using a canary release in production might seem risky, but in practice, it's not.
+
+        A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+        \`\`\`mdx-code-block
+        </VersionsProvider>
+        \`\`\`
+
+        Some extra text
+    `),
+    ).toEqual(dedent`
+        # Canary releases
+
+        import {
+          VersionsProvider,
+        } from "@site/src/components/Versions";
+
+        <VersionsProvider prop={{attr: 42}} test="yes">
+
+        Docusaurus has a canary releases system.
+
+        It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
+
+        It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+        :::note
+
+        Using a canary release in production might seem risky, but in practice, it's not.
+
+        A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+        </VersionsProvider>
+
+        Some extra text
     `);
   });
 });

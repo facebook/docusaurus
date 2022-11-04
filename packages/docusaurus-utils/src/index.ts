@@ -67,6 +67,7 @@ export {
 export {
   parseMarkdownHeadingId,
   escapeMarkdownHeadingIds,
+  unwrapMdxCodeBlocks,
   createExcerpt,
   parseFrontMatter,
   parseMarkdownContentTitle,
