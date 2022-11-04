@@ -66,6 +66,7 @@ export {
 } from './tags';
 export {
   parseMarkdownHeadingId,
+  escapeMarkdownHeadingIds,
   createExcerpt,
   parseFrontMatter,
   parseMarkdownContentTitle,

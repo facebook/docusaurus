@@ -12,6 +12,7 @@ import {
   parseMarkdownContentTitle,
   escapePath,
   getFileLoaderUtils,
+  escapeMarkdownHeadingIds,
 } from '@docusaurus/utils';
 import emoji from 'remark-emoji';
 
@@ -171,9 +172,14 @@ export async function mdxLoader(
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
-  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
-    removeContentTitle: reqOptions.removeContentTitle,
-  });
+  const {content: contentUnescaped, contentTitle} = parseMarkdownContentTitle(
+    contentWithTitle,
+    {
+      removeContentTitle: reqOptions.removeContentTitle,
+    },
+  );
+
+  const content = escapeMarkdownHeadingIds(contentUnescaped);
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 

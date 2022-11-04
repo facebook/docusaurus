@@ -39,6 +39,23 @@ export function parseMarkdownHeadingId(heading: string): {
   return {text: heading, id: undefined};
 }
 
+/**
+ * MDX 2 requires escaping { with a \ so our anchor syntax need that now.
+ * See https://mdxjs.com/docs/troubleshooting-mdx/#could-not-parse-expression-with-acorn-error
+ */
+export function escapeMarkdownHeadingIds(content: string): string {
+  const markdownHeadingRegexp = /(?:^|\n)#{1,6}(?!#).*/g;
+  return content.replaceAll(markdownHeadingRegexp, (substring, ...args) => 
+    // TODO probably not the most efficient impl...
+     (
+      substring
+        .replace('{#', '\\{#')
+        // prevent duplicate escaping
+        .replace('\\\\{#', '\\{#')
+    )
+  );
+}
+
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.
 /**
