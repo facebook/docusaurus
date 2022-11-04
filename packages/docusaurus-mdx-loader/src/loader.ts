@@ -182,14 +182,11 @@ export async function mdxLoader(
   const content = escapeMarkdownHeadingIds(
     unwrapMdxCodeBlocks(contentUnprocessed),
   )
-    // TODO MDX 2 doesn't like unescaped <
-    .replace('\n<!--truncate-->', '');
-
-  /*
-  if (filePath.endsWith('website/blog/releases/2.2/index.mdx')) {
-    console.log(content);
-  }
-   */
+    // TODO MDX 2 doesn't like our unescaped html comments <
+    .replace('<!--truncate-->', '')
+    .replace('<!-- truncate -->', '')
+    .replace('<!-- prettier-ignore -->', '');
+  // TODO also check the escaped comments like \<!-- my comment
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
@@ -229,7 +226,7 @@ export async function mdxLoader(
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
-      format: 'mdx',
+      format: 'mdx', // TODO provide ability to use 'md' with frontMatter?
       providerImportSource: '@mdx-js/react',
     };
 

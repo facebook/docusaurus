@@ -280,7 +280,7 @@ const config = {
       },
     ],
     '@docusaurus/theme-mermaid',
-    // ...dogfoodingPluginInstances,
+    ...dogfoodingPluginInstances,
   ],
   presets: [
     [

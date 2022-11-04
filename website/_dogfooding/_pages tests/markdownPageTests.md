@@ -41,7 +41,7 @@ import TabItem from '@theme/TabItem';
 MDX comments can be used with
 
 ```mdx
-<!--
+\<!--
 
 My comment
 
@@ -50,7 +50,7 @@ My comment
 
 See, nothing is displayed:
 
-<!--
+\<!--
 
 My comment
 
