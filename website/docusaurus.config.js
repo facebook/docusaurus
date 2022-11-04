@@ -115,7 +115,7 @@ const config = {
   markdown: {
     mermaid: true,
   },
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
@@ -132,6 +132,7 @@ const config = {
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
+    /*
     [
       require.resolve('./src/plugins/changelog/index.js'),
       {
@@ -155,6 +156,8 @@ const config = {
         },
       },
     ],
+
+     */
     [
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -277,7 +280,7 @@ const config = {
       },
     ],
     '@docusaurus/theme-mermaid',
-    ...dogfoodingPluginInstances,
+    // ...dogfoodingPluginInstances,
   ],
   presets: [
     [
@@ -285,6 +288,9 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         debug: true, // force debug plugin usage
+        docs: false,
+        blog: false,
+        /*
         docs: {
           // routeBasePath: '/',
           path: 'docs',
@@ -328,6 +334,9 @@ const config = {
             },
           },
         },
+
+         */
+        /*
         blog: {
           // routeBasePath: '/',
           path: 'blog',
@@ -345,6 +354,8 @@ const config = {
           blogSidebarCount: 'ALL',
           blogSidebarTitle: 'All our posts',
         },
+
+         */
         pages: {
           remarkPlugins: [npm2yarn],
         },
@@ -421,6 +432,7 @@ const config = {
           height: 32,
         },
         items: [
+          /*
           {
             type: 'doc',
             position: 'left',
@@ -433,7 +445,9 @@ const config = {
             sidebarId: 'api',
             label: 'API',
           },
-          {to: 'blog', label: 'Blog', position: 'left'},
+
+           */
+          // {to: 'blog', label: 'Blog', position: 'left'},
           {to: 'showcase', label: 'Showcase', position: 'left'},
           {
             to: '/community/support',
@@ -442,6 +456,7 @@ const config = {
             activeBaseRegex: `/community/`,
           },
           // This item links to a draft doc: only displayed in dev
+          /*
           {
             type: 'doc',
             docId: 'index',
@@ -496,6 +511,8 @@ const config = {
               },
             ],
           },
+
+           */
           {
             type: 'localeDropdown',
             position: 'right',
@@ -625,19 +642,26 @@ async function createConfig() {
   const FeatureRequestsPlugin = (
     await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs')
   ).default;
-  const configTabs = (await import('./src/remark/configTabs.mjs')).default;
+  // const configTabs = (await import('./src/remark/configTabs.mjs')).default;
   const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
   const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
-  const katex = (await import('rehype-katex')).default;
+  // const katex = (await import('rehype-katex')).default;
   config.plugins?.push(FeatureRequestsPlugin);
+  /*
   // @ts-expect-error: we know it exists, right
   config.presets[0][1].docs.remarkPlugins.push(configTabs);
+
+   */
   // @ts-expect-error: we know it exists, right
   config.themeConfig.prism.theme = lightTheme;
   // @ts-expect-error: we know it exists, right
   config.themeConfig.prism.darkTheme = darkTheme;
+
+  /*
   // @ts-expect-error: we know it exists, right
   config.presets[0][1].docs.rehypePlugins.push(katex);
+
+   */
   return config;
 }
 

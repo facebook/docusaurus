@@ -1,3 +1,7 @@
+---
+draft: true
+---
+
 # Canary releases
 
 ```mdx-code-block

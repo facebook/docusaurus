@@ -29,7 +29,7 @@
     "fs-extra": "^10.1.0",
     "image-size": "^1.0.2",
     "mdast-util-to-string": "^3.0.0",
-    "remark-gfm": "^1.0.0",
+    "remark-gfm": "^3.0.1",
     "remark-emoji": "^2.2.0",
     "stringify-object": "^3.3.0",
     "tslib": "^2.4.0",

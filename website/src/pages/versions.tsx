@@ -36,6 +36,18 @@ function ReleaseNotesLabel() {
 }
 
 export default function Version(): JSX.Element {
+  // TODO
+  return (
+    <Layout
+      title="Versions"
+      description="Docusaurus 2 Versions page listing all documented site versions">
+      Versions page disabled
+    </Layout>
+  );
+}
+
+// TODO
+function VersionOld(): JSX.Element {
   const {
     siteConfig: {organizationName, projectName},
   } = useDocusaurusContext();

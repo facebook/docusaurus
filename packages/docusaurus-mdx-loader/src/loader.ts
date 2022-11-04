@@ -166,7 +166,7 @@ export async function mdxLoader(
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions();
 
-  const {createProcessor} = await import('@mdx-js/mdx');
+  const {createProcessor, compile} = await import('@mdx-js/mdx');
   const gfm = await import('remark-gfm');
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
@@ -213,6 +213,8 @@ export async function mdxLoader(
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
+      format: 'mdx',
+      providerImportSource: '@mdx-js/react',
     };
 
     // @ts-expect-error: TODO
@@ -225,12 +227,21 @@ export async function mdxLoader(
   try {
     result = await compiler
       .process({
-        contents: content,
-        path: this.resourcePath,
+        value: content,
+        path: filePath,
       })
       .then((res) => res.toString());
   } catch (err) {
-    return callback(err as Error);
+    return callback(
+      new Error(
+        `MDX compilation failed for file ${filePath}\n${
+          (err as Error).message
+        }`,
+        {
+          cause: err as Error,
+        },
+      ),
+    );
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
