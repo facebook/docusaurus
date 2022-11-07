@@ -64,6 +64,16 @@ module.exports = {
 };
 ```
 
+To take advantage of the [Font Awesome](https://mermaid-js.github.io/mermaid/#/flowchart?id=basic-support-for-fontawesome) support in Mermaid you need to add the FontAwesome 5 CSS to Docusaurus by adding a stylesheet to your config.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  stylesheets: [
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'
+  ]
+};
+```
+
 See the [Mermaid theme documentation](https://mermaid-js.github.io/mermaid/#/theming) for more information on theming Mermaid diagrams.
 
 ## Mermaid Config {#configuration}
