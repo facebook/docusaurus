@@ -70,6 +70,13 @@ const plugin: Plugin = function plugin(
 
   const keywords = Object.values(options.keywords).map(escapeRegExp).join('|');
   const tag = escapeRegExp(options.tag);
+
+  // opening tag is followed by some non-whitespace characters
+  const openingTagRegex = new RegExp(`^${tag}\\S+`);
+
+  // closing tag is followed at most by whitespace characters
+  const closingTagRegex = new RegExp(`^${tag}\\s*$`);
+
   const regex = new RegExp(`${tag}(${keywords})(?: *(.*))?\n`);
   const escapeTag = new RegExp(escapeRegExp(`\\${options.tag}`), 'g');
 
@@ -98,6 +105,7 @@ const plugin: Plugin = function plugin(
     let newValue = value;
     // consume lines until a closing tag
     let idx = newValue.indexOf(NEWLINE);
+    let nestingLevel = 0;
     while (idx !== -1) {
       // grab this line and eat it
       const next = newValue.indexOf(NEWLINE, idx + 1);
@@ -105,9 +113,17 @@ const plugin: Plugin = function plugin(
         next !== -1 ? newValue.slice(idx + 1, next) : newValue.slice(idx + 1);
       food.push(line);
       newValue = newValue.slice(idx + 1);
-      // the closing tag is NOT part of the content
-      if (line.startsWith(options.tag)) {
-        break;
+      // keep track of nested opening tags
+      if (openingTagRegex.test(line)) {
+        nestingLevel += 1;
+      }
+      if (closingTagRegex.test(line)) {
+        // the closing tag is NOT part of the content
+        if (nestingLevel === 0) {
+          break;
+        }
+        // a nested block was closed
+        nestingLevel -= 1;
       }
       content.push(line);
       idx = newValue.indexOf(NEWLINE);
