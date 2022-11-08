@@ -246,8 +246,8 @@ Admonition alias `:::important` should have Important title
 
 :::
 
-:::info Nested Admonitions Admonitions can be easily nested.
+:::info Nested Admonitions
 
-:::danger Child Admonition Foo Bar :::
+Admonitions can be easily nested. :::danger Child Admonition Foo Bar :::
 
 :::
