@@ -183,10 +183,11 @@ export async function mdxLoader(
     unwrapMdxCodeBlocks(contentUnprocessed),
   )
     // TODO MDX 2 doesn't like our unescaped html comments <
-    .replace('<!--truncate-->', '')
-    .replace('<!-- truncate -->', '')
-    .replace('<!-- prettier-ignore -->', '');
-  // TODO also check the escaped comments like \<!-- my comment
+    .replaceAll('<!--', '\\<!--');
+
+  if (filePath.endsWith('markdownPageTests.md')) {
+    console.log(content);
+  }
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
@@ -247,9 +248,11 @@ export async function mdxLoader(
   } catch (err) {
     return callback(
       new Error(
-        `MDX compilation failed for file ${filePath}\n${
-          (err as Error).message
-        }`,
+        `MDX compilation failed for file ${filePath}\n${JSON.stringify(
+          err as Error,
+          null,
+          2,
+        )}`,
         {
           cause: err as Error,
         },

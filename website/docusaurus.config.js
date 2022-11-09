@@ -288,8 +288,6 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         debug: true, // force debug plugin usage
-        docs: false,
-        /*
         docs: {
           // routeBasePath: '/',
           path: 'docs',
@@ -333,9 +331,6 @@ const config = {
             },
           },
         },
-
-         */
-
         blog: {
           // routeBasePath: '/',
           path: 'blog',
@@ -429,7 +424,6 @@ const config = {
           height: 32,
         },
         items: [
-          /*
           {
             type: 'doc',
             position: 'left',
@@ -442,8 +436,6 @@ const config = {
             sidebarId: 'api',
             label: 'API',
           },
-
-           */
           {to: 'blog', label: 'Blog', position: 'left'},
           {to: 'showcase', label: 'Showcase', position: 'left'},
           {
@@ -453,7 +445,6 @@ const config = {
             activeBaseRegex: `/community/`,
           },
           // This item links to a draft doc: only displayed in dev
-          /*
           {
             type: 'doc',
             docId: 'index',
@@ -508,8 +499,6 @@ const config = {
               },
             ],
           },
-
-           */
           {
             type: 'localeDropdown',
             position: 'right',
