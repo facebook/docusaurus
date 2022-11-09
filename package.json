@@ -113,5 +113,9 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^28.0.0",
     "typescript": "~4.7.4"
+  },
+  "resolutions": {
+    "trim": "^0.0.3",
+    "got": "^11.8.5"
   }
 }
