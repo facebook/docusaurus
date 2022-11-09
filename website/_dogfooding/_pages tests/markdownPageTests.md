@@ -170,7 +170,7 @@ function Clock(props) {
 
 ### Weird heading {#a b}
 
-### Weird heading {#a{b}
+### Weird heading {#a\{b}
 
 ## Pipe
 

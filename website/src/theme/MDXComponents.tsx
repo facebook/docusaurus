@@ -9,8 +9,15 @@ import MDXComponents from '@theme-original/MDXComponents';
 import Highlight from '@site/src/components/Highlight';
 import TweetQuote from '@site/src/components/TweetQuote';
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 export default {
   ...MDXComponents,
   highlight: Highlight,
   TweetQuote,
+
+  // TODO to remove, temporary
+  Tabs,
+  TabItem,
 };

@@ -3,6 +3,8 @@ sidebar_position: 2
 slug: /api/themes/@docusaurus/theme-classic
 ---
 
+import APITable from '@site/src/components/APITable';
+
 # 📦 theme-classic
 
 The classic theme for Docusaurus.

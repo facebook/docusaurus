@@ -44,6 +44,12 @@ function TabsComponent(props: Props): JSX.Element {
     if (isValidElement(child) && isTabItem(child)) {
       return child;
     }
+
+    // TODO why do we need this with MDX 2 now?
+    if (child === '\n') {
+      return undefined;
+    }
+
     // child.type.name will give non-sensical values in prod because of
     // minification, but we assume it won't throw in prod.
     throw new Error(

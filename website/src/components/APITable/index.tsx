@@ -54,7 +54,10 @@ function APITableRow(
           history.push(anchor);
         }
       }}>
-      {children.props.children}
+      {
+        // TODO fix this
+        children.props?.children
+      }
     </tr>
   );
 }

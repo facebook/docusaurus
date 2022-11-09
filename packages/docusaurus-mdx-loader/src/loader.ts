@@ -185,9 +185,11 @@ export async function mdxLoader(
     // TODO MDX 2 doesn't like our unescaped html comments <
     .replaceAll('<!--', '\\<!--');
 
+  /*
   if (filePath.endsWith('markdownPageTests.md')) {
     console.log(content);
   }
+   */
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
