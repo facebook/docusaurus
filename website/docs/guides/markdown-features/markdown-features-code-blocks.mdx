@@ -136,7 +136,7 @@ const prismIncludeLanguages = (Prism) => {
 
 You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
 
-When adding a custom language definition to Docusaurus you do not need to add the language to the `additionalLanguages` config array. Adding the language import in `prism-include-languages.js` is sufficient and adding custom languages to `additionalLanguages` will result in an error.
+When adding a custom language definition, you do not need to add the language to the `additionalLanguages` config array, since Docusaurus only looks up the `additionalLanguages` strings in languages that Prism provides. Adding the language import in `prism-include-languages.js` is sufficient.
 
 ## Line highlighting {#line-highlighting}
 
