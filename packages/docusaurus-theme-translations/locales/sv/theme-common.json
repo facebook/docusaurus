@@ -48,7 +48,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Stäng sidofältet",
   "theme.docs.sidebar.expandButtonAriaLabel": "Expandera sidofältet",
   "theme.docs.sidebar.expandButtonTitle": "Expandera sidofältet",
-  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Toggle navigation bar",
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Visa/göm navigationen",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} med \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Ett dokument taggat|{count} dokument taggade",
   "theme.docs.versionBadge.label": "Version: {versionLabel}",
