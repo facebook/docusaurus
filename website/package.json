@@ -88,5 +88,31 @@
     "@types/jest": "^29.0.0",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/.docusaurus",
+          "{projectRoot}/changelog"
+        ]
+      },
+      "build:fast": {
+        "outputs": [
+          "{projectRoot}/.docusaurus",
+          "{projectRoot}/changelog"
+        ]
+      },
+      "build:blogOnly": {
+        "outputs": [
+          "{projectRoot}/.docusaurus"
+        ]
+      },
+      "build:baseUrl": {
+        "outputs": [
+          "{projectRoot}/.docusaurus"
+        ]
+      }
+    }
   }
 }

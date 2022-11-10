@@ -1,0 +1,30 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "build:fast",
+          "build:baseUrl",
+          "build:blogOnly"
+        ]
+      }
+    }
+  },
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "!{projectRoot}/lib/**/*",
+      "!{projectRoot}/.docusaurus"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "inputs": ["default", "^default"],
+      "outputs": ["{projectRoot}/lib"],
+      "dependsOn": ["^build"]
+    }
+  },
+  "defaultBase": "main"
+}
