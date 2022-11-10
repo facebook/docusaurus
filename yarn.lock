@@ -3659,11 +3659,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/mermaid@^8.2.9":
-  version "8.2.9"
-  resolved "https://registry.yarnpkg.com/@types/mermaid/-/mermaid-8.2.9.tgz#1844505dcffcd47703e94628a6200583d35c2c76"
-  integrity sha512-f1i8fNoVFVJXedk+R7GcEk4KoOWzWAU3CzFqlVw1qWKktfsataBERezCz1pOdKy8Ec02ZdPQXGM7NU2lPHABYQ==
-
 "@types/micromatch@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.2.tgz#ce29c8b166a73bf980a5727b1e4a4d099965151d"
@@ -11117,10 +11112,10 @@ merge2@^1.3.0, merge2@^1.4.1:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
-mermaid@9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/mermaid/-/mermaid-9.2.0.tgz#e73bfe252a8cb12427fcb9cb38867d8f2d1a77f0"
-  integrity sha512-iWKTBjHoPUSs+mJMpZ5+K9xg97KflKjbv91Bu42yK2jjz4wX4Nt1eshi+bmmFWAhn7f2R0X55hlxxbSxdp0QYA==
+mermaid@^9.2.2:
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/mermaid/-/mermaid-9.2.2.tgz#73cca1f0b74e7e674c0de3519d7e7e8ea83bea4a"
+  integrity sha512-6s7eKMqFJGS+0MYjmx8f6ZigqKBJVoSx5ql2gw6a4Aa+WJ49QiEJg7gPwywaBg3DZMs79UP7trESp4+jmaQccw==
   dependencies:
     "@braintree/sanitize-url" "^6.0.0"
     d3 "^7.0.0"
