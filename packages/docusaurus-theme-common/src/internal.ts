@@ -67,7 +67,7 @@ export {
   isDocsPluginEnabled,
   useDocById,
   findSidebarCategory,
-  findFirstCategoryLink,
+  findFirstSidebarItemLink,
   isActiveSidebarItem,
   isVisibleSidebarItem,
   useVisibleSidebarItems,
