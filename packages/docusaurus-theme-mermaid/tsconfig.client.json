@@ -10,6 +10,6 @@
     "module": "esnext",
     "target": "esnext"
   },
-  "include": ["src/theme", "src/*.d.ts"],
+  "include": ["src/client", "src/theme", "src/*.d.ts"],
   "exclude": ["**/__tests__/**"]
 }
