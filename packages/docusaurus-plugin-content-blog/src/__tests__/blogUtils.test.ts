@@ -52,6 +52,7 @@ describe('paginateBlogPosts', () => {
         basePageUrl: '/blog',
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
+        blogPaginationActive: true,
         postsPerPageOption: 2,
       }),
     ).toMatchSnapshot();
@@ -61,6 +62,7 @@ describe('paginateBlogPosts', () => {
         basePageUrl: '/',
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
+        blogPaginationActive: true,
         postsPerPageOption: 2,
       }),
     ).toMatchSnapshot();
@@ -70,6 +72,47 @@ describe('paginateBlogPosts', () => {
         basePageUrl: '/',
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
+        blogPaginationActive: true,
+        postsPerPageOption: 10,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('generates one page only', () => {
+    const blogPosts = [
+      {id: 'post1', metadata: {}, content: 'Foo 1'},
+      {id: 'post2', metadata: {}, content: 'Foo 2'},
+      {id: 'post3', metadata: {}, content: 'Foo 3'},
+      {id: 'post4', metadata: {}, content: 'Foo 4'},
+      {id: 'post5', metadata: {}, content: 'Foo 5'},
+    ] as BlogPost[];
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/blog',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        blogPaginationActive: false,
+        postsPerPageOption: 2,
+      }),
+    ).toMatchSnapshot();
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        blogPaginationActive: false,
+        postsPerPageOption: 2,
+      }),
+    ).toMatchSnapshot();
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        blogPaginationActive: false,
         postsPerPageOption: 10,
       }),
     ).toMatchSnapshot();
@@ -214,6 +257,7 @@ describe('linkify', () => {
         frontMatter: {},
         authors: [],
         formattedDate: '',
+        unlisted: false,
       },
       content: '',
     },

@@ -23,6 +23,75 @@ title: This post links to another one!
 [Linked post](/blog/2018/12/14/Happy-First-Birthday-Slash)"
 `;
 
+exports[`paginateBlogPosts generates one page only 1`] = `
+[
+  {
+    "items": [
+      "post1",
+      "post2",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 1,
+      "permalink": "/blog",
+      "postsPerPage": 2,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 1,
+    },
+  },
+]
+`;
+
+exports[`paginateBlogPosts generates one page only 2`] = `
+[
+  {
+    "items": [
+      "post1",
+      "post2",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 1,
+      "permalink": "/",
+      "postsPerPage": 2,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 1,
+    },
+  },
+]
+`;
+
+exports[`paginateBlogPosts generates one page only 3`] = `
+[
+  {
+    "items": [
+      "post1",
+      "post2",
+      "post3",
+      "post4",
+      "post5",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 1,
+      "permalink": "/",
+      "postsPerPage": 10,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 1,
+    },
+  },
+]
+`;
+
 exports[`paginateBlogPosts generates right pages 1`] = `
 [
   {
