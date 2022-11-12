@@ -17,7 +17,7 @@ import {
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
-import {stringifyContent} from '../utils';
+import {assetRequireAttributeValue, stringifyContent} from '../utils';
 import type {Transformer} from 'unified';
 import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';
@@ -26,7 +26,7 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-export type PluginOptions = {
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
 };
@@ -47,6 +47,14 @@ async function toAssetRequireNode(
 ) {
   const {toString} = await import('mdast-util-to-string');
 
+  const jsxNode = node as unknown as {
+    type: string;
+    name: string;
+    attributes: any[];
+    children: any[];
+  };
+  const attributes = [];
+
   // require("assets/file.pdf") means requiring from a package called assets
   const relativeAssetPath = `./${posixPath(
     path.relative(path.dirname(filePath), assetPath),
@@ -56,23 +64,43 @@ async function toAssetRequireNode(
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 
-  const href = `require('${
+  const requireString = `${
     // A hack to stop Webpack from using its built-in loader to parse JSON
     path.extname(relativeAssetPath) === '.json'
       ? `${relativeAssetPath.replace('.json', '.raw')}!=`
       : ''
-  }${inlineMarkdownLinkFileLoader}${
-    escapePath(relativeAssetPath) + search
-  }').default${hash ? ` + '${hash}'` : ''}`;
+  }${inlineMarkdownLinkFileLoader}${escapePath(relativeAssetPath) + search}`;
+
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'href',
+    value: assetRequireAttributeValue(requireString, hash),
+  });
+
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'target',
+    value: '_blank',
+  });
+
+  if (node.title) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'title',
+      value: escapeHtml(node.title),
+    });
+  }
+
   const children = stringifyContent(node, toString);
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
 
-  const jsxNode: Literal = {
-    type: 'jsx',
-    value: `<a target="_blank" href={${href}}${title}>${children}</a>`,
-  };
+  Object.keys(jsxNode).forEach(
+    (key) => delete jsxNode[key as keyof typeof jsxNode],
+  );
 
-  parent.children.splice(index, 1, jsxNode);
+  jsxNode.type = 'mdxJsxFlowElement';
+  jsxNode.name = 'a';
+  jsxNode.attributes = attributes;
+  jsxNode.children = [{type: 'text', value: children}];
 }
 
 async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
