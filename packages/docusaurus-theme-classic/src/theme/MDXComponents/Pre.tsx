@@ -14,8 +14,8 @@ export default function MDXPre(props: Props): JSX.Element {
     <CodeBlock
       // If this pre is created by a ``` fenced codeblock, unwrap the children
       {...(isValidElement(props.children) &&
-      // @ts-expect-error: todo temporary solution ?
-      props.children?.type?.name === 'MDXCode'
+      (props.children.props as {originalType: string} | null)?.originalType ===
+        'code'
         ? props.children.props
         : {...props})}
     />

@@ -26,6 +26,7 @@ import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
 
 // import transformAdmonitions from './remark/admonitions';
+import codeCompat from './remark/mdx1Compat/codeCompat';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 
@@ -215,6 +216,7 @@ export async function mdxLoader(
         },
       ],
       gfm,
+      codeCompat,
       ...(reqOptions.remarkPlugins ?? []),
     ];
 
