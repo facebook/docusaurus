@@ -369,6 +369,8 @@ declare module '@docusaurus/plugin-content-blog' {
     blogSidebarCount: number | 'ALL';
     /** Title of the blog sidebar. */
     blogSidebarTitle: string;
+    /** Paginate blog - defaults to true */
+    blogPaginationActive: boolean;
     /** Truncate marker marking where the summary ends. */
     truncateMarker: RegExp;
     /** Show estimated reading time for the blog post. */

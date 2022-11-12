@@ -57,24 +57,28 @@ export function paginateBlogPosts({
   blogTitle,
   blogDescription,
   postsPerPageOption,
+  blogPaginationActive,
 }: {
   blogPosts: BlogPost[];
   basePageUrl: string;
   blogTitle: string;
   blogDescription: string;
   postsPerPageOption: number | 'ALL';
+  blogPaginationActive: boolean;
 }): BlogPaginated[] {
   const totalCount = blogPosts.length;
   const postsPerPage =
     postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-  const numberOfPages = Math.ceil(totalCount / postsPerPage);
+  const numberOfPages = blogPaginationActive
+    ? Math.ceil(totalCount / postsPerPage)
+    : 1;
 
   const pages: BlogPaginated[] = [];
 
   function permalink(page: number) {
     return page > 0
       ? normalizeUrl([basePageUrl, `page/${page + 1}`])
-      : basePageUrl;
+      : basePageUrl; // This is the root of the blog eg /blog
   }
 
   for (let page = 0; page < numberOfPages; page += 1) {
@@ -127,6 +131,7 @@ export function getBlogTags({
       permalink: tag.permalink,
       pages: paginateBlogPosts({
         blogPosts: tagVisibility.listedItems,
+        blogPaginationActive: true,
         basePageUrl: tag.permalink,
         ...params,
       }),

@@ -38,6 +38,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   blogTitle: 'Blog',
   blogSidebarCount: 5,
   blogSidebarTitle: 'Recent posts',
+  blogPaginationActive: true,
   postsPerPage: 10,
   include: ['**/*.{md,mdx}'],
   exclude: GlobExcludeDefault,
@@ -85,6 +86,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .try(Joi.equal('ALL').required(), Joi.number().integer().min(0).required())
     .default(DEFAULT_OPTIONS.blogSidebarCount),
   blogSidebarTitle: Joi.string().default(DEFAULT_OPTIONS.blogSidebarTitle),
+  blogPaginationActive: Joi.bool().default(
+    DEFAULT_OPTIONS.blogPaginationActive,
+  ),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),

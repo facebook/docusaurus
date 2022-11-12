@@ -344,6 +344,7 @@ const config = {
           },
           blogSidebarCount: 'ALL',
           blogSidebarTitle: 'All our posts',
+          blogPaginationActive: false,
         },
         pages: {
           remarkPlugins: [npm2yarn],
