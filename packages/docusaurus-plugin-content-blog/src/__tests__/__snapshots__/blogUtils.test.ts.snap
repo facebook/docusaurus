@@ -92,6 +92,27 @@ exports[`paginateBlogPosts generates one page only 3`] = `
 ]
 `;
 
+exports[`paginateBlogPosts generates one page only 4`] = `
+[
+  {
+    "items": [
+      "post1",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 1,
+      "permalink": "/",
+      "postsPerPage": 1,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 1,
+    },
+  },
+]
+`;
+
 exports[`paginateBlogPosts generates right pages 1`] = `
 [
   {

@@ -119,6 +119,17 @@ describe('paginateBlogPosts', () => {
     });
     expect(paginatedBlogPosts3).toHaveLength(1);
     expect(paginatedBlogPosts3).toMatchSnapshot();
+
+    const paginatedBlogPosts4 = paginateBlogPosts({
+      blogPosts,
+      basePageUrl: '/',
+      blogTitle: 'Blog Title',
+      blogDescription: 'Blog Description',
+      blogPaginationActive: false,
+      postsPerPageOption: 1,
+    });
+    expect(paginatedBlogPosts4).toHaveLength(1);
+    expect(paginatedBlogPosts4).toMatchSnapshot();
   });
 });
 
