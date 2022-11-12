@@ -23,6 +23,7 @@ import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue} from '../utils';
 import type {Transformer} from 'unified';
 import type {Image} from 'mdast';
+import type {Parent} from 'unist';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -37,8 +38,10 @@ type Context = PluginOptions & {
   filePath: string;
 };
 
+type Target = [node: Image, index: number, parent: Parent];
+
 async function toImageRequireNode(
-  node: Image,
+  [node, index, parent]: Target,
   imagePath: string,
   filePath: string,
 ) {
@@ -141,7 +144,7 @@ async function getImageAbsolutePath(
     await ensureImageFileExist(imageFilePath, filePath);
     return imageFilePath;
   } else if (path.isAbsolute(imagePath)) {
-    // absolute paths are expected to exist in the static folder
+    // Absolute paths are expected to exist in the static folder.
     const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
     const imageFilePath = await findAsyncSequential(
       possiblePaths,
@@ -167,7 +170,8 @@ async function getImageAbsolutePath(
   return imageFilePath;
 }
 
-async function processImageNode(node: Image, context: Context) {
+async function processImageNode(target: Target, context: Context) {
+  const [node] = target;
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
@@ -189,15 +193,18 @@ async function processImageNode(node: Image, context: Context) {
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
   const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
-  await toImageRequireNode(node, imagePath, context.filePath);
+  await toImageRequireNode(target, imagePath, context.filePath);
 }
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
     const promises: Promise<void>[] = [];
-    visit(root, 'image', (node: Image) => {
+    visit(root, 'image', (node: Image, index, parent) => {
       promises.push(
-        processImageNode(node, {...options, filePath: vfile.path!}),
+        processImageNode([node, index, parent!], {
+          ...options,
+          filePath: vfile.path!,
+        }),
       );
     });
     await Promise.all(promises);
