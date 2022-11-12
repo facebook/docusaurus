@@ -60,16 +60,48 @@ function normalizeOptions(
 
 // This string value does not matter much
 // It is ignored because nodes are using hName/hProperties coming from HAST
-const admonitionNodeType = 'admonitionHTML';
+// const admonitionNodeType = 'admonitionHTML';
 
 const plugin: Plugin = function plugin(
   this: Processor,
   optionsInput: Partial<AdmonitionOptions> = {},
 ): Transformer {
-  const options = normalizeOptions(optionsInput);
+  const {keywords} = normalizeOptions(optionsInput);
 
-  const keywords = Object.values(options.keywords).map(escapeRegExp).join('|');
-  const tag = escapeRegExp(options.tag);
+  // See also:
+  // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
+  // https://github.com/remarkjs/remark-directive
+  return async (tree) => {
+    const {h} = await import('hastscript');
+
+    visit(tree, (node: any) => {
+      if (
+        // TODO we only need containerDirective for admonitions?
+        // node.type === 'textDirective' ||
+        // node.type === 'leafDirective' ||
+        node.type === 'containerDirective'
+      ) {
+        const isAdmonition = keywords.includes(node.name);
+
+        if (!isAdmonition) {return;}
+
+        const data = node.data || (node.data = {});
+        const tagName = 'admonition';
+
+        data.hName = tagName;
+        data.hProperties = h(tagName, {
+          type: node.name,
+          ...node.attributes,
+        }).properties;
+      }
+    });
+  };
+
+  // TODO markdown directive tag is not configurable?
+  // Option to remove
+  // const tag = escapeRegExp(options.tag);
+
+  /*
   const regex = new RegExp(`${tag}(${keywords})(?: *(.*))?\n`);
   const escapeTag = new RegExp(escapeRegExp(`\\${options.tag}`), 'g');
 
@@ -184,6 +216,9 @@ const plugin: Plugin = function plugin(
     0,
     ['admonition'],
   );
+  */
+
+  /*
 
   return (root) => {
     // escape everything except admonitionHTML nodes
@@ -198,6 +233,8 @@ const plugin: Plugin = function plugin(
       },
     );
   };
+
+   */
 };
 
 export default plugin;

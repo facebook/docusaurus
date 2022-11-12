@@ -25,8 +25,8 @@ import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
 
-// import transformAdmonitions from './remark/admonitions';
-import codeCompat from './remark/mdx1Compat/codeCompat';
+import transformAdmonitions from './remark/admonitions';
+import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 
@@ -148,13 +148,12 @@ function getAdmonitionsPlugins(
   admonitionsOption: MDXOptions['admonitions'],
 ): MDXPlugin[] {
   if (admonitionsOption) {
-    /*
+    // @ts-expect-error: TODO fix types
     const plugin: MDXPlugin =
       admonitionsOption === true
         ? transformAdmonitions
         : [transformAdmonitions, admonitionsOption];
-    // return [plugin]; TODO
-     */
+    return [plugin];
   }
 
   return [];
@@ -198,6 +197,7 @@ export async function mdxLoader(
     // @ts-expect-error: TODO
     const remarkPlugins: ProcessorOptions['remarkPlugins'] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
+      (await import('remark-directive')).default,
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
       ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
@@ -216,7 +216,7 @@ export async function mdxLoader(
         },
       ],
       gfm,
-      codeCompat,
+      codeCompatPlugin,
       ...(reqOptions.remarkPlugins ?? []),
     ];
 
@@ -250,13 +250,13 @@ export async function mdxLoader(
       })
       .then((res) => res.toString());
   } catch (err) {
+    console.log({err});
+    // TODO why do we have to do such things to get a good error message :s
     return callback(
       new Error(
-        `MDX compilation failed for file ${filePath}\n${JSON.stringify(
-          err as Error,
-          null,
-          2,
-        )}`,
+        `MDX compilation failed for file ${filePath}\n${
+          (err as Error).message
+        }\n${JSON.stringify(err as Error, null, 2)}`,
         {
           cause: err as Error,
         },
