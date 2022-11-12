@@ -86,36 +86,39 @@ describe('paginateBlogPosts', () => {
       {id: 'post4', metadata: {}, content: 'Foo 4'},
       {id: 'post5', metadata: {}, content: 'Foo 5'},
     ] as BlogPost[];
-    expect(
-      paginateBlogPosts({
-        blogPosts,
-        basePageUrl: '/blog',
-        blogTitle: 'Blog Title',
-        blogDescription: 'Blog Description',
-        blogPaginationActive: false,
-        postsPerPageOption: 2,
-      }),
-    ).toMatchSnapshot();
-    expect(
-      paginateBlogPosts({
-        blogPosts,
-        basePageUrl: '/',
-        blogTitle: 'Blog Title',
-        blogDescription: 'Blog Description',
-        blogPaginationActive: false,
-        postsPerPageOption: 2,
-      }),
-    ).toMatchSnapshot();
-    expect(
-      paginateBlogPosts({
-        blogPosts,
-        basePageUrl: '/',
-        blogTitle: 'Blog Title',
-        blogDescription: 'Blog Description',
-        blogPaginationActive: false,
-        postsPerPageOption: 10,
-      }),
-    ).toMatchSnapshot();
+
+    const paginatedBlogPosts1 = paginateBlogPosts({
+      blogPosts,
+      basePageUrl: '/blog',
+      blogTitle: 'Blog Title',
+      blogDescription: 'Blog Description',
+      blogPaginationActive: false,
+      postsPerPageOption: 2,
+    });
+    expect(paginatedBlogPosts1).toHaveLength(1);
+    expect(paginatedBlogPosts1).toMatchSnapshot();
+
+    const paginatedBlogPosts2 = paginateBlogPosts({
+      blogPosts,
+      basePageUrl: '/',
+      blogTitle: 'Blog Title',
+      blogDescription: 'Blog Description',
+      blogPaginationActive: false,
+      postsPerPageOption: 2,
+    });
+    expect(paginatedBlogPosts2).toHaveLength(1);
+    expect(paginatedBlogPosts2).toMatchSnapshot();
+
+    const paginatedBlogPosts3 = paginateBlogPosts({
+      blogPosts,
+      basePageUrl: '/',
+      blogTitle: 'Blog Title',
+      blogDescription: 'Blog Description',
+      blogPaginationActive: false,
+      postsPerPageOption: 10,
+    });
+    expect(paginatedBlogPosts3).toHaveLength(1);
+    expect(paginatedBlogPosts3).toMatchSnapshot();
   });
 });
 
