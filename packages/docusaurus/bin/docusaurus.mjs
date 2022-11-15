@@ -22,6 +22,7 @@ import {
   writeTranslations,
   writeHeadingIds,
 } from '../lib/index.js';
+import {normalizePollValue} from './utils.mjs';
 import beforeCli from './beforeCli.mjs';
 
 await beforeCli();
@@ -122,6 +123,7 @@ cli
   .option(
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
+    normalizePollValue,
   )
   .option(
     '--no-minify',
