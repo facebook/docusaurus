@@ -105,7 +105,6 @@ cli
   .action(deploy);
 
 /**
- *
  * @param {string | undefined} value
  * @returns {boolean | number}
  */
