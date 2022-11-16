@@ -106,8 +106,8 @@ cli
 
 /**
  *
- * @param {string} value
- * @returns {boolean|number}
+ * @param {string | undefined} value
+ * @returns {boolean | number}
  */
 function normalizePollValue(value) {
   if (value === undefined || value === '') {
