@@ -22,7 +22,6 @@ import {
   writeTranslations,
   writeHeadingIds,
 } from '../lib/index.js';
-import {normalizePollValue} from './utils.mjs';
 import beforeCli from './beforeCli.mjs';
 
 await beforeCli();
@@ -104,6 +103,24 @@ cli
     'skip building website before deploy it (default: false)',
   )
   .action(deploy);
+
+/**
+ *
+ * @param {string} value
+ * @returns {boolean|number}
+ */
+function normalizePollValue(value) {
+  if (value === undefined || value === '') {
+    return false;
+  }
+
+  const parsedIntValue = Number.parseInt(value, 10);
+  if (!Number.isNaN(parsedIntValue)) {
+    return parsedIntValue;
+  }
+
+  return value === 'true';
+}
 
 cli
   .command('start [siteDir]')
