@@ -71,28 +71,59 @@ const plugin: Plugin = function plugin(
   // See also:
   // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
   // https://github.com/remarkjs/remark-directive
-  return async (tree) => {
+  return async (tree, file) => {
     const {h} = await import('hastscript');
 
     visit(tree, (node: any) => {
       if (
         // TODO we only need containerDirective for admonitions?
-        // node.type === 'textDirective' ||
-        // node.type === 'leafDirective' ||
         node.type === 'containerDirective'
       ) {
         const isAdmonition = keywords.includes(node.name);
 
-        if (!isAdmonition) {return;}
+        if (!isAdmonition) {
+          return;
+        }
+
+        const str = JSON.stringify(node, null, 2);
+        if (str.includes('TEST')) {
+          console.log('TEST', node.name, JSON.stringify(node, null, 2));
+        }
 
         const data = node.data || (node.data = {});
         const tagName = 'admonition';
 
+        const hasDirectiveLabel =
+          node.children?.[0].data?.directiveLabel === true;
+        const directiveLabel = hasDirectiveLabel
+          ? node.children.shift()
+          : undefined;
+
+        if (directiveLabel) {
+          console.log('directiveLabel', directiveLabel);
+
+          directiveLabel.type = 'element';
+          directiveLabel.tagName = 'p';
+        }
+
+        const title = node.attributes?.title ?? directiveLabel;
+        file.message('testMessageReason');
+
+        title && console.log('title', title);
+
         data.hName = tagName;
         data.hProperties = h(tagName, {
-          type: node.name,
           ...node.attributes,
+          type: node.name,
+          title,
         }).properties;
+
+        /*
+        data.hChildren = [
+          directiveLabel,
+        ]
+
+         */
       }
     });
   };
