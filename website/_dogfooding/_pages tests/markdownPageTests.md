@@ -240,6 +240,12 @@ Admonition body
 
 :::
 
+:::caution[Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button>]
+
+Admonition body
+
+:::
+
 :::important
 
 Admonition alias `:::important` should have Important title

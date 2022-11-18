@@ -4,8 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 import visit from 'unist-util-visit';
+// import toHast from 'mdast-util-to-hast';
 import type {Transformer, Processor, Plugin} from 'unified';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
@@ -93,39 +93,63 @@ const plugin: Plugin = function plugin(
           return;
         }
 
+        /*
         const str = JSON.stringify(node, null, 2);
         if (str.includes('TEST')) {
           console.log('TEST', node.name, JSON.stringify(node, null, 2));
         }
+
+         */
 
         const data = node.data || (node.data = {});
         const tagName = 'admonition';
 
         const hasDirectiveLabel =
           node.children?.[0].data?.directiveLabel === true;
+
+        if (hasDirectiveLabel) {
+          const dl = node.children[0];
+          dl.data.hName = 'mdxAdmonitionTitle';
+          dl.data.hProperties = dl.data.hProperties ?? {};
+          dl.data.hProperties.mdxType = 'mdxAdmonitionTitle';
+          // console.log('dl', dl);
+        }
+
+        /*
         const directiveLabel = hasDirectiveLabel
           ? node.children.shift()
           : undefined;
 
+        const directiveLabelHast = directiveLabel
+          ? toHast(directiveLabel)
+          : undefined;
+
         if (directiveLabel) {
           console.log('directiveLabel', directiveLabel);
-
-          directiveLabel.type = 'element';
-          directiveLabel.tagName = 'p';
+          console.log('directiveLabelHast', directiveLabelHast);
         }
 
-        const title = node.attributes?.title ?? directiveLabel;
-        file.message('testMessageReason');
+         */
 
-        title && console.log('title', title);
+        const title = node.attributes?.title; // ?? directiveLabelHast;
+        // file.message('testMessageReason');
+
+        // title && console.log('title', title);
 
         data.hName = tagName;
         data.hProperties = h(tagName, {
           ...node.attributes,
           type: node.name,
           title,
+          // title: 'test hardcoded title',
         }).properties;
 
+        // data.hProperties.title =  h('code', 'hardcoded code value test');
+        // data.hProperties.title = title;
+
+        // data.hChildren = [directiveLabelHast].filter(Boolean);
+
+        /*
         data.hChildren = [
           // directiveLabel,
           {
@@ -145,6 +169,8 @@ const plugin: Plugin = function plugin(
             },
           },
         ];
+
+         */
       }
     });
   };

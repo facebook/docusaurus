@@ -30,6 +30,7 @@
     "hastscript": "^7.1.0",
     "image-size": "^1.0.2",
     "mdast-util-to-string": "^3.0.0",
+    "mdast-util-to-hast": "^10.2.0",
     "remark-gfm": "^3.0.1",
     "remark-directive": "^2.0.1",
     "remark-emoji": "^2.2.0",
