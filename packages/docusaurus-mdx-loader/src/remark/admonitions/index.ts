@@ -7,9 +7,9 @@
 
 import visit from 'unist-util-visit';
 import type {Transformer, Processor, Plugin} from 'unified';
-import type {Literal} from 'mdast';
 
-const NEWLINE = '\n';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {ContainerDirective} from 'mdast-util-directive';
 
 // TODO not ideal option shape
 // First let upgrade to MDX 2.0
@@ -74,6 +74,14 @@ const plugin: Plugin = function plugin(
   return async (tree, file) => {
     const {h} = await import('hastscript');
 
+    visit(
+      tree,
+      'containerDirective',
+      (containerDirective: ContainerDirective) => {
+        //
+      },
+    );
+
     visit(tree, (node: any) => {
       if (
         // TODO we only need containerDirective for admonitions?
@@ -118,12 +126,25 @@ const plugin: Plugin = function plugin(
           title,
         }).properties;
 
-        /*
         data.hChildren = [
-          directiveLabel,
-        ]
-
-         */
+          // directiveLabel,
+          {
+            type: 'text',
+            value: 'Hello',
+            position: {
+              start: {
+                line: 1,
+                column: 3,
+                offset: 2,
+              },
+              end: {
+                line: 1,
+                column: 8,
+                offset: 7,
+              },
+            },
+          },
+        ];
       }
     });
   };
