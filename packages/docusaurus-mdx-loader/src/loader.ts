@@ -40,6 +40,7 @@ const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
+// TODO replace with new mdx compiler options?
 const pragma = `
 /* @jsxRuntime classic */
 /* @jsx mdx */
