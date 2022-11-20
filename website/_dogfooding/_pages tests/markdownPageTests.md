@@ -246,7 +246,7 @@ Admonition alias `:::important` should have Important title
 
 :::
 
-:::info Nested Admonitions
+::::info Nested Admonitions
 
 Admonitions can be easily nested.
 
@@ -256,4 +256,26 @@ Foo Bar
 
 :::
 
+::::
+
+:::::note Your title
+
+Some **content** with _Markdown_ `syntax`.
+
+::::note Your nested Title
+
+:::note Your very nested Title (does not work yet :s)
+
+Some **content** with _Markdown_ `syntax`.
+
 :::
+
+Some **content** with _Markdown_ `syntax`.
+
+::::
+
+hey
+
+:::::
+
+hello

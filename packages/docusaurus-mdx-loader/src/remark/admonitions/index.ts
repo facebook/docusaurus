@@ -69,16 +69,20 @@ const plugin: Plugin = function plugin(
   const options = normalizeOptions(optionsInput);
 
   const keywords = Object.values(options.keywords).map(escapeRegExp).join('|');
+  const nestingChar = escapeRegExp(options.tag.slice(0, 1));
   const tag = escapeRegExp(options.tag);
 
-  // opening tag is followed by some non-whitespace characters
-  const openingTagRegex = new RegExp(`^${tag}\\S+`);
+  // resolve th nesting level of an opening tag
+  // ::: -> 0, :::: -> 1, ::::: -> 2 ...
+  const nestingLevelRegex = new RegExp(
+    `^${tag}(?<nestingLevel>${nestingChar}*)`,
+  );
 
-  // closing tag is followed at most by whitespace characters
-  const closingTagRegex = new RegExp(`^${tag}\\s*$`);
-
-  const regex = new RegExp(`${tag}(${keywords})(?: *(.*))?\n`);
-  const escapeTag = new RegExp(escapeRegExp(`\\${options.tag}`), 'g');
+  const regex = new RegExp(`${tag}${nestingChar}*(${keywords})(?: *(.*))?\n`);
+  const escapeTag = new RegExp(
+    escapeRegExp(`\\${options.tag}${options.tag.slice(0, 1)}*`),
+    'g',
+  );
 
   // The tokenizer is called on blocks to determine if there is an admonition
   // present and create tags for it
@@ -101,11 +105,15 @@ const plugin: Plugin = function plugin(
     ];
     const food = [];
     const content = [];
+    // get the nesting level of the opening tag
+    const openingLevel =
+      nestingLevelRegex.exec(opening)!.groups!.nestingLevel!.length;
+    // used as a stack to keep track of nested admonitions
+    const nestingLevels: number[] = [openingLevel];
 
     let newValue = value;
     // consume lines until a closing tag
     let idx = newValue.indexOf(NEWLINE);
-    let nestingLevel = 0;
     while (idx !== -1) {
       // grab this line and eat it
       const next = newValue.indexOf(NEWLINE, idx + 1);
@@ -113,20 +121,32 @@ const plugin: Plugin = function plugin(
         next !== -1 ? newValue.slice(idx + 1, next) : newValue.slice(idx + 1);
       food.push(line);
       newValue = newValue.slice(idx + 1);
-      // keep track of nested opening tags
-      if (openingTagRegex.test(line)) {
-        nestingLevel += 1;
+      const nesting = nestingLevelRegex.exec(line);
+      idx = newValue.indexOf(NEWLINE);
+      if (!nesting) {
+        content.push(line);
+        continue;
       }
-      if (closingTagRegex.test(line)) {
+      const tagLevel = nesting.groups!.nestingLevel!.length;
+      // first level
+      if (nestingLevels.length === 0) {
+        nestingLevels.push(tagLevel);
+        content.push(line);
+        continue;
+      }
+      const currentLevel = nestingLevels[nestingLevels.length - 1]!;
+      if (tagLevel < currentLevel) {
+        // entering a nested admonition block
+        nestingLevels.push(tagLevel);
+      } else if (tagLevel === currentLevel) {
+        // closing a nested admonition block
+        nestingLevels.pop();
         // the closing tag is NOT part of the content
-        if (nestingLevel === 0) {
+        if (nestingLevels.length === 0) {
           break;
         }
-        // a nested block was closed
-        nestingLevel -= 1;
       }
       content.push(line);
-      idx = newValue.indexOf(NEWLINE);
     }
 
     // consume the processed tag and replace escape sequences
