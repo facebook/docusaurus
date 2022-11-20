@@ -149,6 +149,7 @@ describe('blog plugin', () => {
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/date-matter.md`,
       permalink: '/blog/date-matter',
+      aliases: ['/blog/alias1', '/blog/alias2'],
       readingTime: 0.02,
       source: path.posix.join('@site', PluginPath, 'date-matter.md'),
       title: 'date-matter',
@@ -159,6 +160,7 @@ describe('blog plugin', () => {
       frontMatter: {
         date: new Date('2019-01-01'),
         tags: ['date'],
+        aliases: ['/alias1', '/alias2'],
       },
       prevItem: undefined,
       tags: [

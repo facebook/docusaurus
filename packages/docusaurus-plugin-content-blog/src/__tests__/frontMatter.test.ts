@@ -282,6 +282,23 @@ describe('validateBlogPostFrontMatter slug', () => {
   });
 });
 
+describe('validateBlogPostFrontMatter aliases', () => {
+  testField({
+    prefix: 'aliases',
+    validFrontMatters: [
+      {aliases: ['blog/']},
+      {aliases: ['/blog']},
+      {aliases: ['/blog/']},
+      {aliases: ['./blog']},
+      {aliases: ['../blog']},
+      {aliases: ['../../blog']},
+      {aliases: ['/api/plugins/@docusaurus/plugin-debug']},
+      {aliases: ['@site/api/asset/image.png']},
+    ],
+    invalidFrontMatters: [[{aliases: ['']}, 'not allowed to be empty']],
+  });
+});
+
 describe('validateBlogPostFrontMatter image', () => {
   testField({
     prefix: 'image',

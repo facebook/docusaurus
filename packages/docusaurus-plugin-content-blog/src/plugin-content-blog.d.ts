@@ -87,6 +87,11 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Custom slug appended after `/<baseUrl>/<routeBasePath>/` */
     slug?: string;
     /**
+     * Alias URLs appended after `/<baseUrl>/<routeBasePath>/`
+     * If supplied these pages will point to the canonical URL.
+     */
+    aliases?: string[];
+    /**
      * Marks the post as draft and excludes it from the production build.
      */
     draft?: boolean;
@@ -190,6 +195,8 @@ declare module '@docusaurus/plugin-content-blog' {
     readonly formattedDate: string;
     /** Full link including base URL. */
     readonly permalink: string;
+    /** Alias full links including base URL. */
+    readonly aliases: string[] | undefined;
     /**
      * Description used in the meta. Could be an empty string (empty content)
      */

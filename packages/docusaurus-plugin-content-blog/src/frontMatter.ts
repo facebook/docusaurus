@@ -64,6 +64,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   // .warning('deprecate.error', { alternative: '"author_image_url"'}),
 
   slug: Joi.string(),
+  aliases: Joi.array().items(Joi.string().required()),
   image: URISchema,
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
