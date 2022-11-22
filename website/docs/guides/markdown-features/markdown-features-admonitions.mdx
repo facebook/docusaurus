@@ -263,7 +263,7 @@ By default, the theme doesn't know what do to with custom admonition keywords su
 
 If you registered a new admonition type `my-custom-admonition` via the following config:
 
-````js title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -282,6 +282,7 @@ module.exports = {
     ],
   ],
 };
+```
 
 You can provide the corresponding React component for `:::my-custom-admonition` by creating the following file (unfortunately, since it's not a React component file, it's not swizzlable):
 
