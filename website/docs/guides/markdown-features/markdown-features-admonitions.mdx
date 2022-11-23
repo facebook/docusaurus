@@ -129,6 +129,54 @@ Some **content** with _Markdown_ `syntax`.
 </BrowserWindow>
 ```
 
+## Nested admonitions {#nested-admonitions}
+
+Admonitions can be nested. Use more colons `:` for each parent admonition level.
+
+```md
+:::::info Parent
+
+Parent content
+
+::::danger Child
+
+Child content
+
+:::tip Deep Child
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::::info Parent
+
+Parent content
+
+::::danger Child
+
+Child content
+
+:::tip Deep Child
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+
+</BrowserWindow>
+```
+
 ## Admonitions with MDX {#admonitions-with-mdx}
 
 You can use MDX inside admonitions too!
@@ -308,7 +356,7 @@ const AdmonitionTypes = {
 };
 
 export default AdmonitionTypes;
-````
+```
 
 Now you can use your new admonition keyword in a Markdown file, and it will be parsed and rendered with your custom logic:
 
