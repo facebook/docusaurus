@@ -191,7 +191,7 @@ To use Sass/SCSS as your CSS preprocessor, install the unofficial Docusaurus 2 p
 1. Install [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass):
 
 ```bash npm2yarn
-npm install --save docusaurus-plugin-sass sass
+npm install --save docusaurus-plugin-sass sass sass-loader
 ```
 
 2. Include the plugin in your `docusaurus.config.js` file:
