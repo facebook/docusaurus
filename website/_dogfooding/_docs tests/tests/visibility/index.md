@@ -24,3 +24,11 @@ In production, unlisted items should remain accessible, but be hidden in the sid
 - [./some-unlisteds/unlisted1.md](./some-unlisteds/unlisted1.md)
 - [./some-unlisteds/unlisted2.md](./some-unlisteds/unlisted2.md)
 - [./some-unlisteds/unlisted-subcategory/unlisted3.md](./some-unlisteds/unlisted-subcategory/unlisted3.md)
+
+---
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
+```

@@ -397,6 +397,12 @@ module.exports = function (context, options) {
 };
 ```
 
+Tags will be added as follows:
+
+- `headTags` will be inserted before the closing `</head>` tag after scripts added by config.
+- `preBodyTags` will be inserted after the opening `<body>` tag before any child elements.
+- `postBodyTags` will be inserted before the closing `</body>` tag after all child elements.
+
 ## `getClientModules()` {#getClientModules}
 
 Returns an array of paths to the [client modules](../../advanced/client.md#client-modules) that are to be imported into the client bundle.

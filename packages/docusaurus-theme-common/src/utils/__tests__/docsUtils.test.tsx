@@ -10,7 +10,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import {
-  findFirstCategoryLink,
+  findFirstSidebarItemLink,
   isActiveSidebarItem,
   useDocById,
   findSidebarCategory,
@@ -64,6 +64,7 @@ function testVersion(data?: Partial<PropVersionMetadata>): PropVersionMetadata {
     docsSidebars: {},
     isLast: false,
     pluginId: 'default',
+    noIndex: false,
     ...data,
   };
 }
@@ -163,9 +164,31 @@ describe('findSidebarCategory', () => {
 });
 
 describe('findFirstCategoryLink', () => {
+  it('works with html item', () => {
+    const htmlItem = {type: 'html', value: '<div/>'} as const;
+    expect(findFirstSidebarItemLink(htmlItem)).toBeUndefined();
+    expect(findFirstSidebarItemLink(htmlItem)).toBeUndefined();
+  });
+
+  it('works with link item', () => {
+    const linkItem = {
+      type: 'link',
+      href: '/linkHref',
+      label: 'Label',
+    } as const;
+
+    expect(findFirstSidebarItemLink(linkItem)).toBe('/linkHref');
+    expect(
+      findFirstSidebarItemLink({
+        ...linkItem,
+        unlisted: true,
+      }),
+    ).toBeUndefined();
+  });
+
   it('works with category without link nor child', () => {
     expect(
-      findFirstCategoryLink(
+      findFirstSidebarItemLink(
         testCategory({
           href: undefined,
         }),
@@ -175,7 +198,7 @@ describe('findFirstCategoryLink', () => {
 
   it('works with category with link', () => {
     expect(
-      findFirstCategoryLink(
+      findFirstSidebarItemLink(
         testCategory({
           href: '/itemPath',
         }),
@@ -183,9 +206,95 @@ describe('findFirstCategoryLink', () => {
     ).toBe('/itemPath');
   });
 
-  it('works with category with deeply nested category link', () => {
+  it('works with deeply nested category', () => {
     expect(
-      findFirstCategoryLink(
+      findFirstSidebarItemLink(
+        testCategory({
+          href: '/category1',
+          linkUnlisted: true,
+          items: [
+            {type: 'html', value: '<p>test1</p>'},
+            testCategory({
+              href: '/category2',
+              linkUnlisted: true,
+              items: [
+                {type: 'html', value: '<p>test2</p>'},
+                testCategory({
+                  href: '/category3',
+                  items: [
+                    {type: 'html', value: '<p>test2</p>'},
+                    testCategory({
+                      href: '/category4',
+                      linkUnlisted: true,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ),
+    ).toBe('/category3');
+  });
+
+  it('works with deeply nested link', () => {
+    expect(
+      findFirstSidebarItemLink(
+        testCategory({
+          href: '/category1',
+          linkUnlisted: true,
+          items: [
+            {
+              type: 'link',
+              href: '/itemPathUnlisted',
+              label: 'Label',
+              unlisted: true,
+            },
+            testCategory({
+              href: '/category2',
+              linkUnlisted: true,
+              items: [
+                testCategory({
+                  href: '/category3',
+                  linkUnlisted: true,
+                  items: [
+                    {
+                      type: 'link',
+                      href: '/itemPathUnlisted2',
+                      label: 'Label',
+                      unlisted: true,
+                    },
+                    testCategory({
+                      href: '/category4',
+                      linkUnlisted: true,
+                    }),
+                    {
+                      type: 'link',
+                      href: '/itemPathListed1',
+                      label: 'Label',
+                    },
+                    testCategory({
+                      href: '/category5',
+                    }),
+                    {
+                      type: 'link',
+                      href: '/itemPathListed2',
+                      label: 'Label',
+                      unlisted: true,
+                    },
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ),
+    ).toBe('/itemPathListed1');
+  });
+
+  it('works with category with deeply nested category link unlisted', () => {
+    expect(
+      findFirstSidebarItemLink(
         testCategory({
           href: undefined,
           items: [
@@ -196,29 +305,37 @@ describe('findFirstCategoryLink', () => {
                 {type: 'html', value: '<p>test2</p>'},
                 testCategory({
                   href: '/itemPath',
+                  linkUnlisted: true,
                 }),
               ],
             }),
           ],
         }),
       ),
-    ).toBe('/itemPath');
+    ).toBeUndefined();
   });
 
-  it('works with category with deeply nested link', () => {
+  it('works with category with deeply nested link unlisted', () => {
     expect(
-      findFirstCategoryLink(
+      findFirstSidebarItemLink(
         testCategory({
           href: undefined,
           items: [
             testCategory({
               href: undefined,
-              items: [{type: 'link', href: '/itemPath', label: 'Label'}],
+              items: [
+                {
+                  type: 'link',
+                  href: '/itemPath',
+                  label: 'Label',
+                  unlisted: true,
+                },
+              ],
             }),
           ],
         }),
       ),
-    ).toBe('/itemPath');
+    ).toBeUndefined();
   });
 });
 
