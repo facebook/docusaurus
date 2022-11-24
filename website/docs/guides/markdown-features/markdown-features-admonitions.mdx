@@ -156,6 +156,54 @@ hey
 </BrowserWindow>
 ```
 
+## Nested admonitions {#nested-admonitions}
+
+Admonitions can be nested. Use more colons `:` for each parent admonition level.
+
+```md
+:::::info Parent
+
+Parent content
+
+::::danger Child
+
+Child content
+
+:::tip Deep Child
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::::info Parent
+
+Parent content
+
+::::danger Child
+
+Child content
+
+:::tip Deep Child
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+
+</BrowserWindow>
+```
+
 ## Admonitions with MDX {#admonitions-with-mdx}
 
 You can use MDX inside admonitions too!
@@ -290,7 +338,7 @@ By default, the theme doesn't know what do to with custom admonition keywords su
 
 If you registered a new admonition type `my-custom-admonition` via the following config:
 
-````js title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -309,6 +357,7 @@ module.exports = {
     ],
   ],
 };
+```
 
 You can provide the corresponding React component for `:::my-custom-admonition` by creating the following file (unfortunately, since it's not a React component file, it's not swizzlable):
 
@@ -334,7 +383,7 @@ const AdmonitionTypes = {
 };
 
 export default AdmonitionTypes;
-````
+```
 
 Now you can use your new admonition keyword in a Markdown file, and it will be parsed and rendered with your custom logic:
 

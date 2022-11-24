@@ -182,6 +182,21 @@ const plugin: Plugin = function plugin(
   /*
   const regex = new RegExp(`${tag}(${keywords})(?: *(.*))?\n`);
   const escapeTag = new RegExp(escapeRegExp(`\\${options.tag}`), 'g');
+  const keywords = Object.values(options.keywords).map(escapeRegExp).join('|');
+  const nestingChar = escapeRegExp(options.tag.slice(0, 1));
+  const tag = escapeRegExp(options.tag);
+
+  // resolve th nesting level of an opening tag
+  // ::: -> 0, :::: -> 1, ::::: -> 2 ...
+  const nestingLevelRegex = new RegExp(
+    `^${tag}(?<nestingLevel>${nestingChar}*)`,
+  );
+
+  const regex = new RegExp(`${tag}${nestingChar}*(${keywords})(?: *(.*))?\n`);
+  const escapeTag = new RegExp(
+    escapeRegExp(`\\${options.tag}${options.tag.slice(0, 1)}*`),
+    'g',
+  );
 
   // The tokenizer is called on blocks to determine if there is an admonition
   // present and create tags for it
@@ -204,6 +219,11 @@ const plugin: Plugin = function plugin(
     ];
     const food = [];
     const content = [];
+    // get the nesting level of the opening tag
+    const openingLevel =
+      nestingLevelRegex.exec(opening)!.groups!.nestingLevel!.length;
+    // used as a stack to keep track of nested admonitions
+    const nestingLevels: number[] = [openingLevel];
 
     let newValue = value;
     // consume lines until a closing tag
@@ -215,12 +235,32 @@ const plugin: Plugin = function plugin(
         next !== -1 ? newValue.slice(idx + 1, next) : newValue.slice(idx + 1);
       food.push(line);
       newValue = newValue.slice(idx + 1);
-      // the closing tag is NOT part of the content
-      if (line.startsWith(options.tag)) {
-        break;
+      const nesting = nestingLevelRegex.exec(line);
+      idx = newValue.indexOf(NEWLINE);
+      if (!nesting) {
+        content.push(line);
+        continue;
+      }
+      const tagLevel = nesting.groups!.nestingLevel!.length;
+      // first level
+      if (nestingLevels.length === 0) {
+        nestingLevels.push(tagLevel);
+        content.push(line);
+        continue;
+      }
+      const currentLevel = nestingLevels[nestingLevels.length - 1]!;
+      if (tagLevel < currentLevel) {
+        // entering a nested admonition block
+        nestingLevels.push(tagLevel);
+      } else if (tagLevel === currentLevel) {
+        // closing a nested admonition block
+        nestingLevels.pop();
+        // the closing tag is NOT part of the content
+        if (nestingLevels.length === 0) {
+          break;
+        }
       }
       content.push(line);
-      idx = newValue.indexOf(NEWLINE);
     }
 
     // consume the processed tag and replace escape sequences
