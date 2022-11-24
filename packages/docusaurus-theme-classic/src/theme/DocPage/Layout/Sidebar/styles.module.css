@@ -29,4 +29,11 @@
     width: var(--doc-sidebar-hidden-width);
     cursor: pointer;
   }
+
+  .sidebarViewport {
+    top: 0;
+    position: sticky;
+    height: 100%;
+    max-height: 100vh;
+  }
 }
