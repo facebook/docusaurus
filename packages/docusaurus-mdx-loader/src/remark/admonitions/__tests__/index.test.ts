@@ -71,4 +71,9 @@ describe('admonitions remark plugin', () => {
     const result = await processFixture('interpolation');
     expect(result).toMatchSnapshot();
   });
+
+  it('nesting', async () => {
+    const result = await processFixture('nesting');
+    expect(result).toMatchSnapshot();
+  });
 });

@@ -54,6 +54,11 @@ exports[`admonitions remark plugin interpolation 1`] = `
 <admonition type="tip"><mdxAdmonitionTitle>My <code>interpolated</code> <strong>title</strong> &#x3C;button style={{color: "red"}} onClick={() => alert("click")}>test</mdxAdmonitionTitle><p><code>body</code> <strong>interpolated</strong> content</p></admonition>"
 `;
 
+exports[`admonitions remark plugin nesting 1`] = `
+"<p>Test nested Admonitions</p>
+<admonition type="info"><mdxAdmonitionTitle><strong>Weather</strong></mdxAdmonitionTitle><p>On nice days, you can enjoy skiing in the mountains.</p><admonition type="danger"><mdxAdmonitionTitle><em>Storms</em></mdxAdmonitionTitle><p>Take care of snowstorms...</p></admonition></admonition>"
+`;
+
 exports[`admonitions remark plugin replace custom keyword 1`] = `
 "<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
 <p>:::info Sample Title</p>
