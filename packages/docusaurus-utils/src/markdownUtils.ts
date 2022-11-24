@@ -70,6 +70,35 @@ export function unwrapMdxCodeBlocks(content: string): string {
   return content.replaceAll(regexp3, replacer).replaceAll(regexp4, replacer);
 }
 
+/**
+ * Add support for our legacy ":::note Title" admonition syntax
+ * Not supported by https://github.com/remarkjs/remark-directive
+ * Syntax is transformed to ":::note[Title]" (container directive label)
+ * See https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
+ *
+ * @param content
+ * @param admonitionContainerDirectives
+ */
+export function admonitionTitleToDirectiveLabel(
+  content: string,
+  admonitionContainerDirectives: string[],
+): string {
+  // TODO this will also process ":::note Title" inside docs code blocks
+  // Probably not very important and we should now use directive labels?
+
+  const directiveNameGroup = `(${admonitionContainerDirectives.join('|')})`;
+  const regexp = new RegExp(
+    `(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)`,
+    'g',
+  );
+
+  return content.replaceAll(regexp, (substring, ...args: any[]) => {
+    const groups = args.at(-1);
+
+    return `${groups.directive}[${groups.title}]`;
+  });
+}
+
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.
 /**

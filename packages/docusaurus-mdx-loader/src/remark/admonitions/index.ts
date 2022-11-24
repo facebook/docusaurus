@@ -36,9 +36,13 @@ export const DefaultAdmonitionOptions: AdmonitionOptions = {
   extendDefaults: false, // TODO make it true by default: breaking change
 };
 
-function normalizeOptions(
-  providedOptions: Partial<AdmonitionOptions>,
+export function normalizeAdmonitionOptions(
+  providedOptions: Partial<AdmonitionOptions> | true,
 ): AdmonitionOptions {
+  if (providedOptions === true) {
+    return DefaultAdmonitionOptions;
+  }
+
   const options = {...DefaultAdmonitionOptions, ...providedOptions};
 
   // By default it makes more sense to append keywords to the default ones
@@ -61,7 +65,7 @@ const plugin: Plugin = function plugin(
   this: Processor,
   optionsInput: Partial<AdmonitionOptions> = {},
 ): Transformer {
-  const {keywords} = normalizeOptions(optionsInput);
+  const {keywords} = normalizeAdmonitionOptions(optionsInput);
 
   // See also:
   // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444

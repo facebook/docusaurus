@@ -14,6 +14,7 @@ import {
   writeMarkdownHeadingId,
   escapeMarkdownHeadingIds,
   unwrapMdxCodeBlocks,
+  admonitionTitleToDirectiveLabel,
 } from '../markdownUtils';
 
 describe('createExcerpt', () => {
@@ -1116,6 +1117,273 @@ describe('unwrapMdxCodeBlocks', () => {
         A canary release passes all automated tests and is used in production by the Docusaurus site itself.
 
         </VersionsProvider>
+    `);
+  });
+});
+
+describe('admonitionTitleToDirectiveLabel', () => {
+  const directives = ['info', 'note', 'tip', 'caution'];
+
+  it('does not transform markdown without any admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        # Title
+
+        intro
+
+        ## Sub Title
+
+        content
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        # Title
+
+        intro
+
+        ## Sub Title
+
+        content
+    `);
+  });
+
+  it('transform simple admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform already transformed admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform non-container directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        ::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        ::note Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform admonition without title', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform non-admonition directive', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::whatever Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::whatever Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('transform real-world nested messy admonitions', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        ---
+        title: "contains :::note"
+        ---
+
+        # Title
+
+        intro
+
+        ::::note note **title**
+
+        note content
+
+        ::::tip tip <span>title</span>
+
+        tip content
+
+        :::whatever whatever title
+
+        whatever content
+
+        :::
+
+        ::::
+
+        :::::
+
+        ## Heading {#my-heading}
+
+        ::::info       weird spaced title
+
+        into content
+
+        :::tip[tip directiveLabel]
+
+        tip content
+
+        ::::
+
+        ## Conclusion
+
+        end
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        ---
+        title: "contains :::note"
+        ---
+
+        # Title
+
+        intro
+
+        ::::note[note **title**]
+
+        note content
+
+        ::::tip[tip <span>title</span>]
+
+        tip content
+
+        :::whatever whatever title
+
+        whatever content
+
+        :::
+
+        ::::
+
+        :::::
+
+        ## Heading {#my-heading}
+
+        ::::info[weird spaced title]
+
+        into content
+
+        :::tip[tip directiveLabel]
+
+        tip content
+
+        ::::
+
+        ## Conclusion
+
+        end
     `);
   });
 });

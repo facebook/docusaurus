@@ -19,13 +19,16 @@ import emoji from 'remark-emoji';
 
 import stringifyObject from 'stringify-object';
 
+import {admonitionTitleToDirectiveLabel} from '@docusaurus/utils/lib/markdownUtils';
 import headings from './remark/headings';
 import toc from './remark/toc';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
 
-import transformAdmonitions from './remark/admonitions';
+import transformAdmonitions, {
+  normalizeAdmonitionOptions,
+} from './remark/admonitions';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
@@ -180,11 +183,19 @@ export async function mdxLoader(
     },
   );
 
-  const content = escapeMarkdownHeadingIds(
-    unwrapMdxCodeBlocks(contentUnprocessed),
-  )
+  function preprocessContent(md: string): string {
+    md = unwrapMdxCodeBlocks(md);
+    md = escapeMarkdownHeadingIds(md);
+    if (reqOptions.admonitions) {
+      const {keywords} = normalizeAdmonitionOptions(reqOptions.admonitions);
+      md = admonitionTitleToDirectiveLabel(md, keywords);
+    }
     // TODO MDX 2 doesn't like our unescaped html comments <
-    .replaceAll('<!--', '\\<!--');
+    md = md.replaceAll('<!--', '\\<!--');
+    return md;
+  }
+
+  const content = preprocessContent(contentUnprocessed);
 
   /*
   if (filePath.endsWith('markdownPageTests.md')) {

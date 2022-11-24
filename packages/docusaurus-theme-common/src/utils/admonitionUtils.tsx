@@ -27,10 +27,8 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
 
   const mdxAdmonitionTitle = mdxAdmonitionTitleChildren?.props.children;
 
-  console.log({children, mdxAdmonitionTitleChildren, mdxAdmonitionTitle, rest});
-
   return {
-    mdxAdmonitionTitle: mdxAdmonitionTitleChildren?.props.children,
+    mdxAdmonitionTitle,
     rest,
   };
 }
