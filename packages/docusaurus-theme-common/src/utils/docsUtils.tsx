@@ -79,24 +79,35 @@ export function findSidebarCategory(
  * Best effort to assign a link to a sidebar category. If the category doesn't
  * have a link itself, we link to the first sub item with a link.
  */
-export function findFirstCategoryLink(
+export function findFirstSidebarItemCategoryLink(
   item: PropSidebarItemCategory,
 ): string | undefined {
-  if (item.href) {
+  if (item.href && !item.linkUnlisted) {
     return item.href;
   }
 
   for (const subItem of item.items) {
-    if (subItem.type === 'link') {
-      return subItem.href;
-    } else if (subItem.type === 'category') {
-      const categoryLink = findFirstCategoryLink(subItem);
-      if (categoryLink) {
-        return categoryLink;
-      }
+    const link = findFirstSidebarItemLink(subItem);
+    if (link) {
+      return link;
     }
-    // Could be "html" items
   }
+  return undefined;
+}
+
+/**
+ * Best effort to assign a link to a sidebar item.
+ */
+export function findFirstSidebarItemLink(
+  item: PropSidebarItem,
+): string | undefined {
+  if (item.type === 'link' && !item.unlisted) {
+    return item.href;
+  }
+  if (item.type === 'category') {
+    return findFirstSidebarItemCategoryLink(item);
+  }
+  // Other items types, like "html"
   return undefined;
 }
 
@@ -391,15 +402,16 @@ export function useDocRootMetadata({route}: DocRootProps): null | {
 }
 
 /**
- * Filter categories that don't have a link.
+ * Filter items we don't want to display on the doc card list view
  * @param items
  */
 export function filterDocCardListItems(
   items: PropSidebarItem[],
 ): PropSidebarItem[] {
   return items.filter((item) => {
-    if (item.type === 'category') {
-      return !!findFirstCategoryLink(item);
+    const canHaveLink = item.type === 'category' || item.type === 'link';
+    if (canHaveLink) {
+      return !!findFirstSidebarItemLink(item);
     }
     return true;
   });

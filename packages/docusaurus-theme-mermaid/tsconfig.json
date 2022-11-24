@@ -10,5 +10,5 @@
     "outDir": "lib"
   },
   "include": ["src"],
-  "exclude": ["src/theme", "**/__tests__/**"]
+  "exclude": ["src/client", "src/theme", "**/__tests__/**"]
 }

@@ -17,7 +17,24 @@ Docusaurus' routing system follows single-page application conventions: one rout
 
 Every content plugin provides a `routeBasePath` option. It defines where the plugins append their routes to. By default, the docs plugin puts its routes under `/docs`; the blog plugin, `/blog`; and the pages plugin, `/`. You can think about the route structure like this:
 
-![plugin routes model](/img/routes.png#gh-light-mode-only)![plugin routes model](/img/routes-dark.png#gh-dark-mode-only)
+```mermaid
+graph LR;
+    A(["https://example.com/"])
+    B(["/base-url/"])
+    C(["/docs/"])
+    D(["/blog/"])
+    E(["/"])
+    F["All docs <br/>routes"]
+    G["All blog <br/>routes"]
+    H["All pages <br/>routes"]
+    A---B;
+    B---C;
+    B---D;
+    B---E;
+    C---F;
+    D---G;
+    E---H;
+```
 
 Any route will be matched against this nested route config until a good match is found. For example, when given a route `/docs/configuration`, Docusaurus first enters the `/docs` branch, and then searches among the subroutes created by the docs plugin.
 
