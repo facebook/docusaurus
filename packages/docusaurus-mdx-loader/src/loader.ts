@@ -243,9 +243,13 @@ export async function mdxLoader(
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
-      format: 'mdx', // TODO provide ability to use 'md' with frontMatter?
+      format: (frontMatter.format as any) ?? 'mdx', // TODO provide ability to use 'md' with frontMatter?
       providerImportSource: '@mdx-js/react',
     };
+
+    if (frontMatter.format) {
+      console.log('format', frontMatter.format);
+    }
 
     // @ts-expect-error: TODO
     compilerCache.set(this.query, [createProcessor(options), options]);

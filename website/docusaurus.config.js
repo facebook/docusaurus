@@ -132,7 +132,6 @@ const config = {
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
-    /*
     [
       require.resolve('./src/plugins/changelog/index.js'),
       {
@@ -157,7 +156,6 @@ const config = {
       },
     ],
 
-     */
     [
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
