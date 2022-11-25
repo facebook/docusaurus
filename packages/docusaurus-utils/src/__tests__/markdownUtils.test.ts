@@ -1236,6 +1236,35 @@ describe('admonitionTitleToDirectiveLabel', () => {
     `);
   });
 
+  it('does not transform left-padded directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+         :::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+         :::note Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
   it('does not transform admonition without title', () => {
     expect(
       admonitionTitleToDirectiveLabel(

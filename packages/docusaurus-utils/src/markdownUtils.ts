@@ -88,8 +88,8 @@ export function admonitionTitleToDirectiveLabel(
 
   const directiveNameGroup = `(${admonitionContainerDirectives.join('|')})`;
   const regexp = new RegExp(
-    `(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)`,
-    'g',
+    `^(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)$`,
+    'gm',
   );
 
   return content.replaceAll(regexp, (substring, ...args: any[]) => {
