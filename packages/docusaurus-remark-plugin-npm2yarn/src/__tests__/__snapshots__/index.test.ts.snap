@@ -113,6 +113,55 @@ yarn add docusaurus-plugin-name
 "
 `;
 
+exports[`npm2yarn plugin works with simple md 1`] = `
+"/*@jsxRuntime automatic @jsxImportSource react*/
+import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+function _createMdxContent(props) {
+  const _components = Object.assign({
+    h1: "h1",
+    p: "p",
+    pre: "pre",
+    code: "code"
+  }, props.components);
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h1, {
+      children: "Title"
+    }), "/n", _jsx(_components.p, {
+      children: "Hey"
+    }), "/n", _jsxs(Tabs, {
+      children: [_jsx(TabItem, {
+        value: "npm",
+        children: _jsx(_components.pre, {
+          children: _jsx(_components.code, {
+            className: "language-bash",
+            children: "npm install test/n"
+          })
+        })
+      }), _jsx(TabItem, {
+        value: "yarn",
+        label: "Yarn",
+        children: _jsx(_components.pre, {
+          children: _jsx(_components.code, {
+            className: "language-bash",
+            children: "yarn add test/n"
+          })
+        })
+      })]
+    })]
+  });
+}
+function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, Object.assign({}, props, {
+    children: _jsx(_createMdxContent, props)
+  })) : _createMdxContent(props);
+}
+export default MDXContent;
+"
+`;
+
 exports[`npm2yarn plugin works with sync option 1`] = `
 "import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -31,7 +31,8 @@
     "*.xyz",
     "*.docx",
     "versioned_docs",
-    "*.min.*"
+    "*.min.*",
+    "mdxCjs.js"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }

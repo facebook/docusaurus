@@ -7,19 +7,50 @@
 
 import path from 'path';
 import vfile from 'to-vfile';
-import mdx from 'remark-mdx';
-import remark from 'remark';
+// import mdx from 'remark-mdx';
+// import remark from 'remark';
+import dedent from 'dedent';
 import npm2yarn from '../index';
 
-const processFixture = async (name: string, options?: {sync?: boolean}) => {
-  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
-  const result = await remark().use(mdx).use(npm2yarn, options).process(file);
+import * as mdx from './mdxCjs';
+
+console.log({mdx});
+
+const process = async (content: any, options?: {sync?: boolean}) => {
+  const result = await mdx.compile(content, {
+    remarkPlugins: [[npm2yarn, options]],
+    format: 'mdx',
+  });
+
+  console.log('result', result);
+  console.log('result str', result.toString());
+  console.log('result str2', mdx.mdastUtilToString(result));
 
   return result.toString();
 };
 
+const processFixture = async (name: string, options?: {sync?: boolean}) => {
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
+  const file = await vfile.read(filePath);
+  return process(file, options);
+};
+
 describe('npm2yarn plugin', () => {
+  it('works with simple md', async () => {
+    const result = await process(dedent`
+    # Title
+
+    Hey
+
+    \`\`\`bash npm2yarn
+    npm install test
+    \`\`\`
+
+    `);
+
+    expect(result).toMatchSnapshot();
+  });
+
   it('works on installation file', async () => {
     const result = await processFixture('installation');
 

@@ -7,7 +7,7 @@
 
 import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
-import type {Code, Content, Literal} from 'mdast';
+import type {Code, Literal} from 'mdast';
 import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
 
@@ -19,33 +19,67 @@ type PluginOptions = {
 const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');
 
 const transformNode = (node: Code, isSync: boolean) => {
-  const groupIdProp = isSync ? ' groupId="npm2yarn"' : '';
+  const groupIdProp = isSync
+    ? {
+        type: 'mdxJsxAttribute',
+        name: 'groupId',
+        value: 'npm2yarn',
+      }
+    : undefined;
+
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
   return [
     {
-      type: 'jsx',
-      value: `<Tabs${groupIdProp}>\n<TabItem value="npm">`,
+      type: 'mdxJsxFlowElement',
+      name: 'Tabs',
+      attributes: [groupIdProp].filter(Boolean),
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'TabItem',
+          attributes: [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'value',
+              value: 'npm',
+            },
+          ],
+          children: [
+            {
+              type: node.type,
+              lang: node.lang,
+              value: npmCode,
+            },
+          ],
+        },
+
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'TabItem',
+          attributes: [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'value',
+              value: 'yarn',
+            },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'label',
+              value: 'Yarn',
+            },
+          ],
+          children: [
+            {
+              type: node.type,
+              lang: node.lang,
+              value: yarnCode,
+            },
+          ],
+        },
+      ],
     },
-    {
-      type: node.type,
-      lang: node.lang,
-      value: npmCode,
-    },
-    {
-      type: 'jsx',
-      value: '</TabItem>\n<TabItem value="yarn" label="Yarn">',
-    },
-    {
-      type: node.type,
-      lang: node.lang,
-      value: yarnCode,
-    },
-    {
-      type: 'jsx',
-      value: '</TabItem>\n</Tabs>',
-    },
-  ] as Content[];
+  ] as any[];
 };
 
 const isImport = (node: Node): node is Literal => node.type === 'import';
@@ -53,17 +87,59 @@ const isParent = (node: Node): node is Parent =>
   Array.isArray((node as Parent).children);
 const matchNode = (node: Node): node is Code =>
   node.type === 'code' && (node as Code).meta === 'npm2yarn';
-const nodeForImport: Literal = {
-  type: 'import',
-  value:
-    "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
-};
+
+function createImportNode() {
+  return {
+    type: 'mdxjsEsm',
+    value:
+      "import Tabs from '@theme/Tabs'\nimport TabItem from '@theme/TabItem'",
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ImportDeclaration',
+            specifiers: [
+              {
+                type: 'ImportDefaultSpecifier',
+                local: {type: 'Identifier', name: 'Tabs'},
+              },
+            ],
+            source: {
+              type: 'Literal',
+              value: '@theme/Tabs',
+              raw: "'@theme/Tabs'",
+            },
+          },
+          {
+            type: 'ImportDeclaration',
+            specifiers: [
+              {
+                type: 'ImportDefaultSpecifier',
+                local: {type: 'Identifier', name: 'TabItem'},
+              },
+            ],
+            source: {
+              type: 'Literal',
+              value: '@theme/TabItem',
+              raw: "'@theme/TabItem'",
+            },
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
+}
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
   return (root) => {
     let transformed = false as boolean;
     let alreadyImported = false as boolean;
+
+    console.log('root', root);
+
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
         alreadyImported = true;
@@ -84,8 +160,10 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       }
     });
     if (transformed && !alreadyImported) {
-      (root as Parent).children.unshift(nodeForImport);
+      (root as Parent).children.unshift(createImportNode());
     }
+
+    console.log('result', {transformed, alreadyImported}, root);
   };
 };
 
