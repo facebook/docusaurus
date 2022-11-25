@@ -20,7 +20,6 @@
     display: block !important;
     background-color: var(--docusaurus-collapse-button-bg);
     height: 40px;
-    position: sticky;
     bottom: 0;
     border-radius: 0;
     border: 1px solid var(--ifm-toc-border-color);
