@@ -24,7 +24,7 @@ export default function codeCompatPlugin(this: Processor): Transformer {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (node.data.hProperties as any).originalType = 'code';
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (node.data.hProperties as any)['meta-string'] = node.meta;
+      (node.data.hProperties as any).metastring = node.meta;
     });
   };
 }
