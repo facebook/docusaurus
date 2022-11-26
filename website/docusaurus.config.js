@@ -341,6 +341,7 @@ const config = {
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+            filter: (items, index) => index < 2,
           },
           blogSidebarCount: 'ALL',
           blogSidebarTitle: 'All our posts',

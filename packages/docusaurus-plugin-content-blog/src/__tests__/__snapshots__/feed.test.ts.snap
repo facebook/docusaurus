@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`atom filters to the first three entries 1`] = `
+exports[`atom filters to the first two entries 1`] = `
 [
   "<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -27,16 +27,6 @@ exports[`atom filters to the first three entries 1`] = `
         <updated>2021-03-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[HTML Heading 1]]></summary>
         <content type="html"><![CDATA[<h1>HTML Heading 1</h1><h2>HTML Heading 2</h2><p>HTML Paragraph</p><p>Import DOM</p><h1>Heading 1</h1><h2 class="anchor anchorWithStickyNavbar_mojV" id="heading-2">Heading 2<a class="hash-link" href="#heading-2" title="Direct link to heading">​</a></h2><h3 class="anchor anchorWithStickyNavbar_mojV" id="heading-3">Heading 3<a class="hash-link" href="#heading-3" title="Direct link to heading">​</a></h3><h4 class="anchor anchorWithStickyNavbar_mojV" id="heading-4">Heading 4<a class="hash-link" href="#heading-4" title="Direct link to heading">​</a></h4><h5 class="anchor anchorWithStickyNavbar_mojV" id="heading-5">Heading 5<a class="hash-link" href="#heading-5" title="Direct link to heading">​</a></h5><ul><li>list1</li><li>list2</li><li>list3</li></ul><ul><li>list1</li><li>list2</li><li>list3</li></ul><p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p><p><a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">link</a><img src="https://v2.docusaurus.io/" alt="image"></p>]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Complex Slug]]></title>
-        <id>/hey/my super path/héllô</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô"/>
-        <updated>2020-08-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[complex url slug]]></summary>
-        <content type="html"><![CDATA[<p>complex url slug</p>]]></content>
-        <category label="date" term="date"/>
-        <category label="complex" term="complex"/>
     </entry>
 </feed>",
 ]
@@ -126,7 +116,7 @@ exports[`atom has feed item for each post 1`] = `
 ]
 `;
 
-exports[`json filters to the first three entries 1`] = `
+exports[`json filters to the first two entries 1`] = `
 [
   "{
     "version": "https://jsonfeed.org/version/1",
@@ -151,18 +141,6 @@ exports[`json filters to the first three entries 1`] = `
             "summary": "HTML Heading 1",
             "date_modified": "2021-03-05T00:00:00.000Z",
             "tags": []
-        },
-        {
-            "id": "/hey/my super path/héllô",
-            "content_html": "<p>complex url slug</p>",
-            "url": "https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô",
-            "title": "Complex Slug",
-            "summary": "complex url slug",
-            "date_modified": "2020-08-16T00:00:00.000Z",
-            "tags": [
-                "date",
-                "complex"
-            ]
         }
     ]
 }",
@@ -256,7 +234,7 @@ exports[`json has feed item for each post 1`] = `
 ]
 `;
 
-exports[`rss filters to the first three entries 1`] = `
+exports[`rss filters to the first two entries 1`] = `
 [
   "<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
@@ -284,16 +262,6 @@ exports[`rss filters to the first three entries 1`] = `
             <pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[HTML Heading 1]]></description>
             <content:encoded><![CDATA[<h1>HTML Heading 1</h1><h2>HTML Heading 2</h2><p>HTML Paragraph</p><p>Import DOM</p><h1>Heading 1</h1><h2 class="anchor anchorWithStickyNavbar_mojV" id="heading-2">Heading 2<a class="hash-link" href="#heading-2" title="Direct link to heading">​</a></h2><h3 class="anchor anchorWithStickyNavbar_mojV" id="heading-3">Heading 3<a class="hash-link" href="#heading-3" title="Direct link to heading">​</a></h3><h4 class="anchor anchorWithStickyNavbar_mojV" id="heading-4">Heading 4<a class="hash-link" href="#heading-4" title="Direct link to heading">​</a></h4><h5 class="anchor anchorWithStickyNavbar_mojV" id="heading-5">Heading 5<a class="hash-link" href="#heading-5" title="Direct link to heading">​</a></h5><ul><li>list1</li><li>list2</li><li>list3</li></ul><ul><li>list1</li><li>list2</li><li>list3</li></ul><p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p><p><a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">link</a><img src="https://v2.docusaurus.io/" alt="image"></p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Complex Slug]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</link>
-            <guid>/hey/my super path/héllô</guid>
-            <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[complex url slug]]></description>
-            <content:encoded><![CDATA[<p>complex url slug</p>]]></content:encoded>
-            <category>date</category>
-            <category>complex</category>
         </item>
     </channel>
 </rss>",

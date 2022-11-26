@@ -144,7 +144,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
     fsMock.mockClear();
   });
 
-  it('filters to the first three entries', async () => {
+  it('filters to the first two entries', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -173,7 +173,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          filter: (items, index) => index < 3,
+          filter: (items, index) => index < 2,
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
