@@ -263,6 +263,8 @@ declare module '@docusaurus/plugin-content-blog' {
     copyright: string;
     /** Language of the feed. */
     language?: string;
+    /** Filter that can be applied to reduce the number of entries */
+    filter: (blogPost: BlogPost, index: number) => boolean;
   };
 
   /**

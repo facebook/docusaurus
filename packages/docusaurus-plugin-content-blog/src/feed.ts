@@ -154,9 +154,12 @@ export async function createBlogFeedFiles({
   locale: string;
 }): Promise<void> {
   const blogPosts = allBlogPosts.filter(shouldBeInFeed);
+  const filteredBlogPosts = options.feedOptions.filter
+    ? blogPosts.filter(options.feedOptions.filter)
+    : blogPosts;
 
   const feed = await generateBlogFeed({
-    blogPosts,
+    blogPosts: filteredBlogPosts,
     options,
     siteConfig,
     outDir,
