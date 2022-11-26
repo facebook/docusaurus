@@ -511,6 +511,7 @@ type BlogOptions = {
     description?: string;
     copyright: string;
     language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+    filter?: (blogPost: BlogPost, index?: number) => boolean;
   };
 };
 ```
