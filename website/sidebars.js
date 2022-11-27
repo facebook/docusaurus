@@ -60,6 +60,7 @@ const sidebars = {
                 'guides/docs/sidebar/multiple-sidebars',
               ],
             },
+            'guides/docs/docs-only-mode',
             'guides/docs/versioning',
             'guides/docs/multi-instance',
           ],
