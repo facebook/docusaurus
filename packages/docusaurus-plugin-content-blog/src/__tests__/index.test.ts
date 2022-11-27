@@ -190,6 +190,7 @@ describe('blog plugin', () => {
       ),
       title: 'Happy 1st Birthday Slash! (translated)',
       description: `Happy birthday! (translated)`,
+      aliases: [],
       authors: [
         {
           name: 'Yangshun Tay (translated)',
@@ -231,6 +232,7 @@ describe('blog plugin', () => {
       source: path.posix.join('@site', PluginPath, 'complex-slug.md'),
       title: 'Complex Slug',
       description: `complex url slug`,
+      aliases: [],
       authors: [],
       prevItem: undefined,
       nextItem: {
@@ -269,6 +271,7 @@ describe('blog plugin', () => {
       source: path.posix.join('@site', PluginPath, 'simple-slug.md'),
       title: 'Simple Slug',
       description: `simple url slug`,
+      aliases: [],
       authors: [
         {
           name: 'Sébastien Lorber',
@@ -307,6 +310,7 @@ describe('blog plugin', () => {
       source: path.posix.join('@site', PluginPath, 'heading-as-title.md'),
       title: 'some heading',
       description: '',
+      aliases: [],
       authors: [],
       date: new Date('2019-01-02'),
       formattedDate: 'January 2, 2019',
@@ -470,6 +474,7 @@ describe('blog plugin', () => {
       source: noDateSource,
       title: 'no date',
       description: `no date`,
+      aliases: [],
       authors: [],
       date: noDateSourceTime,
       formattedDate,

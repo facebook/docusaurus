@@ -286,16 +286,14 @@ describe('validateBlogPostFrontMatter aliases', () => {
   testField({
     prefix: 'aliases',
     validFrontMatters: [
-      {aliases: ['blog/']},
-      {aliases: ['/blog']},
-      {aliases: ['/blog/']},
-      {aliases: ['./blog']},
-      {aliases: ['../blog']},
-      {aliases: ['../../blog']},
-      {aliases: ['/api/plugins/@docusaurus/plugin-debug']},
-      {aliases: ['@site/api/asset/image.png']},
+      {aliases: ['another-blog-url']},
+      {aliases: ['and-another']},
     ],
-    invalidFrontMatters: [[{aliases: ['']}, 'not allowed to be empty']],
+    invalidFrontMatters: [
+      [{aliases: ['']}, 'not allowed to be empty'],
+      [{aliases: null}, 'must be an array'],
+      [{aliases: [null]}, 'must be a string'],
+    ],
   });
 });
 

@@ -197,7 +197,7 @@ describe('linkify', () => {
       id: 'Happy 1st Birthday Slash!',
       metadata: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-        aliases: undefined,
+        aliases: [],
         source: path.posix.join(
           '@site',
           pluginDir,

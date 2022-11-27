@@ -287,7 +287,7 @@ async function processBlogSourceFile(
     ? frontMatter.aliases.map((alias) =>
         normalizeUrl([baseUrl, routeBasePath, alias]),
       )
-    : undefined;
+    : [];
 
   function getBlogEditUrl() {
     const blogPathRelative = path.relative(

@@ -196,7 +196,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Full link including base URL. */
     readonly permalink: string;
     /** Alias full links including base URL. */
-    readonly aliases: string[] | undefined;
+    readonly aliases: string[];
     /**
      * Description used in the meta. Could be an empty string (empty content)
      */
