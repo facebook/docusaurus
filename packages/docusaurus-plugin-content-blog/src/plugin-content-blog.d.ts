@@ -264,7 +264,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Language of the feed. */
     language?: string;
     /** Filter that can be applied to reduce the number of entries */
-    filter?: (blogPost: BlogPost, index?: number) => boolean;
+    filter?: (blogPost: BlogPost, index: number) => boolean;
   };
 
   /**
