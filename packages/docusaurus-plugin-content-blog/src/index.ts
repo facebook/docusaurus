@@ -274,19 +274,17 @@ export default async function pluginContentBlog(
             },
           });
 
-          if (metadata.aliases) {
-            metadata.aliases.forEach((alias) => {
-              addRoute({
-                path: alias,
-                component: blogPostComponent,
-                exact: true,
-                modules: {
-                  sidebar: aliasedSource(sidebarProp),
-                  content: metadata.source,
-                },
-              });
+          metadata.aliases.forEach((alias) => {
+            addRoute({
+              path: alias,
+              component: blogPostComponent,
+              exact: true,
+              modules: {
+                sidebar: aliasedSource(sidebarProp),
+                content: metadata.source,
+              },
             });
-          }
+          });
 
           blogItemsToMetadata[id] = metadata;
         }),
