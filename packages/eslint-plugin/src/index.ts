@@ -15,6 +15,7 @@ export = {
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
         '@docusaurus/no-html-links': 'warn',
+        '@docusaurus/prefer-docusaurus-heading': 'warn',
       },
     },
     all: {
@@ -23,6 +24,7 @@ export = {
         '@docusaurus/string-literal-i18n-messages': 'error',
         '@docusaurus/no-untranslated-text': 'warn',
         '@docusaurus/no-html-links': 'warn',
+        '@docusaurus/prefer-docusaurus-heading': 'warn',
       },
     },
   },
