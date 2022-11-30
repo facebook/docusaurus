@@ -84,6 +84,27 @@ If you are using [@docusaurus/plugin-ideal-image](../../api/plugins/plugin-ideal
 
 :::
 
+:::note SVGs in CommonJS require and Import statement
+
+To use SVGs with CommonJS require and Import statements you need to override the default `svg-loader` behavior by prepending `!!url-loader!` to the asset path. For example:
+
+```jsx
+<img
+  src={
+    require('!!url-loader!./assets/docusaurus-asset-example-banner.svg').default
+  }
+  alt="Example banner in SVG"
+/>
+```
+
+```jsx
+import mySvgImageUrl from '!!url-loader!./assets/docusaurus-asset-example-banner.svg';
+
+<img src={mySvgImageUrl} alt="Example banner in SVG" />;
+```
+
+:::
+
 ## Files {#files}
 
 In the same way, you can link to existing assets by `require`'ing them and using the returned URL in `video`s, `a` anchor links, etc.
