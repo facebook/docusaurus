@@ -61,7 +61,6 @@ async function generateBlogFeed({
   await Promise.all(
     blogPosts.map(async (post) => {
       const {
-        id,
         metadata: {
           title: metadataTitle,
           permalink,
@@ -79,10 +78,11 @@ async function generateBlogFeed({
       );
       const $ = cheerioLoad(content);
 
+      const link = normalizeUrl([siteUrl, permalink]);
       const feedItem: FeedItem = {
         title: metadataTitle,
-        id,
-        link: normalizeUrl([siteUrl, permalink]),
+        id: link,
+        link,
         date,
         description,
         // Atom feed demands the "term", while other feeds use "name"
