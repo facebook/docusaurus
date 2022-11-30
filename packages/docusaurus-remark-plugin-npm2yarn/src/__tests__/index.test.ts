@@ -13,18 +13,16 @@ import dedent from 'dedent';
 import npm2yarn from '../index';
 
 const process = async (content: any, options?: {sync?: boolean}) => {
-  const mdx = await import('@mdx-js/mdx');
+  // const mdx = await import('@mdx-js/mdx');
+  const {remark} = await import('remark');
+  const mdx = (await import('remark-mdx')).default;
 
-  const result = await mdx.compile(content, {
-    remarkPlugins: [[npm2yarn, options]],
-    format: 'mdx',
-  });
+  const result = await remark()
+    .use(mdx)
+    .use(npm2yarn, options)
+    .process(content);
 
-  console.log('result', result);
-  console.log('result str', result.toString());
-  console.log('result str2', mdx.mdastUtilToString(result));
-
-  return result.toString();
+  return result.value;
 };
 
 const processFixture = async (name: string, options?: {sync?: boolean}) => {
@@ -46,7 +44,29 @@ describe('npm2yarn plugin', () => {
 
     `);
 
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      "import Tabs from '@theme/Tabs'
+      import TabItem from '@theme/TabItem'
+
+      # Title
+
+      Hey
+
+      <Tabs>
+        <TabItem value="npm">
+          \`\`\`bash
+          npm install test
+          \`\`\`
+        </TabItem>
+
+        <TabItem value="yarn" label="Yarn">
+          \`\`\`bash
+          yarn add test
+          \`\`\`
+        </TabItem>
+      </Tabs>
+      "
+    `);
   });
 
   it('works on installation file', async () => {
