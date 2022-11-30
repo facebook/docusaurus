@@ -21,4 +21,4 @@ packages/create-docusaurus/templates/facebook
 
 website/_dogfooding/_swizzle_theme_tests
 
-mdxCjs.js
+jest/vendor

@@ -12,11 +12,9 @@ import vfile from 'to-vfile';
 import dedent from 'dedent';
 import npm2yarn from '../index';
 
-import * as mdx from './mdxCjs';
-
-console.log({mdx});
-
 const process = async (content: any, options?: {sync?: boolean}) => {
+  const mdx = await import('@mdx-js/mdx');
+
   const result = await mdx.compile(content, {
     remarkPlugins: [[npm2yarn, options]],
     format: 'mdx',

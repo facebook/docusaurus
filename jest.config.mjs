@@ -80,6 +80,11 @@ export default {
       '@docusaurus/plugin-content-docs/src/client/index.ts',
 
     '@testing-utils/(.*)': '<rootDir>/jest/utils/$1.ts',
+
+    // MDX packages are ESM-only and it is a pain to use in Jest
+    // So we use them in Jest tests as CJS versions
+    // see https://mdxjs.com/docs/troubleshooting-mdx/#problems-integrating-mdx
+    '@mdx-js/mdx': '<rootDir>/jest/vendor/@mdx-js__mdx@2.1.5.js',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',

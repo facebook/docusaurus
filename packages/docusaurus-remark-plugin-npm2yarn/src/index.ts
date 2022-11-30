@@ -138,7 +138,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
     let transformed = false as boolean;
     let alreadyImported = false as boolean;
 
-    console.log('root', root);
+    // console.log('root', root);
 
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
@@ -163,7 +163,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       (root as Parent).children.unshift(createImportNode());
     }
 
-    console.log('result', {transformed, alreadyImported}, root);
+    // console.log('result', {transformed, alreadyImported}, root);
   };
 };
 

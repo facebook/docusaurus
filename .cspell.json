@@ -32,7 +32,7 @@
     "*.docx",
     "versioned_docs",
     "*.min.*",
-    "mdxCjs.js"
+    "jest/vendor"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }

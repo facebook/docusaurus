@@ -13,3 +13,5 @@ packages/docusaurus-*/lib/*
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/
 website/static/katex/katex.min.css
+
+jest/vendor
