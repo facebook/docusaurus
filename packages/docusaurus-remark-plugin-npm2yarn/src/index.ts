@@ -140,8 +140,8 @@ function createImportNode() {
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
   return (root, p) => {
-    let transformed = false as boolean;
-    let alreadyImported = false as boolean;
+    let transformed = false;
+    let alreadyImported = false;
 
     visit(root, (node: Node) => {
       if (isTabsImport(node)) {
