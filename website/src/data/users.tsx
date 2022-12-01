@@ -937,6 +937,14 @@ const Users: User[] = [
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
   {
+    title: "Jetzihan's Personal Website",
+    description: "A Front-end Enthusiast's blog.",
+    preview: require('./showcase/jetzihan.png'),
+    website: 'https://inannan423.github.io/',
+    source: 'https://github.com/inannan423/inannan423.github.io',
+    tags: ['personal', 'opensource', 'design'],
+  },
+  {
     title: 'Joel PO',
     description: 'A minimalist personal website',
     preview: require('./showcase/joelpo.png'),
@@ -3039,14 +3047,6 @@ const Users: User[] = [
     website: 'https://dynamoosejs.com/',
     source: 'https://github.com/dynamoose/dynamoose/tree/main/docs',
     tags: ['opensource'],
-  },
-  {
-    title: "Jetzihan's Personal Website",
-    description: "A Front-end Enthusiast's blog.",
-    preview: require('./showcase/jetzihan.png'),
-    website: 'https://inannan423.github.io/',
-    source: 'https://github.com/inannan423/inannan423.github.io',
-    tags: ['personal', 'opensource', 'design'],
   },
   /*
   Pro Tip: add your site in alphabetical order.
