@@ -163,6 +163,11 @@ function getAdmonitionsPlugins(
   return [];
 }
 
+function isDebugFile(filePath: string): boolean {
+  // return filePath.endsWith('plugin-sitemap.md');
+  return false;
+}
+
 export async function mdxLoader(
   this: LoaderContext<Options>,
   fileString: string,
@@ -171,8 +176,8 @@ export async function mdxLoader(
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions();
 
-  const {createProcessor, compile} = await import('@mdx-js/mdx');
-  const gfm = await import('remark-gfm');
+  const {createProcessor} = await import('@mdx-js/mdx');
+  const {default: gfm} = await import('remark-gfm');
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -197,11 +202,19 @@ export async function mdxLoader(
 
   const content = preprocessContent(contentUnprocessed);
 
-  /*
-  if (filePath.endsWith('markdownPageTests.md')) {
+  if (isDebugFile(filePath)) {
+    console.log('\n\n\n');
+    console.log('contentUnprocessed');
+    console.log('\n\n\n');
+    console.log(contentUnprocessed);
+    console.log('\n\n\n');
+    console.log('############################################################');
+    console.log('\n\n\n');
+    console.log('content');
+    console.log('\n\n\n');
     console.log(content);
+    console.log('\n\n\n');
   }
-   */
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
@@ -278,6 +291,15 @@ export async function mdxLoader(
         },
       ),
     );
+  }
+
+  if (isDebugFile(filePath)) {
+    console.log('############################################################');
+    console.log('\n\n\n');
+    console.log('result');
+    console.log('\n\n\n');
+    console.log(result);
+    console.log('\n\n\n');
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
