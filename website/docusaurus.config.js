@@ -7,7 +7,6 @@
 // @ts-check
 
 const path = require('path');
-const math = require('remark-math');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 const versions = require('./versions.json');
 const VersionsArchived = require('./versionsArchived.json');
@@ -307,7 +306,7 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [math, [npm2yarn, {sync: true}]],
+          remarkPlugins: [[npm2yarn, {sync: true}]],
           rehypePlugins: [],
           disableVersioning: isVersioningDisabled,
           lastVersion:
@@ -626,26 +625,24 @@ async function createConfig() {
   const FeatureRequestsPlugin = (
     await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs')
   ).default;
-  // const configTabs = (await import('./src/remark/configTabs.mjs')).default;
+  const configTabs = (await import('./src/remark/configTabs.mjs')).default;
   const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
   const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
-  // const katex = (await import('rehype-katex')).default;
-  config.plugins?.push(FeatureRequestsPlugin);
-  /*
-  // @ts-expect-error: we know it exists, right
-  config.presets[0][1].docs.remarkPlugins.push(configTabs);
+  const katex = (await import('rehype-katex')).default;
+  const math = (await import('remark-math')).default;
 
-   */
+  config.plugins?.push(FeatureRequestsPlugin);
+
+  // @ts-expect-error: we know it exists, right
+  const docsPluginOptions = config.presets[0][1].docs;
+  docsPluginOptions.remarkPlugins.push(math);
+  docsPluginOptions.remarkPlugins.push(configTabs);
+  docsPluginOptions.rehypePlugins.push(katex);
+
   // @ts-expect-error: we know it exists, right
   config.themeConfig.prism.theme = lightTheme;
   // @ts-expect-error: we know it exists, right
   config.themeConfig.prism.darkTheme = darkTheme;
-
-  /*
-  // @ts-expect-error: we know it exists, right
-  config.presets[0][1].docs.rehypePlugins.push(katex);
-
-   */
   return config;
 }
 

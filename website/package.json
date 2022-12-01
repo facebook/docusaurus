@@ -63,7 +63,7 @@
     "react-medium-image-zoom": "^5.0.2",
     "react-popper": "^2.3.0",
     "rehype-katex": "^6.0.2",
-    "remark-math": "^3.0.1",
+    "remark-math": "^5.1.1",
     "swc-loader": "^0.2.3",
     "unist-util-visit": "^2.0.3",
     "webpack": "^5.74.0",

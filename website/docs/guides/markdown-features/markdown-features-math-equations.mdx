@@ -27,7 +27,7 @@ $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
 <BrowserWindow>
 
 Let $f\colon[a,b] \to \R$ be Riemann integrable. Let $F\colon[a,b]\to\R$ be $F(x)=
-\int_\{a}^\{x} f(t)\,dt$. Then $F$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
+\int_{a}^{x} f(t)\,dt$. Then $F$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
 
 </BrowserWindow>
 
@@ -44,7 +44,7 @@ $$
 <BrowserWindow>
 
 $$
-I = \int_0^\{2\pi} \sin(x)\,dx
+I = \int_0^{2\pi} \sin(x)\,dx
 $$
 
 </BrowserWindow>
@@ -54,12 +54,14 @@ $$
 To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
 
 ```bash npm2yarn
-npm install --save remark-math@3 rehype-katex@5 hast-util-is-element@1.1.0
+npm install --save remark-math rehype-katex hast-util-is-element@1.1.0
 ```
 
 :::caution
 
 Use the exact same versions. The latest versions are incompatible with Docusaurus 2.
+
+TODO update this doc after MDX 2 migration
 
 :::
 
