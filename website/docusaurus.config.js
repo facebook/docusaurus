@@ -154,7 +154,6 @@ const config = {
         },
       },
     ],
-
     [
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
