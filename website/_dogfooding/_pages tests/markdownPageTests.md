@@ -232,6 +232,10 @@ Can be arbitrarily nested:
     - [ ] Task
 - [ ] Task
 
+## Emojis
+
+Emojis in this text will be replaced with [remark-emoji](https://www.npmjs.com/package/remark-emoji): :dog: :+1:
+
 ## Admonitions
 
 :::caution Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button>
