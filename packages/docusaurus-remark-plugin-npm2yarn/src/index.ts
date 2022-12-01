@@ -82,10 +82,15 @@ const transformNode = (node: Code, isSync: boolean) => {
   ] as any[];
 };
 
-const isImport = (node: Node): node is Literal => node.type === 'import';
+const isMdxEsmLiteral = (node: Node): node is Literal =>
+  node.type === 'mdxjsEsm';
+// TODO legacy approximation, good-enough for now but not 100% accurate
+const isTabsImport = (node: Node): boolean =>
+  isMdxEsmLiteral(node) && node.value.includes('@theme/Tabs');
+
 const isParent = (node: Node): node is Parent =>
   Array.isArray((node as Parent).children);
-const matchNode = (node: Node): node is Code =>
+const isNpm2Yarn = (node: Node): node is Code =>
   node.type === 'code' && (node as Code).meta === 'npm2yarn';
 
 function createImportNode() {
@@ -134,21 +139,20 @@ function createImportNode() {
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
-  return (root) => {
+  return (root, p) => {
     let transformed = false as boolean;
     let alreadyImported = false as boolean;
 
-    // console.log('root', root);
-
     visit(root, (node: Node) => {
-      if (isImport(node) && node.value.includes('@theme/Tabs')) {
+      if (isTabsImport(node)) {
         alreadyImported = true;
       }
+
       if (isParent(node)) {
         let index = 0;
         while (index < node.children.length) {
           const child = node.children[index]!;
-          if (matchNode(child)) {
+          if (isNpm2Yarn(child)) {
             const result = transformNode(child, sync);
             node.children.splice(index, 1, ...result);
             index += result.length;
@@ -159,11 +163,10 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
         }
       }
     });
+
     if (transformed && !alreadyImported) {
       (root as Parent).children.unshift(createImportNode());
     }
-
-    // console.log('result', {transformed, alreadyImported}, root);
   };
 };
 

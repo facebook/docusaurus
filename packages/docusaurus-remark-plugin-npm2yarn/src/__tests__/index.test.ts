@@ -104,4 +104,10 @@ describe('npm2yarn plugin', () => {
 
     expect(result).toMatchSnapshot();
   });
+
+  it('does not re-import tabs components real-world multiple npm2yarn usage', async () => {
+    const result = await processFixture('multiple');
+
+    expect(result).toMatchSnapshot();
+  });
 });
