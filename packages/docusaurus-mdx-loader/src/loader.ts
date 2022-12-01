@@ -241,9 +241,13 @@ export async function mdxLoader(
         },
       ],
       gfm,
-      codeCompatPlugin,
       ...(reqOptions.remarkPlugins ?? []),
     ];
+
+    // codeCompatPlugin needs to be applied last after user-provided plugins
+    // (after npm2yarn for example)
+    // @ts-expect-error: TODO
+    remarkPlugins.push(codeCompatPlugin);
 
     // @ts-expect-error: TODO
     const rehypePlugins: ProcessorOptions['rehypePlugins'] = [
