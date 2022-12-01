@@ -635,7 +635,7 @@ async function createConfig() {
   // @ts-expect-error: we know it exists, right
   const docsPluginOptions = config.presets[0][1].docs;
   docsPluginOptions.remarkPlugins.push(math);
-  docsPluginOptions.remarkPlugins.push(configTabs);
+  docsPluginOptions.remarkPlugins.unshift(configTabs);
   docsPluginOptions.rehypePlugins.push(katex);
 
   // @ts-expect-error: we know it exists, right
