@@ -37,8 +37,6 @@ export default function plugin() {
         .trim()
         .replace(/^.*?= /, '')
         .replace(/;$/, '');
-       
-      // .replace(/([`$\\])/g, '\\$1');
 
       const importNode = {
         type: 'mdxjsEsm',
