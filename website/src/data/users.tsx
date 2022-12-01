@@ -3040,7 +3040,14 @@ const Users: User[] = [
     source: 'https://github.com/dynamoose/dynamoose/tree/main/docs',
     tags: ['opensource'],
   },
-
+  {
+    title: "Jetzihan's Personal Website",
+    description: "A Front-end Enthusiast's blog.",
+    preview: require('./showcase/jetzihan.png'),
+    website: 'https://inannan423.github.io/',
+    source: 'https://github.com/inannan423/inannan423.github.io',
+    tags: ['personal', 'opensource', 'design'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
