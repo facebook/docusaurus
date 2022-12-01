@@ -42,7 +42,7 @@ const EXPECTED_CSS_MARKERS = [
 
   // Test markers
   '.test-marker-site-custom-css-unique-rule',
-  // '.test-marker-site-client-module', // TODO re-enable
+  '.test-marker-site-client-module',
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
 

@@ -7,15 +7,12 @@
 
 import path from 'path';
 import vfile from 'to-vfile';
-// import mdx from 'remark-mdx';
-// import remark from 'remark';
 import dedent from 'dedent';
 import npm2yarn from '../index';
 
 const process = async (content: any, options?: {sync?: boolean}) => {
-  // const mdx = await import('@mdx-js/mdx');
   const {remark} = await import('remark');
-  const mdx = (await import('remark-mdx')).default;
+  const {default: mdx} = await import('remark-mdx');
 
   const result = await remark()
     .use(mdx)
@@ -32,7 +29,7 @@ const processFixture = async (name: string, options?: {sync?: boolean}) => {
 };
 
 describe('npm2yarn plugin', () => {
-  it('works with simple md', async () => {
+  it('works with simplest md', async () => {
     const result = await process(dedent`
     # Title
 
@@ -44,29 +41,7 @@ describe('npm2yarn plugin', () => {
 
     `);
 
-    expect(result).toMatchInlineSnapshot(`
-      "import Tabs from '@theme/Tabs'
-      import TabItem from '@theme/TabItem'
-
-      # Title
-
-      Hey
-
-      <Tabs>
-        <TabItem value="npm">
-          \`\`\`bash
-          npm install test
-          \`\`\`
-        </TabItem>
-
-        <TabItem value="yarn" label="Yarn">
-          \`\`\`bash
-          yarn add test
-          \`\`\`
-        </TabItem>
-      </Tabs>
-      "
-    `);
+    expect(result).toMatchSnapshot();
   });
 
   it('works on installation file', async () => {
