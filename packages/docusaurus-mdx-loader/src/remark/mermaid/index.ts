@@ -17,6 +17,7 @@ export default function plugin(): Transformer {
   return (root) => {
     visit(root, 'code', (node: Code, index, parent) => {
       if (node.lang === 'mermaid') {
+        // TODO migrate to mdxJsxFlowElement? cf admonitions
         parent!.children.splice(index, 1, {
           type: 'mermaidCodeBlock',
           data: {

@@ -45,7 +45,7 @@ const processFixture = async (
     .use(stringify)
     .process(fileContentPreprocessed);
 
-  return result.toString();
+  return result.value;
 };
 
 describe('admonitions remark plugin', () => {
