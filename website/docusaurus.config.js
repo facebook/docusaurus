@@ -156,6 +156,7 @@ const config = {
     ],
     [
       'content-docs',
+      // @ts-expect-error: todo fix npm2yarn plugin
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
         id: 'community',
@@ -281,6 +282,7 @@ const config = {
   presets: [
     [
       'classic',
+      // @ts-expect-error: todo fix npm2yarn plugin
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         debug: true, // force debug plugin usage
