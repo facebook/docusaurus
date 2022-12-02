@@ -23,6 +23,10 @@ export function toValue(
   toString: (param: unknown) => string, // TODO weird but works
 ): string {
   switch (node.type) {
+    // @ts-expect-error: todo types
+    case 'mdxJsxTextElement':
+      const tag = (node as any).name;
+      return `<${tag}>${stringifyContent(node, toString)}</${tag}>`;
     case 'text':
       return escapeHtml(node.value);
     case 'heading':
