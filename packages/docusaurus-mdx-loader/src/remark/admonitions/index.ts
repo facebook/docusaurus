@@ -57,6 +57,85 @@ export function normalizeAdmonitionOptions(
   return options;
 }
 
+/*
+const isMdxEsmLiteral = (node: Node): node is Literal =>
+  node.type === 'mdxjsEsm';
+// TODO good-enough approximation, but not 100% accurate
+const isAdmonitionImport = (node: Node): boolean =>
+  isMdxEsmLiteral(node) && node.value.includes('@theme/Admonition');
+
+function createImportNode() {
+  return {
+    type: 'mdxjsEsm',
+    value: "import Admonition from '@theme/Admonition'",
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ImportDeclaration',
+            specifiers: [
+              {
+                type: 'ImportDefaultSpecifier',
+                local: {type: 'Identifier', name: 'Admonition'},
+              },
+            ],
+            source: {
+              type: 'Literal',
+              value: '@theme/Admonition',
+              raw: "'@theme/Admonition'",
+            },
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
+}
+
+function createAdmonitionNode({
+  directive,
+  title,
+  children,
+}: {
+  directive: ContainerDirective;
+  title: unknown;
+  children: unknown;
+}) {
+  return {
+    type: 'mdxJsxFlowElement',
+    name: 'Admonition',
+    attributes: [
+      {
+        type: 'mdxJsxAttribute',
+        name: 'type',
+        value: directive.name,
+      },
+      {
+        type: 'mdxJsxAttribute',
+        name: 'title',
+        value: {
+          type: 'mdxJsxAttributeValueExpression',
+          // TODO this is the complex part I couldn't solve  :/
+          value: mdHastToValueExpression(title),
+        },
+      },
+    ],
+    children,
+  };
+}
+ */
+
+function extractDirectiveLabel(directive: ContainerDirective) {
+  const hasDirectiveLabel =
+    directive.children?.[0].data?.directiveLabel === true;
+  if (hasDirectiveLabel) {
+    const [directiveLabel, ...children] = directive.children;
+    return {directiveLabel, children};
+  }
+  return {directiveLabel: undefined, children: directive.children};
+}
+
 // This string value does not matter much
 // It is ignored because nodes are using hName/hProperties coming from HAST
 // const admonitionNodeType = 'admonitionHTML';
@@ -70,38 +149,73 @@ const plugin: Plugin = function plugin(
   // See also:
   // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
   // https://github.com/remarkjs/remark-directive
-  return async (tree, file) => {
-    const {h} = await import('hastscript');
+  return async (root) => {
+    /*
+    let transformed = false;
+    let alreadyImported = false;
+     */
 
-    visit(tree, 'containerDirective', (directive: ContainerDirective) => {
-      const isAdmonition = keywords.includes(directive.name);
-
-      if (!isAdmonition) {
-        return;
+    visit(root, (node) => {
+      /*
+      if (isAdmonitionImport(node)) {
+        alreadyImported = true;
       }
+       */
 
-      const data = directive.data || (directive.data = {});
-      const tagName = 'admonition';
+      if (node.type === 'containerDirective') {
+        // transformed = true;
 
-      const hasDirectiveLabel =
-        directive.children?.[0].data?.directiveLabel === true;
+        const directive = node as ContainerDirective;
+        const isAdmonition = keywords.includes(directive.name);
 
-      // TODO this is our old MDX v1 <mdxAdmonitionTitle> workaround
-      // in v2 we should transform the whole directive to mdxJsxFlowElement
-      if (hasDirectiveLabel) {
-        const directiveLabel = directive.children[0];
-        directiveLabel.data.hName = 'mdxAdmonitionTitle';
-        directiveLabel.data.hProperties = directiveLabel.data.hProperties ?? {};
-        directiveLabel.data.hProperties.mdxType = 'mdxAdmonitionTitle';
+        if (!isAdmonition) {
+          return;
+        }
+
+        const {directiveLabel, children} = extractDirectiveLabel(directive);
+
+        /*
+        // :::tip{title="my title} overrides :::tip[my title]
+        const title = directive.attributes?.title ?? directiveLabel?.children;
+
+        const admonitionNode = createAdmonitionNode({
+          directive,
+          title,
+          children,
+        });
+
+        parent!.children.splice(index, 1, admonitionNode);
+
+         */
+
+        // TODO in MDX v2 we should transform the whole directive to
+        // mdxJsxFlowElement instead of using hast
+        directive.data ??= {};
+        directive.data.hName = 'admonition';
+        directive.data.hProperties = {
+          ...directive.attributes,
+          type: directive.name,
+          title: directive.attributes?.title,
+        };
+
+        // TODO legacy MDX v1 <mdxAdmonitionTitle> workaround
+        // Because it wasn't possible to inject JSX elements as props in v1
+        // in v2 we should transform the whole directive to mdxJsxFlowElement
+        // not so easy :/
+        if (directiveLabel) {
+          directiveLabel.data.hName = 'mdxAdmonitionTitle';
+          directiveLabel.data.hProperties =
+            directiveLabel.data.hProperties ?? {};
+          directiveLabel.data.hProperties.mdxType = 'mdxAdmonitionTitle';
+        }
       }
-
-      data.hName = tagName;
-      data.hProperties = h(tagName, {
-        ...directive.attributes,
-        type: directive.name,
-        title: directive.attributes?.title,
-      }).properties;
     });
+
+    /*
+    if (transformed && !alreadyImported) {
+      (root as Parent).children.unshift(createImportNode());
+    }
+     */
   };
 };
 
