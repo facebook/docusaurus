@@ -68,6 +68,7 @@ export {
   parseMarkdownHeadingId,
   escapeMarkdownHeadingIds,
   unwrapMdxCodeBlocks,
+  admonitionTitleToDirectiveLabel,
   createExcerpt,
   parseFrontMatter,
   parseMarkdownContentTitle,

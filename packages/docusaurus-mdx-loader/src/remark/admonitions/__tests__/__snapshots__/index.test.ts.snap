@@ -22,25 +22,9 @@ exports[`admonitions remark plugin base 1`] = `
 <p>++++</p>"
 `;
 
-exports[`admonitions remark plugin custom tag 1`] = `
-"<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
-<p>:::info Sample Title</p>
-<p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p>
-<p>:::</p>
-<h2>Initial setup {#initial-setup}</h2>
-<p>To set up your site's blog, start by creating a <code>blog</code> directory.</p>
-<p>:::tip</p>
-<p>Use the <strong><a href="introduction.md#fast-track">Fast Track</a></strong> to understand Docusaurus in <strong>5 minutes ⏱</strong>!</p>
-<p>Use <strong><a href="https://docusaurus.new">docusaurus.new</a></strong> to test Docusaurus immediately in your browser!</p>
-<p>:::</p>
-<admonition type="tip"><p>Admonition with different syntax</p></admonition>"
-`;
-
 exports[`admonitions remark plugin default behavior for custom keyword 1`] = `
 "<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
-<p>:::info Sample Title</p>
-<p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p>
-<p>:::</p>
+<div><p>Sample Title</p><p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p></div>
 <h2>Initial setup {#initial-setup}</h2>
 <p>To set up your site's blog, start by creating a <code>blog</code> directory.</p>
 <admonition type="tip"><p>Use the <strong><a href="introduction.md#fast-track">Fast Track</a></strong> to understand Docusaurus in <strong>5 minutes ⏱</strong>!</p><p>Use <strong><a href="https://docusaurus.new">docusaurus.new</a></strong> to test Docusaurus immediately in your browser!</p></admonition>
@@ -61,9 +45,7 @@ exports[`admonitions remark plugin nesting 1`] = `
 
 exports[`admonitions remark plugin replace custom keyword 1`] = `
 "<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
-<p>:::info Sample Title</p>
-<p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p>
-<p>:::</p>
+<div><p>Sample Title</p><p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p></div>
 <h2>Initial setup {#initial-setup}</h2>
 <p>To set up your site's blog, start by creating a <code>blog</code> directory.</p>
 <admonition type="tip"><p>Use the <strong><a href="introduction.md#fast-track">Fast Track</a></strong> to understand Docusaurus in <strong>5 minutes ⏱</strong>!</p><p>Use <strong><a href="https://docusaurus.new">docusaurus.new</a></strong> to test Docusaurus immediately in your browser!</p></admonition>

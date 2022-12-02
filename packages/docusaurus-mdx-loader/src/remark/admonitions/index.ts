@@ -9,6 +9,8 @@ import type {Transformer, Processor, Plugin} from 'unified';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {ContainerDirective} from 'mdast-util-directive';
+import type {Node} from 'unist';
+import type {Parent} from 'mdast';
 
 // TODO not ideal option shape
 // First let upgrade to MDX 2.0
@@ -21,7 +23,7 @@ export type AdmonitionOptions = {
 };
 
 export const DefaultAdmonitionOptions: AdmonitionOptions = {
-  tag: ':::',
+  tag: ':::', // TODO remove this, breaking change
   keywords: [
     'secondary',
     'info',
@@ -96,11 +98,11 @@ function createImportNode() {
 function createAdmonitionNode({
   directive,
   title,
-  children,
+  contentNodes,
 }: {
   directive: ContainerDirective;
   title: unknown;
-  children: unknown;
+  contentNodes: unknown;
 }) {
   return {
     type: 'mdxJsxFlowElement',
@@ -117,23 +119,38 @@ function createAdmonitionNode({
         value: {
           type: 'mdxJsxAttributeValueExpression',
           // TODO this is the complex part I couldn't solve  :/
-          value: mdHastToValueExpression(title),
+          value: mdastToValueExpression(title),
         },
       },
     ],
-    children,
+    children: contentNodes,
   };
 }
  */
 
-function extractDirectiveLabel(directive: ContainerDirective) {
+type DirectiveLabel = Parent;
+
+function parseDirective(directive: ContainerDirective): {
+  directiveLabel: DirectiveLabel | undefined;
+  contentNodes: Node[];
+} {
   const hasDirectiveLabel =
     directive.children?.[0].data?.directiveLabel === true;
   if (hasDirectiveLabel) {
-    const [directiveLabel, ...children] = directive.children;
-    return {directiveLabel, children};
+    const [directiveLabel, ...contentNodes] = directive.children;
+    return {directiveLabel, contentNodes};
   }
-  return {directiveLabel: undefined, children: directive.children};
+  return {directiveLabel: undefined, contentNodes: directive.children};
+}
+
+function getTextOnlyTitle(directiveLabel: DirectiveLabel): string | undefined {
+  const isTextOnlyTitle =
+    directiveLabel?.children?.length === 1 &&
+    directiveLabel?.children?.[0]?.type === 'text';
+  return isTextOnlyTitle
+    ? // @ts-expect-error: todo type
+      (directiveLabel?.children?.[0].value as string)
+    : undefined;
 }
 
 // This string value does not matter much
@@ -172,41 +189,49 @@ const plugin: Plugin = function plugin(
           return;
         }
 
-        const {directiveLabel, children} = extractDirectiveLabel(directive);
+        const {directiveLabel, contentNodes} = parseDirective(directive);
 
         /*
         // :::tip{title="my title} overrides :::tip[my title]
         const title = directive.attributes?.title ?? directiveLabel?.children;
-
         const admonitionNode = createAdmonitionNode({
           directive,
           title,
-          children,
+          contentNodes,
         });
-
         parent!.children.splice(index, 1, admonitionNode);
-
          */
 
+        const textOnlyTitle =
+          directive.attributes?.title ??
+          (directiveLabel ? getTextOnlyTitle(directiveLabel) : undefined);
+
+        // Transform the mdast directive node to a hast admonition node
+        // See https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes
         // TODO in MDX v2 we should transform the whole directive to
         // mdxJsxFlowElement instead of using hast
-        directive.data ??= {};
-        directive.data.hName = 'admonition';
-        directive.data.hProperties = {
-          ...directive.attributes,
-          type: directive.name,
-          title: directive.attributes?.title,
+        directive.data = {
+          hName: 'admonition',
+          hProperties: {
+            ...(textOnlyTitle && {title: textOnlyTitle}),
+            type: directive.name,
+          },
         };
+        directive.children = contentNodes;
 
         // TODO legacy MDX v1 <mdxAdmonitionTitle> workaround
-        // Because it wasn't possible to inject JSX elements as props in v1
-        // in v2 we should transform the whole directive to mdxJsxFlowElement
-        // not so easy :/
-        if (directiveLabel) {
-          directiveLabel.data.hName = 'mdxAdmonitionTitle';
-          directiveLabel.data.hProperties =
-            directiveLabel.data.hProperties ?? {};
-          directiveLabel.data.hProperties.mdxType = 'mdxAdmonitionTitle';
+        // v1: not possible to inject complex JSX elements as props
+        // v2: now possible: use a mdxJsxFlowElement element
+        if (directiveLabel && !textOnlyTitle) {
+          const complexTitleNode = {
+            type: 'mdxAdmonitionTitle',
+            data: {
+              hName: 'mdxAdmonitionTitle',
+              hProperties: {},
+            },
+            children: directiveLabel.children,
+          };
+          directive.children.unshift(complexTitleNode);
         }
       }
     });

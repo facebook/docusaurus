@@ -86,6 +86,7 @@ export default {
     // see https://mdxjs.com/docs/troubleshooting-mdx/#problems-integrating-mdx
     '^remark$': '<rootDir>/jest/vendor/remark@14.0.2.js',
     '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@2.1.5.js',
+    '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@2.0.1.js',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',
