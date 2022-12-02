@@ -163,9 +163,6 @@ const plugin: Plugin = function plugin(
 ): Transformer {
   const {keywords} = normalizeAdmonitionOptions(optionsInput);
 
-  // See also:
-  // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
-  // https://github.com/remarkjs/remark-directive
   return async (root) => {
     /*
     let transformed = false;
@@ -179,6 +176,9 @@ const plugin: Plugin = function plugin(
       }
        */
 
+      // See also:
+      // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
+      // https://github.com/remarkjs/remark-directive
       if (node.type === 'containerDirective') {
         // transformed = true;
 
