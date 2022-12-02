@@ -114,7 +114,7 @@ const config = {
   markdown: {
     mermaid: true,
   },
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {

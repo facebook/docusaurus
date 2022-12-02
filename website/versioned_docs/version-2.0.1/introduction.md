@@ -55,7 +55,6 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 <div className="video-container">
   <LiteYouTubeEmbed
-    // cSpell:ignore Yhyx Sksg
     id="Yhyx7otSksg"
     params="autoplay=1&autohide=1&showinfo=0&rel=0"
     title="Docusaurus: Documentation Made Easy"
