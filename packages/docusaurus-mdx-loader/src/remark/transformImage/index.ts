@@ -63,17 +63,6 @@ async function toImageRequireNode(
   const requireString = `${inlineMarkdownImageFileLoader}${
     escapePath(relativeImagePath) + search
   }`;
-  attributes.push({
-    type: 'mdxJsxAttribute',
-    name: 'src',
-    value: assetRequireAttributeValue(requireString, hash),
-  });
-
-  attributes.push({
-    type: 'mdxJsxAttribute',
-    name: 'loading',
-    value: 'lazy',
-  });
   if (node.alt) {
     attributes.push({
       type: 'mdxJsxAttribute',
@@ -81,6 +70,13 @@ async function toImageRequireNode(
       value: escapeHtml(node.alt),
     });
   }
+
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'src',
+    value: assetRequireAttributeValue(requireString, hash),
+  });
+
   if (node.title) {
     attributes.push({
       type: 'mdxJsxAttribute',
@@ -95,14 +91,14 @@ async function toImageRequireNode(
       attributes.push({
         type: 'mdxJsxAttribute',
         name: 'width',
-        value: size.width,
+        value: String(size.width),
       });
     }
     if (size.height) {
       attributes.push({
         type: 'mdxJsxAttribute',
         name: 'height',
-        value: size.height,
+        value: String(size.height),
       });
     }
   } catch (err) {

@@ -9,23 +9,22 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
-import headings from '../../headings/index';
 
 const processFixture = async (
   name: string,
   options: Partial<PluginOptions>,
 ) => {
-  const remark = (await import('remark')).default;
-  const mdx = (await import('remark-mdx')).default;
+  const {remark} = await import('remark');
+  const {default: mdx} = await import('remark-mdx');
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
   const file = await vfile.read(filePath);
+
   const result = await remark()
-    .use(headings)
     .use(mdx)
     .use(plugin, {siteDir: __dirname, staticDirs: [], ...options})
     .process(file);
 
-  return result.toString();
+  return result.value;
 };
 
 const staticDirs = [

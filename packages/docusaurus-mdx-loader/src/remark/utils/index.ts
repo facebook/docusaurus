@@ -48,7 +48,7 @@ export function assetRequireAttributeValue(
 ) {
   return {
     type: 'mdxJsxAttributeValueExpression',
-    value: `require("${requireString}").default + '${hash}'`,
+    value: `require("${requireString}").default${hash && ` + '${hash}'`}`,
     data: {
       estree: {
         type: 'Program',
