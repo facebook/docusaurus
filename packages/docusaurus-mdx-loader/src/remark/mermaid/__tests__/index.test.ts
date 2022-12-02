@@ -12,7 +12,7 @@ import mermaid from '..';
 async function process(content: string) {
   const {remark} = await import('remark');
 
-  const {default: mdx} = await import('remark-mdx');
+  // const {default: mdx} = await import('remark-mdx');
   // const result = await remark().use(mermaid).use(mdx).process(content);
 
   const result = await remark()
