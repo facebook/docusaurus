@@ -12,14 +12,10 @@ import {
   parseMarkdownContentTitle,
   escapePath,
   getFileLoaderUtils,
-  escapeMarkdownHeadingIds,
-  unwrapMdxCodeBlocks,
 } from '@docusaurus/utils';
 import emoji from 'remark-emoji';
-
 import stringifyObject from 'stringify-object';
-
-import {admonitionTitleToDirectiveLabel} from '@docusaurus/utils/lib/markdownUtils';
+import preprocessor from './preprocessor';
 import headings from './remark/headings';
 import toc from './remark/toc';
 import transformImage from './remark/transformImage';
@@ -188,19 +184,9 @@ export async function mdxLoader(
     },
   );
 
-  function preprocessContent(md: string): string {
-    md = unwrapMdxCodeBlocks(md);
-    md = escapeMarkdownHeadingIds(md);
-    if (reqOptions.admonitions) {
-      const {keywords} = normalizeAdmonitionOptions(reqOptions.admonitions);
-      md = admonitionTitleToDirectiveLabel(md, keywords);
-    }
-    // TODO MDX 2 doesn't like our unescaped html comments <
-    md = md.replaceAll('<!--', '\\<!--');
-    return md;
-  }
-
-  const content = preprocessContent(contentUnprocessed);
+  const content = preprocessor(contentUnprocessed, {
+    admonitions: reqOptions.admonitions,
+  });
 
   if (isDebugFile(filePath)) {
     console.log('\n\n\n');
