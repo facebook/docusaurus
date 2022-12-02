@@ -87,6 +87,8 @@ export default {
     '^remark$': '<rootDir>/jest/vendor/remark@14.0.2.js',
     '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@2.1.5.js',
     '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@2.0.1.js',
+    '^estree-util-value-to-estree$':
+      '<rootDir>/jest/vendor/estree-util-value-to-estree@2.1.0.js',
     '^mdast-util-to-string$':
       '<rootDir>/jest/vendor/mdast-util-to-string@3.1.0.js',
   },
