@@ -11,8 +11,8 @@ import plugin from '..';
 import transformImage, {type PluginOptions} from '../../transformImage';
 
 const processFixture = async (name: string, options?: PluginOptions) => {
-  const remark = (await import('remark')).default;
-  const mdx = (await import('remark-mdx')).default;
+  const {remark} = await import('remark');
+  const {default: mdx} = await import('remark-mdx');
   const siteDir = path.join(__dirname, `__fixtures__`);
   const staticDirs = [
     path.join(siteDir, 'static'),
@@ -29,7 +29,7 @@ const processFixture = async (name: string, options?: PluginOptions) => {
     })
     .process(file);
 
-  return result.toString();
+  return result.value;
 };
 
 describe('transformAsset plugin', () => {

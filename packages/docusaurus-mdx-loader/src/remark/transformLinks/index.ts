@@ -73,14 +73,14 @@ async function toAssetRequireNode(
 
   attributes.push({
     type: 'mdxJsxAttribute',
-    name: 'href',
-    value: assetRequireAttributeValue(requireString, hash),
+    name: 'target',
+    value: '_blank',
   });
 
   attributes.push({
     type: 'mdxJsxAttribute',
-    name: 'target',
-    value: '_blank',
+    name: 'href',
+    value: assetRequireAttributeValue(requireString, hash),
   });
 
   if (node.title) {
@@ -91,7 +91,7 @@ async function toAssetRequireNode(
     });
   }
 
-  const children = stringifyContent(node, toString);
+  const {children} = node;
 
   Object.keys(jsxNode).forEach(
     (key) => delete jsxNode[key as keyof typeof jsxNode],
@@ -100,7 +100,7 @@ async function toAssetRequireNode(
   jsxNode.type = 'mdxJsxFlowElement';
   jsxNode.name = 'a';
   jsxNode.attributes = attributes;
-  jsxNode.children = [{type: 'text', value: children}];
+  jsxNode.children = children;
 }
 
 async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
