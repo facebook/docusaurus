@@ -22,9 +22,7 @@ import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
 
-import transformAdmonitions, {
-  normalizeAdmonitionOptions,
-} from './remark/admonitions';
+import transformAdmonitions from './remark/admonitions';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
