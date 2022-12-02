@@ -17,7 +17,7 @@ import {
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
-import {assetRequireAttributeValue, stringifyContent} from '../utils';
+import {assetRequireAttributeValue} from '../utils';
 import type {Transformer} from 'unified';
 import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';
