@@ -180,9 +180,11 @@ console.log(`
 console.log(`-------
 ## Removing example folders...
 `);
-await fs.rm('./examples/classic', {recursive: true, force: true});
-await fs.rm('./examples/classic-typescript', {recursive: true, force: true});
-await fs.rm('./examples/facebook', {recursive: true, force: true});
+await Promise.all([
+  fs.rm('./examples/classic', {recursive: true, force: true}),
+  fs.rm('./examples/classic-typescript', {recursive: true, force: true}),
+  fs.rm('./examples/facebook', {recursive: true, force: true}),
+]);
 
 // Get the list of all available templates
 console.log(`
