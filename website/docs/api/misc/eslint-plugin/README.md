@@ -15,7 +15,7 @@ npm install --save-dev @docusaurus/eslint-plugin
 
 ## Usage
 
-### Recommended Config
+### Recommended config
 
 Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc` configuration file:
 
@@ -25,9 +25,9 @@ Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc
 }
 ```
 
-This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported Rules](#supported-rules) below for a list of rules that this will enable.
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) below for a list of rules that this will enable.
 
-### Manual Config
+### Manual config
 
 For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
 
@@ -41,12 +41,12 @@ For more fine-grained control, you can also enable the plugin manually and confi
 }
 ```
 
-## Supported Configs
+## Supported configs
 
 - Recommended: recommended rule set for most Docusaurus sites that should be extended from.
 - All: **all** rules enabled. This will change between minor versions, so you should not use this if you want to avoid unexpected breaking changes.
 
-## Supported Rules
+## Supported rules
 
 | Name | Description |  |
 | --- | --- | --- |
