@@ -67,6 +67,6 @@
   "theme.tags.tagsListLabel": "برچسب‌ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب‌ها",
   "theme.tags.tagsPageTitle": "برچسب‌ها",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.unlistedContent.message": "این صفحه فهرست نشده است. موتورهای جستجو آن را ایندکس نمی کنند و فقط کاربرانی که لینک مستقیم دارند می توانند به آن دسترسی داشته باشند.",
+  "theme.unlistedContent.title": "صفحه فهرست نشده"
 }
