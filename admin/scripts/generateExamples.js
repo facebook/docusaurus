@@ -196,9 +196,9 @@ const templates = (
   await fs.readdir('./packages/create-docusaurus/templates')
 ).filter((name) => !excludes.includes(name));
 console.log(`Will generate examples for templates: ${templates.join(',')}`);
-for (const template of templates) {
-  await generateTemplateExample(template);
-}
+await Promise.all(
+  templates.map((template) => generateTemplateExample(template))
+);
 console.log('Committing changes');
 shell.exec('git add examples');
 shell.exec("git commit -am 'update examples' --allow-empty");
