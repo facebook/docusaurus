@@ -47,4 +47,13 @@ A function to provide the metadataPath depending on current loaded MDX path that
 
 ### `markdownConfig`
 
-The global Docusaurus Markdown config (`config.markdown`).
+The global Docusaurus Markdown config (`config.markdown`), that plugin authors should forward:
+
+```js
+const loader = {
+  loader: require.resolve('@docusaurus/mdx-loader'),
+  options: {
+    markdownConfig: siteConfig.markdown,
+  },
+};
+```
