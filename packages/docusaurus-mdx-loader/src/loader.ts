@@ -209,7 +209,7 @@ export async function mdxLoader(
       (await import('remark-directive')).default,
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
+      ...(reqOptions.markdownConfig?.mermaid ? [mermaid] : []),
       [
         transformImage,
         {
