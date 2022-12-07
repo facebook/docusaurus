@@ -153,6 +153,7 @@ katex
 kato
 keyscan
 keytar
+kinsta
 knapen
 koyeb
 kubernetes
