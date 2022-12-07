@@ -1,61 +1,23 @@
 ---
-sidebar_position: 2
-slug: /api/themes/@docusaurus/theme-classic
+sidebar_position: 5
+slug: /api/themes/@docusaurus/theme-mermaid
 ---
 
-# 📦 theme-classic
+# 📦 theme-mermaid
 
-The classic theme for Docusaurus.
-
-You can refer to the [theme configuration page](theme-configuration.md) for more details on the configuration.
+This theme provides a `@theme/Mermaid` component that is powered by [mermaid](https://mermaid-js.github.io/). You can read more on [diagrams](../../guides/markdown-features/markdown-features-diagrams.mdx) documentation.
 
 ```bash npm2yarn
-npm install --save @docusaurus/theme-classic
+npm install --save @docusaurus/theme-mermaid
 ```
 
-:::tip
+### Configuration {#configuration}
 
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
-
-:::
-
-## Configuration {#configuration}
-
-Accepted fields:
-
-```mdx-code-block
-<APITable>
-```
-
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `customCss` | <code>string[] \| string</code> | `[]` | Stylesheets to be imported globally as [client modules](../../advanced/client.md#client-modules). Relative paths are resolved against the site directory. |
-
-```mdx-code-block
-</APITable>
-```
-
-:::note
-
-Most configuration for the theme is done in `themeConfig`, which can be found in [theme configuration](./theme-configuration.md).
-
-:::
-
-### Example configuration {#ex-config}
-
-You can configure this theme through preset options or plugin options.
-
-:::tip
-
-Most Docusaurus users configure this plugin through the preset options.
-
-:::
-
-```js config-tabs
-// Preset Options: theme
-// Plugin Options: @docusaurus/theme-classic
-
-const config = {
-  customCss: require.resolve('./src/css/custom.css'),
+```js title="docusaurus.config.js"
+module.exports = {
+  themes: ['@docusaurus/theme-mermaid'],
+  markdown: {
+    mermaid: true,
+  },
 };
 ```
