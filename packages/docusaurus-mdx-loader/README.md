@@ -47,4 +47,4 @@ A function to provide the metadataPath depending on current loaded MDX path that
 
 ### `markdownConfig`
 
-The global Docusaurus Markdown config (`config.markdown`)
+The global Docusaurus Markdown config (`config.markdown`).
