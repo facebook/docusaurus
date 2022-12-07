@@ -162,6 +162,17 @@ function isDebugFile(filePath: string): boolean {
   return false;
 }
 
+// TODO temporary, remove this after v3.1?
+// Some plugin authors use our mdx-loader, despite it not being public API
+// see https://github.com/facebook/docusaurus/issues/8298
+function ensureMarkdownConfig(reqOptions: Options) {
+  if (!reqOptions.markdownConfig) {
+    throw new Error(
+      'Docusaurus v3+ requires MDX loader options.markdownConfig - plugin authors using the MDX loader should make sure to provide that option',
+    );
+  }
+}
+
 export async function mdxLoader(
   this: LoaderContext<Options>,
   fileString: string,
@@ -169,6 +180,7 @@ export async function mdxLoader(
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions();
+  ensureMarkdownConfig(reqOptions);
 
   const {createProcessor} = await import('@mdx-js/mdx');
   const {default: gfm} = await import('remark-gfm');
@@ -209,7 +221,7 @@ export async function mdxLoader(
       (await import('remark-directive')).default,
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      ...(reqOptions.markdownConfig?.mermaid ? [mermaid] : []),
+      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
       [
         transformImage,
         {
