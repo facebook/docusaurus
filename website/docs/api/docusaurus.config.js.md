@@ -394,6 +394,30 @@ module.exports = {
 };
 ```
 
+### `markdown` {#markdown}
+
+The global Docusaurus Markdown config.
+
+- Type: `MarkdownConfig`
+
+```ts
+type MarkdownConfig = {
+  mermaid: boolean;
+};
+```
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  markdown: {
+    mermaid: true,
+  },
+};
+```
+
+- `mermaid`: when `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams.
+
 ### `customFields` {#customFields}
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
