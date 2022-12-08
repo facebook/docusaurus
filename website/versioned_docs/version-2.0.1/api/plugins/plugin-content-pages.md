@@ -63,7 +63,7 @@ Most Docusaurus users configure this plugin through the preset options.
 
 const config = {
   path: 'src/pages',
-  routeBasePath: '',
+  routeBasePath: '/',
   include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
   exclude: [
     '**/_*.{js,jsx,ts,tsx,md,mdx}',
