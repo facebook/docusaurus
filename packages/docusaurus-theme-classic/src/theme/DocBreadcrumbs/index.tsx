@@ -123,13 +123,17 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         {homePageRoute && <HomeBreadcrumbItem />}
         {breadcrumbs.map((item, idx) => {
           const isLast = idx === breadcrumbs.length - 1;
+          const href =
+            item.type === 'category' && item.linkUnlisted
+              ? undefined
+              : item.href;
           return (
             <BreadcrumbsItem
               key={idx}
               active={isLast}
               index={idx}
-              addMicrodata={!!item.href}>
-              <BreadcrumbsItemLink href={item.href} isLast={isLast}>
+              addMicrodata={!!href}>
+              <BreadcrumbsItemLink href={href} isLast={isLast}>
                 {item.label}
               </BreadcrumbsItemLink>
             </BreadcrumbsItem>

@@ -18,6 +18,8 @@ import {
   posixPath,
   Globby,
   normalizeFrontMatterTags,
+  isUnlisted,
+  isDraft,
 } from '@docusaurus/utils';
 
 import {getFileLastUpdate} from './lastUpdate';
@@ -35,7 +37,6 @@ import type {
   PropNavigationLink,
   LastUpdateData,
   VersionMetadata,
-  DocFrontMatter,
   LoadedVersion,
   FileChange,
 } from '@docusaurus/plugin-content-docs';
@@ -124,17 +125,6 @@ export async function readVersionDocs(
 }
 
 export type DocEnv = 'production' | 'development';
-
-/** Docs with draft front matter are only considered draft in production. */
-function isDraftForEnvironment({
-  env,
-  frontMatter,
-}: {
-  frontMatter: DocFrontMatter;
-  env: DocEnv;
-}): boolean {
-  return (env === 'production' && frontMatter.draft) ?? false;
-}
 
 async function doProcessDocMetadata({
   docFile,
@@ -268,7 +258,8 @@ async function doProcessDocMetadata({
     return undefined;
   }
 
-  const draft = isDraftForEnvironment({env, frontMatter});
+  const draft = isDraft({env, frontMatter});
+  const unlisted = isUnlisted({env, frontMatter});
 
   const formatDate = (locale: string, date: Date, calendar: string): string => {
     try {
@@ -299,6 +290,7 @@ async function doProcessDocMetadata({
     slug: docSlug,
     permalink,
     draft,
+    unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
@@ -333,25 +325,32 @@ export async function processDocMetadata(args: {
   }
 }
 
-export function addDocNavigation(
-  docsBase: DocMetadataBase[],
-  sidebarsUtils: SidebarsUtils,
-  sidebarFilePath: string,
-): LoadedVersion['docs'] {
-  const docsById = createDocsByIdIndex(docsBase);
+function getUnlistedIds(docs: DocMetadataBase[]): Set<string> {
+  return new Set(docs.filter((doc) => doc.unlisted).map((doc) => doc.id));
+}
 
-  sidebarsUtils.checkSidebarsDocIds(
-    docsBase.flatMap(getDocIds),
-    sidebarFilePath,
-  );
+export function addDocNavigation({
+  docs,
+  sidebarsUtils,
+  sidebarFilePath,
+}: {
+  docs: DocMetadataBase[];
+  sidebarsUtils: SidebarsUtils;
+  sidebarFilePath: string;
+}): LoadedVersion['docs'] {
+  const docsById = createDocsByIdIndex(docs);
+  const unlistedIds = getUnlistedIds(docs);
+
+  sidebarsUtils.checkSidebarsDocIds(docs.flatMap(getDocIds), sidebarFilePath);
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
-    const navigation = sidebarsUtils.getDocNavigation(
-      doc.unversionedId,
-      doc.id,
-      doc.frontMatter.displayed_sidebar,
-    );
+    const navigation = sidebarsUtils.getDocNavigation({
+      unversionedId: doc.unversionedId,
+      versionedId: doc.id,
+      displayedSidebar: doc.frontMatter.displayed_sidebar,
+      unlistedIds,
+    });
 
     const toNavigationLinkByDocId = (
       docId: string | null | undefined,
@@ -366,6 +365,10 @@ export function addDocNavigation(
         throw new Error(
           `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
         );
+      }
+      // Gracefully handle explicitly providing an unlisted doc ID in production
+      if (navDoc.unlisted) {
+        return undefined;
       }
       return toDocNavigationLink(navDoc);
     };
@@ -382,7 +385,7 @@ export function addDocNavigation(
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
 
-  const docsWithNavigation = docsBase.map(addNavData);
+  const docsWithNavigation = docs.map(addNavData);
   // Sort to ensure consistent output for tests
   docsWithNavigation.sort((a, b) => a.id.localeCompare(b.id));
   return docsWithNavigation;

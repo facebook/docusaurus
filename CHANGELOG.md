@@ -1,5 +1,87 @@
 # Docusaurus 2 Changelog
 
+## 2.2.0 (2022-10-29)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-client-redirects`
+  - [#8227](https://github.com/facebook/docusaurus/pull/8227) feat(plugin-client-redirects): keep the query string + hash ([@Xabilahu](https://github.com/Xabilahu))
+- `docusaurus`
+  - [#8210](https://github.com/facebook/docusaurus/pull/8210) feat(core): add --config param to swizzle command ([@e-im](https://github.com/e-im))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-mermaid`, `docusaurus-types`, `docusaurus`
+  - [#7490](https://github.com/facebook/docusaurus/pull/7490) feat: support mermaid code blocks in Markdown ([@sjwall](https://github.com/sjwall))
+- `docusaurus-types`, `docusaurus`
+  - [#8151](https://github.com/facebook/docusaurus/pull/8151) feat(core): siteConfig.headTags API to render extra tags in document head ([@johnnyreilly](https://github.com/johnnyreilly))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-ideal-image`
+  - [#8250](https://github.com/facebook/docusaurus/pull/8250) fix(ideal-image): do not pass down `img` prop ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-common`
+  - [#8246](https://github.com/facebook/docusaurus/pull/8246) fix(mdx-loader): properly unwrap mdxAdmonitionTitle placeholder ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-plugin-content-docs`
+  - [#8234](https://github.com/facebook/docusaurus/pull/8234) fix(plugin-content-docs): fix error message context (error cause) when doc processing fails ([@shanpriyan](https://github.com/shanpriyan))
+- `docusaurus-theme-classic`, `docusaurus-theme-translations`
+  - [#8207](https://github.com/facebook/docusaurus/pull/8207) fix(theme-classic): hamburger menu control navigation by keyboard ([@jeferson-sb](https://github.com/jeferson-sb))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#8204](https://github.com/facebook/docusaurus/pull/8204) fix(theme-classic): fix SkipToContent without JS , refactor, make it public theming API ([@mturoci](https://github.com/mturoci))
+  - [#8059](https://github.com/facebook/docusaurus/pull/8059) fix(theme): preserve url ?search#hash on navbar version/locale dropdowns navigations ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#8192](https://github.com/facebook/docusaurus/pull/8192) fix(core): throw error for invalid URL in config file ([@forgeRW](https://github.com/forgeRW))
+- `docusaurus-theme-classic`
+  - [#8174](https://github.com/facebook/docusaurus/pull/8174) fix(theme): announce theme switches ([@mturoci](https://github.com/mturoci))
+  - [#8190](https://github.com/facebook/docusaurus/pull/8190) fix(theme): add more tag names to inline code element set ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#8163](https://github.com/facebook/docusaurus/pull/8163) fix(theme): mobile navbar & skipToContent should cover announcementBar ([@adnanhashmi09](https://github.com/adnanhashmi09))
+  - [#8068](https://github.com/facebook/docusaurus/pull/8068) fix(theme): preserve line breaks when copying code with showLineNumbers in Firefox ([@LittleboyHarry](https://github.com/LittleboyHarry))
+- `docusaurus-utils`
+  - [#8137](https://github.com/facebook/docusaurus/pull/8137) fix(utils): remove non-ASCII limitation for path normalization ([@birjj](https://github.com/birjj))
+  - [#8158](https://github.com/facebook/docusaurus/pull/8158) fix(content-blog): make RSS feed generation work with slugs with .html extension ([@Pranav2612000](https://github.com/Pranav2612000))
+- `docusaurus-theme-translations`
+  - [#8105](https://github.com/facebook/docusaurus/pull/8105) fix(theme-translations): complete turkish theme default translations ([@ramazansancar](https://github.com/ramazansancar))
+  - [#8087](https://github.com/facebook/docusaurus/pull/8087) fix(theme-translations): remove extra vi translations ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
+- `docusaurus-plugin-client-redirects`
+  - [#8067](https://github.com/facebook/docusaurus/pull/8067) fix(redirect): tolerate trailing slash difference if config is undefined ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-translations`
+  - [#8253](https://github.com/facebook/docusaurus/pull/8253) chore(theme-translations): complete ru translations ([@lex111](https://github.com/lex111))
+  - [#8243](https://github.com/facebook/docusaurus/pull/8243) chore(theme-translations): complete French translations ([@forresst](https://github.com/forresst))
+  - [#8075](https://github.com/facebook/docusaurus/pull/8075) fix(theme-translation): complete Japanese theme default translation ([@pasora](https://github.com/pasora))
+- `docusaurus`
+  - [#8159](https://github.com/facebook/docusaurus/pull/8159) fix(core): throw error for invalid URL in config file ([@forgeRW](https://github.com/forgeRW))
+  - [#8109](https://github.com/facebook/docusaurus/pull/8109) feat(core): prefetch on mobile touchstart ([@sanjaiyan-dev](https://github.com/sanjaiyan-dev))
+- `docusaurus-theme-classic`
+  - [#8161](https://github.com/facebook/docusaurus/pull/8161) fix(theme): do not show tab content when tabbing over it; show after selection only ([@mturoci](https://github.com/mturoci))
+  - [#8062](https://github.com/facebook/docusaurus/pull/8062) refactor(theme): remove hard-coded tag border-radius ([@homotechsual](https://github.com/homotechsual))
+- `docusaurus-utils-validation`, `docusaurus`
+  - [#8066](https://github.com/facebook/docusaurus/pull/8066) fix(core): normalize slashes for url/baseUrl instead of throwing ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### Committers: 22
+
+- Adnan Hashmi ([@adnanhashmi09](https://github.com/adnanhashmi09))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Forresst ([@forresst](https://github.com/forresst))
+- Jan Peer Stöcklmair ([@JPeer264](https://github.com/JPeer264))
+- Jeferson S. Brito ([@jeferson-sb](https://github.com/jeferson-sb))
+- Johan Fagerberg ([@birjj](https://github.com/birjj))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- LittleboyHarry ([@LittleboyHarry](https://github.com/LittleboyHarry))
+- Masahiko Hara ([@pasora](https://github.com/pasora))
+- Mikey O'Toole ([@homotechsual](https://github.com/homotechsual))
+- Nguyễn Thành Nam ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
+- Pranav Joglekar ([@Pranav2612000](https://github.com/Pranav2612000))
+- Ramazan SANCAR ([@ramazansancar](https://github.com/ramazansancar))
+- Sam Wall ([@sjwall](https://github.com/sjwall))
+- Sanjaiyan Parthipan ([@sanjaiyan-dev](https://github.com/sanjaiyan-dev))
+- Shanmughapriyan S ([@shanpriyan](https://github.com/shanpriyan))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Xabier Lahuerta Vazquez ([@Xabilahu](https://github.com/Xabilahu))
+- [@forgeRW](https://github.com/forgeRW)
+- [@mturoci](https://github.com/mturoci)
+- evan ([@e-im](https://github.com/e-im))
+
 ## 2.1.0 (2022-09-01)
 
 #### :rocket: New Feature

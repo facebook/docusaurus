@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeFrontMatterTags, groupTaggedItems, type Tag} from '../tags';
+import {
+  normalizeFrontMatterTags,
+  groupTaggedItems,
+  type Tag,
+  getTagVisibility,
+} from '../tags';
 
 describe('normalizeFrontMatterTags', () => {
   it('normalizes simple string tag', () => {
@@ -181,5 +186,54 @@ describe('groupTaggedItems', () => {
     };
 
     expect(groupItems(input)).toEqual(expectedOutput);
+  });
+});
+
+describe('getTagVisibility', () => {
+  type Item = {id: string; unlisted: boolean};
+
+  function isUnlisted(item: Item): boolean {
+    return item.unlisted;
+  }
+
+  const item1: Item = {id: '1', unlisted: false};
+  const item2: Item = {id: '2', unlisted: true};
+  const item3: Item = {id: '3', unlisted: false};
+  const item4: Item = {id: '4', unlisted: true};
+
+  it('works for some unlisted', () => {
+    expect(
+      getTagVisibility({
+        items: [item1, item2, item3, item4],
+        isUnlisted,
+      }),
+    ).toEqual({
+      listedItems: [item1, item3],
+      unlisted: false,
+    });
+  });
+
+  it('works for all unlisted', () => {
+    expect(
+      getTagVisibility({
+        items: [item2, item4],
+        isUnlisted,
+      }),
+    ).toEqual({
+      listedItems: [item2, item4],
+      unlisted: true,
+    });
+  });
+
+  it('works for all listed', () => {
+    expect(
+      getTagVisibility({
+        items: [item1, item3],
+        isUnlisted,
+      }),
+    ).toEqual({
+      listedItems: [item1, item3],
+      unlisted: false,
+    });
   });
 });

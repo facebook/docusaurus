@@ -19,12 +19,21 @@ describe('toGlobalDataVersion', () => {
         permalink: '/current/main',
         sidebar: 'tutorial',
         frontMatter: {},
+        unlisted: false,
       },
       {
         unversionedId: 'doc',
         permalink: '/current/doc',
         sidebar: 'tutorial',
         frontMatter: {},
+        unlisted: undefined,
+      },
+      {
+        unversionedId: 'docNoSidebarUnlisted',
+        permalink: '/current/docNoSidebarUnlisted',
+        sidebar: undefined,
+        frontMatter: {},
+        unlisted: true,
       },
     ] as DocMetadata[];
     const sidebars: Sidebars = {

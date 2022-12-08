@@ -20,6 +20,8 @@ import {
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
+  isUnlisted,
+  isDraft,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 
@@ -82,7 +84,9 @@ export default function pluginContentPages(
         ignore: options.exclude,
       });
 
-      async function toMetadata(relativeSource: string): Promise<Metadata> {
+      async function processPageSourceFile(
+        relativeSource: string,
+      ): Promise<Metadata | undefined> {
         // Lookup in localized folder in priority
         const contentPath = await getFolderContainingFile(
           getContentPathList(contentPaths),
@@ -110,6 +114,12 @@ export default function pluginContentPages(
           excerpt,
         } = parseMarkdownString(content);
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+
+        if (isDraft({frontMatter})) {
+          return undefined;
+        }
+        const unlisted = isUnlisted({frontMatter});
+
         return {
           type: 'mdx',
           permalink,
@@ -117,10 +127,24 @@ export default function pluginContentPages(
           title: frontMatter.title ?? contentTitle,
           description: frontMatter.description ?? excerpt,
           frontMatter,
+          unlisted,
         };
       }
 
-      return Promise.all(pagesFiles.map(toMetadata));
+      async function doProcessPageSourceFile(relativeSource: string) {
+        try {
+          return await processPageSourceFile(relativeSource);
+        } catch (err) {
+          throw new Error(
+            `Processing of page source file path=${relativeSource} failed.`,
+            {cause: err as Error},
+          );
+        }
+      }
+
+      return (
+        await Promise.all(pagesFiles.map(doProcessPageSourceFile))
+      ).filter(Boolean) as Metadata[];
     },
 
     async contentLoaded({content, actions}) {

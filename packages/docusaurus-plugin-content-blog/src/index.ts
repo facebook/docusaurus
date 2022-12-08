@@ -18,19 +18,19 @@ import {
   getContentPathList,
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
-  type TagsListItem,
-  type TagModule,
 } from '@docusaurus/utils';
 import {
   generateBlogPosts,
   getSourceToPermalink,
   getBlogTags,
   paginateBlogPosts,
+  shouldBeListed,
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles} from './feed';
 
+import {toTagProp, toTagsProp} from './props';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {
@@ -112,6 +112,7 @@ export default async function pluginContentBlog(
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
       const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const listedBlogPosts = blogPosts.filter(shouldBeListed);
 
       if (!blogPosts.length) {
         return {
@@ -125,8 +126,8 @@ export default async function pluginContentBlog(
       }
 
       // Colocate next and prev metadata.
-      blogPosts.forEach((blogPost, index) => {
-        const prevItem = index > 0 ? blogPosts[index - 1] : null;
+      listedBlogPosts.forEach((blogPost, index) => {
+        const prevItem = index > 0 ? listedBlogPosts[index - 1] : null;
         if (prevItem) {
           blogPost.metadata.prevItem = {
             title: prevItem.metadata.title,
@@ -135,7 +136,9 @@ export default async function pluginContentBlog(
         }
 
         const nextItem =
-          index < blogPosts.length - 1 ? blogPosts[index + 1] : null;
+          index < listedBlogPosts.length - 1
+            ? listedBlogPosts[index + 1]
+            : null;
         if (nextItem) {
           blogPost.metadata.nextItem = {
             title: nextItem.metadata.title,
@@ -145,7 +148,7 @@ export default async function pluginContentBlog(
       });
 
       const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
-        blogPosts,
+        blogPosts: listedBlogPosts,
         blogTitle,
         blogDescription,
         postsPerPageOption,
@@ -242,6 +245,7 @@ export default async function pluginContentBlog(
             items: sidebarBlogPosts.map((blogPost) => ({
               title: blogPost.metadata.title,
               permalink: blogPost.metadata.permalink,
+              unlisted: blogPost.metadata.unlisted,
             })),
           },
           null,
@@ -303,17 +307,10 @@ export default async function pluginContentBlog(
       }
 
       async function createTagsListPage() {
-        const tagsProp: TagsListItem[] = Object.values(blogTags).map((tag) => ({
-          label: tag.label,
-          permalink: tag.permalink,
-          count: tag.items.length,
-        }));
-
         const tagsPropPath = await createData(
           `${docuHash(`${blogTagsListPath}-tags`)}.json`,
-          JSON.stringify(tagsProp, null, 2),
+          JSON.stringify(toTagsProp({blogTags}), null, 2),
         );
-
         addRoute({
           path: blogTagsListPath,
           component: blogTagsListComponent,
@@ -329,15 +326,9 @@ export default async function pluginContentBlog(
         await Promise.all(
           tag.pages.map(async (blogPaginated) => {
             const {metadata, items} = blogPaginated;
-            const tagProp: TagModule = {
-              label: tag.label,
-              permalink: tag.permalink,
-              allTagsPath: blogTagsListPath,
-              count: tag.items.length,
-            };
             const tagPropPath = await createData(
               `${docuHash(metadata.permalink)}.json`,
-              JSON.stringify(tagProp, null, 2),
+              JSON.stringify(toTagProp({tag, blogTagsListPath}), null, 2),
             );
 
             const listMetadataPath = await createData(

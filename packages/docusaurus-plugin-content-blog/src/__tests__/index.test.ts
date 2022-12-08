@@ -172,6 +172,7 @@ describe('blog plugin', () => {
         title: 'Happy 1st Birthday Slash! (translated)',
       },
       hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect(
@@ -215,6 +216,7 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect({
@@ -252,6 +254,7 @@ describe('blog plugin', () => {
         },
       ],
       hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect({
@@ -289,6 +292,7 @@ describe('blog plugin', () => {
       },
       tags: [],
       hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect({
@@ -314,13 +318,14 @@ describe('blog plugin', () => {
         title: 'date-matter',
       },
       hasTruncateMarker: false,
+      unlisted: false,
     });
   });
 
   it('builds simple website blog with localized dates', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(8);
+    expect(blogPostsFrench).toHaveLength(9);
     expect(blogPostsFrench[0]!.metadata.formattedDate).toMatchInlineSnapshot(
       `"6 mars 2021"`,
     );
@@ -337,13 +342,13 @@ describe('blog plugin', () => {
       `"27 février 2020"`,
     );
     expect(blogPostsFrench[5]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"2 janvier 2019"`,
+      `"27 février 2020"`,
     );
     expect(blogPostsFrench[6]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
+      `"2 janvier 2019"`,
     );
     expect(blogPostsFrench[7]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"14 décembre 2018"`,
+      `"1 janvier 2019"`,
     );
   });
 
@@ -372,7 +377,7 @@ describe('blog plugin', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(8);
+    expect(editUrlFunction).toHaveBeenCalledTimes(9);
 
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
@@ -471,6 +476,7 @@ describe('blog plugin', () => {
       prevItem: undefined,
       nextItem: undefined,
       hasTruncateMarker: false,
+      unlisted: false,
     });
   });
 
@@ -495,7 +501,7 @@ describe('blog plugin', () => {
       postsPerPage: 2,
     });
 
-    expect(Object.keys(blogTags)).toHaveLength(2);
+    expect(Object.keys(blogTags)).toHaveLength(3);
     expect(blogTags).toMatchSnapshot();
   });
 

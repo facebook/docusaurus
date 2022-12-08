@@ -15,6 +15,7 @@ import {
   URISchema,
   PathnameSchema,
   RouteBasePathSchema,
+  ContentVisibilitySchema,
 } from '../validationSchemas';
 
 function createTestHelpers({
@@ -184,5 +185,29 @@ describe('validation schemas', () => {
     testFail([]);
     testFail(null);
     testFail({});
+  });
+
+  it('contentVisibilitySchema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: ContentVisibilitySchema,
+    });
+
+    testOK({});
+    testOK({draft: false});
+    testOK({draft: true});
+    testOK({unlisted: false});
+    testOK({unlisted: true});
+
+    testOK({draft: false, unlisted: false});
+    testOK({draft: true, unlisted: false});
+    testOK({draft: false, unlisted: true});
+    testOK({draft: true, unlisted: undefined});
+    testOK({draft: undefined, unlisted: true});
+
+    testFail({draft: 'bad string'});
+    testFail({draft: 42});
+    testFail({unlisted: 'bad string'});
+    testFail({unlisted: 42});
+    testFail({draft: true, unlisted: true});
   });
 });

@@ -11,11 +11,13 @@ export = {
   rules,
   configs: {
     recommended: {
+      plugins: ['@docusaurus'],
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
       },
     },
     all: {
+      plugins: ['@docusaurus'],
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
         '@docusaurus/no-untranslated-text': 'warn',

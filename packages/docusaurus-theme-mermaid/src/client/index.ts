@@ -7,8 +7,7 @@
 
 import {useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
-import mermaid from 'mermaid';
-import type mermaidAPI from 'mermaid/mermaidAPI';
+import mermaid, {type MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
 // Stable className to allow users to easily target with CSS
@@ -18,7 +17,7 @@ export function useMermaidThemeConfig(): ThemeConfig['mermaid'] {
   return (useThemeConfig() as unknown as ThemeConfig).mermaid;
 }
 
-export function useMermaidConfig(): mermaidAPI.Config {
+export function useMermaidConfig(): MermaidConfig {
   const {colorMode} = useColorMode();
   const mermaidThemeConfig = useMermaidThemeConfig();
 
@@ -33,7 +32,7 @@ export function useMermaidConfig(): mermaidAPI.Config {
 
 export function useMermaidSvg(
   txt: string,
-  mermaidConfigParam?: mermaidAPI.Config,
+  mermaidConfigParam?: MermaidConfig,
 ): string {
   /*
   For flexibility, we allow the hook to receive a custom Mermaid config

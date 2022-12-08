@@ -195,7 +195,7 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
-  it('parses markdown h1 title at the top and unwrap inline code block', () => {
+  it('parses markdown h1 title inside backticks at the top and unwrap inline code block', () => {
     const markdown = dedent`
 
           # \`Markdown Title\`
@@ -206,6 +206,20 @@ describe('parseMarkdownContentTitle', () => {
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: markdown,
       contentTitle: 'Markdown Title',
+    });
+  });
+
+  it('parses markdown h1 title with interspersed backticks at the top and unwrap inline code block', () => {
+    const markdown = dedent`
+
+          # Markdown \`Title\` With \`Many\` Backticks!
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Markdown Title With Many Backticks!',
     });
   });
 

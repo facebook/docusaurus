@@ -20,6 +20,7 @@ import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
+import Unlisted from '@theme/Unlisted';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -70,9 +71,9 @@ function BlogTagsPostsPageContent({
   const title = useBlogTagsPostsPageTitle(tag);
   return (
     <BlogLayout sidebar={sidebar}>
+      {tag.unlisted && <Unlisted />}
       <header className="margin-bottom--xl">
         <h1>{title}</h1>
-
         <Link href={tag.allTagsPath}>
           <Translate
             id="theme.tags.tagsPageLink"
