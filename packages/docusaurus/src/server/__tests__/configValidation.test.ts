@@ -136,6 +136,11 @@ describe('normalizeConfig', () => {
   it('normalizes various base URLs', () => {
     expect(
       normalizeConfig({
+        baseUrl: '',
+      }).baseUrl,
+    ).toBe('/');
+    expect(
+      normalizeConfig({
         baseUrl: 'noSlash',
       }).baseUrl,
     ).toBe('/noSlash/');
