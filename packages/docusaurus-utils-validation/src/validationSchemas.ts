@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import {
+  isValidPathname,
+  DEFAULT_PLUGIN_ID,
+  type Tag,
+  addLeadingSlash,
+} from '@docusaurus/utils';
 import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
@@ -96,8 +101,25 @@ export const PathnameSchema = Joi.string()
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
 
-// joi empty string not allowed by default. so using empty('') for custom use
-export const RouteBasePathSchema = Joi.string().empty('').default('');
+// Normalized schema for url path segments: baseUrl + routeBasePath...
+// Note we only add a leading slash
+// we don't always want to enforce a trailing slash on urls such as /docs
+//
+// Examples:
+// '' => '/'
+// 'docs' => '/docs'
+// '/docs' => '/docs'
+// 'docs/' => '/docs'
+// 'prefix/docs' => '/prefix/docs'
+// TODO tighter validation: not all strings are valid path segments
+export const RouteBasePathSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) =>
+    // /!\ do not add trailing slash here
+    addLeadingSlash(value),
+  );
 
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()
   .try(
