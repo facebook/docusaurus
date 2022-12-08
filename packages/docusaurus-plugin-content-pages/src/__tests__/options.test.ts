@@ -33,7 +33,7 @@ describe('normalizePagesPluginOptions', () => {
   it('accepts correctly defined user options', () => {
     const userOptions = {
       path: 'src/my-pages',
-      routeBasePath: 'my-pages',
+      routeBasePath: '/my-pages',
       include: ['**/*.{js,jsx,ts,tsx}'],
       exclude: ['**/$*/'],
     };
