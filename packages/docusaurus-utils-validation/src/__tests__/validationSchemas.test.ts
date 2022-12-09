@@ -14,6 +14,7 @@ import {
   PluginIdSchema,
   URISchema,
   PathnameSchema,
+  RouteBasePathSchema,
   ContentVisibilitySchema,
 } from '../validationSchemas';
 
@@ -24,8 +25,9 @@ function createTestHelpers({
   schema: Joi.Schema;
   defaultValue?: unknown;
 }) {
-  function testOK(value: unknown) {
-    expect(Joi.attempt(value, schema)).toEqual(value ?? defaultValue);
+  function testOK(value: unknown, options?: {normalizedValue?: unknown}) {
+    const expectedValue = options?.normalizedValue ?? value ?? defaultValue;
+    expect(Joi.attempt(value, schema)).toEqual(expectedValue);
   }
 
   function testFail(value: unknown) {
@@ -166,6 +168,29 @@ describe('validation schemas', () => {
     testOK('/foo');
     testFail('foo');
     testFail('https://github.com/foo');
+  });
+
+  it('routeBasePathSchema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: RouteBasePathSchema,
+      defaultValue: undefined,
+    });
+
+    testOK('', {normalizedValue: '/'});
+    testOK('/');
+    testOK('/foo', {normalizedValue: '/foo'});
+    testOK('foo', {normalizedValue: '/foo'});
+    testOK('blog', {normalizedValue: '/blog'});
+    testOK('blog/', {normalizedValue: '/blog/'});
+    testOK('prefix/blog', {normalizedValue: '/prefix/blog'});
+    testOK('prefix/blog/', {normalizedValue: '/prefix/blog/'});
+    testOK('/prefix/blog', {normalizedValue: '/prefix/blog'});
+    testOK(undefined);
+
+    testFail(3);
+    testFail([]);
+    testFail(null);
+    testFail({});
   });
 
   it('contentVisibilitySchema', () => {
