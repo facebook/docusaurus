@@ -328,31 +328,51 @@ Use the `queryString` prop to enable this feature and define the search param na
 ```tsx
 <Tabs queryString="current-os">
   <TabItem value="android" label="Android">
-    Android content
+    Android
   </TabItem>
   <TabItem value="ios" label="iOS">
-    iOS content
+    iOS
   </TabItem>
 </Tabs>
 ```
 
-As soon as a tab is clicked, a search parameter is added at the end of the url: `?current-os=android` or `?current-os=ios`.
-
 ```mdx-code-block
 <BrowserWindow>
   <Tabs queryString='current-os'>
-    <TabItem value="android" label="Android">Android content</TabItem>
-    <TabItem value="ios" label="iOS">iOS content</TabItem>
+    <TabItem value="android" label="Android">Android</TabItem>
+    <TabItem value="ios" label="iOS">iOS</TabItem>
   </Tabs>
 </BrowserWindow>
 ```
 
+As soon as a tab is clicked, a search parameter is added at the end of the url: `?current-os=android` or `?current-os=ios`.
+
 :::tip
 
-When `groupId` is defined, its value is used as a default for `queryString`, and you can simply declare:
+`queryString` can be used together with `groupId`.
+
+For convenience, when the `queryString` prop is `true`, the `groupId` value will be used as a fallback.
 
 ```tsx
-<Tabs queryString groupId="current-os">
+<Tabs groupId="current-os" queryString>
+  <TabItem value="android" label="Android">
+    Android
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS
+  </TabItem>
+</Tabs>
 ```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString groupId="current-os">
+    <TabItem value="android" label="Android">Android</TabItem>
+    <TabItem value="ios" label="iOS">iOS</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+When the page loads, the tab query string choice will be restored in priority over the `groupId` choice (using `localStorage`).
 
 :::
