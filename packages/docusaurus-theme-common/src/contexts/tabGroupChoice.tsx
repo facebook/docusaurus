@@ -19,6 +19,8 @@ import {ReactContextError} from '../utils/reactUtils';
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 
 type ContextValue = {
+  /** A boolean that tells if choices have already been restored from storage */
+  readonly ready: boolean;
   /** A map from `groupId` to the `value` of the saved choice. */
   readonly tabGroupChoices: {readonly [groupId: string]: string};
   /** Set the new choice value of a group. */
@@ -28,6 +30,7 @@ type ContextValue = {
 const Context = React.createContext<ContextValue | undefined>(undefined);
 
 function useContextValue(): ContextValue {
+  const [ready, setReady] = useState(false);
   const [tabGroupChoices, setChoices] = useState<{
     readonly [groupId: string]: string;
   }>({});
@@ -51,6 +54,7 @@ function useContextValue(): ContextValue {
     } catch (err) {
       console.error(err);
     }
+    setReady(true);
   }, []);
 
   const setTabGroupChoices = useCallback(
@@ -62,8 +66,8 @@ function useContextValue(): ContextValue {
   );
 
   return useMemo(
-    () => ({tabGroupChoices, setTabGroupChoices}),
-    [tabGroupChoices, setTabGroupChoices],
+    () => ({ready, tabGroupChoices, setTabGroupChoices}),
+    [ready, tabGroupChoices, setTabGroupChoices],
   );
 }
 
