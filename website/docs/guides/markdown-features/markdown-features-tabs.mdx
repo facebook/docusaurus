@@ -319,32 +319,40 @@ li[role='tab'][data-value='apple'] {
 
 :::
 
-## Query string
+## Query string {#query-string}
 
-If you need to share a URL with some tabs already preselected (e.g. a specific programming language) you can use a `queryString`. It can be a string that represents the search query key for the corresponding tab.
+It is possible to persist the selected tab into the url search parameters. This enables deep linking: the ability to share or bookmark a link to a specific tab, that will be pre-selected when the page loads.
+
+Use the `queryString` prop to enable this feature and define the search param name to use.
+
+```tsx
+<Tabs queryString="current-os">
+  <TabItem value="android" label="Android">
+    Android content
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS content
+  </TabItem>
+</Tabs>
+```
+
+As soon as a tab is clicked, a search parameter is added at the end of the url: `?current-os=android` or `?current-os=ios`.
 
 ```mdx-code-block
 <BrowserWindow>
-  <Tabs queryString='query1'>
+  <Tabs queryString='current-os'>
     <TabItem value="android" label="Android">Android content</TabItem>
     <TabItem value="ios" label="iOS">iOS content</TabItem>
   </Tabs>
 </BrowserWindow>
 ```
 
-Another option is to specify it as a boolean with a value of `true`. This configuration uses existing `groupId` as a search query key, thus the `groupId` attribute must be specified.
+:::tip
 
-```mdx-code-block
-<BrowserWindow>
-  <Tabs queryString={true} groupId='operating-systems'>
-    <TabItem value="android" label="Android">Android content</TabItem>
-    <TabItem value="ios" label="iOS">iOS content</TabItem>
-  </Tabs>
-  <Tabs queryString={true} groupId='operating-systems'>
-    <TabItem value="android" label="Android">Android content</TabItem>
-    <TabItem value="ios" label="iOS">iOS content</TabItem>
-  </Tabs>
-</BrowserWindow>
+When `groupId` is defined, its value is used as a default for `queryString`, and you can simply declare:
+
+```tsx
+<Tabs queryString groupId="current-os">
 ```
 
-The `queryString` param is `false` by default.
+:::
