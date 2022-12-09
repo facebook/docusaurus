@@ -60,7 +60,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Đây là tài liệu chưa được phát hành chính thức của {siteTitle} phiên bản {versionLabel}.",
   "theme.lastUpdated.atDate": " vào {date}",
   "theme.lastUpdated.byUser": " bởi {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "Cập nhật lần cuối {atDate} bởi {byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "Cập nhật lần cuối{atDate}{byUser}",
   "theme.navbar.mobileLanguageDropdown.label": "Ngôn ngữ",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Trở lại menu chính",
   "theme.navbar.mobileVersionsDropdown.label": "Phiên bản",
