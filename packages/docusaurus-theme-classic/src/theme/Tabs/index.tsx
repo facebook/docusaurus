@@ -15,7 +15,7 @@ import React, {
 } from 'react';
 import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
-import {duplicates} from '@docusaurus/theme-common';
+import {duplicates, useEvent} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
   useTabGroupChoice,
@@ -156,16 +156,29 @@ function TabsComponent(props: Props): JSX.Element {
   const {blockElementScrollPositionUntilNextRender} =
     useScrollPositionBlocker();
 
-  if (groupId != null) {
-    const relevantTabGroupChoice = tabGroupChoices[groupId];
-    if (
-      relevantTabGroupChoice != null &&
-      relevantTabGroupChoice !== selectedValue &&
-      values.some((value) => value.value === relevantTabGroupChoice)
-    ) {
-      setSelectedValue(relevantTabGroupChoice);
+  // Lazily restore the appropriate tab selected value
+  // We can't read queryString/localStorage on first render
+  // It would trigger a React SSR/client hydration mismatch
+  const restoreTabSelectedValue = useEvent(() => {
+    // wait for localStorage values to be set (initially empty object :s)
+    if (tabGroupChoicesReady) {
+      // querystring value > localStorage value
+      const valueToRestore =
+        tabQueryString.get() ?? (groupId && tabGroupChoices[groupId]);
+      const isValid =
+        valueToRestore &&
+        values.some((value) => value.value === valueToRestore);
+      if (isValid) {
+        setSelectedValue(valueToRestore);
+      }
     }
-  }
+  });
+  useEffect(() => {
+    // wait for localStorage values to be set (initially empty object :s)
+    if (tabGroupChoicesReady) {
+      restoreTabSelectedValue();
+    }
+  }, [tabGroupChoicesReady, restoreTabSelectedValue]);
 
   const handleTabChange = (
     event:
@@ -211,19 +224,6 @@ function TabsComponent(props: Props): JSX.Element {
 
     focusElement?.focus();
   };
-
-  useEffect(() => {
-    // The querystring value should be used in priority over stored value
-    // so we need to execute effect after stored value restoration
-    if (tabGroupChoicesReady) {
-      const queryValue = tabQueryString.get();
-      if (queryValue) {
-        setSelectedValue(queryValue);
-      }
-    }
-    // TODO bad React code but should be ok for now
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabGroupChoicesReady]);
 
   return (
     <div className={clsx('tabs-container', styles.tabList)}>
