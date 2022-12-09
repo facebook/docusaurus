@@ -20,10 +20,10 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
       (item.props as {mdxType: string} | null)?.mdxType ===
         'mdxAdmonitionTitle',
   ) as JSX.Element | undefined;
-  const rest = <>{items.filter((item) => item !== mdxAdmonitionTitle)}</>;
+  const rest = items.filter((item) => item !== mdxAdmonitionTitle);
   return {
     mdxAdmonitionTitle: mdxAdmonitionTitle?.props.children,
-    rest,
+    rest: rest.length > 0 ? <>{rest}</> : null,
   };
 }
 
