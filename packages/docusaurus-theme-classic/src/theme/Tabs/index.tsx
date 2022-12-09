@@ -140,7 +140,11 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
-  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
+  const {
+    ready: tabGroupChoicesReady,
+    tabGroupChoices,
+    setTabGroupChoices,
+  } = useTabGroupChoice();
   const defaultValue =
     defaultValueProp !== undefined
       ? defaultValueProp
@@ -209,13 +213,17 @@ function TabsComponent(props: Props): JSX.Element {
   };
 
   useEffect(() => {
-    const queryValue = tabQueryString.get();
-    if (queryValue) {
-      setSelectedValue(queryValue);
+    // The querystring value should be used in priority over stored value
+    // so we need to execute effect after stored value restoration
+    if (tabGroupChoicesReady) {
+      const queryValue = tabQueryString.get();
+      if (queryValue) {
+        setSelectedValue(queryValue);
+      }
     }
     // TODO bad React code but should be ok for now
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tabGroupChoicesReady]);
 
   return (
     <div className={clsx('tabs-container', styles.tabList)}>
