@@ -71,6 +71,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "headTags": [],
     "i18n": {
       "defaultLocale": "en",
       "localeConfigs": {
@@ -88,6 +89,9 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "zh-Hans",
       ],
       "path": "i18n",
+    },
+    "markdown": {
+      "mermaid": false,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",

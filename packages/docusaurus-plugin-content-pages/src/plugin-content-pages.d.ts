@@ -27,6 +27,8 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly hide_table_of_contents?: string;
     readonly toc_min_heading_level?: number;
     readonly toc_max_heading_level?: number;
+    readonly draft?: boolean;
+    readonly unlisted?: boolean;
   };
 
   export type JSXPageMetadata = {
@@ -42,6 +44,7 @@ declare module '@docusaurus/plugin-content-pages' {
     frontMatter: FrontMatter & {[key: string]: unknown};
     title?: string;
     description?: string;
+    unlisted: boolean;
   };
 
   export type Metadata = JSXPageMetadata | MDXPageMetadata;

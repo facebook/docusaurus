@@ -42,7 +42,7 @@ describe('normalizeDocsPluginOptions', () => {
   it('accepts correctly defined user options', () => {
     const userOptions: Options = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
-      routeBasePath: 'my-docs', // URL Route.
+      routeBasePath: '/my-docs', // URL Route.
       tagsBasePath: 'tags', // URL Tags Route.
       include: ['**/*.{md,mdx}'], // Extensions to include.
       exclude: GlobExcludeDefault,

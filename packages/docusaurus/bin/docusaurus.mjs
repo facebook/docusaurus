@@ -77,6 +77,10 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
+  .option(
+    '--config <config>',
+    'path to Docusaurus config file (default: `[siteDir]/docusaurus.config.js`)',
+  )
   .action(swizzle);
 
 cli
@@ -100,6 +104,23 @@ cli
   )
   .action(deploy);
 
+/**
+ * @param {string | undefined} value
+ * @returns {boolean | number}
+ */
+function normalizePollValue(value) {
+  if (value === undefined || value === '') {
+    return false;
+  }
+
+  const parsedIntValue = Number.parseInt(value, 10);
+  if (!Number.isNaN(parsedIntValue)) {
+    return parsedIntValue;
+  }
+
+  return value === 'true';
+}
+
 cli
   .command('start [siteDir]')
   .description('Start the development server.')
@@ -118,6 +139,7 @@ cli
   .option(
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
+    normalizePollValue,
   )
   .option(
     '--no-minify',

@@ -81,25 +81,19 @@ function getMessage(icon: IconKey, state: State) {
 }
 
 export default function IdealImage(props: Props): JSX.Element {
-  const {alt, className, img} = props;
+  const {img, ...propsRest} = props;
 
   // In dev env just use regular img with original file
   if (typeof img === 'string' || 'default' in img) {
     return (
-      <img
-        src={typeof img === 'string' ? img : img.default}
-        className={className}
-        alt={alt}
-        {...props}
-      />
+      // eslint-disable-next-line jsx-a11y/alt-text
+      <img src={typeof img === 'string' ? img : img.default} {...propsRest} />
     );
   }
 
   return (
     <ReactIdealImage
-      {...props}
-      alt={alt}
-      className={className}
+      {...propsRest}
       height={img.src.height ?? 100}
       width={img.src.width ?? 100}
       placeholder={{lqip: img.preSrc}}

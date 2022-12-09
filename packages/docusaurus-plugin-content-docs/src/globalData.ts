@@ -23,6 +23,11 @@ function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
     id: doc.unversionedId,
     path: doc.permalink,
+
+    // optimize global data size: do not add unlisted: false/undefined
+    ...(doc.unlisted && {unlisted: doc.unlisted}),
+
+    // TODO optimize size? remove attribute when no sidebar (breaking change?)
     sidebar: doc.sidebar,
   };
 }

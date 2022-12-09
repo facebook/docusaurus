@@ -91,6 +91,10 @@ declare module '@docusaurus/plugin-content-blog' {
      */
     draft?: boolean;
     /**
+     * Marks the post as unlisted and visibly hides it unless directly accessed.
+     */
+    unlisted?: boolean;
+    /**
      * Will override the default publish date inferred from git/filename. Yaml
      * only converts standard yyyy-MM-dd format to dates, so this may stay as a
      * plain string.
@@ -222,6 +226,10 @@ declare module '@docusaurus/plugin-content-blog' {
     readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
     /** Tags, normalized. */
     readonly tags: Tag[];
+    /**
+     * Marks the post as unlisted and visibly hides it unless directly accessed.
+     */
+    readonly unlisted: boolean;
   };
   /**
    * @returns The edit URL that's directly plugged into metadata.
@@ -407,9 +415,15 @@ declare module '@docusaurus/plugin-content-blog' {
     }
   >;
 
+  export type BlogSidebarItem = {
+    title: string;
+    permalink: string;
+    unlisted: boolean;
+  };
+
   export type BlogSidebar = {
     title: string;
-    items: {title: string; permalink: string}[];
+    items: BlogSidebarItem[];
   };
 
   export type BlogContent = {
@@ -428,6 +442,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];
+    unlisted: boolean;
   };
 
   export type BlogPost = {

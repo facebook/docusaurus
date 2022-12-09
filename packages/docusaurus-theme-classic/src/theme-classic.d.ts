@@ -897,6 +897,7 @@ declare module '@theme/MDXComponents' {
   import type MDXUl from '@theme/MDXComponents/Ul';
   import type MDXImg from '@theme/MDXComponents/Img';
   import type Admonition from '@theme/Admonition';
+  import type Mermaid from '@theme/Mermaid';
 
   export type MDXComponentsObject = {
     readonly head: typeof MDXHead;
@@ -913,6 +914,7 @@ declare module '@theme/MDXComponents' {
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
     readonly admonition: typeof Admonition;
+    readonly mermaid: typeof Mermaid;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [tagName: string]: ComponentType<any>;
   };
@@ -1221,6 +1223,14 @@ declare module '@theme/SearchBar' {
   export default function SearchBar(): JSX.Element;
 }
 
+declare module '@theme/Mermaid' {
+  export interface Props {
+    value: string;
+  }
+
+  export default function Mermaid(props: Props): JSX.Element;
+}
+
 declare module '@theme/TabItem' {
   import type {ReactNode} from 'react';
 
@@ -1253,6 +1263,7 @@ declare module '@theme/Tabs' {
     }[];
     readonly groupId?: string;
     readonly className?: string;
+    readonly queryString?: string | boolean;
   }
 
   export default function Tabs(props: Props): JSX.Element;
@@ -1482,6 +1493,14 @@ declare module '@theme/Tag' {
   export interface Props extends Optional<TagsListItem, 'count'> {}
 
   export default function Tag(props: Props): JSX.Element;
+}
+
+declare module '@theme/Unlisted' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function Unlisted(props: Props): JSX.Element;
 }
 
 declare module '@theme/prism-include-languages' {

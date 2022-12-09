@@ -10,6 +10,7 @@ import {
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
+  RouteBasePathSchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
@@ -30,7 +31,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   mdxPageComponent: Joi.string().default(DEFAULT_OPTIONS.mdxPageComponent),

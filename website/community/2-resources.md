@@ -10,6 +10,7 @@ A curated list of interesting Docusaurus community projects.
 
 - [Awesome Docusaurus](https://github.com/webbertakken/awesome-docusaurus#readme) - Community curated list of Docusaurus resources.
 - [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-ux-at-its-best-2hj1)
+- [The definitive guide to migrating from Blogger to Docusaurus](https://blog.johnnyreilly.com/definitive-guide-to-migrating-from-blogger-to-docusaurus)
 
 ## Showcase {#showcase}
 
@@ -34,7 +35,6 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 
 ### Features {#features}
 
-- [docusaurus-plugin-relative-paths](https://github.com/ohkimur/docusaurus-plugin-relative-paths) - Docusaurus plugin to convert absolute paths to relative paths. Make the build files accessible from anywhere without a server
 - [docusaurus-theme-github-codeblock](https://github.com/saucelabs/docusaurus-theme-github-codeblock). A Docusaurus v2 plugin that supports referencing code examples from public GitHub repositories
 - [mr-pdf](https://github.com/kohheepeace/mr-pdf) - Generate documentation into PDF format, suitable for Docusaurus v1 and v2 (including beta versions)
 - [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
@@ -45,7 +45,6 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-plugin-module-alias](https://github.com/atomicpages/docusaurus-plugin-module-alias) - A Docusaurus v2 plugin for quickly aliasing local modules
 - [docusaurus-protobuffet](https://github.com/protobuffet/docusaurus-protobuffet) - Docusaurus toolset for Protobuf contract documentation
 - [docusaurus-prince-pdf](https://github.com/signcl/docusaurus-prince-pdf) - Generate PDF with PrinceXML for better font subsetting and ToC features. Support Docusaurus v2 sites
-- [mdx-mermaid](https://github.com/sjwall/mdx-mermaid) - A Docusaurus v2 compatible MDX plugin for displaying [Mermaid](https://mermaid-js.github.io/mermaid) diagrams
 - [redocusaurus](https://github.com/rohit-gohri/redocusaurus) - A Docusaurus preset for integrating OpenAPI documentation into your docs with [Redoc](https://github.com/redocly/redoc)
 - [plugin-image-zoom](https://github.com/flexanalytics/plugin-image-zoom) - An Image Zoom plugin for Docusaurus 2
 - [docusaurus-plugin-typedoc](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/docusaurus-plugin-typedoc) - A Docusaurus 2 plugin to build documentation with [TypeDoc](https://typedoc.org/)

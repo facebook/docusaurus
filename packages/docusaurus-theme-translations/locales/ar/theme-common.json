@@ -8,6 +8,7 @@
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "تبديل فئة الشريط الجاني القابل للاغلاق '{label}'",
   "theme.ErrorPageContent.title": "هذه الصفحة لا تستجيب.",
   "theme.ErrorPageContent.tryAgain": "المحاولة مجددا",
+  "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "لم نتمكن من العثور على ما كنت تبحث عنه.",
   "theme.NotFound.p2": "يرجى الاتصال بمالك الموقع الذي ربطك بعنوان URL الأصلي وإخباره بأن الارتباط الخاص به معطل.",
   "theme.NotFound.title": "الصفحة غير موجودة",
@@ -43,10 +44,13 @@
   "theme.docs.paginator.navAriaLabel": "التنقل بين صفحات الددات",
   "theme.docs.paginator.next": "التالى",
   "theme.docs.paginator.previous": "السابق",
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Close navigation bar",
   "theme.docs.sidebar.collapseButtonAriaLabel": "طي الشريط الجانبي",
   "theme.docs.sidebar.collapseButtonTitle": "طي الشريط الجانبي",
   "theme.docs.sidebar.expandButtonAriaLabel": "توسيع الشريط الجانبي",
   "theme.docs.sidebar.expandButtonTitle": "توسيع الشريط الجانبي",
+  "theme.docs.sidebar.navAriaLabel": "Docs sidebar",
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Toggle navigation bar",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} مستند موسوم بـ \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "مستند موسوم واحد|{count} مستندات موسومة",
   "theme.docs.versionBadge.label": "الأصدار: {versionLabel}",
@@ -62,5 +66,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "إصدارات",
   "theme.tags.tagsListLabel": "الوسوم:",
   "theme.tags.tagsPageLink": "عرض كل الوسوم",
-  "theme.tags.tagsPageTitle": "الوسوم"
+  "theme.tags.tagsPageTitle": "الوسوم",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

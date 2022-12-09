@@ -39,12 +39,6 @@ function getNextVersionName() {
    */
 }
 
-const allDocHomesPaths = [
-  '/docs/',
-  '/docs/next/',
-  ...versions.slice(1).map((version) => `/docs/${version}/`),
-];
-
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
@@ -118,6 +112,9 @@ const config = {
       },
     }),
   },
+  markdown: {
+    mermaid: true,
+  },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
@@ -184,9 +181,8 @@ const config = {
       ({
         fromExtensions: ['html'],
         createRedirects(routePath) {
-          // Redirect to /docs from /docs/introduction, as introduction has been
-          // made the home doc
-          if (allDocHomesPaths.includes(routePath)) {
+          // Redirect to /docs from /docs/introduction (now docs root doc)
+          if (routePath === '/docs' || routePath === '/docs/') {
             return [`${routePath}/introduction`];
           }
           return [];
@@ -280,6 +276,7 @@ const config = {
         ],
       },
     ],
+    '@docusaurus/theme-mermaid',
     ...dogfoodingPluginInstances,
   ],
   presets: [
@@ -406,7 +403,7 @@ const config = {
           },
         ],
       },
-      image: 'img/docusaurus-soc.png',
+      image: 'img/docusaurus-social-card.jpg',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
@@ -447,8 +444,16 @@ const config = {
           // This item links to a draft doc: only displayed in dev
           {
             type: 'doc',
-            docId: 'test-draft',
+            docId: 'index',
             label: 'Tests',
+            docsPluginId: 'docs-tests',
+          },
+          // This item links to an unlisted doc: only displayed
+          // in dev or when directly access
+          {
+            type: 'doc',
+            docId: 'tests/visibility/some-unlisteds/unlisted1',
+            label: 'Unlisted',
             docsPluginId: 'docs-tests',
           },
           // Custom item for dogfooding: only displayed in /tests/ routes

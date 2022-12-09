@@ -82,6 +82,7 @@ const sidebars = {
             'guides/markdown-features/links',
             'guides/markdown-features/plugins',
             'guides/markdown-features/math-equations',
+            'guides/markdown-features/diagrams',
             'guides/markdown-features/head-metadata',
           ],
         },

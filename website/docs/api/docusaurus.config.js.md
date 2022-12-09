@@ -394,7 +394,31 @@ module.exports = {
 };
 ```
 
-### `customFields` {#customfields}
+### `markdown` {#markdown}
+
+The global Docusaurus Markdown config.
+
+- Type: `MarkdownConfig`
+
+```ts
+type MarkdownConfig = {
+  mermaid: boolean;
+};
+```
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  markdown: {
+    mermaid: true,
+  },
+};
+```
+
+- `mermaid`: when `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams.
+
+### `customFields` {#customFields}
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
 
@@ -428,6 +452,30 @@ module.exports = {
   staticDirectories: ['static'],
 };
 ```
+
+### `headTags` {#headTags}
+
+An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map.
+
+- Type: `{ tagName: string; attributes: Object; }[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        href: '/img/docusaurus.png',
+      },
+    },
+  ],
+};
+```
+
+This would become `<link rel="icon" href="img/docusaurus.png" />` in the generated HTML.
 
 ### `scripts` {#scripts}
 

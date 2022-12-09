@@ -8,6 +8,7 @@
 import path from 'path';
 import type {RuleSetRule} from 'webpack';
 import type {HtmlTagObject, LoadedPlugin, LoadContext} from '@docusaurus/types';
+import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 /**
  * Make a synthetic plugin to:
@@ -21,6 +22,7 @@ export function createBootstrapPlugin({
   const {
     stylesheets,
     scripts,
+    headTags,
     clientModules: siteConfigClientModules,
   } = siteConfig;
   return {
@@ -58,7 +60,7 @@ export function createBootstrapPlugin({
             },
       );
       return {
-        headTags: [...stylesheetsTags, ...scriptsTags],
+        headTags: [...headTags, ...stylesheetsTags, ...scriptsTags],
       };
     },
   };
@@ -95,7 +97,7 @@ export function createMDXFallbackPlugin({
           return isMDXRule ? (rule.include as string[]) : [];
         });
       }
-      const mdxLoaderOptions = {
+      const mdxLoaderOptions: MDXLoaderOptions = {
         admonitions: true,
         staticDirs: siteConfig.staticDirectories.map((dir) =>
           path.resolve(siteDir, dir),
@@ -105,6 +107,7 @@ export function createMDXFallbackPlugin({
         isMDXPartial: () => true,
         // External MDX files might have front matter, just disable the warning
         isMDXPartialFrontMatterWarningDisabled: true,
+        markdownConfig: siteConfig.markdown,
       };
 
       return {

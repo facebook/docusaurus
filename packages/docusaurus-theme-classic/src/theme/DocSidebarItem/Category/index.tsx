@@ -16,7 +16,7 @@ import {
 } from '@docusaurus/theme-common';
 import {
   isActiveSidebarItem,
-  findFirstCategoryLink,
+  findFirstSidebarItemLink,
   useDocSidebarItemsExpandedState,
   isSamePath,
 } from '@docusaurus/theme-common/internal';
@@ -59,7 +59,7 @@ function useCategoryHrefWithSSRFallback(
 ): string | undefined {
   const isBrowser = useIsBrowser();
   return useMemo(() => {
-    if (item.href) {
+    if (item.href && !item.linkUnlisted) {
       return item.href;
     }
     // In these cases, it's not necessary to render a fallback
@@ -67,7 +67,7 @@ function useCategoryHrefWithSSRFallback(
     if (isBrowser || !item.collapsible) {
       return undefined;
     }
-    return findFirstCategoryLink(item);
+    return findFirstSidebarItemLink(item);
   }, [item, isBrowser]);
 }
 

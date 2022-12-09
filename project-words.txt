@@ -105,8 +105,10 @@ formik
 fouc
 froms
 funboxteam
+gantt
 gabrielcsapo
 getopts
+gitgraph
 gitpod
 globbing
 globby
@@ -151,6 +153,7 @@ katex
 kato
 keyscan
 keytar
+kinsta
 knapen
 koyeb
 kubernetes
@@ -281,6 +284,7 @@ refactorings
 regexes
 rehype
 reponame
+reqs
 requireindex
 retrocompatibility
 retrocompatible
@@ -356,6 +360,7 @@ typesense
 unflat
 unist
 unlinkable
+unlisteds
 unlocalized
 unmatch
 unnormalized
@@ -368,6 +373,7 @@ urlset
 userland
 vannicatte
 vercel
+verifymethod
 vetter
 vfile
 vicenti

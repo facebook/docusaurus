@@ -8,6 +8,7 @@
 export {
   ReportingSeverity,
   ThemeConfig,
+  MarkdownConfig,
   DocusaurusConfig,
   Config,
 } from './config';

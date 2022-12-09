@@ -8,6 +8,7 @@
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
+  "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "Vi kunne ikke finde det, du søgte.",
   "theme.NotFound.p2": "Venligst kontakt ejeren til webstedet, som førte dig frem denne URL, og informer dem om at linket ikke virker.",
   "theme.NotFound.title": "Siden blev ikke fundet",
@@ -43,10 +44,13 @@
   "theme.docs.paginator.navAriaLabel": "Dokumentside navigation",
   "theme.docs.paginator.next": "Næste",
   "theme.docs.paginator.previous": "Tidligere",
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Close navigation bar",
   "theme.docs.sidebar.collapseButtonAriaLabel": "Sammenlæg sidenavigation",
   "theme.docs.sidebar.collapseButtonTitle": "Sammenlæg sidenavigation",
   "theme.docs.sidebar.expandButtonAriaLabel": "Udvid sidenavigation",
   "theme.docs.sidebar.expandButtonTitle": "Udvid sidenavigation",
+  "theme.docs.sidebar.navAriaLabel": "Docs sidebar",
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Toggle navigation bar",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versionBadge.label": "Version: {versionLabel}",
@@ -62,5 +66,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Se alle Tags",
-  "theme.tags.tagsPageTitle": "Tags"
+  "theme.tags.tagsPageTitle": "Tags",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

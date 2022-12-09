@@ -155,10 +155,7 @@ export function parseFrontMatter(markdownFileContent: string): {
 }
 
 function toTextContentTitle(contentTitle: string): string {
-  if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
-    return contentTitle.substring(1, contentTitle.length - 1);
-  }
-  return contentTitle;
+  return contentTitle.replace(/`(?<text>[^`]*)`/g, '$<text>');
 }
 
 type ParseMarkdownContentTitleOptions = {
