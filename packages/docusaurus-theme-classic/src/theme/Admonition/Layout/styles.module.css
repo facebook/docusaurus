@@ -15,8 +15,9 @@
   text-transform: uppercase;
 }
 
+/* Heading alone without content (does not handle fragment content) */
 .admonitionHeading:not(:last-child) {
-  margin-bottom: 0.5625rem;
+  margin-bottom: 0.3rem;
 }
 
 .admonitionHeading code {
@@ -25,14 +26,13 @@
 
 .admonitionIcon {
   display: inline-block;
-  vertical-align: baseline;
-  margin-right: 0.575em;
+  vertical-align: middle;
+  margin-right: 0.4em;
 }
 
 .admonitionIcon svg {
   display: inline-block;
   height: 1.6em;
-  margin: -0.1875em;
   vertical-align: bottom;
   width: 1.6em;
   fill: var(--ifm-alert-foreground-color);
