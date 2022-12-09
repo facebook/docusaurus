@@ -33,7 +33,6 @@
 .admonitionIcon svg {
   display: inline-block;
   height: 1.6em;
-  vertical-align: bottom;
   width: 1.6em;
   fill: var(--ifm-alert-foreground-color);
 }
