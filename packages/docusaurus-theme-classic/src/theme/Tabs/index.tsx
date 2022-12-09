@@ -33,31 +33,56 @@ function isTabItem(
   return 'value' in comp.props;
 }
 
-const getSearchKey = (queryString?: string | boolean, groupId = '') =>
-  typeof queryString === 'string' ? queryString : groupId;
-const useTabQueryString = () => {
+function getSearchKey({
+  queryString = false,
+  groupId,
+}: Pick<Props, 'queryString' | 'groupId'>) {
+  if (typeof queryString === 'string') {
+    return queryString;
+  }
+  if (queryString === false) {
+    return undefined;
+  }
+  if (queryString === true && !groupId) {
+    throw new Error(
+      `Docusaurus error: The <Tabs> component groupId prop is required if queryString=true, because this value is used as the search param name. You can also provide an explicit value such as queryString="my-search-param".`,
+    );
+  }
+  return groupId;
+}
+
+function useTabQueryString({
+  queryString = false,
+  groupId,
+}: Pick<Props, 'queryString' | 'groupId'>) {
+  // TODO not re-render optimized
+  // See https://thisweekinreact.com/articles/useSyncExternalStore-the-underrated-react-api
   const location = useLocation();
   const history = useHistory();
 
-  const get = useCallback(
-    (queryString?: string | boolean, groupId = '') => {
-      const searchKey = getSearchKey(queryString, groupId);
-      return new URLSearchParams(location.search).get(searchKey);
-    },
-    [location.search],
-  );
+  const searchKey = getSearchKey({queryString, groupId});
+
+  const get = useCallback(() => {
+    if (!searchKey) {
+      return undefined;
+    }
+    return new URLSearchParams(location.search).get(searchKey);
+  }, [searchKey, location.search]);
+
   const set = useCallback(
-    (newTabValue: string, queryString: string | boolean, groupId = '') => {
-      const searchKey = getSearchKey(queryString, groupId);
+    (newTabValue: string) => {
+      if (!searchKey) {
+        return; // no-op
+      }
       const searchParams = new URLSearchParams(location.search);
       searchParams.set(searchKey, newTabValue);
       history.replace({...location, search: searchParams.toString()});
     },
-    [history, location],
+    [searchKey, history, location],
   );
 
   return {get, set};
-};
+}
 
 function TabsComponent(props: Props): JSX.Element {
   const {
@@ -82,7 +107,7 @@ function TabsComponent(props: Props): JSX.Element {
       }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
     );
   });
-  const tabQueryString = useTabQueryString();
+  const tabQueryString = useTabQueryString({queryString, groupId});
   const values =
     valuesProp ??
     // Only pick keys that we recognize. MDX would inject some keys by default
@@ -112,12 +137,6 @@ function TabsComponent(props: Props): JSX.Element {
         .join(
           ', ',
         )}. If you intend to show no default tab, use defaultValue={null} instead.`,
-    );
-  }
-
-  if (queryString === true && !groupId) {
-    throw new Error(
-      `Docusaurus error: The <Tabs> component needs to have groupId specified if queryString is true.`,
     );
   }
 
@@ -157,11 +176,7 @@ function TabsComponent(props: Props): JSX.Element {
     if (newTabValue !== selectedValue) {
       blockElementScrollPositionUntilNextRender(newTab);
       setSelectedValue(newTabValue);
-
-      if (queryString) {
-        tabQueryString.set(newTabValue, queryString, groupId);
-      }
-
+      tabQueryString.set(newTabValue);
       if (groupId != null) {
         setTabGroupChoices(groupId, String(newTabValue));
       }
@@ -192,13 +207,13 @@ function TabsComponent(props: Props): JSX.Element {
 
     focusElement?.focus();
   };
+
   useEffect(() => {
-    if (queryString) {
-      const queryValue = tabQueryString.get(queryString, groupId);
-      if (queryValue) {
-        setSelectedValue(queryValue);
-      }
+    const queryValue = tabQueryString.get();
+    if (queryValue) {
+      setSelectedValue(queryValue);
     }
+    // TODO bad React code but should be ok for now
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
