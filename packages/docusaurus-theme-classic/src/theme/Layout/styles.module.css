@@ -10,6 +10,10 @@ body {
   height: 100%;
 }
 
+button {
+  margin: 0;
+}
+
 .mainWrapper {
   flex: 1 0 auto;
 }
