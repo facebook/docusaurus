@@ -121,6 +121,24 @@ describe('validateThemeConfig', () => {
     });
   });
 
+  it('replaceInItemUrl config', () => {
+    const algolia = {
+      appId: 'BH4D9OD16A',
+      indexName: 'index',
+      apiKey: 'apiKey',
+      replaceInItemUrl: {
+        from: '/docs/',
+        to: '/',
+      },
+    };
+    expect(testValidateThemeConfig({algolia})).toEqual({
+      algolia: {
+        ...DEFAULT_CONFIG,
+        ...algolia,
+      },
+    });
+  });
+
   it('searchParameters.facetFilters search config', () => {
     const algolia = {
       appId: 'BH4D9OD16A',

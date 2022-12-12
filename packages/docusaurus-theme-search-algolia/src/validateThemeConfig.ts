@@ -39,6 +39,10 @@ export const Schema = Joi.object<ThemeConfig>({
       .try(Joi.boolean().invalid(true), Joi.string())
       .allow(null)
       .default(DEFAULT_CONFIG.searchPagePath),
+    replaceInItemUrl: Joi.object({
+      from: Joi.string().required(),
+      to: Joi.string().required(),
+    }).optional(),
   })
     .label('themeConfig.algolia')
     .required()

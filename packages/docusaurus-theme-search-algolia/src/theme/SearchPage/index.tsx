@@ -161,7 +161,7 @@ function SearchPageContent(): JSX.Element {
     i18n: {currentLocale},
   } = useDocusaurusContext();
   const {
-    algolia: {appId, apiKey, indexName, externalUrlRegex},
+    algolia: {appId, apiKey, indexName, externalUrlRegex, replaceInItemUrl},
   } = themeConfig as ThemeConfig;
   const documentsFoundPlural = useDocumentsFoundPlural();
 
@@ -245,7 +245,11 @@ function SearchPageContent(): JSX.Element {
           _highlightResult: {hierarchy: {[key: string]: {value: string}}};
           _snippetResult: {content?: {value: string}};
         }) => {
-          const parsedURL = new URL(url);
+          const parsedURL = new URL(
+            replaceInItemUrl
+              ? url.replace(replaceInItemUrl.from, replaceInItemUrl.to)
+              : url,
+          );
           const titles = Object.keys(hierarchy).map((key) =>
             sanitizeValue(hierarchy[key]!.value),
           );

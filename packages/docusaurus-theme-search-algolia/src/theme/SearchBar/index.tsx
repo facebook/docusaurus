@@ -37,6 +37,10 @@ type DocSearchProps = Omit<
   contextualSearch?: string;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
+  replaceInItemUrl?: {
+    from: string;
+    to: string;
+  };
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
@@ -85,6 +89,7 @@ function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
 function DocSearch({
   contextualSearch,
   externalUrlRegex,
+  replaceInItemUrl,
   ...props
 }: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
@@ -173,14 +178,19 @@ function DocSearch({
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
       items.map((item) => {
+        // Replace parts of the URL if the user has configured it in the config
+        const itemUrl = replaceInItemUrl
+          ? item.url.replace(replaceInItemUrl.from, replaceInItemUrl.to)
+          : item.url;
+
         // If Algolia contains a external domain, we should navigate without
         // relative URL
-        if (isRegexpStringMatch(externalUrlRegex, item.url)) {
+        if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
           return item;
         }
 
         // We transform the absolute URL into a relative URL.
-        const url = new URL(item.url);
+        const url = new URL(itemUrl);
         return {
           ...item,
           url: withBaseUrl(`${url.pathname}${url.hash}`),
