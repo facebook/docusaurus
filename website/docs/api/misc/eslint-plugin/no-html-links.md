@@ -38,7 +38,7 @@ Accepted fields:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `ignoreFullyResolved` | `boolean` | `false` | Set to true will not report any `<a>` tags with absolute URLs. |
+| `ignoreFullyResolved` | `boolean` | `false` | Set to true will not report any `<a>` tags with absolute URLs including a protocol. |
 
 ```mdx-code-block
 </APITable>
