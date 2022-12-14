@@ -9,6 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
 import type {Props} from '@theme/Heading';
 
 import styles from './styles.module.css';
@@ -34,16 +35,16 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
       )}
       id={id}>
       {props.children}
-      <a
+      <Link
         className="hash-link"
-        href={`#${id}`}
+        to={`#${id}`}
         title={translate({
           id: 'theme.common.headingLinkTitle',
           message: 'Direct link to heading',
           description: 'Title for link to heading',
         })}>
         &#8203;
-      </a>
+      </Link>
     </As>
   );
 }

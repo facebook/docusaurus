@@ -148,7 +148,7 @@ function Link(
   }
 
   return isRegularHtmlLink ? (
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    // eslint-disable-next-line jsx-a11y/anchor-has-content, @docusaurus/no-html-links
     <a
       ref={innerRef}
       href={targetLink}

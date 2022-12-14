@@ -9,6 +9,7 @@ import React, {type ReactNode} from 'react';
 
 import clsx from 'clsx';
 
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -31,12 +32,10 @@ export default function TweetQuote({
   return (
     <figure className={styles.tweetQuote}>
       <blockquote>
-        <a href={url} target="_blank" rel="noreferrer nofollow">
-          {children}
-        </a>
+        <Link to={url}>{children}</Link>
       </blockquote>
       <figcaption>
-        <a href={profileUrl} target="_blank" rel="noreferrer nofollow">
+        <Link to={profileUrl} rel="nofollow">
           <div className="avatar">
             <img
               alt={name}
@@ -53,7 +52,7 @@ export default function TweetQuote({
               </small>
             </div>
           </div>
-        </a>
+        </Link>
       </figcaption>
     </figure>
   );

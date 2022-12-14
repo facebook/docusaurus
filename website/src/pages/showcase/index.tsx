@@ -12,6 +12,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import {useHistory, useLocation} from '@docusaurus/router';
 import {usePluralForm} from '@docusaurus/theme-common';
 
+import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import {
@@ -123,15 +124,11 @@ function ShowcaseHeader() {
     <section className="margin-top--lg margin-bottom--lg text--center">
       <h1>{TITLE}</h1>
       <p>{DESCRIPTION}</p>
-      <a
-        className="button button--primary"
-        href={SUBMIT_URL}
-        target="_blank"
-        rel="noreferrer">
+      <Link className="button button--primary" to={SUBMIT_URL}>
         <Translate id="showcase.header.button">
           🙏 Please add your site
         </Translate>
-      </a>
+      </Link>
     </section>
   );
 }
