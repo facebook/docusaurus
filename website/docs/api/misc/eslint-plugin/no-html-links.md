@@ -4,7 +4,9 @@ slug: /api/misc/@docusaurus/eslint-plugin/no-html-links
 
 # no-html-links
 
-Ensure that docusaurus `<Link>` is used instead of `<a>` tags.
+Ensure that the Docusaurus `<Link>` component is used instead of `<a>` tags.
+
+The `<Link>` component has prefetching and preloading built-in. It also does build-time broken link detection, and helps Docusaurus understand your site's structure better.
 
 ## Rule Details {#details}
 
