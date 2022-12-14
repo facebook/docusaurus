@@ -58,7 +58,8 @@ export default createRule<Options, MessageIds>({
 
         if (ignoreFullyResolved) {
           const hrefAttr = node.attributes.find(
-            (attr): attr is TSESTree.JSXAttribute => attr.type === 'JSXAttribute' && attr.name.name === 'href',
+            (attr): attr is TSESTree.JSXAttribute =>
+              attr.type === 'JSXAttribute' && attr.name.name === 'href',
           );
 
           if (hrefAttr?.value?.type === 'Literal') {
