@@ -18,6 +18,17 @@ type Options = [
 
 type MessageIds = 'link';
 
+function isFullyResolvedUrl(urlString: string): boolean {
+  try {
+    // href gets coerced to a string when it gets rendered anyway
+    const url = new URL(String(urlString));
+    if (url.protocol) {
+      return true;
+    }
+  } catch (e) {}
+  return false;
+}
+
 export default createRule<Options, MessageIds>({
   name: 'no-html-links',
   meta: {
@@ -63,13 +74,25 @@ export default createRule<Options, MessageIds>({
           );
 
           if (hrefAttr?.value?.type === 'Literal') {
-            try {
-              // href gets coerced to a string when it gets rendered anyway
-              const url = new URL(String(hrefAttr.value.value));
-              if (url.protocol) {
+            if (isFullyResolvedUrl(String(hrefAttr.value.value))) {
+              return;
+            }
+          }
+          if (hrefAttr?.value?.type === 'JSXExpressionContainer') {
+            const container: TSESTree.JSXExpressionContainer = hrefAttr.value;
+            const {expression} = container;
+            if (expression.type === 'TemplateLiteral') {
+              // Simple static string template literals
+              if (
+                expression.expressions.length === 0 &&
+                expression.quasis.length === 1 &&
+                expression.quasis[0]?.type === 'TemplateElement' &&
+                isFullyResolvedUrl(String(expression.quasis[0].value.raw))
+              ) {
                 return;
               }
-            } catch (e) {}
+              // TODO add more complex TemplateLiteral cases here
+            }
           }
         }
 
