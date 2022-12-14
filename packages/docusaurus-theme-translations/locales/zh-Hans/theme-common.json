@@ -44,13 +44,13 @@
   "theme.docs.paginator.navAriaLabel": "文档分页导航",
   "theme.docs.paginator.next": "下一页",
   "theme.docs.paginator.previous": "上一页",
-  "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Close navigation bar",
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": "关闭导航栏",
   "theme.docs.sidebar.collapseButtonAriaLabel": "收起侧边栏",
   "theme.docs.sidebar.collapseButtonTitle": "收起侧边栏",
   "theme.docs.sidebar.expandButtonAriaLabel": "展开侧边栏",
   "theme.docs.sidebar.expandButtonTitle": "展开侧边栏",
   "theme.docs.sidebar.navAriaLabel": "Docs sidebar",
-  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Toggle navigation bar",
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "切换导航栏",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged}「{tagName}」",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "{count} 篇文档带有标签",
   "theme.docs.versionBadge.label": "版本：{versionLabel}",
@@ -67,6 +67,6 @@
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
   "theme.tags.tagsPageTitle": "标签",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.unlistedContent.message": "此页面未列出。搜索引擎不会对其索引，只有拥有直接链接的用户才能访问。",
+  "theme.unlistedContent.title": "未列出页"
 }
