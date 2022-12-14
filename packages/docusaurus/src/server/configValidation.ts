@@ -180,7 +180,10 @@ const SiteUrlSchema = Joi.string()
 
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi.string()
+  baseUrl: Joi
+    // Weird Joi trick needed, otherwise value '' is not normalized...
+    .alternatives()
+    .try(Joi.string().required().allow(''))
     .required()
     .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),

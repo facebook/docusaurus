@@ -403,7 +403,7 @@ const config = {
           },
         ],
       },
-      image: 'img/docusaurus-soc.png',
+      image: 'img/docusaurus-social-card.jpg',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
@@ -444,8 +444,16 @@ const config = {
           // This item links to a draft doc: only displayed in dev
           {
             type: 'doc',
-            docId: 'test-draft',
+            docId: 'index',
             label: 'Tests',
+            docsPluginId: 'docs-tests',
+          },
+          // This item links to an unlisted doc: only displayed
+          // in dev or when directly access
+          {
+            type: 'doc',
+            docId: 'tests/visibility/some-unlisteds/unlisted1',
+            label: 'Unlisted',
             docsPluginId: 'docs-tests',
           },
           // Custom item for dogfooding: only displayed in /tests/ routes

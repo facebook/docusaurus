@@ -31,6 +31,7 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
         hideOnScroll
           ? styles.anchorWithHideOnScrollNavbar
           : styles.anchorWithStickyNavbar,
+        props.className,
       )}
       id={id}>
       {props.children}

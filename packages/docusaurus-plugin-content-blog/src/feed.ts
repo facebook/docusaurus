@@ -61,7 +61,6 @@ async function generateBlogFeed({
   await Promise.all(
     blogPosts.map(async (post) => {
       const {
-        id,
         metadata: {
           title: metadataTitle,
           permalink,
@@ -79,10 +78,11 @@ async function generateBlogFeed({
       );
       const $ = cheerioLoad(content);
 
+      const link = normalizeUrl([siteUrl, permalink]);
       const feedItem: FeedItem = {
         title: metadataTitle,
-        id,
-        link: normalizeUrl([siteUrl, permalink]),
+        id: link,
+        link,
         date,
         description,
         // Atom feed demands the "term", while other feeds use "name"
@@ -133,8 +133,15 @@ async function createBlogFeedFile({
   }
 }
 
+function shouldBeInFeed(blogPost: BlogPost): boolean {
+  const excluded =
+    blogPost.metadata.frontMatter.draft ||
+    blogPost.metadata.frontMatter.unlisted;
+  return !excluded;
+}
+
 export async function createBlogFeedFiles({
-  blogPosts,
+  blogPosts: allBlogPosts,
   options,
   siteConfig,
   outDir,
@@ -146,6 +153,8 @@ export async function createBlogFeedFiles({
   outDir: string;
   locale: string;
 }): Promise<void> {
+  const blogPosts = allBlogPosts.filter(shouldBeInFeed);
+
   const feed = await generateBlogFeed({
     blogPosts,
     options,

@@ -11,6 +11,7 @@ import {
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
   validateFrontMatter,
+  ContentVisibilitySchema,
 } from '@docusaurus/utils-validation';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
@@ -43,7 +44,6 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   parse_number_prefixes: Joi.boolean(),
   pagination_next: Joi.string().allow(null),
   pagination_prev: Joi.string().allow(null),
-  draft: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
   last_update: Joi.object({
     author: Joi.string(),
@@ -54,7 +54,9 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
       'object.missing': FrontMatterLastUpdateErrorMessage,
       'object.base': FrontMatterLastUpdateErrorMessage,
     }),
-}).unknown();
+})
+  .unknown()
+  .concat(ContentVisibilitySchema);
 
 export function validateDocFrontMatter(frontMatter: {
   [key: string]: unknown;

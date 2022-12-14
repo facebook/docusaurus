@@ -44,15 +44,12 @@ function testField(params: {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
         validateDocFrontMatter(frontMatter);
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail(
-          new Error(
-            `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
-              frontMatter,
-              null,
-              2,
-            )}`,
-          ),
+        throw new Error(
+          `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+            frontMatter,
+            null,
+            2,
+          )}`,
         );
       } catch (err) {
         // eslint-disable-next-line jest/no-conditional-expect
@@ -393,6 +390,41 @@ describe('validateDocFrontMatter draft', () => {
       [{draft: 'yes'}, 'must be a boolean'],
       [{draft: 'no'}, 'must be a boolean'],
       [{draft: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter unlisted', () => {
+  testField({
+    prefix: 'unlisted',
+    validFrontMatters: [{unlisted: true}, {unlisted: false}],
+    convertibleFrontMatter: [
+      [{unlisted: 'true'}, {unlisted: true}],
+      [{unlisted: 'false'}, {unlisted: false}],
+    ],
+    invalidFrontMatters: [
+      [{unlisted: 'yes'}, 'must be a boolean'],
+      [{unlisted: 'no'}, 'must be a boolean'],
+      [{unlisted: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter draft XOR unlisted', () => {
+  testField({
+    prefix: 'draft XOR unlisted',
+    validFrontMatters: [
+      {draft: false},
+      {unlisted: false},
+      {draft: false, unlisted: false},
+      {draft: true, unlisted: false},
+      {draft: false, unlisted: true},
+    ],
+    invalidFrontMatters: [
+      [
+        {draft: true, unlisted: true},
+        "Can't be draft and unlisted at the same time.",
+      ],
     ],
   });
 });

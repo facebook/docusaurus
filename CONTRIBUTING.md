@@ -166,7 +166,7 @@ feat(core): allow overriding of webpack config
 |   |
 |   +-> The package(s) that this change affected.
 |
-+-------> Type: see below for the list we use.
++-------> Type: see above for the list we use.
 ```
 
 ### Versioned Docs

@@ -1263,6 +1263,7 @@ declare module '@theme/Tabs' {
     }[];
     readonly groupId?: string;
     readonly className?: string;
+    readonly queryString?: string | boolean;
   }
 
   export default function Tabs(props: Props): JSX.Element;
@@ -1492,6 +1493,14 @@ declare module '@theme/Tag' {
   export interface Props extends Optional<TagsListItem, 'count'> {}
 
   export default function Tag(props: Props): JSX.Element;
+}
+
+declare module '@theme/Unlisted' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function Unlisted(props: Props): JSX.Element;
 }
 
 declare module '@theme/prism-include-languages' {

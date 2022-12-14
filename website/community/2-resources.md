@@ -10,6 +10,7 @@ A curated list of interesting Docusaurus community projects.
 
 - [Awesome Docusaurus](https://github.com/webbertakken/awesome-docusaurus#readme) - Community curated list of Docusaurus resources.
 - [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-ux-at-its-best-2hj1)
+- [The definitive guide to migrating from Blogger to Docusaurus](https://blog.johnnyreilly.com/definitive-guide-to-migrating-from-blogger-to-docusaurus)
 
 ## Showcase {#showcase}
 

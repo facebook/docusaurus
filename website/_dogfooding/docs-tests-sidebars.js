@@ -19,7 +19,6 @@ const sidebars = {
       className: 'red',
       label: 'Index',
     },
-    'test-draft',
     'doc-without-sidebar',
     'doc-with-another-sidebar',
     'doc-with-last-update',
@@ -40,12 +39,6 @@ const sidebars = {
           href: 'https://docusaurus.io',
         },
       ],
-    },
-    {
-      type: 'category',
-      label: 'section',
-      collapsible: false,
-      items: ['index', 'more-test'],
     },
     {
       type: 'category',

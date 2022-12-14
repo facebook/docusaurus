@@ -15,6 +15,7 @@ import {
 import Layout from '@theme/Layout';
 import MDXContent from '@theme/MDXContent';
 import TOC from '@theme/TOC';
+import Unlisted from '@theme/Unlisted';
 import type {Props} from '@theme/MDXPage';
 
 import styles from './styles.module.css';
@@ -22,7 +23,7 @@ import styles from './styles.module.css';
 export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
-    metadata: {title, description, frontMatter},
+    metadata: {title, description, frontMatter, unlisted},
   } = MDXPageContent;
   const {wrapperClassName, hide_table_of_contents: hideTableOfContents} =
     frontMatter;
@@ -38,6 +39,7 @@ export default function MDXPage(props: Props): JSX.Element {
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
+              {unlisted && <Unlisted />}
               <article>
                 <MDXContent>
                   <MDXPageContent />

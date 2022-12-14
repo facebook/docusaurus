@@ -41,7 +41,9 @@ function AdmonitionHeading({icon, title}: Pick<Props, 'icon' | 'title'>) {
 }
 
 function AdmonitionContent({children}: Pick<Props, 'children'>) {
-  return <div className={styles.admonitionContent}>{children}</div>;
+  return children ? (
+    <div className={styles.admonitionContent}>{children}</div>
+  ) : null;
 }
 
 export default function AdmonitionLayout(props: Props): JSX.Element {

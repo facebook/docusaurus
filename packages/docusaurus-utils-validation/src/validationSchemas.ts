@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import {
+  isValidPathname,
+  DEFAULT_PLUGIN_ID,
+  type Tag,
+  addLeadingSlash,
+} from '@docusaurus/utils';
 import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
@@ -96,6 +101,26 @@ export const PathnameSchema = Joi.string()
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
 
+// Normalized schema for url path segments: baseUrl + routeBasePath...
+// Note we only add a leading slash
+// we don't always want to enforce a trailing slash on urls such as /docs
+//
+// Examples:
+// '' => '/'
+// 'docs' => '/docs'
+// '/docs' => '/docs'
+// 'docs/' => '/docs'
+// 'prefix/docs' => '/prefix/docs'
+// TODO tighter validation: not all strings are valid path segments
+export const RouteBasePathSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) =>
+    // /!\ do not add trailing slash here
+    addLeadingSlash(value),
+  );
+
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()
   .try(
     JoiFrontMatter.string().required(),
@@ -126,3 +151,26 @@ export const FrontMatterTOCHeadingLevels = {
   }),
   toc_max_heading_level: JoiFrontMatter.number().min(2).max(6),
 };
+
+export type ContentVisibility = {
+  draft: boolean;
+  unlisted: boolean;
+};
+
+export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
+  {
+    draft: JoiFrontMatter.boolean(),
+    unlisted: JoiFrontMatter.boolean(),
+  },
+)
+  .custom((frontMatter: ContentVisibility, helpers) => {
+    if (frontMatter.draft && frontMatter.unlisted) {
+      return helpers.error('frontMatter.draftAndUnlistedError');
+    }
+    return frontMatter;
+  })
+  .messages({
+    'frontMatter.draftAndUnlistedError':
+      "Can't be draft and unlisted at the same time.",
+  })
+  .unknown();

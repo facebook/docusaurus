@@ -11,6 +11,7 @@ import {
   validateFrontMatter,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
+  ContentVisibilitySchema,
 } from '@docusaurus/utils-validation';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
@@ -32,7 +33,6 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   title: Joi.string().allow(''),
   description: Joi.string().allow(''),
   tags: FrontMatterTagsSchema,
-  draft: Joi.boolean(),
   date: Joi.date().raw(),
 
   // New multi-authors front matter:
@@ -69,10 +69,12 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   hide_table_of_contents: Joi.boolean(),
 
   ...FrontMatterTOCHeadingLevels,
-}).messages({
-  'deprecate.error':
-    '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
-});
+})
+  .messages({
+    'deprecate.error':
+      '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
+  })
+  .concat(ContentVisibilitySchema);
 
 export function validateBlogPostFrontMatter(frontMatter: {
   [key: string]: unknown;

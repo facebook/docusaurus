@@ -25,6 +25,8 @@ export type TagsListItem = Tag & {
 export type TagModule = TagsListItem & {
   /** The tags list page's permalink. */
   allTagsPath: string;
+  /** Is this tag unlisted? (when it only contains unlisted items) */
+  unlisted: boolean;
 };
 
 export type FrontMatterTag = string | Tag;
@@ -127,4 +129,33 @@ export function groupTaggedItems<Item>(
   });
 
   return result;
+}
+
+/**
+ * Permits to get the "tag visibility" (hard to find a better name)
+ * IE, is this tag listed or unlisted
+ * And which items should be listed when this tag is browsed
+ */
+export function getTagVisibility<Item>({
+  items,
+  isUnlisted,
+}: {
+  items: Item[];
+  isUnlisted: (item: Item) => boolean;
+}): {
+  unlisted: boolean;
+  listedItems: Item[];
+} {
+  const allItemsUnlisted = items.every(isUnlisted);
+  // When a tag is full of unlisted items, we display all the items
+  // when tag is browsed, but we mark the tag as unlisted
+  if (allItemsUnlisted) {
+    return {unlisted: true, listedItems: items};
+  }
+  // When a tag has some listed items, the tag remains listed
+  // but we filter its unlisted items
+  return {
+    unlisted: false,
+    listedItems: items.filter((item) => !isUnlisted(item)),
+  };
 }

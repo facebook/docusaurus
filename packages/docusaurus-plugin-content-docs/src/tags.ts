@@ -6,15 +6,22 @@
  */
 
 import _ from 'lodash';
-import {groupTaggedItems} from '@docusaurus/utils';
+import {getTagVisibility, groupTaggedItems} from '@docusaurus/utils';
 import type {VersionTags} from './types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 export function getVersionTags(docs: DocMetadata[]): VersionTags {
   const groups = groupTaggedItems(docs, (doc) => doc.tags);
-  return _.mapValues(groups, (group) => ({
-    label: group.tag.label,
-    docIds: group.items.map((item) => item.id),
-    permalink: group.tag.permalink,
-  }));
+  return _.mapValues(groups, ({tag, items: tagDocs}) => {
+    const tagVisibility = getTagVisibility({
+      items: tagDocs,
+      isUnlisted: (item) => item.unlisted,
+    });
+    return {
+      label: tag.label,
+      docIds: tagVisibility.listedItems.map((item) => item.id),
+      permalink: tag.permalink,
+      unlisted: tagVisibility.unlisted,
+    };
+  });
 }

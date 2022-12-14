@@ -153,6 +153,7 @@ katex
 kato
 keyscan
 keytar
+kinsta
 knapen
 koyeb
 kubernetes
@@ -359,6 +360,7 @@ typesense
 unflat
 unist
 unlinkable
+unlisteds
 unlocalized
 unmatch
 unnormalized
