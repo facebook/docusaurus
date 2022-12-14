@@ -67,6 +67,6 @@
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
   "theme.tags.tagsPageTitle": "标签",
-  "theme.unlistedContent.message": "此页面未列出。搜索引擎不会对其进行索引，只有拥有直接链接的用户才能访问。",
+  "theme.unlistedContent.message": "此页面未列出。搜索引擎不会对其索引，只有拥有直接链接的用户才能访问。",
   "theme.unlistedContent.title": "未列出页"
 }
