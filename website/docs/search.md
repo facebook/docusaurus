@@ -306,4 +306,12 @@ npm run swizzle @docusaurus/theme-classic SearchBar
 
 This will create an `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
 
-**Notes**: You can alternatively [swizzle from Algolia SearchBar](#editing-the-algolia-search-component) and create your own search component from there.
+**Notes**: You can alternatively [swizzle from Algolia SearchBar](#editing-the-algolia-search-component) and create your own search component from there. Before swizzling, add these dummy values under `themeConfig`:
+
+```json
+algolia: {
+    appId: '',
+    apiKey: '',
+    indexName: ''
+}
+```
