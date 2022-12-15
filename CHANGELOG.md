@@ -569,7 +569,7 @@ Bad npm publish, please use 2.0.1
 - `create-docusaurus`, `docusaurus-theme-classic`
   - [#7176](https://github.com/facebook/docusaurus/pull/7176) refactor: customize code block line highlight color via CSS var ([@lex111](https://github.com/lex111))
 - `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`
-  - [#7117](https://github.com/facebook/docusaurus/pull/7117) refactor(content-blog,docs): unify handling of tags ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#7117](https://github.com/facebook/docusaurus/pull/7117) refactor(content-{blog,docs}): unify handling of tags ([@Josh-Cena](https://github.com/Josh-Cena))
 - `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
   - [#7027](https://github.com/facebook/docusaurus/pull/7027) refactor(content-docs): deduplicate types, JSDoc for some APIs ([@Josh-Cena](https://github.com/Josh-Cena))
 
@@ -837,10 +837,10 @@ Bad npm publish, please use 2.0.1
 - `docusaurus-theme-classic`
   - [#6989](https://github.com/facebook/docusaurus/pull/6989) refactor: extract MDX components ([@slorber](https://github.com/slorber))
 - `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-search-algolia`, `docusaurus`
-  - [#6925](https://github.com/facebook/docusaurus/pull/6925) refactor(theme-classic,common): refactor site/page/search metadata + apply className on html element ([@slorber](https://github.com/slorber))
+  - [#6925](https://github.com/facebook/docusaurus/pull/6925) refactor(theme-{classic,common}): refactor site/page/search metadata + apply className on html element ([@slorber](https://github.com/slorber))
 - `docusaurus-theme-classic`, `docusaurus-theme-common`
-  - [#6895](https://github.com/facebook/docusaurus/pull/6895) refactor(theme-(classic,common): split navbar into smaller components + cleanup + swizzle config ([@slorber](https://github.com/slorber))
-  - [#6930](https://github.com/facebook/docusaurus/pull/6930) refactor(theme-classic,common): refactor ColorModeToggle + useColorMode() hook ([@lex111](https://github.com/lex111))
+  - [#6895](https://github.com/facebook/docusaurus/pull/6895) refactor(theme-{classic,common}): split navbar into smaller components + cleanup + swizzle config ([@slorber](https://github.com/slorber))
+  - [#6930](https://github.com/facebook/docusaurus/pull/6930) refactor(theme-{classic,common}): refactor ColorModeToggle + useColorMode() hook ([@lex111](https://github.com/lex111))
 
 #### :bug: Bug Fix
 
@@ -895,10 +895,10 @@ Bad npm publish, please use 2.0.1
 - `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils`
   - [#6937](https://github.com/facebook/docusaurus/pull/6937) fix(content-docs): warn when files are not tracked ([@felipecrs](https://github.com/felipecrs))
 - `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-search-algolia`, `docusaurus`
-  - [#6925](https://github.com/facebook/docusaurus/pull/6925) refactor(theme-(classic,common)): refactor site/page/search metadata + apply className on html element ([@slorber](https://github.com/slorber))
+  - [#6925](https://github.com/facebook/docusaurus/pull/6925) refactor(theme-{classic,common}): refactor site/page/search metadata + apply className on html element ([@slorber](https://github.com/slorber))
 - `docusaurus-theme-classic`, `docusaurus-theme-common`
-  - [#6895](https://github.com/facebook/docusaurus/pull/6895) refactor(theme-(classic,common)): split navbar into smaller components + cleanup + swizzle config ([@slorber](https://github.com/slorber))
-  - [#6930](https://github.com/facebook/docusaurus/pull/6930) refactor(theme-(classic,common)): refactor ColorModeToggle + useColorMode() hook ([@lex111](https://github.com/lex111))
+  - [#6895](https://github.com/facebook/docusaurus/pull/6895) refactor(theme-{classic,common}): split navbar into smaller components + cleanup + swizzle config ([@slorber](https://github.com/slorber))
+  - [#6930](https://github.com/facebook/docusaurus/pull/6930) refactor(theme-{classic,common}): refactor ColorModeToggle + useColorMode() hook ([@lex111](https://github.com/lex111))
   - [#6894](https://github.com/facebook/docusaurus/pull/6894) refactor(theme-classic): split theme footer into smaller components + swizzle config ([@slorber](https://github.com/slorber))
 - `docusaurus-types`, `docusaurus`
   - [#6929](https://github.com/facebook/docusaurus/pull/6929) refactor(core): minor routes type improvement ([@Josh-Cena](https://github.com/Josh-Cena))
@@ -2426,7 +2426,7 @@ Bad npm publish, use beta.13 instead
   - [#5460](https://github.com/facebook/docusaurus/pull/5460) feat: infima 33 + navbar-sidebar close button ([@slorber](https://github.com/slorber))
   - [#5442](https://github.com/facebook/docusaurus/pull/5442) feat(theme-classic): allow passing tab label and default value through TabItem ([@Josh-Cena](https://github.com/Josh-Cena))
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
-  - [#5454](https://github.com/facebook/docusaurus/pull/5454) feat: new docs options: versions.(badge,classNameà ([@slorber](https://github.com/slorber))
+  - [#5454](https://github.com/facebook/docusaurus/pull/5454) feat: new docs options: versions.{badge,className} ([@slorber](https://github.com/slorber))
 
 #### :bug: Bug Fix
 
@@ -4589,7 +4589,7 @@ Failed release
 #### :rocket: New Feature
 
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
-  - [#3357](https://github.com/facebook/docusaurus/pull/3357) feat(v2): docs version configuration: lastVersion, version.(path,label) ([@slorber](https://github.com/slorber))
+  - [#3357](https://github.com/facebook/docusaurus/pull/3357) feat(v2): docs version configuration: lastVersion, version.{path,label} ([@slorber](https://github.com/slorber))
   - [#3328](https://github.com/facebook/docusaurus/pull/3328) feat(v2): Provide docs plugin theme typing ([@SamChou19815](https://github.com/SamChou19815))
 - `docusaurus-theme-classic`
   - [#3356](https://github.com/facebook/docusaurus/pull/3356) feat(v2): Provide type definitions for remaining theme-classic components ([@SamChou19815](https://github.com/SamChou19815))
