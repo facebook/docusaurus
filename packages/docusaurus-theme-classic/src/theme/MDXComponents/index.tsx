@@ -25,6 +25,7 @@ const MDXComponents: MDXComponentsObject = {
   a: MDXA,
   pre: MDXPre,
   details: MDXDetails,
+  Details: MDXDetails,
   ul: MDXUl,
   img: MDXImg,
   h1: (props) => <MDXHeading as="h1" {...props} />,
