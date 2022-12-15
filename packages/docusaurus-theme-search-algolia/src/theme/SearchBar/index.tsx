@@ -5,20 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, useCallback, useMemo} from 'react';
-import {createPortal} from 'react-dom';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useHistory} from '@docusaurus/router';
-import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
-import Link from '@docusaurus/Link';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
+import {useHistory} from '@docusaurus/router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {useSearchPage} from '@docusaurus/theme-common/internal';
-import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {createPortal} from 'react-dom';
 import translations from '@theme/SearchTranslations';
 
+import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {
   DocSearchModal as DocSearchModalType,
   DocSearchModalProps,
@@ -28,7 +29,6 @@ import type {
   StoredDocSearchHit,
 } from '@docsearch/react/dist/esm/types';
 import type {SearchClient} from 'algoliasearch/lite';
-import type {AutocompleteState} from '@algolia/autocomplete-core';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -37,7 +37,7 @@ type DocSearchProps = Omit<
   contextualSearch?: string;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
-  replaceInItemUrl?: {
+  replaceSearchResultPathname?: {
     from: string;
     to: string;
   };
@@ -89,7 +89,7 @@ function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
 function DocSearch({
   contextualSearch,
   externalUrlRegex,
-  replaceInItemUrl,
+  replaceSearchResultPathname,
   ...props
 }: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
@@ -178,9 +178,12 @@ function DocSearch({
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
       items.map((item) => {
-        // Replace parts of the URL if the user has configured it in the config
-        const itemUrl = replaceInItemUrl
-          ? item.url.replace(replaceInItemUrl.from, replaceInItemUrl.to)
+        // Replace parts of the URL if the user has added it in the config
+        const itemUrl = replaceSearchResultPathname
+          ? item.url.replace(
+              new RegExp(replaceSearchResultPathname.from, 'g'),
+              replaceSearchResultPathname.to,
+            )
           : item.url;
 
         // If Algolia contains a external domain, we should navigate without

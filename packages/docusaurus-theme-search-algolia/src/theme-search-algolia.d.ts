@@ -17,7 +17,7 @@ declare module '@docusaurus/theme-search-algolia' {
       indexName: string;
       searchParameters: {[key: string]: unknown};
       searchPagePath: string | false | null;
-      replaceInItemUrl?: {
+      replaceSearchResultPathname?: {
         from: string;
         to: string;
       };

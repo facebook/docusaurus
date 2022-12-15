@@ -104,8 +104,8 @@ module.exports = {
       // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
       externalUrlRegex: 'external\\.com|domain\\.com',
 
-      // Optional: Replace parts of the item URLs from Algolia. Useful when you deploy to something like domain.com/docs/, but your preview deploys are served from root /.
-      replaceInItemUrl: {
+      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. For example: localhost:3000 vs myCompany.com/docs
+      replaceSearchResultPathname: {
         from: '/docs/',
         to: '/',
       },

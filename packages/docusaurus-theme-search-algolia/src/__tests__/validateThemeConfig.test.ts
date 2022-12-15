@@ -121,12 +121,12 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  it('replaceInItemUrl config', () => {
+  it('replaceSearchResultPathname config', () => {
     const algolia = {
       appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
-      replaceInItemUrl: {
+      replaceSearchResultPathname: {
         from: '/docs/',
         to: '/',
       },
