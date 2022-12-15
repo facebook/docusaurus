@@ -9,7 +9,7 @@
   .sidebar {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     padding-top: var(--ifm-navbar-height);
     width: var(--doc-sidebar-width);
   }
