@@ -22,6 +22,7 @@
     "@babel/traverse": "^7.19.0",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
+    "@docusaurus/utils-validation": "^3.0.0-alpha.0",
     "@mdx-js/mdx": "^2.1.5",
     "escape-html": "^1.0.3",
     "estree-util-value-to-estree": "^2.1.0",

@@ -15,15 +15,17 @@ import {
 } from '@docusaurus/utils';
 import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
+import {Simulate} from 'react-dom/test-utils';
 import preprocessor from './preprocessor';
 import headings from './remark/headings';
 import toc from './remark/toc';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import mermaid from './remark/mermaid';
-
 import transformAdmonitions from './remark/admonitions';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
+import {validateMDXFrontMatter} from './frontMatter';
+
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 
@@ -32,6 +34,7 @@ import type {AdmonitionOptions} from './remark/admonitions';
 
 // @ts-expect-error: TODO
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import load = Simulate.load;
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -186,6 +189,7 @@ export async function mdxLoader(
   const {default: gfm} = await import('remark-gfm');
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+  const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
 
   const {content: contentUnprocessed, contentTitle} = parseMarkdownContentTitle(
     contentWithTitle,
@@ -256,13 +260,9 @@ export async function mdxLoader(
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
-      format: (frontMatter.format as any) ?? 'mdx', // TODO provide ability to use 'md' with frontMatter?
+      format: mdxFrontMatter.format,
       providerImportSource: '@mdx-js/react',
     };
-
-    if (frontMatter.format) {
-      console.log('format', frontMatter.format);
-    }
 
     // @ts-expect-error: TODO
     compilerCache.set(this.query, [createProcessor(options), options]);
