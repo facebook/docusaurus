@@ -260,7 +260,7 @@ module.exports = {
 
 ### Editing the Algolia search component {#editing-the-algolia-search-component}
 
-If you prefer to edit the Algolia search React component, swizzle the `SearchBar` component in `@docusaurus/theme-search-algolia`:
+If you prefer to edit the Algolia search React component, [swizzle](swizzling.md) the `SearchBar` component in `@docusaurus/theme-search-algolia`:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-search-algolia SearchBar

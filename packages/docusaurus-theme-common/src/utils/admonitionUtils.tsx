@@ -21,15 +21,13 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
         'mdxAdmonitionTitle',
   ) as JSX.Element | undefined;
 
-  const rest = (
-    <>{items.filter((item) => item !== mdxAdmonitionTitleChildren)}</>
-  );
+  const rest = items.filter((item) => item !== mdxAdmonitionTitleChildren);
 
   const mdxAdmonitionTitle = mdxAdmonitionTitleChildren?.props.children;
 
   return {
     mdxAdmonitionTitle,
-    rest,
+    rest: rest.length > 0 ? <>{rest}</> : null,
   };
 }
 

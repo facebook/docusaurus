@@ -426,10 +426,8 @@ function SearchPageContent(): JSX.Element {
               'text--right',
               styles.searchLogoColumn,
             )}>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.algolia.com/"
+            <Link
+              to="https://www.algolia.com/"
               aria-label={translate({
                 id: 'theme.SearchPage.algoliaLabel',
                 message: 'Search by Algolia',
@@ -451,7 +449,7 @@ function SearchPageContent(): JSX.Element {
                   />
                 </g>
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 

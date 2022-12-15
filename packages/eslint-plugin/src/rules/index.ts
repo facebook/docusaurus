@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import noHtmlLinks from './no-html-links';
 import noUntranslatedText from './no-untranslated-text';
 import stringLiteralI18nMessages from './string-literal-i18n-messages';
 
 export default {
   'no-untranslated-text': noUntranslatedText,
   'string-literal-i18n-messages': stringLiteralI18nMessages,
+  'no-html-links': noHtmlLinks,
 };

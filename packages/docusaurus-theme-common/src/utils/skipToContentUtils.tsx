@@ -90,6 +90,7 @@ export function SkipToContentLink(props: SkipToContentLinkProps): JSX.Element {
       ref={containerRef}
       role="region"
       aria-label={DefaultSkipToContentLabel}>
+      {/* eslint-disable-next-line @docusaurus/no-html-links */}
       <a
         {...props}
         // Note this is a fallback href in case JS is disabled

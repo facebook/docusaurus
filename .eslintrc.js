@@ -375,6 +375,7 @@ module.exports = {
     // TODO revert to error + add varsIgnorePattern _ prefix
     '@typescript-eslint/no-unused-vars': [WARNING, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
+    '@docusaurus/no-html-links': ERROR,
     '@docusaurus/no-untranslated-text': [
       WARNING,
       {

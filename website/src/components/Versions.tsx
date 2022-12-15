@@ -15,6 +15,7 @@ import React, {
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {useVersions} from '@docusaurus/plugin-content-docs/client';
 import Translate from '@docusaurus/Translate';
+import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 
 type ContextValue = {
@@ -113,9 +114,9 @@ export function StableMajorVersion(): JSX.Element {
 
 function GitBranchLink({branch}: {branch: string}): JSX.Element {
   return (
-    <a href={`https://github.com/facebook/docusaurus/tree/${branch}`}>
+    <Link to={`https://github.com/facebook/docusaurus/tree/${branch}`}>
       <code>{branch}</code>
-    </a>
+    </Link>
   );
 }
 

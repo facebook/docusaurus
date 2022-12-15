@@ -7,6 +7,7 @@
 
 import type {ComponentProps} from 'react';
 import React from 'react';
+import Link from '@docusaurus/Link';
 
 export default function ProductHuntCard({
   className,
@@ -16,10 +17,8 @@ export default function ProductHuntCard({
   style?: ComponentProps<'a'>['style'];
 }): JSX.Element {
   return (
-    <a
-      href="https://www.producthunt.com/posts/docusaurus-2-0?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-docusaurus-2-0"
-      target="_blank"
-      rel="noreferrer"
+    <Link
+      to="https://www.producthunt.com/posts/docusaurus-2-0?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-docusaurus-2-0"
       className={className}
       style={{display: 'block', width: 250, height: 54, ...style}}>
       <img
@@ -29,6 +28,6 @@ export default function ProductHuntCard({
         width={250}
         height={54}
       />
-    </a>
+    </Link>
   );
 }
