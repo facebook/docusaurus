@@ -96,7 +96,7 @@
     "jest-environment-jsdom": "^29.0.2",
     "jest-serializer-ansi-escapes": "^2.0.1",
     "jest-serializer-react-helmet-async": "^1.0.21",
-    "lerna": "^5.5.0",
+    "lerna": "^6.2.0",
     "lerna-changelog": "^2.2.0",
     "lint-staged": "^13.0.3",
     "npm-run-all": "^4.1.5",
