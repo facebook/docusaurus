@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
-import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/HomeBreadcrumbItem';
+import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 
 import styles from './styles.module.css';
 

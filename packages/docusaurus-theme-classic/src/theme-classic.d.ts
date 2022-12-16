@@ -1511,6 +1511,6 @@ declare module '@theme/prism-include-languages' {
   ): void;
 }
 
-declare module '@theme/DocBreadcrumbs/HomeBreadcrumbItem' {
+declare module '@theme/DocBreadcrumbs/Items/Home' {
   export default function HomeBreadcrumbItem(): JSX.Element;
 }
