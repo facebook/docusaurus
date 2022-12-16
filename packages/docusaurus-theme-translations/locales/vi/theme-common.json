@@ -67,6 +67,6 @@
   "theme.tags.tagsListLabel": "Thẻ:",
   "theme.tags.tagsPageLink": "Xem tất cả Thẻ",
   "theme.tags.tagsPageTitle": "Thẻ",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.unlistedContent.message": "Trang này không được công khai. Công cụ tìm kiếm sẽ không đánh chỉ mục cho trang này và chỉ những người có liên kết mới có thể truy cập được trang.",
+  "theme.unlistedContent.title": "Trang không công khai"
 }
