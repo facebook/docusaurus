@@ -409,6 +409,10 @@ const config = {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+        replaceSearchResultPathname: (isDev || isDeployPreview) ? {
+          from: '\\/docs\\/next',
+          to:'/docs'
+        } : undefined,
       },
       navbar: {
         hideOnScroll: true,
