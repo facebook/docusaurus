@@ -25,7 +25,7 @@ export default function HomeBreadcrumbItem(): JSX.Element {
           message: 'Home page',
           description: 'The ARIA label for the home page in the breadcrumbs',
         })}
-        className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
+        className="breadcrumbs__link"
         href={homeHref}>
         <IconHome className={styles.breadcrumbHomeIcon} />
       </Link>
