@@ -27,7 +27,7 @@ Some content
     expect(result).toEqual(result);
   });
 
-  it('works for basic mermaid code blocks', async () => {
+  it('can convert details', async () => {
     const input = `# Details element example
 
 <details>

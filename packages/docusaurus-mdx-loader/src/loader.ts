@@ -22,6 +22,7 @@ import toc from './remark/toc';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import details from './remark/details';
+import head from './remark/head';
 import mermaid from './remark/mermaid';
 import transformAdmonitions from './remark/admonitions';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
@@ -227,6 +228,7 @@ export async function mdxLoader(
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
       details,
+      head,
       ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
       [
         transformImage,
