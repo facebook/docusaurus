@@ -10,7 +10,7 @@ import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
-import {isRegexpStringMatch, getRegexpOrString} from '@docusaurus/theme-common';
+import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {useSearchPage} from '@docusaurus/theme-common/internal';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
@@ -181,7 +181,7 @@ function DocSearch({
         // Replace parts of the URL if the user has added it in the config
         const itemUrl = replaceSearchResultPathname
           ? item.url.replace(
-              getRegexpOrString(replaceSearchResultPathname.from),
+              new RegExp(replaceSearchResultPathname.from),
               replaceSearchResultPathname.to,
             )
           : item.url;

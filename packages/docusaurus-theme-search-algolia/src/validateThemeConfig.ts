@@ -20,6 +20,10 @@ export const DEFAULT_CONFIG = {
   searchPagePath: 'search',
 };
 
+function escapeRegExp(s: string): string {
+  return s.replace(/[-[\]{}()*+?.\\^$|/]/g, '\\$&');
+}
+
 export const Schema = Joi.object<ThemeConfig>({
   algolia: Joi.object({
     // Docusaurus attributes
@@ -40,7 +44,16 @@ export const Schema = Joi.object<ThemeConfig>({
       .allow(null)
       .default(DEFAULT_CONFIG.searchPagePath),
     replaceSearchResultPathname: Joi.object({
-      from: Joi.string().required(),
+      from: Joi.custom((from) => {
+        if (typeof from === 'string') {
+          return escapeRegExp(from);
+        } else if (from instanceof RegExp) {
+          return from.source;
+        }
+        throw new Error(
+          `it should be a RegExp or a string, but received ${from}`,
+        );
+      }).required(),
       to: Joi.string().required(),
     }).optional(),
   })

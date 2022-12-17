@@ -18,7 +18,6 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import {
-  getRegexpOrString,
   HtmlClassNameProvider,
   isRegexpStringMatch,
   useEvent,
@@ -255,7 +254,7 @@ function SearchPageContent(): JSX.Element {
           const parsedURL = new URL(
             replaceSearchResultPathname
               ? url.replace(
-                  getRegexpOrString(replaceSearchResultPathname.from),
+                  new RegExp(replaceSearchResultPathname.from),
                   replaceSearchResultPathname.to,
                 )
               : url,

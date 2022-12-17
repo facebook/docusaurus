@@ -28,8 +28,6 @@ export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 
-export {getRegexpOrString} from './utils/configUtils';
-
 export {
   useCurrentSidebarCategory,
   filterDocCardListItems,
