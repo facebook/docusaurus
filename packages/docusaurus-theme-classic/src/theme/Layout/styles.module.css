@@ -14,6 +14,12 @@ body {
   flex: 1 0 auto;
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 /* Docusaurus-specific utility class */
 :global(.docusaurus-mt-lg) {
   margin-top: 3rem;
