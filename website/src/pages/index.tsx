@@ -177,7 +177,7 @@ function VideoContainer() {
             <LiteYouTubeEmbed
               id="T3S8GyFIXjo"
               params="autoplay=1&autohide=1&showinfo=0&rel=0"
-              title="Explain Like I'm 5: Docusaurus"
+              title="Docusaurus demo"
               poster="maxresdefault"
               webp
             />
