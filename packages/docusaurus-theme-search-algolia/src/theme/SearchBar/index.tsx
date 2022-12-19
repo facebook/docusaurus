@@ -171,21 +171,23 @@ function DocSearch({
   }).current;
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
-    (items) =>
-      items.map((item) => {
-        // If Algolia contains a external domain, we should navigate without
-        // relative URL
-        if (isRegexpStringMatch(externalUrlRegex, item.url)) {
-          return item;
-        }
+    props.transformItems
+      ? props.transformItems
+      : (items) =>
+          items.map((item) => {
+            // If Algolia contains a external domain, we should navigate without
+            // relative URL
+            if (isRegexpStringMatch(externalUrlRegex, item.url)) {
+              return item;
+            }
 
-        // We transform the absolute URL into a relative URL.
-        const url = new URL(item.url);
-        return {
-          ...item,
-          url: withBaseUrl(`${url.pathname}${url.hash}`),
-        };
-      }),
+            // We transform the absolute URL into a relative URL.
+            const url = new URL(item.url);
+            return {
+              ...item,
+              url: withBaseUrl(`${url.pathname}${url.hash}`),
+            };
+          }),
   ).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
