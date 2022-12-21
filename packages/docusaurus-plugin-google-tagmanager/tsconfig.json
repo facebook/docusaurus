@@ -9,5 +9,5 @@
     "outDir": "lib"
   },
   "include": ["src"],
-  "exclude": ["src/analytics.ts", "**/__tests__/**"]
+  "exclude": ["**/__tests__/**"]
 }
