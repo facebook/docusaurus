@@ -19,7 +19,6 @@ import Link from '@docusaurus/Link';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import {
   HtmlClassNameProvider,
-  isRegexpStringMatch,
   useEvent,
   usePluralForm,
 } from '@docusaurus/theme-common';
@@ -29,9 +28,11 @@ import {
 } from '@docusaurus/theme-common/internal';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {
+  useAlgoliaThemeConfig,
+  useSearchResultUrlExtractor,
+} from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
-
-import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
 import styles from './styles.module.css';
 
@@ -157,18 +158,12 @@ type ResultDispatcher =
 
 function SearchPageContent(): JSX.Element {
   const {
-    siteConfig: {themeConfig},
     i18n: {currentLocale},
   } = useDocusaurusContext();
   const {
-    algolia: {
-      appId,
-      apiKey,
-      indexName,
-      externalUrlRegex,
-      replaceSearchResultPathname,
-    },
-  } = themeConfig as ThemeConfig;
+    algolia: {appId, apiKey, indexName},
+  } = useAlgoliaThemeConfig();
+  const extractSearchResultUrl = useSearchResultUrlExtractor();
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
@@ -251,23 +246,12 @@ function SearchPageContent(): JSX.Element {
           _highlightResult: {hierarchy: {[key: string]: {value: string}}};
           _snippetResult: {content?: {value: string}};
         }) => {
-          const parsedURL = new URL(
-            replaceSearchResultPathname
-              ? url.replace(
-                  new RegExp(replaceSearchResultPathname.from),
-                  replaceSearchResultPathname.to,
-                )
-              : url,
-          );
           const titles = Object.keys(hierarchy).map((key) =>
             sanitizeValue(hierarchy[key]!.value),
           );
-
           return {
             title: titles.pop()!,
-            url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
-              ? parsedURL.href
-              : parsedURL.pathname + parsedURL.hash,
+            url: extractSearchResultUrl(url),
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',

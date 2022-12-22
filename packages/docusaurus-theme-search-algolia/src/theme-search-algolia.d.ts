@@ -27,7 +27,13 @@ declare module '@docusaurus/theme-search-algolia' {
 }
 
 declare module '@docusaurus/theme-search-algolia/client' {
+  import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
+
+  export function useAlgoliaThemeConfig(): ThemeConfig;
+
   export function useAlgoliaContextualFacetFilters(): [string, string[]];
+
+  export function useSearchResultUrlExtractor(): (url: string) => string;
 }
 
 declare module '@theme/SearchPage' {

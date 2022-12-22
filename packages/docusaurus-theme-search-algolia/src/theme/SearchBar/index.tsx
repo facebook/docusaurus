@@ -12,9 +12,11 @@ import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {useSearchPage} from '@docusaurus/theme-common/internal';
-import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
+import {
+  useAlgoliaContextualFacetFilters,
+  useSearchResultUrlExtractor,
+} from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
-import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {createPortal} from 'react-dom';
 import translations from '@theme/SearchTranslations';
@@ -37,10 +39,6 @@ type DocSearchProps = Omit<
   contextualSearch?: string;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
-  replaceSearchResultPathname?: {
-    from: string;
-    to: string;
-  };
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
@@ -89,10 +87,10 @@ function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
 function DocSearch({
   contextualSearch,
   externalUrlRegex,
-  replaceSearchResultPathname,
   ...props
 }: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
+  const extractSearchResultUrl = useSearchResultUrlExtractor();
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -112,7 +110,6 @@ function DocSearch({
     facetFilters,
   };
 
-  const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchContainer = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
@@ -177,28 +174,10 @@ function DocSearch({
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
-      items.map((item) => {
-        // Replace parts of the URL if the user has added it in the config
-        const itemUrl = replaceSearchResultPathname
-          ? item.url.replace(
-              new RegExp(replaceSearchResultPathname.from),
-              replaceSearchResultPathname.to,
-            )
-          : item.url;
-
-        // If Algolia contains a external domain, we should navigate without
-        // relative URL
-        if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
-          return item;
-        }
-
-        // We transform the absolute URL into a relative URL.
-        const url = new URL(itemUrl);
-        return {
+      items.map((item) => ({
           ...item,
-          url: withBaseUrl(`${url.pathname}${url.hash}`),
-        };
-      }),
+          url: extractSearchResultUrl(item.url),
+        })),
   ).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
