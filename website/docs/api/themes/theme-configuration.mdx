@@ -27,9 +27,8 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultMode` | <code>'light' \| 'dark'</code> | `'light'` | The color mode when user first visits the site. |
+| `defaultMode` | <code>'light' \| 'dark' \| 'auto'</code> | `'light'` | The color mode when user first visits the site. |
 | `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
-| `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
 
 ```mdx-code-block
 </APITable>
@@ -44,7 +43,6 @@ module.exports = {
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
-      respectPrefersColorScheme: false,
     },
     // highlight-end
   },
@@ -53,9 +51,9 @@ module.exports = {
 
 :::caution
 
-With `respectPrefersColorScheme: true`, the `defaultMode` is overridden by user system preferences.
+With `defaultMode: auto`, the theme is determined by user system preferences.
 
-If you only want to support one color mode, you likely want to ignore user system preferences.
+If you only want to support one color mode, you likely want to set `defaultMode: light` or `defaultMode: dark` instead.
 
 :::
 
