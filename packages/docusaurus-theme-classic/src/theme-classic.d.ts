@@ -1348,16 +1348,17 @@ declare module '@theme/TOCCollapsible/CollapseButton' {
 }
 
 declare module '@theme/ColorModeToggle' {
-  import type {ColorMode} from '@docusaurus/theme-common';
+  import type {ColorMode, ColorModeChoice} from '@docusaurus/theme-common';
 
   export interface Props {
     readonly className?: string;
     readonly value: ColorMode;
+    readonly choice: ColorModeChoice;
     /**
      * The parameter represents the "to-be" value. For example, if currently in
      * dark mode, clicking the button should call `onChange("light")`
      */
-    readonly onChange: (colorMode: ColorMode) => void;
+    readonly onChange: (colorModeChoice: ColorModeChoice) => void;
   }
 
   export default function ColorModeToggle(props: Props): JSX.Element;
@@ -1380,6 +1381,14 @@ declare module '@theme/Icon/Arrow' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconArrow(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/AutoThemeMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconAutoThemeMode(props: Props): JSX.Element;
 }
 
 declare module '@theme/Icon/DarkMode' {

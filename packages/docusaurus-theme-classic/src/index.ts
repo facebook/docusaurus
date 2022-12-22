@@ -26,17 +26,14 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
-const noFlashColorMode = ({
-  defaultMode,
-  respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) =>
+const noFlashColorMode = ({defaultMode}: ThemeConfig['colorMode']) =>
   /* language=js */
   `(function() {
   var defaultMode = '${defaultMode}';
-  var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
-  function setDataThemeAttribute(theme) {
+  function setDataThemeAttributes(theme, choice) {
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme-choice', choice);
   }
 
   function getStoredTheme() {
@@ -48,22 +45,19 @@ const noFlashColorMode = ({
   }
 
   var storedTheme = getStoredTheme();
-  if (storedTheme !== null) {
-    setDataThemeAttribute(storedTheme);
+  var mode = storedTheme === null ? defaultMode : storedTheme;
+  if (
+    mode === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  ) {
+    setDataThemeAttributes('dark', mode);
+  } else if (
+    mode === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: light)').matches
+  ) {
+    setDataThemeAttributes('light', mode);
   } else {
-    if (
-      respectPrefersColorScheme &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      setDataThemeAttribute('dark');
-    } else if (
-      respectPrefersColorScheme &&
-      window.matchMedia('(prefers-color-scheme: light)').matches
-    ) {
-      setDataThemeAttribute('light');
-    } else {
-      setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
-    }
+    setDataThemeAttributes(mode === 'dark' ? 'dark' : 'light', mode);
   }
 })();`;
 

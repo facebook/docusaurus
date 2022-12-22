@@ -25,8 +25,12 @@
   background: var(--ifm-color-emphasis-200);
 }
 
-[data-theme='light'] .darkToggleIcon,
-[data-theme='dark'] .lightToggleIcon {
+[data-theme-choice='auto'] .lightToggleIcon,
+[data-theme-choice='auto'] .darkToggleIcon,
+[data-theme-choice='dark'] .autoToggleIcon,
+[data-theme-choice='dark'] .lightToggleIcon,
+[data-theme-choice='light'] .autoToggleIcon,
+[data-theme-choice='light'] .darkToggleIcon {
   display: none;
 }
 

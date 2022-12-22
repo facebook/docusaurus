@@ -666,7 +666,6 @@ describe('themeConfig', () => {
       const colorMode: ThemeConfig['colorMode'] = {
         defaultMode: 'dark',
         disableSwitch: false,
-        respectPrefersColorScheme: true,
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
         ...DEFAULT_CONFIG,

@@ -381,9 +381,8 @@ const config = {
         },
       },
       colorMode: {
-        defaultMode: 'light',
+        defaultMode: 'auto',
         disableSwitch: false,
-        respectPrefersColorScheme: true,
       },
       announcementBar: {
         id: 'announcementBar-2', // Increment on change

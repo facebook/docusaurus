@@ -36,7 +36,6 @@ const DocsSchema = Joi.object({
 const DEFAULT_COLOR_MODE_CONFIG: ThemeConfig['colorMode'] = {
   defaultMode: 'light',
   disableSwitch: false,
-  respectPrefersColorScheme: false,
 };
 
 export const DEFAULT_CONFIG: ThemeConfig = {
@@ -266,12 +265,13 @@ const NavbarItemSchema = Joi.object({
 
 const ColorModeSchema = Joi.object({
   defaultMode: Joi.string()
-    .equal('dark', 'light')
+    .equal('auto', 'dark', 'light')
     .default(DEFAULT_COLOR_MODE_CONFIG.defaultMode),
   disableSwitch: Joi.bool().default(DEFAULT_COLOR_MODE_CONFIG.disableSwitch),
-  respectPrefersColorScheme: Joi.bool().default(
-    DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
-  ),
+  respectPrefersColorScheme: Joi.any().forbidden().messages({
+    'any.unknown':
+      'colorMode.respectPrefersColorScheme is deprecated. Please use colorMode.defaultMode=auto instead.',
+  }),
   switchConfig: Joi.any().forbidden().messages({
     'any.unknown':
       'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead.',
