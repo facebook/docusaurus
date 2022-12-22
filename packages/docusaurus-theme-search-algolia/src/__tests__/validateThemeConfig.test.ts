@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
+import {DEFAULT_CONFIG, validateThemeConfig} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
 
 function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
@@ -135,6 +135,10 @@ describe('validateThemeConfig', () => {
       algolia: {
         ...DEFAULT_CONFIG,
         ...algolia,
+        replaceSearchResultPathname: {
+          from: '\\/docs\\/',
+          to: '/',
+        },
       },
     });
   });
