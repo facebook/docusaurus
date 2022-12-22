@@ -20,9 +20,9 @@ If you want to reference another Markdown file **included by the same plugin**, 
 For example, if you are in `docs/folder/doc1.md` and you want to reference `docs/folder/doc2.md`, `docs/folder/subfolder/doc3.md` and `docs/otherFolder/doc4.md`:
 
 ```md title="docs/folder/doc1.md"
-I am referencing a [document](doc2.md).
+I am referencing another [document in the same folder](./doc2.md).
 
-Reference to another [document in a subfolder](subfolder/doc3.md).
+Reference to another [document in a subfolder](./subfolder/doc3.md).
 
 [Relative document](../otherFolder/doc4.md) referencing works as well.
 ```
