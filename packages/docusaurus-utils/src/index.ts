@@ -105,3 +105,4 @@ export {
   getFolderContainingFile,
 } from './dataFileUtils';
 export {isDraft, isUnlisted} from './contentVisibilityUtils';
+export {escapeRegexp} from './regExpUtils';
