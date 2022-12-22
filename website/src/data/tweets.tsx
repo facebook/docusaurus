@@ -21,8 +21,6 @@ const TWEETS: TweetItem[] = [
     handle: 'acemarke',
     name: 'Mark Erikson',
     date: 'Oct 26, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/842582724737163264/tFKLiJI5_400x400.jpg',
     content: (
       <>
         We&apos;ve been using Docusaurus for all the Redux org docs sites for
@@ -32,14 +30,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'markerikson',
   },
   {
     url: 'https://twitter.com/arcanis/status/1351620354561732608',
     handle: 'arcanis',
     name: 'Maël',
     date: 'Jan 20, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1497225853931040769/5mXZAHFR_400x400.jpg',
     content: (
       <>
         I&apos;ve used Docusaurus for two websites this year, and I&apos;ve been
@@ -47,14 +44,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'arcanis',
   },
   {
     url: 'https://twitter.com/maxlynch/status/1375113166007455748',
     handle: 'maxlynch',
     name: 'Max Lynch',
     date: 'Mar 25, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1318970727173885953/bln98FNj_400x400.jpg',
     content: (
       <>
         Docusaurus v2 doubles as a really nice little static site generator tool
@@ -62,14 +58,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'mlynch',
   },
   {
     url: 'https://twitter.com/supabase/status/1328960757149671425',
     handle: 'supabase',
     name: 'Supabase',
     date: 'Nov 18, 2020',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1397471927132844033/jN-wuufb_400x400.jpg',
     content: (
       <>
         We&apos;ve been using V2 since January and it has been great - we spend
@@ -80,14 +75,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'supabase',
   },
   {
     url: 'https://twitter.com/paularmstrong/status/1387059593373700100',
     handle: 'paularmstrong',
     name: 'Paul Armstrong',
     date: 'Apr 27, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/823614982394769408/C4KgET17_400x400.jpg',
     content: (
       <>
         Continue to be impressed and excited about Docusaurus v2 alpha releases.
@@ -96,28 +90,26 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'paularmstrong',
   },
   {
     url: 'https://twitter.com/sanketsahu/status/1328677366642528257',
     handle: 'sanketsahu',
     name: 'Sanket Sahu',
     date: 'Nov 17, 2020',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1481221429991718913/aNZZgZME_400x400.jpg',
     content: (
       <>
         .<b>@docusaurus</b> ❤️
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'sanketsahu',
   },
   {
     url: 'https://twitter.com/debs_obrien/status/1374615572298801155',
     handle: 'debs_obrien',
     name: "Debbie O'Brien",
     date: 'Mar 24, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1537114604278530048/FMrBa87o_400x400.jpg',
     content: (
       <>
         Been doing a lot of work with <b>@docusaurus</b> lately and I have to
@@ -127,14 +119,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'debs-obrien',
   },
   {
     url: 'https://twitter.com/Dr_Electron/status/1443635328376508433',
     handle: 'Dr_Electron',
     name: 'Dr.Electron',
     date: 'Oct 11, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1280609918022815746/nCWpKbYh_400x400.jpg',
     content: (
       <>
         The #IOTA wiki is now part of the <b>@docusaurus</b> showcase. We even
@@ -145,14 +136,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'Dr-Electron',
   },
   {
     url: 'https://twitter.com/kentcdodds/status/1323806816019468288',
     handle: 'kentcdodds',
     name: 'Kent C. Dodds',
     date: 'Nov 4, 2020',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1529905780542959616/Ibwrp7VJ_400x400.jpg',
     content: (
       <>
         http://testing-library.com just got a nice update! We&apos;re now on the
@@ -164,24 +154,22 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'kentcdodds',
   },
   {
     url: 'https://twitter.com/bantg/status/1463608561368457225',
     handle: 'bantg',
     name: 'banteg',
     date: 'Nov 25, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1406018339835678720/fLQOnMbp_400x400.jpg',
     content: <>I like docusaurus much more, it&apos;s so snappy.</>,
     showOnHomepage: false,
+    githubUsername: 'banteg',
   },
   {
     url: 'https://twitter.com/swyx/status/1418405515684581378',
     handle: 'swyx',
     name: 'swyx',
     date: 'Jul 23, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1510319731466993664/tGoqnzGK_400x400.jpg',
     content: (
       <>
         Happy to share Temporal&apos;s first open source sponsorship — of{' '}
@@ -194,28 +182,26 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
+    githubUsername: 'sw-yx',
   },
   {
     url: 'https://twitter.com/rachelnabors/status/1478490902037467137',
     handle: 'rachelnabors',
     name: "R 'Nearest' Nabors 💙",
     date: 'Jan 5, 2022',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1316805792893489152/7soY-vhs_400x400.jpg',
     content: (
       <>
         I hear <b>@docusaurus</b> is a good tool for that!
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'rachelnabors',
   },
   {
     url: 'https://twitter.com/dabit3/status/1394685348375052295',
     handle: 'dabit3',
     name: 'Nader Dabit',
     date: 'May 19, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1485813693682262017/E8H-p7iy_400x400.jpg',
     content: (
       <>
         I did try Docusaurus, and I really liked it! Still investigating various
@@ -223,14 +209,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'dabit3',
   },
   {
     url: 'https://twitter.com/johnny_reilly/status/1469238609266028545',
     handle: 'johnny_reilly',
     name: 'John Reilly',
     date: 'Dec 10, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/552803871567790081/rPdTN64o_400x400.jpeg',
     content: (
       <>
         I ❤️ <b>@docusaurus</b> - it makes it so easy to spin up docs, blogs and
@@ -242,14 +227,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'johnnyreilly',
   },
   {
     url: 'https://twitter.com/tinkertim/status/1423358665726304260',
     handle: 'tinkertim',
     name: 'Tim Post 💉💉💉',
     date: 'Aug 6, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1199471998650454017/59xAQG4y_400x400.jpg',
     content: (
       <>
         Docusaurus is mind-bendingly flexible. <br />
@@ -261,14 +245,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'tinkertim',
   },
   {
     url: 'https://twitter.com/sebastienlorber/status/1321784071815680000',
     handle: 'sebastienlorber',
     name: 'Sebastien Lorber',
     date: 'Oct 29, 2020',
-    avatar:
-      'https://pbs.twimg.com/profile_images/573206276819140608/gKAusMeX_400x400.jpeg',
     content: (
       <>
         🥳🎊🥳🎊🥳🎊🥳🎊 The @reactnative website just migrated to{' '}
@@ -285,14 +268,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'slorber',
   },
   {
     url: 'https://twitter.com/iansu/status/1184149586048245760',
     handle: 'iansu',
     name: 'Ian Sutherland',
     date: 'Oct 16, 2019',
-    avatar:
-      'https://pbs.twimg.com/profile_images/916780671552516096/yzDVUVKY_400x400.jpg',
     content: (
       <>
         We just updated the Create React App docs to Docusaurus v2. Now with
@@ -306,14 +288,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'iansu',
   },
   {
     url: 'https://twitter.com/mweststrate/status/1181276252293853186',
     handle: 'mweststrate',
     name: 'Michel Weststrate',
     date: 'Oct 8, 2019',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1192174732189339649/NYGFeR-K_400x400.jpg',
     content: (
       <>
         New #mobx docs are online! More modern, fixing many UI issues.
@@ -327,14 +308,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'mweststrate',
   },
   {
     url: 'https://twitter.com/verdaccio_npm/status/1420187249145118722',
     handle: 'verdaccio_npm',
     name: 'verdaccio',
     date: 'Jul 28, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1423143362232823809/4khdTyVZ_400x400.png',
     content: (
       <>
         The new website has landed 🚀 powered by <b>@docusaurus</b> v2 and made
@@ -344,6 +324,7 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'verdaccio',
   },
 
   {
@@ -351,8 +332,6 @@ const TWEETS: TweetItem[] = [
     handle: 'yangshunz',
     name: 'Yangshun Tay',
     date: 'Jul 19, 2020',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1247950572096868352/3kuZJz5j_400x400.jpg',
     content: (
       <>
         I made a <b>@docusaurus</b> website for answers to the H5BP Front End
@@ -361,6 +340,7 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'yangshun',
   },
 
   {
@@ -368,8 +348,6 @@ const TWEETS: TweetItem[] = [
     handle: 'pierregillesl',
     name: 'Pierre-Gilles Leymarie',
     date: 'Mar 19, 2021',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1302550637197000705/pg5XF8rA_400x400.jpg',
     content: (
       <>
         Just upgraded our website to <b>@docusaurus</b> latest with
@@ -384,14 +362,13 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'Pierre-Gilles',
   },
   {
     url: 'https://twitter.com/biantris_/status/1480259279487741953',
     handle: 'biantris_',
     name: 'biazita',
     date: 'Jan 10, 2022',
-    avatar:
-      'https://pbs.twimg.com/profile_images/1371525161829208064/UCzm0Zye_400x400.jpg',
     content: (
       <>
         Today I tried <b>@docusaurus</b> in a project, I really like the ease
@@ -399,6 +376,7 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: false,
+    githubUsername: 'biantris',
   },
 ];
 
