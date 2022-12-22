@@ -11,8 +11,6 @@ import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {useAlgoliaThemeConfig} from './useAlgoliaThemeConfig';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
-type Replacer = (pathname: string) => string;
-
 function replacePathname(
   pathname: string,
   replaceSearchResultPathname: ThemeConfig['algolia']['replaceSearchResultPathname'],
@@ -25,8 +23,11 @@ function replacePathname(
     : pathname;
 }
 
-// Translate search-engine agnostic search filters to Algolia search filters
-export function useSearchResultUrlExtractor(): Replacer {
+/**
+ * Process the search result url from Algolia to its final form, ready to be
+ * navigated to or used as a link
+ */
+export function useSearchResultUrlProcessor(): (url: string) => string {
   const {withBaseUrl} = useBaseUrlUtils();
   const {
     algolia: {externalUrlRegex, replaceSearchResultPathname},

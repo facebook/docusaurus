@@ -30,7 +30,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   useAlgoliaThemeConfig,
-  useSearchResultUrlExtractor,
+  useSearchResultUrlProcessor,
 } from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
 
@@ -163,7 +163,7 @@ function SearchPageContent(): JSX.Element {
   const {
     algolia: {appId, apiKey, indexName},
   } = useAlgoliaThemeConfig();
-  const extractSearchResultUrl = useSearchResultUrlExtractor();
+  const processSearchResultUrl = useSearchResultUrlProcessor();
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
@@ -251,7 +251,7 @@ function SearchPageContent(): JSX.Element {
           );
           return {
             title: titles.pop()!,
-            url: extractSearchResultUrl(url),
+            url: processSearchResultUrl(url),
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',

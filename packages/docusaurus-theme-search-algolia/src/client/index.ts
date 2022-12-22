@@ -7,4 +7,4 @@
 
 export {useAlgoliaThemeConfig} from './useAlgoliaThemeConfig';
 export {useAlgoliaContextualFacetFilters} from './useAlgoliaContextualFacetFilters';
-export {useSearchResultUrlExtractor} from './useSearchResultUrlExtractor';
+export {useSearchResultUrlProcessor} from './useSearchResultUrlProcessor';

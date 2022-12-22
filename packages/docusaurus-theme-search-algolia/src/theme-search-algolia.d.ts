@@ -33,7 +33,7 @@ declare module '@docusaurus/theme-search-algolia/client' {
 
   export function useAlgoliaContextualFacetFilters(): [string, string[]];
 
-  export function useSearchResultUrlExtractor(): (url: string) => string;
+  export function useSearchResultUrlProcessor(): (url: string) => string;
 }
 
 declare module '@theme/SearchPage' {

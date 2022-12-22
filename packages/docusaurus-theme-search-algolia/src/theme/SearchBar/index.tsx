@@ -14,7 +14,7 @@ import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {useSearchPage} from '@docusaurus/theme-common/internal';
 import {
   useAlgoliaContextualFacetFilters,
-  useSearchResultUrlExtractor,
+  useSearchResultUrlProcessor,
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -90,7 +90,7 @@ function DocSearch({
   ...props
 }: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
-  const extractSearchResultUrl = useSearchResultUrlExtractor();
+  const processSearchResultUrl = useSearchResultUrlProcessor();
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -175,9 +175,9 @@ function DocSearch({
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
       items.map((item) => ({
-          ...item,
-          url: extractSearchResultUrl(item.url),
-        })),
+        ...item,
+        url: processSearchResultUrl(item.url),
+      })),
   ).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
