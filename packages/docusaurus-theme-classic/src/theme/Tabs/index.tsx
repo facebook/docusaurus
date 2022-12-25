@@ -5,17 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  cloneElement,
-  isValidElement,
-  useCallback,
-  useEffect,
-  useState,
-  type ReactElement,
-} from 'react';
+import React, {cloneElement, isValidElement, type ReactElement} from 'react';
 import clsx from 'clsx';
-import {useHistory, useLocation} from '@docusaurus/router';
-import {duplicates, useEvent} from '@docusaurus/theme-common';
+import {duplicates} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
   useTabGroupChoice,
@@ -31,57 +23,6 @@ function isTabItem(
   comp: ReactElement<object>,
 ): comp is ReactElement<TabItemProps> {
   return 'value' in comp.props;
-}
-
-function getSearchKey({
-  queryString = false,
-  groupId,
-}: Pick<Props, 'queryString' | 'groupId'>) {
-  if (typeof queryString === 'string') {
-    return queryString;
-  }
-  if (queryString === false) {
-    return undefined;
-  }
-  if (queryString === true && !groupId) {
-    throw new Error(
-      `Docusaurus error: The <Tabs> component groupId prop is required if queryString=true, because this value is used as the search param name. You can also provide an explicit value such as queryString="my-search-param".`,
-    );
-  }
-  return groupId;
-}
-
-function useTabQueryString({
-  queryString = false,
-  groupId,
-}: Pick<Props, 'queryString' | 'groupId'>) {
-  // TODO not re-render optimized
-  // See https://thisweekinreact.com/articles/useSyncExternalStore-the-underrated-react-api
-  const location = useLocation();
-  const history = useHistory();
-
-  const searchKey = getSearchKey({queryString, groupId});
-
-  const get = useCallback(() => {
-    if (!searchKey) {
-      return undefined;
-    }
-    return new URLSearchParams(location.search).get(searchKey);
-  }, [searchKey, location.search]);
-
-  const set = useCallback(
-    (newTabValue: string) => {
-      if (!searchKey) {
-        return; // no-op
-      }
-      const searchParams = new URLSearchParams(location.search);
-      searchParams.set(searchKey, newTabValue);
-      history.replace({...location, search: searchParams.toString()});
-    },
-    [searchKey, history, location],
-  );
-
-  return {get, set};
 }
 
 function TabsComponent(props: Props): JSX.Element {
@@ -107,7 +48,6 @@ function TabsComponent(props: Props): JSX.Element {
       }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
     );
   });
-  const tabQueryString = useTabQueryString({queryString, groupId});
   const values =
     valuesProp ??
     // Only pick keys that we recognize. MDX would inject some keys by default
@@ -140,45 +80,20 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
-  const {
-    ready: tabGroupChoicesReady,
-    tabGroupChoices,
-    setTabGroupChoices,
-  } = useTabGroupChoice();
   const defaultValue =
     defaultValueProp !== undefined
       ? defaultValueProp
       : children.find((child) => child.props.default)?.props.value ??
         children[0]!.props.value;
-
-  const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const {selectedValue, setTabGroupChoice} = useTabGroupChoice(
+    groupId,
+    queryString,
+    defaultValue,
+    values,
+  );
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
     useScrollPositionBlocker();
-
-  // Lazily restore the appropriate tab selected value
-  // We can't read queryString/localStorage on first render
-  // It would trigger a React SSR/client hydration mismatch
-  const restoreTabSelectedValue = useEvent(() => {
-    // wait for localStorage values to be set (initially empty object :s)
-    if (tabGroupChoicesReady) {
-      // querystring value > localStorage value
-      const valueToRestore =
-        tabQueryString.get() ?? (groupId && tabGroupChoices[groupId]);
-      const isValid =
-        valueToRestore &&
-        values.some((value) => value.value === valueToRestore);
-      if (isValid) {
-        setSelectedValue(valueToRestore);
-      }
-    }
-  });
-  useEffect(() => {
-    // wait for localStorage values to be set (initially empty object :s)
-    if (tabGroupChoicesReady) {
-      restoreTabSelectedValue();
-    }
-  }, [tabGroupChoicesReady, restoreTabSelectedValue]);
 
   const handleTabChange = (
     event:
@@ -192,11 +107,7 @@ function TabsComponent(props: Props): JSX.Element {
 
     if (newTabValue !== selectedValue) {
       blockElementScrollPositionUntilNextRender(newTab);
-      setSelectedValue(newTabValue);
-      tabQueryString.set(newTabValue);
-      if (groupId != null) {
-        setTabGroupChoices(groupId, String(newTabValue));
-      }
+      setTabGroupChoice(newTabValue);
     }
   };
 
