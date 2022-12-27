@@ -44,7 +44,7 @@ We don't provide support for:
 
 Overview of the workflow to create a translated Docusaurus website:
 
-1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
+1. **Configure**: declare the default locale and alternative locales in [`docusaurus.config.js`](../api/docusaurus.config.js.md#i18n)
 2. **Translate**: put the translation files at the correct filesystem location
 3. **Deploy**: build and deploy your site using a single or multi-domain strategy
 

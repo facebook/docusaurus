@@ -10,6 +10,7 @@ import {
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
+  RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
@@ -56,10 +57,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   archiveBasePath: Joi.string()
     .default(DEFAULT_OPTIONS.archiveBasePath)
     .allow(null),
-  routeBasePath: Joi.string()
-    // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
-    // .allow('')
-    .default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),

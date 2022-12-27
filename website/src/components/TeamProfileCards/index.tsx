@@ -53,14 +53,14 @@ function TeamProfileCard({
         <div className="card__footer">
           <div className="button-group button-group--block">
             {githubUrl && (
-              <a className="button button--secondary" href={githubUrl}>
+              <Link className="button button--secondary" href={githubUrl}>
                 GitHub
-              </a>
+              </Link>
             )}
             {twitterUrl && (
-              <a className="button button--secondary" href={twitterUrl}>
+              <Link className="button button--secondary" href={twitterUrl}>
                 Twitter
-              </a>
+              </Link>
             )}
           </div>
         </div>

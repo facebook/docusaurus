@@ -40,7 +40,7 @@ describe('validateOptions', () => {
       ...defaultOptions,
       feedOptions: {type: 'rss' as const, title: 'myTitle'},
       path: 'not_blog',
-      routeBasePath: 'myBlog',
+      routeBasePath: '/myBlog',
       postsPerPage: 5,
       include: ['api/*', 'docs/*'],
     };
@@ -53,7 +53,7 @@ describe('validateOptions', () => {
   it('accepts valid user options', () => {
     const userOptions: Options = {
       ...defaultOptions,
-      routeBasePath: 'myBlog',
+      routeBasePath: '/myBlog',
       beforeDefaultRemarkPlugins: [],
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],

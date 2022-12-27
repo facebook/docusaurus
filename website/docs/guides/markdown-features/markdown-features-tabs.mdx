@@ -318,3 +318,63 @@ li[role='tab'][data-value='apple'] {
 ```
 
 :::
+
+## Query string {#query-string}
+
+It is possible to persist the selected tab into the url search parameters. This enables deep linking: the ability to share or bookmark a link to a specific tab, that will be pre-selected when the page loads.
+
+Use the `queryString` prop to enable this feature and define the search param name to use.
+
+```tsx
+// highlight-next-line
+<Tabs queryString="current-os">
+  <TabItem value="android" label="Android">
+    Android
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString='current-os'>
+    <TabItem value="android" label="Android">Android</TabItem>
+    <TabItem value="ios" label="iOS">iOS</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+As soon as a tab is clicked, a search parameter is added at the end of the url: `?current-os=android` or `?current-os=ios`.
+
+:::tip
+
+`queryString` can be used together with `groupId`.
+
+For convenience, when the `queryString` prop is `true`, the `groupId` value will be used as a fallback.
+
+```tsx
+// highlight-next-line
+<Tabs groupId="current-os" queryString>
+  <TabItem value="android" label="Android">
+    Android
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString groupId="current-os">
+    <TabItem value="android" label="Android">Android</TabItem>
+    <TabItem value="ios" label="iOS">iOS</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+When the page loads, the tab query string choice will be restored in priority over the `groupId` choice (using `localStorage`).
+
+:::

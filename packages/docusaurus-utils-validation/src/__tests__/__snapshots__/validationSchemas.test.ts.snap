@@ -130,4 +130,12 @@ exports[`validation schemas remarkPluginsSchema: for value=false 1`] = `""value"
 
 exports[`validation schemas remarkPluginsSchema: for value=null 1`] = `""value" must be an array"`;
 
+exports[`validation schemas routeBasePathSchema: for value=[] 1`] = `""value" must be a string"`;
+
+exports[`validation schemas routeBasePathSchema: for value={} 1`] = `""value" must be a string"`;
+
+exports[`validation schemas routeBasePathSchema: for value=3 1`] = `""value" must be a string"`;
+
+exports[`validation schemas routeBasePathSchema: for value=null 1`] = `""value" must be a string"`;
+
 exports[`validation schemas uRISchema: for value="spaces are invalid in a URL" 1`] = `""value" does not look like a valid url (value='')"`;

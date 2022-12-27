@@ -81,9 +81,9 @@ export default function Version(): JSX.Element {
                   </Link>
                 </td>
                 <td>
-                  <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
+                  <Link to={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
                     <ReleaseNotesLabel />
-                  </a>
+                  </Link>
                 </td>
               </tr>
             </tbody>
