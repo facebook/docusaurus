@@ -511,7 +511,17 @@ type BlogOptions = {
     description?: string;
     copyright: string;
     language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-    filter?: (blogPost: BlogPost, index?: number) => boolean;
+    /** Allow control over the construction of BlogFeedItems */
+    createFeedItems?: (options: {
+      blogPosts: BlogPost[];
+      siteConfig: DocusaurusConfig;
+      outDir: string;
+      defaultCreateFeedItems: (params: {
+        blogPosts: BlogPost[];
+        siteConfig: DocusaurusConfig;
+        outDir: string;
+      }) => Promise<BlogFeedItem[]>;
+    }) => Promise<BlogFeedItem[]>;
   };
 };
 ```
@@ -530,6 +540,16 @@ module.exports = {
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+            createFeedItems: async (options) => {
+              const {blogPosts, defaultCreateFeedItems, ...others} = options;
+              const blogPostsFiltered = blogPosts.filter(
+                (item, index) => index < 2,
+              );
+              return defaultCreateFeedItems({
+                blogPosts: blogPostsFiltered,
+                ...others,
+              });
+            },
           },
           // highlight-end
         },

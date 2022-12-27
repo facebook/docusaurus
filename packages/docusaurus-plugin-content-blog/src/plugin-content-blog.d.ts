@@ -263,8 +263,17 @@ declare module '@docusaurus/plugin-content-blog' {
     copyright: string;
     /** Language of the feed. */
     language?: string;
-    /** Filter that can be applied to reduce the number of entries */
-    filter?: (blogPost: BlogPost, index: number) => boolean;
+    /** Allow control over the construction of BlogFeedItems */
+    createFeedItems?: (options: {
+      blogPosts: BlogPost[];
+      siteConfig: DocusaurusConfig;
+      outDir: string;
+      defaultCreateFeedItems: (params: {
+        blogPosts: BlogPost[];
+        siteConfig: DocusaurusConfig;
+        outDir: string;
+      }) => Promise<BlogFeedItem[]>;
+    }) => Promise<BlogFeedItem[]>;
   };
 
   /**
@@ -451,6 +460,52 @@ declare module '@docusaurus/plugin-content-blog' {
     id: string;
     metadata: BlogPostMetadata;
     content: string;
+  };
+
+  export type BlogFeedItem = {
+    title: string;
+    id?: string;
+    link: string;
+    date: Date;
+    description?: string;
+    content?: string;
+    category?: Category[];
+    guid?: string;
+    image?: string | Enclosure;
+    audio?: string | Enclosure;
+    video?: string | Enclosure;
+    enclosure?: Enclosure;
+    author?: BlogFeedItemAuthor[];
+    contributor?: BlogFeedItemAuthor[];
+    published?: Date;
+    copyright?: string;
+    extensions?: Extension[];
+  };
+
+  export type BlogFeedItemAuthor = {
+    name?: string;
+    email?: string;
+    link?: string;
+  };
+
+  export type Enclosure = {
+    url: string;
+    type?: string;
+    length?: number;
+    title?: string;
+    duration?: number;
+  };
+
+  export type Extension = {
+    name: string;
+    objects: unknown;
+  };
+
+  export type Category = {
+    name?: string;
+    domain?: string;
+    scheme?: string;
+    term?: string;
   };
 
   export type BlogPaginatedMetadata = {

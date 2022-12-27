@@ -341,7 +341,11 @@ const config = {
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
-            filter: (items, index) => index < 2,
+            createFeedItems: async (options) => {
+              const { blogPosts, defaultCreateFeedItems, ...others } = options;
+              const blogPostsFiltered = blogPosts.filter((item, index) => index < 2);
+              return defaultCreateFeedItems({ blogPosts: blogPostsFiltered, ...others });
+            }
           },
           blogSidebarCount: 'ALL',
           blogSidebarTitle: 'All our posts',

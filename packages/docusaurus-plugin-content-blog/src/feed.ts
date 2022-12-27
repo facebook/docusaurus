@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
-import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
+import {Feed, type Author as FeedAuthor} from 'feed';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
@@ -18,6 +18,7 @@ import type {
   PluginOptions,
   Author,
   BlogPost,
+  BlogFeedItem,
 } from '@docusaurus/plugin-content-blog';
 
 async function generateBlogFeed({
@@ -54,11 +55,35 @@ async function generateBlogFeed({
     copyright: feedOptions.copyright,
   });
 
+  const feedItems = await (feedOptions.createFeedItems
+    ? feedOptions.createFeedItems({
+        blogPosts,
+        siteConfig,
+        outDir,
+        defaultCreateFeedItems,
+      })
+    : defaultCreateFeedItems({blogPosts, siteConfig, outDir}));
+  feedItems.forEach(feed.addItem);
+
+  return feed;
+}
+
+async function defaultCreateFeedItems({
+  blogPosts,
+  siteConfig,
+  outDir,
+}: {
+  blogPosts: BlogPost[];
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+}): Promise<BlogFeedItem[]> {
+  const {url: siteUrl} = siteConfig;
+
   function toFeedAuthor(author: Author): FeedAuthor {
     return {name: author.name, link: author.url, email: author.email};
   }
 
-  await Promise.all(
+  const items = await Promise.all(
     blogPosts.map(async (post) => {
       const {
         id,
@@ -79,7 +104,7 @@ async function generateBlogFeed({
       );
       const $ = cheerioLoad(content);
 
-      const feedItem: FeedItem = {
+      const feedItem: BlogFeedItem = {
         title: metadataTitle,
         id,
         link: normalizeUrl([siteUrl, permalink]),
@@ -99,9 +124,8 @@ async function generateBlogFeed({
 
       return feedItem;
     }),
-  ).then((items) => items.forEach(feed.addItem));
-
-  return feed;
+  );
+  return items;
 }
 
 async function createBlogFeedFile({
@@ -154,12 +178,9 @@ export async function createBlogFeedFiles({
   locale: string;
 }): Promise<void> {
   const blogPosts = allBlogPosts.filter(shouldBeInFeed);
-  const filteredBlogPosts = options.feedOptions.filter
-    ? blogPosts.filter(options.feedOptions.filter)
-    : blogPosts;
 
   const feed = await generateBlogFeed({
-    blogPosts: filteredBlogPosts,
+    blogPosts,
     options,
     siteConfig,
     outDir,
