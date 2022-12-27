@@ -10,12 +10,18 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
-  import type {FeedItem} from 'feed';
+  import type {Item as FeedItem} from 'feed';
   import type {Overwrite} from 'utility-types';
 
   export type Assets = {
     /**
-     * If `metadata.image` is a collocated image path, this entry will be the
+     * If `metadata.yarn workspace website typecheck
+4
+yarn workspace v1.22.19yarn workspace website typecheck
+4
+yarn workspace v1.22.19yarn workspace website typecheck
+4
+yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * bundler-generated image path. Otherwise, it's empty, and the image URL
      * should be accessed through `frontMatter.image`.
      */
