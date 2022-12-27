@@ -9,7 +9,7 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
-  import type {Plugin, LoadContext} from '@docusaurus/types';
+  import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite} from 'utility-types';
 
   export type Assets = {
