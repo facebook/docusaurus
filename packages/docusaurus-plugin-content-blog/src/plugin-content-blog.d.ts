@@ -10,6 +10,7 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
+  import type {FeedItem} from 'feed';
   import type {Overwrite} from 'utility-types';
 
   export type Assets = {
@@ -264,16 +265,21 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Language of the feed. */
     language?: string;
     /** Allow control over the construction of BlogFeedItems */
-    createFeedItems?: (options: {
-      blogPosts: BlogPost[];
-      siteConfig: DocusaurusConfig;
-      outDir: string;
-      defaultCreateFeedItems: (params: {
-        blogPosts: BlogPost[];
-        siteConfig: DocusaurusConfig;
-        outDir: string;
-      }) => Promise<BlogFeedItem[]>;
-    }) => Promise<BlogFeedItem[]>;
+    createFeedItems?: (
+      options: CreateFeedItemsOptions,
+    ) => Promise<BlogFeedItem[]>;
+  };
+
+  type DefaultCreateFeedItemsOptions = {
+    blogPosts: BlogPost[];
+    siteConfig: DocusaurusConfig;
+    outDir: string;
+  };
+
+  type CreateFeedItemsOptions = DefaultCreateFeedItemsOptions & {
+    defaultCreateFeedItems: (
+      params: DefaultCreateFeedItemsOptions,
+    ) => Promise<BlogFeedItem[]>;
   };
 
   /**
@@ -462,51 +468,7 @@ declare module '@docusaurus/plugin-content-blog' {
     content: string;
   };
 
-  export type BlogFeedItem = {
-    title: string;
-    id?: string;
-    link: string;
-    date: Date;
-    description?: string;
-    content?: string;
-    category?: Category[];
-    guid?: string;
-    image?: string | Enclosure;
-    audio?: string | Enclosure;
-    video?: string | Enclosure;
-    enclosure?: Enclosure;
-    author?: BlogFeedItemAuthor[];
-    contributor?: BlogFeedItemAuthor[];
-    published?: Date;
-    copyright?: string;
-    extensions?: Extension[];
-  };
-
-  export type BlogFeedItemAuthor = {
-    name?: string;
-    email?: string;
-    link?: string;
-  };
-
-  export type Enclosure = {
-    url: string;
-    type?: string;
-    length?: number;
-    title?: string;
-    duration?: number;
-  };
-
-  export type Extension = {
-    name: string;
-    objects: unknown;
-  };
-
-  export type Category = {
-    name?: string;
-    domain?: string;
-    scheme?: string;
-    term?: string;
-  };
+  export type BlogFeedItem = FeedItem;
 
   export type BlogPaginatedMetadata = {
     /** Title of the entire blog. */
