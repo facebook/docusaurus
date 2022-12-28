@@ -1232,42 +1232,17 @@ declare module '@theme/Mermaid' {
 }
 
 declare module '@theme/TabItem' {
-  import type {ReactNode} from 'react';
+  import type {TabItemProps} from '@docusaurus/theme-common/internal';
 
-  export interface Props {
-    readonly children: ReactNode;
-    readonly value: string;
-    readonly default?: boolean;
-    readonly label?: string;
-    readonly hidden?: boolean;
-    readonly className?: string;
-    readonly attributes?: {[key: string]: unknown};
-  }
+  export interface Props extends TabItemProps {}
 
   export default function TabItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/Tabs' {
-  import type {ReactElement} from 'react';
-  import type {Props as TabItemProps} from '@theme/TabItem';
+  import type {TabsProps} from '@docusaurus/theme-common/internal';
 
-  export interface TabValue {
-    value: string;
-    readonly label?: string;
-    readonly attributes?: {[key: string]: unknown};
-    readonly default?: boolean;
-  }
-
-  export interface Props {
-    readonly lazy?: boolean;
-    readonly block?: boolean;
-    readonly children: readonly ReactElement<TabItemProps>[];
-    readonly defaultValue?: string | null;
-    readonly values?: readonly TabValue[];
-    readonly groupId?: string;
-    readonly className?: string;
-    readonly queryString?: string | boolean;
-  }
+  export interface Props extends TabsProps {}
 
   export default function Tabs(props: Props): JSX.Element;
 }

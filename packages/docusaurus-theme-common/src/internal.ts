@@ -42,6 +42,9 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
+export {useTabs} from './utils/tabsUtils';
+export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
+
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
 
