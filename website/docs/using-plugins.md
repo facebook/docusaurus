@@ -168,7 +168,7 @@ module.exports = {
         blog: {},
         // Will be passed to @docusaurus/plugin-content-pages (false to disable)
         pages: {},
-        // Will be passed to @docusaurus/plugin-content-sitemap (false to disable)
+        // Will be passed to @docusaurus/plugin-sitemap (false to disable)
         sitemap: {},
         // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
         gtag: {},
