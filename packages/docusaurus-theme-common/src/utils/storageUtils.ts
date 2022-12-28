@@ -181,7 +181,6 @@ export function createStorageSlot(
     listen: (onChange) => {
       try {
         return subscribeChangeEvents((event) => {
-          console.log('event', event);
           if (event.storage === storage && event.key === key) {
             onChange(event.value);
           }
