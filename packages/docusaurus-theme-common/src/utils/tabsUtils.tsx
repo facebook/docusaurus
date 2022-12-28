@@ -180,9 +180,7 @@ function useTabQueryString({
   groupId,
 }: Pick<TabsProps, 'queryString' | 'groupId'>) {
   const history = useHistory();
-
   const key = getQueryStringKey({queryString, groupId});
-
   const value = useQueryStringValue(key);
 
   const setValue = useCallback(
@@ -219,7 +217,6 @@ function useTabStorage({groupId}: Pick<TabsProps, 'groupId'>) {
 
 export function useTabs(props: TabsProps) {
   const {defaultValue, queryString = false, groupId} = props;
-
   const tabValues = useTabValues(props);
 
   const [selectedValue, setSelectedValueState] = useState(() =>
