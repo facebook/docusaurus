@@ -55,14 +55,16 @@ async function generateBlogFeed({
     copyright: feedOptions.copyright,
   });
 
-  const feedItems = await (feedOptions.createFeedItems
-    ? feedOptions.createFeedItems({
-        blogPosts,
-        siteConfig,
-        outDir,
-        defaultCreateFeedItems,
-      })
-    : defaultCreateFeedItems({blogPosts, siteConfig, outDir}));
+  const createFeedItems =
+    options.feedOptions.createFeedItems ?? defaultCreateFeedItems;
+
+  const feedItems = await createFeedItems({
+    blogPosts,
+    siteConfig,
+    outDir,
+    defaultCreateFeedItems,
+  });
+
   feedItems.forEach(feed.addItem);
 
   return feed;
@@ -83,7 +85,7 @@ async function defaultCreateFeedItems({
     return {name: author.name, link: author.url, email: author.email};
   }
 
-  const items = await Promise.all(
+  return Promise.all(
     blogPosts.map(async (post) => {
       const {
         metadata: {
@@ -125,7 +127,6 @@ async function defaultCreateFeedItems({
       return feedItem;
     }),
   );
-  return items;
 }
 
 async function createBlogFeedFile({
