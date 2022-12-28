@@ -84,7 +84,11 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
-export {useHistoryPopHandler} from './utils/historyUtils';
+export {
+  useHistoryPopHandler,
+  useHistorySelector,
+  useQueryStringValue,
+} from './utils/historyUtils';
 
 export {
   useFilteredAndTreeifiedTOC,

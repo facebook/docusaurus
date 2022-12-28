@@ -1251,16 +1251,19 @@ declare module '@theme/Tabs' {
   import type {ReactElement} from 'react';
   import type {Props as TabItemProps} from '@theme/TabItem';
 
+  export interface TabValue {
+    value: string;
+    readonly label?: string;
+    readonly attributes?: {[key: string]: unknown};
+    readonly default?: boolean;
+  }
+
   export interface Props {
     readonly lazy?: boolean;
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string | null;
-    readonly values?: readonly {
-      value: string;
-      label?: string;
-      attributes?: {[key: string]: unknown};
-    }[];
+    readonly values?: readonly TabValue[];
     readonly groupId?: string;
     readonly className?: string;
     readonly queryString?: string | boolean;

@@ -5,11 +5,56 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {useCallback, useRef} from 'react';
+// @ts-expect-error: TODO temp error until React 18 upgrade
+import {useSyncExternalStore} from 'use-sync-external-store/shim';
+
 const StorageTypes = ['localStorage', 'sessionStorage', 'none'] as const;
 
 export type StorageType = typeof StorageTypes[number];
 
 const DefaultStorageType: StorageType = 'localStorage';
+
+// Because we need our own event system to allow subscribing to events
+// window.addEventListener('storage') only works for different windows...
+// see https://stackoverflow.com/questions/26974084/listen-for-changes-with-localstorage-on-the-same-window
+interface StorageSlotChangeEvent {
+  key: string;
+  value: string | null;
+  storage: Storage;
+}
+
+const CustomEventName = 'StorageSlotChangeEvent';
+
+function dispatchChangeEvent({
+  key,
+  value,
+  storage,
+}: {
+  key: string;
+  value: string | null;
+  storage: Storage;
+}) {
+  const event = new CustomEvent<StorageSlotChangeEvent>(CustomEventName, {
+    detail: {
+      key,
+      value,
+      storage,
+    },
+  });
+  window.dispatchEvent(event);
+}
+
+function subscribeChangeEvents(
+  onChange: (event: StorageSlotChangeEvent) => void,
+): () => void {
+  const listener = (domEvent: CustomEvent<StorageSlotChangeEvent>) =>
+    onChange(domEvent.detail);
+  // @ts-expect-error: TODO custom events are annoying to type
+  window.addEventListener(CustomEventName, listener);
+  // @ts-expect-error: TODO custom events are annoying to type
+  return () => window.removeEventListener(CustomEventName, listener);
+}
 
 /**
  * Will return `null` if browser storage is unavailable (like running Docusaurus
@@ -58,12 +103,14 @@ export type StorageSlot = {
   get: () => string | null;
   set: (value: string) => void;
   del: () => void;
+  listen: (onChange: (value: string | null) => void) => () => void;
 };
 
 const NoopStorageSlot: StorageSlot = {
   get: () => null,
   set: () => {},
   del: () => {},
+  listen: () => () => {},
 };
 
 // Fail-fast, as storage APIs should not be used during the SSR process
@@ -78,6 +125,7 @@ Please only call storage APIs in effects and event handlers.`);
     get: throwError,
     set: throwError,
     del: throwError,
+    listen: throwError,
   };
 }
 
@@ -98,14 +146,14 @@ export function createStorageSlot(
   if (typeof window === 'undefined') {
     return createServerStorageSlot(key);
   }
-  const browserStorage = getBrowserStorage(options?.persistence);
-  if (browserStorage === null) {
+  const storage = getBrowserStorage(options?.persistence);
+  if (storage === null) {
     return NoopStorageSlot;
   }
   return {
     get: () => {
       try {
-        return browserStorage.getItem(key);
+        return storage.getItem(key);
       } catch (err) {
         console.error(`Docusaurus storage error, can't get key=${key}`, err);
         return null;
@@ -113,7 +161,8 @@ export function createStorageSlot(
     },
     set: (value) => {
       try {
-        browserStorage.setItem(key, value);
+        storage.setItem(key, value);
+        dispatchChangeEvent({key, value, storage});
       } catch (err) {
         console.error(
           `Docusaurus storage error, can't set ${key}=${value}`,
@@ -123,12 +172,67 @@ export function createStorageSlot(
     },
     del: () => {
       try {
-        browserStorage.removeItem(key);
+        storage.removeItem(key);
+        dispatchChangeEvent({key, value: null, storage});
       } catch (err) {
         console.error(`Docusaurus storage error, can't delete key=${key}`, err);
       }
     },
+    listen: (onChange) => {
+      try {
+        return subscribeChangeEvents((event) => {
+          console.log('event', event);
+          if (event.storage === storage && event.key === key) {
+            onChange(event.value);
+          }
+        });
+      } catch (err) {
+        console.error(
+          `Docusaurus storage error, can't listen for changes of key=${key}`,
+          err,
+        );
+        return () => {};
+      }
+    },
   };
+}
+
+export function useStorageSlot(
+  key: string | null,
+  options?: {persistence?: StorageType},
+): [string | null, StorageSlot] {
+  // Not ideal but good enough: assumes storage slot config is constant
+  const storageSlot = useRef(() => {
+    if (key === null) {
+      return NoopStorageSlot;
+    }
+    return createStorageSlot(key, options);
+  }).current();
+
+  const listen: StorageSlot['listen'] = useCallback(
+    (onChange) => {
+      // Do not try to add a listener during SSR
+      if (typeof window === 'undefined') {
+        return () => {};
+      }
+      return storageSlot.listen(onChange);
+    },
+    [storageSlot],
+  );
+
+  const currentValue = useSyncExternalStore(
+    listen,
+    () => {
+      // TODO this check should be useless after React 18
+      if (typeof window === 'undefined') {
+        return null;
+      }
+      return storageSlot.get();
+    },
+    () => null,
+  );
+
+  return [currentValue, storageSlot];
 }
 
 /**
