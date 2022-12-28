@@ -42,11 +42,6 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {
-  useTabGroupChoice,
-  TabGroupChoiceProvider,
-} from './contexts/tabGroupChoice';
-
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
 

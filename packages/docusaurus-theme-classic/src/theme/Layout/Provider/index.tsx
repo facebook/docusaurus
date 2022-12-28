@@ -9,7 +9,6 @@ import React from 'react';
 import {composeProviders} from '@docusaurus/theme-common';
 import {
   ColorModeProvider,
-  TabGroupChoiceProvider,
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
   ScrollControllerProvider,
@@ -21,7 +20,6 @@ import type {Props} from '@theme/Layout/Provider';
 const Provider = composeProviders([
   ColorModeProvider,
   AnnouncementBarProvider,
-  TabGroupChoiceProvider,
   ScrollControllerProvider,
   DocsPreferredVersionContextProvider,
   PluginHtmlClassNameProvider,
