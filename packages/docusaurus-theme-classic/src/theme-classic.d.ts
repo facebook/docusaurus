@@ -1371,3 +1371,7 @@ declare module '@theme/prism-include-languages' {
     PrismObject: typeof PrismNamespace,
   ): void;
 }
+
+declare module '@theme/DocBreadcrumbs/Items/Home' {
+  export default function HomeBreadcrumbItem(): JSX.Element;
+}
