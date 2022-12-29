@@ -143,6 +143,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The color mode toggle to switch between light and dark mode.',
       },
+      'DocBreadcrumbs/Items': {
+        actions: {
+          eject: 'unsafe',
+          wrap: 'forbidden', // Can't wrap a folder
+        },
+        description:
+          'The components responsible for rendering the breadcrumb items',
+      },
       DocCardList: {
         actions: {
           eject: 'safe',
