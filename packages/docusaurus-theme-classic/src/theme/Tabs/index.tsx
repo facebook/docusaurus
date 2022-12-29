@@ -19,7 +19,7 @@ function TabList({
   className,
   block,
   selectedValue,
-  setSelectedValue,
+  selectValue,
   tabValues,
 }: Props & ReturnType<typeof useTabs>) {
   const tabRefs: (HTMLLIElement | null)[] = [];
@@ -38,7 +38,7 @@ function TabList({
 
     if (newTabValue !== selectedValue) {
       blockElementScrollPositionUntilNextRender(newTab);
-      setSelectedValue(newTabValue);
+      selectValue(newTabValue);
     }
   };
 

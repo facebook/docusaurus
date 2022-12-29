@@ -215,11 +215,15 @@ function useTabStorage({groupId}: Pick<TabsProps, 'groupId'>) {
   return [value, setValue] as const;
 }
 
-export function useTabs(props: TabsProps) {
+export function useTabs(props: TabsProps): {
+  selectedValue: string;
+  selectValue: (value: string) => void;
+  tabValues: readonly TabValue[];
+} {
   const {defaultValue, queryString = false, groupId} = props;
   const tabValues = useTabValues(props);
 
-  const [selectedValue, setSelectedValueState] = useState(() =>
+  const [selectedValue, setSelectedValue] = useState(() =>
     getInitialStateValue({defaultValue, tabValues}),
   );
 
@@ -242,21 +246,21 @@ export function useTabs(props: TabsProps) {
   })();
   useEffect(() => {
     if (valueToSync) {
-      setSelectedValueState(valueToSync);
+      setSelectedValue(valueToSync);
     }
   }, [valueToSync]);
 
-  const setSelectedValue = useCallback(
+  const selectValue = useCallback(
     (newValue: string) => {
       if (!isValidValue({value: newValue, tabValues})) {
         throw new Error(`Can't select invalid tab value=${newValue}`);
       }
-      setSelectedValueState(newValue);
+      setSelectedValue(newValue);
       setQueryString(newValue);
       setStorageValue(newValue);
     },
     [setQueryString, setStorageValue, tabValues],
   );
 
-  return {selectedValue, setSelectedValue, tabValues};
+  return {selectedValue, selectValue, tabValues};
 }
