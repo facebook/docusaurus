@@ -511,6 +511,17 @@ type BlogOptions = {
     description?: string;
     copyright: string;
     language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+    /** Allow control over the construction of BlogFeedItems */
+    createFeedItems?: (params: {
+      blogPosts: BlogPost[];
+      siteConfig: DocusaurusConfig;
+      outDir: string;
+      defaultCreateFeedItems: (params: {
+        blogPosts: BlogPost[];
+        siteConfig: DocusaurusConfig;
+        outDir: string;
+      }) => Promise<BlogFeedItem[]>;
+    }) => Promise<BlogFeedItem[]>;
   };
 };
 ```
@@ -529,6 +540,14 @@ module.exports = {
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+            createFeedItems: async (params) => {
+              const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+              return defaultCreateFeedItems({
+                // keep only the 10 most recent blog posts in the feed
+                blogPosts: blogPosts.filter((item, index) => index < 10),
+                ...rest,
+              });
+            },
           },
           // highlight-end
         },

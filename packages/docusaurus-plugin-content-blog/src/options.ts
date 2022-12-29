@@ -122,6 +122,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
         .default(DEFAULT_OPTIONS.feedOptions.copyright),
     }),
     language: Joi.string(),
+    createFeedItems: Joi.function(),
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
