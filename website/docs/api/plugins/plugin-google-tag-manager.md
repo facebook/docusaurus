@@ -45,7 +45,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `tagManagerId` | `string` | **Required** | Your Tag Manager service Id (usually starts with `GTM-`). |
+| `containerId` | `string` | **Required** | Your Tag Manager container Id (usually starts with `GTM-`). |
 
 ```mdx-code-block
 </APITable>
@@ -66,6 +66,6 @@ Most Docusaurus users configure this plugin through the preset options.
 // Plugin Options: @docusaurus/plugin-google-tag-manager
 
 const config = {
-  tagManagerId: 'GTM-12345',
+  containerId: 'GTM-12345',
 };
 ```

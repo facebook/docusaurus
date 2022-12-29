@@ -6,7 +6,7 @@
  */
 
 export type PluginOptions = {
-  tagManagerId: string;
+  containerId: string;
 };
 
 export type Options = Partial<PluginOptions>;
