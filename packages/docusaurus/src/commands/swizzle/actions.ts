@@ -67,6 +67,7 @@ export async function eject({
       // When ejecting JS components, we want to avoid emitting TS files
       // In particular the .d.ts files that theme build output contains
       typescript ? null : '**/*.{d.ts,ts,tsx}',
+      '**/{__fixtures__,__tests__}/*',
     ]),
   });
 

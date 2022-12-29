@@ -110,9 +110,10 @@ describe('eject', () => {
   it(`eject ${Components.ComponentInFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
-      // TODO do we really want to copy those Sibling components?
-      // It's hard to filter those reliably
-      // (index.* is not good, we need to include styles.css too)
+      'ComponentInFolder/ComponentInSubFolder/index.css',
+      'ComponentInFolder/ComponentInSubFolder/index.tsx',
+      'ComponentInFolder/ComponentInSubFolder/styles.css',
+      'ComponentInFolder/ComponentInSubFolder/styles.module.css',
       'ComponentInFolder/Sibling.css',
       'ComponentInFolder/Sibling.tsx',
       'ComponentInFolder/index.css',
@@ -121,6 +122,11 @@ describe('eject', () => {
     expect(result.tree).toMatchInlineSnapshot(`
       "theme
       └── ComponentInFolder
+          ├── ComponentInSubFolder
+          │   ├── index.css
+          │   ├── index.tsx
+          │   ├── styles.css
+          │   └── styles.module.css
           ├── Sibling.css
           ├── Sibling.tsx
           ├── index.css
