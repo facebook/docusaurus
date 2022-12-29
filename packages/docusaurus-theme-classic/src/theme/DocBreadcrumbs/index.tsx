@@ -13,9 +13,8 @@ import {
   useHomePageRoute,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import {translate} from '@docusaurus/Translate';
-import IconHome from '@theme/Icon/Home';
+import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 
 import styles from './styles.module.css';
 
@@ -75,24 +74,6 @@ function BreadcrumbsItem({
       })}>
       {children}
       <meta itemProp="position" content={String(index + 1)} />
-    </li>
-  );
-}
-
-function HomeBreadcrumbItem() {
-  const homeHref = useBaseUrl('/');
-  return (
-    <li className="breadcrumbs__item">
-      <Link
-        aria-label={translate({
-          id: 'theme.docs.breadcrumbs.home',
-          message: 'Home page',
-          description: 'The ARIA label for the home page in the breadcrumbs',
-        })}
-        className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
-        href={homeHref}>
-        <IconHome className={styles.breadcrumbHomeIcon} />
-      </Link>
     </li>
   );
 }
