@@ -174,10 +174,14 @@ function DocSearch({
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
-      items.map((item) => ({
-        ...item,
-        url: processSearchResultUrl(item.url),
-      })),
+      props.transformItems
+        ? // Custom transformItems
+          props.transformItems(items)
+        : // Default transformItems
+          items.map((item) => ({
+            ...item,
+            url: processSearchResultUrl(item.url),
+          })),
   ).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
