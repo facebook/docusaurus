@@ -15,45 +15,34 @@ export type StorageType = typeof StorageTypes[number];
 
 const DefaultStorageType: StorageType = 'localStorage';
 
-// Because we need our own event system to allow subscribing to events
 // window.addEventListener('storage') only works for different windows...
+// so for current window we have to dispatch the event manually
+// Now we can listen for both cross-window / current-window storage changes!
+// see https://stackoverflow.com/a/71177640/82609
 // see https://stackoverflow.com/questions/26974084/listen-for-changes-with-localstorage-on-the-same-window
-interface StorageSlotChangeEvent {
-  key: string;
-  value: string | null;
-  storage: Storage;
-}
-
-const CustomEventName = 'StorageSlotChangeEvent';
-
 function dispatchChangeEvent({
   key,
-  value,
+  oldValue,
+  newValue,
   storage,
 }: {
   key: string;
-  value: string | null;
+  oldValue: string | null;
+  newValue: string | null;
   storage: Storage;
 }) {
-  const event = new CustomEvent<StorageSlotChangeEvent>(CustomEventName, {
-    detail: {
-      key,
-      value,
-      storage,
-    },
-  });
+  const event = document.createEvent('StorageEvent');
+  event.initStorageEvent(
+    'storage',
+    false,
+    false,
+    key,
+    oldValue,
+    newValue,
+    window.location.href,
+    storage,
+  );
   window.dispatchEvent(event);
-}
-
-function subscribeChangeEvents(
-  onChange: (event: StorageSlotChangeEvent) => void,
-): () => void {
-  const listener = (domEvent: CustomEvent<StorageSlotChangeEvent>) =>
-    onChange(domEvent.detail);
-  // @ts-expect-error: TODO custom events are annoying to type
-  window.addEventListener(CustomEventName, listener);
-  // @ts-expect-error: TODO custom events are annoying to type
-  return () => window.removeEventListener(CustomEventName, listener);
 }
 
 /**
@@ -103,7 +92,7 @@ export type StorageSlot = {
   get: () => string | null;
   set: (value: string) => void;
   del: () => void;
-  listen: (onChange: (value: string | null) => void) => () => void;
+  listen: (onChange: (event: StorageEvent) => void) => () => void;
 };
 
 const NoopStorageSlot: StorageSlot = {
@@ -159,32 +148,41 @@ export function createStorageSlot(
         return null;
       }
     },
-    set: (value) => {
+    set: (newValue) => {
       try {
-        storage.setItem(key, value);
-        dispatchChangeEvent({key, value, storage});
+        const oldValue = storage.getItem(key);
+        storage.setItem(key, newValue);
+        dispatchChangeEvent({
+          key,
+          oldValue,
+          newValue,
+          storage,
+        });
       } catch (err) {
         console.error(
-          `Docusaurus storage error, can't set ${key}=${value}`,
+          `Docusaurus storage error, can't set ${key}=${newValue}`,
           err,
         );
       }
     },
     del: () => {
       try {
+        const oldValue = storage.getItem(key);
         storage.removeItem(key);
-        dispatchChangeEvent({key, value: null, storage});
+        dispatchChangeEvent({key, oldValue, newValue: null, storage});
       } catch (err) {
         console.error(`Docusaurus storage error, can't delete key=${key}`, err);
       }
     },
     listen: (onChange) => {
       try {
-        return subscribeChangeEvents((event) => {
-          if (event.storage === storage && event.key === key) {
-            onChange(event.value);
+        const listener = (event: StorageEvent) => {
+          if (event.storageArea === storage && event.key === key) {
+            onChange(event);
           }
-        });
+        };
+        window.addEventListener('storage', listener);
+        return () => window.removeEventListener('storage', listener);
       } catch (err) {
         console.error(
           `Docusaurus storage error, can't listen for changes of key=${key}`,
