@@ -25,6 +25,7 @@
     "@docusaurus/plugin-debug": "^3.0.0-alpha.0",
     "@docusaurus/plugin-google-analytics": "^3.0.0-alpha.0",
     "@docusaurus/plugin-google-gtag": "^3.0.0-alpha.0",
+    "@docusaurus/plugin-google-tag-manager": "^3.0.0-alpha.0",
     "@docusaurus/plugin-sitemap": "^3.0.0-alpha.0",
     "@docusaurus/theme-classic": "^3.0.0-alpha.0",
     "@docusaurus/theme-common": "^3.0.0-alpha.0",
