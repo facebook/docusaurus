@@ -38,13 +38,13 @@ graph LR;
 
 Any route will be matched against this nested route config until a good match is found. For example, when given a route `/docs/configuration`, Docusaurus first enters the `/docs` branch, and then searches among the subroutes created by the docs plugin.
 
-Changing `routeBasePath` can effectively alter your site's route structure. For example, in [Docs-only mode](../guides/docs/docs-introduction.md#docs-only-mode), we mentioned that configuring `routeBasePath: '/'` for docs means that all routes that the docs plugin create would not have the `/docs` prefix, yet it doesn't prevent you from having more subroutes like `/blog` created by other plugins.
+Changing `routeBasePath` can effectively alter your site's route structure. For example, in [Docs-only mode](../guides/docs/docs-introduction.mdx#docs-only-mode), we mentioned that configuring `routeBasePath: '/'` for docs means that all routes that the docs plugin create would not have the `/docs` prefix, yet it doesn't prevent you from having more subroutes like `/blog` created by other plugins.
 
 Next, let's look at how the three plugins structure their own "boxes of subroutes".
 
 ### Pages routing {#pages-routing}
 
-Pages routing are straightforward: the file paths directly map to URLs, without any other way to customize. See the [pages docs](../guides/creating-pages.md#routing) for more information.
+Pages routing are straightforward: the file paths directly map to URLs, without any other way to customize. See the [pages docs](../guides/creating-pages.mdx#routing) for more information.
 
 The component used for Markdown pages is `@theme/MDXPage`. React pages are directly used as the route's component.
 
@@ -71,7 +71,7 @@ The blog creates the following routes:
 
 ### Docs routing {#docs-routing}
 
-The docs is the only plugin that creates **nested routes**. At the top, it registers [**version paths**](../guides/docs/versioning.md): `/`, `/next`, `/2.0.0-beta.13`... which provide the version context, including the layout and sidebar. This ensures that when switching between individual docs, the sidebar's state is preserved, and that you can switch between versions through the navbar dropdown while staying on the same doc. The component used is `@theme/DocPage`.
+The docs is the only plugin that creates **nested routes**. At the top, it registers [**version paths**](../guides/docs/versioning.mdx): `/`, `/next`, `/2.0.0-beta.13`... which provide the version context, including the layout and sidebar. This ensures that when switching between individual docs, the sidebar's state is preserved, and that you can switch between versions through the navbar dropdown while staying on the same doc. The component used is `@theme/DocPage`.
 
 ```mdx-code-block
 export const URLPath = () => <code>{useLocation().pathname}</code>;
@@ -221,7 +221,7 @@ Localized sites have the locale as part of the base URL as well. For example, `h
 
 ## Generating and accessing routes {#generating-and-accessing-routes}
 
-The `addRoute` lifecycle action is used to generate routes. It registers a piece of route config to the route tree, giving a route, a component, and props that the component needs. The props and the component are both provided as paths for the bundler to `require`, because as explained in the [architecture overview](architecture.md), server and client only communicate through temp files.
+The `addRoute` lifecycle action is used to generate routes. It registers a piece of route config to the route tree, giving a route, a component, and props that the component needs. The props and the component are both provided as paths for the bundler to `require`, because as explained in the [architecture overview](architecture.mdx), server and client only communicate through temp files.
 
 All routes are aggregated in `.docusaurus/routes.js`, which you can view with the debug plugin's [routes panel](/__docusaurus/debug/routes).
 

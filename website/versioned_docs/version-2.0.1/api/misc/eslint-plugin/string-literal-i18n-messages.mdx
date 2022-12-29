@@ -6,7 +6,7 @@ slug: /api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages
 
 Enforce translate APIs to be called on plain text labels.
 
-Docusaurus offers the [`docusaurus write-translations`](../../../cli.md#docusaurus-write-translations-sitedir) API, which statically extracts the text labels marked as translatable. Dynamic values used in `<Translate>` or `translate()` calls will fail to be extracted. This rule will ensure that all translate calls are statically extractable.
+Docusaurus offers the [`docusaurus write-translations`](../../../cli.mdx#docusaurus-write-translations-sitedir) API, which statically extracts the text labels marked as translatable. Dynamic values used in `<Translate>` or `translate()` calls will fail to be extracted. This rule will ensure that all translate calls are statically extractable.
 
 ## Rule Details {#details}
 
@@ -42,7 +42,7 @@ translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})
 
 ## When Not To Use It {#when-not-to-use}
 
-If you're not using the [i18n feature](../../../i18n/i18n-introduction.md), you can disable this rule.
+If you're not using the [i18n feature](../../../i18n/i18n-introduction.mdx), you can disable this rule.
 
 ## Further Reading {#further-reading}
 

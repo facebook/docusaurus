@@ -5,7 +5,7 @@ description: Docusaurus statically renders your React code into HTML, allowing f
 
 # Static site generation (SSG)
 
-In [architecture](architecture.md), we mentioned that the theme is run in Webpack. But beware: that doesn't mean it always has access to browser globals! The theme is built twice:
+In [architecture](architecture.mdx), we mentioned that the theme is run in Webpack. But beware: that doesn't mean it always has access to browser globals! The theme is built twice:
 
 - During **server-side rendering**, the theme is compiled in a sandbox called [React DOM Server](https://reactjs.org/docs/react-dom-server.html). You can see this as a "headless browser", where there is no `window` or `document`, only React. SSR produces static HTML pages.
 - During **client-side rendering**, the theme is compiled to JavaScript that gets eventually executed in the browser, so it has access to browser variables.
@@ -106,7 +106,7 @@ export default function expensiveComp() {
 
 React is not just a dynamic UI runtime—it's also a templating engine. Because Docusaurus sites mostly contain static contents, it should be able to work without any JavaScript (which React runs in), but only plain HTML/CSS. And that's what server-side rendering offers: statically rendering your React code into HTML, without any dynamic content. An HTML file has no concept of client state (it's purely markup), hence it shouldn't rely on browser APIs.
 
-These HTML files are the first to arrive at the user's browser screen when a URL is visited (see [routing](routing.md)). Afterwards, the browser fetches and runs other JS code to provide the "dynamic" parts of your site—anything implemented with JavaScript. However, before that, the main content of your page is already visible, allowing faster loading.
+These HTML files are the first to arrive at the user's browser screen when a URL is visited (see [routing](routing.mdx)). Afterwards, the browser fetches and runs other JS code to provide the "dynamic" parts of your site—anything implemented with JavaScript. However, before that, the main content of your page is already visible, allowing faster loading.
 
 In CSR-only apps, all DOM elements are generated on client side with React, and the HTML file only ever contains one root element for React to mount DOM to; in SSR, React is already facing a fully built HTML page, and it only needs to correlate the DOM elements with the virtual DOM in its model. This step is called "hydration". After React has hydrated the static markup, the app starts to work as any normal React app.
 
@@ -136,7 +136,7 @@ We provide several more reliable ways to escape SSR.
 
 ### `<BrowserOnly>` {#browseronly}
 
-If you need to render some component in browser only (for example, because the component relies on browser specifics to be functional at all), one common approach is to wrap your component with [`<BrowserOnly>`](../docusaurus-core.md#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
+If you need to render some component in browser only (for example, because the component relies on browser specifics to be functional at all), one common approach is to wrap your component with [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
 
 ```jsx
 import BrowserOnly from '@docusaurus/BrowserOnly';
@@ -205,7 +205,7 @@ function MyComponent() {
 
 ### `ExecutionEnvironment` {#executionenvironment}
 
-The [`ExecutionEnvironment`](../docusaurus-core.md#executionenvironment) namespace contains several values, and `canUseDOM` is an effective way to detect browser environment.
+The [`ExecutionEnvironment`](../docusaurus-core.mdx#executionenvironment) namespace contains several values, and `canUseDOM` is an effective way to detect browser environment.
 
 Beware that it essentially checked `typeof window !== 'undefined'` under the hood, so you should not use it for rendering-related logic, but only imperative code, like reacting to user input by sending web requests, or dynamically importing libraries, where DOM isn't updated at all.
 

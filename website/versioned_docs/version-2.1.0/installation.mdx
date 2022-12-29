@@ -13,7 +13,7 @@ Docusaurus is essentially a set of npm [packages](https://github.com/facebook/do
 
 :::tip
 
-Use the **[Fast Track](introduction.md#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
+Use the **[Fast Track](introduction.mdx#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
 
 Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
 
@@ -34,7 +34,7 @@ npx create-docusaurus@latest my-website classic
 
 We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
-You can also use the template's TypeScript variant by passing the `--typescript` flag. See [TypeScript support](./typescript-support.md) for more information.
+You can also use the template's TypeScript variant by passing the `--typescript` flag. See [TypeScript support](./typescript-support.mdx) for more information.
 
 ```bash
 npx create-docusaurus@latest my-website classic --typescript
@@ -89,7 +89,7 @@ pnpm create docusaurus
 
 </details>
 
-Run `npx create-docusaurus@latest --help`, or check out its [API docs](./api/misc/create-docusaurus.md) for more information about all available flags.
+Run `npx create-docusaurus@latest --help`, or check out its [API docs](./api/misc/create-docusaurus.mdx) for more information about all available flags.
 
 ## Project structure {#project-structure}
 
@@ -124,9 +124,9 @@ my-website
 ### Project structure rundown {#project-structure-rundown}
 
 - `/blog/` - Contains the blog Markdown files. You can delete the directory if you've disabled the blog plugin, or you can change its name after setting the `path` option. More details can be found in the [blog guide](blog.mdx)
-- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. You can delete the directory if you've disabled the docs plugin, or you can change its name after setting the `path` option. More details can be found in the [docs guide](./guides/docs/docs-introduction.md)
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. You can delete the directory if you've disabled the docs plugin, or you can change its name after setting the `path` option. More details can be found in the [docs guide](./guides/docs/docs-introduction.mdx)
 - `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files here, but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
-  - `/src/pages` - Any JSX/TSX/MDX file within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.md)
+  - `/src/pages` - Any JSX/TSX/MDX file within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.mdx)
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory
 - `/docusaurus.config.js` - A config file containing the site configuration. This is the equivalent of `siteConfig.js` in Docusaurus v1
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them

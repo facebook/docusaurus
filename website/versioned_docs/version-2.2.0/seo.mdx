@@ -14,7 +14,7 @@ Docusaurus supports search engine optimization in a variety of ways.
 
 ## Global metadata {#global-metadata}
 
-Provide global meta attributes for the entire site through the [site configuration](./configuration.md#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value.
+Provide global meta attributes for the entire site through the [site configuration](./configuration.mdx#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
 };
 ```
 
-Docusaurus adds some metadata out-of-the-box. For example, if you have configured [i18n](./i18n/i18n-introduction.md), you will get a [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) alternate link.
+Docusaurus adds some metadata out-of-the-box. For example, if you have configured [i18n](./i18n/i18n-introduction.mdx), you will get a [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) alternate link.
 
 To read more about types of meta tags, visit [the MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta).
 
@@ -62,7 +62,7 @@ Prefer to use front matter for fields like `description` and `keywords`: Docusau
 
 :::
 
-For JSX pages, you can use the Docusaurus [`<Head>`](docusaurus-core.md#head) component.
+For JSX pages, you can use the Docusaurus [`<Head>`](docusaurus-core.mdx#head) component.
 
 ```jsx title="my-react-page.jsx"
 import React from 'react';
@@ -113,7 +113,7 @@ Docusaurus blogs support [rich search results](https://search.google.com/test/ri
 
 ## Robots file {#robots-file}
 
-A `robots.txt` file regulates search engines' behavior about which should be displayed and which shouldn't. You can provide it as [static asset](./static-assets.md). The following would allow access to all sub-pages from all requests:
+A `robots.txt` file regulates search engines' behavior about which should be displayed and which shouldn't. You can provide it as [static asset](./static-assets.mdx). The following would allow access to all sub-pages from all requests:
 
 ```text title="static/robots.txt"
 User-agent: *
@@ -126,7 +126,7 @@ Read more about the robots file in [the Google documentation](https://developers
 
 **Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed.
 
-To prevent your whole Docusaurus site from being indexed, use the [`noIndex`](./api/docusaurus.config.js.md#noIndex) site config. Some [hosting providers](./deployment.mdx) may also let you configure a `X-Robots-Tag: noindex` HTTP header (GitHub Pages does not support this).
+To prevent your whole Docusaurus site from being indexed, use the [`noIndex`](./api/docusaurus.config.js.mdx#noIndex) site config. Some [hosting providers](./deployment.mdx) may also let you configure a `X-Robots-Tag: noindex` HTTP header (GitHub Pages does not support this).
 
 To prevent a single page from being indexed, use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata). Read more about the [robots meta tag](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag).
 
@@ -134,7 +134,7 @@ To prevent a single page from being indexed, use `<meta name="robots" content="n
 
 ## Sitemap file {#sitemap-file}
 
-Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) plugin, which is shipped with `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/[baseUrl]/sitemap.xml` after the production build. This sitemap metadata helps search engine crawlers crawl your site more accurately.
+Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) plugin, which is shipped with `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/[baseUrl]/sitemap.xml` after the production build. This sitemap metadata helps search engine crawlers crawl your site more accurately.
 
 :::tip
 
@@ -152,7 +152,7 @@ For example, [`/examples/noIndex`](/examples/noIndex) is not included in the [Do
 
 ## Human readable links {#human-readable-links}
 
-Docusaurus uses your file names as links, but you can always change that using slugs, see this [tutorial](./guides/docs/docs-introduction.md#document-id) for more details.
+Docusaurus uses your file names as links, but you can always change that using slugs, see this [tutorial](./guides/docs/docs-introduction.mdx#document-id) for more details.
 
 ## Structured content {#structured-content}
 

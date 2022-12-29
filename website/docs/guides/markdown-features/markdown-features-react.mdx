@@ -84,7 +84,7 @@ Since all doc files are parsed using MDX, anything that looks like HTML is actua
 <span style={{backgroundColor: 'red'}}>Foo</span>
 ```
 
-This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
+This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.mdx#convert-style-attributes-to-style-objects-in-mdx).
 
 In addition, MDX is not [100% compatible with CommonMark](https://github.com/facebook/docusaurus/issues/3018). Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
 
@@ -106,7 +106,7 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 
 :::tip
 
-The `@site` alias points to your website's directory, usually where the `docusaurus.config.js` file is. Using an alias instead of relative paths (`'../../src/components/BrowserWindow'`) saves you from updating import paths when moving files around, or when [versioning docs](../docs/versioning.md) and [translating](../../i18n/i18n-tutorial.md).
+The `@site` alias points to your website's directory, usually where the `docusaurus.config.js` file is. Using an alias instead of relative paths (`'../../src/components/BrowserWindow'`) saves you from updating import paths when moving files around, or when [versioning docs](../docs/versioning.mdx) and [translating](../../i18n/i18n-tutorial.mdx).
 
 :::
 
@@ -159,9 +159,9 @@ It will be compiled to a React component containing `ul`, `li`, `p`, and `highli
 
 In Docusaurus, this MDX component scope is provided by the `@theme/MDXComponents` component. It's not a React component, _per se_, unlike most other exports under the `@theme/` alias: it is a record from tag names like `ul` and `img` to their custom implementations.
 
-If you [swizzle](../../swizzling.md) this component, you will find all tags that have been re-implemented, and you can further customize our implementation by swizzling the respective sub-component, like `@theme/MDXComponents/Head` (which is used to implement the [`<head>`](./markdown-features-head-metadata.mdx) feature).
+If you [swizzle](../../swizzling.mdx) this component, you will find all tags that have been re-implemented, and you can further customize our implementation by swizzling the respective sub-component, like `@theme/MDXComponents/Head` (which is used to implement the [`<head>`](./markdown-features-head-metadata.mdx) feature).
 
-If you want to register extra tag names (like the `<highlight>` tag above), you should consider [wrapping `@theme/MDXComponents`](../../swizzling.md#wrapping), so you don't have to maintain all the existing mappings. Since the swizzle CLI doesn't allow wrapping non-component files yet, you should manually create the wrapper:
+If you want to register extra tag names (like the `<highlight>` tag above), you should consider [wrapping `@theme/MDXComponents`](../../swizzling.mdx#wrapping), so you don't have to maintain all the existing mappings. Since the swizzle CLI doesn't allow wrapping non-component files yet, you should manually create the wrapper:
 
 ```js title="src/theme/MDXComponents.js"
 import React from 'react';

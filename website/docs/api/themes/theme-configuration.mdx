@@ -9,7 +9,7 @@ toc_max_heading_level: 4
 
 import APITable from '@site/src/components/APITable';
 
-This configuration applies to all [main themes](./overview.md).
+This configuration applies to all [main themes](./overview.mdx).
 
 ## Common {#common}
 
@@ -180,7 +180,7 @@ Accepted fields:
 
 ### Navbar logo {#navbar-logo}
 
-The logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
+The logo can be placed in [static folder](static-assets.mdx). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
 
 To improve dark mode support, you can also set a different logo for this mode.
 
@@ -600,7 +600,7 @@ module.exports = {
 
 #### Navbar locale dropdown {#navbar-locale-dropdown}
 
-If you use the [i18n feature](../../i18n/i18n-introduction.md), this special navbar item type will render a dropdown with all your site's available locales.
+If you use the [i18n feature](../../i18n/i18n-introduction.mdx), this special navbar item type will render a dropdown with all your site's available locales.
 
 The user will be able to switch from one locale to another, while staying on the same page.
 
@@ -648,7 +648,7 @@ module.exports = {
 
 #### Navbar search {#navbar-search}
 
-If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
+If you use the [search](../../search.mdx), the search bar will be the rightmost element in the navbar.
 
 However, with this special navbar item type, you can change the default location.
 
@@ -835,7 +835,7 @@ module.exports = {
 
 ## Footer {#footer-1}
 
-You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.md). Logo URL works in the same way of the navbar logo.
+You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.mdx). Logo URL works in the same way of the navbar logo.
 
 Accepted fields:
 
@@ -1066,13 +1066,13 @@ function ExamplePage() {
 
 ## i18n {#i18n}
 
-Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
 
 ### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/[locale]/docusaurus-theme-[themeName]`
 - **Multi-instance path**: N/A
-- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
 - **Markdown files**: N/A
 
 ### Example file-system structure {#example-file-system-structure}

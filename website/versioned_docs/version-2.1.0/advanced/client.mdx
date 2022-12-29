@@ -91,9 +91,9 @@ These modules are imported globally before React even renders the initial UI.
 import '@generated/client-modules';
 ```
 
-Plugins and sites can both declare client modules, through [`getClientModules`](../api/plugin-methods/lifecycle-apis.md#getClientModules) and [`siteConfig.clientModules`](../api/docusaurus.config.js.md#clientModules), respectively.
+Plugins and sites can both declare client modules, through [`getClientModules`](../api/plugin-methods/lifecycle-apis.mdx#getClientModules) and [`siteConfig.clientModules`](../api/docusaurus.config.js.mdx#clientModules), respectively.
 
-Client modules are called during server-side rendering as well, so remember to check the [execution environment](./ssg.md#escape-hatches) before accessing client-side globals.
+Client modules are called during server-side rendering as well, so remember to check the [execution environment](./ssg.mdx#escape-hatches) before accessing client-side globals.
 
 ```js title="mySiteGlobalJs.js"
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
@@ -108,7 +108,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 ```
 
-CSS stylesheets imported as client modules are [global](../styling-layout.md#global-styles).
+CSS stylesheets imported as client modules are [global](../styling-layout.mdx#global-styles).
 
 ```css title="mySiteGlobalCss.css"
 /* This stylesheet is global. */
@@ -181,6 +181,6 @@ Both lifecycles will fire on first render, but they will not fire on server-side
 
 :::tip Prefer using React
 
-Client module lifecycles are purely imperative, and you can't use React hooks or access React contexts within them. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.md) instead.
+Client module lifecycles are purely imperative, and you can't use React hooks or access React contexts within them. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.mdx) instead.
 
 :::

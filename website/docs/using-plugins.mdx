@@ -1,12 +1,12 @@
 # Using Plugins
 
-**The Docusaurus core doesn't provide any feature of its own.** All features are delegated to individual plugins: the [docs](./guides/docs/docs-introduction.md) feature provided by the [docs plugin](./api/plugins/plugin-content-docs.md); the [blog](./blog.mdx) feature provided by the [blog plugin](./api/plugins/plugin-content-blog.md); or individual [pages](./guides/creating-pages.md) provided by the [pages plugin](./api/plugins/plugin-content-pages.md). If there are no plugins installed, the site won't contain any routes.
+**The Docusaurus core doesn't provide any feature of its own.** All features are delegated to individual plugins: the [docs](./guides/docs/docs-introduction.mdx) feature provided by the [docs plugin](./api/plugins/plugin-content-docs.mdx); the [blog](./blog.mdx) feature provided by the [blog plugin](./api/plugins/plugin-content-blog.mdx); or individual [pages](./guides/creating-pages.mdx) provided by the [pages plugin](./api/plugins/plugin-content-pages.mdx). If there are no plugins installed, the site won't contain any routes.
 
 You may not need to install common plugins one-by-one though: they can be distributed as a bundle in a [preset](#using-presets). For most users, plugins are configured through the preset configuration.
 
-We maintain a [list of official plugins](./api/plugins/overview.md), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to check out the list: someone may have implemented it for you!
+We maintain a [list of official plugins](./api/plugins/overview.mdx), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to check out the list: someone may have implemented it for you!
 
-If you are feeling energetic, you can also read [the plugin guide](./advanced/plugins.md) or [plugin method references](./api/plugin-methods/README.md) for how to make a plugin yourself.
+If you are feeling energetic, you can also read [the plugin guide](./advanced/plugins.mdx) or [plugin method references](./api/plugin-methods/README.mdx) for how to make a plugin yourself.
 
 ## Installing a plugin {#installing-a-plugin}
 
@@ -114,7 +114,7 @@ At most one plugin instance can be the "default plugin instance", by omitting th
 
 ## Using themes {#using-themes}
 
-Themes are loaded in the exact same way as plugins. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./swizzling.md#theme-aliases).
+Themes are loaded in the exact same way as plugins. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./swizzling.mdx#theme-aliases).
 
 :::tip
 
@@ -136,18 +136,18 @@ Presets are bundles of plugins and themes. For example, instead of letting you r
 
 ### `@docusaurus/preset-classic` {#docusauruspreset-classic}
 
-The classic preset is shipped by default to new Docusaurus websites created with [`create-docusaurus`](./installation.md#scaffold-project-website). It contains the following themes and plugins:
+The classic preset is shipped by default to new Docusaurus websites created with [`create-docusaurus`](./installation.mdx#scaffold-project-website). It contains the following themes and plugins:
 
-- [`@docusaurus/theme-classic`](./api/themes/theme-configuration.md)
-- [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.md)
-- [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.md)
-- [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.md)
-- [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.md)
-- [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.md)
-- [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.md)
-- [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.md)
-- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.md) (**deprecated**)
-- [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md)
+- [`@docusaurus/theme-classic`](./api/themes/theme-configuration.mdx)
+- [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.mdx)
+- [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.mdx)
+- [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.mdx)
+- [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.mdx)
+- [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.mdx)
+- [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.mdx)
+- [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.mdx)
+- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.mdx) (**deprecated**)
+- [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx)
 
 The classic preset will relay each option entry to the respective plugin/theme.
 
@@ -213,7 +213,7 @@ module.exports = {
 
 ### Creating presets {#creating-presets}
 
-A preset is a function with the same shape as the [plugin constructor](./api/plugin-methods/README.md#plugin-constructor). It should return an object of `{ plugins: PluginConfig[], themes: PluginConfig[] }`, in the same as how they are accepted in the site config. For example, you can specify a preset that includes the following themes and plugins:
+A preset is a function with the same shape as the [plugin constructor](./api/plugin-methods/README.mdx#plugin-constructor). It should return an object of `{ plugins: PluginConfig[], themes: PluginConfig[] }`, in the same as how they are accepted in the site config. For example, you can specify a preset that includes the following themes and plugins:
 
 ```js title="src/presets/docusaurus-preset-multi-docs.js"
 module.exports = function preset(context, opts = {}) {
@@ -301,7 +301,7 @@ Below are some examples, for a plugin registered in the `plugins` field. Note th
 | Declaration | May be resolved as |
 | --- | --- |
 | `awesome` | `docusaurus-plugin-awesome` |
-| `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
+| `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) |
 | `@my-company` | `@my-company/docusaurus-plugin` (the only possible resolution!) |
 | `@my-company/awesome` | `@my-company/docusaurus-plugin-awesome` |
 | `@my-company/awesome/web` | `@my-company/docusaurus-plugin-awesome/web` |
