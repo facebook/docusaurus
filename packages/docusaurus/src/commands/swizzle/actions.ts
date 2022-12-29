@@ -56,7 +56,7 @@ export async function eject({
   const isDirectory = await isDir(fromPath);
   const globPattern = isDirectory
     ? // Do we really want to copy all components?
-      path.join(fromPath, '*')
+      path.join(fromPath, '**/*')
     : `${fromPath}.*`;
 
   const globPatternPosix = posixPath(globPattern);
