@@ -25,7 +25,7 @@
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Xóa tìm kiếm này khỏi lịch sử",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Lưu tìm kiếm này",
   "theme.SearchPage.algoliaLabel": "Tìm kiếm với Algolia",
-  "theme.SearchPage.documentsFound.plurals": "Tìm thấy một kết quả|Tìm thấy {count} kết quả",
+  "theme.SearchPage.documentsFound.plurals": "Tìm thấy {count} kết quả",
   "theme.SearchPage.emptyResultsTitle": "Tìm kiếm",
   "theme.SearchPage.existingResultsTitle": "Kết quả tìm kiếm cho \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "Đang tải thêm kết quả...",

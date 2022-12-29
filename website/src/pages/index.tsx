@@ -173,15 +173,6 @@ function VideoContainer() {
               webp
             />
           </div>
-          <div className="video-container">
-            <LiteYouTubeEmbed
-              id="T3S8GyFIXjo"
-              params="autoplay=1&autohide=1&showinfo=0&rel=0"
-              title="Explain Like I'm 5: Docusaurus"
-              poster="maxresdefault"
-              webp
-            />
-          </div>
         </div>
       </div>
     </div>
