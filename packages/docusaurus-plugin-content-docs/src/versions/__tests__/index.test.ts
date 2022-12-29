@@ -758,4 +758,136 @@ describe('readVersionsMetadata', () => {
       );
     });
   });
+
+  describe('versioned site with custom versions dir, pluginId=community', () => {
+    async function loadSite() {
+      const versionedSiteDir = path.resolve(
+        path.join(__dirname, '../../__tests__/__fixtures__', 'versioned-site'),
+      );
+      const defaultOptions: PluginOptions = {
+        ...DEFAULT_OPTIONS,
+        id: 'community',
+        path: 'community',
+        versionedDocsPath: './community-versions',
+        routeBasePath: 'communityBasePath',
+        sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
+      };
+      const defaultContext = {
+        siteDir: versionedSiteDir,
+        baseUrl: '/',
+        i18n: DefaultI18N,
+        localizationDir: path.join(versionedSiteDir, 'i18n/en'),
+      } as LoadContext;
+
+      const vCurrent: VersionMetadata = {
+        contentPath: path.join(versionedSiteDir, 'community'),
+        contentPathLocalized: path.join(
+          versionedSiteDir,
+          'i18n/en/docusaurus-plugin-content-docs-community/current',
+        ),
+        isLast: false,
+        routePriority: undefined,
+        sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+        tagsPath: '/communityBasePath/next/tags',
+        label: 'Next',
+        versionName: 'current',
+        path: '/communityBasePath/next',
+        banner: 'unreleased',
+        badge: true,
+        noIndex: false,
+        className: 'docs-version-current',
+      };
+
+      const v100: VersionMetadata = {
+        contentPath: path.join(
+          versionedSiteDir,
+          'community-versions/community_versioned_docs/version-1.0.0',
+        ),
+        contentPathLocalized: path.join(
+          versionedSiteDir,
+          'i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0',
+        ),
+        isLast: true,
+        routePriority: -1,
+        sidebarFilePath: path.join(
+          versionedSiteDir,
+          'community-versions/community_versioned_sidebars/version-1.0.0-sidebars.json',
+        ),
+        tagsPath: '/communityBasePath/tags',
+        label: '1.0.0',
+        versionName: '1.0.0',
+        path: '/communityBasePath',
+        banner: null,
+        badge: true,
+        noIndex: false,
+        className: 'docs-version-1.0.0',
+      };
+
+      return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
+    }
+
+    it('works', async () => {
+      const {defaultOptions, defaultContext, vCurrent, v100} = await loadSite();
+
+      const versionsMetadata = await readVersionsMetadata({
+        options: defaultOptions,
+        context: defaultContext,
+      });
+
+      expect(versionsMetadata).toEqual([vCurrent, v100]);
+    });
+
+    it('works with includeCurrentVersion=false', async () => {
+      const {defaultOptions, defaultContext, v100} = await loadSite();
+
+      const versionsMetadata = await readVersionsMetadata({
+        options: {...defaultOptions, includeCurrentVersion: false},
+        context: defaultContext,
+      });
+
+      expect(versionsMetadata).toEqual([
+        // vCurrent removed
+        {...v100, badge: false},
+      ]);
+    });
+
+    it('works with disableVersioning', async () => {
+      const {defaultOptions, defaultContext, vCurrent} = await loadSite();
+
+      const versionsMetadata = await readVersionsMetadata({
+        options: {...defaultOptions, disableVersioning: true},
+        context: defaultContext,
+      });
+
+      expect(versionsMetadata).toEqual([
+        {
+          ...vCurrent,
+          isLast: true,
+          routePriority: -1,
+          tagsPath: '/communityBasePath/tags',
+          path: '/communityBasePath',
+          banner: null,
+          badge: false,
+        },
+      ]);
+    });
+
+    it('throws with all versions disabled', async () => {
+      const {defaultOptions, defaultContext} = await loadSite();
+
+      await expect(
+        readVersionsMetadata({
+          options: {
+            ...defaultOptions,
+            includeCurrentVersion: false,
+            disableVersioning: true,
+          },
+
+          context: defaultContext,
+        }),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/community through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true"."`,
+      );
+    });
+  });
 });

@@ -1,5 +1,265 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`docsVersion custom versions dir custom versions dir for default docs instance: create v500 for v-site-1; docs in ../my-docs-1; versionedDocs in ../my-versions-1; ../my-sidebars1.json 1`] = `
+{
+  "context": {
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {
+        "en": {
+          "path": "en",
+        },
+      },
+      "locales": [
+        "en",
+      ],
+      "path": "i18n",
+    },
+    "siteDir": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-1",
+  },
+  "options": {
+    "id": "default",
+    "path": "../my-docs-1",
+    "sidebarCollapsed": true,
+    "sidebarCollapsible": true,
+    "sidebarPath": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-sidebars-1.json",
+    "versionedDocsPath": "../my-versions-1",
+  },
+  "testResults": [
+    [
+      "consoleMock",
+      "[SUCCESS] [docs]: version v500 created!",
+    ],
+    [
+      "copyMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-docs-1",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-1/versioned_docs/version-v500",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-1/versioned_sidebars/version-v500-sidebars.json",
+      "{
+  "docs": {
+    "my-sidebars-1": [
+      "foo/bar"
+    ],
+    "Guides": [
+      "hello"
+    ]
+  }
+}
+",
+      "utf8",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-1/versions.json",
+      "[
+  "v500"
+]
+",
+    ],
+  ],
+}
+`;
+
+exports[`docsVersion custom versions dir custom versions dir for non-default docs instance: create v600 for v-site-2:my-plugin-1; docs in ../my-docs-2; versionedDocs in ../my-versions-2; ./sidebars.json 1`] = `
+{
+  "context": {
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {
+        "en": {
+          "path": "en",
+        },
+      },
+      "locales": [
+        "en",
+      ],
+      "path": "i18n",
+    },
+    "siteDir": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-2",
+  },
+  "options": {
+    "id": "my-plugin-1",
+    "path": "../my-docs-2",
+    "sidebarCollapsed": true,
+    "sidebarCollapsible": true,
+    "sidebarPath": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-2/sidebars.json",
+    "versionedDocsPath": "../my-versions-2",
+  },
+  "testResults": [
+    [
+      "consoleMock",
+      "[SUCCESS] [my-plugin-1]: version v600 created!",
+    ],
+    [
+      "copyMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-docs-2",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-2/my-plugin-1_versioned_docs/version-v600",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-2/my-plugin-1_versioned_sidebars/version-v600-sidebars.json",
+      "{
+  "docs": {
+    "Test": [
+      "v-site-2/sidebars.json"
+    ],
+    "Guides": [
+      "hello"
+    ]
+  }
+}
+",
+      "utf8",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-2/my-plugin-1_versions.json",
+      "[
+  "v600"
+]
+",
+    ],
+  ],
+}
+`;
+
+exports[`docsVersion custom versions dir custom versions dir for site with i18n: create v800 for v-site-3 with i18n 1`] = `
+{
+  "context": {
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {
+        "en": {
+          "path": "en",
+        },
+        "my-locale-code": {
+          "path": "my-locale",
+        },
+      },
+      "locales": [
+        "en",
+        "my-locale-code",
+      ],
+      "path": "../my-i18n",
+    },
+    "siteDir": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-3",
+  },
+  "options": {
+    "id": "my-plug-2",
+    "path": "../my-docs-3",
+    "sidebarCollapsed": true,
+    "sidebarCollapsible": true,
+    "sidebarPath": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-3/my-sidebars-3.json",
+    "versionedDocsPath": "../my-versions-3",
+  },
+  "testResults": [
+    [
+      "consoleMock",
+      "[SUCCESS] [my-plug-2]: version v800 created!",
+    ],
+    [
+      "copyMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-docs-3",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-3/my-plug-2_versioned_docs/version-v800",
+    ],
+    [
+      "copyMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-i18n/my-locale/docusaurus-plugin-content-docs-my-plug-2/current",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-i18n/my-locale/docusaurus-plugin-content-docs-my-plug-2/version-v800",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-3/my-plug-2_versioned_sidebars/version-v800-sidebars.json",
+      "{
+  "my-sidebar-3": [
+    {
+      "b": "x"
+    }
+  ]
+}
+",
+      "utf8",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-3/my-plug-2_versions.json",
+      "[
+  "v800",
+  "v700"
+]
+",
+    ],
+  ],
+}
+`;
+
+exports[`docsVersion custom versions dir locales skipped because of non-existing locale docs: try to create v900 for v-site-3 with non-existing locale docs 1`] = `
+{
+  "context": {
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {
+        "en": {
+          "path": "en",
+        },
+        "my-locale-code": {
+          "path": "my-locale-2",
+        },
+      },
+      "locales": [
+        "en",
+        "my-locale-code",
+      ],
+      "path": "../my-i18n",
+    },
+    "siteDir": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-3",
+  },
+  "options": {
+    "id": "my-plug-3",
+    "path": "../my-docs-3",
+    "sidebarCollapsed": true,
+    "sidebarCollapsible": true,
+    "sidebarPath": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-3/my-sidebars-3.json",
+    "versionedDocsPath": "../my-versions-3",
+  },
+  "testResults": [
+    [
+      "consoleMock",
+      "[SUCCESS] [my-plug-3]: version v900 created!",
+    ],
+    [
+      "copyMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-docs-3",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-3/my-plug-3_versioned_docs/version-v900",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/my-versions-3/my-plug-3_versioned_sidebars/version-v900-sidebars.json",
+      "{
+  "my-sidebar-3": [
+    {
+      "b": "x"
+    }
+  ]
+}
+",
+      "utf8",
+    ],
+    [
+      "writeMock",
+      "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-sites-2/v-site-3/my-plug-3_versions.json",
+      "[
+  "v900"
+]
+",
+    ],
+  ],
+}
+`;
+
 exports[`docsVersion first time versioning 1`] = `
 {
   "docs": {

@@ -1,0 +1,10 @@
+{
+  "docs": {
+    "my-sidebars-1": [
+      "foo/bar"
+    ],
+    "Guides": [
+      "hello"
+    ]
+  }
+}

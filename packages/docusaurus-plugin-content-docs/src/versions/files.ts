@@ -28,27 +28,31 @@ function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
     : `${pluginId}_${fileOrDir}`;
 }
 
-/** `[siteDir]/community_versioned_docs/version-1.0.0` */
+/** `[siteDir]/[versionedDocsPath]/[community_versioned_docs/version-1.0.0` */
 export function getVersionDocsDirPath(
   siteDir: string,
   pluginId: string,
+  versionedDocsPath: string | undefined,
   versionName: string,
 ): string {
   return path.join(
     siteDir,
+    versionedDocsPath || '',
     addPluginIdPrefix(VERSIONED_DOCS_DIR, pluginId),
     `version-${versionName}`,
   );
 }
 
-/** `[siteDir]/community_versioned_sidebars/version-1.0.0-sidebars.json` */
+/** `[siteDir]/[versionedDocsPath]/community_versioned_sidebars/version-1.0.0-sidebars.json` */
 export function getVersionSidebarsPath(
   siteDir: string,
   pluginId: string,
+  versionedDocsPath: string | undefined,
   versionName: string,
 ): string {
   return path.join(
     siteDir,
+    versionedDocsPath || '',
     addPluginIdPrefix(VERSIONED_SIDEBARS_DIR, pluginId),
     `version-${versionName}-sidebars.json`,
   );
@@ -178,10 +182,20 @@ export async function getVersionMetadataPaths({
   });
   const contentPath = isCurrent
     ? path.resolve(context.siteDir, options.path)
-    : getVersionDocsDirPath(context.siteDir, options.id, versionName);
+    : getVersionDocsDirPath(
+        context.siteDir,
+        options.id,
+        options.versionedDocsPath,
+        versionName,
+      );
   const sidebarFilePath = isCurrent
     ? options.sidebarPath
-    : getVersionSidebarsPath(context.siteDir, options.id, versionName);
+    : getVersionSidebarsPath(
+        context.siteDir,
+        options.id,
+        options.versionedDocsPath,
+        versionName,
+      );
 
   if (!(await fs.pathExists(contentPath))) {
     throw new Error(
