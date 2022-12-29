@@ -173,14 +173,14 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          createFeedItems: async (options) => {
-            const {blogPosts, defaultCreateFeedItems, ...others} = options;
+          createFeedItems: async (params) => {
+            const {blogPosts, defaultCreateFeedItems, ...rest} = params;
             const blogPostsFiltered = blogPosts.filter(
               (item, index) => index < 2,
             );
             return defaultCreateFeedItems({
               blogPosts: blogPostsFiltered,
-              ...others,
+              ...rest,
             });
           },
         },

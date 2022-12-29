@@ -67,7 +67,7 @@ Accepted fields:
 | `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. |
 | `feedOptions.type` | <code><a href="#FeedType">FeedType</a> \| <a href="#FeedType">FeedType</a>[] \| 'all' \| null</code> | **Required** | Type of feed to be generated. Use `null` to disable generation. |
-| `feedOptions.createFeedItems` | `(options: { blogPosts: BlogPost[]; siteConfig: DocusaurusConfig; outDir: string; }) => Promise<BlogFeedItem[]>` | `undefined` | An optional function which can be used to transform and / or filter the items in the feed. |
+| `feedOptions.createFeedItems` | `(params: { blogPosts: BlogPost[]; siteConfig: DocusaurusConfig; outDir: string; }) => Promise<BlogFeedItem[]>` | `undefined` | An optional function which can be used to transform and / or filter the items in the feed. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
 | `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |

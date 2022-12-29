@@ -272,19 +272,19 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     language?: string;
     /** Allow control over the construction of BlogFeedItems */
     createFeedItems?: (
-      options: CreateFeedItemsOptions,
+      params: CreateFeedItemsParams,
     ) => Promise<BlogFeedItem[]>;
   };
 
-  type DefaultCreateFeedItemsOptions = {
+  type DefaultCreateFeedItemsParams = {
     blogPosts: BlogPost[];
     siteConfig: DocusaurusConfig;
     outDir: string;
   };
 
-  type CreateFeedItemsOptions = DefaultCreateFeedItemsOptions & {
+  type CreateFeedItemsParams = DefaultCreateFeedItemsParams & {
     defaultCreateFeedItems: (
-      params: DefaultCreateFeedItemsOptions,
+      params: DefaultCreateFeedItemsParams,
     ) => Promise<BlogFeedItem[]>;
   };
 
