@@ -9,12 +9,19 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
-  import type {Plugin, LoadContext} from '@docusaurus/types';
+  import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
+  import type {Item as FeedItem} from 'feed';
   import type {Overwrite} from 'utility-types';
 
   export type Assets = {
     /**
-     * If `metadata.image` is a collocated image path, this entry will be the
+     * If `metadata.yarn workspace website typecheck
+4
+yarn workspace v1.22.19yarn workspace website typecheck
+4
+yarn workspace v1.22.19yarn workspace website typecheck
+4
+yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * bundler-generated image path. Otherwise, it's empty, and the image URL
      * should be accessed through `frontMatter.image`.
      */
@@ -255,6 +262,24 @@ declare module '@docusaurus/plugin-content-blog' {
     copyright: string;
     /** Language of the feed. */
     language?: string;
+    /** Allow control over the construction of BlogFeedItems */
+    createFeedItems?: CreateFeedItemsFn;
+  };
+
+  type DefaultCreateFeedItemsParams = {
+    blogPosts: BlogPost[];
+    siteConfig: DocusaurusConfig;
+    outDir: string;
+  };
+
+  type CreateFeedItemsFn = (
+    params: CreateFeedItemsParams,
+  ) => Promise<BlogFeedItem[]>;
+
+  type CreateFeedItemsParams = DefaultCreateFeedItemsParams & {
+    defaultCreateFeedItems: (
+      params: DefaultCreateFeedItemsParams,
+    ) => Promise<BlogFeedItem[]>;
   };
 
   /**
@@ -435,6 +460,8 @@ declare module '@docusaurus/plugin-content-blog' {
     metadata: BlogPostMetadata;
     content: string;
   };
+
+  export type BlogFeedItem = FeedItem;
 
   export type BlogPaginatedMetadata = {
     /** Title of the entire blog. */
