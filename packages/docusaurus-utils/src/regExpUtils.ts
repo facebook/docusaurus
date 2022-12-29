@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docRoot {
-  display: flex;
-  width: 100%;
-}
+import escapeStringRegexp from 'escape-string-regexp';
 
-.docsWrapper {
-  display: flex;
-  flex: 1 0 auto;
+export function escapeRegexp(string: string): string {
+  return escapeStringRegexp(string);
 }

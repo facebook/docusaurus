@@ -35,9 +35,6 @@
     "utility-types": "^3.10.0",
     "webpack": "^5.74.0"
   },
-  "devDependencies": {
-    "escape-string-regexp": "^4.0.0"
-  },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
