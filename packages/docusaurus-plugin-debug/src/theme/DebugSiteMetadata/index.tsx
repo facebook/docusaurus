@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// Should we enforce use of @theme/Heading?
+/* eslint-disable @docusaurus/prefer-docusaurus-heading */
+
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import DebugLayout from '@theme/DebugLayout';

@@ -6,7 +6,7 @@
  */
 
 // Should we translate theme-fallback?
-/* eslint-disable @docusaurus/no-untranslated-text */
+/* eslint-disable @docusaurus/no-untranslated-text, @docusaurus/prefer-docusaurus-heading */
 
 import React from 'react';
 import Head from '@docusaurus/Head';

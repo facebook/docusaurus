@@ -33,7 +33,7 @@ import {
   useSearchResultUrlProcessor,
 } from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
-
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
 // Very simple pluralization: probably good enough for now
@@ -374,7 +374,7 @@ function SearchPageContent(): JSX.Element {
       </Head>
 
       <div className="container margin-vert--lg">
-        <h1>{getTitle()}</h1>
+        <Heading as="h1">{getTitle()}</Heading>
 
         <form className="row" onSubmit={(e) => e.preventDefault()}>
           <div
@@ -455,9 +455,9 @@ function SearchPageContent(): JSX.Element {
             {searchResultState.items.map(
               ({title, url, summary, breadcrumbs}, i) => (
                 <article key={i} className={styles.searchResultItem}>
-                  <h2 className={styles.searchResultItemHeading}>
+                  <Heading as="h2" className={styles.searchResultItemHeading}>
                     <Link to={url} dangerouslySetInnerHTML={{__html: title}} />
-                  </h2>
+                  </Heading>
 
                   {breadcrumbs.length > 0 && (
                     <nav aria-label="breadcrumbs">

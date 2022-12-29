@@ -8,12 +8,8 @@
 import {createRule} from '../util';
 import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
 
-type Options = [
-  {
-    includeAllHeadings: boolean;
-  },
-];
-type MessageIds = 'headingTwo' | 'allHeadings';
+type Options = [];
+type MessageIds = 'headings';
 
 export default createRule<Options, MessageIds>({
   name: 'prefer-docusaurus-heading',
@@ -21,54 +17,29 @@ export default createRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description:
-        'enforce using Docusaurus theme Heading component instead of <h2> tag',
+        'enforce using Docusaurus theme Heading component instead of any <hn> tag',
       recommended: false,
     },
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          includeAllHeadings: {
-            type: 'boolean',
-          },
-        },
-        additionalProperties: false,
-      },
-    ],
+    schema: [],
     messages: {
-      headingTwo:
-        'Do not use an `<h2>` tag for headings. Use the `<Heading />` component from `@theme/Heading` instead.',
-      allHeadings:
-        'Do not use `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>` or `<h6>` tags for headings. Use the `<Heading />` component from `@theme/Heading` instead.',
+      headings:
+        'Do not use any of the `<hn>` tags for headings. Use the `<Heading />` component from `@theme/Heading` instead.',
     },
   },
-  defaultOptions: [
-    {
-      includeAllHeadings: false,
-    },
-  ],
+  defaultOptions: [],
 
-  create(context, [options]) {
-    const {includeAllHeadings} = options;
+  create(context) {
     const headingTypes = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
     return {
       JSXOpeningElement(node) {
         const elementName = (node.name as TSESTree.JSXIdentifier).name;
 
-        if (includeAllHeadings) {
-          if (!headingTypes.includes(elementName)) {
-            return;
-          }
-          context.report({node, messageId: 'allHeadings'});
+        if (!headingTypes.includes(elementName)) {
           return;
         }
 
-        // By default, this plugin would only check for `<h2>` tags.
-        if (elementName !== 'h2') {
-          return;
-        }
-        context.report({node, messageId: 'headingTwo'});
+        context.report({node, messageId: 'headings'});
       },
     };
   },
