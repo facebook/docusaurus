@@ -35,7 +35,7 @@ The following parameters are required in `docusaurus.config.js` to optimize rout
 
 ## Testing your Build Locally {#testing-build-locally}
 
-It is important to test your build locally before deploying it for production. Docusaurus provides a [`docusaurus serve`](cli.md#docusaurus-serve-sitedir) command for that:
+It is important to test your build locally before deploying it for production. Docusaurus provides a [`docusaurus serve`](cli.mdx#docusaurus-serve-sitedir) command for that:
 
 ```bash npm2yarn
 npm run serve
@@ -45,7 +45,7 @@ By default, this will load your site at [http://localhost:3000/](http://localhos
 
 ## Trailing slash configuration {#trailing-slashes}
 
-Docusaurus has a [`trailingSlash` config](./api/docusaurus.config.js.md#trailingSlash), to allow customizing URLs/links and emitted filename patterns.
+Docusaurus has a [`trailingSlash` config](./api/docusaurus.config.js.mdx#trailingSlash), to allow customizing URLs/links and emitted filename patterns.
 
 The default value generally works fine. Unfortunately, each static hosting provider has a **different behavior**, and deploying the exact same site to various hosts can lead to distinct results. Depending on your host, it can be useful to change this config.
 
@@ -57,7 +57,7 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 ## Using environment variables {#using-environment-variables}
 
-Putting potentially sensitive information in the environment is common practice. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.md)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.md#customFields) to pass environment variables to the client side.
+Putting potentially sensitive information in the environment is common practice. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.mdx)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.mdx#customFields) to pass environment variables to the client side.
 
 ```js title="docusaurus.config.js"
 // If you are using dotenv (https://www.npmjs.com/package/dotenv)
@@ -132,7 +132,7 @@ There isn't a silver bullet. You need to weigh your needs and resources before m
 
 ## Self-Hosting {#self-hosting}
 
-Docusaurus can be self-hosted using [`docusaurus serve`](cli.md#docusaurus-serve-sitedir). Change port using `--port` and `--host` to change host.
+Docusaurus can be self-hosted using [`docusaurus serve`](cli.mdx#docusaurus-serve-sitedir). Change port using `--port` and `--host` to change host.
 
 ```bash npm2yarn
 npm run serve -- --build --port 80 --host 0.0.0.0

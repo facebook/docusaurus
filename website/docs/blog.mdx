@@ -11,7 +11,7 @@ The blog feature enables you to deploy a full-featured blog in no time.
 
 :::info
 
-Check the [Blog Plugin API Reference documentation](./api/plugins/plugin-content-blog.md) for an exhaustive list of options.
+Check the [Blog Plugin API Reference documentation](./api/plugins/plugin-content-blog.mdx) for an exhaustive list of options.
 
 :::
 
@@ -70,7 +70,7 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-The [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) is useful to add more metadata to your blog post, for example, author information, but Docusaurus will be able to infer all necessary metadata without the front matter. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-front-matter).
+The [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) is useful to add more metadata to your blog post, for example, author information, but Docusaurus will be able to infer all necessary metadata without the front matter. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.mdx#markdown-front-matter).
 
 ## Blog list {#blog-list}
 
@@ -617,7 +617,7 @@ Don't forget to delete the existing homepage at `./src/pages/index.js` or else t
 
 :::tip
 
-There's also a "Docs-only mode" for those who only want to use the docs. Read [Docs-only mode](./guides/docs/docs-introduction.md) for detailed instructions or a more elaborate explanation of `routeBasePath`.
+There's also a "Docs-only mode" for those who only want to use the docs. Read [Docs-only mode](./guides/docs/docs-introduction.mdx) for detailed instructions or a more elaborate explanation of `routeBasePath`.
 
 :::
 
@@ -627,7 +627,7 @@ By default, the classic theme assumes only one blog per website and hence includ
 
 Set the `routeBasePath` to the URL route that you want your second blog to be accessed on. Note that the `routeBasePath` here has to be different from the first blog or else there could be a collision of paths! Also, set `path` to the path to the directory containing your second blog's entries.
 
-As documented for [multi-instance plugins](./using-plugins.md#multi-instance-plugins-and-plugin-ids), you need to assign a unique ID to the plugins.
+As documented for [multi-instance plugins](./using-plugins.mdx#multi-instance-plugins-and-plugin-ids), you need to assign a unique ID to the plugins.
 
 ```js title="docusaurus.config.js"
 module.exports = {

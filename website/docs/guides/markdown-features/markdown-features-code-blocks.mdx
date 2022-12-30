@@ -380,7 +380,7 @@ You can disable the default line highlighting comments with `magicComments: []`.
 
 Every magic comment entry will contain three keys: `className` (required), `line`, which applies to the directly next line, or `block` (containing `start` and `end`), which applies to the entire block enclosed by the two comments.
 
-Using CSS to target the class can already do a lot, but you can unlock the full potential of this feature through [swizzling](../../swizzling.md).
+Using CSS to target the class can already do a lot, but you can unlock the full potential of this feature through [swizzling](../../swizzling.mdx).
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic CodeBlock/Line
@@ -751,7 +751,7 @@ Displaying CLI commands in both npm and Yarn is a very common need, for example:
 npm install @docusaurus/remark-plugin-npm2yarn
 ```
 
-Docusaurus provides such a utility out of the box, freeing you from using the `Tabs` component every time. To enable this feature, first install the `@docusaurus/remark-plugin-npm2yarn` package as above, and then in `docusaurus.config.js`, for the plugins where you need this feature (doc, blog, pages, etc.), register it in the `remarkPlugins` option. (See [Docs configuration](../../api/plugins/plugin-content-docs.md#ex-config) for more details on configuration format)
+Docusaurus provides such a utility out of the box, freeing you from using the `Tabs` component every time. To enable this feature, first install the `@docusaurus/remark-plugin-npm2yarn` package as above, and then in `docusaurus.config.js`, for the plugins where you need this feature (doc, blog, pages, etc.), register it in the `remarkPlugins` option. (See [Docs configuration](../../api/plugins/plugin-content-docs.mdx#ex-config) for more details on configuration format)
 
 ```js title="docusaurus.config.js"
 module.exports = {

@@ -211,7 +211,7 @@ There are two kinds of customizations possible with admonitions: **parsing** and
 
 ### Customizing rendering behavior {#customizing-rendering-behavior}
 
-You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.md). You can often achieve your goal through a simple wrapper. For example, in the follow example, we swap out the icon for `info` admonitions only.
+You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.mdx). You can often achieve your goal through a simple wrapper. For example, in the follow example, we swap out the icon for `info` admonitions only.
 
 ```jsx title="src/theme/Admonition.js"
 import React from 'react';
@@ -253,4 +253,4 @@ The plugin accepts two options:
 - `tag`: The tag that encloses the admonition. Defaults to `:::`.
 - `keywords`: An array of keywords that can be used as the type for the admonition. Note that if you override this, the default values will not be applied.
 
-The `keyword` will be passed as the `type` prop of the `Admonition` component. If you register more types than the default, you are also responsible for providing their implementation—including the container's style, icon, default title text, etc. You would usually need to [eject](../../swizzling.md#ejecting) the `@theme/Admonition` component, so you could re-use the same infrastructure as the other types.
+The `keyword` will be passed as the `type` prop of the `Admonition` component. If you register more types than the default, you are also responsible for providing their implementation—including the container's style, icon, default title text, etc. You would usually need to [eject](../../swizzling.mdx#ejecting) the `@theme/Admonition` component, so you could re-use the same infrastructure as the other types.
