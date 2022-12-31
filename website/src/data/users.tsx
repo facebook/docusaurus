@@ -199,10 +199,10 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
-    title: 'blog.johnnyreilly.com',
-    description: 'The blog of johnnyreilly',
+    title: 'johnnyreilly.com',
+    description: 'The blog of John Reilly ❤️🌻',
     preview: require('./showcase/johnnyreilly.png'),
-    website: 'https://blog.johnnyreilly.com/',
+    website: 'https://johnnyreilly.com/',
     source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
     tags: ['opensource', 'personal', 'large'],
   },
