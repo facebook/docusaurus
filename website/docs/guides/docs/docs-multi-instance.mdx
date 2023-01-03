@@ -139,6 +139,22 @@ We consider that the `product` instance is the most important one, and make it t
 
 :::
 
+:::note
+
+Additional docs instances can't share the docs/ directory, e.g.:
+
+docs/
+docs/product
+docs/community
+
+Instead, each instance holds their own directory, e.g.:
+
+docs/
+docs-product/
+docs-community/
+
+:::
+
 ## Versioned paths {#versioned-paths}
 
 Each plugin instance will store versioned docs in a distinct folder.
