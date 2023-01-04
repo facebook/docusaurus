@@ -13,8 +13,8 @@ Regular blog authors can be added to `authors.yml`.
 
 The blog post date can be extracted from filenames, such as:
 
-- `2019-05-30-welcome.md`
-- `2019-05-30-welcome/index.md`
+- `2019-05-30-welcome.mdx`
+- `2019-05-30-welcome/index.mdx`
 
 A blog post folder can be convenient to co-locate blog post images:
 
