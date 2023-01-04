@@ -34,7 +34,17 @@ import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
 
-<Tabs defaultValue="apple" values={[ {label: 'Apple', value: 'apple'}, {label: 'Orange', value: 'orange'}, {label: 'Banana', value: 'banana'} ]}><TabItem value="apple">This is an apple 🍎</TabItem><TabItem value="orange">This is an orange 🍊</TabItem><TabItem value="banana">This is a banana 🍌</TabItem></Tabs>
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>
 
 ## Comments
 
@@ -58,7 +68,7 @@ My comment
 
 ## Import code block from source code file
 
-import MyComponent from "@site/src/pages/examples/\_myComponent"
+import MyComponent from '@site/src/pages/examples/_myComponent';
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
@@ -74,7 +84,7 @@ import MyComponent from './myComponent';
 
 <BrowserWindow>
 
-<MyComponent/>
+<MyComponent />
 
 </BrowserWindow>
 
@@ -88,9 +98,9 @@ import MyComponentSource from '!!raw-loader!./myComponent';
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
 ```
 
-import CodeBlock from "@theme/CodeBlock"
+import CodeBlock from '@theme/CodeBlock';
 
-import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myComponent';
+import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
 
 <BrowserWindow>
 
