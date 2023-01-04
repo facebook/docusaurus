@@ -120,7 +120,7 @@ exports[`migration CLI migrates complex website: write 1`] = `
           ]
         }
       ],
-      "copyright": "Copyright © 2022 Facebook Inc.",
+      "copyright": "Copyright © 2023 Facebook Inc.",
       "logo": {
         "src": "img/docusaurus_monochrome.svg"
       }
@@ -303,7 +303,7 @@ exports[`migration CLI migrates missing versions: write 1`] = `
           ]
         }
       ],
-      "copyright": "Copyright © 2022 Facebook Inc.",
+      "copyright": "Copyright © 2023 Facebook Inc.",
       "logo": {
         "src": "img/docusaurus_monochrome.svg"
       }
@@ -483,7 +483,7 @@ exports[`migration CLI migrates simple website: write 1`] = `
           ]
         }
       ],
-      "copyright": "Copyright © 2022 Facebook Inc.",
+      "copyright": "Copyright © 2023 Facebook Inc.",
       "logo": {
         "src": "img/docusaurus_monochrome.svg"
       }
