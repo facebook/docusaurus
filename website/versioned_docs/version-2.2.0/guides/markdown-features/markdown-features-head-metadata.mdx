@@ -47,7 +47,7 @@ This `<head>` declaration has been added to the current Markdown doc as a demo. 
 
 :::note
 
-This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.md#head) component. Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
+This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.mdx#head) component. Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
 
 :::
 
@@ -59,14 +59,14 @@ Content plugins (e.g. docs and blog) provide front matter options like `descript
 
 ## Markdown page description {#markdown-page-description}
 
-The Markdown pages' description metadata may be used in more places than the head metadata. For example, the docs plugin's [generated category index](../docs/sidebar/items.md#generated-index-page) uses the description metadata for the doc cards.
+The Markdown pages' description metadata may be used in more places than the head metadata. For example, the docs plugin's [generated category index](../docs/sidebar/items.mdx#generated-index-page) uses the description metadata for the doc cards.
 
 By default, the description is the first content-ful line, with some efforts to convert it to plain text. For example, the following file...
 
 ```md
 # Title
 
-Main content... May contain some [links](./file.md) or **emphasis**.
+Main content... May contain some [links](./file.mdx) or **emphasis**.
 ```
 
 ...will have the default description "Main content... May contain some links or emphasis". However, **it's not designed to be fully functional**. Where it fails to produce reasonable descriptions, you can explicitly provide one through front matter:
@@ -78,5 +78,5 @@ description: This description will override the default.
 
 # Title
 
-Main content... May contain some [links](./file.md) or **emphasis**.
+Main content... May contain some [links](./file.mdx) or **emphasis**.
 ```

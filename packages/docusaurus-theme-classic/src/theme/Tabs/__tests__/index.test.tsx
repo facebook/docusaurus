@@ -7,10 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import renderer from 'react-test-renderer';
-import {
-  TabGroupChoiceProvider,
-  ScrollControllerProvider,
-} from '@docusaurus/theme-common/internal';
+import {ScrollControllerProvider} from '@docusaurus/theme-common/internal';
 import {StaticRouter} from 'react-router-dom';
 import Tabs from '../index';
 import TabItem from '../../TabItem';
@@ -24,9 +21,7 @@ function TestProviders({
 }) {
   return (
     <StaticRouter location={{pathname}}>
-      <ScrollControllerProvider>
-        <TabGroupChoiceProvider>{children}</TabGroupChoiceProvider>
-      </ScrollControllerProvider>
+      <ScrollControllerProvider>{children}</ScrollControllerProvider>
     </StaticRouter>
   );
 }

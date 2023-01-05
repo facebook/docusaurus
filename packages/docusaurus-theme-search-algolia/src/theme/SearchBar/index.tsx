@@ -5,20 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, useCallback, useMemo} from 'react';
-import {createPortal} from 'react-dom';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useHistory} from '@docusaurus/router';
-import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
-import Link from '@docusaurus/Link';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
+import {useHistory} from '@docusaurus/router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {useSearchPage} from '@docusaurus/theme-common/internal';
-import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
-import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
+import {
+  useAlgoliaContextualFacetFilters,
+  useSearchResultUrlProcessor,
+} from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {createPortal} from 'react-dom';
 import translations from '@theme/SearchTranslations';
 
+import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {
   DocSearchModal as DocSearchModalType,
   DocSearchModalProps,
@@ -28,7 +31,6 @@ import type {
   StoredDocSearchHit,
 } from '@docsearch/react/dist/esm/types';
 import type {SearchClient} from 'algoliasearch/lite';
-import type {AutocompleteState} from '@algolia/autocomplete-core';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -88,6 +90,7 @@ function DocSearch({
   ...props
 }: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
+  const processSearchResultUrl = useSearchResultUrlProcessor();
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -107,7 +110,6 @@ function DocSearch({
     facetFilters,
   };
 
-  const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchContainer = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
@@ -172,20 +174,14 @@ function DocSearch({
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
-      items.map((item) => {
-        // If Algolia contains a external domain, we should navigate without
-        // relative URL
-        if (isRegexpStringMatch(externalUrlRegex, item.url)) {
-          return item;
-        }
-
-        // We transform the absolute URL into a relative URL.
-        const url = new URL(item.url);
-        return {
-          ...item,
-          url: withBaseUrl(`${url.pathname}${url.hash}`),
-        };
-      }),
+      props.transformItems
+        ? // Custom transformItems
+          props.transformItems(items)
+        : // Default transformItems
+          items.map((item) => ({
+            ...item,
+            url: processSearchResultUrl(item.url),
+          })),
   ).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
