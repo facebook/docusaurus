@@ -98,14 +98,15 @@ Assuming you chose the classic template and named your site `my-website`, you wi
 ```bash
 my-website
 ├── blog
-│   ├── 2019-05-28-hola.md
-│   ├── 2019-05-29-hello-world.md
-│   └── 2020-05-30-welcome.md
+│   ├── 2019-05-28-hola.mdx
+│   ├── 2019-05-29-hello-world.mdx
+│   └── 2020-05-30-welcome.mdx
 ├── docs
-│   ├── doc1.md
-│   ├── doc2.md
-│   ├── doc3.md
-│   └── mdx.md
+│   ├── intro.mdx
+│   ├── pages.mdx
+│   ├── blog.mdx
+│   ├── docs.mdx
+│   └── markdown-features.mdx
 ├── src
 │   ├── css
 │   │   └── custom.css
@@ -120,6 +121,14 @@ my-website
 ├── sidebars.js
 └── yarn.lock
 ```
+
+:::info
+
+Docusaurus is based on **[MDX](https://mdxjs.com/)**. It allows you to use **[React and JSX](https://reactjs.org/docs/introducing-jsx.html)** in Markdown documents.
+
+You can use both `.md` and `.mdx` file extensions, but **the `.mdx` extension** is recommended when using advanced features relying on React.
+
+:::
 
 ### Project structure rundown {#project-structure-rundown}
 
