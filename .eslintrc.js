@@ -496,5 +496,14 @@ module.exports = {
       files: ['packages/eslint-plugin/**/*.{js,ts}'],
       extends: ['plugin:eslint-plugin/recommended'],
     },
+    {
+      files: [
+        'packages/docusaurus-plugin-debug/**',
+        'packages/docusaurus/src/**',
+      ],
+      rules: {
+        '@docusaurus/prefer-docusaurus-heading': OFF,
+      },
+    },
   ],
 };

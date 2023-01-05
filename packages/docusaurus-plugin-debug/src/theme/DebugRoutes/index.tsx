@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Should we enforce use of @theme/Heading?
-/* eslint-disable @docusaurus/prefer-docusaurus-heading */
-
 import React from 'react';
 import routes from '@generated/routes';
 import DebugLayout from '@theme/DebugLayout';
