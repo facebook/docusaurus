@@ -15,7 +15,9 @@ import styles from './styles.module.css';
 function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
     <article>
-      <Heading as="h2">{letterEntry.letter}</Heading>
+      <Heading as="h2" id={letterEntry.letter}>
+        {letterEntry.letter}
+      </Heading>
       <ul className="padding--none">
         {letterEntry.tags.map((tag) => (
           <li key={tag.permalink} className={styles.tag}>

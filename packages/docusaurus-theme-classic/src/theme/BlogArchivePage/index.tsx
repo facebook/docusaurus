@@ -21,7 +21,9 @@ type YearProp = {
 function Year({year, posts}: YearProp) {
   return (
     <>
-      <Heading as="h3">{year}</Heading>
+      <Heading as="h3" id={year}>
+        {year}
+      </Heading>
       <ul>
         {posts.map((post) => (
           <li key={post.metadata.date}>
