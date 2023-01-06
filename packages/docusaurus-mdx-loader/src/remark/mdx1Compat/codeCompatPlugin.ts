@@ -22,8 +22,6 @@ export default function codeCompatPlugin(this: Processor): Transformer {
       node.data = node.data || {};
       node.data.hProperties = node.data.hProperties || {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (node.data.hProperties as any).originalType = 'code';
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (node.data.hProperties as any).metastring = node.meta;
     });
   };
