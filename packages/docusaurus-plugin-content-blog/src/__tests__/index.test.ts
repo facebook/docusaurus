@@ -175,6 +175,33 @@ describe('blog plugin', () => {
       unlisted: false,
     });
 
+    expect(getByTitle(blogPosts, 'MDX Blog Post').metadata).toEqual({
+      authors: [],
+      date: new Date('2021-03-05T00:00:00.000Z'),
+      description: 'HTML Heading 1',
+      editUrl: 'https://baseEditUrl.com/edit/blog/mdx-blog-post.mdx',
+      formattedDate: 'March 5, 2021',
+      frontMatter: {
+        date: new Date('2021-03-05T00:00:00.000Z'),
+        title: 'MDX Blog Post',
+      },
+      hasTruncateMarker: true,
+      nextItem: {
+        permalink: '/blog/hey/my super path/héllô',
+        title: 'Complex Slug',
+      },
+      permalink: '/blog/mdx-blog-post',
+      prevItem: {
+        permalink: '/blog/mdx-require-blog-post',
+        title: 'MDX Blog Sample with require calls',
+      },
+      readingTime: 0.26,
+      source: '@site/blog/mdx-blog-post.mdx',
+      tags: [],
+      title: 'MDX Blog Post',
+      unlisted: false,
+    });
+
     expect(
       getByTitle(blogPosts, 'Happy 1st Birthday Slash! (translated)').metadata,
     ).toEqual({

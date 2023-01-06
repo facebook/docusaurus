@@ -26,7 +26,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
-  truncateMarker: /<!--\s*truncate\s*-->/,
+  truncateMarker: /<!--\s*truncate\s*-->|\{\/\*\s*truncate\s*\*\/\}/,
   rehypePlugins: [],
   remarkPlugins: [],
   showReadingTime: true,
