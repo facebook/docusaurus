@@ -102,7 +102,7 @@ It is also possible to display an inline table of contents directly inside a Mar
 
 The `toc` variable is available in any MDX document and contains all the headings of an MDX document. By default, only `h2` and `h3` headings are displayed in the TOC. You can change which heading levels are visible by setting `minHeadingLevel` or `maxHeadingLevel` for individual `TOCInline` components.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 import TOCInline from '@theme/TOCInline';
 
@@ -129,7 +129,7 @@ declare const toc: {
 
 Note that the `toc` global is a flat array, so you can easily cut out unwanted nodes or insert extra nodes, and create a new TOC tree.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 import TOCInline from '@theme/TOCInline';
 
