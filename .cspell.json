@@ -31,7 +31,8 @@
     "*.xyz",
     "*.docx",
     "versioned_docs",
-    "*.min.*"
+    "*.min.*",
+    "jest/vendor"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }
