@@ -21,5 +21,3 @@ packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/facebook
 
 website/_dogfooding/_swizzle_theme_tests
-
-jest/vendor
