@@ -4,6 +4,9 @@ node_modules
 build
 coverage
 .docusaurus
+
+jest/vendor
+
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
