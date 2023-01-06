@@ -58,13 +58,6 @@ const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-// TODO replace with new mdx compiler options?
-const pragma = `
-/* @jsxRuntime classic */
-/* @jsx mdx */
-/* @jsxFrag React.Fragment */
-`;
-
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
@@ -354,10 +347,6 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
 `;
 
   const code = `
-${pragma}
-import React from 'react';
-import { mdx } from '@mdx-js/react';
-
 ${exportsCode}
 ${result}
 `;
