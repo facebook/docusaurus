@@ -87,7 +87,7 @@ describe('validateDocFrontMatter format', () => {
     prefix: 'format',
     validFrontMatters: [{format: 'md'}, {format: 'mdx'}],
     invalidFrontMatters: [
-      [{format: 'xdm'}, '"format" must be one of [md, mdx]'],
+      [{format: 'xdm'}, '"format" must be one of [md, mdx, detect]'],
     ],
   });
 });

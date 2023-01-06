@@ -7,3 +7,13 @@ wrapperClassName: docusaurus-markdown-example
 # Markdown .md tests
 
 todo
+
+<!-- comment -->
+
+:::note[test]
+
+note
+
+:::
+
+test

@@ -6,6 +6,7 @@
  */
 
 import fs from 'fs-extra';
+import path from 'path';
 import logger from '@docusaurus/logger';
 import {
   parseFrontMatter,
@@ -15,7 +16,6 @@ import {
 } from '@docusaurus/utils';
 import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
-import {Simulate} from 'react-dom/test-utils';
 import preprocessor from './preprocessor';
 import headings from './remark/headings';
 import toc from './remark/toc';
@@ -36,7 +36,23 @@ import type {AdmonitionOptions} from './remark/admonitions';
 
 // @ts-expect-error: TODO
 import type {ProcessorOptions} from '@mdx-js/mdx';
-import load = Simulate.load;
+
+// Copied from https://mdxjs.com/packages/mdx/#optionsmdextensions
+// Although we are likely to only use .md / .mdx anyway...
+const mdFormatExtensions = [
+  '.md',
+  '.markdown',
+  '.mdown',
+  '.mkdn',
+  '.mkd',
+  '.mdwn',
+  '.mkdown',
+  '.ron',
+];
+
+function isMDFormat(filepath: string) {
+  return mdFormatExtensions.includes(path.extname(filepath));
+}
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -162,11 +178,6 @@ function getAdmonitionsPlugins(
   return [];
 }
 
-function isDebugFile(filePath: string): boolean {
-  // return filePath.endsWith('plugin-sitemap.md');
-  return false;
-}
-
 // TODO temporary, remove this after v3.1?
 // Some plugin authors use our mdx-loader, despite it not being public API
 // see https://github.com/facebook/docusaurus/issues/8298
@@ -203,20 +214,6 @@ export async function mdxLoader(
   const content = preprocessor(contentUnprocessed, {
     admonitions: reqOptions.admonitions,
   });
-
-  if (isDebugFile(filePath)) {
-    console.log('\n\n\n');
-    console.log('contentUnprocessed');
-    console.log('\n\n\n');
-    console.log(contentUnprocessed);
-    console.log('\n\n\n');
-    console.log('############################################################');
-    console.log('\n\n\n');
-    console.log('content');
-    console.log('\n\n\n');
-    console.log(content);
-    console.log('\n\n\n');
-  }
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
@@ -260,14 +257,20 @@ export async function mdxLoader(
       ...(reqOptions.rehypePlugins ?? []),
     ];
 
+    const format =
+      mdxFrontMatter.format === 'detect'
+        ? isMDFormat(filePath)
+          ? 'md'
+          : 'mdx'
+        : mdxFrontMatter.format;
+
     const options: ProcessorOptions = {
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
-      format: mdxFrontMatter.format,
+      format,
       providerImportSource: '@mdx-js/react',
     };
-
     // @ts-expect-error: TODO
     compilerCache.set(this.query, [createProcessor(options), options]);
   }
@@ -295,15 +298,6 @@ export async function mdxLoader(
         },
       ),
     );
-  }
-
-  if (isDebugFile(filePath)) {
-    console.log('############################################################');
-    console.log('\n\n\n');
-    console.log('result');
-    console.log('\n\n\n');
-    console.log(result);
-    console.log('\n\n\n');
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _

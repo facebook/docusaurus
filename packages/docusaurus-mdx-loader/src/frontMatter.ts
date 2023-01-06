@@ -11,15 +11,17 @@ import {
 } from '@docusaurus/utils-validation';
 
 export type MDXFrontMatter = {
-  format: 'md' | 'mdx';
+  format: 'md' | 'mdx' | 'detect';
 };
 
 export const DefaultMDXFrontMatter: MDXFrontMatter = {
-  format: 'mdx', // TODO later => move to undefined (using file extension)
+  format: 'detect',
 };
 
 const MDXFrontMatterSchema = Joi.object<MDXFrontMatter>({
-  format: Joi.string().equal('md', 'mdx').default(DefaultMDXFrontMatter.format),
+  format: Joi.string()
+    .equal('md', 'mdx', 'detect')
+    .default(DefaultMDXFrontMatter.format),
 }).default(DefaultMDXFrontMatter);
 
 export function validateMDXFrontMatter(frontMatter: unknown): MDXFrontMatter {
