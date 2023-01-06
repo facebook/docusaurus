@@ -78,7 +78,7 @@ The blog's index page (by default, it is at `/blog`) is the _blog list page_, wh
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
-```md title="website/blog/my-post.md"
+```md title="website/blog/my-post.md" {7}
 ---
 title: Markdown blog truncation example
 ---
@@ -93,7 +93,7 @@ But anything from here on down will not be.
 For files using the `.mdx` extension, use a [MDX](https://mdxjs.com/) comment `{/* truncate */}` instead:
 
 {/* prettier-ignore */}
-```md title="website/blog/my-post.mdx"
+```md title="website/blog/my-post.mdx" {7}
 ---
 title: MDX blog truncation Example
 ---
