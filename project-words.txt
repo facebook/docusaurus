@@ -190,6 +190,9 @@ mkcert
 mkdir
 mkdirs
 mkdocs
+mkdn
+mdwn
+mkdown
 moesif
 msapplication
 nabors
