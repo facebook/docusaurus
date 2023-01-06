@@ -193,6 +193,7 @@ export async function mdxLoader(
 
   const {createProcessor} = await import('@mdx-js/mdx');
   const {default: gfm} = await import('remark-gfm');
+  const {default: comment} = await import('remark-comment');
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
   const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
@@ -235,6 +236,7 @@ export async function mdxLoader(
         },
       ],
       gfm,
+      comment, // TODO add this conditionally
       ...(reqOptions.remarkPlugins ?? []),
     ];
 

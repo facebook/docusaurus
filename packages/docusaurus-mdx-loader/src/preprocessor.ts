@@ -23,7 +23,5 @@ export default function preprocessContent(
     const {keywords} = normalizeAdmonitionOptions(admonitions);
     md = admonitionTitleToDirectiveLabel(md, keywords);
   }
-  // TODO MDX 2 doesn't like our unescaped html comments <
-  md = md.replaceAll('<!--', '\\<!--');
   return md;
 }
