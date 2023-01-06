@@ -10,7 +10,14 @@ import React, {isValidElement} from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import type {Props} from '@theme/MDXComponents/Code';
 
-// Keep this component for now, might be useful to swizzle it?
 export default function MDXCode(props: Props): JSX.Element {
-  return <CodeBlock {...(props as ComponentProps<typeof CodeBlock>)} />;
+  const shouldBeInline = React.Children.toArray(props.children).every(
+    (el) => typeof el === 'string' && !el.includes('\n'),
+  );
+
+  return shouldBeInline ? (
+    <code {...props} />
+  ) : (
+    <CodeBlock {...(props as ComponentProps<typeof CodeBlock>)} />
+  );
 }
