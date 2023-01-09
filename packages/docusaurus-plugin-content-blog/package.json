@@ -30,10 +30,10 @@
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "reading-time": "^1.5.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",
-    "webpack": "^5.74.0"
+    "webpack": "^5.75.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

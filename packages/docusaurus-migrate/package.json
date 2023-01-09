@@ -22,8 +22,8 @@
     "docusaurus-migrate": "bin/index.mjs"
   },
   "dependencies": {
-    "@babel/core": "^7.19.0",
-    "@babel/preset-env": "^7.19.0",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "@mapbox/hast-util-to-jsx": "^2.0.0",
@@ -36,13 +36,13 @@
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
-    "semver": "^7.3.7",
-    "tslib": "^2.4.0",
+    "semver": "^7.3.8",
+    "tslib": "^2.4.1",
     "unified": "^9.2.2",
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
     "@types/color": "^3.0.3",
-    "@types/jscodeshift": "^0.11.5"
+    "@types/jscodeshift": "^0.11.6"
   }
 }

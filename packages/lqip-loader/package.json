@@ -20,8 +20,8 @@
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
-    "sharp": "^0.31.0",
-    "tslib": "^2.4.0"
+    "sharp": "^0.31.3",
+    "tslib": "^2.4.1"
   },
   "engines": {
     "node": ">=16.14"

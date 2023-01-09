@@ -20,9 +20,9 @@
   "dependencies": {
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
-    "joi": "^17.6.0",
+    "joi": "^17.7.0",
     "js-yaml": "^4.1.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "engines": {
     "node": ">=16.14"

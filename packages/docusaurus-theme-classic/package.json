@@ -38,12 +38,12 @@
     "infima": "0.2.0-alpha.42",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
-    "postcss": "^8.4.16",
+    "postcss": "^8.4.21",
     "prism-react-renderer": "^1.3.5",
     "prismjs": "^1.29.0",
-    "react-router-dom": "^5.3.3",
+    "react-router-dom": "^5.3.4",
     "rtlcss": "^4.0.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
