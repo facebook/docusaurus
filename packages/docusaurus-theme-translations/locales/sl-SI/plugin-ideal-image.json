@@ -1,12 +1,12 @@
 {
-  "theme.IdealImageMessage.404error": "404. Image not found",
-  "theme.IdealImageMessage.404error___DESCRIPTION": "When the image is not found",
-  "theme.IdealImageMessage.error": "Error. Click to reload",
-  "theme.IdealImageMessage.error___DESCRIPTION": "When the image fails to load for unknown error",
-  "theme.IdealImageMessage.load": "Click to load{sizeMessage}",
-  "theme.IdealImageMessage.load___DESCRIPTION": "To prompt users to load the full image. sizeMessage is a parenthesized size figure.",
-  "theme.IdealImageMessage.loading": "Loading...",
-  "theme.IdealImageMessage.loading___DESCRIPTION": "When the full-scale image is loading",
-  "theme.IdealImageMessage.offline": "Your browser is offline. Image not loaded",
-  "theme.IdealImageMessage.offline___DESCRIPTION": "When the user is viewing an offline document"
+  "theme.IdealImageMessage.404error": "404. Slika ni najdena",
+  "theme.IdealImageMessage.404error___DESCRIPTION": "Ko slika ni najdena",
+  "theme.IdealImageMessage.error": "Napaka. Kliknite, da ponovno naložite stran",
+  "theme.IdealImageMessage.error___DESCRIPTION": "Ko nalaganje slike ni uspešno zaradi neznane napake",
+  "theme.IdealImageMessage.load": "Kliknite, da naložite{sizeMessage}",
+  "theme.IdealImageMessage.load___DESCRIPTION": "Da se uporabnik odloči naložiti sliko v polni velikosti. sizeMessage je velikost slike v oklepajih.",
+  "theme.IdealImageMessage.loading": "Nalaganje...",
+  "theme.IdealImageMessage.loading___DESCRIPTION": "Ko se nalaga slika v polni velikosti.",
+  "theme.IdealImageMessage.offline": "Vaš brskalnik nima povezave s spletom. Slike ni bilo možno naložiti",
+  "theme.IdealImageMessage.offline___DESCRIPTION": "Ko uporabnik dostopa do dokumenta brez povezave s spletom"
 }
