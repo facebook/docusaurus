@@ -44,7 +44,7 @@
     "@docusaurus/utils-validation": "^3.0.0-alpha.0",
     "@types/react-router-config": "^5.0.6",
     "combine-promises": "^1.1.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",

@@ -29,7 +29,7 @@
     "@docusaurus/utils-validation": "^3.0.0-alpha.0",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.2.1",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "react-live": "2.2.3",
     "tslib": "^2.4.1"
   },

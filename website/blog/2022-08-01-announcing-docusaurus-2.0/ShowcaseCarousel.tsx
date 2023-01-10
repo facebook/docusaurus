@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+/* eslint-disable global-require */
 
 import React, {type ComponentProps} from 'react';
 import {
@@ -21,9 +16,9 @@ import {
   ButtonNext,
   DotGroup,
 } from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
 import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 import styles from './ShowcaseCarousel.module.css';
 
 type Site = {

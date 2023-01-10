@@ -19,7 +19,7 @@
     "update": "node ./update.mjs"
   },
   "dependencies": {
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
