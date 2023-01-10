@@ -27,7 +27,7 @@
     "@docusaurus/utils-validation": "^3.0.0-alpha.0",
     "cheerio": "^1.0.0-rc.12",
     "feed": "^4.2.2",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "lodash": "^4.17.21",
     "reading-time": "^1.5.0",
     "tslib": "^2.4.1",

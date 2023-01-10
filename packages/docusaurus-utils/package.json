@@ -22,7 +22,7 @@
     "@svgr/webpack": "^6.5.1",
     "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "github-slugger": "^1.5.0",
     "globby": "^11.1.0",
     "gray-matter": "^4.0.3",

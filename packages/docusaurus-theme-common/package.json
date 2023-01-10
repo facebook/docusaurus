@@ -49,7 +49,7 @@
   "devDependencies": {
     "@docusaurus/core": "^3.0.0-alpha.0",
     "@docusaurus/types": "^3.0.0-alpha.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {

@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.0.0-alpha.0",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^11.1.0"
   },
   "peerDependencies": {
     "jimp": "*",
