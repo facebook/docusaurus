@@ -28,10 +28,10 @@
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "prompts": "^2.4.2",
-    "semver": "^7.3.7",
+    "semver": "^7.3.8",
     "shelljs": "^0.8.5",
-    "supports-color": "^9.2.3",
-    "tslib": "^2.4.0"
+    "supports-color": "^9.3.1",
+    "tslib": "^2.4.1"
   },
   "devDependencies": {
     "@types/supports-color": "^8.1.1"

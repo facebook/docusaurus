@@ -48,9 +48,9 @@
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "utility-types": "^3.10.0",
-    "webpack": "^5.74.0"
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",

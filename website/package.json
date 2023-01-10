@@ -34,8 +34,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.10",
-    "@crowdin/crowdin-api-client": "^1.19.1",
+    "@crowdin/cli": "^3.9.1",
+    "@crowdin/crowdin-api-client": "^1.20.1",
     "@docusaurus/core": "^3.0.0-alpha.0",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/plugin-client-redirects": "^3.0.0-alpha.0",
@@ -55,18 +55,18 @@
     "color": "^4.2.3",
     "fs-extra": "^10.1.0",
     "netlify-plugin-cache": "^1.0.3",
-    "pure-react-carousel": "^1.29.0",
+    "pure-react-carousel": "^1.30.1",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-lite-youtube-embed": "^2.3.1",
-    "react-medium-image-zoom": "^5.0.2",
+    "react-lite-youtube-embed": "^2.3.52",
+    "react-medium-image-zoom": "^5.1.2",
     "react-popper": "^2.3.0",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "swc-loader": "^0.2.3",
     "unist-util-visit": "^2.0.3",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4"
   },
@@ -85,7 +85,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "^3.0.0-alpha.0",
     "@tsconfig/docusaurus": "^1.0.5",
-    "@types/jest": "^29.0.0",
+    "@types/jest": "^29.2.5",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }

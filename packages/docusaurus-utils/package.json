@@ -19,11 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "^3.0.0-alpha.0",
-    "@svgr/webpack": "^6.3.1",
+    "@svgr/webpack": "^6.5.1",
     "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
-    "github-slugger": "^1.4.0",
+    "github-slugger": "^1.5.0",
     "globby": "^11.1.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
@@ -31,9 +31,9 @@
     "micromatch": "^4.0.5",
     "resolve-pathname": "^3.0.0",
     "shelljs": "^0.8.5",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "url-loader": "^4.1.1",
-    "webpack": "^5.74.0"
+    "webpack": "^5.75.0"
   },
   "engines": {
     "node": ">=16.14"
@@ -43,7 +43,7 @@
     "@types/dedent": "^0.7.0",
     "@types/github-slugger": "^1.3.0",
     "@types/micromatch": "^4.0.2",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.0.10",
     "dedent": "^0.7.0"
   },
   "peerDependencies": {

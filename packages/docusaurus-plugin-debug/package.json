@@ -25,7 +25,7 @@
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "fs-extra": "^10.1.0",
     "react-json-view": "^1.21.3",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

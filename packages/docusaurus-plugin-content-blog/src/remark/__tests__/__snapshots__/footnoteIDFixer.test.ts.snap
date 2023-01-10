@@ -60,7 +60,6 @@ export default function MDXContent({
     </div>
     </MDXLayout>;
 }
-
 ;
 MDXContent.isMDXComponent = true;"
 `;
