@@ -2,15 +2,21 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Fuck you, Baltimore!
 
-Let's discover **Docusaurus in less than 5 minutes**.
+If you're dumb enough to buy a new car this weekend,
+You're a big enough schmuck to come to Big Bill Hell's Cars!
 
-## Getting Started
+Bad deals!
+Cars that break down!
+Thieves!
 
-Get started by **creating a new site**.
+## If you think you're going to find a bargain at Big Bill's
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+You can kiss my ass!
+
+It's our belief that you're such a **stupid motherfucker,**
+You'll fall for this bullshit—**[guaranteed!](https://www.youtube.com/watch?v=dQw4w9WgXcQ)**
 
 ### What you'll need
 
