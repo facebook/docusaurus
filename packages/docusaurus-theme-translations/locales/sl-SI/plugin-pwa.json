@@ -3,6 +3,6 @@
   "theme.PwaReloadPopup.closeButtonAriaLabel___DESCRIPTION": "ARIA oznaka za gumb za zapiranje pojavnega okna za osvežitev PWA",
   "theme.PwaReloadPopup.info": "Na voljo je nova verzija",
   "theme.PwaReloadPopup.info___DESCRIPTION": "Tekst na pojavnem oknu za osvežitev PWA",
-  "theme.PwaReloadPopup.refreshButtonText": "Osveži",
+  "theme.PwaReloadPopup.refreshButtonText": "Prenesi",
   "theme.PwaReloadPopup.refreshButtonText___DESCRIPTION": "Teskst na gumbu za osvežitev PWA"
 }
