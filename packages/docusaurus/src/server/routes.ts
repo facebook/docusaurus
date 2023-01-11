@@ -80,12 +80,12 @@ export function genChunkName(
         const shortHash = simpleHash(modulePath, 3);
         str = `${preferredName}${shortHash}`;
       }
-      const name = str === '/' ? 'index' : docuHash(str);
+      const name = docuHash(str);
       chunkName = prefix ? `${prefix}---${name}` : name;
     }
     const seenCount = (chunkNameCount.get(chunkName) ?? 0) + 1;
     if (seenCount > 1) {
-      chunkName += seenCount;
+      chunkName += seenCount.toString(36);
     }
     chunkNameCache.set(modulePath, chunkName);
     chunkNameCount.set(chunkName, seenCount);
