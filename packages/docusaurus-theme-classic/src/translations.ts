@@ -45,7 +45,20 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
     ? {title: {message: navbar.title, description: 'The title in the navbar'}}
     : {};
 
-  return mergeTranslations([titleTranslations, navbarItemsTranslations]);
+  const logoAlt: TranslationFileContent = navbar.logo?.alt
+    ? {
+        'logo.alt': {
+          message: navbar.logo?.alt,
+          description: 'The alt of navbar logo',
+        },
+      }
+    : {};
+
+  return mergeTranslations([
+    titleTranslations,
+    logoAlt,
+    navbarItemsTranslations,
+  ]);
 }
 function translateNavbar(
   navbar: Navbar,
@@ -119,7 +132,21 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
       }
     : {};
 
-  return mergeTranslations([footerLinkTitles, footerLinkLabels, copyright]);
+  const logoAlt: TranslationFileContent = footer.logo?.alt
+    ? {
+        'logo.alt': {
+          message: footer.logo?.alt,
+          description: 'The alt of footer logo',
+        },
+      }
+    : {};
+
+  return mergeTranslations([
+    footerLinkTitles,
+    footerLinkLabels,
+    copyright,
+    logoAlt,
+  ]);
 }
 function translateFooter(
   footer: Footer,
