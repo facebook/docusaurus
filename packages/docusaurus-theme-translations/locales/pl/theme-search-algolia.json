@@ -20,7 +20,7 @@
   "theme.SearchModal.searchBox.resetButtonTitle": "Wyczyść zapytanie",
   "theme.SearchModal.startScreen.favoriteSearchesTitle": "Ulubione",
   "theme.SearchModal.startScreen.noRecentSearchesText": "Brak ostatnich wyszukiwań",
-  "theme.SearchModal.startScreen.recentSearchesTitle": "Ostatnio",
+  "theme.SearchModal.startScreen.recentSearchesTitle": "Ostatnie wyszukiwania",
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Usuń to wyszukiwanie z ulubionych",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Usuń to wyszukiwanie z historii",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Zapisz to wyszukiwanie",
