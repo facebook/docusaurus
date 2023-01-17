@@ -1,7 +1,7 @@
 {
   "theme.SearchBar.label": "Szukaj",
   "theme.SearchBar.seeAll": "Wyświetl wszystkie {count} wyników",
-  "theme.SearchModal.errorScreen.helpText": "Może warto sprawdzić połączenie sieciowe.",
+  "theme.SearchModal.errorScreen.helpText": "Sprawdź swoje połączenie sieciowe.",
   "theme.SearchModal.errorScreen.titleText": "Nie można pobrać wyników",
   "theme.SearchModal.footer.closeKeyAriaLabel": "Klawisz Escape",
   "theme.SearchModal.footer.closeText": "do zamknięcia",
