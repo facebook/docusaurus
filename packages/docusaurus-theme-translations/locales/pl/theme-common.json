@@ -44,7 +44,7 @@
   "theme.docs.paginator.navAriaLabel": "Nawigacja na stronie dokumentacji",
   "theme.docs.paginator.next": "Następna strona",
   "theme.docs.paginator.previous": "Poprzednia strona",
-  "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Zamknij pasek nawigacji",
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Zamknij panel nawigacji",
   "theme.docs.sidebar.collapseButtonAriaLabel": "Zwiń boczny panel",
   "theme.docs.sidebar.collapseButtonTitle": "Zwiń boczny panel",
   "theme.docs.sidebar.expandButtonAriaLabel": "Rozszerz boczny panel",
