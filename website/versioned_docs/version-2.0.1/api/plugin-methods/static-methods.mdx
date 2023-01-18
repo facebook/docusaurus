@@ -39,7 +39,7 @@ function myPlugin(context, options) {
 // highlight-start
 myPlugin.validateOptions = ({options, validate}) => {
   const validatedOptions = validate(myValidationSchema, options);
-  return validationOptions;
+  return validatedOptions;
 };
 // highlight-end
 
@@ -59,7 +59,7 @@ export default function (context, options) {
 // highlight-start
 export function validateOptions({options, validate}) {
   const validatedOptions = validate(myValidationSchema, options);
-  return validationOptions;
+  return validatedOptions;
 }
 // highlight-end
 ```
