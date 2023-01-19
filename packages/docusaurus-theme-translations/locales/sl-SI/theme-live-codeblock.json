@@ -1,6 +1,4 @@
 {
   "theme.Playground.liveEditor": "Urejanje kode v živo",
-  "theme.Playground.liveEditor___DESCRIPTION": "Napis za urejanje živih kodnih blokov v živo",
-  "theme.Playground.result": "Rezultat",
-  "theme.Playground.result___DESCRIPTION": "Napis za rezultat živih kodnih blokov"
+  "theme.Playground.result": "Rezultat"
 }
