@@ -24,7 +24,7 @@ import type {
 import styles from './styles.module.css';
 
 function startWithEmoji(title: string): boolean {
-    return /^\p{S}/u.test(title);
+    return /^\p{So}/u.test(title);
 }
 
 function CardContainer({
