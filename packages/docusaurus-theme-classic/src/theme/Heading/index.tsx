@@ -38,6 +38,7 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
       <Link
         className="hash-link"
         to={`#${id}`}
+        aria-labelledby={id}
         title={translate({
           id: 'theme.common.headingLinkTitle',
           message: 'Direct link to heading',
