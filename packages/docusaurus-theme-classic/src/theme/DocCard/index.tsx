@@ -23,6 +23,10 @@ import type {
 
 import styles from './styles.module.css';
 
+function startWithEmoji(title: string): boolean {
+    return /^\p{S}/u.test(title);
+}
+
 function CardContainer({
   href,
   children,
@@ -53,7 +57,7 @@ function CardLayout({
   return (
     <CardContainer href={href}>
       <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
-        {icon} {title}
+        {icon !== '' ? icon + ' ' : ''}{title}
       </h2>
       {description && (
         <p
@@ -81,7 +85,7 @@ function CardCategory({
   return (
     <CardLayout
       href={href}
-      icon="🗃️"
+      icon={startWithEmoji(item.label) ? "" : "🗃️"}
       title={item.label}
       description={translate(
         {
@@ -102,7 +106,7 @@ function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
   return (
     <CardLayout
       href={item.href}
-      icon={icon}
+      icon={startWithEmoji(item.label) ? '' : icon}
       title={item.label}
       description={doc?.description}
     />
