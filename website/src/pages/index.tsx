@@ -25,12 +25,13 @@ import ProductHuntCard from '@site/src/components/ProductHuntCard';
 import HackerNewsIcon from '@site/src/components/HackerNewsIcon';
 import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import Heading from '@theme/Heading';
 
 function HeroBanner() {
   return (
     <div className={styles.hero} data-theme="dark">
       <div className={styles.heroInner}>
-        <h1 className={styles.heroProjectTagline}>
+        <Heading as="h1" className={styles.heroProjectTagline}>
           <img
             alt={translate({message: 'Docusaurus with Keytar'})}
             className={styles.heroLogo}
@@ -51,7 +52,7 @@ function HeroBanner() {
               }),
             }}
           />
-        </h1>
+        </Heading>
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/docs">
             <Translate>Get Started</Translate>
@@ -109,9 +110,9 @@ function TweetsSection() {
   return (
     <div className={clsx(styles.section, styles.sectionAlt)}>
       <div className="container">
-        <h2 className={clsx('margin-bottom--lg', 'text--center')}>
+        <Heading as="h2" className={clsx('margin-bottom--lg', 'text--center')}>
           <Translate>Loved by many engineers</Translate>
-        </h2>
+        </Heading>
         <div className={clsx('row', styles.tweetsSection)}>
           {tweetColumns.map((tweetItems, i) => (
             <div className="col col--4" key={i}>
@@ -161,9 +162,9 @@ function VideoContainer() {
     <div className="container text--center margin-bottom--xl">
       <div className="row">
         <div className="col">
-          <h2>
+          <Heading as="h2">
             <Translate>Check it out in the intro video</Translate>
-          </h2>
+          </Heading>
           <div className="video-container">
             <LiteYouTubeEmbed
               id="_An9EsKPhp0"
@@ -198,7 +199,9 @@ function Feature({
         src={withBaseUrl(feature.image.src)}
         loading="lazy"
       />
-      <h3 className={clsx(styles.featureHeading)}>{feature.title}</h3>
+      <Heading as="h3" className={clsx(styles.featureHeading)}>
+        {feature.title}
+      </Heading>
       <p className="padding-horiz--md">{feature.text}</p>
     </div>
   );
@@ -210,9 +213,9 @@ function FeaturesContainer() {
 
   return (
     <div className="container text--center">
-      <h2>
+      <Heading as="h2">
         <Translate>Main features</Translate>
-      </h2>
+      </Heading>
       <div className="row margin-bottom--lg">
         {firstRow.map((feature, idx) => (
           <Feature feature={feature} key={idx} />

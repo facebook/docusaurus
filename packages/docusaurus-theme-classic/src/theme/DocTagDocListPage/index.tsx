@@ -18,6 +18,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
 import Unlisted from '@theme/Unlisted';
+import Heading from '@theme/Heading';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {
@@ -53,7 +54,7 @@ function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
   return (
     <article className="margin-vert--lg">
       <Link to={doc.permalink}>
-        <h2>{doc.title}</h2>
+        <Heading as="h2">{doc.title}</Heading>
       </Link>
       {doc.description && <p>{doc.description}</p>}
     </article>
@@ -83,7 +84,7 @@ function DocTagDocListPageContent({
           <main className="col col--8 col--offset-2">
             {tag.unlisted && <Unlisted />}
             <header className="margin-bottom--xl">
-              <h1>{title}</h1>
+              <Heading as="h1">{title}</Heading>
               <Link href={tag.allTagsPath}>
                 <Translate
                   id="theme.tags.tagsPageLink"
