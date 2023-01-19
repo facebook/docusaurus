@@ -25,7 +25,7 @@
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Umakni iskanje iz zgodovine",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Shrani to iskanje",
   "theme.SearchPage.algoliaLabel": "Iskanje Algolia",
-  "theme.SearchPage.documentsFound.plurals": "Dokument najden|Dokumenta najdena|Trije dokumenti najdeni|Štirje dokumenti najdeni|{count} dokumentov najdenih",
+  "theme.SearchPage.documentsFound.plurals": "Dokument najden|Dokumenta najdena|{count} dokumenti najdeni|{count} dokumentov najdenih",
   "theme.SearchPage.emptyResultsTitle": "Išči po dokumentaciji",
   "theme.SearchPage.existingResultsTitle": "Rezultati iskanja za \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "Nalagam nove rezultate...",
