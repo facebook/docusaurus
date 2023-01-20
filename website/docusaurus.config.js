@@ -312,6 +312,9 @@ const config = {
           disableVersioning: isVersioningDisabled,
           lastVersion:
             isDev || isDeployPreview || isBranchDeploy ? 'current' : undefined,
+
+          // TODO temporary for mdx2 PR
+          ...(isDeployPreview && {lastVersion: undefined}),
           onlyIncludeVersions: (() => {
             // TODO temporary for mdx2 PR
             if (isDeployPreview) {
