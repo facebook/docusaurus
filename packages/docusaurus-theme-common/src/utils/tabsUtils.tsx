@@ -53,9 +53,9 @@ export interface TabItemProps {
 // A very rough duck type, but good enough to guard against mistakes while
 // allowing customization
 function isTabItem(
-  comp: ReactElement<object>,
+  comp: ReactElement<unknown>,
 ): comp is ReactElement<TabItemProps> {
-  return 'value' in comp.props;
+  return 'value' in (comp.props as object);
 }
 
 export function sanitizeTabsChildren(children: TabsProps['children']) {

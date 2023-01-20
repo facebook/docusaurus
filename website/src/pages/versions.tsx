@@ -168,11 +168,11 @@ export default function Version(): JSX.Element {
           </div>
         )}
         <div className="margin-bottom--lg">
-          <h3 id="legacy">
+          <Heading as="h3" id="legacy">
             <Translate id="versionsPage.legacy.title">
               Docusaurus v1 (Legacy)
             </Translate>
-          </h3>
+          </Heading>
           <p>
             <Translate id="versionsPage.legacy.description">
               Here you can find documentation for legacy version of Docusaurus.

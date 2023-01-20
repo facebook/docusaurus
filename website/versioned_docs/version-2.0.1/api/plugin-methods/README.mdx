@@ -134,7 +134,7 @@ async function myPlugin(context, opts) {
 
 myPlugin.validateOptions = ({options, validate}) => {
   const validatedOptions = validate(myValidationSchema, options);
-  return validationOptions;
+  return validatedOptions;
 };
 
 myPlugin.validateThemeConfig = ({themeConfig, validate}) => {

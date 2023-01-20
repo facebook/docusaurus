@@ -22,6 +22,7 @@ import {
   type User,
   type TagType,
 } from '@site/src/data/users';
+import Heading from '@theme/Heading';
 import ShowcaseTagSelect, {
   readSearchTags,
 } from './_components/ShowcaseTagSelect';
@@ -122,7 +123,7 @@ function useFilteredUsers() {
 function ShowcaseHeader() {
   return (
     <section className="margin-top--lg margin-bottom--lg text--center">
-      <h1>{TITLE}</h1>
+      <Heading as="h1">{TITLE}</Heading>
       <p>{DESCRIPTION}</p>
       <Link className="button button--primary" to={SUBMIT_URL}>
         <Translate id="showcase.header.button">
@@ -157,9 +158,9 @@ function ShowcaseFilters() {
     <section className="container margin-top--l margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
         <div>
-          <h2>
+          <Heading as="h2">
             <Translate id="showcase.filters.title">Filters</Translate>
-          </h2>
+          </Heading>
           <span>{siteCountPlural(filteredUsers.length)}</span>
         </div>
         <ShowcaseFilterToggle />
@@ -255,9 +256,9 @@ function ShowcaseCards() {
     return (
       <section className="margin-top--lg margin-bottom--xl">
         <div className="container padding-vert--md text--center">
-          <h2>
+          <Heading as="h2">
             <Translate id="showcase.usersList.noResult">No result</Translate>
-          </h2>
+          </Heading>
           <SearchBar />
         </div>
       </section>
@@ -275,11 +276,11 @@ function ShowcaseCards() {
                   'margin-bottom--md',
                   styles.showcaseFavoriteHeader,
                 )}>
-                <h2>
+                <Heading as="h2">
                   <Translate id="showcase.favoritesList.title">
                     Our favorites
                   </Translate>
-                </h2>
+                </Heading>
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
                 <SearchBar />
               </div>
@@ -296,9 +297,9 @@ function ShowcaseCards() {
             </div>
           </div>
           <div className="container margin-top--lg">
-            <h2 className={styles.showcaseHeader}>
+            <Heading as="h2" className={styles.showcaseHeader}>
               <Translate id="showcase.usersList.allUsers">All sites</Translate>
-            </h2>
+            </Heading>
             <ul className={clsx('clean-list', styles.showcaseList)}>
               {otherUsers.map((user) => (
                 <ShowcaseCard key={user.title} user={user} />

@@ -24,9 +24,9 @@ export type BlogPostContextValue = Pick<
 const Context = React.createContext<BlogPostContextValue | null>(null);
 
 /**
- * Note: we don't use `PropBlogPostContent` as context value on purpose. Metadata is
- * currently stored inside the MDX component, but we may want to change that in
- * the future.
+ * Note: we don't use `PropBlogPostContent` as context value on purpose.
+ * Metadata is currently stored inside the MDX component, but we may want to
+ * change that in the future.
  */
 function useContextValue({
   content,

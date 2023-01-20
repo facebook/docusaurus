@@ -16,6 +16,7 @@ import {
 import TagsListByLetter from '@theme/TagsListByLetter';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagsListPage';
+import Heading from '@theme/Heading';
 
 function DocTagsListPageMetadata({
   title,
@@ -38,7 +39,7 @@ function DocTagsListPageContent({
       <div className="container margin-vert--lg">
         <div className="row">
           <main className="col col--8 col--offset-2">
-            <h1>{title}</h1>
+            <Heading as="h1">{title}</Heading>
             <TagsListByLetter tags={tags} />
           </main>
         </div>

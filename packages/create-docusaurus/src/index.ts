@@ -197,7 +197,7 @@ function isValidGitRepoUrl(gitRepoUrl: string): boolean {
 }
 
 const gitStrategies = ['deep', 'shallow', 'copy', 'custom'] as const;
-type GitStrategy = typeof gitStrategies[number];
+type GitStrategy = (typeof gitStrategies)[number];
 
 async function getGitCommand(gitStrategy: GitStrategy): Promise<string> {
   switch (gitStrategy) {

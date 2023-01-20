@@ -14,7 +14,7 @@
     "directory": "packages/stylelint-copyright"
   },
   "dependencies": {
-    "stylelint": "^14.11.0",
-    "tslib": "^2.4.0"
+    "stylelint": "^14.16.1",
+    "tslib": "^2.4.1"
   }
 }

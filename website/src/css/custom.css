@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@import 'react-medium-image-zoom/dist/styles.css';
+@import url('react-medium-image-zoom/dist/styles.css');
 
 :root {
   /*

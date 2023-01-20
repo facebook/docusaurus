@@ -158,7 +158,7 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove Title headers
       .replace(/^#[^#]+#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*(?<text>[^#]*)\s*#{0,6}/gm, '$1')
+      .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
       // Remove emphasis.
       .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
       // Remove strikethroughs.

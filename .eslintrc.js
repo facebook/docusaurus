@@ -376,6 +376,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [WARNING, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-html-links': ERROR,
+    '@docusaurus/prefer-docusaurus-heading': ERROR,
     '@docusaurus/no-untranslated-text': [
       WARNING,
       {
@@ -495,6 +496,15 @@ module.exports = {
     {
       files: ['packages/eslint-plugin/**/*.{js,ts}'],
       extends: ['plugin:eslint-plugin/recommended'],
+    },
+    {
+      files: [
+        'packages/docusaurus-plugin-debug/**',
+        'packages/docusaurus/src/**',
+      ],
+      rules: {
+        '@docusaurus/prefer-docusaurus-heading': OFF,
+      },
     },
   ],
 };

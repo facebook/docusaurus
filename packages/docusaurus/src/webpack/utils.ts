@@ -366,7 +366,6 @@ export function getMinimizer(
         },
         compress: {
           ecma: 5,
-          warnings: false,
         },
         mangle: {
           safari10: true,

@@ -17,8 +17,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "npm-to-yarn": "^1.0.1",
-    "tslib": "^2.4.0",
+    "npm-to-yarn": "^1.2.1",
+    "tslib": "^2.4.1",
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
