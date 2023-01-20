@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "temni način",
   "theme.colorToggle.ariaLabel.mode.light": "svetli način",
   "theme.common.editThisPage": "Uredi to stran",
-  "theme.common.headingLinkTitle": "Direktna povezava na naslov",
+  "theme.common.headingLinkTitle": "Direktna povezava na {heading}",
   "theme.common.skipToMainContent": "Preskoči na vsebino",
   "theme.docs.DocCard.categoryDescription": "{count} vnosov",
   "theme.docs.breadcrumbs.home": "Domača stran",

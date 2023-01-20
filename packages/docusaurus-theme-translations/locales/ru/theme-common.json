@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "Тёмный режим",
   "theme.colorToggle.ariaLabel.mode.light": "Светлый режим",
   "theme.common.editThisPage": "Отредактировать эту страницу",
-  "theme.common.headingLinkTitle": "Прямая ссылка на этот заголовок",
+  "theme.common.headingLinkTitle": "Прямая ссылка на {heading}",
   "theme.common.skipToMainContent": "Перейти к основному содержимому",
   "theme.docs.DocCard.categoryDescription": "{count} элемент|{count} элемента|{count} элементов",
   "theme.docs.breadcrumbs.home": "Главная страница",

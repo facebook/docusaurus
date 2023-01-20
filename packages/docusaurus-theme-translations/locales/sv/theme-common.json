@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "mörkt utseende",
   "theme.colorToggle.ariaLabel.mode.light": "ljust utseende",
   "theme.common.editThisPage": "Redigera denna sida",
-  "theme.common.headingLinkTitle": "Direktlänk till huvudtitel",
+  "theme.common.headingLinkTitle": "Direktlänk till {heading}",
   "theme.common.skipToMainContent": "Hoppa till huvudinnehåll",
   "theme.docs.DocCard.categoryDescription": "{count} artiklar",
   "theme.docs.breadcrumbs.home": "Hemsida",
