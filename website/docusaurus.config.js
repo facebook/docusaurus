@@ -313,6 +313,11 @@ const config = {
           lastVersion:
             isDev || isDeployPreview || isBranchDeploy ? 'current' : undefined,
           onlyIncludeVersions: (() => {
+            // TODO temporary for mdx2 PR
+            if (isDeployPreview) {
+              return undefined;
+            }
+
             if (isBuildFast) {
               return ['current'];
             } else if (
