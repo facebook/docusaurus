@@ -19,6 +19,7 @@ import {
   type Tag,
 } from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
+import Heading from '@theme/Heading';
 import Tooltip from '../ShowcaseTooltip';
 import styles from './styles.module.css';
 
@@ -76,11 +77,11 @@ function ShowcaseCard({user}: {user: User}) {
       </div>
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
-          <h4 className={styles.showcaseCardTitle}>
+          <Heading as="h4" className={styles.showcaseCardTitle}>
             <Link href={user.website} className={styles.showcaseCardLink}>
               {user.title}
             </Link>
-          </h4>
+          </Heading>
           {user.tags.includes('favorite') && (
             <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
           )}

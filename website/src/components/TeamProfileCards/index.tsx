@@ -8,6 +8,7 @@
 import React, {type ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
+import Heading from '@theme/Heading';
 
 function WebsiteLink({to, children}: {to: string; children?: ReactNode}) {
   return (
@@ -45,7 +46,9 @@ function TeamProfileCard({
               alt={`${name}'s avatar`}
             />
             <div className="avatar__intro">
-              <h3 className="avatar__name">{name}</h3>
+              <Heading as="h3" className="avatar__name">
+                {name}
+              </Heading>
             </div>
           </div>
         </div>
