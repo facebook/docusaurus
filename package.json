@@ -57,7 +57,7 @@
     "lerna": "lerna",
     "test": "jest",
     "test:build:website": "./admin/scripts/test-release.sh",
-    "watch": "yarn lerna run --parallel watch",
+    "watch": "yarn lerna run --parallel watch --concurrency 999 --stream",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn rimraf test-website && yarn rimraf test-website-in-workspace && yarn lerna exec --ignore docusaurus yarn rimraf lib",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
     "lock:update": "npx --yes yarn-deduplicate"
@@ -100,7 +100,7 @@
     "jest-environment-jsdom": "^29.6.1",
     "jest-serializer-ansi-escapes": "^2.0.1",
     "jest-serializer-react-helmet-async": "^1.0.21",
-    "lerna": "^6.6.2",
+    "lerna": "^7.2.0",
     "lerna-changelog": "^2.2.0",
     "lint-staged": "^13.2.3",
     "npm-run-all": "^4.1.5",
