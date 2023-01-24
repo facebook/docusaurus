@@ -13,8 +13,7 @@ const PlaygroundConfigs = {
   // Do not use this one, see
   // https://github.com/codesandbox/codesandbox-client/issues/5683#issuecomment-1023252459
   // codesandbox: 'https://codesandbox.io/s/docusaurus',
-  codesandbox:
-    'https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic',
+  codesandbox: 'https://codesandbox.io/p/sandbox/gallant-lamarr-4t1m4y',
 
   // Not updated
   // stackblitz: 'https://stackblitz.com/fork/docusaurus',
