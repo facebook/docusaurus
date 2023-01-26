@@ -73,7 +73,7 @@
   "theme.colorToggle.ariaLabel.mode.light___DESCRIPTION": "The name for the light color mode",
   "theme.common.editThisPage": "Edit this page",
   "theme.common.editThisPage___DESCRIPTION": "The link label to edit the current page",
-  "theme.common.headingLinkTitle": "Direct link to heading",
+  "theme.common.headingLinkTitle": "Direct link to {heading}",
   "theme.common.headingLinkTitle___DESCRIPTION": "Title for link to heading",
   "theme.common.skipToMainContent": "Skip to main content",
   "theme.common.skipToMainContent___DESCRIPTION": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation",

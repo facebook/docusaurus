@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
   "theme.common.editThisPage": "Modifica questa pagina",
-  "theme.common.headingLinkTitle": "Link diretto all'intestazione",
+  "theme.common.headingLinkTitle": "Link diretto a {heading}",
   "theme.common.skipToMainContent": "Passa al contenuto principale",
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
