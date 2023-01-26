@@ -10,11 +10,8 @@ import type {HandlerEvent, HandlerResponse} from '@netlify/functions';
 const CookieName = 'DocusaurusPlaygroundName';
 
 const PlaygroundConfigs = {
-  // Do not use this one, see
-  // https://github.com/codesandbox/codesandbox-client/issues/5683#issuecomment-1023252459
-  // codesandbox: 'https://codesandbox.io/s/docusaurus',
   codesandbox:
-    'https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic',
+    'https://codesandbox.io/p/sandbox/github/facebook/docusaurus/tree/main/examples/classic?file=%2FREADME.md',
 
   // Not updated
   // stackblitz: 'https://stackblitz.com/fork/docusaurus',
