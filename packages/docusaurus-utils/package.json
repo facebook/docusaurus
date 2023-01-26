@@ -20,6 +20,7 @@
   "dependencies": {
     "@docusaurus/logger": "2.2.0",
     "@svgr/webpack": "^6.2.1",
+    "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
     "github-slugger": "^1.4.0",

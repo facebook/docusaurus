@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {useCallback} from 'react';
 import useDocusaurusContext from './useDocusaurusContext';
 import {hasProtocol} from './isInternalUrl';
 import type {BaseUrlOptions, BaseUrlUtils} from '@docusaurus/useBaseUrl';
@@ -43,8 +44,15 @@ export function useBaseUrlUtils(): BaseUrlUtils {
   const {
     siteConfig: {baseUrl, url: siteUrl},
   } = useDocusaurusContext();
+
+  const withBaseUrl = useCallback(
+    (url: string, options?: BaseUrlOptions) =>
+      addBaseUrl(siteUrl, baseUrl, url, options),
+    [siteUrl, baseUrl],
+  );
+
   return {
-    withBaseUrl: (url, options) => addBaseUrl(siteUrl, baseUrl, url, options),
+    withBaseUrl,
   };
 }
 
