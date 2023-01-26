@@ -13,7 +13,10 @@ import logger from '@docusaurus/logger';
 import classicTheme from '@docusaurus/theme-classic';
 
 // Unsafe imports
-import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/components.js';
+import {
+  readComponentNames,
+  getMissingIntermediateComponentFolderNames,
+} from '@docusaurus/core/lib/commands/swizzle/components.js';
 import {normalizeSwizzleConfig} from '@docusaurus/core/lib/commands/swizzle/config.js';
 import {wrap, eject} from '@docusaurus/core/lib/commands/swizzle/actions.js';
 
@@ -50,7 +53,33 @@ console.log('\n');
 
 await fs.remove(toPath);
 
-let componentNames = await readComponentNames(themePath);
+function filterComponentNames(componentNames) {
+  // TODO temp workaround: non-comps should be forbidden to wrap
+  if (action === 'wrap') {
+    const WrapBlocklist = [
+      'Layout', // Due to theme-fallback?
+    ];
+
+    return componentNames.filter((componentName) => {
+      const blocked = WrapBlocklist.includes(componentName);
+      if (blocked) {
+        logger.warn(`${componentName} is blocked and will not be wrapped`);
+      }
+      return !blocked;
+    });
+  }
+  return componentNames;
+}
+
+async function getAllComponentNames() {
+  const names = await readComponentNames(themePath);
+  const allNames = names.concat(
+    await getMissingIntermediateComponentFolderNames(names),
+  );
+  return filterComponentNames(allNames);
+}
+
+const componentNames = await getAllComponentNames();
 
 const componentsNotFound = Object.keys(swizzleConfig.components).filter(
   (componentName) => !componentNames.includes(componentName),
@@ -65,21 +94,6 @@ Please double-check or clean up these components from the config:
 `,
   );
   process.exit(1);
-}
-
-// TODO temp workaround: non-comps should be forbidden to wrap
-if (action === 'wrap') {
-  const WrapBlocklist = [
-    'Layout', // Due to theme-fallback?
-  ];
-
-  componentNames = componentNames.filter((componentName) => {
-    const blocked = WrapBlocklist.includes(componentName);
-    if (blocked) {
-      logger.warn(`${componentName} is blocked and will not be wrapped`);
-    }
-    return !blocked;
-  });
 }
 
 /**
