@@ -15,15 +15,9 @@ npm install --save-dev @docusaurus/eslint-plugin
 
 ## Usage
 
-Add `@docusaurus` to the plugins section of your `.eslintrc` configuration file:
+### Recommended config
 
-```json title=".eslintrc"
-{
-  "plugins": ["@docusaurus"]
-}
-```
-
-Then, you can extend one of the configs (e.g. the `recommended` config):
+Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc` configuration file:
 
 ```json title=".eslintrc"
 {
@@ -31,10 +25,15 @@ Then, you can extend one of the configs (e.g. the `recommended` config):
 }
 ```
 
-Each config contains a set of rules. For more fine-grained control, you can also configure the rules you want to use directly:
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) below for a list of rules that this will enable.
+
+### Manual config
+
+For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
 
 ```json title=".eslintrc"
 {
+  "plugins": ["@docusaurus"],
   "rules": {
     "@docusaurus/string-literal-i18n-messages": "error",
     "@docusaurus/no-untranslated-text": "warn"
@@ -42,12 +41,12 @@ Each config contains a set of rules. For more fine-grained control, you can also
 }
 ```
 
-## Supported Configs
+## Supported configs
 
 - Recommended: recommended rule set for most Docusaurus sites that should be extended from.
 - All: **all** rules enabled. This will change between minor versions, so you should not use this if you want to avoid unexpected breaking changes.
 
-## Supported Rules
+## Supported rules
 
 | Name | Description |  |
 | --- | --- | --- |
@@ -63,7 +62,6 @@ Here's an example configuration:
 ```js title=".eslintrc.js"
 module.exports = {
   extends: ['plugin:@docusaurus/recommended'],
-  plugins: ['@docusaurus'],
   rules: {
     '@docusaurus/no-untranslated-text': [
       'warn',

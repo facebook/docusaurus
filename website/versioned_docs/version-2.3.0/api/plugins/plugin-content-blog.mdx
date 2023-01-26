@@ -67,6 +67,7 @@ Accepted fields:
 | `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. |
 | `feedOptions.type` | <code><a href="#FeedType">FeedType</a> \| <a href="#FeedType">FeedType</a>[] \| 'all' \| null</code> | **Required** | Type of feed to be generated. Use `null` to disable generation. |
+| `feedOptions.createFeedItems` | <code><a href="#CreateFeedItemsFn">CreateFeedItemsFn</a> \| undefined</code> | `undefined` | An optional function which can be used to transform and / or filter the items in the feed. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
 | `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
@@ -115,6 +116,17 @@ type ReadingTimeFn = (params: {
 
 ```ts
 type FeedType = 'rss' | 'atom' | 'json';
+```
+
+#### `CreateFeedItemsFn` {#CreateFeedItemsFn}
+
+```ts
+type CreateFeedItemsFn = (params: {
+  blogPosts: BlogPost[];
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  defaultCreateFeedItemsFn: CreateFeedItemsFn;
+}) => Promise<BlogFeedItem[]>;
 ```
 
 ### Example configuration {#ex-config}
@@ -168,6 +180,14 @@ const config = {
     description: '',
     copyright: '',
     language: undefined,
+    createFeedItems: async (params) => {
+      const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+      return defaultCreateFeedItems({
+        // keep only the 10 most recent blog posts in the feed
+        blogPosts: blogPosts.filter((item, index) => index < 10),
+        ...rest,
+      });
+    },
   },
 };
 ```
