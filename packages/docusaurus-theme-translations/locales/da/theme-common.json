@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
   "theme.common.editThisPage": "Rediger denne side",
-  "theme.common.headingLinkTitle": "Direkte link til overskrift",
+  "theme.common.headingLinkTitle": "Direkte link til {heading}",
   "theme.common.skipToMainContent": "Hop til hovedindhold",
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",

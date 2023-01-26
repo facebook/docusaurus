@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "Karanlık mod",
   "theme.colorToggle.ariaLabel.mode.light": "Aydınlık mod",
   "theme.common.editThisPage": "Bu sayfayı düzenle",
-  "theme.common.headingLinkTitle": "Başlığa doğrudan bağlantı",
+  "theme.common.headingLinkTitle": "{heading} doğrudan bağlantı",
   "theme.common.skipToMainContent": "Ana içeriğe geç",
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Ana sayfa",

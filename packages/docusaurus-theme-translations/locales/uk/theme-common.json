@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "Темний режим",
   "theme.colorToggle.ariaLabel.mode.light": "Світлий режим",
   "theme.common.editThisPage": "Відредагувати цю сторінку",
-  "theme.common.headingLinkTitle": "Пряме посилання на цей заголовок",
+  "theme.common.headingLinkTitle": "Пряме посилання на {heading}",
   "theme.common.skipToMainContent": "Перейти до основного вмісту",
   "theme.docs.DocCard.categoryDescription": "{count} елемент|{count} елементи|{count} елементів",
   "theme.docs.breadcrumbs.home": "Головна сторінка",

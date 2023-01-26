@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "الوضع الداكن",
   "theme.colorToggle.ariaLabel.mode.light": "الوضع الفاتح",
   "theme.common.editThisPage": "تعديل هذه الصفحة",
-  "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان",
+  "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان {heading}",
   "theme.common.skipToMainContent": "انتقل إلى المحتوى الرئيسي",
   "theme.docs.DocCard.categoryDescription": "{count} مواد",
   "theme.docs.breadcrumbs.home": "الرئيسية",

@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "donkere modus",
   "theme.colorToggle.ariaLabel.mode.light": "lichte modus",
   "theme.common.editThisPage": "Bewerk deze pagina",
-  "theme.common.headingLinkTitle": "Direct link naar de titel",
+  "theme.common.headingLinkTitle": "Direct link naar {heading}",
   "theme.common.skipToMainContent": "Ga naar hoofdinhoud",
   "theme.docs.DocCard.categoryDescription": "{count} artikelen",
   "theme.docs.breadcrumbs.home": "Homepagina",

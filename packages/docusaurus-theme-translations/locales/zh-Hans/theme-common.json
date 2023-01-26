@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "暗黑模式",
   "theme.colorToggle.ariaLabel.mode.light": "浅色模式",
   "theme.common.editThisPage": "编辑此页",
-  "theme.common.headingLinkTitle": "标题的直接链接",
+  "theme.common.headingLinkTitle": "{heading}的直接链接",
   "theme.common.skipToMainContent": "跳到主要内容",
   "theme.docs.DocCard.categoryDescription": "{count} 个项目",
   "theme.docs.breadcrumbs.home": "主页面",

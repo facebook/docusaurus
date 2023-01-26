@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "ダークモード",
   "theme.colorToggle.ariaLabel.mode.light": "ライトモード",
   "theme.common.editThisPage": "このページを編集",
-  "theme.common.headingLinkTitle": "この見出しへのリンク",
+  "theme.common.headingLinkTitle": "{heading} への直接リンク",
   "theme.common.skipToMainContent": "メインコンテンツまでスキップ",
   "theme.docs.DocCard.categoryDescription": "{count}項目",
   "theme.docs.breadcrumbs.home": "ホームページ",

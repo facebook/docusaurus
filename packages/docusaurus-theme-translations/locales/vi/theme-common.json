@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "chế độ tối",
   "theme.colorToggle.ariaLabel.mode.light": "chế độ sáng",
   "theme.common.editThisPage": "Sửa trang này",
-  "theme.common.headingLinkTitle": "Đường dẫn trực tiếp tới đề mục này",
+  "theme.common.headingLinkTitle": "Đường dẫn trực tiếp tới {heading}",
   "theme.common.skipToMainContent": "Nhảy tới nội dung",
   "theme.docs.DocCard.categoryDescription": "{count} mục",
   "theme.docs.breadcrumbs.home": "Trang chủ",
