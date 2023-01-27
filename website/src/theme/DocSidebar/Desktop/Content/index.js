@@ -9,15 +9,10 @@ import React from 'react';
 import {useLocation} from '@docusaurus/router';
 import Content from '@theme-original/DocSidebar/Desktop/Content';
 
-function SidebarAd({props}) {
+function SidebarAd() {
   return (
-    <div
-      style={{
-        border: 'solid thin red',
-        padding: 10,
-        textAlign: 'center',
-        ...props,
-      }}>
+    // eslint-disable-next-line @docusaurus/no-untranslated-text
+    <div style={{border: 'solid thin red', padding: 10, textAlign: 'center'}}>
       Sidebar Ad
     </div>
   );
@@ -30,9 +25,7 @@ export default function ContentWrapper(props) {
     <>
       {shouldShowSidebarAd && <SidebarAd />}
       <Content {...props} />
-      {shouldShowSidebarAd && (
-        <SidebarAd props={{position: 'sticky', bottom: '40px'}} />
-      )}
+      {shouldShowSidebarAd && <SidebarAd />}
     </>
   );
 }
