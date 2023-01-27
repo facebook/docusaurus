@@ -40,6 +40,7 @@ export default function preset(
     theme,
     googleAnalytics,
     gtag,
+    googleTagManager,
     ...rest
   } = opts;
 
@@ -79,6 +80,11 @@ export default function preset(
   }
   if (gtag) {
     plugins.push(makePluginConfig('@docusaurus/plugin-google-gtag', gtag));
+  }
+  if (googleTagManager) {
+    plugins.push(
+      makePluginConfig('@docusaurus/plugin-google-gtag', googleTagManager),
+    );
   }
   if (isProd && sitemap !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));

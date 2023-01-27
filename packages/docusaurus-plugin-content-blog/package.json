@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Blog plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-blog.d.ts",
@@ -18,13 +18,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.2.0",
-    "@docusaurus/logger": "2.2.0",
-    "@docusaurus/mdx-loader": "2.2.0",
-    "@docusaurus/types": "2.2.0",
-    "@docusaurus/utils": "2.2.0",
-    "@docusaurus/utils-common": "2.2.0",
-    "@docusaurus/utils-validation": "2.2.0",
+    "@docusaurus/core": "2.3.0",
+    "@docusaurus/logger": "2.3.0",
+    "@docusaurus/mdx-loader": "2.3.0",
+    "@docusaurus/types": "2.3.0",
+    "@docusaurus/utils": "2.3.0",
+    "@docusaurus/utils-common": "2.3.0",
+    "@docusaurus/utils-validation": "2.3.0",
     "cheerio": "^1.0.0-rc.12",
     "feed": "^4.2.2",
     "fs-extra": "^10.1.0",
@@ -34,9 +34,6 @@
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",
     "webpack": "^5.73.0"
-  },
-  "devDependencies": {
-    "escape-string-regexp": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

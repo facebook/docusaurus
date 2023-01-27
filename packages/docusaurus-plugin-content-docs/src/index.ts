@@ -336,12 +336,13 @@ export default async function pluginContentDocs(
       };
 
       function createMDXLoaderRule(): RuleSetRule {
-        const contentDirs = versionsMetadata.flatMap(getContentPathList);
+        const contentDirs = versionsMetadata
+          .flatMap(getContentPathList)
+          // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+          .map(addTrailingPathSeparator);
         return {
           test: /\.mdx?$/i,
-          include: contentDirs
-            // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
-            .map(addTrailingPathSeparator),
+          include: contentDirs,
           use: [
             getJSLoader({isServer}),
             {

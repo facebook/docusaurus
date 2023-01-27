@@ -1123,38 +1123,17 @@ declare module '@theme/Mermaid' {
 }
 
 declare module '@theme/TabItem' {
-  import type {ReactNode} from 'react';
+  import type {TabItemProps} from '@docusaurus/theme-common/internal';
 
-  export interface Props {
-    readonly children: ReactNode;
-    readonly value: string;
-    readonly default?: boolean;
-    readonly label?: string;
-    readonly hidden?: boolean;
-    readonly className?: string;
-    readonly attributes?: {[key: string]: unknown};
-  }
+  export interface Props extends TabItemProps {}
 
   export default function TabItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/Tabs' {
-  import type {ReactElement} from 'react';
-  import type {Props as TabItemProps} from '@theme/TabItem';
+  import type {TabsProps} from '@docusaurus/theme-common/internal';
 
-  export interface Props {
-    readonly lazy?: boolean;
-    readonly block?: boolean;
-    readonly children: readonly ReactElement<TabItemProps>[];
-    readonly defaultValue?: string | null;
-    readonly values?: readonly {
-      value: string;
-      label?: string;
-      attributes?: {[key: string]: unknown};
-    }[];
-    readonly groupId?: string;
-    readonly className?: string;
-  }
+  export interface Props extends TabsProps {}
 
   export default function Tabs(props: Props): JSX.Element;
 }
@@ -1391,4 +1370,8 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
+}
+
+declare module '@theme/DocBreadcrumbs/Items/Home' {
+  export default function HomeBreadcrumbItem(): JSX.Element;
 }

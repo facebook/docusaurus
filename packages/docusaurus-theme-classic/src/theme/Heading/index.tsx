@@ -9,6 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
 import type {Props} from '@theme/Heading';
 
 import styles from './styles.module.css';
@@ -22,6 +23,17 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
     return <As {...props} id={undefined} />;
   }
 
+  const anchorTitle = translate(
+    {
+      id: 'theme.common.headingLinkTitle',
+      message: 'Direct link to {heading}',
+      description: 'Title for link to heading',
+    },
+    {
+      heading: typeof props.children === 'string' ? props.children : id,
+    },
+  );
+
   return (
     <As
       {...props}
@@ -30,19 +42,17 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
         hideOnScroll
           ? styles.anchorWithHideOnScrollNavbar
           : styles.anchorWithStickyNavbar,
+        props.className,
       )}
       id={id}>
       {props.children}
-      <a
+      <Link
         className="hash-link"
-        href={`#${id}`}
-        title={translate({
-          id: 'theme.common.headingLinkTitle',
-          message: 'Direct link to heading',
-          description: 'Title for link to heading',
-        })}>
+        to={`#${id}`}
+        aria-label={anchorTitle}
+        title={anchorTitle}>
         &#8203;
-      </a>
+      </Link>
     </As>
   );
 }

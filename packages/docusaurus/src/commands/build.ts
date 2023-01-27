@@ -199,7 +199,11 @@ async function buildLocale({
     serverConfig = merge(serverConfig, {
       plugins: [
         new CopyWebpackPlugin({
-          patterns: staticDirectories.map((dir) => ({from: dir, to: outDir})),
+          patterns: staticDirectories.map((dir) => ({
+            from: dir,
+            to: outDir,
+            toType: 'dir',
+          })),
         }),
       ],
     });

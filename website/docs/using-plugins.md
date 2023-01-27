@@ -144,8 +144,9 @@ The classic preset is shipped by default to new Docusaurus websites created with
 - [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.md)
 - [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.md)
 - [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.md)
-- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.md)
 - [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.md)
+- [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.md)
+- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.md) (**deprecated**)
 - [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md)
 
 The classic preset will relay each option entry to the respective plugin/theme.
@@ -172,7 +173,9 @@ module.exports = {
         sitemap: {},
         // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
         gtag: {},
-        // Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
+        // Will be passed to @docusaurus/plugin-google-tag-manager (only enabled when explicitly specified)
+        googleTagManager: {},
+        // DEPRECATED: Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
         googleAnalytics: {},
       },
     ],

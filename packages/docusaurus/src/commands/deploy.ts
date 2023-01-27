@@ -66,7 +66,7 @@ This behavior can have SEO impacts and create relative link issues.
 
   // Source repo is the repo from where the command is invoked
   const sourceRepoUrl = shell
-    .exec('git config --get remote.origin.url', {silent: true})
+    .exec('git remote get-url origin', {silent: true})
     .stdout.trim();
 
   // The source branch; defaults to the currently checked out branch

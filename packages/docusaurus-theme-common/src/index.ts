@@ -24,7 +24,11 @@ export {
   type ColorModeConfig,
 } from './utils/useThemeConfig';
 
-export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
+export {
+  createStorageSlot,
+  useStorageSlot,
+  listStorageKeys,
+} from './utils/storageUtils';
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 

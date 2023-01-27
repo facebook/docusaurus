@@ -60,15 +60,20 @@ export default function DocPageLayoutSidebar({
         }
       }}>
       <ResetOnSidebarChange>
-        <DocSidebar
-          sidebar={sidebar}
-          path={pathname}
-          onCollapse={toggleSidebar}
-          isHidden={hiddenSidebar}
-        />
+        <div
+          className={clsx(
+            styles.sidebarViewport,
+            hiddenSidebar && styles.sidebarViewportHidden,
+          )}>
+          <DocSidebar
+            sidebar={sidebar}
+            path={pathname}
+            onCollapse={toggleSidebar}
+            isHidden={hiddenSidebar}
+          />
+          {hiddenSidebar && <ExpandButton toggleSidebar={toggleSidebar} />}
+        </div>
       </ResetOnSidebarChange>
-
-      {hiddenSidebar && <ExpandButton toggleSidebar={toggleSidebar} />}
     </aside>
   );
 }

@@ -42,10 +42,8 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {
-  useTabGroupChoice,
-  TabGroupChoiceProvider,
-} from './contexts/tabGroupChoice';
+export {useTabs} from './utils/tabsUtils';
+export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
@@ -82,7 +80,11 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
-export {useHistoryPopHandler} from './utils/historyUtils';
+export {
+  useHistoryPopHandler,
+  useHistorySelector,
+  useQueryStringValue,
+} from './utils/historyUtils';
 
 export {
   useFilteredAndTreeifiedTOC,

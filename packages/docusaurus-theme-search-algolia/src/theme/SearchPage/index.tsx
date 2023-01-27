@@ -7,32 +7,34 @@
 
 /* eslint-disable jsx-a11y/no-autofocus */
 
-import React, {useEffect, useState, useReducer, useRef} from 'react';
+import React, {useEffect, useReducer, useRef, useState} from 'react';
 import clsx from 'clsx';
 
-import algoliaSearch from 'algoliasearch/lite';
 import algoliaSearchHelper from 'algoliasearch-helper';
+import algoliaSearch from 'algoliasearch/lite';
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import {
   HtmlClassNameProvider,
-  usePluralForm,
-  isRegexpStringMatch,
   useEvent,
+  usePluralForm,
 } from '@docusaurus/theme-common';
 import {
-  useTitleFormatter,
   useSearchPage,
+  useTitleFormatter,
 } from '@docusaurus/theme-common/internal';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Translate, {translate} from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {
+  useAlgoliaThemeConfig,
+  useSearchResultUrlProcessor,
+} from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
 
 import styles from './styles.module.css';
-import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {
@@ -156,12 +158,12 @@ type ResultDispatcher =
 
 function SearchPageContent(): JSX.Element {
   const {
-    siteConfig: {themeConfig},
     i18n: {currentLocale},
   } = useDocusaurusContext();
   const {
-    algolia: {appId, apiKey, indexName, externalUrlRegex},
-  } = themeConfig as ThemeConfig;
+    algolia: {appId, apiKey, indexName},
+  } = useAlgoliaThemeConfig();
+  const processSearchResultUrl = useSearchResultUrlProcessor();
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
@@ -244,16 +246,12 @@ function SearchPageContent(): JSX.Element {
           _highlightResult: {hierarchy: {[key: string]: {value: string}}};
           _snippetResult: {content?: {value: string}};
         }) => {
-          const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) =>
             sanitizeValue(hierarchy[key]!.value),
           );
-
           return {
             title: titles.pop()!,
-            url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
-              ? parsedURL.href
-              : parsedURL.pathname + parsedURL.hash,
+            url: processSearchResultUrl(url),
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',

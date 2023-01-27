@@ -103,3 +103,4 @@ export {
   findFolderContainingFile,
   getFolderContainingFile,
 } from './dataFileUtils';
+export {escapeRegexp} from './regExpUtils';

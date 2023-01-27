@@ -56,6 +56,40 @@ describe('genChunkName', () => {
     });
     expect(genChunkName('d', undefined, undefined, true)).toBe('8277e091');
   });
+
+  // https://github.com/facebook/docusaurus/issues/8536
+  it('avoids hash collisions', () => {
+    expect(
+      genChunkName(
+        '@site/blog/2022-11-18-bye-medium/index.mdx?truncated=true',
+        'content',
+        'blog',
+        false,
+      ),
+    ).not.toBe(
+      genChunkName(
+        '@site/blog/2019-10-05-react-nfc/index.mdx?truncated=true',
+        'content',
+        'blog',
+        false,
+      ),
+    );
+    expect(
+      genChunkName(
+        '@site/blog/2022-11-18-bye-medium/index.mdx?truncated=true',
+        'content',
+        'blog',
+        true,
+      ),
+    ).not.toBe(
+      genChunkName(
+        '@site/blog/2019-10-05-react-nfc/index.mdx?truncated=true',
+        'content',
+        'blog',
+        true,
+      ),
+    );
+  });
 });
 
 describe('handleDuplicateRoutes', () => {

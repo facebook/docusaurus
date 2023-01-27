@@ -51,6 +51,7 @@ function indent(str: string) {
 }
 
 const chunkNameCache = new Map<string, string>();
+const chunkNameCount = new Map<string, number>();
 
 /**
  * Generates a unique chunk name that can be used in the chunk registry.
@@ -79,10 +80,15 @@ export function genChunkName(
         const shortHash = simpleHash(modulePath, 3);
         str = `${preferredName}${shortHash}`;
       }
-      const name = str === '/' ? 'index' : docuHash(str);
+      const name = docuHash(str);
       chunkName = prefix ? `${prefix}---${name}` : name;
     }
+    const seenCount = (chunkNameCount.get(chunkName) ?? 0) + 1;
+    if (seenCount > 1) {
+      chunkName += seenCount.toString(36);
+    }
     chunkNameCache.set(modulePath, chunkName);
+    chunkNameCount.set(chunkName, seenCount);
   }
   return chunkName;
 }

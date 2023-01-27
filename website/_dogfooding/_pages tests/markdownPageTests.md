@@ -239,3 +239,31 @@ Can be arbitrarily nested:
 Admonition body
 
 :::
+
+:::important
+
+Admonition alias `:::important` should have Important title
+
+:::
+
+:::::note title
+
+Some **content** with _Markdown_ `syntax`.
+
+::::note nested Title
+
+:::tip very nested Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+
+Some **content** with _Markdown_ `syntax`.
+
+::::
+
+hey
+
+:::::
+
+after admonition
