@@ -24,8 +24,12 @@ function useShowAnnouncementBar() {
 
   useScrollPosition(
     ({scrollY}) => {
-      if (isActive) {
-        setShowAnnouncementBar(scrollY <= 30);
+      const announcementBar = document.querySelectorAll(
+        '#__docusaurus > div',
+      )[1];
+      if (isActive && !!announcementBar) {
+        // eslint-disable-next-line no-constant-binary-expression
+        setShowAnnouncementBar(scrollY <= announcementBar.clientHeight ?? 0);
       }
     },
     [isActive],
