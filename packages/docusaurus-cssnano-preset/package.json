@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/cssnano-preset",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Advanced cssnano preset for maximum optimization.",
   "main": "lib/index.js",
   "license": "MIT",
