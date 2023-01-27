@@ -25,7 +25,7 @@ function useShowAnnouncementBar() {
   useScrollPosition(
     ({scrollY}) => {
       if (isActive) {
-        setShowAnnouncementBar(scrollY === 0);
+        setShowAnnouncementBar(scrollY <= 30);
       }
     },
     [isActive],
