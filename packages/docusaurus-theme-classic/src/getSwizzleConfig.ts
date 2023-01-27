@@ -20,6 +20,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The component used to render multi-line code blocks, generally used in Markdown files.',
       },
+      'CodeBlock/Content': {
+        actions: {
+          eject: 'unsafe',
+          wrap: 'forbidden',
+        },
+        description:
+          'The folder containing components responsible for rendering different types of CodeBlock content.',
+      },
       ColorModeToggle: {
         actions: {
           eject: 'safe',
@@ -43,6 +51,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The component responsible for rendering a list of sidebar items cards.\nNotable used on the category generated-index pages.',
+      },
+      'DocItem/TOC': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The DocItem TOC is not directly swizzle-able, but you can swizzle its sub-components.',
       },
       DocSidebar: {
         actions: {
@@ -108,6 +127,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'safe',
         },
         description: 'The footer logo',
+      },
+      Icon: {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Icon folder is not directly swizzle-able, but you can swizzle its sub-components.',
       },
       'Icon/Arrow': {
         actions: {
@@ -228,7 +258,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'forbidden',
         },
         description:
-          'The Navbar item components mapping. Can be ejected to add custom navbar item types. See https://github.com/facebook/docusaurus/issues/7227.',
+          'The Navbar item components mapping. Can be ejected to add custom navbar item types.\nSee https://github.com/facebook/docusaurus/issues/7227.',
       },
       NotFound: {
         actions: {
