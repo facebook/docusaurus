@@ -187,4 +187,16 @@ describe('Tabs', () => {
       );
     }).not.toThrow();
   });
+
+  it('accepts a single TabItem', () => {
+    expect(() => {
+      renderer.create(
+        <TestProviders>
+          <Tabs>
+            <TabItem value="val1">Val1</TabItem>
+          </Tabs>
+        </TestProviders>,
+      );
+    }).not.toThrow();
+  });
 });
