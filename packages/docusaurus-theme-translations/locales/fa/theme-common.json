@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "کنترل پست‌های اخیر وبلاگ",
   "theme.blog.tagTitle": "{nPosts} با برچسب \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "بین حالت تاریک و روشن سوئیچ کنید (الان {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "حالت تیره",
   "theme.colorToggle.ariaLabel.mode.light": "حالت روشن",
   "theme.common.editThisPage": "ویرایش مطالب این صفحه",

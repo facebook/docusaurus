@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Navigation der letzten Beiträge im Blog",
   "theme.blog.tagTitle": "{nPosts} getaggt mit \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Umschalten zwischen dunkler und heller Ansicht (momentan {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "dunkler Modus",
   "theme.colorToggle.ariaLabel.mode.light": "heller Modus",
   "theme.common.editThisPage": "Diese Seite bearbeiten",

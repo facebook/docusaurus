@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "أحدث مشاركات المدونة",
   "theme.blog.tagTitle": "{nPosts} موسومة ب \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "التبديل بين الوضع الداكن والفاتح (الحالي {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "الوضع الداكن",
   "theme.colorToggle.ariaLabel.mode.light": "الوضع الفاتح",
   "theme.common.editThisPage": "تعديل هذه الصفحة",

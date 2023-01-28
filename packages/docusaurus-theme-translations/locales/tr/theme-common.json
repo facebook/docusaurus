@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Blog son gönderiler navigasyonu",
   "theme.blog.tagTitle": "\"{tagName}\" ile etiketlenmiş {nPosts}",
   "theme.colorToggle.ariaLabel": "Karanlık ve aydınlık mod arasında geçiş yapın (şu anda {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "Karanlık mod",
   "theme.colorToggle.ariaLabel.mode.light": "Aydınlık mod",
   "theme.common.editThisPage": "Bu sayfayı düzenle",

@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Navigation article de blog récent",
   "theme.blog.tagTitle": "{nPosts} tagués avec « {tagName} »",
   "theme.colorToggle.ariaLabel": "Basculer entre le mode sombre et clair (actuellement {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "mode sombre",
   "theme.colorToggle.ariaLabel.mode.light": "mode clair",
   "theme.common.editThisPage": "Éditer cette page",

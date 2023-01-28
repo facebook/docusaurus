@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Навігація за останніми постами у блозі",
   "theme.blog.tagTitle": "{nPosts} з тегом \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Перемикання між темним та світлим режимом (зараз використовується {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "Темний режим",
   "theme.colorToggle.ariaLabel.mode.light": "Світлий режим",
   "theme.common.editThisPage": "Відредагувати цю сторінку",

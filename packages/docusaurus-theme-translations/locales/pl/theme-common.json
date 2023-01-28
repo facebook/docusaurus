@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Nawigacja po najnowszych postach na blogu",
   "theme.blog.tagTitle": "{nPosts} z tagiem \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Przełącz pomiędzy ciemnym a jasnym motywem (aktualnie ustawiony {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "ciemny motyw",
   "theme.colorToggle.ariaLabel.mode.light": "jasny motyw",
   "theme.common.editThisPage": "Edytuj tę stronę",

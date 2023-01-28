@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Navigation av senaste blogginläggen",
   "theme.blog.tagTitle": "{nPosts} taggade me \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Växla mellan mörkt och ljust utseende (currently {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "mörkt utseende",
   "theme.colorToggle.ariaLabel.mode.light": "ljust utseende",
   "theme.common.editThisPage": "Redigera denna sida",

@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Недавни постови на блогу",
   "theme.blog.tagTitle": "{nPosts} означени са \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Switch between dark and light mode (currently {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
   "theme.common.editThisPage": "Уреди ову страницу",

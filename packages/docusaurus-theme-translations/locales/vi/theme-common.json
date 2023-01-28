@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Điều hướng các bài viết gần đây trên blog",
   "theme.blog.tagTitle": "{nPosts} được gắn thẻ \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Chuyển đổi chế độ sáng và tối (hiện tại {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "chế độ tối",
   "theme.colorToggle.ariaLabel.mode.light": "chế độ sáng",
   "theme.common.editThisPage": "Sửa trang này",

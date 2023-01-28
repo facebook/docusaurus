@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "最近のブログ記事のナビゲーション",
   "theme.blog.tagTitle": "「{tagName}」タグの記事が{nPosts}件あります",
   "theme.colorToggle.ariaLabel": "ダークモードを切り替える(現在は{mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "ダークモード",
   "theme.colorToggle.ariaLabel.mode.light": "ライトモード",
   "theme.common.editThisPage": "このページを編集",

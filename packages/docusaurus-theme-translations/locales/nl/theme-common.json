@@ -33,6 +33,7 @@
   "theme.blog.sidebar.navAriaLabel": "Navigatie recente blogitems",
   "theme.blog.tagTitle": "{nPosts} getagd met \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Schakel tussen donkere en lichte modus (momenteel {mode})",
+  "theme.colorToggle.ariaLabel.mode.auto": "auto mode",
   "theme.colorToggle.ariaLabel.mode.dark": "donkere modus",
   "theme.colorToggle.ariaLabel.mode.light": "lichte modus",
   "theme.common.editThisPage": "Bewerk deze pagina",
