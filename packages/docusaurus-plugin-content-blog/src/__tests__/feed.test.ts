@@ -71,7 +71,9 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       title: 'Hello',
       baseUrl: '/',
       url: 'https://docusaurus.io',
-      favicon: 'image/favicon.ico',
+      favicon: {
+        src: 'image/favicon.ico',
+      },
     };
     const outDir = path.join(siteDir, 'build-snap');
 
@@ -109,7 +111,9 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       title: 'Hello',
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
-      favicon: 'image/favicon.ico',
+      favicon: {
+        src: 'image/favicon.ico',
+      },
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
@@ -151,7 +155,9 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       title: 'Hello',
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
-      favicon: 'image/favicon.ico',
+      favicon: {
+        src: 'image/favicon.ico',
+      },
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
