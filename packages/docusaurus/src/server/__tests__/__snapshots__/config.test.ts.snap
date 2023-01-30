@@ -179,7 +179,9 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "foo.js",
     ],
     "customFields": {},
-    "favicon": "img/docusaurus.ico",
+    "favicon": {
+      "src": "img/docusaurus.ico",
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",

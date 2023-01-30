@@ -12,7 +12,9 @@ module.exports = {
   projectName: 'hello',
   baseUrl: '/',
   url: 'https://docusaurus.io',
-  favicon: 'img/docusaurus.ico',
+  favicon: {
+    src: 'img/docusaurus.ico',
+  },
   plugins: [
     [
       '@docusaurus/plugin-content-docs',
