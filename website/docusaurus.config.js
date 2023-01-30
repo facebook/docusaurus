@@ -119,7 +119,6 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   favicon: {
     src: 'img/docusaurus.ico',
-    srcDark: 'img/docusaurus.ico',
   },
   customFields: {
     isDeployPreview,

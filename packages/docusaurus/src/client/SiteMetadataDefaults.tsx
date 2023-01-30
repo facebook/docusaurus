@@ -33,20 +33,20 @@ export default function SiteMetadataDefaults(): JSX.Element {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
       {favicon && !faviconDarkUrl && <link rel="icon" href={faviconUrl} />}
-      {favicon && faviconDarkUrl && (
-        <link
-          rel="icon"
-          media="(prefers-color-scheme: light)"
-          href={faviconUrl}
-        />
-      )}
-      {faviconDarkUrl && (
-        <link
-          rel="icon"
-          media="(prefers-color-scheme: dark)"
-          href={faviconDarkUrl}
-        />
-      )}
+      {favicon &&
+        faviconDarkUrl && (
+          <link
+            rel="icon"
+            media="(prefers-color-scheme: light)"
+            href={faviconUrl}
+          />
+        ) && (
+          <link
+            rel="icon"
+            media="(prefers-color-scheme: dark)"
+            href={faviconDarkUrl}
+          />
+        )}
     </Head>
   );
 }
