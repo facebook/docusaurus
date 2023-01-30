@@ -83,7 +83,7 @@ export default function preset(
   }
   if (googleTagManager) {
     plugins.push(
-      makePluginConfig('@docusaurus/plugin-google-gtag', googleTagManager),
+      makePluginConfig('@docusaurus/plugin-google-tag-manager', googleTagManager),
     );
   }
   if (isProd && sitemap !== false) {
