@@ -10,6 +10,8 @@ module.exports = {
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
-  favicon: 'img/favicon.ico',
+  favicon: {
+    src: 'img/favicon.ico'
+  },
   plugins: [42, true],
 };
