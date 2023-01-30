@@ -32,7 +32,14 @@ export default function SiteMetadataDefaults(): JSX.Element {
       <meta property="og:title" content={title} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
-      {favicon && <link rel="icon" href={faviconUrl} />}
+      {favicon && !faviconDarkUrl && <link rel="icon" href={faviconUrl} />}
+      {favicon && faviconDarkUrl && (
+        <link
+          rel="icon"
+          media="(prefers-color-scheme: light)"
+          href={faviconUrl}
+        />
+      )}
       {faviconDarkUrl && (
         <link
           rel="icon"
