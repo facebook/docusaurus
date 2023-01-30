@@ -6,6 +6,8 @@ slug: /api/docusaurus-config
 
 # `docusaurus.config.js`
 
+import APITable from '@site/src/components/APITable';
+
 ## Overview {#overview}
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
@@ -87,14 +89,29 @@ module.exports = {
 
 ### `favicon` {#favicon}
 
-- Type: `string | undefined`
+- Type: `object | undefined`
 
 Path to your site favicon; must be a URL that can be used in link's href. For example, if your favicon is in `static/img/favicon.ico`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  favicon: '/img/favicon.ico',
+  favicon: {
+    src: '/img/favicon.ico',
+  },
 };
+```
+
+```mdx-code-block
+<APITable>
+```
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `src` | `string` | URL to the site favicon. Base URL is appended by default. |
+| `srcDark` | `string` | An alternative site favicon URL to use in dark mode. |
+
+```mdx-code-block
+</APITable>
 ```
 
 ### `trailingSlash` {#trailingSlash}
