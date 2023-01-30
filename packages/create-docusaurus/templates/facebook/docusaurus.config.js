@@ -13,7 +13,9 @@
 const config = {
   title: 'My Site',
   tagline: 'The tagline of my site',
-  favicon: 'img/favicon.ico',
+  favicon: {
+    src: 'img/favicon.ico',
+  },
 
   // Set the production url of your site here
   url: 'https://your-docusaurus-test-site.com',

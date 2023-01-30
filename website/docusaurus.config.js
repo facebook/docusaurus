@@ -117,7 +117,9 @@ const config = {
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/docusaurus.ico',
+  favicon: {
+    src: 'img/docusaurus.ico',
+  },
   customFields: {
     isDeployPreview,
     description:

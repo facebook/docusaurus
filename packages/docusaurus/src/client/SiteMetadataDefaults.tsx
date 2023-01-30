@@ -15,7 +15,8 @@ export default function SiteMetadataDefaults(): JSX.Element {
     siteConfig: {favicon, title, noIndex},
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
-  const faviconUrl = useBaseUrl(favicon);
+  const faviconUrl = useBaseUrl(favicon?.src);
+  const faviconDarkUrl = useBaseUrl(favicon?.srcDark);
   const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale]!;
 
   return (
@@ -32,6 +33,13 @@ export default function SiteMetadataDefaults(): JSX.Element {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
       {favicon && <link rel="icon" href={faviconUrl} />}
+      {faviconDarkUrl && (
+        <link
+          rel="icon"
+          media="(prefers-color-scheme: dark)"
+          href={faviconDarkUrl}
+        />
+      )}
     </Head>
   );
 }

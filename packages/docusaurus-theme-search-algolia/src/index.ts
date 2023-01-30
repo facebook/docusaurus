@@ -81,7 +81,9 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
               title,
               siteUrl,
               searchUrl: normalizeUrl([siteUrl, searchPagePath]),
-              faviconUrl: favicon ? normalizeUrl([siteUrl, favicon]) : null,
+              faviconUrl: favicon?.src
+                ? normalizeUrl([siteUrl, favicon?.src])
+                : null,
             }),
           );
         } catch (err) {

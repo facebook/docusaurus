@@ -51,7 +51,9 @@ async function generateBlogFeed({
     language: feedOptions.language ?? locale,
     link: blogBaseUrl,
     description: feedOptions.description ?? `${siteConfig.title} Blog`,
-    favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
+    favicon: favicon?.src
+      ? normalizeUrl([siteUrl, baseUrl, favicon?.src])
+      : undefined,
     copyright: feedOptions.copyright,
   });
 

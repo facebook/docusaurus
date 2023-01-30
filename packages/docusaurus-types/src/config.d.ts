@@ -30,6 +30,11 @@ export type MarkdownConfig = {
   mermaid?: boolean;
 };
 
+export type FaviconConfig = {
+  src?: string;
+  srcDark?: string;
+};
+
 /**
  * Docusaurus config, after validation/normalization.
  */
@@ -62,7 +67,7 @@ export type DocusaurusConfig = {
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#favicon
    */
-  favicon?: string;
+  favicon?: FaviconConfig;
   /**
    * Allow to customize the presence/absence of a trailing slash at the end of
    * URLs/links, and how static HTML files are generated:

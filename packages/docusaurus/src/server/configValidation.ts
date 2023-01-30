@@ -178,6 +178,11 @@ const SiteUrlSchema = Joi.string()
       'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
   });
 
+const FaviconConfigSchema = Joi.object({
+  src: Joi.string(),
+  srcDark: Joi.string(),
+});
+
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
   baseUrl: Joi
@@ -187,7 +192,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .required()
     .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
-  favicon: Joi.string().optional(),
+  favicon: FaviconConfigSchema,
   title: Joi.string().required(),
   url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
