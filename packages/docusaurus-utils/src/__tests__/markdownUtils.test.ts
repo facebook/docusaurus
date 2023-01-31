@@ -130,6 +130,26 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('creates excerpt for content with imports/exports declarations, with CRLF line endings', () => {
+    expect(
+      createExcerpt(
+        dedent`
+          import Component from '@site/src/components/Component';
+
+          export function ItemCol(props) {
+            return <Item {...props} className={'col col--6 margin-bottom--lg'}/>
+          }
+
+          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^note], ~~molestie~~ et sagittis ut, varius ac justo :wink:.
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `.replace(/\n/g, '\r\n'),
+      ),
+    ).toBe(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
+    );
+  });
+
   it('creates excerpt for heading specified with anchor-id syntax', () => {
     expect(
       createExcerpt(dedent`

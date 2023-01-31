@@ -62,9 +62,11 @@ export function createExcerpt(fileString: string): string | undefined {
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
-    if (fileLine === '' && inImport) {
+    // An empty line marks the end of imports
+    if (!fileLine.trim() && inImport) {
       inImport = false;
     }
+
     // Skip empty line.
     if (!fileLine.trim()) {
       continue;
