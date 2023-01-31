@@ -70,7 +70,7 @@
     "del": "^6.1.1",
     "detect-port": "^1.3.0",
     "escape-html": "^1.0.3",
-    "eta": "^1.12.3",
+    "eta": "^2.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
     "html-minifier-terser": "^6.1.0",
