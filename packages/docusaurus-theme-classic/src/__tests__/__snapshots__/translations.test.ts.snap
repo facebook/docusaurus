@@ -16,6 +16,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
         "description": "Navbar item with label Dropdown item 2",
         "message": "Dropdown item 2",
       },
+      "logo.alt": {
+        "description": "The alt of navbar logo",
+        "message": "navbar alt logo",
+      },
       "title": {
         "description": "The title in the navbar",
         "message": "navbar title",
@@ -49,6 +53,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
         "description": "The title of the footer links column with title=Footer link column 2 in the footer",
         "message": "Footer link column 2",
       },
+      "logo.alt": {
+        "description": "The alt of footer logo",
+        "message": "footer alt logo",
+      },
     },
     "path": "footer",
   },
@@ -70,6 +78,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
       "item.label.Dropdown item 2": {
         "description": "Navbar item with label Dropdown item 2",
         "message": "Dropdown item 2",
+      },
+      "logo.alt": {
+        "description": "The alt of navbar logo",
+        "message": "navbar alt logo",
       },
       "title": {
         "description": "The title in the navbar",
@@ -131,6 +143,10 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
         "title": "Footer link column 2 (translated)",
       },
     ],
+    "logo": {
+      "alt": "footer alt logo (translated)",
+      "src": "img/docusaurus.svg",
+    },
     "style": "light",
   },
   "navbar": {
@@ -150,6 +166,10 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
         "label": "Dropdown (translated)",
       },
     ],
+    "logo": {
+      "alt": "navbar alt logo (translated)",
+      "src": "img/docusaurus.svg",
+    },
     "style": "dark",
     "title": "navbar title (translated)",
   },
