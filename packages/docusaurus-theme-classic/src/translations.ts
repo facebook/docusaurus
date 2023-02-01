@@ -49,7 +49,7 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
     ? {
         'logo.alt': {
           message: navbar.logo.alt,
-          description: 'The alt of navbar logo',
+          description: 'The alt text of navbar logo',
         },
       }
     : {};
@@ -70,8 +70,9 @@ function translateNavbar(
 
   const {logo} = navbar;
 
-  if (logo)
-    {logo.alt = navbarTranslations[`logo.alt`]?.message ?? navbar.logo?.alt;}
+  if (logo) {
+    logo.alt = navbarTranslations[`logo.alt`]?.message ?? navbar.logo?.alt;
+  }
 
   return {
     ...navbar,
@@ -143,7 +144,7 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
     ? {
         'logo.alt': {
           message: footer.logo.alt,
-          description: 'The alt of footer logo',
+          description: 'The alt text of footer logo',
         },
       }
     : {};
@@ -185,8 +186,9 @@ function translateFooter(
 
   const {logo} = footer;
 
-  if (logo)
-    {logo.alt = footerTranslations[`logo.alt`]?.message ?? footer.logo?.alt;}
+  if (logo) {
+    logo.alt = footerTranslations[`logo.alt`]?.message ?? footer.logo?.alt;
+  }
 
   return {
     ...footer,
