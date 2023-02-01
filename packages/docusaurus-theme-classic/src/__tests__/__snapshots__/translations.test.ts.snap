@@ -17,7 +17,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
         "message": "Dropdown item 2",
       },
       "logo.alt": {
-        "description": "The alt of navbar logo",
+        "description": "The alt text of navbar logo",
         "message": "navbar alt logo",
       },
       "title": {
@@ -54,7 +54,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
         "message": "Footer link column 2",
       },
       "logo.alt": {
-        "description": "The alt of footer logo",
+        "description": "The alt text of footer logo",
         "message": "footer alt logo",
       },
     },
@@ -80,7 +80,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
         "message": "Dropdown item 2",
       },
       "logo.alt": {
-        "description": "The alt of navbar logo",
+        "description": "The alt text of navbar logo",
         "message": "navbar alt logo",
       },
       "title": {
@@ -105,7 +105,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
         "message": "Link 2",
       },
       "logo.alt": {
-        "description": "The alt of footer logo",
+        "description": "The alt text of footer logo",
         "message": "footer alt logo",
       },
     },
