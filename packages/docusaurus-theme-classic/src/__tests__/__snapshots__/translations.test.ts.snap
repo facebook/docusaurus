@@ -104,6 +104,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
         "description": "The label of footer link with label=Link 2 linking to https://facebook.com",
         "message": "Link 2",
       },
+      "logo.alt": {
+        "description": "The alt of footer logo",
+        "message": "footer alt logo",
+      },
     },
     "path": "footer",
   },

@@ -60,6 +60,10 @@ const ThemeConfigSample = {
 const ThemeConfigSampleSimpleFooter: ThemeConfig = {
   ...ThemeConfigSample,
   footer: {
+    logo: {
+      alt: 'footer alt logo',
+      src: 'img/docusaurus.svg',
+    },
     copyright: 'Copyright FB',
     style: 'light',
     links: [
