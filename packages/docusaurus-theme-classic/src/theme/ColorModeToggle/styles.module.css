@@ -21,8 +21,12 @@
   transition: background var(--ifm-transition-fast);
 }
 
-.toggleButton:hover {
-  background: var(--ifm-color-emphasis-200);
+[data-theme='light'] .toggleButton:hover {
+  background: var(--ifm-color-gray-200);
+}
+
+[data-theme='dark'] .toggleButton:hover {
+  background: var(--ifm-color-gray-800);
 }
 
 [data-theme='light'] .darkToggleIcon,
