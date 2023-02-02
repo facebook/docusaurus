@@ -25,7 +25,7 @@
   background: var(--ifm-color-emphasis-200);
 }
 
-.toggle--dark.toggleButton:hover {
+.toggle--dark:hover {
   background: var(--ifm-color-gray-800);
 }
 
