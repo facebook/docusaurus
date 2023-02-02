@@ -56,7 +56,11 @@ export function useHistorySelector<Value>(
   selector: (history: History<unknown>) => Value,
 ): Value {
   const history = useHistory();
-  return useSyncExternalStore(history.listen, () => selector(history));
+  return useSyncExternalStore(
+    history.listen,
+    () => selector(history),
+    () => selector(history),
+  );
 }
 
 /**
