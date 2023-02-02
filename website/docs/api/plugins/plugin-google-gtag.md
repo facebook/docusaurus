@@ -45,7 +45,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `trackingID` | `string` | **Required** | The tracking ID of your gtag service. |
+| `trackingID` | <code>string \| string[]</code> | **Required** | The tracking ID of your gtag service. It is possible to provide multiple ids. |
 | `anonymizeIP` | `boolean` | `false` | Whether the IP should be anonymized when sending requests. |
 
 ```mdx-code-block

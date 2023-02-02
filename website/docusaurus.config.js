@@ -349,7 +349,7 @@ const config = {
         },
         gtag: !(isDeployPreview || isBranchDeploy)
           ? {
-              trackingID: 'UA-141789564-1',
+              trackingID: ['G-E5CR2Q1NRE', 'UA-141789564-1'],
             }
           : undefined,
         sitemap: {
