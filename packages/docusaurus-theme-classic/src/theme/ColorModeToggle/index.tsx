@@ -53,6 +53,7 @@ function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
           !isBrowser && styles.toggleButtonDisabled,
           {
             'toggle--dark': style === 'dark',
+            'toggle--light': style === 'primary',
           },
         )}
         type="button"
