@@ -420,6 +420,7 @@ const config = {
       navbar: {
         hideOnScroll: true,
         title: 'Docusaurus',
+        style: 'dark',
         logo: {
           alt: '',
           src: 'img/docusaurus.svg',
