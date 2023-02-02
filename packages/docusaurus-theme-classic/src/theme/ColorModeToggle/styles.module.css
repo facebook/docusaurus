@@ -21,16 +21,7 @@
   transition: background var(--ifm-transition-fast);
 }
 
-.toggleDark,
-.togglePrimary {
-  display: flex;
-}
-
-.toggleDark:hover {
-  background: var(--ifm-color-gray-800);
-}
-
-.togglePrimary:hover {
+.toggleButton:hover {
   background: var(--ifm-color-emphasis-200);
 }
 

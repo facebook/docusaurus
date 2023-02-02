@@ -47,12 +47,11 @@ function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
   return (
     <div className={clsx(styles.toggle, className)}>
       <button
+        data-theme={style}
         className={clsx(
           'clean-btn',
           styles.toggleButton,
           !isBrowser && styles.toggleButtonDisabled,
-          style === 'dark' && styles.toggleDark,
-          style !== 'dark' && styles.togglePrimary,
         )}
         type="button"
         onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}
