@@ -32,7 +32,9 @@ export interface TabValue {
 export interface TabsProps {
   readonly lazy?: boolean;
   readonly block?: boolean;
-  readonly children: readonly ReactElement<TabItemProps>[];
+  readonly children:
+    | readonly ReactElement<TabItemProps>[]
+    | ReactElement<TabItemProps>;
   readonly defaultValue?: string | null;
   readonly values?: readonly TabValue[];
   readonly groupId?: string;
