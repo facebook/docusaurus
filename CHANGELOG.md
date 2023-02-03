@@ -1,5 +1,36 @@
 # Docusaurus 2 Changelog
 
+## 2.3.1 (2023-02-03)
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-common`
+  - [#8628](https://github.com/facebook/docusaurus/pull/8628) fix(theme-common): fix issue in tab scroll position restoration on tab click ([@slorber](https://github.com/slorber))
+  - [#8619](https://github.com/facebook/docusaurus/pull/8619) fix(theme-common): localStorage utils dispatch too many storage events leading to infinite loop ([@slorber](https://github.com/slorber))
+  - [#8618](https://github.com/facebook/docusaurus/pull/8618) fix(theme-common): prepare usage of useSyncExternalStore compatibility with React 18 ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#8593](https://github.com/facebook/docusaurus/pull/8593) fix(theme-classic): allow rendering single tab item ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-utils`
+  - [#8606](https://github.com/facebook/docusaurus/pull/8606) fix(utils): handle CRLF when parsing MDX imports ([@scastiel](https://github.com/scastiel))
+- `docusaurus-preset-classic`
+  - [#8597](https://github.com/facebook/docusaurus/pull/8597) fix(preset-classic): install the right plugin for googleTagManager ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-translations`
+  - [#8614](https://github.com/facebook/docusaurus/pull/8614) chore(theme-translations): complete zh translations ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### :robot: Dependencies
+
+- `docusaurus-plugin-client-redirects`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#8610](https://github.com/facebook/docusaurus/pull/8610) chore(deps): bump eta from 1.12.3 to 2.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 3
+
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Sébastien Castiel ([@scastiel](https://github.com/scastiel))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 2.3.0 (2023-01-26)
 
 #### :rocket: New Feature
@@ -15,7 +46,7 @@
 - `docusaurus-theme-search-algolia`
   - [#8428](https://github.com/facebook/docusaurus/pull/8428) feat(theme-algolia): add option.replaceSearchResultPathname to process/replaceAll search result urls
 - `docusaurus-plugin-google-tag-manager`
-  - [#8470](https://github.com/facebook/docusaurus/pull/8470) feat(plugin-google-tag-manager): add new google-tag-manager plugin + deprecate google-analytics plugin
+  - [#8470](https://github.com/facebook/docusaurus/pull/8470) feat(plugin-google-tag-manager): add new google-tag-manager plugin + deprecate google-analytics plugin ([@lanegoolsby](https://github.com/lanegoolsby))
 
 #### :bug: Bug Fix
 
@@ -73,6 +104,7 @@
 - Josh Goldberg ([@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg))
 - Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
 - Lachlan Heywood ([@lachieh](https://github.com/lachieh))
+- Lane Goolsby ([@lanegoolsby](https://github.com/lanegoolsby))
 - Matija Sirk ([@MatijaSi](https://github.com/MatijaSi))
 - Muhammad Hammad ([@mhnaeem](https://github.com/mhnaeem))
 - Riccardo ([@3v0k4](https://github.com/3v0k4))
