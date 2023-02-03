@@ -20,3 +20,29 @@ export const isMacOS = typeof window !== 'undefined' && navigator.platform.start
   </Tabs>
 </BrowserWindow>
 ```
+
+## Tabs sync with different heights
+
+```mdx-code-block
+<Tabs groupId="operating-systems">
+  <TabItem value="win" label="Windows">
+    Use Ctrl + C to copy.
+  </TabItem>
+  <TabItem value="mac" label="macOS">
+    very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<Tabs groupId="operating-systems">
+  <TabItem value="win" label="Windows">
+    Use Ctrl + V to paste.
+  </TabItem>
+  <TabItem value="mac" label="macOS">
+    Use Command + V to paste.
+  </TabItem>
+</Tabs>
+```
+
+When clicking tabs above, they should stay under cursor and we should adjust the scroll position.

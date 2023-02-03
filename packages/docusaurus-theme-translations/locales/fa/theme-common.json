@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "حالت تیره",
   "theme.colorToggle.ariaLabel.mode.light": "حالت روشن",
   "theme.common.editThisPage": "ویرایش مطالب این صفحه",
-  "theme.common.headingLinkTitle": "لینک مستقیم به عنوان",
+  "theme.common.headingLinkTitle": "لینک مستقیم به {heading}",
   "theme.common.skipToMainContent": "پرش به مطلب اصلی",
   "theme.docs.DocCard.categoryDescription": "{count} مورد",
   "theme.docs.breadcrumbs.home": "صفحه اصلی",

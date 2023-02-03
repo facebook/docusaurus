@@ -23,6 +23,17 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
     return <As {...props} id={undefined} />;
   }
 
+  const anchorTitle = translate(
+    {
+      id: 'theme.common.headingLinkTitle',
+      message: 'Direct link to {heading}',
+      description: 'Title for link to heading',
+    },
+    {
+      heading: typeof props.children === 'string' ? props.children : id,
+    },
+  );
+
   return (
     <As
       {...props}
@@ -38,11 +49,8 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
       <Link
         className="hash-link"
         to={`#${id}`}
-        title={translate({
-          id: 'theme.common.headingLinkTitle',
-          message: 'Direct link to heading',
-          description: 'Title for link to heading',
-        })}>
+        aria-label={anchorTitle}
+        title={anchorTitle}>
         &#8203;
       </Link>
     </As>

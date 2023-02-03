@@ -21,8 +21,9 @@ const Playgrounds = [
     url: 'https://docusaurus.new/codesandbox',
     description: (
       <Translate id="playground.codesandbox.description">
-        CodeSandbox is a popular playground solution. Runs Docusaurus in a
-        remote Docker container.
+        CodeSandbox is an online code editor and development environment that
+        allows developers to create, share and collaborate on web development
+        projects in a browser-based environment
       </Translate>
     ),
   },

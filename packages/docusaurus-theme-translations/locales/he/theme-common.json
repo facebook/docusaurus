@@ -36,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
   "theme.common.editThisPage": "ערוך דף זה",
-  "theme.common.headingLinkTitle": "קישור ישיר לכותרת",
+  "theme.common.headingLinkTitle": "קישור ישיר אל {heading}",
   "theme.common.skipToMainContent": "דלג לתוכן הראשי",
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Home page",

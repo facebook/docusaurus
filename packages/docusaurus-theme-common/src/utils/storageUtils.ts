@@ -31,6 +31,13 @@ function dispatchChangeEvent({
   newValue: string | null;
   storage: Storage;
 }) {
+  // If we set multiple times the same storage value, events should not be fired
+  // The native events behave this way, so our manual event dispatch should
+  // rather behave exactly the same. Not doing so might create infinite loops.
+  // See https://github.com/facebook/docusaurus/issues/8594
+  if (oldValue === newValue) {
+    return;
+  }
   const event = document.createEvent('StorageEvent');
   event.initStorageEvent(
     'storage',
