@@ -222,7 +222,10 @@ export function useScrollPositionBlocker(): {
   );
 
   useLayoutEffect(() => {
-    nextLayoutEffectCallbackRef.current?.();
+    // Queuing permits to restore scroll position after all useLayoutEffect
+    // have run, and yet preserve the sync nature of the scroll restoration
+    // See https://github.com/facebook/docusaurus/issues/8625
+    queueMicrotask(() => nextLayoutEffectCallbackRef.current?.());
   });
 
   return {
