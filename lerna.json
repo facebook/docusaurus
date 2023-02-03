@@ -1,5 +1,5 @@
 {
-  "version": "2.3.0",
+  "version": "2.3.1",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "changelog": {
@@ -11,6 +11,7 @@
       "pr: performance": ":running_woman: Performance",
       "pr: polish": ":nail_care: Polish",
       "pr: documentation": ":memo: Documentation",
+      "pr: dependencies": ":robot: Dependencies",
       "pr: maintenance": ":wrench: Maintenance"
     },
     "cacheDir": ".changelog"

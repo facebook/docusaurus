@@ -8,11 +8,11 @@
 import React, {
   isValidElement,
   useCallback,
-  useEffect,
   useState,
   useMemo,
   type ReactNode,
   type ReactElement,
+  useLayoutEffect,
 } from 'react';
 import {useHistory} from '@docusaurus/router';
 import {useQueryStringValue} from '@docusaurus/theme-common/internal';
@@ -32,7 +32,9 @@ export interface TabValue {
 export interface TabsProps {
   readonly lazy?: boolean;
   readonly block?: boolean;
-  readonly children: readonly ReactElement<TabItemProps>[];
+  readonly children:
+    | readonly ReactElement<TabItemProps>[]
+    | ReactElement<TabItemProps>;
   readonly defaultValue?: string | null;
   readonly values?: readonly TabValue[];
   readonly groupId?: string;
@@ -244,7 +246,9 @@ export function useTabs(props: TabsProps): {
     }
     return value;
   })();
-  useEffect(() => {
+  // Sync in a layout/sync effect is important, for useScrollPositionBlocker
+  // See https://github.com/facebook/docusaurus/issues/8625
+  useLayoutEffect(() => {
     if (valueToSync) {
       setSelectedValue(valueToSync);
     }

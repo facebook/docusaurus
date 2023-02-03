@@ -55,16 +55,18 @@ export function createExcerpt(fileString: string): string | undefined {
   const fileLines = fileString
     .trimStart()
     // Remove Markdown alternate title
-    .replace(/^[^\n]*\n[=]+/g, '')
-    .split('\n');
+    .replace(/^[^\r\n]*\r?\n[=]+/g, '')
+    .split(/\r?\n/);
   let inCode = false;
   let inImport = false;
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
-    if (fileLine === '' && inImport) {
+    // An empty line marks the end of imports
+    if (!fileLine.trim() && inImport) {
       inImport = false;
     }
+
     // Skip empty line.
     if (!fileLine.trim()) {
       continue;
