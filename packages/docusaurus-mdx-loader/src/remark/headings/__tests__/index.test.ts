@@ -156,40 +156,23 @@ describe('headings remark plugin', () => {
     const result = process(
       [
         '## I ♥ unicode',
-        '',
         '## Dash-dash',
-        '',
         '## en–dash',
-        '',
         '## em–dash',
-        '',
         '## 😄 unicode emoji',
-        '',
         '## 😄-😄 unicode emoji',
-        '',
         '## 😄_😄 unicode emoji',
-        '',
         '##',
-        '',
         '## ',
-        '',
         '##     Initial spaces',
-        '',
         '## Final spaces   ',
-        '',
         '## Duplicate',
-        '',
         '## Duplicate',
-        '',
         '## :ok: No underscore',
-        '',
         '## :ok_hand: Single',
-        '',
         '## :ok_hand::hatched_chick: Two in a row with no spaces',
-        '',
         '## :ok_hand: :hatched_chick: Two in a row',
-        '',
-      ].join('\n'),
+      ].join('\n\n'),
     );
     const expected = u('root', [
       heading('I ♥ unicode', 'i--unicode'),
@@ -307,5 +290,37 @@ describe('headings remark plugin', () => {
         text: '{#text-after} custom ID',
       },
     ]);
+  });
+
+  it('handles Markdown in headings', () => {
+    const result = process('## Bar {#\\_\\_bar__}');
+
+    const headers: {text: string; id: string}[] = [];
+    visit(result, 'heading', (node) => {
+      headers.push({text: toString(node), id: node.data!.id as string});
+    });
+
+    const result2 = process('## Ba\\_r {#bar}');
+
+    const headers2: {text: string; id: string}[] = [];
+    visit(result2, 'heading', (node) => {
+      headers2.push({text: toString(node), id: node.data!.id as string});
+    });
+
+    expect(headers2).toEqual([
+      {
+        id: 'bar',
+        text: 'Ba_r',
+      },
+    ]);
+
+    expect(() =>
+      process('## Bar {#__bar__}'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The heading ID must not contain Markdown markup. Heading: Bar {#bar}"`,
+    );
+    expect(() => process('## Bar {#`bar`}')).toThrowErrorMatchingInlineSnapshot(
+      `"The heading ID must not contain Markdown markup. Heading: Bar {#bar}"`,
+    );
   });
 });

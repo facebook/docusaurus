@@ -11,7 +11,7 @@ import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import mdastToString from 'mdast-util-to-string';
 import type {Transformer} from 'unified';
-import type {Heading, Text} from 'mdast';
+import type {Heading} from 'mdast';
 
 export default function plugin(): Transformer {
   return (root) => {
@@ -36,30 +36,45 @@ export default function plugin(): Transformer {
         // Support explicit heading IDs
         const parsedHeading = parseMarkdownHeadingId(heading);
 
-        id = parsedHeading.id ?? slugs.slug(heading);
-
         if (parsedHeading.id) {
-          // When there's an id, it is always in the last child node
-          // Sometimes heading is in multiple "parts" (** syntax creates a child
-          // node):
-          // ## part1 *part2* part3 {#id}
-          const lastNode = headingNode.children[
-            headingNode.children.length - 1
-          ] as Text;
+          id = parsedHeading.id;
 
-          if (headingNode.children.length > 1) {
-            const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
-            // When last part contains test+id, remove the id
-            if (lastNodeText) {
-              lastNode.value = lastNodeText;
-            }
-            // When last part contains only the id: completely remove that node
-            else {
-              headingNode.children.pop();
-            }
-          } else {
-            lastNode.value = parsedHeading.text;
+          let trailingTextContainingId = '';
+          let node = headingNode.children.pop();
+          // Keep going back until the span of text nodes forms the heading ID
+          while (
+            node?.type === 'text' &&
+            !parseMarkdownHeadingId(trailingTextContainingId).id
+          ) {
+            trailingTextContainingId = node.value + trailingTextContainingId;
+            node = headingNode.children.pop();
           }
+          // Last node popped was excess lookahead, so push it back
+          if (node) {
+            headingNode.children.push(node);
+          }
+          const {text: trailingText, id: contentId} = parseMarkdownHeadingId(
+            trailingTextContainingId,
+          );
+          if (!contentId) {
+            // If the trailing text does not contain an ID, this means the
+            // ID extraction logic removed some Markdown markup from the "ID"
+            // (e.g. ## Heading {#**id**}). The behavior here is undefined, so
+            // we throw an error.
+            throw new Error(
+              `The heading ID must not contain Markdown markup. Heading: ${heading}`,
+            );
+          }
+          if (trailingText) {
+            // If the trailing text contains an ID, but also contains other
+            // text, we add the trailing text as a new text node
+            headingNode.children.push({
+              type: 'text',
+              value: trailingText,
+            });
+          }
+        } else {
+          id = slugs.slug(heading);
         }
       }
 
