@@ -18,7 +18,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
       },
       "logo.alt": {
         "description": "The alt text of navbar logo",
-        "message": "navbar alt logo",
+        "message": "navbar alt text logo",
       },
       "title": {
         "description": "The title in the navbar",
@@ -55,7 +55,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
       },
       "logo.alt": {
         "description": "The alt text of footer logo",
-        "message": "footer alt logo",
+        "message": "footer alt text logo",
       },
     },
     "path": "footer",
@@ -81,7 +81,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
       },
       "logo.alt": {
         "description": "The alt text of navbar logo",
-        "message": "navbar alt logo",
+        "message": "navbar alt text logo",
       },
       "title": {
         "description": "The title in the navbar",
@@ -106,7 +106,7 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
       },
       "logo.alt": {
         "description": "The alt text of footer logo",
-        "message": "footer alt logo",
+        "message": "footer alt text logo",
       },
     },
     "path": "footer",
@@ -148,7 +148,7 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
       },
     ],
     "logo": {
-      "alt": "footer alt logo (translated)",
+      "alt": "footer alt text logo (translated)",
       "src": "img/docusaurus.svg",
     },
     "style": "light",
@@ -171,7 +171,7 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
       },
     ],
     "logo": {
-      "alt": "navbar alt logo (translated)",
+      "alt": "navbar alt text logo (translated)",
       "src": "img/docusaurus.svg",
     },
     "style": "dark",

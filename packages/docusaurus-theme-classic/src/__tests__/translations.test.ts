@@ -19,7 +19,7 @@ const ThemeConfigSample = {
   navbar: {
     title: 'navbar title',
     logo: {
-      alt: 'navbar alt logo',
+      alt: 'navbar alt text logo',
       src: 'img/docusaurus.svg',
     },
     style: 'dark',
@@ -36,7 +36,7 @@ const ThemeConfigSample = {
   },
   footer: {
     logo: {
-      alt: 'footer alt logo',
+      alt: 'footer alt text logo',
       src: 'img/docusaurus.svg',
     },
     copyright: 'Copyright FB',
@@ -61,7 +61,7 @@ const ThemeConfigSampleSimpleFooter: ThemeConfig = {
   ...ThemeConfigSample,
   footer: {
     logo: {
-      alt: 'footer alt logo',
+      alt: 'footer alt text logo',
       src: 'img/docusaurus.svg',
     },
     copyright: 'Copyright FB',
