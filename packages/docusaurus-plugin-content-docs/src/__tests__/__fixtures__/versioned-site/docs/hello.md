@@ -1,4 +1,0 @@
----
-slug: /
----
-Hello `next` !

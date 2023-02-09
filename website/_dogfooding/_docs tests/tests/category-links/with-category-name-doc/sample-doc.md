@@ -1,3 +1,0 @@
-# Sample doc
-
-Lorem Ipsum

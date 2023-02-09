@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "references": [{"path": "./tsconfig.build.json"}],
-  "compilerOptions": {
-    "noEmit": true,
-    "checkJs": true
-  },
-  "include": ["update.mjs"]
-}

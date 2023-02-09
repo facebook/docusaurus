@@ -1,8 +1,0 @@
-{
-  "theme.PwaReloadPopup.closeButtonAriaLabel": "Close",
-  "theme.PwaReloadPopup.closeButtonAriaLabel___DESCRIPTION": "The ARIA label for close button of PWA reload popup",
-  "theme.PwaReloadPopup.info": "New version available",
-  "theme.PwaReloadPopup.info___DESCRIPTION": "The text for PWA reload popup",
-  "theme.PwaReloadPopup.refreshButtonText": "Refresh",
-  "theme.PwaReloadPopup.refreshButtonText___DESCRIPTION": "The text for PWA reload button"
-}

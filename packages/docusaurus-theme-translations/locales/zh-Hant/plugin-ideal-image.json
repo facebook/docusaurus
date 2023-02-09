@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "未找到圖片",
-  "theme.IdealImageMessage.error": "出現錯誤，按一下來重試",
-  "theme.IdealImageMessage.load": "按一下以載入{sizeMessage}",
-  "theme.IdealImageMessage.loading": "載入中...",
-  "theme.IdealImageMessage.offline": "你的瀏覽器處於離線狀態。圖片未載入"
-}

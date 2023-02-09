@@ -1,3 +1,0 @@
-# Index
-
-Markdown index page
