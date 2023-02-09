@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Không tìm thấy ảnh",
+  "theme.IdealImageMessage.error": "Có lỗi. Nhấn để tải lại",
+  "theme.IdealImageMessage.load": "Nhấn để tải {sizeMessage}",
+  "theme.IdealImageMessage.loading": "Đang tải...",
+  "theme.IdealImageMessage.offline": "Hiện bạn đang ngoại tuyến. Không thể tải ảnh"
+}

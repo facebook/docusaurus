@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalization adds a translatable marker for labels defined in sidebars.js 1`] = `
+{
+  "sidebar": [
+    {
+      "id": "google",
+      "label": "Google",
+      "translatable": true,
+      "type": "doc",
+    },
+    {
+      "items": [
+        {
+          "id": "doc1",
+          "type": "doc",
+        },
+        {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Category 1",
+      "type": "category",
+    },
+    {
+      "items": [
+        {
+          "id": "doc3",
+          "type": "doc",
+        },
+        {
+          "id": "doc4",
+          "type": "doc",
+        },
+        {
+          "id": "msft",
+          "label": "Microsoft",
+          "translatable": true,
+          "type": "ref",
+        },
+      ],
+      "label": "Category 2",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`normalization normalizes shorthands 1`] = `
+{
+  "sidebar": [
+    {
+      "items": [
+        {
+          "id": "doc1",
+          "type": "doc",
+        },
+        {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Category",
+      "type": "category",
+    },
+    {
+      "items": [
+        {
+          "items": [
+            {
+              "id": "doc3",
+              "type": "doc",
+            },
+            {
+              "id": "doc4",
+              "type": "doc",
+            },
+          ],
+          "label": "Subcategory 1",
+          "type": "category",
+        },
+        {
+          "items": [
+            {
+              "id": "doc5",
+              "type": "doc",
+            },
+            {
+              "id": "doc6",
+              "type": "doc",
+            },
+          ],
+          "label": "Subcategory 2",
+          "type": "category",
+        },
+      ],
+      "label": "Category 2",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`normalization normalizes shorthands 2`] = `
+{
+  "sidebar": [
+    {
+      "href": "https://google.com",
+      "label": "Google",
+      "type": "link",
+    },
+    {
+      "items": [
+        {
+          "id": "doc1",
+          "type": "doc",
+        },
+        {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Category 1",
+      "type": "category",
+    },
+    {
+      "items": [
+        {
+          "id": "doc3",
+          "type": "doc",
+        },
+        {
+          "id": "doc4",
+          "type": "doc",
+        },
+      ],
+      "label": "Category 2",
+      "type": "category",
+    },
+  ],
+}
+`;

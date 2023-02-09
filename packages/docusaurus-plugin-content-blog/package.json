@@ -1,0 +1,45 @@
+{
+  "name": "@docusaurus/plugin-content-blog",
+  "version": "2.3.1",
+  "description": "Blog plugin for Docusaurus.",
+  "main": "lib/index.js",
+  "types": "src/plugin-content-blog.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-content-blog"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "2.3.1",
+    "@docusaurus/logger": "2.3.1",
+    "@docusaurus/mdx-loader": "2.3.1",
+    "@docusaurus/types": "2.3.1",
+    "@docusaurus/utils": "2.3.1",
+    "@docusaurus/utils-common": "2.3.1",
+    "@docusaurus/utils-validation": "2.3.1",
+    "cheerio": "^1.0.0-rc.12",
+    "feed": "^4.2.2",
+    "fs-extra": "^10.1.0",
+    "lodash": "^4.17.21",
+    "reading-time": "^1.5.0",
+    "tslib": "^2.4.0",
+    "unist-util-visit": "^2.0.3",
+    "utility-types": "^3.10.0",
+    "webpack": "^5.73.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
+  },
+  "engines": {
+    "node": ">=16.14"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "docs": {
+    "Test": [
+      {
+        "type": "link",
+        "label": "category",
+        "href": "https://github.com"
+      }
+    ]
+  }
+}

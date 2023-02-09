@@ -1,0 +1,57 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.checkboxLabel {
+  --height: 25px;
+  --width: 80px;
+  --border: 2px;
+  display: flex;
+  width: var(--width);
+  height: var(--height);
+  position: relative;
+  border-radius: var(--height);
+  border: var(--border) solid var(--ifm-color-primary-darkest);
+  cursor: pointer;
+  justify-content: space-around;
+  opacity: 0.75;
+  transition: opacity var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.checkboxLabel:hover {
+  opacity: 1;
+  box-shadow: var(--ifm-global-shadow-md),
+    0 0 2px 1px var(--ifm-color-primary-dark);
+}
+
+.checkboxLabel::after {
+  position: absolute;
+  content: '';
+  inset: 0;
+  width: calc(var(--width) / 2);
+  height: 100%;
+  border-radius: var(--height);
+  background-color: var(--ifm-color-primary-darkest);
+  transition: transform var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+  transform: translateX(calc(var(--width) / 2 - var(--border)));
+}
+
+input:focus-visible ~ .checkboxLabel::after {
+  outline: 2px solid currentColor;
+}
+
+.checkboxLabel > * {
+  font-size: 0.8rem;
+  color: inherit;
+  transition: opacity 150ms ease-in 50ms;
+}
+
+input:checked ~ .checkboxLabel::after {
+  transform: translateX(calc(-1 * var(--border)));
+}

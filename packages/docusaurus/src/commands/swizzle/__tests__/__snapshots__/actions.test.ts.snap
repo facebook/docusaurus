@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wrap JavaScript wrap ComponentInFolder 2`] = `
+"import React from 'react';
+import ComponentInFolder from '@theme-original/ComponentInFolder';
+
+export default function ComponentInFolderWrapper(props) {
+  return (
+    <>
+      <ComponentInFolder {...props} />
+    </>
+  );
+}
+"
+`;
+
+exports[`wrap JavaScript wrap ComponentInFolder/ComponentInSubFolder 2`] = `
+"import React from 'react';
+import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+
+export default function ComponentInSubFolderWrapper(props) {
+  return (
+    <>
+      <ComponentInSubFolder {...props} />
+    </>
+  );
+}
+"
+`;
+
+exports[`wrap JavaScript wrap FirstLevelComponent 2`] = `
+"import React from 'react';
+import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+
+export default function FirstLevelComponentWrapper(props) {
+  return (
+    <>
+      <FirstLevelComponent {...props} />
+    </>
+  );
+}
+"
+`;
+
+exports[`wrap TypeScript wrap ComponentInFolder 2`] = `
+"import React from 'react';
+import ComponentInFolder from '@theme-original/ComponentInFolder';
+import type ComponentInFolderType from '@theme/ComponentInFolder';
+import type {WrapperProps} from '@docusaurus/types';
+
+type Props = WrapperProps<typeof ComponentInFolderType>;
+
+export default function ComponentInFolderWrapper(props: Props): JSX.Element {
+  return (
+    <>
+      <ComponentInFolder {...props} />
+    </>
+  );
+}
+"
+`;
+
+exports[`wrap TypeScript wrap ComponentInFolder/ComponentInSubFolder 2`] = `
+"import React from 'react';
+import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
+import type {WrapperProps} from '@docusaurus/types';
+
+type Props = WrapperProps<typeof ComponentInSubFolderType>;
+
+export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
+  return (
+    <>
+      <ComponentInSubFolder {...props} />
+    </>
+  );
+}
+"
+`;
+
+exports[`wrap TypeScript wrap FirstLevelComponent 2`] = `
+"import React from 'react';
+import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+import type FirstLevelComponentType from '@theme/FirstLevelComponent';
+import type {WrapperProps} from '@docusaurus/types';
+
+type Props = WrapperProps<typeof FirstLevelComponentType>;
+
+export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
+  return (
+    <>
+      <FirstLevelComponent {...props} />
+    </>
+  );
+}
+"
+`;

@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadPresets array form 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      undefined,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [],
+}
+`;
+
+exports[`loadPresets array form composite 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        "path": "../",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [
+    [
+      "@docusaurus/theme-live-codeblock",
+      undefined,
+    ],
+    [
+      "@docusaurus/theme-algolia",
+      {
+        "trackingID": "foo",
+      },
+    ],
+  ],
+}
+`;
+
+exports[`loadPresets array form with options 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        "path": "../",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [],
+}
+`;
+
+exports[`loadPresets mixed form 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        "path": "../",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [
+    [
+      "@docusaurus/theme-live-codeblock",
+      undefined,
+    ],
+    [
+      "@docusaurus/theme-algolia",
+      undefined,
+    ],
+  ],
+}
+`;
+
+exports[`loadPresets mixed form with themes 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        "path": "../",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+    [
+      "@docusaurus/plugin-test",
+      undefined,
+    ],
+    false,
+  ],
+  "themes": [
+    [
+      "@docusaurus/theme-live-codeblock",
+      undefined,
+    ],
+    [
+      "@docusaurus/theme-algolia",
+      undefined,
+    ],
+    [
+      "@docusaurus/theme-classic",
+      undefined,
+    ],
+    null,
+  ],
+}
+`;
+
+exports[`loadPresets string form 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      undefined,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [],
+}
+`;
+
+exports[`loadPresets string form composite 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      undefined,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [
+    [
+      "@docusaurus/theme-live-codeblock",
+      undefined,
+    ],
+    [
+      "@docusaurus/theme-algolia",
+      undefined,
+    ],
+  ],
+}
+`;

@@ -1,0 +1,5 @@
+---
+slug: ../../../../../../../../rootTryToEscapeSlug
+---
+
+Lorem

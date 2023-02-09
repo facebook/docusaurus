@@ -1,0 +1,95 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.filterCheckbox {
+  justify-content: space-between;
+}
+
+.filterCheckbox,
+.checkboxList {
+  display: flex;
+  align-items: center;
+}
+
+.filterCheckbox > div:first-child {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+}
+
+.filterCheckbox > div > * {
+  margin-bottom: 0;
+  margin-right: 8px;
+}
+
+.checkboxList {
+  flex-wrap: wrap;
+}
+
+.checkboxListItem {
+  user-select: none;
+  white-space: nowrap;
+  height: 32px;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.checkboxListItem:last-child {
+  margin-right: 0;
+}
+
+.searchContainer {
+  margin-left: auto;
+}
+
+.searchContainer input {
+  height: 30px;
+  border-radius: 15px;
+  padding: 10px;
+  border: 1px solid gray;
+}
+
+.showcaseList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.showcaseFavorite {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: var(--site-color-favorite-background);
+}
+
+.showcaseFavoriteHeader {
+  display: flex;
+  align-items: center;
+}
+
+.showcaseFavoriteHeader > h2 {
+  margin-bottom: 0;
+}
+
+.showcaseFavoriteHeader > svg {
+  width: 30px;
+  height: 30px;
+}
+
+.svgIconFavoriteXs,
+.svgIconFavorite {
+  color: var(--site-color-svg-icon-favorite);
+}
+
+.svgIconFavoriteXs {
+  margin-left: 0.625rem;
+  font-size: 1rem;
+}
+
+.svgIconFavorite {
+  margin-left: 1rem;
+}

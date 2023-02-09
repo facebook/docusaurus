@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getContentTranslationFiles returns translation files matching snapshot 1`] = `
+[
+  {
+    "content": {
+      "description": {
+        "description": "The description for the blog used in SEO",
+        "message": "Someone's random blog",
+      },
+      "sidebar.title": {
+        "description": "The label for the left sidebar",
+        "message": "All my posts",
+      },
+      "title": {
+        "description": "The title for the blog used in SEO",
+        "message": "My blog",
+      },
+    },
+    "path": "options",
+  },
+]
+`;
+
+exports[`translateContent falls back when translation is incomplete 1`] = `
+{
+  "blogListPaginated": [
+    {
+      "items": [
+        "hello",
+      ],
+      "metadata": {
+        "blogDescription": "Someone's random blog",
+        "blogTitle": "My blog",
+        "nextPage": undefined,
+        "page": 1,
+        "permalink": "/",
+        "postsPerPage": 10,
+        "previousPage": undefined,
+        "totalCount": 1,
+        "totalPages": 1,
+      },
+    },
+  ],
+  "blogPosts": [
+    {
+      "content": "",
+      "id": "hello",
+      "metadata": {
+        "authors": [],
+        "date": 2021-07-19T00:00:00.000Z,
+        "description": "/blog/2021/06/19/hello",
+        "formattedDate": "June 19, 2021",
+        "frontMatter": {},
+        "hasTruncateMarker": true,
+        "permalink": "/blog/2021/06/19/hello",
+        "source": "/blog/2021/06/19/hello",
+        "tags": [],
+        "title": "Hello",
+      },
+    },
+  ],
+  "blogSidebarTitle": "All my posts",
+  "blogTags": {},
+  "blogTagsListPath": "/tags",
+}
+`;
+
+exports[`translateContent returns translated loaded 1`] = `
+{
+  "blogListPaginated": [
+    {
+      "items": [
+        "hello",
+      ],
+      "metadata": {
+        "blogDescription": "Someone's random blog (translated)",
+        "blogTitle": "My blog (translated)",
+        "nextPage": undefined,
+        "page": 1,
+        "permalink": "/",
+        "postsPerPage": 10,
+        "previousPage": undefined,
+        "totalCount": 1,
+        "totalPages": 1,
+      },
+    },
+  ],
+  "blogPosts": [
+    {
+      "content": "",
+      "id": "hello",
+      "metadata": {
+        "authors": [],
+        "date": 2021-07-19T00:00:00.000Z,
+        "description": "/blog/2021/06/19/hello",
+        "formattedDate": "June 19, 2021",
+        "frontMatter": {},
+        "hasTruncateMarker": true,
+        "permalink": "/blog/2021/06/19/hello",
+        "source": "/blog/2021/06/19/hello",
+        "tags": [],
+        "title": "Hello",
+      },
+    },
+  ],
+  "blogSidebarTitle": "All my posts (translated)",
+  "blogTags": {},
+  "blogTagsListPath": "/tags",
+}
+`;

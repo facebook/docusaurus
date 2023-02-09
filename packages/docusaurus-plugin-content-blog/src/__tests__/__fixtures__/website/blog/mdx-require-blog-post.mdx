@@ -1,0 +1,14 @@
+---
+title: MDX Blog Sample with require calls
+date: 2021-03-06
+---
+
+Test MDX with require calls
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+<img src={useBaseUrl('/img/docusaurus.png')} />
+
+<img src={require('../static/img/docusaurus.png').default} />
+
+<img src={require('@site/static/img/docusaurus.png').default} />

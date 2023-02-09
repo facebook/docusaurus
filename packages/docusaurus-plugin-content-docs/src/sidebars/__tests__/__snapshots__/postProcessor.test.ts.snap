@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postProcess corrects collapsed state inconsistencies 1`] = `
+{
+  "sidebar": [
+    {
+      "collapsed": false,
+      "collapsible": false,
+      "items": [
+        {
+          "id": "foo",
+          "type": "doc",
+        },
+      ],
+      "label": "Category",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`postProcess corrects collapsed state inconsistencies 2`] = `
+{
+  "sidebar": [
+    {
+      "collapsed": false,
+      "collapsible": false,
+      "items": [
+        {
+          "id": "foo",
+          "type": "doc",
+        },
+      ],
+      "label": "Category",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`postProcess corrects collapsed state inconsistencies 3`] = `
+{
+  "sidebar": [
+    {
+      "collapsed": false,
+      "collapsible": false,
+      "items": [
+        {
+          "id": "foo",
+          "type": "doc",
+        },
+      ],
+      "label": "Category",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`postProcess filters draft items 1`] = `
+{
+  "sidebar": [
+    {
+      "id": "another",
+      "label": "Category",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`postProcess transforms category without subitems 1`] = `
+{
+  "sidebar": [
+    {
+      "id": "doc ID",
+      "label": "Category 2",
+      "type": "doc",
+    },
+  ],
+}
+`;

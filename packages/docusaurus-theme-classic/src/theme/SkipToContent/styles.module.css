@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.skipToContent {
+  position: fixed;
+  top: 1rem;
+  left: 100%;
+  z-index: calc(var(--ifm-z-index-fixed) + 1);
+  padding: calc(var(--ifm-global-spacing) / 2) var(--ifm-global-spacing);
+  color: var(--ifm-color-emphasis-900);
+  background-color: var(--ifm-background-surface-color);
+}
+
+.skipToContent:focus {
+  left: 1rem;
+  box-shadow: var(--ifm-global-shadow-md);
+}

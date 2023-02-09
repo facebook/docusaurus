@@ -1,0 +1,63 @@
+{
+  "name": "@docusaurus/theme-search-algolia",
+  "version": "2.3.1",
+  "description": "Algolia search component for Docusaurus.",
+  "main": "lib/index.js",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./client": {
+      "types": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/theme-search-algolia.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "types": "src/theme-search-algolia.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-search-algolia"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+  },
+  "dependencies": {
+    "@docsearch/react": "^3.1.1",
+    "@docusaurus/core": "2.3.1",
+    "@docusaurus/logger": "2.3.1",
+    "@docusaurus/plugin-content-docs": "2.3.1",
+    "@docusaurus/theme-common": "2.3.1",
+    "@docusaurus/theme-translations": "2.3.1",
+    "@docusaurus/utils": "2.3.1",
+    "@docusaurus/utils-validation": "2.3.1",
+    "algoliasearch": "^4.13.1",
+    "algoliasearch-helper": "^3.10.0",
+    "clsx": "^1.2.1",
+    "eta": "^2.0.0",
+    "fs-extra": "^10.1.0",
+    "lodash": "^4.17.21",
+    "tslib": "^2.4.0",
+    "utility-types": "^3.10.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.3.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
+  },
+  "engines": {
+    "node": ">=16.14"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "۴۰۴. تصویر پیدا نشد.",
+  "theme.IdealImageMessage.error": "خطا. تلاش مجدد",
+  "theme.IdealImageMessage.load": "برای بارگزاری {sizeMessage} کلیک کنید",
+  "theme.IdealImageMessage.loading": "در حال بارگیری...",
+  "theme.IdealImageMessage.offline": "مرورگر شما آفلاین است. تصویر بارگیری نشده است."
+}

@@ -1,0 +1,40 @@
+{
+  "docs": {
+    "Test": [
+      {
+        "type": "category",
+        "label": "foo",
+        "items": ["foo/bar", "foo/baz"]
+      },
+      {
+        "type": "category",
+        "label": "Slugs",
+        "link": {
+          "type": "generated-index"
+        },
+        "items": [
+          "rootAbsoluteSlug",
+          "rootRelativeSlug",
+          "rootResolvedSlug",
+          "rootTryToEscapeSlug"
+        ]
+      },
+      {
+        "type": "doc",
+        "id": "headingAsTitle"
+      },
+      {
+        "type": "link",
+        "label": "GitHub",
+        "href": "https://github.com"
+      },
+      {
+        "type": "ref",
+        "id": "hello"
+      }
+    ],
+    "Guides": [
+      "hello"
+    ]
+  }
+}

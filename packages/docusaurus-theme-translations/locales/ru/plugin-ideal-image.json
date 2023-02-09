@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Изображение не найдено",
+  "theme.IdealImageMessage.error": "Ошибка. Нажмите для перезагрузки",
+  "theme.IdealImageMessage.load": "Нажмите для загрузки {sizeMessage}",
+  "theme.IdealImageMessage.loading": "Загрузка...",
+  "theme.IdealImageMessage.offline": "Ваш браузер находится в автономном режиме. Изображение не загружено"
+}

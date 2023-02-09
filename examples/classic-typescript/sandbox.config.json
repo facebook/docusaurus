@@ -1,0 +1,10 @@
+{
+  "infiniteLoopProtection": true,
+  "hardReloadOnChange": true,
+  "view": "browser",
+  "template": "docusaurus",
+  "node": "16",
+  "container": {
+    "node": "16"
+  }
+}

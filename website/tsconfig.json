@@ -1,0 +1,41 @@
+{
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+
+    // Duplicated from the root config, because TS does not support extending
+    // multiple configs and we want to dogfood the @tsconfig/docusaurus one
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "importsNotUsedAsValues": "remove",
+
+    "moduleResolution": "NodeNext",
+
+    // This is important. We run `yarn tsc` in website so we can catch issues
+    // with our declaration files (mostly names that are forgotten to be
+    // imported, invalid semantics...). Because we don't have end-to-end type
+    // tests, removing this would make things much harder to catch.
+    "skipLibCheck": false,
+    "types": ["jest"]
+  },
+  "exclude": ["src/sw.js"]
+}

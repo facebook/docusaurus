@@ -1,0 +1,304 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`simple site custom pagination 1`] = `
+{
+  "pagination": [
+    {
+      "id": "customLastUpdate",
+      "next": {
+        "permalink": "/docs/doc with space",
+        "title": "Hoo hoo, if this path tricks you...",
+      },
+      "prev": undefined,
+    },
+    {
+      "id": "doc with space",
+      "next": {
+        "permalink": "/docs/doc-draft",
+        "title": "doc-draft",
+      },
+      "prev": {
+        "permalink": "/docs/customLastUpdate",
+        "title": "Custom Last Update",
+      },
+    },
+    {
+      "id": "doc-draft",
+      "next": {
+        "permalink": "/docs/foo/bar",
+        "title": "Bar",
+      },
+      "prev": {
+        "permalink": "/docs/doc with space",
+        "title": "Hoo hoo, if this path tricks you...",
+      },
+    },
+    {
+      "id": "foo/bar",
+      "next": undefined,
+      "prev": undefined,
+    },
+    {
+      "id": "foo/baz",
+      "next": {
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
+      },
+      "prev": {
+        "permalink": "/docs/foo/bar",
+        "title": "Bar",
+      },
+    },
+    {
+      "id": "headingAsTitle",
+      "next": {
+        "permalink": "/docs/",
+        "title": "Hello sidebar_label",
+      },
+      "prev": {
+        "permalink": "/docs/foo/bazSlug.html",
+        "title": "baz pagination_label",
+      },
+    },
+    {
+      "id": "hello",
+      "next": {
+        "permalink": "/docs/ipsum",
+        "title": "ipsum",
+      },
+      "prev": {
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
+      },
+    },
+    {
+      "id": "ipsum",
+      "next": {
+        "permalink": "/docs/lastUpdateAuthorOnly",
+        "title": "Last Update Author Only",
+      },
+      "prev": {
+        "permalink": "/docs/",
+        "title": "Hello sidebar_label",
+      },
+    },
+    {
+      "id": "lastUpdateAuthorOnly",
+      "next": {
+        "permalink": "/docs/lastUpdateDateOnly",
+        "title": "Last Update Date Only",
+      },
+      "prev": {
+        "permalink": "/docs/ipsum",
+        "title": "ipsum",
+      },
+    },
+    {
+      "id": "lastUpdateDateOnly",
+      "next": {
+        "permalink": "/docs/lorem",
+        "title": "lorem",
+      },
+      "prev": {
+        "permalink": "/docs/lastUpdateAuthorOnly",
+        "title": "Last Update Author Only",
+      },
+    },
+    {
+      "id": "lorem",
+      "next": {
+        "permalink": "/docs/rootAbsoluteSlug",
+        "title": "rootAbsoluteSlug",
+      },
+      "prev": {
+        "permalink": "/docs/lastUpdateDateOnly",
+        "title": "Last Update Date Only",
+      },
+    },
+    {
+      "id": "rootAbsoluteSlug",
+      "next": {
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
+      },
+      "prev": {
+        "permalink": "/docs/foo/bazSlug.html",
+        "title": "baz pagination_label",
+      },
+    },
+    {
+      "id": "rootRelativeSlug",
+      "next": {
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
+      },
+      "prev": {
+        "permalink": "/docs/foo/bazSlug.html",
+        "title": "baz pagination_label",
+      },
+    },
+    {
+      "id": "rootResolvedSlug",
+      "next": {
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
+      },
+      "prev": {
+        "permalink": "/docs/foo/bazSlug.html",
+        "title": "baz pagination_label",
+      },
+    },
+    {
+      "id": "rootTryToEscapeSlug",
+      "next": {
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
+      },
+      "prev": {
+        "permalink": "/docs/foo/bazSlug.html",
+        "title": "baz pagination_label",
+      },
+    },
+    {
+      "id": "slugs/absoluteSlug",
+      "next": {
+        "permalink": "/docs/slugs/relativeSlug",
+        "title": "relativeSlug",
+      },
+      "prev": {
+        "permalink": "/docs/rootTryToEscapeSlug",
+        "title": "rootTryToEscapeSlug",
+      },
+    },
+    {
+      "id": "slugs/relativeSlug",
+      "next": {
+        "permalink": "/docs/slugs/hey/resolvedSlug",
+        "title": "resolvedSlug",
+      },
+      "prev": {
+        "permalink": "/docs/absoluteSlug",
+        "title": "absoluteSlug",
+      },
+    },
+    {
+      "id": "slugs/resolvedSlug",
+      "next": {
+        "permalink": "/docs/tryToEscapeSlug",
+        "title": "tryToEscapeSlug",
+      },
+      "prev": {
+        "permalink": "/docs/slugs/relativeSlug",
+        "title": "relativeSlug",
+      },
+    },
+    {
+      "id": "slugs/tryToEscapeSlug",
+      "next": undefined,
+      "prev": {
+        "permalink": "/docs/slugs/hey/resolvedSlug",
+        "title": "resolvedSlug",
+      },
+    },
+  ],
+  "sidebars": {
+    "defaultSidebar": [
+      {
+        "id": "customLastUpdate",
+        "type": "doc",
+      },
+      {
+        "id": "doc with space",
+        "type": "doc",
+      },
+      {
+        "id": "doc-draft",
+        "type": "doc",
+      },
+      {
+        "collapsed": false,
+        "collapsible": true,
+        "items": [
+          {
+            "id": "foo/bar",
+            "type": "doc",
+          },
+          {
+            "id": "foo/baz",
+            "type": "doc",
+          },
+        ],
+        "label": "foo",
+        "link": undefined,
+        "type": "category",
+      },
+      {
+        "id": "headingAsTitle",
+        "type": "doc",
+      },
+      {
+        "id": "hello",
+        "label": "Hello sidebar_label",
+        "type": "doc",
+      },
+      {
+        "id": "ipsum",
+        "type": "doc",
+      },
+      {
+        "id": "lastUpdateAuthorOnly",
+        "type": "doc",
+      },
+      {
+        "id": "lastUpdateDateOnly",
+        "type": "doc",
+      },
+      {
+        "id": "lorem",
+        "type": "doc",
+      },
+      {
+        "id": "rootAbsoluteSlug",
+        "type": "doc",
+      },
+      {
+        "id": "rootRelativeSlug",
+        "type": "doc",
+      },
+      {
+        "id": "rootResolvedSlug",
+        "type": "doc",
+      },
+      {
+        "id": "rootTryToEscapeSlug",
+        "type": "doc",
+      },
+      {
+        "collapsed": false,
+        "collapsible": true,
+        "items": [
+          {
+            "id": "slugs/absoluteSlug",
+            "type": "doc",
+          },
+          {
+            "id": "slugs/relativeSlug",
+            "type": "doc",
+          },
+          {
+            "id": "slugs/resolvedSlug",
+            "type": "doc",
+          },
+          {
+            "id": "slugs/tryToEscapeSlug",
+            "type": "doc",
+          },
+        ],
+        "label": "slugs",
+        "link": undefined,
+        "type": "category",
+      },
+    ],
+  },
+}
+`;

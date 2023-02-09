@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "references": [
+    {"path": "./tsconfig.client.json"},
+    {"path": "./tsconfig.worker.json"}
+  ],
+  "compilerOptions": {
+    "noEmit": false,
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src"],
+  "exclude": [
+    "src/theme/",
+    "src/registerSw.ts",
+    "src/sw.ts",
+    "src/renderReloadPopup.tsx",
+    "**/__tests__/**"
+  ]
+}

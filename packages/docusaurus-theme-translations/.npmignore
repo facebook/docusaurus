@@ -1,0 +1,5 @@
+.tsbuildinfo*
+tsconfig*
+__tests__
+
+update*

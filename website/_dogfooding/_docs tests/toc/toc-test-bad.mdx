@@ -1,0 +1,80 @@
+---
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+
+Test the TOC behavior of a real-world MD doc with invalid headings
+
+---
+
+BAD HEADINGS:
+
+###### lvl 6
+
+##### lvl 5
+
+#### lvl 4
+
+##### lvl 5
+
+#### lvl 4
+
+### lvl 3
+
+## lvl 2
+
+# lvl 1
+
+---
+
+GOOD HEADINGS:
+
+## lvl 2
+
+### lvl 3
+
+#### lvl 4
+
+##### lvl 5
+
+###### lvl 6
+
+## lvl 2
+
+### lvl 3
+
+#### lvl 4
+
+##### lvl 5
+
+###### lvl 6
+
+---
+
+INLINE:
+
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+
+<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+
+</BrowserWindow>
+```
+
+---
+
+COLLAPSIBLE:
+
+```mdx-code-block
+import TOCCollapsible from '@theme/TOCCollapsible';
+
+<BrowserWindow>
+
+<TOCCollapsible toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+
+</BrowserWindow>
+```

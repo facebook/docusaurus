@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "references": [{"path": "./tsconfig.client.json"}],
+  "compilerOptions": {
+    "noEmit": false,
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src"],
+  "exclude": [
+    "src/nprogress.ts",
+    "src/prism-include-languages.ts",
+    "src/theme",
+    "**/__tests__/**"
+  ]
+}

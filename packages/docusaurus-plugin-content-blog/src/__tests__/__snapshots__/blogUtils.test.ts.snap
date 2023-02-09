@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`linkify reports broken markdown links 1`] = `
+"---
+title: This post links to another one!
+---
+
+[Good link 1](/blog/2018/12/14/Happy-First-Birthday-Slash)
+
+[Good link 2](/blog/2018/12/14/Happy-First-Birthday-Slash)
+
+[Bad link 1](postNotExist1.md)
+
+[Bad link 1](./postNotExist2.mdx)
+"
+`;
+
+exports[`linkify transforms to correct link 1`] = `
+"---
+title: This post links to another one!
+---
+
+[Linked post](/blog/2018/12/14/Happy-First-Birthday-Slash)"
+`;
+
+exports[`paginateBlogPosts generates right pages 1`] = `
+[
+  {
+    "items": [
+      "post1",
+      "post2",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": "/blog/page/2",
+      "page": 1,
+      "permalink": "/blog",
+      "postsPerPage": 2,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 3,
+    },
+  },
+  {
+    "items": [
+      "post3",
+      "post4",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": "/blog/page/3",
+      "page": 2,
+      "permalink": "/blog/page/2",
+      "postsPerPage": 2,
+      "previousPage": "/blog",
+      "totalCount": 5,
+      "totalPages": 3,
+    },
+  },
+  {
+    "items": [
+      "post5",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 3,
+      "permalink": "/blog/page/3",
+      "postsPerPage": 2,
+      "previousPage": "/blog/page/2",
+      "totalCount": 5,
+      "totalPages": 3,
+    },
+  },
+]
+`;
+
+exports[`paginateBlogPosts generates right pages 2`] = `
+[
+  {
+    "items": [
+      "post1",
+      "post2",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": "/page/2",
+      "page": 1,
+      "permalink": "/",
+      "postsPerPage": 2,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 3,
+    },
+  },
+  {
+    "items": [
+      "post3",
+      "post4",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": "/page/3",
+      "page": 2,
+      "permalink": "/page/2",
+      "postsPerPage": 2,
+      "previousPage": "/",
+      "totalCount": 5,
+      "totalPages": 3,
+    },
+  },
+  {
+    "items": [
+      "post5",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 3,
+      "permalink": "/page/3",
+      "postsPerPage": 2,
+      "previousPage": "/page/2",
+      "totalCount": 5,
+      "totalPages": 3,
+    },
+  },
+]
+`;
+
+exports[`paginateBlogPosts generates right pages 3`] = `
+[
+  {
+    "items": [
+      "post1",
+      "post2",
+      "post3",
+      "post4",
+      "post5",
+    ],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 1,
+      "permalink": "/",
+      "postsPerPage": 10,
+      "previousPage": undefined,
+      "totalCount": 5,
+      "totalPages": 1,
+    },
+  },
+]
+`;

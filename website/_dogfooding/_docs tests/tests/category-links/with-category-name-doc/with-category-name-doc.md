@@ -1,0 +1,22 @@
+# Category with a doc of category's name
+
+You should be able to click on the category and browse this `<categoryName>/<categoryName>.md` doc
+
+## Intro
+
+Some intro text
+
+:::tip
+
+It is also possible to render the card items for that category thanks to MDX:
+
+:::
+
+## Category content
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```

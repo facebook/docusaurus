@@ -1,0 +1,35 @@
+{
+  "name": "@docusaurus/utils-common",
+  "version": "2.3.1",
+  "description": "Common (Node/Browser) utility functions for Docusaurus packages.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils-common"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "@docusaurus/types": "*"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/types": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16.14"
+  }
+}

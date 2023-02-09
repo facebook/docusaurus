@@ -1,0 +1,7 @@
+.tsbuildinfo*
+__tests__
+node_modules
+
+# Files in the templates need to stay
+/tsconfig*
+/src

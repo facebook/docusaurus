@@ -1,0 +1,60 @@
+{
+  "sidebar": [
+    "draft1",
+    {
+      "type": "category",
+      "label": "all drafts",
+      "items": [
+        "draft2",
+        "draft3"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "all drafts",
+      "link": {
+        "type": "generated-index"
+      },
+      "items": [
+        "draft2",
+        "draft3"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "all drafts",
+      "link": {
+        "type": "doc",
+        "id": "draft1"
+      },
+      "items": [
+        "draft2",
+        "draft3"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "index not draft",
+      "link": {
+        "type": "doc",
+        "id": "not-draft"
+      },
+      "items": [
+        "draft2",
+        "draft3"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "subitem not draft",
+      "link": {
+        "type": "doc",
+        "id": "draft1"
+      },
+      "items": [
+        "not-draft",
+        "draft3"
+      ]
+    }
+  ]
+}

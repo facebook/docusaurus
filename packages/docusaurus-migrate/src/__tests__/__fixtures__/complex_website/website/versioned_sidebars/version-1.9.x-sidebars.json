@@ -1,0 +1,8 @@
+{
+  "version-1.9.x-docs": {
+    "API": [
+      "version-1.9.x-commands",
+      "version-1.9.x-doc-markdown"
+    ]
+  }
+}

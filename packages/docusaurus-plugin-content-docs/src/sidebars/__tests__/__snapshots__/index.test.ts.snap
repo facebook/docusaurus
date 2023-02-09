@@ -1,0 +1,344 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadSidebars loads sidebars with index-only categories 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "tutorials/tutorial-basics",
+          "label": "tutorial-basics",
+          "type": "doc",
+        },
+      ],
+      "label": "Tutorials",
+      "link": undefined,
+      "type": "category",
+    },
+    {
+      "id": "tutorials/tutorial-basics",
+      "label": "index-only",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars loads sidebars with interspersed draft items 1`] = `
+{
+  "sidebar": [
+    {
+      "id": "not-draft",
+      "label": "index not draft",
+      "type": "doc",
+    },
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "not-draft",
+          "type": "doc",
+        },
+      ],
+      "label": "subitem not draft",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars link 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "href": "https://github.com",
+          "label": "category",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with category.collapsed property 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "collapsed": false,
+          "collapsible": true,
+          "items": [
+            {
+              "id": "doc1",
+              "type": "doc",
+            },
+          ],
+          "label": "Introduction",
+          "link": undefined,
+          "type": "category",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "collapsed": false,
+          "collapsible": true,
+          "items": [
+            {
+              "id": "doc2",
+              "type": "doc",
+            },
+          ],
+          "label": "Powering MDX",
+          "link": undefined,
+          "type": "category",
+        },
+      ],
+      "label": "Reference",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with category.collapsed property at first level 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": false,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "doc1",
+          "type": "doc",
+        },
+      ],
+      "label": "Introduction",
+      "link": undefined,
+      "type": "category",
+    },
+    {
+      "collapsed": false,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Powering MDX",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with deep level of category 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "a",
+          "type": "doc",
+        },
+        {
+          "collapsed": true,
+          "collapsible": true,
+          "items": [
+            {
+              "collapsed": true,
+              "collapsible": true,
+              "items": [
+                {
+                  "id": "c",
+                  "type": "doc",
+                },
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "id": "d",
+                      "type": "doc",
+                    },
+                    {
+                      "collapsed": true,
+                      "collapsible": true,
+                      "items": [
+                        {
+                          "id": "e",
+                          "type": "doc",
+                        },
+                      ],
+                      "label": "deeper more more",
+                      "link": undefined,
+                      "type": "category",
+                    },
+                  ],
+                  "label": "level 4",
+                  "link": undefined,
+                  "type": "category",
+                },
+              ],
+              "label": "level 3",
+              "link": undefined,
+              "type": "category",
+            },
+            {
+              "id": "f",
+              "type": "doc",
+            },
+          ],
+          "label": "level 2",
+          "link": undefined,
+          "type": "category",
+        },
+      ],
+      "label": "level 1",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with first level not a category 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "greeting",
+          "type": "doc",
+        },
+      ],
+      "label": "Getting Started",
+      "link": undefined,
+      "type": "category",
+    },
+    {
+      "id": "api",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with known sidebar item type 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        {
+          "id": "foo/baz",
+          "type": "doc",
+        },
+        {
+          "href": "https://github.com",
+          "label": "GitHub",
+          "type": "link",
+        },
+        {
+          "id": "hello",
+          "type": "ref",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with some draft items 1`] = `
+{
+  "docs": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        {
+          "href": "https://github.com",
+          "label": "GitHub",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars undefined path 1`] = `
+{
+  "defaultSidebar": [
+    {
+      "collapsed": true,
+      "collapsible": true,
+      "items": [
+        {
+          "id": "bar",
+          "type": "doc",
+        },
+      ],
+      "label": "foo",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;

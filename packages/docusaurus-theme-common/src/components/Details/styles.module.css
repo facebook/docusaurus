@@ -1,0 +1,62 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/*
+CSS variables, meant to be overridden by final theme
+ */
+.details {
+  --docusaurus-details-summary-arrow-size: 0.38rem;
+  --docusaurus-details-transition: transform 200ms ease;
+  --docusaurus-details-decoration-color: grey;
+}
+
+.details > summary {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  padding-left: 1rem;
+}
+
+/* TODO: deprecation, need to remove this after Safari will support `::marker` */
+.details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.details > summary::before {
+  position: absolute;
+  top: 0.45rem;
+  left: 0;
+
+  /* CSS-only Arrow */
+  content: '';
+  border-width: var(--docusaurus-details-summary-arrow-size);
+  border-style: solid;
+  border-color: transparent transparent transparent
+    var(--docusaurus-details-decoration-color);
+
+  /* Arrow rotation anim */
+  transform: rotate(0deg);
+  transition: var(--docusaurus-details-transition);
+  transform-origin: calc(var(--docusaurus-details-summary-arrow-size) / 2) 50%;
+}
+
+/* When JS disabled/failed to load: we use the open property for arrow animation: */
+.details[open]:not(.isBrowser) > summary::before,
+/* When JS works: we use the data-attribute for arrow animation */
+.details[data-collapsed='false'].isBrowser > summary::before {
+  transform: rotate(90deg);
+}
+
+.collapsibleContent {
+  margin-top: 1rem;
+  border-top: 1px solid var(--docusaurus-details-decoration-color);
+  padding-top: 1rem;
+}
+
+.collapsibleContent > *:last-child {
+  margin-bottom: 0;
+}

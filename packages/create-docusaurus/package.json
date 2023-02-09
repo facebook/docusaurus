@@ -1,0 +1,42 @@
+{
+  "name": "create-docusaurus",
+  "version": "2.3.1",
+  "description": "Create Docusaurus apps easily.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/create-docusaurus"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/docusaurus/issues"
+  },
+  "scripts": {
+    "create-docusaurus": "create-docusaurus",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
+  "bin": "bin/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/logger": "2.3.1",
+    "@docusaurus/utils": "2.3.1",
+    "commander": "^5.1.0",
+    "fs-extra": "^10.1.0",
+    "lodash": "^4.17.21",
+    "prompts": "^2.4.2",
+    "semver": "^7.3.7",
+    "shelljs": "^0.8.5",
+    "supports-color": "^9.2.2",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/supports-color": "^8.1.1"
+  },
+  "engines": {
+    "node": ">=16.14"
+  }
+}

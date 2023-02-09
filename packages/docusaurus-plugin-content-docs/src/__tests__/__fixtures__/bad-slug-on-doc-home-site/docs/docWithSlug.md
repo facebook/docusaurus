@@ -1,0 +1,5 @@
+---
+slug: docWithSlug.html
+---
+
+Lorem

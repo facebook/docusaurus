@@ -1,0 +1,5 @@
+---
+id: hello/super
+---
+
+Lorem

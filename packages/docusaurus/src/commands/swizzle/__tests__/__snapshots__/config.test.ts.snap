@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalizeSwizzleConfig normalize partial config 1`] = `
+{
+  "components": {
+    "Other/Component": {
+      "actions": {
+        "eject": "unsafe",
+        "wrap": "forbidden",
+      },
+    },
+    "SomeComponent": {
+      "actions": {
+        "eject": "safe",
+        "wrap": "unsafe",
+      },
+      "description": "SomeComponent description",
+    },
+  },
+}
+`;

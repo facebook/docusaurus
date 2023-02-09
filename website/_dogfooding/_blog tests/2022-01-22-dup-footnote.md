@@ -1,0 +1,13 @@
+---
+title: Second post with footnote to test posts with same footnote reference.
+---
+
+foo[^1]
+
+bar[^2]
+
+baz[^3]
+
+[^1]: foo
+[^2]: bar
+[^3]: baz

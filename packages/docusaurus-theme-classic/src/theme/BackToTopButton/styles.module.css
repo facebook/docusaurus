@@ -1,0 +1,44 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.backToTopButton {
+  position: fixed;
+  right: 1.3rem;
+  bottom: 1.3rem;
+  border-radius: 50%;
+  background-color: var(--ifm-color-emphasis-200);
+  width: 3rem;
+  height: 3rem;
+  z-index: calc(var(--ifm-z-index-fixed) - 1);
+  box-shadow: var(--ifm-global-shadow-lw);
+  transition: all var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+  opacity: 0;
+  transform: scale(0);
+  visibility: hidden;
+}
+
+.backToTopButton::after {
+  content: ' ';
+  display: inline-block;
+  mask: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem no-repeat;
+  background-color: var(--ifm-color-emphasis-1000);
+  width: 100%;
+  height: 100%;
+}
+
+@media (hover: hover) {
+  .backToTopButton:hover {
+    background-color: var(--ifm-color-emphasis-300);
+  }
+}
+
+.backToTopButtonShow {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
+}
