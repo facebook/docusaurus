@@ -36,17 +36,21 @@ export function useAlternatePageUtils(): {
 } {
   const {
     siteConfig: {baseUrl, url},
-    i18n: {defaultLocale, currentLocale},
+    i18n: {defaultLocale, locales},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
+
+  const currentLocale =
+    locales.find((locale) => pathname.includes(locale)) ?? defaultLocale;
 
   const baseUrlUnlocalized =
     currentLocale === defaultLocale
       ? baseUrl
       : baseUrl.replace(`/${currentLocale}/`, '/');
 
-  const pathnameSuffix = pathname.replace(baseUrl, '');
-
+  const pathnameSuffix = pathname
+    .replace(baseUrl, '')
+    .replace(`${currentLocale}/`, '');
   function getLocalizedBaseUrl(locale: string) {
     return locale === defaultLocale
       ? `${baseUrlUnlocalized}`
