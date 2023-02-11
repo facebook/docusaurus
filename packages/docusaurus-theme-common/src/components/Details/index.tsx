@@ -32,7 +32,7 @@ function hasParent(node: HTMLElement | null, parent: HTMLElement): boolean {
 
 export type DetailsProps = {
   /** Summary is provided as props, optionally including the wrapping `<summary>` tag */
-  summary?: ReactElement | string | boolean;
+  summary?: ReactElement | string;
 } & ComponentProps<'details'>;
 
 /**
@@ -58,10 +58,10 @@ export function Details({
 
   if (React.isValidElement(summary)) {
     SummaryElement = summary;
-  } else if (typeof summary === 'boolean' && summary === true) {
-    SummaryElement = <summary>Details</summary>;
   } else if (typeof summary === 'string') {
     SummaryElement = <summary>{summary}</summary>;
+  } else {
+    SummaryElement = <summary>Details</summary>;
   }
 
   return (
