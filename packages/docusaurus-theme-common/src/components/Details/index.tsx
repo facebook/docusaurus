@@ -31,8 +31,8 @@ function hasParent(node: HTMLElement | null, parent: HTMLElement): boolean {
 }
 
 export type DetailsProps = {
-  /** Summary is provided as props, including the wrapping `<summary>` tag */
-  summary?: ReactElement;
+  /** Summary is provided as props, optionally including the wrapping `<summary>` tag */
+  summary?: ReactElement | string | boolean;
 } & ComponentProps<'details'>;
 
 /**
@@ -53,6 +53,16 @@ export function Details({
   // Use a separate state for the actual details prop, because it must be set
   // only after animation completes, otherwise close animations won't work
   const [open, setOpen] = useState(props.open);
+
+  let SummaryElement = null;
+
+  if (React.isValidElement(summary)) {
+    SummaryElement = summary;
+  } else if (typeof summary === 'boolean' && summary === true) {
+    SummaryElement = <summary>Details</summary>;
+  } else if (typeof summary === 'string') {
+    SummaryElement = <summary>{summary}</summary>;
+  }
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -91,8 +101,7 @@ export function Details({
           // setOpen(false);
         }
       }}>
-      {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
-      {summary ?? <summary>Details</summary>}
+      {SummaryElement}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case
