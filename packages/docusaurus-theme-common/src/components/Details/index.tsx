@@ -54,15 +54,12 @@ export function Details({
   // only after animation completes, otherwise close animations won't work
   const [open, setOpen] = useState(props.open);
 
-  let SummaryElement = null;
-
-  if (React.isValidElement(summary)) {
-    SummaryElement = summary;
-  } else if (typeof summary === 'string') {
-    SummaryElement = <summary>{summary}</summary>;
-  } else {
-    SummaryElement = <summary>Details</summary>;
-  }
+   
+  const summaryElement = React.isValidElement(summary) ? (
+    summary
+  ) : (
+    <summary>{summary ?? 'Details'}</summary>
+  );
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -101,7 +98,7 @@ export function Details({
           // setOpen(false);
         }
       }}>
-      {SummaryElement}
+      {summaryElement}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case
