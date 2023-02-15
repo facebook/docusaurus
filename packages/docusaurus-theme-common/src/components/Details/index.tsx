@@ -31,7 +31,10 @@ function hasParent(node: HTMLElement | null, parent: HTMLElement): boolean {
 }
 
 export type DetailsProps = {
-  /** Summary is provided as props, optionally including the wrapping `<summary>` tag */
+  /**
+   * Summary is provided as props, optionally including the wrapping
+   * `<summary>` tag
+   */
   summary?: ReactElement | string;
 } & ComponentProps<'details'>;
 
@@ -54,7 +57,6 @@ export function Details({
   // only after animation completes, otherwise close animations won't work
   const [open, setOpen] = useState(props.open);
 
-   
   const summaryElement = React.isValidElement(summary) ? (
     summary
   ) : (
