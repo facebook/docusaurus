@@ -68,11 +68,12 @@ function translateNavbar(
     return navbar;
   }
 
-  const {logo} = navbar;
-
-  if (logo) {
-    logo.alt = navbarTranslations[`logo.alt`]?.message ?? navbar.logo?.alt;
-  }
+  const logo = navbar.logo
+    ? {
+        ...navbar.logo,
+        alt: navbarTranslations[`logo.alt`]?.message ?? navbar.logo?.alt,
+      }
+    : undefined;
 
   return {
     ...navbar,
@@ -184,11 +185,12 @@ function translateFooter(
 
   const copyright = footerTranslations.copyright?.message ?? footer.copyright;
 
-  const {logo} = footer;
-
-  if (logo) {
-    logo.alt = footerTranslations[`logo.alt`]?.message ?? footer.logo?.alt;
-  }
+  const logo = footer.logo
+    ? {
+        ...footer.logo,
+        alt: footerTranslations[`logo.alt`]?.message ?? footer.logo?.alt,
+      }
+    : undefined;
 
   return {
     ...footer,
