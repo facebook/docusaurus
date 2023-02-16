@@ -15,7 +15,8 @@ function mergeContexts({
   value,
 }: {
   parent: PluginRouteContext | null;
-  value: RouteContext | null;
+  // Only topmost route has the `plugin` attribute
+  value: PluginRouteContext | RouteContext | null;
 }): PluginRouteContext {
   if (!parent) {
     if (!value) {

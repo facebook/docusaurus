@@ -6,6 +6,7 @@
  */
 
 import visit from 'unist-util-visit';
+// @ts-expect-error: this package provides CJS
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Content, Literal} from 'mdast';
 import type {Plugin} from 'unified';

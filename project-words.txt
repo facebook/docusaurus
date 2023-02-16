@@ -335,6 +335,7 @@ subsubfolder
 subsubsection
 subsubsubfolder
 sucipto
+sunsetting
 supabase
 svgr
 swizzlable

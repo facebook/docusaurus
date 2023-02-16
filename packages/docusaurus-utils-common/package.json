@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "peerDependencies": {
     "@docusaurus/types": "*"

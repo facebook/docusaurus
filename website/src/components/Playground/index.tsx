@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
+import Heading from '@theme/Heading';
 
 const Playgrounds = [
   {
@@ -20,8 +21,9 @@ const Playgrounds = [
     url: 'https://docusaurus.new/codesandbox',
     description: (
       <Translate id="playground.codesandbox.description">
-        CodeSandbox is a popular playground solution. Runs Docusaurus in a
-        remote Docker container.
+        CodeSandbox is an online code editor and development environment that
+        allows developers to create, share and collaborate on web development
+        projects in a browser-based environment
       </Translate>
     ),
   },
@@ -64,7 +66,7 @@ function PlaygroundCard({name, image, url, description}: Props) {
           </Link>
         </div>
         <div className="card__body">
-          <h3>{name}</h3>
+          <Heading as="h3">{name}</Heading>
           <p>{description}</p>
         </div>
         <div className="card__footer">

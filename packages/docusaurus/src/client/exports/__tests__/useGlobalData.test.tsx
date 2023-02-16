@@ -20,7 +20,6 @@ describe('useGlobalData', () => {
       renderHook(() => useGlobalData(), {
         wrapper: ({children}) => (
           <Context.Provider
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
             value={{globalData: {foo: 'bar'}} as unknown as DocusaurusContext}>
             {children}
           </Context.Provider>
@@ -37,7 +36,6 @@ describe('useAllPluginInstancesData', () => {
         wrapper: ({children}) => (
           <Context.Provider
             value={
-              // eslint-disable-next-line react/jsx-no-constructed-context-values
               {
                 globalData: {foo: {default: 'default', bar: 'bar'}},
               } as unknown as DocusaurusContext
@@ -56,7 +54,6 @@ describe('useAllPluginInstancesData', () => {
           wrapper: ({children}) => (
             <Context.Provider
               value={
-                // eslint-disable-next-line react/jsx-no-constructed-context-values
                 {
                   globalData: {foo: {default: 'default', bar: 'bar'}},
                 } as unknown as DocusaurusContext
@@ -78,7 +75,6 @@ describe('usePluginData', () => {
         wrapper: ({children}) => (
           <Context.Provider
             value={
-              // eslint-disable-next-line react/jsx-no-constructed-context-values
               {
                 globalData: {foo: {default: 'default', bar: 'bar'}},
               } as unknown as DocusaurusContext
@@ -96,7 +92,6 @@ describe('usePluginData', () => {
         wrapper: ({children}) => (
           <Context.Provider
             value={
-              // eslint-disable-next-line react/jsx-no-constructed-context-values
               {
                 globalData: {foo: {default: 'default', bar: 'bar'}},
               } as unknown as DocusaurusContext
@@ -115,7 +110,6 @@ describe('usePluginData', () => {
           wrapper: ({children}) => (
             <Context.Provider
               value={
-                // eslint-disable-next-line react/jsx-no-constructed-context-values
                 {
                   globalData: {foo: {default: 'default', bar: 'bar'}},
                 } as unknown as DocusaurusContext

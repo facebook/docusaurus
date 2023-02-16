@@ -11,6 +11,7 @@ import {translate} from '@docusaurus/Translate';
 import {PageMetadata} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
 import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
+import Heading from '@theme/Heading';
 
 type YearProp = {
   year: string;
@@ -20,7 +21,9 @@ type YearProp = {
 function Year({year, posts}: YearProp) {
   return (
     <>
-      <h3>{year}</h3>
+      <Heading as="h3" id={year}>
+        {year}
+      </Heading>
       <ul>
         {posts.map((post) => (
           <li key={post.metadata.date}>
@@ -81,7 +84,9 @@ export default function BlogArchive({archive}: Props): JSX.Element {
       <Layout>
         <header className="hero hero--primary">
           <div className="container">
-            <h1 className="hero__title">{title}</h1>
+            <Heading as="h1" className="hero__title">
+              {title}
+            </Heading>
             <p className="hero__subtitle">{description}</p>
           </div>
         </header>

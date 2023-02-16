@@ -52,7 +52,7 @@ const ColorModes = {
   dark: 'dark',
 } as const;
 
-export type ColorMode = typeof ColorModes[keyof typeof ColorModes];
+export type ColorMode = (typeof ColorModes)[keyof typeof ColorModes];
 
 // Ensure to always return a valid colorModeChoice even if input is invalid
 const coerceToColorMode = (

@@ -21,7 +21,6 @@ export default function MDXContent({
 \`}</code></pre>
     </MDXLayout>;
 }
-
 ;
 MDXContent.isMDXComponent = true;"
 `;
@@ -45,7 +44,6 @@ export default function MDXContent({
     }}></mermaid>
     </MDXLayout>;
 }
-
 ;
 MDXContent.isMDXComponent = true;"
 `;

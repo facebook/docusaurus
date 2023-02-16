@@ -109,6 +109,8 @@ function TabContent({
   children,
   selectedValue,
 }: Props & ReturnType<typeof useTabs>) {
+  // eslint-disable-next-line no-param-reassign
+  children = Array.isArray(children) ? children : [children];
   if (lazy) {
     const selectedTabItem = children.find(
       (tabItem) => tabItem.props.value === selectedValue,

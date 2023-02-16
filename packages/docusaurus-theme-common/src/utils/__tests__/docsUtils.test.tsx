@@ -512,7 +512,6 @@ describe('useSidebarBreadcrumbs', () => {
           <StaticRouter location={location}>
             <Context.Provider
               value={
-                // eslint-disable-next-line react/jsx-no-constructed-context-values
                 {
                   globalData: {
                     'docusaurus-plugin-content-docs': {
