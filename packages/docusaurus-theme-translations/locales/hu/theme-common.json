@@ -52,7 +52,7 @@
   "theme.docs.sidebar.navAriaLabel": "Dokumentációs oldalsáv",
   "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Navigációs sáv ki- és bekapcsolása",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} címkével:  \"{tagName}\" ",
-  "theme.docs.tagDocListPageTitle.nDocsTagged": "Egy oldal|{count} oldal|{count} oldal",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "Egy oldal|{count} oldal",
   "theme.docs.versionBadge.label": "Verzió: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "legutolsó verzió",
   "theme.docs.versions.latestVersionSuggestionLabel": "Az aktuális dokumentáció itt található: {latestVersionLink} ({versionLabel}).",
