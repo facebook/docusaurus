@@ -26,7 +26,7 @@
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Mentsük el ezt a keresést",
   "theme.SearchPage.saveRecentSearchButtonTitle": "Mentse ezt a keresést",
   "theme.SearchPage.algoliaLabel": "Keresés az Algolia segítségével",
-  "theme.SearchPage.documentsFound.plurals": "{count} dokumentum|{count} dokumentumok|{count} dokumentumok",
+  "theme.SearchPage.documentsFound.plurals": "Egy dokumentum|{count} dokumentumok",
   "theme.SearchPage.emptyResultsTitle": "Keresés a webhelyen",
   "theme.SearchPage.existingResultsTitle": "\"{query}\" keresési eredményei",
   "theme.SearchPage.fetchingNewResults": "Új keresési eredmények betöltése...",
