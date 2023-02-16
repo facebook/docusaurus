@@ -29,7 +29,7 @@
   "theme.blog.post.plurals": "Egy bejegyzés|{count} bejegyzés",
   "theme.blog.post.readMore": "Olvass tovább",
   "theme.blog.post.readMoreLabel": "További információ erről: {title}",
-  "theme.blog.post.readingTime.plurals": "{readingTime} perc olvasás",
+  "theme.blog.post.readingTime.plurals": "Egy perc olvasás|{readingTime} perc olvasás",
   "theme.blog.sidebar.navAriaLabel": "Navigáció a blog legutóbbi bejegyzései között",
   "theme.blog.tagTitle": "{nPosts} a(z) \"{tagName}\" címkével",
   "theme.colorToggle.ariaLabel": "Váltás a sötét és világos mód között (jelenleg {mode} van beállítva)",
