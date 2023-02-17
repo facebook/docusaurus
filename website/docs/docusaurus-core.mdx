@@ -488,8 +488,8 @@ export default MyComponentParent;
 
 There are a couple more alternative solutions to this problem. However all of them require adding checks in **the parent component**:
 
-1. You can wrap `<MyComponent />` with [`BrowserOnly`](../docusaurus-core.mdx#browseronly)
-2. You can use `canUseDOM` from [`ExecutionEnvironment`](../docusaurus-core.mdx#executionenvironment) and `return null` when `canUseDOM` is `false`
+1. You can wrap `<MyComponent />` with [`BrowserOnly`](./docusaurus-core.mdx#browseronly)
+2. You can use `canUseDOM` from [`ExecutionEnvironment`](./docusaurus-core.mdx#executionenvironment) and `return null` when `canUseDOM` is `false`
 
 ### `useBaseUrl` {#useBaseUrl}
 
