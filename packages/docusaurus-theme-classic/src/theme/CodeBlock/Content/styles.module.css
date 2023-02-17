@@ -72,7 +72,7 @@
   border-radius: var(--ifm-global-radius);
   padding: 0.4rem;
   line-height: 0;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity var(--ifm-transition-fast) ease-in-out;
   opacity: 0;
 }
 
