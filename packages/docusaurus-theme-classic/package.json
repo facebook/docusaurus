@@ -35,7 +35,7 @@
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.2.1",
     "copy-text-to-clipboard": "^3.0.1",
-    "infima": "0.2.0-alpha.42",
+    "infima": "0.2.0-alpha.43",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.14",
