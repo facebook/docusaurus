@@ -177,17 +177,88 @@ While you may expect that `BrowserOnly` hides away the children during server-si
 
 ### `useIsBrowser` {#useisbrowser}
 
-You can also use the `useIsBrowser()` hook to test if the component is currently in a browser environment. It returns `false` in SSR and `true` is CSR, after first client render. Use this hook if you only need to perform certain conditional operations on client-side, but not render an entirely different UI.
+Returns `true` when the React app has successfully hydrated in the browser.
+
+:::caution
+
+Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
+
+The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+:::
+
+Usage example:
 
 ```jsx
+import React from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
-function MyComponent() {
+const MyComponent = () => {
+  // highlight-start
   const isBrowser = useIsBrowser();
   const location = isBrowser ? window.location.href : 'fetching location...';
+  // highlight-end
   return <span>{location}</span>;
-}
+};
 ```
+
+#### A caveat to know when using `useIsBrowser`
+
+Because it does not do `typeof windows !== 'undefined'` check but rather checks if the React app has successfully hydrated, the following code will not work as intended:
+
+```jsx
+import React from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const MyComponent = () => {
+  // highlight-start
+  const isBrowser = useIsBrowser();
+  const url = isBrowser ? new URL(window.location.href) : undefined;
+  const someQueryParam = url?.searchParams.get('someParam');
+  const [someParam, setSomeParam] = useState(someQueryParam || 'fallbackValue');
+
+  // renders fallbackValue instead of the value of someParam query parameter
+  // because the component has already rendered but hydration has not completed
+  // useState references the fallbackValue
+  return <span>{someParam}</span>;
+  // highlight-end
+};
+```
+
+Adding `useIsBrowser()` checks to derived values will have no effect. Wrapping the `<span>` with `<BrowserOnly>` will also have no effect. To have `useState` reference the correct value, which is the value of the `someParam` query parameter, `MyComponent`'s first render should actually happen after `useIsBrowser` returns true. Because you cannot have if statements inside the component before any hooks, you need to resort to doing `useIsBrowser()` in the parent component as such:
+
+```jsx
+import React, {useState} from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const MyComponent = () => {
+  const isBrowser = useIsBrowser();
+  const url = isBrowser ? new URL(window.location.href) : undefined;
+  const someQueryParam = url?.searchParams.get('someParam');
+  const [someParam, setSomeParam] = useState(someQueryParam || 'fallbackValue');
+
+  return <span>{someParam}</span>;
+};
+
+// highlight-start
+const MyComponentParent = () => {
+  const isBrowser = useIsBrowser();
+
+  if (!isBrowser) {
+    return null;
+  }
+
+  return <MyComponent />;
+};
+// highlight-end
+
+export default MyComponentParent;
+```
+
+There are a couple more alternative solutions to this problem. However all of them require adding checks in **the parent component**:
+
+1. You can wrap `<MyComponent />` with [`BrowserOnly`](../docusaurus-core.mdx#browseronly)
+2. You can use `canUseDOM` from [`ExecutionEnvironment`](../docusaurus-core.mdx#executionenvironment) and `return null` when `canUseDOM` is `false`
 
 ### `useEffect` {#useeffect}
 
