@@ -46,6 +46,9 @@ export async function build(
   // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
+  process.env.BABEL_ENV = 'production';
+  process.env.NODE_ENV = 'production';
+
   const siteDir = await fs.realpath(siteDirParam);
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
@@ -117,8 +120,11 @@ async function buildLocale({
   forceTerminate: boolean;
   isLastLocale: boolean;
 }): Promise<string> {
-  process.env.BABEL_ENV = 'production';
-  process.env.NODE_ENV = 'production';
+  // Temporary workaround to unlock the ability to translate the site config
+  // We'll remove it if a better official API can be designed
+  // See https://github.com/facebook/docusaurus/issues/4542
+  process.env.DOCUSAURUS_CURRENT_LOCALE = locale;
+
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
   const props: Props = await load({
