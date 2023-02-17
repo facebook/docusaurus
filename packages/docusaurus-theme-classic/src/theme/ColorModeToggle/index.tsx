@@ -9,18 +9,19 @@ import React from 'react';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
-import {useThemeConfig} from '@docusaurus/theme-common';
 import IconLightMode from '@theme/Icon/LightMode';
 import IconDarkMode from '@theme/Icon/DarkMode';
 import type {Props} from '@theme/ColorModeToggle';
 
 import styles from './styles.module.css';
 
-function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
+function ColorModeToggle({
+  className,
+  buttonClassName,
+  value,
+  onChange,
+}: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  const {
-    navbar: {style},
-  } = useThemeConfig();
 
   const title = translate(
     {
@@ -47,11 +48,11 @@ function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
   return (
     <div className={clsx(styles.toggle, className)}>
       <button
-        data-style={style}
         className={clsx(
           'clean-btn',
           styles.toggleButton,
           !isBrowser && styles.toggleButtonDisabled,
+          buttonClassName,
         )}
         type="button"
         onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}

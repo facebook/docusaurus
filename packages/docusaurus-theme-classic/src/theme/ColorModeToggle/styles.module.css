@@ -25,10 +25,6 @@
   background: var(--ifm-color-emphasis-200);
 }
 
-[data-style='dark'].toggleButton:hover {
-  background: var(--ifm-color-gray-800);
-}
-
 [data-theme='light'] .darkToggleIcon,
 [data-theme='dark'] .lightToggleIcon {
   display: none;
