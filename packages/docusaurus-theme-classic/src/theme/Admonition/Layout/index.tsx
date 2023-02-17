@@ -32,12 +32,12 @@ function AdmonitionContainer({
 }
 
 function AdmonitionHeading({icon, title}: Pick<Props, 'icon' | 'title'>) {
-  return (
+  return title !== 'NO_HEADER' ? (
     <div className={styles.admonitionHeading}>
       <span className={styles.admonitionIcon}>{icon}</span>
       {title}
     </div>
-  );
+    ) : null;
 }
 
 function AdmonitionContent({children}: Pick<Props, 'children'>) {
