@@ -48,6 +48,7 @@ export async function build(
 ): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
+  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
 
   const siteDir = await fs.realpath(siteDirParam);
 
