@@ -31,6 +31,8 @@
     "website/docusaurus.config.localized.json",
     "*.xyz",
     "*.docx",
+    "*.webp",
+    "*.avif",
     "versioned_docs",
     "*.min.*",
     "jest/vendor"
