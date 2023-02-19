@@ -18,6 +18,8 @@ const SUPPORTED_MIMES: {[ext: string]: string} = {
   jpeg: 'image/jpeg',
   jpg: 'image/jpeg',
   png: 'image/png',
+  webp: 'image/webp',
+  avif: 'image/avif',
 };
 
 /**
