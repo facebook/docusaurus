@@ -60,7 +60,7 @@ const transformNode = (
             npmToYarn(npmCode, converter),
             node,
             converter,
-            converter === 'yarn' ? 'Yarn' : 'PnPm',
+            converter === 'yarn' ? 'Yarn' : converter,
           )
         : createTabItem(converter[1](npmCode), node, converter[0]),
     ),
