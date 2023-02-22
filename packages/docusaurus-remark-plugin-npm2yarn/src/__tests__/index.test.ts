@@ -35,6 +35,12 @@ describe('npm2yarn plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('works with common commands', async () => {
+    const result = await processFixture('conversion-test', {sync: true});
+
+    expect(result).toMatchSnapshot();
+  });
+
   it('works with sync option', async () => {
     const result = await processFixture('plugin', {sync: true});
 
