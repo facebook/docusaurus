@@ -11,10 +11,10 @@ import clsx from 'clsx';
 import copy from 'copy-text-to-clipboard';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/CodeBlock/CopyButton';
-
-import styles from './styles.module.css';
 import IconCopy from '@theme/Icon/Copy';
 import IconCheck from '@theme/Icon/Check';
+
+import styles from './styles.module.css';
 
 export default function CopyButton({code, className}: Props): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);

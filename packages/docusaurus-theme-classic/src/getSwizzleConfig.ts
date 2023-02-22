@@ -253,6 +253,20 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The arrow icon component',
       },
+      'Icon/Check': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The check icon component.',
+      },
+      'Icon/Copy': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The check icon component.',
+      },
       'Icon/DarkMode': {
         actions: {
           eject: 'safe',
@@ -280,6 +294,13 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'safe',
         },
         description: 'The menu icon component',
+      },
+      'Icon/WordWrap': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The word-wrap icon component.',
       },
       MDXComponents: {
         actions: {
