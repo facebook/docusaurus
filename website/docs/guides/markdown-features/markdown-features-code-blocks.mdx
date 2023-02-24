@@ -772,6 +772,14 @@ module.exports = {
           remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         blog: {
+          // highlight-start
+          remarkPlugins: [
+            [
+              require('@docusaurus/remark-plugin-npm2yarn'),
+              {converters: ['pnpm']},
+            ],
+          ],
+          // highlight-end
           // ...
         },
       },
@@ -788,7 +796,12 @@ npm install @docusaurus/remark-plugin-npm2yarn
 ```
 ````
 
-Using the `{sync: true}` option would make all tab choices synced. Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.
+#### Configuration {#npm2yarn-remark-plugin-configuration}
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sync` | `boolean` | `false` | Whether to sync the selected converter across all code blocks. |
+| `converters` | `array` | `'yarn'`, `'pnpm'` | The list of converters to use. The order of the converters is important, as the first converter will be used as the default choice. |
 
 ## Usage in JSX {#usage-in-jsx}
 
