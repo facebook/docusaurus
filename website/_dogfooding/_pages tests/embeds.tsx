@@ -12,9 +12,14 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 
 function IframeTest({url}: {url: string}) {
   return (
-    <BrowserWindow url={url} bodyStyle={{padding: 0, height: '100%'}}>
-      <iframe src={url} title={url} style={{width: '100%', height: 300}} />
-    </BrowserWindow>
+    <div style={{padding: 10}}>
+      <BrowserWindow
+        url={url}
+        style={{minWidth: '40vw', maxWidth: 400}}
+        bodyStyle={{padding: 0}}>
+        <iframe src={url} title={url} style={{width: '100%', height: 300}} />
+      </BrowserWindow>
+    </div>
   );
 }
 
@@ -24,10 +29,14 @@ export default function Embeds(): JSX.Element {
     <Layout>
       <div style={{padding: 10}}>
         <Heading as="h1">Test Embeds</Heading>
-        <IframeTest url="https://docusaurus.io/" />
-        <IframeTest url="https://tutorial.docusaurus.io/" />
-        <IframeTest url="https://deploy-preview-8708--docusaurus-2.netlify.app/" />
-        <IframeTest url="http://localhost:3000/" />
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+          <IframeTest url="/?docusaurus-theme=light" />
+          <IframeTest url="/?docusaurus-theme=dark" />
+          <IframeTest url="/?docusaurus-theme=unexpected-value" />
+          <IframeTest url="/" />
+          <IframeTest url="https://docusaurus.io/" />
+          <IframeTest url="https://tutorial.docusaurus.io/" />
+        </div>
       </div>
     </Layout>
   );
