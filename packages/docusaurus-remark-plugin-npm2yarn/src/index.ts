@@ -6,20 +6,63 @@
  */
 
 import visit from 'unist-util-visit';
-// @ts-expect-error: this package provides CJS
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
 import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
 
+type KnownConverter = 'yarn' | 'pnpm';
+
+type CustomConverter = [name: string, cb: (npmCode: string) => string];
+
+type Converter = CustomConverter | KnownConverter;
+
 type PluginOptions = {
   sync?: boolean;
+  converters?: Converter[];
 };
 
-// E.g. global install: 'npm i' -> 'yarn'
-const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');
+function createTabItem({
+  code,
+  node,
+  value,
+  label,
+}: {
+  code: string;
+  node: Code;
+  value: string;
+  label?: string;
+}) {
+  return {
+    type: 'mdxJsxFlowElement',
+    name: 'TabItem',
+    attributes: [
+      {
+        type: 'mdxJsxAttribute',
+        name: 'value',
+        value,
+      },
+      label && {
+        type: 'mdxJsxAttribute',
+        name: 'label',
+        value: label,
+      },
+    ].filter(Boolean),
+    children: [
+      {
+        type: node.type,
+        lang: node.lang,
+        value: code,
+      },
+    ],
+  };
+}
 
-const transformNode = (node: Code, isSync: boolean) => {
+const transformNode = (
+  node: Code,
+  isSync: boolean,
+  converters: Converter[],
+) => {
   const groupIdProp = isSync
     ? {
         type: 'mdxJsxAttribute',
@@ -27,57 +70,34 @@ const transformNode = (node: Code, isSync: boolean) => {
         value: 'npm2yarn',
       }
     : undefined;
-
   const npmCode = node.value;
-  const yarnCode = convertNpmToYarn(node.value);
+
+  function createConvertedTabItem(converter: Converter) {
+    if (typeof converter === 'string') {
+      return createTabItem({
+        code: npmToYarn(npmCode, converter),
+        node,
+        value: converter,
+        label: converter === 'yarn' ? 'Yarn' : converter,
+      });
+    } 
+      const [converterName, converterFn] = converter;
+      return createTabItem({
+        code: converterFn(npmCode),
+        node,
+        value: converterName,
+      });
+    
+  }
+
   return [
     {
       type: 'mdxJsxFlowElement',
       name: 'Tabs',
       attributes: [groupIdProp].filter(Boolean),
       children: [
-        {
-          type: 'mdxJsxFlowElement',
-          name: 'TabItem',
-          attributes: [
-            {
-              type: 'mdxJsxAttribute',
-              name: 'value',
-              value: 'npm',
-            },
-          ],
-          children: [
-            {
-              type: node.type,
-              lang: node.lang,
-              value: npmCode,
-            },
-          ],
-        },
-
-        {
-          type: 'mdxJsxFlowElement',
-          name: 'TabItem',
-          attributes: [
-            {
-              type: 'mdxJsxAttribute',
-              name: 'value',
-              value: 'yarn',
-            },
-            {
-              type: 'mdxJsxAttribute',
-              name: 'label',
-              value: 'Yarn',
-            },
-          ],
-          children: [
-            {
-              type: node.type,
-              lang: node.lang,
-              value: yarnCode,
-            },
-          ],
-        },
+        createTabItem({code: npmCode, node, value: 'npm'}),
+        ...converters.flatMap(createConvertedTabItem),
       ],
     },
   ] as any[];
@@ -139,7 +159,7 @@ function createImportNode() {
 }
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
-  const {sync = false} = options;
+  const {sync = false, converters = ['yarn', 'pnpm']} = options;
   return (root, p) => {
     let transformed = false;
     let alreadyImported = false;
@@ -154,7 +174,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
         while (index < node.children.length) {
           const child = node.children[index]!;
           if (isNpm2Yarn(child)) {
-            const result = transformNode(child, sync);
+            const result = transformNode(child, sync, converters);
             node.children.splice(index, 1, ...result);
             index += result.length;
             transformed = true;
