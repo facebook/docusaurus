@@ -80,14 +80,13 @@ const transformNode = (
         value: converter,
         label: converter === 'yarn' ? 'Yarn' : converter,
       });
-    } 
-      const [converterName, converterFn] = converter;
-      return createTabItem({
-        code: converterFn(npmCode),
-        node,
-        value: converterName,
-      });
-    
+    }
+    const [converterName, converterFn] = converter;
+    return createTabItem({
+      code: converterFn(npmCode),
+      node,
+      value: converterName,
+    });
   }
 
   return [
