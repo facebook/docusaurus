@@ -8,6 +8,7 @@
 .docPage {
   display: flex;
   width: 100%;
+  flex: 1 0;
 }
 
 .docsWrapper {
