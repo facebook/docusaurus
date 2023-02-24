@@ -6,45 +6,67 @@
  */
 
 import visit from 'unist-util-visit';
-// @ts-expect-error: this package provides CJS
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Content, Literal} from 'mdast';
 import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
 
+type CustomConverter = [name: string, cb: (npmCode: string) => string];
+
 type PluginOptions = {
   sync?: boolean;
+  converters?: (CustomConverter | 'yarn' | 'pnpm')[];
 };
 
-// E.g. global install: 'npm i' -> 'yarn'
-const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');
-
-const transformNode = (node: Code, isSync: boolean) => {
-  const groupIdProp = isSync ? ' groupId="npm2yarn"' : '';
-  const npmCode = node.value;
-  const yarnCode = convertNpmToYarn(node.value);
+function createTabItem(
+  code: string,
+  node: Code,
+  value: string,
+  label?: string,
+) {
   return [
     {
       type: 'jsx',
-      value: `<Tabs${groupIdProp}>\n<TabItem value="npm">`,
+      value: `<TabItem value="${value}"${label ? ` label="${label}"` : ''}>`,
     },
     {
       type: node.type,
       lang: node.lang,
-      value: npmCode,
+      value: code,
     },
     {
       type: 'jsx',
-      value: '</TabItem>\n<TabItem value="yarn" label="Yarn">',
+      value: '</TabItem>',
     },
-    {
-      type: node.type,
-      lang: node.lang,
-      value: yarnCode,
-    },
+  ] as Content[];
+}
+
+const transformNode = (
+  node: Code,
+  isSync: boolean,
+  converters: (CustomConverter | 'yarn' | 'pnpm')[],
+) => {
+  const groupIdProp = isSync ? ' groupId="npm2yarn"' : '';
+  const npmCode = node.value;
+  return [
     {
       type: 'jsx',
-      value: '</TabItem>\n</Tabs>',
+      value: `<Tabs${groupIdProp}>`,
+    },
+    ...createTabItem(npmCode, node, 'npm'),
+    ...converters.flatMap((converter) =>
+      typeof converter === 'string'
+        ? createTabItem(
+            npmToYarn(npmCode, converter),
+            node,
+            converter,
+            converter === 'yarn' ? 'Yarn' : converter,
+          )
+        : createTabItem(converter[1](npmCode), node, converter[0]),
+    ),
+    {
+      type: 'jsx',
+      value: '</Tabs>',
     },
   ] as Content[];
 };
@@ -61,7 +83,7 @@ const nodeForImport: Literal = {
 };
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
-  const {sync = false} = options;
+  const {sync = false, converters = ['yarn', 'pnpm']} = options;
   return (root) => {
     let transformed = false as boolean;
     let alreadyImported = false as boolean;
@@ -74,7 +96,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
         while (index < node.children.length) {
           const child = node.children[index]!;
           if (matchNode(child)) {
-            const result = transformNode(child, sync);
+            const result = transformNode(child, sync, converters);
             node.children.splice(index, 1, ...result);
             index += result.length;
             transformed = true;

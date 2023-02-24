@@ -55,36 +55,8 @@ npx create-docusaurus@latest my-website facebook
 
 You can also initialize a new project using your preferred project manager:
 
-```mdx-code-block
-<Tabs>
-<TabItem value="npm">
-```
-
-```bash
+```bash npm2yarn
 npm init docusaurus
-```
-
-```mdx-code-block
-</TabItem>
-<TabItem value="yarn">
-```
-
-```bash
-yarn create docusaurus
-```
-
-```mdx-code-block
-</TabItem>
-<TabItem value="pnpm">
-```
-
-```bash
-pnpm create docusaurus
-```
-
-```mdx-code-block
-</TabItem>
-</Tabs>
 ```
 
 </details>
@@ -193,7 +165,7 @@ npm install
 
 To check that the update occurred successfully, run:
 
-```bash npm2yarn
+```bash
 npx docusaurus --version
 ```
 
