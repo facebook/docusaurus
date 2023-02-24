@@ -23,6 +23,13 @@ export default function codeCompatPlugin(this: Processor): Transformer {
       node.data.hProperties = node.data.hProperties || {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (node.data.hProperties as any).metastring = node.meta;
+
+      // Retrocompatible support for live codeblock metastring
+      // Not really the appropriate place to handle that :s
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (node.data.hProperties as any).live = node.meta
+        ?.split(' ')
+        .includes('live');
     });
   };
 }
