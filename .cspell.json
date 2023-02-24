@@ -28,6 +28,7 @@
     "__snapshots__",
     "website/src/data/users.tsx",
     "website/src/data/tweets.tsx",
+    "website/docusaurus.config.localized.json",
     "*.xyz",
     "*.docx",
     "versioned_docs",
