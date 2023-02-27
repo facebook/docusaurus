@@ -354,6 +354,16 @@ declare module '@theme/CodeBlock' {
   export default function CodeBlock(props: Props): JSX.Element;
 }
 
+declare module '@theme/CodeInline' {
+  export interface Props {
+    readonly children: string;
+    readonly className?: string;
+    readonly language?: string;
+  }
+
+  export default function CodeInline(props: Props): JSX.Element;
+}
+
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;

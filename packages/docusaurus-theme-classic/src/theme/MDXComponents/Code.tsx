@@ -9,6 +9,7 @@ import type {ComponentProps} from 'react';
 import React, {isValidElement} from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import type {Props} from '@theme/MDXComponents/Code';
+import CodeInline from '@theme/CodeInline';
 
 export default function MDXCode(props: Props): JSX.Element {
   const inlineElements: (string | undefined)[] = [
@@ -53,7 +54,7 @@ export default function MDXCode(props: Props): JSX.Element {
   );
 
   return shouldBeInline ? (
-    <code {...props} />
+    <CodeInline {...(props as ComponentProps<typeof CodeInline>)} />
   ) : (
     <CodeBlock {...(props as ComponentProps<typeof CodeBlock>)} />
   );
