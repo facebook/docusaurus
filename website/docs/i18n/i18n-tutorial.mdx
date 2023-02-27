@@ -404,8 +404,19 @@ cp -r docs\** i18n\fr\docusaurus-plugin-content-docs\current
 
 ```bat
 mkdir i18n\fr\docusaurus-plugin-content-docs\current
-Xcopy docs i18n\fr\docusaurus-plugin-content-docs\current /E /H /C /I
+Xcopy docs i18n\fr\docusaurus-plugin-content-docs\current /E /C /I /D
 ```
+
+:::info
+
+| Flag | Effect                                                                                                                                                           |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| /E   | Copies all subdirectories, even if they are empty.                                                                                                               |
+| /C   | Ignores errors.                                                                                                                                                  |
+| /I   | If source is a directory or contains wildcards and destination does not exist, xcopy assumes destination specifies a directory name and creates a new directory. |
+| /D   | Only replaces the destination files with the source files if the source files are newer.                                                                         |
+
+:::
 
 </TabItem>
 </Tabs>
