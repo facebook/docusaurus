@@ -390,10 +390,25 @@ Official Docusaurus content plugins extensively use Markdown/MDX files and allow
 
 Copy your docs Markdown files from `docs/` to `i18n/fr/docusaurus-plugin-content-docs/current`, and translate them:
 
+<Tabs>
+<TabItem value="Linux">
+
 ```bash
 mkdir -p i18n\fr\docusaurus-plugin-content-docs\current
 cp -r docs\** i18n\fr\docusaurus-plugin-content-docs\current
 ```
+
+</TabItem>
+
+<TabItem value="Windows">
+
+```bat
+mkdir i18n\fr\docusaurus-plugin-content-docs\current
+Xcopy docs i18n\fr\docusaurus-plugin-content-docs\current /E /H /C /I
+```
+
+</TabItem>
+</Tabs>
 
 :::info
 
