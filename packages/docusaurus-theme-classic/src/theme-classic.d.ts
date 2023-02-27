@@ -355,8 +355,10 @@ declare module '@theme/CodeBlock' {
 }
 
 declare module '@theme/CodeInline' {
+  import type {ReactNode} from 'react';
+
   export interface Props {
-    readonly children: string;
+    readonly children: ReactNode;
     readonly className?: string;
     readonly language?: string;
   }

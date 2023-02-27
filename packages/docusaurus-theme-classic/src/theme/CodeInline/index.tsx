@@ -15,12 +15,16 @@ export default function CodeInline({
   language: languageProp,
   className = '',
   children,
-}: Props) {
+}: Props): JSX.Element {
   const {
     prism: {defaultLanguage},
   } = useThemeConfig();
   const language = languageProp ?? defaultLanguage ?? 'text';
   const prismTheme = usePrismTheme();
+
+  if (!children || typeof children !== 'string') {
+    return <code className={className}>{children}</code>;
+  }
 
   return (
     <code className={clsx(className, `language-${language}`)}>
@@ -31,7 +35,9 @@ export default function CodeInline({
         language={language as Language}>
         {({tokens, getTokenProps}) => {
           if (tokens.length !== 1) {
-            // This is actually multi-line (or empty) code. Multi-line _should_ never happen. Just return the code without highlighting I guess?
+            // This is actually multi-line (or empty) code.
+            // Multi-line _should_ never happen.
+            // Just return the code without highlighting I guess?
             return children;
           }
           return tokens[0]!.map((token, key) => (
