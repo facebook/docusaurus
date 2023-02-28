@@ -27,24 +27,39 @@ export default function CodeInline({
   }
 
   return (
-    <code className={clsx(className, `language-${language}`)}>
-      <Highlight
-        {...defaultProps}
-        theme={prismTheme}
-        code={children}
-        language={language as Language}>
-        {({tokens, getTokenProps}) => {
-          if (tokens.length !== 1) {
-            // This is actually multi-line (or empty) code.
-            // Multi-line _should_ never happen.
-            // Just return the code without highlighting I guess?
-            return children;
-          }
-          return tokens[0]!.map((token, key) => (
-            <span key={key} {...getTokenProps({token, key})} />
-          ));
-        }}
-      </Highlight>
-    </code>
+    <Highlight
+      {...defaultProps}
+      theme={prismTheme}
+      code={children}
+      language={language as Language}>
+      {({
+        className: highlightClassName,
+        tokens,
+        getLineProps,
+        getTokenProps,
+      }) => {
+        if (tokens.length !== 1) {
+          // This is actually multi-line (or empty) code.
+          // Multi-line _should_ never happen.
+          // Just return the code without highlighting I guess?
+          return children;
+        }
+        return (
+          <code
+            {...getLineProps({
+              line: tokens[0]!,
+              className: clsx(
+                className,
+                `language-${language}`,
+                highlightClassName,
+              ),
+            })}>
+            {tokens[0]!.map((token, key) => (
+              <span key={key} {...getTokenProps({token})} />
+            ))}
+          </code>
+        );
+      }}
+    </Highlight>
   );
 }
