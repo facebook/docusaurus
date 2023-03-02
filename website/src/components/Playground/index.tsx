@@ -73,9 +73,11 @@ function PlaygroundCard({name, image, url, urlTS, description}: Props) {
           <p>{description}</p>
         </div>
         <div className="card__footer">
-          <b>
-            <Translate id="playground.tryItButton">Try it now!</Translate>
-          </b>
+          <div style={{textAlign: 'center'}}>
+            <b>
+              <Translate id="playground.tryItButton">Try it now!</Translate>
+            </b>
+          </div>
           <div className="button-group button-group--block">
             <Link className="button button--secondary" to={url}>
               JavaScript
