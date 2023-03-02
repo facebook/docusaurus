@@ -12,13 +12,15 @@ const CookieName = 'DocusaurusPlaygroundName';
 const PlaygroundConfigs = {
   codesandbox:
     'https://codesandbox.io/p/sandbox/github/facebook/docusaurus/tree/main/examples/classic?file=%2FREADME.md',
+  'codesandbox-ts':
+    'https://codesandbox.io/p/sandbox/github/facebook/docusaurus/tree/main/examples/classic-typescript?file=%2FREADME.md',
 
-  // Not updated
-  // stackblitz: 'https://stackblitz.com/fork/docusaurus',
   // Slow to load
   // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic',
   // Dedicated branch: faster load
   stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/starter',
+  'stackblitz-ts':
+    'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic-typescript',
 };
 
 const PlaygroundDocumentationUrl = 'https://docusaurus.io/docs/playground';
