@@ -127,6 +127,17 @@ In light mode, the `<html>` element has a `data-theme="light"` attribute; in dar
 }
 ```
 
+:::tip
+
+It is possible to initialize the Docusaurus theme directly from a `docusaurus-theme` query string parameter.
+
+Examples:
+
+- [`https://docusaurus.io/?docusaurus-theme=dark`](https://docusaurus.io/?docusaurus-theme=dark)
+- [`https://docusaurus.io/docs/configuration?docusaurus-theme=light`](https://docusaurus.io/docs/configuration?docusaurus-theme=light)
+
+:::
+
 ### Mobile View {#mobile-view}
 
 Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. If you want your layout to be different in the mobile view, you can use media queries.
