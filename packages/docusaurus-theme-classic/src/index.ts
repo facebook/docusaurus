@@ -58,7 +58,6 @@ const noFlashColorMode = ({
   }
 
   var initialTheme = getQueryStringTheme() || getStoredTheme();
-  console.log("initialTheme",initialTheme)
   if (initialTheme !== null) {
     setDataThemeAttribute(initialTheme);
   } else {
