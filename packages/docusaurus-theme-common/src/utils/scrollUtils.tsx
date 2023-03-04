@@ -107,11 +107,15 @@ export function useScrollPosition(
   const dynamicEffect = useEvent(effect);
 
   useEffect(() => {
+    document.documentElement.style.setProperty('--scroll-Y', '0');
     const handleScroll = () => {
       if (!scrollEventsEnabledRef.current) {
         return;
       }
       const currentPosition = getScrollPosition()!;
+      const {scrollY} = currentPosition;
+      document.documentElement.style.setProperty('--scroll-Y', `${scrollY}px`);
+
       dynamicEffect(currentPosition, lastPositionRef.current);
       lastPositionRef.current = currentPosition;
     };

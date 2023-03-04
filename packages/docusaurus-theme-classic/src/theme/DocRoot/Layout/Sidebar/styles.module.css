@@ -34,6 +34,13 @@
     top: 0;
     position: sticky;
     height: 100%;
-    max-height: 100vh;
+    /* stylelint-disable custom-property-pattern */
+    max-height: clamp(
+      calc(100vh - var(--docusaurus-announcement-bar-height)),
+      calc(
+        100vh - (var(--docusaurus-announcement-bar-height) - var(--scroll-Y))
+      ),
+      100vh
+    );
   }
 }
