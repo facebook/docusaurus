@@ -21,12 +21,15 @@ function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        height: '50vh',
+        alignItems: 'flex-start',
+        minHeight: '100vh',
         width: '100%',
+        maxWidth: '60ch',
         fontSize: '20px',
+        margin: '0 auto',
+        padding: '1rem',
       }}>
-      <h1>This page crashed.</h1>
+      <h1 style={{fontSize: '3rem'}}>This page crashed</h1>
       <p>{error.message}</p>
       <button type="button" onClick={tryAgain}>
         Try again
