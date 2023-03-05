@@ -26,11 +26,15 @@ async function createVersionedSidebarFile({
   siteDir,
   pluginId,
   sidebarPath,
+  versionPath,
+  versionPrefix,
   version,
 }: {
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
+  versionPath: string;
+  versionPrefix: boolean;
   version: string;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
@@ -45,7 +49,7 @@ async function createVersionedSidebarFile({
 
   if (shouldCreateVersionedSidebarFile) {
     await fs.outputFile(
-      getVersionSidebarsPath(siteDir, pluginId, version),
+      getVersionSidebarsPath(siteDir, pluginId, versionPath, versionPrefix, version),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
@@ -55,7 +59,7 @@ async function createVersionedSidebarFile({
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
   version: unknown,
-  {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
+  {id: pluginId, path: docsPath, versionPath, versionPrefix, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
@@ -70,7 +74,7 @@ export async function cliDocsVersionCommand(
     throw err;
   }
 
-  const versions = (await readVersionsFile(siteDir, pluginId)) ?? [];
+  const versions = (await readVersionsFile(siteDir, pluginId, versionPath, versionPrefix)) ?? [];
 
   // Check if version already exists.
   if (versions.includes(version)) {
@@ -116,7 +120,7 @@ export async function cliDocsVersionCommand(
 
       const newVersionDir =
         locale === i18n.defaultLocale
-          ? getVersionDocsDirPath(siteDir, pluginId, version)
+          ? getVersionDocsDirPath(siteDir, pluginId, versionPath, versionPrefix, version)
           : getDocsDirPathLocalized({
               localizationDir,
               pluginId,
@@ -129,14 +133,16 @@ export async function cliDocsVersionCommand(
   await createVersionedSidebarFile({
     siteDir,
     pluginId,
-    version,
     sidebarPath,
+    versionPath,
+    versionPrefix,
+    version,
   });
 
   // Update versions.json file.
   versions.unshift(version);
   await fs.outputFile(
-    getVersionsFilePath(siteDir, pluginId),
+    getVersionsFilePath(siteDir, pluginId, versionPath, versionPrefix),
     `${JSON.stringify(versions, null, 2)}\n`,
   );
 

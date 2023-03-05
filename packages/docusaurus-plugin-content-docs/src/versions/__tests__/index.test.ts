@@ -758,4 +758,86 @@ describe('readVersionsMetadata', () => {
       );
     });
   });
+
+  // TODO rewrite this one for correct testing
+  // Maybe a shorter variant
+  describe('versioned site with custom path, pluginId=community', () => {
+    async function loadSite() {
+      const versionedSiteDir = path.resolve(
+        path.join(__dirname, '../../__tests__/__fixtures__', 'versioned-site-with-custom-path'),
+      );
+      const defaultOptions: PluginOptions = {
+        ...DEFAULT_OPTIONS,
+        id: 'community',
+        path: 'docs-custom/community/docs',
+        versionPath: 'docs-custom/community',
+        versionPrefix: false,
+        routeBasePath: 'communityBasePath',
+        sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
+      };
+      const defaultContext = {
+        siteDir: versionedSiteDir,
+        baseUrl: '/',
+        i18n: DefaultI18N,
+        localizationDir: path.join(versionedSiteDir, 'i18n/en'),
+      } as LoadContext;
+
+      const vCurrent: VersionMetadata = {
+        contentPath: path.join(versionedSiteDir, 'docs-custom/community/docs'),
+        contentPathLocalized: path.join(
+          versionedSiteDir,
+          'i18n/en/docusaurus-plugin-content-docs-community/current',
+        ),
+        isLast: false,
+        routePriority: undefined,
+        sidebarFilePath: path.join(versionedSiteDir, 'docs-custom/community/sidebars.json'),
+        tagsPath: '/communityBasePath/next/tags',
+        label: 'Next',
+        versionName: 'current',
+        path: '/communityBasePath/next',
+        banner: 'unreleased',
+        badge: true,
+        noIndex: false,
+        className: 'docs-version-current',
+      };
+
+      const v100: VersionMetadata = {
+        contentPath: path.join(
+          versionedSiteDir,
+          'docs-custom/community/versioned_docs/version-1.0.0',
+        ),
+        contentPathLocalized: path.join(
+          versionedSiteDir,
+          'i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0',
+        ),
+        isLast: true,
+        routePriority: -1,
+        sidebarFilePath: path.join(
+          versionedSiteDir,
+          'docs-custom/community/versioned_sidebars/version-1.0.0-sidebars.json',
+        ),
+        tagsPath: '/communityBasePath/tags',
+        label: '1.0.0',
+        versionName: '1.0.0',
+        path: '/communityBasePath',
+        banner: null,
+        badge: true,
+        noIndex: false,
+        className: 'docs-version-1.0.0',
+      };
+
+      return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
+    }
+
+    it('works', async () => {
+      const {defaultOptions, defaultContext, vCurrent, v100} = await loadSite();
+
+      const versionsMetadata = await readVersionsMetadata({
+        options: defaultOptions,
+        context: defaultContext,
+      });
+
+      expect(versionsMetadata).toEqual([vCurrent, v100]);
+    });
+  });
 });

@@ -21,35 +21,46 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import type {VersionContext} from './index';
 
-/** Add a prefix like `community_version-1.0.0`. No-op for default instance. */
-function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
-  return pluginId === DEFAULT_PLUGIN_ID
+/** Add a version dir like `[siteDir]/[versionPath?]` */
+function addVersionDir(siteDir: string, versionPath: string): string {
+  return versionPath == ''
+    ? siteDir
+    : path.join(siteDir, versionPath)
+}
+
+/** Add a prefix like `[pluginId?]_version-1.0.0`. No-op for default instance. */
+function addPluginIdPrefix(fileOrDir: string, pluginId: string, versionPrefix: boolean): string {
+  return pluginId === DEFAULT_PLUGIN_ID || versionPrefix === false
     ? fileOrDir
     : `${pluginId}_${fileOrDir}`;
 }
 
-/** `[siteDir]/community_versioned_docs/version-1.0.0` */
+/** `[versionPath]/[pluginId?]_versioned_docs/version-1.0.0` */
 export function getVersionDocsDirPath(
   siteDir: string,
   pluginId: string,
+  versionPath: string,
+  versionPrefix: boolean,
   versionName: string,
 ): string {
   return path.join(
-    siteDir,
-    addPluginIdPrefix(VERSIONED_DOCS_DIR, pluginId),
+    addVersionDir(siteDir, versionPath),
+    addPluginIdPrefix(VERSIONED_DOCS_DIR, pluginId, versionPrefix),
     `version-${versionName}`,
   );
 }
 
-/** `[siteDir]/community_versioned_sidebars/version-1.0.0-sidebars.json` */
+/** `[versionPath]/[pluginId?]_versioned_sidebars/version-1.0.0-sidebars.json` */
 export function getVersionSidebarsPath(
   siteDir: string,
   pluginId: string,
+  versionPath: string,
+  versionPrefix: boolean,
   versionName: string,
 ): string {
   return path.join(
-    siteDir,
-    addPluginIdPrefix(VERSIONED_SIDEBARS_DIR, pluginId),
+    addVersionDir(siteDir, versionPath),
+    addPluginIdPrefix(VERSIONED_SIDEBARS_DIR, pluginId, versionPrefix),
     `version-${versionName}-sidebars.json`,
   );
 }
@@ -75,9 +86,17 @@ export function getDocsDirPathLocalized({
   });
 }
 
-/** `community` => `[siteDir]/community_versions.json` */
-export function getVersionsFilePath(siteDir: string, pluginId: string): string {
-  return path.join(siteDir, addPluginIdPrefix(VERSIONS_JSON_FILE, pluginId));
+/** `community` => `[versionPath]/community_versions.json` */
+export function getVersionsFilePath(
+  siteDir: string,
+  pluginId: string,
+  versionPath: string,
+  versionPrefix: boolean,
+): string {
+  return path.join(
+    addVersionDir(siteDir, versionPath),
+    addPluginIdPrefix(VERSIONS_JSON_FILE, pluginId, versionPrefix)
+  );
 }
 
 /**
@@ -89,8 +108,10 @@ export function getVersionsFilePath(siteDir: string, pluginId: string): string {
 export async function readVersionsFile(
   siteDir: string,
   pluginId: string,
+  versionPath: string,
+  versionPrefix: boolean,
 ): Promise<string[] | null> {
-  const versionsFilePath = getVersionsFilePath(siteDir, pluginId);
+  const versionsFilePath = getVersionsFilePath(siteDir, pluginId, versionPath, versionPrefix);
   if (await fs.pathExists(versionsFilePath)) {
     const content: unknown = await fs.readJSON(versionsFilePath);
     validateVersionNames(content);
@@ -118,7 +139,7 @@ export async function readVersionNames(
   siteDir: string,
   options: PluginOptions,
 ): Promise<string[]> {
-  const versionFileContent = await readVersionsFile(siteDir, options.id);
+  const versionFileContent = await readVersionsFile(siteDir, options.id, options.versionPath, options.versionPrefix);
 
   if (!versionFileContent && options.disableVersioning) {
     throw new Error(
@@ -178,10 +199,10 @@ export async function getVersionMetadataPaths({
   });
   const contentPath = isCurrent
     ? path.resolve(context.siteDir, options.path)
-    : getVersionDocsDirPath(context.siteDir, options.id, versionName);
+    : getVersionDocsDirPath(context.siteDir, options.id, options.versionPath, options.versionPrefix, versionName);
   const sidebarFilePath = isCurrent
     ? options.sidebarPath
-    : getVersionSidebarsPath(context.siteDir, options.id, versionName);
+    : getVersionSidebarsPath(context.siteDir, options.id, options.versionPath, options.versionPrefix, versionName);
 
   if (!(await fs.pathExists(contentPath))) {
     throw new Error(
