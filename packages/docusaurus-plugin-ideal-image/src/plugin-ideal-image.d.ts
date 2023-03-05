@@ -46,6 +46,12 @@ declare module '@docusaurus/plugin-ideal-image' {
      * Tip: use network throttling in your browser to simulate slow networks.
      */
     disableInDev?: boolean;
+    /**
+     * You can enable this plugin for WebP/AVIF images
+     * by setting this to `true`.
+     * Note: the default is `false` to keep backward compatibility.
+     */
+    enableWebpAvif?: boolean;
   };
 }
 
