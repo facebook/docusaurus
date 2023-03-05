@@ -73,7 +73,7 @@ const VersionsOptionsSchema = Joi.object()
 
 const OptionsSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  versionPath: Joi.string().optional().default(DEFAULT_OPTIONS.versionPath),
+  versionPath: Joi.string().optional(),
   versionPrefix: Joi.boolean().default(DEFAULT_OPTIONS.versionPrefix),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),

@@ -33,7 +33,7 @@ async function createVersionedSidebarFile({
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
-  versionPath: string;
+  versionPath: string | undefined;
   versionPrefix: boolean;
   version: string;
 }) {
@@ -49,7 +49,13 @@ async function createVersionedSidebarFile({
 
   if (shouldCreateVersionedSidebarFile) {
     await fs.outputFile(
-      getVersionSidebarsPath(siteDir, pluginId, versionPath, versionPrefix, version),
+      getVersionSidebarsPath(
+        siteDir,
+        pluginId,
+        versionPath,
+        versionPrefix,
+        version,
+      ),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
@@ -59,7 +65,13 @@ async function createVersionedSidebarFile({
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
   version: unknown,
-  {id: pluginId, path: docsPath, versionPath, versionPrefix, sidebarPath}: PluginOptions,
+  {
+    id: pluginId,
+    path: docsPath,
+    versionPath,
+    versionPrefix,
+    sidebarPath,
+  }: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
@@ -74,7 +86,9 @@ export async function cliDocsVersionCommand(
     throw err;
   }
 
-  const versions = (await readVersionsFile(siteDir, pluginId, versionPath, versionPrefix)) ?? [];
+  const versions =
+    (await readVersionsFile(siteDir, pluginId, versionPath, versionPrefix)) ??
+    [];
 
   // Check if version already exists.
   if (versions.includes(version)) {
@@ -120,7 +134,13 @@ export async function cliDocsVersionCommand(
 
       const newVersionDir =
         locale === i18n.defaultLocale
-          ? getVersionDocsDirPath(siteDir, pluginId, versionPath, versionPrefix, version)
+          ? getVersionDocsDirPath(
+              siteDir,
+              pluginId,
+              versionPath,
+              versionPrefix,
+              version,
+            )
           : getDocsDirPathLocalized({
               localizationDir,
               pluginId,

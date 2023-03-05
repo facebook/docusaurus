@@ -42,7 +42,7 @@ describe('normalizeDocsPluginOptions', () => {
   it('accepts correctly defined user options', () => {
     const userOptions: Options = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
-      versionPath: '', // Path to versioned files on filesystem, relative to site dir.
+      versionPath: undefined, // Path to versioned files on filesystem, relative to site dir.
       versionPrefix: true, // Decides whether the prefix name is displayed or not.
       routeBasePath: '/my-docs', // URL Route.
       tagsBasePath: 'tags', // URL Tags Route.
