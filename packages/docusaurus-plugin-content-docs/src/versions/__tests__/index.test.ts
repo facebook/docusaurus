@@ -760,11 +760,14 @@ describe('readVersionsMetadata', () => {
   });
 
   // TODO rewrite this one for correct testing
-  // Maybe a shorter variant
   describe('versioned site with custom path, pluginId=community', () => {
     async function loadSite() {
       const versionedSiteDir = path.resolve(
-        path.join(__dirname, '../../__tests__/__fixtures__', 'versioned-site-with-custom-path'),
+        path.join(
+          __dirname,
+          '../../__tests__/__fixtures__',
+          'versioned-site-with-custom-path',
+        ),
       );
       const defaultOptions: PluginOptions = {
         ...DEFAULT_OPTIONS,
@@ -773,7 +776,10 @@ describe('readVersionsMetadata', () => {
         versionPath: 'docs-custom/community',
         versionPrefix: false,
         routeBasePath: 'communityBasePath',
-        sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
+        sidebarPath: path.join(
+          versionedSiteDir,
+          'docs-custom/community/sidebars.json',
+        ),
       };
       const defaultContext = {
         siteDir: versionedSiteDir,
@@ -790,7 +796,10 @@ describe('readVersionsMetadata', () => {
         ),
         isLast: false,
         routePriority: undefined,
-        sidebarFilePath: path.join(versionedSiteDir, 'docs-custom/community/sidebars.json'),
+        sidebarFilePath: path.join(
+          versionedSiteDir,
+          'docs-custom/community/sidebars.json',
+        ),
         tagsPath: '/communityBasePath/next/tags',
         label: 'Next',
         versionName: 'current',

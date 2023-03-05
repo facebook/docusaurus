@@ -22,14 +22,21 @@ import type {
 import type {VersionContext} from './index';
 
 /** Add a version dir like `[siteDir]/[versionPath?]` */
-function addVersionDir(siteDir: string, versionPath: string): string {
-  return versionPath == ''
+function addVersionDir(
+  siteDir: string,
+  versionPath: string | undefined,
+): string {
+  return typeof versionPath === 'undefined'
     ? siteDir
-    : path.join(siteDir, versionPath)
+    : path.join(siteDir, versionPath);
 }
 
 /** Add a prefix like `[pluginId?]_version-1.0.0`. No-op for default instance. */
-function addPluginIdPrefix(fileOrDir: string, pluginId: string, versionPrefix: boolean): string {
+function addPluginIdPrefix(
+  fileOrDir: string,
+  pluginId: string,
+  versionPrefix: boolean,
+): string {
   return pluginId === DEFAULT_PLUGIN_ID || versionPrefix === false
     ? fileOrDir
     : `${pluginId}_${fileOrDir}`;
@@ -39,7 +46,7 @@ function addPluginIdPrefix(fileOrDir: string, pluginId: string, versionPrefix: b
 export function getVersionDocsDirPath(
   siteDir: string,
   pluginId: string,
-  versionPath: string,
+  versionPath: string | undefined,
   versionPrefix: boolean,
   versionName: string,
 ): string {
@@ -54,7 +61,7 @@ export function getVersionDocsDirPath(
 export function getVersionSidebarsPath(
   siteDir: string,
   pluginId: string,
-  versionPath: string,
+  versionPath: string | undefined,
   versionPrefix: boolean,
   versionName: string,
 ): string {
@@ -90,12 +97,12 @@ export function getDocsDirPathLocalized({
 export function getVersionsFilePath(
   siteDir: string,
   pluginId: string,
-  versionPath: string,
+  versionPath: string | undefined,
   versionPrefix: boolean,
 ): string {
   return path.join(
     addVersionDir(siteDir, versionPath),
-    addPluginIdPrefix(VERSIONS_JSON_FILE, pluginId, versionPrefix)
+    addPluginIdPrefix(VERSIONS_JSON_FILE, pluginId, versionPrefix),
   );
 }
 
@@ -108,10 +115,15 @@ export function getVersionsFilePath(
 export async function readVersionsFile(
   siteDir: string,
   pluginId: string,
-  versionPath: string,
+  versionPath: string | undefined,
   versionPrefix: boolean,
 ): Promise<string[] | null> {
-  const versionsFilePath = getVersionsFilePath(siteDir, pluginId, versionPath, versionPrefix);
+  const versionsFilePath = getVersionsFilePath(
+    siteDir,
+    pluginId,
+    versionPath,
+    versionPrefix,
+  );
   if (await fs.pathExists(versionsFilePath)) {
     const content: unknown = await fs.readJSON(versionsFilePath);
     validateVersionNames(content);
@@ -139,7 +151,12 @@ export async function readVersionNames(
   siteDir: string,
   options: PluginOptions,
 ): Promise<string[]> {
-  const versionFileContent = await readVersionsFile(siteDir, options.id, options.versionPath, options.versionPrefix);
+  const versionFileContent = await readVersionsFile(
+    siteDir,
+    options.id,
+    options.versionPath,
+    options.versionPrefix,
+  );
 
   if (!versionFileContent && options.disableVersioning) {
     throw new Error(
@@ -199,10 +216,22 @@ export async function getVersionMetadataPaths({
   });
   const contentPath = isCurrent
     ? path.resolve(context.siteDir, options.path)
-    : getVersionDocsDirPath(context.siteDir, options.id, options.versionPath, options.versionPrefix, versionName);
+    : getVersionDocsDirPath(
+        context.siteDir,
+        options.id,
+        options.versionPath,
+        options.versionPrefix,
+        versionName,
+      );
   const sidebarFilePath = isCurrent
     ? options.sidebarPath
-    : getVersionSidebarsPath(context.siteDir, options.id, options.versionPath, options.versionPrefix, versionName);
+    : getVersionSidebarsPath(
+        context.siteDir,
+        options.id,
+        options.versionPath,
+        options.versionPrefix,
+        versionName,
+      );
 
   if (!(await fs.pathExists(contentPath))) {
     throw new Error(

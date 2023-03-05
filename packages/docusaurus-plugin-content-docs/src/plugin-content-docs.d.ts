@@ -121,9 +121,10 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     sidebarPath?: string | false | undefined;
     /**
-     * Path to the versioned files on the file system, relative to site directory.
+     * Path to the versioned files on the file system, relative to site
+     * directory.
      */
-    versionPath: string;
+    versionPath: string | undefined;
     /**
      * Decides whether the prefix name is displayed or not.
      */
