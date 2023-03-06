@@ -21,6 +21,7 @@ import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue} from '../utils';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Image} from 'mdast';
 import type {Parent} from 'unist';

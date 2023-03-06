@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import visit from 'unist-util-visit';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Plugin} from 'unified';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721

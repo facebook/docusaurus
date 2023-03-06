@@ -31,10 +31,11 @@ import {validateMDXFrontMatter} from './frontMatter';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 
-import type {Processor, PluggableList} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {Processor, Pluggable} from 'unified';
 import type {AdmonitionOptions} from './remark/admonitions';
 
-// @ts-expect-error: TODO
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
 // Copied from https://mdxjs.com/packages/mdx/#optionsmdextensions
@@ -61,7 +62,6 @@ const {
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
-  // @ts-expect-error: TODO
   remarkPlugins: [emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
@@ -69,7 +69,7 @@ const DEFAULT_OPTIONS: MDXOptions = {
 
 const compilerCache = new Map<string | Options, [Processor, Options]>();
 
-export type MDXPlugin = PluggableList;
+export type MDXPlugin = Pluggable;
 
 export type MDXOptions = {
   admonitions: boolean | Partial<AdmonitionOptions>;
@@ -160,7 +160,6 @@ function getAdmonitionsPlugins(
   admonitionsOption: MDXOptions['admonitions'],
 ): MDXPlugin[] {
   if (admonitionsOption) {
-    // @ts-expect-error: TODO fix types
     const plugin: MDXPlugin =
       admonitionsOption === true
         ? transformAdmonitions
@@ -212,7 +211,6 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
-    // @ts-expect-error: TODO
     const remarkPlugins: ProcessorOptions['remarkPlugins'] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       (await import('remark-directive')).default,
@@ -242,10 +240,8 @@ export async function mdxLoader(
 
     // codeCompatPlugin needs to be applied last after user-provided plugins
     // (after npm2yarn for example)
-    // @ts-expect-error: TODO
     remarkPlugins.push(codeCompatPlugin);
 
-    // @ts-expect-error: TODO
     const rehypePlugins: ProcessorOptions['rehypePlugins'] = [
       ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
@@ -259,14 +255,13 @@ export async function mdxLoader(
           : 'mdx'
         : mdxFrontMatter.format;
 
-    const options: ProcessorOptions = {
+    const options: ProcessorOptions & Options = {
       ...reqOptions,
       remarkPlugins,
       rehypePlugins,
       format,
       providerImportSource: '@mdx-js/react',
     };
-    // @ts-expect-error: TODO
     compilerCache.set(this.query, [createProcessor(options), options]);
   }
 
