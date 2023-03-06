@@ -34,7 +34,7 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'docs'` | Path to the docs content directory on the file system, relative to site directory. |
-| `versionPath` | `string` |  `''` | Path to versioned files on filesystem, relative to site dir. |
+| `versionPath` | `string` | `undefined` | Path to versioned files on filesystem, relative to site dir. |
 | `versionPrefix` | `boolean` | `true` | Decides whether the prefix name is displayed or not. |
 | `editUrl` | <code>string \| <a href="#EditUrlFunction">EditUrlFunction</a></code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
