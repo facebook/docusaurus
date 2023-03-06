@@ -13,6 +13,7 @@ import {toValue} from '../utils';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 
 export type TOCItem = {

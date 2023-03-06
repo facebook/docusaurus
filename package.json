@@ -59,7 +59,7 @@
     "lock:update": "npx --yes yarn-deduplicate"
   },
   "dependencies": {
-    "unified": "^9.2.2"
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.9.1",

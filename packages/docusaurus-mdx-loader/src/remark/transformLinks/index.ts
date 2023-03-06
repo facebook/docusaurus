@@ -18,6 +18,7 @@ import {
 import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
 import {assetRequireAttributeValue} from '../utils';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';

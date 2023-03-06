@@ -8,6 +8,7 @@
 import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
 
