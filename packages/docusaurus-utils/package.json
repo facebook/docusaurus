@@ -31,9 +31,9 @@
     "micromatch": "^4.0.5",
     "resolve-pathname": "^3.0.0",
     "shelljs": "^0.8.5",
-    "tslib": "^2.4.1",
+    "tslib": "^2.5.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.75.0"
+    "webpack": "^5.76.0"
   },
   "engines": {
     "node": ">=16.14"
@@ -43,7 +43,7 @@
     "@types/dedent": "^0.7.0",
     "@types/github-slugger": "^1.3.0",
     "@types/micromatch": "^4.0.2",
-    "@types/react-dom": "^18.0.10",
+    "@types/react-dom": "^18.0.11",
     "dedent": "^0.7.0"
   },
   "peerDependencies": {

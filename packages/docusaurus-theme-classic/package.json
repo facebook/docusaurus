@@ -43,7 +43,7 @@
     "prismjs": "^1.29.0",
     "react-router-dom": "^5.3.4",
     "rtlcss": "^4.0.0",
-    "tslib": "^2.4.1",
+    "tslib": "^2.5.0",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
