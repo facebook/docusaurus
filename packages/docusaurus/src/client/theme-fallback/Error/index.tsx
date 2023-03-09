@@ -24,16 +24,25 @@ function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
         alignItems: 'flex-start',
         minHeight: '100vh',
         width: '100%',
-        maxWidth: '60ch',
+        maxWidth: '80ch',
         fontSize: '20px',
         margin: '0 auto',
         padding: '1rem',
       }}>
       <h1 style={{fontSize: '3rem'}}>This page crashed</h1>
-      <p>{error.message}</p>
-      <button type="button" onClick={tryAgain}>
+      <button
+        type="button"
+        onClick={tryAgain}
+        style={{
+          margin: '1rem 0',
+          fontSize: '2rem',
+          cursor: 'pointer',
+          borderRadius: 20,
+          padding: '1rem',
+        }}>
         Try again
       </button>
+      <p style={{whiteSpace: 'pre-wrap'}}>{error.message}</p>
     </div>
   );
 }
