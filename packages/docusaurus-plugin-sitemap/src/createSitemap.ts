@@ -9,7 +9,7 @@ import type {ReactElement} from 'react';
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {createMatcher} from '@docusaurus/utils';
-import type {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
 
@@ -47,9 +47,17 @@ function isNoIndexMetaRoute({
   );
 }
 
+function collectAllPaths({ routes, path }: {
+  routes?: RouteConfig[];
+  path?: string;
+}): string[] {
+  const subRoutes: string[][] = routes ? routes.map(subRoute => collectAllPaths(subRoute)) : [];
+  return subRoutes.flat(1).concat(path || []);
+}
+
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
-  routesPaths: string[],
+  routes: RouteConfig[],
   head: {[location: string]: HelmetServerState},
   options: PluginOptions,
 ): Promise<string | null> {
@@ -69,7 +77,7 @@ export default async function createSitemap(
     );
   }
 
-  const includedRoutes = routesPaths.filter((route) => !isRouteExcluded(route));
+  const includedRoutes = collectAllPaths({ routes }).filter((route) => !isRouteExcluded(route));
 
   if (includedRoutes.length === 0) {
     return null;

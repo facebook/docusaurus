@@ -17,7 +17,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/test'],
+      [{ path: '/' }, { path: '/test' }],
       {},
       {
         changefreq: EnumChangefreq.DAILY,
@@ -44,7 +44,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/404.html', '/my-page'],
+      [{ path: '/' }, { path: '/404.html' }, { path: '/my-page' }],
       {},
       {
         changefreq: EnumChangefreq.DAILY,
@@ -61,7 +61,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/search/', '/tags/', '/search/foo', '/tags/foo/bar'],
+      [{ path: '/' }, { path: '/search/' }, { path: '/tags/' }, { path: '/search/foo' }, { path: '/tags/foo/bar' }],
       {},
       {
         changefreq: EnumChangefreq.DAILY,
@@ -86,7 +86,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: undefined,
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [{ path: '/' }, { path: '/test' }, { path: '/nested/test' }, { path: '/nested/test2/' }],
       {},
       {
         changefreq: EnumChangefreq.DAILY,
@@ -108,7 +108,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: true,
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [{ path: '/' }, { path: '/test' }, { path: '/nested/test' }, { path: '/nested/test2/' }],
       {},
       {
         changefreq: EnumChangefreq.DAILY,
@@ -130,7 +130,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: false,
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [{ path: '/' }, { path: '/test' }, { path: '/nested/test' }, { path: '/nested/test2/' }],
       {},
       {
         changefreq: EnumChangefreq.DAILY,
@@ -146,13 +146,32 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/nested/test2</loc>');
   });
 
+  it('site with nested pages in routes', async () => {
+    const sitemap = await createSitemap(
+      {
+        url: 'https://example.com',
+      } as DocusaurusConfig,
+      [{ path: '/', routes: [{ path: '/test', routes: [{ path: '/test/nested' }] }] }],
+      {},
+      {
+        changefreq: EnumChangefreq.DAILY,
+        priority: 0.7,
+        ignorePatterns: [],
+        filename: 'sitemap.xml',
+      },
+    );
+    expect(sitemap).toContain('<loc>https://example.com/</loc>');
+    expect(sitemap).toContain('<loc>https://example.com/test</loc>');
+    expect(sitemap).toContain('<loc>https://example.com/test/nested</loc>');
+  });
+
   it('filters pages with noindex', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
         trailingSlash: false,
       } as DocusaurusConfig,
-      ['/', '/noindex', '/nested/test', '/nested/test2/'],
+      [{ path: '/' }, { path: '/noindex' }, { path: '/nested/test' }, { path: '/nested/test2/' }],
       {
         '/noindex': {
           meta: {
@@ -182,7 +201,7 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: false,
       } as DocusaurusConfig,
-      ['/', '/noindex'],
+      [{ path: '/' }, { path: '/noindex' }],
       {
         '/': {
           meta: {
