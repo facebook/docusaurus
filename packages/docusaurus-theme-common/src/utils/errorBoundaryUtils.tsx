@@ -7,6 +7,7 @@
 
 import React, {type ComponentProps} from 'react';
 import Translate from '@docusaurus/Translate';
+import styles from './errorBoundaryUtils.module.css';
 
 export function ErrorBoundaryTryAgainButton(
   props: ComponentProps<'button'>,
@@ -20,4 +21,8 @@ export function ErrorBoundaryTryAgainButton(
       </Translate>
     </button>
   );
+}
+
+export function ErrorBoundaryError({error}: {error: Error}): JSX.Element {
+  return <p className={styles.errorBoundaryError}>{error.message}</p>;
 }

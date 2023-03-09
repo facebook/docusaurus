@@ -29,8 +29,8 @@
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.3.0",
     "sharp": "^0.31.3",
-    "tslib": "^2.4.1",
-    "webpack": "^5.75.0"
+    "tslib": "^2.5.0",
+    "webpack": "^5.76.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.0.0-alpha.0",
