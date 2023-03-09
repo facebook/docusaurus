@@ -89,3 +89,8 @@ export {
   SkipToContentFallbackId,
   SkipToContentLink,
 } from './utils/skipToContentUtils';
+
+export {
+  ErrorBoundaryTryAgainButton,
+  ErrorBoundaryError,
+} from './utils/errorBoundaryUtils';
