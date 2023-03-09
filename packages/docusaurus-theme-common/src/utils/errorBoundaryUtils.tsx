@@ -7,6 +7,7 @@
 
 import React, {type ComponentProps} from 'react';
 import Translate from '@docusaurus/Translate';
+import {getErrorCausalChain} from '@docusaurus/utils-common';
 import styles from './errorBoundaryUtils.module.css';
 
 export function ErrorBoundaryTryAgainButton(
@@ -22,7 +23,8 @@ export function ErrorBoundaryTryAgainButton(
     </button>
   );
 }
-
 export function ErrorBoundaryError({error}: {error: Error}): JSX.Element {
-  return <p className={styles.errorBoundaryError}>{error.message}</p>;
+  const causalChain = getErrorCausalChain(error);
+  const fullMessage = causalChain.map((e) => e.message).join('\n\nCause:\n');
+  return <p className={styles.errorBoundaryError}>{fullMessage}</p>;
 }

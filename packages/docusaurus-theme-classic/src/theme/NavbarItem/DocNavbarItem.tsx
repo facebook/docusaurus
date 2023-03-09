@@ -20,11 +20,7 @@ function useNavbarItemDoc(
     return useLayoutDoc(docId, docsPluginId);
   } catch (e) {
     throw new Error(
-      [
-        "There's a problem in a navbar item, check themeConfig.navbar.items",
-        "in your Docusaurus config to make sure you aren't attempting to",
-        'reference a non-existent doc.',
-      ].join(' '),
+      "There's a problem in a theme navbar item.\nPlease check themeConfig.navbar.items in your Docusaurus config to make sure you aren't attempting to reference a non-existent doc.",
       {cause: e},
     );
   }

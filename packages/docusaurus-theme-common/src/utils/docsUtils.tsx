@@ -343,7 +343,7 @@ export function useLayoutDoc(
         return null;
       }
       throw new Error(
-        `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
+        `Couldn't find any doc with id "${docId}" in version${
           versions.length > 1 ? 's' : ''
         } "${versions.map((version) => version.name).join(', ')}".
 Available doc ids are:
