@@ -84,6 +84,7 @@ export default {
     // MDX packages are ESM-only and it is a pain to use in Jest
     // So we use them in Jest tests as CJS versions
     // see https://mdxjs.com/docs/troubleshooting-mdx/#problems-integrating-mdx
+    '^unified$': '<rootDir>/jest/vendor/unified@10.1.2.js',
     '^@mdx-js/mdx$': '<rootDir>/jest/vendor/@mdx-js__mdx@2.1.5.js',
     '^remark$': '<rootDir>/jest/vendor/remark@14.0.2.js',
     '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@2.1.5.js',
