@@ -10,21 +10,6 @@ import {useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
 import {useLayoutDoc} from '@docusaurus/theme-common/internal';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
-import type {GlobalDoc} from '@docusaurus/plugin-content-docs/client';
-
-function useNavbarItemDoc(
-  docId: string,
-  docsPluginId?: string,
-): GlobalDoc | null {
-  try {
-    return useLayoutDoc(docId, docsPluginId);
-  } catch (e) {
-    throw new Error(
-      "There's a problem in a theme navbar item.\nPlease check themeConfig.navbar.items in your Docusaurus config to make sure you aren't attempting to reference a non-existent doc.",
-      {cause: e},
-    );
-  }
-}
 
 export default function DocNavbarItem({
   docId,
@@ -33,7 +18,7 @@ export default function DocNavbarItem({
   ...props
 }: Props): JSX.Element | null {
   const {activeDoc} = useActiveDocContext(docsPluginId);
-  const doc = useNavbarItemDoc(docId, docsPluginId);
+  const doc = useLayoutDoc(docId, docsPluginId);
   const pageActive = activeDoc?.path === doc?.path;
 
   // Draft and unlisted items are not displayed in the navbar.

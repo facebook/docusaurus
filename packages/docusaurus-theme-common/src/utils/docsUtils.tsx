@@ -310,8 +310,8 @@ export function useLayoutDocsSidebar(
         `Can't find any sidebar with id "${sidebarId}" in version${
           versions.length > 1 ? 's' : ''
         } ${versions.map((version) => version.name).join(', ')}".
-  Available sidebar ids are:
-  - ${Object.keys(allSidebars).join('\n- ')}`,
+Available sidebar ids are:
+- ${Object.keys(allSidebars).join('\n- ')}`,
       );
     }
     return sidebarEntry[1];
