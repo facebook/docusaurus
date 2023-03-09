@@ -42,6 +42,7 @@ export function PageMetadata({
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}
+      {description && <meta name="twitter:description" content={description} />}
 
       {keywords && (
         <meta
