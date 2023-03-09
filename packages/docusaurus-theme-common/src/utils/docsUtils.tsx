@@ -346,8 +346,6 @@ export function useLayoutDoc(
         `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
           versions.length > 1 ? 's' : ''
         } "${versions.map((version) => version.name).join(', ')}".
-Check themeConfig.navbar.items in your Docusaurus config to make sure
-navbar items aren't attempting to reference a non-existent doc.
 Available doc ids are:
 - ${uniq(allDocs.map((versionDoc) => versionDoc.id)).join('\n- ')}`,
       );
