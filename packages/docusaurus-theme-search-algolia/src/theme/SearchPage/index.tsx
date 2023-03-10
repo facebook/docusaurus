@@ -21,11 +21,9 @@ import {
   HtmlClassNameProvider,
   useEvent,
   usePluralForm,
-} from '@docusaurus/theme-common';
-import {
   useSearchQueryString,
-  useTitleFormatter,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/theme-common';
+import {useTitleFormatter} from '@docusaurus/theme-common/internal';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
