@@ -73,6 +73,11 @@ export {
   type TagLetterEntry,
 } from './utils/tagsUtils';
 
+export {
+  useSearchQueryString,
+  useSearchLinkCreator,
+} from './hooks/useSearchPage';
+
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
