@@ -130,16 +130,17 @@ function createAdmonitionNode({
  */
 
 type DirectiveLabel = Parent;
+type DirectiveContent = ContainerDirective['children'];
 
 function parseDirective(directive: ContainerDirective): {
   directiveLabel: DirectiveLabel | undefined;
-  contentNodes: Node[];
+  contentNodes: DirectiveContent;
 } {
   const hasDirectiveLabel =
-    directive.children?.[0].data?.directiveLabel === true;
+    directive.children?.[0]?.data?.directiveLabel === true;
   if (hasDirectiveLabel) {
     const [directiveLabel, ...contentNodes] = directive.children;
-    return {directiveLabel, contentNodes};
+    return {directiveLabel: directiveLabel as DirectiveLabel, contentNodes};
   }
   return {directiveLabel: undefined, contentNodes: directive.children};
 }
@@ -232,6 +233,7 @@ const plugin: Plugin = function plugin(
             },
             children: directiveLabel.children,
           };
+          // @ts-expect-error: invented node type
           directive.children.unshift(complexTitleNode);
         }
       }
