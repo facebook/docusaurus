@@ -10,3 +10,4 @@ export {
   default as applyTrailingSlash,
   type ApplyTrailingSlashParams,
 } from './applyTrailingSlash';
+export {getErrorCausalChain} from './errorUtils';

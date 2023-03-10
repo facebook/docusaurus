@@ -14,7 +14,7 @@ export default function ErrorBoundaryTestButton({
 }): JSX.Element {
   const [state, setState] = useState(false);
   if (state) {
-    throw new Error('Boom!');
+    throw new Error('Boom!\nSomething bad happened, but you can try again!');
   }
   return (
     <button type="button" onClick={() => setState(true)}>

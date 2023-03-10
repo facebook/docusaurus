@@ -96,4 +96,8 @@ export {
   UnlistedMetadata,
 } from './utils/unlistedUtils';
 
-export {ErrorBoundaryTryAgainButton} from './utils/errorBoundaryUtils';
+export {
+  ErrorBoundaryTryAgainButton,
+  ErrorBoundaryError,
+  ErrorCauseBoundary,
+} from './utils/errorBoundaryUtils';
