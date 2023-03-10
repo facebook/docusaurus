@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useHistory} from '@docusaurus/router';
 // @ts-expect-error: TODO temporary until React 18 upgrade
 import {useSyncExternalStore} from 'use-sync-external-store/shim';
@@ -74,4 +74,43 @@ export function useQueryStringValue(key: string | null): string | null {
     }
     return new URLSearchParams(history.location.search).get(key);
   });
+}
+
+export function useQueryStringKeySetter(): (
+  key: string,
+  newValue: string | null,
+  options?: {push: boolean},
+) => void {
+  const history = useHistory();
+  return useCallback(
+    (key, newValue, options) => {
+      const searchParams = new URLSearchParams(history.location.search);
+      if (newValue) {
+        searchParams.set(key, newValue);
+      } else {
+        searchParams.delete(key);
+      }
+      const updaterFn = options?.push ? history.push : history.replace;
+      updaterFn({
+        search: searchParams.toString(),
+      });
+    },
+    [history],
+  );
+}
+
+export function useQueryString(
+  key: string,
+): [string, (newValue: string, options?: {push: boolean}) => void] {
+  const value = useQueryStringValue(key) ?? '';
+  const setQueryString = useQueryStringKeySetter();
+  return [
+    value,
+    useCallback(
+      (newValue: string, options) => {
+        setQueryString(key, newValue, options);
+      },
+      [setQueryString, key],
+    ),
+  ];
 }
