@@ -11,7 +11,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
-import {useSearchPage} from '@docusaurus/theme-common/internal';
+import {useSearchLinkCreator} from '@docusaurus/theme-common/internal';
 import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
@@ -59,10 +59,10 @@ type ResultsFooterProps = {
 };
 
 function ResultsFooter({state, onClose}: ResultsFooterProps) {
-  const {generateSearchPageLink} = useSearchPage();
+  const createSearchLink = useSearchLinkCreator();
 
   return (
-    <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
+    <Link to={createSearchLink(state.query)} onClick={onClose}>
       <Translate
         id="theme.SearchBar.seeAll"
         values={{count: state.context.nbHits}}>

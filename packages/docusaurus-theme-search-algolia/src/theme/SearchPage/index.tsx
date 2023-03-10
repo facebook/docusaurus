@@ -23,7 +23,7 @@ import {
   usePluralForm,
 } from '@docusaurus/theme-common';
 import {
-  useSearchPage,
+  useSearchQueryString,
   useTitleFormatter,
 } from '@docusaurus/theme-common/internal';
 import Translate, {translate} from '@docusaurus/Translate';
@@ -167,7 +167,7 @@ function SearchPageContent(): JSX.Element {
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchQuery, setSearchQuery} = useSearchPage();
+  const [searchQuery, setSearchQuery] = useSearchQueryString();
   const initialSearchResultState: ResultDispatcherState = {
     items: [],
     query: null,
