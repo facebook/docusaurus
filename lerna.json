@@ -2,6 +2,7 @@
   "version": "3.0.0-alpha.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
+  "useNx": false,
   "changelog": {
     "repo": "facebook/docusaurus",
     "labels": {
@@ -11,6 +12,7 @@
       "pr: performance": ":running_woman: Performance",
       "pr: polish": ":nail_care: Polish",
       "pr: documentation": ":memo: Documentation",
+      "pr: dependencies": ":robot: Dependencies",
       "pr: maintenance": ":wrench: Maintenance"
     },
     "cacheDir": ".changelog"

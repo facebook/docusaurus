@@ -136,6 +136,8 @@ const prismIncludeLanguages = (Prism) => {
 
 You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
 
+When adding a custom language definition, you do not need to add the language to the `additionalLanguages` config array, since Docusaurus only looks up the `additionalLanguages` strings in languages that Prism provides. Adding the language import in `prism-include-languages.js` is sufficient.
+
 ## Line highlighting {#line-highlighting}
 
 ### Highlighting with comments {#highlighting-with-comments}
@@ -378,7 +380,7 @@ You can disable the default line highlighting comments with `magicComments: []`.
 
 Every magic comment entry will contain three keys: `className` (required), `line`, which applies to the directly next line, or `block` (containing `start` and `end`), which applies to the entire block enclosed by the two comments.
 
-Using CSS to target the class can already do a lot, but you can unlock the full potential of this feature through [swizzling](../../swizzling.md).
+Using CSS to target the class can already do a lot, but you can unlock the full potential of this feature through [swizzling](../../swizzling.mdx).
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic CodeBlock/Line
@@ -749,7 +751,7 @@ Displaying CLI commands in both npm and Yarn is a very common need, for example:
 npm install @docusaurus/remark-plugin-npm2yarn
 ```
 
-Docusaurus provides such a utility out of the box, freeing you from using the `Tabs` component every time. To enable this feature, first install the `@docusaurus/remark-plugin-npm2yarn` package as above, and then in `docusaurus.config.js`, for the plugins where you need this feature (doc, blog, pages, etc.), register it in the `remarkPlugins` option. (See [Docs configuration](../../api/plugins/plugin-content-docs.md#ex-config) for more details on configuration format)
+Docusaurus provides such a utility out of the box, freeing you from using the `Tabs` component every time. To enable this feature, first install the `@docusaurus/remark-plugin-npm2yarn` package as above, and then in `docusaurus.config.js`, for the plugins where you need this feature (doc, blog, pages, etc.), register it in the `remarkPlugins` option. (See [Docs configuration](../../api/plugins/plugin-content-docs.mdx#ex-config) for more details on configuration format)
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -770,6 +772,14 @@ module.exports = {
           remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         blog: {
+          // highlight-start
+          remarkPlugins: [
+            [
+              require('@docusaurus/remark-plugin-npm2yarn'),
+              {converters: ['pnpm']},
+            ],
+          ],
+          // highlight-end
           // ...
         },
       },
@@ -786,7 +796,12 @@ npm install @docusaurus/remark-plugin-npm2yarn
 ```
 ````
 
-Using the `{sync: true}` option would make all tab choices synced. Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.
+#### Configuration {#npm2yarn-remark-plugin-configuration}
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sync` | `boolean` | `false` | Whether to sync the selected converter across all code blocks. |
+| `converters` | `array` | `'yarn'`, `'pnpm'` | The list of converters to use. The order of the converters is important, as the first converter will be used as the default choice. |
 
 ## Usage in JSX {#usage-in-jsx}
 

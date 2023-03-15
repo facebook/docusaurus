@@ -24,7 +24,11 @@ export {
   type ColorModeConfig,
 } from './utils/useThemeConfig';
 
-export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
+export {
+  createStorageSlot,
+  useStorageSlot,
+  listStorageKeys,
+} from './utils/storageUtils';
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 
@@ -69,6 +73,11 @@ export {
   type TagLetterEntry,
 } from './utils/tagsUtils';
 
+export {
+  useSearchQueryString,
+  useSearchLinkCreator,
+} from './hooks/useSearchPage';
+
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
@@ -86,4 +95,14 @@ export {
   SkipToContentLink,
 } from './utils/skipToContentUtils';
 
-export {ErrorBoundaryTryAgainButton} from './utils/errorBoundaryUtils';
+export {
+  UnlistedBannerTitle,
+  UnlistedBannerMessage,
+  UnlistedMetadata,
+} from './utils/unlistedUtils';
+
+export {
+  ErrorBoundaryTryAgainButton,
+  ErrorBoundaryError,
+  ErrorCauseBoundary,
+} from './utils/errorBoundaryUtils';

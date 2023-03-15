@@ -19,7 +19,6 @@ const sidebars = {
       className: 'red',
       label: 'Index',
     },
-    'test-draft',
     'doc-without-sidebar',
     'doc-with-another-sidebar',
     'doc-with-last-update',
@@ -46,12 +45,6 @@ const sidebars = {
           description: 'Some description',
         },
       ],
-    },
-    {
-      type: 'category',
-      label: 'section',
-      collapsible: false,
-      items: ['index', 'more-test'],
     },
     {
       type: 'category',

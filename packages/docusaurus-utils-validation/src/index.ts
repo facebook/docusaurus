@@ -20,8 +20,10 @@ export {
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
+  RouteBasePathSchema,
   URISchema,
   PathnameSchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
+  ContentVisibilitySchema,
 } from './validationSchemas';

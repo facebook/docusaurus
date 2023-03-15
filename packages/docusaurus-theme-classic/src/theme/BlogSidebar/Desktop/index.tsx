@@ -9,11 +9,13 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
+import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogSidebar/Desktop';
 
 import styles from './styles.module.css';
 
 export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
+  const items = useVisibleBlogSidebarItems(sidebar.items);
   return (
     <aside className="col col--3">
       <nav
@@ -27,7 +29,7 @@ export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
           {sidebar.title}
         </div>
         <ul className={clsx(styles.sidebarItemList, 'clean-list')}>
-          {sidebar.items.map((item) => (
+          {items.map((item) => (
             <li key={item.permalink} className={styles.sidebarItem}>
               <Link
                 isNavLink

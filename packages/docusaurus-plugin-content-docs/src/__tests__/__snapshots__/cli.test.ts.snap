@@ -10,9 +10,21 @@ exports[`docsVersion first time versioning 1`] = `
       {
         "items": [
           "foo/bar",
+          "doc-unlisted",
           "foo/baz",
         ],
         "label": "foo",
+        "type": "category",
+      },
+      {
+        "items": [
+          "unlisted-category/unlisted-category-doc",
+        ],
+        "label": "Unlisted category",
+        "link": {
+          "id": "unlisted-category/unlisted-category-index",
+          "type": "doc",
+        },
         "type": "category",
       },
       {

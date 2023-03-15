@@ -153,6 +153,7 @@ katex
 kato
 keyscan
 keytar
+kinsta
 knapen
 koyeb
 kubernetes
@@ -334,6 +335,7 @@ subsubfolder
 subsubsection
 subsubsubfolder
 sucipto
+sunsetting
 supabase
 svgr
 swizzlable
@@ -359,6 +361,7 @@ typesense
 unflat
 unist
 unlinkable
+unlisteds
 unlocalized
 unmatch
 unnormalized

@@ -135,11 +135,12 @@ export type SidebarsUtils = {
   sidebars: Sidebars;
   getFirstDocIdOfFirstSidebar: () => string | undefined;
   getSidebarNameByDocId: (docId: string) => string | undefined;
-  getDocNavigation: (
-    unversionedId: string,
-    versionedId: string,
-    displayedSidebar: string | null | undefined,
-  ) => SidebarNavigation;
+  getDocNavigation: (params: {
+    unversionedId: string;
+    versionedId: string;
+    displayedSidebar: string | null | undefined;
+    unlistedIds: Set<string>;
+  }) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
@@ -192,11 +193,17 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     };
   }
 
-  function getDocNavigation(
-    unversionedId: string,
-    versionedId: string,
-    displayedSidebar: string | null | undefined,
-  ): SidebarNavigation {
+  function getDocNavigation({
+    unversionedId,
+    versionedId,
+    displayedSidebar,
+    unlistedIds,
+  }: {
+    unversionedId: string;
+    versionedId: string;
+    displayedSidebar: string | null | undefined;
+    unlistedIds: Set<string>;
+  }): SidebarNavigation {
     // TODO legacy id retro-compatibility!
     let docId = unversionedId;
     let sidebarName =
@@ -211,12 +218,28 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     if (!sidebarName) {
       return emptySidebarNavigation();
     }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    let navigationItems = sidebarNameToNavigationItems[sidebarName];
     if (!navigationItems) {
       throw new Error(
         `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
       );
     }
+
+    // Filter unlisted items from navigation
+    navigationItems = navigationItems.filter((item) => {
+      if (item.type === 'doc' && unlistedIds.has(item.id)) {
+        return false;
+      }
+      if (
+        item.type === 'category' &&
+        item.link.type === 'doc' &&
+        unlistedIds.has(item.link.id)
+      ) {
+        return false;
+      }
+      return true;
+    });
+
     const currentItemIndex = navigationItems.findIndex((item) => {
       if (item.type === 'doc') {
         return item.id === docId;

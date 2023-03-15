@@ -62,6 +62,7 @@ export {
   type FrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getTagVisibility,
 } from './tags';
 export {
   parseMarkdownHeadingId,
@@ -103,3 +104,5 @@ export {
   findFolderContainingFile,
   getFolderContainingFile,
 } from './dataFileUtils';
+export {isDraft, isUnlisted} from './contentVisibilityUtils';
+export {escapeRegexp} from './regExpUtils';

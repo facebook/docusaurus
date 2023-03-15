@@ -25,6 +25,7 @@ Available document ids are:
 - customLastUpdate
 - doc with space
 - doc-draft
+- doc-unlisted
 - foo/bar
 - foo/baz
 - headingAsTitle
@@ -40,7 +41,9 @@ Available document ids are:
 - slugs/absoluteSlug
 - slugs/relativeSlug
 - slugs/resolvedSlug
-- slugs/tryToEscapeSlug"
+- slugs/tryToEscapeSlug
+- unlisted-category/unlisted-category-doc
+- unlisted-category/unlisted-category-index"
 `;
 
 exports[`simple website content 1`] = `
@@ -67,13 +70,13 @@ exports[`simple website content 1`] = `
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
-    "permalink": "/docs/category/slugs",
-    "title": "Slugs",
+    "permalink": "/docs/unlisted-category/",
+    "title": "unlisted-category-index",
   },
   "permalink": "/docs/foo/bazSlug.html",
   "previous": {
-    "permalink": "/docs/foo/bar",
-    "title": "Bar",
+    "permalink": "/docs/doc-unlisted",
+    "title": "doc-unlisted",
   },
   "sidebar": "docs",
   "sidebarPosition": undefined,
@@ -91,6 +94,7 @@ exports[`simple website content 1`] = `
     },
   ],
   "title": "baz",
+  "unlisted": false,
   "unversionedId": "foo/baz",
   "version": "current",
 }
@@ -137,6 +141,7 @@ exports[`simple website content 2`] = `
     },
   ],
   "title": "Hello, World !",
+  "unlisted": false,
   "unversionedId": "hello",
   "version": "current",
 }
@@ -168,6 +173,7 @@ exports[`simple website content 3`] = `
   "sourceDirName": "foo",
   "tags": [],
   "title": "Bar",
+  "unlisted": false,
   "unversionedId": "foo/bar",
   "version": "current",
 }
@@ -189,12 +195,32 @@ exports[`simple website content 4`] = `
               "type": "doc",
             },
             {
+              "id": "doc-unlisted",
+              "type": "doc",
+            },
+            {
               "id": "foo/baz",
               "type": "doc",
             },
           ],
           "label": "foo",
           "link": undefined,
+          "type": "category",
+        },
+        {
+          "collapsed": true,
+          "collapsible": true,
+          "items": [
+            {
+              "id": "unlisted-category/unlisted-category-doc",
+              "type": "doc",
+            },
+          ],
+          "label": "Unlisted category",
+          "link": {
+            "id": "unlisted-category/unlisted-category-index",
+            "type": "doc",
+          },
           "type": "category",
         },
         {
@@ -286,6 +312,11 @@ exports[`simple website content 5`] = `
               "sidebar": undefined,
             },
             {
+              "id": "doc-unlisted",
+              "path": "/docs/doc-unlisted",
+              "sidebar": "docs",
+            },
+            {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
               "sidebar": "docs",
@@ -366,6 +397,16 @@ exports[`simple website content 5`] = `
               "sidebar": undefined,
             },
             {
+              "id": "unlisted-category/unlisted-category-doc",
+              "path": "/docs/unlisted-category/unlisted-category-doc",
+              "sidebar": "docs",
+            },
+            {
+              "id": "unlisted-category/unlisted-category-index",
+              "path": "/docs/unlisted-category/",
+              "sidebar": "docs",
+            },
+            {
               "id": "/category/slugs",
               "path": "/docs/category/slugs",
               "sidebar": "docs",
@@ -400,8 +441,8 @@ exports[`simple website content: data 1`] = `
   "permalink": "/docs/category/slugs",
   "navigation": {
     "previous": {
-      "title": "baz pagination_label",
-      "permalink": "/docs/foo/bazSlug.html"
+      "title": "unlisted-category-doc",
+      "permalink": "/docs/unlisted-category/unlisted-category-doc"
     },
     "next": {
       "title": "rootAbsoluteSlug",
@@ -419,6 +460,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/customLastUpdate",
   "permalink": "/docs/customLastUpdate",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -439,10 +481,37 @@ exports[`simple website content: data 1`] = `
   "slug": "/doc-draft",
   "permalink": "/docs/doc-draft",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
     "draft": true
+  }
+}",
+  "site-docs-doc-unlisted-md-80b.json": "{
+  "unversionedId": "doc-unlisted",
+  "id": "doc-unlisted",
+  "title": "doc-unlisted",
+  "description": "This is an unlisted document",
+  "source": "@site/docs/doc-unlisted.md",
+  "sourceDirName": ".",
+  "slug": "/doc-unlisted",
+  "permalink": "/docs/doc-unlisted",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "unlisted": true
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Bar",
+    "permalink": "/docs/foo/bar"
+  },
+  "next": {
+    "title": "baz pagination_label",
+    "permalink": "/docs/foo/bazSlug.html"
   }
 }",
   "site-docs-doc-with-space-md-e90.json": "{
@@ -455,6 +524,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/doc with space",
   "permalink": "/docs/doc with space",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {}
@@ -469,6 +539,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/foo/bar",
   "permalink": "/docs/foo/bar",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -490,6 +561,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/foo/bazSlug.html",
   "permalink": "/docs/foo/bazSlug.html",
   "draft": false,
+  "unlisted": false,
   "tags": [
     {
       "label": "tag 1",
@@ -517,12 +589,12 @@ exports[`simple website content: data 1`] = `
   },
   "sidebar": "docs",
   "previous": {
-    "title": "Bar",
-    "permalink": "/docs/foo/bar"
+    "title": "doc-unlisted",
+    "permalink": "/docs/doc-unlisted"
   },
   "next": {
-    "title": "Slugs",
-    "permalink": "/docs/category/slugs"
+    "title": "unlisted-category-index",
+    "permalink": "/docs/unlisted-category/"
   }
 }",
   "site-docs-heading-as-title-md-c6d.json": "{
@@ -535,6 +607,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/headingAsTitle",
   "permalink": "/docs/headingAsTitle",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {},
@@ -558,6 +631,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/",
   "permalink": "/docs/",
   "draft": false,
+  "unlisted": false,
   "tags": [
     {
       "label": "tag-1",
@@ -595,11 +669,17 @@ exports[`simple website content: data 1`] = `
   "slug": "/ipsum",
   "permalink": "/docs/ipsum",
   "draft": false,
+  "unlisted": false,
   "editUrl": null,
   "tags": [],
   "version": "current",
   "frontMatter": {
-    "custom_edit_url": null
+    "custom_edit_url": null,
+    "pagination_next": "doc-unlisted"
+  },
+  "next": {
+    "title": "doc-unlisted",
+    "permalink": "/docs/doc-unlisted"
   }
 }",
   "site-docs-last-update-author-only-md-352.json": "{
@@ -612,6 +692,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/lastUpdateAuthorOnly",
   "permalink": "/docs/lastUpdateAuthorOnly",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -631,6 +712,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/lastUpdateDateOnly",
   "permalink": "/docs/lastUpdateDateOnly",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -650,6 +732,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/lorem",
   "permalink": "/docs/lorem",
   "draft": false,
+  "unlisted": false,
   "editUrl": "https://github.com/customUrl/docs/lorem.md",
   "tags": [],
   "version": "current",
@@ -668,6 +751,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/rootAbsoluteSlug",
   "permalink": "/docs/rootAbsoluteSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -695,6 +779,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/rootRelativeSlug",
   "permalink": "/docs/rootRelativeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -722,6 +807,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/hey/rootResolvedSlug",
   "permalink": "/docs/hey/rootResolvedSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -749,6 +835,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/rootTryToEscapeSlug",
   "permalink": "/docs/rootTryToEscapeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -776,6 +863,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/absoluteSlug",
   "permalink": "/docs/absoluteSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -792,6 +880,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/slugs/relativeSlug",
   "permalink": "/docs/slugs/relativeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -808,6 +897,7 @@ exports[`simple website content: data 1`] = `
   "slug": "/slugs/hey/resolvedSlug",
   "permalink": "/docs/slugs/hey/resolvedSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -824,10 +914,65 @@ exports[`simple website content: data 1`] = `
   "slug": "/tryToEscapeSlug",
   "permalink": "/docs/tryToEscapeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
     "slug": "../../../../../../../../tryToEscapeSlug"
+  }
+}",
+  "site-docs-unlisted-category-index-md-efa.json": "{
+  "unversionedId": "unlisted-category/unlisted-category-index",
+  "id": "unlisted-category/unlisted-category-index",
+  "title": "unlisted-category-index",
+  "description": "This is an unlisted category index",
+  "source": "@site/docs/unlisted-category/index.md",
+  "sourceDirName": "unlisted-category",
+  "slug": "/unlisted-category/",
+  "permalink": "/docs/unlisted-category/",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "unlisted-category-index",
+    "unlisted": true
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "baz pagination_label",
+    "permalink": "/docs/foo/bazSlug.html"
+  },
+  "next": {
+    "title": "unlisted-category-doc",
+    "permalink": "/docs/unlisted-category/unlisted-category-doc"
+  }
+}",
+  "site-docs-unlisted-category-unlisted-category-doc-md-bd6.json": "{
+  "unversionedId": "unlisted-category/unlisted-category-doc",
+  "id": "unlisted-category/unlisted-category-doc",
+  "title": "unlisted-category-doc",
+  "description": "This is an unlisted category doc",
+  "source": "@site/docs/unlisted-category/unlisted-category-doc.md",
+  "sourceDirName": "unlisted-category",
+  "slug": "/unlisted-category/unlisted-category-doc",
+  "permalink": "/docs/unlisted-category/unlisted-category-doc",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "unlisted-category-doc",
+    "unlisted": true
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "unlisted-category-index",
+    "permalink": "/docs/unlisted-category/"
+  },
+  "next": {
+    "title": "Slugs",
+    "permalink": "/docs/category/slugs"
   }
 }",
   "tag-docs-tags-tag-1-b3f.json": "{
@@ -848,7 +993,8 @@ exports[`simple website content: data 1`] = `
       "description": "Hi, Endilie here :)",
       "permalink": "/docs/"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-tags-tag-2-custom-permalink-825.json": "{
   "label": "tag 2",
@@ -862,7 +1008,8 @@ exports[`simple website content: data 1`] = `
       "description": "Images",
       "permalink": "/docs/foo/bazSlug.html"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-tags-tag-3-ab5.json": "{
   "label": "tag 3",
@@ -876,7 +1023,8 @@ exports[`simple website content: data 1`] = `
       "description": "Hi, Endilie here :)",
       "permalink": "/docs/"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tags-list-current-prop-15a.json": "[
   {
@@ -918,17 +1066,42 @@ exports[`simple website content: data 1`] = `
                 "type": "link",
                 "label": "Bar",
                 "href": "/docs/foo/bar",
-                "docId": "foo/bar"
+                "docId": "foo/bar",
+                "unlisted": false
+              },
+              {
+                "type": "link",
+                "label": "doc-unlisted",
+                "href": "/docs/doc-unlisted",
+                "docId": "doc-unlisted",
+                "unlisted": false
               },
               {
                 "type": "link",
                 "label": "baz",
                 "href": "/docs/foo/bazSlug.html",
-                "docId": "foo/baz"
+                "docId": "foo/baz",
+                "unlisted": false
               }
             ],
             "collapsed": true,
             "collapsible": true
+          },
+          {
+            "type": "category",
+            "label": "Unlisted category",
+            "items": [
+              {
+                "type": "link",
+                "label": "unlisted-category-doc",
+                "href": "/docs/unlisted-category/unlisted-category-doc",
+                "docId": "unlisted-category/unlisted-category-doc",
+                "unlisted": false
+              }
+            ],
+            "collapsed": true,
+            "collapsible": true,
+            "href": "/docs/unlisted-category/"
           },
           {
             "type": "category",
@@ -938,25 +1111,29 @@ exports[`simple website content: data 1`] = `
                 "type": "link",
                 "label": "rootAbsoluteSlug",
                 "href": "/docs/rootAbsoluteSlug",
-                "docId": "rootAbsoluteSlug"
+                "docId": "rootAbsoluteSlug",
+                "unlisted": false
               },
               {
                 "type": "link",
                 "label": "rootRelativeSlug",
                 "href": "/docs/rootRelativeSlug",
-                "docId": "rootRelativeSlug"
+                "docId": "rootRelativeSlug",
+                "unlisted": false
               },
               {
                 "type": "link",
                 "label": "rootResolvedSlug",
                 "href": "/docs/hey/rootResolvedSlug",
-                "docId": "rootResolvedSlug"
+                "docId": "rootResolvedSlug",
+                "unlisted": false
               },
               {
                 "type": "link",
                 "label": "rootTryToEscapeSlug",
                 "href": "/docs/rootTryToEscapeSlug",
-                "docId": "rootTryToEscapeSlug"
+                "docId": "rootTryToEscapeSlug",
+                "unlisted": false
               }
             ],
             "collapsed": true,
@@ -967,7 +1144,8 @@ exports[`simple website content: data 1`] = `
             "type": "link",
             "label": "My heading as title",
             "href": "/docs/headingAsTitle",
-            "docId": "headingAsTitle"
+            "docId": "headingAsTitle",
+            "unlisted": false
           },
           {
             "type": "link",
@@ -978,7 +1156,8 @@ exports[`simple website content: data 1`] = `
             "type": "link",
             "label": "Hello sidebar_label",
             "href": "/docs/",
-            "docId": "hello"
+            "docId": "hello",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -992,7 +1171,8 @@ exports[`simple website content: data 1`] = `
             "type": "link",
             "label": "Hello sidebar_label",
             "href": "/docs/",
-            "docId": "hello"
+            "docId": "hello",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -1015,6 +1195,12 @@ exports[`simple website content: data 1`] = `
       "id": "doc-draft",
       "title": "doc-draft",
       "description": "This is a draft document"
+    },
+    "doc-unlisted": {
+      "id": "doc-unlisted",
+      "title": "doc-unlisted",
+      "description": "This is an unlisted document",
+      "sidebar": "docs"
     },
     "foo/bar": {
       "id": "foo/bar",
@@ -1103,6 +1289,18 @@ exports[`simple website content: data 1`] = `
       "id": "slugs/tryToEscapeSlug",
       "title": "tryToEscapeSlug",
       "description": "Lorem"
+    },
+    "unlisted-category/unlisted-category-doc": {
+      "id": "unlisted-category/unlisted-category-doc",
+      "title": "unlisted-category-doc",
+      "description": "This is an unlisted category doc",
+      "sidebar": "docs"
+    },
+    "unlisted-category/unlisted-category-index": {
+      "id": "unlisted-category/unlisted-category-index",
+      "title": "unlisted-category-index",
+      "description": "This is an unlisted category index",
+      "sidebar": "docs"
     }
   }
 }",
@@ -1132,6 +1330,11 @@ exports[`simple website content: global data 1`] = `
               "id": "doc-draft",
               "path": "/docs/doc-draft",
               "sidebar": undefined,
+            },
+            {
+              "id": "doc-unlisted",
+              "path": "/docs/doc-unlisted",
+              "sidebar": "docs",
             },
             {
               "id": "foo/bar",
@@ -1212,6 +1415,16 @@ exports[`simple website content: global data 1`] = `
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
+            },
+            {
+              "id": "unlisted-category/unlisted-category-doc",
+              "path": "/docs/unlisted-category/unlisted-category-doc",
+              "sidebar": "docs",
+            },
+            {
+              "id": "unlisted-category/unlisted-category-index",
+              "path": "/docs/unlisted-category/",
+              "sidebar": "docs",
             },
             {
               "id": "/category/slugs",
@@ -1347,6 +1560,15 @@ exports[`simple website content: route config 1`] = `
                 "component": "@theme/DocItem",
                 "exact": true,
                 "modules": {
+                  "content": "@site/docs/doc-unlisted.md",
+                },
+                "path": "/docs/doc-unlisted",
+                "sidebar": "docs",
+              },
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
                   "content": "@site/docs/foo/bar.md",
                 },
                 "path": "/docs/foo/bar",
@@ -1461,6 +1683,24 @@ exports[`simple website content: route config 1`] = `
                   "content": "@site/docs/slugs/tryToEscapeSlug.md",
                 },
                 "path": "/docs/tryToEscapeSlug",
+              },
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
+                  "content": "@site/docs/unlisted-category/index.md",
+                },
+                "path": "/docs/unlisted-category/",
+                "sidebar": "docs",
+              },
+              {
+                "component": "@theme/DocItem",
+                "exact": true,
+                "modules": {
+                  "content": "@site/docs/unlisted-category/unlisted-category-doc.md",
+                },
+                "path": "/docs/unlisted-category/unlisted-category-doc",
+                "sidebar": "docs",
               },
             ],
           },
@@ -1787,6 +2027,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": ".",
   "tags": [],
   "title": "Getting Started",
+  "unlisted": false,
   "unversionedId": "getting-started",
   "version": "current",
 }
@@ -1818,6 +2059,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": ".",
   "tags": [],
   "title": "Installation",
+  "unlisted": false,
   "unversionedId": "installation",
   "version": "current",
 }
@@ -1852,6 +2094,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "Guides",
   "tags": [],
   "title": "Guide 1",
+  "unlisted": false,
   "unversionedId": "Guides/guide1",
   "version": "current",
 }
@@ -1885,6 +2128,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "Guides",
   "tags": [],
   "title": "Guide 2",
+  "unlisted": false,
   "unversionedId": "Guides/guide2",
   "version": "current",
 }
@@ -1919,6 +2163,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "Guides",
   "tags": [],
   "title": "Guide 2.5",
+  "unlisted": false,
   "unversionedId": "Guides/guide2.5",
   "version": "current",
 }
@@ -1953,6 +2198,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "Guides",
   "tags": [],
   "title": "Guide 3",
+  "unlisted": false,
   "unversionedId": "Guides/guide3",
   "version": "current",
 }
@@ -1986,6 +2232,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "Guides",
   "tags": [],
   "title": "Guide 4",
+  "unlisted": false,
   "unversionedId": "Guides/guide4",
   "version": "current",
 }
@@ -2019,6 +2266,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "Guides",
   "tags": [],
   "title": "Guide 5",
+  "unlisted": false,
   "unversionedId": "Guides/guide5",
   "version": "current",
 }
@@ -2050,6 +2298,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "3-API",
   "tags": [],
   "title": "API Overview",
+  "unlisted": false,
   "unversionedId": "API/api-overview",
   "version": "current",
 }
@@ -2081,6 +2330,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "3-API/01_Core APIs",
   "tags": [],
   "title": "Client API",
+  "unlisted": false,
   "unversionedId": "API/Core APIs/Client API",
   "version": "current",
 }
@@ -2112,6 +2362,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "3-API/01_Core APIs",
   "tags": [],
   "title": "Server API",
+  "unlisted": false,
   "unversionedId": "API/Core APIs/Server API",
   "version": "current",
 }
@@ -2143,6 +2394,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "3-API/02_Extension APIs",
   "tags": [],
   "title": "Plugin API",
+  "unlisted": false,
   "unversionedId": "API/Extension APIs/Plugin API",
   "version": "current",
 }
@@ -2174,6 +2426,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "3-API/02_Extension APIs",
   "tags": [],
   "title": "Theme API",
+  "unlisted": false,
   "unversionedId": "API/Extension APIs/Theme API",
   "version": "current",
 }
@@ -2202,6 +2455,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
   "sourceDirName": "3-API",
   "tags": [],
   "title": "API End",
+  "unlisted": false,
   "unversionedId": "API/api-end",
   "version": "current",
 }
@@ -2382,6 +2636,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "sourceDirName": "3-API",
   "tags": [],
   "title": "API End",
+  "unlisted": false,
   "unversionedId": "API/api-end",
   "version": "current",
 }
@@ -2413,6 +2668,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "sourceDirName": "3-API",
   "tags": [],
   "title": "API Overview",
+  "unlisted": false,
   "unversionedId": "API/api-overview",
   "version": "current",
 }
@@ -2444,6 +2700,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "sourceDirName": "3-API/02_Extension APIs",
   "tags": [],
   "title": "Plugin API",
+  "unlisted": false,
   "unversionedId": "API/Extension APIs/Plugin API",
   "version": "current",
 }
@@ -2472,6 +2729,7 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
   "sourceDirName": "3-API/02_Extension APIs",
   "tags": [],
   "title": "Theme API",
+  "unlisted": false,
   "unversionedId": "API/Extension APIs/Theme API",
   "version": "current",
 }
@@ -2531,6 +2789,7 @@ exports[`versioned website (community) content 1`] = `
   "sourceDirName": ".",
   "tags": [],
   "title": "Team title translated",
+  "unlisted": false,
   "unversionedId": "team",
   "version": "current",
 }
@@ -2556,6 +2815,7 @@ exports[`versioned website (community) content 2`] = `
   "sourceDirName": ".",
   "tags": [],
   "title": "team",
+  "unlisted": false,
   "unversionedId": "team",
   "version": "1.0.0",
 }
@@ -2595,6 +2855,7 @@ exports[`versioned website (community) content: data 1`] = `
   "slug": "/team",
   "permalink": "/community/team",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "1.0.0",
   "frontMatter": {},
@@ -2610,6 +2871,7 @@ exports[`versioned website (community) content: data 1`] = `
   "slug": "/team",
   "permalink": "/community/next/team",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -2632,7 +2894,8 @@ exports[`versioned website (community) content: data 1`] = `
         "type": "link",
         "label": "team",
         "href": "/community/team",
-        "docId": "team"
+        "docId": "team",
+        "unlisted": false
       }
     ]
   },
@@ -2660,7 +2923,8 @@ exports[`versioned website (community) content: data 1`] = `
         "type": "link",
         "label": "Team title translated",
         "href": "/community/next/team",
-        "docId": "team"
+        "docId": "team",
+        "unlisted": false
       }
     ]
   },
@@ -2860,6 +3124,7 @@ exports[`versioned website content 1`] = `
     },
   ],
   "title": "bar",
+  "unlisted": false,
   "unversionedId": "foo/bar",
   "version": "current",
 }
@@ -2888,6 +3153,7 @@ exports[`versioned website content 2`] = `
   "sourceDirName": "foo",
   "tags": [],
   "title": "bar",
+  "unlisted": false,
   "unversionedId": "foo/bar",
   "version": "1.0.1",
 }
@@ -2918,6 +3184,7 @@ exports[`versioned website content 3`] = `
   "sourceDirName": ".",
   "tags": [],
   "title": "hello",
+  "unlisted": false,
   "unversionedId": "hello",
   "version": "current",
 }
@@ -2948,6 +3215,7 @@ exports[`versioned website content 4`] = `
   "sourceDirName": ".",
   "tags": [],
   "title": "hello",
+  "unlisted": false,
   "unversionedId": "hello",
   "version": "1.0.1",
 }
@@ -2979,6 +3247,7 @@ exports[`versioned website content 5`] = `
   "sourceDirName": "foo",
   "tags": [],
   "title": "baz",
+  "unlisted": false,
   "unversionedId": "foo/baz",
   "version": "1.0.0",
 }
@@ -3099,6 +3368,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/foo/barSlug",
   "permalink": "/docs/next/foo/barSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [
     {
       "label": "barTag 1",
@@ -3141,6 +3411,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/",
   "permalink": "/docs/next/",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -3162,6 +3433,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/absoluteSlug",
   "permalink": "/docs/next/absoluteSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -3178,6 +3450,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/slugs/relativeSlug",
   "permalink": "/docs/next/slugs/relativeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -3194,6 +3467,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/slugs/hey/resolvedSlug",
   "permalink": "/docs/next/slugs/hey/resolvedSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -3210,6 +3484,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/tryToEscapeSlug",
   "permalink": "/docs/next/tryToEscapeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "current",
   "frontMatter": {
@@ -3226,6 +3501,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/",
   "permalink": "/docs/1.0.0/",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "1.0.0",
   "frontMatter": {
@@ -3247,6 +3523,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/foo/barSlug",
   "permalink": "/docs/1.0.0/foo/barSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "1.0.0",
   "frontMatter": {
@@ -3268,6 +3545,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/foo/baz",
   "permalink": "/docs/1.0.0/foo/baz",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "1.0.0",
   "frontMatter": {},
@@ -3291,6 +3569,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/foo/bar",
   "permalink": "/docs/foo/bar",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "1.0.1",
   "frontMatter": {},
@@ -3310,6 +3589,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/",
   "permalink": "/docs/",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "1.0.1",
   "frontMatter": {
@@ -3331,6 +3611,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/rootAbsoluteSlug",
   "permalink": "/docs/withSlugs/rootAbsoluteSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3348,6 +3629,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/rootRelativeSlug",
   "permalink": "/docs/withSlugs/rootRelativeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3364,6 +3646,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/hey/rootResolvedSlug",
   "permalink": "/docs/withSlugs/hey/rootResolvedSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3380,6 +3663,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/rootTryToEscapeSlug",
   "permalink": "/docs/withSlugs/rootTryToEscapeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3396,6 +3680,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/absoluteSlug",
   "permalink": "/docs/withSlugs/absoluteSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3412,6 +3697,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/slugs/relativeSlug",
   "permalink": "/docs/withSlugs/slugs/relativeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3428,6 +3714,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/slugs/hey/resolvedSlug",
   "permalink": "/docs/withSlugs/slugs/hey/resolvedSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3444,6 +3731,7 @@ exports[`versioned website content: data 1`] = `
   "slug": "/tryToEscapeSlug",
   "permalink": "/docs/withSlugs/tryToEscapeSlug",
   "draft": false,
+  "unlisted": false,
   "tags": [],
   "version": "withSlugs",
   "frontMatter": {
@@ -3462,7 +3750,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-next-tags-bar-tag-2-216.json": "{
   "label": "barTag-2",
@@ -3476,7 +3765,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tag-docs-next-tags-bar-tag-3-permalink-94a.json": "{
   "label": "barTag 3",
@@ -3490,7 +3780,8 @@ exports[`versioned website content: data 1`] = `
       "description": "This is next version of bar.",
       "permalink": "/docs/next/foo/barSlug"
     }
-  ]
+  ],
+  "unlisted": false
 }",
   "tags-list-current-prop-15a.json": "[
   {
@@ -3528,13 +3819,15 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "bar",
             "href": "/docs/1.0.0/foo/barSlug",
-            "docId": "foo/bar"
+            "docId": "foo/bar",
+            "unlisted": false
           },
           {
             "type": "link",
             "label": "baz",
             "href": "/docs/1.0.0/foo/baz",
-            "docId": "foo/baz"
+            "docId": "foo/baz",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -3548,7 +3841,8 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "hello",
             "href": "/docs/1.0.0/",
-            "docId": "hello"
+            "docId": "hello",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -3596,7 +3890,8 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "bar",
             "href": "/docs/foo/bar",
-            "docId": "foo/bar"
+            "docId": "foo/bar",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -3610,7 +3905,8 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "hello",
             "href": "/docs/",
-            "docId": "hello"
+            "docId": "hello",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -3652,7 +3948,8 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "bar",
             "href": "/docs/next/foo/barSlug",
-            "docId": "foo/bar"
+            "docId": "foo/bar",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -3666,7 +3963,8 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "hello",
             "href": "/docs/next/",
-            "docId": "hello"
+            "docId": "hello",
+            "unlisted": false
           }
         ],
         "collapsed": true,
@@ -3728,7 +4026,8 @@ exports[`versioned website content: data 1`] = `
             "type": "link",
             "label": "rootAbsoluteSlug",
             "href": "/docs/withSlugs/rootAbsoluteSlug",
-            "docId": "rootAbsoluteSlug"
+            "docId": "rootAbsoluteSlug",
+            "unlisted": false
           }
         ],
         "collapsed": true,

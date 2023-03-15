@@ -13,9 +13,8 @@ import {
   useHomePageRoute,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import {translate} from '@docusaurus/Translate';
-import IconHome from '@theme/Icon/Home';
+import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 
 import styles from './styles.module.css';
 
@@ -79,24 +78,6 @@ function BreadcrumbsItem({
   );
 }
 
-function HomeBreadcrumbItem() {
-  const homeHref = useBaseUrl('/');
-  return (
-    <li className="breadcrumbs__item">
-      <Link
-        aria-label={translate({
-          id: 'theme.docs.breadcrumbs.home',
-          message: 'Home page',
-          description: 'The ARIA label for the home page in the breadcrumbs',
-        })}
-        className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
-        href={homeHref}>
-        <IconHome className={styles.breadcrumbHomeIcon} />
-      </Link>
-    </li>
-  );
-}
-
 export default function DocBreadcrumbs(): JSX.Element | null {
   const breadcrumbs = useSidebarBreadcrumbs();
   const homePageRoute = useHomePageRoute();
@@ -123,13 +104,17 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         {homePageRoute && <HomeBreadcrumbItem />}
         {breadcrumbs.map((item, idx) => {
           const isLast = idx === breadcrumbs.length - 1;
+          const href =
+            item.type === 'category' && item.linkUnlisted
+              ? undefined
+              : item.href;
           return (
             <BreadcrumbsItem
               key={idx}
               active={isLast}
               index={idx}
-              addMicrodata={!!item.href}>
-              <BreadcrumbsItemLink href={item.href} isLast={isLast}>
+              addMicrodata={!!href}>
+              <BreadcrumbsItemLink href={href} isLast={isLast}>
                 {item.label}
               </BreadcrumbsItemLink>
             </BreadcrumbsItem>

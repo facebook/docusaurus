@@ -8,6 +8,7 @@
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "دسته‌بندی برچسب '{label}' در نوار کناری را تغییر دهید ",
   "theme.ErrorPageContent.title": "بارگذاری صفحه با خطا روبرو شد.",
   "theme.ErrorPageContent.tryAgain": "تلاش مجدد",
+  "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "صفحه‌ای که دنبال آن بودید پیدا نشد.",
   "theme.NotFound.p2": "لطفا با صاحب وبسایت تماس بگیرید و ایشان را از مشکل پیش آمده مطلع کنید.",
   "theme.NotFound.title": "صفحه ای که دنبال آن بودید پیدا نشد.",
@@ -35,7 +36,7 @@
   "theme.colorToggle.ariaLabel.mode.dark": "حالت تیره",
   "theme.colorToggle.ariaLabel.mode.light": "حالت روشن",
   "theme.common.editThisPage": "ویرایش مطالب این صفحه",
-  "theme.common.headingLinkTitle": "لینک مستقیم به عنوان",
+  "theme.common.headingLinkTitle": "لینک مستقیم به {heading}",
   "theme.common.skipToMainContent": "پرش به مطلب اصلی",
   "theme.docs.DocCard.categoryDescription": "{count} مورد",
   "theme.docs.breadcrumbs.home": "صفحه اصلی",
@@ -48,6 +49,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "بستن نوار کناری",
   "theme.docs.sidebar.expandButtonAriaLabel": "باز کردن نوار کناری",
   "theme.docs.sidebar.expandButtonTitle": "باز کردن نوار کناری",
+  "theme.docs.sidebar.navAriaLabel": "Docs sidebar",
   "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Toggle navigation bar",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} با \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "یک مطلب برچسب شده|{count} مطلب برچسب شده",
@@ -64,5 +66,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "نسخه‌ها",
   "theme.tags.tagsListLabel": "برچسب‌ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب‌ها",
-  "theme.tags.tagsPageTitle": "برچسب‌ها"
+  "theme.tags.tagsPageTitle": "برچسب‌ها",
+  "theme.unlistedContent.message": "این صفحه فهرست نشده است. موتورهای جستجو آن را ایندکس نمی کنند و فقط کاربرانی که لینک مستقیم دارند می توانند به آن دسترسی داشته باشند.",
+  "theme.unlistedContent.title": "صفحه فهرست نشده"
 }

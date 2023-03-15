@@ -129,6 +129,54 @@ Some **content** with _Markdown_ `syntax`.
 </BrowserWindow>
 ```
 
+## Nested admonitions {#nested-admonitions}
+
+Admonitions can be nested. Use more colons `:` for each parent admonition level.
+
+```md
+:::::info Parent
+
+Parent content
+
+::::danger Child
+
+Child content
+
+:::tip Deep Child
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::::info Parent
+
+Parent content
+
+::::danger Child
+
+Child content
+
+:::tip Deep Child
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+
+</BrowserWindow>
+```
+
 ## Admonitions with MDX {#admonitions-with-mdx}
 
 You can use MDX inside admonitions too!
@@ -211,7 +259,7 @@ There are two kinds of customizations possible with admonitions: **parsing** and
 
 ### Customizing rendering behavior {#customizing-rendering-behavior}
 
-You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.md). You can often achieve your goal through a simple wrapper. For example, in the follow example, we swap out the icon for `info` admonitions only.
+You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.mdx). You can often achieve your goal through a simple wrapper. For example, in the follow example, we swap out the icon for `info` admonitions only.
 
 ```jsx title="src/theme/Admonition.js"
 import React from 'react';
@@ -263,7 +311,7 @@ By default, the theme doesn't know what do to with custom admonition keywords su
 
 If you registered a new admonition type `my-custom-admonition` via the following config:
 
-````js title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -282,6 +330,7 @@ module.exports = {
     ],
   ],
 };
+```
 
 You can provide the corresponding React component for `:::my-custom-admonition` by creating the following file (unfortunately, since it's not a React component file, it's not swizzlable):
 
@@ -307,7 +356,7 @@ const AdmonitionTypes = {
 };
 
 export default AdmonitionTypes;
-````
+```
 
 Now you can use your new admonition keyword in a Markdown file, and it will be parsed and rendered with your custom logic:
 

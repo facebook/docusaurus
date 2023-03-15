@@ -11,6 +11,7 @@
 import React from 'react';
 import Head from '@docusaurus/Head';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import {getErrorCausalChain} from '@docusaurus/utils-common';
 import Layout from '@theme/Layout';
 import type {Props} from '@theme/Error';
 
@@ -21,18 +22,36 @@ function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        height: '50vh',
+        alignItems: 'flex-start',
+        minHeight: '100vh',
         width: '100%',
+        maxWidth: '80ch',
         fontSize: '20px',
+        margin: '0 auto',
+        padding: '1rem',
       }}>
-      <h1>This page crashed.</h1>
-      <p>{error.message}</p>
-      <button type="button" onClick={tryAgain}>
+      <h1 style={{fontSize: '3rem'}}>This page crashed</h1>
+      <button
+        type="button"
+        onClick={tryAgain}
+        style={{
+          margin: '1rem 0',
+          fontSize: '2rem',
+          cursor: 'pointer',
+          borderRadius: 20,
+          padding: '1rem',
+        }}>
         Try again
       </button>
+      <ErrorBoundaryError error={error} />
     </div>
   );
+}
+
+function ErrorBoundaryError({error}: {error: Error}): JSX.Element {
+  const causalChain = getErrorCausalChain(error);
+  const fullMessage = causalChain.map((e) => e.message).join('\n\nCause:\n');
+  return <p style={{whiteSpace: 'pre-wrap'}}>{fullMessage}</p>;
 }
 
 export default function Error({error, tryAgain}: Props): JSX.Element {

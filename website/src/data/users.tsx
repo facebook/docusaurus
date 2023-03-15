@@ -199,10 +199,10 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
-    title: 'blog.johnnyreilly.com',
-    description: 'The blog of johnnyreilly',
+    title: 'johnnyreilly.com',
+    description: 'The blog of John Reilly ❤️🌻',
     preview: require('./showcase/johnnyreilly.png'),
-    website: 'https://blog.johnnyreilly.com/',
+    website: 'https://johnnyreilly.com/',
     source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
     tags: ['opensource', 'personal', 'large'],
   },
@@ -2269,7 +2269,7 @@ const Users: User[] = [
     description:
       'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
     preview: require('./showcase/tooljet.png'),
-    website: 'https://docs.tooljet.com/docs/intro/',
+    website: 'https://docs.tooljet.com/docs/',
     source: 'https://github.com/ToolJet/ToolJet/tree/develop/docs',
     tags: ['opensource', 'design', 'large', 'product'],
   },
