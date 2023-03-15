@@ -61,10 +61,7 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   description?: string;
 };
 
-export type SidebarItemCategoryLinkDoc = {
-  type: 'doc';
-  id: string;
-};
+export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
 
 export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   type: 'generated-index';
@@ -74,7 +71,6 @@ export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   image?: string;
   keywords?: string | readonly string[];
 };
-
 export type SidebarItemCategoryLinkGeneratedIndex = {
   type: 'generated-index';
   slug: string;
