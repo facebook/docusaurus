@@ -85,6 +85,7 @@ type SidebarItemLink = {
   label: string;
   href: string;
   className?: string;
+  description?: string;
 };
 ```
 
@@ -173,6 +174,7 @@ type SidebarItemCategory = {
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
   className?: string;
+  description?: string;
 
   // Category options:
   collapsible: boolean; // Set the category to be collapsible
