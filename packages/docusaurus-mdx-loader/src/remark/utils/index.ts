@@ -8,6 +8,8 @@
 import escapeHtml from 'escape-html';
 import type {Parent} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxAttributeValueExpression} from 'mdast-util-mdx';
 
 export function stringifyContent(
   node: Parent,
@@ -49,7 +51,7 @@ export function toValue(
 export function assetRequireAttributeValue(
   requireString: string,
   hash: string,
-) {
+): MdxJsxAttributeValueExpression {
   return {
     type: 'mdxJsxAttributeValueExpression',
     value: `require("${requireString}").default${hash && ` + '${hash}'`}`,

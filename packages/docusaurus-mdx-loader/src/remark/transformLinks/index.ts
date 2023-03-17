@@ -20,6 +20,8 @@ import escapeHtml from 'escape-html';
 import {assetRequireAttributeValue} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';
 
@@ -48,13 +50,8 @@ async function toAssetRequireNode(
 ) {
   const {toString} = await import('mdast-util-to-string');
 
-  const jsxNode = node as unknown as {
-    type: string;
-    name: string;
-    attributes: any[];
-    children: any[];
-  };
-  const attributes = [];
+  const jsxNode = node as unknown as MdxJsxTextElement;
+  const attributes: MdxJsxTextElement['attributes'] = [];
 
   // require("assets/file.pdf") means requiring from a package called assets
   const relativeAssetPath = `./${posixPath(
