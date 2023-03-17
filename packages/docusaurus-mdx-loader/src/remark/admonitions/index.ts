@@ -29,7 +29,7 @@ export const DefaultAdmonitionOptions: AdmonitionOptions = {
     'important',
     'caution',
   ],
-  extendDefaults: false, // TODO make it true by default: breaking change
+  extendDefaults: true,
 };
 
 export function normalizeAdmonitionOptions(

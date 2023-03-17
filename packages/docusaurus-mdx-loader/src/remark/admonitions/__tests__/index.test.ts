@@ -57,7 +57,7 @@ describe('admonitions remark plugin', () => {
   it('default behavior for custom keyword', async () => {
     const result = await processFixture('base', {
       keywords: ['tip'],
-      // extendDefaults: false, // By default we don't extend
+      extendDefaults: undefined, // By default we extend
     });
     expect(result).toMatchSnapshot();
   });
