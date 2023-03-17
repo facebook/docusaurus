@@ -23,6 +23,8 @@ import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Image} from 'mdast';
 import type {Parent} from 'unist';
 
@@ -46,13 +48,10 @@ async function toImageRequireNode(
   imagePath: string,
   filePath: string,
 ) {
-  const jsxNode = node as unknown as {
-    type: string;
-    name: string;
-    attributes: any[];
-    children: any[];
-  };
-  const attributes = [];
+  // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
+  const jsxNode = node as unknown as MdxJsxTextElement;
+  const attributes: MdxJsxTextElement['attributes'] = [];
+
   let relativeImagePath = posixPath(
     path.relative(path.dirname(filePath), imagePath),
   );
@@ -115,7 +114,7 @@ ${(err as Error).message}`;
     (key) => delete jsxNode[key as keyof typeof jsxNode],
   );
 
-  jsxNode.type = 'mdxJsxFlowElement';
+  jsxNode.type = 'mdxJsxTextElement';
   jsxNode.name = 'img';
   jsxNode.attributes = attributes;
   jsxNode.children = [];
