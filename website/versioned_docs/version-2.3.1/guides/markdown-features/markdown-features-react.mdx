@@ -152,16 +152,16 @@ For example, given this MDX file:
 - a
 - list!
 
-And some <highlight>custom markup</highlight>...
+And some <Highlight>custom markup</Highlight>...
 ```
 
-It will be compiled to a React component containing `ul`, `li`, `p`, and `highlight` tags. Now, you can optionally provide your own implementation for any of these tags in the form of React components. (`highlight` isn't even an intrinsic element: it needs an implementation!)
+It will be compiled to a React component containing `ul`, `li`, `p`, and `Highlight` elements. `Highlight` is not a native html element: you need to provide your own React component implementation for it.
 
-In Docusaurus, this MDX component scope is provided by the `@theme/MDXComponents` component. It's not a React component, _per se_, unlike most other exports under the `@theme/` alias: it is a record from tag names like `ul` and `img` to their custom implementations.
+In Docusaurus, the MDX component scope is provided by the `@theme/MDXComponents` file. It's not a React component, _per se_, unlike most other exports under the `@theme/` alias: it is a record from tag names like `Highlight` to their React component implementations.
 
-If you [swizzle](../../swizzling.mdx) this component, you will find all tags that have been re-implemented, and you can further customize our implementation by swizzling the respective sub-component, like `@theme/MDXComponents/Head` (which is used to implement the [`<head>`](./markdown-features-head-metadata.mdx) feature).
+If you [swizzle](../../swizzling.mdx) this component, you will find all tags that have been implemented, and you can further customize our implementation by swizzling the respective sub-component, like `@theme/MDXComponents/Code` (which is used to render [Markdown code blocks](./markdown-features-code-blocks.mdx)).
 
-If you want to register extra tag names (like the `<highlight>` tag above), you should consider [wrapping `@theme/MDXComponents`](../../swizzling.mdx#wrapping), so you don't have to maintain all the existing mappings. Since the swizzle CLI doesn't allow wrapping non-component files yet, you should manually create the wrapper:
+If you want to register extra tag names (like the `<Highlight>` tag above), you should consider [wrapping `@theme/MDXComponents`](../../swizzling.mdx#wrapping), so you don't have to maintain all the existing mappings. Since the swizzle CLI doesn't allow wrapping non-component files yet, you should manually create the wrapper:
 
 ```js title="src/theme/MDXComponents.js"
 import React from 'react';
@@ -173,30 +173,32 @@ import Highlight from '@site/src/components/Highlight';
 export default {
   // Re-use the default mapping
   ...MDXComponents,
-  // Map the "highlight" tag to our <Highlight /> component!
-  // `Highlight` will receive all props that were passed to `highlight` in MDX
+  // Map the "<Highlight>" tag to our Highlight component
+  // `Highlight` will receive all props that were passed to `<Highlight>` in MDX
   // highlight-next-line
-  highlight: Highlight,
+  Highlight,
 };
 ```
 
-And now, you can freely use `<highlight>` in every page, without writing the import statement:
+And now, you can freely use `<Highlight>` in every page, without writing the import statement:
 
 ```md
-I can conveniently use <highlight color="#25c2a0">Docusaurus green</highlight> everywhere!
+I can conveniently use <Highlight color="#25c2a0">Docusaurus green</Highlight> everywhere!
 ```
 
 ```mdx-code-block
 <BrowserWindow>
 
-I can conveniently use <highlight color="#25c2a0">Docusaurus green</highlight> everywhere!
+I can conveniently use <Highlight color="#25c2a0">Docusaurus green</Highlight> everywhere!
 
 </BrowserWindow>
 ```
 
-:::info
+:::warning
 
-We use lower-case tag names like `highlight` to "pretend" that they are intrinsic elements, but you can use capitalized ones like `Highlight` as well.
+We use **upper-case** tag names like `Highlight` on purpose.
+
+From MDX v2+ onward (Docusaurus v3+), lower-case tag names are always rendered as native html elements, and will not use any component mapping you provide.
 
 :::
 
