@@ -1086,6 +1086,25 @@ describe('unwrapMdxCodeBlocks', () => {
     `);
   });
 
+  it('cant unwrap a nested mdx code block', () => {
+    const markdown = dedent`
+        # Title
+
+        \`\`\`\`mdx-code-block
+
+        some content
+
+        \`\`\`js
+        export const age = 36
+        \`\`\`
+
+        \`\`\`\`
+
+        text
+    `;
+    expect(unwrapMdxCodeBlocks(markdown)).toEqual(markdown);
+  });
+
   it('works for realistic example', () => {
     expect(
       unwrapMdxCodeBlocks(dedent`

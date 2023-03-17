@@ -54,12 +54,11 @@ export function escapeMarkdownHeadingIds(content: string): string {
   );
 }
 
-// TODO support other levels?
 export function unwrapMdxCodeBlocks(content: string): string {
-  const regexp3 =
+  // We only support triple backticks on purpose
+  // This is an escape hatch and shouldn't be used in a nested way
+  const regexp =
     /(?<begin>^|\n)```mdx-code-block\n(?<children>.*?)\n```(?<end>\n|$)/gs;
-  const regexp4 =
-    /(?<begin>^|\n)````mdx-code-block\n(?<children>.*?)\n````(?<end>\n|$)/gs;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const replacer = (substring: string, ...args: any[]) => {
@@ -67,7 +66,7 @@ export function unwrapMdxCodeBlocks(content: string): string {
     return `${groups.begin}${groups.children}${groups.end}`;
   };
 
-  return content.replaceAll(regexp3, replacer).replaceAll(regexp4, replacer);
+  return content.replaceAll(regexp, replacer);
 }
 
 /**
