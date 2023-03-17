@@ -98,7 +98,7 @@ async function toAssetRequireNode(
     (key) => delete jsxNode[key as keyof typeof jsxNode],
   );
 
-  jsxNode.type = 'mdxJsxFlowElement';
+  jsxNode.type = 'mdxJsxTextElement';
   jsxNode.name = 'a';
   jsxNode.attributes = attributes;
   jsxNode.children = children;
