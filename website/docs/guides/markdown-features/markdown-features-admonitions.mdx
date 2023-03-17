@@ -309,7 +309,6 @@ module.exports = {
       {
         docs: {
           admonitions: {
-            tag: ':::',
             keywords: ['note', 'tip', 'info', 'caution', 'danger'],
             extendDefaults: true,
           },
@@ -322,7 +321,6 @@ module.exports = {
 
 The plugin accepts the following options:
 
-- `tag`: The tag that encloses the admonition. Defaults to `:::`.
 - `keywords`: An array of keywords that can be used as the type for the admonition.
 - `extendDefaults`: Should the provided options (such as `keywords`) be merged into the existing defaults. Defaults to `true`.
 
@@ -344,7 +342,6 @@ module.exports = {
         // ...
         docs: {
           admonitions: {
-            tag: ':::',
             keywords: ['my-custom-admonition'],
             extendDefaults: true,
           },
