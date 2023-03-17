@@ -10,6 +10,8 @@ import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Plugin} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxFlowElement, MdxJsxAttribute} from 'mdast-util-mdx';
 import type {Node, Parent} from 'unist';
 
 type KnownConverter = 'yarn' | 'pnpm';
@@ -23,6 +25,17 @@ type PluginOptions = {
   converters?: Converter[];
 };
 
+function createAttribute(
+  attributeName: string,
+  attributeValue: MdxJsxAttribute['value'],
+): MdxJsxAttribute {
+  return {
+    type: 'mdxJsxAttribute',
+    name: attributeName,
+    value: attributeValue,
+  };
+}
+
 function createTabItem({
   code,
   node,
@@ -33,22 +46,14 @@ function createTabItem({
   node: Code;
   value: string;
   label?: string;
-}) {
+}): MdxJsxFlowElement {
   return {
     type: 'mdxJsxFlowElement',
     name: 'TabItem',
     attributes: [
-      {
-        type: 'mdxJsxAttribute',
-        name: 'value',
-        value,
-      },
-      label && {
-        type: 'mdxJsxAttribute',
-        name: 'label',
-        value: label,
-      },
-    ].filter(Boolean),
+      createAttribute('value', value),
+      label && createAttribute('label', label),
+    ].filter((attr): attr is MdxJsxAttribute => Boolean(attr)),
     children: [
       {
         type: node.type,
