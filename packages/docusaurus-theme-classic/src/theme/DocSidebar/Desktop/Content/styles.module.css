@@ -18,6 +18,6 @@
   }
 
   .menuWithAnnouncementBar {
-    margin-bottom: var(--docusaurus-announcement-bar-height);
+    margin-bottom: var(--docusaurus-announcement-bar-height-calculated, 0);
   }
 }
