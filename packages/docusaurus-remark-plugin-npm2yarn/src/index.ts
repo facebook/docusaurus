@@ -165,7 +165,7 @@ function createImportNode() {
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false, converters = ['yarn', 'pnpm']} = options;
-  return (root, p) => {
+  return (root) => {
     let transformed = false;
     let alreadyImported = false;
 

@@ -10,7 +10,6 @@ import type {Transformer, Processor, Plugin} from 'unified';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {ContainerDirective} from 'mdast-util-directive';
-import type {Node} from 'unist';
 import type {Parent} from 'mdast';
 
 // TODO not ideal option shape

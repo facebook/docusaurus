@@ -113,5 +113,7 @@ describe('npm2yarn plugin', () => {
     const result = await processFixture('plugin', {
       converters: [['Turbo', (code) => code.replace(/npm/g, 'turbo')]],
     });
+
+    expect(result).toMatchSnapshot();
   });
 });

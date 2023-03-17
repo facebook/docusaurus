@@ -45,7 +45,7 @@ export function parseMarkdownHeadingId(heading: string): {
  */
 export function escapeMarkdownHeadingIds(content: string): string {
   const markdownHeadingRegexp = /(?:^|\n)#{1,6}(?!#).*/g;
-  return content.replaceAll(markdownHeadingRegexp, (substring, ...args) =>
+  return content.replaceAll(markdownHeadingRegexp, (substring) =>
     // TODO probably not the most efficient impl...
     substring
       .replace('{#', '\\{#')

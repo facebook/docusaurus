@@ -44,7 +44,7 @@ type Context = PluginOptions & {
 type Target = [node: Image, index: number, parent: Parent];
 
 async function toImageRequireNode(
-  [node, index, parent]: Target,
+  [node]: Target,
   imagePath: string,
   filePath: string,
 ) {

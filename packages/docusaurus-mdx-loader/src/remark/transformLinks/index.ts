@@ -44,12 +44,10 @@ type Target = [node: Link, index: number, parent: Parent];
  * Transforms the link node to a JSX `<a>` element with a `require()` call.
  */
 async function toAssetRequireNode(
-  [node, index, parent]: Target,
+  [node]: Target,
   assetPath: string,
   filePath: string,
 ) {
-  const {toString} = await import('mdast-util-to-string');
-
   // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
   const jsxNode = node as unknown as MdxJsxTextElement;
   const attributes: MdxJsxTextElement['attributes'] = [];

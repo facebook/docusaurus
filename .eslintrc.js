@@ -372,8 +372,7 @@ module.exports = {
     // We don't provide any escape hatches for this rule. Rest siblings and
     // function placeholder params are always ignored, and any other unused
     // locals must be justified with a disable comment.
-    // TODO revert to error + add varsIgnorePattern _ prefix
-    '@typescript-eslint/no-unused-vars': [WARNING, {ignoreRestSiblings: true}],
+    '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-html-links': ERROR,
     '@docusaurus/prefer-docusaurus-heading': ERROR,
