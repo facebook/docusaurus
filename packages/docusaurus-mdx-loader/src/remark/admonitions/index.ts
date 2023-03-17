@@ -12,18 +12,12 @@ import type {Transformer, Processor, Plugin} from 'unified';
 import type {ContainerDirective} from 'mdast-util-directive';
 import type {Parent} from 'mdast';
 
-// TODO not ideal option shape
-// First let upgrade to MDX 2.0
-// Maybe we'll want to provide different tags for different admonition types?
-// Also maybe rename "keywords" to "types"?
 export type AdmonitionOptions = {
-  tag: string; // TODO remove this config option, now unused with md directives
   keywords: string[];
   extendDefaults: boolean;
 };
 
 export const DefaultAdmonitionOptions: AdmonitionOptions = {
-  tag: ':::', // TODO remove this, breaking change
   keywords: [
     'secondary',
     'info',
@@ -59,75 +53,6 @@ export function normalizeAdmonitionOptions(
   return options;
 }
 
-/*
-const isMdxEsmLiteral = (node: Node): node is Literal =>
-  node.type === 'mdxjsEsm';
-// TODO good-enough approximation, but not 100% accurate
-const isAdmonitionImport = (node: Node): boolean =>
-  isMdxEsmLiteral(node) && node.value.includes('@theme/Admonition');
-
-function createImportNode() {
-  return {
-    type: 'mdxjsEsm',
-    value: "import Admonition from '@theme/Admonition'",
-    data: {
-      estree: {
-        type: 'Program',
-        body: [
-          {
-            type: 'ImportDeclaration',
-            specifiers: [
-              {
-                type: 'ImportDefaultSpecifier',
-                local: {type: 'Identifier', name: 'Admonition'},
-              },
-            ],
-            source: {
-              type: 'Literal',
-              value: '@theme/Admonition',
-              raw: "'@theme/Admonition'",
-            },
-          },
-        ],
-        sourceType: 'module',
-      },
-    },
-  };
-}
-
-function createAdmonitionNode({
-  directive,
-  title,
-  contentNodes,
-}: {
-  directive: ContainerDirective;
-  title: unknown;
-  contentNodes: unknown;
-}) {
-  return {
-    type: 'mdxJsxFlowElement',
-    name: 'Admonition',
-    attributes: [
-      {
-        type: 'mdxJsxAttribute',
-        name: 'type',
-        value: directive.name,
-      },
-      {
-        type: 'mdxJsxAttribute',
-        name: 'title',
-        value: {
-          type: 'mdxJsxAttributeValueExpression',
-          // TODO this is the complex part I couldn't solve  :/
-          value: mdastToValueExpression(title),
-        },
-      },
-    ],
-    children: contentNodes,
-  };
-}
- */
-
 type DirectiveLabel = Parent;
 type DirectiveContent = ContainerDirective['children'];
 
@@ -154,10 +79,6 @@ function getTextOnlyTitle(directiveLabel: DirectiveLabel): string | undefined {
     : undefined;
 }
 
-// This string value does not matter much
-// It is ignored because nodes are using hName/hProperties coming from HAST
-// const admonitionNodeType = 'admonitionHTML';
-
 const plugin: Plugin = function plugin(
   this: Processor,
   optionsInput: Partial<AdmonitionOptions> = {},
@@ -165,24 +86,8 @@ const plugin: Plugin = function plugin(
   const {keywords} = normalizeAdmonitionOptions(optionsInput);
 
   return async (root) => {
-    /*
-    let transformed = false;
-    let alreadyImported = false;
-     */
-
     visit(root, (node) => {
-      /*
-      if (isAdmonitionImport(node)) {
-        alreadyImported = true;
-      }
-       */
-
-      // See also:
-      // https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
-      // https://github.com/remarkjs/remark-directive
       if (node.type === 'containerDirective') {
-        // transformed = true;
-
         const directive = node as ContainerDirective;
         const isAdmonition = keywords.includes(directive.name);
 
@@ -191,17 +96,6 @@ const plugin: Plugin = function plugin(
         }
 
         const {directiveLabel, contentNodes} = parseDirective(directive);
-
-        /*
-        // :::tip{title="my title} overrides :::tip[my title]
-        const title = directive.attributes?.title ?? directiveLabel?.children;
-        const admonitionNode = createAdmonitionNode({
-          directive,
-          title,
-          contentNodes,
-        });
-        parent!.children.splice(index, 1, admonitionNode);
-         */
 
         const textOnlyTitle =
           directive.attributes?.title ??
@@ -237,12 +131,6 @@ const plugin: Plugin = function plugin(
         }
       }
     });
-
-    /*
-    if (transformed && !alreadyImported) {
-      (root as Parent).children.unshift(createImportNode());
-    }
-     */
   };
 };
 
