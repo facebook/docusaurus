@@ -58,5 +58,7 @@ const supportedPrefetchStrategy = supports('prefetch')
   : xhrPrefetchStrategy;
 
 export default function prefetch(url: string): Promise<void> {
-  return supportedPrefetchStrategy(url).catch(() => {}); // 404s are logged to the console anyway.
+  return supportedPrefetchStrategy(url).catch((error) => {
+    console.error(`Error while prefetching ${url}:`, error);
+  });
 }
