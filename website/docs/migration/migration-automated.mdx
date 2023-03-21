@@ -38,10 +38,10 @@ npx @docusaurus/migrate migrate ./v1-website ./v2-website
 
 3. To view your new website locally, go into your v2 website's directory and start your development server.
 
-```bash
+```bash npm2yarn
 cd ./v2-website
-yarn install
-yarn start
+npm install
+npm start
 ```
 
 :::danger

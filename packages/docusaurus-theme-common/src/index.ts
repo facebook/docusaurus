@@ -73,6 +73,11 @@ export {
   type TagLetterEntry,
 } from './utils/tagsUtils';
 
+export {
+  useSearchQueryString,
+  useSearchLinkCreator,
+} from './hooks/useSearchPage';
+
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
@@ -96,4 +101,8 @@ export {
   UnlistedMetadata,
 } from './utils/unlistedUtils';
 
-export {ErrorBoundaryTryAgainButton} from './utils/errorBoundaryUtils';
+export {
+  ErrorBoundaryTryAgainButton,
+  ErrorBoundaryError,
+  ErrorCauseBoundary,
+} from './utils/errorBoundaryUtils';

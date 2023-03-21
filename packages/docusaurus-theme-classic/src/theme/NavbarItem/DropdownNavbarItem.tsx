@@ -54,7 +54,9 @@ function DropdownNavbarItemDesktop({
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+    const handleClickOutside = (
+      event: MouseEvent | TouchEvent | FocusEvent,
+    ) => {
       if (
         !dropdownRef.current ||
         dropdownRef.current.contains(event.target as Node)
@@ -66,10 +68,12 @@ function DropdownNavbarItemDesktop({
 
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('touchstart', handleClickOutside);
+    document.addEventListener('focusin', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('focusin', handleClickOutside);
     };
   }, [dropdownRef]);
 
@@ -100,22 +104,6 @@ function DropdownNavbarItemDesktop({
         {items.map((childItemProps, i) => (
           <NavbarItem
             isDropdownItem
-            onKeyDown={(e) => {
-              if (i === items.length - 1 && e.key === 'Tab') {
-                e.preventDefault();
-                setShowDropdown(false);
-                const nextNavbarItem = dropdownRef.current!.nextElementSibling;
-                if (nextNavbarItem) {
-                  const targetItem =
-                    nextNavbarItem instanceof HTMLAnchorElement
-                      ? nextNavbarItem
-                      : // Next item is another dropdown; focus on the inner
-                        // anchor element instead so there's outline
-                        nextNavbarItem.querySelector('a')!;
-                  targetItem.focus();
-                }
-              }
-            }}
             activeClassName="dropdown__link--active"
             {...childItemProps}
             key={i}

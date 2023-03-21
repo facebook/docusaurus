@@ -7,7 +7,10 @@
 
 import React from 'react';
 import Translate from '@docusaurus/Translate';
-import {ErrorBoundaryTryAgainButton} from '@docusaurus/theme-common';
+import {
+  ErrorBoundaryError,
+  ErrorBoundaryTryAgainButton,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Error';
 import Heading from '@theme/Heading';
 
@@ -26,9 +29,15 @@ export default function ErrorPageContent({
               This page crashed.
             </Translate>
           </Heading>
-          <p>{error.message}</p>
-          <div>
-            <ErrorBoundaryTryAgainButton onClick={tryAgain} />
+          <div className="margin-vert--lg">
+            <ErrorBoundaryTryAgainButton
+              onClick={tryAgain}
+              className="button button--primary shadow--lw"
+            />
+          </div>
+          <hr />
+          <div className="margin-vert--md">
+            <ErrorBoundaryError error={error} />
           </div>
         </div>
       </div>

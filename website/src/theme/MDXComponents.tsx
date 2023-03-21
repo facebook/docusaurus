@@ -11,6 +11,6 @@ import TweetQuote from '@site/src/components/TweetQuote';
 
 export default {
   ...MDXComponents,
-  highlight: Highlight,
+  Highlight,
   TweetQuote,
 };

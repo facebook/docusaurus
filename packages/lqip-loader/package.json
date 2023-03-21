@@ -21,13 +21,13 @@
     "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
     "sharp": "^0.31.3",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   },
   "engines": {
     "node": ">=16.14"
   },
   "devDependencies": {
     "@types/file-loader": "^5.0.1",
-    "@types/sharp": "^0.30.5"
+    "@types/sharp": "^0.31.1"
   }
 }

@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.20.7",
-    "@babel/traverse": "^7.20.12",
+    "@babel/parser": "^7.21.2",
+    "@babel/traverse": "^7.21.2",
     "@docusaurus/logger": "^3.0.0-alpha.0",
     "@docusaurus/utils": "^3.0.0-alpha.0",
     "@mdx-js/mdx": "^1.6.22",
@@ -30,11 +30,11 @@
     "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.2.0",
     "stringify-object": "^3.3.0",
-    "tslib": "^2.4.1",
+    "tslib": "^2.5.0",
     "unified": "^9.2.2",
     "unist-util-visit": "^2.0.3",
     "url-loader": "^4.1.1",
-    "webpack": "^5.75.0"
+    "webpack": "^5.76.0"
   },
   "devDependencies": {
     "@docusaurus/types": "^3.0.0-alpha.0",

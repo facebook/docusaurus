@@ -15,7 +15,12 @@ import type {Props} from '@theme/ColorModeToggle';
 
 import styles from './styles.module.css';
 
-function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
+function ColorModeToggle({
+  className,
+  buttonClassName,
+  value,
+  onChange,
+}: Props): JSX.Element {
   const isBrowser = useIsBrowser();
 
   const title = translate(
@@ -47,6 +52,7 @@ function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
           'clean-btn',
           styles.toggleButton,
           !isBrowser && styles.toggleButtonDisabled,
+          buttonClassName,
         )}
         type="button"
         onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}
