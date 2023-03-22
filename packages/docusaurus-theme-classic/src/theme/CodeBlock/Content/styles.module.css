@@ -84,3 +84,7 @@
 :global(.theme-code-block:hover) .buttonGroup button {
   opacity: 0.4;
 }
+
+.buttonBlockSpace {
+  right: calc(var(--ifm-pre-padding) / 2) !important;
+}
