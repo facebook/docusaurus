@@ -94,7 +94,7 @@ export default function CodeBlockString({
             </pre>
           )}
         </Highlight>
-        <div className={`${styles.buttonGroup} ${styles.buttonBlockSpace}`}>
+        <div className={styles.buttonGroup}>
           {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
             <WordWrapButton
               className={styles.codeButton}
