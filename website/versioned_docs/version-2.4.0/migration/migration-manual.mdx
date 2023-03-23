@@ -622,13 +622,13 @@ my-project
 
 Start the development server and fix any errors:
 
-```bash
+```bash npm2yarn
 cd website
-yarn start
+npm start
 ```
 
 You can also try to build the site for production:
 
-```bash
-yarn build
+```bash npm2yarn
+npm run build
 ```
