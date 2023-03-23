@@ -15,9 +15,18 @@ export default function IframeWindow({url}: {url: string}): JSX.Element {
     <div style={{padding: 10}}>
       <BrowserWindow
         url={url}
-        style={{minWidth: '40vw', maxWidth: 400}}
+        style={{
+          minWidth: 'min(100%,45vw)',
+          width: 800,
+          maxWidth: '100%',
+          overflow: 'hidden',
+        }}
         bodyStyle={{padding: 0}}>
-        <iframe src={url} title={url} style={{width: '100%', height: 300}} />
+        <iframe
+          src={url}
+          title={url}
+          style={{display: 'block', width: '100%', height: 300}}
+        />
       </BrowserWindow>
     </div>
   );
