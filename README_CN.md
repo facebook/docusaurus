@@ -75,7 +75,7 @@ pnpm create docusaurus
 ```bash
 npx create-docusaurus@latest my-website classic --typescript
 ```
-运行 <code>npx create-docusaurus@latest --help</code>，或者查看 <a href="./api/misc/create-docusaurus.mdx">API 文档</a> 以了解更多可用选项。
+运行 <code>npx create-docusaurus@latest --help</code>，或者查看 <a href="https://docusaurus.io/zh-CN/docs/docusaurus-core">API 文档</a> 以了解更多可用选项。
 
 [查看安装文档](https://docusaurus.io/docs/installation) 可以了解更详细的安装步骤。
 
