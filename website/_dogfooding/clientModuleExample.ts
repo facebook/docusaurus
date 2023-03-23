@@ -8,6 +8,10 @@
 import siteConfig from '@generated/docusaurus.config';
 import type {Location} from 'history';
 
+// To avoid the multiple time console.log we can use console.log = function() {};
+
+console.log = function () {}; // want to print console.log just remove the function and check
+
 function logPage(
   event: string,
   location: Location,
