@@ -71,8 +71,8 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
+            type: 'docSidebar',
+            sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Tutorial',
           },
