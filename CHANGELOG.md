@@ -1,5 +1,69 @@
 # Docusaurus 2 Changelog
 
+## 2.4.0 (2023-03-23)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#8236](https://github.com/facebook/docusaurus/pull/8236) feat(content-docs): add support for sidebar item category/link descriptions in generated index page ([@ZarakiKanzaki](https://github.com/ZarakiKanzaki))
+- `docusaurus-theme-classic`
+  - [#8708](https://github.com/facebook/docusaurus/pull/8708) feat(theme): allow to load a Docusaurus page with theme from query-string: ?docusaurus-theme=dark ([@slorber](https://github.com/slorber))
+  - [#8616](https://github.com/facebook/docusaurus/pull/8616) feat(theme): add ability to translate navbar+footer logo alt text ([@Mysterious-Dev](https://github.com/Mysterious-Dev))
+- `docusaurus-remark-plugin-npm2yarn`
+  - [#8690](https://github.com/facebook/docusaurus/pull/8690) feat(npm-to-yarn): add support for PnPm and custom converters ([@armano2](https://github.com/armano2))
+- `docusaurus`
+  - [#8677](https://github.com/facebook/docusaurus/pull/8677) feat(core): add script env variables: NODE_ENV + BABEL_ENV + DOCUSAURUS_CURRENT_LOCALE (temporary i18n workaround) ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#8674](https://github.com/facebook/docusaurus/pull/8674) feat(theme-classic): respect `prefers-reduced-motion: reduce` mediaquery, bump Infima to alpha.43 ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#8668](https://github.com/facebook/docusaurus/pull/8668) feat(theme-translations): add Hungarian theme translations ([@trueqap](https://github.com/trueqap))
+  - [#8631](https://github.com/facebook/docusaurus/pull/8631) feat(theme-translations): add Norwegian (Bokmål) theme translation ([@dr0nn1](https://github.com/dr0nn1))
+- `docusaurus-theme-common`
+  - [#8656](https://github.com/facebook/docusaurus/pull/8656) feat(theme-common): allow passing a string for details summary ([@pReya](https://github.com/pReya))
+- `docusaurus-plugin-google-gtag`
+  - [#8620](https://github.com/facebook/docusaurus/pull/8620) feat(gtag-plugin): gtag should support multiple tracking ids, notably for the UA => GA4 transition ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#8803](https://github.com/facebook/docusaurus/pull/8803) fix(theme): codeblock buttons should be kept on the right when using RTL locale ([@Vishruta-Patil](https://github.com/Vishruta-Patil))
+  - [#8615](https://github.com/facebook/docusaurus/pull/8615) fix(theme): improve color toggle when using dark navbar ([@dewanshDT](https://github.com/dewanshDT))
+  - [#8699](https://github.com/facebook/docusaurus/pull/8699) fix(theme-classic): fix tab focus bug in dropdown (#8697) ([@kagankan](https://github.com/kagankan))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#8801](https://github.com/facebook/docusaurus/pull/8801) fix(theme): allow tabs children to be falsy ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-theme-common`, `docusaurus-theme-search-algolia`
+  - [#8757](https://github.com/facebook/docusaurus/pull/8757) fix(search): search page should react to querystring changes + cleanup/refactor ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#8746](https://github.com/facebook/docusaurus/pull/8746) fix(core): baseUrl error banner link anchor case ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#8744](https://github.com/facebook/docusaurus/pull/8744) fix(theme-translations): fix wrong arabic words (tip/next) ([@Anasqx](https://github.com/Anasqx))
+
+#### :nail_care: Polish
+
+- `create-docusaurus`
+  - [#8712](https://github.com/facebook/docusaurus/pull/8712) polish(create-docusaurus): the starter template should use a navbar item "docSidebar" instead of "doc" (less fragile on updates) ([@biplavmz](https://github.com/biplavmz))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-common`, `docusaurus`
+  - [#8735](https://github.com/facebook/docusaurus/pull/8735) polish(theme): better error messages on navbar item rendering failures + ErrorCauseBoundary API ([@tannerdolby](https://github.com/tannerdolby))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus`
+  - [#8736](https://github.com/facebook/docusaurus/pull/8736) polish(core): better styling for error screens ([@tannerdolby](https://github.com/tannerdolby))
+
+#### Committers: 14
+
+- Anas ([@Anasqx](https://github.com/Anasqx))
+- Armano ([@armano2](https://github.com/armano2))
+- Davide Donadio ([@ZarakiKanzaki](https://github.com/ZarakiKanzaki))
+- Dewansh Thakur ([@dewanshDT](https://github.com/dewanshDT))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Kagan ([@kagankan](https://github.com/kagankan))
+- Moritz Stückler ([@pReya](https://github.com/pReya))
+- Mysterious_Dev ([@Mysterious-Dev](https://github.com/Mysterious-Dev))
+- Petter Drønnen ([@dr0nn1](https://github.com/dr0nn1))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tanner Dolby ([@tannerdolby](https://github.com/tannerdolby))
+- TrueQAP ([@trueqap](https://github.com/trueqap))
+- Vishruta Patil ([@Vishruta-Patil](https://github.com/Vishruta-Patil))
+- [@biplavmz](https://github.com/biplavmz)
+
 ## 2.3.1 (2023-02-03)
 
 #### :bug: Bug Fix
