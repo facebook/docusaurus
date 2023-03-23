@@ -66,7 +66,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "Verzije",
   "theme.tags.tagsListLabel": "Oznake:",
   "theme.tags.tagsPageLink": "Poglej vse oznake",
-  "theme.tags.tagsPageTitle": "Oznake",
-  "theme.unlistedContent.message": "Ta stran ni zabeležena. Iskalniki je ne bodo indeksirali, do nje bodo uporabniki lahko dostopali le z direktno povezavo.",
-  "theme.unlistedContent.title": "Nezabeležena stran"
+  "theme.tags.tagsPageTitle": "Oznake"
 }
