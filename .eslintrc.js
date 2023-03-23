@@ -381,6 +381,7 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-html-links': ERROR,
     '@docusaurus/prefer-docusaurus-heading': ERROR,
+    '@docusaurus/prefer-ideal-image': ERROR,
     '@docusaurus/no-untranslated-text': [
       WARNING,
       {
@@ -508,6 +509,15 @@ module.exports = {
       ],
       rules: {
         '@docusaurus/prefer-docusaurus-heading': OFF,
+      },
+    },
+    {
+      files: [
+        'packages/docusaurus-plugin-debug/**',
+        'packages/docusaurus/src/**',
+      ],
+      rules: {
+        '@docusaurus/prefer-ideal-image': OFF,
       },
     },
   ],
