@@ -39,10 +39,13 @@ export async function start(
   siteDirParam: string = '.',
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
+  // Temporary workaround to unlock the ability to translate the site config
+  // We'll remove it if a better official API can be designed
+  // See https://github.com/facebook/docusaurus/issues/4542
+  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
+
   const siteDir = await fs.realpath(siteDirParam);
 
-  process.env.NODE_ENV = 'development';
-  process.env.BABEL_ENV = 'development';
   logger.info('Starting the development server...');
 
   function loadSite() {
