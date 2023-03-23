@@ -93,4 +93,5 @@ export {
 export {
   ErrorBoundaryTryAgainButton,
   ErrorBoundaryError,
+  ErrorCauseBoundary,
 } from './utils/errorBoundaryUtils';

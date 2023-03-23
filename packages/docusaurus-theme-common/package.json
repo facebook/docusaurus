@@ -36,6 +36,7 @@
     "@docusaurus/plugin-content-docs": "2.3.1",
     "@docusaurus/plugin-content-pages": "2.3.1",
     "@docusaurus/utils": "2.3.1",
+    "@docusaurus/utils-common": "2.3.1",
     "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",
