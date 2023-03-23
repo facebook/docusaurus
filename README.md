@@ -25,6 +25,10 @@
 
 > Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io) and code is available on branch [docusaurus-v1](https://github.com/facebook/docusaurus/tree/docusaurus-v1)
 
+<p align="center">
+    <br> English | <a href="README_CN.md">中文</a>
+</p>
+
 ## Introduction
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
