@@ -86,9 +86,9 @@ npx create-docusaurus@latest my-website classic --typescript
 
 我们发布了 `Docusaurus`，因为它可以帮助我们更好地扩展并支持 _Facebook_ 的许多 _OSS_ 项目。希望其他组织能够从该项目中受益。感谢社区的每一个贡献。
 
-### [编码规范](https://code.fb.com/codeofconduct)
+### [行为准则](https://code.fb.com/codeofconduct)
 
-Facebook 已采用《编码规范》_Code of Conduct_，我们希望项目参与者遵守该准则。请阅读[全文](https://code.fb.com/codeofconduct)，以便您了解哪些行为将被容忍，哪些行为不会被容忍。
+Facebook 已采用《行为准则》_Code of Conduct_，我们希望项目参与者遵守该准则。请阅读[全文](https://code.fb.com/codeofconduct)，以便您了解哪些行为将被容忍，哪些行为不会被容忍。
 
 ### 贡献指南
 
