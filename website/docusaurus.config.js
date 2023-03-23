@@ -357,6 +357,7 @@ const config = {
             }
             return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
+          remarkPlugins: [npm2yarn],
           postsPerPage: 5,
           feedOptions: {
             type: 'all',
