@@ -227,6 +227,8 @@ palenight
 paletton
 palo
 paraiso
+parameterize
+parameterizes
 pathinfo
 pathnames
 paularmstrong
