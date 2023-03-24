@@ -6,6 +6,7 @@ exports[`npm2yarn plugin does not re-import tabs components when already importe
 import TabItem from '@theme/TabItem';
 
 <Tabs>
+
 <TabItem value="npm">
 
 \`\`\`bash
@@ -13,19 +14,30 @@ import TabItem from '@theme/TabItem';
 \`\`\`
 
 </TabItem>
+
 <TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
-  $ yarn add --global docusaurus
+  $ yarn global add docusaurus
 \`\`\`
 
 </TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+  $ pnpm add --global docusaurus
+\`\`\`
+
+</TabItem>
+
 </Tabs>
 "
 `;
 
 exports[`npm2yarn plugin does not re-import tabs components when already imported below 1`] = `
 "<Tabs>
+
 <TabItem value="npm">
 
 \`\`\`bash
@@ -33,13 +45,23 @@ exports[`npm2yarn plugin does not re-import tabs components when already importe
 \`\`\`
 
 </TabItem>
+
 <TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
-  $ yarn add --global docusaurus
+  $ yarn global add docusaurus
 \`\`\`
 
 </TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+  $ pnpm add --global docusaurus
+\`\`\`
+
+</TabItem>
+
 </Tabs>
 
 import Tabs from '@theme/Tabs';
@@ -63,11 +85,102 @@ npm install --save docusaurus-plugin-name
 "
 `;
 
+exports[`npm2yarn plugin work with custom converter 1`] = `
+"import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Installing a plugin
+
+A plugin is usually a npm package, so you install them like other npm packages using npm.
+
+<Tabs>
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm install --save docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+<TabItem value="Turbo">
+
+\`\`\`bash
+turbo install --save docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+"
+`;
+
+exports[`npm2yarn plugin work with pnpm converter 1`] = `
+"import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Installing a plugin
+
+A plugin is usually a npm package, so you install them like other npm packages using npm.
+
+<Tabs>
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm install --save docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm add docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+"
+`;
+
+exports[`npm2yarn plugin work with yarn converter 1`] = `
+"import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Installing a plugin
+
+A plugin is usually a npm package, so you install them like other npm packages using npm.
+
+<Tabs>
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm install --save docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+<TabItem value="yarn" label="Yarn">
+
+\`\`\`bash
+yarn add docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+"
+`;
+
 exports[`npm2yarn plugin works on installation file 1`] = `
 "import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs>
+
 <TabItem value="npm">
 
 \`\`\`bash
@@ -75,13 +188,23 @@ import TabItem from '@theme/TabItem';
 \`\`\`
 
 </TabItem>
+
 <TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
-  $ yarn add --global docusaurus
+  $ yarn global add docusaurus
 \`\`\`
 
 </TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+  $ pnpm add --global docusaurus
+\`\`\`
+
+</TabItem>
+
 </Tabs>
 "
 `;
@@ -95,6 +218,7 @@ import TabItem from '@theme/TabItem';
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
 <Tabs>
+
 <TabItem value="npm">
 
 \`\`\`bash
@@ -102,6 +226,7 @@ npm install --save docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
+
 <TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
@@ -109,6 +234,136 @@ yarn add docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm add docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+"
+`;
+
+exports[`npm2yarn plugin works with common commands 1`] = `
+"import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs groupId="npm2yarn">
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm run xxx -- --arg
+\`\`\`
+
+</TabItem>
+
+<TabItem value="yarn" label="Yarn">
+
+\`\`\`bash
+yarn xxx --arg
+\`\`\`
+
+</TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm run xxx -- --arg
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+
+<Tabs groupId="npm2yarn">
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm install package
+\`\`\`
+
+</TabItem>
+
+<TabItem value="yarn" label="Yarn">
+
+\`\`\`bash
+yarn add package
+\`\`\`
+
+</TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm add package
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+
+<Tabs groupId="npm2yarn">
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm remove package-name
+\`\`\`
+
+</TabItem>
+
+<TabItem value="yarn" label="Yarn">
+
+\`\`\`bash
+yarn remove package-name
+\`\`\`
+
+</TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm remove package-name
+\`\`\`
+
+</TabItem>
+
+</Tabs>
+
+<Tabs groupId="npm2yarn">
+
+<TabItem value="npm">
+
+\`\`\`bash
+npm init docusaurus
+npm init docusaurus@latest my-website classic
+\`\`\`
+
+</TabItem>
+
+<TabItem value="yarn" label="Yarn">
+
+\`\`\`bash
+yarn create docusaurus
+yarn create docusaurus@latest my-website classic
+\`\`\`
+
+</TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm create docusaurus
+pnpm create docusaurus@latest my-website classic
+\`\`\`
+
+</TabItem>
+
 </Tabs>
 "
 `;
@@ -122,6 +377,7 @@ import TabItem from '@theme/TabItem';
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
 <Tabs groupId="npm2yarn">
+
 <TabItem value="npm">
 
 \`\`\`bash
@@ -129,6 +385,7 @@ npm install --save docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
+
 <TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
@@ -136,6 +393,15 @@ yarn add docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
+
+<TabItem value="pnpm" label="pnpm">
+
+\`\`\`bash
+pnpm add docusaurus-plugin-name
+\`\`\`
+
+</TabItem>
+
 </Tabs>
 "
 `;

@@ -21,11 +21,9 @@ import {
   HtmlClassNameProvider,
   useEvent,
   usePluralForm,
+  useSearchQueryString,
 } from '@docusaurus/theme-common';
-import {
-  useSearchPage,
-  useTitleFormatter,
-} from '@docusaurus/theme-common/internal';
+import {useTitleFormatter} from '@docusaurus/theme-common/internal';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
@@ -167,7 +165,7 @@ function SearchPageContent(): JSX.Element {
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchQuery, setSearchQuery} = useSearchPage();
+  const [searchQuery, setSearchQuery] = useSearchQueryString();
   const initialSearchResultState: ResultDispatcherState = {
     items: [],
     query: null,

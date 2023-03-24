@@ -194,6 +194,11 @@ Details without a summary
 
 </details>
 
+import Details from '@theme/Details';
+
+<Details summary={'My Headline'}>Some Text</Details>
+<Details>Some Text</Details>
+
 This is a fragment:
 
 <>Hello</>

@@ -5,22 +5,37 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi} from '@docusaurus/utils-validation';
-import type {
-  LoadContext,
-  Plugin,
-  OptionValidationContext,
-  ThemeConfig,
-  ThemeConfigValidationContext,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
+
+function createConfigSnippet({
+  trackingID,
+  anonymizeIP,
+}: {
+  trackingID: string;
+  anonymizeIP: boolean;
+}): string {
+  return `gtag('config', '${trackingID}', { ${
+    anonymizeIP ? "'anonymize_ip': true" : ''
+  } });`;
+}
+
+function createConfigSnippets({
+  trackingID: trackingIDArray,
+  anonymizeIP,
+}: PluginOptions): string {
+  return trackingIDArray
+    .map((trackingID) => createConfigSnippet({trackingID, anonymizeIP}))
+    .join('\n');
+}
 
 export default function pluginGoogleGtag(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin {
-  const {anonymizeIP, trackingID} = options;
   const isProd = process.env.NODE_ENV === 'production';
+
+  const firstTrackingId = options.trackingID[0];
 
   return {
     name: 'docusaurus-plugin-google-gtag',
@@ -60,7 +75,11 @@ export default function pluginGoogleGtag(
             tagName: 'script',
             attributes: {
               async: true,
-              src: `https://www.googletagmanager.com/gtag/js?id=${trackingID}`,
+              // We only include the first tracking id here because google says
+              // we shouldn't install multiple tags/scripts on the same page
+              // Instead we should load one script and use n * gtag("config",id)
+              // See https://developers.google.com/tag-platform/gtagjs/install#add-products
+              src: `https://www.googletagmanager.com/gtag/js?id=${firstTrackingId}`,
             },
           },
           {
@@ -69,9 +88,8 @@ export default function pluginGoogleGtag(
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${trackingID}', { ${
-              anonymizeIP ? "'anonymize_ip': true" : ''
-            } });`,
+              ${createConfigSnippets(options)};
+              `,
           },
         ],
       };
@@ -79,27 +97,6 @@ export default function pluginGoogleGtag(
   };
 }
 
-const pluginOptionsSchema = Joi.object<PluginOptions>({
-  trackingID: Joi.string().required(),
-  anonymizeIP: Joi.boolean().default(false),
-});
-
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
-  return validate(pluginOptionsSchema, options);
-}
-
-export function validateThemeConfig({
-  themeConfig,
-}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
-  if ('gtag' in themeConfig) {
-    throw new Error(
-      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at https://github.com/facebook/docusaurus/pull/5832.',
-    );
-  }
-  return themeConfig;
-}
+export {validateThemeConfig, validateOptions} from './options';
 
 export type {PluginOptions, Options};

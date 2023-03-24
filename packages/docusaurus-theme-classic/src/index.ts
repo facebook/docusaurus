@@ -26,6 +26,8 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
+const ThemeQueryStringKey = 'docusaurus-theme';
+
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
@@ -39,6 +41,14 @@ const noFlashColorMode = ({
     document.documentElement.setAttribute('data-theme', theme);
   }
 
+  function getQueryStringTheme() {
+    var theme = null;
+    try {
+      theme = new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
+    } catch(e) {}
+    return theme;
+  }
+
   function getStoredTheme() {
     var theme = null;
     try {
@@ -47,9 +57,9 @@ const noFlashColorMode = ({
     return theme;
   }
 
-  var storedTheme = getStoredTheme();
-  if (storedTheme !== null) {
-    setDataThemeAttribute(storedTheme);
+  var initialTheme = getQueryStringTheme() || getStoredTheme();
+  if (initialTheme !== null) {
+    setDataThemeAttribute(initialTheme);
   } else {
     if (
       respectPrefersColorScheme &&

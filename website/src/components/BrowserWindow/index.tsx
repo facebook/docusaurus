@@ -5,24 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import React, {type CSSProperties, type ReactNode} from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
 interface Props {
   children: ReactNode;
-  minHeight: number;
+  minHeight?: number;
   url: string;
+  style?: CSSProperties;
+  bodyStyle?: CSSProperties;
 }
 
 export default function BrowserWindow({
   children,
   minHeight,
   url = 'http://localhost:3000',
+  style,
+  bodyStyle,
 }: Props): JSX.Element {
   return (
-    <div className={styles.browserWindow} style={{minHeight}}>
+    <div className={styles.browserWindow} style={{...style, minHeight}}>
       <div className={styles.browserWindowHeader}>
         <div className={styles.buttons}>
           <span className={styles.dot} style={{background: '#f25f58'}} />
@@ -41,7 +45,9 @@ export default function BrowserWindow({
         </div>
       </div>
 
-      <div className={styles.browserWindowBody}>{children}</div>
+      <div className={styles.browserWindowBody} style={bodyStyle}>
+        {children}
+      </div>
     </div>
   );
 }
