@@ -6,42 +6,40 @@ slug: /docs-multi-instance
 
 # Docs Multi-instance
 
-The `@docusaurus/plugin-content-docs` plugin supports [multi-instance](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids). The multi-instance feature allows a site to server 2 or more distinct sets of documentation from the same Docusaurus source.
+The `@docusaurus/plugin-content-docs` plugin supports [multi-instance](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids). The multi-instance feature allows a site to serve 2 or more distinct sets of documentation from the same Docusaurus source.
 
 :::note
 
-If you only want multiple sidebars, use the sidebar plugin instead. See [Using multiple sidebars](./sidebar/multiple-sidebars.mdx) for how to do this.
+If you only want multiple sidebars, use a `sidebar` plugin instead. See [Using multiple sidebars](./sidebar/multiple-sidebars.mdx) for how to do this.
 
 :::
 
 ## Use-cases {#use-cases}
 
-There are 2 common use cases for the multi-instance feature.
+There are 2 everyday use cases for the multi-instance feature.
 
 ### Large, distinct documentation sets {#mobile-sdks-documentation}
 
-Your use case requires that your site to host 2 or more large documentation sets. For example, if you need to support a cross-platform mobile SDK, you may have 2 large documentation sets, such as:
+Your use case requires that your site serve 2 or more large documentation sets. For example, if you need to support a cross-platform mobile SDK, you may have 2 large documentation sets, such as:
 
 - Android SDK documentation
 - iOS SDK documentation
 
-With large documentation sets, it does not make sense to rebuild the set that did not change. This is because rebuilding typically requires additional resources to verify and stage the build output.
+With large documentation sets, rebuilding can often require additional work to verify and stage the set that did not change.
 
 ### Versioned and unversioned doc {#versioned-and-unversioned-doc}
 
-Sometimes, you want to version some content and not the other. For example, product documentation may be versioned with each release, while general topics such as  "where to get support" are not versioned.
+Sometimes, you want to version some content and not the other. For example, product documentation may be versioned with each release, while general topics such as  "where to get support" are not. The Docusaurus website itself has this exact use case:
 
-- The [/docs/\*](/docs) content is versioned
-- The [/community/\*](/community/support) content is unversioned
+- The `docs` content is versioned
+- The `community` content is unversioned
 
-The Docusaurus website itself uses this pattern.
-
-Of course, with 2 products, you may have different release lifecycles or versioning for each product.  To use the previous large documentation example:
+Similarly, with 2 products, you may have different release lifecycles or versioning for each product.  To use the previous large documentation example:
 
 - Android SDK documentation (`v1.0`, `v1.1`)
 - iOS SDK documentation (`v1.0`, `v2.0`)
 
-In both use cases, you can use a distinct docs plugin instance per mobile SDK documentation.
+For both use cases, you can use docs plugin instance for each content set. Using the use case examples, docs one plugin for `docs` and one for `community` or one plugin for Android and one for iOS mobile SDK documentation.
 
 ## Setup {#setup}
 
