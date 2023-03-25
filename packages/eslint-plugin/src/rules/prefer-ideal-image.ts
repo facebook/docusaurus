@@ -35,7 +35,10 @@ export default createRule<Options, MessageIds>({
       JSXOpeningElement(node) {
         const elementName = (node.name as TSESTree.JSXIdentifier).name;
 
-        console.log(elementName);
+        if (elementName !== 'img') {
+          return;
+        }
+
         context.report({node, messageId: 'image'});
       },
     };
