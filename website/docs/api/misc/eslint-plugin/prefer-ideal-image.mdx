@@ -1,0 +1,46 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/prefer-ideal-image
+---
+
+# prefer-ideal-image
+
+Ensure that the `<IdealImage />` component provided by [`@theme/IdealImage`](../../plugins/plugin-ideal-image.mdx) Docusaurus plugin is used instead of `<img>` tags.
+
+The `@theme/IdealImage` Docusaurus plugin generates an almost ideal image (responsive, lazy-loading, and low quality placeholder).
+
+## Rule Details {#details}
+
+Examples of **incorrect** code for this rule:
+
+```html
+<img src="./path/to/img.png" alt="some alt text" />
+
+<img src={require('./path/to/img.png')} alt='some alt text' />
+
+<img
+  src="./path/to/img.png"
+  srcset="./path/to/img-480w.jpg 480w, ./path/to/img-800w.png 800w"
+  sizes="(max-width: 600px) 480px, 800px"
+  alt="some alt text" />
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+import Image from '@theme/IdealImage';
+
+<IdealImage img='./path/to/img.png' />
+
+<IdealImage img={require('./path/to/img.png')} />
+
+<IdealImage
+  img={{
+    src: {
+      src: './path/to/img.png',
+      preSrc: '',
+      images: [{ width: 100 }]
+    },
+    preSrc: './path/to/placeholder.png'
+  }}
+/>
+```
