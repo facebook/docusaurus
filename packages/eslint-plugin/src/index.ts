@@ -16,7 +16,7 @@ export = {
         '@docusaurus/string-literal-i18n-messages': 'error',
         '@docusaurus/no-html-links': 'warn',
         '@docusaurus/prefer-docusaurus-heading': 'warn',
-        '@docusaurus/prefer-ideal-image': 'warn',
+        '@docusaurus/prefer-ideal-image': 0,
       },
     },
     all: {
@@ -26,7 +26,7 @@ export = {
         '@docusaurus/no-untranslated-text': 'warn',
         '@docusaurus/no-html-links': 'warn',
         '@docusaurus/prefer-docusaurus-heading': 'warn',
-        '@docusaurus/prefer-ideal-image': 'warn',
+        '@docusaurus/prefer-ideal-image': 0,
       },
     },
   },
