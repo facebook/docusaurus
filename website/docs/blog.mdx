@@ -146,8 +146,10 @@ module.exports = {
 
 Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYYY-MM-DD-my-blog-post-title.md`.
 
+There are a variety of patterns of file/folder structure from which Docusaurus can extract the date. For example, posts can be placed into folders named by year, and the files inside be named from the month onwards. (See "Supported date extraction patterns" below.) This flexible pattern extraction method is a powerful way to manage large numbers of posts in your folder. 
+
 <details>
-<summary>Example supported patterns</summary>
+<summary>Supported date extraction patterns</summary>
 
 | Pattern | Example |
 | --- | --- |
@@ -160,7 +162,7 @@ Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYY
 | Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
 | Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
 
-The date will be excised from the path and appended to the beginning of the URL slug.
+Docusaurus can extract the date from the posts using any of the naming patterns above. It is advisable to choose one pattern and apply it to all posts to avoid confusion.
 
 </details>
 
