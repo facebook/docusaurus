@@ -26,6 +26,7 @@ export default function FeatureRequests({
     Canny('render', {
       boardToken: BOARD_TOKEN,
       basePath,
+      theme: 'auto'
     });
   }, [basePath]);
 
