@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} elemek",
   "theme.docs.breadcrumbs.home": "Kezdőlap",
   "theme.docs.breadcrumbs.navAriaLabel": "Navigációs sáv a jelenlegi oldalhoz",
-  "theme.docs.paginator.navAriaLabel": "Dokumentációs oldal navigációja",
+  "theme.docs.paginator.navAriaLabel": "Dokumentációs oldal",
   "theme.docs.paginator.next": "Következő oldal",
   "theme.docs.paginator.previous": "Előző oldal",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Navigációs sáv bezárása",

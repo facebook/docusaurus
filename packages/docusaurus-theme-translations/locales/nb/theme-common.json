@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} artikler",
   "theme.docs.breadcrumbs.home": "Hjemmeside",
   "theme.docs.breadcrumbs.navAriaLabel": "Søkvei",
-  "theme.docs.paginator.navAriaLabel": "Dokumenter-sidernavigasjon",
+  "theme.docs.paginator.navAriaLabel": "Dokumenter side",
   "theme.docs.paginator.next": "Neste",
   "theme.docs.paginator.previous": "Forrige",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Lukk navigasjonslinjen",
