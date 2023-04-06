@@ -19,7 +19,7 @@
   --site-color-tooltip-background: #353738;
   --site-color-svg-icon-favorite: #e9669e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
-  --site-color-feedback-background: #fff;
+  --site-color-feedback-background: #f0f8ff;
   --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
   /* Use a darker color to ensure contrast, ideally we don't need important */
   --ifm-breadcrumb-color-active: var(--ifm-color-primary-darker) !important;
@@ -27,7 +27,7 @@
 }
 
 html[data-theme='dark'] {
-  --site-color-feedback-background: #f0f8ff;
+  --site-color-feedback-background: #2a2929;
   --site-color-favorite-background: #1d1e1e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
   --docusaurus-highlighted-code-line-bg: rgb(66 66 66 / 35%);
