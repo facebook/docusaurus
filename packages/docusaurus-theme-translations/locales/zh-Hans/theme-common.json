@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} 个项目",
   "theme.docs.breadcrumbs.home": "主页面",
   "theme.docs.breadcrumbs.navAriaLabel": "页面路径",
-  "theme.docs.paginator.navAriaLabel": "文档分页导航",
+  "theme.docs.paginator.navAriaLabel": "文件选项卡",
   "theme.docs.paginator.next": "下一页",
   "theme.docs.paginator.previous": "上一页",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "关闭导航栏",

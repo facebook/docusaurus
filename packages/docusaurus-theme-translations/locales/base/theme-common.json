@@ -83,7 +83,7 @@
   "theme.docs.breadcrumbs.home___DESCRIPTION": "The ARIA label for the home page in the breadcrumbs",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.breadcrumbs.navAriaLabel___DESCRIPTION": "The ARIA label for the breadcrumbs",
-  "theme.docs.paginator.navAriaLabel": "Docs pages navigation",
+  "theme.docs.paginator.navAriaLabel": "Docs pages",
   "theme.docs.paginator.navAriaLabel___DESCRIPTION": "The ARIA label for the docs pagination",
   "theme.docs.paginator.next": "Next",
   "theme.docs.paginator.next___DESCRIPTION": "The label used to navigate to the next doc",
