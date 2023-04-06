@@ -144,10 +144,10 @@ module.exports = {
 
 ## Blog post date {#blog-post-date}
 
-Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYYY-MM-DD-my-blog-post-title.md`.
+Docusaurus will extract a `YYYY-MM-DD` date from many patterns such as `YYYY-MM-DD-my-blog-post-title.md` or `YYYY/MM/DD/my-blog-post-title.md`. This enables you to easily group blog posts by year, by month, or to use a flat structure.
 
 <details>
-<summary>Example supported patterns</summary>
+<summary>Supported date extraction patterns</summary>
 
 | Pattern | Example |
 | --- | --- |
@@ -160,7 +160,7 @@ Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYY
 | Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
 | Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
 
-The date will be excised from the path and appended to the beginning of the URL slug.
+Docusaurus can extract the date from the posts using any of the naming patterns above. It is advisable to choose one pattern and apply it to all posts to avoid confusion.
 
 </details>
 
