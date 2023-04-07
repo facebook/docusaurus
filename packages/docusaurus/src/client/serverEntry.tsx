@@ -44,7 +44,7 @@ function buildSSRErrorMessage({
   pathname: string;
 }): string {
   const parts = [
-    `[ERROR] Docusaurus server-side rendering could not render static page with path ${pathname} because of error: ${error.message}`,
+    `Docusaurus server-side rendering could not render static page with path ${pathname} because of error: ${error.message}`,
   ];
 
   const isNotDefinedErrorRegex =
@@ -171,7 +171,8 @@ async function doRender(locals: Locals & {path: string}) {
     });
   } catch (err) {
     // prettier-ignore
-    console.error(`[ERROR] Minification of page ${locals.path} failed.`);
+    console.error(`Minification of page ${locals.path} failed.`);
+    console.error(err);
     throw err;
   }
 }

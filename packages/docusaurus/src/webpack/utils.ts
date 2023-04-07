@@ -277,7 +277,7 @@ export function compile(config: Configuration[]): Promise<void> {
         const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
         reject(
           new Error(
-            `Failed to compile due to  Webpack errors.\n${statsErrorMessage}`,
+            `Failed to compile due to Webpack errors.\n${statsErrorMessage}`,
           ),
         );
       }

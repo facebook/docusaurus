@@ -72,9 +72,12 @@ export async function build(
         isLastLocale,
       });
     } catch (err) {
-      // TODO use error cause, but "docusaurus.mjs" does not print causes atm :s
-      logger.error`Unable to build website for locale name=${locale}.`;
-      throw err;
+      throw new Error(
+        logger.interpolate`Unable to build website for locale name=${locale}.`,
+        {
+          cause: err,
+        },
+      );
     }
   }
   const context = await loadContext({
