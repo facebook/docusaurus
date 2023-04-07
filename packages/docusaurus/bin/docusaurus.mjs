@@ -244,7 +244,12 @@ if (!process.argv.slice(2).length) {
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
+  // TODO this logger thing is annoying
+  // This makes it impossible to use native logging of nested stacktraces
+  // ie the error causes are not logged here
+  // It seems we can't have colors + nested stacktrace logging at the same time
   logger.error(err instanceof Error ? err.stack : err);
+
   logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
 Node version: number=${process.version}`;
   process.exit(1);
