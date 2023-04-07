@@ -41,6 +41,11 @@ function getNextVersionName() {
    */
 }
 
+// Artificial way to crash the SSR rendering and test errors
+// See website/_dogfooding/_pages tests/crashTest.tsx
+// Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
+const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
+
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
@@ -138,6 +143,7 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
+    crashTest,
     isDeployPreview,
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
@@ -363,6 +369,7 @@ const config = {
             }
             return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
+          remarkPlugins: [npm2yarn],
           postsPerPage: 5,
           feedOptions: {
             type: 'all',

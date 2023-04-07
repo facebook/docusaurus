@@ -25,6 +25,7 @@ beforeinstallprompt
 bhatt
 blocklist
 blockquotes
+Bokmål
 browserslist
 browserstack
 buble

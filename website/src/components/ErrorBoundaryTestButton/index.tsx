@@ -9,15 +9,24 @@ import React, {type ReactNode, useState} from 'react';
 
 export default function ErrorBoundaryTestButton({
   children = 'Boom!',
+  message = 'Boom!\nSomething bad happened, but you can try again!',
+  cause,
 }: {
   children?: ReactNode;
+  message?: string;
+  cause?: string;
 }): JSX.Element {
   const [state, setState] = useState(false);
   if (state) {
-    throw new Error('Boom!\nSomething bad happened, but you can try again!');
+    throw new Error(message, {
+      cause: cause ? new Error(cause) : undefined,
+    });
   }
   return (
-    <button type="button" onClick={() => setState(true)}>
+    <button
+      className="button button--danger"
+      type="button"
+      onClick={() => setState(true)}>
       {children}
     </button>
   );

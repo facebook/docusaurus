@@ -23,6 +23,7 @@ import webpack, {
 } from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {TransformOptions} from '@babel/core';
 import type {
@@ -30,6 +31,29 @@ import type {
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
+
+export function formatStatsErrorMessage(
+  statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
+): string | undefined {
+  if (statsJson?.errors?.length) {
+    // TODO formatWebpackMessages does not print stack-traces
+    // Also the error causal chain is lost here
+    // We log the stacktrace inside serverEntry.tsx for now (not ideal)
+    const {errors} = formatWebpackMessages(statsJson);
+    return errors.join('\n---\n');
+  }
+  return undefined;
+}
+
+export function printStatsWarnings(
+  statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
+): void {
+  if (statsJson?.warnings?.length) {
+    statsJson.warnings?.forEach((warning) => {
+      logger.warn(warning);
+    });
+  }
+}
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -250,13 +274,15 @@ export function compile(config: Configuration[]): Promise<void> {
       // Let plugins consume all the stats
       const errorsWarnings = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        reject(new Error('Failed to compile with errors.'));
+        const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
+        reject(
+          new Error(
+            `Failed to compile due to Webpack errors.\n${statsErrorMessage}`,
+          ),
+        );
       }
-      if (errorsWarnings && stats?.hasWarnings()) {
-        errorsWarnings.warnings?.forEach((warning) => {
-          logger.warn(warning);
-        });
-      }
+      printStatsWarnings(errorsWarnings);
+
       // Webpack 5 requires calling close() so that persistent caching works
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {

@@ -1423,6 +1423,14 @@ declare module '@theme/Icon/Close' {
   export default function IconClose(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Copy' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconCopy(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/Language' {
   import type {ComponentProps} from 'react';
 
@@ -1431,12 +1439,28 @@ declare module '@theme/Icon/Language' {
   export default function IconLanguage(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Success' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconSuccess(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/ExternalLink' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconExternalLink(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/WordWrap' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconWordWrap(props: Props): JSX.Element;
 }
 
 declare module '@theme/TagsListByLetter' {

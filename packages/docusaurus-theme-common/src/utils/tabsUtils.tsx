@@ -29,12 +29,12 @@ export interface TabValue {
   readonly default?: boolean;
 }
 
+type TabItem = ReactElement<TabItemProps> | null | false | undefined;
+
 export interface TabsProps {
   readonly lazy?: boolean;
   readonly block?: boolean;
-  readonly children:
-    | readonly ReactElement<TabItemProps>[]
-    | ReactElement<TabItemProps>;
+  readonly children: TabItem[] | TabItem;
   readonly defaultValue?: string | null;
   readonly values?: readonly TabValue[];
   readonly groupId?: string;
@@ -57,14 +57,15 @@ export interface TabItemProps {
 function isTabItem(
   comp: ReactElement<unknown>,
 ): comp is ReactElement<TabItemProps> {
-  return 'value' in (comp.props as object);
+  const {props} = comp;
+  return !!props && typeof props === 'object' && 'value' in props;
 }
 
 export function sanitizeTabsChildren(children: TabsProps['children']) {
-  return React.Children.toArray(children)
+  return (React.Children.toArray(children)
     .filter((child) => child !== '\n')
     .map((child) => {
-      if (isValidElement(child) && isTabItem(child)) {
+      if (!child || (isValidElement(child) && isTabItem(child))) {
         return child;
       }
       // child.type.name will give non-sensical values in prod because of
@@ -75,7 +76,8 @@ export function sanitizeTabsChildren(children: TabsProps['children']) {
           typeof child.type === 'string' ? child.type : child.type.name
         }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
       );
-    });
+    })
+    ?.filter(Boolean) ?? []) as ReactElement<TabItemProps>[];
 }
 
 function extractChildrenTabValues(children: TabsProps['children']): TabValue[] {

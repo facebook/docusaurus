@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} éléments",
   "theme.docs.breadcrumbs.home": "Page d'accueil",
   "theme.docs.breadcrumbs.navAriaLabel": "Fil d'Ariane",
-  "theme.docs.paginator.navAriaLabel": "Pagination des documents",
+  "theme.docs.paginator.navAriaLabel": "Pages de documentation",
   "theme.docs.paginator.next": "Suivant",
   "theme.docs.paginator.previous": "Précédent",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Fermer la barre de navigation",
