@@ -105,7 +105,7 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
     // This is [Document 1](doc1.md)
     // [doc1]: doc1.md
     const mdRegex =
-      /(?:\]\(|\]:\s*)(?!https?:\/\/|@site\/)(?<filename>[^'")\]\s>]+\.mdx?)/g;
+      /(?:\]\(|\]:\s*)(?!https?:\/\/|@site\/)<?(?<filename>[^'"\]\s>]+(?:\s[^'"\]\s>]+)*\.mdx?)>?/g;
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       // Replace it to correct html link.
