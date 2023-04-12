@@ -260,4 +260,29 @@ The following operations are defined for [URI]s:
       }),
     ).toMatchSnapshot();
   });
+
+  it('replaces Markdown links with spaces', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/intro.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/doc a.md': '/docs/doc%20a',
+          '@site/docs/my docs/doc b.md': '/docs/my%20docs/doc%20b',
+        },
+        fileString: `
+[doc a](./doc%20a.md)
+[doc a](<./doc a.md>)
+[doc a](./doc a.md)
+[doc b](./my%20docs/doc%20b.md)
+[doc b](<./my docs/doc b.md>)
+[doc b](./my docs/doc b.md)
+`,
+      }),
+    ).toMatchSnapshot();
+  });
 });

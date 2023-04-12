@@ -110,6 +110,20 @@ exports[`replaceMarkdownLinks ignores links in inline code 1`] = `
 }
 `;
 
+exports[`replaceMarkdownLinks replaces Markdown links with spaces 1`] = `
+{
+  "brokenMarkdownLinks": [],
+  "newContent": "
+[doc a](/docs/doc%20a)
+[doc a](</docs/doc%20a>)
+[doc a](/docs/doc%20a)
+[doc b](/docs/my%20docs/doc%20b)
+[doc b](</docs/my%20docs/doc%20b>)
+[doc b](/docs/my%20docs/doc%20b)
+",
+}
+`;
+
 exports[`replaceMarkdownLinks replaces links with same title as URL 1`] = `
 {
   "brokenMarkdownLinks": [],
