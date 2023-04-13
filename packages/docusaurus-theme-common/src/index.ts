@@ -24,6 +24,8 @@ export {
   type ColorModeConfig,
 } from './utils/useThemeConfig';
 
+export {default as ThemedComponent} from './components/ThemedComponent';
+
 export {
   createStorageSlot,
   useStorageSlot,
