@@ -272,7 +272,7 @@ export function useLayoutDocsSidebar(
           versions.length > 1 ? 's' : ''
         } ${versions.map((version) => version.name).join(', ')}".
 Available sidebar ids are:
-- ${Object.keys(allSidebars).join('\n- ')}`,
+- ${allSidebars.map((entry) => entry[0]).join('\n- ')}`,
       );
     }
     return sidebarEntry[1];
