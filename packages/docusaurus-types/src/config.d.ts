@@ -28,6 +28,16 @@ export type MarkdownConfig = {
    * @default false
    */
   mermaid?: boolean;
+
+  /**
+   * Set of flags make it easier to upgrade from MDX 1 to MDX 2
+   * See also https://github.com/facebook/docusaurus/issues/4029
+   */
+  mdx1Compat: {
+    comments: boolean;
+    admonitions: boolean;
+    headingIds: boolean;
+  };
 };
 
 /**

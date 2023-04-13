@@ -60,6 +60,11 @@ describe('normalizeConfig', () => {
       ],
       markdown: {
         mermaid: true,
+        mdx1Compat: {
+          comments: true,
+          admonitions: false,
+          headingIds: true,
+        },
       },
     };
     const normalizedConfig = normalizeConfig(userConfig);
@@ -496,6 +501,11 @@ describe('markdown', () => {
   it('accepts valid markdown object', () => {
     const markdown: DocusaurusConfig['markdown'] = {
       mermaid: true,
+      mdx1Compat: {
+        comments: false,
+        admonitions: true,
+        headingIds: false,
+      },
     };
     expect(
       normalizeConfig({

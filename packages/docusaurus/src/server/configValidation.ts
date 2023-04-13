@@ -66,6 +66,11 @@ export const DEFAULT_CONFIG: Pick<
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
   markdown: {
     mermaid: false,
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
   },
 };
 
@@ -271,6 +276,17 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   }).optional(),
   markdown: Joi.object({
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    mdx1Compat: Joi.object({
+      comments: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.comments,
+      ),
+      admonitions: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.admonitions,
+      ),
+      headingIds: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
+      ),
+    }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':

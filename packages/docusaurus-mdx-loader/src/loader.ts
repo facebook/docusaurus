@@ -206,12 +206,13 @@ export async function mdxLoader(
 
   const content = preprocessor(contentUnprocessed, {
     admonitions: reqOptions.admonitions,
+    markdownConfig: reqOptions.markdownConfig,
   });
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
-    const remarkPlugins: ProcessorOptions['remarkPlugins'] = [
+    const remarkPlugins: MDXPlugin[] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       (await import('remark-directive')).default,
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
@@ -234,15 +235,15 @@ export async function mdxLoader(
         },
       ],
       gfm,
-      comment, // TODO add this conditionally
+      reqOptions.markdownConfig.mdx1Compat.comments ? comment : null,
       ...(reqOptions.remarkPlugins ?? []),
-    ];
+    ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
 
     // codeCompatPlugin needs to be applied last after user-provided plugins
     // (after npm2yarn for example)
     remarkPlugins.push(codeCompatPlugin);
 
-    const rehypePlugins: ProcessorOptions['rehypePlugins'] = [
+    const rehypePlugins: MDXPlugin[] = [
       ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
       ...(reqOptions.rehypePlugins ?? []),

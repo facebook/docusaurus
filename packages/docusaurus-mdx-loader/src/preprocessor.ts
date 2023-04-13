@@ -11,15 +11,23 @@ import {
   admonitionTitleToDirectiveLabel,
 } from '@docusaurus/utils';
 import {normalizeAdmonitionOptions} from './remark/admonitions';
-import type {MDXOptions} from './loader';
+import type {Options} from './loader';
 
 export default function preprocessContent(
   md: string,
-  {admonitions}: {admonitions: MDXOptions['admonitions'] | undefined},
+  {
+    markdownConfig,
+    admonitions,
+  }: {
+    markdownConfig: Options['markdownConfig'];
+    admonitions: Options['admonitions'] | undefined;
+  },
 ): string {
   md = unwrapMdxCodeBlocks(md);
-  md = escapeMarkdownHeadingIds(md);
-  if (admonitions) {
+  if (markdownConfig.mdx1Compat.headingIds) {
+    md = escapeMarkdownHeadingIds(md);
+  }
+  if (markdownConfig.mdx1Compat.admonitions && admonitions) {
     const {keywords} = normalizeAdmonitionOptions(admonitions);
     md = admonitionTitleToDirectiveLabel(md, keywords);
   }
