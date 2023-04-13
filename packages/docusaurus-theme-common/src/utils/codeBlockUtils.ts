@@ -87,13 +87,14 @@ function getAllMagicCommentDirectiveStyles(
 
     case 'lua':
     case 'haskell':
+    case 'sql':
       return getCommentPattern(['lua'], magicCommentDirectives);
 
     case 'wasm':
       return getCommentPattern(['wasm'], magicCommentDirectives);
 
     default:
-      // All comment types except Lua
+      // All comment types except lua and wasm
       return getCommentPattern(
         Object.keys(commentPatterns).filter(
           (pattern) => !['lua', 'wasm'].includes(pattern),
