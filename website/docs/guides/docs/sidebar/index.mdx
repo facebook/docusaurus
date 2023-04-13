@@ -162,9 +162,12 @@ To pass in custom props to a swizzled sidebar item, add the optional `customProp
 {
   type: 'doc',
   id: 'doc1',
+  // highlight-start
   customProps: {
-    /* props */
+    badges: ['new', 'green'],
+    featured: true,
   },
+  // highlight-end
 };
 ```
 
