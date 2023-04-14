@@ -394,6 +394,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     blogSidebarCount: number | 'ALL';
     /** Title of the blog sidebar. */
     blogSidebarTitle: string;
+    /** Paginate blog - defaults to true */
+    blogPaginationActive: boolean;
     /** Truncate marker marking where the summary ends. */
     truncateMarker: RegExp;
     /** Show estimated reading time for the blog post. */
