@@ -31,18 +31,25 @@ function AlternateLangHeaders(): JSX.Element {
   // Note: it is fine to use both "x-default" and "en" to target the same url
   // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
   return (
-    <Head>
+  <Head>
       {Object.entries(localeConfigs).map(([locale, {htmlLang}]) => (
-        <link
-          key={locale}
-          rel="alternate"
-          href={alternatePageUtils.createUrl({
-            locale,
-            fullyQualified: true,
-          })}
-          hrefLang={htmlLang}
-        />
+
+          <link
+            key={locale}
+            rel="alternate"
+            href={alternatePageUtils.createUrl({
+              locale,
+              fullyQualified: true,
+            })}
+            hrefLang={htmlLang}
+          />
+
       ))}
+      {Object.entries(localeConfigs).map(([locale, {htmlLang}]) => (
+           <meta property="og:locale:alternate" content={locale} />
+      ))}
+      <meta property="og:locale" content={i18n.defaultLocale} />
+
       <link
         rel="alternate"
         href={alternatePageUtils.createUrl({
