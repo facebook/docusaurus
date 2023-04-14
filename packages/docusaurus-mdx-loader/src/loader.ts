@@ -204,7 +204,9 @@ export async function mdxLoader(
     },
   );
 
-  const content = preprocessor(contentUnprocessed, {
+  const content = preprocessor({
+    fileContent: contentUnprocessed,
+    filePath,
     admonitions: reqOptions.admonitions,
     markdownConfig: reqOptions.markdownConfig,
   });

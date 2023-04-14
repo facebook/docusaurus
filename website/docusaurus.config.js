@@ -138,6 +138,18 @@ const config = {
   },
   markdown: {
     mermaid: true,
+    preprocessor: ({filePath, fileContent}) => {
+      if (isDev) {
+        // "vscode://file/${projectPath}${filePath}:${line}:${column}",
+        // "webstorm://open?file=${projectPath}${filePath}&line=${line}&column=${column}",
+        const vscodeLink = `vscode://file/${filePath}`;
+        const webstormLink = `webstorm://open?file=${filePath}`;
+        const intellijLink = `idea://open?file=${filePath}`;
+        return `${fileContent}\n\n---\n\n**DEV**: open this file in [VSCode](${vscodeLink}) | [WebStorm](${webstormLink}) | [IntelliJ](${intellijLink})\n`;
+      }
+      return fileContent;
+    },
+    mdx1Compat: {},
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

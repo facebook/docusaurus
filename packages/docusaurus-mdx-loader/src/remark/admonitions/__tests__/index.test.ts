@@ -22,8 +22,18 @@ const processFixture = async (
 
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
-  const fileContentPreprocessed = preprocessor(file.toString(), {
+  const fileContentPreprocessed = preprocessor({
+    fileContent: file.toString(),
+    filePath,
     admonitions: DefaultAdmonitionOptions,
+    markdownConfig: {
+      mermaid: false,
+      mdx1Compat: {
+        admonitions: true,
+        comments: false,
+        headingIds: false,
+      },
+    },
   });
 
   /*

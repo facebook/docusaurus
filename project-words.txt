@@ -137,6 +137,7 @@ immer
 infima
 inlines
 intelli
+intellij
 interactiveness
 interpolatable
 investec
@@ -393,6 +394,7 @@ wcag
 webfactory
 webp
 webpackbar
+webstorm
 wolcott
 writeups
 xclip

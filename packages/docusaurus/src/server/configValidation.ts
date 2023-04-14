@@ -66,6 +66,7 @@ export const DEFAULT_CONFIG: Pick<
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
   markdown: {
     mermaid: false,
+    preprocessor: undefined,
     mdx1Compat: {
       comments: true,
       admonitions: true,
@@ -276,6 +277,10 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   }).optional(),
   markdown: Joi.object({
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    preprocessor: Joi.function()
+      .arity(1)
+      .optional()
+      .default(() => DEFAULT_CONFIG.markdown.preprocessor),
     mdx1Compat: Joi.object({
       comments: Joi.boolean().default(
         DEFAULT_CONFIG.markdown.mdx1Compat.comments,
