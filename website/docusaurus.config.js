@@ -149,7 +149,9 @@ const config = {
       }
       return fileContent;
     },
-    mdx1Compat: {},
+    mdx1Compat: {
+      // comments: false,
+    },
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

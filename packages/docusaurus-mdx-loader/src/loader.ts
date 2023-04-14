@@ -278,17 +278,15 @@ export async function mdxLoader(
         path: filePath,
       })
       .then((res) => res.toString());
-  } catch (err) {
-    console.log({err});
-    // TODO why do we have to do such things to get a good error message :s
+  } catch (errorUnknown) {
+    const error = errorUnknown as Error;
     return callback(
       new Error(
-        `MDX compilation failed for file ${filePath}\n${
-          (err as Error).message
-        }\n${JSON.stringify(err as Error, null, 2)}`,
-        {
-          cause: err as Error,
-        },
+        `MDX compilation failed for file ${logger.path(filePath)}\nCause: ${
+          error.message
+        }\nDetails:\n${JSON.stringify(error, null, 2)}`,
+        // TODO error cause doesn't seem to be used by Webpack stats.errors :s
+        {cause: error},
       ),
     );
   }
