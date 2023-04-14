@@ -267,3 +267,50 @@ export default function MyReactPage() {
   );
 }
 ```
+
+## Magic comments tests
+
+```lua title="lua_sum.lua"
+function sum(n)
+  -- highlight-next-line
+  local result = 0
+  for i = 1, n do
+   -- highlight-start
+    result = result + i
+  end
+  -- highlight-end
+  print(result)
+end
+```
+
+```haskell title="haskell.hs"
+stringLength :: String -> Int
+-- highlight-next-line
+stringLength [] = 0
+stringLength (x:xs) = 1 + stringLength xs
+```
+
+```wasm title="sum_webAssembly.wasm"
+(module
+  ;; highlight-next-line
+  (func $add (param $a i32) (param $b i32) (result i32)
+    local.get $a
+    ;; highlight-start
+    local.get $b
+    i32.add)
+    ;; highlight-end
+  (export "add" (func $add)))
+```
+
+```sql title="sql_query.sql"
+-- highlight-start
+SELECT *
+FROM orders
+-- highlight-end
+WHERE customer_id IN (
+  SELECT customer_id
+  -- highlight-next-line
+  FROM customers
+  WHERE country = 'USA'
+)
+```
