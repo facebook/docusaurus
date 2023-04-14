@@ -54,11 +54,21 @@ export function escapeMarkdownHeadingIds(content: string): string {
   );
 }
 
+/**
+ * Hacky temporary escape hatch for Crowdin bad MDX support
+ * See https://docusaurus.io/docs/i18n/crowdin#mdx
+ *
+ * TODO Titus suggested a clean solution based on ```mdx eval and Remark
+ * See https://github.com/mdx-js/mdx/issues/701#issuecomment-947030041
+ *
+ * @param content
+ */
 export function unwrapMdxCodeBlocks(content: string): string {
-  // We only support triple backticks on purpose
-  // This is an escape hatch and shouldn't be used in a nested way
-  const regexp =
+  // We only support 3/4 backticks on purpose, should be good enough
+  const regexp3 =
     /(?<begin>^|\n)```mdx-code-block\n(?<children>.*?)\n```(?<end>\n|$)/gs;
+  const regexp4 =
+    /(?<begin>^|\n)````mdx-code-block\n(?<children>.*?)\n````(?<end>\n|$)/gs;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const replacer = (substring: string, ...args: any[]) => {
@@ -66,7 +76,7 @@ export function unwrapMdxCodeBlocks(content: string): string {
     return `${groups.begin}${groups.children}${groups.end}`;
   };
 
-  return content.replaceAll(regexp, replacer);
+  return content.replaceAll(regexp3, replacer).replaceAll(regexp4, replacer);
 }
 
 /**
