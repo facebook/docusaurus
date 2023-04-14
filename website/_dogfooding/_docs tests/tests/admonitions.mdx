@@ -16,24 +16,22 @@
 
 ## Large font icon
 
+import Admonition from '@theme/Admonition';
+
 ```mdx-code-block
-<admonition
+<Admonition
   type="tip"
   icon={<span style={{fontSize: 60}}>💡</span>}
   title="Did you know...">
-  <p>
     content
-  </p>
-</admonition>
+</Admonition>
 
-<admonition
+<Admonition
   type="info"
   icon={<span style={{fontSize: 40}}>ℹ️</span>}
   title="Did you know...">
-  <p>
     content
-  </p>
-</admonition>
+</Admonition>
 ```
 
 ## Large svg icon
@@ -41,21 +39,17 @@
 ```mdx-code-block
 import InfoIcon from "@theme/Admonition/Icon/Info"
 
-<admonition
+<Admonition
   type="tip"
   icon={<InfoIcon style={{width: 60, height: 60}}/>}
   title="Did you know...">
-  <p>
     content
-  </p>
-</admonition>
+</Admonition>
 
-<admonition
+<Admonition
   type="info"
   icon={<InfoIcon style={{width: 40, height: 40}}/>}
   title="Did you know...">
-  <p>
     content
-  </p>
-</admonition>
+</Admonition>
 ```
