@@ -145,7 +145,7 @@ const config = {
         const vscodeLink = `vscode://file/${filePath}`;
         const webstormLink = `webstorm://open?file=${filePath}`;
         const intellijLink = `idea://open?file=${filePath}`;
-        return `${fileContent}\n\n---\n\n**DEV**: open this file in [VSCode](${vscodeLink}) | [WebStorm](${webstormLink}) | [IntelliJ](${intellijLink})\n`;
+        return `${fileContent}\n\n---\n\n**DEV**: open this file in [VSCode](<${vscodeLink}>) | [WebStorm](<${webstormLink}>) | [IntelliJ](<${intellijLink}>)\n`;
       }
       return fileContent;
     },
