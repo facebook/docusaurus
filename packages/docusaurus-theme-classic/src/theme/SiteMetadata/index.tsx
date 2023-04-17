@@ -33,22 +33,21 @@ function AlternateLangHeaders(): JSX.Element {
   return (
     <Head>
       {Object.entries(localeConfigs).map(([locale, {htmlLang}]) => (
-		<>
-		   <link
-             key={locale}
-             rel="alternate"
-             href={alternatePageUtils.createUrl({
-               locale,
-               fullyQualified: true,
-             })}
-             hrefLang={htmlLang}
-            />
-
-		    <meta property="og:locale:alternate" content={locale} />
-		</>
+		    <>
+		      <link
+            key={locale}
+            rel="alternate"
+            href={alternatePageUtils.createUrl({
+              locale,
+              fullyQualified: true,
+            })}
+            hrefLang={htmlLang}
+          />
+		      <meta property="og:locale:alternate" content={locale} />
+		    </>
       ))}
 
-	  <meta property="og:locale" content={defaultLocale} />
+	    <meta property="og:locale" content={defaultLocale} />
 
       <link
         rel="alternate"
