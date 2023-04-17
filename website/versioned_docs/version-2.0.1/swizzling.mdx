@@ -308,7 +308,7 @@ Swizzling ultimately means you have to maintain some additional React code that 
 
 ## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 
-The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping card state...).
+The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping cart state...).
 
 Swizzle it **manually** by creating a file at `src/theme/Root.js`:
 
