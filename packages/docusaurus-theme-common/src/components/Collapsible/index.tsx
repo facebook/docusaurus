@@ -77,7 +77,9 @@ https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf
  */
 function getAutoHeightDuration(height: number) {
   if (userPrefersReducedMotion()) {
-    return 0;
+    // Not using 0 because it prevents onTransitionEnd to fire :/
+    // See bug https://github.com/facebook/docusaurus/discussions/8905#discussioncomment-5663928
+    return 1;
   }
   const constant = height / 36;
   return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
