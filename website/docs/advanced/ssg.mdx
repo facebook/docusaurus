@@ -190,8 +190,7 @@ The first client-side render output (in the browser) **must be exactly the same*
 Usage example:
 
 ```jsx
-import React from // useState,
-// useEffect
+import React from // useEffect // useState,
 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
@@ -211,24 +210,6 @@ const MyComponent = () => {
     ? window.location.href
     : isFetchingLocationMessage;
 
-  /*
-  const [isFetchingLocation, setIsFetchingLocation] = useState(
-    location === isFetchingLocationMessage
-  )
-  // Please note that `isFetchingLocation` initial value will be `true`
-  // even though window is actually defined
-  // because component has actually rendered once before hydration
-  // subsequent renders will not update the useState
-  // and may cause issues with business logic
-
-  // Do this instead
-  const [isFetchingLocation, setIsFetchingLocation] = useState(true)
-
-  useEffect(() => {
-    setIsFetchingLocation(location === isFetchingLocationMessage)
-  }, [isBrowser])
-  */
-
   // highlight-end
   return (
     <div>
@@ -241,6 +222,57 @@ const MyComponent = () => {
   );
 };
 ```
+
+:::caution If your business logic in the component relies on browser specifics to be functional at all, we recommend using [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly). The following example will cause business logic issues when used with `useIsBrowser`:
+
+```jsx
+import React, {useState} from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const isFetchingLocationMessage = 'fetching location...';
+
+const MyComponent = () => {
+  const isBrowser = useIsBrowser();
+  const location = isBrowser ? window.location.href : isFetchingLocationMessage;
+  // highlight-start
+  const [isFetchingLocation, setIsFetchingLocation] = useState(
+    location === isFetchingLocationMessage,
+  );
+
+  // highlight-end
+  return (
+    <div>
+      {/*
+        This will always print true and will not update.
+        Component already rendered once and useState referenced the initial value as `true`
+      */}
+      {isFetchingLocation}
+    </div>
+  );
+};
+```
+
+To solve this, you can add a `useEffect` to run when hydration has completed:
+
+```js
+useEffect(() => {
+  setIsFetchingLocation(location === isFetchingLocationMessage);
+}, [isBrowser]);
+```
+
+Or use [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly):
+
+```
+const ParentComponent = () => {
+  return (
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => <MyComponent />}
+    </BrowserOnly>
+  )
+}
+```
+
+:::
 
 ### `useEffect` {#useeffect}
 
