@@ -14,12 +14,12 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // Double-security: critical CSS will hide the banner if CSS can load!
 import './styles.module.css';
 
-const BannerContainerId = 'docusaurus-base-url-issue-banner-container';
-
-const BannerId = 'docusaurus-base-url-issue-banner';
-
+// __ prefix allows search crawlers (Algolia/DocSearch) to ignore anchors
+// https://github.com/facebook/docusaurus/issues/8883#issuecomment-1516328368
+const BannerContainerId = '__docusaurus-base-url-issue-banner-container';
+const BannerId = '__docusaurus-base-url-issue-banner';
 const SuggestionContainerId =
-  'docusaurus-base-url-issue-banner-suggestion-container';
+  '__docusaurus-base-url-issue-banner-suggestion-container';
 
 const InsertBannerWindowAttribute = '__DOCUSAURUS_INSERT_BASEURL_BANNER';
 
