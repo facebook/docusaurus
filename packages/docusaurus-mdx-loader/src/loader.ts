@@ -337,6 +337,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       ? reqOptions.createAssets({frontMatter, metadata})
       : undefined;
 
+  // TODO use remark plugins to insert extra exports instead of string concat?
+  // cf how the toc is exported
   const exportsCode = `
 export const frontMatter = ${stringifyObject(frontMatter)};
 export const contentTitle = ${stringifyObject(contentTitle)};
