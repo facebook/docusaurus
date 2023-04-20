@@ -107,13 +107,13 @@ export default async function beforeCli() {
 
     const getUpgradeCommand = async () => {
       const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
-      const isYarnClassicUsed = !(await fs.pathExists(
-        path.resolve('.yarnrc.yml'),
-      ));
       if (!isYarnUsed) {
         return `npm i ${siteDocusaurusPackagesForUpdate}`;
       }
 
+      const isYarnClassicUsed = !(await fs.pathExists(
+        path.resolve('.yarnrc.yml'),
+      ));
       return isYarnClassicUsed
         ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
         : `yarn up ${siteDocusaurusPackagesForUpdate}`;
