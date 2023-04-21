@@ -312,14 +312,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The component used to render <details> tags in MDX',
       },
-      'MDXComponents/Head': {
-        actions: {
-          eject: 'forbidden',
-          wrap: 'forbidden',
-        },
-        description:
-          'Technical component used to assign metadata (generally for SEO purpose) to the current MDX document',
-      },
       'MDXComponents/Heading': {
         actions: {
           eject: 'safe',

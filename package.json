@@ -55,12 +55,12 @@
     "test": "jest",
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel watch",
-    "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib",
+    "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn rimraf test-website && yarn rimraf test-website-in-workspace && yarn lerna exec --ignore docusaurus yarn rimraf lib",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
     "lock:update": "npx --yes yarn-deduplicate"
   },
   "dependencies": {
-    "unified": "^9.2.2"
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.10.0",

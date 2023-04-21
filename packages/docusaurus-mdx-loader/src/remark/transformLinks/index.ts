@@ -17,8 +17,11 @@ import {
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
-import {stringifyContent} from '../utils';
+import {assetRequireAttributeValue} from '../utils';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';
 
@@ -26,7 +29,7 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-export type PluginOptions = {
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
 };
@@ -40,11 +43,15 @@ type Target = [node: Link, index: number, parent: Parent];
 /**
  * Transforms the link node to a JSX `<a>` element with a `require()` call.
  */
-function toAssetRequireNode(
-  [node, index, parent]: Target,
+async function toAssetRequireNode(
+  [node]: Target,
   assetPath: string,
   filePath: string,
 ) {
+  // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
+  const jsxNode = node as unknown as MdxJsxTextElement;
+  const attributes: MdxJsxTextElement['attributes'] = [];
+
   // require("assets/file.pdf") means requiring from a package called assets
   const relativeAssetPath = `./${posixPath(
     path.relative(path.dirname(filePath), assetPath),
@@ -54,23 +61,43 @@ function toAssetRequireNode(
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 
-  const href = `require('${
+  const requireString = `${
     // A hack to stop Webpack from using its built-in loader to parse JSON
     path.extname(relativeAssetPath) === '.json'
       ? `${relativeAssetPath.replace('.json', '.raw')}!=`
       : ''
-  }${inlineMarkdownLinkFileLoader}${
-    escapePath(relativeAssetPath) + search
-  }').default${hash ? ` + '${hash}'` : ''}`;
-  const children = stringifyContent(node);
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+  }${inlineMarkdownLinkFileLoader}${escapePath(relativeAssetPath) + search}`;
 
-  const jsxNode: Literal = {
-    type: 'jsx',
-    value: `<a target="_blank" href={${href}}${title}>${children}</a>`,
-  };
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'target',
+    value: '_blank',
+  });
 
-  parent.children.splice(index, 1, jsxNode);
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'href',
+    value: assetRequireAttributeValue(requireString, hash),
+  });
+
+  if (node.title) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'title',
+      value: escapeHtml(node.title),
+    });
+  }
+
+  const {children} = node;
+
+  Object.keys(jsxNode).forEach(
+    (key) => delete jsxNode[key as keyof typeof jsxNode],
+  );
+
+  jsxNode.type = 'mdxJsxTextElement';
+  jsxNode.name = 'a';
+  jsxNode.attributes = attributes;
+  jsxNode.children = children;
 }
 
 async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
@@ -144,7 +171,7 @@ async function processLinkNode(target: Target, context: Context) {
     context,
   );
   if (assetPath) {
-    toAssetRequireNode(target, assetPath, context.filePath);
+    await toAssetRequireNode(target, assetPath, context.filePath);
   }
 }
 

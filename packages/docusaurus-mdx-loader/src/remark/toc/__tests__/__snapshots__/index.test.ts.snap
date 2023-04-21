@@ -45,7 +45,7 @@ exports[`toc remark plugin escapes inline code 1`] = `
 		id: 'divitestidiv-1',
 		level: 2
 	}
-];
+]
 
 ## \`<Head />\`
 
@@ -78,7 +78,7 @@ exports[`toc remark plugin exports even with existing name 1`] = `
 		id: 'avengers',
 		level: 3
 	}
-];
+]
 
 ## Thanos
 
@@ -89,11 +89,11 @@ exports[`toc remark plugin exports even with existing name 1`] = `
 `;
 
 exports[`toc remark plugin handles empty headings 1`] = `
-"export const toc = [];
+"export const toc = []
 
 # Ignore this
 
-## 
+##
 
 ## ![](an-image.svg)
 "
@@ -120,7 +120,7 @@ export const toc = [
 		id: 'again',
 		level: 3
 	}
-];
+]
 
 ## Title
 
@@ -133,7 +133,7 @@ Content.
 `;
 
 exports[`toc remark plugin outputs empty array for no TOC 1`] = `
-"export const toc = [];
+"export const toc = []
 
 foo
 
@@ -172,9 +172,9 @@ exports[`toc remark plugin works on non text phrasing content 1`] = `
 		id: 'inlinecode',
 		level: 2
 	}
-];
+]
 
-## _Emphasis_
+## *Emphasis*
 
 ### **Importance**
 
@@ -208,7 +208,7 @@ exports[`toc remark plugin works on text content 1`] = `
 		id: 'i--unicode',
 		level: 2
 	}
-];
+]
 
 ### Endi
 

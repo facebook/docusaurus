@@ -40,7 +40,9 @@ export function formatStatsErrorMessage(
     // Also the error causal chain is lost here
     // We log the stacktrace inside serverEntry.tsx for now (not ideal)
     const {errors} = formatWebpackMessages(statsJson);
-    return errors.join('\n---\n');
+    return errors
+      .map((str) => logger.red(str))
+      .join(`\n\n${logger.yellow('--------------------------')}\n\n`);
   }
   return undefined;
 }

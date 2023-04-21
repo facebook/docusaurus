@@ -36,26 +36,59 @@ export default function plugin() {
         .replace(pluginMeta, '')
         .trim()
         .replace(/^.*?= /, '')
-        .replace(/;$/, '')
-        // eslint-disable-next-line prefer-named-capture-group
-        .replace(/([`$\\])/g, '\\$1');
+        .replace(/;$/, '');
 
-      parent.children.splice(
-        index,
-        1,
-        {
-          type: 'import',
-          value: `import ConfigTabs from "@site/src/components/ConfigTabs";`,
+      const importNode = {
+        type: 'mdxjsEsm',
+        value: 'import ConfigTabs from "@site/src/components/ConfigTabs"',
+        data: {
+          estree: {
+            type: 'Program',
+            body: [
+              {
+                type: 'ImportDeclaration',
+                specifiers: [
+                  {
+                    type: 'ImportDefaultSpecifier',
+                    local: {type: 'Identifier', name: 'ConfigTabs'},
+                  },
+                ],
+                source: {
+                  type: 'Literal',
+                  value: '@site/src/components/ConfigTabs',
+                  raw: "'@site/src/components/ConfigTabs'",
+                },
+              },
+            ],
+            sourceType: 'module',
+          },
         },
-        {
-          type: 'jsx',
-          value: `<ConfigTabs
-            pluginName="${pluginName.trim()}"
-            presetOptionName="${presetOptionName.trim()}"
-            code={\`${config}\`}
-          />`,
-        },
-      );
+      };
+
+      const jsxNode = {
+        type: 'mdxJsxFlowElement',
+        name: 'ConfigTabs',
+        attributes: [
+          {
+            type: 'mdxJsxAttribute',
+            name: 'pluginName',
+            value: pluginName.trim(),
+          },
+          {
+            type: 'mdxJsxAttribute',
+            name: 'presetOptionName',
+            value: presetOptionName.trim(),
+          },
+          {
+            type: 'mdxJsxAttribute',
+            name: 'code',
+            value: config,
+          },
+        ],
+        children: [],
+      };
+
+      parent.children.splice(index, 1, importNode, jsxNode);
     });
   };
   return transformer;

@@ -64,8 +64,8 @@ export const Highlight = ({children, color}) => (
 
 <BrowserWindow minHeight={240}>
 
-<Highlight color="#25c2a0">Docusaurus green</Highlight>
-{` `}and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+<><Highlight color="#25c2a0">Docusaurus green</Highlight>
+{` `}and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.</>
 
 I can write **Markdown** alongside my _JSX_!
 
@@ -76,7 +76,7 @@ I can write **Markdown** alongside my _JSX_!
 
 Since all doc files are parsed using MDX, anything that looks like HTML is actually JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 /* Instead of this: */
 <span style="background-color: red">Foo</span>
@@ -94,7 +94,7 @@ In addition, MDX is not [100% compatible with CommonMark](https://github.com/fac
 
 You can also import your own components defined in other files or third-party components installed via npm.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```md
 <!-- Docusaurus theme component -->
 import TOCInline from '@theme/TOCInline';
@@ -341,7 +341,7 @@ Use JSX within JSX tag, or move the Markdown to the outer layer:
 <div className={styles.wrappingBlock}>
 ```
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 <div style={{color: 'red'}}>
 **Bold still doesn't work**
@@ -367,7 +367,7 @@ Add an empty new line:
 <div className={styles.wrappingBlock}>
 ```
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 <div style={{color: 'red'}}>
 
@@ -397,7 +397,7 @@ Add an empty new line:
 <div className={styles.wrappingBlock}>
 ```
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 <div style={{color: 'red'}}>
 
@@ -427,7 +427,7 @@ Don't indent:
 <div className={styles.wrappingBlock}>
 ```
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```jsx
 <div style={{color: 'red'}}>
 
@@ -463,14 +463,13 @@ npm install --save raw-loader
 
 Now you can import code snippets from another file as it is:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore */}
 ```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
 import MyComponentSource from '!!raw-loader!./myComponent';
 
 <CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 ```
-<!-- prettier-ignore-end -->
 
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
@@ -509,13 +508,12 @@ By convention, using the **`_` filename prefix** will not create any doc page an
 This is text some content from `_markdown-partial-example.mdx`.
 ```
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore */}
 ```jsx title="someOtherDoc.mdx"
 import PartialExample from './_markdown-partial-example.mdx';
 
 <PartialExample name="Sebastien" />
 ```
-<!-- prettier-ignore-end -->
 
 ```mdx-code-block
 import PartialExample from './_markdown-partial-example.mdx';

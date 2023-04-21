@@ -861,14 +861,6 @@ declare module '@theme/MDXComponents/Img' {
   export default function MDXImg(props: Props): JSX.Element;
 }
 
-declare module '@theme/MDXComponents/Head' {
-  import type {ComponentProps} from 'react';
-
-  export interface Props extends ComponentProps<'head'> {}
-
-  export default function MDXHead(props: Props): JSX.Element;
-}
-
 declare module '@theme/MDXComponents/Heading' {
   import type {ComponentProps} from 'react';
   import type Heading from '@theme/Heading';
@@ -889,7 +881,6 @@ declare module '@theme/MDXComponents/Pre' {
 declare module '@theme/MDXComponents' {
   import type {ComponentType, ComponentProps} from 'react';
 
-  import type MDXHead from '@theme/MDXComponents/Head';
   import type MDXCode from '@theme/MDXComponents/Code';
   import type MDXA from '@theme/MDXComponents/A';
   import type MDXPre from '@theme/MDXComponents/Pre';
@@ -898,13 +889,14 @@ declare module '@theme/MDXComponents' {
   import type MDXImg from '@theme/MDXComponents/Img';
   import type Admonition from '@theme/Admonition';
   import type Mermaid from '@theme/Mermaid';
+  import type Head from '@docusaurus/Head';
 
   export type MDXComponentsObject = {
-    readonly head: typeof MDXHead;
+    readonly Head: typeof Head;
+    readonly Details: typeof MDXDetails;
     readonly code: typeof MDXCode;
     readonly a: typeof MDXA;
     readonly pre: typeof MDXPre;
-    readonly details: typeof MDXDetails;
     readonly ul: typeof MDXUl;
     readonly img: typeof MDXImg;
     readonly h1: (props: ComponentProps<'h1'>) => JSX.Element;

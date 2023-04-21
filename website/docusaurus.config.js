@@ -7,7 +7,6 @@
 // @ts-check
 
 const path = require('path');
-const math = require('remark-math');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 const versions = require('./versions.json');
 const VersionsArchived = require('./versionsArchived.json');
@@ -140,6 +139,20 @@ module.exports = async function createConfigAsync() {
     },
     markdown: {
       mermaid: true,
+      mdx1Compat: {
+        // comments: false,
+      },
+      preprocessor: ({filePath, fileContent}) => {
+        if (isDev) {
+          // "vscode://file/${projectPath}${filePath}:${line}:${column}",
+          // "webstorm://open?file=${projectPath}${filePath}&line=${line}&column=${column}",
+          const vscodeLink = `vscode://file/${filePath}`;
+          const webstormLink = `webstorm://open?file=${filePath}`;
+          const intellijLink = `idea://open?file=${filePath}`;
+          return `${fileContent}\n\n---\n\n**DEV**: open this file in [VSCode](<${vscodeLink}>) | [WebStorm](<${webstormLink}>) | [IntelliJ](<${intellijLink}>)\n`;
+        }
+        return fileContent;
+      },
     },
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
@@ -331,13 +344,12 @@ module.exports = async function createConfigAsync() {
             },
             admonitions: {
               keywords: ['my-custom-admonition'],
-              extendDefaults: true,
             },
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
             remarkPlugins: [
-              math,
               [npm2yarn, {sync: true}],
+              (await import('remark-math')).default,
               (await import('./src/remark/configTabs.mjs')).default,
             ],
             rehypePlugins: [(await import('rehype-katex')).default],
@@ -346,6 +358,7 @@ module.exports = async function createConfigAsync() {
               isDev || isDeployPreview || isBranchDeploy
                 ? 'current'
                 : undefined,
+
             onlyIncludeVersions: (() => {
               if (isBuildFast) {
                 return ['current'];

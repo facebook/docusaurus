@@ -67,6 +67,8 @@ function processSection(section) {
   return {
     title: title.replace(/ \(.*\)/, ''),
     content: `---
+mdx:
+ format: md
 date: ${`${date}T${hour}:00`}${
       authors
         ? `

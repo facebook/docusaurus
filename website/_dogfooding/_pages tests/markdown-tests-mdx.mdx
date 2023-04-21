@@ -4,7 +4,7 @@ description: Markdown Page tests description
 wrapperClassName: docusaurus-markdown-example
 ---
 
-# Markdown page tests
+# Markdown .mdx tests
 
 This is a page generated from Markdown to illustrate the Markdown page feature and test some edge cases.
 
@@ -51,20 +51,12 @@ import TabItem from '@theme/TabItem';
 MDX comments can be used with
 
 ```mdx
-<!--
-
-My comment
-
--->
+{/* My comment */}
 ```
 
 See, nothing is displayed:
 
-<!--
-
-My comment
-
--->
+{/* My comment */}
 
 ## Import code block from source code file
 
@@ -180,7 +172,7 @@ function Clock(props) {
 
 ### Weird heading {#a b}
 
-### Weird heading {#a{b}
+### Weird heading {#a\{b}
 
 ## Pipe
 
@@ -247,9 +239,19 @@ Can be arbitrarily nested:
     - [ ] Task
 - [ ] Task
 
+## Emojis
+
+Emojis in this text will be replaced with [remark-emoji](https://www.npmjs.com/package/remark-emoji): :dog: :+1:
+
 ## Admonitions
 
-:::caution Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button>
+:::caution Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button> (old syntax)
+
+Admonition body
+
+:::
+
+:::caution[Interpolated `title` with a <button style={{color: "red"}} onClick={() => alert("it works")}>button</button> (directive label syntax)]
 
 Admonition body
 
@@ -281,4 +283,60 @@ hey
 
 :::::
 
-after admonition
+::::tip[Use tabs in admonitions]
+
+:::info[Admonition nested]
+
+test
+
+:::
+
+<Tabs>
+  <TabItem value="apple" label="Apple">
+
+:::note[Admonition in tab]
+
+test
+
+:::
+
+  </TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+::::
+
+## Linking
+
+This is a test page to see if Docusaurus Markdown features are working properly
+
+### Linking to assets
+
+See [#3337](https://github.com/facebook/docusaurus/issues/3337)
+
+- [/someFile.pdf](/someFile.pdf)
+
+- [/someFile.xyz](/someFile.xyz)
+
+- [@site/\_dogfooding/\_asset-tests/someFile.pdf](@site/_dogfooding/_asset-tests/someFile.pdf)
+
+- [@site/\_dogfooding/\_asset-tests/someFile.xyz](@site/_dogfooding/_asset-tests/someFile.xyz)
+
+### Linking to non-SPA page hosted within website
+
+See [#3309](https://github.com/facebook/docusaurus/issues/3309)
+
+- [pathname:///dogfooding/javadoc](pathname:///dogfooding/javadoc)
+
+- [pathname:///dogfooding/javadoc/index.html](pathname:///dogfooding/javadoc/index.html)
+
+- [pathname://../dogfooding/javadoc](pathname://../dogfooding/javadoc)
+
+- [pathname://../dogfooding/javadoc/index.html](pathname://../dogfooding/javadoc/index.html)
+
+### Linking to JSON
+
+- [./script.js](./_script.js)
+
+- [./data.json](./data.json)

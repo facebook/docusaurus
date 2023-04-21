@@ -7,95 +7,186 @@
 
 import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
-import type {Code, Content, Literal} from 'mdast';
-import type {Plugin} from 'unified';
+import type {Code, Literal} from 'mdast';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxFlowElement, MdxJsxAttribute} from 'mdast-util-mdx';
 import type {Node, Parent} from 'unist';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {Transformer} from 'unified';
+
+// TODO as of April 2023, no way to import/re-export this ESM type easily :/
+// This might change soon, likely after TS 5.2
+// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
+// import type {Plugin} from 'unified';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type Plugin<T> = any; // TODO fix this asap
+
+type KnownConverter = 'yarn' | 'pnpm';
 
 type CustomConverter = [name: string, cb: (npmCode: string) => string];
 
+type Converter = CustomConverter | KnownConverter;
+
 type PluginOptions = {
   sync?: boolean;
-  converters?: (CustomConverter | 'yarn' | 'pnpm')[];
+  converters?: Converter[];
 };
 
-function createTabItem(
-  code: string,
-  node: Code,
-  value: string,
-  label?: string,
-) {
-  return [
-    {
-      type: 'jsx',
-      value: `<TabItem value="${value}"${label ? ` label="${label}"` : ''}>`,
-    },
-    {
-      type: node.type,
-      lang: node.lang,
-      value: code,
-    },
-    {
-      type: 'jsx',
-      value: '</TabItem>',
-    },
-  ] as Content[];
+function createAttribute(
+  attributeName: string,
+  attributeValue: MdxJsxAttribute['value'],
+): MdxJsxAttribute {
+  return {
+    type: 'mdxJsxAttribute',
+    name: attributeName,
+    value: attributeValue,
+  };
+}
+
+function createTabItem({
+  code,
+  node,
+  value,
+  label,
+}: {
+  code: string;
+  node: Code;
+  value: string;
+  label?: string;
+}): MdxJsxFlowElement {
+  return {
+    type: 'mdxJsxFlowElement',
+    name: 'TabItem',
+    attributes: [
+      createAttribute('value', value),
+      label && createAttribute('label', label),
+    ].filter((attr): attr is MdxJsxAttribute => Boolean(attr)),
+    children: [
+      {
+        type: node.type,
+        lang: node.lang,
+        value: code,
+      },
+    ],
+  };
 }
 
 const transformNode = (
   node: Code,
   isSync: boolean,
-  converters: (CustomConverter | 'yarn' | 'pnpm')[],
+  converters: Converter[],
 ) => {
-  const groupIdProp = isSync ? ' groupId="npm2yarn"' : '';
+  const groupIdProp = isSync
+    ? {
+        type: 'mdxJsxAttribute',
+        name: 'groupId',
+        value: 'npm2yarn',
+      }
+    : undefined;
   const npmCode = node.value;
+
+  function createConvertedTabItem(converter: Converter) {
+    if (typeof converter === 'string') {
+      return createTabItem({
+        code: npmToYarn(npmCode, converter),
+        node,
+        value: converter,
+        label: converter === 'yarn' ? 'Yarn' : converter,
+      });
+    }
+    const [converterName, converterFn] = converter;
+    return createTabItem({
+      code: converterFn(npmCode),
+      node,
+      value: converterName,
+    });
+  }
+
   return [
     {
-      type: 'jsx',
-      value: `<Tabs${groupIdProp}>`,
+      type: 'mdxJsxFlowElement',
+      name: 'Tabs',
+      attributes: [groupIdProp].filter(Boolean),
+      children: [
+        createTabItem({code: npmCode, node, value: 'npm'}),
+        ...converters.flatMap(createConvertedTabItem),
+      ],
     },
-    ...createTabItem(npmCode, node, 'npm'),
-    ...converters.flatMap((converter) =>
-      typeof converter === 'string'
-        ? createTabItem(
-            npmToYarn(npmCode, converter),
-            node,
-            converter,
-            converter === 'yarn' ? 'Yarn' : converter,
-          )
-        : createTabItem(converter[1](npmCode), node, converter[0]),
-    ),
-    {
-      type: 'jsx',
-      value: '</Tabs>',
-    },
-  ] as Content[];
+  ] as any[];
 };
 
-const isImport = (node: Node): node is Literal => node.type === 'import';
+const isMdxEsmLiteral = (node: Node): node is Literal =>
+  node.type === 'mdxjsEsm';
+// TODO legacy approximation, good-enough for now but not 100% accurate
+const isTabsImport = (node: Node): boolean =>
+  isMdxEsmLiteral(node) && node.value.includes('@theme/Tabs');
+
 const isParent = (node: Node): node is Parent =>
   Array.isArray((node as Parent).children);
-const matchNode = (node: Node): node is Code =>
+const isNpm2Yarn = (node: Node): node is Code =>
   node.type === 'code' && (node as Code).meta === 'npm2yarn';
-const nodeForImport: Literal = {
-  type: 'import',
-  value:
-    "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
-};
 
-const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
+function createImportNode() {
+  return {
+    type: 'mdxjsEsm',
+    value:
+      "import Tabs from '@theme/Tabs'\nimport TabItem from '@theme/TabItem'",
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ImportDeclaration',
+            specifiers: [
+              {
+                type: 'ImportDefaultSpecifier',
+                local: {type: 'Identifier', name: 'Tabs'},
+              },
+            ],
+            source: {
+              type: 'Literal',
+              value: '@theme/Tabs',
+              raw: "'@theme/Tabs'",
+            },
+          },
+          {
+            type: 'ImportDeclaration',
+            specifiers: [
+              {
+                type: 'ImportDefaultSpecifier',
+                local: {type: 'Identifier', name: 'TabItem'},
+              },
+            ],
+            source: {
+              type: 'Literal',
+              value: '@theme/TabItem',
+              raw: "'@theme/TabItem'",
+            },
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
+}
+
+const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
+  // @ts-expect-error: todo temporary
   const {sync = false, converters = ['yarn', 'pnpm']} = options;
   return (root) => {
-    let transformed = false as boolean;
-    let alreadyImported = false as boolean;
+    let transformed = false;
+    let alreadyImported = false;
+
     visit(root, (node: Node) => {
-      if (isImport(node) && node.value.includes('@theme/Tabs')) {
+      if (isTabsImport(node)) {
         alreadyImported = true;
       }
+
       if (isParent(node)) {
         let index = 0;
         while (index < node.children.length) {
           const child = node.children[index]!;
-          if (matchNode(child)) {
+          if (isNpm2Yarn(child)) {
             const result = transformNode(child, sync, converters);
             node.children.splice(index, 1, ...result);
             index += result.length;
@@ -106,8 +197,9 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
         }
       }
     });
+
     if (transformed && !alreadyImported) {
-      (root as Parent).children.unshift(nodeForImport);
+      (root as Parent).children.unshift(createImportNode());
     }
   };
 };

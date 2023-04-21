@@ -7,7 +7,6 @@
 
 import markdown from 'remark-parse';
 import toJsx from '@mapbox/hast-util-to-jsx';
-import unified from 'unified';
 import parse from 'rehype-parse';
 import visit from 'unist-util-visit';
 import remarkStringify from 'remark-stringify';
@@ -21,7 +20,9 @@ const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
   return acc;
 }, {});
 
-export default function sanitizeMD(code: string): string {
+export default async function sanitizeMD(code: string): Promise<string> {
+  const {unified} = await import('unified');
+
   const markdownTree = unified().use(markdown).parse(code);
   visit(markdownTree, 'code', (node: Code) => {
     node.value = `\n<!--${node.value}-->\n`;
@@ -30,7 +31,8 @@ export default function sanitizeMD(code: string): string {
     node.value = `<!--${node.value}-->`;
   });
 
-  const markdownString = unified()
+  // @ts-expect-error: :/
+  const markdownString: string = await unified()
     .use(remarkStringify, {fence: '`', fences: true})
     .stringify(markdownTree);
 
@@ -45,6 +47,7 @@ export default function sanitizeMD(code: string): string {
       delete (node as Partial<Element>).tagName;
     }
   });
+
   return toJsx(htmlTree)
     .replace(/\{\/\*|\*\/\}/g, '')
     .replace(/\{\/\*|\*\/\}/g, '')

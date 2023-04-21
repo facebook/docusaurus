@@ -37,17 +37,10 @@ const MarkdownPluginsSchema = Joi.array()
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
 
-const LegacyAdmonitionConfigSchema = Joi.forbidden().messages({
-  'any.unknown': `The Docusaurus admonitions system has changed, and the option {#label} does not exist anymore.
-You now need to swizzle the admonitions component to provide UI customizations such as icons.
-Please refer to https://github.com/facebook/docusaurus/pull/7152 for detailed upgrade instructions.`,
-});
-
 export const AdmonitionsSchema = JoiFrontMatter.alternatives()
   .try(
     JoiFrontMatter.boolean().required(),
     JoiFrontMatter.object({
-      tag: JoiFrontMatter.string(),
       keywords: JoiFrontMatter.array().items(
         JoiFrontMatter.string(),
         // Apparently this is how we tell job to accept empty arrays...
@@ -55,10 +48,10 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
       ),
       extendDefaults: JoiFrontMatter.boolean(),
 
-      // TODO Remove before 2023
-      customTypes: LegacyAdmonitionConfigSchema,
-      icons: LegacyAdmonitionConfigSchema,
-      infima: LegacyAdmonitionConfigSchema,
+      // TODO Remove before 2024
+      tag: Joi.any().forbidden().messages({
+        'any.unknown': `It is not possible anymore to use a custom admonition tag. The only admonition tag supported is ':::' (Markdown Directive syntax)`,
+      }),
     }).required(),
   )
   .default(true)

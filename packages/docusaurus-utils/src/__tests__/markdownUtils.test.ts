@@ -12,6 +12,9 @@ import {
   parseMarkdownString,
   parseMarkdownHeadingId,
   writeMarkdownHeadingId,
+  escapeMarkdownHeadingIds,
+  unwrapMdxCodeBlocks,
+  admonitionTitleToDirectiveLabel,
 } from '../markdownUtils';
 
 describe('createExcerpt', () => {
@@ -913,6 +916,556 @@ describe('parseMarkdownHeadingId', () => {
       text: '## a {#b',
       id: 'b',
     });
+  });
+});
+
+describe('escapeMarkdownHeadingIds', () => {
+  it('can escape simple heading id', () => {
+    expect(escapeMarkdownHeadingIds('# title 1 {#id-1}')).toBe(
+      '# title 1 \\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1    {#id-1}')).toBe(
+      '# title 1    \\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1{#id-1}')).toBe(
+      '# title 1\\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1 \\{#id-1}')).toBe(
+      '# title 1 \\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1\\{#id-1}')).toBe(
+      '# title 1\\{#id-1}',
+    );
+  });
+
+  it('can escape level 1-6 heading ids', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        # title 1 {#id-1}
+
+        ## title 2 {#id-2}
+
+        ### title 3 {#id-3}
+
+        #### title 4 {#id-4}
+
+        ##### title 5 {#id-5}
+
+        ###### title 6 {#id-6}
+    `),
+    ).toEqual(dedent`
+        # title 1 \{#id-1}
+
+        ## title 2 \{#id-2}
+
+        ### title 3 \{#id-3}
+
+        #### title 4 \{#id-4}
+
+        ##### title 5 \{#id-5}
+
+        ###### title 6 \{#id-6}
+    `);
+  });
+
+  it('does not escape level 7 heading id', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        ####### title 7 {#id-7}
+    `),
+    ).toEqual(dedent`
+        ####### title 7 {#id-7}
+    `);
+  });
+
+  it('does not escape non-heading', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        some text {#non-id}
+    `),
+    ).toEqual(dedent`
+        some text {#non-id}
+    `);
+  });
+
+  it('works for realistic example', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        # Support
+
+        Docusaurus has a community of thousands of developers.
+
+        On this page we've listed some Docusaurus-related communities that you can be a part of; see the other pages in this section for additional online and in-person learning materials.
+
+        Before participating in Docusaurus' communities, [please read our Code of Conduct](https://engineering.fb.com/codeofconduct/). We have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) and we expect that all community members adhere to the guidelines within.
+
+        ## Stack Overflow {#stack-overflow}
+
+        Stack Overflow is a popular forum to ask code-level questions or if you're stuck with a specific error. Read through the [existing questions](https://stackoverflow.com/questions/tagged/docusaurus) tagged with **docusaurus** or [ask your own](https://stackoverflow.com/questions/ask?tags=docusaurus)!
+
+        ## Discussion forums \{#discussion-forums}
+
+        There are many online forums for discussion about best practices and application architecture as well as the future of Docusaurus. If you have an answerable code-level question, Stack Overflow is usually a better fit.
+
+        - [Docusaurus online chat](https://discord.gg/docusaurus)
+          - [#help-and-questions](https://discord.gg/fwbcrQ3dHR) for user help
+          - [#contributors](https://discord.gg/6g6ASPA) for contributing help
+        - [Reddit's Docusaurus community](https://www.reddit.com/r/docusaurus/)
+
+        ## Feature requests {#feature-requests}
+
+        For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
+
+        ## News {#news}
+
+        For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+    `),
+    ).toEqual(dedent`
+        # Support
+
+        Docusaurus has a community of thousands of developers.
+
+        On this page we've listed some Docusaurus-related communities that you can be a part of; see the other pages in this section for additional online and in-person learning materials.
+
+        Before participating in Docusaurus' communities, [please read our Code of Conduct](https://engineering.fb.com/codeofconduct/). We have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) and we expect that all community members adhere to the guidelines within.
+
+        ## Stack Overflow \{#stack-overflow}
+
+        Stack Overflow is a popular forum to ask code-level questions or if you're stuck with a specific error. Read through the [existing questions](https://stackoverflow.com/questions/tagged/docusaurus) tagged with **docusaurus** or [ask your own](https://stackoverflow.com/questions/ask?tags=docusaurus)!
+
+        ## Discussion forums \{#discussion-forums}
+
+        There are many online forums for discussion about best practices and application architecture as well as the future of Docusaurus. If you have an answerable code-level question, Stack Overflow is usually a better fit.
+
+        - [Docusaurus online chat](https://discord.gg/docusaurus)
+          - [#help-and-questions](https://discord.gg/fwbcrQ3dHR) for user help
+          - [#contributors](https://discord.gg/6g6ASPA) for contributing help
+        - [Reddit's Docusaurus community](https://www.reddit.com/r/docusaurus/)
+
+        ## Feature requests \{#feature-requests}
+
+        For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
+
+        ## News \{#news}
+
+        For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+    `);
+  });
+});
+
+describe('unwrapMdxCodeBlocks', () => {
+  it('can unwrap a simple mdx code block', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        \`\`\`mdx-code-block
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+        \`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+        # Title
+
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+
+        text
+    `);
+  });
+
+  it('can unwrap a nested mdx code block', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        \`\`\`\`mdx-code-block
+
+        some content
+
+        \`\`\`js
+        export const age = 36
+        \`\`\`
+
+        \`\`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+        # Title
+
+
+        some content
+
+        \`\`\`js
+        export const age = 36
+        \`\`\`
+
+
+        text
+    `);
+  });
+
+  it('works for realistic example', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Canary releases
+
+        \`\`\`mdx-code-block
+        import {
+          VersionsProvider,
+        } from "@site/src/components/Versions";
+
+        <VersionsProvider prop={{attr: 42}} test="yes">
+        \`\`\`
+
+        Docusaurus has a canary releases system.
+
+        It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
+
+        It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+        :::note
+
+        Using a canary release in production might seem risky, but in practice, it's not.
+
+        A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+        \`\`\`mdx-code-block
+        </VersionsProvider>
+        \`\`\`
+    `),
+    ).toEqual(dedent`
+        # Canary releases
+
+        import {
+          VersionsProvider,
+        } from "@site/src/components/Versions";
+
+        <VersionsProvider prop={{attr: 42}} test="yes">
+
+        Docusaurus has a canary releases system.
+
+        It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
+
+        It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+        :::note
+
+        Using a canary release in production might seem risky, but in practice, it's not.
+
+        A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+        </VersionsProvider>
+    `);
+  });
+});
+
+describe('admonitionTitleToDirectiveLabel', () => {
+  const directives = ['info', 'note', 'tip', 'caution'];
+
+  it('does not transform markdown without any admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        # Title
+
+        intro
+
+        ## Sub Title
+
+        content
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        # Title
+
+        intro
+
+        ## Sub Title
+
+        content
+    `);
+  });
+
+  it('transform simple admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform already transformed admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform non-container directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        ::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        ::note Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform left-padded directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+         :::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+         :::note Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform admonition without title', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform non-admonition directive', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::whatever Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::whatever Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('transform real-world nested messy admonitions', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        ---
+        title: "contains :::note"
+        ---
+
+        # Title
+
+        intro
+
+        ::::note note **title**
+
+        note content
+
+        ::::tip tip <span>title</span>
+
+        tip content
+
+        :::whatever whatever title
+
+        whatever content
+
+        :::
+
+        ::::
+
+        :::::
+
+        ## Heading {#my-heading}
+
+        ::::info       weird spaced title
+
+        into content
+
+        :::tip[tip directiveLabel]
+
+        tip content
+
+        ::::
+
+        ## Conclusion
+
+        end
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        ---
+        title: "contains :::note"
+        ---
+
+        # Title
+
+        intro
+
+        ::::note[note **title**]
+
+        note content
+
+        ::::tip[tip <span>title</span>]
+
+        tip content
+
+        :::whatever whatever title
+
+        whatever content
+
+        :::
+
+        ::::
+
+        :::::
+
+        ## Heading {#my-heading}
+
+        ::::info[weird spaced title]
+
+        into content
+
+        :::tip[tip directiveLabel]
+
+        tip content
+
+        ::::
+
+        ## Conclusion
+
+        end
+    `);
   });
 });
 

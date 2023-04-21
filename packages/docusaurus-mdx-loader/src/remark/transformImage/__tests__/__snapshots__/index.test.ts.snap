@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transformImage plugin does not choke on invalid image 1`] = `
-"<img alt={"invalid image"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/invalid.png").default} />
+"<img alt="invalid image" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/invalid.png").default} />
 "
 `;
 
@@ -21,27 +21,27 @@ exports[`transformImage plugin transform md images to <img /> 1`] = `
 
 <img src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
 
-<img alt={"img"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
+<img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
 
-<img alt={"img from second static folder"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static2/img2.png").default} width="256" height="82" />
+in paragraph <img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
 
-<img alt={"img from second static folder"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static2/img2.png").default} width="256" height="82" />
+<img alt="img from second static folder" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static2/img2.png").default} width="256" height="82" />
 
-<img alt={"img with URL encoded chars"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static2/img2 copy.png").default} width="256" height="82" />
+<img alt="img from second static folder" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static2/img2.png").default} width="256" height="82" />
 
-<img alt={"img"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} title="Title" width="200" height="200" /> <img alt={"img"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
+<img alt="img with URL encoded chars" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static2/img2 copy.png").default} width="256" height="82" />
 
-<img alt={"img with &quot;quotes&quot;"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} title="&#39;Quoted&#39; title" width="200" height="200" />
+<img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} title="Title" width="200" height="200" /> <img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
 
-<img alt={"site alias"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
+!/[img with "quotes"]/(./static/img.png ''Quoted' title')
 
-<img alt={"img with hash"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default + '#light'} width="200" height="200" />
-<img alt={"img with hash"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default + '#dark'} width="200" height="200" />
+<img alt="site alias" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />
 
-<img alt={"img with query"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10").default} width="200" height="200" />
-<img alt={"img with query"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10").default} width="200" height="200" />
+<img alt="img with hash" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default + '#light'} width="200" height="200" /> <img alt="img with hash" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default + '#dark'} width="200" height="200" />
 
-<img alt={"img with both"} src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10").default + '#light'} width="200" height="200" />
+<img alt="img with query" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10").default} width="200" height="200" /> <img alt="img with query" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10").default} width="200" height="200" />
+
+<img alt="img with both" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10").default + '#light'} width="200" height="200" />
 
 ## Heading
 
