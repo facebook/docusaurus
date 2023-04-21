@@ -110,48 +110,21 @@ Hello world
 You may also specify an optional title.
 
 ```md
-TODO temporarily removed
+:::note[Your Title **with** some _Markdown_ `syntax`!]
+
+Some **content** with some _Markdown_ `syntax`.
+
+:::
 ```
 
 ```mdx-code-block
 <BrowserWindow>
 
-:::note[TEST Title]
+:::note[Your Title **with** some _Markdown_ `syntax`!]
 
-text1
-
-**text2 bold**
+Some **content** with some _Markdown_ `syntax`.
 
 :::
-
-:::note[TEST Title with `inline code test`]
-
-text1
-
-**text2 bold**
-
-:::
-
-
-:::::note{title="Your title"}
-
-Some **content** with _Markdown_ `syntax`.
-
-::::note[Your nested Title]
-
-:::note Your very nested Title
-
-Some **content** with _Markdown_ `syntax`.
-
-:::
-
-Some **content** with _Markdown_ `syntax`.
-
-::::
-
-hey
-
-:::::
 
 </BrowserWindow>
 ```
@@ -213,7 +186,7 @@ import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
 
-:::tip Use tabs in admonitions
+:::tip[Use tabs in admonitions]
 
 <Tabs>
   <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
@@ -227,7 +200,7 @@ import TabItem from '@theme/TabItem';
 ```mdx-code-block
 <BrowserWindow>
 
-:::tip Use tabs in admonitions
+:::tip[Use tabs in admonitions]
 
 <Tabs>
   <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
@@ -381,7 +354,7 @@ export default AdmonitionTypes;
 Now you can use your new admonition keyword in a Markdown file, and it will be parsed and rendered with your custom logic:
 
 ```md
-:::my-custom-admonition Custom Admonition
+:::my-custom-admonition[My Title]
 
 It works!
 
@@ -390,7 +363,7 @@ It works!
 
 <BrowserWindow>
 
-:::my-custom-admonition Custom Admonition
+:::my-custom-admonition[My Title]
 
 It works!
 
