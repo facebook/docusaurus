@@ -48,7 +48,7 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
       ),
       extendDefaults: JoiFrontMatter.boolean(),
 
-      // TODO Remove before 2023
+      // TODO Remove before 2024
       tag: Joi.any().forbidden().messages({
         'any.unknown': `It is not possible anymore to use a custom admonition tag. The only admonition tag supported is ':::' (Markdown Directive syntax)`,
       }),
