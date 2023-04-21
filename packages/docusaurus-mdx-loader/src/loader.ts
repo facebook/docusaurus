@@ -72,7 +72,13 @@ const DEFAULT_OPTIONS: MDXOptions = {
   beforeDefaultRehypePlugins: [],
 };
 
-const compilerCache = new Map<string | Options, [Processor, Options]>();
+type CompilerCacheEntry = {
+  mdCompiler: Processor;
+  mdxCompiler: Processor;
+  options: Options;
+};
+
+const compilerCache = new Map<string | Options, CompilerCacheEntry>();
 
 export type MDXPlugin = Pluggable;
 
@@ -198,6 +204,7 @@ export async function mdxLoader(
   const {createProcessor} = await import('@mdx-js/mdx');
   const {default: gfm} = await import('remark-gfm');
   const {default: comment} = await import('remark-comment');
+  const {default: directives} = await import('remark-directive');
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
   const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
@@ -219,9 +226,15 @@ export async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
+    /*
+    /!\ DO NOT PUT ANY ASYNC / AWAIT / DYNAMIC IMPORTS HERE
+    This creates cache creation race conditions
+    TODO extract this in a synchronous method
+     */
+
     const remarkPlugins: MDXPlugin[] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-      (await import('remark-directive')).default,
+      directives,
       ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
       details,
@@ -256,6 +269,31 @@ export async function mdxLoader(
       ...(reqOptions.rehypePlugins ?? []),
     ];
 
+    const options: ProcessorOptions & Options = {
+      ...reqOptions,
+      remarkPlugins,
+      rehypePlugins,
+      providerImportSource: '@mdx-js/react',
+    };
+
+    const compilerCacheEntry: CompilerCacheEntry = {
+      mdCompiler: createProcessor({
+        ...options,
+        format: 'md',
+      }),
+      mdxCompiler: createProcessor({
+        ...options,
+        format: 'mdx',
+      }),
+      options,
+    };
+
+    compilerCache.set(this.query, compilerCacheEntry);
+  }
+
+  const {mdCompiler, mdxCompiler, options} = compilerCache.get(this.query)!;
+
+  function getCompiler() {
     const format =
       mdxFrontMatter.format === 'detect'
         ? isMDFormat(filePath)
@@ -263,21 +301,12 @@ export async function mdxLoader(
           : 'mdx'
         : mdxFrontMatter.format;
 
-    const options: ProcessorOptions & Options = {
-      ...reqOptions,
-      remarkPlugins,
-      rehypePlugins,
-      format,
-      providerImportSource: '@mdx-js/react',
-    };
-    compilerCache.set(this.query, [createProcessor(options), options]);
+    return format === 'md' ? mdCompiler : mdxCompiler;
   }
-
-  const [compiler, options] = compilerCache.get(this.query)!;
 
   let result: string;
   try {
-    result = await compiler
+    result = await getCompiler()
       .process({
         value: content,
         path: filePath,

@@ -6,14 +6,39 @@ wrapperClassName: docusaurus-markdown-example
 
 # Markdown .md tests
 
-todo
+This file should be interpreted in a more CommonMark compliant way
 
-<!-- comment -->
+## Comment
 
-:::note[test]
+Html comment: <!-- comment -->
+
+<!-- prettier-ignore -->
+MDX comment: {/* comment */}
+
+## JSX syntax
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+<BrowserWindow>
+
+BrowserWindow content
+
+<BrowserWindow/>
+
+export const answer = 42;
+
+Test {xyz}
+
+## Admonition
+
+Admonitions still work
+
+:::note[title]
 
 note
 
 :::
 
-test
+## Heading Id {#custom-heading-id}
+
+Custom heading syntax `{#custom-heading-id}` still works
