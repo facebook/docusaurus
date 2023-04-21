@@ -359,14 +359,7 @@ module.exports = async function createConfigAsync() {
                 ? 'current'
                 : undefined,
 
-            // TODO temporary for mdx2 PR
-            ...(isDeployPreview && {lastVersion: undefined}),
             onlyIncludeVersions: (() => {
-              // TODO temporary for mdx2 PR
-              if (isDeployPreview) {
-                return undefined;
-              }
-
               if (isBuildFast) {
                 return ['current'];
               } else if (
