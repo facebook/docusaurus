@@ -20,6 +20,7 @@
     "mdast-util-mdx": "^2.0.0",
     "npm-to-yarn": "^2.0.0",
     "tslib": "^2.5.0",
+    "unified": "^10.1.2",
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
