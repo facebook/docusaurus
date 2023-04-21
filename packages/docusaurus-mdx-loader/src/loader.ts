@@ -32,11 +32,16 @@ import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Processor, Pluggable} from 'unified';
+import type {Processor} from 'unified';
 import type {AdmonitionOptions} from './remark/admonitions';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {ProcessorOptions} from '@mdx-js/mdx';
+
+// TODO as of April 2023, no way to import/re-export this ESM type easily :/
+// This might change soon, likely after TS 5.2
+// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
+type Pluggable = any; // TODO fix this asap
 
 // Copied from https://mdxjs.com/packages/mdx/#optionsmdextensions
 // Although we are likely to only use .md / .mdx anyway...

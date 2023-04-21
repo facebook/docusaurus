@@ -16,6 +16,12 @@ import type {Heading, Literal} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 
+// TODO as of April 2023, no way to import/re-export this ESM type easily :/
+// This might change soon, likely after TS 5.2
+// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
+// import type {Plugin} from 'unified';
+type Plugin = any; // TODO fix this asap
+
 export type TOCItem = {
   readonly value: string;
   readonly id: string;
@@ -75,7 +81,9 @@ const getOrCreateExistingTargetIndex = async (
   return targetIndex;
 };
 
-export default function plugin(options: PluginOptions = {}): Transformer {
+const plugin: Plugin = function plugin(
+  options: PluginOptions = {},
+): Transformer {
   const name = options.name || 'toc';
 
   return async (root) => {
@@ -103,7 +111,9 @@ export default function plugin(options: PluginOptions = {}): Transformer {
       children[targetIndex] = await createExportNode(name, headings);
     }
   };
-}
+};
+
+export default plugin;
 
 async function createExportNode(name: string, object: any) {
   const {valueToEstree} = await import('estree-util-value-to-estree');

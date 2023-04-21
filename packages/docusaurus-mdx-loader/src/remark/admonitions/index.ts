@@ -6,11 +6,17 @@
  */
 import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer, Processor, Plugin} from 'unified';
+import type {Transformer, Processor} from 'unified';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {ContainerDirective} from 'mdast-util-directive';
 import type {Parent} from 'mdast';
+
+// TODO as of April 2023, no way to import/re-export this ESM type easily :/
+// This might change soon, likely after TS 5.2
+// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
+// import type {Plugin} from 'unified';
+type Plugin = any; // TODO fix this asap
 
 export type AdmonitionOptions = {
   keywords: string[];
