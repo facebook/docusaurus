@@ -21,6 +21,7 @@ export default function LocaleDropdownNavbarItem({
   mobile,
   dropdownItemsBefore,
   dropdownItemsAfter,
+  queryString = '',
   ...props
 }: Props): JSX.Element {
   const {
@@ -35,7 +36,7 @@ export default function LocaleDropdownNavbarItem({
       fullyQualified: false,
     })}`;
     // preserve ?search#hash suffix on locale switches
-    const to = `${baseTo}${search}${hash}`;
+    const to = `${baseTo}${search}${hash}${queryString}`;
     return {
       label: localeConfigs[locale]!.label,
       lang: localeConfigs[locale]!.htmlLang,

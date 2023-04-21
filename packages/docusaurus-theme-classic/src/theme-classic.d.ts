@@ -1072,6 +1072,7 @@ declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
   export interface Props extends DropdownNavbarItemProps {
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
+    readonly queryString?: string;
   }
 
   export default function LocaleDropdownNavbarItem(props: Props): JSX.Element;

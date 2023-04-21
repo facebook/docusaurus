@@ -68,6 +68,14 @@ module.exports = {
 };
 ```
 
+:::tip
+
+You can pass a query parameter that will be appended to the URL when a user changes the locale using the dropdown (e.g. `queryString: '?persistLocale=true'`).
+
+This is useful for implementing an automatic locale detection on your server. For example, you can use this parameter to store the user's preferred locale in a cookie.
+
+:::
+
 ### Start your site {#start-your-site}
 
 Start your localized site in dev mode, using the locale of your choice:

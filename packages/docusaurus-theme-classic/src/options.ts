@@ -200,6 +200,7 @@ const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('localeDropdown').required(),
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+  queryString: Joi.string(),
 });
 
 const SearchItemSchema = Joi.object({
