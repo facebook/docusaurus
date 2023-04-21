@@ -92,8 +92,8 @@ export function admonitionTitleToDirectiveLabel(
   content: string,
   admonitionContainerDirectives: string[],
 ): string {
-  // TODO this will also process ":::note Title" inside docs code blocks
-  // Probably not very important and we should now use directive labels?
+  // this will also process ":::note Title" inside docs code blocks
+  // good enough: we fixed older versions docs to not be affected
 
   const directiveNameGroup = `(${admonitionContainerDirectives.join('|')})`;
   const regexp = new RegExp(
