@@ -307,8 +307,11 @@ The following operations are defined for [URI]s:
           '@site/docs/file.md': '/docs/file',
         },
         fileString: input,
-      }).newContent,
-    ).toEqual(input);
+      }),
+    ).toEqual({
+      newContent: input,
+      brokenMarkdownLinks: [],
+    });
   });
 
   it('handles stray spaces', () => {
