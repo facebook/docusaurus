@@ -26,6 +26,27 @@ exports[`replaceMarkdownLinks does basic replace 1`] = `
 }
 `;
 
+exports[`replaceMarkdownLinks handles link titles 1`] = `
+{
+  "brokenMarkdownLinks": [],
+  "newContent": "
+[URL](/docs/file "title")
+[URL](/docs/file 'title')
+[URL](/docs/file (title))
+",
+}
+`;
+
+exports[`replaceMarkdownLinks handles stray spaces 1`] = `
+{
+  "brokenMarkdownLinks": [],
+  "newContent": "
+[URL]( /docs/file )
+[ref]:  /docs/file
+",
+}
+`;
+
 exports[`replaceMarkdownLinks ignores links in HTML comments 1`] = `
 {
   "brokenMarkdownLinks": [
@@ -110,16 +131,26 @@ exports[`replaceMarkdownLinks ignores links in inline code 1`] = `
 }
 `;
 
+exports[`replaceMarkdownLinks preserves query/hash 1`] = `
+{
+  "brokenMarkdownLinks": [],
+  "newContent": "
+[URL](/docs/file?foo=bar#baz)
+[URL](/docs/file#a)
+[URL](/docs/file?c)
+",
+}
+`;
+
 exports[`replaceMarkdownLinks replaces Markdown links with spaces 1`] = `
 {
   "brokenMarkdownLinks": [],
   "newContent": "
 [doc a](/docs/doc%20a)
 [doc a](</docs/doc%20a>)
-[doc a](/docs/doc%20a)
 [doc b](/docs/my%20docs/doc%20b)
 [doc b](</docs/my%20docs/doc%20b>)
-[doc b](/docs/my%20docs/doc%20b)
+[doc]: </docs/my%20docs/doc%20b>
 ",
 }
 `;
