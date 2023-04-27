@@ -18,6 +18,7 @@ autoconverted
 autogen
 autogenerating
 autohide
+autolinks
 backport
 backticks
 bartosz
@@ -48,6 +49,7 @@ codegen
 codeql
 codesandbox
 codespaces
+commonmark
 contravariance
 corejs
 crawlable
