@@ -12,23 +12,14 @@ import type {PlaywrightTestConfig} from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
+  testDir: './tests',
+
   // Run website production built
   // Need to run "yarn website:build:fast" before
   webServer: {
     cwd: '..',
     port: 3000,
     command: 'yarn serve:website',
-  },
-
-  testDir: './tests',
-  timeout: 30 * 1000,
-  expect: {
-    timeout: 5000,
-  },
-  fullyParallel: true,
-  use: {
-    actionTimeout: 0,
-    trace: 'on-first-retry',
   },
 
   // Browsers: only Chrome for now

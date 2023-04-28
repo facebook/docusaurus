@@ -19,7 +19,6 @@ const sitemap = fs.readFileSync(sitemapPath).toString();
 const stylesheet = fs.readFileSync(stylesheetPath).toString();
 
 function extractSitemapUrls() {
-   
   const $ = cheerio.load(sitemap, {xmlMode: true});
   const urls: string[] = [];
   $('loc').each(function handleLoc() {
@@ -45,7 +44,7 @@ function isBlacklisted(pathname: string) {
   );
 }
 
-const getPathnames = function (): string[] {
+function getPathnames(): string[] {
   const urls = extractSitemapUrls();
   const pathnamesUnfiltered = urls.map((url) => new URL(url).pathname);
   const pathnames = pathnamesUnfiltered.filter(
@@ -56,7 +55,7 @@ const getPathnames = function (): string[] {
   console.log('Pathnames before filtering', pathnamesUnfiltered.length);
   console.log('Pathnames after filtering', pathnames.length);
   return pathnames;
-};
+}
 
 function pathnameToArgosName(pathname: string): string {
   function removeTrailingSlash(str: string): string {
