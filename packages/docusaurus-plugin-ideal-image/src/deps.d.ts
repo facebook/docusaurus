@@ -37,7 +37,7 @@ declare module '@endiliey/react-ideal-image' {
     width: number;
     src?: string;
     size?: number;
-    format?: 'webp' | 'jpeg' | 'png' | 'gif';
+    format?: 'webp' | 'jpeg' | 'png' | 'gif' | 'avif';
   };
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';

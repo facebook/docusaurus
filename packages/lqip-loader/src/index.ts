@@ -13,6 +13,11 @@ type Options = {
   palette: boolean;
 };
 
+export type ImageWithLqip<Source = string> = {
+  preSrc: string;
+  src: Source;
+};
+
 export default async function lqipLoader(
   this: LoaderContext<Options>,
   contentBuffer: Buffer,

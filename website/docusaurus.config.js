@@ -251,6 +251,8 @@ module.exports = async function createConfigAsync() {
           max: 1030,
           min: 640,
           steps: 2,
+          // For ideal-image-plugin test
+          enableWebpAvif: true,
           // Use false to debug, but it incurs huge perf costs
           disableInDev: true,
         }),

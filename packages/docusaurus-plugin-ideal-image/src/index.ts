@@ -46,6 +46,11 @@ export default function pluginIdealImage(
         return {};
       }
 
+      const rulesRegex = new RegExp(
+        `\\.(?:png|jpe?g${options.enableWebpAvif ? '|webp|avif' : ''})$`,
+        'i',
+      );
+
       return {
         mergeStrategy: {
           'module.rules': 'prepend',
@@ -53,7 +58,7 @@ export default function pluginIdealImage(
         module: {
           rules: [
             {
-              test: /\.(?:png|jpe?g)$/i,
+              test: rulesRegex,
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {

@@ -46,17 +46,24 @@ declare module '@docusaurus/plugin-ideal-image' {
      * Tip: use network throttling in your browser to simulate slow networks.
      */
     disableInDev?: boolean;
+    /**
+     * You can enable this plugin for WebP/AVIF images
+     * by setting this to `true`.
+     * Note: the default is `false` to keep backward compatibility.
+     */
+    enableWebpAvif?: boolean;
   };
 }
 
 declare module '@theme/IdealImage' {
   import type {ComponentProps} from 'react';
+  import type {ImageWithLqip} from '@docusaurus/lqip-loader';
 
   export type SrcType = {
     width: number;
     path?: string;
     size?: number;
-    format?: 'webp' | 'jpeg' | 'png' | 'gif';
+    format?: 'webp' | 'jpeg' | 'png' | 'gif' | 'avif';
   };
 
   export type SrcImage = {
@@ -67,8 +74,11 @@ declare module '@theme/IdealImage' {
     images: SrcType[];
   };
 
+  export type IdealImageEnabledSrc = ImageWithLqip<SrcImage>;
+  export type IdealImageSrc = IdealImageEnabledSrc | {default: string} | string;
+
   export interface Props extends ComponentProps<'img'> {
-    readonly img: {default: string} | {src: SrcImage; preSrc: string} | string;
+    readonly img: IdealImageSrc;
   }
   export default function IdealImage(props: Props): JSX.Element;
 }
