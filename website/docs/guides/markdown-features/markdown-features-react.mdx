@@ -17,13 +17,28 @@ import styles from './markdown-features-react.module.css';
 
 Docusaurus has built-in support for [MDX v2](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
 
-:::note
+:::info MDX vs. CommonMark
 
-While Docusaurus parses both `.md` and `.mdx` files using MDX, some of the syntaxes are treated slightly differently by third-party tools. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax.
+Docusaurus parses both `.md` and `.mdx` files using MDX, but **the syntax is interpreted differently based on the file extension**:
+
+- With the `.md` extension, the parser is compatible with [CommonMark](https://commonmark.org/) and does not allow the usage of JSX.
+- With the `.mdx` extension, the parser is stricter than [CommonMark](https://commonmark.org/) and is not 100% compatible with it, but it becomes possible to use JSX.
+
+It is also possible to override the file extension format with front matter: `format: mdx`.
+
+The rest of this page assumes usage of the `mdx` format.
 
 :::
 
 Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+
+:::tip Debugging MDX
+
+The MDX format is quite strict, and you may get compilation errors.
+
+Use the **[MDX playground](https://mdxjs.com/playground/)** to debug them and make sure your syntax is valid.
+
+:::
 
 ### Exporting components {#exporting-components}
 
@@ -83,10 +98,6 @@ Since all doc files are parsed using MDX, anything that looks like HTML is actua
 /* Use this: */
 <span style={{backgroundColor: 'red'}}>Foo</span>
 ```
-
-This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.mdx#convert-style-attributes-to-style-objects-in-mdx).
-
-In addition, MDX is not [100% compatible with CommonMark](https://github.com/facebook/docusaurus/issues/3018). Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
 
 :::
 
@@ -204,7 +215,7 @@ From MDX v2+ onward (Docusaurus v3+), lower-case tag names are always rendered a
 
 :::caution
 
-This feature is powered by [a wrapper provider](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/advanced/components#mdxprovider). If you are importing Markdown in a React page, you have to supply this provider yourself through the `MDXContent` theme component.
+This feature is powered by [an `MDXProvider`](https://mdxjs.com/docs/using-mdx/#mdx-provider). If you are importing Markdown in a React page, you have to supply this provider yourself through the `MDXContent` theme component.
 
 ```jsx title="src/pages/index.js"
 import React from 'react';
@@ -231,227 +242,25 @@ If you don't wrap your imported MDX with `MDXContent`, the global scope will not
 
 ### Markdown and JSX interoperability {#markdown-and-jsx-interoperability}
 
-Docusaurus v2 is using MDX v1, which has a lot of known cases where the content fails to be correctly parsed as Markdown. Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
+Docusaurus v3 is using [MDX v2](https://mdxjs.com/blog/v2/).
 
-<details>
-<summary>Samples of parsing failures</summary>
+The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
 
-**A paragraph starting with a JSX tag will be seen entirely as a JSX string:**
+Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.com/docs/what-is-mdx/#markdown)), notably:
 
-```mdx-code-block
-<Tabs groupId="jsx-and-md">
-<TabItem value="Problem">
-<div className={styles.wrappingBlock}>
-```
+- Indented code blocks: use triple backticks instead
+- Autolinks (`<http://localhost:3000>`): use regular link syntax instead (`[http://localhost:3000](http://localhost:3000)`)
+- HTML syntax (`<p style="color: red;">`): use JSX instead (`<p style={{color: 'red'}}>`)
+- Unescaped `{` and `<`: escape them with `\` instead (`\{` and `\<`)
 
-```jsx
-<span style={{color: 'red'}}>Highlighted text</span> but afterwards _Markdown_ **doesn't work**
-```
+:::tip
 
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
+In case you need a less strict format, with [CommonMark](https://commonmark.org/) compatibility, you can use:
 
-<span style={{color: 'red'}}>Highlighted text</span> but afterwards _Markdown_ **doesn't work**
+- The `.md` file extension instead of `.mdx`
+- The `format: md` front matter
 
-</BrowserWindow>
-</div>
-</TabItem>
-<TabItem value="Workaround">
-
-Use JSX for the rest of the line, or prefix the line with some plain text:
-
-<div className={styles.wrappingBlock}>
-```
-
-```jsx
-<span style={{color: 'red'}}>Use JSX for the paragraph</span> to stop <i>worrying about</i> <b>Markdown</b>
-
-&#8203;<span style={{color: 'red'}}>← This is a zero-width space</span> and afterwards _Markdown_ **works**
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-
-<span style={{color: 'red'}}>Use JSX for the paragraph</span> to stop <i>worrying about</i> <b>Markdown</b>
-
-&#8203;<span style={{color: 'red'}}>← This is a zero-width space</span> and afterwards _Markdown_ **works**
-
-</BrowserWindow>
-</div>
-</TabItem>
-</Tabs>
-
-**Markdown within a JSX tag never works:**
-
-<Tabs groupId="jsx-and-md">
-<TabItem value="Problem">
-<div className={styles.wrappingBlock}>
-```
-
-```jsx
-<span style={{color: 'red'}}>**Bold doesn't work**</span>
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-
-<span style={{color: 'red'}}>**Bold doesn't work**</span>
-
-</BrowserWindow>
-</div>
-
-</TabItem>
-<TabItem value="Workaround">
-
-Use JSX within JSX tag, or move the Markdown to the outer layer:
-
-<div className={styles.wrappingBlock}>
-```
-
-```jsx
-<span style={{color: 'red'}}><b>Bold now works</b></span>
-
-**<span style={{color: 'red'}}>Bold now works</span>**
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-
-<span style={{color: 'red'}}><b>Bold now works</b></span>
-
-**<span style={{color: 'red'}}>Bold now works</span>**
-
-</BrowserWindow>
-</div>
-</TabItem>
-</Tabs>
-
-**Text immediately below a JSX tag will be seen as JSX text:**
-
-<Tabs groupId="jsx-and-md">
-<TabItem value="Problem">
-<div className={styles.wrappingBlock}>
-```
-
-{/* prettier-ignore */}
-```jsx
-<div style={{color: 'red'}}>
-**Bold still doesn't work**
-</div>
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-
-<div style={{color: 'red'}}>
-**Bold still doesn't work**
-</div>
-
-</BrowserWindow>
-</div>
-</TabItem>
-<TabItem value="Workaround">
-
-Add an empty new line:
-
-<div className={styles.wrappingBlock}>
-```
-
-{/* prettier-ignore */}
-```jsx
-<div style={{color: 'red'}}>
-
-**Bold now works**
-
-</div>
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-<div style={{color: 'red'}}>
-
-**Bold now works**
-
-</div>
-</BrowserWindow>
-</div>
-</TabItem>
-</Tabs>
-
-**Markdown text indented by four spaces will be seen as a code block:**
-
-<Tabs groupId="jsx-and-md">
-<TabItem value="Problem">
-<div className={styles.wrappingBlock}>
-```
-
-{/* prettier-ignore */}
-```jsx
-<div style={{color: 'red'}}>
-
-    You may think I'm just some text...
-
-</div>
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-
-<div style={{color: 'red'}}>
-
-    You may think I'm just some text...
-
-</div>
-
-</BrowserWindow>
-</div>
-</TabItem>
-<TabItem value="Workaround">
-
-Don't indent:
-
-<div className={styles.wrappingBlock}>
-```
-
-{/* prettier-ignore */}
-```jsx
-<div style={{color: 'red'}}>
-
-Now I'm actually just text
-
-</div>
-```
-
-```mdx-code-block
-</div>
-<div className={styles.wrappingBlock}>
-<BrowserWindow>
-<div style={{color: 'red'}}>
-
-Now I'm actually just text
-
-</div>
-</BrowserWindow>
-</div>
-</TabItem>
-</Tabs>
-```
-
-</details>
+:::
 
 ## Importing code snippets {#importing-code-snippets}
 
