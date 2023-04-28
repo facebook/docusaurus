@@ -1,0 +1,39 @@
+name: Argos CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  take-screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          # A minimal fetch-depth of 2 is required
+          # to automatically detect branch in @argos-ci/cli
+          fetch-depth: 2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build website fast
+        run: yarn build:website:fast
+
+      - name: Take Argos screenshots
+        run: yarn argos:screenshot
+
+      - name: Upload Argos screenshots
+        continue-on-error: true
+        run: yarn argos:upload

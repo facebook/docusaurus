@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
+    "argos",
     "website",
     "test-website-in-workspace",
     "packages/create-docusaurus/templates/*",
@@ -37,6 +38,8 @@
     "crowdin:upload:website": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:download": "crowdin download --config ./crowdin-v2.yaml",
     "crowdin:download:website": "yarn crowdin:download --language fr --language ko --language pt-BR --language zh-CN --language ja",
+    "argos:screenshot": "yarn workspace argos screenshot",
+    "argos:upload": "yarn workspace argos upload",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
     "canary:version": "echo 0.0.0-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes",
