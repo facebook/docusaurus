@@ -1,5 +1,5 @@
 // @ts-check
-// Note: @type annotations throughout allow type checking and IDEs autocompletion
+// Note: '@type' annotations throughout allow type checking and IDEs autocompletion
 
 // NOTE:  In this default config, we declare a JS constant 'const config ='
 // to further help your IDE give TypeScript hints while editing this file.
