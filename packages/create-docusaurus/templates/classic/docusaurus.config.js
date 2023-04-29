@@ -1,8 +1,8 @@
 // @ts-check
-// Note: '@type' annotations throughout allow type checking and IDEs autocompletion
-
+// `@type` JSDoc annotations allow editor autocompletion and type checking
+// (when paired with `@ts-check`).
 // There are various equivalent ways to declare your Docusaurus config.
-// https://docusaurus.io/docs/api/docusaurus-config
+// See: https://docusaurus.io/docs/api/docusaurus-config
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
