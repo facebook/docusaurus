@@ -1,23 +1,13 @@
 // @ts-check
 // Note: '@type' annotations throughout allow type checking and IDEs autocompletion
 
-// NOTE:  In this default config, we declare a JS constant 'const config ='
-// to further help your IDE give TypeScript hints while editing this file.
-// 'module.exports =' at the very bottom is the syntax that uses
-// that 'config' constant.  There is not a single way/syntax to declare
-// your config within this file.  In fact, you have the full power of
-// Node.js, as long as you return an object that matches the shape we
-// expect with 'module.exports =' (or a function that creates that object).
-// Our docs give examples of putting things inside 'module.exports = { }'
-// which in this file is equivalent to putting into 'config = { }' instead,
-// It's completely your choice.
-// See also: https://docusaurus.io/docs/api/docusaurus-config#overview
+// There are various equivalent ways to declare your Docusaurus config.
+// https://docusaurus.io/docs/api/docusaurus-config
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
-// 'config' gets used at the bottom of this file with 'module.exports ='
 const config = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
