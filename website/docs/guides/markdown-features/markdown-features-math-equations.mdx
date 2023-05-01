@@ -54,27 +54,32 @@ $$
 To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
 
 ```bash npm2yarn
-npm install --save remark-math@3 rehype-katex@5 hast-util-is-element@1.1.0
+npm install --save remark-math@5 rehype-katex@6
 ```
 
 :::caution
 
-Use the exact same versions. The latest versions are incompatible with Docusaurus 2.
+Make sure to use `remark-math >= 5` and `rehype-katex >= 6` for Docusaurus v3 (using MDX v2).
 
 :::
 
-Import the plugins in `docusaurus.config.js`:
+Those 2 plugins are now only available as ESM packages, and you will need to import them dynamically.
 
-```js
-const math = require('remark-math');
-const katex = require('rehype-katex');
+First, turn your site config into an async config creator function:
+
+```js title="docusaurus.config.js"
+module.exports = async function createConfigAsync() {
+  return {
+    // your site config...
+  };
+};
 ```
 
-Add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
+It is now possible to import the plugins dynamically and add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
 
 ```js
-remarkPlugins: [math],
-rehypePlugins: [katex],
+remarkPlugins: [(await import('remark-math')).default],
+rehypePlugins: [(await import('rehype-katex')).default],
 ```
 
 Include the KaTeX CSS in your config under `stylesheets`:
@@ -94,39 +99,36 @@ stylesheets: [
 Overall the changes look like:
 
 ```js title="docusaurus.config.js"
-// highlight-start
-const math = require('remark-math');
-const katex = require('rehype-katex');
-// highlight-end
-
-module.exports = {
-  title: 'Docusaurus',
-  tagline: 'Build optimized websites quickly, focus on your content',
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          path: 'docs',
-          // highlight-start
-          remarkPlugins: [math],
-          rehypePlugins: [katex],
-          // highlight-end
+module.exports = async function createConfigAsync() {
+  return {
+    title: 'Docusaurus',
+    tagline: 'Build optimized websites quickly, focus on your content',
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            path: 'docs',
+            // highlight-start
+            remarkPlugins: [(await import('remark-math')).default],
+            rehypePlugins: [(await import('rehype-katex')).default],
+            // highlight-end
+          },
         },
+      ],
+    ],
+    // highlight-start
+    stylesheets: [
+      {
+        href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+        type: 'text/css',
+        integrity:
+          'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+        crossorigin: 'anonymous',
       },
     ],
-  ],
-  // highlight-start
-  stylesheets: [
-    {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
-      type: 'text/css',
-      integrity:
-        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
-      crossorigin: 'anonymous',
-    },
-  ],
-  // highlight-end
+    // highlight-end
+  };
 };
 ```
 
@@ -143,68 +145,4 @@ module.exports = {
     },
   ],
 };
-```
-
-## Upgrading rehype-katex beyond recommended version {#upgrading-rehype-katex-beyond-recommended-version}
-
-:::tip
-
-Only use the latest version if you actually need the bleeding-edge features of $\KaTeX$. Most users should find the older versions work just as well.
-
-:::
-
-The latest versions of `rehype-katex` (starting from `v6.0.0`) has moved to ES Modules, a new module system of JavaScript, which Docusaurus doesn't officially support yet. However, it is possible to import `rehype-katex` dynamically, using an async config creator. Docusaurus will call this creator function and wait for it to return the config object.
-
-```js title="docusaurus.config.js"
-async function createConfig() {
-  // ES Modules are imported with `import()` instead of `require()`, and are imported asynchronously
-  // highlight-next-line
-  const katex = (await import('rehype-katex')).default;
-  return {
-    // ...
-  };
-}
-```
-
-In this case, the overall configuration changes will look like:
-
-```js title="docusaurus.config.js"
-// highlight-next-line
-const math = require('remark-math');
-
-async function createConfig() {
-  // highlight-next-line
-  const katex = (await import('rehype-katex')).default;
-  return {
-    title: 'Docusaurus',
-    tagline: 'Build optimized websites quickly, focus on your content',
-    presets: [
-      [
-        '@docusaurus/preset-classic',
-        {
-          docs: {
-            path: 'docs',
-            // highlight-start
-            remarkPlugins: [math],
-            rehypePlugins: [katex],
-            // highlight-end
-          },
-        },
-      ],
-    ],
-    // highlight-start
-    stylesheets: [
-      {
-        href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
-        type: 'text/css',
-        integrity:
-          'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
-        crossorigin: 'anonymous',
-      },
-    ],
-    // highlight-end
-  };
-}
-
-module.exports = createConfig;
 ```

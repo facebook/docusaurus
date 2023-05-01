@@ -91,7 +91,13 @@ exports[`load loads props for site with custom i18n path 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "mdx1Compat": {
+        "admonitions": true,
+        "comments": true,
+        "headingIds": true,
+      },
       "mermaid": false,
+      "preprocessor": undefined,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",

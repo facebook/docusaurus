@@ -14,12 +14,12 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // Double-security: critical CSS will hide the banner if CSS can load!
 import './styles.module.css';
 
-const BannerContainerId = 'docusaurus-base-url-issue-banner-container';
-
-const BannerId = 'docusaurus-base-url-issue-banner';
-
+// __ prefix allows search crawlers (Algolia/DocSearch) to ignore anchors
+// https://github.com/facebook/docusaurus/issues/8883#issuecomment-1516328368
+const BannerContainerId = '__docusaurus-base-url-issue-banner-container';
+const BannerId = '__docusaurus-base-url-issue-banner';
 const SuggestionContainerId =
-  'docusaurus-base-url-issue-banner-suggestion-container';
+  '__docusaurus-base-url-issue-banner-suggestion-container';
 
 const InsertBannerWindowAttribute = '__DOCUSAURUS_INSERT_BASEURL_BANNER';
 
@@ -32,7 +32,7 @@ function createInlineHtmlBanner(baseUrl: string) {
   return `
 <div id="${BannerId}" style="border: thick solid red; background-color: rgb(255, 230, 179); margin: 20px; padding: 20px; font-size: 20px;">
    <p style="font-weight: bold; font-size: 30px;">Your Docusaurus site did not load properly.</p>
-   <p>A very common reason is a wrong site <a href="https://docusaurus.io/docs/docusaurus.config.js/#baseurl" style="font-weight: bold;">baseUrl configuration</a>.</p>
+   <p>A very common reason is a wrong site <a href="https://docusaurus.io/docs/docusaurus.config.js/#baseUrl" style="font-weight: bold;">baseUrl configuration</a>.</p>
    <p>Current configured baseUrl = <span style="font-weight: bold; color: red;">${baseUrl}</span> ${
     baseUrl === '/' ? ' (default value)' : ''
   }</p>

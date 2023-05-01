@@ -37,10 +37,10 @@ async function walk(dir: string): Promise<string[]> {
   return results;
 }
 
-function sanitizedFileContent(
+async function sanitizedFileContent(
   content: string,
   migrateMDFiles: boolean,
-): string {
+): Promise<string> {
   const extractedData = extractMetadata(content);
   const extractedMetaData = Object.entries(extractedData.metadata)
     .map(
@@ -55,7 +55,7 @@ ${extractedMetaData}
 ---
 ${
   migrateMDFiles
-    ? sanitizeMD(extractedData.rawContent)
+    ? await sanitizeMD(extractedData.rawContent)
     : extractedData.rawContent
 }`;
   return sanitizedData;
@@ -427,7 +427,7 @@ async function migrateBlogFiles(context: MigrationContext) {
         const content = await fs.readFile(file, 'utf-8');
         await fs.outputFile(
           file,
-          sanitizedFileContent(content, shouldMigrateMdFiles),
+          await sanitizedFileContent(content, shouldMigrateMdFiles),
         );
       }),
     );
@@ -515,7 +515,7 @@ async function migrateVersionedDocs(
         const content = await fs.readFile(pathToFile, 'utf-8');
         await fs.outputFile(
           pathToFile,
-          sanitizedFileContent(
+          await sanitizedFileContent(
             content.replace(versionRegex, ''),
             shouldMigrateMdFiles,
           ),
@@ -695,7 +695,7 @@ async function migrateLatestDocs(context: MigrationContext) {
           const content = await fs.readFile(file, 'utf-8');
           await fs.outputFile(
             file,
-            sanitizedFileContent(content, shouldMigrateMdFiles),
+            await sanitizedFileContent(content, shouldMigrateMdFiles),
           );
         }
       }),
@@ -752,7 +752,10 @@ export async function migrateMDToMDX(
     files.map(async (filePath) => {
       if (path.extname(filePath) === '.md') {
         const content = await fs.readFile(filePath, 'utf-8');
-        await fs.outputFile(filePath, sanitizedFileContent(content, true));
+        await fs.outputFile(
+          filePath,
+          await sanitizedFileContent(content, true),
+        );
       }
     }),
   );

@@ -7,13 +7,11 @@
 
 import {mdxLoader} from './loader';
 
+import type {TOCItem as TOCItemImported} from './remark/toc';
+
 export default mdxLoader;
 
-export type TOCItem = {
-  readonly value: string;
-  readonly id: string;
-  readonly level: number;
-};
+export type TOCItem = TOCItemImported;
 
 export type FAQ = {
   readonly question: string;

@@ -32,7 +32,7 @@ describe('normalizeConfig', () => {
   });
 
   it('accepts correctly defined config options', () => {
-    const userConfig = {
+    const userConfig: Config = {
       ...DEFAULT_CONFIG,
       ...baseConfig,
       tagline: 'my awesome site',
@@ -60,6 +60,12 @@ describe('normalizeConfig', () => {
       ],
       markdown: {
         mermaid: true,
+        preprocessor: ({fileContent}) => fileContent,
+        mdx1Compat: {
+          comments: true,
+          admonitions: false,
+          headingIds: true,
+        },
       },
     };
     const normalizedConfig = normalizeConfig(userConfig);
@@ -496,12 +502,63 @@ describe('markdown', () => {
   it('accepts valid markdown object', () => {
     const markdown: DocusaurusConfig['markdown'] = {
       mermaid: true,
+      preprocessor: ({fileContent}) => fileContent,
+      mdx1Compat: {
+        comments: false,
+        admonitions: true,
+        headingIds: false,
+      },
     };
     expect(
       normalizeConfig({
         markdown,
       }),
     ).toEqual(expect.objectContaining({markdown}));
+  });
+
+  it('accepts partial markdown object', () => {
+    const markdown: DeepPartial<DocusaurusConfig['markdown']> = {
+      mdx1Compat: {
+        admonitions: true,
+        headingIds: false,
+      },
+    };
+    expect(
+      normalizeConfig({
+        markdown,
+      }),
+    ).toEqual(
+      expect.objectContaining({
+        markdown: {
+          ...DEFAULT_CONFIG.markdown,
+          ...markdown,
+          mdx1Compat: {
+            ...DEFAULT_CONFIG.markdown.mdx1Compat,
+            ...markdown.mdx1Compat,
+          },
+        },
+      }),
+    );
+  });
+
+  it('throw for preprocessor bad arity', () => {
+    expect(() =>
+      normalizeConfig({
+        markdown: {preprocessor: () => 'content'},
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.preprocessor" must have an arity of 1
+      "
+    `);
+    expect(() =>
+      normalizeConfig({
+        // @ts-expect-error: types forbid this
+        markdown: {preprocessor: (arg1, arg2) => String(arg1) + String(arg2)},
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.preprocessor" must have an arity of 1
+      "
+    `);
   });
 
   it('throw for null object', () => {

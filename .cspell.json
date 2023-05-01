@@ -28,8 +28,10 @@
     "__snapshots__",
     "website/src/data/users.tsx",
     "website/src/data/tweets.tsx",
+    "website/docusaurus.config.localized.json",
     "*.xyz",
     "*.docx",
+    "*.gitignore",
     "versioned_docs",
     "*.min.*",
     "jest/vendor"

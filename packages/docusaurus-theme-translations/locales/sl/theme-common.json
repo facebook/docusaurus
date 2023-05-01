@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} vnosov",
   "theme.docs.breadcrumbs.home": "Domača stran",
   "theme.docs.breadcrumbs.navAriaLabel": "Drobtine",
-  "theme.docs.paginator.navAriaLabel": "Navigacija po dokumentaciji",
+  "theme.docs.paginator.navAriaLabel": "Strani z dokumenti",
   "theme.docs.paginator.next": "Naslednji",
   "theme.docs.paginator.previous": "Prejšnji",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Zapri navigacijsko vrstico",

@@ -42,7 +42,7 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {useTabs} from './utils/tabsUtils';
+export {useTabs, sanitizeTabsChildren} from './utils/tabsUtils';
 export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
@@ -121,7 +121,6 @@ export {
   keyboardFocusedClassName,
 } from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
-export {useSearchPage} from './hooks/useSearchPage';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';

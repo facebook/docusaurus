@@ -65,6 +65,10 @@ function applyCollapsedStyle(el: HTMLElement, collapsed: boolean) {
   el.style.height = collapsedStyles.height;
 }
 
+function userPrefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 /*
 Lex111: Dynamic transition duration is used in Material design, this technique
 is good for a large number of items.
@@ -72,6 +76,11 @@ https://material.io/archive/guidelines/motion/duration-easing.html#duration-easi
 https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf050c/packages/material-ui/src/styles/createTransitions.js#L40-L43
  */
 function getAutoHeightDuration(height: number) {
+  if (userPrefersReducedMotion()) {
+    // Not using 0 because it prevents onTransitionEnd to fire and bubble up :/
+    // See https://github.com/facebook/docusaurus/pull/8906
+    return 1;
+  }
   const constant = height / 36;
   return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
 }

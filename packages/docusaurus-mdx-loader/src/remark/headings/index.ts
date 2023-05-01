@@ -9,12 +9,14 @@
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import visit from 'unist-util-visit';
-import mdastToString from 'mdast-util-to-string';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Heading, Text} from 'mdast';
 
 export default function plugin(): Transformer {
-  return (root) => {
+  return async (root) => {
+    const {toString} = await import('mdast-util-to-string');
+
     const slugs = createSlugger();
     visit(root, 'heading', (headingNode: Heading) => {
       const data = headingNode.data ?? (headingNode.data = {});
@@ -29,7 +31,7 @@ export default function plugin(): Transformer {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
         );
-        const heading = mdastToString(
+        const heading = toString(
           headingTextNodes.length > 0 ? headingTextNodes : headingNode,
         );
 

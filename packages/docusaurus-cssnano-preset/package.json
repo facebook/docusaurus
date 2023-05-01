@@ -17,10 +17,10 @@
     "directory": "packages/docusaurus-cssnano-preset"
   },
   "dependencies": {
-    "cssnano-preset-advanced": "^5.3.9",
+    "cssnano-preset-advanced": "^5.3.10",
     "postcss": "^8.4.21",
     "postcss-sort-media-queries": "^4.3.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "to-vfile": "^6.1.0"

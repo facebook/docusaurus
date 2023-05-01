@@ -39,6 +39,75 @@ export function parseMarkdownHeadingId(heading: string): {
   return {text: heading, id: undefined};
 }
 
+/**
+ * MDX 2 requires escaping { with a \ so our anchor syntax need that now.
+ * See https://mdxjs.com/docs/troubleshooting-mdx/#could-not-parse-expression-with-acorn-error
+ */
+export function escapeMarkdownHeadingIds(content: string): string {
+  const markdownHeadingRegexp = /(?:^|\n)#{1,6}(?!#).*/g;
+  return content.replaceAll(markdownHeadingRegexp, (substring) =>
+    // TODO probably not the most efficient impl...
+    substring
+      .replace('{#', '\\{#')
+      // prevent duplicate escaping
+      .replace('\\\\{#', '\\{#'),
+  );
+}
+
+/**
+ * Hacky temporary escape hatch for Crowdin bad MDX support
+ * See https://docusaurus.io/docs/i18n/crowdin#mdx
+ *
+ * TODO Titus suggested a clean solution based on ```mdx eval and Remark
+ * See https://github.com/mdx-js/mdx/issues/701#issuecomment-947030041
+ *
+ * @param content
+ */
+export function unwrapMdxCodeBlocks(content: string): string {
+  // We only support 3/4 backticks on purpose, should be good enough
+  const regexp3 =
+    /(?<begin>^|\n)```mdx-code-block\n(?<children>.*?)\n```(?<end>\n|$)/gs;
+  const regexp4 =
+    /(?<begin>^|\n)````mdx-code-block\n(?<children>.*?)\n````(?<end>\n|$)/gs;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const replacer = (substring: string, ...args: any[]) => {
+    const groups = args.at(-1);
+    return `${groups.begin}${groups.children}${groups.end}`;
+  };
+
+  return content.replaceAll(regexp3, replacer).replaceAll(regexp4, replacer);
+}
+
+/**
+ * Add support for our legacy ":::note Title" admonition syntax
+ * Not supported by https://github.com/remarkjs/remark-directive
+ * Syntax is transformed to ":::note[Title]" (container directive label)
+ * See https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
+ *
+ * @param content
+ * @param admonitionContainerDirectives
+ */
+export function admonitionTitleToDirectiveLabel(
+  content: string,
+  admonitionContainerDirectives: string[],
+): string {
+  // this will also process ":::note Title" inside docs code blocks
+  // good enough: we fixed older versions docs to not be affected
+
+  const directiveNameGroup = `(${admonitionContainerDirectives.join('|')})`;
+  const regexp = new RegExp(
+    `^(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)$`,
+    'gm',
+  );
+
+  return content.replaceAll(regexp, (substring, ...args: any[]) => {
+    const groups = args.at(-1);
+
+    return `${groups.directive}[${groups.title}]`;
+  });
+}
+
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.
 /**

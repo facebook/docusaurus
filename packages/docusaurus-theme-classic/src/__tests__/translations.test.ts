@@ -18,6 +18,10 @@ const ThemeConfigSample = {
   },
   navbar: {
     title: 'navbar title',
+    logo: {
+      alt: 'navbar alt text logo',
+      src: 'img/docusaurus.svg',
+    },
     style: 'dark',
     hideOnScroll: false,
     items: [
@@ -31,6 +35,10 @@ const ThemeConfigSample = {
     ],
   },
   footer: {
+    logo: {
+      alt: 'footer alt text logo',
+      src: 'img/docusaurus.svg',
+    },
     copyright: 'Copyright FB',
     style: 'light',
     links: [
@@ -52,6 +60,10 @@ const ThemeConfigSample = {
 const ThemeConfigSampleSimpleFooter: ThemeConfig = {
   ...ThemeConfigSample,
   footer: {
+    logo: {
+      alt: 'footer alt text logo',
+      src: 'img/docusaurus.svg',
+    },
     copyright: 'Copyright FB',
     style: 'light',
     links: [

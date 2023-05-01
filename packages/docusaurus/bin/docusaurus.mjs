@@ -24,6 +24,12 @@ import {
 } from '../lib/index.js';
 import beforeCli from './beforeCli.mjs';
 
+// Env variables are initialized to dev, but can be overridden by each command
+// For example, "docusaurus build" overrides them to "production"
+// See also https://github.com/facebook/docusaurus/issues/8599
+process.env.BABEL_ENV ??= 'development';
+process.env.NODE_ENV ??= 'development';
+
 await beforeCli();
 
 cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
@@ -238,7 +244,11 @@ if (!process.argv.slice(2).length) {
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err instanceof Error ? err.stack : err);
+  console.log('');
+  // Do not use logger.error here: it does not print error causes
+  console.error(err);
+  console.log('');
+
   logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
 Node version: number=${process.version}`;
   process.exit(1);

@@ -5,6 +5,14 @@ import TabItem from '@theme/TabItem';
 
 # Code block tests
 
+:::danger legacy test page - MDX v1
+
+This test page is quite outdated: MDX v2 lowercase tags are not substituted anymore in the same way as they were in v1.
+
+:::
+
+---
+
 ```java
 class HelloWorld {
   public static void main(String args[]) {
@@ -27,7 +35,7 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
 
 <pre>1 2 3</pre>
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 <pre>
 1
 2
@@ -266,4 +274,51 @@ export default function MyReactPage() {
     </Layout>
   );
 }
+```
+
+## Magic comments tests
+
+```lua title="lua_sum.lua"
+function sum(n)
+  -- highlight-next-line
+  local result = 0
+  for i = 1, n do
+   -- highlight-start
+    result = result + i
+  end
+  -- highlight-end
+  print(result)
+end
+```
+
+```haskell title="haskell.hs"
+stringLength :: String -> Int
+-- highlight-next-line
+stringLength [] = 0
+stringLength (x:xs) = 1 + stringLength xs
+```
+
+```wasm title="sum_webAssembly.wasm"
+(module
+  ;; highlight-next-line
+  (func $add (param $a i32) (param $b i32) (result i32)
+    local.get $a
+    ;; highlight-start
+    local.get $b
+    i32.add)
+    ;; highlight-end
+  (export "add" (func $add)))
+```
+
+```sql title="sql_query.sql"
+-- highlight-start
+SELECT *
+FROM orders
+-- highlight-end
+WHERE customer_id IN (
+  SELECT customer_id
+  -- highlight-next-line
+  FROM customers
+  WHERE country = 'USA'
+)
 ```

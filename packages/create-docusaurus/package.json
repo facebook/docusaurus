@@ -31,7 +31,7 @@
     "semver": "^7.3.8",
     "shelljs": "^0.8.5",
     "supports-color": "^9.3.1",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@types/supports-color": "^8.1.1"

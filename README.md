@@ -105,7 +105,14 @@ The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creat
 
 ## Special thanks
 
-[![BrowserStack logo](./admin/img/browserstack-logo.png)](http://www.browserstack.com/)
+<p>
+  <a href="http://www.browserstack.com/" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./admin/img/browserstack-dark-mode-logo.svg#gh-dark-mode-only">
+      <img alt="BrowserStack logo" src="./admin/img/browserstack-light-mode-logo.svg#gh-light-mode-only" height="50px" />
+    </picture>
+  </a>
+</p>
 
 [BrowserStack](http://www.browserstack.com/) supports us with [free access for open source](https://www.browserstack.com/open-source).
 
