@@ -1267,6 +1267,14 @@ declare module '@theme/Details' {
   export default Details;
 }
 
+declare module '@theme/StructuredDataFaqs' {
+  export interface Props {
+    readonly faqs: readonly FAQ[];
+  }
+
+  export default function StructuredDataFaqs(props: Props): JSX.Element;
+}
+
 declare module '@theme/TOCItems' {
   import type {TOCItem} from '@docusaurus/mdx-loader';
 

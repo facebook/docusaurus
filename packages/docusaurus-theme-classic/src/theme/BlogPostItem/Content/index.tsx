@@ -10,13 +10,14 @@ import clsx from 'clsx';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
 import MDXContent from '@theme/MDXContent';
+import StructuredDataFaqs from '@theme/StructuredDataFaqs';
 import type {Props} from '@theme/BlogPostItem/Content';
 
 export default function BlogPostItemContent({
   children,
   className,
 }: Props): JSX.Element {
-  const {isBlogPostPage} = useBlogPost();
+  const {isBlogPostPage, faqs} = useBlogPost();
   return (
     <div
       // This ID is used for the feed generation to locate the main content
@@ -24,6 +25,7 @@ export default function BlogPostItemContent({
       className={clsx('markdown', className)}
       itemProp="articleBody">
       <MDXContent>{children}</MDXContent>
+      <StructuredDataFaqs faqs={faqs} />
     </div>
   );
 }

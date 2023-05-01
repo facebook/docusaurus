@@ -16,7 +16,7 @@ import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
  */
 export type BlogPostContextValue = Pick<
   PropBlogPostContent,
-  'metadata' | 'frontMatter' | 'assets' | 'toc'
+  'metadata' | 'frontMatter' | 'assets' | 'toc' | 'faqs'
 > & {
   readonly isBlogPostPage: boolean;
 };
@@ -35,12 +35,14 @@ function useContextValue({
   content: PropBlogPostContent;
   isBlogPostPage: boolean;
 }): BlogPostContextValue {
+  if (content.faqs.length) {console.log(content.faqs);}
   return useMemo(
     () => ({
       metadata: content.metadata,
       frontMatter: content.frontMatter,
       assets: content.assets,
       toc: content.toc,
+      faqs: content.faqs,
       isBlogPostPage,
     }),
     [content, isBlogPostPage],

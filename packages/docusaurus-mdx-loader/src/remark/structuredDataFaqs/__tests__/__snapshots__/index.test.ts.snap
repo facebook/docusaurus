@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`structuredDataFaqs remark plugin does not overwrite TOC var if no TOC 1`] = `
+"export const structuredDataFaqs = [];
+
+foo
+
+\`bar\`
+
+\`\`\`js
+baz
+\`\`\`
+
+export const toc = 1;
+"
+`;
+
+exports[`structuredDataFaqs remark plugin escapes inline code 1`] = `
+"export const structuredDataFaqs = [];
+
+## \`<Head />\`
+
+### \`<Head>Test</Head>\`
+
+## \`<div />\`
+
+## \`<div> Test </div>\`
+
+## \`<div><i>Test</i></div>\`
+
+## [\`<div><i>Test</i></div>\`](/some/link)
+"
+`;
+
+exports[`structuredDataFaqs remark plugin exports even with existing name 1`] = `
+"export const structuredDataFaqs = [];
+
+export const toc = ['replaceMe'];
+
+## Thanos
+
+## Tony Stark
+
+### Avengers
+"
+`;
+
+exports[`structuredDataFaqs remark plugin handles empty headings 1`] = `
+"export const structuredDataFaqs = [];
+
+# Ignore this
+
+## 
+
+## ![](an-image.svg)
+"
+`;
+
+exports[`structuredDataFaqs remark plugin inserts below imports 1`] = `
+"import something from 'something';
+
+import somethingElse from 'something-else';
+
+export const structuredDataFaqs = [];
+
+## Title
+
+## Test
+
+### Again
+
+Content.
+"
+`;
+
+exports[`structuredDataFaqs remark plugin outputs empty array for no TOC 1`] = `
+"export const structuredDataFaqs = [];
+
+foo
+
+\`bar\`
+
+\`\`\`js
+baz
+\`\`\`
+"
+`;
+
+exports[`structuredDataFaqs remark plugin works on non text phrasing content 1`] = `
+"export const structuredDataFaqs = [];
+
+## _Emphasis_
+
+### **Importance**
+
+## ~~Strikethrough~~
+
+## <i>HTML</i>
+
+## \`inline.code()\`
+"
+`;
+
+exports[`structuredDataFaqs remark plugin works on text content 1`] = `
+"export const structuredDataFaqs = [
+	{
+		question: 'First FAQ',
+		answer: 'This will be used'
+	},
+	{
+		question: 'Second FAQ',
+		answer: 'And this will be used too. As well as this.'
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## FAQs
+
+This won't be used
+
+### First FAQ
+
+This will be used
+
+### Second FAQ
+
+And this will be used too.
+
+As well as this.
+"
+`;

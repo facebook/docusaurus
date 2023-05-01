@@ -15,6 +15,11 @@ export type TOCItem = {
   readonly level: number;
 };
 
+export type FAQ = {
+  readonly question: string;
+  readonly answer: string;
+};
+
 export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   /** As verbatim declared in the MDX document. */
   readonly frontMatter: FrontMatter;
@@ -22,6 +27,8 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   readonly metadata: Metadata;
   /** A list of TOC items (headings). */
   readonly toc: readonly TOCItem[];
+  /** A list of FAQs (driven by headings, potentially empty). */
+  readonly faqs: readonly FAQ[];
   /** First h1 title before any content. */
   readonly contentTitle: string | undefined;
   /**

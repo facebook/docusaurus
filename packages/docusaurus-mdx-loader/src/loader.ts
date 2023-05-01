@@ -19,6 +19,7 @@ import stringifyObject from 'stringify-object';
 
 import headings from './remark/headings';
 import toc from './remark/toc';
+import structuredDataFaqs from './remark/structuredDataFaqs';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
@@ -43,7 +44,13 @@ const pragma = `
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
-  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
+  remarkPlugins: [
+    unwrapMdxCodeBlocks,
+    emoji,
+    headings,
+    toc,
+    structuredDataFaqs,
+  ],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
