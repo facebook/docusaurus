@@ -23,6 +23,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
     },
   } = useThemeConfig();
 
+  // added aria-hidden next to tabIndex{-1}
   return (
     <div
       className={clsx(
@@ -30,7 +31,9 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
         hideOnScroll && styles.sidebarWithHideableNavbar,
         isHidden && styles.sidebarHidden,
       )}>
-      {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
+      {hideOnScroll && (
+        <Logo tabIndex={-1} aria-hidden className={styles.sidebarLogo} />
+      )}
       <Content path={path} sidebar={sidebar} />
       {hideable && <CollapseButton onClick={onCollapse} />}
     </div>

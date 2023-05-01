@@ -40,6 +40,7 @@ export default function DocSidebarDesktopContent({
 }: Props): JSX.Element {
   const showAnnouncementBar = useShowAnnouncementBar();
 
+  // change from aside to nav
   return (
     <nav
       aria-label={translate({
