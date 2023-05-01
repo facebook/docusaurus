@@ -76,7 +76,7 @@ The [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-
 
 The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed.
 
-Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
+Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. Note that the portion above the truncate marker must be standalone renderable Markdown. For example:
 
 ```md title="website/blog/my-post.md" {7}
 ---
