@@ -8,11 +8,8 @@ See [plugin-ideal-image documentation](https://docusaurus.io/docs/api/plugins/@d
 
 ### Important 
 
-This plugin changes the type of imported supported images.
+This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:
 
-e.g.
-
-Before: string
-
-After: {preSrc: string, src: import("@theme/IdealImage").SrcImage}
+- Before: `string`
+- After: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
 
