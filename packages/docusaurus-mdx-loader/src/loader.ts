@@ -280,6 +280,10 @@ export async function mdxLoader(
       mdCompiler: createProcessor({
         ...options,
         format: 'md',
+        remarkRehypeOptions: {
+          allowDangerousHtml: true,
+          passThrough: ['div', 'button', 'img', 'iframe', 'html'],
+        },
       }),
       mdxCompiler: createProcessor({
         ...options,
