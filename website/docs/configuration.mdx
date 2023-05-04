@@ -16,6 +16,77 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors to be able to focus on documentation while still being able to customize the site.
 
+## Syntax to declare docusaurus.config.js
+
+The init template `docusaurus.config.js` uses the `const config = { ... }` and it is equivalent to `module.exports = { ... }` shown throughout the examples.
+There are various equivalent ways to declare your Docusaurus config, such as using creator functions and async code.
+See: [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.mdx)
+
+Here is a verbose example using most of the syntax that is available ([docusaurus.config.js API](api/docusaurus.config.js.mdx), JS, Node, constants, variables, etc.):
+
+```js title="docusaurus.config.js"
+const path = require('path');
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+const versions = require('./versions.json');
+const VersionsArchived = require('./versionsArchived.json');
+
+module.exports = async function createConfigAsync() {
+  return {
+    title: 'Docusaurus',
+    tagline: getLocalizedConfigValue('tagline'),
+    organizationName: 'facebook',
+    projectName: 'docusaurus',
+    baseUrl,
+    baseUrlIssueBanner: true,
+    url: 'https://docusaurus.io',
+    themes: ['live-codeblock', ...dogfoodingThemeInstances],
+    plugins: [
+      [
+        require.resolve('./src/plugins/changelog/index.js'),
+        {
+          blogTitle: 'Docusaurus changelog',
+          blogDescription:
+            'Keep yourself up-to-date about new features in every release',
+        },
+      ],
+      ['content-docs',
+        /** @type {import('@docusaurus/plugin-content-docs').Options} */
+        ({
+          id: 'community',
+          path: 'community',
+          routeBasePath: 'community',
+          editUrl: ({locale, versionDocsDirPath, docPath}) => {
+            if (locale !== defaultLocale) {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
+          },
+          remarkPlugins: [npm2yarn],
+          editCurrentVersion: true,
+          sidebarPath: require.resolve('./sidebarsCommunity.js'),
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        }),
+
+      ],
+    ],
+  };
+};
+
+```
+
+Or using a Promise:
+```js title="docusaurus.config.js"
+module.exports = Promise.resolve({
+  // site config...
+});
+
+```
+
+Since a config file is Javascript then import/require can be utilized to pull in libraries to help.  (For advanced users, just know that we )
+
+// TODO: link for nodejs import/require.  And answer question about interoperability for CommonJS and ECMAScript modules.
+
 ## What goes into a `docusaurus.config.js`? {#what-goes-into-a-docusaurusconfigjs}
 
 You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` that includes defaults for the common options.
@@ -54,13 +125,7 @@ module.exports = {
 };
 ```
 
-:::info[About the default `docusaurus.config.js` template]
 
-The init template `docusaurus.config.js` uses the `const config = { ... }` and it is equivalent to `module.exports = { ... }` shown throughout the examples.
-There are various equivalent ways to declare your Docusaurus config, such as using creator functions and async code.
-See: [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.mdx)
-
-:::
 
 :::tip
 
