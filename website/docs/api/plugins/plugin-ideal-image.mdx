@@ -36,6 +36,15 @@ import thumbnail from './path/to/img.png';
 <Image img={require('./path/to/img.png')} />
 ```
 
+:::caution
+
+This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:
+
+- Before: `string`
+- After: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
+
+:::
+
 ## Configuration {#configuration}
 
 Accepted fields:

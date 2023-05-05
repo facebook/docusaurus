@@ -291,6 +291,7 @@ redwoodjs
 refactorings
 regexes
 rehype
+renderable
 reponame
 reqs
 requireindex
