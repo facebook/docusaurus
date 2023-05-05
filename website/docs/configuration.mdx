@@ -26,18 +26,16 @@ Example: (`require("lib")` / `module.exports = /* your config*/`).
 
 ## Syntax to declare `docusaurus.config.js` {#syntax-to-declare-docusaurus-config}
 
-The initial template `docusaurus.config.js` uses the `const config = { ... }` and it is equivalent to `module.exports = { ... }` shown throughout the examples.
-There are many equivalent ways to declare your Docusaurus configuration.
-See: [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.mdx)
+The initial template `docusaurus.config.js` uses the `const config = { ... }` and it is equivalent to `module.exports = { ... }` shown throughout the examples. There are many equivalent ways to declare your Docusaurus configuration. See: [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.mdx)
 
 Configuration initial default:
 
 ```js title="docusaurus.config.js"
 const config = {
   // site config...
-}
+};
 
-module.exports = config
+module.exports = config;
 ```
 
 Configuration files also support config creator functions and async code:
@@ -100,8 +98,6 @@ module.exports = {
   themes: ['@docusaurus/theme-classic'],
 };
 ```
-
-
 
 :::tip
 
