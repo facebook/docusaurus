@@ -16,6 +16,83 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors to be able to focus on documentation while still being able to customize the site.
 
+## Syntax to declare `docusaurus.config.js` {#syntax-to-declare-docusaurus-config}
+
+The `docusaurus.config.js` file is run in Node.js and should export either:
+
+- a **config object**
+- a **function** that creates the config object
+
+:::info
+
+The `docusaurus.config.js` file only supports the [**CommonJS**](https://flaviocopes.com/commonjs/) module system:
+
+- **Required:** use `module.exports = /* your config*/` to export your Docusaurus config
+- **Optional:** use `require("lib")` to import Node.js packages
+- **Optional:** use `await import("lib")` (dynamic import) in an async function to import ESM-Only Node.js packages
+
+:::
+
+Node.js gives us the ability to declare our Docusaurus configuration in various **equivalent ways**, and all the following config examples lead to the exact same result:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+```
+
+```js title="docusaurus.config.js"
+const config = {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+
+module.exports = config;
+```
+
+```js title="docusaurus.config.js"
+module.exports = function configCreator() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // your site config ...
+  };
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = async function createConfigAsync() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // your site config ...
+  };
+};
+```
+
+:::tip Using ESM-only packages
+
+Using an async config creator can be useful to import ESM-only modules (notably most Remark plugins). It is possible to import such modules thanks to dynamic imports:
+
+```js title="docusaurus.config.js"
+module.exports = async function createConfigAsync() {
+  // Use a dynamic import instead of require('esm-lib')
+  // highlight-next-line
+  const lib = await import('lib');
+
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // rest of your site config...
+  };
+};
+```
+
+:::
+
 ## What goes into a `docusaurus.config.js`? {#what-goes-into-a-docusaurusconfigjs}
 
 You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` that includes defaults for the common options.

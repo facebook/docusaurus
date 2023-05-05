@@ -16,40 +16,33 @@ Refer to the Getting Started [**Configuration**](docs/configuration.mdx) for exa
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-It usually exports a site configuration object:
+This file is run in Node.js using the [**CommonJS**](https://flaviocopes.com/commonjs/) module system, and should export a site configuration object, or a function that creates it.
+
+Examples:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  // site config...
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
 };
 ```
 
-<details>
-<summary>Config files also support config creator functions and async code.</summary>
-
 ```js title="docusaurus.config.js"
-module.exports = function configCreator() {
+module.exports = async function createConfigAsync() {
   return {
-    // site config...
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // your site config ...
   };
 };
 ```
 
-```js title="docusaurus.config.js"
-module.exports = async function configCreatorAsync() {
-  return {
-    // site config...
-  };
-};
-```
+:::tip
 
-```js title="docusaurus.config.js"
-module.exports = Promise.resolve({
-  // site config...
-});
-```
+Refer to [**Syntax to declare `docusaurus.config.js`**](docs/configuration.mdx#syntax-to-declare-docusaurus-config) for a more exhaustive list of examples and explanations.
 
-</details>
+:::
 
 ## Required fields {#required-fields}
 
