@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import emoji from 'remark-emoji';
 import headings from './remark/headings';
 import toc from './remark/toc';
@@ -16,6 +15,7 @@ import head from './remark/head';
 import mermaid from './remark/mermaid';
 import transformAdmonitions from './remark/admonitions';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
+import {getFormat} from './format';
 import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './loader';
 
@@ -30,37 +30,6 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 // This might change soon, likely after TS 5.2
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
-
-// Copied from https://mdxjs.com/packages/mdx/#optionsmdextensions
-// Although we are likely to only use .md / .mdx anyway...
-const mdFormatExtensions = [
-  '.md',
-  '.markdown',
-  '.mdown',
-  '.mkdn',
-  '.mkd',
-  '.mdwn',
-  '.mkdown',
-  '.ron',
-];
-
-function isMDFormat(filepath: string) {
-  return mdFormatExtensions.includes(path.extname(filepath));
-}
-
-function getFormat({
-  filePath,
-  frontMatterFormat,
-}: {
-  filePath: string;
-  frontMatterFormat: MDXFrontMatter['format'];
-}): 'md' | 'mdx' {
-  return frontMatterFormat === 'detect'
-    ? isMDFormat(filePath)
-      ? 'md'
-      : 'mdx'
-    : frontMatterFormat;
-}
 
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
