@@ -43,6 +43,8 @@ note
 
 Custom heading syntax `{#custom-heading-id}` still works
 
+---
+
 ## HTML
 
 ### Styling
@@ -53,25 +55,31 @@ Custom heading syntax `{#custom-heading-id}` still works
 
 <button style="color: red;">red button</button>
 
-<div style="border: solid; background-color: lime; padding: 10px">
+<div style="border: solid; background-color: grey; color: lime; padding: 10px">
   lime <span style="color: red; margin: 10px;">red</span>
 </div>
 
-### Embeds
+<br/>
 
-### Images
+### Embeds
 
 #### Closed image tag:
 
 <img src="/img/docusaurus.png"/>
 
+<br/>
+
 #### Unclosed image tag:
 
 <img src="/img/docusaurus.png">
 
+<br/>
+
 ### Iframe
 
-<iframe src="/"/>
+<iframe src="/" style="width: 100%; height: 300px; border: solid red thick;"></iframe>
+
+<br/>
 
 ### Security
 
