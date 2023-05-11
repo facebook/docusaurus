@@ -16,7 +16,7 @@ import {
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
-import {getProcessor} from './processor';
+import {getProcessorCached} from './processor';
 import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
@@ -150,7 +150,7 @@ export async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const processor = await getProcessor({
+  const processor = await getProcessorCached({
     filePath,
     reqOptions,
     query,

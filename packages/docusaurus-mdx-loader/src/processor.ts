@@ -70,16 +70,6 @@ const DEFAULT_OPTIONS: MDXOptions = {
   beforeDefaultRehypePlugins: [],
 };
 
-// We use different compilers depending on the file type (md vs mdx)
-type Processors = {
-  mdCompiler: Processor;
-  mdxCompiler: Processor;
-};
-
-// Compilers are cached so that Remark/Rehype plugins can run
-// expensive code during initialization
-const compilersCache = new Map<string | Options, Processors>();
-
 export type MDXPlugin = Pluggable;
 
 export type MDXOptions = {
@@ -104,106 +94,137 @@ function getAdmonitionsPlugins(
   return [];
 }
 
-export async function getProcessors({
+async function loadEsmLibs() {
+  const {createProcessor} = await import('@mdx-js/mdx');
+  const {default: rehypeRaw} = await import('rehype-raw');
+  const {default: gfm} = await import('remark-gfm');
+  const {default: comment} = await import('remark-comment');
+  const {default: directive} = await import('remark-directive');
+  return {createProcessor, rehypeRaw, gfm, comment, directive};
+}
+type EsmLibs = Awaited<ReturnType<typeof loadEsmLibs>>;
+
+// /!\ this method is synchronous on purpose
+// Using async code here can create cache entry race conditions!
+function createProcessorSync({
+  esmLibs,
+  options,
+  format,
+}: {
+  esmLibs: EsmLibs;
+  options: Options;
+  format: 'md' | 'mdx';
+}): Processor {
+  const {createProcessor, rehypeRaw, gfm, comment, directive} = esmLibs;
+
+  const remarkPlugins: MDXPlugin[] = [
+    ...(options.beforeDefaultRemarkPlugins ?? []),
+    directive,
+    ...getAdmonitionsPlugins(options.admonitions ?? false),
+    ...DEFAULT_OPTIONS.remarkPlugins,
+    details,
+    head,
+    ...(options.markdownConfig.mermaid ? [mermaid] : []),
+    [
+      transformImage,
+      {
+        staticDirs: options.staticDirs,
+        siteDir: options.siteDir,
+      },
+    ],
+    [
+      transformLinks,
+      {
+        staticDirs: options.staticDirs,
+        siteDir: options.siteDir,
+      },
+    ],
+    gfm,
+    options.markdownConfig.mdx1Compat.comments ? comment : null,
+    ...(options.remarkPlugins ?? []),
+  ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
+
+  // codeCompatPlugin needs to be applied last after user-provided plugins
+  // (after npm2yarn for example)
+  remarkPlugins.push(codeCompatPlugin);
+
+  // This is what permits to embed HTML elements with format 'md'
+  // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
+  const rehypeRawPlugin: MDXPlugin = [
+    rehypeRaw,
+    {
+      passThrough: [
+        'mdxFlowExpression',
+        'mdxJsxFlowElement',
+        'mdxJsxTextElement',
+        'mdxTextExpression',
+        'mdxjsEsm',
+      ],
+    },
+  ];
+
+  const rehypePlugins: MDXPlugin[] = [
+    rehypeRawPlugin,
+    ...(options.beforeDefaultRehypePlugins ?? []),
+    ...DEFAULT_OPTIONS.rehypePlugins,
+    ...(options.rehypePlugins ?? []),
+  ];
+
+  const processorOptions: ProcessorOptions & Options = {
+    ...options,
+    remarkPlugins,
+    rehypePlugins,
+    providerImportSource: '@mdx-js/react',
+  };
+
+  return createProcessor({
+    ...processorOptions,
+    format,
+  });
+}
+
+// We use different compilers depending on the file type (md vs mdx)
+type ProcessorsCacheEntry = {
+  mdProcessor: Processor;
+  mdxProcessor: Processor;
+};
+
+// Compilers are cached so that Remark/Rehype plugins can run
+// expensive code during initialization
+const ProcessorsCache = new Map<string | Options, ProcessorsCacheEntry>();
+
+export async function getProcessorsCached({
   query,
   reqOptions,
 }: {
   query: string | Options;
   reqOptions: Options;
-}): Promise<Processors> {
-  const {createProcessor} = await import('@mdx-js/mdx');
-  const {default: rehypeRaw} = await import('rehype-raw');
-  const {default: gfm} = await import('remark-gfm');
-  const {default: comment} = await import('remark-comment');
-  const {default: directives} = await import('remark-directive');
-
-  const compilers = compilersCache.get(query);
+}): Promise<ProcessorsCacheEntry> {
+  const esmLibs = await loadEsmLibs();
+  const compilers = ProcessorsCache.get(query);
   if (compilers) {
     return compilers;
   }
 
-  // /!\ this method is synchronous on purpose
-  // Using async code here can create cache entry race conditions!
-  function createCompilersSynchronous(): Processors {
-    const remarkPlugins: MDXPlugin[] = [
-      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-      directives,
-      ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      details,
-      head,
-      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
-      [
-        transformImage,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
-      ],
-      [
-        transformLinks,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
-      ],
-      gfm,
-      reqOptions.markdownConfig.mdx1Compat.comments ? comment : null,
-      ...(reqOptions.remarkPlugins ?? []),
-    ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
+  const compilerCacheEntry: ProcessorsCacheEntry = {
+    mdProcessor: createProcessorSync({
+      esmLibs,
+      options: reqOptions,
+      format: 'md',
+    }),
+    mdxProcessor: createProcessorSync({
+      esmLibs,
+      options: reqOptions,
+      format: 'mdx',
+    }),
+  };
 
-    // codeCompatPlugin needs to be applied last after user-provided plugins
-    // (after npm2yarn for example)
-    remarkPlugins.push(codeCompatPlugin);
+  ProcessorsCache.set(query, compilerCacheEntry);
 
-    // This is what permits to embed HTML elements with format 'md'
-    // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
-    const rehypeRawPlugin: MDXPlugin = [
-      rehypeRaw,
-      {
-        passThrough: [
-          'mdxFlowExpression',
-          'mdxJsxFlowElement',
-          'mdxJsxTextElement',
-          'mdxTextExpression',
-          'mdxjsEsm',
-        ],
-      },
-    ];
-
-    const rehypePlugins: MDXPlugin[] = [
-      rehypeRawPlugin,
-      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins ?? []),
-    ];
-
-    const options: ProcessorOptions & Options = {
-      ...reqOptions,
-      remarkPlugins,
-      rehypePlugins,
-      providerImportSource: '@mdx-js/react',
-    };
-
-    return {
-      mdCompiler: createProcessor({
-        ...options,
-        rehypePlugins: [rehypeRawPlugin, ...(options.rehypePlugins ?? [])],
-        format: 'md',
-      }),
-      mdxCompiler: createProcessor({
-        ...options,
-        format: 'mdx',
-      }),
-    };
-  }
-
-  const compilerCacheEntry = createCompilersSynchronous();
-  compilersCache.set(query, compilerCacheEntry);
   return compilerCacheEntry;
 }
 
-export async function getProcessor({
+export async function getProcessorCached({
   filePath,
   mdxFrontMatter,
   query,
@@ -214,10 +235,10 @@ export async function getProcessor({
   query: string | Options;
   reqOptions: Options;
 }): Promise<Processor> {
-  const compilers = await getProcessors({query, reqOptions});
+  const compilers = await getProcessorsCached({query, reqOptions});
   const format = getFormat({
     filePath,
     frontMatterFormat: mdxFrontMatter.format,
   });
-  return format === 'md' ? compilers.mdCompiler : compilers.mdxCompiler;
+  return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;
 }
