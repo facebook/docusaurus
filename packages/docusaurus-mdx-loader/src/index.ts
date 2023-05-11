@@ -30,4 +30,6 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   readonly assets: Assets;
   (): JSX.Element;
 };
-export type {Options, MDXPlugin, MDXOptions} from './loader';
+
+export type {Options, MDXPlugin} from './loader';
+export type {MDXOptions} from './processor';

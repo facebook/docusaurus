@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
 import logger from '@docusaurus/logger';
 import {
   parseFrontMatter,
@@ -14,97 +13,25 @@ import {
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
-import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
-import headings from './remark/headings';
-import toc from './remark/toc';
-import transformImage from './remark/transformImage';
-import transformLinks from './remark/transformLinks';
-import details from './remark/details';
-import head from './remark/head';
-import mermaid from './remark/mermaid';
-import transformAdmonitions from './remark/admonitions';
-import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
-import { validateMDXFrontMatter} from './frontMatter';
-import type {MDXFrontMatter} from './frontMatter';
+import {validateMDXFrontMatter} from './frontMatter';
+import {getProcessor} from './processor';
+import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
-
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Processor} from 'unified';
-import type {AdmonitionOptions} from './remark/admonitions';
-
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {ProcessorOptions} from '@mdx-js/mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
-// Copied from https://mdxjs.com/packages/mdx/#optionsmdextensions
-// Although we are likely to only use .md / .mdx anyway...
-const mdFormatExtensions = [
-  '.md',
-  '.markdown',
-  '.mdown',
-  '.mkdn',
-  '.mkd',
-  '.mdwn',
-  '.mkdown',
-  '.ron',
-];
-
-function isMDFormat(filepath: string) {
-  return mdFormatExtensions.includes(path.extname(filepath));
-}
-
-function getFormat({
-  filePath,
-  frontMatterFormat,
-}: {
-  filePath: string;
-  frontMatterFormat: MDXFrontMatter['format'];
-}): 'md' | 'mdx' {
-  return frontMatterFormat === 'detect'
-    ? isMDFormat(filePath)
-      ? 'md'
-      : 'mdx'
-    : frontMatterFormat;
-}
-
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS: MDXOptions = {
-  admonitions: true,
-  rehypePlugins: [],
-  remarkPlugins: [emoji, headings, toc],
-  beforeDefaultRemarkPlugins: [],
-  beforeDefaultRehypePlugins: [],
-};
-
-// We use different compilers depending on the file type (md vs mdx)
-type Compilers = {
-  mdCompiler: Processor;
-  mdxCompiler: Processor;
-  options: Options;
-};
-
-const compilerCache = new Map<string | Options, Compilers>();
-
 export type MDXPlugin = Pluggable;
-
-export type MDXOptions = {
-  admonitions: boolean | Partial<AdmonitionOptions>;
-  remarkPlugins: MDXPlugin[];
-  rehypePlugins: MDXPlugin[];
-  beforeDefaultRemarkPlugins: MDXPlugin[];
-  beforeDefaultRehypePlugins: MDXPlugin[];
-};
 
 export type Options = Partial<MDXOptions> & {
   markdownConfig: MarkdownConfig;
@@ -183,20 +110,6 @@ function createAssetsExportCode(assets: unknown) {
   return `{\n${codeLines.join('\n')}\n}`;
 }
 
-function getAdmonitionsPlugins(
-  admonitionsOption: MDXOptions['admonitions'],
-): MDXPlugin[] {
-  if (admonitionsOption) {
-    const plugin: MDXPlugin =
-      admonitionsOption === true
-        ? transformAdmonitions
-        : [transformAdmonitions, admonitionsOption];
-    return [plugin];
-  }
-
-  return [];
-}
-
 // TODO temporary, remove this after v3.1?
 // Some plugin authors use our mdx-loader, despite it not being public API
 // see https://github.com/facebook/docusaurus/issues/8298
@@ -206,106 +119,6 @@ function ensureMarkdownConfig(reqOptions: Options) {
       'Docusaurus v3+ requires MDX loader options.markdownConfig - plugin authors using the MDX loader should make sure to provide that option',
     );
   }
-}
-
-async function getMdxCompilers({
-  query,
-  reqOptions,
-}: {
-  query: string | Options;
-  reqOptions: Options;
-}): Promise<Compilers> {
-  const {createProcessor} = await import('@mdx-js/mdx');
-  const {default: rehypeRaw} = await import('rehype-raw');
-  const {default: gfm} = await import('remark-gfm');
-  const {default: comment} = await import('remark-comment');
-  const {default: directives} = await import('remark-directive');
-
-  const compilers = compilerCache.get(query);
-  if (compilers) {
-    return compilers;
-  }
-
-  // /!\ this method is synchronous on purpose
-  // Using async code here can create cache entry race conditions!
-  function createCompilersSynchronous(): Compilers {
-    const remarkPlugins: MDXPlugin[] = [
-      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-      directives,
-      ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      details,
-      head,
-      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
-      [
-        transformImage,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
-      ],
-      [
-        transformLinks,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
-      ],
-      gfm,
-      reqOptions.markdownConfig.mdx1Compat.comments ? comment : null,
-      ...(reqOptions.remarkPlugins ?? []),
-    ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
-
-    // codeCompatPlugin needs to be applied last after user-provided plugins
-    // (after npm2yarn for example)
-    remarkPlugins.push(codeCompatPlugin);
-
-    // This is what permits to embed HTML elements with format 'md'
-    // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
-    const rehypeRawPlugin: MDXPlugin = [
-      rehypeRaw,
-      {
-        passThrough: [
-          'mdxFlowExpression',
-          'mdxJsxFlowElement',
-          'mdxJsxTextElement',
-          'mdxTextExpression',
-          'mdxjsEsm',
-        ],
-      },
-    ];
-
-    const rehypePlugins: MDXPlugin[] = [
-      rehypeRawPlugin,
-      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins ?? []),
-    ];
-
-    const options: ProcessorOptions & Options = {
-      ...reqOptions,
-      remarkPlugins,
-      rehypePlugins,
-      providerImportSource: '@mdx-js/react',
-    };
-
-    return {
-      mdCompiler: createProcessor({
-        ...options,
-        rehypePlugins: [rehypeRawPlugin, ...(options.rehypePlugins ?? [])],
-        format: 'md',
-      }),
-      mdxCompiler: createProcessor({
-        ...options,
-        format: 'mdx',
-      }),
-      options,
-    };
-  }
-
-  const compilerCacheEntry = createCompilersSynchronous();
-  compilerCache.set(query, compilerCacheEntry);
-  return compilerCacheEntry;
 }
 
 export async function mdxLoader(
@@ -337,20 +150,16 @@ export async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  async function getMdxCompiler() {
-    const compilers = await getMdxCompilers({query, reqOptions});
-    const format = getFormat({
-      filePath,
-      frontMatterFormat: mdxFrontMatter.format,
-    });
-    return format === 'md' ? compilers.mdCompiler : compilers.mdxCompiler;
-  }
-
-  const compiler = await getMdxCompiler();
+  const processor = await getProcessor({
+    filePath,
+    reqOptions,
+    query,
+    mdxFrontMatter,
+  });
 
   let result: string;
   try {
-    result = await compiler
+    result = await processor
       .process({
         value: content,
         path: filePath,
