@@ -119,27 +119,30 @@ async function createProcessorFactory() {
     // (after npm2yarn for example)
     remarkPlugins.push(codeCompatPlugin);
 
-    // This is what permits to embed HTML elements with format 'md'
-    // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
-    const rehypeRawPlugin: MDXPlugin = [
-      rehypeRaw,
-      {
-        passThrough: [
-          'mdxFlowExpression',
-          'mdxJsxFlowElement',
-          'mdxJsxTextElement',
-          'mdxTextExpression',
-          'mdxjsEsm',
-        ],
-      },
-    ];
-
     const rehypePlugins: MDXPlugin[] = [
-      rehypeRawPlugin,
       ...(options.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
       ...(options.rehypePlugins ?? []),
     ];
+
+    if (format === 'md') {
+      // This is what permits to embed HTML elements with format 'md'
+      // See https://github.com/facebook/docusaurus/pull/8960
+      // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
+      const rehypeRawPlugin: MDXPlugin = [
+        rehypeRaw,
+        {
+          passThrough: [
+            'mdxFlowExpression',
+            'mdxJsxFlowElement',
+            'mdxJsxTextElement',
+            'mdxTextExpression',
+            'mdxjsEsm',
+          ],
+        },
+      ];
+      rehypePlugins.unshift(rehypeRawPlugin);
+    }
 
     const processorOptions: ProcessorOptions & Options = {
       ...options,
