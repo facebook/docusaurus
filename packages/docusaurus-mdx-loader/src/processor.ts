@@ -71,8 +71,8 @@ function getAdmonitionsPlugins(
   return [];
 }
 
-// Esm + Node is a pain...
-const modulePromise = (async () => {
+// Need to be async due to ESM dynamic imports...
+async function createProcessorFactory() {
   const {createProcessor: createMdxProcessor} = await import('@mdx-js/mdx');
   const {default: rehypeRaw} = await import('rehype-raw');
   const {default: gfm} = await import('remark-gfm');
@@ -154,7 +154,8 @@ const modulePromise = (async () => {
     });
 
     return {
-      process: async ({content, filePath}) => mdxProcessor
+      process: async ({content, filePath}) =>
+        mdxProcessor
           .process({
             value: content,
             path: filePath,
@@ -163,83 +164,75 @@ const modulePromise = (async () => {
     };
   }
 
-  // We use different compilers depending on the file type (md vs mdx)
-  type ProcessorsCacheEntry = {
-    mdProcessor: SimpleProcessor;
-    mdxProcessor: SimpleProcessor;
-  };
-
-  // Compilers are cached so that Remark/Rehype plugins can run
-  // expensive code during initialization
-  const ProcessorsCache = new Map<string | Options, ProcessorsCacheEntry>();
-
-  async function createProcessorsCacheEntry({
-    query,
-    reqOptions,
-  }: {
-    query: string | Options;
-    reqOptions: Options;
-  }): Promise<ProcessorsCacheEntry> {
-    const compilers = ProcessorsCache.get(query);
-    if (compilers) {
-      return compilers;
-    }
-
-    const compilerCacheEntry: ProcessorsCacheEntry = {
-      mdProcessor: createProcessorSync({
-        options: reqOptions,
-        format: 'md',
-      }),
-      mdxProcessor: createProcessorSync({
-        options: reqOptions,
-        format: 'mdx',
-      }),
-    };
-
-    ProcessorsCache.set(query, compilerCacheEntry);
-
-    return compilerCacheEntry;
-  }
-
-  async function createProcessorCachedInternal({
-    filePath,
-    mdxFrontMatter,
-    query,
-    reqOptions,
-  }: {
-    filePath: string;
-    mdxFrontMatter: MDXFrontMatter;
-    query: string | Options;
-    reqOptions: Options;
-  }): Promise<SimpleProcessor> {
-    const compilers = await createProcessorsCacheEntry({query, reqOptions});
-
-    const format = getFormat({
-      filePath,
-      frontMatterFormat: mdxFrontMatter.format,
-    });
-
-    return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;
-  }
-
-  return {
-    createProcessorSync,
-    createProcessorCached: createProcessorCachedInternal,
-  };
-})();
-
-type ModuleType = Awaited<typeof modulePromise>;
-type CreateProcessorSync = ModuleType['createProcessorSync'];
-type CreateProcessorCached = ModuleType['createProcessorCached'];
-
-export async function createProcessor(
-  ...args: Parameters<CreateProcessorSync>
-): Promise<ReturnType<CreateProcessorSync>> {
-  return (await modulePromise).createProcessorSync(...args);
+  return {createProcessorSync};
 }
 
-export async function createProcessorCached(
-  ...args: Parameters<CreateProcessorCached>
-): Promise<ReturnType<CreateProcessorCached>> {
-  return (await modulePromise).createProcessorCached(...args);
+// Will be useful for tests
+export async function createProcessorUncached(parameters: {
+  options: Options;
+  format: 'md' | 'mdx';
+}): Promise<SimpleProcessor> {
+  const {createProcessorSync} = await createProcessorFactory();
+  return createProcessorSync(parameters);
+}
+
+// We use different compilers depending on the file type (md vs mdx)
+type ProcessorsCacheEntry = {
+  mdProcessor: SimpleProcessor;
+  mdxProcessor: SimpleProcessor;
+};
+
+// Compilers are cached so that Remark/Rehype plugins can run
+// expensive code during initialization
+const ProcessorsCache = new Map<string | Options, ProcessorsCacheEntry>();
+
+async function createProcessorsCacheEntry({
+  query,
+  reqOptions,
+}: {
+  query: string | Options;
+  reqOptions: Options;
+}): Promise<ProcessorsCacheEntry> {
+  const {createProcessorSync} = await createProcessorFactory();
+
+  const compilers = ProcessorsCache.get(query);
+  if (compilers) {
+    return compilers;
+  }
+
+  const compilerCacheEntry: ProcessorsCacheEntry = {
+    mdProcessor: createProcessorSync({
+      options: reqOptions,
+      format: 'md',
+    }),
+    mdxProcessor: createProcessorSync({
+      options: reqOptions,
+      format: 'mdx',
+    }),
+  };
+
+  ProcessorsCache.set(query, compilerCacheEntry);
+
+  return compilerCacheEntry;
+}
+
+export async function createProcessorCached({
+  filePath,
+  mdxFrontMatter,
+  query,
+  reqOptions,
+}: {
+  filePath: string;
+  mdxFrontMatter: MDXFrontMatter;
+  query: string | Options;
+  reqOptions: Options;
+}): Promise<SimpleProcessor> {
+  const compilers = await createProcessorsCacheEntry({query, reqOptions});
+
+  const format = getFormat({
+    filePath,
+    frontMatterFormat: mdxFrontMatter.format,
+  });
+
+  return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;
 }
