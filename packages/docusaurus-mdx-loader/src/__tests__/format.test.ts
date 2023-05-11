@@ -9,9 +9,7 @@ import {getFormat} from '../format';
 
 describe('getFormat', () => {
   it('uses frontMatter format over anything else', () => {
-    expect(getFormat({frontMatterFormat: 'md', filePath: 'xyz.md'})).toBe(
-      'md',
-    );
+    expect(getFormat({frontMatterFormat: 'md', filePath: 'xyz.md'})).toBe('md');
     expect(getFormat({frontMatterFormat: 'md', filePath: 'xyz.mdx'})).toBe(
       'md',
     );
@@ -24,9 +22,9 @@ describe('getFormat', () => {
   });
 
   it('detects appropriate format from file extension', () => {
-    expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'xyz.md'}),
-    ).toBe('md');
+    expect(getFormat({frontMatterFormat: 'detect', filePath: 'xyz.md'})).toBe(
+      'md',
+    );
     expect(
       getFormat({frontMatterFormat: 'detect', filePath: 'xyz.markdown'}),
     ).toBe('md');
@@ -37,9 +35,9 @@ describe('getFormat', () => {
     expect(
       getFormat({frontMatterFormat: 'detect', filePath: 'folder/xyz.markdown'}),
     ).toBe('md');
-    expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'xyz.mdx'}),
-    ).toBe('mdx');
+    expect(getFormat({frontMatterFormat: 'detect', filePath: 'xyz.mdx'})).toBe(
+      'mdx',
+    );
     expect(
       getFormat({frontMatterFormat: 'detect', filePath: 'folder/xyz.mdx'}),
     ).toBe('mdx');
