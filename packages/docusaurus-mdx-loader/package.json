@@ -32,6 +32,7 @@
     "image-size": "^1.0.2",
     "mdast-util-to-string": "^3.0.0",
     "mdast-util-mdx": "^2.0.0",
+    "rehype-raw": "^6.1.1",
     "remark-comment": "^1.0.0",
     "remark-gfm": "^3.0.1",
     "remark-directive": "^2.0.1",

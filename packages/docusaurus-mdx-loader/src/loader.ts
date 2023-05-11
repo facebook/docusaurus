@@ -26,7 +26,8 @@ import head from './remark/head';
 import mermaid from './remark/mermaid';
 import transformAdmonitions from './remark/admonitions';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
-import {validateMDXFrontMatter} from './frontMatter';
+import { validateMDXFrontMatter} from './frontMatter';
+import type {MDXFrontMatter} from './frontMatter';
 
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
@@ -60,6 +61,20 @@ function isMDFormat(filepath: string) {
   return mdFormatExtensions.includes(path.extname(filepath));
 }
 
+function getFormat({
+  filePath,
+  frontMatterFormat,
+}: {
+  filePath: string;
+  frontMatterFormat: MDXFrontMatter['format'];
+}): 'md' | 'mdx' {
+  return frontMatterFormat === 'detect'
+    ? isMDFormat(filePath)
+      ? 'md'
+      : 'mdx'
+    : frontMatterFormat;
+}
+
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
@@ -72,13 +87,14 @@ const DEFAULT_OPTIONS: MDXOptions = {
   beforeDefaultRehypePlugins: [],
 };
 
-type CompilerCacheEntry = {
+// We use different compilers depending on the file type (md vs mdx)
+type Compilers = {
   mdCompiler: Processor;
   mdxCompiler: Processor;
   options: Options;
 };
 
-const compilerCache = new Map<string | Options, CompilerCacheEntry>();
+const compilerCache = new Map<string | Options, Compilers>();
 
 export type MDXPlugin = Pluggable;
 
@@ -192,46 +208,27 @@ function ensureMarkdownConfig(reqOptions: Options) {
   }
 }
 
-export async function mdxLoader(
-  this: LoaderContext<Options>,
-  fileString: string,
-): Promise<void> {
-  const callback = this.async();
-  const filePath = this.resourcePath;
-  const reqOptions = this.getOptions();
-  ensureMarkdownConfig(reqOptions);
-
+async function getMdxCompilers({
+  query,
+  reqOptions,
+}: {
+  query: string | Options;
+  reqOptions: Options;
+}): Promise<Compilers> {
   const {createProcessor} = await import('@mdx-js/mdx');
+  const {default: rehypeRaw} = await import('rehype-raw');
   const {default: gfm} = await import('remark-gfm');
   const {default: comment} = await import('remark-comment');
   const {default: directives} = await import('remark-directive');
 
-  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
-  const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
+  const compilers = compilerCache.get(query);
+  if (compilers) {
+    return compilers;
+  }
 
-  const {content: contentUnprocessed, contentTitle} = parseMarkdownContentTitle(
-    contentWithTitle,
-    {
-      removeContentTitle: reqOptions.removeContentTitle,
-    },
-  );
-
-  const content = preprocessor({
-    fileContent: contentUnprocessed,
-    filePath,
-    admonitions: reqOptions.admonitions,
-    markdownConfig: reqOptions.markdownConfig,
-  });
-
-  const hasFrontMatter = Object.keys(frontMatter).length > 0;
-
-  if (!compilerCache.has(this.query)) {
-    /*
-    /!\ DO NOT PUT ANY ASYNC / AWAIT / DYNAMIC IMPORTS HERE
-    This creates cache creation race conditions
-    TODO extract this in a synchronous method
-     */
-
+  // /!\ this method is synchronous on purpose
+  // Using async code here can create cache entry race conditions!
+  function createCompilersSynchronous(): Compilers {
     const remarkPlugins: MDXPlugin[] = [
       ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       directives,
@@ -263,7 +260,23 @@ export async function mdxLoader(
     // (after npm2yarn for example)
     remarkPlugins.push(codeCompatPlugin);
 
+    // This is what permits to embed HTML elements with format 'md'
+    // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
+    const rehypeRawPlugin: MDXPlugin = [
+      rehypeRaw,
+      {
+        passThrough: [
+          'mdxFlowExpression',
+          'mdxJsxFlowElement',
+          'mdxJsxTextElement',
+          'mdxTextExpression',
+          'mdxjsEsm',
+        ],
+      },
+    ];
+
     const rehypePlugins: MDXPlugin[] = [
+      rehypeRawPlugin,
       ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
       ...(reqOptions.rehypePlugins ?? []),
@@ -276,14 +289,11 @@ export async function mdxLoader(
       providerImportSource: '@mdx-js/react',
     };
 
-    const compilerCacheEntry: CompilerCacheEntry = {
+    return {
       mdCompiler: createProcessor({
         ...options,
+        rehypePlugins: [rehypeRawPlugin, ...(options.rehypePlugins ?? [])],
         format: 'md',
-        remarkRehypeOptions: {
-          allowDangerousHtml: true,
-          passThrough: ['div', 'button', 'img', 'iframe', 'html'],
-        },
       }),
       mdxCompiler: createProcessor({
         ...options,
@@ -291,26 +301,56 @@ export async function mdxLoader(
       }),
       options,
     };
-
-    compilerCache.set(this.query, compilerCacheEntry);
   }
 
-  const {mdCompiler, mdxCompiler, options} = compilerCache.get(this.query)!;
+  const compilerCacheEntry = createCompilersSynchronous();
+  compilerCache.set(query, compilerCacheEntry);
+  return compilerCacheEntry;
+}
 
-  function getCompiler() {
-    const format =
-      mdxFrontMatter.format === 'detect'
-        ? isMDFormat(filePath)
-          ? 'md'
-          : 'mdx'
-        : mdxFrontMatter.format;
+export async function mdxLoader(
+  this: LoaderContext<Options>,
+  fileString: string,
+): Promise<void> {
+  const callback = this.async();
+  const filePath = this.resourcePath;
+  const reqOptions: Options = this.getOptions();
+  const {query} = this;
+  ensureMarkdownConfig(reqOptions);
 
-    return format === 'md' ? mdCompiler : mdxCompiler;
+  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+  const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
+
+  const {content: contentUnprocessed, contentTitle} = parseMarkdownContentTitle(
+    contentWithTitle,
+    {
+      removeContentTitle: reqOptions.removeContentTitle,
+    },
+  );
+
+  const content = preprocessor({
+    fileContent: contentUnprocessed,
+    filePath,
+    admonitions: reqOptions.admonitions,
+    markdownConfig: reqOptions.markdownConfig,
+  });
+
+  const hasFrontMatter = Object.keys(frontMatter).length > 0;
+
+  async function getMdxCompiler() {
+    const compilers = await getMdxCompilers({query, reqOptions});
+    const format = getFormat({
+      filePath,
+      frontMatterFormat: mdxFrontMatter.format,
+    });
+    return format === 'md' ? compilers.mdCompiler : compilers.mdxCompiler;
   }
+
+  const compiler = await getMdxCompiler();
 
   let result: string;
   try {
-    result = await getCompiler()
+    result = await compiler
       .process({
         value: content,
         path: filePath,
@@ -331,14 +371,14 @@ export async function mdxLoader(
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
-  const isMDXPartial = options.isMDXPartial?.(filePath);
+  const isMDXPartial = reqOptions.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain front matter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
 File at ${filePath} contains front matter that will be ignored:
 ${JSON.stringify(frontMatter, null, 2)}`;
 
-    if (!options.isMDXPartialFrontMatterWarningDisabled) {
+    if (!reqOptions.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
@@ -350,8 +390,11 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   function getMetadataPath(): string | undefined {
     if (!isMDXPartial) {
       // Read metadata for this MDX and export it.
-      if (options.metadataPath && typeof options.metadataPath === 'function') {
-        return options.metadataPath(filePath);
+      if (
+        reqOptions.metadataPath &&
+        typeof reqOptions.metadataPath === 'function'
+      ) {
+        return reqOptions.metadataPath(filePath);
       }
     }
     return undefined;
