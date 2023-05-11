@@ -16,7 +16,7 @@ import {
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
-import {getProcessorCached} from './processor';
+import {createProcessorCached} from './processor';
 import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
@@ -150,7 +150,7 @@ export async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const processor = await getProcessorCached({
+  const processor = await createProcessorCached({
     filePath,
     reqOptions,
     query,
@@ -159,12 +159,7 @@ export async function mdxLoader(
 
   let result: string;
   try {
-    result = await processor
-      .process({
-        value: content,
-        path: filePath,
-      })
-      .then((res) => res.toString());
+    result = await processor.process({content, filePath});
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
     return callback(
