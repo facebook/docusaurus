@@ -322,3 +322,15 @@ WHERE customer_id IN (
   WHERE country = 'USA'
 )
 ```
+
+```matlab title="matlab.m"
+% highlight-start
+function result = times2(n)
+  result = n * 2;
+end
+% highlight-end
+
+x = 10;
+% highlight-next-line
+y = times2(x);
+```
