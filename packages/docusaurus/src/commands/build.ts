@@ -50,6 +50,13 @@ export async function build(
   process.env.NODE_ENV = 'production';
   process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
 
+  // TODO expose this as a cli/site option?
+  // Useful to get real hydration errors
+  if (process.env.DOCUSAURUS_DEBUG_BUILD) {
+    process.env.BABEL_ENV = 'development';
+    process.env.NODE_ENV = 'development';
+  }
+
   const siteDir = await fs.realpath(siteDirParam);
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
@@ -158,7 +165,7 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    await createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify, true),
     {
       plugins: [
         // Remove/clean build folders before building bundles.

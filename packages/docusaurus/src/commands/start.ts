@@ -123,7 +123,7 @@ export async function start(
   );
 
   let config: webpack.Configuration = merge(
-    await createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify, false),
     {
       watchOptions: {
         ignored: /node_modules\/(?!@docusaurus)/,

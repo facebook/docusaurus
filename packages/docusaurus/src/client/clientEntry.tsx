@@ -21,6 +21,8 @@ declare global {
   }
 }
 
+const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
+
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).
 if (ExecutionEnvironment.canUseDOM) {
@@ -41,7 +43,7 @@ if (ExecutionEnvironment.canUseDOM) {
   };
 
   const renderApp = () => {
-    if (process.env.NODE_ENV === 'production') {
+    if (hydrate) {
       ReactDOM.hydrateRoot(container, app, {
         onRecoverableError,
       });
