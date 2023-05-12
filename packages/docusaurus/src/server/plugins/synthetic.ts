@@ -85,7 +85,7 @@ export function createMDXFallbackPlugin({
     version: {type: 'synthetic'},
     // Synthetic, the path doesn't matter much
     path: '.',
-    configureWebpack(config, isServer, {getJSLoader}) {
+    configureWebpack(config) {
       // We need the mdx fallback loader to exclude files that were already
       // processed by content plugins mdx loaders. This works, but a bit
       // hacky... Not sure there's a way to handle that differently in webpack
@@ -117,7 +117,6 @@ export function createMDXFallbackPlugin({
               test: /\.mdx?$/i,
               exclude: getMDXFallbackExcludedPaths(),
               use: [
-                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: mdxLoaderOptions,
