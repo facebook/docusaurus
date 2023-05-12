@@ -10,13 +10,13 @@ import React, {
   useEffect,
   useRef,
   useCallback,
-  useLayoutEffect,
   type RefObject,
   type Dispatch,
   type SetStateAction,
   type ReactNode,
 } from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import {prefersReducedMotion} from '../../utils/accessibilityUtils';
 
 const DefaultAnimationEasing = 'ease-in-out';
@@ -231,13 +231,13 @@ function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
   // Updated in effect so that first expansion transition can work
   const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!collapsed) {
       setMounted(true);
     }
   }, [collapsed]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (mounted) {
       setLazyCollapsed(collapsed);
     }

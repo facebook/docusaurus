@@ -242,6 +242,12 @@ declare module '@docusaurus/router' {
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
+declare module '@docusaurus/useIsomorphicLayoutEffect' {
+  import {useLayoutEffect} from 'react';
+
+  export = useLayoutEffect;
+}
+
 declare module '@docusaurus/useDocusaurusContext' {
   import type {DocusaurusContext} from '@docusaurus/types';
 

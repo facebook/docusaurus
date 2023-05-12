@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {useLocation} from '@docusaurus/router';
 import Head from '@docusaurus/Head';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -86,7 +87,7 @@ function BaseUrlIssueBanner() {
 
   // useLayoutEffect fires before DOMContentLoaded.
   // It gives the opportunity to avoid inserting the banner in the first place
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     window[InsertBannerWindowAttribute] = false;
   }, []);
 
