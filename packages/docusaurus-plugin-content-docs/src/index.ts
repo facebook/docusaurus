@@ -228,7 +228,6 @@ export default async function pluginContentDocs(
     },
 
     configureWebpack(_config, isServer, utils, content) {
-      const {getJSLoader} = utils;
       const {
         rehypePlugins,
         remarkPlugins,
@@ -263,7 +262,6 @@ export default async function pluginContentDocs(
           test: /\.mdx?$/i,
           include: contentDirs,
           use: [
-            getJSLoader({isServer}),
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
               options: {
