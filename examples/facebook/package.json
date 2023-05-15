@@ -19,8 +19,8 @@
     "dev": "docusaurus start"
   },
   "dependencies": {
-    "@docusaurus/core": "2.4.0",
-    "@docusaurus/preset-classic": "2.4.0",
+    "@docusaurus/core": "2.4.1",
+    "@docusaurus/preset-classic": "2.4.1",
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.2.1",
     "react": "^17.0.2",
