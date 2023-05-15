@@ -359,7 +359,7 @@ export default async function pluginContentBlog(
       return translateContent(content, translationFiles);
     },
 
-    configureWebpack(_config, isServer, {getJSLoader}, content) {
+    configureWebpack(_config, isServer, utils, content) {
       const {
         admonitions,
         rehypePlugins,
@@ -399,7 +399,6 @@ export default async function pluginContentBlog(
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
-                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {

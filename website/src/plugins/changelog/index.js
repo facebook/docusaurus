@@ -138,7 +138,8 @@ async function ChangelogPlugin(context, options) {
         'default',
       );
       // Redirect the metadata path to our folder
-      config.module.rules[0].use[1].options.metadataPath = (mdxPath) => {
+      const mdxLoader = config.module.rules[0].use[0];
+      mdxLoader.options.metadataPath = (mdxPath) => {
         // Note that metadataPath must be the same/in-sync as
         // the path from createData for each MDX.
         const aliasedPath = aliasedSitePath(mdxPath, context.siteDir);
