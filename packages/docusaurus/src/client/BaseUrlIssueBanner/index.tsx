@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function maybeInsertBanner() {
 });
 
 function insertBanner() {
-  var bannerContainer = document.createElement("div");
+  var bannerContainer = document.createElement('div');
   bannerContainer.id = '${BannerContainerId}';
   var bannerHtml = ${JSON.stringify(createInlineHtmlBanner(baseUrl))
     // See https://redux.js.org/recipes/server-rendering/#security-considerations
