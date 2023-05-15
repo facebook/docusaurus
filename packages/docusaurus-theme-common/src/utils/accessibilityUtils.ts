@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-:global(#__docusaurus-base-url-issue-banner-container) {
-  display: none;
+export function prefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }

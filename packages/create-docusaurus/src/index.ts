@@ -241,7 +241,7 @@ async function getSiteName(
     return true;
   }
   if (reqName) {
-    const res = validateSiteName(reqName);
+    const res = await validateSiteName(reqName);
     if (typeof res === 'string') {
       throw new Error(res);
     }

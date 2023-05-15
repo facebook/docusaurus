@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} elementów",
   "theme.docs.breadcrumbs.home": "Strona główna",
   "theme.docs.breadcrumbs.navAriaLabel": "Pasek nawigacji",
-  "theme.docs.paginator.navAriaLabel": "Nawigacja na stronie dokumentacji",
+  "theme.docs.paginator.navAriaLabel": "Strona dokumentacji",
   "theme.docs.paginator.next": "Następna strona",
   "theme.docs.paginator.previous": "Poprzednia strona",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Zamknij panel nawigacji",

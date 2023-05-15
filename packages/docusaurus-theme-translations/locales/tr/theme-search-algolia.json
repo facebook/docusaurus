@@ -9,7 +9,7 @@
   "theme.SearchModal.footer.navigateText": "yönlendir",
   "theme.SearchModal.footer.navigateUpKeyAriaLabel": "Yukarı ok",
   "theme.SearchModal.footer.searchByText": "Şuna göre ara:",
-  "theme.SearchModal.footer.selectKeyAriaLabel": "Enter key",
+  "theme.SearchModal.footer.selectKeyAriaLabel": "Enter tuşu",
   "theme.SearchModal.footer.selectText": "Seç",
   "theme.SearchModal.noResultsScreen.noResultsText": "için sonuç yok",
   "theme.SearchModal.noResultsScreen.reportMissingResultsLinkText": "Bilmemize izin ver.",

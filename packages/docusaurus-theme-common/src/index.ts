@@ -43,6 +43,8 @@ export {useCollapsible, Collapsible} from './components/Collapsible';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
 
+export {prefersReducedMotion} from './utils/accessibilityUtils';
+
 export {
   useIsomorphicLayoutEffect,
   useEvent,

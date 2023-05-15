@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count}項目",
   "theme.docs.breadcrumbs.home": "ホームページ",
   "theme.docs.breadcrumbs.navAriaLabel": "パンくずリストのナビゲーション",
-  "theme.docs.paginator.navAriaLabel": "ドキュメントのナビゲーション",
+  "theme.docs.paginator.navAriaLabel": "ドキュメントページ",
   "theme.docs.paginator.next": "次へ",
   "theme.docs.paginator.previous": "前へ",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Close navigation bar",

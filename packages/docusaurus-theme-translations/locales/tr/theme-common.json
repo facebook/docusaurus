@@ -41,7 +41,7 @@
   "theme.docs.DocCard.categoryDescription": "{count} items",
   "theme.docs.breadcrumbs.home": "Ana sayfa",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
-  "theme.docs.paginator.navAriaLabel": "Dokümanlar sayfası navigasyonu",
+  "theme.docs.paginator.navAriaLabel": "Dokümanlar sayfası",
   "theme.docs.paginator.next": "Sonraki",
   "theme.docs.paginator.previous": "Önceki",
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": "Gezinme çubuğunu kapat",
