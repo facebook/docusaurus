@@ -23,7 +23,6 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
     },
   } = useThemeConfig();
 
-  // added aria-hidden next to tabIndex{-1}
   return (
     <div
       className={clsx(
