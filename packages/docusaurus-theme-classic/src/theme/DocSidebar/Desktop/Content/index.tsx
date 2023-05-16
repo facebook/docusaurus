@@ -40,9 +40,8 @@ export default function DocSidebarDesktopContent({
 }: Props): JSX.Element {
   const showAnnouncementBar = useShowAnnouncementBar();
 
-  // change from aside to nav
   return (
-    <aside
+    <nav
       aria-label={translate({
         id: 'theme.docs.sidebar.navAriaLabel',
         message: 'Docs sidebar',
@@ -57,6 +56,6 @@ export default function DocSidebarDesktopContent({
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
         <DocSidebarItems items={sidebar} activePath={path} level={1} />
       </ul>
-    </aside>
+    </nav>
   );
 }
