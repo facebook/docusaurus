@@ -23,6 +23,14 @@
     visibility: hidden;
   }
 
+  .sidebarAnnouncementActive {
+    height: calc(100% - 30px);
+  }
+
+  .sidebarAnnouncementInactive {
+    height: 100%;
+  }
+
   .sidebarLogo {
     display: flex !important;
     align-items: center;
