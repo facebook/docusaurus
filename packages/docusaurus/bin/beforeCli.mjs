@@ -119,8 +119,7 @@ export default async function beforeCli() {
       }
 
       try {
-        const yamlFile = await fs.readFile(path.resolve('.yarnrc.yml'), 'utf8');
-        const yamlData = yaml.safeLoad(yamlFile);
+        const yamlData = yaml.load(await fs.readFile(path.resolve('.yarnrc.yml'), 'utf8')); 
 
         const isYarn2PlusUsed = 'yarnPath' in yamlData && !yamlData.yarnPath.includes('yarn-1.');
         return isYarn2PlusUsed
