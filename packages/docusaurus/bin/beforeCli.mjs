@@ -9,6 +9,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import yaml from 'js-yaml';
 import {createRequire} from 'module';
 import logger from '@docusaurus/logger';
 import semver from 'semver';
@@ -111,12 +112,24 @@ export default async function beforeCli() {
         return `npm i ${siteDocusaurusPackagesForUpdate}`;
       }
 
-      const isYarnClassicUsed = !(await fs.pathExists(
-        path.resolve('.yarnrc.yml'),
-      ));
-      return isYarnClassicUsed
-        ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-        : `yarn up ${siteDocusaurusPackagesForUpdate}`;
+      const isYarnrcExists = await fs.pathExists(path.resolve('.yarnrc.yml'));
+
+      if (!isYarnrcExists) {
+        return `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
+      }
+
+      try {
+        const yamlFile = await fs.readFile(path.resolve('.yarnrc.yml'), 'utf8');
+        const yamlData = yaml.safeLoad(yamlFile);
+
+        const isYarn2PlusUsed = 'yarnPath' in yamlData && !yamlData.yarnPath.includes('yarn-1.');
+        return isYarn2PlusUsed
+          ? `yarn up ${siteDocusaurusPackagesForUpdate}`
+          : `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
+
+      } catch {
+        return `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
+      }
     };
 
     /** @type {import('boxen').Options} */
