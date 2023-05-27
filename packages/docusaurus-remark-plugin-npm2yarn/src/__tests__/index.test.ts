@@ -7,9 +7,23 @@
 
 import path from 'path';
 import vfile from 'to-vfile';
-import mdx from 'remark-mdx';
-import remark from 'remark';
+import dedent from 'dedent';
 import npm2yarn from '../index';
+
+const process = async (
+  content: any,
+  options?: Parameters<typeof npm2yarn>[0],
+) => {
+  const {remark} = await import('remark');
+  const {default: mdx} = await import('remark-mdx');
+
+  const result = await remark()
+    .use(mdx)
+    .use(npm2yarn, options)
+    .process(content);
+
+  return result.value;
+};
 
 const processFixture = async (
   name: string,
@@ -17,12 +31,25 @@ const processFixture = async (
 ) => {
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
-  const result = await remark().use(mdx).use(npm2yarn, options).process(file);
-
-  return result.toString();
+  return process(file, options);
 };
 
 describe('npm2yarn plugin', () => {
+  it('works with simplest md', async () => {
+    const result = await process(dedent`
+    # Title
+
+    Hey
+
+    \`\`\`bash npm2yarn
+    npm install test
+    \`\`\`
+
+    `);
+
+    expect(result).toMatchSnapshot();
+  });
+
   it('works on installation file', async () => {
     const result = await processFixture('installation');
 
@@ -62,6 +89,11 @@ describe('npm2yarn plugin', () => {
   it('does not re-import tabs components when already imported below', async () => {
     const result = await processFixture('import-tabs-below');
 
+    expect(result).toMatchSnapshot();
+  });
+
+  it('does not re-import tabs components real-world multiple npm2yarn usage', async () => {
+    const result = await processFixture('multiple');
     expect(result).toMatchSnapshot();
   });
 

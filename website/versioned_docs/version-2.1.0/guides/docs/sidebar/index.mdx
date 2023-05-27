@@ -156,15 +156,18 @@ module.exports = {
 
 ## Passing custom props {#passing-custom-props}
 
-To pass in custom props to a swizzled sidebar item, add the optional `customProps` object to any of the items:
+To pass in custom props to a sidebar item, add the optional `customProps` object to any of the items. This is useful to apply site customizations by swizzling React components rendering sidebar items.
 
 ```js
 {
   type: 'doc',
   id: 'doc1',
+  // highlight-start
   customProps: {
-    /* props */
+    badges: ['new', 'green'],
+    featured: true,
   },
+  // highlight-end
 };
 ```
 

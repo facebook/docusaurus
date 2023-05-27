@@ -104,10 +104,20 @@ export default async function beforeCli() {
       .filter((p) => p.startsWith('@docusaurus'))
       .map((p) => p.concat('@latest'))
       .join(' ');
-    const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
-    const upgradeCommand = isYarnUsed
-      ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-      : `npm i ${siteDocusaurusPackagesForUpdate}`;
+
+    const getUpgradeCommand = async () => {
+      const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
+      if (!isYarnUsed) {
+        return `npm i ${siteDocusaurusPackagesForUpdate}`;
+      }
+
+      const isYarnClassicUsed = !(await fs.pathExists(
+        path.resolve('.yarnrc.yml'),
+      ));
+      return isYarnClassicUsed
+        ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
+        : `yarn up ${siteDocusaurusPackagesForUpdate}`;
+    };
 
     /** @type {import('boxen').Options} */
     const boxenOptions = {
@@ -124,7 +134,7 @@ export default async function beforeCli() {
       )} → ${logger.green(`${notifier.update.latest}`)}
 
   To upgrade Docusaurus packages with the latest version, run the following command:
-  ${logger.code(upgradeCommand)}`,
+  ${logger.code(await getUpgradeCommand())}`,
       boxenOptions,
     );
 

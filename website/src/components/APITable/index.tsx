@@ -46,8 +46,12 @@ function APITableRow(
       id={id}
       tabIndex={0}
       ref={history.location.hash === anchor ? ref : undefined}
-      onClick={() => {
-        history.push(anchor);
+      onClick={(e) => {
+        const isLinkClick =
+          (e.target as HTMLElement).tagName.toUpperCase() === 'A';
+        if (!isLinkClick) {
+          history.push(anchor);
+        }
       }}
       onKeyDown={(e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {

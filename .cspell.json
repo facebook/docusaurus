@@ -31,6 +31,7 @@
     "website/docusaurus.config.localized.json",
     "*.xyz",
     "*.docx",
+    "*.gitignore",
     "versioned_docs",
     "*.min.*",
     "jest/vendor"

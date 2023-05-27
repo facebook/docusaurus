@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
       - name: Wait for the Netlify Preview
         uses: jakepartusch/wait-for-netlify-action@f1e137043864b9ab9034ae3a5adc1c108e3f1a48 # v1
         id: netlify
@@ -30,7 +30,7 @@ jobs:
           max_timeout: 600
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@2e159d989f91bb9e399801b3e1ad90bcd4749f75 # 9.6.8
+        uses: treosh/lighthouse-ci-action@03becbfc543944dd6e7534f7ff768abb8a296826 # 10.1.0
         with:
           urls: |
             https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
@@ -54,7 +54,7 @@ jobs:
 
       - name: Add Lighthouse stats as comment
         id: comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@3d60a5b2dae89d44e0c6ddc69dd7536aec2071cd # v2.2.0
+        uses: marocchino/sticky-pull-request-comment@f61b6cf21ef2fcc468f4345cdfcc9bda741d2343 # 2.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.pull_request.number }}

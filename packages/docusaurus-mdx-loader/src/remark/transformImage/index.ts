@@ -9,7 +9,6 @@ import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
 import {promisify} from 'util';
-import logger from '@docusaurus/logger';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -20,15 +19,20 @@ import {
 import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
+import logger from '@docusaurus/logger';
+import {assetRequireAttributeValue} from '../utils';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
+import type {Image} from 'mdast';
 import type {Parent} from 'unist';
-import type {Image, Literal} from 'mdast';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-export type PluginOptions = {
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
 };
@@ -40,10 +44,14 @@ type Context = PluginOptions & {
 type Target = [node: Image, index: number, parent: Parent];
 
 async function toImageRequireNode(
-  [node, index, parent]: Target,
+  [node]: Target,
   imagePath: string,
   filePath: string,
 ) {
+  // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
+  const jsxNode = node as unknown as MdxJsxTextElement;
+  const attributes: MdxJsxTextElement['attributes'] = [];
+
   let relativeImagePath = posixPath(
     path.relative(path.dirname(filePath), imagePath),
   );
@@ -52,21 +60,46 @@ async function toImageRequireNode(
   const parsedUrl = url.parse(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
-
-  const alt = node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : '';
-  const src = `require("${inlineMarkdownImageFileLoader}${
+  const requireString = `${inlineMarkdownImageFileLoader}${
     escapePath(relativeImagePath) + search
-  }").default${hash ? ` + '${hash}'` : ''}`;
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
-  let width = '';
-  let height = '';
+  }`;
+  if (node.alt) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'alt',
+      value: escapeHtml(node.alt),
+    });
+  }
+
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'src',
+    value: assetRequireAttributeValue(requireString, hash),
+  });
+
+  if (node.title) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'title',
+      value: escapeHtml(node.title),
+    });
+  }
+
   try {
     const size = (await promisify(sizeOf)(imagePath))!;
     if (size.width) {
-      width = ` width="${size.width}"`;
+      attributes.push({
+        type: 'mdxJsxAttribute',
+        name: 'width',
+        value: String(size.width),
+      });
     }
     if (size.height) {
-      height = ` height="${size.height}"`;
+      attributes.push({
+        type: 'mdxJsxAttribute',
+        name: 'height',
+        value: String(size.height),
+      });
     }
   } catch (err) {
     // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
@@ -77,12 +110,14 @@ ${(err as Error).message}`;
     }
   }
 
-  const jsxNode: Literal = {
-    type: 'jsx',
-    value: `<img ${alt}src={${src}}${title}${width}${height} />`,
-  };
+  Object.keys(jsxNode).forEach(
+    (key) => delete jsxNode[key as keyof typeof jsxNode],
+  );
 
-  parent.children.splice(index, 1, jsxNode);
+  jsxNode.type = 'mdxJsxTextElement';
+  jsxNode.name = 'img';
+  jsxNode.attributes = attributes;
+  jsxNode.children = [];
 }
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -122,7 +157,7 @@ async function getImageAbsolutePath(
     }
     return imageFilePath;
   }
-  // Relative paths are resolved against the source file's folder.
+  // relative paths are resolved against the source file's folder
   const imageFilePath = path.join(
     path.dirname(filePath),
     decodeURIComponent(imagePath),

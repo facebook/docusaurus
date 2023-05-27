@@ -27,7 +27,25 @@ export type MarkdownConfig = {
    * @see https://docusaurus.io/docs/markdown-features/diagrams/
    * @default false
    */
-  mermaid?: boolean;
+  mermaid: boolean;
+
+  /**
+   * Gives opportunity to preprocess the MDX string content before compiling.
+   * A good escape hatch that can be used to handle edge cases.
+   *
+   * @param args
+   */
+  preprocessor?: (args: {filePath: string; fileContent: string}) => string;
+
+  /**
+   * Set of flags make it easier to upgrade from MDX 1 to MDX 2
+   * See also https://github.com/facebook/docusaurus/issues/4029
+   */
+  mdx1Compat: {
+    comments: boolean;
+    admonitions: boolean;
+    headingIds: boolean;
+  };
 };
 
 /**

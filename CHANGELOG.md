@@ -1,5 +1,42 @@
 # Docusaurus 2 Changelog
 
+## 2.4.1 (2023-05-15)
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#8971](https://github.com/facebook/docusaurus/pull/8971) fix(theme): fix collapsible sidebar behavior when prefers-reduced-motion ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#8933](https://github.com/facebook/docusaurus/pull/8933) fix(theme-translations): fix Turkish translation for aria label "Enter key" ([@LiberaTeMetuMortis](https://github.com/LiberaTeMetuMortis))
+- `docusaurus`
+  - [#8908](https://github.com/facebook/docusaurus/pull/8908) fix(core): Correct yarn upgrade command for yarn 2.x ([@andrewnicols](https://github.com/andrewnicols))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-common`, `docusaurus-utils-common`, `docusaurus`
+  - [#8909](https://github.com/facebook/docusaurus/pull/8909) fix(theme): add \_\_ prefix to technical anchors, search crawlers (Algolia) should ignore them ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-common`
+  - [#8906](https://github.com/facebook/docusaurus/pull/8906) fix(theme-common): fix collapsible component with prefers-reduced-motion ([@slorber](https://github.com/slorber))
+  - [#8873](https://github.com/facebook/docusaurus/pull/8873) fix(theme-common): fix confusing theme error message: bad sidebar id suggestions ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#8874](https://github.com/facebook/docusaurus/pull/8874) fix(utils): handle Markdown links with spaces to route correctly ([@morsko1](https://github.com/morsko1))
+- `docusaurus-theme-classic`, `docusaurus-theme-translations`
+  - [#8842](https://github.com/facebook/docusaurus/pull/8842) fix(theme-translations): remove redundant navigation text in aria label ([@tarunrajput](https://github.com/tarunrajput))
+- `create-docusaurus`
+  - [#8831](https://github.com/facebook/docusaurus/pull/8831) fix(create): add missing await ([@SACHINnANYAKKARA](https://github.com/SACHINnANYAKKARA))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#8862](https://github.com/facebook/docusaurus/pull/8862) refactor(theme): expose copy, success and word-wrap icons as standalone components ([@armano2](https://github.com/armano2))
+
+#### Committers: 7
+
+- Aleksandr Vladykin ([@morsko1](https://github.com/morsko1))
+- Andrew Lyons ([@andrewnicols](https://github.com/andrewnicols))
+- Armano ([@armano2](https://github.com/armano2))
+- MetuMortis ([@LiberaTeMetuMortis](https://github.com/LiberaTeMetuMortis))
+- Sachin Nanayakkara ([@SACHINnANYAKKARA](https://github.com/SACHINnANYAKKARA))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tarun Chauhan ([@tarunrajput](https://github.com/tarunrajput))
+
 ## 2.4.0 (2023-03-23)
 
 #### :rocket: New Feature

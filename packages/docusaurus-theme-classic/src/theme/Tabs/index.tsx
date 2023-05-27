@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import {
   useScrollPositionBlocker,
   useTabs,
+  sanitizeTabsChildren,
   type TabItemProps,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -152,7 +153,8 @@ export default function Tabs(props: Props): JSX.Element {
       // Remount tabs after hydration
       // Temporary fix for https://github.com/facebook/docusaurus/issues/5653
       key={String(isBrowser)}
-      {...props}
-    />
+      {...props}>
+      {sanitizeTabsChildren(props.children)}
+    </TabsComponent>
   );
 }

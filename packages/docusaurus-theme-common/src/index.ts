@@ -24,6 +24,8 @@ export {
   type ColorModeConfig,
 } from './utils/useThemeConfig';
 
+export {default as ThemedComponent} from './components/ThemedComponent';
+
 export {
   createStorageSlot,
   useStorageSlot,
@@ -42,6 +44,8 @@ export {usePluralForm} from './utils/usePluralForm';
 export {useCollapsible, Collapsible} from './components/Collapsible';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
+
+export {prefersReducedMotion} from './utils/accessibilityUtils';
 
 export {
   useIsomorphicLayoutEffect,

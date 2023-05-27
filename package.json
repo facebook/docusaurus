@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
+    "argos",
     "website",
     "test-website-in-workspace",
     "packages/create-docusaurus/templates/*",
@@ -37,6 +38,8 @@
     "crowdin:upload:website": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:download": "crowdin download --config ./crowdin-v2.yaml",
     "crowdin:download:website": "yarn crowdin:download --language fr --language ko --language pt-BR --language zh-CN --language ja",
+    "argos:screenshot": "yarn workspace argos screenshot",
+    "argos:upload": "yarn workspace argos upload",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
     "canary:version": "echo 0.0.0-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes",
@@ -55,12 +58,12 @@
     "test": "jest",
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel watch",
-    "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib",
+    "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn rimraf test-website && yarn rimraf test-website-in-workspace && yarn lerna exec --ignore docusaurus yarn rimraf lib",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
     "lock:update": "npx --yes yarn-deduplicate"
   },
   "dependencies": {
-    "unified": "^9.2.2"
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.10.0",
@@ -113,6 +116,6 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "~4.9.5"
+    "typescript": "~5.0.4"
   }
 }

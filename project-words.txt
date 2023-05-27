@@ -18,6 +18,7 @@ autoconverted
 autogen
 autogenerating
 autohide
+autolinks
 backport
 backticks
 bartosz
@@ -48,6 +49,7 @@ codegen
 codeql
 codesandbox
 codespaces
+commonmark
 contravariance
 corejs
 crawlable
@@ -137,6 +139,7 @@ immer
 infima
 inlines
 intelli
+intellij
 interactiveness
 interpolatable
 investec
@@ -179,6 +182,7 @@ mdast
 mdxa
 mdxast
 mdxhast
+mdxjs
 metadatum
 metastring
 metrica
@@ -190,6 +194,9 @@ mkcert
 mkdir
 mkdirs
 mkdocs
+mkdn
+mdwn
+mkdown
 moesif
 msapplication
 nabors
@@ -284,6 +291,7 @@ redwoodjs
 refactorings
 regexes
 rehype
+renderable
 reponame
 reqs
 requireindex
@@ -389,6 +397,7 @@ wcag
 webfactory
 webp
 webpackbar
+webstorm
 wolcott
 writeups
 xclip
@@ -400,3 +409,4 @@ yangshunz
 zhou
 zoomable
 zpao
+hastscript

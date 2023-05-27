@@ -87,7 +87,7 @@ Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 
 If you use [Prettier](https://prettier.io) to format your Markdown files, Prettier might auto-format your code to invalid admonition syntax. To avoid this problem, add empty lines around the starting and ending directives. This is also why the examples we show here all have empty lines around the content.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```md
 <!-- Prettier doesn't change this -->
 :::note
@@ -110,9 +110,9 @@ Hello world
 You may also specify an optional title.
 
 ```md
-:::note Your Title
+:::note[Your Title **with** some _Markdown_ `syntax`!]
 
-Some **content** with _Markdown_ `syntax`.
+Some **content** with some _Markdown_ `syntax`.
 
 :::
 ```
@@ -120,9 +120,9 @@ Some **content** with _Markdown_ `syntax`.
 ```mdx-code-block
 <BrowserWindow>
 
-:::note Your Title
+:::note[Your Title **with** some _Markdown_ `syntax`!]
 
-Some **content** with _Markdown_ `syntax`.
+Some **content** with some _Markdown_ `syntax`.
 
 :::
 
@@ -186,7 +186,7 @@ import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
 
-:::tip Use tabs in admonitions
+:::tip[Use tabs in admonitions]
 
 <Tabs>
   <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
@@ -200,7 +200,7 @@ import TabItem from '@theme/TabItem';
 ```mdx-code-block
 <BrowserWindow>
 
-:::tip Use tabs in admonitions
+:::tip[Use tabs in admonitions]
 
 <Tabs>
   <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
@@ -235,20 +235,16 @@ The types that are accepted are the same as above: `note`, `tip`, `danger`, `inf
 
 ```jsx title="MyReactPage.jsx"
 <Admonition type="tip" icon="💡" title="Did you know...">
-  <p>
-    Use plugins to introduce shorter syntax for the most commonly used JSX
-    elements in your project.
-  </p>
+  Use plugins to introduce shorter syntax for the most commonly used JSX
+  elements in your project.
 </Admonition>
 ```
 
 ```mdx-code-block
 <BrowserWindow>
   <Admonition type="tip" icon="💡" title="Did you know...">
-    <p>
-      Use plugins to introduce shorter syntax for the most commonly used JSX
-      elements in your project.
-    </p>
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
   </Admonition>
 </BrowserWindow>
 ```
@@ -286,7 +282,6 @@ module.exports = {
       {
         docs: {
           admonitions: {
-            tag: ':::',
             keywords: ['note', 'tip', 'info', 'caution', 'danger'],
             extendDefaults: true,
           },
@@ -299,9 +294,8 @@ module.exports = {
 
 The plugin accepts the following options:
 
-- `tag`: The tag that encloses the admonition. Defaults to `:::`.
 - `keywords`: An array of keywords that can be used as the type for the admonition.
-- `extendDefaults`: Should the provided options (such as `keywords`) be merged into the existing defaults. Defaults to `false`.
+- `extendDefaults`: Should the provided options (such as `keywords`) be merged into the existing defaults. Defaults to `true`.
 
 The `keyword` will be passed as the `type` prop of the `Admonition` component.
 
@@ -321,7 +315,6 @@ module.exports = {
         // ...
         docs: {
           admonitions: {
-            tag: ':::',
             keywords: ['my-custom-admonition'],
             extendDefaults: true,
           },
@@ -361,7 +354,7 @@ export default AdmonitionTypes;
 Now you can use your new admonition keyword in a Markdown file, and it will be parsed and rendered with your custom logic:
 
 ```md
-:::my-custom-admonition Custom Admonition
+:::my-custom-admonition[My Title]
 
 It works!
 
@@ -370,7 +363,7 @@ It works!
 
 <BrowserWindow>
 
-:::my-custom-admonition Custom Admonition
+:::my-custom-admonition[My Title]
 
 It works!
 

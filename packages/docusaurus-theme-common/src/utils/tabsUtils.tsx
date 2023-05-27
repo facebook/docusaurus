@@ -61,25 +61,27 @@ function isTabItem(
   return !!props && typeof props === 'object' && 'value' in props;
 }
 
-function ensureValidChildren(children: TabsProps['children']) {
-  return (React.Children.map(children, (child) => {
-    // Pass falsy values through: allow conditionally not rendering a tab
-    if (!child || (isValidElement(child) && isTabItem(child))) {
-      return child;
-    }
-    // child.type.name will give non-sensical values in prod because of
-    // minification, but we assume it won't throw in prod.
-    throw new Error(
-      `Docusaurus error: Bad <Tabs> child <${
-        // @ts-expect-error: guarding against unexpected cases
-        typeof child.type === 'string' ? child.type : child.type.name
-      }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
-    );
-  })?.filter(Boolean) ?? []) as ReactElement<TabItemProps>[];
+export function sanitizeTabsChildren(children: TabsProps['children']) {
+  return (React.Children.toArray(children)
+    .filter((child) => child !== '\n')
+    .map((child) => {
+      if (!child || (isValidElement(child) && isTabItem(child))) {
+        return child;
+      }
+      // child.type.name will give non-sensical values in prod because of
+      // minification, but we assume it won't throw in prod.
+      throw new Error(
+        `Docusaurus error: Bad <Tabs> child <${
+          // @ts-expect-error: guarding against unexpected cases
+          typeof child.type === 'string' ? child.type : child.type.name
+        }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
+      );
+    })
+    ?.filter(Boolean) ?? []) as ReactElement<TabItemProps>[];
 }
 
 function extractChildrenTabValues(children: TabsProps['children']): TabValue[] {
-  return ensureValidChildren(children).map(
+  return sanitizeTabsChildren(children).map(
     ({props: {value, label, attributes, default: isDefault}}) => ({
       value,
       label,

@@ -616,6 +616,7 @@ Accepted fields:
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
+| `queryString` | `string` | `undefined` | The query string to be appended to the URL. |
 
 ```mdx-code-block
 </APITable>
@@ -793,7 +794,7 @@ const defaultMagicComments = [
 
 ### Theme {#theme}
 
-By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). You may also use a different syntax highlighting theme when the site is in dark mode.
+By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/packages/prism-react-renderer/src/themes/palenight.ts) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/packages/prism-react-renderer/src/themes). You may also use a different syntax highlighting theme when the site is in dark mode.
 
 Example configuration:
 

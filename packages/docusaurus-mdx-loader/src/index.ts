@@ -7,13 +7,11 @@
 
 import {mdxLoader} from './loader';
 
+import type {TOCItem as TOCItemImported} from './remark/toc';
+
 export default mdxLoader;
 
-export type TOCItem = {
-  readonly value: string;
-  readonly id: string;
-  readonly level: number;
-};
+export type TOCItem = TOCItemImported;
 
 export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   /** As verbatim declared in the MDX document. */
@@ -32,4 +30,6 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   readonly assets: Assets;
   (): JSX.Element;
 };
-export type {Options, MDXPlugin, MDXOptions} from './loader';
+
+export type {Options, MDXPlugin} from './loader';
+export type {MDXOptions} from './processor';

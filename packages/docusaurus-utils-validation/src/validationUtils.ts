@@ -8,6 +8,7 @@
 import logger from '@docusaurus/logger';
 import Yaml from 'js-yaml';
 import {PluginIdSchema} from './validationSchemas';
+import type {ValidationOptions} from 'joi';
 import type Joi from './Joi';
 
 /** Print warnings returned from Joi validation. */
@@ -77,13 +78,15 @@ export function normalizeThemeConfig<T>(
  * Validate front matter with better error message
  */
 export function validateFrontMatter<T>(
-  frontMatter: {[key: string]: unknown},
+  frontMatter: unknown,
   schema: Joi.ObjectSchema<T>,
+  options?: ValidationOptions,
 ): T {
   const {value, error, warning} = schema.validate(frontMatter, {
     convert: true,
     allowUnknown: true,
     abortEarly: false,
+    ...options,
   });
 
   printWarning(warning);

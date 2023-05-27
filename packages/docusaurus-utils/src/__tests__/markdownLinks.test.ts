@@ -260,4 +260,119 @@ The following operations are defined for [URI]s:
       }),
     ).toMatchSnapshot();
   });
+
+  it('replaces Markdown links with spaces', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/intro.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/doc a.md': '/docs/doc%20a',
+          '@site/docs/my docs/doc b.md': '/docs/my%20docs/doc%20b',
+        },
+        fileString: `
+[doc a](./doc%20a.md)
+[doc a](<./doc a.md>)
+[doc b](./my%20docs/doc%20b.md)
+[doc b](<./my docs/doc b.md>)
+[doc]: <./my docs/doc b.md>
+`,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('does not replace non-Markdown links', () => {
+    const input = `
+[asset](./file.md_asset/1.png)
+[URL](<https://example.com/file_(1).md>)
+[not a link]((foo)
+[not a link](foo bar)
+[not a link]: foo bar
+[not a link]: (foo
+[not a link]: bar)
+`;
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/file.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/file.md': '/docs/file',
+        },
+        fileString: input,
+      }),
+    ).toEqual({
+      newContent: input,
+      brokenMarkdownLinks: [],
+    });
+  });
+
+  it('handles stray spaces', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/file.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/file.md': '/docs/file',
+        },
+        fileString: `
+[URL]( ./file.md )
+[ref]:  ./file.md
+`,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('handles link titles', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/file.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/file.md': '/docs/file',
+        },
+        fileString: `
+[URL](./file.md "title")
+[URL](./file.md 'title')
+[URL](./file.md (title))
+`,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('preserves query/hash', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/file.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/file.md': '/docs/file',
+        },
+        fileString: `
+[URL](./file.md?foo=bar#baz)
+[URL](./file.md#a)
+[URL](./file.md?c)
+`,
+      }),
+    ).toMatchSnapshot();
+  });
 });
