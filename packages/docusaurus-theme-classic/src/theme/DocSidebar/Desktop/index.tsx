@@ -32,7 +32,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
         isHidden && styles.sidebarHidden,
       )}>
       {hideOnScroll && (
-        <Logo tabIndex={-1} aria-hidden className={styles.sidebarLogo} />
+        <Logo tabIndex={-1} aria-hidden="true" className={styles.sidebarLogo} />
       )}
       <Content path={path} sidebar={sidebar} />
       {hideable && <CollapseButton onClick={onCollapse} />}

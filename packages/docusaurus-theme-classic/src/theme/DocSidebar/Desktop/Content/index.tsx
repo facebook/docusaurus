@@ -42,7 +42,7 @@ export default function DocSidebarDesktopContent({
 
   // change from aside to nav
   return (
-    <nav
+    <nav // this is originally a aside
       aria-label={translate({
         id: 'theme.docs.sidebar.navAriaLabel',
         message: 'Docs sidebar',
