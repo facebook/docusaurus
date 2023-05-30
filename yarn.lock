@@ -1619,11 +1619,6 @@
   dependencies:
     loader-utils "^2.0.0"
 
-"@endiliey/react-ideal-image@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@endiliey/react-ideal-image/-/react-ideal-image-0.0.11.tgz#dc3803d04e1409cf88efa4bba0f67667807bdf27"
-  integrity sha512-QxMjt/Gvur/gLxSoCy7VIyGGGrGmDN+VHcXkN3R2ApoWX0EYUE+hMgPHSW/PV6VVebZ1Nd4t2UnGRBDihu16JQ==
-
 "@eslint/eslintrc@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-2.0.0.tgz#943309d8697c52fc82c076e90c1c74fbbe69dbff"
@@ -2586,6 +2581,11 @@
   integrity sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==
   dependencies:
     "@sinonjs/commons" "^2.0.0"
+
+"@slorber/react-ideal-image@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@slorber/react-ideal-image/-/react-ideal-image-0.0.11.tgz#7a7df71bee24b0931be831e7cbd2ecdf10e0866b"
+  integrity sha512-KY/0ymBLUzPeFhksthZKQ4vGwrvAK1nvhpz9QoC/K4JegTVo/P6+tYrH02oOogJrOqggXcbsk5pidU3yCGSpBA==
 
 "@slorber/static-site-generator-webpack-plugin@^4.0.7":
   version "4.0.7"
