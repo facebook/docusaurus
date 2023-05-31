@@ -9,8 +9,8 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import Yaml from 'js-yaml';
 import {createRequire} from 'module';
+import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import semver from 'semver';
 import updateNotifier from 'update-notifier';
@@ -106,27 +106,33 @@ export default async function beforeCli() {
       .map((p) => p.concat('@latest'))
       .join(' ');
 
+    const getYarnVersion = async () => {
+      const fallbackYarnVersion = 1;
+      const yarnVersionResult = shell.exec('yarn --version');
+      if (yarnVersionResult?.code === 0) {
+        const yarnVersionOutput = yarnVersionResult.stdout?.trim();
+        const majorVersion = parseInt(
+          yarnVersionOutput?.split('.')[0] ?? '',
+          10,
+        );
+        if (typeof majorVersion === 'number' && !Number.isNaN(majorVersion)) {
+          return majorVersion;
+        }
+      }
+      if (await fs.pathExists(path.resolve('yarn.lock'))) {
+        return fallbackYarnVersion;
+      }
+      return undefined;
+    };
+
     const getUpgradeCommand = async () => {
-      const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
-      if (!isYarnUsed) {
+      const yarnVersion = await getYarnVersion();
+      if (!yarnVersion) {
         return `npm i ${siteDocusaurusPackagesForUpdate}`;
       }
-
-      const isYarnrcExists = await fs.pathExists(path.resolve('.yarnrc.yml'));
-      if (!isYarnrcExists) {
-        return `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
-      }
-
-      try {
-        const yamlData = Yaml.load(await fs.readFile(path.resolve('.yarnrc.yml'), 'utf8')); 
-        // @ts-expect-error: yamlData is not typed
-        const isYarn2PlusUsed = 'yarnPath' in yamlData && !yamlData.yarnPath.includes('yarn-1.');
-        return isYarn2PlusUsed
-          ? `yarn up ${siteDocusaurusPackagesForUpdate}`
-          : `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
-      } catch {
-        return `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
-      }
+      return yarnVersion === 1
+        ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
+        : `yarn up ${siteDocusaurusPackagesForUpdate}`;
     };
 
     /** @type {import('boxen').Options} */
