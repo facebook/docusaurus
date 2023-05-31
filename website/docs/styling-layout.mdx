@@ -140,9 +140,9 @@ Examples:
 
 :::
 
-:::tip
+### Data Attributes {#data-attributes}
 
-It is also possible to inject html data attributes with query string parameters following the `docusaurus-data-<key>` pattern. This allows you to style a page differently based on its query string. For example, you could decide to style your page differently when it's embedded in an iframe and accessed with `?docusaurus-data-mode=embedded-iframe`. It is your responsibility to provide the additional styles.
+It is possible to inject `<html>` data attributes with query string parameters following the `docusaurus-data-<key>` pattern. This gives you the flexibility to style a page differently based on the query string.
 
 For example, let's render one of our pages with a red border and no navbar:
 
@@ -157,6 +157,10 @@ html[data-red-border] div#__docusaurus {
 ```
 
 <IframeWindow url="/docs/?docusaurus-data-navbar=false&docusaurus-data-red-border" />
+
+:::tip Iframe Mode
+
+If you plan to embed some Docusaurus pages on another site though an iframe, it can be useful to create an alternative display mode and use iframe urls such as `https://mysite.com/docs/myDoc?docusaurus-data-mode=iframe`. It is your responsibility to provide the additional styles and decide which UI elements you want to keep or hide.
 
 :::
 
