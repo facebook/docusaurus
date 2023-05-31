@@ -60,7 +60,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Detta är ej utgiven dokumentation för {siteTitle} {versionLabel} version.",
   "theme.lastUpdated.atDate": " den {date}",
   "theme.lastUpdated.byUser": " av {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "Senast updatera{atDate}{byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "Senast uppdaterad{atDate}{byUser}",
   "theme.navbar.mobileLanguageDropdown.label": "Språk",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Tillbaka till huvudmeny",
   "theme.navbar.mobileVersionsDropdown.label": "Versioner",
