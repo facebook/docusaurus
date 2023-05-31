@@ -10,8 +10,11 @@ import {loadContext} from '../server';
 import {initPlugins} from '../server/plugins/init';
 import type {CommanderStatic} from 'commander';
 
-export async function externalCommand(cli: CommanderStatic): Promise<void> {
-  const siteDir = await fs.realpath('.');
+export async function externalCommand(
+  cli: CommanderStatic,
+  siteDirParam: string = '.',
+): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
   const context = await loadContext({siteDir});
   const plugins = await initPlugins(context);
 

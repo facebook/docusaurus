@@ -234,7 +234,7 @@ function isInternalCommand(command) {
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {
-  await externalCommand(cli);
+  await externalCommand(cli, process.argv.slice(-1)[0]);
 }
 
 if (!process.argv.slice(2).length) {
