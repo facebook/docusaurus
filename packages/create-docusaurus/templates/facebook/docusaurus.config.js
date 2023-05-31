@@ -140,10 +140,6 @@ const config = {
                 href: 'https://opensource.fb.com/legal/terms/',
               },
               {
-                label: 'Data Policy',
-                href: 'https://opensource.fb.com/legal/data-policy/',
-              },
-              {
                 label: 'Cookie Policy',
                 href: 'https://opensource.fb.com/legal/cookie-policy/',
               },
