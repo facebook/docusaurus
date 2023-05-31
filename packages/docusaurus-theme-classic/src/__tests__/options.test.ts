@@ -470,10 +470,6 @@ describe('themeConfig', () => {
             href: 'https://opensource.facebook.com/legal/terms/',
           },
           {
-            label: 'Data Policy',
-            href: 'https://opensource.facebook.com/legal/data-policy/',
-          },
-          {
             label: 'Cookie Policy',
             href: 'https://opensource.facebook.com/legal/cookie-policy/',
           },
@@ -497,10 +493,6 @@ describe('themeConfig', () => {
         links: [
           {
             items: [
-              {
-                label: 'Data Policy',
-                href: 'https://opensource.facebook.com/legal/data-policy/',
-              },
               {
                 label: 'Cookie Policy',
                 href: 'https://opensource.facebook.com/legal/cookie-policy/',

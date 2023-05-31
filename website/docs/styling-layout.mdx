@@ -3,6 +3,7 @@ description: A Docusaurus site is a pre-rendered single-page React application. 
 ---
 
 import ColorGenerator from '@site/src/components/ColorGenerator';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 
 # Styling and Layout
 
@@ -133,8 +134,33 @@ It is possible to initialize the Docusaurus theme directly from a `docusaurus-th
 
 Examples:
 
-- [`https://docusaurus.io/?docusaurus-theme=dark`](https://docusaurus.io/?docusaurus-theme=dark)
-- [`https://docusaurus.io/docs/configuration?docusaurus-theme=light`](https://docusaurus.io/docs/configuration?docusaurus-theme=light)
+<IframeWindow url="/docs/?docusaurus-theme=dark" />
+
+<IframeWindow url="/docs/configuration?docusaurus-theme=light" />
+
+:::
+
+### Data Attributes {#data-attributes}
+
+It is possible to inject `<html>` data attributes with query string parameters following the `docusaurus-data-<key>` pattern. This gives you the flexibility to style a page differently based on the query string.
+
+For example, let's render one of our pages with a red border and no navbar:
+
+```css title="/src/css/custom.css"
+html[data-navbar='false'] .navbar {
+  display: none;
+}
+
+html[data-red-border] div#__docusaurus {
+  border: red solid thick;
+}
+```
+
+<IframeWindow url="/docs/?docusaurus-data-navbar=false&docusaurus-data-red-border" />
+
+:::tip Iframe Mode
+
+If you plan to embed some Docusaurus pages on another site though an iframe, it can be useful to create an alternative display mode and use iframe urls such as `https://mysite.com/docs/myDoc?docusaurus-data-mode=iframe`. It is your responsibility to provide the additional styles and decide which UI elements you want to keep or hide.
 
 :::
 

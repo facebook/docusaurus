@@ -10,6 +10,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {createRequire} from 'module';
+import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import semver from 'semver';
 import updateNotifier from 'update-notifier';
@@ -105,18 +106,33 @@ export default async function beforeCli() {
       .map((p) => p.concat('@latest'))
       .join(' ');
 
-    const getUpgradeCommand = async () => {
-      const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
-      if (!isYarnUsed) {
-        return `npm i ${siteDocusaurusPackagesForUpdate}`;
+    const getYarnVersion = async () => {
+      if (!(await fs.pathExists(path.resolve('yarn.lock')))) {
+        return undefined;
       }
 
-      const isYarnClassicUsed = !(await fs.pathExists(
-        path.resolve('.yarnrc.yml'),
-      ));
-      return isYarnClassicUsed
-        ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-        : `yarn up ${siteDocusaurusPackagesForUpdate}`;
+      const yarnVersionResult = shell.exec('yarn --version', {silent: true});
+      if (yarnVersionResult?.code === 0) {
+        const majorVersion = parseInt(
+          yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
+          10,
+        );
+        if (!Number.isNaN(majorVersion)) {
+          return majorVersion;
+        }
+      }
+
+      return undefined;
+    };
+
+    const getUpgradeCommand = async () => {
+      const yarnVersion = await getYarnVersion();
+      if (!yarnVersion) {
+        return `npm i ${siteDocusaurusPackagesForUpdate}`;
+      }
+      return yarnVersion >= 2
+        ? `yarn up ${siteDocusaurusPackagesForUpdate}`
+        : `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
     };
 
     /** @type {import('boxen').Options} */

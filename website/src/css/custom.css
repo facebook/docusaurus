@@ -230,3 +230,11 @@ div[class^='announcementBar_'] {
 [data-theme='dark'] [data-rmiz-modal-overlay='visible'] {
   background-color: rgba(0 0 0 / 95%);
 }
+
+html[data-navbar='false'] .navbar {
+  display: none;
+}
+
+html[data-red-border] div#__docusaurus {
+  border: red solid thick;
+}
