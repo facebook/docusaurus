@@ -182,7 +182,6 @@ console.log(`-------
 `);
 await fs.rm('./examples/classic', {recursive: true, force: true});
 await fs.rm('./examples/classic-typescript', {recursive: true, force: true});
-await fs.rm('./examples/facebook', {recursive: true, force: true});
 
 // Get the list of all available templates
 console.log(`
