@@ -108,7 +108,7 @@ export default async function beforeCli() {
 
     const getYarnVersion = async () => {
       const fallbackYarnVersion = 1;
-      const yarnVersionResult = shell.exec('yarn --version');
+      const yarnVersionResult = shell.exec('yarn --version', {silent: true});
       if (yarnVersionResult?.code === 0) {
         const yarnVersionOutput = yarnVersionResult.stdout?.trim();
         const majorVersion = parseInt(
