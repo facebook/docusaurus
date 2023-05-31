@@ -114,7 +114,7 @@ export default async function beforeCli() {
       const yarnVersionResult = shell.exec('yarn --version', {silent: true});
       if (yarnVersionResult?.code === 0) {
         const majorVersion = parseInt(
-          yarnVersionResult.stdout?.trim()?.split('.')[0] ?? '',
+          yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
           10,
         );
         if (!Number.isNaN(majorVersion)) {
