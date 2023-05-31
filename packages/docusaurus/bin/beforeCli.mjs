@@ -107,21 +107,21 @@ export default async function beforeCli() {
       .join(' ');
 
     const getYarnVersion = async () => {
-      const fallbackYarnVersion = 1;
+      if (!(await fs.pathExists(path.resolve('yarn.lock')))) {
+        return undefined;
+      }
+
       const yarnVersionResult = shell.exec('yarn --version', {silent: true});
       if (yarnVersionResult?.code === 0) {
-        const yarnVersionOutput = yarnVersionResult.stdout?.trim();
         const majorVersion = parseInt(
-          yarnVersionOutput?.split('.')[0] ?? '',
+          yarnVersionResult.stdout?.trim()?.split('.')[0] ?? '',
           10,
         );
-        if (typeof majorVersion === 'number' && !Number.isNaN(majorVersion)) {
+        if (!Number.isNaN(majorVersion)) {
           return majorVersion;
         }
       }
-      if (await fs.pathExists(path.resolve('yarn.lock'))) {
-        return fallbackYarnVersion;
-      }
+
       return undefined;
     };
 
@@ -130,9 +130,9 @@ export default async function beforeCli() {
       if (!yarnVersion) {
         return `npm i ${siteDocusaurusPackagesForUpdate}`;
       }
-      return yarnVersion === 1
-        ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-        : `yarn up ${siteDocusaurusPackagesForUpdate}`;
+      return yarnVersion >= 2
+        ? `yarn up ${siteDocusaurusPackagesForUpdate}`
+        : `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
     };
 
     /** @type {import('boxen').Options} */
