@@ -26,7 +26,10 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
+// Support for ?docusaurus-theme=dark
 const ThemeQueryStringKey = 'docusaurus-theme';
+// Support for ?docusaurus-data-mode=embed&docusaurus-data-myAttr=42
+const DataQueryStringPrefixKey = 'docusaurus-data-';
 
 const noFlashColorMode = ({
   defaultMode,
@@ -42,19 +45,15 @@ const noFlashColorMode = ({
   }
 
   function getQueryStringTheme() {
-    var theme = null;
     try {
-      theme = new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
+      return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
     } catch(e) {}
-    return theme;
   }
 
   function getStoredTheme() {
-    var theme = null;
     try {
-      theme = localStorage.getItem('${ThemeStorageKey}');
+      return localStorage.getItem('${ThemeStorageKey}');
     } catch (err) {}
-    return theme;
   }
 
   var initialTheme = getQueryStringTheme() || getStoredTheme();
@@ -76,6 +75,21 @@ const noFlashColorMode = ({
     }
   }
 })();`;
+
+/* language=js */
+const DataAttributeQueryStringInlineJavaScript = `
+(function() {
+  try {
+    const entries = new URLSearchParams(window.location.search).entries();
+    for (var [searchKey, value] of entries) {
+      if (searchKey.startsWith('${DataQueryStringPrefixKey}')) {
+        var key = searchKey.replace('${DataQueryStringPrefixKey}',"data-")
+        document.documentElement.setAttribute(key, value);
+      }
+    }
+  } catch(e) {}
+})();
+`;
 
 // Duplicated constant. Unfortunately we can't import it from theme-common, as
 // we need to support older nodejs versions without ESM support
@@ -205,6 +219,7 @@ export default function themeClassic(
             tagName: 'script',
             innerHTML: `
 ${noFlashColorMode(colorMode)}
+${DataAttributeQueryStringInlineJavaScript}
 ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
             `,
           },
