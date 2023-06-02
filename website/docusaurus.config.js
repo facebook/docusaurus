@@ -258,7 +258,7 @@ module.exports = async function createConfigAsync() {
       [
         'pwa',
         {
-          debug: isDeployPreview,
+          // debug: isDeployPreview,
           offlineModeActivationStrategies: [
             'appInstalled',
             'standalone',
