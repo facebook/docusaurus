@@ -6,4 +6,6 @@
  */
 import {TextEncoder} from 'util';
 
+// Required for RTL renderHook SSR tests with React-18
+// See also https://github.com/testing-library/react-testing-library/issues/1120#issuecomment-1516132279
 global.TextEncoder = TextEncoder;
