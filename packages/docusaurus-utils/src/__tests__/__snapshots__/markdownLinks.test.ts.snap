@@ -47,6 +47,22 @@ exports[`replaceMarkdownLinks handles stray spaces 1`] = `
 }
 `;
 
+exports[`replaceMarkdownLinks handles unpaired fences 1`] = `
+{
+  "brokenMarkdownLinks": [],
+  "newContent": "
+\`\`\`foo
+hello
+
+\`\`\`foo
+hello
+\`\`\`
+
+A [link](/docs/file)
+",
+}
+`;
+
 exports[`replaceMarkdownLinks ignores links in HTML comments 1`] = `
 {
   "brokenMarkdownLinks": [
