@@ -38,6 +38,10 @@ cli
   .command('build [siteDir]')
   .description('Build website.')
   .option(
+    '--dev',
+    'Builds the website in dev mode, including full React error messages.',
+  )
+  .option(
     '--bundle-analyzer',
     'visualize size of webpack output files with an interactive zoomable tree map (default: false)',
   )

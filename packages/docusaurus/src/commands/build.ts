@@ -35,6 +35,7 @@ export type BuildCLIOptions = Pick<
 > & {
   bundleAnalyzer?: boolean;
   minify?: boolean;
+  dev?: boolean;
 };
 
 export async function build(
@@ -49,6 +50,11 @@ export async function build(
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
+  if (cliOptions.dev) {
+    logger.info`Building in dev mode`;
+    process.env.BABEL_ENV = 'development';
+    process.env.NODE_ENV = 'development';
+  }
 
   const siteDir = await fs.realpath(siteDirParam);
 
@@ -158,7 +164,7 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    await createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify, true),
     {
       plugins: [
         // Remove/clean build folders before building bundles.

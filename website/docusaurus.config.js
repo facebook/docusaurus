@@ -129,6 +129,11 @@ module.exports = async function createConfigAsync() {
               syntax: 'typescript',
               tsx: true,
             },
+            transform: {
+              react: {
+                runtime: 'automatic',
+              },
+            },
             target: 'es2017',
           },
           module: {
@@ -258,7 +263,7 @@ module.exports = async function createConfigAsync() {
       [
         'pwa',
         {
-          debug: isDeployPreview,
+          // debug: isDeployPreview,
           offlineModeActivationStrategies: [
             'appInstalled',
             'standalone',

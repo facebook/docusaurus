@@ -245,6 +245,7 @@ philpl
 photoshop
 picocolors
 picomatch
+Pipeable
 playbtn
 pluggable
 plushie

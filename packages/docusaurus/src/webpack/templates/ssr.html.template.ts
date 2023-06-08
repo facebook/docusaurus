@@ -24,9 +24,7 @@ export default `
   </head>
   <body <%~ it.bodyAttributes %>>
     <%~ it.preBodyTags %>
-    <div id="__docusaurus">
-      <%~ it.appHtml %>
-    </div>
+    <div id="__docusaurus"><%~ it.appHtml %></div>
     <%~ it.postBodyTags %>
   </body>
 </html>

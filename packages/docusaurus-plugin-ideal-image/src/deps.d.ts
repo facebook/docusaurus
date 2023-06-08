@@ -12,7 +12,7 @@
  * Note: the original type definition is WRONG. getIcon & getMessage receive
  * full state object.
  */
-declare module '@endiliey/react-ideal-image' {
+declare module '@slorber/react-ideal-image' {
   import type {ComponentProps, ComponentType, CSSProperties} from 'react';
 
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';

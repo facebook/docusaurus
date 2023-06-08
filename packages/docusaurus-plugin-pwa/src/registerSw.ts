@@ -72,8 +72,14 @@ async function getIsAppInstalledRelatedApps() {
   if (!('getInstalledRelatedApps' in window.navigator)) {
     return false;
   }
-  const relatedApps = await navigator.getInstalledRelatedApps();
-  return relatedApps.some((app) => app.platform === 'webapp');
+  try {
+    const relatedApps = await navigator.getInstalledRelatedApps();
+    return relatedApps.some((app) => app.platform === 'webapp');
+  } catch (e) {
+    // Error might be thrown when Docusaurus is embedded in an iframe:
+    // registerSW failed DOMException: Failed to execute 'getInstalledRelatedApps' on 'Navigator': getInstalledRelatedApps() is only supported in top-level browsing contexts.
+    return false;
+  }
 }
 function isStandaloneDisplayMode() {
   return window.matchMedia('(display-mode: standalone)').matches;

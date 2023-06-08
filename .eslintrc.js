@@ -66,6 +66,8 @@ module.exports = {
     '@docusaurus',
   ],
   rules: {
+    'react/jsx-uses-react': OFF, // JSX runtime: automatic
+    'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
@@ -259,6 +261,9 @@ module.exports = {
           },
           {pattern: '@jest/globals', group: 'builtin', position: 'before'},
           {pattern: 'react', group: 'builtin', position: 'before'},
+          {pattern: 'react-dom', group: 'builtin', position: 'before'},
+          {pattern: 'react-dom/**', group: 'builtin', position: 'before'},
+          {pattern: 'stream', group: 'builtin', position: 'before'},
           {pattern: 'fs-extra', group: 'builtin'},
           {pattern: 'lodash', group: 'external', position: 'before'},
           {pattern: 'clsx', group: 'external', position: 'before'},

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {useLocation} from '@docusaurus/router';
 import Head from '@docusaurus/Head';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
@@ -20,8 +20,6 @@ const BannerContainerId = '__docusaurus-base-url-issue-banner-container';
 const BannerId = '__docusaurus-base-url-issue-banner';
 const SuggestionContainerId =
   '__docusaurus-base-url-issue-banner-suggestion-container';
-
-const InsertBannerWindowAttribute = '__DOCUSAURUS_INSERT_BASEURL_BANNER';
 
 // It is important to not use React to render this banner
 // otherwise Google would index it, even if it's hidden with some critical CSS!
@@ -45,24 +43,19 @@ function createInlineHtmlBanner(baseUrl: string) {
 function createInlineScript(baseUrl: string) {
   /* language=js */
   return `
-window['${InsertBannerWindowAttribute}'] = true;
-
-document.addEventListener('DOMContentLoaded', maybeInsertBanner);
-
-function maybeInsertBanner() {
-  var shouldInsert = window['${InsertBannerWindowAttribute}'];
+document.addEventListener('DOMContentLoaded', function maybeInsertBanner() {
+  var shouldInsert = typeof window['docusaurus'] === 'undefined';
   shouldInsert && insertBanner();
-}
+});
 
 function insertBanner() {
-  var bannerContainer = document.getElementById('${BannerContainerId}');
-  if (!bannerContainer) {
-    return;
-  }
+  var bannerContainer = document.createElement('div');
+  bannerContainer.id = '${BannerContainerId}';
   var bannerHtml = ${JSON.stringify(createInlineHtmlBanner(baseUrl))
     // See https://redux.js.org/recipes/server-rendering/#security-considerations
     .replace(/</g, '\\\u003c')};
   bannerContainer.innerHTML = bannerHtml;
+  document.body.prepend(bannerContainer);
   var suggestionContainer = document.getElementById('${SuggestionContainerId}');
   var actualHomePagePath = window.location.pathname;
   var suggestedBaseUrl = actualHomePagePath.substr(-1) === '/'
@@ -73,22 +66,10 @@ function insertBanner() {
 `;
 }
 
-declare global {
-  interface Window {
-    [InsertBannerWindowAttribute]: boolean;
-  }
-}
-
 function BaseUrlIssueBanner() {
   const {
     siteConfig: {baseUrl},
   } = useDocusaurusContext();
-
-  // useLayoutEffect fires before DOMContentLoaded.
-  // It gives the opportunity to avoid inserting the banner in the first place
-  useLayoutEffect(() => {
-    window[InsertBannerWindowAttribute] = false;
-  }, []);
 
   return (
     <>
@@ -99,7 +80,6 @@ function BaseUrlIssueBanner() {
           <script>{createInlineScript(baseUrl)}</script>
         </Head>
       )}
-      <div id={BannerContainerId} />
     </>
   );
 }

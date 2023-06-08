@@ -12,9 +12,9 @@ import React, {
   useMemo,
   type ReactNode,
   type ReactElement,
-  useLayoutEffect,
 } from 'react';
 import {useHistory} from '@docusaurus/router';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import {useQueryStringValue} from '@docusaurus/theme-common/internal';
 import {duplicates, useStorageSlot} from '../index';
 
@@ -252,7 +252,7 @@ export function useTabs(props: TabsProps): {
   })();
   // Sync in a layout/sync effect is important, for useScrollPositionBlocker
   // See https://github.com/facebook/docusaurus/issues/8625
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (valueToSync) {
       setSelectedValue(valueToSync);
     }

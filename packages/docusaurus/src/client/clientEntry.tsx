@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
@@ -21,26 +21,38 @@ declare global {
   }
 }
 
+const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
+
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).
 if (ExecutionEnvironment.canUseDOM) {
   window.docusaurus = docusaurus;
-  // For production, attempt to hydrate existing markup for performant
-  // first-load experience.
-  // For development, there is no existing markup so we had to render it.
-  // We also preload async component to avoid first-load loading screen.
-  const renderMethod =
-    process.env.NODE_ENV === 'production' ? ReactDOM.hydrate : ReactDOM.render;
-  preload(window.location.pathname).then(() => {
-    renderMethod(
-      <HelmetProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </HelmetProvider>,
-      document.getElementById('__docusaurus'),
-    );
-  });
+  const container = document.getElementById('__docusaurus')!;
+
+  const app = (
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
+  );
+
+  const onRecoverableError = (error: unknown): void => {
+    console.error('Docusaurus React Root onRecoverableError:', error);
+  };
+
+  const renderApp = () => {
+    if (hydrate) {
+      ReactDOM.hydrateRoot(container, app, {
+        onRecoverableError,
+      });
+    } else {
+      const root = ReactDOM.createRoot(container, {onRecoverableError});
+      root.render(app);
+    }
+  };
+
+  preload(window.location.pathname).then(renderApp);
 
   // Webpack Hot Module Replacement API
   if (module.hot) {

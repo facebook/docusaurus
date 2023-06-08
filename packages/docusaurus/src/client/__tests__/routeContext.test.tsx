@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+// TODO migrate to @testing-library/react when SSR rendering possible
+// See https://github.com/testing-library/react-testing-library/issues/1120
 import {renderHook} from '@testing-library/react-hooks/server';
 import {RouteContextProvider} from '../routeContext';
 import useRouteContext from '../exports/useRouteContext';

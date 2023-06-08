@@ -12,11 +12,11 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import * as eta from 'eta';
 import {StaticRouter} from 'react-router-dom';
-import ReactDOMServer from 'react-dom/server';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 import {minify} from 'html-minifier-terser';
+import {renderStaticApp} from './serverRenderer';
 import preload from './preload';
 import App from './App';
 import {
@@ -97,7 +97,8 @@ async function doRender(locals: Locals & {path: string}) {
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
-  const appHtml = ReactDOMServer.renderToString(
+
+  const app = (
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
@@ -107,8 +108,10 @@ async function doRender(locals: Locals & {path: string}) {
           </LinksCollectorProvider>
         </StaticRouter>
       </HelmetProvider>
-    </Loadable.Capture>,
+    </Loadable.Capture>
   );
+
+  const appHtml = await renderStaticApp(app);
   onLinksCollected(location, linksCollector.getCollectedLinks());
 
   const {helmet} = helmetContext as FilledContext;

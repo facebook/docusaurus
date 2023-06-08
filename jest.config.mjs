@@ -32,6 +32,7 @@ const ignorePatterns = [
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
+  setupFiles: ['./jest/setup.js'],
   testEnvironmentOptions: {
     url: 'https://docusaurus.io/',
   },

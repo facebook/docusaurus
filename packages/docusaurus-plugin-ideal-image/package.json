@@ -26,7 +26,7 @@
     "@docusaurus/theme-translations": "^3.0.0-alpha.0",
     "@docusaurus/types": "^3.0.0-alpha.0",
     "@docusaurus/utils-validation": "^3.0.0-alpha.0",
-    "@endiliey/react-ideal-image": "^0.0.11",
+    "@slorber/react-ideal-image": "^0.0.12",
     "react-waypoint": "^10.3.0",
     "sharp": "^0.31.3",
     "tslib": "^2.5.0",
@@ -38,8 +38,8 @@
   },
   "peerDependencies": {
     "jimp": "*",
-    "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "peerDependenciesMeta": {
     "jimp": {

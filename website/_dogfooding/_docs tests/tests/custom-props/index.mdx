@@ -10,7 +10,7 @@ export const DocPropsList = ({items}) => (
       <th>Custom Props</th>
     </tr>
     {items.map((item, index) => (
-      <tr>
+      <tr key={index}>
         <td>{item.label}</td>
         <td>{JSON.stringify(item.customProps)}</td>
       </tr>
