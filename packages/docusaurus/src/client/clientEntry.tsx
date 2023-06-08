@@ -38,8 +38,7 @@ if (ExecutionEnvironment.canUseDOM) {
   );
 
   const onRecoverableError = (error: unknown): void => {
-    // TODO
-    console.error('onRecoverableError', error);
+    console.error('Docusaurus React Root onRecoverableError:', error);
   };
 
   const renderApp = () => {
