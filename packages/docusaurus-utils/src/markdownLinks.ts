@@ -40,6 +40,24 @@ export type BrokenMarkdownLink<T extends ContentPaths> = {
   link: string;
 };
 
+type CodeFence = {
+  type: '`' | '~';
+  definitelyOpen: boolean;
+  count: number;
+};
+
+function parseCodeFence(line: string): CodeFence | null {
+  const match = line.trim().match(/^(?<fence>`{3,}|~{3,})(?<rest>.*)/);
+  if (!match) {
+    return null;
+  }
+  return {
+    type: match.groups!.fence![0]! as '`' | '~',
+    definitelyOpen: !!match.groups!.rest!,
+    count: match.groups!.fence!.length,
+  };
+}
+
 /**
  * Takes a Markdown file and replaces relative file references with their URL
  * counterparts, e.g. `[link](./intro.md)` => `[link](/docs/intro)`, preserving
@@ -82,19 +100,23 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
   const brokenMarkdownLinks: BrokenMarkdownLink<T>[] = [];
 
   // Replace internal markdown linking (except in fenced blocks).
-  let lastCodeFence: string | null = null;
+  let lastOpenCodeFence: CodeFence | null = null;
   const lines = fileString.split('\n').map((line) => {
-    const codeFence = line.trimStart().match(/^`{3,}|^~{3,}/)?.[0];
+    const codeFence = parseCodeFence(line);
     if (codeFence) {
-      if (!lastCodeFence) {
-        lastCodeFence = codeFence;
-        // If we are in a ````-fenced block, all ``` would be plain text instead
-        // of fences
-      } else if (codeFence.startsWith(lastCodeFence)) {
-        lastCodeFence = null;
+      if (!lastOpenCodeFence) {
+        lastOpenCodeFence = codeFence;
+      } else if (
+        !codeFence.definitelyOpen &&
+        lastOpenCodeFence.type === codeFence.type &&
+        lastOpenCodeFence.count <= codeFence.count
+      ) {
+        // All three conditions must be met in order for this to be considered
+        // a closing fence.
+        lastOpenCodeFence = null;
       }
     }
-    if (lastCodeFence) {
+    if (lastOpenCodeFence) {
       return line;
     }
 

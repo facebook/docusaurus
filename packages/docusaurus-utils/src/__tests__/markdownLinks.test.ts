@@ -375,4 +375,30 @@ The following operations are defined for [URI]s:
       }),
     ).toMatchSnapshot();
   });
+
+  it('handles unpaired fences', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/file.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+        sourceToPermalink: {
+          '@site/docs/file.md': '/docs/file',
+        },
+        fileString: `
+\`\`\`foo
+hello
+
+\`\`\`foo
+hello
+\`\`\`
+
+A [link](./file.md)
+`,
+      }),
+    ).toMatchSnapshot();
+  });
 });
