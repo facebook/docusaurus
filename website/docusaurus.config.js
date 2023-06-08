@@ -129,6 +129,11 @@ module.exports = async function createConfigAsync() {
               syntax: 'typescript',
               tsx: true,
             },
+            transform: {
+              react: {
+                runtime: 'automatic',
+              },
+            },
             target: 'es2017',
           },
           module: {

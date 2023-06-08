@@ -66,6 +66,8 @@ module.exports = {
     '@docusaurus',
   ],
   rules: {
+    'react/jsx-uses-react': OFF, // JSX runtime: automatic
+    'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
