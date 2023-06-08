@@ -43,12 +43,16 @@ if (ExecutionEnvironment.canUseDOM) {
 
   const renderApp = () => {
     if (hydrate) {
-      ReactDOM.hydrateRoot(container, app, {
-        onRecoverableError,
+      React.startTransition(() => {
+        ReactDOM.hydrateRoot(container, app, {
+          onRecoverableError,
+        });
       });
     } else {
       const root = ReactDOM.createRoot(container, {onRecoverableError});
-      root.render(app);
+      React.startTransition(() => {
+        root.render(app);
+      });
     }
   };
 
