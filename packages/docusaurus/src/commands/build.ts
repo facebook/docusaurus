@@ -35,6 +35,7 @@ export type BuildCLIOptions = Pick<
 > & {
   bundleAnalyzer?: boolean;
   minify?: boolean;
+  dev?: boolean;
 };
 
 export async function build(
@@ -49,10 +50,8 @@ export async function build(
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
-
-  // TODO expose this as a cli/site option?
-  // Useful to get real hydration errors
-  if (process.env.DOCUSAURUS_DEBUG_BUILD) {
+  if (cliOptions.dev) {
+    logger.info`Building in dev mode`;
     process.env.BABEL_ENV = 'development';
     process.env.NODE_ENV = 'development';
   }
