@@ -6,8 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "react": "^18.0.0",
-  "react-dom": "^18.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
