@@ -84,7 +84,7 @@
   },
   "devDependencies": {
     "@docusaurus/eslint-plugin": "^3.0.0-alpha.0",
-    "@tsconfig/docusaurus": "^1.0.7",
+    "@docusaurus/tsconfig": "^3.0.0-alpha.0",
     "@types/jest": "^29.4.0",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
