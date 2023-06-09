@@ -7,7 +7,7 @@
     "resolveJsonModule": true,
 
     // Duplicated from the root config, because TS does not support extending
-    // multiple configs and we want to dogfood the @tsconfig/docusaurus one
+    // multiple configs and we want to dogfood the @docusaurus/tsconfig one
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": false,
     "noFallthroughCasesInSwitch": true,
