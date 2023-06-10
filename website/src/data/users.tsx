@@ -2492,8 +2492,8 @@ const Users: User[] = [
     title: 'Homarr',
     description: 'Homarr is a simple and lightweight homepage for your server.',
     preview: null,
-    website: 'https://homarr.vercel.app/',
-    source: 'https://github.com/ajnart/homarr/tree/docs',
+    website: 'https://homarr.dev/',
+    source: 'https://github.com/ajnart/homarr-docs',
     tags: ['opensource'],
   },
   {
