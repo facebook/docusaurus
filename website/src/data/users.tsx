@@ -70,6 +70,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'CodeMastermindHQ',
+    description: 'It is a project for a web app designed to improve coding skills.',
+    preview: require('./showcase/codemastermindhq.png'),
+    website: 'https://codemastermindhq.vercel.app/',
+    source: 'https://github.com/Ajay-Dhangar/CodeMastermindHQ',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'AI-Speaker',
     description: 'Local, reliable, fast and private Audio and IoT gate.',
     preview: require('./showcase/aispeaker.png'),
