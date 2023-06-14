@@ -78,6 +78,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CodeMastermindHQ',
+    description: 'CodeMastermindHQ is a GitHub repository for a web application designed to improve coding skills. The project is open source and includes features such as coding challenges, quizzes, and tutorials. The application is built using React, Next.js, and Firebase, and is deployed on Vercel.',
+    preview: require('./showcase/codemastermindhq.png'),
+    website: 'https://codemastermindhq.vercel.app/',
+    source: 'https://github.com/Ajay-Dhangar/CodeMastermindHQ,
+    tags: ['opensource', 'design', 'personal', 'product', 'learn-tech'],
+  },
+  {
     title: 'Aide Jeune',
     description:
       'French Discord server that helps young people who have been bullied or feel bad about themselves',
