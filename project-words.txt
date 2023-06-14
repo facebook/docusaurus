@@ -173,6 +173,7 @@ lqip
 lunrjs
 mapbox
 marcey
+markprompt
 marocchino
 massoud
 mathjax
