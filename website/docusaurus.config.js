@@ -23,6 +23,20 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   5,
 );
 
+/** @param {string} version */
+function isPrerelease(version) {
+  return (
+    version.includes('alpha') ||
+    version.includes('beta') ||
+    version.includes('rc')
+  );
+}
+
+function getLastVersion() {
+  const firstStableVersion = versions.find((version) => !isPrerelease(version));
+  return firstStableVersion ?? versions[0];
+}
+
 // This probably only makes sense for the alpha/beta/rc phase, temporary
 function getNextVersionName() {
   return 'Canary';
@@ -360,9 +374,9 @@ module.exports = async function createConfigAsync() {
             rehypePlugins: [(await import('rehype-katex')).default],
             disableVersioning: isVersioningDisabled,
             lastVersion:
-              isDev || isDeployPreview || isBranchDeploy
+              isDev || isDeployPreview || isBranchDeploy || isBuildFast
                 ? 'current'
-                : undefined,
+                : getLastVersion(),
 
             onlyIncludeVersions: (() => {
               if (isBuildFast) {

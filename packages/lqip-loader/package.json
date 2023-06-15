@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "^3.0.0-alpha.0",
+    "@docusaurus/logger": "3.0.0-alpha.0",
     "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
     "sharp": "^0.31.3",

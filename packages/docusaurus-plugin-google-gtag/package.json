@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "^3.0.0-alpha.0",
-    "@docusaurus/types": "^3.0.0-alpha.0",
-    "@docusaurus/utils-validation": "^3.0.0-alpha.0",
+    "@docusaurus/core": "3.0.0-alpha.0",
+    "@docusaurus/types": "3.0.0-alpha.0",
+    "@docusaurus/utils-validation": "3.0.0-alpha.0",
     "@types/gtag.js": "^0.0.12",
     "tslib": "^2.5.0"
   },

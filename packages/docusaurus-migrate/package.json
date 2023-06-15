@@ -24,8 +24,8 @@
   "dependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
-    "@docusaurus/logger": "^3.0.0-alpha.0",
-    "@docusaurus/utils": "^3.0.0-alpha.0",
+    "@docusaurus/logger": "3.0.0-alpha.0",
+    "@docusaurus/utils": "3.0.0-alpha.0",
     "@mapbox/hast-util-to-jsx": "^2.0.0",
     "color": "^4.2.3",
     "commander": "^5.1.0",

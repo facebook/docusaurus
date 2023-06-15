@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "^3.0.0-alpha.0",
-    "@docusaurus/utils": "^3.0.0-alpha.0",
+    "@docusaurus/logger": "3.0.0-alpha.0",
+    "@docusaurus/utils": "3.0.0-alpha.0",
     "joi": "^17.8.3",
     "js-yaml": "^4.1.0",
     "tslib": "^2.5.0"

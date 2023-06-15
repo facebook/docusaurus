@@ -23,8 +23,8 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@docusaurus/core": "^3.0.0-alpha.0",
-    "@docusaurus/logger": "^3.0.0-alpha.0",
+    "@docusaurus/core": "3.0.0-alpha.0",
+    "@docusaurus/logger": "3.0.0-alpha.0",
     "lodash": "^4.17.21"
   },
   "engines": {

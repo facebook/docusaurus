@@ -30,13 +30,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/mdx-loader": "^3.0.0-alpha.0",
-    "@docusaurus/module-type-aliases": "^3.0.0-alpha.0",
-    "@docusaurus/plugin-content-blog": "^3.0.0-alpha.0",
-    "@docusaurus/plugin-content-docs": "^3.0.0-alpha.0",
-    "@docusaurus/plugin-content-pages": "^3.0.0-alpha.0",
-    "@docusaurus/utils": "^3.0.0-alpha.0",
-    "@docusaurus/utils-common": "^3.0.0-alpha.0",
+    "@docusaurus/mdx-loader": "3.0.0-alpha.0",
+    "@docusaurus/module-type-aliases": "3.0.0-alpha.0",
+    "@docusaurus/plugin-content-blog": "3.0.0-alpha.0",
+    "@docusaurus/plugin-content-docs": "3.0.0-alpha.0",
+    "@docusaurus/plugin-content-pages": "3.0.0-alpha.0",
+    "@docusaurus/utils": "3.0.0-alpha.0",
+    "@docusaurus/utils-common": "3.0.0-alpha.0",
     "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",
@@ -48,8 +48,8 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/core": "^3.0.0-alpha.0",
-    "@docusaurus/types": "^3.0.0-alpha.0",
+    "@docusaurus/core": "3.0.0-alpha.0",
+    "@docusaurus/types": "3.0.0-alpha.0",
     "fs-extra": "^11.1.0",
     "lodash": "^4.17.21"
   },
