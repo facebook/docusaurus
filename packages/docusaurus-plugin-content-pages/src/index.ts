@@ -31,6 +31,7 @@ import type {
   PluginOptions,
   Metadata,
   LoadedContent,
+  PageFrontMatter,
 } from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
@@ -234,6 +235,15 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    // Assets allow to convert some relative images paths to
+                    // require(...) calls
+                    createAssets: ({
+                      frontMatter,
+                    }: {
+                      frontMatter: PageFrontMatter;
+                    }) => ({
+                      image: frontMatter.image,
+                    }),
                     markdownConfig: siteConfig.markdown,
                   },
                 },

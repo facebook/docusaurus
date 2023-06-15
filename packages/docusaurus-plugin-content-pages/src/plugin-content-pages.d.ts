@@ -9,6 +9,10 @@ declare module '@docusaurus/plugin-content-pages' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {LoadContext, Plugin} from '@docusaurus/types';
 
+  export type Assets = {
+    image?: string;
+  };
+
   export type PluginOptions = MDXOptions & {
     id?: string;
     path: string;
@@ -20,9 +24,11 @@ declare module '@docusaurus/plugin-content-pages' {
 
   export type Options = Partial<PluginOptions>;
 
-  export type FrontMatter = {
+  export type PageFrontMatter = {
     readonly title?: string;
     readonly description?: string;
+    readonly image?: string;
+    readonly keywords?: string[];
     readonly wrapperClassName?: string;
     readonly hide_table_of_contents?: string;
     readonly toc_min_heading_level?: number;
@@ -41,7 +47,7 @@ declare module '@docusaurus/plugin-content-pages' {
     type: 'mdx';
     permalink: string;
     source: string;
-    frontMatter: FrontMatter & {[key: string]: unknown};
+    frontMatter: PageFrontMatter & {[key: string]: unknown};
     title?: string;
     description?: string;
     unlisted: boolean;
@@ -61,11 +67,16 @@ declare module '@theme/MDXPage' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     MDXPageMetadata,
-    FrontMatter,
+    PageFrontMatter,
+    Assets,
   } from '@docusaurus/plugin-content-pages';
 
   export interface Props {
-    readonly content: LoadedMDXContent<FrontMatter, MDXPageMetadata>;
+    readonly content: LoadedMDXContent<
+      PageFrontMatter,
+      MDXPageMetadata,
+      Assets
+    >;
   }
 
   export default function MDXPage(props: Props): JSX.Element;
