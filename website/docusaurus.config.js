@@ -23,6 +23,15 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   5,
 );
 
+function getLastVersion() {
+  const isPrerelease = (version) =>
+    version.includes('alpha') ||
+    version.includes('beta') ||
+    version.includes('rc');
+  const firstStableVersion = versions.find((version) => !isPrerelease(version));
+  return firstStableVersion ?? versions[0];
+}
+
 // This probably only makes sense for the alpha/beta/rc phase, temporary
 function getNextVersionName() {
   return 'Canary';
@@ -362,7 +371,7 @@ module.exports = async function createConfigAsync() {
             lastVersion:
               isDev || isDeployPreview || isBranchDeploy
                 ? 'current'
-                : undefined,
+                : getLastVersion(),
 
             onlyIncludeVersions: (() => {
               if (isBuildFast) {
