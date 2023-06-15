@@ -23,11 +23,16 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   5,
 );
 
-function getLastVersion() {
-  const isPrerelease = (version) =>
+/** @param {string} version */
+function isPrerelease(version) {
+  return (
     version.includes('alpha') ||
     version.includes('beta') ||
-    version.includes('rc');
+    version.includes('rc')
+  );
+}
+
+function getLastVersion() {
   const firstStableVersion = versions.find((version) => !isPrerelease(version));
   return firstStableVersion ?? versions[0];
 }
