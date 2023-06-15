@@ -14,13 +14,40 @@ Docusaurus supports search engine optimization in a variety of ways.
 
 ## Global metadata {#global-metadata}
 
-Provide global meta attributes for the entire site through the [site configuration](./configuration.mdx#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value.
+Provide global meta attributes for the entire site through the [site configuration](./configuration.mdx#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value. The `metadata` attribute is a convenient shortcut to declare `<meta>` tags, but it is also possible inject arbitrary tags in `<head>` with the `headTags` attribute.
 
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
-    metadata: [{name: 'keywords', content: 'cooking, blog'}],
-    // This would become <meta name="keywords" content="cooking, blog"> in the generated HTML
+    // Declare some <meta> tags
+    metadata: [
+      {name: 'keywords', content: 'cooking, blog'},
+      {name: 'twitter:card', content: 'summary_large_image'},
+    ],
+    headTags: [
+      // Declare a <link> preconnect tag
+      {
+        tagName: 'link',
+        attributes: {
+          rel: 'preconnect',
+          href: 'https://example.com',
+        },
+      },
+      // Declare some json-ld structured data
+      {
+        tagName: 'script',
+        attributes: {
+          type: 'application/ld+json',
+        },
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org/',
+          '@type': 'Organization',
+          name: 'Meta Open Source',
+          url: 'https://opensource.fb.com/',
+          logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+        }),
+      },
+    ],
   },
 };
 ```
@@ -37,7 +64,18 @@ Similar to [global metadata](#global-metadata), Docusaurus also allows for the a
 # A cooking guide
 
 <head>
-  <meta name="keywords" content="cooking, blog">
+  <meta name="keywords" content="cooking, blog" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://example.com" />
+  <script type="application/ld+json">
+    {JSON.stringify({
+      '@context': 'https://schema.org/',
+      '@type': 'Organization',
+      name: 'Meta Open Source',
+      url: 'https://opensource.fb.com/',
+      logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+    })}
+  </script>
 </head>
 
 Some content...
@@ -74,6 +112,17 @@ export default function page() {
     <Layout title="Page" description="A React page demo">
       <Head>
         <meta property="og:image" content="image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="preconnect" href="https://example.com" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org/',
+            '@type': 'Organization',
+            name: 'Meta Open Source',
+            url: 'https://opensource.fb.com/',
+            logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+          })}
+        </script>
       </Head>
       {/* ... */}
     </Layout>
