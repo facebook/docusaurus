@@ -33,11 +33,11 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.0.0-alpha.0",
-    "@docusaurus/module-type-aliases": "^3.0.0-alpha.0",
-    "@docusaurus/theme-common": "^3.0.0-alpha.0",
-    "@docusaurus/types": "^3.0.0-alpha.0",
-    "@docusaurus/utils-validation": "^3.0.0-alpha.0",
+    "@docusaurus/core": "3.0.0-alpha.0",
+    "@docusaurus/module-type-aliases": "3.0.0-alpha.0",
+    "@docusaurus/theme-common": "3.0.0-alpha.0",
+    "@docusaurus/types": "3.0.0-alpha.0",
+    "@docusaurus/utils-validation": "3.0.0-alpha.0",
     "mermaid": "^9.4.3",
     "tslib": "^2.5.0"
   },
