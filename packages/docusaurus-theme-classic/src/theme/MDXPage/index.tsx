@@ -24,9 +24,14 @@ export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
     metadata: {title, description, frontMatter, unlisted},
+    assets,
   } = MDXPageContent;
-  const {wrapperClassName, hide_table_of_contents: hideTableOfContents} =
-    frontMatter;
+  const {
+    keywords,
+    wrapperClassName,
+    hide_table_of_contents: hideTableOfContents,
+  } = frontMatter;
+  const image = assets.image ?? frontMatter.image;
 
   return (
     <HtmlClassNameProvider
@@ -34,8 +39,13 @@ export default function MDXPage(props: Props): JSX.Element {
         wrapperClassName ?? ThemeClassNames.wrapper.mdxPages,
         ThemeClassNames.page.mdxPage,
       )}>
-      <PageMetadata title={title} description={description} />
       <Layout>
+        <PageMetadata
+          title={title}
+          description={description}
+          keywords={keywords}
+          image={image}
+        />
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
