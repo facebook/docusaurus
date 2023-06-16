@@ -130,7 +130,7 @@ npm run swizzle @docusaurus/theme-classic Footer -- --eject
 
 This will copy the current `<Footer />` component's implementation to your site's `src/theme` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one. You are now free to completely re-implement the `<Footer>` component.
 
-```jsx title="src/theme/SomeComponent.js"
+```jsx title="src/theme/Footer/index.js"
 import React from 'react';
 
 export default function Footer(props) {
@@ -175,7 +175,7 @@ npm run swizzle @docusaurus/theme-classic Footer -- --wrap
 
 This will create a wrapper in your site's `src/theme` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one. You can now add customizations around the original component.
 
-```jsx title="src/theme/SomeComponent.js"
+```jsx title="src/theme/Footer/index.js"
 import React from 'react';
 import Footer from '@theme-original/Footer';
 
