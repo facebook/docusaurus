@@ -79,6 +79,56 @@ Even when `tutorialSidebar` doesn't contain a link to `home`, it will still be d
 
 If you set `displayed_sidebar: null`, no sidebar will be displayed whatsoever on this page, and subsequently, no pagination either.
 
+## Generating sidebars for each folder
+
+Consider this folder structure:
+
+> /docs/
+>
+> > category-1/
+> >
+> > > page-1.md  
+> > > page-2.md
+> >
+> > index.md
+
+Using auto sidebar generation, that folder structure will create the following sidebar:
+
+##### Sidebar
+
+> docs
+>
+> > category-1
+> >
+> > > page-1  
+> > > page-2
+> >
+> > index
+
+If you want to customize category-1's sidebar appearance (i.e. position, label, etc...) you will need to create a `_category_.json` file inside the folder, like so:
+
+```js title="category-1/_category_.json"
+{
+  "label": "My Category",
+  "position": 2,
+  "link": {
+    "type": "generated-index"
+  }
+}
+```
+
+Your sidebar should now look like:
+
+##### Sidebar
+
+> docs
+>
+> > index  
+> > category-1
+> >
+> > > page-1  
+> > > page-2
+
 ## Generating pagination {#generating-pagination}
 
 Docusaurus uses the sidebar to generate the "next" and "previous" pagination links at the bottom of each doc page. It strictly uses the sidebar that is displayed: if no sidebar is associated, it doesn't generate pagination either. However, the docs linked as "next" and "previous" are not guaranteed to display the same sidebar: they are included in this sidebar, but in their front matter, they may have a different `displayed_sidebar`.
