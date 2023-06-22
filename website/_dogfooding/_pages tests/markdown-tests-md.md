@@ -52,6 +52,100 @@ note
 
 :::
 
+## Details
+
+<details>
+  <summary>MD Summary</summary>
+
+Our custom Details/Summary does not work (yet) in CommonMark mode
+
+</details>
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
+## Tab
+
+<tabs>
+  <tabItem value="apple" label="Apple" default>
+    This is an apple 🍎
+  </tabItem>
+  <tabItem value="orange" label="Orange">
+    This is an orange 🍊
+  </tabItem>
+  <tabItem value="banana" label="Banana">
+    This is a banana 🍌
+  </tabItem>
+</tabs>
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
+## Code block test
+
+```js title="Title"
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+      // highlight-start
+      {/* prettier-ignore */}
+      long long long long long long long long long long long long line
+      {/* prettier-ignore */}
+      // highlight-end
+    </div>
+  );
+}
+```
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
 ## Heading Id {#custom-heading-id}
 
 Custom heading syntax `{#custom-heading-id}` still works
