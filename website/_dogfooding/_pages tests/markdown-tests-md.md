@@ -8,6 +8,26 @@ wrapperClassName: docusaurus-markdown-example
 
 This file should be interpreted in a more CommonMark compliant way
 
+## SEO
+
+```md
+<head>
+  <title>HEAD Markdown Page tests title</title>
+  <meta name="keywords" content="cooking, blog">
+</head>
+```
+
+<head>
+  <title>HEAD Markdown Page tests title</title>
+  <meta name="keywords" content="cooking, blog">
+</head>
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
 ## Comment
 
 Html comment: <!-- comment -->
