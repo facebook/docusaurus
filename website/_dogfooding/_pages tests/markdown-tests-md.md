@@ -8,12 +8,45 @@ wrapperClassName: docusaurus-markdown-example
 
 This file should be interpreted in a more CommonMark compliant way
 
+## SEO
+
+```md
+<head>
+  <title>HEAD Markdown Page tests title</title>
+  <meta name="keywords" content="cooking, blog">
+</head>
+```
+
+<head>
+  <title>HEAD Markdown Page tests title</title>
+  <meta name="keywords" content="cooking, blog">
+</head>
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
 ## Comment
 
 Html comment: <!-- comment -->
 
+Html comment multi-line:
+
+<!--
+comment
+-->
+
 <!-- prettier-ignore -->
 MDX comment: {/* comment */}
+
+MDX comment multi-line:
+
+<!-- prettier-ignore -->
+{/*
+comment 
+*/}
 
 ## JSX syntax
 
@@ -38,6 +71,110 @@ Admonitions still work
 note
 
 :::
+
+## Details
+
+<details>
+  <summary>MD Summary</summary>
+
+Our custom Details/Summary also works in CommonMark mode
+
+</details>
+
+## Tab
+
+<tabs>
+  <tabItem value="apple" label="Apple" default>
+    This is an apple 🍎
+  </tabItem>
+  <tabItem value="orange" label="Orange">
+    This is an orange 🍊
+  </tabItem>
+  <tabItem value="banana" label="Banana">
+    This is a banana 🍌
+  </tabItem>
+</tabs>
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
+## Code block test
+
+```js title="Title"
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+      // highlight-start
+      {/* prettier-ignore */}
+      long long long long long long long long long long long long line
+      {/* prettier-ignore */}
+      // highlight-end
+    </div>
+  );
+}
+```
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+:::danger
+
+TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+
+:::
+
+## Mermaid
+
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Health check
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
 
 ## Heading Id {#custom-heading-id}
 

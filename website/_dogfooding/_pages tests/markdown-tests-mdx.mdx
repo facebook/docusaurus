@@ -36,29 +36,37 @@ import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
 
-<Tabs
-  defaultValue="apple"
-  values={[
-    {label: 'Apple', value: 'apple'},
-    {label: 'Orange', value: 'orange'},
-    {label: 'Banana', value: 'banana'},
-  ]}>
-  <TabItem value="apple">This is an apple 🍎</TabItem>
-  <TabItem value="orange">This is an orange 🍊</TabItem>
-  <TabItem value="banana">This is a banana 🍌</TabItem>
+<Tabs>
+  <TabItem value="apple" label="Apple" default>
+    This is an apple 🍎
+  </TabItem>
+  <TabItem value="orange" label="Orange">
+    This is an orange 🍊
+  </TabItem>
+  <TabItem value="banana" label="Banana">
+    This is a banana 🍌
+  </TabItem>
 </Tabs>
 
 ## Comments
 
-MDX comments can be used with
+Html comment: <!-- comment -->
 
-```mdx
-{/* My comment */}
-```
+Html comment multi-line:
 
-See, nothing is displayed:
+<!--
+comment
+-->
 
-{/* My comment */}
+<!-- prettier-ignore -->
+MDX comment: {/* comment */}
+
+MDX comment multi-line:
+
+<!-- prettier-ignore -->
+{/*
+comment
+*/}
 
 ## Import code block from source code file
 
@@ -162,6 +170,22 @@ function Clock(props) {
     </div>
   );
 }
+```
+
+## Mermaid
+
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Health check
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
 ```
 
 ## Custom heading ID {#custom}
