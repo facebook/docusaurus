@@ -12,8 +12,21 @@ This file should be interpreted in a more CommonMark compliant way
 
 Html comment: <!-- comment -->
 
+Html comment multi-line:
+
+<!--
+comment
+-->
+
 <!-- prettier-ignore -->
 MDX comment: {/* comment */}
+
+MDX comment multi-line:
+
+<!-- prettier-ignore -->
+{/*
+comment 
+*/}
 
 ## JSX syntax
 
