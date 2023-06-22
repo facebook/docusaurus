@@ -162,11 +162,21 @@ export async function mdxLoader(
     result = await processor.process({content, filePath});
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
+
+    // MDX can emit errors that have useful extra attributes
+    const errorJSON = JSON.stringify(error, null, 2);
+    const errorDetails =
+      errorJSON === '{}'
+        ? // regular JS error case: print stacktrace
+          error.stack ?? 'N/A'
+        : // MDX error: print extra attributes + stacktrace
+          `${errorJSON}\n${error.stack}`;
+
     return callback(
       new Error(
         `MDX compilation failed for file ${logger.path(filePath)}\nCause: ${
           error.message
-        }\nDetails:\n${JSON.stringify(error, null, 2)}`,
+        }\nDetails:\n${errorDetails}`,
         // TODO error cause doesn't seem to be used by Webpack stats.errors :s
         {cause: error},
       ),
