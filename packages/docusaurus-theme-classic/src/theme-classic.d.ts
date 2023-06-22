@@ -893,6 +893,8 @@ declare module '@theme/MDXComponents' {
 
   export type MDXComponentsObject = {
     readonly Head: typeof Head;
+    readonly details: typeof MDXDetails;
+
     readonly Details: typeof MDXDetails;
     readonly code: typeof MDXCode;
     readonly a: typeof MDXA;
