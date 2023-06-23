@@ -13,24 +13,9 @@ import TabItem from '@theme/TabItem';
 import styles from './markdown-features-react.module.css';
 ```
 
-## Using JSX in Markdown {#using-jsx-in-markdown}
-
 Docusaurus has built-in support for [MDX v2](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
 
-:::info MDX vs. CommonMark
-
-Docusaurus parses both `.md` and `.mdx` files using MDX, but **the syntax is interpreted differently based on the file extension**:
-
-- With the `.md` extension, the parser is compatible with [CommonMark](https://commonmark.org/) and does not allow the usage of JSX.
-- With the `.mdx` extension, the parser is stricter than [CommonMark](https://commonmark.org/) and is not 100% compatible with it, but it becomes possible to use JSX.
-
-It is also possible to override the file extension format with front matter: `format: mdx`.
-
-The rest of this page assumes usage of the `mdx` format.
-
-:::
-
-Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+Check out the [MDX docs](https://mdxjs.com/) to see what fancy stuff you can do with MDX.
 
 :::tip Debugging MDX
 

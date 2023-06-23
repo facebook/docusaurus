@@ -16,6 +16,17 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+export type MarkdownPreprocessor = (args: {
+  filePath: string;
+  fileContent: string;
+}) => string;
+
+export type MDX1CompatOptions = {
+  comments: boolean;
+  admonitions: boolean;
+  headingIds: boolean;
+};
+
 export type MarkdownConfig = {
   /**
    * The Markdown format to use by default.
@@ -51,17 +62,13 @@ export type MarkdownConfig = {
    *
    * @param args
    */
-  preprocessor?: (args: {filePath: string; fileContent: string}) => string;
+  preprocessor?: MarkdownPreprocessor;
 
   /**
    * Set of flags make it easier to upgrade from MDX 1 to MDX 2
    * See also https://github.com/facebook/docusaurus/issues/4029
    */
-  mdx1Compat: {
-    comments: boolean;
-    admonitions: boolean;
-    headingIds: boolean;
-  };
+  mdx1Compat: MDX1CompatOptions;
 };
 
 /**
