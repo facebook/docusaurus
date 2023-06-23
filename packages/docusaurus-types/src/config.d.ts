@@ -18,6 +18,22 @@ export type ThemeConfig = {
 
 export type MarkdownConfig = {
   /**
+   * The Markdown format to use by default.
+   *
+   * This is the format passed down to the MDX compiler, impacting the way the
+   * content is parsed.
+   *
+   * Possible values:
+   * - `'mdx'`: use the MDX format (JSX support)
+   * - `'md'`: use the CommonMark format (no JSX support)
+   * - `'detect'`: select the format based on file extension (.md / .mdx)
+   *
+   * @see https://mdxjs.com/packages/mdx/#optionsformat
+   * @default 'mdx'
+   */
+  format: 'mdx' | 'md' | 'detect';
+
+  /**
    * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
    *
    * - `true`: code blocks with language mermaid will be rendered.
