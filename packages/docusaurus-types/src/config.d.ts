@@ -16,7 +16,34 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+export type MarkdownPreprocessor = (args: {
+  filePath: string;
+  fileContent: string;
+}) => string;
+
+export type MDX1CompatOptions = {
+  comments: boolean;
+  admonitions: boolean;
+  headingIds: boolean;
+};
+
 export type MarkdownConfig = {
+  /**
+   * The Markdown format to use by default.
+   *
+   * This is the format passed down to the MDX compiler, impacting the way the
+   * content is parsed.
+   *
+   * Possible values:
+   * - `'mdx'`: use the MDX format (JSX support)
+   * - `'md'`: use the CommonMark format (no JSX support)
+   * - `'detect'`: select the format based on file extension (.md / .mdx)
+   *
+   * @see https://mdxjs.com/packages/mdx/#optionsformat
+   * @default 'mdx'
+   */
+  format: 'mdx' | 'md' | 'detect';
+
   /**
    * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
    *
@@ -35,17 +62,13 @@ export type MarkdownConfig = {
    *
    * @param args
    */
-  preprocessor?: (args: {filePath: string; fileContent: string}) => string;
+  preprocessor?: MarkdownPreprocessor;
 
   /**
    * Set of flags make it easier to upgrade from MDX 1 to MDX 2
    * See also https://github.com/facebook/docusaurus/issues/4029
    */
-  mdx1Compat: {
-    comments: boolean;
-    admonitions: boolean;
-    headingIds: boolean;
-  };
+  mdx1Compat: MDX1CompatOptions;
 };
 
 /**

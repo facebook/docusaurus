@@ -65,6 +65,7 @@ export const DEFAULT_CONFIG: Pick<
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
   markdown: {
+    format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
     mermaid: false,
     preprocessor: undefined,
     mdx1Compat: {
@@ -276,6 +277,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .optional(),
   }).optional(),
   markdown: Joi.object({
+    format: Joi.string()
+      .equal('mdx', 'md', 'detect')
+      .default(DEFAULT_CONFIG.markdown.format),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
     preprocessor: Joi.function()
       .arity(1)

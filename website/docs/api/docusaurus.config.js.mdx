@@ -4,6 +4,8 @@ description: API reference for Docusaurus configuration file.
 slug: /api/docusaurus-config
 ---
 
+import APITable from '@site/src/components/APITable';
+
 # `docusaurus.config.js`
 
 :::info
@@ -400,8 +402,24 @@ The global Docusaurus Markdown config.
 - Type: `MarkdownConfig`
 
 ```ts
+type MarkdownPreprocessor = (args: {
+  filePath: string;
+  fileContent: string;
+}) => string;
+
+type MDX1CompatOptions =
+  | boolean
+  | {
+      comments: boolean;
+      admonitions: boolean;
+      headingIds: boolean;
+    };
+
 type MarkdownConfig = {
+  format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
+  preprocessor?: MarkdownPreprocessor;
+  mdx1Compat: MDX1CompatOptions;
 };
 ```
 
@@ -410,12 +428,34 @@ Example:
 ```js title="docusaurus.config.js"
 module.exports = {
   markdown: {
+    format: 'mdx',
     mermaid: true,
+    preprocessor: ({filePath, fileContent}) => {
+      return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+    },
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
   },
 };
 ```
 
-- `mermaid`: when `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams.
+```mdx-code-block
+<APITable>
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `format` | `'mdx' \| 'md' \| 'detect'` | `'mdx'` | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`. |
+| `mermaid` | `boolean` | `false` | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams. |
+| `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
+| `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. See the [MDX 2 PR for details](https://github.com/facebook/docusaurus/pull/8288). |
+
+```mdx-code-block
+</APITable>
+```
 
 ### `customFields` {#customFields}
 

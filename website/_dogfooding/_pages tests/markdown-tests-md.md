@@ -13,13 +13,13 @@ This file should be interpreted in a more CommonMark compliant way
 ```md
 <head>
   <title>HEAD Markdown Page tests title</title>
-  <meta name="keywords" content="cooking, blog">
+  <meta name="keywords" content="cooking, blog"/>
 </head>
 ```
 
 <head>
   <title>HEAD Markdown Page tests title</title>
-  <meta name="keywords" content="cooking, blog">
+  <meta name="keywords" content="cooking, blog"/>
 </head>
 
 :::danger

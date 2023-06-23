@@ -59,6 +59,7 @@ describe('normalizeConfig', () => {
         },
       ],
       markdown: {
+        format: 'md',
         mermaid: true,
         preprocessor: ({fileContent}) => fileContent,
         mdx1Compat: {
@@ -501,6 +502,7 @@ describe('markdown', () => {
 
   it('accepts valid markdown object', () => {
     const markdown: DocusaurusConfig['markdown'] = {
+      format: 'md',
       mermaid: true,
       preprocessor: ({fileContent}) => fileContent,
       mdx1Compat: {
@@ -557,6 +559,34 @@ describe('markdown', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       ""markdown.preprocessor" must have an arity of 1
+      "
+    `);
+  });
+
+  it('accepts undefined markdown format', () => {
+    expect(
+      normalizeConfig({markdown: {format: undefined}}).markdown.format,
+    ).toBe('mdx');
+  });
+
+  it('throw for bad markdown format', () => {
+    expect(() =>
+      normalizeConfig(
+        // @ts-expect-error: bad value
+        {markdown: {format: null}},
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.format" must be one of [mdx, md, detect]
+      "markdown.format" must be a string
+      "
+    `);
+    expect(() =>
+      normalizeConfig(
+        // @ts-expect-error: bad value
+        {markdown: {format: 'xyz'}},
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.format" must be one of [mdx, md, detect]
       "
     `);
   });

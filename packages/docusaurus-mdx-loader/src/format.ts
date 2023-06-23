@@ -7,6 +7,7 @@
 
 import path from 'path';
 import type {MDXFrontMatter} from './frontMatter';
+import type {Format, FormatInput} from './index';
 
 // Copied from https://mdxjs.com/packages/mdx/#optionsmdextensions
 // Although we are likely to only use .md / .mdx anyway...
@@ -21,20 +22,29 @@ const mdFormatExtensions = [
   '.ron',
 ];
 
-function isMDFormat(filepath: string) {
-  return mdFormatExtensions.includes(path.extname(filepath));
+function getExtensionFormat(filepath: string): Format {
+  const isMDFormat = mdFormatExtensions.includes(path.extname(filepath));
+  // Bias toward mdx if unknown extension
+  return isMDFormat ? 'md' : 'mdx';
 }
 
 export function getFormat({
   filePath,
   frontMatterFormat,
+  markdownConfigFormat,
 }: {
   filePath: string;
   frontMatterFormat: MDXFrontMatter['format'];
-}): 'md' | 'mdx' {
-  if (frontMatterFormat !== 'detect') {
-    return frontMatterFormat;
+  markdownConfigFormat: FormatInput;
+}): Format {
+  if (frontMatterFormat) {
+    if (frontMatterFormat !== 'detect') {
+      return frontMatterFormat;
+    }
+    return getExtensionFormat(filePath);
   }
-  // Bias toward mdx if unknown extension
-  return isMDFormat(filePath) ? 'md' : 'mdx';
+  if (markdownConfigFormat !== 'detect') {
+    return markdownConfigFormat;
+  }
+  return getExtensionFormat(filePath);
 }

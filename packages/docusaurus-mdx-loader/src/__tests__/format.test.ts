@@ -9,44 +9,126 @@ import {getFormat} from '../format';
 
 describe('getFormat', () => {
   it('uses frontMatter format over anything else', () => {
-    expect(getFormat({frontMatterFormat: 'md', filePath: 'xyz.md'})).toBe('md');
-    expect(getFormat({frontMatterFormat: 'md', filePath: 'xyz.mdx'})).toBe(
-      'md',
-    );
-    expect(getFormat({frontMatterFormat: 'mdx', filePath: 'xyz.md'})).toBe(
-      'mdx',
-    );
-    expect(getFormat({frontMatterFormat: 'mdx', filePath: 'xyz.mdx'})).toBe(
-      'mdx',
-    );
+    expect(
+      getFormat({
+        frontMatterFormat: 'md',
+        filePath: 'xyz.md',
+        markdownConfigFormat: 'mdx',
+      }),
+    ).toBe('md');
+    expect(
+      getFormat({
+        frontMatterFormat: 'md',
+        filePath: 'xyz.mdx',
+        markdownConfigFormat: 'mdx',
+      }),
+    ).toBe('md');
+    expect(
+      getFormat({
+        frontMatterFormat: 'mdx',
+        filePath: 'xyz.md',
+        markdownConfigFormat: 'md',
+      }),
+    ).toBe('mdx');
+    expect(
+      getFormat({
+        frontMatterFormat: 'mdx',
+        filePath: 'xyz.mdx',
+        markdownConfigFormat: 'md',
+      }),
+    ).toBe('mdx');
   });
 
-  it('detects appropriate format from file extension', () => {
-    expect(getFormat({frontMatterFormat: 'detect', filePath: 'xyz.md'})).toBe(
-      'md',
-    );
+  it('supports "detects" for front matter', () => {
     expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'xyz.markdown'}),
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'xyz.md',
+        markdownConfigFormat: 'mdx',
+      }),
+    ).toBe('md');
+    expect(
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'xyz.markdown',
+        markdownConfigFormat: 'mdx',
+      }),
     ).toBe('md');
 
     expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'folder/xyz.md'}),
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'folder/xyz.md',
+        markdownConfigFormat: 'mdx',
+      }),
     ).toBe('md');
     expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'folder/xyz.markdown'}),
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'folder/xyz.markdown',
+        markdownConfigFormat: 'mdx',
+      }),
     ).toBe('md');
-    expect(getFormat({frontMatterFormat: 'detect', filePath: 'xyz.mdx'})).toBe(
-      'mdx',
-    );
     expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'folder/xyz.mdx'}),
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'xyz.mdx',
+        markdownConfigFormat: 'md',
+      }),
+    ).toBe('mdx');
+    expect(
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'folder/xyz.mdx',
+        markdownConfigFormat: 'md',
+      }),
     ).toBe('mdx');
 
     expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'xyz.unknown'}),
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'xyz.unknown',
+        markdownConfigFormat: 'md',
+      }),
     ).toBe('mdx');
     expect(
-      getFormat({frontMatterFormat: 'detect', filePath: 'folder/xyz.unknown'}),
+      getFormat({
+        frontMatterFormat: 'detect',
+        filePath: 'folder/xyz.unknown',
+        markdownConfigFormat: 'md',
+      }),
+    ).toBe('mdx');
+  });
+
+  it('fallbacks to markdown config format when front matter undefined', () => {
+    expect(
+      getFormat({
+        frontMatterFormat: undefined,
+        filePath: 'xyz.md',
+        markdownConfigFormat: 'mdx',
+      }),
+    ).toBe('mdx');
+    expect(
+      getFormat({
+        frontMatterFormat: undefined,
+        filePath: 'xyz.mdx',
+        markdownConfigFormat: 'md',
+      }),
+    ).toBe('md');
+
+    expect(
+      getFormat({
+        frontMatterFormat: undefined,
+        filePath: 'xyz.md',
+        markdownConfigFormat: 'detect',
+      }),
+    ).toBe('md');
+    expect(
+      getFormat({
+        frontMatterFormat: undefined,
+        filePath: 'xyz.mdx',
+        markdownConfigFormat: 'detect',
+      }),
     ).toBe('mdx');
   });
 });

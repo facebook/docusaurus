@@ -85,9 +85,18 @@ describe('MDX front matter schema', () => {
 describe('validateDocFrontMatter format', () => {
   testField({
     prefix: 'format',
-    validFrontMatters: [{format: 'md'}, {format: 'mdx'}],
+    validFrontMatters: [
+      {},
+      {format: undefined},
+      {format: 'detect'},
+      {format: 'md'},
+      {format: 'mdx'},
+    ],
     invalidFrontMatters: [
       [{format: 'xdm'}, '"format" must be one of [md, mdx, detect]'],
+      [{format: ''}, '"format" must be one of [md, mdx, detect]'],
+      [{format: null}, '"format" must be one of [md, mdx, detect]'],
+      [{unknownAttribute: 'mdx'}, '"unknownAttribute" is not allowed'],
     ],
   });
 });
