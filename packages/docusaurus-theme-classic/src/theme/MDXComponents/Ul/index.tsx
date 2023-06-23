@@ -22,5 +22,5 @@ function transformUlClassName(className?: string): string {
 }
 
 export default function MDXUl(props: Props): JSX.Element {
-  return <ul {...props} className={transformUlClassName(props.className)} />;
+  return <ul {...props} className={props.className ? transformUlClassName(props.className) : null} />;
 }
