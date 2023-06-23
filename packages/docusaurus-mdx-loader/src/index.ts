@@ -13,6 +13,10 @@ export default mdxLoader;
 
 export type TOCItem = TOCItemImported;
 
+export type Format = 'md' | 'mdx';
+
+export type FormatInput = Format | 'detect';
+
 export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   /** As verbatim declared in the MDX document. */
   readonly frontMatter: FrontMatter;

@@ -235,6 +235,7 @@ export async function createProcessorCached({
   const format = getFormat({
     filePath,
     frontMatterFormat: mdxFrontMatter.format,
+    markdownConfigFormat: reqOptions.markdownConfig.format,
   });
 
   return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;

@@ -157,6 +157,7 @@ module.exports = async function createConfigAsync() {
       }),
     },
     markdown: {
+      format: 'detect',
       mermaid: true,
       mdx1Compat: {
         // comments: false,

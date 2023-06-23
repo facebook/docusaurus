@@ -10,18 +10,18 @@ import {
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 
+import type {FormatInput} from './index';
+
 export type MDXFrontMatter = {
-  format: 'md' | 'mdx' | 'detect';
+  format?: FormatInput;
 };
 
 export const DefaultMDXFrontMatter: MDXFrontMatter = {
-  format: 'detect',
+  format: undefined,
 };
 
 const MDXFrontMatterSchema = Joi.object<MDXFrontMatter>({
-  format: Joi.string()
-    .equal('md', 'mdx', 'detect')
-    .default(DefaultMDXFrontMatter.format),
+  format: Joi.string().equal('md', 'mdx', 'detect').optional(),
 }).default(DefaultMDXFrontMatter);
 
 export function validateMDXFrontMatter(frontMatter: unknown): MDXFrontMatter {
