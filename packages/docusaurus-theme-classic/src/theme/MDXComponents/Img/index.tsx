@@ -11,8 +11,8 @@ import type {Props} from '@theme/MDXComponents/Img';
 
 import styles from './styles.module.css';
 
-function transformImgClassName(className?: string): string {
-  return clsx(className, styles.img);
+function transformImgClassName(className?: string): string | undefined {
+  return !className ? undefined : clsx(className, styles.img);
 }
 
 export default function MDXImg(props: Props): JSX.Element {
