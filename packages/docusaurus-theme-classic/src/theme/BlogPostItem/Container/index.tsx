@@ -30,7 +30,7 @@ export default function BlogPostItemContainer({
       itemType="http://schema.org/BlogPosting">
       {description && <meta itemProp="description" content={description} />}
       {image && (
-        <meta itemProp="image" content={withBaseUrl(image, {absolute: true})} />
+        <link itemProp="image" href={withBaseUrl(image, {absolute: true})} />
       )}
       {keywords.length > 0 && (
         <meta itemProp="keywords" content={keywords.join(',')} />
