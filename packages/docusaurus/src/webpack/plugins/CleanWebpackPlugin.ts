@@ -152,6 +152,15 @@ export default class CleanWebpackPlugin {
       return;
     }
 
+    if (
+      path.basename(path.resolve(this.outputPath)).toLocaleLowerCase() ===
+      'build'
+    ) {
+      throw new Error(
+        'build dir already exist. Docusaurus needs this directory to save the output build. Either remove your directory or chose a different build directory',
+      );
+    }
+
     this.initialClean = true;
 
     this.removeFiles(this.cleanOnceBeforeBuildPatterns);
