@@ -153,11 +153,11 @@ export default class CleanWebpackPlugin {
     }
 
     if (
-      path.basename(path.resolve(this.outputPath)).toLocaleLowerCase() ===
-      'build'
+      path.basename(path.resolve()).toLowerCase() ===
+      path.basename(path.resolve(this.outputPath))
     ) {
       throw new Error(
-        'build dir already exist. Docusaurus needs this directory to save the output build. Either remove your directory or chose a different build directory',
+        'output dir already exist. Docusaurus needs this directory to save the output build. Either remove your directory or chose a different build directory',
       );
     }
 
