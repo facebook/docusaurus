@@ -116,6 +116,19 @@ export default class CleanWebpackPlugin {
     this.removeFiles = this.removeFiles.bind(this);
   }
 
+  private checkIfFileNameIsDuplicate(): boolean {
+    const dir = path.dirname(this.outputPath);
+    const baseName = path.basename(this.outputPath).toLowerCase();
+    // eslint-disable-next-line no-restricted-properties
+    const duplicateFiles = fs
+      .readdirSync(dir)
+      .filter((fileName) => fileName.toLowerCase() === baseName);
+    if (duplicateFiles.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
   apply(compiler: Compiler): void {
     if (!compiler.options.output.path) {
       console.warn(
@@ -153,8 +166,7 @@ export default class CleanWebpackPlugin {
       return;
     }
 
-    // eslint-disable-next-line no-restricted-properties
-    if (fs.pathExistsSync(this.outputPath)) {
+    if (this.checkIfFileNameIsDuplicate()) {
       throw new Error(
         `Output directory ${this.outputPath} already exists. Docusaurus needs this directory to save the build output. Either remove the directory or choose a different build directory via '--out-dir'.`,
       );
