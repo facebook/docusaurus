@@ -148,13 +148,12 @@ export default class CleanWebpackPlugin {
    * Warning: It is recommended to initially clean your build directory outside
    * of webpack to minimize unexpected behavior.
    */
-  handleInitial(): void {
+  async handleInitial(): Promise<void> {
     if (this.initialClean) {
       return;
     }
 
-    // eslint-disable-next-line no-restricted-properties
-    if (fs.pathExistsSync(this.outputPath)) {
+    if (await fs.pathExists(this.outputPath)) {
       throw new Error(
         `Output directory ${this.outputPath} already exists. Docusaurus needs this directory to save the build output. Either remove the directory or choose a different build directory via '--out-dir'.`,
       );
