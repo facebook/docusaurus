@@ -30,7 +30,7 @@
 // More context: https://github.com/facebook/docusaurus/pull/1839
 
 import path from 'path';
-import * as fs from 'fs';
+import fs from 'fs-extra';
 import {sync as delSync} from 'del';
 import type {Compiler, Stats} from 'webpack';
 
@@ -155,7 +155,7 @@ export default class CleanWebpackPlugin {
 
     if (
       // eslint-disable-next-line no-restricted-properties
-      fs.existsSync(this.outputPath)
+      fs.pathExistsSync(this.outputPath)
     ) {
       throw new Error(
         'output dir already exist. Docusaurus needs this directory to save the output build. Either remove your directory or chose a different build directory',
