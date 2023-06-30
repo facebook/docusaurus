@@ -290,6 +290,8 @@ By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.
 | `GIT_USER` | The username for a GitHub account that **has push access to the deployment repo**. For your own repositories, this will usually be your GitHub username. Required if not using SSH, and ignored otherwise. |
 | `GIT_PASS` | Personal access token of the git user (specified by `GIT_USER`), to facilitate non-interactive deployment (e.g. continuous deployment) |
 | `CURRENT_BRANCH` | The source branch. Usually, the branch will be `main` or `master`, but it could be any branch except for `gh-pages`. If nothing is set for this variable, then the current branch from which `docusaurus deploy` is invoked will be used. |
+| `GIT_USER_NAME` | The `git config user.name` value to use when pushing to the deployment repo |
+| `GIT_USER_EMAIL` | The `git config user.email` value to use when pushing to the deployment repo |
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment variable:
 
