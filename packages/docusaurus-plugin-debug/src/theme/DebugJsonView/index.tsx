@@ -8,7 +8,7 @@
 import React from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import type {Props} from '@theme/DebugJsonView';
-import type {ReactJsonViewProps} from 'react-json-view';
+import type {ReactJsonViewProps} from '@microlink/react-json-view';
 
 // Avoids "react-json-view" displaying "root"
 const RootName = null;
@@ -21,7 +21,7 @@ function BrowserOnlyReactJson(props: ReactJsonViewProps) {
       {() => {
         const {default: ReactJson} =
           // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-          require('react-json-view') as typeof import('react-json-view');
+          require('@microlink/react-json-view') as typeof import('@microlink/react-json-view');
         return <ReactJson {...props} />;
       }}
     </BrowserOnly>

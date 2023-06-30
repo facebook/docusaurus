@@ -526,14 +526,7 @@ module.exports = async function createConfigAsync() {
               label: 'Tests',
               docsPluginId: 'docs-tests',
             },
-            // This item links to an unlisted doc: only displayed
-            // in dev or when directly access
-            {
-              type: 'doc',
-              docId: 'tests/visibility/some-unlisteds/unlisted1',
-              label: 'Unlisted',
-              docsPluginId: 'docs-tests',
-            },
+            isDev && {to: '/__docusaurus/debug', label: 'Debug'},
             // Custom item for dogfooding: only displayed in /tests/ routes
             {
               type: 'custom-dogfood-navbar-item',
@@ -594,7 +587,7 @@ module.exports = async function createConfigAsync() {
               className: 'header-github-link',
               'aria-label': 'GitHub repository',
             },
-          ],
+          ].filter(Boolean),
         },
         footer: {
           style: 'dark',
