@@ -168,7 +168,7 @@ export default class CleanWebpackPlugin {
 
     if (this.checkIfFileNameIsDuplicate()) {
       throw new Error(
-        `Output directory ${this.outputPath} already exists. Docusaurus needs this directory to save the build output. Either remove the directory or choose a different build directory via '--out-dir'.`,
+        `Output file ${this.outputPath} already exists. Docusaurus needs this directory to save the build output. Either remove/change the file or choose a different build directory via '--out-dir'.`,
       );
     }
 
