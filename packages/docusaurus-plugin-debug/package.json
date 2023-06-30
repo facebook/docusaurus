@@ -23,8 +23,8 @@
     "@docusaurus/core": "3.0.0-alpha.0",
     "@docusaurus/types": "3.0.0-alpha.0",
     "@docusaurus/utils": "3.0.0-alpha.0",
+    "@microlink/react-json-view": "^1.22.2",
     "fs-extra": "^11.1.0",
-    "react-json-view": "^1.21.3",
     "tslib": "^2.5.0"
   },
   "peerDependencies": {
