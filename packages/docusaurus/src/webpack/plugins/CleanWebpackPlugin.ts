@@ -160,7 +160,7 @@ export default class CleanWebpackPlugin {
       fs.statSync(this.outputPath).isFile()
     ) {
       throw new Error(
-        `Output file ${this.outputPath} already exists. Docusaurus needs this directory to save the build output. Either remove/change the file or choose a different build directory via '--out-dir'.`,
+        `A file '${this.outputPath}' already exists. Docusaurus needs this directory to save the build output. Either remove/change the file or choose a different build directory via '--out-dir'.`,
       );
     }
 
