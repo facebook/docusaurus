@@ -153,12 +153,10 @@ export default class CleanWebpackPlugin {
       return;
     }
 
-    if (
-      // eslint-disable-next-line no-restricted-properties
-      fs.pathExistsSync(this.outputPath)
-    ) {
+    // eslint-disable-next-line no-restricted-properties
+    if (fs.pathExistsSync(this.outputPath)) {
       throw new Error(
-        'output dir already exist. Docusaurus needs this directory to save the output build. Either remove your directory or chose a different build directory',
+        `Output directory ${this.outputPath} already exists. Docusaurus needs this directory to save the build output. Either remove the directory or choose a different build directory via '--out-dir'.`,
       );
     }
 
