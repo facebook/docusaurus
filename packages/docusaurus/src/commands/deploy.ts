@@ -215,6 +215,16 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     }
     shellExecLog('git add --all');
 
+    const gitUserName = process.env.GIT_USER_NAME;
+    if (gitUserName) {
+      shellExecLog(`git config user.name "${gitUserName}"`);
+    }
+
+    const gitUserEmail = process.env.GIT_USER_EMAIL;
+    if (gitUserEmail) {
+      shellExecLog(`git config user.email "${gitUserEmail}"`);
+    }
+
     const commitMessage =
       process.env.CUSTOM_COMMIT_MESSAGE ??
       `Deploy website - based on ${currentCommit}`;
