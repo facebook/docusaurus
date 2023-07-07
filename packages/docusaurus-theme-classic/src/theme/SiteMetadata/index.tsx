@@ -61,7 +61,11 @@ function useDefaultCanonicalUrl() {
     siteConfig: {url: siteUrl, trailingSlash = false},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
-  return siteUrl + useBaseUrl(pathname).replace(/\/+$/, '') + (trailingSlash ? '/' : '');
+  return (
+    siteUrl +
+    useBaseUrl(pathname).replace(/\/+$/, '') +
+    (trailingSlash ? '/' : '')
+  );
 }
 
 // TODO move to SiteMetadataDefaults or theme-common ?
