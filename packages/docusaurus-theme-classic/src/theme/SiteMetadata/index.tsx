@@ -58,10 +58,10 @@ function AlternateLangHeaders(): JSX.Element {
 // Default canonical url inferred from current page location pathname
 function useDefaultCanonicalUrl() {
   const {
-    siteConfig: {url: siteUrl},
+    siteConfig: {url: siteUrl, trailingSlash = false},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
-  return siteUrl + useBaseUrl(pathname);
+  return siteUrl + useBaseUrl(pathname).replace(/\/+$/, '') + (trailingSlash ? '/' : '');
 }
 
 // TODO move to SiteMetadataDefaults or theme-common ?
