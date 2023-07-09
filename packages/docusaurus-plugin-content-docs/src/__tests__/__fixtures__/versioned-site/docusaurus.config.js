@@ -8,7 +8,7 @@
 module.exports = {
   title: 'Versioned Site',
   tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   i18n: {
