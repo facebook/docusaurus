@@ -51,6 +51,16 @@ function AlternateLangHeaders(): JSX.Element {
         })}
         hrefLang="x-default"
       />
+      {Object.keys(localeConfigs).map((locale) =>
+        locale !== defaultLocale ? (
+          <meta
+            key={locale}
+            property="og:locale:alternate"
+            content={locale.replace('-', '_')}
+          />
+        ) : null,
+      )}
+      <meta property="og:locale" content={defaultLocale.replace('-', '_')} />
     </Head>
   );
 }
