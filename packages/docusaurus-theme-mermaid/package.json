@@ -39,7 +39,7 @@
     "@docusaurus/types": "3.0.0-alpha.0",
     "@docusaurus/utils-validation": "3.0.0-alpha.0",
     "mermaid": "^9.4.3",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
     "@types/mdx-js__react": "^1.5.5",

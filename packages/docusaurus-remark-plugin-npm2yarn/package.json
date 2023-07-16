@@ -19,13 +19,13 @@
   "dependencies": {
     "mdast-util-mdx": "^2.0.0",
     "npm-to-yarn": "^2.0.0",
-    "tslib": "^2.5.0",
+    "tslib": "^2.6.0",
     "unified": "^10.1.2",
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
-    "@types/mdast": "^3.0.10",
-    "remark": "^14.0.2",
+    "@types/mdast": "^3.0.12",
+    "remark": "^14.0.3",
     "remark-mdx": "^2.1.5",
     "to-vfile": "^6.1.0"
   },

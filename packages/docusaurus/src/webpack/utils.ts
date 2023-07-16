@@ -240,7 +240,11 @@ export function applyConfigurePostCss(
         entry.options.postcssOptions,
       );
     } else if (Array.isArray(entry.oneOf)) {
-      entry.oneOf.forEach(overridePostCssOptions);
+      entry.oneOf.forEach((r) => {
+        if (r) {
+          overridePostCssOptions(r);
+        }
+      });
     } else if (Array.isArray(entry.use)) {
       entry.use
         .filter((u) => typeof u === 'object')
