@@ -42,15 +42,15 @@
     "@docusaurus/types": "3.0.0-alpha.0",
     "@docusaurus/utils": "3.0.0-alpha.0",
     "@docusaurus/utils-validation": "3.0.0-alpha.0",
-    "@types/react-router-config": "^5.0.6",
+    "@types/react-router-config": "^5.0.7",
     "combine-promises": "^1.1.0",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.1.1",
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "tslib": "^2.5.0",
+    "tslib": "^2.6.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.76.0"
+    "webpack": "^5.88.1"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",

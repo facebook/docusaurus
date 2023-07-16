@@ -24,9 +24,9 @@
     "@docusaurus/utils": "3.0.0-alpha.0",
     "@docusaurus/utils-common": "3.0.0-alpha.0",
     "@docusaurus/utils-validation": "3.0.0-alpha.0",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.1.1",
     "sitemap": "^7.1.1",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",
