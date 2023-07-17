@@ -63,8 +63,7 @@ function useDefaultCanonicalUrl() {
   const {pathname} = useLocation();
   return (
     siteUrl +
-    useBaseUrl(pathname).replace(/\/+$/, '') +
-    (trailingSlash ? '/' : '')
+    useBaseUrl(pathname).replace(/\/+$/, trailingSlash ? '/' : '')
   );
 }
 
