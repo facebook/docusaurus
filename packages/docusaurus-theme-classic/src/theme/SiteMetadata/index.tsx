@@ -62,8 +62,7 @@ function useDefaultCanonicalUrl() {
   } = useDocusaurusContext();
   const {pathname} = useLocation();
   return (
-    siteUrl +
-    useBaseUrl(pathname).replace(/\/+$/, trailingSlash ? '/' : '')
+    siteUrl + useBaseUrl(pathname).replace(/\/+$/, trailingSlash ? '/' : '')
   );
 }
 
