@@ -28,6 +28,18 @@ export default function SiteMetadataDefaults(): JSX.Element {
       */}
       <html lang={htmlLang} dir={htmlDir} />
       <title>{title}</title>
+      <meta property="og:locale" content={htmlLang.replace('-', '_')} />
+      {Object.values(localeConfigs).map((config) =>
+        htmlLang !== config.htmlLang ? (
+          <meta
+            key={`meta-og-${config.htmlLang}`}
+            property="og:locale:alternate"
+            content={config.htmlLang.replace('-', '_')}
+          />
+        ) : (
+          ''
+        ),
+      )}
       <meta property="og:title" content={title} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
