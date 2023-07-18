@@ -106,6 +106,14 @@ async function defaultCreateFeedItems({
       const $ = cheerioLoad(content);
 
       const link = normalizeUrl([siteUrl, permalink]);
+
+      $(`div#${blogPostContainerID} a`).each((_, elm) => {
+        const {href} = elm.attribs;
+        if (href) {
+          elm.attribs.href = String(new URL(href, link));
+        }
+      });
+
       const feedItem: BlogFeedItem = {
         title: metadataTitle,
         id: link,
