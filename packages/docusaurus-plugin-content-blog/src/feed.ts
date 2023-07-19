@@ -70,7 +70,7 @@ async function generateBlogFeed({
   return feed;
 }
 
-async function defaultCreateFeedItems({
+export async function defaultCreateFeedItems({
   blogPosts,
   siteConfig,
   outDir,
