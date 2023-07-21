@@ -103,6 +103,10 @@ exports.dogfoodingPluginInstances = dogfoodingPluginInstances;
 
 exports.dogfoodingRedirects = [
   {
+    from: ['/home/'],
+    to: '/',
+  },
+  {
     from: ['/home/qs'],
     to: '/?a=1',
   },
