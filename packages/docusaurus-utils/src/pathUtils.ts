@@ -96,12 +96,16 @@ export function aliasedSitePath(filePath: string, siteDir: string): string {
  * When you have a path like C:\X\Y
  * It is not safe to use directly when generating code
  * For example, this would fail due to unescaped \:
- * `<img src={require('${filePath}')} />`
- * But this would work: `<img src={require('${escapePath(filePath)}')} />`
+ * `<img src={require("${filePath}")} />`
+ * But this would work: `<img src={require("${escapePath(filePath)}")} />`
  *
  * posixPath can't be used in all cases, because forward slashes are only valid
  * Windows paths when they don't contain non-ascii characters, and posixPath
  * doesn't escape those that fail to be converted.
+ *
+ * This function escapes double quotes but not single quotes (because it uses
+ * `JSON.stringify`). Therefore, you must put the escaped path inside double
+ * quotes when generating code.
  */
 export function escapePath(str: string): string {
   const escaped = JSON.stringify(str);
