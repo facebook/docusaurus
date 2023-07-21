@@ -62,15 +62,15 @@ function useDefaultCanonicalUrl() {
     siteConfig: {url: siteUrl, baseUrl, trailingSlash},
   } = useDocusaurusContext();
 
-  // TODO using useLocation().pathname is not reliable to create a canonical url
-  // Ex: use CDN features so that 2 paths serve the same html file (/a and /b)
-  // Then we would obtain 2 distinct canonical urls after React hydration: bad
+  // TODO using useLocation().pathname is not a super idea
+  // See https://github.com/facebook/docusaurus/issues/9170
   const {pathname} = useLocation();
 
   const canonicalPathname = applyTrailingSlash(useBaseUrl(pathname), {
     trailingSlash,
     baseUrl,
   });
+
   return siteUrl + canonicalPathname;
 }
 
