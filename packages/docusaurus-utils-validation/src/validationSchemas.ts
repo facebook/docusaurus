@@ -91,7 +91,7 @@ export const PathnameSchema = Joi.string()
     return val;
   })
   .message(
-    '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
+    '{{#label}} ({{#value}}) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
 
 // Normalized schema for url path segments: baseUrl + routeBasePath...

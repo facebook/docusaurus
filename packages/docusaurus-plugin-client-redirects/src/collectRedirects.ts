@@ -79,8 +79,25 @@ function validateCollectedRedirects(
     );
   }
 
-  const allowedToPaths = pluginContext.relativeRoutesPaths;
-  const toPaths = redirects.map((redirect) => redirect.to);
+  const allowedToPaths = pluginContext.relativeRoutesPaths.map((p) =>
+    decodeURI(p),
+  );
+  const toPaths = redirects
+    .map((redirect) => redirect.to)
+    // We now allow "to" to contain any string
+    // We only do this "broken redirect" check from to that looks like pathnames
+    // note: we allow querystring/anchors
+    // See https://github.com/facebook/docusaurus/issues/6845
+    .map((to) => {
+      if (to.startsWith('/')) {
+        try {
+          return decodeURI(new URL(to, 'https://example.com').pathname);
+        } catch (e) {}
+      }
+      return undefined;
+    })
+    .filter((to): to is string => typeof to !== 'undefined');
+
   const trailingSlashConfig = pluginContext.siteConfig.trailingSlash;
   // Key is the path, value is whether a valid toPath with a different trailing
   // slash exists; if the key doesn't exist it means it's valid
@@ -103,7 +120,6 @@ function validateCollectedRedirects(
     }
   });
   if (differByTrailSlash.size > 0) {
-    console.log(differByTrailSlash);
     const errors = Array.from(differByTrailSlash.entries());
 
     let message =
