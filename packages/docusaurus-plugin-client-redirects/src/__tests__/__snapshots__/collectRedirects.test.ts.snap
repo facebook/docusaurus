@@ -5,6 +5,8 @@ exports[`collectRedirects throw if plugin option redirects contain invalid to pa
 
 These paths are redirected to but do not exist:
 - /this/path/does/not/exist2
+- /this/path/does/not/exist3
+- /this/path/does/not/exist4
 
 Valid paths you can redirect to:
 - /
