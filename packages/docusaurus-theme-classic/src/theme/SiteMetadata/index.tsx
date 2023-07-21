@@ -16,6 +16,7 @@ import {
   keyboardFocusedClassName,
 } from '@docusaurus/theme-common/internal';
 import {useLocation} from '@docusaurus/router';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import SearchMetadata from '@theme/SearchMetadata';
 
 // TODO move to SiteMetadataDefaults or theme-common ?
@@ -58,10 +59,19 @@ function AlternateLangHeaders(): JSX.Element {
 // Default canonical url inferred from current page location pathname
 function useDefaultCanonicalUrl() {
   const {
-    siteConfig: {url: siteUrl},
+    siteConfig: {url: siteUrl, baseUrl, trailingSlash},
   } = useDocusaurusContext();
+
+  // TODO using useLocation().pathname is not a super idea
+  // See https://github.com/facebook/docusaurus/issues/9170
   const {pathname} = useLocation();
-  return siteUrl + useBaseUrl(pathname);
+
+  const canonicalPathname = applyTrailingSlash(useBaseUrl(pathname), {
+    trailingSlash,
+    baseUrl,
+  });
+
+  return siteUrl + canonicalPathname;
 }
 
 // TODO move to SiteMetadataDefaults or theme-common ?
