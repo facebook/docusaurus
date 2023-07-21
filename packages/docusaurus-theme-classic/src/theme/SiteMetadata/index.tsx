@@ -16,6 +16,7 @@ import {
   keyboardFocusedClassName,
 } from '@docusaurus/theme-common/internal';
 import {useLocation} from '@docusaurus/router';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import SearchMetadata from '@theme/SearchMetadata';
 
 // TODO move to SiteMetadataDefaults or theme-common ?
@@ -58,12 +59,19 @@ function AlternateLangHeaders(): JSX.Element {
 // Default canonical url inferred from current page location pathname
 function useDefaultCanonicalUrl() {
   const {
-    siteConfig: {url: siteUrl, trailingSlash = false},
+    siteConfig: {url: siteUrl, baseUrl, trailingSlash},
   } = useDocusaurusContext();
+
+  // TODO using useLocation().pathname is not reliable to create a canonical url
+  // Ex: use CDN features so that 2 paths serve the same html file (/a and /b)
+  // Then we would obtain 2 distinct canonical urls after React hydration: bad
   const {pathname} = useLocation();
-  return (
-    siteUrl + useBaseUrl(pathname).replace(/\/+$/, trailingSlash ? '/' : '')
-  );
+
+  const canonicalPathname = applyTrailingSlash(useBaseUrl(pathname), {
+    trailingSlash,
+    baseUrl,
+  });
+  return siteUrl + canonicalPathname;
 }
 
 // TODO move to SiteMetadataDefaults or theme-common ?
