@@ -107,12 +107,31 @@ export async function defaultCreateFeedItems({
 
       const link = normalizeUrl([siteUrl, permalink]);
 
-      $(`div#${blogPostContainerID} a`).each((_, elm) => {
-        const {href} = elm.attribs;
-        if (href) {
-          elm.attribs.href = String(new URL(href, link));
-        }
-      });
+      $(`div#${blogPostContainerID} a, div#${blogPostContainerID} img`).each(
+        (_, elm) => {
+          if (elm.tagName === 'a') {
+            const {href} = elm.attribs;
+            if (href) {
+              elm.attribs.href = String(new URL(href, link));
+            }
+          } else if (elm.tagName === 'img') {
+            const {src, srcset} = elm.attribs;
+            if (src) {
+              elm.attribs.src = String(new URL(src, link));
+            }
+            if (srcset) {
+              elm.attribs.srcset = srcset
+                .split(',')
+                .map((s) => {
+                  const [imageURL, ...descriptors] = s.trim().split(/\s+/);
+                  const newImageURL = new URL(imageURL ?? '', link).href;
+                  return [newImageURL, ...descriptors].join(' ');
+                })
+                .join(', ');
+            }
+          }
+        },
+      );
 
       const feedItem: BlogFeedItem = {
         title: metadataTitle,
