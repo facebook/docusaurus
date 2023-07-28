@@ -24,9 +24,17 @@ import SearchMetadata from '@theme/SearchMetadata';
 // See https://github.com/facebook/docusaurus/issues/3317
 function AlternateLangHeaders(): JSX.Element {
   const {
-    i18n: {defaultLocale, localeConfigs},
+    i18n: {currentLocale, defaultLocale, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
+
+  const currentHtmlLang = localeConfigs[currentLocale]?.htmlLang;
+
+  // HTML lang is a BCP 47 tag, but the Open Graph protocol requires
+  // using underscores instead of dashes.
+  // See https://ogp.me/#optional
+  // See https://en.wikipedia.org/wiki/IETF_language_tag)
+  const bcp47ToLocale = (code: string): string => code.replace('-', '_');
 
   // Note: it is fine to use both "x-default" and "en" to target the same url
   // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
@@ -51,6 +59,19 @@ function AlternateLangHeaders(): JSX.Element {
         })}
         hrefLang="x-default"
       />
+
+      {currentHtmlLang && (
+        <meta property="og:locale" content={bcp47ToLocale(currentHtmlLang)} />
+      )}
+      {Object.values(localeConfigs)
+        .filter((config) => currentHtmlLang !== config.htmlLang)
+        .map((config) => (
+          <meta
+            key={`meta-og-${config.htmlLang}`}
+            property="og:locale:alternate"
+            content={bcp47ToLocale(config.htmlLang)}
+          />
+        ))}
     </Head>
   );
 }
