@@ -27,7 +27,7 @@ export default function BlogPostItemContainer({
       className={className}
       itemProp="blogPost"
       itemScope
-      itemType="http://schema.org/BlogPosting">
+      itemType="https://schema.org/BlogPosting">
       {description && <meta itemProp="description" content={description} />}
       {image && (
         <link itemProp="image" href={withBaseUrl(image, {absolute: true})} />
