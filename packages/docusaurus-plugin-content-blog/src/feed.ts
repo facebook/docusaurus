@@ -42,7 +42,12 @@ async function generateBlogFeed({
   const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
-  const updated = blogPosts[0]?.metadata.date;
+  const blogPostsForFeed =
+    feedOptions.limit === false || feedOptions.limit === null
+      ? blogPosts
+      : blogPosts.slice(0, feedOptions.limit);
+
+  const updated = blogPostsForFeed[0]?.metadata.date;
 
   const feed = new Feed({
     id: blogBaseUrl,
@@ -59,7 +64,7 @@ async function generateBlogFeed({
     options.feedOptions.createFeedItems ?? defaultCreateFeedItems;
 
   const feedItems = await createFeedItems({
-    blogPosts,
+    blogPosts: blogPostsForFeed,
     siteConfig,
     outDir,
     defaultCreateFeedItems,
