@@ -273,7 +273,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Allow control over the construction of BlogFeedItems */
     createFeedItems?: CreateFeedItemsFn;
     /** Limits the feed to the specified number of posts, false|null for all */
-    limit?: number | false | null = 20;
+    limit?: number | false | null;
   };
 
   type DefaultCreateFeedItemsParams = {
