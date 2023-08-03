@@ -116,13 +116,13 @@ async function defaultCreateFeedItems({
               elm.attribs.href = String(new URL(href, link));
             }
           } else if (elm.tagName === 'img') {
-            const {src, srcset} = elm.attribs;
+            const {src, srcset: srcsetAttr} = elm.attribs;
             if (src) {
               elm.attribs.src = String(new URL(src, link));
             }
-            if (srcset) {
-              elm.attribs.srcset = stringify(
-                parse(srcset).map((props) => ({
+            if (srcsetAttr) {
+              elm.attribs.srcset = srcset.stringify(
+                srcset.parse(srcsetAttr).map((props) => ({
                   ...props,
                   url: String(new URL(props.url, link)),
                 })),
