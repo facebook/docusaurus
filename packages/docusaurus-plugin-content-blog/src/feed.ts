@@ -44,7 +44,6 @@ async function generateBlogFeed({
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated = blogPosts[0]?.metadata.date;
-  console.log('==updated', updated);
   const feed = new Feed({
     id: blogBaseUrl,
     title: feedOptions.title ?? `${title} Blog`,
