@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {Feed, type Author as FeedAuthor} from 'feed';
+import {parse, stringify} from 'srcset';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
@@ -43,7 +44,7 @@ async function generateBlogFeed({
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated = blogPosts[0]?.metadata.date;
-
+  console.log('==updated', updated);
   const feed = new Feed({
     id: blogBaseUrl,
     title: feedOptions.title ?? `${title} Blog`,
@@ -120,14 +121,12 @@ export async function defaultCreateFeedItems({
               elm.attribs.src = String(new URL(src, link));
             }
             if (srcset) {
-              elm.attribs.srcset = srcset
-                .split(',')
-                .map((s) => {
-                  const [imageURL, ...descriptors] = s.trim().split(/\s+/);
-                  const newImageURL = new URL(imageURL ?? '', link).href;
-                  return [newImageURL, ...descriptors].join(' ');
-                })
-                .join(', ');
+              elm.attribs.srcset = stringify(
+                parse(srcset).map((props) => ({
+                  ...props,
+                  url: String(new URL(props.url, link)),
+                })),
+              );
             }
           }
         },
