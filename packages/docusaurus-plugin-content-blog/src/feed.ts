@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {Feed, type Author as FeedAuthor} from 'feed';
-import {parse, stringify} from 'srcset';
+import * as srcset from 'srcset';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
