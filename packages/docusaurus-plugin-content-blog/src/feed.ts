@@ -106,25 +106,30 @@ async function defaultCreateFeedItems({
       );
       const $ = cheerioLoad(content);
 
-      const link = normalizeUrl([siteUrl, permalink]);
+      const blogPostAbsoluteUrl = normalizeUrl([siteUrl, permalink]);
 
+      const toAbsoluteUrl = (src: string) =>
+        String(new URL(src, blogPostAbsoluteUrl));
+
+      // Make links and image urls absolute
+      // See https://github.com/facebook/docusaurus/issues/9136
       $(`div#${blogPostContainerID} a, div#${blogPostContainerID} img`).each(
         (_, elm) => {
           if (elm.tagName === 'a') {
             const {href} = elm.attribs;
             if (href) {
-              elm.attribs.href = String(new URL(href, link));
+              elm.attribs.href = toAbsoluteUrl(href);
             }
           } else if (elm.tagName === 'img') {
             const {src, srcset: srcsetAttr} = elm.attribs;
             if (src) {
-              elm.attribs.src = String(new URL(src, link));
+              elm.attribs.src = toAbsoluteUrl(src);
             }
             if (srcsetAttr) {
               elm.attribs.srcset = srcset.stringify(
                 srcset.parse(srcsetAttr).map((props) => ({
                   ...props,
-                  url: String(new URL(props.url, link)),
+                  url: toAbsoluteUrl(props.url),
                 })),
               );
             }
@@ -134,8 +139,8 @@ async function defaultCreateFeedItems({
 
       const feedItem: BlogFeedItem = {
         title: metadataTitle,
-        id: link,
-        link,
+        id: blogPostAbsoluteUrl,
+        link: blogPostAbsoluteUrl,
         date,
         description,
         // Atom feed demands the "term", while other feeds use "name"
