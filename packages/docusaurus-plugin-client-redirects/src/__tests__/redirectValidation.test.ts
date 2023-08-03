@@ -26,6 +26,18 @@ describe('validateRedirect', () => {
         from: '/fromSomePath',
         to: '/to/Some/Path',
       });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath?a=1',
+      });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath#anchor',
+      });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath?a=1&b=2#anchor',
+      });
     }).not.toThrow();
   });
 
@@ -39,29 +51,15 @@ describe('validateRedirect', () => {
 
     expect(() =>
       validateRedirect({
-        from: '/fromSomePath',
-        to: 'https://fb.com/toSomePath',
+        from: '/fromSomePath?a=1',
+        to: '/toSomePath',
       }),
     ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
-        from: '/fromSomePath',
-        to: '/toSomePath?queryString=xyz',
-      }),
-    ).toThrowErrorMatchingSnapshot();
-
-    expect(() =>
-      validateRedirect({
-        from: null as unknown as string,
-        to: '/toSomePath?queryString=xyz',
-      }),
-    ).toThrowErrorMatchingSnapshot();
-
-    expect(() =>
-      validateRedirect({
-        from: ['hey'] as unknown as string,
-        to: '/toSomePath?queryString=xyz',
+        from: '/fromSomePath#anchor',
+        to: '/toSomePath',
       }),
     ).toThrowErrorMatchingSnapshot();
   });

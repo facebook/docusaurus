@@ -6,7 +6,8 @@
   "types": "src/plugin-content-blog.d.ts",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "test:generate-build-snap": "yarn docusaurus build src/__tests__/__fixtures__/website --out-dir build-snap && yarn rimraf src/__tests__/__fixtures__/website/.docusaurus && yarn rimraf src/__tests__/__fixtures__/website/build-snap/assets && git add src/__tests__/__fixtures__/website/build-snap"
   },
   "repository": {
     "type": "git",

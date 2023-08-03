@@ -13,6 +13,7 @@ const VersionsArchived = require('./versionsArchived.json');
 const {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
+  dogfoodingRedirects,
 } = require('./_dogfooding/dogfooding.config');
 
 /** @type {Record<string,Record<string,string>>} */
@@ -260,6 +261,7 @@ module.exports = async function createConfigAsync() {
               from: ['/docs/resources', '/docs/next/resources'],
               to: '/community/resources',
             },
+            ...dogfoodingRedirects,
           ],
         }),
       ],

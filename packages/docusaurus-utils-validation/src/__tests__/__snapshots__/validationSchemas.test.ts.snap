@@ -30,9 +30,9 @@ exports[`validation schemas contentVisibilitySchema: for value={"unlisted":"bad 
 
 exports[`validation schemas contentVisibilitySchema: for value={"unlisted":42} 1`] = `""unlisted" must be a boolean"`;
 
-exports[`validation schemas pathnameSchema: for value="foo" 1`] = `""value" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
+exports[`validation schemas pathnameSchema: for value="foo" 1`] = `""value" (foo) is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
-exports[`validation schemas pathnameSchema: for value="https://github.com/foo" 1`] = `""value" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
+exports[`validation schemas pathnameSchema: for value="https://github.com/foo" 1`] = `""value" (https://github.com/foo) is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
 exports[`validation schemas pluginIdSchema: for value="/docs" 1`] = `"Illegal plugin ID value "/docs": it should only contain alphanumerics, underscores, and dashes."`;
 

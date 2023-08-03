@@ -100,3 +100,30 @@ const dogfoodingPluginInstances = [
 ];
 
 exports.dogfoodingPluginInstances = dogfoodingPluginInstances;
+
+exports.dogfoodingRedirects = [
+  {
+    from: ['/home/'],
+    to: '/',
+  },
+  {
+    from: ['/home/qs'],
+    to: '/?a=1',
+  },
+  {
+    from: ['/home/anchor'],
+    to: '/#anchor',
+  },
+  {
+    from: ['/home/absolute'],
+    to: 'https://docusaurus.io/',
+  },
+  {
+    from: ['/home/absolute/qs'],
+    to: 'https://docusaurus.io/?a=1',
+  },
+  {
+    from: ['/home/absolute/anchor'],
+    to: 'https://docusaurus.io/#anchor',
+  },
+];
