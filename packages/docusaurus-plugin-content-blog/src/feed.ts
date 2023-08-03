@@ -44,6 +44,7 @@ async function generateBlogFeed({
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated = blogPosts[0]?.metadata.date;
+
   const feed = new Feed({
     id: blogBaseUrl,
     title: feedOptions.title ?? `${title} Blog`,
@@ -70,7 +71,7 @@ async function generateBlogFeed({
   return feed;
 }
 
-export async function defaultCreateFeedItems({
+async function defaultCreateFeedItems({
   blogPosts,
   siteConfig,
   outDir,
