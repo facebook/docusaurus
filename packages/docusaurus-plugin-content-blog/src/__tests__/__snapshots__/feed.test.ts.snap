@@ -6,12 +6,29 @@ exports[`atom filters to the first two entries 1`] = `
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
-    <updated>2021-03-06T00:00:00.000Z</updated>
+    <updated>2023-07-23T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/myBaseUrl/blog"/>
     <subtitle>Hello Blog</subtitle>
     <icon>https://docusaurus.io/myBaseUrl/image/favicon.ico</icon>
     <rights>Copyright</rights>
+    <entry>
+        <title type="html"><![CDATA[test links]]></title>
+        <id>https://docusaurus.io/myBaseUrl/blog/blog-with-links</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/blog-with-links"/>
+        <updated>2023-07-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[absolute full url]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/myBaseUrl/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MDX Blog Sample with require calls]]></title>
         <id>https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post</id>
@@ -21,39 +38,9 @@ exports[`atom filters to the first two entries 1`] = `
         <content type="html"><![CDATA[<p>Test MDX with require calls</p>
 <!-- -->
 <!-- -->
-<img src="/img/test-image.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Full Blog Sample]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post"/>
-        <updated>2021-03-05T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[HTML Heading 1]]></summary>
-        <content type="html"><![CDATA[<h1>HTML Heading 1</h1>
-<h2>HTML Heading 2</h2>
-<p>HTML Paragraph</p>
-<!-- -->
-<!-- -->
-<p>Import DOM</p>
-<h1>Heading 1</h1>
-<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
-<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
-<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
-<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>
-<p><a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">link</a> <img loading="lazy" src="https://v2.docusaurus.io/" alt="image" class="img_yGFe"></p>]]></content>
+<img src="https://docusaurus.io/img/test-image.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content>
     </entry>
 </feed>",
 ]
@@ -65,12 +52,29 @@ exports[`atom filters to the first two entries using limit 1`] = `
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
-    <updated>2021-03-06T00:00:00.000Z</updated>
+    <updated>2023-07-23T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/myBaseUrl/blog"/>
     <subtitle>Hello Blog</subtitle>
     <icon>https://docusaurus.io/myBaseUrl/image/favicon.ico</icon>
     <rights>Copyright</rights>
+    <entry>
+        <title type="html"><![CDATA[test links]]></title>
+        <id>https://docusaurus.io/myBaseUrl/blog/blog-with-links</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/blog-with-links"/>
+        <updated>2023-07-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[absolute full url]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/myBaseUrl/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MDX Blog Sample with require calls]]></title>
         <id>https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post</id>
@@ -80,39 +84,9 @@ exports[`atom filters to the first two entries using limit 1`] = `
         <content type="html"><![CDATA[<p>Test MDX with require calls</p>
 <!-- -->
 <!-- -->
-<img src="/img/test-image.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Full Blog Sample]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post"/>
-        <updated>2021-03-05T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[HTML Heading 1]]></summary>
-        <content type="html"><![CDATA[<h1>HTML Heading 1</h1>
-<h2>HTML Heading 2</h2>
-<p>HTML Paragraph</p>
-<!-- -->
-<!-- -->
-<p>Import DOM</p>
-<h1>Heading 1</h1>
-<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
-<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
-<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
-<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>
-<p><a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">link</a> <img loading="lazy" src="https://v2.docusaurus.io/" alt="image" class="img_yGFe"></p>]]></content>
+<img src="https://docusaurus.io/img/test-image.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content>
     </entry>
 </feed>",
 ]
@@ -124,12 +98,29 @@ exports[`atom has feed item for each post 1`] = `
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
-    <updated>2021-03-06T00:00:00.000Z</updated>
+    <updated>2023-07-23T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/myBaseUrl/blog"/>
     <subtitle>Hello Blog</subtitle>
     <icon>https://docusaurus.io/myBaseUrl/image/favicon.ico</icon>
     <rights>Copyright</rights>
+    <entry>
+        <title type="html"><![CDATA[test links]]></title>
+        <id>https://docusaurus.io/myBaseUrl/blog/blog-with-links</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/blog-with-links"/>
+        <updated>2023-07-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[absolute full url]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/myBaseUrl/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MDX Blog Sample with require calls]]></title>
         <id>https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post</id>
@@ -139,9 +130,9 @@ exports[`atom has feed item for each post 1`] = `
         <content type="html"><![CDATA[<p>Test MDX with require calls</p>
 <!-- -->
 <!-- -->
-<img src="/img/test-image.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content>
+<img src="https://docusaurus.io/img/test-image.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Full Blog Sample]]></title>
@@ -156,10 +147,10 @@ exports[`atom has feed item for each post 1`] = `
 <!-- -->
 <p>Import DOM</p>
 <h1>Heading 1</h1>
-<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
-<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
-<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
-<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
+<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
+<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
+<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
+<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
 <ul>
 <li>list1</li>
 <li>list2</li>
@@ -238,21 +229,21 @@ exports[`json filters to the first two entries 1`] = `
     "description": "Hello Blog",
     "items": [
         {
+            "id": "https://docusaurus.io/myBaseUrl/blog/blog-with-links",
+            "content_html": "<p><a href=\\"https://github.com/facebook/docusaurus\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">absolute full url</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">absolute pathname</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">relative pathname</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">md link</a></p>/n<p><a href=\\"https://docusaurus.io/myBaseUrl/blog/blog-with-links#title\\">anchor</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title#title\\">relative pathname + anchor</a></p>/n<p><img loading=\\"lazy\\" src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\" width=\\"760\\" height=\\"160\\" class=\\"img_yGFe\\"></p>/n<p><img loading=\\"lazy\\" src=\\"https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg\\" alt=\\"\\" class=\\"img_yGFe\\"></p>/n<img srcset=\\"https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w\\">/n<img src=\\"https://docusaurus.io/img/test-image.png\\">",
+            "url": "https://docusaurus.io/myBaseUrl/blog/blog-with-links",
+            "title": "test links",
+            "summary": "absolute full url",
+            "date_modified": "2023-07-23T00:00:00.000Z",
+            "tags": []
+        },
+        {
             "id": "https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post",
-            "content_html": "<p>Test MDX with require calls</p>/n<!-- -->/n<!-- -->/n<img src=\\"/img/test-image.png\\">/n<img src=\\"/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">/n<img src=\\"/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">",
+            "content_html": "<p>Test MDX with require calls</p>/n<!-- -->/n<!-- -->/n<img src=\\"https://docusaurus.io/img/test-image.png\\">/n<img src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">/n<img src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">",
             "url": "https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post",
             "title": "MDX Blog Sample with require calls",
             "summary": "Test MDX with require calls",
             "date_modified": "2021-03-06T00:00:00.000Z",
-            "tags": []
-        },
-        {
-            "id": "https://docusaurus.io/myBaseUrl/blog/mdx-blog-post",
-            "content_html": "<h1>HTML Heading 1</h1>/n<h2>HTML Heading 2</h2>/n<p>HTML Paragraph</p>/n<!-- -->/n<!-- -->/n<p>Import DOM</p>/n<h1>Heading 1</h1>/n<h2 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-2\\">Heading 2<a href=\\"#heading-2\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 2\\" title=\\"Direct link to Heading 2\\">​</a></h2>/n<h3 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-3\\">Heading 3<a href=\\"#heading-3\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 3\\" title=\\"Direct link to Heading 3\\">​</a></h3>/n<h4 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-4\\">Heading 4<a href=\\"#heading-4\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 4\\" title=\\"Direct link to Heading 4\\">​</a></h4>/n<h5 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-5\\">Heading 5<a href=\\"#heading-5\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 5\\" title=\\"Direct link to Heading 5\\">​</a></h5>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>/n<p><a href=\\"https://v2.docusaurus.io/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">link</a> <img loading=\\"lazy\\" src=\\"https://v2.docusaurus.io/\\" alt=\\"image\\" class=\\"img_yGFe\\"></p>",
-            "url": "https://docusaurus.io/myBaseUrl/blog/mdx-blog-post",
-            "title": "Full Blog Sample",
-            "summary": "HTML Heading 1",
-            "date_modified": "2021-03-05T00:00:00.000Z",
             "tags": []
         }
     ]
@@ -269,21 +260,21 @@ exports[`json filters to the first two entries using limit 1`] = `
     "description": "Hello Blog",
     "items": [
         {
+            "id": "https://docusaurus.io/myBaseUrl/blog/blog-with-links",
+            "content_html": "<p><a href=\\"https://github.com/facebook/docusaurus\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">absolute full url</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">absolute pathname</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">relative pathname</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">md link</a></p>/n<p><a href=\\"https://docusaurus.io/myBaseUrl/blog/blog-with-links#title\\">anchor</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title#title\\">relative pathname + anchor</a></p>/n<p><img loading=\\"lazy\\" src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\" width=\\"760\\" height=\\"160\\" class=\\"img_yGFe\\"></p>/n<p><img loading=\\"lazy\\" src=\\"https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg\\" alt=\\"\\" class=\\"img_yGFe\\"></p>/n<img srcset=\\"https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w\\">/n<img src=\\"https://docusaurus.io/img/test-image.png\\">",
+            "url": "https://docusaurus.io/myBaseUrl/blog/blog-with-links",
+            "title": "test links",
+            "summary": "absolute full url",
+            "date_modified": "2023-07-23T00:00:00.000Z",
+            "tags": []
+        },
+        {
             "id": "https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post",
-            "content_html": "<p>Test MDX with require calls</p>/n<!-- -->/n<!-- -->/n<img src=\\"/img/test-image.png\\">/n<img src=\\"/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">/n<img src=\\"/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">",
+            "content_html": "<p>Test MDX with require calls</p>/n<!-- -->/n<!-- -->/n<img src=\\"https://docusaurus.io/img/test-image.png\\">/n<img src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">/n<img src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">",
             "url": "https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post",
             "title": "MDX Blog Sample with require calls",
             "summary": "Test MDX with require calls",
             "date_modified": "2021-03-06T00:00:00.000Z",
-            "tags": []
-        },
-        {
-            "id": "https://docusaurus.io/myBaseUrl/blog/mdx-blog-post",
-            "content_html": "<h1>HTML Heading 1</h1>/n<h2>HTML Heading 2</h2>/n<p>HTML Paragraph</p>/n<!-- -->/n<!-- -->/n<p>Import DOM</p>/n<h1>Heading 1</h1>/n<h2 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-2\\">Heading 2<a href=\\"#heading-2\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 2\\" title=\\"Direct link to Heading 2\\">​</a></h2>/n<h3 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-3\\">Heading 3<a href=\\"#heading-3\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 3\\" title=\\"Direct link to Heading 3\\">​</a></h3>/n<h4 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-4\\">Heading 4<a href=\\"#heading-4\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 4\\" title=\\"Direct link to Heading 4\\">​</a></h4>/n<h5 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-5\\">Heading 5<a href=\\"#heading-5\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 5\\" title=\\"Direct link to Heading 5\\">​</a></h5>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>/n<p><a href=\\"https://v2.docusaurus.io/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">link</a> <img loading=\\"lazy\\" src=\\"https://v2.docusaurus.io/\\" alt=\\"image\\" class=\\"img_yGFe\\"></p>",
-            "url": "https://docusaurus.io/myBaseUrl/blog/mdx-blog-post",
-            "title": "Full Blog Sample",
-            "summary": "HTML Heading 1",
-            "date_modified": "2021-03-05T00:00:00.000Z",
             "tags": []
         }
     ]
@@ -300,8 +291,17 @@ exports[`json has feed item for each post 1`] = `
     "description": "Hello Blog",
     "items": [
         {
+            "id": "https://docusaurus.io/myBaseUrl/blog/blog-with-links",
+            "content_html": "<p><a href=\\"https://github.com/facebook/docusaurus\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">absolute full url</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">absolute pathname</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">relative pathname</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title\\">md link</a></p>/n<p><a href=\\"https://docusaurus.io/myBaseUrl/blog/blog-with-links#title\\">anchor</a></p>/n<p><a href=\\"https://docusaurus.io/blog/heading-as-title#title\\">relative pathname + anchor</a></p>/n<p><img loading=\\"lazy\\" src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\" width=\\"760\\" height=\\"160\\" class=\\"img_yGFe\\"></p>/n<p><img loading=\\"lazy\\" src=\\"https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg\\" alt=\\"\\" class=\\"img_yGFe\\"></p>/n<img srcset=\\"https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w\\">/n<img src=\\"https://docusaurus.io/img/test-image.png\\">",
+            "url": "https://docusaurus.io/myBaseUrl/blog/blog-with-links",
+            "title": "test links",
+            "summary": "absolute full url",
+            "date_modified": "2023-07-23T00:00:00.000Z",
+            "tags": []
+        },
+        {
             "id": "https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post",
-            "content_html": "<p>Test MDX with require calls</p>/n<!-- -->/n<!-- -->/n<img src=\\"/img/test-image.png\\">/n<img src=\\"/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">/n<img src=\\"/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">",
+            "content_html": "<p>Test MDX with require calls</p>/n<!-- -->/n<!-- -->/n<img src=\\"https://docusaurus.io/img/test-image.png\\">/n<img src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">/n<img src=\\"https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png\\">",
             "url": "https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post",
             "title": "MDX Blog Sample with require calls",
             "summary": "Test MDX with require calls",
@@ -310,7 +310,7 @@ exports[`json has feed item for each post 1`] = `
         },
         {
             "id": "https://docusaurus.io/myBaseUrl/blog/mdx-blog-post",
-            "content_html": "<h1>HTML Heading 1</h1>/n<h2>HTML Heading 2</h2>/n<p>HTML Paragraph</p>/n<!-- -->/n<!-- -->/n<p>Import DOM</p>/n<h1>Heading 1</h1>/n<h2 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-2\\">Heading 2<a href=\\"#heading-2\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 2\\" title=\\"Direct link to Heading 2\\">​</a></h2>/n<h3 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-3\\">Heading 3<a href=\\"#heading-3\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 3\\" title=\\"Direct link to Heading 3\\">​</a></h3>/n<h4 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-4\\">Heading 4<a href=\\"#heading-4\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 4\\" title=\\"Direct link to Heading 4\\">​</a></h4>/n<h5 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-5\\">Heading 5<a href=\\"#heading-5\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 5\\" title=\\"Direct link to Heading 5\\">​</a></h5>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>/n<p><a href=\\"https://v2.docusaurus.io/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">link</a> <img loading=\\"lazy\\" src=\\"https://v2.docusaurus.io/\\" alt=\\"image\\" class=\\"img_yGFe\\"></p>",
+            "content_html": "<h1>HTML Heading 1</h1>/n<h2>HTML Heading 2</h2>/n<p>HTML Paragraph</p>/n<!-- -->/n<!-- -->/n<p>Import DOM</p>/n<h1>Heading 1</h1>/n<h2 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-2\\">Heading 2<a href=\\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-2\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 2\\" title=\\"Direct link to Heading 2\\">​</a></h2>/n<h3 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-3\\">Heading 3<a href=\\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-3\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 3\\" title=\\"Direct link to Heading 3\\">​</a></h3>/n<h4 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-4\\">Heading 4<a href=\\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-4\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 4\\" title=\\"Direct link to Heading 4\\">​</a></h4>/n<h5 class=\\"anchor anchorWithHideOnScrollNavbar_G5V2\\" id=\\"heading-5\\">Heading 5<a href=\\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-5\\" class=\\"hash-link\\" aria-label=\\"Direct link to Heading 5\\" title=\\"Direct link to Heading 5\\">​</a></h5>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<ul>/n<li>list1</li>/n<li>list2</li>/n<li>list3</li>/n</ul>/n<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>/n<p><a href=\\"https://v2.docusaurus.io/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">link</a> <img loading=\\"lazy\\" src=\\"https://v2.docusaurus.io/\\" alt=\\"image\\" class=\\"img_yGFe\\"></p>",
             "url": "https://docusaurus.io/myBaseUrl/blog/mdx-blog-post",
             "title": "Full Blog Sample",
             "summary": "HTML Heading 1",
@@ -386,11 +386,28 @@ exports[`rss filters to the first two entries 1`] = `
         <title>Hello Blog</title>
         <link>https://docusaurus.io/myBaseUrl/blog</link>
         <description>Hello Blog</description>
-        <lastBuildDate>Sat, 06 Mar 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 23 Jul 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[test links]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/blog-with-links</link>
+            <guid>https://docusaurus.io/myBaseUrl/blog/blog-with-links</guid>
+            <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[absolute full url]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/myBaseUrl/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[MDX Blog Sample with require calls]]></title>
             <link>https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post</link>
@@ -400,39 +417,9 @@ exports[`rss filters to the first two entries 1`] = `
             <content:encoded><![CDATA[<p>Test MDX with require calls</p>
 <!-- -->
 <!-- -->
-<img src="/img/test-image.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Full Blog Sample]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</link>
-            <guid>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</guid>
-            <pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[HTML Heading 1]]></description>
-            <content:encoded><![CDATA[<h1>HTML Heading 1</h1>
-<h2>HTML Heading 2</h2>
-<p>HTML Paragraph</p>
-<!-- -->
-<!-- -->
-<p>Import DOM</p>
-<h1>Heading 1</h1>
-<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
-<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
-<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
-<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>
-<p><a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">link</a> <img loading="lazy" src="https://v2.docusaurus.io/" alt="image" class="img_yGFe"></p>]]></content:encoded>
+<img src="https://docusaurus.io/img/test-image.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content:encoded>
         </item>
     </channel>
 </rss>",
@@ -447,11 +434,28 @@ exports[`rss filters to the first two entries using limit 1`] = `
         <title>Hello Blog</title>
         <link>https://docusaurus.io/myBaseUrl/blog</link>
         <description>Hello Blog</description>
-        <lastBuildDate>Sat, 06 Mar 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 23 Jul 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[test links]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/blog-with-links</link>
+            <guid>https://docusaurus.io/myBaseUrl/blog/blog-with-links</guid>
+            <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[absolute full url]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/myBaseUrl/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[MDX Blog Sample with require calls]]></title>
             <link>https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post</link>
@@ -461,39 +465,9 @@ exports[`rss filters to the first two entries using limit 1`] = `
             <content:encoded><![CDATA[<p>Test MDX with require calls</p>
 <!-- -->
 <!-- -->
-<img src="/img/test-image.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Full Blog Sample]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</link>
-            <guid>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</guid>
-            <pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[HTML Heading 1]]></description>
-            <content:encoded><![CDATA[<h1>HTML Heading 1</h1>
-<h2>HTML Heading 2</h2>
-<p>HTML Paragraph</p>
-<!-- -->
-<!-- -->
-<p>Import DOM</p>
-<h1>Heading 1</h1>
-<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
-<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
-<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
-<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<ul>
-<li>list1</li>
-<li>list2</li>
-<li>list3</li>
-</ul>
-<p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p>
-<p><a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">link</a> <img loading="lazy" src="https://v2.docusaurus.io/" alt="image" class="img_yGFe"></p>]]></content:encoded>
+<img src="https://docusaurus.io/img/test-image.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content:encoded>
         </item>
     </channel>
 </rss>",
@@ -508,11 +482,28 @@ exports[`rss has feed item for each post 1`] = `
         <title>Hello Blog</title>
         <link>https://docusaurus.io/myBaseUrl/blog</link>
         <description>Hello Blog</description>
-        <lastBuildDate>Sat, 06 Mar 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 23 Jul 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[test links]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/blog-with-links</link>
+            <guid>https://docusaurus.io/myBaseUrl/blog/blog-with-links</guid>
+            <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[absolute full url]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/myBaseUrl/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[MDX Blog Sample with require calls]]></title>
             <link>https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post</link>
@@ -522,9 +513,9 @@ exports[`rss has feed item for each post 1`] = `
             <content:encoded><![CDATA[<p>Test MDX with require calls</p>
 <!-- -->
 <!-- -->
-<img src="/img/test-image.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
-<img src="/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content:encoded>
+<img src="https://docusaurus.io/img/test-image.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">
+<img src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png">]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Full Blog Sample]]></title>
@@ -539,10 +530,10 @@ exports[`rss has feed item for each post 1`] = `
 <!-- -->
 <p>Import DOM</p>
 <h1>Heading 1</h1>
-<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
-<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
-<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
-<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
+<h2 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-2">Heading 2<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-2" class="hash-link" aria-label="Direct link to Heading 2" title="Direct link to Heading 2">​</a></h2>
+<h3 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-3">Heading 3<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-3" class="hash-link" aria-label="Direct link to Heading 3" title="Direct link to Heading 3">​</a></h3>
+<h4 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-4">Heading 4<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-4" class="hash-link" aria-label="Direct link to Heading 4" title="Direct link to Heading 4">​</a></h4>
+<h5 class="anchor anchorWithHideOnScrollNavbar_G5V2" id="heading-5">Heading 5<a href="https://docusaurus.io/myBaseUrl/blog/mdx-blog-post#heading-5" class="hash-link" aria-label="Direct link to Heading 5" title="Direct link to Heading 5">​</a></h5>
 <ul>
 <li>list1</li>
 <li>list2</li>

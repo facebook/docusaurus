@@ -2,12 +2,29 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog/</id>
     <title>Docusaurus blog website fixture Blog</title>
-    <updated>2021-03-06T00:00:00.000Z</updated>
+    <updated>2023-07-23T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/blog/"/>
     <subtitle>Docusaurus blog website fixture Blog</subtitle>
     <icon>https://docusaurus.io/img/docusaurus.ico</icon>
     <rights>Copyright</rights>
+    <entry>
+        <title type="html"><![CDATA[test links]]></title>
+        <id>https://docusaurus.io/blog/blog-with-links</id>
+        <link href="https://docusaurus.io/blog/blog-with-links"/>
+        <updated>2023-07-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[absolute full url]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MDX Blog Sample with require calls]]></title>
         <id>https://docusaurus.io/blog/mdx-require-blog-post</id>

@@ -4,11 +4,28 @@
         <title>Docusaurus blog website fixture Blog</title>
         <link>https://docusaurus.io/blog/</link>
         <description>Docusaurus blog website fixture Blog</description>
-        <lastBuildDate>Sat, 06 Mar 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 23 Jul 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[test links]]></title>
+            <link>https://docusaurus.io/blog/blog-with-links</link>
+            <guid>https://docusaurus.io/blog/blog-with-links</guid>
+            <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[absolute full url]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer">absolute full url</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">absolute pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">relative pathname</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title">md link</a></p>
+<p><a href="https://docusaurus.io/blog/blog-with-links#title">anchor</a></p>
+<p><a href="https://docusaurus.io/blog/heading-as-title#title">relative pathname + anchor</a></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/test-image-742d39e51f41482e8132e79c09ad4eea.png" width="760" height="160" class="img_yGFe"></p>
+<p><img loading="lazy" src="https://docusaurus.io/assets/images/slash-introducing-411a16dd05086935b8e9ddae38ae9b45.svg" alt="" class="img_yGFe"></p>
+<img srcset="https://docusaurus.io/img/test-image.png 300w, https://docusaurus.io/img/docusaurus-social-card.png 500w">
+<img src="https://docusaurus.io/img/test-image.png">]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[MDX Blog Sample with require calls]]></title>
             <link>https://docusaurus.io/blog/mdx-require-blog-post</link>
