@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Sahifa topilmadi",
+  "theme.IdealImageMessage.error": "Xatolik. Sahifani qayta ishga tushirish uchun tugmani bosing",
+  "theme.IdealImageMessage.load": "Qayta ishga tushirish uchun tugmani bosing {sizeMessage}",
+  "theme.IdealImageMessage.loading": "Yuklanmoqda...",
+  "theme.IdealImageMessage.offline": "Brauzeringiz oflayn. Rasm yuklanmadi"
+}
