@@ -152,6 +152,7 @@ jodyheavener
 joshcena
 jscodeshift
 jssdk
+juillet
 kaszubowski
 katex
 kato

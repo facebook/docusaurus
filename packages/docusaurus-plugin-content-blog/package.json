@@ -6,7 +6,8 @@
   "types": "src/plugin-content-blog.d.ts",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "test:generate-build-snap": "yarn docusaurus build src/__tests__/__fixtures__/website --out-dir build-snap && yarn rimraf src/__tests__/__fixtures__/website/.docusaurus && yarn rimraf src/__tests__/__fixtures__/website/build-snap/assets && git add src/__tests__/__fixtures__/website/build-snap"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",
     "reading-time": "^1.5.0",
+    "srcset": "^4.0.0",
     "tslib": "^2.6.0",
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",

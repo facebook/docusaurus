@@ -46,7 +46,7 @@ describe('validateOptions', () => {
     };
     expect(testValidate(userOptions)).toEqual({
       ...userOptions,
-      feedOptions: {type: ['rss'], title: 'myTitle', copyright: ''},
+      feedOptions: {type: ['rss'], title: 'myTitle', copyright: '', limit: 20},
     });
   });
 
@@ -58,7 +58,6 @@ describe('validateOptions', () => {
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
-        // @ts-expect-error: it seems to work in practice
         markdownPluginsObjectStub,
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
@@ -95,7 +94,7 @@ describe('validateOptions', () => {
       }),
     ).toEqual({
       ...defaultOptions,
-      feedOptions: {type: ['rss', 'atom', 'json'], copyright: ''},
+      feedOptions: {type: ['rss', 'atom', 'json'], copyright: '', limit: 20},
     });
   });
 
@@ -106,7 +105,7 @@ describe('validateOptions', () => {
       }),
     ).toEqual({
       ...defaultOptions,
-      feedOptions: {type: null},
+      feedOptions: {type: null, limit: 20},
     });
   });
 
@@ -125,7 +124,12 @@ describe('validateOptions', () => {
       }),
     ).toEqual({
       ...defaultOptions,
-      feedOptions: {type: ['rss', 'atom'], title: 'title', copyright: ''},
+      feedOptions: {
+        type: ['rss', 'atom'],
+        title: 'title',
+        copyright: '',
+        limit: 20,
+      },
     });
   });
 

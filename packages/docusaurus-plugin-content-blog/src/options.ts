@@ -22,7 +22,7 @@ import type {
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
-  feedOptions: {type: ['rss', 'atom'], copyright: ''},
+  feedOptions: {type: ['rss', 'atom'], copyright: '', limit: 20},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
@@ -123,6 +123,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     }),
     language: Joi.string(),
     createFeedItems: Joi.function(),
+    limit: Joi.alternatives()
+      .try(Joi.number(), Joi.valid(null), Joi.valid(false))
+      .default(DEFAULT_OPTIONS.feedOptions.limit),
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
