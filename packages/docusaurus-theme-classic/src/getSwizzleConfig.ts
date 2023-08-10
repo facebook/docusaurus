@@ -182,7 +182,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
           eject: 'safe',
           wrap: 'safe',
         },
-        description: "The footer component of you site's layout",
+        description: "The footer component of your site's layout",
       },
       'Footer/Copyright': {
         actions: {
