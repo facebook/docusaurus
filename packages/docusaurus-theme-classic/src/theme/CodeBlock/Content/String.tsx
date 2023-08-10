@@ -24,6 +24,13 @@ import type {Props} from '@theme/CodeBlock/Content/String';
 
 import styles from './styles.module.css';
 
+// Prism languages are always lowercase
+// We want to fail-safe and allow both "php" and "PHP"
+// See https://github.com/facebook/docusaurus/issues/9012
+function normalizeLanguage(language: string | undefined): string | undefined {
+  return language?.toLowerCase();
+}
+
 export default function CodeBlockString({
   children,
   className: blockClassName = '',
@@ -35,8 +42,10 @@ export default function CodeBlockString({
   const {
     prism: {defaultLanguage, magicComments},
   } = useThemeConfig();
-  const language =
-    languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage;
+  const language = normalizeLanguage(
+    languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage,
+  );
+
   const prismTheme = usePrismTheme();
   const wordWrap = useCodeWordWrap();
 
