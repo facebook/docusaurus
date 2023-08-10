@@ -176,7 +176,7 @@ export default function themeClassic(
 
     configureWebpack() {
       const prismLanguages = additionalLanguages
-        .map((lang) => `prism-${lang.toLowerCase()}`)
+        .map((lang) => `prism-${lang}`)
         .join('|');
 
       return {

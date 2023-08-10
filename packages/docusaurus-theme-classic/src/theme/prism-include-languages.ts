@@ -27,7 +27,7 @@ export default function prismIncludeLanguages(
 
   additionalLanguages.forEach((lang) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`prismjs/components/prism-${lang.toLowerCase()}`);
+    require(`prismjs/components/prism-${lang}`);
   });
 
   delete (globalThis as Optional<typeof globalThis, 'Prism'>).Prism;
