@@ -42,7 +42,7 @@ type SimpleProcessor = {
 const DEFAULT_OPTIONS: MDXOptions = {
   admonitions: true,
   rehypePlugins: [],
-  remarkPlugins: [emoji, headings, toc],
+  remarkPlugins: [headings, emoji, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
