@@ -172,6 +172,9 @@ export default function pluginContentPages(
               modules: {
                 content: source,
               },
+              // currently no way to get last modified date for pages
+              // we would have to refactor lastUpdate from docs
+              lastModified: undefined,
             });
           } else {
             addRoute({
@@ -181,6 +184,9 @@ export default function pluginContentPages(
               modules: {
                 config: `@generated/docusaurus.config`,
               },
+              // currently no way to get last modified date for pages
+              // would have to refactor lastUpdate from docs
+              lastModified: undefined,
             });
           }
         }),

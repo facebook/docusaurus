@@ -7,8 +7,9 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {docuHash, createSlugger, normalizeUrl} from '@docusaurus/utils';
+import {createSlugger, docuHash, normalizeUrl} from '@docusaurus/utils';
 import {
+  calculateLastModified,
   toTagDocListProp,
   toTagsListTagsProp,
   toVersionMetadataProp,
@@ -51,6 +52,9 @@ async function buildVersionCategoryGeneratedIndexRoutes({
       modules: {
         categoryGeneratedIndex: aliasedSource(propData),
       },
+      // no last modified for category generated indices yet,
+      // would need to get sidebar and find docs?
+      lastModified: undefined,
       // Same as doc, this sidebar route attribute permits to associate this
       // subpage to the given sidebar
       ...(sidebar && {sidebar}),
@@ -83,6 +87,7 @@ async function buildVersionDocRoutes({
         modules: {
           content: metadataItem.source,
         },
+        lastModified: calculateLastModified(metadataItem),
         // Because the parent (DocRoot) comp need to access it easily
         // This permits to render the sidebar once without unmount/remount when
         // navigating (and preserve sidebar state)
@@ -107,6 +112,10 @@ async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
     exact: false,
     component: param.options.docRootComponent,
     routes: subRoutes,
+    lastModified: compositeLastModified(
+      subRoutes,
+      (subRoute) => subRoute.lastModified,
+    ),
   };
 }
 
@@ -133,6 +142,9 @@ async function buildVersionTagsRoutes(
       modules: {
         tags: aliasedSource(tagsPropPath),
       },
+      // no last modified for tag list ATM
+      // we would need to get the last time a new tag was added
+      lastModified: undefined,
     };
   }
 
@@ -153,6 +165,10 @@ async function buildVersionTagsRoutes(
       modules: {
         tag: aliasedSource(tagPropPath),
       },
+      lastModified: compositeLastModified(
+        tagProps.items,
+        (doc) => doc.lastModified as Date,
+      ),
     };
   }
 
@@ -198,6 +214,10 @@ async function buildVersionRoutes(
         version: aliasedSource(versionPropPath),
       },
       priority: version.routePriority,
+      lastModified: compositeLastModified(
+        subRoutes,
+        (subRoute) => subRoute.lastModified,
+      ),
     };
   }
 
@@ -235,6 +255,10 @@ export async function buildAllRoutes(
       exact: false,
       component: param.options.docsRootComponent,
       routes: subRoutes,
+      lastModified: compositeLastModified(
+        subRoutes,
+        (subRoute) => subRoute.lastModified,
+      ),
     },
   ];
 }
@@ -252,4 +276,23 @@ export async function createAllRoutes(
 ): Promise<void> {
   const routes = await buildAllRoutes(param);
   routes.forEach(param.actions.addRoute);
+}
+
+function compositeLastModified<T>(
+  iterable: T[],
+  mapToLastModified: (item: T) => Date | undefined,
+): Date | undefined {
+  const lastModifieds = iterable.map(mapToLastModified);
+  let max;
+  // we only want a last modified date,
+  // if we can say with certainty that all changes are accounted.
+  for (const lastModified of lastModifieds) {
+    if (lastModified === undefined) {
+      return undefined;
+    }
+    if (max === undefined || lastModified > max) {
+      max = lastModified;
+    }
+  }
+  return max;
 }

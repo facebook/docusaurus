@@ -40,11 +40,11 @@ describe('truncate', () => {
 describe('paginateBlogPosts', () => {
   it('generates right pages', () => {
     const blogPosts = [
-      {id: 'post1', metadata: {}, content: 'Foo 1'},
-      {id: 'post2', metadata: {}, content: 'Foo 2'},
-      {id: 'post3', metadata: {}, content: 'Foo 3'},
-      {id: 'post4', metadata: {}, content: 'Foo 4'},
-      {id: 'post5', metadata: {}, content: 'Foo 5'},
+      {id: 'post1', metadata: {date: new Date(2023, 7, 1)}, content: 'Foo 1'},
+      {id: 'post2', metadata: {date: new Date(2023, 7, 2)}, content: 'Foo 2'},
+      {id: 'post3', metadata: {date: new Date(2023, 7, 3)}, content: 'Foo 3'},
+      {id: 'post4', metadata: {date: new Date(2023, 7, 4)}, content: 'Foo 4'},
+      {id: 'post5', metadata: {date: new Date(2023, 7, 5)}, content: 'Foo 5'},
     ] as BlogPost[];
     expect(
       paginateBlogPosts({

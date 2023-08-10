@@ -15,6 +15,12 @@ export type PluginOptions = {
   /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
   priority: number;
   /**
+   * Enables or disables generating lastmod; if set to `date`, lastmod will be
+   * truncated to date and not include the timestamp.
+   * @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions
+   */
+  lastmod: boolean | 'date';
+  /**
    * A list of glob patterns; matching route paths will be filtered from the
    * sitemap. Note that you may need to include the base URL in here.
    */
@@ -31,6 +37,7 @@ export type Options = Partial<PluginOptions>;
 export const DEFAULT_OPTIONS: PluginOptions = {
   changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
+  lastmod: true,
   ignorePatterns: [],
   filename: 'sitemap.xml',
 };
@@ -45,6 +52,10 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .valid(...Object.values(EnumChangefreq))
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
+  lastmod: Joi.alternatives().try(
+      Joi.boolean(),
+      Joi.string().valid('date'),
+    ).default(DEFAULT_OPTIONS.lastmod),
   ignorePatterns: Joi.array()
     .items(Joi.string())
     .default(DEFAULT_OPTIONS.ignorePatterns),

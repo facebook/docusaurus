@@ -62,6 +62,8 @@ export type RouteConfig = {
   exact?: boolean;
   /** Used to sort routes. Higher-priority routes will be placed first. */
   priority?: number;
+  /** Used for sitemap generation. Will be exposed in the lastmod tag. */
+  lastModified?: Date;
   /** Extra props; will be copied to routes.js. */
   [propName: string]: unknown;
 };

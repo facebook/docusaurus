@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
   normalizeUrl,
@@ -231,6 +232,8 @@ export default async function pluginContentBlog(
           modules: {
             archive: aliasedSource(archiveProp),
           },
+          lastModified: _.maxBy(blogPosts, (item) => item.metadata.date)
+            ?.metadata?.date,
         });
       }
 
@@ -272,6 +275,7 @@ export default async function pluginContentBlog(
               sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
             },
+            lastModified: metadata.date,
           });
 
           blogItemsToMetadata[id] = metadata;
@@ -297,6 +301,7 @@ export default async function pluginContentBlog(
               items: blogPostItemsModule(items),
               metadata: aliasedSource(pageMetadataPath),
             },
+            lastModified: metadata.latestModified,
           });
         }),
       );
@@ -319,6 +324,10 @@ export default async function pluginContentBlog(
             sidebar: aliasedSource(sidebarProp),
             tags: aliasedSource(tagsPropPath),
           },
+          lastModified: _.maxBy(
+            _.flatMap(blogTags, (item) => item.pages),
+            (item) => item.metadata?.latestModified,
+          )?.metadata?.latestModified,
         });
       }
 
@@ -346,6 +355,7 @@ export default async function pluginContentBlog(
                 tag: aliasedSource(tagPropPath),
                 listMetadata: aliasedSource(listMetadataPath),
               },
+              lastModified: metadata.latestModified,
             });
           }),
         );

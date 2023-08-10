@@ -200,6 +200,7 @@ export function toTagDocListProp({
       title: doc.title,
       description: doc.description,
       permalink: doc.permalink,
+      lastModified: calculateLastModified(doc),
     }));
   }
 
@@ -223,4 +224,19 @@ export function toTagsListTagsProp(
       permalink: tagValue.permalink,
       count: tagValue.docIds.length,
     }));
+}
+
+export function calculateLastModified({
+  frontMatter,
+  lastUpdatedAt,
+}: DocMetadata): Date | undefined {
+  const frontMatterLastUpdate = frontMatter?.last_update?.date;
+  if (frontMatterLastUpdate !== undefined) {
+    return typeof frontMatterLastUpdate === 'string'
+      ? new Date(frontMatterLastUpdate)
+      : frontMatterLastUpdate;
+  } else if (lastUpdatedAt !== undefined) {
+    return new Date(lastUpdatedAt * 1000);
+  }
+  return undefined;
 }

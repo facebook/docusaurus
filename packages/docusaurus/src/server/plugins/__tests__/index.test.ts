@@ -37,6 +37,7 @@ describe('loadPlugins', () => {
                     component: 'Comp',
                     modules: {content: 'path'},
                     context: {content: 'path'},
+                    lastModified: new Date('2023-08-03T00:00:00.000Z'),
                   });
                   actions.setGlobalData({content, prop: this.prop});
                 },

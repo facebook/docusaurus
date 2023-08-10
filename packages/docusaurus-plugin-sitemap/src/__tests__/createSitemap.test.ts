@@ -8,6 +8,7 @@
 import React from 'react';
 import {EnumChangefreq} from 'sitemap';
 import createSitemap from '../createSitemap';
+import generatedRoutes from "@generated/routes";
 import type {PluginOptions} from '../options';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
@@ -18,10 +19,12 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       ['/', '/test'],
+      generatedRoutes,
       {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
         filename: 'sitemap.xml',
       },
@@ -45,10 +48,12 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       ['/', '/404.html', '/my-page'],
+      generatedRoutes,
       {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
         filename: 'sitemap.xml',
       },
@@ -62,10 +67,12 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       ['/', '/search/', '/tags/', '/search/foo', '/tags/foo/bar'],
+      generatedRoutes,
       {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [
           // Shallow ignore
           '/search/',
@@ -87,19 +94,27 @@ describe('createSitemap', () => {
         trailingSlash: undefined,
       } as DocusaurusConfig,
       ['/', '/test', '/nested/test', '/nested/test2/'],
+      generatedRoutes,
       {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
         filename: 'sitemap.xml',
       },
     );
 
     expect(sitemap).toContain('<loc>https://example.com/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/test</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
+    expect(sitemap).toContain(
+      '<loc>https://example.com/test</loc><lastmod>2023-08-01T00:00:00.000Z</lastmod>',
+    );
+    expect(sitemap).toContain(
+      '<loc>https://example.com/nested/test</loc><lastmod>2023-08-09T00:00:00.000Z</lastmod>',
+    );
+    expect(sitemap).toContain(
+      '<loc>https://example.com/nested/test2/</loc><lastmod>2023-08-10T00:00:00.000Z</lastmod>',
+    );
   });
 
   it('add trailing slash', async () => {
@@ -109,19 +124,27 @@ describe('createSitemap', () => {
         trailingSlash: true,
       } as DocusaurusConfig,
       ['/', '/test', '/nested/test', '/nested/test2/'],
+      generatedRoutes,
       {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
         filename: 'sitemap.xml',
       },
     );
 
     expect(sitemap).toContain('<loc>https://example.com/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/test/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
+    expect(sitemap).toContain(
+      '<loc>https://example.com/test/</loc><lastmod>2023-08-01T00:00:00.000Z</lastmod>',
+    );
+    expect(sitemap).toContain(
+      '<loc>https://example.com/nested/test/</loc><lastmod>2023-08-09T00:00:00.000Z</lastmod>',
+    );
+    expect(sitemap).toContain(
+      '<loc>https://example.com/nested/test2/</loc><lastmod>2023-08-10T00:00:00.000Z</lastmod>',
+    );
   });
 
   it('remove trailing slash', async () => {
@@ -131,19 +154,27 @@ describe('createSitemap', () => {
         trailingSlash: false,
       } as DocusaurusConfig,
       ['/', '/test', '/nested/test', '/nested/test2/'],
+      generatedRoutes,
       {},
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
         filename: 'sitemap.xml',
       },
     );
 
     expect(sitemap).toContain('<loc>https://example.com/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/test</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test2</loc>');
+    expect(sitemap).toContain(
+      '<loc>https://example.com/test</loc><lastmod>2023-08-01T00:00:00.000Z</lastmod>',
+    );
+    expect(sitemap).toContain(
+      '<loc>https://example.com/nested/test</loc><lastmod>2023-08-09T00:00:00.000Z</lastmod>',
+    );
+    expect(sitemap).toContain(
+      '<loc>https://example.com/nested/test2</loc><lastmod>2023-08-10T00:00:00.000Z</lastmod>',
+    );
   });
 
   it('filters pages with noindex', async () => {
@@ -153,6 +184,7 @@ describe('createSitemap', () => {
         trailingSlash: false,
       } as DocusaurusConfig,
       ['/', '/noindex', '/nested/test', '/nested/test2/'],
+      generatedRoutes,
       {
         '/noindex': {
           meta: {
@@ -169,6 +201,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
       },
     );
@@ -183,6 +216,7 @@ describe('createSitemap', () => {
         trailingSlash: false,
       } as DocusaurusConfig,
       ['/', '/noindex'],
+      generatedRoutes,
       {
         '/': {
           meta: {
@@ -204,6 +238,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        lastmod: true,
         ignorePatterns: [],
       },
     );

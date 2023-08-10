@@ -24,6 +24,7 @@ stdout: ${res.stdout}`);
       silent: true,
     });
     shell.exec('git config user.name "Test"', {cwd: dir, silent: true});
+    shell.exec('git config commit.gpgsign false', {cwd: dir, silent: true});
 
     shell.exec('git commit --allow-empty -m "First commit"', {
       cwd: dir,

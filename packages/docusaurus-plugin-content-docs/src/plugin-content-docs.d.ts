@@ -557,7 +557,7 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type PropTagDocListDoc = Pick<
     DocMetadata,
-    'id' | 'title' | 'description' | 'permalink'
+    'id' | 'title' | 'description' | 'permalink' | 'lastModified'
   >;
   export type PropTagDocList = TagModule & {items: PropTagDocListDoc[]};
 

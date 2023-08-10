@@ -147,6 +147,7 @@ describe('loadRoutes', () => {
           path: '/docs/hello',
           component: '@theme/DocItem',
           exact: true,
+          lastModified: new Date(2023, 7, 1),
           modules: {
             content: 'docs/hello.md',
             metadata: 'docs-hello-da2.json',
@@ -159,6 +160,7 @@ describe('loadRoutes', () => {
         {
           path: 'docs/foo/baz',
           component: '@theme/DocItem',
+          lastModified: new Date(2023, 7, 2),
           modules: {
             content: 'docs/foo/baz.md',
             metadata: 'docs-foo-baz-dd9.json',
@@ -183,6 +185,7 @@ describe('loadRoutes', () => {
       path: '/blog',
       component: '@theme/BlogListPage',
       exact: true,
+      lastModified: new Date(2023, 7, 1),
       modules: {
         items: [
           {

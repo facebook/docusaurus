@@ -72,6 +72,7 @@ exports[`loadPlugins loads plugins 1`] = `
         },
         "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/test1/default/plugin-route-context-module-100.json",
       },
+      "lastModified": 2023-08-03T00:00:00.000Z,
       "modules": {
         "content": "path",
       },

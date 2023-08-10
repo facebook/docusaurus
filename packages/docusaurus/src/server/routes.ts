@@ -103,12 +103,14 @@ function serializeRouteConfig({
   routeHash,
   exact,
   subroutesCodeStrings,
+  lastModified,
   props,
 }: {
   routePath: string;
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
+  lastModified?: Date;
   props: {[propName: string]: unknown};
 }) {
   const parts = [
@@ -118,6 +120,10 @@ function serializeRouteConfig({
 
   if (exact) {
     parts.push(`exact: true`);
+  }
+
+  if (lastModified) {
+    parts.push(`lastModified: '${lastModified.toISOString()}'`);
   }
 
   if (subroutesCodeStrings) {
@@ -244,6 +250,7 @@ function genRouteCode(routeConfig: RouteConfig, res: LoadedRoutes): string {
     routes: subroutes,
     priority,
     exact,
+    lastModified,
     ...props
   } = routeConfig;
 
@@ -272,6 +279,7 @@ ${JSON.stringify(routeConfig)}`,
     routeHash,
     subroutesCodeStrings: subroutes?.map((r) => genRouteCode(r, res)),
     exact,
+    lastModified,
     props,
   });
 }

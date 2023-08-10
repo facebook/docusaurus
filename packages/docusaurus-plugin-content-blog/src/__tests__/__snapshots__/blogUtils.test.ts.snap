@@ -33,6 +33,7 @@ exports[`paginateBlogPosts generates right pages 1`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-02T00:00:00.000Z,
       "nextPage": "/blog/page/2",
       "page": 1,
       "permalink": "/blog",
@@ -50,6 +51,7 @@ exports[`paginateBlogPosts generates right pages 1`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-04T00:00:00.000Z,
       "nextPage": "/blog/page/3",
       "page": 2,
       "permalink": "/blog/page/2",
@@ -66,6 +68,7 @@ exports[`paginateBlogPosts generates right pages 1`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-05T00:00:00.000Z,
       "nextPage": undefined,
       "page": 3,
       "permalink": "/blog/page/3",
@@ -88,6 +91,7 @@ exports[`paginateBlogPosts generates right pages 2`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-02T00:00:00.000Z,
       "nextPage": "/page/2",
       "page": 1,
       "permalink": "/",
@@ -105,6 +109,7 @@ exports[`paginateBlogPosts generates right pages 2`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-04T00:00:00.000Z,
       "nextPage": "/page/3",
       "page": 2,
       "permalink": "/page/2",
@@ -121,6 +126,7 @@ exports[`paginateBlogPosts generates right pages 2`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-05T00:00:00.000Z,
       "nextPage": undefined,
       "page": 3,
       "permalink": "/page/3",
@@ -146,6 +152,7 @@ exports[`paginateBlogPosts generates right pages 3`] = `
     "metadata": {
       "blogDescription": "Blog Description",
       "blogTitle": "Blog Title",
+      "latestModified": 2023-08-05T00:00:00.000Z,
       "nextPage": undefined,
       "page": 1,
       "permalink": "/",

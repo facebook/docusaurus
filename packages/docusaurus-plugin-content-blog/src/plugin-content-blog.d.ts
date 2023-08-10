@@ -497,6 +497,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readonly totalCount: number;
     /** Total number of list pages. */
     readonly totalPages: number;
+    /** Latest modified date of posts on the current page. */
+    readonly latestModified?: Date;
   };
 
   export type BlogPaginated = {

@@ -78,10 +78,12 @@ export function paginateBlogPosts({
   }
 
   for (let page = 0; page < numberOfPages; page += 1) {
+    const blogPostsOnPage = blogPosts.slice(
+      page * postsPerPage,
+      (page + 1) * postsPerPage,
+    );
     pages.push({
-      items: blogPosts
-        .slice(page * postsPerPage, (page + 1) * postsPerPage)
-        .map((item) => item.id),
+      items: blogPostsOnPage.map((item) => item.id),
       metadata: {
         permalink: permalink(page),
         page: page + 1,
@@ -92,6 +94,8 @@ export function paginateBlogPosts({
         nextPage: page < numberOfPages - 1 ? permalink(page + 1) : undefined,
         blogDescription,
         blogTitle,
+        latestModified: _.maxBy(blogPostsOnPage, (item) => item.metadata.date)
+          ?.metadata?.date,
       },
     });
   }

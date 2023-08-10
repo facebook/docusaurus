@@ -19,6 +19,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-15T00:00:00.000Z,
           "nextPage": undefined,
           "page": 1,
           "permalink": "/blog/tags/tag-1",
@@ -47,6 +48,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-15T00:00:00.000Z,
           "nextPage": undefined,
           "page": 1,
           "permalink": "/blog/tags/tag-2",
@@ -73,6 +75,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-19T00:00:00.000Z,
           "nextPage": undefined,
           "page": 1,
           "permalink": "/blog/tags/unlisted",
@@ -107,6 +110,7 @@ exports[`blog plugin works with blog tags 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-15T00:00:00.000Z,
           "nextPage": "/blog/tags/tag-1/page/2",
           "page": 1,
           "permalink": "/blog/tags/tag-1",
@@ -123,6 +127,7 @@ exports[`blog plugin works with blog tags 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-15T00:00:00.000Z,
           "nextPage": undefined,
           "page": 2,
           "permalink": "/blog/tags/tag-1/page/2",
@@ -151,6 +156,7 @@ exports[`blog plugin works with blog tags 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-15T00:00:00.000Z,
           "nextPage": undefined,
           "page": 1,
           "permalink": "/blog/tags/tag-2",
@@ -177,6 +183,7 @@ exports[`blog plugin works with blog tags 1`] = `
         "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
+          "latestModified": 2020-08-19T00:00:00.000Z,
           "nextPage": undefined,
           "page": 1,
           "permalink": "/blog/tags/unlisted",

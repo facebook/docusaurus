@@ -6,10 +6,12 @@
  */
 
 import type {ReactElement} from 'react';
+import {matchRoutes, type RouteConfig as RRRouteConfig} from 'react-router-config';
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {createMatcher} from '@docusaurus/utils';
 import type {DocusaurusConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types/src/routing';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
 
@@ -50,6 +52,7 @@ function isNoIndexMetaRoute({
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
+  routes: RouteConfig[],
   head: {[location: string]: HelmetServerState},
   options: PluginOptions,
 ): Promise<string | null> {
@@ -75,9 +78,15 @@ export default async function createSitemap(
     return null;
   }
 
-  const sitemapStream = new SitemapStream({hostname});
+  function mapRoute(route: RouteConfig) : RRRouteConfig {
+    const { component, routes: originalRoutes, ...rrRoute } = route;
+    return { routes: originalRoutes?.map(mapRoute), ...rrRoute };
+  }
 
-  includedRoutes.forEach((routePath) =>
+  const sitemapStream = new SitemapStream({hostname, lastmodDateOnly: options.lastmod === 'date'});
+  const rrRoutes: RRRouteConfig[] = routes.map(mapRoute);
+
+  includedRoutes.forEach((routePath) => {
     sitemapStream.write({
       url: applyTrailingSlash(routePath, {
         trailingSlash: siteConfig.trailingSlash,
@@ -85,8 +94,14 @@ export default async function createSitemap(
       }),
       changefreq,
       priority,
-    }),
-  );
+      lastmod:
+        routes !== undefined && options.lastmod !== false
+          ? matchRoutes(rrRoutes, routePath).find(
+            ({route}) => route?.exact === true,
+          )?.route?.lastModified
+          : undefined,
+    });
+  });
 
   sitemapStream.end();
 
