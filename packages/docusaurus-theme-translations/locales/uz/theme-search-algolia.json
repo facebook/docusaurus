@@ -25,7 +25,7 @@
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Tarixdan yozuvni o'chirish",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Qidiruvingizni saqlang",
   "theme.SearchPage.algoliaLabel": "Algolia dan qidiruv",
-  "theme.SearchPage.documentsFound.plurals": "{hisob} hujjat|{hisoblash} hujjat|{hisoblash} hujjat",
+  "theme.SearchPage.documentsFound.plurals": "{count} hujjat|{count} ta hujjat|{count} ta hujjat",
   "theme.SearchPage.emptyResultsTitle": "Saytdan qidirish",
   "theme.SearchPage.existingResultsTitle": "“{query}” uchun qidiruv natijalari",
   "theme.SearchPage.fetchingNewResults": "Yangi qidiruv natijalari yuklanmoqda...",
