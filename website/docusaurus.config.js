@@ -164,15 +164,21 @@ module.exports = async function createConfigAsync() {
         // comments: false,
       },
       preprocessor: ({filePath, fileContent}) => {
+        let result = fileContent;
+
+        result = result.replaceAll('{/_', '{/*');
+        result = result.replaceAll('_/}', '*/}');
+
         if (isDev) {
           // "vscode://file/${projectPath}${filePath}:${line}:${column}",
           // "webstorm://open?file=${projectPath}${filePath}&line=${line}&column=${column}",
           const vscodeLink = `vscode://file/${filePath}`;
           const webstormLink = `webstorm://open?file=${filePath}`;
           const intellijLink = `idea://open?file=${filePath}`;
-          return `${fileContent}\n\n---\n\n**DEV**: open this file in [VSCode](<${vscodeLink}>) | [WebStorm](<${webstormLink}>) | [IntelliJ](<${intellijLink}>)\n`;
+          result = `${result}\n\n---\n\n**DEV**: open this file in [VSCode](<${vscodeLink}>) | [WebStorm](<${webstormLink}>) | [IntelliJ](<${intellijLink}>)\n`;
         }
-        return fileContent;
+
+        return result;
       },
     },
     onBrokenLinks: 'throw',
