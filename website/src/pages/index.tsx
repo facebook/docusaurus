@@ -31,10 +31,10 @@ function HeroBanner() {
     <div className={styles.hero} data-theme="dark">
       <div className={styles.heroInner}>
         <Heading as="h1" className={styles.heroProjectTagline}>
-          <img
+          <Image
             alt={translate({message: 'Docusaurus with Keytar'})}
             className={styles.heroLogo}
-            src={useBaseUrl('/img/docusaurus_keytar.svg')}
+            img={useBaseUrl('/img/docusaurus_keytar.svg')}
             width="200"
             height="200"
           />
@@ -190,12 +190,12 @@ function Feature({
 
   return (
     <div className={clsx('col', className)}>
-      <img
+      <Image
         className={styles.featureImage}
         alt={feature.title}
         width={Math.floor(feature.image.width)}
         height={Math.floor(feature.image.height)}
-        src={withBaseUrl(feature.image.src)}
+        img={withBaseUrl(feature.image.src)}
         loading="lazy"
       />
       <Heading as="h3" className={clsx(styles.featureHeading)}>

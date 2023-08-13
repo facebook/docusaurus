@@ -9,6 +9,7 @@ import React, {type ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
+import Image from '@theme/IdealImage';
 
 function WebsiteLink({to, children}: {to: string; children?: ReactNode}) {
   return (
@@ -40,9 +41,9 @@ function TeamProfileCard({
       <div className="card card--full-height">
         <div className="card__header">
           <div className="avatar avatar--vertical">
-            <img
+            <Image
               className="avatar__photo avatar__photo--xl"
-              src={`${githubUrl}.png`}
+              img={`${githubUrl}.png`}
               alt={`${name}'s avatar`}
             />
             <div className="avatar__intro">

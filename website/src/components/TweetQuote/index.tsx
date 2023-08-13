@@ -10,6 +10,7 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
+import Image from '@theme/IdealImage';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -37,10 +38,10 @@ export default function TweetQuote({
       <figcaption>
         <Link to={profileUrl} rel="nofollow">
           <div className="avatar">
-            <img
+            <Image
               alt={name}
               className={clsx('avatar__photo', styles.avatarImg)}
-              src={avatar}
+              img={avatar}
               // loading="lazy"
             />
             <div className={clsx('avatar__intro')}>

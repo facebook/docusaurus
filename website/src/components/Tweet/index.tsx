@@ -10,6 +10,7 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
+import Image from '@theme/IdealImage';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -33,10 +34,10 @@ export default function Tweet({
     <div className={clsx('card', styles.tweet)}>
       <div className="card__header">
         <div className="avatar">
-          <img
+          <Image
             alt={name}
             className="avatar__photo"
-            src={`https://unavatar.io/twitter/${handle}?fallback=https://github.com/${githubUsername}.png`}
+            img={`https://unavatar.io/twitter/${handle}?fallback=https://github.com/${githubUsername}.png`}
             width="48"
             height="48"
             loading="lazy"
