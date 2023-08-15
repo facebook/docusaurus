@@ -53,7 +53,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
   }, [location, history]);
 
   return (
-    <div className="row">
+    <div className="row" style={{alignItems: 'center'}}>
       <input
         type="checkbox"
         id={id}
