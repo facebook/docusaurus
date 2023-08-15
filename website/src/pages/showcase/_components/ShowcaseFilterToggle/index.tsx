@@ -9,6 +9,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
+import Translate from '@docusaurus/Translate';
 import {prepareUserState} from '../../index';
 
 import styles from './styles.module.css';
@@ -43,9 +44,16 @@ export default function ShowcaseFilterToggle(): JSX.Element {
       state: prepareUserState(),
     });
   }, [operator, location, history]);
+  const clearFilters = useCallback(() => {
+    history.push({
+      ...location,
+      search: '',
+      state: prepareUserState(),
+    });
+  }, [location, history]);
 
   return (
-    <div>
+    <div className="row">
       <input
         type="checkbox"
         id={id}
@@ -65,6 +73,14 @@ export default function ShowcaseFilterToggle(): JSX.Element {
         <span className={styles.checkboxLabelAnd}>AND</span>
         {/* eslint-enable @docusaurus/no-untranslated-text */}
       </label>
+      <button
+        className="button button--outline button--primary"
+        type="button"
+        onClick={() => {
+          clearFilters();
+        }}>
+        <Translate id="showcase.header.button">Clear Filters</Translate>
+      </button>
     </div>
   );
 }
