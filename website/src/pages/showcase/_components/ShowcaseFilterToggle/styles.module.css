@@ -14,7 +14,7 @@
   height: var(--height);
   position: relative;
   border-radius: var(--height);
-  border: var(--border) solid var(--ifm-color-primary-darkest);
+  border: var(--border) solid var(--ifm-color-primary);
   cursor: pointer;
   justify-content: space-around;
   opacity: 0.75;
@@ -36,7 +36,7 @@
   width: calc(var(--width) / 2);
   height: 100%;
   border-radius: var(--height);
-  background-color: var(--ifm-color-primary-darkest);
+  background-color: var(--ifm-color-primary);
   transition: transform var(--ifm-transition-fast)
     var(--ifm-transition-timing-default);
   transform: translateX(calc(var(--width) / 2 - var(--border)));
