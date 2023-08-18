@@ -565,7 +565,7 @@ export default async function init(
   code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}serve`}
     Serves the built website locally.
 
-  code=${`${pkgManager} ${useRunCommand ? 'run' : ''}deploy`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
