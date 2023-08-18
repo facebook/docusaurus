@@ -526,7 +526,11 @@ export default async function init(
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
       shell.exec(
-        pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install --color always`,
+        pkgManager === 'yarn'
+          ? 'yarn'
+          : pkgManager === 'bun'
+          ? 'bun install'
+          : `${pkgManager} install --color always`,
         {
           env: {
             ...process.env,
@@ -547,19 +551,21 @@ export default async function init(
   }
 
   const useNpm = pkgManager === 'npm';
+  const useBun = pkgManager === 'bun';
+  const useRunCommand = useNpm || useBun;
   logger.success`Created name=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}
     Starts the development server.
 
-  code=${`${pkgManager} ${useNpm ? 'run ' : ''}build`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}build`}
     Bundles your website into static files for production.
 
-  code=${`${pkgManager} ${useNpm ? 'run ' : ''}serve`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}serve`}
     Serves the built website locally.
 
-  code=${`${pkgManager} deploy`}
+  code=${`${pkgManager} ${useRunCommand ? 'run' : ''}deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
