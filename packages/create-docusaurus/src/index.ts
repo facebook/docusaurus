@@ -30,6 +30,7 @@ const lockfileNames = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
   pnpm: 'pnpm-lock.yaml',
+  bun: 'bun.lockb',
 };
 
 type PackageManager = keyof typeof lockfileNames;
@@ -57,11 +58,12 @@ function findPackageManagerFromUserAgent(): PackageManager | undefined {
 async function askForPackageManagerChoice(): Promise<PackageManager> {
   const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
   const hasPnpm = shell.exec('pnpm --version', {silent: true}).code === 0;
+  const hasBun = shell.exec('bun --version', {silent: true}).code === 0;
 
-  if (!hasYarn && !hasPnpm) {
+  if (!hasYarn && !hasPnpm && !hasBun) {
     return 'npm';
   }
-  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm']
+  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm', hasBun && 'bun']
     .filter((p): p is string => Boolean(p))
     .map((p) => ({title: p, value: p}));
 
