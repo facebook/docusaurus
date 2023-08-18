@@ -1543,15 +1543,6 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
-    title: 'QuestDB',
-    description:
-      'An open source SQL database designed to process time series data',
-    preview: require('./showcase/questdb.png'),
-    website: 'https://questdb.io',
-    source: 'https://github.com/questdb/questdb.io',
-    tags: ['opensource', 'favorite', 'design', 'large'],
-  },
-  {
     title: 'Quickwit',
     description:
       'The open source search engine on object storage with subsecond latency',
