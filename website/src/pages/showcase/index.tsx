@@ -259,7 +259,6 @@ function ShowcaseCards() {
           <Heading as="h2">
             <Translate id="showcase.usersList.noResult">No result</Translate>
           </Heading>
-          <SearchBar />
         </div>
       </section>
     );
@@ -282,7 +281,6 @@ function ShowcaseCards() {
                   </Translate>
                 </Heading>
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
-                <SearchBar />
               </div>
               <ul
                 className={clsx(
@@ -313,9 +311,7 @@ function ShowcaseCards() {
             className={clsx(
               'margin-bottom--md',
               styles.showcaseFavoriteHeader,
-            )}>
-            <SearchBar />
-          </div>
+            )} />
           <ul className={clsx('clean-list', styles.showcaseList)}>
             {filteredUsers.map((user) => (
               <ShowcaseCard key={user.title} user={user} />
@@ -333,6 +329,7 @@ export default function Showcase(): JSX.Element {
       <main className="margin-vert--lg">
         <ShowcaseHeader />
         <ShowcaseFilters />
+        <SearchBar />
         <ShowcaseCards />
       </main>
     </Layout>

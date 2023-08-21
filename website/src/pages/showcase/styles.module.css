@@ -48,6 +48,7 @@
 }
 
 .searchContainer input {
+  margin-left: 80%;
   height: 30px;
   border-radius: 15px;
   padding: 10px;
