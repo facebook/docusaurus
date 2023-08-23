@@ -174,7 +174,7 @@ async function createBlogFeedFile({
   feedType: FeedType;
   generatePath: string;
 }) {
-  const [feedContent, feedPath] = (() => {
+  const feedDetails = (() => {
     switch (feedType) {
       case 'rss':
         return [feed.rss2(), 'rss.xml'];
@@ -187,7 +187,20 @@ async function createBlogFeedFile({
     }
   })();
   try {
-    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
+    const xsltLink =
+      '<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>';
+
+    if (feedDetails[1] !== 'feed.json' && feedDetails[0]) {
+      feedDetails[0] = feedDetails[0]?.replace(
+        '<?xml version="1.0" encoding="utf-8"?>',
+        xsltLink,
+      );
+    }
+
+    await fs.outputFile(
+      path.join(generatePath, `${feedDetails[1]}`),
+      feedDetails[0],
+    );
   } catch (err) {
     logger.error(`Generating ${feedType} feed failed.`);
     throw err;

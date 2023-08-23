@@ -1,0 +1,35 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.markdown {
+  padding: 4rem;
+  margin: auto;
+  text-align: center;
+  /* stylelint-disable-next-line font-family-name-quotes */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
+  line-height: 1.65;
+}
+
+.col,
+.container {
+  padding: 0 var(--ifm-spacing-horizontal);
+  width: 100%;
+}
+
+.markdown li,
+body {
+  word-wrap: break-word;
+  list-style: none;
+}
+
+body,
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin: 0 auto;
+}

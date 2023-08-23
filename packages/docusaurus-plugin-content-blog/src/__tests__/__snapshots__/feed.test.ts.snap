@@ -2,7 +2,7 @@
 
 exports[`atom filters to the first two entries 1`] = `
 [
-  "<?xml version="1.0" encoding="utf-8"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -48,7 +48,7 @@ exports[`atom filters to the first two entries 1`] = `
 
 exports[`atom filters to the first two entries using limit 1`] = `
 [
-  "<?xml version="1.0" encoding="utf-8"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -94,7 +94,7 @@ exports[`atom filters to the first two entries using limit 1`] = `
 
 exports[`atom has feed item for each post 1`] = `
 [
-  "<?xml version="1.0" encoding="utf-8"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -380,7 +380,7 @@ exports[`json has feed item for each post 1`] = `
 
 exports[`rss filters to the first two entries 1`] = `
 [
-  "<?xml version="1.0" encoding="utf-8"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
@@ -428,7 +428,7 @@ exports[`rss filters to the first two entries 1`] = `
 
 exports[`rss filters to the first two entries using limit 1`] = `
 [
-  "<?xml version="1.0" encoding="utf-8"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
@@ -476,7 +476,7 @@ exports[`rss filters to the first two entries using limit 1`] = `
 
 exports[`rss has feed item for each post 1`] = `
 [
-  "<?xml version="1.0" encoding="utf-8"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
