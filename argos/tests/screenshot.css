@@ -13,6 +13,7 @@ article.yt-lite,
 .avatar__photo,
 img[src$='.gif'],
 h2#using-jsx-markup ~ div > div[class*='browserWindowBody']:has(b),
+.DocSearch-Button-Keys > kbd,
 [class*='playgroundPreview'] {
   visibility: hidden;
 }
@@ -22,5 +23,12 @@ Different docs last-update dates can alter layout
 "visibility: hidden" is not enough
  */
 .theme-last-updated {
+  display: none;
+}
+
+/*
+Mermaid diagrams are rendered client-side and produce layout shifts
+ */
+.docusaurus-mermaid-container {
   display: none;
 }
