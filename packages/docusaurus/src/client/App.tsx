@@ -23,7 +23,7 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 // TODO, quick fix for CSS insertion order
 // eslint-disable-next-line import/order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
-import {HasHydratedDataAttribute} from './hasHydratedDataAttribute';
+import HasHydratedDataAttribute from './hasHydratedDataAttribute';
 
 export default function App(): JSX.Element {
   const routeElement = renderRoutes(routes);

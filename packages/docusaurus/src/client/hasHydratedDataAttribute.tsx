@@ -11,7 +11,7 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 
 // See https://github.com/facebook/docusaurus/pull/9256
 // Docusaurus adds a <html data-has-hydrated="true"> after hydration
-export function HasHydratedDataAttribute(): JSX.Element {
+export default function HasHydratedDataAttribute(): JSX.Element {
   const isBrowser = useIsBrowser();
   return (
     <Head>
