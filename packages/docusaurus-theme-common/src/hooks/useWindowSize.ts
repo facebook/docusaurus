@@ -8,6 +8,7 @@
 import {useEffect, useState} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const windowSizes = {
   desktop: 'desktop',
@@ -17,13 +18,12 @@ const windowSizes = {
 
 type WindowSize = keyof typeof windowSizes;
 
-const DesktopThresholdWidth = 996;
-
-function getWindowSize() {
+function getWindowSize(desktopThresholdWidth = 996): WindowSize {
   if (!ExecutionEnvironment.canUseDOM) {
     return windowSizes.ssr;
   }
-  return window.innerWidth > DesktopThresholdWidth
+
+  return window.innerWidth > desktopThresholdWidth
     ? windowSizes.desktop
     : windowSizes.mobile;
 }
@@ -44,16 +44,18 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
  * catch potential layout shifts, similar to strict mode calling effects twice.
  */
 export function useWindowSize(): WindowSize {
+  const {siteConfig} = useDocusaurusContext();
+  const desktopThresholdWidth = siteConfig?.themeConfig?.breakpoints?.desktop;
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';
     }
-    return getWindowSize();
+    return getWindowSize(desktopThresholdWidth);
   });
 
   useEffect(() => {
     function updateWindowSize() {
-      setWindowSize(getWindowSize());
+      setWindowSize(getWindowSize(desktopThresholdWidth));
     }
 
     const timeout = DevSimulateSSR
