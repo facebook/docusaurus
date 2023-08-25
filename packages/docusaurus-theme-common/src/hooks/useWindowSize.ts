@@ -45,7 +45,7 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
  */
 export function useWindowSize(): WindowSize {
   const {siteConfig} = useDocusaurusContext();
-  const desktopThresholdWidth = siteConfig?.themeConfig?.breakpoints?.desktop;
+  const desktopThresholdWidth = siteConfig?.themeConfig?.breakpoints?.desktop ?? 996;
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';
