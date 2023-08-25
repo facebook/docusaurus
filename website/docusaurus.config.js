@@ -14,6 +14,7 @@ const versions = require('./versions.json');
 const VersionsArchived = require('./versionsArchived.json');
 const {
   dogfoodingPluginInstances,
+  dogFoodingThemeConfig,
   dogfoodingThemeInstances,
   dogfoodingRedirects,
 } = require('./_dogfooding/dogfooding.config');
@@ -450,6 +451,7 @@ module.exports = async function createConfigAsync() {
     themeConfig:
       /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
       ({
+        ...dogFoodingThemeConfig,
         liveCodeBlock: {
           playgroundPosition: 'bottom',
         },

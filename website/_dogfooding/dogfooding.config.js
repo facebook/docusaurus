@@ -5,6 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/** @type {import('@docusaurus/types').ThemeConfig} */
+const dogFoodingThemeConfig = {
+  breakpoints: {
+    desktop: 744,
+  }
+}
+exports.dogFoodingThemeConfig = dogFoodingThemeConfig;
+
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingThemeInstances = [
   /** @type {import('@docusaurus/types').PluginModule} */
