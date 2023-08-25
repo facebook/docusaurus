@@ -8,11 +8,11 @@
 import escapeHtml from 'escape-html';
 import type {Parent} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
   MdxJsxTextElement,
+  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
 
 export function stringifyContent(
@@ -42,7 +42,7 @@ function mdxJsxTextElementToHtml(
     attributes.find((attr) => attr.name === 'class');
 
   const classAttributeString = classAttribute
-    ? `class="${escapeHtml(classAttribute.value)}"`
+    ? `class="${escapeHtml(String(classAttribute.value))}"`
     : ``;
 
   const allAttributes = classAttributeString ? ` ${classAttributeString}` : '';
