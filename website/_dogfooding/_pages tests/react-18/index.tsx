@@ -11,7 +11,6 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 
 const HeavyComponentLazy = React.lazy(
-  // @ts-expect-error: not sure why TS is unhappy about this...
   () => import('./_components/heavyComponent'),
 );
 
