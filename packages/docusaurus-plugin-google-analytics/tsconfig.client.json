@@ -5,6 +5,7 @@
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
+    "moduleResolution": "bundler",
     "module": "esnext",
     "target": "esnext",
     "rootDir": "src",

@@ -891,7 +891,11 @@ declare module '@theme/MDXComponents' {
   import type Mermaid from '@theme/Mermaid';
   import type Head from '@docusaurus/Head';
 
-  export type MDXComponentsObject = {
+  import type {MDXProvider} from '@mdx-js/react';
+
+  type MDXComponentsBase = ComponentProps<typeof MDXProvider>['components'];
+
+  export type MDXComponentsObject = MDXComponentsBase & {
     readonly Head: typeof Head;
     readonly details: typeof MDXDetails;
 

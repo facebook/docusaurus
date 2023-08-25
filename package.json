@@ -72,7 +72,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^29.5.3",
-    "@types/lodash": "^4.14.195",
+    "@types/lodash": "^4.14.197",
     "@types/node": "^18.16.19",
     "@types/prompts": "^2.4.4",
     "@types/react": "^18.2.15",
@@ -116,6 +116,6 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "~5.0.4"
+    "typescript": "~5.2.2"
   }
 }

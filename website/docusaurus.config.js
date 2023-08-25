@@ -8,7 +8,9 @@
 
 const path = require('path');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+/** @type {Array<string>} */
 const versions = require('./versions.json');
+/** @type {Record<string,string>} */
 const VersionsArchived = require('./versionsArchived.json');
 const {
   dogfoodingPluginInstances,
