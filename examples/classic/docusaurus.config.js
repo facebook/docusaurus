@@ -133,9 +133,6 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
-      breakpoints: {
-        desktop: 744,
-      }
     }),
 };
 
