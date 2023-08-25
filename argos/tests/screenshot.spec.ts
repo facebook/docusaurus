@@ -13,6 +13,9 @@ const siteUrl = 'http://localhost:3000';
 const sitemapPath = '../website/build/sitemap.xml';
 const stylesheetPath = './tests/screenshot.css';
 
+// Use ONLY_PATH="/docs/installation" to debug a specific page
+const onlyPath: string | undefined = process.env.ONLY_PATH;
+
 // eslint-disable-next-line no-restricted-properties
 const sitemap = fs.readFileSync(sitemapPath).toString();
 // eslint-disable-next-line no-restricted-properties
@@ -28,6 +31,9 @@ function extractSitemapUrls() {
 }
 
 function isBlacklisted(pathname: string) {
+  if (onlyPath && onlyPath !== pathname) {
+    return true;
+  }
   // Some paths explicitly blacklisted
   const BlacklistedPathnames: string[] = [
     '/feature-requests', // Flaky because of Canny widget
@@ -75,10 +81,17 @@ function pathnameToArgosName(pathname: string): string {
   return pathname;
 }
 
+// See https://github.com/facebook/docusaurus/pull/9256
+// Docusaurus adds a <html data-has-hydrated="true">
+function waitForDocusaurusHydration() {
+  return document.documentElement.dataset.hasHydrated === 'true';
+}
+
 function createPathnameTest(pathname: string) {
   test(`pathname ${pathname}`, async ({page}) => {
     const url = siteUrl + pathname;
     await page.goto(url);
+    await page.waitForFunction(waitForDocusaurusHydration);
     await page.addStyleTag({content: stylesheet});
     // await expect(page).toHaveScreenshot({ fullPage: true, ...options });
     await argosScreenshot(page, pathnameToArgosName(pathname));
