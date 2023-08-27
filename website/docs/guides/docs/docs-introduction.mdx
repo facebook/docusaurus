@@ -47,16 +47,18 @@ Assume that you have the following in your configuration:
 module.exports = {
   // ...
   presets: [
-    '@docusaurus/preset-classic',
-    {
-      docs: {
-        /* docs plugin options */
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          /* docs plugin options */
+        },
+        blog: {
+          /* blog plugin options */
+        },
+        // ...
       },
-      blog: {
-        /* blog plugin options */
-      },
-      // ...
-    },
+    ],
   ],
 };
 ```
@@ -67,17 +69,19 @@ To enter docs-only mode, change it to like this:
 module.exports = {
   // ...
   presets: [
-    '@docusaurus/preset-classic',
-    {
-      docs: {
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          routeBasePath: '/', // Serve the docs at the site's root
+          /* other docs plugin options */
+        },
         // highlight-next-line
-        routeBasePath: '/', // Serve the docs at the site's root
-        /* other docs plugin options */
+        blog: false, // Optional: disable the blog plugin
+        // ...
       },
-      // highlight-next-line
-      blog: false, // Optional: disable the blog plugin
-      // ...
-    },
+    ],
   ],
 };
 ```
