@@ -72,20 +72,35 @@ function useCategoryHrefWithSSRFallback(
 }
 
 function CollapseButton({
+  isActive,
   categoryLabel,
   onClick,
 }: {
+  isActive: boolean;
   categoryLabel: string;
   onClick: ComponentProps<'button'>['onClick'];
 }) {
-  return (
+  return isActive ? (
     <button
       aria-label={translate(
         {
-          id: 'theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel',
-          message: "Toggle the collapsible sidebar category '{label}'",
-          description:
-            'The ARIA label to toggle the collapsible sidebar category',
+          id: 'theme.DocSidebarItem.collapseCategoryAriaLabel',
+          message: "Collapse sidebar category '{label}'",
+          description: 'The ARIA label to collapse the sidebar category',
+        },
+        {label: categoryLabel},
+      )}
+      type="button"
+      className="clean-btn menu__caret"
+      onClick={onClick}
+    />
+  ) : (
+    <button
+      aria-label={translate(
+        {
+          id: 'theme.DocSidebarItem.expandCategoryAriaLabel',
+          message: "Expand sidebar category '{label}'",
+          description: 'The ARIA label to expand the sidebar category',
         },
         {label: categoryLabel},
       )}
@@ -188,6 +203,7 @@ export default function DocSidebarItemCategory({
         </Link>
         {href && collapsible && (
           <CollapseButton
+            isActive={!collapsed}
             categoryLabel={label}
             onClick={(e) => {
               e.preventDefault();
