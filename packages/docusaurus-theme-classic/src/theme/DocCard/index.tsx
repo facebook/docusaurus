@@ -85,7 +85,7 @@ function CardCategory({
   return (
     <CardLayout
       href={href}
-      icon={item.customIcon || '🗃️'}
+      icon={(item.customProps?.customIcon as ReactNode) || '🗃️'}
       title={item.label}
       description={
         item.description ??
@@ -104,7 +104,10 @@ function CardCategory({
 }
 
 function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
-  const icon = item.customIcon || isInternalUrl(item.href) ? '📄️' : '🔗';
+  const icon =
+    (item.customProps?.customIcon as ReactNode) || isInternalUrl(item.href)
+      ? '📄️'
+      : '🔗';
   const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
