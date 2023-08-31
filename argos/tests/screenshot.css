@@ -52,8 +52,3 @@ Mermaid diagrams are rendered client-side and produce layout shifts
 article.yt-lite {
   visibility: hidden;
 }
-
-/* Can't remember why we need this one :/ */
-h2#using-jsx-markup ~ div > div[class*='browserWindowBody']:has(b) {
-  visibility: hidden;
-}
