@@ -80,30 +80,27 @@ function CollapseButton({
   categoryLabel: string;
   onClick: ComponentProps<'button'>['onClick'];
 }) {
-  return isActive ? (
+  return (
     <button
-      aria-label={translate(
-        {
-          id: 'theme.DocSidebarItem.collapseCategoryAriaLabel',
-          message: "Collapse sidebar category '{label}'",
-          description: 'The ARIA label to collapse the sidebar category',
-        },
-        {label: categoryLabel},
-      )}
-      type="button"
-      className="clean-btn menu__caret"
-      onClick={onClick}
-    />
-  ) : (
-    <button
-      aria-label={translate(
-        {
-          id: 'theme.DocSidebarItem.expandCategoryAriaLabel',
-          message: "Expand sidebar category '{label}'",
-          description: 'The ARIA label to expand the sidebar category',
-        },
-        {label: categoryLabel},
-      )}
+      aria-label={
+        isActive
+          ? translate(
+              {
+                id: 'theme.DocSidebarItem.collapseCategoryAriaLabel',
+                message: "Collapse sidebar category '{label}'",
+                description: 'The ARIA label to collapse the sidebar category',
+              },
+              {label: categoryLabel},
+            )
+          : translate(
+              {
+                id: 'theme.DocSidebarItem.expandCategoryAriaLabel',
+                message: "Expand sidebar category '{label}'",
+                description: 'The ARIA label to expand the sidebar category',
+              },
+              {label: categoryLabel},
+            )
+      }
       type="button"
       className="clean-btn menu__caret"
       onClick={onClick}
