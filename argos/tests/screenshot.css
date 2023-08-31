@@ -6,14 +6,22 @@
  */
 
 /*
-Hide some things in Argos screenshots because they are a source of flakiness
+We need to hide some elements in Argos/Playwright screenshots
+Those elements are source of flakiness due to nondeterministic rendering
+They don't consistently render exactly the same across CI runs
  */
+
+/******* DOCUSAURUS GLOBAL / THEME *******/
+
+/* Iframes can load lazily */
 iframe,
-article.yt-lite,
+/* Avatar images can be flaky due to using external sources: GitHub/Unavatar */
 .avatar__photo,
+/* Gifs load lazily and are animated */
 img[src$='.gif'],
-h2#using-jsx-markup ~ div > div[class*='browserWindowBody']:has(b),
+/* Algolia Keyboard shortcuts appear with a little delay */
 .DocSearch-Button-Keys > kbd,
+/* The live playground preview can often display dates/counters */
 [class*='playgroundPreview'] {
   visibility: hidden;
 }
@@ -31,4 +39,21 @@ Mermaid diagrams are rendered client-side and produce layout shifts
  */
 .docusaurus-mermaid-container {
   display: none;
+}
+
+/******* DOCUSAURUS WEBSITE SPECIFIC *******/
+
+/* ProductHunt vote counter can increment at any time */
+.producthunt-badge-widget {
+  visibility: hidden;
+}
+
+/* YouTube player lite can load video lazily */
+article.yt-lite {
+  visibility: hidden;
+}
+
+/* Can't remember why we need this one :/ */
+h2#using-jsx-markup ~ div > div[class*='browserWindowBody']:has(b) {
+  visibility: hidden;
 }
