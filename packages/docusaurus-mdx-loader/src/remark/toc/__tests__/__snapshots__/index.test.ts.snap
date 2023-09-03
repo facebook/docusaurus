@@ -171,6 +171,11 @@ exports[`toc remark plugin works on non text phrasing content 1`] = `
 		value: '<code>inline.code()</code>',
 		id: 'inlinecode',
 		level: 2
+	},
+	{
+		value: 'some <span class="some-class">styled</span> <strong>heading</strong> <span class="myClassName &lt;&gt; weird char"></span> test',
+		id: 'some-styled-heading--test',
+		level: 2
 	}
 ]
 
@@ -183,6 +188,8 @@ exports[`toc remark plugin works on non text phrasing content 1`] = `
 ## <i>HTML</i>
 
 ## \`inline.code()\`
+
+## some <span className="some-class" style={{border: "solid"}}>styled</span> <strong>heading</strong> <span class="myClass" className="myClassName <> weird char" data-random-attr="456" /> test
 "
 `;
 
