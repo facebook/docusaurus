@@ -420,6 +420,9 @@ module.exports = async function createConfigAsync() {
             feedOptions: {
               type: 'all',
               copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+              xsl: {
+                enable: true
+              }
             },
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',

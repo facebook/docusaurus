@@ -111,6 +111,11 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
       )
       .allow(null)
       .default(DEFAULT_OPTIONS.feedOptions.type),
+    xsl: Joi.object({
+      enable: Joi.boolean(),
+      atomStylesheet: Joi.string(),
+      rssStylesheet: Joi.string(),
+    }),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
     // Only add default value when user actually wants a feed (type is not null)

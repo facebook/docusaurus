@@ -20,6 +20,7 @@ import type {
   Author,
   BlogPost,
   BlogFeedItem,
+  IXslParams,
 } from '@docusaurus/plugin-content-blog';
 
 async function generateBlogFeed({
@@ -165,16 +166,127 @@ async function defaultCreateFeedItems({
   );
 }
 
+/**
+ * @description addXmlStyleSheet appends a xsl stylesheet to the generated xml feed
+ * @param feedDetails array containing blog feed content and name of file
+ * @param generatePath path where the file would be copied in website
+ */
+async function addXmlStyleSheet(
+  feedDetails: string[],
+  generatePath: string,
+  stylesheet: string,
+) {
+  const DEFAULT_RSS_FEED = 'rss-feed.xslt';
+  const DEFAULT_ATOM_FEED = 'atom-feed.xslt';
+
+  if (!feedDetails[0]) {
+    return feedDetails;
+  }
+
+  if (feedDetails[1] === 'rss.xml') {
+    let xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${DEFAULT_RSS_FEED}"?>`;
+
+    if (stylesheet) {
+      xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/${stylesheet}"?>`;
+    }
+
+    feedDetails[0] = feedDetails[0]?.replace(
+      '<?xml version="1.0" encoding="utf-8"?>',
+      xsltLink,
+    );
+
+    const rssXsltSourceFilePath = path.join(
+      __dirname,
+      '../assets/rss-feed.xslt',
+    );
+    const rssStylesheetSourceFilePath = path.join(
+      __dirname,
+      '../assets/rss-feed.stylesheet.css',
+    );
+
+    const rssXsltDestinationFilePath = path.join(generatePath, 'rss-feed.xslt');
+    const rssStylesheetDestinationFilePath = path.join(
+      generatePath,
+      'rss-feed.stylesheet.css',
+    );
+
+    // output rss xslt file to website
+    fs.readFile(rssXsltSourceFilePath, 'utf8').then((xsltContent) =>
+      fs.outputFile(rssXsltDestinationFilePath, xsltContent, 'utf-8'),
+    );
+
+    // output rss stylesheet to website
+    fs.readFile(rssStylesheetSourceFilePath, 'utf8').then(
+      (stylesheetContent) => {
+        fs.outputFile(
+          rssStylesheetDestinationFilePath,
+          stylesheetContent,
+          'utf-8',
+        );
+      },
+    );
+  } else if (feedDetails[1] === 'atom.xml') {
+    let xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${DEFAULT_ATOM_FEED}"?>`;
+
+    if (stylesheet) {
+      xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/${stylesheet}"?>`;
+    }
+
+    feedDetails[0] = feedDetails[0]?.replace(
+      '<?xml version="1.0" encoding="utf-8"?>',
+      xsltLink,
+    );
+
+    const atomXsltSourceFilePath = path.join(
+      __dirname,
+      '../assets/atom-feed.xslt',
+    );
+    const atomStylesheetSourceFilePath = path.join(
+      __dirname,
+      '../assets/atom-feed.stylesheet.css',
+    );
+
+    const atomXsltDestinationFilePath = path.join(
+      generatePath,
+      'atom-feed.xslt',
+    );
+    const atomStylesheetDestinationFilePath = path.join(
+      generatePath,
+      'atom-feed.stylesheet.css',
+    );
+
+    // output rss xslt file to website
+    fs.readFile(atomXsltSourceFilePath, 'utf8').then((xsltContent) =>
+      fs.outputFile(atomXsltDestinationFilePath, xsltContent, 'utf-8'),
+    );
+
+    // output rss stylesheet to website
+    fs.readFile(atomStylesheetSourceFilePath, 'utf8').then(
+      (stylesheetContent) => {
+        fs.outputFile(
+          atomStylesheetDestinationFilePath,
+          stylesheetContent,
+          'utf-8',
+        );
+      },
+    );
+  }
+
+  return feedDetails;
+}
+
 async function createBlogFeedFile({
   feed,
   feedType,
   generatePath,
+  addXSL,
 }: {
   feed: Feed;
   feedType: FeedType;
   generatePath: string;
+  addXSL?: IXslParams;
 }) {
-  const feedDetails = (() => {
+  let feedDetails = (() => {
     switch (feedType) {
       case 'rss':
         return [feed.rss2(), 'rss.xml'];
@@ -187,13 +299,13 @@ async function createBlogFeedFile({
     }
   })();
   try {
-    const xsltLink =
-      '<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/rss.xslt"?>';
-
-    if (feedDetails[1] !== 'feed.json' && feedDetails[0]) {
-      feedDetails[0] = feedDetails[0]?.replace(
-        '<?xml version="1.0" encoding="utf-8"?>',
-        xsltLink,
+    if (addXSL?.enable) {
+      feedDetails = await addXmlStyleSheet(
+        feedDetails,
+        generatePath,
+        feedDetails[1] === 'atom.xml'
+          ? addXSL.atomStylesheet
+          : addXSL.rssStylesheet,
       );
     }
 
@@ -248,6 +360,7 @@ export async function createBlogFeedFiles({
         feed,
         feedType,
         generatePath: path.join(outDir, options.routeBasePath),
+        addXSL: options.feedOptions.xsl,
       }),
     ),
   );
