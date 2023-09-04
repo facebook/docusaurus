@@ -5,10 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useSyncExternalStore} from 'react';
 import {useHistory} from '@docusaurus/router';
-// @ts-expect-error: TODO temporary until React 18 upgrade
-import {useSyncExternalStore} from 'use-sync-external-store/shim';
 import {useEvent} from './reactUtils';
 
 import type {History, Location, Action} from 'history';
