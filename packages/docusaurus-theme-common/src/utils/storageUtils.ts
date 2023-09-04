@@ -224,7 +224,13 @@ export function useStorageSlot(
 
   const currentValue = useSyncExternalStore(
     listen,
-    () => storageSlot.get(),
+    () => {
+      // TODO this check should be useless after React 18
+      if (typeof window === 'undefined') {
+        return null;
+      }
+      return storageSlot.get();
+    },
     () => null,
   );
 
