@@ -5,9 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useRef} from 'react';
-// @ts-expect-error: TODO temp error until React 18 upgrade
-import {useSyncExternalStore} from 'use-sync-external-store/shim';
+import {useCallback, useRef, useSyncExternalStore} from 'react';
 
 const StorageTypes = ['localStorage', 'sessionStorage', 'none'] as const;
 
@@ -226,13 +224,7 @@ export function useStorageSlot(
 
   const currentValue = useSyncExternalStore(
     listen,
-    () => {
-      // TODO this check should be useless after React 18
-      if (typeof window === 'undefined') {
-        return null;
-      }
-      return storageSlot.get();
-    },
+    () => storageSlot.get(),
     () => null,
   );
 
