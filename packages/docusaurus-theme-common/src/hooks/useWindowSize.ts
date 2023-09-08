@@ -8,7 +8,6 @@
 import {useEffect, useState} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const windowSizes = {
   desktop: 'desktop',
@@ -43,9 +42,7 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
  * In development mode, this hook will still return `"ssr"` for one second, to
  * catch potential layout shifts, similar to strict mode calling effects twice.
  */
-export function useWindowSize(): WindowSize {
-  const {siteConfig} = useDocusaurusContext();
-  const desktopThresholdWidth = siteConfig?.themeConfig?.breakpoints?.desktop ?? 996;
+export function useWindowSize(desktopThresholdWidth = 996): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';
@@ -68,7 +65,7 @@ export function useWindowSize(): WindowSize {
       window.removeEventListener('resize', updateWindowSize);
       clearTimeout(timeout);
     };
-  }, []);
+  }, [desktopThresholdWidth]);
 
   return windowSize;
 }

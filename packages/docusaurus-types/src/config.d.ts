@@ -14,10 +14,6 @@ export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 export type ThemeConfig = {
   [key: string]: unknown;
-  breakpoints?: {
-    desktop?: number;
-    [key: string]: unknown;
-  }
 };
 
 export type MarkdownPreprocessor = (args: {
