@@ -1,0 +1,29 @@
+---
+authors:
+  - slorber
+tags: [release]
+slug: /upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing
+# image: ./img/social-card.png
+---
+
+# Upgrading frontend dependencies with confidence
+
+Frontend developers need to keep their npm dependencies up to date. But those updates can feel scary, and lead to subtle unintended UI side effects that are not detected by your CI and your regular test suite.
+
+Upgrading Docusaurus is a good example: without reviewing all the pages of your upgraded site one by one, it's hard to be sure there's no visual regression.
+
+This article introduces a **visual regression testing** workflow based on [Playwright](https://playwright.dev/) and [Argos CI](https://argos-ci.com/). It is not coupled to Docusaurus, and can be adapted to other frontend applications and frameworks.
+
+This workflow has been tested in particular to upgrade Docusaurus v2 to v3, and helped catch a few visual regressions on sites such as [React-Native](https://reactnative.dev/), [Jest](https://jestjs.io/) and [Docusaurus](https://docusaurus.io/) itself. Docusaurus v3 is around the corner and comes with infrastructure changes such as MDX v2 and React 18, which can produce such side effects. For this reason I encourage site owners to consider adopting visual regression tests.
+
+<!--truncate-->
+
+## Workflow overview
+
+The general idea is pretty simple:
+
+- Build your site in CI
+- Take screenshots of all your `sitemap.xml` pages with [Playwright](https://playwright.dev/)
+- Upload them to [Argos CI](https://argos-ci.com/)
+- Do this for both Git branches `main` and `pr-branch`
+- Compare the screenshots side by side in [Argos CI](https://argos-ci.com/)
