@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Create a Document
+# Create a Docusaurus document
 
 Documents are **groups of pages** connected through:
 
