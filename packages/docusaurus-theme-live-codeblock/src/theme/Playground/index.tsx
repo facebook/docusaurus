@@ -13,13 +13,12 @@ import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {
-  ErrorBoundaryTryAgainButton,
+  ErrorBoundaryErrorMessageFallback,
   usePrismTheme,
 } from '@docusaurus/theme-common';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
 import type {Props} from '@theme/Playground';
-import type {Props as ErrorProps} from '@theme/Error';
 import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
 import styles from './styles.module.css';
@@ -34,15 +33,6 @@ function LivePreviewLoader() {
   return <div>Loading...</div>;
 }
 
-function ErrorFallback({error, tryAgain}: ErrorProps): JSX.Element {
-  return (
-    <div className={styles.errorFallback}>
-      <p>{error.message}</p>
-      <ErrorBoundaryTryAgainButton onClick={tryAgain} />
-    </div>
-  );
-}
-
 function Preview() {
   // No SSR for the live preview
   // See https://github.com/facebook/docusaurus/issues/5747
@@ -50,7 +40,10 @@ function Preview() {
     <BrowserOnly fallback={<LivePreviewLoader />}>
       {() => (
         <>
-          <ErrorBoundary fallback={(params) => <ErrorFallback {...params} />}>
+          <ErrorBoundary
+            fallback={(params) => (
+              <ErrorBoundaryErrorMessageFallback {...params} />
+            )}>
             <LivePreview />
           </ErrorBoundary>
           <LiveError />
