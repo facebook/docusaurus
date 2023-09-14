@@ -19,13 +19,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The folder containing all admonition icons',
       },
-      'Admonition/Icon/Caution': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description: 'The admonition caution icon',
-      },
       'Admonition/Icon/Danger': {
         actions: {
           eject: 'safe',
