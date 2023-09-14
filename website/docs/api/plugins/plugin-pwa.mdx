@@ -90,7 +90,7 @@ By default, offline mode is enabled when the site is installed as an app. See th
 
 After the site has been precached, the service worker will serve cached responses for later visits. When a new build is deployed along with a new service worker, the new one will begin installing and eventually move to a waiting state. During this waiting state, a reload popup will show and ask the user to reload the page for new content. Until the user either clears the application cache or clicks the `reload` button on the popup, the service worker will continue serving the old content.
 
-:::caution
+:::warning
 
 Offline mode / precaching requires downloading all the static assets of the site ahead of time, and can consume unnecessary bandwidth. It may not be a good idea to activate it for all kind of sites.
 
@@ -124,7 +124,7 @@ Strategies used to turn the offline mode on:
 - `saveData`: activates for users with `navigator.connection.saveData === true`
 - `always`: activates for all users
 
-:::caution
+:::warning
 
 Use this carefully: some users may not like to be forced to use the offline mode.
 

@@ -80,7 +80,7 @@ Because a Prism theme is just a JS object, you can also write your own theme if 
 
 By default, Docusaurus comes with a subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/packages/generate-prism-languages/index.ts#L9-L23).
 
-:::caution
+:::warning
 
 Some popular languages like Java, C#, or PHP are not enabled by default.
 
@@ -512,7 +512,7 @@ function Clock(props) {
 
 ### Imports {#imports}
 
-:::caution react-live and imports
+:::warning react-live and imports
 
 It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.
 
@@ -644,13 +644,13 @@ If you want to embed HTML markup such as anchor links or bold type, you can use 
   </pre>
 </BrowserWindow>
 
-:::caution MDX is whitespace insensitive
+:::warning MDX is whitespace insensitive
 
 MDX is in line with JSX behavior: line break characters, even when inside `<pre>`, are turned into spaces. You have to explicitly write the new line character for it to be printed out.
 
 :::
 
-:::caution
+:::warning
 
 Syntax highlighting only works on plain strings. Docusaurus will not attempt to parse code block content containing JSX children.
 

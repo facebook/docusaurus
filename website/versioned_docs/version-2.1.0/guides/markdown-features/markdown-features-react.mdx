@@ -72,7 +72,7 @@ I can write **Markdown** alongside my _JSX_!
 </BrowserWindow>
 ```
 
-:::caution MDX is JSX
+:::warning MDX is JSX
 
 Since all doc files are parsed using MDX, anything that looks like HTML is actually JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects.
 
@@ -202,7 +202,7 @@ From MDX v2+ onward (Docusaurus v3+), lower-case tag names are always rendered a
 
 :::
 
-:::caution
+:::warning
 
 This feature is powered by [a wrapper provider](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/advanced/components#mdxprovider). If you are importing Markdown in a React page, you have to supply this provider yourself through the `MDXContent` theme component.
 
@@ -525,7 +525,7 @@ import PartialExample from './_markdown-partial-example.mdx';
 
 This way, you can reuse content among multiple pages and avoid duplicating materials.
 
-:::caution
+:::warning
 
 Currently, the table of contents does not contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
 

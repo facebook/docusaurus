@@ -88,7 +88,7 @@ Please help us complete those **[default translations](https://github.com/facebo
 
 :::
 
-:::caution
+:::warning
 
 Each locale is a **distinct standalone single-page application**: it is not possible to start the Docusaurus sites in all locales at the same time.
 
@@ -115,7 +115,7 @@ Locate all text labels in your React code that will be visible to your users, an
 
 Use the one that better fits the context semantically. For example, the `<Translate>` can be used as React children, while for props that expect a string, the callback can be used.
 
-:::caution
+:::warning
 
 A JSX element is an _object_, not a string. Using it in contexts expecting strings (such as the children of [`<option>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option)) would [coerce it to a string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString), which returns `"[object Object]"`. While we encourage you to use `<Translate>` as JSX children, only use the element form when it actually works.
 
@@ -224,7 +224,7 @@ Most documentation websites are generally **static** and don't need advanced i18
 
 The `docusaurus write-translations` command will statically analyze all React code files used in your site, extract calls to these APIs, and aggregate them in the `code.json` file. The translation files will be stored as maps from IDs to translation message objects (including the translated label and the description of the label). In your calls to the translation APIs (`<Translate>` or `translate()`), you need to specify either the default untranslated message or the ID, in order for Docusaurus to correctly correlate each translation entry to the API call.
 
-:::caution text labels must be static
+:::warning text labels must be static
 
 The `docusaurus write-translations` command only does **static analysis** of your code. It doesn't actually run your site. Therefore, dynamic messages can't be extracted, as the message is an _expression_, not a _string_:
 
@@ -420,7 +420,7 @@ cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
 cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
 ```
 
-:::caution
+:::warning
 
 We only copy `.md` and `.mdx` files, as React pages are translated through JSON translation files already.
 
@@ -495,7 +495,7 @@ On your [static hosting provider](../deployment.mdx):
 - configure the appropriate build command, using the `--locale` option
 - configure the (sub)domain of your choice for each deployment
 
-:::caution
+:::warning
 
 This strategy is **not possible** with GitHub Pages, as it is only possible to **have a single deployment**.
 

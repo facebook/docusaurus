@@ -34,7 +34,7 @@ Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
-:::caution
+:::warning
 
 Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 
@@ -68,7 +68,7 @@ Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
-:::caution
+:::warning
 
 Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 
@@ -231,7 +231,7 @@ export default function MyReactPage() {
 }
 ```
 
-The types that are accepted are the same as above: `note`, `tip`, `danger`, `info`, `caution`. Optionally, you can specify an icon by passing a JSX element or a string, or a title:
+The types that are accepted are the same as above: `note`, `tip`, `danger`, `info`, `warning`. Optionally, you can specify an icon by passing a JSX element or a string, or a title:
 
 ```jsx title="MyReactPage.jsx"
 <Admonition type="tip" icon="💡" title="Did you know...">
@@ -282,7 +282,7 @@ module.exports = {
       {
         docs: {
           admonitions: {
-            keywords: ['note', 'tip', 'info', 'caution', 'danger'],
+            keywords: ['note', 'tip', 'info', 'warning', 'danger'],
             extendDefaults: true,
           },
         },

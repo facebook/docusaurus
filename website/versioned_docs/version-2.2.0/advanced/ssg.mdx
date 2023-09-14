@@ -122,7 +122,7 @@ If you want to render any dynamic content on your screen that relies on the brow
 
 You may need to escape from SSR since static HTML can't display anything useful without knowing the client state.
 
-:::caution
+:::warning
 
 It is important for the first client-side render to produce the exact same DOM structure as server-side rendering, otherwise, React will correlate virtual DOM with the wrong DOM elements.
 
