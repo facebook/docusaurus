@@ -54,6 +54,13 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The admonition tip icon',
       },
+      'Admonition/Icon/Warning': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition warning icon',
+      },
       'Admonition/Layout': {
         actions: {
           eject: 'safe',
@@ -109,6 +116,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The component responsible for rendering a :::tip admonition type',
+      },
+      'Admonition/Type/Warning': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::warning admonition type',
       },
       'Admonition/Types': {
         actions: {
