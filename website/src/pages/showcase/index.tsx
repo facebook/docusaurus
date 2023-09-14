@@ -259,7 +259,6 @@ function ShowcaseCards() {
           <Heading as="h2">
             <Translate id="showcase.usersList.noResult">No result</Translate>
           </Heading>
-          <SearchBar />
         </div>
       </section>
     );
@@ -309,10 +308,8 @@ function ShowcaseCards() {
       ) : (
         <div className="container">
           <div
-            className={clsx(
-              'margin-bottom--md',
-              styles.showcaseFavoriteHeader,
-            )} />
+            className={clsx('margin-bottom--md', styles.showcaseFavoriteHeader)}
+          />
           <ul className={clsx('clean-list', styles.showcaseList)}>
             {filteredUsers.map((user) => (
               <ShowcaseCard key={user.title} user={user} />
@@ -325,19 +322,16 @@ function ShowcaseCards() {
 }
 
 export default function Showcase(): JSX.Element {
-  const filteredUsers = useFilteredUsers();
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
       <main className="margin-vert--lg">
         <ShowcaseHeader />
         <ShowcaseFilters />
-        {filteredUsers.length !== 0 && (
-          <div
-            style={{display: 'flex', marginLeft: 'auto'}}
-            className="container">
-            <SearchBar />
-          </div>
-        )}
+        <div
+          style={{display: 'flex', marginLeft: 'auto'}}
+          className="container">
+          <SearchBar />
+        </div>
         <ShowcaseCards />
       </main>
     </Layout>
