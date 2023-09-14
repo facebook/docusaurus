@@ -69,7 +69,14 @@ async function renderMermaid({
    */
   mermaid.mermaidAPI.initialize(config);
 
-  return mermaid.render(id, text);
+  try {
+    return await mermaid.render(id, text);
+  } catch (e) {
+    // Because Mermaid add a weird SVG/Message to the DOM on error
+    // https://github.com/mermaid-js/mermaid/issues/3205#issuecomment-1719620183
+    document.querySelector(`#d${id}`)?.remove();
+    throw e;
+  }
 }
 
 export function useMermaidRenderResult({
