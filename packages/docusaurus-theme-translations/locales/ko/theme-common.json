@@ -19,6 +19,7 @@
   "theme.admonition.info": "정보",
   "theme.admonition.note": "노트",
   "theme.admonition.tip": "팁",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "게시물 목록",
   "theme.blog.archive.title": "게시물 목록",
   "theme.blog.paginator.navAriaLabel": "블로그 게시물 목록 탐색",

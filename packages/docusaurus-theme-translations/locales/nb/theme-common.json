@@ -19,6 +19,7 @@
   "theme.admonition.info": "info",
   "theme.admonition.note": "merknad",
   "theme.admonition.tip": "tips",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Arkiv",
   "theme.blog.archive.title": "Arkiv",
   "theme.blog.paginator.navAriaLabel": "Navigering av bloggliste",

@@ -19,6 +19,7 @@
   "theme.admonition.info": "к сведению",
   "theme.admonition.note": "примечание",
   "theme.admonition.tip": "подсказка",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Архив",
   "theme.blog.archive.title": "Архив",
   "theme.blog.paginator.navAriaLabel": "Навигация по странице списка блогов",

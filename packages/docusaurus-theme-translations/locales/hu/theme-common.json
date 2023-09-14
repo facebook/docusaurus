@@ -19,6 +19,7 @@
   "theme.admonition.info": "információ",
   "theme.admonition.note": "megjegyzés",
   "theme.admonition.tip": "tanács",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Archívum",
   "theme.blog.archive.title": "Archívum",
   "theme.blog.paginator.navAriaLabel": "Bloglista oldalának navigációja",
@@ -67,5 +68,7 @@
   "theme.navbar.mobileVersionsDropdown.label": "Verziók",
   "theme.tags.tagsListLabel": "Címkék:",
   "theme.tags.tagsPageLink": "Összes címke megtekintése",
-  "theme.tags.tagsPageTitle": "Címkék"
+  "theme.tags.tagsPageTitle": "Címkék",
+  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.title": "Unlisted page"
 }

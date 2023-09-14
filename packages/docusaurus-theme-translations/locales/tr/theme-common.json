@@ -19,6 +19,7 @@
   "theme.admonition.info": "bilgi",
   "theme.admonition.note": "not",
   "theme.admonition.tip": "ipucu",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Arşiv",
   "theme.blog.archive.title": "Arşiv",
   "theme.blog.paginator.navAriaLabel": "Blog gönderi sayfası navigasyonu",
