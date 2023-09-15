@@ -149,7 +149,7 @@ export default async function beforeCli() {
         top: '-',
         bottom: '-',
         left: ' ',
-        right: ' '
+        right: ' ',
       },
     };
 
