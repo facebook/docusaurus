@@ -1,5 +1,5 @@
 {
-  "version-1.0.0/docs": {
+  "docs": {
     "Test": [
       "foo/bar",
       "foo/baz"

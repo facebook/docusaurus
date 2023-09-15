@@ -2750,7 +2750,7 @@ exports[`versioned website (community) content 2`] = `
   "next": undefined,
   "permalink": "/community/team",
   "previous": undefined,
-  "sidebar": "version-1.0.0/community",
+  "sidebar": "community",
   "sidebarPosition": undefined,
   "slug": "/team",
   "source": "@site/community_versioned_docs/version-1.0.0/team.md",
@@ -2764,7 +2764,7 @@ exports[`versioned website (community) content 2`] = `
 
 exports[`versioned website (community) content: 100 version sidebars 1`] = `
 {
-  "version-1.0.0/community": [
+  "community": [
     {
       "id": "team",
       "type": "doc",
@@ -2799,7 +2799,7 @@ exports[`versioned website (community) content: data 1`] = `
   "tags": [],
   "version": "1.0.0",
   "frontMatter": {},
-  "sidebar": "version-1.0.0/community"
+  "sidebar": "community"
 }",
   "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
   "id": "team",
@@ -2828,7 +2828,7 @@ exports[`versioned website (community) content: data 1`] = `
   "className": "docs-version-1.0.0",
   "isLast": true,
   "docsSidebars": {
-    "version-1.0.0/community": [
+    "community": [
       {
         "type": "link",
         "label": "team",
@@ -2843,7 +2843,7 @@ exports[`versioned website (community) content: data 1`] = `
       "id": "team",
       "title": "team",
       "description": "Team 1.0.0",
-      "sidebar": "version-1.0.0/community"
+      "sidebar": "community"
     }
   }
 }",
@@ -2914,7 +2914,7 @@ exports[`versioned website (community) content: global data 1`] = `
             {
               "id": "team",
               "path": "/community/team",
-              "sidebar": "version-1.0.0/community",
+              "sidebar": "community",
             },
           ],
           "draftIds": [],
@@ -2924,7 +2924,7 @@ exports[`versioned website (community) content: global data 1`] = `
           "name": "1.0.0",
           "path": "/community",
           "sidebars": {
-            "version-1.0.0/community": {
+            "community": {
               "link": {
                 "label": "team",
                 "path": "/community/team",
@@ -2993,7 +2993,7 @@ exports[`versioned website (community) content: route config 1`] = `
                   "content": "@site/community_versioned_docs/version-1.0.0/team.md",
                 },
                 "path": "/community/team",
-                "sidebar": "version-1.0.0/community",
+                "sidebar": "community",
               },
             ],
           },
@@ -3175,7 +3175,7 @@ exports[`versioned website content 5`] = `
     "permalink": "/docs/1.0.0/foo/barSlug",
     "title": "bar",
   },
-  "sidebar": "version-1.0.0/docs",
+  "sidebar": "docs",
   "sidebarPosition": undefined,
   "slug": "/foo/baz",
   "source": "@site/versioned_docs/version-1.0.0/foo/baz.md",
@@ -3189,7 +3189,7 @@ exports[`versioned website content 5`] = `
 
 exports[`versioned website content: 100 version sidebars 1`] = `
 {
-  "version-1.0.0/docs": [
+  "docs": [
     {
       "collapsed": true,
       "collapsible": true,
@@ -3434,7 +3434,7 @@ exports[`versioned website content: data 1`] = `
   "frontMatter": {
     "slug": "/"
   },
-  "sidebar": "version-1.0.0/docs",
+  "sidebar": "docs",
   "previous": {
     "title": "baz",
     "permalink": "/docs/1.0.0/foo/baz"
@@ -3455,7 +3455,7 @@ exports[`versioned website content: data 1`] = `
   "frontMatter": {
     "slug": "barSlug"
   },
-  "sidebar": "version-1.0.0/docs",
+  "sidebar": "docs",
   "next": {
     "title": "baz",
     "permalink": "/docs/1.0.0/foo/baz"
@@ -3474,7 +3474,7 @@ exports[`versioned website content: data 1`] = `
   "tags": [],
   "version": "1.0.0",
   "frontMatter": {},
-  "sidebar": "version-1.0.0/docs",
+  "sidebar": "docs",
   "previous": {
     "title": "bar",
     "permalink": "/docs/1.0.0/foo/barSlug"
@@ -3539,7 +3539,7 @@ exports[`versioned website content: data 1`] = `
   "frontMatter": {
     "slug": "/rootAbsoluteSlug"
   },
-  "sidebar": "version-1.0.1/docs"
+  "sidebar": "docs"
 }",
   "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": "{
   "id": "rootRelativeSlug",
@@ -3725,7 +3725,7 @@ exports[`versioned website content: data 1`] = `
   "className": "docs-version-1.0.0",
   "isLast": false,
   "docsSidebars": {
-    "version-1.0.0/docs": [
+    "docs": [
       {
         "type": "category",
         "label": "Test",
@@ -3770,19 +3770,19 @@ exports[`versioned website content: data 1`] = `
       "id": "foo/bar",
       "title": "bar",
       "description": "Bar 1.0.0 !",
-      "sidebar": "version-1.0.0/docs"
+      "sidebar": "docs"
     },
     "foo/baz": {
       "id": "foo/baz",
       "title": "baz",
       "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
-      "sidebar": "version-1.0.0/docs"
+      "sidebar": "docs"
     },
     "hello": {
       "id": "hello",
       "title": "hello",
       "description": "Hello 1.0.0 ! (translated en)",
-      "sidebar": "version-1.0.0/docs"
+      "sidebar": "docs"
     }
   }
 }",
@@ -3932,7 +3932,7 @@ exports[`versioned website content: data 1`] = `
   "className": "docs-version-withSlugs",
   "isLast": false,
   "docsSidebars": {
-    "version-1.0.1/docs": [
+    "docs": [
       {
         "type": "category",
         "label": "Test",
@@ -3955,7 +3955,7 @@ exports[`versioned website content: data 1`] = `
       "id": "rootAbsoluteSlug",
       "title": "rootAbsoluteSlug",
       "description": "Lorem",
-      "sidebar": "version-1.0.1/docs"
+      "sidebar": "docs"
     },
     "rootRelativeSlug": {
       "id": "rootRelativeSlug",
@@ -4085,17 +4085,17 @@ exports[`versioned website content: global data 1`] = `
             {
               "id": "foo/bar",
               "path": "/docs/1.0.0/foo/barSlug",
-              "sidebar": "version-1.0.0/docs",
+              "sidebar": "docs",
             },
             {
               "id": "foo/baz",
               "path": "/docs/1.0.0/foo/baz",
-              "sidebar": "version-1.0.0/docs",
+              "sidebar": "docs",
             },
             {
               "id": "hello",
               "path": "/docs/1.0.0/",
-              "sidebar": "version-1.0.0/docs",
+              "sidebar": "docs",
             },
           ],
           "draftIds": [],
@@ -4105,7 +4105,7 @@ exports[`versioned website content: global data 1`] = `
           "name": "1.0.0",
           "path": "/docs/1.0.0",
           "sidebars": {
-            "version-1.0.0/docs": {
+            "docs": {
               "link": {
                 "label": "foo/bar",
                 "path": "/docs/1.0.0/foo/barSlug",
@@ -4118,7 +4118,7 @@ exports[`versioned website content: global data 1`] = `
             {
               "id": "rootAbsoluteSlug",
               "path": "/docs/withSlugs/rootAbsoluteSlug",
-              "sidebar": "version-1.0.1/docs",
+              "sidebar": "docs",
             },
             {
               "id": "rootRelativeSlug",
@@ -4163,7 +4163,7 @@ exports[`versioned website content: global data 1`] = `
           "name": "withSlugs",
           "path": "/docs/withSlugs",
           "sidebars": {
-            "version-1.0.1/docs": {
+            "docs": {
               "link": {
                 "label": "rootAbsoluteSlug",
                 "path": "/docs/withSlugs/rootAbsoluteSlug",
@@ -4205,7 +4205,7 @@ exports[`versioned website content: route config 1`] = `
                   "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
                 },
                 "path": "/docs/1.0.0/",
-                "sidebar": "version-1.0.0/docs",
+                "sidebar": "docs",
               },
               {
                 "component": "@theme/DocItem",
@@ -4214,7 +4214,7 @@ exports[`versioned website content: route config 1`] = `
                   "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
                 },
                 "path": "/docs/1.0.0/foo/barSlug",
-                "sidebar": "version-1.0.0/docs",
+                "sidebar": "docs",
               },
               {
                 "component": "@theme/DocItem",
@@ -4223,7 +4223,7 @@ exports[`versioned website content: route config 1`] = `
                   "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
                 },
                 "path": "/docs/1.0.0/foo/baz",
-                "sidebar": "version-1.0.0/docs",
+                "sidebar": "docs",
               },
             ],
           },
@@ -4366,7 +4366,7 @@ exports[`versioned website content: route config 1`] = `
                   "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
                 },
                 "path": "/docs/withSlugs/rootAbsoluteSlug",
-                "sidebar": "version-1.0.1/docs",
+                "sidebar": "docs",
               },
               {
                 "component": "@theme/DocItem",
@@ -4455,7 +4455,7 @@ exports[`versioned website content: route config 1`] = `
 
 exports[`versioned website content: withSlugs version sidebars 1`] = `
 {
-  "version-1.0.1/docs": [
+  "docs": [
     {
       "collapsed": true,
       "collapsible": true,
