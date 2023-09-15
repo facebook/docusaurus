@@ -58,6 +58,7 @@ describe('toTagDocListProp', () => {
       count: 2,
       label: tag.label,
       permalink: tag.permalink,
+      unlisted: false,
       items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence
     });
   });

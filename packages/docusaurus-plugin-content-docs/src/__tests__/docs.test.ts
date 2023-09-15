@@ -916,7 +916,7 @@ describe('versioned site', () => {
     const {version101TestUtils, version100TestUtils} = await loadSite();
 
     await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
-      id: 'version-1.0.0/foo/bar',
+      id: 'foo/bar',
       sourceDirName: 'foo',
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
@@ -928,7 +928,7 @@ describe('versioned site', () => {
       unlisted: false,
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -944,7 +944,7 @@ describe('versioned site', () => {
       unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
-      id: 'version-1.0.1/foo/bar',
+      id: 'foo/bar',
       sourceDirName: 'foo',
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
@@ -956,7 +956,7 @@ describe('versioned site', () => {
       unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.1/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/',
       slug: '/',
@@ -1049,7 +1049,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -1091,7 +1091,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -1126,7 +1126,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -1162,7 +1162,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/fr/docs/1.0.0/',
       slug: '/',
@@ -1199,7 +1199,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/fr/docs/1.0.0/',
       slug: '/',
