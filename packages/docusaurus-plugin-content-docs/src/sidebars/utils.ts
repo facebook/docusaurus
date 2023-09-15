@@ -375,7 +375,7 @@ This breaking change is documented on Docusaurus v3 release notes: https://docus
         `Invalid sidebar file at "${toMessageRelativeFilePath(
           sidebarFilePath,
         )}".
-These legacy versioned sidebar document ids are not supported anymore in Docusaurus v3:
+These legacy versioned document ids are not supported anymore in Docusaurus v3:
 - ${legacyVersionedDocIds.sort().join('\n- ')}
 
 The document ids you should now use are:
