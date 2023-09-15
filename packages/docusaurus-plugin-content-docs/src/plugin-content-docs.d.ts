@@ -414,17 +414,11 @@ declare module '@docusaurus/plugin-content-docs' {
   };
 
   export type DocMetadataBase = LastUpdateData & {
-    // TODO
     /**
-     * Legacy versioned ID. Will be refactored in the future to be unversioned.
+     * The document id.
+     * Multiple documents can have the same id, when in different versions.
      */
     id: string;
-    // TODO
-    /**
-     * Unversioned ID. Should be preferred everywhere over `id` until the latter
-     * is refactored.
-     */
-    unversionedId: string;
     /** The name of the version this doc belongs to. */
     version: string;
     /**

@@ -30,7 +30,6 @@ function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
     permalink: 'any',
     slug: 'any',
     source: 'any',
-    unversionedId: 'any',
     version: 'any',
     title: `${doc.id} title`,
     frontMatter: {

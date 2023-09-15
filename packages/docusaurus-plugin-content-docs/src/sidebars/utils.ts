@@ -136,8 +136,7 @@ export type SidebarsUtils = {
   getFirstDocIdOfFirstSidebar: () => string | undefined;
   getSidebarNameByDocId: (docId: string) => string | undefined;
   getDocNavigation: (params: {
-    unversionedId: string;
-    versionedId: string;
+    docId: string;
     displayedSidebar: string | null | undefined;
     unlistedIds: Set<string>;
   }) => SidebarNavigation;
@@ -194,26 +193,18 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
   }
 
   function getDocNavigation({
-    unversionedId,
-    versionedId,
+    docId,
     displayedSidebar,
     unlistedIds,
   }: {
-    unversionedId: string;
-    versionedId: string;
+    docId: string;
     displayedSidebar: string | null | undefined;
     unlistedIds: Set<string>;
   }): SidebarNavigation {
-    // TODO legacy id retro-compatibility!
-    let docId = unversionedId;
-    let sidebarName =
+    const sidebarName =
       displayedSidebar === undefined
         ? getSidebarNameByDocId(docId)
         : displayedSidebar;
-    if (sidebarName === undefined) {
-      docId = versionedId;
-      sidebarName = getSidebarNameByDocId(docId);
-    }
 
     if (!sidebarName) {
       return emptySidebarNavigation();

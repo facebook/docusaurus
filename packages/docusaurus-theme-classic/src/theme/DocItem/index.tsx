@@ -13,7 +13,7 @@ import DocItemLayout from '@theme/DocItem/Layout';
 import type {Props} from '@theme/DocItem';
 
 export default function DocItem(props: Props): JSX.Element {
-  const docHtmlClassName = `docs-doc-id-${props.content.metadata.unversionedId}`;
+  const docHtmlClassName = `docs-doc-id-${props.content.metadata.id}`;
   const MDXComponent = props.content;
   return (
     <DocProvider content={props.content}>
