@@ -8,21 +8,53 @@ slug: /markdown-features
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
-Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as quickly as possible.
+Docusaurus uses **[Markdown](https://commonmark.org/)** as its main content authoring format.
 
-Docusaurus 2 uses modern tooling to help you compose your interactive documentation with ease. You may embed React components, or build live coding blocks where your users may play with the code on the spot. Start sharing your eureka moments with the code your audience cannot walk away from. It is perhaps the most effective way of attracting potential users.
+:::tip Learn Markdown
 
-:::info
+You can [learn Markdown in 10 minutes](https://commonmark.org/help/).
 
-This section assumes you are using the official Docusaurus content plugins.
+:::
+
+Docusaurus uses modern tooling to help you create **interactive documentation**.
+
+The **[MDX](https://mdxjs.com/)** compiler transforms **Markdown files to React components**, and allows you to use JSX in your Markdown content. This enables you to easily interleave React components within your content, and create delightful learning experiences.
+
+:::tip Use the MDX Playground
+
+The **[MDX playground](https://mdxjs.com/playground/)** is your new best friend!
+
+It is a very helpful debugging tool that shows how the MDX compiler transforms Markdown to React.
+
+**Options**: select the right format (MDX or CommonMark) and the following plugins Docusaurus uses: `remark-gfm`, `remark-directive`, `rehype-raw`.
+
+:::
+
+## MDX vs. CommonMark {#mdx-vs-commonmark}
+
+Docusaurus compiles both `.md` and `.mdx` files to React components using the MDX compiler, but **the syntax can be interpreted differently** depending on your settings.
+
+The MDX compiler supports [2 formats](https://mdxjs.com/packages/mdx/#optionsformat):
+
+- The [MDX format](https://mdxjs.com/docs/what-is-mdx/): a powerful parser allowing the usage of JSX
+- The [CommonMark format](https://commonmark.org/): a standard-compliant Markdown parser that does not allow the usage of JSX
+
+By default, **Docusaurus v3 uses the MDX format for all files** (including `.md` files) for historical reasons.
+
+It is possible to **opt-in for CommonMark** using the [`siteConfig.markdown.format`](../../api/docusaurus.config.js.mdx#markdown) setting or the `format: md` front matter.
+
+:::tip how to use CommonMark
+
+If you plan to use CommonMark, we recommend the [`siteConfig.markdown.format: 'detect'`](../../api/docusaurus.config.js.mdx#markdown) setting. The appropriate format will be selected automatically, based on file extensions:
+
+- `.md` files will use the CommonMark format
+- `.mdx` files will use the MDX format
 
 :::
 
 ## Standard features {#standard-features}
 
 Markdown is a syntax that enables you to write formatted content in a readable syntax.
-
-We use [MDX](https://mdxjs.com/) as the parsing engine, which can do much more than just parsing [standard Markdown syntax](https://daringfireball.net/projects/markdown/syntax), like rendering React components inside your documents as well.
 
 ```md
 ### My Doc Section
@@ -143,9 +175,3 @@ Markdown can embed HTML elements, and [`details`](https://developer.mozilla.org/
 
 </BrowserWindow>
 ```
-
-:::note
-
-In practice, those are not really HTML elements, but React JSX elements, which we'll cover next!
-
-:::
