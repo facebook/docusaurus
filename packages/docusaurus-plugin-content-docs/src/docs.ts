@@ -317,17 +317,12 @@ function getUnlistedIds(docs: DocMetadataBase[]): Set<string> {
 export function addDocNavigation({
   docs,
   sidebarsUtils,
-  sidebarFilePath,
 }: {
   docs: DocMetadataBase[];
   sidebarsUtils: SidebarsUtils;
-  sidebarFilePath: string;
 }): LoadedVersion['docs'] {
   const docsById = createDocsByIdIndex(docs);
-  const allDocIds = Object.keys(docsById);
   const unlistedIds = getUnlistedIds(docs);
-
-  sidebarsUtils.checkSidebarsDocIds(allDocIds, sidebarFilePath);
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {

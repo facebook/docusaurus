@@ -26,6 +26,7 @@ import {
   processDocMetadata,
   addDocNavigation,
   type DocEnv,
+  createDocsByIdIndex,
 } from './docs';
 import {readVersionsMetadata, toFullVersion} from './versions';
 import {cliDocsVersionCommand} from './cli';
@@ -179,12 +180,17 @@ export default async function pluginContentDocs(
 
         const sidebarsUtils = createSidebarsUtils(sidebars);
 
+        const docsById = createDocsByIdIndex(docs);
+        const allDocIds = Object.keys(docsById);
+
+        const sidebarFilePath = versionMetadata.sidebarFilePath as string;
+        sidebarsUtils.checkSidebarsDocIds({allDocIds, sidebarFilePath});
+
         return {
           ...versionMetadata,
           docs: addDocNavigation({
             docs,
             sidebarsUtils,
-            sidebarFilePath: versionMetadata.sidebarFilePath as string,
           }),
           drafts,
           sidebars,

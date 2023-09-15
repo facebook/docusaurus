@@ -162,7 +162,13 @@ export type SidebarsUtils = {
       }
     | undefined;
 
-  checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
+  checkSidebarsDocIds: ({
+    allDocIds,
+    sidebarFilePath,
+  }: {
+    allDocIds: string[];
+    sidebarFilePath: string;
+  }) => void;
 };
 
 export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
@@ -294,10 +300,47 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     };
   }
 
-  function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {
+  function checkSidebarsDocIds({
+    allDocIds,
+    sidebarFilePath,
+  }: {
+    allDocIds: string[];
+    sidebarFilePath: string;
+  }) {
     const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
-    const invalidSidebarDocIds = _.difference(allSidebarDocIds, validDocIds);
+    const invalidSidebarDocIds = _.difference(allSidebarDocIds, allDocIds);
+
+    // throw a better error message for Docusaurus v3 breaking change
+    // TODO this can be removed in Docusaurus v4
+    function handleLegacyInvalidIds(invalidDocIds: string[]) {
+      // In older v2.0 alpha/betas, versioned docs had a legacy versioned prefix
+      // Example: "version-1.4/my-doc-id"
+      //
+      const legacyVersionedDocIds = invalidDocIds.filter(
+        (docId) => docId.startsWith('version-') && docId.includes('/'),
+      );
+      if (legacyVersionedDocIds.length > 0) {
+        throw new Error(
+          `Invalid sidebar file at "${toMessageRelativeFilePath(
+            sidebarFilePath,
+          )}".
+These legacy versioned sidebar document ids are not supported anymore in Docusaurus v3:
+- ${legacyVersionedDocIds.sort().join('\n- ')}
+
+The document ids you should now use are:
+- ${legacyVersionedDocIds
+            .sort()
+            .map((legacyId) => legacyId.split('/').splice(1).join('/'))
+            .join('\n- ')}
+
+Please remove the "version-[name]/" prefix from your versioned sidebar file.
+This breaking change is documented on Docusaurus v3 release notes: https://docusaurus.io/blog/releases/3.0`,
+        );
+      }
+    }
+
     if (invalidSidebarDocIds.length > 0) {
+      handleLegacyInvalidIds(invalidSidebarDocIds);
       throw new Error(
         `Invalid sidebar file at "${toMessageRelativeFilePath(
           sidebarFilePath,
@@ -306,7 +349,7 @@ These sidebar document ids do not exist:
 - ${invalidSidebarDocIds.sort().join('\n- ')}
 
 Available document ids are:
-- ${_.uniq(validDocIds).sort().join('\n- ')}`,
+- ${_.uniq(allDocIds).sort().join('\n- ')}`,
       );
     }
   }
