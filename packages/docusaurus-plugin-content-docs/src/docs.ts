@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
   aliasedSitePath,
@@ -24,7 +25,6 @@ import {
 
 import {getFileLastUpdate} from './lastUpdate';
 import getSlug from './slug';
-import {CURRENT_VERSION_NAME} from './constants';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './frontMatter';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
@@ -189,14 +189,6 @@ async function doProcessDocMetadata({
     frontMatter.sidebar_position ?? numberPrefix;
 
   // TODO legacy retrocompatibility
-  // The same doc in 2 distinct version could keep the same id,
-  // we just need to namespace the data by version
-  const versionIdPrefix =
-    versionMetadata.versionName === CURRENT_VERSION_NAME
-      ? undefined
-      : `version-${versionMetadata.versionName}`;
-
-  // TODO legacy retrocompatibility
   // I think it's bad to affect the front matter id with the dirname?
   function computeDirNameIdPrefix() {
     if (sourceDirName === '.') {
@@ -208,13 +200,7 @@ async function doProcessDocMetadata({
       : sourceDirName;
   }
 
-  const unversionedId = [computeDirNameIdPrefix(), baseID]
-    .filter(Boolean)
-    .join('/');
-
-  // TODO is versioning the id very useful in practice?
-  // legacy versioned id, requires a breaking change to modify this
-  const id = [versionIdPrefix, unversionedId].filter(Boolean).join('/');
+  const id = [computeDirNameIdPrefix(), baseID].filter(Boolean).join('/');
 
   const docSlug = getSlug({
     baseID,
@@ -281,7 +267,6 @@ async function doProcessDocMetadata({
   // Adding properties to object after instantiation will cause hidden
   // class transitions.
   return {
-    unversionedId,
     id,
     title,
     description,
@@ -332,22 +317,17 @@ function getUnlistedIds(docs: DocMetadataBase[]): Set<string> {
 export function addDocNavigation({
   docs,
   sidebarsUtils,
-  sidebarFilePath,
 }: {
   docs: DocMetadataBase[];
   sidebarsUtils: SidebarsUtils;
-  sidebarFilePath: string;
 }): LoadedVersion['docs'] {
   const docsById = createDocsByIdIndex(docs);
   const unlistedIds = getUnlistedIds(docs);
 
-  sidebarsUtils.checkSidebarsDocIds(docs.flatMap(getDocIds), sidebarFilePath);
-
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
     const navigation = sidebarsUtils.getDocNavigation({
-      unversionedId: doc.unversionedId,
-      versionedId: doc.id,
+      docId: doc.id,
       displayedSidebar: doc.frontMatter.displayed_sidebar,
       unlistedIds,
     });
@@ -412,16 +392,12 @@ export function getMainDocId({
     if (versionHomeDoc) {
       return versionHomeDoc;
     } else if (firstDocIdOfFirstSidebar) {
-      return docs.find(
-        (doc) =>
-          doc.id === firstDocIdOfFirstSidebar ||
-          doc.unversionedId === firstDocIdOfFirstSidebar,
-      )!;
+      return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
     }
     return docs[0]!;
   }
 
-  return getMainDoc().unversionedId;
+  return getMainDoc().id;
 }
 
 // By convention, Docusaurus considers some docs are "indexes":
@@ -465,25 +441,9 @@ export function toCategoryIndexMatcherParam({
   };
 }
 
-// Return both doc ids
-// TODO legacy retro-compatibility due to old versioned sidebars using
-// versioned doc ids ("id" should be removed & "versionedId" should be renamed
-// to "id")
-export function getDocIds(doc: DocMetadataBase): [string, string] {
-  return [doc.unversionedId, doc.id];
-}
-
-// Docs are indexed by both versioned and unversioned ids at the same time
-// TODO legacy retro-compatibility due to old versioned sidebars using
-// versioned doc ids ("id" should be removed & "versionedId" should be renamed
-// to "id")
-export function createDocsByIdIndex<
-  Doc extends {id: string; unversionedId: string},
->(docs: Doc[]): {[docId: string]: Doc} {
-  return Object.fromEntries(
-    docs.flatMap((doc) => [
-      [doc.unversionedId, doc],
-      [doc.id, doc],
-    ]),
-  );
+// Docs are indexed by their id
+export function createDocsByIdIndex<Doc extends {id: string}>(
+  docs: Doc[],
+): {[docId: string]: Doc} {
+  return _.keyBy(docs, (d) => d.id);
 }
