@@ -137,8 +137,6 @@ For every route transition, there will be several important timings:
 Note that the new page's DOM is only available during event (4). If you need to manipulate the new page's DOM, you'll likely want to use `onRouteDidUpdate`, which will be fired as soon as the DOM on the new page has mounted.
 
 ```js title="myClientModule.js"
-import type {Location} from 'history';
-
 export function onRouteDidUpdate({location, previousLocation}) {
   // Don't execute if we are still on the same page; the lifecycle may be fired
   // because the hash changes (e.g. when navigating between headings)
