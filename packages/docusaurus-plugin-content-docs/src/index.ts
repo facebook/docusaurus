@@ -183,8 +183,15 @@ export default async function pluginContentDocs(
         const docsById = createDocsByIdIndex(docs);
         const allDocIds = Object.keys(docsById);
 
-        const sidebarFilePath = versionMetadata.sidebarFilePath as string;
-        sidebarsUtils.checkSidebarsDocIds({allDocIds, sidebarFilePath});
+        sidebarsUtils.checkLegacyVersionedSidebarNames({
+          sidebarFilePath: versionMetadata.sidebarFilePath as string,
+          versionMetadata,
+        });
+        sidebarsUtils.checkSidebarsDocIds({
+          allDocIds,
+          sidebarFilePath: versionMetadata.sidebarFilePath as string,
+          versionMetadata,
+        });
 
         return {
           ...versionMetadata,

@@ -23,6 +23,7 @@ import type {
 import type {
   DocMetadataBase,
   PropNavigationLink,
+  VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 
 export function isCategoriesShorthand(
@@ -162,12 +163,21 @@ export type SidebarsUtils = {
       }
     | undefined;
 
+  checkLegacyVersionedSidebarNames: ({
+    versionMetadata,
+  }: {
+    sidebarFilePath: string;
+    versionMetadata: VersionMetadata;
+  }) => void;
+
   checkSidebarsDocIds: ({
     allDocIds,
     sidebarFilePath,
+    versionMetadata,
   }: {
     allDocIds: string[];
     sidebarFilePath: string;
+    versionMetadata: VersionMetadata;
   }) => void;
 };
 
@@ -300,56 +310,115 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     };
   }
 
-  function checkSidebarsDocIds({
-    allDocIds,
+  // TODO remove in Docusaurus v4
+  function getLegacyVersionedPrefix(versionMetadata: VersionMetadata): string {
+    return `version-${versionMetadata.versionName}/`;
+  }
+
+  // In early v2, sidebar names used to be versioned
+  // example: "version-2.0.0-alpha.66/my-sidebar-name"
+  // In v3 it's not the case anymore and we throw an error to explain
+  // TODO remove in Docusaurus v4
+  function checkLegacyVersionedSidebarNames({
+    versionMetadata,
     sidebarFilePath,
   }: {
-    allDocIds: string[];
+    versionMetadata: VersionMetadata;
     sidebarFilePath: string;
-  }) {
-    const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
-    const invalidSidebarDocIds = _.difference(allSidebarDocIds, allDocIds);
+  }): void {
+    const illegalPrefix = getLegacyVersionedPrefix(versionMetadata);
+    const legacySidebarNames = Object.keys(sidebars).filter((sidebarName) =>
+      sidebarName.startsWith(illegalPrefix),
+    );
+    if (legacySidebarNames.length > 0) {
+      throw new Error(
+        `Invalid sidebar file at "${toMessageRelativeFilePath(
+          sidebarFilePath,
+        )}".
+These legacy versioned sidebar names are not supported anymore in Docusaurus v3:
+- ${legacySidebarNames.sort().join('\n- ')}
 
-    // throw a better error message for Docusaurus v3 breaking change
-    // TODO this can be removed in Docusaurus v4
-    function handleLegacyInvalidIds(invalidDocIds: string[]) {
-      // In older v2.0 alpha/betas, versioned docs had a legacy versioned prefix
-      // Example: "version-1.4/my-doc-id"
-      //
-      const legacyVersionedDocIds = invalidDocIds.filter(
-        (docId) => docId.startsWith('version-') && docId.includes('/'),
+The sidebar names you should now use are:
+- ${legacySidebarNames
+          .sort()
+          .map((legacyName) => legacyName.split('/').splice(1).join('/'))
+          .join('\n- ')}
+
+Please remove the "${illegalPrefix}" prefix from your versioned sidebar file.
+This breaking change is documented on Docusaurus v3 release notes: https://docusaurus.io/blog/releases/3.0
+`,
       );
-      if (legacyVersionedDocIds.length > 0) {
-        throw new Error(
-          `Invalid sidebar file at "${toMessageRelativeFilePath(
-            sidebarFilePath,
-          )}".
+    }
+  }
+
+  // throw a better error message for Docusaurus v3 breaking change
+  // TODO this can be removed in Docusaurus v4
+  function handleLegacyVersionedDocIds({
+    invalidDocIds,
+    sidebarFilePath,
+    versionMetadata,
+  }: {
+    invalidDocIds: string[];
+    sidebarFilePath: string;
+    versionMetadata: VersionMetadata;
+  }) {
+    const illegalPrefix = getLegacyVersionedPrefix(versionMetadata);
+
+    // In older v2.0 alpha/betas, versioned docs had a legacy versioned prefix
+    // Example: "version-1.4/my-doc-id"
+    //
+    const legacyVersionedDocIds = invalidDocIds.filter((docId) =>
+      docId.startsWith(illegalPrefix),
+    );
+    if (legacyVersionedDocIds.length > 0) {
+      throw new Error(
+        `Invalid sidebar file at "${toMessageRelativeFilePath(
+          sidebarFilePath,
+        )}".
 These legacy versioned sidebar document ids are not supported anymore in Docusaurus v3:
 - ${legacyVersionedDocIds.sort().join('\n- ')}
 
 The document ids you should now use are:
 - ${legacyVersionedDocIds
-            .sort()
-            .map((legacyId) => legacyId.split('/').splice(1).join('/'))
-            .join('\n- ')}
+          .sort()
+          .map((legacyId) => legacyId.split('/').splice(1).join('/'))
+          .join('\n- ')}
 
-Please remove the "version-[name]/" prefix from your versioned sidebar file.
-This breaking change is documented on Docusaurus v3 release notes: https://docusaurus.io/blog/releases/3.0`,
-        );
-      }
+Please remove the "${illegalPrefix}" prefix from your versioned sidebar file.
+This breaking change is documented on Docusaurus v3 release notes: https://docusaurus.io/blog/releases/3.0
+`,
+      );
     }
+  }
 
-    if (invalidSidebarDocIds.length > 0) {
-      handleLegacyInvalidIds(invalidSidebarDocIds);
+  function checkSidebarsDocIds({
+    allDocIds,
+    sidebarFilePath,
+    versionMetadata,
+  }: {
+    allDocIds: string[];
+    sidebarFilePath: string;
+    versionMetadata: VersionMetadata;
+  }) {
+    const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
+    const invalidDocIds = _.difference(allSidebarDocIds, allDocIds);
+
+    if (invalidDocIds.length > 0) {
+      handleLegacyVersionedDocIds({
+        invalidDocIds,
+        sidebarFilePath,
+        versionMetadata,
+      });
       throw new Error(
         `Invalid sidebar file at "${toMessageRelativeFilePath(
           sidebarFilePath,
         )}".
 These sidebar document ids do not exist:
-- ${invalidSidebarDocIds.sort().join('\n- ')}
+- ${invalidDocIds.sort().join('\n- ')}
 
 Available document ids are:
-- ${_.uniq(allDocIds).sort().join('\n- ')}`,
+- ${_.uniq(allDocIds).sort().join('\n- ')}
+`,
       );
     }
   }
@@ -403,6 +472,7 @@ Available document ids are:
     getDocNavigation,
     getCategoryGeneratedIndexList,
     getCategoryGeneratedIndexNavigation,
+    checkLegacyVersionedSidebarNames,
     checkSidebarsDocIds,
     getFirstLink: (id) => getFirstLink(sidebars[id]!),
   };

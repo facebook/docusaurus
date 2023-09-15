@@ -43,7 +43,8 @@ Available document ids are:
 - slugs/resolvedSlug
 - slugs/tryToEscapeSlug
 - unlisted-category/unlisted-category-doc
-- unlisted-category/unlisted-category-index"
+- unlisted-category/unlisted-category-index
+"
 `;
 
 exports[`simple website content 1`] = `
