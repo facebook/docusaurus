@@ -182,7 +182,9 @@ function getSidebarsTranslations(
   version: LoadedVersion,
 ): TranslationFileContent {
   return mergeTranslations(
-    Object.entries(version.sidebars).map(([sidebarName, sidebar]) => getSidebarTranslationFileContent(sidebar, sidebarName)),
+    Object.entries(version.sidebars).map(([sidebarName, sidebar]) =>
+      getSidebarTranslationFileContent(sidebar, sidebarName),
+    ),
   );
 }
 function translateSidebars(
