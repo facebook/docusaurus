@@ -34,7 +34,7 @@ It exports a single object as default export: `logger`. `logger` has the followi
   - `success`: prints a success message.
 - The `report` function. It takes a `ReportingSeverity` value (`ignore`, `log`, `warn`, `throw`) and reports a message according to the severity.
 
-:::caution A word on the `error` formatter
+:::warning A word on the `error` formatter
 
 Beware that an `error` message, even when it doesn't hang the program, is likely going to cause confusion. When users inspect logs and find an `[ERROR]`, even when the build succeeds, they will assume something is going wrong. Use it sparingly.
 

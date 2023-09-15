@@ -12,7 +12,7 @@ You can integrate Docusaurus with the **tools and SaaS of your choice**, as long
 
 We document the usage of [Crowdin](https://crowdin.com/), as **one** possible **integration example**.
 
-:::caution
+:::warning
 
 This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/), and [ReasonML](https://reasonml.github.io/).
 
@@ -166,7 +166,7 @@ You can keep the default value `CROWDIN_PERSONAL_TOKEN`, and set this environmen
 
 :::
 
-:::caution
+:::warning
 
 A Personal Access Tokens grant **read-write access to all your Crowdin projects**.
 
@@ -318,7 +318,7 @@ Keep your deploy-previews fast: don't download translations, and use `npm run bu
 
 :::
 
-:::caution
+:::warning
 
 Crowdin does not support well multiple concurrent uploads/downloads: it is preferable to only include translations to your production deployment, and keep deploy previews untranslated.
 
@@ -328,7 +328,7 @@ Crowdin does not support well multiple concurrent uploads/downloads: it is prefe
 
 ### MDX {#mdx}
 
-:::caution
+:::warning
 
 Pay special attention to the JSX fragments in MDX documents!
 
@@ -394,7 +394,7 @@ Crowdin provides a `Duplicate Strings` setting.
 
 We recommend using `Hide`, but the ideal setting depends on how much your versions are different.
 
-:::caution
+:::warning
 
 Not using `Hide` leads to a much larger amount of `source strings` in quotas, and will affect the pricing.
 
@@ -443,7 +443,7 @@ In practice, **it didn't work very reliably** for a few reasons:
 
 Crowdin has an [In-Context localization](https://support.crowdin.com/in-context-localization/) feature.
 
-:::caution
+:::warning
 
 Unfortunately, it does not work yet for technical reasons, but we have good hope it can be solved.
 

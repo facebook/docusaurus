@@ -19,6 +19,7 @@
   "theme.admonition.info": "info",
   "theme.admonition.note": "notitie",
   "theme.admonition.tip": "tip",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Archief",
   "theme.blog.archive.title": "Archief",
   "theme.blog.paginator.navAriaLabel": "Paginanavigatie blog",

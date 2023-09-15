@@ -177,7 +177,7 @@ If you did not configure these build options, you may still go to "Site settings
 
 Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `main`.
 
-:::caution
+:::warning
 
 Some Docusaurus sites put the `docs` folder outside of `website` (most likely former Docusaurus v1 sites):
 
@@ -254,7 +254,7 @@ First, modify your `docusaurus.config.js` and add the following params:
 
 These fields also have their environment variable counterparts which have a higher priority: `ORGANIZATION_NAME`, `PROJECT_NAME`, and `DEPLOYMENT_BRANCH`.
 
-:::caution
+:::warning
 
 GitHub Pages adds a trailing slash to Docusaurus URLs by default. It is recommended to set a `trailingSlash` config (`true` or `false`, not `undefined`).
 
@@ -336,7 +336,7 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 </Tabs>
 ```
 
-:::caution
+:::warning
 
 Beginning in August 2021, GitHub requires every command-line sign-in to use the **personal access token** instead of the password. When GitHub prompts for your password, enter the PAT instead. See the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information.
 

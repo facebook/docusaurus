@@ -74,11 +74,20 @@ declare module '@theme/Admonition/Type/Tip' {
   export default function AdmonitionTypeTip(props: Props): JSX.Element;
 }
 
+// TODO remove before v4: Caution replaced by Warning
+// see https://github.com/facebook/docusaurus/issues/7558
 declare module '@theme/Admonition/Type/Caution' {
   import type {Props as AdmonitionProps} from '@theme/Admonition';
 
   export interface Props extends AdmonitionProps {}
   export default function AdmonitionTypeCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Warning' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Type/Danger' {
@@ -128,12 +137,12 @@ declare module '@theme/Admonition/Icon/Tip' {
   export default function AdmonitionIconTip(props: Props): JSX.Element;
 }
 
-declare module '@theme/Admonition/Icon/Caution' {
+declare module '@theme/Admonition/Icon/Warning' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function AdmonitionIconCaution(props: Props): JSX.Element;
+  export default function AdmonitionIconWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Icon/Danger' {

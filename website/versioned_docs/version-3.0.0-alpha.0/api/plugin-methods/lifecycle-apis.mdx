@@ -113,7 +113,7 @@ This function permits one to create some global plugin data that can be read fro
 
 This data becomes accessible to your client-side/theme code through the [`useGlobalData`](../../docusaurus-core.mdx#useGlobalData) and [`usePluginData`](../../docusaurus-core.mdx#usePluginData) hooks.
 
-:::caution
+:::warning
 
 Global data is... global: its size affects the loading time of all pages of your site, so try to keep it small. Prefer `createData` and page-specific data whenever possible.
 
@@ -157,7 +157,7 @@ export default function friendsPlugin(context, options) {
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the second argument.
 
-:::caution
+:::warning
 
 The API of `configureWebpack` will be modified in the future to accept an object (`configureWebpack({config, isServer, utils, content})`)
 

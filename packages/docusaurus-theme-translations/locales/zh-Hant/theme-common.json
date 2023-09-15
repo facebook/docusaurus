@@ -19,6 +19,7 @@
   "theme.admonition.info": "信息",
   "theme.admonition.note": "備註",
   "theme.admonition.tip": "提示",
+  "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "歷史文章",
   "theme.blog.archive.title": "歷史文章",
   "theme.blog.paginator.navAriaLabel": "部落格文章列表分頁導覽",
