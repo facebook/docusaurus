@@ -15,7 +15,7 @@ import {
   containsLineNumbers,
   useCodeWordWrap,
 } from '@docusaurus/theme-common/internal';
-import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
+import {Highlight, type Language} from 'prism-react-renderer';
 import Line from '@theme/CodeBlock/Line';
 import CopyButton from '@theme/CodeBlock/CopyButton';
 import WordWrapButton from '@theme/CodeBlock/WordWrapButton';
@@ -74,7 +74,6 @@ export default function CodeBlockString({
       {title && <div className={styles.codeBlockTitle}>{title}</div>}
       <div className={styles.codeBlockContent}>
         <Highlight
-          {...defaultProps}
           theme={prismTheme}
           code={code}
           language={(language ?? 'text') as Language}>
