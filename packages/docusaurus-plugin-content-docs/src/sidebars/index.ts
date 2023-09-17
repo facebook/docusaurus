@@ -12,7 +12,7 @@ import logger from '@docusaurus/logger';
 import {Globby} from '@docusaurus/utils';
 import Yaml from 'js-yaml';
 import combinePromises from 'combine-promises';
-import importFresh from 'import-fresh';
+import jiti from 'jiti';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars} from './processor';
@@ -89,7 +89,9 @@ export async function loadSidebarsFileUnsafe(
   }
 
   // We don't want sidebars to be cached because of hot reloading.
-  return importFresh(sidebarFilePath);
+  return jiti(__filename, {
+    cache: false,
+  })(sidebarFilePath);
 }
 
 export async function loadSidebars(

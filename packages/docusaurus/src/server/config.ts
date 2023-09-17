@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import importFresh from 'import-fresh';
+import jiti from 'jiti';
 import logger from '@docusaurus/logger';
 import {DEFAULT_CONFIG_FILE_NAME, findAsyncSequential} from '@docusaurus/utils';
 import {validateConfig} from './configValidation';
@@ -46,12 +46,9 @@ export async function loadSiteConfig({
     throw new Error(`Config file at "${siteConfigPath}" not found.`);
   }
 
-  const importedConfig = importFresh(siteConfigPath);
-
-  const loadedConfig: unknown =
-    typeof importedConfig === 'function'
-      ? await importedConfig()
-      : await importedConfig;
+  const loadedConfig = jiti(__filename, {
+    cache: false,
+  })(siteConfigPath);
 
   const siteConfig = validateConfig(
     loadedConfig,
