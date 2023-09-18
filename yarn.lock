@@ -14920,6 +14920,11 @@ scslre@^0.2.0:
     refa "^0.11.0"
     regexp-ast-analysis "^0.6.0"
 
+search-insights@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-2.8.2.tgz#00c8e795ec567b8060bd46d3e6b840bb56665d63"
+  integrity sha512-PxA9M5Q2bpBelVvJ3oDZR8nuY00Z6qwOxL53wNpgzV28M/D6u9WUbImDckjLSILBF8F1hn/mgyuUaOPtjow4Qw==
+
 section-matter@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/section-matter/-/section-matter-1.0.0.tgz#e9041953506780ec01d59f292a19c7b850b84167"
