@@ -254,7 +254,7 @@ export function parseLines(
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
-  const mapping: {[name: string]: string} = {
+  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
     color: '--prism-color',
     backgroundColor: '--prism-background-color',
   };
