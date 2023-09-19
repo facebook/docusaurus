@@ -104,8 +104,7 @@ fbid
 février
 fienny
 flac
-Flightcontrol
-Flightcontrol's
+flightcontrol
 formik
 fouc
 froms
@@ -113,7 +112,7 @@ funboxteam
 gabrielcsapo
 gantt
 getopts
-Gifs
+gifs
 gitgraph
 gitpod
 globbing
@@ -377,7 +376,7 @@ typecheck
 typechecks
 typedoc
 typesense
-Unavatar
+unavatar
 unflat
 unist
 unlinkable
