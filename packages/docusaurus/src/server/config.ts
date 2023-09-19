@@ -46,9 +46,14 @@ export async function loadSiteConfig({
     throw new Error(`Config file at "${siteConfigPath}" not found.`);
   }
 
-  const loadedConfig = jiti(__filename, {
+  const importedConfig = jiti(__filename, {
     cache: false,
   })(siteConfigPath);
+
+  const loadedConfig: unknown =
+    typeof importedConfig === 'function'
+      ? await importedConfig()
+      : importedConfig;
 
   const siteConfig = validateConfig(
     loadedConfig,
