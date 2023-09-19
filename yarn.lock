@@ -13618,14 +13618,6 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prism-react-renderer@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-2.0.5.tgz#14e2f06931412b42bc83ef0273a7d9c06f9bccfb"
-  integrity sha512-VHTC2ZhOImeC3/mu/3TkEuRCa1K+kTCZQeCkwvWzQa01/ahU3dibyxWf3XiPLuO4k/rGjSTea1lEsfza6fMofw==
-  dependencies:
-    "@types/prismjs" "^1.26.0"
-    clsx "^1.2.1"
-
 prism-react-renderer@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-2.0.6.tgz#24f0c1afbc07d4a268677fb05e77079ea80b6a2f"
@@ -13994,12 +13986,12 @@ react-lite-youtube-embed@^2.3.52:
   resolved "https://registry.yarnpkg.com/react-lite-youtube-embed/-/react-lite-youtube-embed-2.3.52.tgz#7f8125a03e7a940745b63d11abd6821ffe1babe5"
   integrity sha512-G010PvCavA4EqL8mZ/Sv9XXiHnjMfONW+lmNeCRnSEPluPdptv2lZ0cNlngrj7K9j7luc8pbpyrmNpKbD9VMmw==
 
-react-live@^4.1.2:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/react-live/-/react-live-4.1.3.tgz#ecaac15e058f22e6e94b78159c8a276005c1150a"
-  integrity sha512-D8mX8iFICW7KSYzy//AepC1svCLiXBuxO6bQVzcIjz6BP3EdrMZbyyC7lKg07Ou0fRWi1NYdOhigzeMlzAVg5Q==
+react-live@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/react-live/-/react-live-4.1.5.tgz#a4fa4cfdcad763503a209a29bace3339764fdfb1"
+  integrity sha512-ul3Zwvqvh6KTg8j7xGCT26+c8J9vQ+LFUrZCbrrrzEExuVB/39s1GKG3NsywnL+aGAjpfnUTaVCe7KlKIvVPiw==
   dependencies:
-    prism-react-renderer "2.0.5"
+    prism-react-renderer "^2.0.6"
     sucrase "^3.31.0"
     use-editable "^2.3.3"
 
