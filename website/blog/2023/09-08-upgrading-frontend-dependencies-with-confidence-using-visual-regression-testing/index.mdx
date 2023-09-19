@@ -8,22 +8,232 @@ slug: /upgrading-frontend-dependencies-with-confidence-using-visual-regression-t
 
 # Upgrading frontend dependencies with confidence
 
-Frontend developers need to keep their npm dependencies up to date. But those updates can feel scary, and lead to subtle unintended UI side effects that are not detected by your CI and your regular test suite.
+Frontend developers need to keep their npm dependencies up to date. But those updates can feel scary, as they can lead to subtle unintended UI side effects that are not detected by your CI and your regular test suite.
 
-Upgrading Docusaurus is a good example: without reviewing all the pages of your upgraded site one by one, it's hard to be sure there's no visual regression.
+Upgrading Docusaurus is a good example: without reviewing all the pages one by one, it's hard to be sure there's no visual regression. **Docusaurus v3 is around the corner**, and we would like to help you do this upgrade with confidence.
 
-This article introduces a **visual regression testing** workflow based on [Playwright](https://playwright.dev/) and [Argos CI](https://argos-ci.com/). It is not coupled to Docusaurus, and can be adapted to other frontend applications and frameworks.
-
-This workflow has been tested in particular to upgrade Docusaurus v2 to v3, and helped catch a few visual regressions on sites such as [React-Native](https://reactnative.dev/), [Jest](https://jestjs.io/) and [Docusaurus](https://docusaurus.io/) itself. Docusaurus v3 is around the corner and comes with infrastructure changes such as MDX v2 and React 18, which can produce such side effects. For this reason I encourage site owners to consider adopting visual regression tests.
+This article introduces a **visual regression testing** workflow based on [GitHub Actions](https://github.com/features/actions), [Playwright](https://playwright.dev/) and [Argos](https://argos-ci.com/). It is not directly coupled to Docusaurus, and can be adapted to work with other frontend applications and frameworks.
 
 <!--truncate-->
+
+This workflow has been tested while upgrading Docusaurus v2 to v3, and already helped catch a few visual regressions on sites such as [React-Native](https://reactnative.dev/), [Jest](https://jestjs.io/) and our [Docusaurus](https://docusaurus.io/) itself. Docusaurus v3 comes with infrastructure changes such as [MDX v2](https://mdxjs.com/blog/v2/) and [React 18](https://react.dev/blog/2022/03/29/react-v18), which can produce unintended side effects. It would have been hard to notice all the visual regressions without such workflow. For this reason I encourage site owners to consider adopting visual regression tests, in particular for highly customized sites.
 
 ## Workflow overview
 
 The general idea is pretty simple:
 
-- Build your site in CI
-- Take screenshots of all your `sitemap.xml` pages with [Playwright](https://playwright.dev/)
-- Upload them to [Argos CI](https://argos-ci.com/)
+- Build your site in CI with [GitHub Actions](https://github.com/features/actions)
+- Take screenshots of all `sitemap.xml` pages with [Playwright](https://playwright.dev/)
+- Upload them to [Argos](https://argos-ci.com/)
 - Do this for both Git branches `main` and `pr-branch`
-- Compare the screenshots side by side in [Argos CI](https://argos-ci.com/)
+- Compare the screenshots side by side in [Argos](https://argos-ci.com/)
+
+The outcome: a bot will report the visual differences found between `main` and `pr-branch` as a GitHub commit status and pull-request comment, helping you detect visual regressions ahead of time in an automated way.
+
+![Argos GitHub commit status](./img/argos-github-status.png)
+
+![Argos GitHub PR comment](./img/argos-github-comment.png)
+
+Argos creates a report referencing all the visual differences found while comparing the 2 Git branches sites side by side, and provides an UX to easily identify which part of a page has changed.
+
+Check the [Docusaurus Argos page](https://app.argos-ci.com/meta-open-source/docusaurus) to explore our own website reports.
+
+Here is a more concrete example of Argos [reporting a visual regression](https://app.argos-ci.com/slorber/rnw-visual-tests/builds/32/56012838) found while upgrading the React-Native website:
+
+![Argos GitHub PR comment](./img/argos-react-native-regression.png)
+
+## Workflow implementation
+
+This section will describe the implementation details of each step of the workflow.
+
+### GitHub Actions
+
+The GitHub action is responsible for executing the workflow for each Git branch.
+
+A minimal config could look like:
+
+```yaml title=".github/workflows/argos.yml"
+name: Argos CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  take-screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@4
+        with:
+          fetch-depth: 2 # R
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build the website
+        run: yarn build
+
+      - name: Take screenshots with Playwright
+        run: yarn playwright test
+
+      - name: Upload screenshots to Argos
+        continue-on-error: true
+        run: yarn argos upload ./screenshots
+```
+
+### Playwright
+
+Playwright is responsible for taking screenshots of the website built locally by the GitHub action.
+
+A minimal config could look like:
+
+```ts title="playwright.config.ts"
+import {devices} from '@playwright/test';
+import type {PlaywrightTestConfig} from '@playwright/test';
+
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
+const config: PlaywrightTestConfig = {
+  testDir: './tests', // TODO remove?
+  webServer: {
+    port: 3000,
+    command: 'yarn docusaurus serve',
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+  ],
+};
+
+export default config;
+```
+
+But a config is not enough, and we also need to write a Playwright test file to tell Playwright to generate the site screenshots.
+
+```ts title="screenshot.spec.ts"
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import * as fs from 'fs';
+import {test} from '@playwright/test';
+import {argosScreenshot} from '@argos-ci/playwright';
+import * as cheerio from 'cheerio';
+
+const siteUrl = 'http://localhost:3000';
+const sitemapPath = '../website/build/sitemap.xml';
+const stylesheetPath = './tests/screenshot.css';
+
+// Use ONLY_PATH="/docs/installation" to debug a specific page
+const onlyPath: string | undefined = process.env.ONLY_PATH;
+
+// eslint-disable-next-line no-restricted-properties
+const sitemap = fs.readFileSync(sitemapPath).toString();
+// eslint-disable-next-line no-restricted-properties
+const stylesheet = fs.readFileSync(stylesheetPath).toString();
+
+function extractSitemapUrls() {
+  const $ = cheerio.load(sitemap, {xmlMode: true});
+  const urls: string[] = [];
+  $('loc').each(function handleLoc() {
+    urls.push($(this).text());
+  });
+  return urls;
+}
+
+function isBlacklisted(pathname: string) {
+  if (onlyPath && onlyPath !== pathname) {
+    return true;
+  }
+  // Some paths explicitly blacklisted
+  const BlacklistedPathnames: string[] = [
+    '/feature-requests', // Flaky because of Canny widget
+    '/community/canary', // Flaky because of dynamic canary version fetched from npm
+  ];
+
+  return (
+    // changelog docs
+    pathname.startsWith('/changelog') ||
+    // versioned docs
+    pathname.match(/^\/docs\/((\d\.\d\.\d)|(next))\//) ||
+    // manually excluded urls
+    BlacklistedPathnames.includes(pathname)
+  );
+}
+
+function getPathnames(): string[] {
+  const urls = extractSitemapUrls();
+  const pathnamesUnfiltered = urls.map((url) => new URL(url).pathname);
+  const pathnames = pathnamesUnfiltered.filter(
+    (pathname) => !isBlacklisted(pathname),
+  );
+  pathnames.sort();
+  console.log('Pathnames:\n', JSON.stringify(pathnames, null, 2));
+  console.log('Pathnames before filtering', pathnamesUnfiltered.length);
+  console.log('Pathnames after filtering', pathnames.length);
+  return pathnames;
+}
+
+function pathnameToArgosName(pathname: string): string {
+  function removeTrailingSlash(str: string): string {
+    return str.endsWith('/') ? str.slice(0, -1) : str;
+  }
+  function removeLeadingSlash(str: string): string {
+    return str.startsWith('/') ? str.slice(1) : str;
+  }
+
+  pathname = removeTrailingSlash(pathname);
+  pathname = removeLeadingSlash(pathname);
+
+  if (pathname === '') {
+    return 'index';
+  }
+
+  return pathname;
+}
+
+test.describe('Site screenshots', () => {
+  getPathnames().forEach((pathname) => {
+    test(`pathname ${pathname}`, async ({page}) => {
+      const url = siteUrl + pathname;
+      await page.goto(url);
+      await page.addStyleTag({content: stylesheet});
+      await argosScreenshot(page, pathnameToArgosName(pathname));
+    });
+  });
+});
+```
+
+:::info
+
+TODO: Docusaurus specific, requires patch release + backport
+
+```ts
+// See https://github.com/facebook/docusaurus/pull/9256
+// Docusaurus adds a <html data-has-hydrated="true">
+function waitForDocusaurusHydration() {
+  return document.documentElement.dataset.hasHydrated === 'true';
+}
+
+await page.waitForFunction(waitForDocusaurusHydration);
+```
+
+:::
