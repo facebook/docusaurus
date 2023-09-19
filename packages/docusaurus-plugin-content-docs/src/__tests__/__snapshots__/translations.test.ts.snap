@@ -132,7 +132,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc1 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -153,7 +152,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc2 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -174,7 +172,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc3 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -195,7 +192,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc4 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -216,7 +212,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc5 title",
-          "unversionedId": "any",
           "version": "any",
         },
       ],
@@ -308,7 +303,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc1 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -329,7 +323,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc2 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -350,7 +343,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc3 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -371,7 +363,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc4 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -392,7 +383,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc5 title",
-          "unversionedId": "any",
           "version": "any",
         },
       ],
@@ -484,7 +474,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc1 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -505,7 +494,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc2 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -526,7 +514,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc3 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -547,7 +534,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc4 title",
-          "unversionedId": "any",
           "version": "any",
         },
         {
@@ -568,7 +554,6 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           "sourceDirName": "",
           "tags": [],
           "title": "doc5 title",
-          "unversionedId": "any",
           "version": "any",
         },
       ],

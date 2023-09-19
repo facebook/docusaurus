@@ -24,7 +24,6 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Törölje ezt a keresést a kedvencekből",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Törölje ezt a keresést az előzményekből",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Mentsük el ezt a keresést",
-  "theme.SearchPage.saveRecentSearchButtonTitle": "Mentse ezt a keresést",
   "theme.SearchPage.algoliaLabel": "Keresés az Algolia segítségével",
   "theme.SearchPage.documentsFound.plurals": "Egy dokumentum|{count} dokumentumok",
   "theme.SearchPage.emptyResultsTitle": "Keresés a webhelyen",
@@ -32,5 +31,6 @@
   "theme.SearchPage.fetchingNewResults": "Új keresési eredmények betöltése...",
   "theme.SearchPage.inputLabel": "Keresés",
   "theme.SearchPage.inputPlaceholder": "Adja meg a keresendő kifejezést",
-  "theme.SearchPage.noResultsText": "Nincs találat a keresésre"
+  "theme.SearchPage.noResultsText": "Nincs találat a keresésre",
+  "theme.SearchPage.saveRecentSearchButtonTitle": "Mentse ezt a keresést"
 }
