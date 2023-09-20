@@ -7,6 +7,7 @@
 - `docusaurus-plugin-content-docs`
   - [#9107](https://github.com/facebook/docusaurus/pull/9107) fix(content-docs): sidebar generator should return customProps for doc items ([@TheCatLady](https://github.com/TheCatLady))
 - `docusaurus-theme-classic`
+  - [#9108](https://github.com/facebook/docusaurus/pull/9108) feat(theme-classic): add description & keywords microdata to blog posts ([@TheCatLady](https://github.com/TheCatLady))
   - [#9099](https://github.com/facebook/docusaurus/pull/9099) fix(theme): only set classname on ul elements if they have an existing class ([@homotechsual](https://github.com/homotechsual))
   - [#9243](https://github.com/facebook/docusaurus/pull/9243) fix(theme-common): ThemedComponent should display something when JS is disabled ([@slorber](https://github.com/slorber))
 - `docusaurus-theme-classic`, `docusaurus-theme-common`
