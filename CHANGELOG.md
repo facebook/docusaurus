@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## 2.4.2 (2023-09-20)
+## 2.4.3 (2023-09-20)
 
 #### :bug: Bug Fix
 
@@ -19,6 +19,10 @@
 - Ori Shalom ([@ori-shalom](https://github.com/ori-shalom))
 - Sébastien Lorber ([@slorber](https://github.com/slorber))
 - [@TheCatLady](https://github.com/TheCatLady)
+
+## 2.4.2 (2023-09-20)
+
+Bad npm publish, please use 2.4.3
 
 ## 2.4.1 (2023-05-15)
 
