@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-client-redirects",
-  "version": "2.4.1",
+  "version": "2.4.3",
   "description": "Client redirects plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,18 +18,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.4.1",
-    "@docusaurus/logger": "2.4.1",
-    "@docusaurus/utils": "2.4.1",
-    "@docusaurus/utils-common": "2.4.1",
-    "@docusaurus/utils-validation": "2.4.1",
+    "@docusaurus/core": "2.4.3",
+    "@docusaurus/logger": "2.4.3",
+    "@docusaurus/utils": "2.4.3",
+    "@docusaurus/utils-common": "2.4.3",
+    "@docusaurus/utils-validation": "2.4.3",
     "eta": "^2.0.0",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.4.1"
+    "@docusaurus/types": "2.4.3"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
