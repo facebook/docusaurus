@@ -1,5 +1,25 @@
 # Docusaurus 2 Changelog
 
+## 2.4.2 (2023-09-20)
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`
+  - [#9107](https://github.com/facebook/docusaurus/pull/9107) fix(content-docs): sidebar generator should return customProps for doc items ([@TheCatLady](https://github.com/TheCatLady))
+- `docusaurus-theme-classic`
+  - [#9108](https://github.com/facebook/docusaurus/pull/9108) feat(theme-classic): add description & keywords microdata to blog posts ([@TheCatLady](https://github.com/TheCatLady))
+  - [#9099](https://github.com/facebook/docusaurus/pull/9099) fix(theme): only set classname on ul elements if they have an existing class ([@homotechsual](https://github.com/homotechsual))
+  - [#9243](https://github.com/facebook/docusaurus/pull/9243) fix(theme-common): ThemedComponent should display something when JS is disabled ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#9130](https://github.com/facebook/docusaurus/pull/9130) fix(theme): canonical url should be not change after hydration if url accessed with/without trailing slash ([@ori-shalom](https://github.com/ori-shalom))
+
+#### Committers: 4
+
+- Mikey O'Toole ([@homotechsual](https://github.com/homotechsual))
+- Ori Shalom ([@ori-shalom](https://github.com/ori-shalom))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- [@TheCatLady](https://github.com/TheCatLady)
+
 ## 2.4.1 (2023-05-15)
 
 #### :bug: Bug Fix
