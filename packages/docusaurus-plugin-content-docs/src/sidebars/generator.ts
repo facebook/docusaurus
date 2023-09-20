@@ -138,7 +138,11 @@ Available doc IDs:
     ): WithPosition<SidebarItemDoc> {
       const {
         sidebarPosition: position,
-        frontMatter: {sidebar_label: label, sidebar_class_name: className},
+        frontMatter: {
+          sidebar_label: label,
+          sidebar_class_name: className,
+          sidebar_custom_props: customProps,
+        },
       } = getDoc(id);
       return {
         type: 'doc',
@@ -149,6 +153,7 @@ Available doc IDs:
         // sidebar
         ...(label !== undefined && {label}),
         ...(className !== undefined && {className}),
+        ...(customProps !== undefined && {customProps}),
       };
     }
     function createCategoryItem(

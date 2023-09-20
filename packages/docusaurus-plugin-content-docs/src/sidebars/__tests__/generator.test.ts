@@ -64,6 +64,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {
             sidebar_label: 'doc1 sidebar label',
+            sidebar_custom_props: {custom: 'prop'},
           },
           title: '',
           unversionedId: 'doc1',

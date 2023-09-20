@@ -86,6 +86,9 @@ exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
     "type": "doc",
   },
   {
+    "customProps": {
+      "custom": "prop",
+    },
     "id": "doc1",
     "label": "doc1 sidebar label",
     "type": "doc",
