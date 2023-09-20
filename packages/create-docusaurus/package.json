@@ -1,6 +1,6 @@
 {
   "name": "create-docusaurus",
-  "version": "2.4.1",
+  "version": "2.4.3",
   "description": "Create Docusaurus apps easily.",
   "type": "module",
   "repository": {
@@ -22,8 +22,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "2.4.1",
-    "@docusaurus/utils": "2.4.1",
+    "@docusaurus/logger": "2.4.3",
+    "@docusaurus/utils": "2.4.3",
     "commander": "^5.1.0",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
