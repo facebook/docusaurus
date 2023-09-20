@@ -7,7 +7,8 @@
 
 declare module '@philpl/buble' {
   import type {TransformOptions as OriginalTransformOptions} from 'buble';
-  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
+
+  // eslint-disable-next-line no-restricted-syntax
   export * from 'buble';
   export const features: string[];
   export type TransformOptions = OriginalTransformOptions & {
