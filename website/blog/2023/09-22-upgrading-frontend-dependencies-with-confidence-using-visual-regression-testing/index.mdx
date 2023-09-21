@@ -298,7 +298,7 @@ For Docusaurus, we choose [Argos](https://argos-ci.com/): it works well for us, 
 
 In case you don't mind storing large screenshots in Git, you can also try the free, self-hosted [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) and browse visual differences with `npx playwright show-report`. However, we found using a dedicated external tool is more convenient.
 
-External tools can be expensive, but generally offer free plans with a good amount of screenshots. You can keep your screenshot consumption to a minimum by implementing a few tips described below.
+External tools can be expensive, but generally offer free plans with a good amount of screenshots. You can reduce your screenshot consumption by implementing a few tricks below.
 
 ### Limit the number of pathnames
 
@@ -326,7 +326,7 @@ test.describe('Docusaurus site screenshots', () => {
 
 ### Limit the workflow concurrency
 
-Implementing [GitHub Actions concurrency groups](https://docs.github.com/en/actions/using-jobs/using-concurrency) will prevent successive commits to trigger multiple useless workflow runs. The workflow will only be executed for tha last commit, and previous commits will be canceled automatically.
+Implementing [GitHub Actions concurrency groups](https://docs.github.com/en/actions/using-jobs/using-concurrency) will prevent successive commits to trigger multiple useless workflow runs. The workflow will only be executed for the last commit, and previous commits will be canceled automatically.
 
 ```yaml title=".github/workflows/argos.yml"
 concurrency:
