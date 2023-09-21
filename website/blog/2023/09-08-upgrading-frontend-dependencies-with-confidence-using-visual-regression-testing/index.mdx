@@ -12,11 +12,13 @@ Frontend developers need to keep their npm dependencies up to date. But those up
 
 Upgrading Docusaurus is a good example: without reviewing all the pages one by one, it's hard to be sure there's no visual regression. **Docusaurus v3 is around the corner**, and we would like to help you do this upgrade with confidence.
 
-This article introduces a **visual regression testing** workflow based on [GitHub Actions](https://github.com/features/actions), [Playwright](https://playwright.dev/) and [Argos](https://argos-ci.com/). It is not directly coupled to Docusaurus, and can be adapted to work with other frontend applications and frameworks.
+This article introduces a **visual regression testing** workflow based on [GitHub Actions](https://github.com/features/actions), [Playwright](https://playwright.dev/) and [Argos](https://argos-ci.com/). It is not directly coupled to Docusaurus or React, and can be adapted to work with other frontend applications and frameworks.
 
 <!--truncate-->
 
-This workflow has been tested while upgrading Docusaurus v2 to v3, and already helped catch a few visual regressions on sites such as [React-Native](https://reactnative.dev/), [Jest](https://jestjs.io/) and our [Docusaurus](https://docusaurus.io/) itself. Docusaurus v3 comes with infrastructure changes such as [MDX v2](https://mdxjs.com/blog/v2/) and [React 18](https://react.dev/blog/2022/03/29/react-v18), which can produce unintended side effects. It would have been hard to notice all the visual regressions without such workflow. For this reason I encourage site owners to consider adopting visual regression tests, in particular for highly customized sites.
+This workflow has been tested while upgrading Docusaurus v2 to v3, and already helped catch a few visual regressions on sites such as [React-Native](https://reactnative.dev/), [Jest](https://jestjs.io/) and the [Docusaurus](https://docusaurus.io/) site itself.
+
+Docusaurus v3 comes with infrastructure changes such as [MDX v2](https://mdxjs.com/blog/v2/) and [React 18](https://react.dev/blog/2022/03/29/react-v18), which can produce unexpected side-effects. It would have been difficult to notice all the visual regressions without such a workflow. That's why we encourage site owners to consider adopting visual regression testing, especially for highly customized sites.
 
 ## Workflow overview
 
@@ -26,9 +28,9 @@ The general idea is pretty simple:
 - Take screenshots of all `sitemap.xml` pages with [Playwright](https://playwright.dev/)
 - Upload them to [Argos](https://argos-ci.com/)
 - Do this for both Git branches `main` and `pr-branch`
-- Compare the screenshots side by side in [Argos](https://argos-ci.com/)
+- Compare the screenshots side-by-side in [Argos](https://argos-ci.com/)
 
-The outcome: a bot will report the visual differences found between `main` and `pr-branch` as a GitHub commit status and pull-request comment, helping you detect visual regressions ahead of time in an automated way.
+Argos will then report visual differences found between `main` and `pr-branch` as a GitHub commit status and pull-request comment. This can help you detect visual regressions ahead of time in an automated way.
 
 ![Argos GitHub commit status](./img/argos-github-status.png)
 
@@ -40,20 +42,26 @@ Check the [Docusaurus Argos page](https://app.argos-ci.com/meta-open-source/docu
 
 Here is a more concrete example of Argos [reporting a visual regression](https://app.argos-ci.com/slorber/rnw-visual-tests/builds/32/56012838) found while upgrading the React-Native website:
 
-![Argos GitHub PR comment](./img/argos-react-native-regression.png)
+[![Argos GitHub PR comment](./img/argos-react-native-regression.png)](https://app.argos-ci.com/slorber/rnw-visual-tests/builds/32/56012838)
 
 ## Workflow implementation
 
 This section will describe the implementation details of each step of the workflow.
 
-### GitHub Actions
+:::note
+
+This is how we choose to implement the workflow, but you are free to choose alternative tools for each step if you want.
+
+:::
+
+### GitHub Action
 
 The GitHub action is responsible for executing the workflow for each Git branch.
 
-A minimal action could look like:
+A minimal workflow could look like:
 
 ```yaml title=".github/workflows/argos.yml"
-name: Argos CI
+name: Argos CI Screenshots
 
 on:
   push:
@@ -79,7 +87,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: yarn playwright install --with-deps chromium
 
       - name: Build the website
         run: yarn docusaurus build
@@ -91,19 +99,16 @@ jobs:
         run: yarn argos upload ./screenshots
 ```
 
-### Playwright
+### Playwright config
 
-Playwright is responsible for taking screenshots of the website built locally by the GitHub action.
+Playwright is responsible for taking screenshots of the website previously built locally by the GitHub action.
 
-A minimal config could look like:
+A minimal [Playwright config](https://playwright.dev/docs/test-configuration) could look like:
 
 ```ts title="playwright.config.ts"
 import {devices} from '@playwright/test';
 import type {PlaywrightTestConfig} from '@playwright/test';
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 const config: PlaywrightTestConfig = {
   webServer: {
     port: 3000,
@@ -122,7 +127,9 @@ const config: PlaywrightTestConfig = {
 export default config;
 ```
 
-But a config is not enough, and we also need to write a Playwright test file to generate the site screenshots.
+## Playwright test
+
+A Playwright config is not enough: we also need to write a Playwright test file to generate the site screenshots.
 
 ```ts title="screenshot.spec.ts"
 import * as fs from 'fs';
@@ -130,7 +137,7 @@ import {test} from '@playwright/test';
 import {argosScreenshot} from '@argos-ci/playwright';
 import {extractSitemapPathnames, pathnameToArgosName} from './utils';
 
-// Constants:
+// Constants
 const siteUrl = 'http://localhost:3000';
 const sitemapPath = './build/sitemap.xml';
 const stylesheetPath = './screenshot.css';
@@ -162,6 +169,8 @@ test.describe('Docusaurus site screenshots', () => {
 
 <details>
 <summary>What's inside <code>utils.ts</code>?</summary>
+
+This module contains implementation details that we choose to hide to give you a more concise overview of the overall workflow.
 
 ```ts
 import * as cheerio from 'cheerio';
@@ -198,48 +207,50 @@ export function pathnameToArgosName(pathname: string): string {
 
 </details>
 
-:::warning Handling screenshot flakiness
+### Stylesheet
 
-Docusaurus screenshots are not always deterministic, and taking a screenshot of a page twice can lead to subtle variations that will be reported by Argos as false positive visual regressions.
+Screenshots are not always deterministic, and taking a screenshot of a page twice can lead to subtle variations that will be reported by Argos as false positive visual regressions.
 
-For this reason we recommend using an extra stylesheet to hide the problematic elements. It is possible that you will need to add rules to this base stylesheet, according to the flaky elements found on your own site. Read [Argos - About flaky tests docs](https://argos-ci.com/docs/about-flaky) for details.
+For this reason we recommend injecting in pages an extra stylesheet to hide the problematic elements. You will probably need to add new CSS rules to this base stylesheet, according to flaky elements found on your own site. Read [Argos - About flaky tests docs](https://argos-ci.com/docs/about-flaky) for details.
 
 ```css title="screenshot.css"
 /* Iframes can load lazily */
 iframe,
-/* Avatar images can be flaky due to using external sources: GitHub/Unavatar */
+/* Avatars can be flaky due to using external sources: GitHub/Unavatar */
 .avatar__photo,
 /* Gifs load lazily and are animated */
 img[src$='.gif'],
-/* Algolia Keyboard shortcuts appear with a little delay */
+/* Algolia keyboard shortcuts appear with a little delay */
 .DocSearch-Button-Keys > kbd,
 /* The live playground preview can often display dates/counters */
 [class*='playgroundPreview'] {
   visibility: hidden;
 }
 
-/*
-Different docs last-update dates can alter layout
-"visibility: hidden" is not enough
- */
-.theme-last-updated {
-  display: none;
-}
-
-/*
-Mermaid diagrams are rendered client-side and produce layout shifts
- */
+/* Different docs last-update dates can alter layout */
+.theme-last-updated,
+/* Mermaid diagrams are rendered client-side and produce layout shifts */
 .docusaurus-mermaid-container {
   display: none;
 }
 ```
 
-:::
-
 ## Example repository
+
+The [slorber/docusaurus-argos-example](https://github.com/slorber/docusaurus-argos-example) shows a complete example of implementing this workflow on a newly initialized Docusaurus site, using a Yarn monorepo.
+
+![Docusaurus + Argos monorepo example screenshot](./img/docusaurus-argos-example-repo-screenshot.png)
 
 TODO
 
 https://github.com/slorber/docusaurus-argos-example
 
 https://github.com/slorber/docusaurus-argos-example/pull/2
+
+## Conclusion
+
+I am a firm believer that visual regression testing is currently underused in the frontend ecosystem. Taking full page screenshots is a low-hanging fruit easy to set up, and can help you catch a new class of bugs that your regular test suite would usually miss. It doesn't only shine for package upgrades, but also for large refactorings that are not supposed to change the UI.
+
+The tools we choose are implementation details of this visual regression workflow, and you are free to adopt alternative tools if you want. At Docusaurus, we choose [Argos](https://argos-ci.com/): it works well for us, and has [free](https://argos-ci.com/pricing) and [open source](https://argos-ci.com/docs/open-source) plans.
+
+In case you don't mind storing large screenshots in Git, you can also try the free [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) and check visual differences with `npx playwright show-report`. However, using a dedicated external tool is often more convenient to use.
