@@ -306,7 +306,7 @@ The base setup involves taking a screenshot of every single pathname found in `s
 
 You can decide to filter the pathnames to only take screenshots of the most critical pages.
 
-For the Docusaurus website, we decided it was not worth it to take screenshot of versioned documentation pages:
+For the Docusaurus website, do not take screenshots for versioned docs pages:
 
 ```ts title="screenshot.spec.ts"
 // highlight-start
@@ -340,7 +340,7 @@ It's not worth running this workflow for every single commit and pull-request.
 
 For example, if someone corrects a typo in your documentation, you probably don't want to take hundreds of screenshots and have Argos to point out that only the modified page has a visual difference: duh, that's a bit expected!
 
-For the Docusaurus website, we choose to only run Argos when the pull-request has a certain GitHub label:
+For the Docusaurus website, we only run the workflow for pull-request having the `Argos` label:
 
 ```yaml title=".github/workflows/argos.yml"
 name: Argos CI Screenshots
