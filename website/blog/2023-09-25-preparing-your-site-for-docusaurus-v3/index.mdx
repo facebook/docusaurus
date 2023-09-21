@@ -2,13 +2,69 @@
 title: Preparing your site for Docusaurus v3
 authors:
   - slorber
-tags: [release]
+tags: [maintenance]
 slug: /preparing-your-site-for-docusaurus-v3
 image: ./img/social-card.png
 ---
 
-Docusaurus v3 is around the corner.
+**Docusaurus v3 is around the corner**, currently [**in beta**](https://github.com/facebook/docusaurus/discussions/9312). This is the perfect time to start **preparing your site** for this new major version.
+
+Docusaurus v3 comes with a few **breaking changes**, many of which can **be handled today under Docusaurus v2**. Preparing your site ahead of time can be done incrementally, and will make it easier to upgrade to v3.
+
+The most important Docusaurus v3 breaking change is the [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/), that will compile your Markdown content more strictly and with subtle differences.
+
+This article will mostly focus on how to prepare your content for this new MDX version. We will also list a few other breaking changes that you can handle today.
 
 ![Preparing your site for Docusaurus v3 - social card](./img/social-card.png)
 
 <!--truncate-->
+
+## Before getting started
+
+Before preparing your site or attempting a Docusaurus v3 upgrade, we recommend that you first upgrade to the very latest [Docusaurus v2 version](/versions).
+
+Depending on the complexity of your site, it may be a good idea to adopt the [visual regression testing workflow](/todo) that we recently presented. It could help you catch unexpected visual side effects occurring during the Docusaurus v3 upgrade.
+
+## Preparing your content for MDX v2
+
+MDX is a major dependency of Docusaurus responsible for compiling your `.md` and `.mdx` files to React components.
+
+MDX v2 is much better, but also comes with changes that probably require you to refactor a bit your content. MDX v2 is stricter, and some components that compiled fine under v1 might now fail to compile under v2, most likely because of `{` and `<` characters.
+
+Upgrading MDX comes with all the breaking changes documented on the [MDX v2 release blog post](https://mdxjs.com/blog/v2/). The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [**Update MDX content**](https://mdxjs.com/migrating/v2/#update-mdx-content) that will be particularly relevant us.
+
+### Using the MDX playground
+
+The MDX playground is your new best friend. It permits to understand how your content is **compiled to React components**, and troubleshoot issues in isolation.
+
+Each MDX version comes with its own playground:
+
+- [MDX v1 playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground/)
+- [MDX v2 playground](https://mdxjs.com/playground/)
+
+<details>
+  <summary>Configure the [MDX v2 playground](https://mdxjs.com/playground/) options.</summary>
+
+To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn on these options on the [MDX v2 playground](https://mdxjs.com/playground/):
+
+- Use `MDX`
+- Use `remark-gfm`
+- Use `remark-directive`
+
+![Configure MDX v2 playground options for Docusaurus v3 behavior](./img/mdx2-playground-options.png)
+
+</details>
+
+Using the 2 MDX playgrounds side-by-side, you will soon notice that some content is compiled differently, or fails to compile in v2. We will detail the most common cases below.
+
+:::tip Making your content future-proof
+
+The goal will be to refactor your problematic content so that it **works fine with both versions of MDX**. This way, when you upgrade to Docusaurus v3, this content will already work out-of-the-box.
+
+:::
+
+### Using the MDX checker CLI
+
+https://github.com/slorber/docusaurus-mdx-checker
+
+`npx docusaurus-mdx-checker`
