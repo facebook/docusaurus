@@ -25,7 +25,7 @@ Before preparing your site or attempting a Docusaurus v3 upgrade, we recommend t
 
 Depending on the complexity of your site, it may be a good idea to adopt the [visual regression testing workflow](/todo) that we recently presented. It could help you catch unexpected visual side effects occurring during the Docusaurus v3 upgrade.
 
-## Preparing your content for MDX v2
+## Preparing content for MDX v2
 
 MDX is a major dependency of Docusaurus responsible for compiling your `.md` and `.mdx` files to React components.
 
@@ -65,6 +65,150 @@ The goal will be to refactor your problematic content so that it **works fine wi
 
 ### Using the MDX checker CLI
 
-https://github.com/slorber/docusaurus-mdx-checker
+We provide a [docusaurus-mdx-checker](https://github.com/slorber/docusaurus-mdx-checker) CLI that permits to easily spot problematic content. Run this command today on your Docusaurus v2 site to obtain a list of files that will fail to compile under MDX v2.
 
-`npx docusaurus-mdx-checker`
+```bash
+npx docusaurus-mdx-checker
+```
+
+For each compilation issue, the CLI will log the file path and a line number to look at.
+
+![MDX Checker CLI output](./img/mdx-checker-output.png)
+
+:::tip
+
+Use this CLI to estimate of how much work will be required to make your content compatible with MDX v2.
+
+:::
+
+:::warning
+
+This CLI is a best effort, and will only report compilation errors.
+
+It will not report subtle compilation changes that do not produce errors but can affect how your content is displayed. To catch these problems, we recommend using [visual regression tests](/todo).
+
+:::
+
+### Common MDX problems
+
+We upgraded a few Docusaurus sites to Docusaurus v3 and MDX v2:
+
+- [Docusaurus PR](https://github.com/facebook/docusaurus/pull/8288)
+- [React-Native PR](https://github.com/facebook/react-native-website/pull/3780)
+- [Jest PR](https://github.com/jestjs/jest/pull/14463)
+
+These upgrades permitted us to aggregate the most common content problems, and document how to best handle them.
+
+#### Bad usage of `{`
+
+The `{` character is used for opening [JavaScript expressions](https://mdxjs.com/docs/what-is-mdx/#expressions). MDX v2 will now fail if what you put inside `{expression}` is not a valid expression.
+
+```md title="example.md"
+The object shape looks like {username: string, age: number}
+```
+
+:::danger Error message
+
+> Could not parse expression with acorn: Unexpected content after expression
+
+:::
+
+:::tip Fix it
+
+Available options to fix this error:
+
+- Use an inline code blocks: `{username: string, age: number}`
+- Use the HTML code: `&#123;`
+- Escape it: `\{`
+
+:::
+
+#### Bad usage of `<`
+
+The `<` character is used for opening [JSX tags](https://mdxjs.com/docs/what-is-mdx/#jsx). MDX v2 will now fail if it thinks your JSX is invalid.
+
+```md title="example.md"
+Use Android version <5
+
+You can use a generic type like Array<T>
+
+Follow the template "Road to <YOUR_MINOR_VERSION>"
+```
+
+:::danger Error messages
+
+> Unexpected character `5` (U+0035) before name, expected a character that can start a name, such as a letter, `$`, or `_`
+
+> Expected a closing tag for `<T>` (1:6-1:9) before the end of `paragraph` end-tag-mismatch mdast-util-mdx-jsx
+
+> Expected a closing tag for `<YOUR_MINOR_VERSION>` (134:19-134:39) before the end of `paragraph`
+
+:::
+
+:::tip Fix it
+
+Available options to fix this error:
+
+- Use inline code blocks: `Array<T>`
+- Use the HTML code: `&lt;` or `&#60;`
+- Escape it: `\<` (note: the `\` will be displayed under MDX v1)
+
+:::
+
+### Indented code blocks
+
+Unlike v1, MDX v2 does not transform anymore indented text as code blocks.
+
+```md title="example.md"
+    console.log("hello");
+```
+
+:::danger visual change
+
+This change does not generally produce MDX v2 compilation errors, but can lead to content being renderer in an unexpected way.
+
+:::
+
+:::tip Fix it
+
+Use the regular code block syntax instead of indentation:
+
+````md title="example.md"
+```js
+console.log('hello');
+```
+````
+
+:::
+
+#### TODO
+
+```
+<details>
+  <summary>Help:</summary>
+  If you are seeing coverage output such as...
+
+</details>
+```
+
+```
+<div>
+  See the Pen{' '}
+  <a href="https://codepen.io/TheSavior/pen/NXNoJM/">
+    Loading Screen Animation Steps
+  </a>{' '}
+  by Eli White
+</div>
+
+```
+
+```
+Error while compiling file website/contributing/how-to-open-a-pull-request.md (Line=23 Column=17)
+Details: Unexpected character `/` (U+002F) before local name, expected a character that can start a name, such as a letter, `$`, or `_` (note: to create a link in MDX, use `[text](url)`)
+
+1. Go to <https://github.com/facebook/react-native>.
+```
+
+Directives! `Re:invent`
+
+Extra paragraphs on line breaks
