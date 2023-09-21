@@ -48,11 +48,28 @@ Here is a more concrete example of Argos [reporting a visual regression](https:/
 
 This section will describe the implementation details of each step of the workflow.
 
+You will need to [sign up to Argos](https://app.argos-ci.com/signup) and [connect Argos to your GitHub repository](https://argos-ci.com/docs/github)
+
 :::note
 
 This is how we choose to implement the workflow, but you are free to choose alternative tools for each step if you want.
 
 :::
+
+### Dependencies
+
+This workflow requires the following dependencies, in addition to the usual Docusaurus ones:
+
+```json
+{
+  "dependencies": {
+    "@argos-ci/cli": "^0.6.0",
+    "@argos-ci/playwright": "^0.0.6",
+    "@playwright/test": "^1.38.0",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
+```
 
 ### GitHub Action
 
@@ -127,7 +144,7 @@ const config: PlaywrightTestConfig = {
 export default config;
 ```
 
-## Playwright test
+### Playwright test
 
 A Playwright config is not enough: we also need to write a Playwright test file to generate the site screenshots.
 
@@ -168,9 +185,16 @@ test.describe('Docusaurus site screenshots', () => {
 ```
 
 <details>
+  <summary>Why do we take screenshots with Argos instead of Playwright?</summary>
+
+Argos has a [Playwright integration](https://argos-ci.com/docs/playwright) that wraps the original Playwright screenshot API and provides better defaults to make screenshots more deterministic.
+
+</details>
+
+<details>
 <summary>What's inside <code>utils.ts</code>?</summary>
 
-This module contains implementation details that we choose to hide to give you a more concise overview of the overall workflow.
+This module contains implementation details that we choose to hide for clarity.
 
 ```ts
 import * as cheerio from 'cheerio';
@@ -235,22 +259,46 @@ img[src$='.gif'],
 }
 ```
 
+### Links
+
+We recommend reading the official documentation of each tool used in this workflow.
+
+In particular:
+
+- [Playwright - Installation](https://playwright.dev/docs/intro)
+- [Playwright - Test config guide](https://playwright.dev/docs/test-configuration)
+- [Playwright - Test config API](https://playwright.dev/docs/api/class-testconfig)
+- [Argos - Installation](https://argos-ci.com/docs/installation)
+- [Argos - Use with GitHub Actions](https://argos-ci.com/docs/github-actions)
+- [Argos - Use with Playwright](https://argos-ci.com/docs/playwright)
+- [Argos - About flaky tests](https://argos-ci.com/docs/about-flaky)
+
 ## Example repository
 
 The [slorber/docusaurus-argos-example](https://github.com/slorber/docusaurus-argos-example) shows a complete example of implementing this workflow on a newly initialized Docusaurus site, using a Yarn monorepo.
 
-![Docusaurus + Argos monorepo example screenshot](./img/docusaurus-argos-example-repo-screenshot.png)
+[![Docusaurus + Argos monorepo example screenshot](./img/docusaurus-argos-example-repo-screenshot.png)](https://github.com/slorber/docusaurus-argos-example)
 
-TODO
+Relevant pull-requests:
 
-https://github.com/slorber/docusaurus-argos-example
+- [PR - Set up GitHub Action + Playwright + Argos](https://github.com/slorber/docusaurus-argos-example/pull/1): implements the minimal workflow described above
+- [PR - Upgrading Docusaurus from v2 to v3](https://github.com/slorber/docusaurus-argos-example/pull/2): shows how Argos caught 3 visual regressions while upgrading
 
-https://github.com/slorber/docusaurus-argos-example/pull/2
+:::tip More advanced example?
+
+Browse the Docusaurus repository for a more advanced integration:
+
+- [GitHub Action](https://github.com/facebook/docusaurus/blob/main/.github/workflows/argos.yml)
+- [Playwright + Argos tests](https://github.com/facebook/docusaurus/tree/main/argos)
+
+:::
 
 ## Conclusion
 
 I am a firm believer that visual regression testing is currently underused in the frontend ecosystem. Taking full page screenshots is a low-hanging fruit easy to set up, and can help you catch a new class of bugs that your regular test suite would usually miss. It doesn't only shine for package upgrades, but also for large refactorings that are not supposed to change the UI.
 
-The tools we choose are implementation details of this visual regression workflow, and you are free to adopt alternative tools if you want. At Docusaurus, we choose [Argos](https://argos-ci.com/): it works well for us, and has [free](https://argos-ci.com/pricing) and [open source](https://argos-ci.com/docs/open-source) plans.
+The tools we choose are implementation details of this visual regression workflow, and you are free to adopt alternative tools if you want. At Docusaurus, we choose [Argos](https://argos-ci.com/): it works well for us, and offers [free](https://argos-ci.com/pricing) and [open source](https://argos-ci.com/docs/open-source) plans.
 
-In case you don't mind storing large screenshots in Git, you can also try the free [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) and check visual differences with `npx playwright show-report`. However, using a dedicated external tool is often more convenient to use.
+In case you don't mind storing large screenshots in Git, you can also try the free, self-hosted [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) and check visual differences with `npx playwright show-report`. However, using a dedicated external tool is more convenient.
+
+Happy hacking!
