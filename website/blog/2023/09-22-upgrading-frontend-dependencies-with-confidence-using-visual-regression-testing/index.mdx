@@ -50,12 +50,6 @@ This section will describe the implementation details of each step of the workfl
 
 You will need to [sign up to Argos](https://app.argos-ci.com/signup) and [connect Argos to your GitHub repository](https://argos-ci.com/docs/github)
 
-:::note
-
-This is how we choose to implement the workflow, but you are free to choose alternative tools for each step if you want.
-
-:::
-
 ### Dependencies
 
 This workflow requires the following dependencies, in addition to the usual Docusaurus ones:
@@ -293,12 +287,92 @@ Browse the Docusaurus repository for a more advanced integration:
 
 :::
 
+## Make it cheap
+
+The tools we choose are implementation details of this visual regression testing workflow.
+
+For Docusaurus, we choose [Argos](https://argos-ci.com/): it works well for us, and offers [free](https://argos-ci.com/pricing) and [open source](https://argos-ci.com/docs/open-source) plans. However, you are free to adopt alternative tools.
+
+In case you don't mind storing large screenshots in Git, you can also try the free, self-hosted [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) and browse visual differences with `npx playwright show-report`. However, we found using a dedicated external tool is more convenient.
+
+External tools can be expensive, but generally offer free plans with a good amount of screenshots. You can keep your screenshot consumption to a minimum by implementing a few tips described below.
+
+### Limit the number of pathnames
+
+The base setup involves taking a screenshot of every single pathname found in `sitemap.xml`. For large sites, that can lead to a lot of screenshots.
+
+You can decide to filter the pathnames to only take screenshots of the most critical pages.
+
+For the Docusaurus website, we decided it was not worth it to take screenshot of versioned documentation pages:
+
+```ts title="screenshot.spec.ts"
+// highlight-start
+function isVersionedDocsPathname(pathname: string): boolean {
+  return pathname.match(/^\/docs\/((\d\.\d\.\d)|(next))\//);
+}
+// highlight-end
+
+test.describe('Docusaurus site screenshots', () => {
+  const pathnames = extractSitemapPathnames(sitemapPath)
+    // highlight-next-line
+    .filter(isVersionedDocsPathname);
+
+  pathnames.forEach(screenshotPathname);
+});
+```
+
+### Limit the workflow concurrency
+
+Implementing [GitHub Actions concurrency groups](https://docs.github.com/en/actions/using-jobs/using-concurrency) will prevent successive commits to trigger multiple useless workflow runs. The workflow will only be executed for tha last commit, and previous commits will be canceled automatically.
+
+```yaml title=".github/workflows/argos.yml"
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+```
+
+### Run your workflow conditionally
+
+It's not worth running this workflow for every single commit and pull-request.
+
+For example, if someone corrects a typo in your documentation, you probably don't want to take hundreds of screenshots and have Argos to point out that only the modified page has a visual difference: duh, that's a bit expected!
+
+For the Docusaurus website, we choose to only run Argos when the pull-request has a certain GitHub label:
+
+```yaml title=".github/workflows/argos.yml"
+name: Argos CI Screenshots
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    # highlight-start
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+    # highlight-end
+
+jobs:
+  take-screenshots:
+    # highlight-start
+    if: ${{ github.ref_name == 'main' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos')) }}
+    # highlight-end
+    runs-on: ubuntu-latest
+    steps:
+      # Your job steps here ...
+```
+
+There are many options to explore, such as [triggering the workflow manually](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow) or [only when files matching a specific pattern are modified](https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#example-including-paths).
+
 ## Conclusion
 
-I am a firm believer that visual regression testing is currently underused in the frontend ecosystem. Taking full page screenshots is a low-hanging fruit easy to set up, and can help you catch a new class of bugs that your regular test suite would usually miss. It doesn't only shine for package upgrades, but also for large refactorings that are not supposed to change the UI.
+I believe visual regression testing is underused in the frontend ecosystem.
 
-The tools we choose are implementation details of this visual regression workflow, and you are free to adopt alternative tools if you want. At Docusaurus, we choose [Argos](https://argos-ci.com/): it works well for us, and offers [free](https://argos-ci.com/pricing) and [open source](https://argos-ci.com/docs/open-source) plans.
+Taking full page screenshots is a low-hanging fruit easy to set up, and can help you catch a new class of bugs that your regular test suite would usually miss. This technique shines not only for npm package upgrades, but also for any kind of refactoring that shouldn't change the user interface.
 
-In case you don't mind storing large screenshots in Git, you can also try the free, self-hosted [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) and check visual differences with `npx playwright show-report`. However, using a dedicated external tool is more convenient.
+So why not give it a try?
 
 Happy hacking!
