@@ -33,13 +33,13 @@ The general idea is pretty simple:
 - Do this for both Git branches `main` and `pr-branch`
 - Compare the screenshots side-by-side in [Argos](https://argos-ci.com/)
 
-Argos will then report visual differences found between `main` and `pr-branch` as a GitHub commit status and pull-request comment. This can help you detect visual regressions ahead of time in an automated way.
+Argos will then **report visual differences** found between `main` and `pr-branch` as a GitHub commit status and pull-request comment. This can help you detect visual regressions ahead of time in an automated way.
 
 ![Argos GitHub commit status](./img/argos-github-status.png)
 
 ![Argos GitHub PR comment](./img/argos-github-comment.png)
 
-Argos creates a report referencing all the visual differences found while comparing the 2 Git branches sites side by side, and provides an UX to easily identify which part of a page has changed.
+Argos creates a report referencing all the visual differences found while comparing the 2 Git branches sites side-by-side, and provides a convenient UX to easily spot the difference.
 
 Check the [Docusaurus Argos page](https://app.argos-ci.com/meta-open-source/docusaurus) to explore our own website reports.
 
@@ -230,7 +230,7 @@ export function pathnameToArgosName(pathname: string): string {
 
 ### Stylesheet
 
-Screenshots are not always deterministic, and taking a screenshot of a page twice can lead to subtle variations that will be reported by Argos as false positive visual regressions.
+Screenshots are not always deterministic, and taking a screenshot of a page twice can lead to subtle variations that will be reported by Argos as **false positive** visual regressions.
 
 For this reason we recommend injecting in pages an extra stylesheet to hide the problematic elements. You will probably need to add new CSS rules to this base stylesheet, according to flaky elements found on your own site. Read [Argos - About flaky tests docs](https://argos-ci.com/docs/about-flaky) for details.
 
@@ -272,7 +272,7 @@ In particular:
 
 ## Example repository
 
-The [slorber/docusaurus-argos-example](https://github.com/slorber/docusaurus-argos-example) shows a complete example of implementing this workflow on a newly initialized Docusaurus site, using a Yarn monorepo.
+The [slorber/docusaurus-argos-example](https://github.com/slorber/docusaurus-argos-example) shows a complete example of implementing this workflow on a newly initialized Docusaurus v2 site, using a Yarn monorepo.
 
 [![Docusaurus + Argos monorepo example screenshot](./img/docusaurus-argos-example-repo-screenshot.png)](https://github.com/slorber/docusaurus-argos-example)
 
@@ -372,9 +372,9 @@ There are many options to explore, such as [triggering the workflow manually](ht
 
 ## Conclusion
 
-I believe visual regression testing is underused in the frontend ecosystem.
+I believe **visual regression testing is underused** in the frontend ecosystem.
 
-Taking full page screenshots is a low-hanging fruit easy to set up, and can help you catch a new class of bugs that your regular test suite would usually miss. This technique shines not only for npm package upgrades, but also for any kind of refactoring that shouldn't change the user interface.
+Taking full page screenshots is a **low-hanging fruit** easy to set up, and can help you **catch a new class of bugs** that your regular test suite would miss. This technique shines not only for npm package upgrades, but also for **any kind of refactoring** that shouldn't change the user interface.
 
 So why not give it a try?
 
