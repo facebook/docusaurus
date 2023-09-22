@@ -211,18 +211,7 @@ export function extractSitemapPathnames(sitemapPath: string): string[] {
 
 // Converts a pathname to a decent screenshot name
 export function pathnameToArgosName(pathname: string): string {
-  function removeTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str.slice(0, -1) : str;
-  }
-  function removeLeadingSlash(str: string): string {
-    return str.startsWith('/') ? str.slice(1) : str;
-  }
-  pathname = removeTrailingSlash(pathname);
-  pathname = removeLeadingSlash(pathname);
-  if (pathname === '') {
-    return 'index';
-  }
-  return pathname;
+  return pathname.replace(/^\/|\/$/g, '') || 'index';
 }
 ```
 
