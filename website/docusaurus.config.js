@@ -183,7 +183,11 @@ module.exports = async function createConfigAsync() {
         return result;
       },
     },
-    onBrokenLinks: 'throw',
+    onBrokenLinks:
+      // Do not fail the build if a localized site has a broken link
+      process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale
+        ? 'throw'
+        : 'warn',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
