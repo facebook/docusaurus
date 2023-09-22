@@ -348,13 +348,58 @@ If you created custom Remark or Rehype plugins, you may need to refactor those, 
 
 Apart MDX, there are other breaking changes that you can already prepare your site for.
 
-### Versioned legacy docs prefix
+### Versioned sidebars
 
-https://github.com/facebook/docusaurus/pull/9310
+This breaking change will only affect Docusaurus v2 early adopters who versioned their docs before `v2.0.0-beta.10` (December 2021).
+
+When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.0.0/` that [Docusaurus v3 won't support anymore](https://github.com/facebook/docusaurus/pull/9310).
+
+```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
+{
+  "version-v1.0.0/docs": [
+    "version-v1.0.0/introduction",
+    "version-v1.0.0/prerequisites"
+  ]
+}
+```
+
+:::tip Fix it
+
+Remove the useless versioned prefix from your versioned sidebars:
+
+```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
+{
+  "docs": ["introduction", "prerequisites"]
+}
+```
+
+:::
 
 ### Admonition warning
 
-https://github.com/facebook/docusaurus/pull/9308
+For historical reasons, we support an undocumented admonition `:::warning` that renders with a red color.
+
+:::danger Warning
+
+This is a Docusaurus v2 `:::warning` admonition.
+
+:::
+
+However, the color and icon is historically wrong. Docusaurus v3 re-introduces `:::warning` admonition officially, documents it, and fix the color and icon.
+
+:::warning
+
+This is a Docusaurus v3 `:::warning` admonition.
+
+:::
+
+:::tip fix it
+
+If you previously used the undocumented `:::warning` admonition, make sure to verify for each usage if yellow is now an appropriate color. If you want to keep the red color, use `:::danger` instead.
+
+Docusaurus v3 also [deprecated the `:::caution`](https://github.com/facebook/docusaurus/pull/9308) admonition. Please refactor `:::caution` (yellow) to either `:::warning` (yellow) or `:::danger` (red).
+
+:::
 
 ### TypeScript config + v5
 
@@ -377,24 +422,9 @@ Support v3: https://github.com/facebook/docusaurus/discussions/9336
 Beta: https://github.com/facebook/docusaurus/discussions/9312
 
 ```
-  "dependencies": {
-    "@docusaurus/core": "2.4.3",
-    "@docusaurus/preset-classic": "2.4.3",
-    "@mdx-js/react": "^1.6.22",
-    "@docusaurus/core": "3.0.0-beta.0",
-    "@docusaurus/preset-classic": "3.0.0-beta.0",
-    "@mdx-js/react": "^2.3.0",
-    "clsx": "^1.2.1",
-    "prism-react-renderer": "^1.3.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.4.3"
-    "@docusaurus/module-type-aliases": "3.0.0-beta.0"
-  },
+
+"dependencies": { "@docusaurus/core": "2.4.3", "@docusaurus/preset-classic": "2.4.3", "@mdx-js/react": "^1.6.22", "@docusaurus/core": "3.0.0-beta.0", "@docusaurus/preset-classic": "3.0.0-beta.0", "@mdx-js/react": "^2.3.0", "clsx": "^1.2.1", "prism-react-renderer": "^1.3.5", "react": "^17.0.2", "react-dom": "^17.0.2" "react": "^18.2.0", "react-dom": "^18.2.0" }, "devDependencies": { "@docusaurus/module-type-aliases": "2.4.3" "@docusaurus/module-type-aliases": "3.0.0-beta.0" },
+
 ```
 
 https://github.com/slorber/docusaurus-argos-example/pull/2
@@ -414,3 +444,7 @@ Alternatively, you can look for a paid [Docusaurus Service Provider](https://git
 ## Conclusion
 
 TODO
+
+```
+
+```
