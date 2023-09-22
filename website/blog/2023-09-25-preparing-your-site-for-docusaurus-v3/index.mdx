@@ -315,13 +315,38 @@ console.log('hello');
 
 :::
 
-### Remark / Rehype plugins
+### MDX plugins
 
-TODO
+MDX v2, all the related official packages (Unified, Remark, Rehype...) are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support anymore [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules).
+
+In practice this means that you can't do `require("remark-plugin")` anymore. Unfortunately the Docusaurus config file only supports CommonJS, and `import MyRemarkPlugin from "remark-plugin"` won't work.
+
+:::tip Fix it
+
+Using dynamic imports is a good workaround that enables you to import ES modules inside a CommonJS module. Fortunately, the [Docusaurus config supports the usage of an async function](/docs/configuration#syntax-to-declare-docusaurus-config) to let you do so.
+
+You can start refactoring your config to use async dynamic imports today.
+
+```js title="docusaurus.config.js"
+module.exports = async function () {
+  const myPlugin = (await import('remark-plugin')).default;
+  return {
+    // site config...
+  };
+};
+```
+
+:::
+
+:::info For plugin authors
+
+If you created custom Remark or Rehype plugins, you may need to refactor those, or eventually rewrite them completely, due to how the new AST is structured. We have created a [dedicated support discussion](https://github.com/facebook/docusaurus/discussions/9337) to help plugin authors upgrade their code.
+
+:::
 
 ## Other breaking changes
 
-Here is a list of other breaking changes that you can already prepare your site for.
+Apart MDX, there are other breaking changes that you can already prepare your site for.
 
 ### Versioned legacy docs prefix
 
