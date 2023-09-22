@@ -232,7 +232,7 @@ export function pathnameToArgosName(pathname: string): string {
 
 Screenshots are not always deterministic, and taking a screenshot of a page twice can lead to subtle variations that will be reported by Argos as **false positive** visual regressions.
 
-For this reason we recommend injecting in pages an extra stylesheet to hide the problematic elements. You will probably need to add new CSS rules to this base stylesheet, according to flaky elements found on your own site. Read [Argos - About flaky tests docs](https://argos-ci.com/docs/about-flaky) for details.
+For this reason, we recommend injecting an extra stylesheet to hide the problematic elements. You will probably need to add new CSS rules to this base stylesheet, according to flaky elements found on your own site. Read [Argos - About flaky tests docs](https://argos-ci.com/docs/about-flaky) for details.
 
 ```css title="screenshot.css"
 /* Iframes can load lazily */
