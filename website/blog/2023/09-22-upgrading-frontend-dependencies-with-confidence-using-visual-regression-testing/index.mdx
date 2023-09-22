@@ -243,6 +243,14 @@ img[src$='.gif'],
 }
 ```
 
+:::tip prevent layout shifts
+
+We recommend hiding flaky UI elements affecting layout with `display: none;`.
+
+For example, the docs "Last Updated on" might render on more than 1 line, eventually "pushing" the rest of your content further down, leading to Argos detecting many different pixels.
+
+:::
+
 ## Example repository
 
 The [slorber/docusaurus-argos-example](https://github.com/slorber/docusaurus-argos-example) repo shows a complete example of implementing this workflow on a newly initialized Docusaurus v2 site, using a Yarn monorepo.
