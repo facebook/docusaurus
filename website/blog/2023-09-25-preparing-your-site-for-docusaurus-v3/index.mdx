@@ -19,6 +19,14 @@ This article will mostly focus on how to prepare your content for this new MDX v
 
 <!--truncate-->
 
+:::tip Don't be afraid
+
+There's a lot of content in this blog post, but many Docusaurus v2 sites can upgrade with very few changes.
+
+If your site is relatively small, with only a few customizations, you can probably [upgrade to Docusaurus v3](#try-docusaurus-v3-today) immediately.
+
+:::
+
 ## Before getting started
 
 Before preparing your site or attempting a Docusaurus v3 upgrade, we recommend that you first upgrade to the very latest [Docusaurus v2 version](/versions).
@@ -34,6 +42,10 @@ MDX is a major dependency of Docusaurus responsible for compiling your `.md` and
 MDX v2 is much better, but also comes with changes that probably require you to refactor a bit your content. MDX v2 is stricter, and some components that compiled fine under v1 might now fail to compile under v2, most likely because of `{` and `<` characters.
 
 Upgrading MDX comes with all the breaking changes documented on the [MDX v2 release blog post](https://mdxjs.com/blog/v2/). The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [update MDX files](https://mdxjs.com/migrating/v2/#update-mdx-files) that will be particularly relevant us. Also make sure to read the [Troubleshooting MDX](https://mdxjs.com/docs/troubleshooting-mdx/) page that can help you interpret common MDX error messages.
+
+:::tip Ask for help
+
+We have a dedicated [MDX v2 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053) discussion.
 
 ### Using the MDX playground
 
@@ -303,6 +315,77 @@ console.log('hello');
 
 :::
 
+### Remark / Rehype plugins
+
+TODO
+
 ## Other breaking changes
 
 Here is a list of other breaking changes that you can already prepare your site for.
+
+### Versioned legacy docs prefix
+
+https://github.com/facebook/docusaurus/pull/9310
+
+### Admonition warning
+
+https://github.com/facebook/docusaurus/pull/9308
+
+### TypeScript config + v5
+
+https://github.com/facebook/docusaurus/pull/9258
+
+https://github.com/facebook/docusaurus/pull/9050
+
+### React 18
+
+https://github.com/facebook/docusaurus/pull/8961
+
+## Try Docusaurus v3 today {#try-docusaurus-v3-today}
+
+Docusaurus v3 is now [in beta](https://github.com/facebook/docusaurus/discussions/9312), and used in production by [React-Native](https://reactnative.dev), [Jest](https://jestjs.io) and [our own website](https://docusaurus.io/).
+
+We would appreciate if you tried upgrading to the beta and [report issues](https://github.com/facebook/docusaurus/discussions/9312) that
+
+Support v3: https://github.com/facebook/docusaurus/discussions/9336
+
+Beta: https://github.com/facebook/docusaurus/discussions/9312
+
+```
+  "dependencies": {
+    "@docusaurus/core": "2.4.3",
+    "@docusaurus/preset-classic": "2.4.3",
+    "@mdx-js/react": "^1.6.22",
+    "@docusaurus/core": "3.0.0-beta.0",
+    "@docusaurus/preset-classic": "3.0.0-beta.0",
+    "@mdx-js/react": "^2.3.0",
+    "clsx": "^1.2.1",
+    "prism-react-renderer": "^1.3.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.4.3"
+    "@docusaurus/module-type-aliases": "3.0.0-beta.0"
+  },
+```
+
+https://github.com/slorber/docusaurus-argos-example/pull/2
+
+## Ask for help
+
+To support you during this transition to MDX v2 and Docusaurus v3, we created a few useful channels:
+
+- [Docusaurus v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9336)
+- [Docusaurus v3 - Discord channel #migration-v2-to-v3](https://discord.com/channels/398180168688074762/1154771869094912090)
+- [MDX v2 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053)
+- [MDX v2 - Remark/Rehype Plugins Support](https://github.com/facebook/docusaurus/discussions/9337)
+- [MDX v2 - Discord channel #migration-mdx-v2](https://discord.com/channels/398180168688074762/1116724556976111616)
+
+Alternatively, you can look for a paid [Docusaurus Service Provider](https://github.com/facebook/docusaurus/discussions/9281) to do these upgrades for you. If your site is open source, you can also ask our community for [free, benevolent help](https://github.com/facebook/docusaurus/discussions/9283).
+
+## Conclusion
+
+TODO
