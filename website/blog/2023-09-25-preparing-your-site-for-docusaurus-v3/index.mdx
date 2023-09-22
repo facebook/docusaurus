@@ -25,17 +25,19 @@ Before preparing your site or attempting a Docusaurus v3 upgrade, we recommend t
 
 Depending on the complexity of your site, it may be a good idea to adopt the [visual regression testing workflow](/todo) that we recently presented. It could help you catch unexpected visual side effects occurring during the Docusaurus v3 upgrade.
 
+We also recommend to use the `.mdx` extension whenever you use JSX or ESM inside a Markdown file. It is the right thing to do, and improves compatibility with external tools (IDEs, formatters, linters). In future versions of Docusaurus, `.md` files will be parsed as standard [CommonMark](https://commonmark.org/), which does not support JSX/ESM. In Docusaurus v3, `.md` files keep being compiled as MDX files, but it will be possible to opt-in for CommonMark.
+
 ## Preparing content for MDX v2
 
 MDX is a major dependency of Docusaurus responsible for compiling your `.md` and `.mdx` files to React components.
 
 MDX v2 is much better, but also comes with changes that probably require you to refactor a bit your content. MDX v2 is stricter, and some components that compiled fine under v1 might now fail to compile under v2, most likely because of `{` and `<` characters.
 
-Upgrading MDX comes with all the breaking changes documented on the [MDX v2 release blog post](https://mdxjs.com/blog/v2/). The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [**Update MDX content**](https://mdxjs.com/migrating/v2/#update-mdx-content) that will be particularly relevant us.
+Upgrading MDX comes with all the breaking changes documented on the [MDX v2 release blog post](https://mdxjs.com/blog/v2/). The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [update MDX files](https://mdxjs.com/migrating/v2/#update-mdx-files) that will be particularly relevant us. Also make sure to read the [Troubleshooting MDX](https://mdxjs.com/docs/troubleshooting-mdx/) page that can help you interpret common MDX error messages.
 
 ### Using the MDX playground
 
-The MDX playground is your new best friend. It permits to understand how your content is **compiled to React components**, and troubleshoot issues in isolation.
+The MDX playground is your new best friend. It permits to understand how your content is **compiled to React components**, and troubleshoot compilation or rendering issues in isolation.
 
 Each MDX version comes with its own playground:
 
@@ -151,21 +153,141 @@ Available options to fix this error:
 
 - Use inline code blocks: `Array<T>`
 - Use the HTML code: `&lt;` or `&#60;`
-- Escape it: `\<` (note: the `\` will be displayed under MDX v1)
+- Escape it: `\<` (unfortunately the `\` will be displayed under MDX v1)
 
 :::
 
-### Indented code blocks
+#### Bad usage of GFM Autolink
 
-Unlike v1, MDX v2 does not transform anymore indented text as code blocks.
+Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/), but [autolink](https://github.github.com/gfm/#autolinks) using the `<link>` syntax is not supported anymore by MDX v2.
+
+```md title="example.md"
+<sebastien@thisweekinreact.com>
+
+<http://localhost:3000>
+```
+
+:::danger Error messages
+
+> Unexpected character `@` (U+0040) in name, expected a name character such as letters, digits, `$`, or `_`; whitespace before attributes; or the end of the tag (note: to create a link in MDX, use `[text](url)`)
+
+> Unexpected character `/` (U+002F) before local name, expected a character that can start a name, such as a letter, `$`, or `_` (note: to create a link in MDX, use `[text](url)`)
+
+:::
+
+:::tip Fix it
+
+Use regular Markdown links, or remove the `<` and `>`. MDX and GFM are able to autolink literals already.
+
+{/* prettier-ignore */}
+```md title="example.md"
+sebastien@thisweekinreact.com
+[sebastien@thisweekinreact.com](mailto:sebastien@thisweekinreact.com)
+
+http://localhost:3000
+[http://localhost:3000](http://localhost:3000)
+```
+
+:::
+
+#### Unintended extra paragraphs
+
+In MDX v2, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
+
+:::danger visual difference
+
+See how this content is rendered differently by MDX v1 and v2.
+
+```md title="example.md"
+<div>Some **Markdown** content</div>
+<div>
+  Some **Markdown** content
+</div>
+```
+
+{/* prettier-ignore */}
+```html title="MDX v1 output"
+<div>Some **Markdown** content</div>
+<div>Some **Markdown** content</div>
+```
+
+{/* prettier-ignore */}
+```html title="MDX v2 output"
+<div>Some <strong>Markdown</strong> content</div>
+<div><p>Some <strong>Markdown</strong> content</p></div></div>
+```
+
+:::
+
+:::tip Fix it
+
+If you don't want an extra `<p>` tag, refactor content on a case by case basis to use a single-line JSX tag.
+
+```diff
+ <figure>
+   <img src="/img/myImage.png" alt="My alt" />
+-  <figcaption>
+-    My image caption
+-  </figcaption>
++  <figcaption>My image caption</figcaption>
+ </figure>
+```
+
+If your content contains "Markdown inlines" (`**`, `*`, `_`, `[link](/path)`), you might not be able to refactor it ahead of time, and will have to do it alongside the Docusaurus v3 upgrade.
+
+:::
+
+#### Unintended usage of directives
+
+Docusaurus v3 now uses [Markdown Directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) (implemented with [remark-directive](https://github.com/remarkjs/remark-directive)) as a generic way to provide support for admonitions, and other upcoming Docusaurus features.
+
+```md title="example.md"
+This is a :textDirective
+
+::leafDirective
+
+:::containerDirective
+
+Container directive content
+
+:::
+```
+
+:::danger Visual change
+
+Directives are parsed with the purpose of being handled by other Remark plugins. Unhandled directives will be ignored, and won't be rendered back in their original form.
+
+```md title="example.md"
+The AWS re:Invent conf is great
+```
+
+Due to `:Invent` being parsed as a text directive, this will now be rendered as:
+
+```
+The AWS re
+conf is great
+```
+
+:::
+
+:::tip Fix it
+
+- Use the HTML code: `&#58;`
+- Escape it: `\:` (unfortunately the `\` will be displayed under MDX v1)
+
+:::
+
+#### Unsupported indented code blocks
+
+MDX v2 does not transform anymore indented text as code blocks.
 
 ```md title="example.md"
     console.log("hello");
 ```
 
-:::danger visual change
+:::danger Visual change
 
-This change does not generally produce MDX v2 compilation errors, but can lead to content being renderer in an unexpected way.
+The upgrade does not generally produce new MDX v2 compilation errors, but can lead to content being renderer in an unexpected way, not using a code block anymore.
 
 :::
 
@@ -181,34 +303,6 @@ console.log('hello');
 
 :::
 
-#### TODO
+## Other breaking changes
 
-```
-<details>
-  <summary>Help:</summary>
-  If you are seeing coverage output such as...
-
-</details>
-```
-
-```
-<div>
-  See the Pen{' '}
-  <a href="https://codepen.io/TheSavior/pen/NXNoJM/">
-    Loading Screen Animation Steps
-  </a>{' '}
-  by Eli White
-</div>
-
-```
-
-```
-Error while compiling file website/contributing/how-to-open-a-pull-request.md (Line=23 Column=17)
-Details: Unexpected character `/` (U+002F) before local name, expected a character that can start a name, such as a letter, `$`, or `_` (note: to create a link in MDX, use `[text](url)`)
-
-1. Go to <https://github.com/facebook/react-native>.
-```
-
-Directives! `Re:invent`
-
-Extra paragraphs on line breaks
+Here is a list of other breaking changes that you can already prepare your site for.
