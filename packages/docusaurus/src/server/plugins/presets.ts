@@ -6,7 +6,7 @@
  */
 
 import {createRequire} from 'module';
-import importFresh from 'import-fresh';
+import jiti from 'jiti';
 import {resolveModuleName} from './moduleShorthand';
 import type {
   LoadContext,
@@ -49,9 +49,8 @@ export async function loadPresets(
       'preset',
     );
 
-    const presetModule = importFresh<ImportedPresetModule>(
-      presetRequire.resolve(presetName),
-    );
+    const presetPath = presetRequire.resolve(presetName);
+    const presetModule = jiti(__filename)(presetPath) as ImportedPresetModule;
     const preset = (presetModule.default ?? presetModule)(
       context,
       presetOptions,

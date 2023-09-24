@@ -6,7 +6,7 @@
  */
 
 import {createRequire} from 'module';
-import importFresh from 'import-fresh';
+import jiti from 'jiti';
 import {loadPresets} from './presets';
 import {resolveModuleName} from './moduleShorthand';
 import type {
@@ -61,7 +61,7 @@ async function normalizePluginConfig(
   if (typeof pluginConfig === 'string') {
     const pluginModuleImport = pluginConfig;
     const pluginPath = pluginRequire.resolve(pluginModuleImport);
-    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+    const pluginModule = jiti(__filename)(pluginPath) as ImportedPluginModule;
     return {
       plugin: pluginModule.default ?? pluginModule,
       options: {},
@@ -88,7 +88,7 @@ async function normalizePluginConfig(
   if (typeof pluginConfig[0] === 'string') {
     const pluginModuleImport = pluginConfig[0];
     const pluginPath = pluginRequire.resolve(pluginModuleImport);
-    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+    const pluginModule = jiti(__dirname)(pluginPath) as ImportedPluginModule;
     return {
       plugin: pluginModule.default ?? pluginModule,
       options: pluginConfig[1],

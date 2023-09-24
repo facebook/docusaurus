@@ -5,23 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import importFresh from 'import-fresh';
+import jiti from 'jiti';
 import {createConfigFile} from '../index';
 import type {VersionOneConfig} from '../types';
 
 describe('create config', () => {
   it('simple test', () => {
-    const v1Config: VersionOneConfig = importFresh(
-      `${__dirname}/__fixtures__/sourceSiteConfig.js`,
+    const v1Config: VersionOneConfig = jiti(__dirname)(
+      `__fixtures__/sourceSiteConfig.js`,
     );
     const siteDir = 'website';
     const newDir = 'websiteMigrated';
 
     const result = createConfigFile({v1Config, siteDir, newDir});
 
-    const output = importFresh(
-      `${__dirname}/__fixtures__/expectedSiteConfig.js`,
-    );
+    const output = jiti(__dirname)(`__fixtures__/expectedSiteConfig.js`);
     expect(result).toEqual(output);
   });
 });
