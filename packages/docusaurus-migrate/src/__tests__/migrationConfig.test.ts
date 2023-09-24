@@ -12,14 +12,16 @@ import type {VersionOneConfig} from '../types';
 describe('create config', () => {
   it('simple test', () => {
     const v1Config: VersionOneConfig = jiti(__dirname)(
-      `__fixtures__/sourceSiteConfig.js`,
+      `${__dirname}/__fixtures__/sourceSiteConfig.js`,
     );
     const siteDir = 'website';
     const newDir = 'websiteMigrated';
 
     const result = createConfigFile({v1Config, siteDir, newDir});
 
-    const output = jiti(__dirname)(`__fixtures__/expectedSiteConfig.js`);
+    const output = jiti(__dirname)(
+      `${__dirname}/__fixtures__/expectedSiteConfig.js`,
+    );
     expect(result).toEqual(output);
   });
 });
