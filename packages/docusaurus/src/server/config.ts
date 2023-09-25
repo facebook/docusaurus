@@ -50,10 +50,16 @@ export async function loadSiteConfig({
     cache: false,
   })(siteConfigPath);
 
-  const loadedConfig: unknown =
-    typeof importedConfig === 'function'
-      ? await importedConfig()
-      : importedConfig;
+  let loadedConfig: unknown;
+  if (typeof importedConfig === 'function') {
+    loadedConfig = await importedConfig();
+  } else if (
+    Object.prototype.toString.call(importedConfig) === '[object Promise]'
+  ) {
+    loadedConfig = await importedConfig;
+  } else {
+    loadedConfig = importedConfig;
+  }
 
   const siteConfig = validateConfig(
     loadedConfig,
