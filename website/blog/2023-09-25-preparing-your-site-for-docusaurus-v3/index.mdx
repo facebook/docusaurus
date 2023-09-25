@@ -31,7 +31,7 @@ If your site is relatively small, with only a few customizations, you can probab
 
 Before preparing your site or attempting a Docusaurus v3 upgrade, we recommend that you first upgrade to the very latest [Docusaurus v2 version](/versions).
 
-Depending on the complexity of your site, it may be a good idea to adopt the [visual regression testing workflow](/todo) that we recently presented. It could help you catch unexpected visual side effects occurring during the Docusaurus v3 upgrade.
+Depending on the complexity of your site, it may be a good idea to adopt the [visual regression testing workflow](/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing) that we recently presented. It could help you catch unexpected visual side effects occurring during the Docusaurus v3 upgrade.
 
 We also recommend to use the `.mdx` extension whenever you use JSX or ESM inside a Markdown file. It is the right thing to do, and improves compatibility with external tools (IDEs, formatters, linters). In future versions of Docusaurus, `.md` files will be parsed as standard [CommonMark](https://commonmark.org/), which does not support JSX/ESM. In Docusaurus v3, `.md` files keep being compiled as MDX files, but it will be possible to opt-in for CommonMark.
 
@@ -101,7 +101,7 @@ Use this CLI to estimate of how much work will be required to make your content 
 
 This CLI is a best effort, and will only report compilation errors.
 
-It will not report subtle compilation changes that do not produce errors but can affect how your content is displayed. To catch these problems, we recommend using [visual regression tests](/todo).
+It will not report subtle compilation changes that do not produce errors but can affect how your content is displayed. To catch these problems, we recommend using [visual regression tests](/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing).
 
 :::
 
