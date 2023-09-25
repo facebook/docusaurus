@@ -17,7 +17,11 @@ const windowSizes = {
 
 type WindowSize = keyof typeof windowSizes;
 
-function getWindowSize(desktopThresholdWidth = 996): WindowSize {
+function getWindowSize({
+  desktopThresholdWidth = 996,
+}: {
+  desktopThresholdWidth?: number;
+}): WindowSize {
   if (!ExecutionEnvironment.canUseDOM) {
     return windowSizes.ssr;
   }
@@ -42,21 +46,17 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
  * In development mode, this hook will still return `"ssr"` for one second, to
  * catch potential layout shifts, similar to strict mode calling effects twice.
  */
-export function useWindowSize({
-  desktopThresholdWidth = 996,
-}: {
-  desktopThresholdWidth?: number;
-}): WindowSize {
+export function useWindowSize(desktopThresholdWidth = 996): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';
     }
-    return getWindowSize(desktopThresholdWidth);
+    return getWindowSize({desktopThresholdWidth});
   });
 
   useEffect(() => {
     function updateWindowSize() {
-      setWindowSize(getWindowSize(desktopThresholdWidth));
+      setWindowSize(getWindowSize({desktopThresholdWidth}));
     }
 
     const timeout = DevSimulateSSR
