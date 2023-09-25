@@ -33,6 +33,7 @@ describe('<BrowserOnly>', () => {
         .create(
           <Context.Provider value>
             <BrowserOnly>
+              {/* @ts-expect-error test */}
               <span>{window.location.href}</span>
             </BrowserOnly>
           </Context.Provider>,
@@ -49,6 +50,7 @@ describe('<BrowserOnly>', () => {
     expect(() => {
       renderer.create(
         <Context.Provider value>
+          {/* @ts-expect-error test */}
           <BrowserOnly> </BrowserOnly>
         </Context.Provider>,
       );
