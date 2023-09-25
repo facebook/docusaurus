@@ -477,7 +477,7 @@ describe('config warning and error', () => {
       url: 'https://mysite.com/someSubpath',
     });
     expect(error).toBeDefined();
-    expect(error.message).toBe(
+    expect(error?.message).toBe(
       'The url is not supposed to contain a sub-path like "/someSubpath". Please use the baseUrl field for sub-paths.',
     );
   });

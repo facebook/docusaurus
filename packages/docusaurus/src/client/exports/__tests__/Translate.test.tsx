@@ -27,7 +27,6 @@ describe('translate', () => {
   it('rejects when no id or message', () => {
     // TODO tests are not resolving type defs correctly. We need to include test
     // files in a tsconfig file
-    // @ts-expect-error: TS should protect when both id/message are missing
     expect(() => translate({})).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus translation declarations must have at least a translation id or a default translation message"`,
     );
@@ -57,7 +56,6 @@ describe('<Translate>', () => {
 
   it('rejects when no id or message', () => {
     expect(() =>
-      // @ts-expect-error: TS should protect when both id/message are missing
       renderer.create(<Translate />),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus translation declarations must have at least a translation id or a default translation message"`,
@@ -69,7 +67,6 @@ describe('<Translate>', () => {
       renderer.create(
         // eslint-disable-next-line @docusaurus/string-literal-i18n-messages
         <Translate id="foo">
-          {/* @ts-expect-error: for test */}
           <span>aaa</span>
         </Translate>,
       ),
