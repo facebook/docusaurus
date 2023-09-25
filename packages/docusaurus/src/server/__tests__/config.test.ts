@@ -52,6 +52,15 @@ describe('loadSiteConfig', () => {
     expect(config).not.toEqual({});
   });
 
+  it('website with valid typescript config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configTypescript.config.ts',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
   it('website with incomplete siteConfig', async () => {
     await expect(
       loadSiteConfig({
