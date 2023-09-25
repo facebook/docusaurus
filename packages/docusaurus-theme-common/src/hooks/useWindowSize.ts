@@ -42,7 +42,11 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
  * In development mode, this hook will still return `"ssr"` for one second, to
  * catch potential layout shifts, similar to strict mode calling effects twice.
  */
-export function useWindowSize(desktopThresholdWidth = 996): WindowSize {
+export function useWindowSize({
+  desktopThresholdWidth = 996,
+}: {
+  desktopThresholdWidth?: number;
+}): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';
