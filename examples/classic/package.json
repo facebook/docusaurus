@@ -39,7 +39,7 @@
     ]
   },
   "engines": {
-    "node": ">=18.18"
+    "node": ">=18.0"
   },
   "description": "Docusaurus example project"
 }
