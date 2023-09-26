@@ -78,9 +78,9 @@ async function generateTemplateExample(template) {
       hardReloadOnChange: true,
       view: 'browser',
       template: 'docusaurus',
-      node: '16',
+      node: '18',
       container: {
-        node: '16',
+        node: '18',
       },
     };
     await fs.writeFile(
