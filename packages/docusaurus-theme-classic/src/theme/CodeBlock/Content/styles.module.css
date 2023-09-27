@@ -85,3 +85,7 @@
 :global(.theme-code-block:hover) .buttonGroup button {
   opacity: 0.4;
 }
+
+.theme-code-block {
+  display: flow-root;
+}
