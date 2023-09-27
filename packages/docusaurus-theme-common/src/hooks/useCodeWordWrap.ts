@@ -6,6 +6,7 @@
  */
 import type {RefObject} from 'react';
 import {useState, useCallback, useEffect, useRef} from 'react';
+import {useStorageSlot} from '../index';
 import {useMutationObserver} from './useMutationObserver';
 
 // Callback fires when the "hidden" attribute of a tabpanel changes
@@ -58,14 +59,14 @@ export function useCodeWordWrap(): {
   readonly isCodeScrollable: boolean;
   readonly toggle: () => void;
 } {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [value, storageSlot] = useStorageSlot('docusaurus.code.wordWrap');
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
   const codeBlockRef = useRef<HTMLPreElement>(null);
 
   const toggle = useCallback(() => {
     const codeElement = codeBlockRef.current!.querySelector('code')!;
 
-    if (isEnabled) {
+    if (value === 'true') {
       codeElement.removeAttribute('style');
     } else {
       codeElement.style.whiteSpace = 'pre-wrap';
@@ -74,8 +75,8 @@ export function useCodeWordWrap(): {
       codeElement.style.overflowWrap = 'anywhere';
     }
 
-    setIsEnabled((value) => !value);
-  }, [codeBlockRef, isEnabled]);
+    storageSlot.set(value === 'true' ? 'false' : 'true');
+  }, [codeBlockRef, value, storageSlot]);
 
   const updateCodeIsScrollable = useCallback(() => {
     const {scrollWidth, clientWidth} = codeBlockRef.current!;
@@ -89,7 +90,7 @@ export function useCodeWordWrap(): {
 
   useEffect(() => {
     updateCodeIsScrollable();
-  }, [isEnabled, updateCodeIsScrollable]);
+  }, [value, updateCodeIsScrollable]);
 
   useEffect(() => {
     window.addEventListener('resize', updateCodeIsScrollable, {
@@ -101,5 +102,5 @@ export function useCodeWordWrap(): {
     };
   }, [updateCodeIsScrollable]);
 
-  return {codeBlockRef, isEnabled, isCodeScrollable, toggle};
+  return {codeBlockRef, isEnabled: value === 'true', isCodeScrollable, toggle};
 }
