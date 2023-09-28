@@ -321,7 +321,7 @@ console.log('hello');
 
 MDX v2, all the related official packages (Unified, Remark, Rehype...) are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support anymore [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules).
 
-In practice this means that you can't do `require("remark-plugin")` anymore. Unfortunately the Docusaurus config file only supports CommonJS, and `import MyRemarkPlugin from "remark-plugin"` won't work.
+In practice this means that you can't do `require("remark-plugin")` anymore. Unfortunately the Docusaurus config file only supports CommonJS at the moment, and you can't use `import MyRemarkPlugin from "remark-plugin"`.
 
 :::tip Fix it
 
@@ -348,34 +348,58 @@ If you created custom Remark or Rehype plugins, you may need to refactor those, 
 
 ## Other breaking changes
 
-Apart MDX, there are other breaking changes that you can already prepare your site for.
+Apart MDX, there are other breaking changes that you can already prepare your site for, notably major version upgrades of important dependencies.
 
-### Versioned sidebars
+### Node.js 18.0
 
-This breaking change will only affect Docusaurus v2 early adopters who versioned their docs before `v2.0.0-beta.10` (December 2021).
+Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires a minimum version of **Node.js 18.0**.
 
-When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.0.0/` that [Docusaurus v3 won't support anymore](https://github.com/facebook/docusaurus/pull/9310).
+:::tip How to prepare
 
-```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
-{
-  "version-v1.0.0/docs": [
-    "version-v1.0.0/introduction",
-    "version-v1.0.0/prerequisites"
-  ]
-}
-```
-
-:::tip Fix it
-
-Remove the useless versioned prefix from your versioned sidebars:
-
-```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
-{
-  "docs": ["introduction", "prerequisites"]
-}
-```
+Upgrade your Docusaurus v2 site to Node.js 18 before upgrading to Docusaurus v3.
 
 :::
+
+### React 18
+
+https://github.com/facebook/docusaurus/pull/8961
+
+### TypeScript 5.0
+
+Docusaurus v3 now requires **TypeScript 5.0+**.
+
+:::tip How to prepare
+
+Upgrade your Docusaurus v2 site to TypeScript 5 before upgrading to Docusaurus v3.
+
+:::
+
+### TypeScript base config
+
+The official Docusaurus TypeScript config has been re-internalized from the external package [`@tsconfig/docusaurus`](https://www.npmjs.com/package/@tsconfig/docusaurus) to our new monorepo package [`@docusaurus/tsconfig`](https://www.npmjs.com/package/@docusaurus/tsconfig).
+
+This new package is versioned alongside all the other Docusaurus core packages, and will be used to ensure TypeScript retro-compatibility and breaking changes on major version upgrades.
+
+:::tip How to prepare
+
+Upgrade your Docusaurus v2 site to TypeScript 5 before upgrading to Docusaurus v3.
+
+:::
+
+Although using the former base config might not break your site, we recommend to use our new official package.
+
+```diff
+ {
+   "devDependencies": {
+-    "@tsconfig/docusaurus": "^1.0.0",
++    "@docusaurus/tsconfig": "^3.0.0",
+   }
+ }
+```
+
+https://github.com/facebook/docusaurus/pull/9258
+
+https://github.com/facebook/docusaurus/pull/9050
 
 ### Admonition warning
 
@@ -403,15 +427,32 @@ Docusaurus v3 also [deprecated the `:::caution`](https://github.com/facebook/doc
 
 :::
 
-### TypeScript config + v5
+### Versioned sidebars
 
-https://github.com/facebook/docusaurus/pull/9258
+This breaking change will only affect Docusaurus v2 early adopters who versioned their docs before `v2.0.0-beta.10` (December 2021).
 
-https://github.com/facebook/docusaurus/pull/9050
+When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.0.0/` that [Docusaurus v3 won't support anymore](https://github.com/facebook/docusaurus/pull/9310).
 
-### React 18
+```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
+{
+  "version-v1.0.0/docs": [
+    "version-v1.0.0/introduction",
+    "version-v1.0.0/prerequisites"
+  ]
+}
+```
 
-https://github.com/facebook/docusaurus/pull/8961
+:::tip Fix it
+
+Remove the useless versioned prefix from your versioned sidebars:
+
+```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
+{
+  "docs": ["introduction", "prerequisites"]
+}
+```
+
+:::
 
 ## Try Docusaurus v3 today {#try-docusaurus-v3-today}
 
