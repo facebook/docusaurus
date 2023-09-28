@@ -42,7 +42,7 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=16.14"
   },
   "description": "Docusaurus example project (classic-typescript template)"
 }
