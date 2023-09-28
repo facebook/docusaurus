@@ -129,7 +129,7 @@ The object shape looks like {username: string, age: number}
 
 :::
 
-:::tip Fix it
+:::tip How to prepare
 
 Available options to fix this error:
 
@@ -161,7 +161,7 @@ Follow the template "Road to <YOUR_MINOR_VERSION>"
 
 :::
 
-:::tip Fix it
+:::tip How to prepare
 
 Available options to fix this error:
 
@@ -189,7 +189,7 @@ Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/g
 
 :::
 
-:::tip Fix it
+:::tip How to prepare
 
 Use regular Markdown links, or remove the `<` and `>`. MDX and GFM are able to autolink literals already.
 
@@ -233,7 +233,7 @@ See how this content is rendered differently by MDX v1 and v2.
 
 :::
 
-:::tip Fix it
+:::tip How to prepare
 
 If you don't want an extra `<p>` tag, refactor content on a case by case basis to use a single-line JSX tag.
 
@@ -284,7 +284,7 @@ conf is great
 
 :::
 
-:::tip Fix it
+:::tip How to prepare
 
 - Use the HTML code: `&#58;`
 - Escape it: `\:` (unfortunately the `\` will be displayed under MDX v1)
@@ -305,7 +305,7 @@ The upgrade does not generally produce new MDX v2 compilation errors, but can le
 
 :::
 
-:::tip Fix it
+:::tip How to prepare
 
 Use the regular code block syntax instead of indentation:
 
@@ -323,7 +323,7 @@ MDX v2, all the related official packages (Unified, Remark, Rehype...) are now [
 
 In practice this means that you can't do `require("remark-plugin")` anymore. Unfortunately the Docusaurus config file only supports CommonJS at the moment, and you can't use `import MyRemarkPlugin from "remark-plugin"`.
 
-:::tip Fix it
+:::tip How to prepare
 
 Using dynamic imports is a good workaround that enables you to import ES modules inside a CommonJS module. Fortunately, the [Docusaurus config supports the usage of an async function](/docs/configuration#syntax-to-declare-docusaurus-config) to let you do so.
 
@@ -352,7 +352,7 @@ Apart MDX, there are other breaking changes that you can already prepare your si
 
 ### Node.js 18.0
 
-Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires a minimum version of **Node.js 18.0**.
+Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires **Node.js >= 18.0**.
 
 :::tip How to prepare
 
@@ -362,11 +362,26 @@ Upgrade your Docusaurus v2 site to Node.js 18 before upgrading to Docusaurus v3.
 
 ### React 18
 
-https://github.com/facebook/docusaurus/pull/8961
+Docusaurus v3 now requires **React >= 18.0**.
+
+React 18 comes with its own breaking changes that should be relatively easy to handle, depending on the amount of custom React code you created for your site.
+
+Simple Docusaurus sites that only use our official theme code without swizzling do not have anything to do.
+
+:::tip How to prepare
+
+Read the official [React v18.0](https://react.dev/blog/2022/03/29/react-v18) and [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), and look at your first-party React code to figure out which components might be affected this React 18 upgrade.
+
+We recommend to particularly look for:
+
+- Automatic batching for stateful components
+- New React hydration errors reported to the console
+
+:::
 
 ### TypeScript 5.0
 
-Docusaurus v3 now requires **TypeScript 5.0+**.
+Docusaurus v3 now requires **TypeScript >= 5.0**.
 
 :::tip How to prepare
 
@@ -382,24 +397,28 @@ This new package is versioned alongside all the other Docusaurus core packages, 
 
 :::tip How to prepare
 
-Upgrade your Docusaurus v2 site to TypeScript 5 before upgrading to Docusaurus v3.
+The new Docusaurus v3 TypeScript config is sensibly the same as the former Docusaurus v2 TypeScript config. If you upgraded to TypeScript 5, using the Docusaurus v3 config on a v2 site is already possible:
 
-:::
-
-Although using the former base config might not break your site, we recommend to use our new official package.
-
-```diff
+```diff title="package.json"
  {
    "devDependencies": {
--    "@tsconfig/docusaurus": "^1.0.0",
-+    "@docusaurus/tsconfig": "^3.0.0",
+-    "@tsconfig/docusaurus": "^1.0.7",
++    "@docusaurus/tsconfig": "^3.0.0-beta.0",
    }
  }
 ```
 
-https://github.com/facebook/docusaurus/pull/9258
+```diff title="tsconfig.json"
+ {
+-  "extends": "@tsconfig/docusaurus/tsconfig.json",
++  "extends": "@docusaurus/tsconfig",
+   "compilerOptions": {
+     "baseUrl": "."
+   }
+ }
+```
 
-https://github.com/facebook/docusaurus/pull/9050
+:::
 
 ### Admonition warning
 
@@ -419,7 +438,7 @@ This is a Docusaurus v3 `:::warning` admonition.
 
 :::
 
-:::tip fix it
+:::tip How to prepare
 
 If you previously used the undocumented `:::warning` admonition, make sure to verify for each usage if yellow is now an appropriate color. If you want to keep the red color, use `:::danger` instead.
 
@@ -429,9 +448,9 @@ Docusaurus v3 also [deprecated the `:::caution`](https://github.com/facebook/doc
 
 ### Versioned sidebars
 
-This breaking change will only affect Docusaurus v2 early adopters who versioned their docs before `v2.0.0-beta.10` (December 2021).
+This breaking change will only affect **Docusaurus v2 early adopters** who versioned their docs before `v2.0.0-beta.10` (December 2021).
 
-When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.0.0/` that [Docusaurus v3 won't support anymore](https://github.com/facebook/docusaurus/pull/9310).
+When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.0.0/` that [Docusaurus v3 does not support anymore](https://github.com/facebook/docusaurus/pull/9310).
 
 ```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
 {
@@ -442,9 +461,11 @@ When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.
 }
 ```
 
-:::tip Fix it
+:::tip How to prepare
 
-Remove the useless versioned prefix from your versioned sidebars:
+Your Docusaurus v2 site is able to handle the 2 sidebar formats similarly.
+
+You can remove the useless versioned prefix from your versioned sidebars.
 
 ```json title="versioned_sidebars/version-v1.0.0-sidebars.json"
 {
@@ -456,25 +477,40 @@ Remove the useless versioned prefix from your versioned sidebars:
 
 ## Try Docusaurus v3 today {#try-docusaurus-v3-today}
 
-Docusaurus v3 is now [in beta](https://github.com/facebook/docusaurus/discussions/9312), and used in production by [React-Native](https://reactnative.dev), [Jest](https://jestjs.io) and [our own website](https://docusaurus.io/).
+Docusaurus v3 is now [in beta](https://github.com/facebook/docusaurus/discussions/9312), and already used in production by [React-Native](https://reactnative.dev), [Jest](https://jestjs.io) and [our own website](https://docusaurus.io/).
 
-We would appreciate if you tried upgrading to the beta and [report issues](https://github.com/facebook/docusaurus/discussions/9312) that
+We think this new Docusaurus version is **robust and ready to be deployed in production**. It should be released officially soon, after receiving a positive feedback from early adopters of our community.
 
-Support v3: https://github.com/facebook/docusaurus/discussions/9336
+We would really appreciate if you tried upgrading and reported issues on the [release discussion thread](https://github.com/facebook/docusaurus/discussions/9312).
 
-Beta: https://github.com/facebook/docusaurus/discussions/9312
+For most sites, the upgrade should be easy. If you prepared your site ahead of time as documented here, upgrading the following dependencies should be enough:
 
+```diff title="package.json"
+ {
+   "dependencies": {
+-    "@docusaurus/core": "2.4.3",
+-    "@docusaurus/preset-classic": "2.4.3",
+-    "@mdx-js/react": "^1.6.22",
++    "@docusaurus/core": "3.0.0-beta.0",
++    "@docusaurus/preset-classic": "3.0.0-beta.0",
++    "@mdx-js/react": "^2.3.0",
+     "clsx": "^1.2.1",
+     "prism-react-renderer": "^1.3.5",
+-    "react": "^17.0.2",
+-    "react-dom": "^17.0.2"
++    "react": "^18.2.0",
++    "react-dom": "^18.2.0"
+   },
+   "devDependencies": {
+-    "@docusaurus/module-type-aliases": "2.4.3"
++    "@docusaurus/module-type-aliases": "3.0.0-beta.0"
+   }
+ }
 ```
-
-"dependencies": { "@docusaurus/core": "2.4.3", "@docusaurus/preset-classic": "2.4.3", "@mdx-js/react": "^1.6.22", "@docusaurus/core": "3.0.0-beta.0", "@docusaurus/preset-classic": "3.0.0-beta.0", "@mdx-js/react": "^2.3.0", "clsx": "^1.2.1", "prism-react-renderer": "^1.3.5", "react": "^17.0.2", "react-dom": "^17.0.2" "react": "^18.2.0", "react-dom": "^18.2.0" }, "devDependencies": { "@docusaurus/module-type-aliases": "2.4.3" "@docusaurus/module-type-aliases": "3.0.0-beta.0" },
-
-```
-
-https://github.com/slorber/docusaurus-argos-example/pull/2
 
 ## Ask for help
 
-To support you during this transition to MDX v2 and Docusaurus v3, we created a few useful channels:
+We will be there to help you upgrade through the following support channels:
 
 - [Docusaurus v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9336)
 - [Docusaurus v3 - Discord channel #migration-v2-to-v3](https://discord.com/channels/398180168688074762/1154771869094912090)
@@ -482,12 +518,10 @@ To support you during this transition to MDX v2 and Docusaurus v3, we created a 
 - [MDX v2 - Remark/Rehype Plugins Support](https://github.com/facebook/docusaurus/discussions/9337)
 - [MDX v2 - Discord channel #migration-mdx-v2](https://discord.com/channels/398180168688074762/1116724556976111616)
 
-Alternatively, you can look for a paid [Docusaurus Service Provider](https://github.com/facebook/docusaurus/discussions/9281) to do these upgrades for you. If your site is open source, you can also ask our community for [free, benevolent help](https://github.com/facebook/docusaurus/discussions/9283).
+Alternatively, you can look for a paid [Docusaurus Service Provider](https://github.com/facebook/docusaurus/discussions/9281) to execute this upgrades for you. If your site is open source, you can also ask our community for [free, benevolent help](https://github.com/facebook/docusaurus/discussions/9283).
 
 ## Conclusion
 
-TODO
+Docusaurus v3 is ready to try, and will be released soon. This article already gives you a good idea of all the major changes required to upgrade.
 
-```
-
-```
+The initial 3.0 release is focusing on dependency and infrastructure upgrades that will permit us to implement new exciting features. It also comes with a few useful features that we will detail in the final release notes.
