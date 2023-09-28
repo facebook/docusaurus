@@ -85,6 +85,7 @@ export default function CodeBlockString({
               ref={wordWrap.codeBlockRef}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
               <code
+                style={wordWrap.codeStyle}
                 className={clsx(
                   styles.codeBlockLines,
                   showLineNumbers && styles.codeBlockLinesWithNumbering,
