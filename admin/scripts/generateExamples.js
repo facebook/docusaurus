@@ -10,16 +10,6 @@
 import fs from 'fs-extra';
 import shell from 'shelljs';
 
-const NODE_MAJOR_VERSION = parseInt(
-  /** @type {string} */ (process.versions.node.split('.')[0]),
-  10,
-);
-if (NODE_MAJOR_VERSION < 16) {
-  throw new Error(
-    'This generateExamples Docusaurus script requires at least Node.js 16 and npm 7. See why here: https://github.com/facebook/docusaurus/pull/5722#issuecomment-948847891',
-  );
-}
-
 /**
  * Generate one example per init template
  * We use those generated examples as CodeSandbox projects
