@@ -67,7 +67,7 @@ Each MDX version comes with its own playground:
 - [MDX v2 playground](https://mdxjs.com/playground/)
 
 <details>
-  <summary>Configure the [MDX v2 playground](https://mdxjs.com/playground/) options.</summary>
+  <summary>Configuring MDX v2 playground options for Docusaurus</summary>
 
 To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn on these options on the [MDX v2 playground](https://mdxjs.com/playground/):
 
@@ -75,11 +75,11 @@ To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn
 - Use `remark-gfm`
 - Use `remark-directive`
 
-![Configure MDX v2 playground options for Docusaurus v3 behavior](./img/mdx2-playground-options.png)
+![Screenshot of the MDX v2 playground's options panel, with only the "Use `MDX`", "Use `remark-gfm`", and "Use `remark-directive`" options checked](./img/mdx2-playground-options.png)
 
 </details>
 
-Using the 2 MDX playgrounds side-by-side, you will soon notice that some content is compiled differently, or fails to compile in v2. We will detail the most common cases below.
+Using the two MDX playgrounds side-by-side, you will soon notice that some content is compiled differently or fails to compile in v2.
 
 :::tip Making your content future-proof
 
@@ -97,7 +97,7 @@ npx docusaurus-mdx-checker
 
 For each compilation issue, the CLI will log the file path and a line number to look at.
 
-![MDX Checker CLI output](./img/mdx-checker-output.png)
+![Screenshot of the terminal showing an example MDX checker CLI output, with a few error messages](./img/mdx-checker-output.png)
 
 :::tip
 
@@ -141,7 +141,7 @@ The object shape looks like {username: string, age: number}
 
 Available options to fix this error:
 
-- Use an inline code blocks: `{username: string, age: number}`
+- Use inline code: `{username: string, age: number}`
 - Use the HTML code: `&#123;`
 - Escape it: `\{`
 
@@ -173,7 +173,7 @@ Follow the template "Road to <YOUR_MINOR_VERSION>"
 
 Available options to fix this error:
 
-- Use inline code blocks: `Array<T>`
+- Use inline code: `Array<T>`
 - Use the HTML code: `&lt;` or `&#60;`
 - Escape it: `\<` (unfortunately the `\` will be displayed under MDX v1)
 
@@ -302,7 +302,7 @@ conf is great
 
 #### Unsupported indented code blocks
 
-MDX v2 does not transform anymore indented text as code blocks.
+MDX v2 does not transform indented text as code blocks anymore.
 
 ```md title="example.md"
     console.log("hello");
@@ -310,7 +310,7 @@ MDX v2 does not transform anymore indented text as code blocks.
 
 :::danger Visual change
 
-The upgrade does not generally produce new MDX v2 compilation errors, but can lead to content being renderer in an unexpected way, not using a code block anymore.
+The upgrade does not generally produce new MDX v2 compilation errors, but can lead to content being rendered in an unexpected way because there isn't a code block anymore.
 
 :::
 
@@ -328,7 +328,7 @@ console.log('hello');
 
 ### MDX plugins
 
-MDX v2, all the related official packages (Unified, Remark, Rehype...) are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support anymore [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules).
+All the official packages (Unified, Remark, Rehype...) in the MDX ecosystem are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) anymore.
 
 In practice this means that you can't do `require("remark-plugin")` anymore. Unfortunately the Docusaurus config file only supports CommonJS at the moment, and you can't use `import MyRemarkPlugin from "remark-plugin"`.
 
