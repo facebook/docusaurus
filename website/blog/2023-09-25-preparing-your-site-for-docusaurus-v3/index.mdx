@@ -327,7 +327,7 @@ In practice this means that you can't do `require("remark-plugin")` anymore. Unf
 
 Using dynamic imports is a good workaround that enables you to import ES modules inside a CommonJS module. Fortunately, the [Docusaurus config supports the usage of an async function](/docs/configuration#syntax-to-declare-docusaurus-config) to let you do so.
 
-You can start refactoring your config to use async dynamic imports today.
+You can start refactoring your config to use **async dynamic imports** today. Refer to the [MDX plugin installation documentation](/docs/3.0.0-beta.0/markdown-features/plugins#installing-plugins) for details.
 
 ```js title="docusaurus.config.js"
 module.exports = async function () {
