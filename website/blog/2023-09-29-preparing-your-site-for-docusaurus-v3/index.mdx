@@ -212,6 +212,38 @@ http://localhost:3000
 
 :::
 
+#### Lower-case MDXComponent mapping
+
+For users providing a [custom `MDXComponent`mapping](/docs/3.0.0-beta.0/markdown-features/react#mdx-component-scope), components are now "sandboxed":
+
+- a `MDXComponent` mapping for `h1` only gets used for `# hi` but not for `<h1>hi</h1>`
+- a **lower-cased** custom element name will not be substituted by its respective `MDXComponent` component anymore
+
+:::danger visual difference
+
+Your [`MDXComponent` component mapping](/docs/3.0.0-beta.0/markdown-features/react#mdx-component-scope) might not be applied as before, and your custom components might no longer be used.
+
+:::
+
+:::tip How to prepare
+
+For native Markdown elements, you can keep using **lower-case**: `p`, `h1`, `img`, `a`...
+
+For any other element, **use upper-case names**.
+
+```diff title="src/theme/MDXComponents.js"
+ import MDXComponents from '@theme-original/MDXComponents';
+
+ export default {
+   ...MDXComponents,
+   p: (props) => <p {...props} className="my-paragraph"/>
+-  myElement: (props) => <div {...props} className="my-class" />,
++  MyElement: (props) => <div {...props} className="my-class" />,
+ };
+```
+
+:::
+
 #### Unintended extra paragraphs
 
 In MDX v2, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
