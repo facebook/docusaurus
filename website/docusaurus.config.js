@@ -185,7 +185,7 @@ module.exports = async function createConfigAsync() {
     },
     onBrokenLinks:
       // Do not fail the build if a localized site has a broken link
-      process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale
+      process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale && !isBuildFast
         ? 'throw'
         : 'warn',
     onBrokenMarkdownLinks: 'warn',
