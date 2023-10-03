@@ -180,7 +180,11 @@ Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. I
 }
 ```
 
-:::tip Header and Sidebar Some components, such as the header and sidebar, use a `useWindowSize` hook to set their breakpoint value. If you change the breakpoint value in your custom CSS, you probably also want to update the invocations of the `useWindowSize` hook by swizzling the components it's used in and passing it an argument that updates the breakpoint value (for example, to change the breakpoint to 796px, pass the object `{ desktopThresholdWidth: 796 }` as an argument to the `useWindowSize` hook). :::
+:::tip Customizing the breakpoint
+
+Some React components, such as the header and the sidebar, implement different JavaScript logic when in mobile view by calling the [`useWindowSize`](./swizzling.mdx) hook. If you change the breakpoint value in your custom CSS, you probably also want to update the invocations of the `useWindowSize` hook by swizzling the components it's used in and passing an explicit option argument. For example, to change the breakpoint to 796px, pass the argument `796` to the `useWindowSize` hook.
+
+:::
 
 ## CSS modules {#css-modules}
 
