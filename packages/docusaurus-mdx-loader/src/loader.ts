@@ -28,7 +28,7 @@ import type {LoaderContext} from 'webpack';
 type Pluggable = any; // TODO fix this asap
 
 const {
-  loaders: {inlineMarkdownImageFileLoader},
+  loaders: {inlineMarkdownAssetFileLoader},
 } = getFileLoaderUtils();
 
 export type MDXPlugin = Pluggable;
@@ -92,7 +92,7 @@ function createAssetsExportCode(assets: unknown) {
     if (typeof assetValue === 'string' && assetValue.startsWith('./')) {
       // TODO do we have other use-cases than image assets?
       // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
-      const inlineLoader = inlineMarkdownImageFileLoader;
+      const inlineLoader = inlineMarkdownAssetFileLoader;
       return `require("${inlineLoader}${escapePath(assetValue)}").default`;
     }
     return undefined;
