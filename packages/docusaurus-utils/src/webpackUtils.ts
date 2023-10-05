@@ -20,6 +20,7 @@ type FileLoaderUtils = {
     file: (options: {folder: AssetFolder}) => RuleSetRule;
     url: (options: {folder: AssetFolder}) => RuleSetRule;
     inlineMarkdownImageFileLoader: string;
+    inlineMarkdownAssetImageFileLoader: string;
     inlineMarkdownLinkFileLoader: string;
   };
   rules: {
@@ -74,6 +75,9 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     )}?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
     )}&fallback=${escapePath(require.resolve('file-loader'))}!`,
+    inlineMarkdownAssetImageFileLoader: `!${escapePath(
+      require.resolve('file-loader'),
+    )}?name=${fileLoaderFileName('images')}!`,
     inlineMarkdownLinkFileLoader: `!${escapePath(
       require.resolve('file-loader'),
     )}?name=${fileLoaderFileName('files')}!`,
