@@ -545,6 +545,24 @@ jobs:
 
 <details>
 
+<summary>GITHUB_TOKEN permissions</summary>
+
+The `GITHUB_TOKEN` is a GitHub secret that is automatically generated when you enable GitHub Actions in your repository. It is used to authenticate the workflow run. You can read more about it [here](https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret).
+
+In the default setting, the token has read only access, so the job will fail once it tries to push to the deployment branch.
+
+Configure the permissions:
+
+1. Go to your repository's Settings > Actions > General
+2. Scroll to the "Workflow permissions" section
+3. Enable "Read and write permissions"
+
+You can specify more granular permissions in the workflow using YAML. [Learn more about managing permissions](https://docs.github.com/actions/reference/authentication-in-a-workflow#modifying-the-permissions-for-the-github_token).
+
+</details>
+
+<details>
+
 <summary>Site not deployed properly?</summary>
 
 After pushing to main, if you don't see your site published at the desired location (for example, it says "There isn't a GitHub Pages site here", or it's showing your repo's README.md file), try the following:
