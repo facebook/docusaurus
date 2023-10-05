@@ -13,14 +13,14 @@ import {
 } from './constants';
 import type {RuleSetRule} from 'webpack';
 
-type AssetFolder = 'images' | 'files' | 'fonts' | 'medias' | 'assets';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
 type FileLoaderUtils = {
   loaders: {
     file: (options: {folder: AssetFolder}) => RuleSetRule;
     url: (options: {folder: AssetFolder}) => RuleSetRule;
     inlineMarkdownImageFileLoader: string;
-    inlineMarkdownAssetFileLoader: string;
+    inlineMarkdownAssetImageFileLoader: string;
     inlineMarkdownLinkFileLoader: string;
   };
   rules: {
@@ -75,9 +75,9 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     )}?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
     )}&fallback=${escapePath(require.resolve('file-loader'))}!`,
-    inlineMarkdownAssetFileLoader: `!${escapePath(
+    inlineMarkdownAssetImageFileLoader: `!${escapePath(
       require.resolve('file-loader'),
-    )}?name=${fileLoaderFileName('assets')}!`,
+    )}?name=${fileLoaderFileName('images')}!`,
     inlineMarkdownLinkFileLoader: `!${escapePath(
       require.resolve('file-loader'),
     )}?name=${fileLoaderFileName('files')}!`,
