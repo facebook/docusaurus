@@ -389,7 +389,11 @@ module.exports = async function createConfigAsync() {
             rehypePlugins: [(await import('rehype-katex')).default],
             disableVersioning: isVersioningDisabled,
             lastVersion:
-              isDev || isDeployPreview || isBranchDeploy || isBuildFast
+              isDev ||
+              isVersioningDisabled ||
+              isDeployPreview ||
+              isBranchDeploy ||
+              isBuildFast
                 ? 'current'
                 : getLastVersion(),
 
