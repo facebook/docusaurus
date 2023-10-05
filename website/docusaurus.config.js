@@ -184,10 +184,11 @@ module.exports = async function createConfigAsync() {
       },
     },
     onBrokenLinks:
-      // Do not fail the build if a localized site has a broken link
-      process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale && !isBuildFast
-        ? 'throw'
-        : 'warn',
+      isBuildFast ||
+      isVersioningDisabled ||
+      process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+        ? 'warn'
+        : 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
