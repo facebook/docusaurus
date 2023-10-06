@@ -184,10 +184,11 @@ module.exports = async function createConfigAsync() {
       },
     },
     onBrokenLinks:
-      // Do not fail the build if a localized site has a broken link
-      process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale
-        ? 'throw'
-        : 'warn',
+      isBuildFast ||
+      isVersioningDisabled ||
+      process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+        ? 'warn'
+        : 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
@@ -389,7 +390,11 @@ module.exports = async function createConfigAsync() {
             rehypePlugins: [(await import('rehype-katex')).default],
             disableVersioning: isVersioningDisabled,
             lastVersion:
-              isDev || isDeployPreview || isBranchDeploy || isBuildFast
+              isDev ||
+              isVersioningDisabled ||
+              isDeployPreview ||
+              isBranchDeploy ||
+              isBuildFast
                 ? 'current'
                 : getLastVersion(),
 
