@@ -115,7 +115,6 @@ export default function Playground({
 
   return (
     <div className={styles.playgroundContainer}>
-      {/* @ts-expect-error: type incompatibility with refs */}
       <LiveProvider
         code={children.replace(/\n$/, '')}
         noInline={noInline}

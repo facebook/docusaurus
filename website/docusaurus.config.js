@@ -478,7 +478,15 @@ module.exports = async function createConfigAsync() {
           content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
         },
         prism: {
-          additionalLanguages: ['java', 'latex', 'PHp'],
+          additionalLanguages: [
+            'java',
+            'latex',
+            'PHp',
+            'bash',
+            'diff',
+            'json',
+            'scss',
+          ],
           magicComments: [
             {
               className: 'theme-code-block-highlighted-line',

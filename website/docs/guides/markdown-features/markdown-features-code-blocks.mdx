@@ -64,11 +64,13 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 For example, if you prefer to use the `dracula` highlighting theme:
 
 ```js title="docusaurus.config.js"
+const {themes} = require('prism-react-renderer');
+
 module.exports = {
   themeConfig: {
     prism: {
       // highlight-next-line
-      theme: require('prism-react-renderer/themes/dracula'),
+      theme: themes.dracula,
     },
   },
 };

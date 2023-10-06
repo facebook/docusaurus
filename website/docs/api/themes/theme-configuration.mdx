@@ -799,12 +799,14 @@ By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-ren
 Example configuration:
 
 ```js title="docusaurus.config.js"
+const {themes} = require('prism-react-renderer');
+
 module.exports = {
   themeConfig: {
     prism: {
       // highlight-start
-      theme: require('prism-react-renderer/themes/github'),
-      darkTheme: require('prism-react-renderer/themes/dracula'),
+      theme: themes.github,
+      darkTheme: themes.dracula,
       // highlight-end
     },
   },

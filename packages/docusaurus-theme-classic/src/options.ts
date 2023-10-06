@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
+import {themes} from 'prism-react-renderer';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
@@ -14,6 +14,7 @@ import type {
   OptionValidationContext,
 } from '@docusaurus/types';
 
+const defaultPrismTheme = themes.palenight;
 const DEFAULT_DOCS_CONFIG: ThemeConfig['docs'] = {
   versionPersistence: 'localStorage',
   sidebar: {

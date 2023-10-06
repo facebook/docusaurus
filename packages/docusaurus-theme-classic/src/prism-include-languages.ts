@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Prism from 'prism-react-renderer/prism';
+import {Prism} from 'prism-react-renderer';
 import prismIncludeLanguages from '@theme/prism-include-languages';
 
 prismIncludeLanguages(Prism);
