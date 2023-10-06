@@ -13626,7 +13626,7 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prism-react-renderer@^2.0.6:
+prism-react-renderer@^2.0.6, prism-react-renderer@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-2.1.0.tgz#a2f418451647412ea73d18cfe363fea20e419f9d"
   integrity sha512-I5cvXHjA1PVGbGm1MsWCpvBCRrYyxEri0MC7/JbfIfYfcXAxHyO5PaUjs3A8H5GW6kJcLhTHxxMaOZZpRZD2iQ==
