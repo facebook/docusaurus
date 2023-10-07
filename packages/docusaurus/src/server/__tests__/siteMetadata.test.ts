@@ -55,7 +55,7 @@ describe('loadSiteMetadata', () => {
         ] as LoadedPlugin[],
         siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
       }),
-    ).resolves.toMatchSnapshot();
+    ).rejects.toThrow('Docusaurus plugin versions mismatch detected.');
     expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(`
       "[ERROR] Invalid docusaurus-plugin-content-docs version 1.0.0.
       All official @docusaurus/* packages should have the exact same version as @docusaurus/core (<CURRENT_VERSION>).
