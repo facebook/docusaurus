@@ -74,6 +74,7 @@ export async function getPluginVersion(
  */
 function checkDocusaurusPackagesVersion(siteMetadata: SiteMetadata) {
   const {docusaurusVersion} = siteMetadata;
+  let mismatchDetected: boolean = false;
   Object.entries(siteMetadata.pluginVersions).forEach(
     ([plugin, versionInfo]) => {
       if (
@@ -82,6 +83,8 @@ function checkDocusaurusPackagesVersion(siteMetadata: SiteMetadata) {
         versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
+        // change mismatched to true
+        mismatchDetected = true;
         // Should we throw instead? It still could work with different versions
         logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
 All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
@@ -89,6 +92,12 @@ Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?
       }
     },
   );
+  if (mismatchDetected) {
+    // Throw an exception or exit with a non-zero exit code.
+    throw new Error('Docusaurus plugin versions mismatch detected.');
+    // We can exit the process with a non-zero code:
+    // process.exit(1);
+  }
 }
 
 export async function loadSiteMetadata({
