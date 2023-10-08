@@ -7,21 +7,21 @@
 
 /*
 Workaround to avoid rendering empty search container
-See https://github.com/facebook/docusaurus/pull/7990
+See https://github.com/facebook/docusaurus/pull/9385
 */
-.navbarSearch:not(:has(> *)) {
+.navbarSearchContainer:not(:has(> *)) {
   display: none;
 }
 
 @media (max-width: 996px) {
-  .navbarSearch {
+  .navbarSearchContainer {
     position: absolute;
     right: var(--ifm-navbar-padding-horizontal);
   }
 }
 
 @media (min-width: 997px) {
-  .navbarSearch {
+  .navbarSearchContainer {
     padding: var(--ifm-navbar-item-padding-vertical)
       var(--ifm-navbar-item-padding-horizontal);
   }
