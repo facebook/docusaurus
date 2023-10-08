@@ -445,7 +445,7 @@ module.exports = async function createConfigAsync() {
           },
           gtag: !(isDeployPreview || isBranchDeploy)
             ? {
-                trackingID: ['G-E5CR2Q1NRE', 'UA-141789564-1'],
+                trackingID: ['G-E5CR2Q1NRE'],
               }
             : undefined,
           sitemap: {
