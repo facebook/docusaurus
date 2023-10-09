@@ -121,6 +121,15 @@ function ensureMarkdownConfig(reqOptions: Options) {
   }
 }
 
+/**
+ * data.contentTitle is set by the remark contentTitle plugin
+ */
+function extractContentTitleData(data: {
+  [key: string]: unknown;
+}): string | undefined {
+  return data.contentTitle as string | undefined;
+}
+
 export async function mdxLoader(
   this: LoaderContext<Options>,
   fileString: string,
@@ -150,7 +159,7 @@ export async function mdxLoader(
     mdxFrontMatter,
   });
 
-  let result: {content: string; data: { [key: string]: unknown }};
+  let result: {content: string; data: {[key: string]: unknown}};
   try {
     result = await processor.process({content: preprocessedContent, filePath});
   } catch (errorUnknown) {
@@ -176,7 +185,7 @@ export async function mdxLoader(
     );
   }
 
-  const contentTitle = 'xyz'; // TODO !
+  const contentTitle = extractContentTitleData(result.data);
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
@@ -238,7 +247,7 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
 
   const code = `
 ${exportsCode}
-${result}
+${result.content}
 `;
 
   return callback(null, code);

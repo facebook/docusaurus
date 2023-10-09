@@ -7,6 +7,7 @@
 
 import emoji from 'remark-emoji';
 import headings from './remark/headings';
+import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
@@ -28,6 +29,8 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
+type SimpleProcessorResult = {content: string; data: {[key: string]: unknown}};
+
 // TODO alt interface because impossible to import type Processor (ESM + TS :/)
 type SimpleProcessor = {
   process: ({
@@ -36,7 +39,7 @@ type SimpleProcessor = {
   }: {
     content: string;
     filePath: string;
-  }) => Promise<{content: string; data: { [key: string]: unknown }}>;
+  }) => Promise<SimpleProcessorResult>;
 };
 
 const DEFAULT_OPTIONS: MDXOptions = {
@@ -94,6 +97,7 @@ async function createProcessorFactory() {
       ...(options.beforeDefaultRemarkPlugins ?? []),
       frontmatter,
       directive,
+      [contentTitle, {removeContentTitle: options.removeContentTitle}],
       ...getAdmonitionsPlugins(options.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
       details,
@@ -167,9 +171,9 @@ async function createProcessorFactory() {
             path: filePath,
           })
           .then((vfile) => ({
-              content: vfile.toString(),
-              data: vfile.data,
-            })),
+            content: vfile.toString(),
+            data: vfile.data,
+          })),
     };
   }
 
