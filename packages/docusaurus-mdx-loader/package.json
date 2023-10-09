@@ -35,6 +35,7 @@
     "mdast-util-to-string": "^3.2.0",
     "rehype-raw": "^6.1.1",
     "remark-directive": "^2.0.1",
+    "remark-frontmatter": "^5.0.0",
     "remark-emoji": "^2.2.0",
     "remark-gfm": "^3.0.1",
     "stringify-object": "^3.3.0",
@@ -42,6 +43,7 @@
     "unified": "^10.1.2",
     "unist-util-visit": "^2.0.3",
     "url-loader": "^4.1.1",
+    "vfile": "^5.3.7",
     "webpack": "^5.88.1"
   },
   "devDependencies": {

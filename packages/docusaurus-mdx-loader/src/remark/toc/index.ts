@@ -17,7 +17,7 @@ import type {Heading, Literal} from 'mdast';
 import type {Transformer} from 'unified';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// This might change soon, likely after TS 5.2
+// TODO upgrade to TS 5.3
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 // import type {Plugin} from 'unified';
 type Plugin = any; // TODO fix this asap
