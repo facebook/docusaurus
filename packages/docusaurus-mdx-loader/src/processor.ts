@@ -36,7 +36,7 @@ type SimpleProcessor = {
   }: {
     content: string;
     filePath: string;
-  }) => Promise<string>;
+  }) => Promise<{content: string; data: { [key: string]: unknown }}>;
 };
 
 const DEFAULT_OPTIONS: MDXOptions = {
@@ -74,6 +74,7 @@ function getAdmonitionsPlugins(
 // Need to be async due to ESM dynamic imports...
 async function createProcessorFactory() {
   const {createProcessor: createMdxProcessor} = await import('@mdx-js/mdx');
+  const {default: frontmatter} = await import('remark-frontmatter');
   const {default: rehypeRaw} = await import('rehype-raw');
   const {default: gfm} = await import('remark-gfm');
   // TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
@@ -91,6 +92,7 @@ async function createProcessorFactory() {
   }): SimpleProcessor {
     const remarkPlugins: MDXPlugin[] = [
       ...(options.beforeDefaultRemarkPlugins ?? []),
+      frontmatter,
       directive,
       ...getAdmonitionsPlugins(options.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
@@ -164,7 +166,10 @@ async function createProcessorFactory() {
             value: content,
             path: filePath,
           })
-          .then((res) => res.toString()),
+          .then((vfile) => ({
+              content: vfile.toString(),
+              data: vfile.data,
+            })),
     };
   }
 

@@ -9,7 +9,6 @@ import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
   parseFrontMatter,
-  parseMarkdownContentTitle,
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
@@ -132,18 +131,11 @@ export async function mdxLoader(
   const {query} = this;
   ensureMarkdownConfig(reqOptions);
 
-  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+  const {frontMatter} = parseFrontMatter(fileString);
   const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
 
-  const {content: contentUnprocessed, contentTitle} = parseMarkdownContentTitle(
-    contentWithTitle,
-    {
-      removeContentTitle: reqOptions.removeContentTitle,
-    },
-  );
-
-  const content = preprocessor({
-    fileContent: contentUnprocessed,
+  const preprocessedContent = preprocessor({
+    fileContent: fileString,
     filePath,
     admonitions: reqOptions.admonitions,
     markdownConfig: reqOptions.markdownConfig,
@@ -158,9 +150,9 @@ export async function mdxLoader(
     mdxFrontMatter,
   });
 
-  let result: string;
+  let result: {content: string; data: { [key: string]: unknown }};
   try {
-    result = await processor.process({content, filePath});
+    result = await processor.process({content: preprocessedContent, filePath});
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
 
@@ -183,6 +175,8 @@ export async function mdxLoader(
       ),
     );
   }
+
+  const contentTitle = 'xyz'; // TODO !
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
