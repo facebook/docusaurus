@@ -36,9 +36,11 @@ type SimpleProcessor = {
   process: ({
     content,
     filePath,
+    frontMatter,
   }: {
     content: string;
     filePath: string;
+    frontMatter: {[key: string]: unknown};
   }) => Promise<SimpleProcessorResult>;
 };
 
@@ -83,6 +85,7 @@ async function createProcessorFactory() {
   // TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
   const {default: comment} = await import('@slorber/remark-comment');
   const {default: directive} = await import('remark-directive');
+  const {VFile} = await import('vfile');
 
   // /!\ this method is synchronous on purpose
   // Using async code here can create cache entry race conditions!
@@ -164,16 +167,19 @@ async function createProcessorFactory() {
     });
 
     return {
-      process: async ({content, filePath}) =>
-        mdxProcessor
-          .process({
-            value: content,
-            path: filePath,
-          })
-          .then((vfile) => ({
-            content: vfile.toString(),
-            data: vfile.data,
-          })),
+      process: async ({content, filePath, frontMatter}) => {
+        const vfile = new VFile({
+          value: content,
+          path: filePath,
+          data: {
+            frontMatter,
+          },
+        });
+        return mdxProcessor.process(vfile).then((result) => ({
+          content: result.toString(),
+          data: result.data,
+        }));
+      },
     };
   }
 

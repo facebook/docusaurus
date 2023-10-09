@@ -161,7 +161,11 @@ export async function mdxLoader(
 
   let result: {content: string; data: {[key: string]: unknown}};
   try {
-    result = await processor.process({content: preprocessedContent, filePath});
+    result = await processor.process({
+      content: preprocessedContent,
+      filePath,
+      frontMatter,
+    });
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
 
