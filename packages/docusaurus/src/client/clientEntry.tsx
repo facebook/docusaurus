@@ -37,8 +37,8 @@ if (ExecutionEnvironment.canUseDOM) {
     </HelmetProvider>
   );
 
-  const onRecoverableError = (error: unknown): void => {
-    console.error('Docusaurus React Root onRecoverableError:', error);
+  const onRecoverableError = (error: unknown, errorInfo: { digest?: string | null, componentStack?: string | null }): void => {
+    console.error('Docusaurus React Root onRecoverableError:', error, errorInfo);
   };
 
   const renderApp = () => {
