@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`directives remark plugin default behavior for custom keyword 1`] = `
+"<p>Test directives</p>
+<p><div></div></p>
+<p>Text<div></div></p>
+<p>Text: base</p>
+<div></div>
+<div><p>::::info <strong>Weather</strong>
+On nice days, you can enjoy skiing in the mountains.</p><p>:::danger <em>Storms</em>
+Take care of snowstorms...</p></div>
+<p>::::</p>"
+`;
