@@ -35,6 +35,7 @@ const plugin: Plugin = function plugin(
     const {toString} = await import('mdast-util-to-string');
     visit(root, 'heading', (headingNode: Heading, index, parent) => {
       if (headingNode.depth === 1) {
+        vfile.data.compilerName;
         vfile.data.contentTitle = toString(headingNode);
         if (removeContentTitle) {
           parent!.children.splice(index, 1);

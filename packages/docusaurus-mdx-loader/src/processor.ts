@@ -18,6 +18,7 @@ import transformAdmonitions from './remark/admonitions';
 import unusedDirectivesWarning from './remark/unusedDirectives';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import {getFormat} from './format';
+import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './loader';
 import type {AdmonitionOptions} from './remark/admonitions';
@@ -38,10 +39,12 @@ type SimpleProcessor = {
     content,
     filePath,
     frontMatter,
+    compilerName,
   }: {
     content: string;
     filePath: string;
     frontMatter: {[key: string]: unknown};
+    compilerName: WebpackCompilerName;
   }) => Promise<SimpleProcessorResult>;
 };
 
@@ -169,12 +172,13 @@ async function createProcessorFactory() {
     });
 
     return {
-      process: async ({content, filePath, frontMatter}) => {
+      process: async ({content, filePath, frontMatter, compilerName}) => {
         const vfile = new VFile({
           value: content,
           path: filePath,
           data: {
             frontMatter,
+            compilerName,
           },
         });
         return mdxProcessor.process(vfile).then((result) => ({

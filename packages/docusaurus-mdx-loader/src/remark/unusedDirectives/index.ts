@@ -26,6 +26,13 @@ const directiveTypes = ['containerDirective', 'leafDirective', 'textDirective'];
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
   return (tree, file) => {
+    // We only enable these warnings for the client compiler
+    // This avoids emitting duplicate warnings in prod mode
+    // Note: the client compiler is used in both dev/prod modes
+    if (file.data.compilerName !== 'client') {
+      return;
+    }
+
     const unusedDirectives: Array<{
       name: string;
       type: string;

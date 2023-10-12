@@ -11,8 +11,10 @@ import {
   parseFrontMatter,
   escapePath,
   getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
+import './vfile-datamap';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
 import {createProcessorCached} from './processor';
@@ -134,10 +136,12 @@ export async function mdxLoader(
   this: LoaderContext<Options>,
   fileString: string,
 ): Promise<void> {
+  const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions: Options = this.getOptions();
   const {query} = this;
+
   ensureMarkdownConfig(reqOptions);
 
   const {frontMatter} = parseFrontMatter(fileString);
@@ -165,6 +169,7 @@ export async function mdxLoader(
       content: preprocessedContent,
       filePath,
       frontMatter,
+      compilerName,
     });
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
