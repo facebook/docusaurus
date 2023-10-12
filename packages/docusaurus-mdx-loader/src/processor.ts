@@ -7,6 +7,7 @@
 
 import emoji from 'remark-emoji';
 import headings from './remark/headings';
+import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
@@ -28,15 +29,19 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
+type SimpleProcessorResult = {content: string; data: {[key: string]: unknown}};
+
 // TODO alt interface because impossible to import type Processor (ESM + TS :/)
 type SimpleProcessor = {
   process: ({
     content,
     filePath,
+    frontMatter,
   }: {
     content: string;
     filePath: string;
-  }) => Promise<string>;
+    frontMatter: {[key: string]: unknown};
+  }) => Promise<SimpleProcessorResult>;
 };
 
 const DEFAULT_OPTIONS: MDXOptions = {
@@ -74,11 +79,13 @@ function getAdmonitionsPlugins(
 // Need to be async due to ESM dynamic imports...
 async function createProcessorFactory() {
   const {createProcessor: createMdxProcessor} = await import('@mdx-js/mdx');
+  const {default: frontmatter} = await import('remark-frontmatter');
   const {default: rehypeRaw} = await import('rehype-raw');
   const {default: gfm} = await import('remark-gfm');
   // TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
   const {default: comment} = await import('@slorber/remark-comment');
   const {default: directive} = await import('remark-directive');
+  const {VFile} = await import('vfile');
 
   // /!\ this method is synchronous on purpose
   // Using async code here can create cache entry race conditions!
@@ -91,7 +98,9 @@ async function createProcessorFactory() {
   }): SimpleProcessor {
     const remarkPlugins: MDXPlugin[] = [
       ...(options.beforeDefaultRemarkPlugins ?? []),
+      frontmatter,
       directive,
+      [contentTitle, {removeContentTitle: options.removeContentTitle}],
       ...getAdmonitionsPlugins(options.admonitions ?? false),
       ...DEFAULT_OPTIONS.remarkPlugins,
       details,
@@ -158,13 +167,19 @@ async function createProcessorFactory() {
     });
 
     return {
-      process: async ({content, filePath}) =>
-        mdxProcessor
-          .process({
-            value: content,
-            path: filePath,
-          })
-          .then((res) => res.toString()),
+      process: async ({content, filePath, frontMatter}) => {
+        const vfile = new VFile({
+          value: content,
+          path: filePath,
+          data: {
+            frontMatter,
+          },
+        });
+        return mdxProcessor.process(vfile).then((result) => ({
+          content: result.toString(),
+          data: result.data,
+        }));
+      },
     };
   }
 

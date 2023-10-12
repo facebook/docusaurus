@@ -229,7 +229,7 @@ If you don't wrap your imported MDX with `MDXContent`, the global scope will not
 
 Docusaurus v3 is using [MDX v2](https://mdxjs.com/blog/v2/).
 
-The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
+The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files can use JSX and are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
 
 Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.com/docs/what-is-mdx/#markdown)), notably:
 
@@ -238,12 +238,14 @@ Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.co
 - HTML syntax (`<p style="color: red;">`): use JSX instead (`<p style={{color: 'red'}}>`)
 - Unescaped `{` and `<`: escape them with `\` instead (`\{` and `\<`)
 
-:::tip
+:::danger Experimental CommonMark support
 
-In case you need a less strict format, with [CommonMark](https://commonmark.org/) compatibility, you can use:
+Docusaurus v3 makes it possible to opt-in for a less strict, standard [CommonMark](https://commonmark.org/) support with the following options:
 
-- The `.md` file extension instead of `.mdx`
 - The `format: md` front matter
+- The `.md` file extension combined with the `siteConfig.markdown.format: "detect"` configuration
+
+This feature is **experimental** and currently has a few [limitations](https://github.com/facebook/docusaurus/issues/9092).
 
 :::
 
