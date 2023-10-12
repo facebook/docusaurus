@@ -14,7 +14,6 @@ import {
   getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
-import './vfile-datamap';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
 import {createProcessorCached} from './processor';
