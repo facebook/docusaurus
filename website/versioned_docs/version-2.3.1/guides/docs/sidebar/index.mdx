@@ -201,7 +201,7 @@ A real-world example from the Docusaurus site:
 import CodeBlock from '@theme/CodeBlock';
 
 <CodeBlock language="js" title="sidebars.js">
-  {require('!!raw-loader!@site/sidebars.js')
+  {require('!!raw-loader!@site/sidebars.ts')
     .default
     .split('\n')
     // remove comments

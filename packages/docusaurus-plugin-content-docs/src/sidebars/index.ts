@@ -89,9 +89,16 @@ export async function loadSidebarsFileUnsafe(
   }
 
   // We don't want sidebars to be cached because of hot reloading.
-  return jiti(__filename, {
+  const sidebars = jiti(__filename, {
     cache: false,
+    interopDefault: true,
+    debug: true,
   })(sidebarFilePath);
+
+  sidebarFilePath.endsWith('.ts') &&
+    console.log({sidebarFilePath}, JSON.stringify(sidebars, null, 2));
+
+  return sidebars;
 }
 
 export async function loadSidebars(

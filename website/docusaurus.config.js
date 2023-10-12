@@ -365,7 +365,7 @@ module.exports = async function createConfigAsync() {
           docs: {
             // routeBasePath: '/',
             path: 'docs',
-            sidebarPath: 'sidebars.js',
+            sidebarPath: 'sidebars.ts',
             // sidebarCollapsible: false,
             // sidebarCollapsed: true,
             editUrl: ({locale, docPath}) => {
