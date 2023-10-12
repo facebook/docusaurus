@@ -4,15 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import path from 'path';
+import process from 'process';
 import visit from 'unist-util-visit';
+import logger from '@docusaurus/logger';
+import {posixPath} from '@docusaurus/utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
-// import type {
-//   ContainerDirective,
-//   LeafDirective,
-//   TextDirective,
-//   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-// } from 'mdast-util-directive';
+import type {
+  Directive,
+  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+} from 'mdast-util-directive';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
@@ -20,39 +22,49 @@ import type {Transformer, Processor, Parent} from 'unified';
 // import type {Plugin} from 'unified';
 type Plugin = any; // TODO fix this asap
 
+const directiveTypes = ['containerDirective', 'leafDirective', 'textDirective'];
+
 const plugin: Plugin = function plugin(this: Processor): Transformer {
-  return (tree) => {
+  return (tree, file) => {
     const unusedDirectives: Array<{
-      name: string | null;
+      name: string;
       type: string;
+      position:
+        | {
+            line: number;
+            column: number;
+          }
+        | undefined;
     }> = [];
 
-    const directiveTypes = [
-      'containerDirective',
-      'leafDirective',
-      'textDirective',
-    ];
-
-    const directiveVisitor = (node: any) => {
-      if (directiveTypes.includes(node.type)) {
+    visit<Parent>(tree, directiveTypes, (node: Directive) => {
+      if (!node.data) {
         unusedDirectives.push({
           name: node.name,
           type: node.type,
-          // start: node.position.start.line,
-          // path: ` ${filePath}:${node.position.start.line}:${node.position.start.column}`,
+          position: node.position
+            ? {
+                line: node.position.start.line,
+                column: node.position.start.column,
+              }
+            : undefined,
         });
-
-        // if (node.children) {
-        //   node.children.forEach((child: any) => directiveVisitor(child));
-        // }
       }
-    };
-
-    visit<Parent>(tree, directiveTypes, directiveVisitor);
-    // visit<Parent>(tree, '', directiveVisitor);
+    });
 
     if (unusedDirectives.length > 0) {
-      console.warn('Unused Directives found: ', unusedDirectives);
+      const warningMessage = unusedDirectives
+        .map((unusedDirective) => {
+          const positionMessage = unusedDirective.position
+            ? logger.interpolate`number=${unusedDirective.position.line}:number=${unusedDirective.position.column}`
+            : '';
+
+          const customPath = posixPath(path.relative(process.cwd(), file.path));
+
+          return logger.interpolate`We found a potential error in your documentation name=${unusedDirective.name} path=${customPath}:${positionMessage}`;
+        })
+        .join('\n');
+      logger.warn(warningMessage);
     }
   };
 };

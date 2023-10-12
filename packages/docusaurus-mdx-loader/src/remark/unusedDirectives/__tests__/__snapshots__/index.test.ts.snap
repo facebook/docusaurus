@@ -12,17 +12,7 @@ exports[`directives remark plugin default behavior for custom keyword 1`] = `
 exports[`directives remark plugin default behavior for custom keyword 2`] = `
 [
   [
-    "Unused Directives found: ",
-    [
-      {
-        "name": "danger",
-        "type": "containerDirective",
-      },
-      {
-        "name": "unusedDirective",
-        "type": "containerDirective",
-      },
-    ],
+    "[WARNING] We found a potential error in your documentation unusedDirective "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/containerDirectives.md":7:1",
   ],
 ]
 `;
