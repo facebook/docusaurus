@@ -9,8 +9,8 @@ import path from 'path';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
 import vfile from 'to-vfile';
-import preprocessor from '../../../preprocessor';
 import plugin from '../index';
+import admonition from '../../admonitions';
 
 const processFixture = async (name: string) => {
   const {remark} = await import('remark');
@@ -18,32 +18,28 @@ const processFixture = async (name: string) => {
 
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
-  const fileContentPreprocessed = preprocessor({
-    fileContent: file.toString(),
-    filePath,
-    markdownConfig: {
-      mermaid: false,
-      mdx1Compat: {
-        admonitions: false,
-        comments: false,
-        headingIds: false,
-      },
-    },
-  });
 
   const result = await remark()
     .use(directives)
+    .use(admonition)
     .use(plugin)
     .use(remark2rehype)
     .use(stringify)
-    .process(fileContentPreprocessed);
+    .process(file);
 
   return result.value;
 };
 
 describe('directives remark plugin', () => {
   it('default behavior for custom keyword', async () => {
-    const result = await processFixture('directives');
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+
+    const result = await processFixture('containerDirectives');
+
     expect(result).toMatchSnapshot();
+
+    expect(consoleMock.mock.calls).toMatchSnapshot();
   });
 });

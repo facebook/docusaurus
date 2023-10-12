@@ -7,6 +7,12 @@
 import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
+// import type {
+//   ContainerDirective,
+//   LeafDirective,
+//   TextDirective,
+//   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+// } from 'mdast-util-directive';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
@@ -20,6 +26,7 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
       name: string | null;
       type: string;
     }> = [];
+
     const directiveTypes = [
       'containerDirective',
       'leafDirective',
@@ -35,16 +42,17 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
           // path: ` ${filePath}:${node.position.start.line}:${node.position.start.column}`,
         });
 
-        if (node.children) {
-          node.children.forEach((child: any) => directiveVisitor(child));
-        }
+        // if (node.children) {
+        //   node.children.forEach((child: any) => directiveVisitor(child));
+        // }
       }
     };
 
-    visit<Parent>(tree, 'root', directiveVisitor);
+    visit<Parent>(tree, directiveTypes, directiveVisitor);
+    // visit<Parent>(tree, '', directiveVisitor);
 
     if (unusedDirectives.length > 0) {
-      console.warn('unusedDirectives', unusedDirectives);
+      console.warn('Unused Directives found: ', unusedDirectives);
     }
   };
 };

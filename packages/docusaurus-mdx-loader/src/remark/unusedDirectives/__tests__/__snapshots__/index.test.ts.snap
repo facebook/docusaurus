@@ -1,14 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`directives remark plugin default behavior for custom keyword 1`] = `
-"<p>Test directives</p>
-<p><div></div> <div></div></p>
-<p>Text<div></div></p>
-<p>Text:base</p>
-<p>Text: base</p>
-<div></div>
-<div><p>::::info <strong>Weather</strong>
-On nice days, you can enjoy skiing in the mountains.</p><p>:::danger <em>Storms</em>
-Take care of snowstorms...</p></div>
-<p>::::</p>"
+"<admonition type="danger"><p>Take care of snowstorms...</p></admonition>
+<div><p>unused directive content</p></div>
+<p>:::NotAContainerDirective with a phrase after</p>
+<p>:::</p>
+<p>Phrase before :::NotAContainerDirective</p>
+<p>:::</p>"
+`;
+
+exports[`directives remark plugin default behavior for custom keyword 2`] = `
+[
+  [
+    "Unused Directives found: ",
+    [
+      {
+        "name": "danger",
+        "type": "containerDirective",
+      },
+      {
+        "name": "unusedDirective",
+        "type": "containerDirective",
+      },
+    ],
+  ],
+]
 `;
