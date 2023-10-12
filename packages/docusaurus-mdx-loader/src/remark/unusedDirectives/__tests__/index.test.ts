@@ -31,12 +31,34 @@ const processFixture = async (name: string) => {
 };
 
 describe('directives remark plugin', () => {
-  it('default behavior for custom keyword', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
+  let consoleMock;
 
+  beforeEach(() => {
+    consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleMock.mockRestore();
+  });
+
+  it('default behavior for container directives', async () => {
     const result = await processFixture('containerDirectives');
+
+    expect(result).toMatchSnapshot();
+
+    expect(consoleMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('default behavior for leaf directives', async () => {
+    const result = await processFixture('leafDirectives');
+
+    expect(result).toMatchSnapshot();
+
+    expect(consoleMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('default behavior for text directives', async () => {
+    const result = await processFixture('textDirectives');
 
     expect(result).toMatchSnapshot();
 
