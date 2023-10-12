@@ -35,6 +35,7 @@ jobs:
           urls: |
             https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
             https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/installation
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
