@@ -142,6 +142,7 @@ function DropdownNavbarItemMobile({
       })}>
       <NavbarNavLink
         role="button"
+        href={props.to ? undefined : '#'}
         className={clsx(
           'menu__link menu__link--sublist menu__link--sublist-caret',
           className,
