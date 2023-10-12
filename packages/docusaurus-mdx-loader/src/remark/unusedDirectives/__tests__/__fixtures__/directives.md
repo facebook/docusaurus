@@ -1,8 +1,10 @@
 Test directives
 
-:base
+:base :base
 
 Text:base
+
+Text\:base
 
 Text: base
 

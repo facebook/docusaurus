@@ -8,13 +8,6 @@ import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
 
-import type {
-  ContainerDirective,
-  LeafDirective,
-  TextDirective,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-} from 'mdast-util-directive';
-
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
@@ -22,9 +15,9 @@ import type {
 type Plugin = any; // TODO fix this asap
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
-  return (root) => {
+  return (tree) => {
     const unusedDirectives: Array<{
-      name: string;
+      name: string | null;
       type: string;
     }> = [];
     const directiveTypes = [
@@ -33,9 +26,7 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
       'textDirective',
     ];
 
-    const directiveVisitor = (
-      node: ContainerDirective | LeafDirective | TextDirective,
-    ) => {
+    const directiveVisitor = (node: any) => {
       if (directiveTypes.includes(node.type)) {
         unusedDirectives.push({
           name: node.name,
@@ -43,31 +34,18 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
           // start: node.position.start.line,
           // path: ` ${filePath}:${node.position.start.line}:${node.position.start.column}`,
         });
+
+        if (node.children) {
+          node.children.forEach((child: any) => directiveVisitor(child));
+        }
       }
     };
 
-    // const directiveVisitor = (
-    //   node: ContainerDirective | LeafDirective | TextDirective,
-    // ) => {
-    //   // Convert the directive to plain text and add it to the
-    //   // unusedDirectives array
+    visit<Parent>(tree, 'root', directiveVisitor);
 
-    //   unusedDirectives.push(directiveText);
-
-    //   // Remove the directive from the tree
-    //   if (parent) {
-    //     const index = parent.children.indexOf(node);
-    //     if (index !== -1) {
-    //       parent.children.splice(index, 1);
-    //     }
-    //   }
-    // };
-
-    visit<Parent>(root, 'containerDirective', directiveVisitor);
-    visit<Parent>(root, 'leafDirective', directiveVisitor);
-    visit<Parent>(root, 'textDirective', directiveVisitor);
-
-    console.log('Unused Directives:', unusedDirectives);
+    if (unusedDirectives.length > 0) {
+      console.warn('unusedDirectives', unusedDirectives);
+    }
   };
 };
 

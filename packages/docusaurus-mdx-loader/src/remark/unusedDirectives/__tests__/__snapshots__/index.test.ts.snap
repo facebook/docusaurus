@@ -2,8 +2,9 @@
 
 exports[`directives remark plugin default behavior for custom keyword 1`] = `
 "<p>Test directives</p>
-<p><div></div></p>
+<p><div></div> <div></div></p>
 <p>Text<div></div></p>
+<p>Text:base</p>
 <p>Text: base</p>
 <div></div>
 <div><p>::::info <strong>Weather</strong>
