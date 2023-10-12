@@ -7,7 +7,7 @@
 
 import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
-import type {PrismTheme} from 'prism-react-renderer';
+import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -254,14 +254,14 @@ export function parseLines(
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
-  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
+  const mapping: PrismThemeEntry = {
     color: '--prism-color',
     backgroundColor: '--prism-background-color',
   };
 
   const properties: {[key: string]: string} = {};
   Object.entries(prismTheme.plain).forEach(([key, value]) => {
-    const varName = mapping[key];
+    const varName = mapping[key as keyof PrismThemeEntry];
     if (varName && typeof value === 'string') {
       properties[varName] = value;
     }

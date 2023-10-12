@@ -400,23 +400,20 @@ declare module '@theme/CodeBlock/Content/String' {
 }
 
 declare module '@theme/CodeBlock/Line' {
-  import type {ComponentProps} from 'react';
-  import type Highlight from 'prism-react-renderer';
-
-  // Lib does not make this easy
-  type RenderProps = Parameters<
-    ComponentProps<typeof Highlight>['children']
-  >[0];
-  type GetLineProps = RenderProps['getLineProps'];
-  type GetTokenProps = RenderProps['getTokenProps'];
-  type Token = RenderProps['tokens'][number][number];
+  import type {
+    LineInputProps,
+    LineOutputProps,
+    Token,
+    TokenInputProps,
+    TokenOutputProps,
+  } from 'prism-react-renderer';
 
   export interface Props {
     readonly line: Token[];
     readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
-    readonly getLineProps: GetLineProps;
-    readonly getTokenProps: GetTokenProps;
+    readonly getLineProps: (input: LineInputProps) => LineOutputProps;
+    readonly getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   }
 
   export default function CodeBlockLine(props: Props): JSX.Element;

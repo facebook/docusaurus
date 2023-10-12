@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
 import type {LoadedPlugin} from '@docusaurus/types';
 
@@ -37,10 +37,7 @@ describe('getPluginVersion', () => {
 });
 
 describe('loadSiteMetadata', () => {
-  it('warns about plugin version mismatch', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+  it('throws if plugin versions mismatch', async () => {
     await expect(
       loadSiteMetadata({
         plugins: [
@@ -55,11 +52,9 @@ describe('loadSiteMetadata', () => {
         ] as LoadedPlugin[],
         siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
       }),
-    ).resolves.toMatchSnapshot();
-    expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(`
-      "[ERROR] Invalid docusaurus-plugin-content-docs version 1.0.0.
-      All official @docusaurus/* packages should have the exact same version as @docusaurus/core (<CURRENT_VERSION>).
-      Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?"
-    `);
+    ).rejects
+      .toThrow(`Invalid name=docusaurus-plugin-content-docs version number=1.0.0.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${DOCUSAURUS_VERSION}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`);
   });
 });

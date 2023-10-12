@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
@@ -37,8 +37,12 @@ if (ExecutionEnvironment.canUseDOM) {
     </HelmetProvider>
   );
 
-  const onRecoverableError = (error: unknown): void => {
-    console.error('Docusaurus React Root onRecoverableError:', error);
+  const onRecoverableError = (error: unknown, errorInfo: ErrorInfo): void => {
+    console.error(
+      'Docusaurus React Root onRecoverableError:',
+      error,
+      errorInfo,
+    );
   };
 
   const renderApp = () => {

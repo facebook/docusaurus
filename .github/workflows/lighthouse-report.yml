@@ -34,12 +34,18 @@ jobs:
         with:
           urls: |
             https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/installation
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/installation/
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/category/getting-started/
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/preparing-your-site-for-docusaurus-v3/
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/tags/release/
+            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/tags/
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
         env:
           PR_NUMBER: ${{ github.event.pull_request.number}}
+
       - name: Format lighthouse score
         id: format_lighthouse_score
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6

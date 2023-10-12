@@ -184,10 +184,11 @@ module.exports = async function createConfigAsync() {
       },
     },
     onBrokenLinks:
-      // Do not fail the build if a localized site has a broken link
-      process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale
-        ? 'throw'
-        : 'warn',
+      isBuildFast ||
+      isVersioningDisabled ||
+      process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+        ? 'warn'
+        : 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
@@ -389,7 +390,11 @@ module.exports = async function createConfigAsync() {
             rehypePlugins: [(await import('rehype-katex')).default],
             disableVersioning: isVersioningDisabled,
             lastVersion:
-              isDev || isDeployPreview || isBranchDeploy || isBuildFast
+              isDev ||
+              isVersioningDisabled ||
+              isDeployPreview ||
+              isBranchDeploy ||
+              isBuildFast
                 ? 'current'
                 : getLastVersion(),
 
@@ -440,7 +445,7 @@ module.exports = async function createConfigAsync() {
           },
           gtag: !(isDeployPreview || isBranchDeploy)
             ? {
-                trackingID: ['G-E5CR2Q1NRE', 'UA-141789564-1'],
+                trackingID: ['G-E5CR2Q1NRE'],
               }
             : undefined,
           sitemap: {
@@ -473,7 +478,15 @@ module.exports = async function createConfigAsync() {
           content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
         },
         prism: {
-          additionalLanguages: ['java', 'latex', 'PHp'],
+          additionalLanguages: [
+            'java',
+            'latex',
+            'PHp',
+            'bash',
+            'diff',
+            'json',
+            'scss',
+          ],
           magicComments: [
             {
               className: 'theme-code-block-highlighted-line',
