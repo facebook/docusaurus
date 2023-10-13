@@ -44,24 +44,6 @@ export function validateOptions({options, validate}) {
 // highlight-end
 ```
 
-In TypeScript, you can also choose to export this as a separate named export.
-
-```ts title="my-plugin/src/index.ts"
-export default function (context, options) {
-  return {
-    name: 'docusaurus-plugin',
-    // rest of methods
-  };
-}
-
-// highlight-start
-export function validateOptions({options, validate}) {
-  const validatedOptions = validate(myValidationSchema, options);
-  return validatedOptions;
-}
-// highlight-end
-```
-
 ## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
 
 Return validated and normalized configuration for the theme.
@@ -86,24 +68,6 @@ If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you
 
 ```js title="my-theme/src/index.js"
 export default function myPlugin(context, options) {
-  return {
-    name: 'docusaurus-plugin',
-    // rest of methods
-  };
-}
-
-// highlight-start
-export function validateThemeConfig({themeConfig, validate}) {
-  const validatedThemeConfig = validate(myValidationSchema, options);
-  return validatedThemeConfig;
-}
-// highlight-end
-```
-
-In TypeScript, you can also choose to export this as a separate named export.
-
-```ts title="my-theme/src/index.ts"
-export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     // rest of methods
