@@ -5,6 +5,7 @@
     "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
     "resolveJsonModule": true,
+    "allowArbitraryExtensions": true,
 
     // Duplicated from the root config, because TS does not support extending
     // multiple configs and we want to dogfood the @docusaurus/tsconfig one

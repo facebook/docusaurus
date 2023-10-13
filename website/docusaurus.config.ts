@@ -18,8 +18,8 @@ import {
 
 import ConfigLocalized from './docusaurus.config.localized.json';
 
-import PrismLight from './src/utils/prismLight.mjs';
-import PrismDark from './src/utils/prismDark.mjs';
+import PrismLight from './src/utils/prismLight';
+import PrismDark from './src/utils/prismDark';
 
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
@@ -98,7 +98,6 @@ const defaultLocale = 'en';
 
 function getLocalizedConfigValue(key: string) {
   const currentLocale = process.env.DOCUSAURUS_CURRENT_LOCALE ?? defaultLocale;
-  // @ts-expect-error: TODO fix types!
   const values = ConfigLocalized[key];
   if (!values) {
     throw new Error(`Localized config key=${key} not found`);
@@ -500,9 +499,8 @@ export default async function createConfigAsync() {
             line: 'This will error',
           },
         ],
-        // TODO fix types
-        theme: PrismLight as any,
-        darkTheme: PrismDark as any,
+        theme: PrismLight,
+        darkTheme: PrismDark,
       },
       image: 'img/docusaurus-social-card.jpg',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
