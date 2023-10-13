@@ -60,20 +60,34 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     });
 
     if (unusedDirectives.length > 0) {
-      const warningMessage = unusedDirectives
+      const supportUrl = 'https://github.com/facebook/docusaurus/pull/9394';
+      const customPath = posixPath(path.relative(process.cwd(), file.path));
+      const warningTitle = logger.interpolate`Docusaurus found ${unusedDirectives.length} unused Markdown directives in file path=${customPath}`;
+      const customSupportUrl = logger.interpolate`url=${supportUrl}`;
+
+      const warningMessages = unusedDirectives
         .map((unusedDirective) => {
+          let customDirectiveName = unusedDirective.name;
+
+          if (unusedDirective.type === 'containerDirective') {
+            customDirectiveName = `:::${unusedDirective.name}`;
+          } else if (unusedDirective.type === 'leafDirective') {
+            customDirectiveName = `::${unusedDirective.name}`;
+          } else if (unusedDirective.type === 'textDirective') {
+            customDirectiveName = `:${unusedDirective.name}`;
+          }
+
           const positionMessage = unusedDirective.position
             ? logger.interpolate`number=${unusedDirective.position.line}:number=${unusedDirective.position.column}`
             : '';
 
-          const customPath = posixPath(path.relative(process.cwd(), file.path));
-
-          return logger.interpolate`We found a potential error in your documentation name=${
-            unusedDirective.name
-          } path=${`${customPath}:${positionMessage}`}`;
+          return `- ${positionMessage} ${customDirectiveName} `;
         })
         .join('\n');
-      logger.warn(warningMessage);
+
+      logger.warn(`${warningTitle}
+${warningMessages}
+Your content might render in an unexpected way. Visit ${customSupportUrl} to find out why and how to fix it.`);
     }
   };
 };

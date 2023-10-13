@@ -12,7 +12,9 @@ exports[`directives remark plugin - client compiler default behavior for contain
 exports[`directives remark plugin - client compiler default behavior for container directives 2`] = `
 [
   [
-    "[WARNING] We found a potential error in your documentation unusedDirective "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/containerDirectives.md:7:1"",
+    "[WARNING] Docusaurus found 1 unused Markdown directives in file packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/containerDirectives.md
+- 7:1 :::unusedDirective 
+Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
   ],
 ]
 `;
@@ -26,7 +28,9 @@ exports[`directives remark plugin - client compiler default behavior for leaf di
 exports[`directives remark plugin - client compiler default behavior for leaf directives 2`] = `
 [
   [
-    "[WARNING] We found a potential error in your documentation unusedLeafDirective "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/leafDirectives.md:1:1"",
+    "[WARNING] Docusaurus found 1 unused Markdown directives in file packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/leafDirectives.md
+- 1:1 ::unusedLeafDirective 
+Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
   ],
 ]
 `;
@@ -43,7 +47,9 @@ exports[`directives remark plugin - client compiler default behavior for text di
 exports[`directives remark plugin - client compiler default behavior for text directives 2`] = `
 [
   [
-    "[WARNING] We found a potential error in your documentation textDirective2 "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/textDirectives.md:7:7"",
+    "[WARNING] Docusaurus found 1 unused Markdown directives in file packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/textDirectives.md
+- 7:7 :textDirective2 
+Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
   ],
 ]
 `;
