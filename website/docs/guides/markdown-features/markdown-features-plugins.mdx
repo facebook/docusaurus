@@ -97,7 +97,7 @@ If you decide to use a CommonJS config file, it is possible to load those ES mod
 
 ```js title="docusaurus.config.js"
 // highlight-start
-export default async function createConfigAsync() {
+module.exports = async function createConfigAsync() {
   // highlight-end
   return {
     presets: [
@@ -115,7 +115,7 @@ export default async function createConfigAsync() {
       ],
     ],
   };
-}
+};
 ```
 
 </details>
