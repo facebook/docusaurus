@@ -304,7 +304,7 @@ export default async function createConfigAsync() {
             'queryString',
           ],
           // swRegister: false,
-          swCustom: './src/sw.js',
+          swCustom: require.resolve('./src/sw.js'), // TODO make it possible to use relative path
           pwaHead: [
             {
               tagName: 'link',
