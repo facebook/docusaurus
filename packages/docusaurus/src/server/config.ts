@@ -18,7 +18,7 @@ import type {LoadContext} from '@docusaurus/types';
 
 async function findConfig(siteDir: string) {
   // We could support .mjs, .ts, etc. in the future
-  const candidates = ['.js', '.cjs'].map(
+  const candidates = ['.ts', '.mts', '.cts', '.js', '.mjs', '.cjs'].map(
     (ext) => DEFAULT_CONFIG_FILE_NAME + ext,
   );
   const configPath = await findAsyncSequential(
