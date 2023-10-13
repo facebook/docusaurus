@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare const docusaurusConfigLocalized: { [key: string]: { [key: string]: string } };
+declare const docusaurusConfigLocalized: {
+  [key: string]: {[key: string]: string};
+};
 
 export default docusaurusConfigLocalized;
