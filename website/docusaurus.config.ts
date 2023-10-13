@@ -7,6 +7,9 @@
 import path from 'path';
 
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import configTabs from './src/remark/configTabs';
 
 import versions from './versions.json';
 import VersionsArchived from './versionsArchived.json';
@@ -356,8 +359,7 @@ export default async function createConfigAsync() {
         },
       ],
       '@docusaurus/theme-mermaid',
-      (await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs'))
-        .default,
+      './src/plugins/featureRequests/FeatureRequestsPlugin.js',
       ...dogfoodingPluginInstances,
     ],
     presets: [
@@ -385,12 +387,8 @@ export default async function createConfigAsync() {
             },
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
-            remarkPlugins: [
-              [npm2yarn, {sync: true}],
-              (await import('remark-math')).default,
-              (await import('./src/remark/configTabs.mjs')).default,
-            ],
-            rehypePlugins: [(await import('rehype-katex')).default],
+            remarkPlugins: [[npm2yarn, {sync: true}], remarkMath, configTabs],
+            rehypePlugins: [rehypeKatex],
             disableVersioning: isVersioningDisabled,
             lastVersion:
               isDev ||
