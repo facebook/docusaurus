@@ -19,6 +19,20 @@ describe('loadSiteConfig', () => {
     expect(config).not.toEqual({});
   });
 
+  it('website with ts + js config', async () => {
+    const config = await loadSiteConfig({
+      siteDir: path.join(
+        __dirname,
+        '__fixtures__',
+        'config/sites/ts-and-js-site',
+      ),
+    });
+    expect(config).toMatchSnapshot();
+    // Docusaurus uses in priority a TS config
+    expect(config.siteConfig.title).toBe('TS title');
+    expect(config).not.toEqual({});
+  });
+
   it('website with .cjs siteConfig', async () => {
     const config = await loadSiteConfig({siteDir});
     expect(config).toMatchSnapshot();
