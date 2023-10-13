@@ -68,7 +68,9 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
 
           const customPath = posixPath(path.relative(process.cwd(), file.path));
 
-          return logger.interpolate`We found a potential error in your documentation name=${unusedDirective.name} path=${customPath}:${positionMessage}`;
+          return logger.interpolate`We found a potential error in your documentation name=${
+            unusedDirective.name
+          } path=${`${customPath}:${positionMessage}`}`;
         })
         .join('\n');
       logger.warn(warningMessage);
