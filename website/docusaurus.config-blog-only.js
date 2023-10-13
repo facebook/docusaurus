@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
+export default {
   title: 'Docusaurus blog only!',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
