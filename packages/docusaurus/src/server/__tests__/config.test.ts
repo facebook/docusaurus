@@ -52,10 +52,37 @@ describe('loadSiteConfig', () => {
     expect(config).not.toEqual({});
   });
 
-  it('website with valid typescript config', async () => {
+  it('website with valid JS CJS config', async () => {
     const config = await loadSiteConfig({
       siteDir,
-      customConfigFilePath: 'configTypescript.config.ts',
+      customConfigFilePath: 'configCJS.js',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid JS ESM config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configESM.js',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid TypeScript CJS config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configCJS.ts',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid TypeScript ESM config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configESM.ts',
     });
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
