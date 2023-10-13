@@ -11,13 +11,18 @@ import stringify from 'rehype-stringify';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import admonition from '../../admonitions';
+import type {WebpackCompilerName} from '@docusaurus/utils';
 
-const processFixture = async (name: string) => {
+const processFixture = async (
+  name: string,
+  {compilerName}: {compilerName: WebpackCompilerName},
+) => {
   const {remark} = await import('remark');
   const {default: directives} = await import('remark-directive');
 
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
+  file.data.compilerName = compilerName;
 
   const result = await remark()
     .use(directives)
@@ -30,38 +35,55 @@ const processFixture = async (name: string) => {
   return result.value;
 };
 
-describe('directives remark plugin', () => {
-  let consoleMock;
+describe('directives remark plugin - client compiler', () => {
+  const consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  beforeEach(() => jest.clearAllMocks());
 
-  beforeEach(() => {
-    consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    consoleMock.mockRestore();
-  });
+  const options = {compilerName: 'client'} as const;
 
   it('default behavior for container directives', async () => {
-    const result = await processFixture('containerDirectives');
-
+    const result = await processFixture('containerDirectives', options);
     expect(result).toMatchSnapshot();
-
+    expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock.mock.calls).toMatchSnapshot();
   });
 
   it('default behavior for leaf directives', async () => {
-    const result = await processFixture('leafDirectives');
-
+    const result = await processFixture('leafDirectives', options);
     expect(result).toMatchSnapshot();
-
+    expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock.mock.calls).toMatchSnapshot();
   });
 
   it('default behavior for text directives', async () => {
-    const result = await processFixture('textDirectives');
-
+    const result = await processFixture('textDirectives', options);
     expect(result).toMatchSnapshot();
-
+    expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock.mock.calls).toMatchSnapshot();
+  });
+});
+
+describe('directives remark plugin - server compiler', () => {
+  const consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  beforeEach(() => jest.clearAllMocks());
+
+  const options = {compilerName: 'server'} as const;
+
+  it('default behavior for container directives', async () => {
+    const result = await processFixture('containerDirectives', options);
+    expect(result).toMatchSnapshot();
+    expect(consoleMock).toHaveBeenCalledTimes(0);
+  });
+
+  it('default behavior for leaf directives', async () => {
+    const result = await processFixture('leafDirectives', options);
+    expect(result).toMatchSnapshot();
+    expect(consoleMock).toHaveBeenCalledTimes(0);
+  });
+
+  it('default behavior for text directives', async () => {
+    const result = await processFixture('textDirectives', options);
+    expect(result).toMatchSnapshot();
+    expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 });
