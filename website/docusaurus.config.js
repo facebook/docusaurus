@@ -207,7 +207,7 @@ module.exports = async function createConfigAsync() {
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
       [
-        require.resolve('./src/plugins/changelog/index.js'),
+        './src/plugins/changelog/index.js',
         {
           blogTitle: 'Docusaurus changelog',
           blogDescription:
@@ -244,7 +244,7 @@ module.exports = async function createConfigAsync() {
           },
           remarkPlugins: [npm2yarn],
           editCurrentVersion: true,
-          sidebarPath: require.resolve('./sidebarsCommunity.js'),
+          sidebarPath: './sidebarsCommunity.js',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         }),
@@ -300,7 +300,7 @@ module.exports = async function createConfigAsync() {
             'queryString',
           ],
           // swRegister: false,
-          swCustom: require.resolve('./src/sw.js'),
+          swCustom: './src/sw.js',
           pwaHead: [
             {
               tagName: 'link',
@@ -438,7 +438,7 @@ module.exports = async function createConfigAsync() {
           },
           theme: {
             customCss: [
-              require.resolve('./src/css/custom.css'),
+              './src/css/custom.css',
               // relative paths are relative to site dir
               './_dogfooding/dogfooding.css',
             ],
