@@ -52,6 +52,7 @@ export {
   PluginVersionInformation,
   Preset,
   PresetConfig,
+  PresetConfigDefined,
   PresetModule,
   OptionValidationContext,
   ThemeConfigValidationContext,

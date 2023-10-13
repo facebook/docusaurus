@@ -6,12 +6,13 @@
  */
 
 import {createRequire} from 'module';
-import jiti from 'jiti';
+import {loadFreshModule} from '@docusaurus/utils';
 import {resolveModuleName} from './moduleShorthand';
 import type {
   LoadContext,
-  PluginConfig,
+  PresetConfigDefined,
   PresetModule,
+  Preset,
   DocusaurusConfig,
 } from '@docusaurus/types';
 
@@ -28,16 +29,13 @@ export async function loadPresets(
   // we are using `require.resolve` on those module names.
   const presetRequire = createRequire(context.siteConfigPath);
 
-  const {presets} = context.siteConfig;
-  const plugins: PluginConfig[] = [];
-  const themes: PluginConfig[] = [];
+  const presets = context.siteConfig.presets.filter(
+    (p): p is PresetConfigDefined => !!p,
+  );
 
-  presets.forEach((presetItem) => {
+  async function loadPreset(presetItem: PresetConfigDefined): Promise<Preset> {
     let presetModuleImport: string;
     let presetOptions = {};
-    if (!presetItem) {
-      return;
-    }
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
     } else {
@@ -50,19 +48,19 @@ export async function loadPresets(
     );
 
     const presetPath = presetRequire.resolve(presetName);
-    const presetModule = jiti(__filename)(presetPath) as ImportedPresetModule;
-    const preset = (presetModule.default ?? presetModule)(
-      context,
-      presetOptions,
-    );
+    const presetModule = (await loadFreshModule(
+      presetPath,
+    )) as ImportedPresetModule;
 
-    if (preset.plugins) {
-      plugins.push(...preset.plugins);
-    }
-    if (preset.themes) {
-      themes.push(...preset.themes);
-    }
-  });
+    const presetFunction = presetModule.default ?? presetModule;
+
+    return presetFunction(context, presetOptions);
+  }
+
+  const loadedPresets = await Promise.all(presets.map(loadPreset));
+
+  const plugins = loadedPresets.flatMap((preset) => preset.plugins ?? []);
+  const themes = loadedPresets.flatMap((preset) => preset.themes ?? []);
 
   return {plugins, themes};
 }
