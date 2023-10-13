@@ -615,7 +615,11 @@ export default async function createConfigAsync() {
             className: 'header-github-link',
             'aria-label': 'GitHub repository',
           },
-        ].filter(Boolean) as any, // TODO fix type
+        ]
+          // TODO fix type
+          .filter(Boolean) as NonNullable<
+          Preset.ThemeConfig['navbar']
+        >['items'],
       },
       footer: {
         style: 'dark',
