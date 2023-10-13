@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 export default {
   community: [
     {
