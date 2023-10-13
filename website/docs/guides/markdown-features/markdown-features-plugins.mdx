@@ -59,11 +59,41 @@ Next, the `rehype-katex` operates on the Hypertext AST where everything has been
 
 :::warning
 
-Many official Remark/Rehype plugins are using ES Modules, a new JavaScript module system, which Docusaurus doesn't support yet. To work around this issue, we recommend to use dynamic `import()` inside an `async` config creation function.
+Many official Remark/Rehype plugins are [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c), a JavaScript module system, which Docusaurus supports. We recommend using an [**ES Modules**](https://flaviocopes.com/es-modules/) config file to make it easier to import such packages.
 
 :::
 
-Next, add them to the plugin options through plugin or preset config in `docusaurus.config.js`, using dynamic `import()`:
+Next, import your plugins and add them to the plugin options through plugin or preset config in `docusaurus.config.js`:
+
+```js title="docusaurus.config.js"
+// highlight-start
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+// highlight-end
+
+// highlight-start
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+<details>
+  <summary>Using a [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules) config file?</summary>
+
+If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
 
 ```js title="docusaurus.config.js"
 // highlight-start
@@ -88,29 +118,31 @@ export default async function createConfigAsync() {
 }
 ```
 
+</details>
+
 ## Configuring plugins {#configuring-plugins}
 
 Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like this:
 
 ```js title="docusaurus.config.js"
-export default async function createConfigAsync() {
-  return {
-    presets: [
-      [
-        '@docusaurus/preset-classic',
-        {
-          docs: {
-            rehypePlugins: [
-              // highlight-start
-              [(await import('rehype-katex')).default, {strict: false}],
-              // highlight-end
-            ],
-          },
+import rehypeKatex from 'rehype-katex';
+
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          rehypePlugins: [
+            // highlight-start
+            [rehypeKatex, {strict: false}],
+            // highlight-end
+          ],
         },
-      ],
+      },
     ],
-  };
-}
+  ],
+};
 ```
 
 You should check your plugin's documentation for the options it supports.
