@@ -26,7 +26,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
-import type {PluginOptions as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
+import type {Options as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
 import type {Options as ClientRedirectsOptions} from '@docusaurus/plugin-client-redirects';
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
