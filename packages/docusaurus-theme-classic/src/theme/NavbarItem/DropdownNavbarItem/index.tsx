@@ -19,6 +19,7 @@ import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DropdownNavbarItem';
+import styles from './styles.module.css';
 
 function isItemActive(
   item: LinkLikeNavbarItemProps,
@@ -137,12 +138,11 @@ function DropdownNavbarItemMobile({
 
   return (
     <li
-      className={clsx('menu__list-item', {
+      className={clsx(styles.dropdownNavbarItemMobile, 'menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
       <NavbarNavLink
         role="button"
-        href={props.to ? undefined : '#'}
         className={clsx(
           'menu__link menu__link--sublist menu__link--sublist-caret',
           className,
