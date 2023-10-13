@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import tmp from 'tmp-promise';
+import dedent from 'dedent';
 import {loadFreshModule} from '../moduleUtils';
 
 async function createTmpDir() {
@@ -18,10 +19,22 @@ async function createTmpDir() {
   ).path;
 }
 
-async function createModuleFile(content: string) {
-  const siteDir = await createTmpDir();
-  const filePath = path.join(siteDir, 'i18n/en/code.json');
-  await fs.outputFile(filePath, JSON.stringify(content, null, 2));
+async function moduleGraphHelpers() {
+  const dir = await createTmpDir();
+
+  async function fileHelper(name: string, initialContent?: string) {
+    const filePath = path.resolve(dir, name);
+    if (initialContent) {
+      await fs.outputFile(filePath, initialContent);
+    }
+    return {
+      filePath,
+      write: (content: string) => fs.outputFile(filePath, content),
+      load: () => loadFreshModule(filePath),
+    };
+  }
+
+  return {fileHelper};
 }
 
 async function loadFixtureModule(fixtureName: string) {
@@ -31,12 +44,6 @@ async function loadFixtureModule(fixtureName: string) {
 }
 
 describe('loadFreshModule', () => {
-  describe('can load fresh module', () => {
-    it('todo', async () => {
-      createModuleFile('');
-    });
-  });
-
   describe('can load CJS user module', () => {
     async function testUserFixture(fixtureName: string) {
       const userFixturePath = `user/${fixtureName}`;
@@ -86,7 +93,151 @@ describe('loadFreshModule', () => {
     });
   });
 
-  describe('using invalid module path param', () => {
+  describe('module graph', () => {
+    it('can load and reload fresh module graph', async () => {
+      const {fileHelper} = await moduleGraphHelpers();
+
+      const dependency1 = await fileHelper(
+        'dependency1.js',
+        /* language=js */
+        dedent`
+          export const dep1Export = "dep1 val1";
+
+          export default {dep1Val: "dep1 val2"}
+        `,
+      );
+
+      const dependency2 = await fileHelper(
+        'dependency2.ts',
+        /* language=ts */
+        dedent`
+          export default {dep2Val: "dep2 val"} satisfies {dep2Val: string}
+        `,
+      );
+
+      const entryFile = await fileHelper(
+        'entry.js',
+        /* language=js */
+        dedent`
+        import dependency1 from "./dependency1";
+        import dependency2 from "./dependency2";
+
+        export default {
+          someEntryValue: "entryVal",
+          dependency1,
+          dependency2
+        };
+        `,
+      );
+
+      // Should be able to read the initial module graph
+      await expect(entryFile.load()).resolves.toEqual({
+        someEntryValue: 'entryVal',
+        dependency1: {
+          dep1Export: 'dep1 val1',
+          dep1Val: 'dep1 val2',
+        },
+        dependency2: {
+          dep2Val: 'dep2 val',
+        },
+      });
+      await expect(dependency1.load()).resolves.toEqual({
+        dep1Export: 'dep1 val1',
+        dep1Val: 'dep1 val2',
+      });
+      await expect(dependency2.load()).resolves.toEqual({
+        dep2Val: 'dep2 val',
+      });
+
+      // Should be able to read the module graph again after updates
+      await dependency1.write(
+        /* language=js */
+        dedent`
+          export const dep1Export = "dep1 val1 updated";
+
+          export default {dep1Val: "dep1 val2 updated"}
+        `,
+      );
+      await expect(entryFile.load()).resolves.toEqual({
+        someEntryValue: 'entryVal',
+        dependency1: {
+          dep1Export: 'dep1 val1 updated',
+          dep1Val: 'dep1 val2 updated',
+        },
+        dependency2: {
+          dep2Val: 'dep2 val',
+        },
+      });
+      await expect(dependency1.load()).resolves.toEqual({
+        dep1Export: 'dep1 val1 updated',
+        dep1Val: 'dep1 val2 updated',
+      });
+      await expect(dependency2.load()).resolves.toEqual({
+        dep2Val: 'dep2 val',
+      });
+
+      // Should be able to read the module graph again after updates
+      await dependency2.write(
+        /* language=ts */
+        dedent`
+          export default {dep2Val: "dep2 val updated"} satisfies {dep2Val: string}
+        `,
+      );
+      await expect(entryFile.load()).resolves.toEqual({
+        someEntryValue: 'entryVal',
+        dependency1: {
+          dep1Export: 'dep1 val1 updated',
+          dep1Val: 'dep1 val2 updated',
+        },
+        dependency2: {
+          dep2Val: 'dep2 val updated',
+        },
+      });
+      await expect(dependency1.load()).resolves.toEqual({
+        dep1Export: 'dep1 val1 updated',
+        dep1Val: 'dep1 val2 updated',
+      });
+      await expect(dependency2.load()).resolves.toEqual({
+        dep2Val: 'dep2 val updated',
+      });
+
+      // Should be able to read the module graph again after updates
+      await entryFile.write(
+        /* language=js */
+        dedent`
+        import dependency1 from "./dependency1";
+        import dependency2 from "./dependency2";
+
+        export default {
+          someEntryValue: "entryVal updated",
+          dependency1,
+          dependency2,
+          newAttribute: "is there"
+        }
+        `,
+      );
+      await expect(entryFile.load()).resolves.toEqual({
+        someEntryValue: 'entryVal updated',
+        newAttribute: 'is there',
+        dependency1: {
+          dep1Export: 'dep1 val1 updated',
+          dep1Val: 'dep1 val2 updated',
+        },
+        dependency2: {
+          dep2Val: 'dep2 val updated',
+        },
+      });
+      await expect(dependency1.load()).resolves.toEqual({
+        dep1Export: 'dep1 val1 updated',
+        dep1Val: 'dep1 val2 updated',
+      });
+      await expect(dependency2.load()).resolves.toEqual({
+        dep2Val: 'dep2 val updated',
+      });
+    });
+  });
+
+  describe('invalid module path param', () => {
     it('throws if module path does not exist', async () => {
       await expect(() => loadFreshModule('/some/unknown/module/path.js'))
         .rejects.toThrowErrorMatchingInlineSnapshot(`
