@@ -64,7 +64,7 @@ In this case, you should use the same plugin twice in your site configuration.
 When using the preset:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -75,7 +75,7 @@ module.exports = {
           // highlight-end
           path: 'product',
           routeBasePath: 'product',
-          sidebarPath: require.resolve('./sidebarsProduct.js'),
+          sidebarPath: './sidebarsProduct.js',
           // ... other options
         },
       },
@@ -90,7 +90,7 @@ module.exports = {
         // highlight-end
         path: 'community',
         routeBasePath: 'community',
-        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        sidebarPath: './sidebarsCommunity.js',
         // ... other options
       },
     ],
@@ -101,7 +101,7 @@ module.exports = {
 When not using the preset:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     [
       '@docusaurus/plugin-content-docs',
@@ -111,7 +111,7 @@ module.exports = {
         // highlight-end
         path: 'product',
         routeBasePath: 'product',
-        sidebarPath: require.resolve('./sidebarsProduct.js'),
+        sidebarPath: './sidebarsProduct.js',
         // ... other options
       },
     ],
@@ -123,7 +123,7 @@ module.exports = {
         // highlight-end
         path: 'community',
         routeBasePath: 'community',
-        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        sidebarPath: './sidebarsCommunity.js',
         // ... other options
       },
     ],
@@ -190,7 +190,7 @@ Each docs-related [theme navbar items](../../api/themes/theme-configuration.mdx#
 For example, if you want to have one version dropdown for each mobile SDK (iOS and Android), you could do:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     navbar: {
       items: [

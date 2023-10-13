@@ -29,7 +29,7 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
 
 ```js title="my-plugin/src/index.js"
-function myPlugin(context, options) {
+export default function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
     // rest of methods
@@ -37,13 +37,11 @@ function myPlugin(context, options) {
 }
 
 // highlight-start
-myPlugin.validateOptions = ({options, validate}) => {
+export function validateOptions({options, validate}) {
   const validatedOptions = validate(myValidationSchema, options);
   return validatedOptions;
-};
+}
 // highlight-end
-
-module.exports = myPlugin;
 ```
 
 In TypeScript, you can also choose to export this as a separate named export.
@@ -87,7 +85,7 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
 ```js title="my-theme/src/index.js"
-function myPlugin(context, options) {
+export default function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
     // rest of methods
@@ -95,13 +93,11 @@ function myPlugin(context, options) {
 }
 
 // highlight-start
-myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
+export function validateThemeConfig({themeConfig, validate}) {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
-};
+}
 // highlight-end
-
-module.exports = validateThemeConfig;
 ```
 
 In TypeScript, you can also choose to export this as a separate named export.

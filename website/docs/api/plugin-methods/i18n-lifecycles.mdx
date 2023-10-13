@@ -19,8 +19,8 @@ These files will be written by the [`write-translations` CLI](../../cli.mdx#docu
 
 Example:
 
-```js
-module.exports = function (context, options) {
+```js title="my-plugin.js"
+export default function (context, options) {
   return {
     name: 'my-plugin',
     // highlight-start
@@ -40,7 +40,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `translateContent({content,translationFiles})` {#translateContent}
@@ -53,8 +53,8 @@ The `contentLoaded()` lifecycle will be called with the localized plugin content
 
 Example:
 
-```js
-module.exports = function (context, options) {
+```js title="my-plugin.js"
+export default function (context, options) {
   return {
     name: 'my-plugin',
     // highlight-start
@@ -69,7 +69,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `translateThemeConfig({themeConfig,translationFiles})` {#translateThemeConfig}
@@ -80,8 +80,8 @@ Returns the localized `themeConfig`.
 
 Example:
 
-```js
-module.exports = function (context, options) {
+```js title="my-plugin.js"
+export default function (context, options) {
   return {
     name: 'my-theme',
     // highlight-start
@@ -96,7 +96,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `async getDefaultCodeTranslationMessages()` {#getDefaultCodeTranslationMessages}
@@ -107,8 +107,8 @@ It should return messages in `Record<string, string>`, where keys are translatio
 
 Example:
 
-```js
-module.exports = function (context, options) {
+```js title="my-plugin.js"
+export default function (context, options) {
   return {
     name: 'my-theme',
     // highlight-start
@@ -117,5 +117,5 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```

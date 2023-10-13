@@ -21,7 +21,7 @@ If you use the plugin via the classic preset, the preset will **enable the plugi
 If you use a standalone plugin, you may need to achieve the same effect by checking the environment:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     // highlight-next-line
     process.env.NODE_ENV === 'production' && '@docusaurus/plugin-debug',
@@ -75,7 +75,7 @@ Most Docusaurus users configure this plugin through the preset options.
 If you use a preset, configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic):
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -96,7 +96,7 @@ module.exports = {
 If you are using a standalone plugin, provide options directly to the plugin:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // highlight-next-line
   plugins: ['@docusaurus/plugin-debug'],
 };

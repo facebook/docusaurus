@@ -68,11 +68,11 @@ Those 2 plugins are now only available as ESM packages, and you will need to imp
 First, turn your site config into an async config creator function:
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   return {
     // your site config...
   };
-};
+}
 ```
 
 It is now possible to import the plugins dynamically and add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
@@ -99,7 +99,7 @@ stylesheets: [
 Overall the changes look like:
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   return {
     title: 'Docusaurus',
     tagline: 'Build optimized websites quickly, focus on your content',
@@ -129,7 +129,7 @@ module.exports = async function createConfigAsync() {
     ],
     // highlight-end
   };
-};
+}
 ```
 
 ## Self-hosting KaTeX assets {#self-hosting-katex-assets}
@@ -137,7 +137,7 @@ module.exports = async function createConfigAsync() {
 Loading stylesheets, fonts, and JavaScript libraries from CDN sources is a good practice for popular libraries and assets, since it reduces the amount of assets you have to host. In case you prefer to self-host the `katex.min.css` (along with required KaTeX fonts), you can download the latest version from [KaTeX GitHub releases](https://github.com/KaTeX/KaTeX/releases), extract and copy `katex.min.css` and `fonts` directory (only `.woff2` font types should be enough) to your site's `static` directory, and in `docusaurus.config.js`, replace the stylesheet's `href` from the CDN URL to your local path (say, `/katex/katex.min.css`).
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   stylesheets: [
     {
       href: '/katex/katex.min.css',

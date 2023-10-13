@@ -67,7 +67,7 @@ Next, add them to the plugin options through plugin or preset config in `docusau
 
 ```js title="docusaurus.config.js"
 // highlight-start
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   // highlight-end
   return {
     presets: [
@@ -85,7 +85,7 @@ module.exports = async function createConfigAsync() {
       ],
     ],
   };
-};
+}
 ```
 
 ## Configuring plugins {#configuring-plugins}
@@ -93,7 +93,7 @@ module.exports = async function createConfigAsync() {
 Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like this:
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   return {
     presets: [
       [
@@ -110,7 +110,7 @@ module.exports = async function createConfigAsync() {
       ],
     ],
   };
-};
+}
 ```
 
 You should check your plugin's documentation for the options it supports.
@@ -128,7 +128,7 @@ The writeup below is **not** meant to be a comprehensive guide to creating a plu
 For example, let's make a plugin that visits every `h2` heading and adds a `Section X. ` prefix. First, create your plugin source file anywhere—you can even publish it as a separate npm package and install it like explained above. We would put ours at `src/remark/section-prefix.js`. A remark/rehype plugin is just a function that receives the `options` and returns a `transformer` that operates on the AST.
 
 ```js "src/remark/section-prefix.js"
-const visit = require('unist-util-visit');
+import visit from 'unist-util-visit';
 
 const plugin = (options) => {
   const transformer = async (ast) => {
@@ -146,16 +146,16 @@ const plugin = (options) => {
   return transformer;
 };
 
-module.exports = plugin;
+export default plugin;
 ```
 
 You can now import your plugin in `docusaurus.config.js` and use it just like an installed plugin!
 
 ```js title="docusaurus.config.js"
 // highlight-next-line
-const sectionPrefix = require('./src/remark/section-prefix');
+import sectionPrefix from './src/remark/section-prefix';
 
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -195,7 +195,7 @@ Our `transformImage` plugin uses this parameter, for example, to transform relat
 The default plugins of Docusaurus would operate before the custom remark plugins, and that means the images or links have been converted to JSX with `require()` calls already. For example, in the example above, the table of contents generated is still the same even when all `h2` headings are now prefixed by `Section X.`, because the TOC-generating plugin is called before our custom plugin. If you need to process the MDAST before the default plugins do, use the `beforeDefaultRemarkPlugins` and `beforeDefaultRehypePlugins`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',

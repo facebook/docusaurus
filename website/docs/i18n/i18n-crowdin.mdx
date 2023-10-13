@@ -59,7 +59,7 @@ npx create-docusaurus@latest website classic
 Add the site configuration for the French language:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
@@ -460,7 +460,7 @@ You may prefer the edit button to link to the Crowdin interface instead by using
 ```js title="docusaurus.config.js"
 const DefaultLocale = 'en';
 
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',

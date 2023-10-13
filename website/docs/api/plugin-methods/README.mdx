@@ -47,7 +47,7 @@ Here's a mental model for a presumptuous plugin implementation.
 // A JavaScript function that returns an object.
 // `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
 // `opts` is the user-defined options.
-async function myPlugin(context, opts) {
+export default async function myPlugin(context, opts) {
   return {
     // A compulsory field used as the namespace for directories to cache
     // the intermediate data for each plugin.
@@ -132,15 +132,13 @@ async function myPlugin(context, opts) {
   };
 }
 
-myPlugin.validateOptions = ({options, validate}) => {
+export function validateOptions({options, validate}) {
   const validatedOptions = validate(myValidationSchema, options);
   return validatedOptions;
-};
+}
 
-myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
+export function validateThemeConfig({themeConfig, validate}) {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
-};
-
-module.exports = myPlugin;
+}
 ```

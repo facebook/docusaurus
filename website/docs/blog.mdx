@@ -22,7 +22,7 @@ To set up your site's blog, start by creating a `blog` directory.
 Then, add an item link to your blog within `docusaurus.config.js`:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     // ...
     navbar: {
@@ -108,7 +108,7 @@ But anything from here on down will not be.
 By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration. If you set `postsPerPage: 'ALL'`, pagination will be disabled and all posts will be displayed on the first page. You can also add a meta description to the blog list page for better SEO:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -134,7 +134,7 @@ The blog sidebar displays recent blog posts. The default number of items shown i
 You can also alter the sidebar heading text with the `blogSidebarTitle` option. For example, if you have set `blogSidebarCount: 'ALL'`, instead of the default "Recent posts", you may rather make it say "All posts":
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -385,7 +385,7 @@ An author, either declared through front matter or through the authors map, need
 Docusaurus generates a reading time estimation for each blog post based on word count. We provide an option to customize this.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -419,7 +419,7 @@ Use the callback for all your customization needs:
 **Disable reading time on one page:**
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -457,7 +457,7 @@ This page will no longer display the reading time stats!
 **Pass options to the default reading time function:**
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -482,9 +482,9 @@ module.exports = {
 **Use a custom implementation of reading time:**
 
 ```js title="docusaurus.config.js"
-const myReadingTime = require('./myReadingTime');
+import myReadingTime from './myReadingTime';
 
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -539,7 +539,7 @@ type BlogOptions = {
 Example usage:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -600,7 +600,7 @@ https://example.com/blog/feed.json
 You can run your Docusaurus 2 site without a dedicated landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to serve the blog through the root route `example.com/` instead of the subroute `example.com/blog/`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -640,7 +640,7 @@ Set the `routeBasePath` to the URL route that you want your second blog to be ac
 As documented for [multi-instance plugins](./using-plugins.mdx#multi-instance-plugins-and-plugin-ids), you need to assign a unique ID to the plugins.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     [
