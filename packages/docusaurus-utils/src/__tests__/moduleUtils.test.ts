@@ -37,7 +37,7 @@ describe('loadFreshModule', () => {
     });
   });
 
-  describe('can load user module', () => {
+  describe('can load CJS user module', () => {
     async function testUserFixture(fixtureName: string) {
       const userFixturePath = `user/${fixtureName}`;
       const userModule = await loadFixtureModule(userFixturePath);
@@ -48,8 +48,41 @@ describe('loadFreshModule', () => {
       });
     }
 
-    it('with CJS', async () => {
+    it('for .cjs.js', async () => {
       await testUserFixture('user.cjs.js');
+    });
+
+    it('for .cjs.ts', async () => {
+      await testUserFixture('user.cjs.ts');
+    });
+
+    it('for .cjs', async () => {
+      await testUserFixture('user.cjs');
+    });
+  });
+
+  describe('can load ESM user module', () => {
+    async function testUserFixture(fixtureName: string) {
+      const userFixturePath = `user/${fixtureName}`;
+      const userModule = await loadFixtureModule(userFixturePath);
+      expect(userModule).toEqual({
+        birthYear: 1986,
+        firstName: 'Sebastien',
+        lastName: 'Lorber',
+        someNamedExport: 42,
+      });
+    }
+
+    it('for .esm.js', async () => {
+      await testUserFixture('user.esm.js');
+    });
+
+    it('for .esm.ts', async () => {
+      await testUserFixture('user.esm.ts');
+    });
+
+    it('for .mjs', async () => {
+      await testUserFixture('user.mjs');
     });
   });
 

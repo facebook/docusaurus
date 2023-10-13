@@ -1,6 +1,6 @@
-exports.someNamedExport = 42;
+export const someNamedExport = 42;
 
-module.exports = {
+export default {
   firstName: 'Sebastien',
   lastName: 'Lorber',
   birthYear: 1986,
