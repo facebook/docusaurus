@@ -185,10 +185,10 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: './sidebars.js',
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: ['./src/css/custom.css'],
         },
       },
     ],
@@ -255,8 +255,8 @@ If you just want to use those fields on the client side, you could create your o
 For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
 
 ```js title="babel.config.js"
-module.exports = {
-  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+export default {
+  presets: ['@docusaurus/core/lib/babel/preset'],
 };
 ```
 
