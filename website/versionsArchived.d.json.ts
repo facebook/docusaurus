@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare const versionsArchived: { [key: string]: string };
+declare const versionsArchived: {[key: string]: string};
 
 export default versionsArchived;
