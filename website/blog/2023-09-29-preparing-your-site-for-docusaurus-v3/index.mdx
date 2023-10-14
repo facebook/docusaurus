@@ -362,13 +362,22 @@ console.log('hello');
 
 All the official packages (Unified, Remark, Rehype...) in the MDX ecosystem are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) anymore.
 
-In practice this means that you can't do `require("remark-plugin")` anymore. Unfortunately the Docusaurus config file only supports CommonJS at the moment, and you can't use `import MyRemarkPlugin from "remark-plugin"`.
+In practice this means that you can't do `require("remark-plugin")` anymore.
 
 :::tip How to prepare
 
-Using dynamic imports is a good workaround that enables you to import ES modules inside a CommonJS module. Fortunately, the [Docusaurus config supports the usage of an async function](/docs/configuration#syntax-to-declare-docusaurus-config) to let you do so.
+Docusaurus v3 now supports [**ES Modules**](https://flaviocopes.com/es-modules/) configuration files. We recommend that you migrate your config file to ES module, that enables you to import the Remark plugins easily:
 
-You can start refactoring your config to use **async dynamic imports** today. Refer to the [MDX plugin installation documentation](/docs/3.0.0-beta.0/markdown-features/plugins#installing-plugins) for details.
+```js title="docusaurus.config.js"
+import remarkPlugin from 'remark-plugin';
+
+export default {
+  title: 'Docusaurus',
+  /* site config using remark plugins here */
+};
+```
+
+If you want to keep using CommonJS modules, you can use dynamic imports as a workaround that enables you to import ES modules inside a CommonJS module. Fortunately, the [Docusaurus config supports the usage of an async function](/docs/configuration#syntax-to-declare-docusaurus-config) to let you do so.
 
 ```js title="docusaurus.config.js"
 module.exports = async function () {

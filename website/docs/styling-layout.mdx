@@ -24,7 +24,7 @@ This is the most traditional way of styling that most developers (including non-
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option of the classic theme.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -32,7 +32,7 @@ module.exports = {
       {
         // highlight-start
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: ['./src/css/custom.css'],
         },
         // highlight-end
       },
@@ -234,7 +234,7 @@ npm install --save docusaurus-plugin-sass sass
 2. Include the plugin in your `docusaurus.config.js` file:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   plugins: ['docusaurus-plugin-sass'],
@@ -249,7 +249,7 @@ module.exports = {
 You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -257,7 +257,7 @@ module.exports = {
         // ...
         theme: {
           // highlight-next-line
-          customCss: [require.resolve('./src/css/custom.scss')],
+          customCss: ['./src/css/custom.scss'],
         },
         // ...
       },

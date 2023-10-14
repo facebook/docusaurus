@@ -275,7 +275,7 @@ export default function AdmonitionWrapper(props) {
 Admonitions are implemented with a [Remark plugin](./markdown-features-plugins.mdx). The plugin is designed to be configurable. To customize the Remark plugin for a specific content plugin (docs, blog, pages), pass the options through the `admonitions` key.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -306,7 +306,7 @@ By default, the theme doesn't know what do to with custom admonition keywords su
 If you registered a new admonition type `my-custom-admonition` via the following config:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [

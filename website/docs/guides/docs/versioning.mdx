@@ -187,7 +187,7 @@ Docusaurus defaults work great for the first use case. We will label the current
 **For the 2nd use case**: if you release v1 and don't plan to work on v2 anytime soon, instead of versioning v1 and having to maintain the docs in 2 folders (`./docs` + `./versioned_docs/version-1.0.0`), you may consider "pretending" that the current version is a cut version by giving it a path and a label:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     '@docusaurus/preset-classic',
     docs: {

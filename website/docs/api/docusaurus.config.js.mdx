@@ -18,12 +18,20 @@ Refer to the Getting Started [**Configuration**](../configuration.mdx) for examp
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-This file is run in Node.js using the [**CommonJS**](https://flaviocopes.com/commonjs/) module system, and should export a site configuration object, or a function that creates it.
+This file is run in Node.js and should export a site configuration object, or a function that creates it.
+
+The `docusaurus.config.js` file supports:
+
+- [**ES Modules**](https://flaviocopes.com/es-modules/)
+- [**CommonJS**](https://flaviocopes.com/commonjs/)
+- [**TypeScript**](../typescript-support.mdx#typing-config)
+
+hey
 
 Examples:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   title: 'Docusaurus',
   url: 'https://docusaurus.io',
   // your site config ...
@@ -31,13 +39,13 @@ module.exports = {
 ```
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   return {
     title: 'Docusaurus',
     url: 'https://docusaurus.io',
     // your site config ...
   };
-};
+}
 ```
 
 :::tip
@@ -55,7 +63,7 @@ Refer to [**Syntax to declare `docusaurus.config.js`**](../configuration.mdx#syn
 Title for your website. Will be used in metadata and as browser tab title.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   title: 'Docusaurus',
 };
 ```
@@ -67,7 +75,7 @@ module.exports = {
 URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [`baseUrl`](#baseUrl) field.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   url: 'https://docusaurus.io',
 };
 ```
@@ -79,7 +87,7 @@ module.exports = {
 Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [`url`](#url) field. Always has both leading and trailing slash.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   baseUrl: '/',
 };
 ```
@@ -93,7 +101,7 @@ module.exports = {
 Path to your site favicon; must be a URL that can be used in link's href. For example, if your favicon is in `static/img/favicon.ico`:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   favicon: '/img/favicon.ico',
 };
 ```
@@ -127,7 +135,7 @@ Example:
 {/* cSpell:ignore فارسی */}
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fa'],
@@ -171,7 +179,7 @@ This option adds `<meta name="robots" content="noindex, nofollow">` to every pag
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   noIndex: true, // Defaults to `false`
 };
 ```
@@ -213,7 +221,7 @@ By default, it displays a warning after you run `yarn start` or `yarn build`.
 The tagline for your website.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   tagline:
     'Docusaurus makes it easy to maintain Open Source documentation websites.',
 };
@@ -226,7 +234,7 @@ module.exports = {
 The GitHub user or organization that owns the repository. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // Docusaurus' organization is facebook
   organizationName: 'facebook',
 };
@@ -239,7 +247,7 @@ module.exports = {
 The name of the GitHub repository. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   projectName: 'docusaurus',
 };
 ```
@@ -251,7 +259,7 @@ module.exports = {
 The name of the branch to deploy the static files to. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   deploymentBranch: 'gh-pages',
 };
 ```
@@ -263,7 +271,7 @@ module.exports = {
 The hostname of your server. Useful if you are using GitHub Enterprise. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   githubHost: 'github.com',
 };
 ```
@@ -275,7 +283,7 @@ module.exports = {
 The port of your server. Useful if you are using GitHub Enterprise. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   githubPort: '22',
 };
 ```
@@ -289,7 +297,7 @@ The [theme configuration](./themes/theme-configuration.mdx) object to customize 
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     docs: {
       sidebar: {
@@ -358,7 +366,7 @@ type PluginConfig = string | [string, any] | PluginModule | [PluginModule, any];
 See [plugin method references](./plugin-methods/README.mdx) for the shape of a `PluginModule`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     'docusaurus-plugin-awesome',
     ['docusuarus-plugin-confetti', {fancy: false}],
@@ -376,7 +384,7 @@ module.exports = {
 - Type: `PluginConfig[]`
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themes: ['@docusaurus/theme-classic'],
 };
 ```
@@ -390,7 +398,7 @@ type PresetConfig = string | [string, any];
 ```
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [],
 };
 ```
@@ -426,7 +434,7 @@ type MarkdownConfig = {
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   markdown: {
     format: 'mdx',
     mermaid: true,
@@ -464,7 +472,7 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 - Type: `Object`
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   customFields: {
     admin: 'endi',
     superman: 'lol',
@@ -487,7 +495,7 @@ An array of paths, relative to the site's directory or absolute. Files under the
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   staticDirectories: ['static'],
 };
 ```
@@ -501,7 +509,7 @@ An array of tags that will be inserted in the HTML `<head>`. The values must be 
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   headTags: [
     {
       tagName: 'link',
@@ -527,7 +535,7 @@ Note that `<script>` added here are render-blocking, so you might want to add `a
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   scripts: [
     // String format.
     'https://docusaurus.io/script.js',
@@ -549,7 +557,7 @@ An array of CSS sources to load. The values can be either strings or plain objec
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   stylesheets: [
     // String format.
     'https://docusaurus.io/style.css',
@@ -574,11 +582,8 @@ An array of [client modules](../advanced/client.mdx#client-modules) to load glob
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
-  clientModules: [
-    require.resolve('./mySiteGlobalJs.js'),
-    require.resolve('./mySiteGlobalCss.css'),
-  ],
+export default {
+  clientModules: ['./mySiteGlobalJs.js', './mySiteGlobalCss.css'],
 };
 ```
 
@@ -591,7 +596,7 @@ An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   ssrTemplate: `<!DOCTYPE html>
 <html <%~ it.htmlAttributes %>>
   <head>
@@ -631,7 +636,7 @@ Will be used as title delimiter in the generated `<title>` tag.
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   titleDelimiter: '🦖', // Defaults to `|`
 };
 ```
@@ -645,7 +650,7 @@ When enabled, will show a banner in case your site can't load its CSS or JavaScr
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   baseUrlIssueBanner: true, // Defaults to `true`
 };
 ```

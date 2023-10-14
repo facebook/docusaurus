@@ -20,7 +20,7 @@ Create a [PWA manifest](https://web.dev/add-manifest/) at `./static/manifest.jso
 Modify `docusaurus.config.js` with a minimal PWA config, like:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     [
       '@docusaurus/plugin-pwa',
@@ -148,7 +148,7 @@ The [`standalone` strategy](https://petelepage.com/blog/2019/07/is-my-pwa-instal
 - Default: `{}`
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     [
       '@docusaurus/plugin-pwa',
@@ -179,7 +179,7 @@ module.exports = {
 Array of objects containing `tagName` and key-value pairs for attributes to inject into the `<head>` tag. Technically you can inject any head tag through this, but it's ideally used for tags to make your site PWA compliant. Here's a list of tag to make your app fully compliant:
 
 ```js
-module.exports = {
+export default {
   plugins: [
     [
       '@docusaurus/plugin-pwa',
@@ -288,7 +288,7 @@ The Docusaurus site manifest can serve as an inspiration:
 import CodeBlock from '@theme/CodeBlock';
 
 <CodeBlock className="language-json">
-  {JSON.stringify(require("@site/static/manifest.json"),null,2)}
+  {JSON.stringify(require('@site/static/manifest.json'),null,2)}
 </CodeBlock>
 ```
 

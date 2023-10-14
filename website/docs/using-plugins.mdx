@@ -19,7 +19,7 @@ npm install --save docusaurus-plugin-name
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   plugins: ['@docusaurus/plugin-content-pages'],
@@ -29,7 +29,7 @@ module.exports = {
 Docusaurus can also load plugins from your local directory, with something like the following:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   plugins: ['./src/plugins/docusaurus-local-plugin'],
@@ -45,7 +45,7 @@ For the most basic usage of plugins, you can provide just the plugin name or the
 However, plugins can have options specified by wrapping the name and an options object in a two-member tuple inside your config. This style is usually called "Babel Style".
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     // highlight-start
@@ -63,7 +63,7 @@ module.exports = {
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     // Basic usage.
     '@docusaurus/plugin-debug',
@@ -84,7 +84,7 @@ module.exports = {
 All Docusaurus content plugins can support multiple plugin instances. For example, it may be useful to have [multiple docs plugin instances](./guides/docs/docs-multi-instance.mdx) or [multiple blogs](./blog.mdx#multiple-blogs). It is required to assign a unique ID to each plugin instance, and by default, the plugin ID is `default`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     [
       '@docusaurus/plugin-content-docs',
@@ -123,7 +123,7 @@ The `themes` and `plugins` options lead to different [shorthand resolutions](#mo
 :::
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
@@ -152,7 +152,7 @@ The classic preset is shipped by default to new Docusaurus websites created with
 The classic preset will relay each option entry to the respective plugin/theme.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -161,7 +161,7 @@ module.exports = {
         debug: undefined,
         // Will be passed to @docusaurus/theme-classic.
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: ['./src/css/custom.css'],
         },
         // Will be passed to @docusaurus/plugin-content-docs (false to disable)
         docs: {},
@@ -194,7 +194,7 @@ npm install --save @docusaurus/preset-classic
 Then, add it in your site's `docusaurus.config.js`'s `presets` option:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   presets: ['@docusaurus/preset-classic'],
@@ -204,7 +204,7 @@ module.exports = {
 Preset paths can be relative to the config file:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   presets: ['./src/presets/docusaurus-local-preset'],
@@ -216,7 +216,7 @@ module.exports = {
 A preset is a function with the same shape as the [plugin constructor](./api/plugin-methods/README.mdx#plugin-constructor). It should return an object of `{ plugins: PluginConfig[], themes: PluginConfig[] }`, in the same as how they are accepted in the site config. For example, you can specify a preset that includes the following themes and plugins:
 
 ```js title="src/presets/docusaurus-preset-multi-docs.js"
-module.exports = function preset(context, opts = {}) {
+export default function preset(context, opts = {}) {
   return {
     themes: [['docusaurus-theme-awesome', opts.theme]],
     plugins: [
@@ -227,13 +227,13 @@ module.exports = function preset(context, opts = {}) {
       ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
     ],
   };
-};
+}
 ```
 
 Then in your Docusaurus config, you may configure the preset:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     // highlight-start
     [
@@ -253,7 +253,7 @@ module.exports = {
 This is equivalent of doing:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
   plugins: [
     ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],

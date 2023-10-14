@@ -45,7 +45,6 @@
     "@types/react-router-config": "^5.0.7",
     "combine-promises": "^1.1.0",
     "fs-extra": "^11.1.1",
-    "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "tslib": "^2.6.0",

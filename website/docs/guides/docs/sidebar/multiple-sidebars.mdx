@@ -18,7 +18,7 @@ The Docusaurus site is a good example of using multiple sidebars:
 Consider this example:
 
 ```js title="sidebars.js"
-module.exports = {
+export default {
   tutorialSidebar: {
     'Category A': ['doc1', 'doc2'],
   },
@@ -33,7 +33,7 @@ When browsing `doc1` or `doc2`, the `tutorialSidebar` will be displayed; when br
 Following the example above, if a `commonDoc` is included in both sidebars:
 
 ```js title="sidebars.js"
-module.exports = {
+export default {
   tutorialSidebar: {
     'Category A': ['doc1', 'doc2', 'commonDoc'],
   },
@@ -51,7 +51,7 @@ When you add doc Y to sidebar X, it creates a two-way binding: sidebar X contain
 Front matter option `displayed_sidebar` will forcibly set the sidebar association. For the same example, you can still use doc shorthands without any special configuration:
 
 ```js title="sidebars.js"
-module.exports = {
+export default {
   tutorialSidebar: {
     'Category A': ['doc1', 'doc2'],
   },
@@ -88,7 +88,7 @@ If a sidebar is displayed by setting `displayed_sidebar` front matter, and this 
 You can customize pagination with front matter `pagination_next` and `pagination_prev`. Consider this sidebar:
 
 ```js title="sidebars.js"
-module.exports = {
+export default {
   tutorial: [
     'introduction',
     {
@@ -123,7 +123,7 @@ It is particularly useful where you wish to link to the same document from multi
 Consider this example:
 
 ```js title="sidebars.js"
-module.exports = {
+export default {
   tutorialSidebar: {
     'Category A': [
       'doc1',
@@ -135,7 +135,6 @@ module.exports = {
   },
   apiSidebar: ['doc3', 'doc4', 'commonDoc'],
 };
-}
 ```
 
 You can think of the `ref` type as the equivalent to doing the following:

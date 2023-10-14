@@ -25,15 +25,28 @@ The `docusaurus.config.js` file is run in Node.js and should export either:
 
 :::info
 
-The `docusaurus.config.js` file only supports the [**CommonJS**](https://flaviocopes.com/commonjs/) module system:
+The `docusaurus.config.js` file supports:
 
-- **Required:** use `module.exports = /* your config*/` to export your Docusaurus config
-- **Optional:** use `require("lib")` to import Node.js packages
-- **Optional:** use `await import("lib")` (dynamic import) in an async function to import ESM-Only Node.js packages
+- [**ES Modules**](https://flaviocopes.com/es-modules/)
+- [**CommonJS**](https://flaviocopes.com/commonjs/)
+- [**TypeScript**](./typescript-support.mdx#typing-config)
+
+Constraints:
+
+- **Required:** use `export default /* your config*/` (or `module.exports` to export your Docusaurus config
+- **Optional:** use `import Lib from 'lib'` (or `require('lib')`) to import Node.js packages
 
 :::
 
-Node.js gives us the ability to declare our Docusaurus configuration in various **equivalent ways**, and all the following config examples lead to the exact same result:
+Docusaurus gives us the ability to declare its configuration in various **equivalent ways**, and all the following config examples lead to the exact same result:
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+```
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -43,6 +56,16 @@ module.exports = {
 };
 ```
 
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+} satisfies Config;
+```
+
 ```js title="docusaurus.config.js"
 const config = {
   title: 'Docusaurus',
@@ -50,27 +73,27 @@ const config = {
   // your site config ...
 };
 
-module.exports = config;
+export default config;
 ```
 
 ```js title="docusaurus.config.js"
-module.exports = function configCreator() {
+export default function configCreator() {
   return {
     title: 'Docusaurus',
     url: 'https://docusaurus.io',
     // your site config ...
   };
-};
+}
 ```
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   return {
     title: 'Docusaurus',
     url: 'https://docusaurus.io',
     // your site config ...
   };
-};
+}
 ```
 
 :::tip Using ESM-only packages
@@ -78,7 +101,7 @@ module.exports = async function createConfigAsync() {
 Using an async config creator can be useful to import ESM-only modules (notably most Remark plugins). It is possible to import such modules thanks to dynamic imports:
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
+export default async function createConfigAsync() {
   // Use a dynamic import instead of require('esm-lib')
   // highlight-next-line
   const lib = await import('lib');
@@ -88,7 +111,7 @@ module.exports = async function createConfigAsync() {
     url: 'https://docusaurus.io',
     // rest of your site config...
   };
-};
+}
 ```
 
 :::
@@ -120,7 +143,7 @@ It is recommended to check the [deployment docs](deployment.mdx) for more inform
 List the [themes](./using-plugins.mdx#using-themes), [plugins](./using-plugins.mdx), and [presets](./using-plugins.mdx#using-presets) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     '@docusaurus/plugin-content-blog',
@@ -135,7 +158,7 @@ module.exports = {
 Docusaurus supports [**module shorthands**](./using-plugins.mdx#module-shorthands), allowing you to simplify the above configuration as:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: ['content-blog', 'content-pages'],
   themes: ['classic'],
@@ -147,9 +170,9 @@ module.exports = {
 They can also be loaded from local directories:
 
 ```js title="docusaurus.config.js"
-const path = require('path');
+import path from 'path';
 
-module.exports = {
+export default {
   // ...
   themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
 };
@@ -158,7 +181,7 @@ module.exports = {
 To specify options for a plugin or theme, replace the name of the plugin or theme in the config file with an array containing the name and an options object:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     [
@@ -178,17 +201,17 @@ module.exports = {
 To specify options for a plugin or theme that is bundled in a preset, pass the options through the `presets` field. In this example, `docs` refers to `@docusaurus/plugin-content-docs` and `theme` refers to `@docusaurus/theme-classic`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
       '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: './sidebars.js',
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: ['./src/css/custom.css'],
         },
       },
     ],
@@ -211,7 +234,7 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add custom fiel
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-start
   customFields: {
@@ -255,8 +278,8 @@ If you just want to use those fields on the client side, you could create your o
 For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
 
 ```js title="babel.config.js"
-module.exports = {
-  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+export default {
+  presets: ['@docusaurus/core/lib/babel/preset'],
 };
 ```
 

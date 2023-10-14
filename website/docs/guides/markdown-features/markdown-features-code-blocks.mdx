@@ -64,19 +64,19 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 For example, if you prefer to use the `dracula` highlighting theme:
 
 ```js title="docusaurus.config.js"
-const {themes} = require('prism-react-renderer');
+import {themes as prismThemes} from 'prism-react-renderer';
 
-module.exports = {
+export default {
   themeConfig: {
     prism: {
       // highlight-next-line
-      theme: themes.dracula,
+      theme: prismThemes.dracula,
     },
   },
 };
 ```
 
-Because a Prism theme is just a JS object, you can also write your own theme if you are not satisfied with the default. Docusaurus enhances the `github` and `vsDark` themes to provide richer highlight, and you can check our implementations for the [light](https://github.com/facebook/docusaurus/blob/main/website/src/utils/prismLight.mjs) and [dark](https://github.com/facebook/docusaurus/blob/main/website/src/utils/prismDark.mjs) code block themes.
+Because a Prism theme is just a JS object, you can also write your own theme if you are not satisfied with the default. Docusaurus enhances the `github` and `vsDark` themes to provide richer highlight, and you can check our implementations for the [light](https://github.com/facebook/docusaurus/blob/main/website/src/utils/prismLight.ts) and [dark](https://github.com/facebook/docusaurus/blob/main/website/src/utils/prismDark.ts) code block themes.
 
 ### Supported Languages {#supported-languages}
 
@@ -99,7 +99,7 @@ Each additional language has to be a valid Prism component name. For example, Pr
 For example, if you want to add highlighting for the PowerShell language:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   themeConfig: {
     prism: {
@@ -301,7 +301,7 @@ You can declare custom magic comments through theme config. For example, you can
 ```
 
 ```js
-module.exports = {
+export default {
   themeConfig: {
     prism: {
       magicComments: [
@@ -445,7 +445,7 @@ npm install --save @docusaurus/theme-live-codeblock
 You will also need to add the plugin to your `docusaurus.config.js`.
 
 ```js {3}
-module.exports = {
+export default {
   // ...
   themes: ['@docusaurus/theme-live-codeblock'],
   // ...
@@ -758,7 +758,7 @@ npm install @docusaurus/remark-plugin-npm2yarn
 Docusaurus provides such a utility out of the box, freeing you from using the `Tabs` component every time. To enable this feature, first install the `@docusaurus/remark-plugin-npm2yarn` package as above, and then in `docusaurus.config.js`, for the plugins where you need this feature (doc, blog, pages, etc.), register it in the `remarkPlugins` option. (See [Docs configuration](../../api/plugins/plugin-content-docs.mdx#ex-config) for more details on configuration format)
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import utils from '@docusaurus/utils';
+import {normalizeUrl} from '@docusaurus/utils';
 
 /**
  * @param {import('@docusaurus/types').LoadContext} context
@@ -15,10 +15,7 @@ export default function FeatureRequestsPlugin(context) {
   return {
     name: 'feature-requests-plugin',
     async contentLoaded({actions}) {
-      const basePath = utils.normalizeUrl([
-        context.baseUrl,
-        '/feature-requests',
-      ]);
+      const basePath = normalizeUrl([context.baseUrl, '/feature-requests']);
       const paths = await actions.createData(
         'paths.json',
         JSON.stringify(basePath),

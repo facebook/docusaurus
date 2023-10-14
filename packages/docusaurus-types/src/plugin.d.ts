@@ -26,11 +26,9 @@ export type PluginConfig =
   | false
   | null;
 
-export type PresetConfig =
-  | string
-  | [string, {[key: string]: unknown}]
-  | false
-  | null;
+export type PresetConfigDefined = string | [string, {[key: string]: unknown}];
+
+export type PresetConfig = PresetConfigDefined | false | null;
 
 /**
  * - `type: 'package'`, plugin is in a different package.

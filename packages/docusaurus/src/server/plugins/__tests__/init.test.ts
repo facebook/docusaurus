@@ -21,8 +21,8 @@ describe('initPlugins', () => {
 
   it('parses plugins correctly and loads them in correct order', async () => {
     const {context, plugins} = await loadSite();
-    expect(context.siteConfig.plugins).toHaveLength(4);
-    expect(plugins).toHaveLength(8);
+    expect(context.siteConfig.plugins).toHaveLength(6);
+    expect(plugins).toHaveLength(10);
 
     expect(plugins[0]!.name).toBe('preset-plugin1');
     expect(plugins[1]!.name).toBe('preset-plugin2');
@@ -32,7 +32,15 @@ describe('initPlugins', () => {
     expect(plugins[5]!.name).toBe('second-plugin');
     expect(plugins[6]!.name).toBe('third-plugin');
     expect(plugins[7]!.name).toBe('fourth-plugin');
-    expect(context.siteConfig.themeConfig).toEqual({a: 1});
+    expect(context.siteConfig.themeConfig).toEqual({
+      a: 1,
+      esmPlugin: {
+        joi: true,
+      },
+      tsPlugin: {
+        joi: true,
+      },
+    });
   });
 
   it('throws user-friendly error message for plugins with bad values', async () => {

@@ -26,7 +26,7 @@ Modify `docusaurus.config.js` to add the i18n support for the French language.
 Use the [site i18n configuration](./../api/docusaurus.config.js.mdx#i18n) to declare the i18n locales:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr', 'fa'],
@@ -52,7 +52,7 @@ Docusaurus uses the locale names to provide **sensible defaults**: the `<html la
 Add a **navbar item** of type `localeDropdown` so that users can select the locale they want:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     navbar: {
       items: [

@@ -11,7 +11,7 @@ A plugin is a function that takes two parameters: `context` and `options`. It re
 You can use a plugin as a function directly included in the Docusaurus config file:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     // highlight-start
@@ -38,7 +38,7 @@ module.exports = {
 You can use a plugin as a module path referencing a separate file or npm package:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     // without options:
@@ -52,7 +52,7 @@ module.exports = {
 Then in the folder `my-plugin`, you can create an `index.js` such as this:
 
 ```js title="my-plugin/index.js"
-module.exports = async function myPlugin(context, options) {
+export default async function myPlugin(context, options) {
   // ...
   return {
     name: 'my-plugin',
@@ -64,7 +64,7 @@ module.exports = async function myPlugin(context, options) {
     },
     /* other lifecycle API */
   };
-};
+}
 ```
 
 ---
@@ -99,7 +99,7 @@ This is a contrived example: in practice, `@docusaurus/theme-classic` provides t
 :::
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // highlight-next-line
   themes: ['theme-blog'],
   plugins: ['plugin-content-blog'],
@@ -109,7 +109,7 @@ module.exports = {
 And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // highlight-next-line
   themes: ['theme-blog-bootstrap'],
   plugins: ['plugin-content-blog'],

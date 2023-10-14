@@ -17,7 +17,7 @@ Docusaurus supports search engine optimization in a variety of ways.
 Provide global meta attributes for the entire site through the [site configuration](./configuration.mdx#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value. The `metadata` attribute is a convenient shortcut to declare `<meta>` tags, but it is also possible to inject arbitrary tags in `<head>` with the `headTags` attribute.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     // Declare some <meta> tags
     metadata: [

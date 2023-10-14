@@ -61,9 +61,9 @@ Putting potentially sensitive information in the environment is common practice.
 
 ```js title="docusaurus.config.js"
 // If you are using dotenv (https://www.npmjs.com/package/dotenv)
-require('dotenv').config();
+import 'dotenv/config';
 
-module.exports = {
+export default {
   title: '...',
   url: process.env.URL, // You can use environment variables to control site specifics as well
   // highlight-start
@@ -157,7 +157,7 @@ Because we can only provide this content on a best-effort basis only, we have st
 To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // highlight-start
   url: 'https://docusaurus-2.netlify.app', // Url to your site with no trailing slash
   baseUrl: '/', // Base directory of your site relative to your repo
@@ -263,7 +263,7 @@ GitHub Pages adds a trailing slash to Docusaurus URLs by default. It is recommen
 Example:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   url: 'https://endiliey.github.io', // Your website URL
   baseUrl: '/',

@@ -7,15 +7,18 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import importFresh from 'import-fresh';
 import logger from '@docusaurus/logger';
-import {DEFAULT_CONFIG_FILE_NAME, findAsyncSequential} from '@docusaurus/utils';
+import {
+  DEFAULT_CONFIG_FILE_NAME,
+  findAsyncSequential,
+  loadFreshModule,
+} from '@docusaurus/utils';
 import {validateConfig} from './configValidation';
 import type {LoadContext} from '@docusaurus/types';
 
 async function findConfig(siteDir: string) {
   // We could support .mjs, .ts, etc. in the future
-  const candidates = ['.js', '.cjs'].map(
+  const candidates = ['.ts', '.mts', '.cts', '.js', '.mjs', '.cjs'].map(
     (ext) => DEFAULT_CONFIG_FILE_NAME + ext,
   );
   const configPath = await findAsyncSequential(
@@ -46,7 +49,7 @@ export async function loadSiteConfig({
     throw new Error(`Config file at "${siteConfigPath}" not found.`);
   }
 
-  const importedConfig = importFresh(siteConfigPath);
+  const importedConfig = await loadFreshModule(siteConfigPath);
 
   const loadedConfig: unknown =
     typeof importedConfig === 'function'

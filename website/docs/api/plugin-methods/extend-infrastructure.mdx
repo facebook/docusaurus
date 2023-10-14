@@ -15,8 +15,9 @@ Use this for files that are consumed server-side, because theme files are automa
 Example:
 
 ```js title="docusaurus-plugin/src/index.js"
-const path = require('path');
-module.exports = function (context, options) {
+import path from 'path';
+
+export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     // highlight-start
@@ -26,7 +27,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `extendCli(cli)` {#extendCli}
@@ -42,7 +43,7 @@ The commander version matters! We use commander v5, and make sure you are referr
 Example:
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     // highlight-start
@@ -56,7 +57,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `getThemePath()` {#getThemePath}
@@ -66,9 +67,7 @@ Returns the path to the directory where the theme components can be found. When 
 For example, your `getThemePath` can be:
 
 ```js title="my-theme/src/index.js"
-const path = require('path');
-
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'my-theme',
     // highlight-start
@@ -77,7 +76,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
@@ -95,9 +94,7 @@ You should also format these files with Prettier. Remember—JS files can and wi
 Example:
 
 ```js title="my-theme/src/index.js"
-const path = require('path');
-
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'my-theme',
     // highlight-start
@@ -111,7 +108,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `getSwizzleComponentList()` {#getSwizzleComponentList}
@@ -121,15 +118,15 @@ module.exports = function (context, options) {
 Returns a list of stable components that are considered safe for swizzling. These components will be swizzlable without `--danger`. All components are considered unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all components are considered stable.
 
 ```js title="my-theme/src/index.js"
-const swizzleAllowedComponents = [
-  'CodeBlock',
-  'DocSidebar',
-  'Footer',
-  'NotFound',
-  'SearchBar',
-  'hooks/useTheme',
-  'prism-include-languages',
-];
-
-myTheme.getSwizzleComponentList = () => swizzleAllowedComponents;
+export function getSwizzleComponentList() {
+  return [
+    'CodeBlock',
+    'DocSidebar',
+    'Footer',
+    'NotFound',
+    'SearchBar',
+    'hooks/useTheme',
+    'prism-include-languages',
+  ];
+}
 ```

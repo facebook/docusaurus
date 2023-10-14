@@ -14,7 +14,7 @@ Plugins should use this lifecycle to fetch from data sources (filesystem, remote
 For example, this plugin below returns a random integer between 1 and 10 as content.
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     // highlight-start
@@ -23,7 +23,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `async contentLoaded({content, actions})` {#contentLoaded}
@@ -183,7 +183,7 @@ You may use them to return your webpack configuration conditionally.
 For example, this plugin below modify the webpack config to transpile `.foo` files.
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     // highlight-start
@@ -202,7 +202,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ### `content` {#content-1}
@@ -216,7 +216,7 @@ We merge the Webpack configuration parts of plugins into the global Webpack conf
 It is possible to specify the merge strategy. For example, if you want a webpack rule to be prepended instead of appended:
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
@@ -228,7 +228,7 @@ module.exports = function (context, options) {
       };
     },
   };
-};
+}
 ```
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
@@ -238,7 +238,7 @@ Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge
 The dev server can be configured through returning a `devServer` field.
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
@@ -251,7 +251,7 @@ module.exports = function (context, options) {
       };
     },
   };
-};
+}
 ```
 
 ## `configurePostCss(options)` {#configurePostCss}
@@ -272,7 +272,7 @@ const postcssOptions = {
 Example:
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     // highlight-start
@@ -283,7 +283,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `postBuild(props)` {#postBuild}
@@ -309,7 +309,7 @@ interface Props {
 Example:
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     // highlight-start
@@ -321,7 +321,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 ## `injectHtmlTags({content})` {#injectHtmlTags}
@@ -361,7 +361,7 @@ type HtmlTagObject = {
 Example:
 
 ```js title="docusaurus-plugin/src/index.js"
-module.exports = function (context, options) {
+export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
     loadContent: async () => {
@@ -394,7 +394,7 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```
 
 Tags will be added as follows:
@@ -410,9 +410,7 @@ Returns an array of paths to the [client modules](../../advanced/client.mdx#clie
 As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 
 ```js title="my-theme/src/index.js"
-const path = require('path');
-
-module.exports = function (context, options) {
+export default function (context, options) {
   const {customCss, customJs} = options || {};
   return {
     name: 'name-of-my-theme',
@@ -422,5 +420,5 @@ module.exports = function (context, options) {
     },
     // highlight-end
   };
-};
+}
 ```

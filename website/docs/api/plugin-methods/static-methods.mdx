@@ -22,34 +22,14 @@ Returns validated and normalized options for the plugin. This method is called b
 
 [Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of options.
 
-To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
+To avoid mixing Joi versions, use `import {Joi} from '@docusaurus/utils-validation'`
 
 :::
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
 
 ```js title="my-plugin/src/index.js"
-function myPlugin(context, options) {
-  return {
-    name: 'docusaurus-plugin',
-    // rest of methods
-  };
-}
-
-// highlight-start
-myPlugin.validateOptions = ({options, validate}) => {
-  const validatedOptions = validate(myValidationSchema, options);
-  return validatedOptions;
-};
-// highlight-end
-
-module.exports = myPlugin;
-```
-
-In TypeScript, you can also choose to export this as a separate named export.
-
-```ts title="my-plugin/src/index.ts"
-export default function (context, options) {
+export default function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
     // rest of methods
@@ -80,34 +60,14 @@ Return validated and normalized configuration for the theme.
 
 [Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of theme config.
 
-To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
+To avoid mixing Joi versions, use `import {Joi} from '@docusaurus/utils-validation'`
 
 :::
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
 ```js title="my-theme/src/index.js"
-function myPlugin(context, options) {
-  return {
-    name: 'docusaurus-plugin',
-    // rest of methods
-  };
-}
-
-// highlight-start
-myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
-  const validatedThemeConfig = validate(myValidationSchema, options);
-  return validatedThemeConfig;
-};
-// highlight-end
-
-module.exports = validateThemeConfig;
-```
-
-In TypeScript, you can also choose to export this as a separate named export.
-
-```ts title="my-theme/src/index.ts"
-export default function (context, options) {
+export default function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
     // rest of methods

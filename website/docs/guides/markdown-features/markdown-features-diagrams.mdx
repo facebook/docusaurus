@@ -18,7 +18,7 @@ npm install --save @docusaurus/theme-mermaid
 Enable Mermaid functionality by adding plugin `@docusaurus/theme-mermaid` and setting `markdown.mermaid` to `true` in your `docusaurus.config.js`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   markdown: {
     mermaid: true,
   },
@@ -55,7 +55,7 @@ See the [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/./
 The diagram dark and light themes can be changed by setting `mermaid.theme` values in the `themeConfig` in your `docusaurus.config.js`. You can set themes for both light and dark mode.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     mermaid: {
       theme: {light: 'neutral', dark: 'forest'},
@@ -71,7 +71,7 @@ See the [Mermaid theme documentation](https://mermaid-js.github.io/mermaid/#/the
 Options in `mermaid.options` will be passed directly to `mermaid.initialize`:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     mermaid: {
       options: {

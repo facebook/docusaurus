@@ -5,24 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @type {import('@docusaurus/types').PluginConfig[]} */
-const dogfoodingThemeInstances = [
-  /** @type {import('@docusaurus/types').PluginModule} */
-  function swizzleThemeTests() {
+import type {PluginConfig, Plugin} from '@docusaurus/types';
+import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
+import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
+import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
+
+export const dogfoodingThemeInstances: PluginConfig[] = [
+  function swizzleThemeTests(): Plugin {
     return {
       name: 'swizzle-theme-tests',
       getThemePath: () => './_swizzle_theme_tests/src/theme',
     };
   },
 ];
-exports.dogfoodingThemeInstances = dogfoodingThemeInstances;
 
-/** @type {import('@docusaurus/types').PluginConfig[]} */
-const dogfoodingPluginInstances = [
+export const dogfoodingPluginInstances: PluginConfig[] = [
   [
     'content-docs', // Shorthand
-    /** @type {import('@docusaurus/plugin-content-docs').Options} */
-    ({
+    {
       id: 'docs-tests',
       routeBasePath: '/tests/docs',
       sidebarPath: '_dogfooding/docs-tests-sidebars.js',
@@ -43,20 +43,20 @@ const dogfoodingPluginInstances = [
             const eligibleDocIndexNames = [
               'index',
               'readme',
-              directories[0].toLowerCase(),
+              directories[0]!.toLowerCase(),
               'intro',
             ];
             return eligibleDocIndexNames.includes(fileName.toLowerCase());
           },
         });
       },
-    }),
+    } satisfies DocsOptions,
   ],
 
   [
     '@docusaurus/plugin-content-blog', // Longhand
     /** @type {import('@docusaurus/plugin-content-blog').Options} */
-    ({
+    {
       id: 'blog-tests',
       path: '_dogfooding/_blog tests',
       routeBasePath: '/tests/blog',
@@ -72,21 +72,19 @@ const dogfoodingPluginInstances = [
         frontMatter.hide_reading_time
           ? undefined
           : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
-    }),
+    } satisfies BlogOptions,
   ],
 
   [
     require.resolve('@docusaurus/plugin-content-pages'), // Full path
-    /** @type {import('@docusaurus/plugin-content-pages').Options} */
-    ({
+    {
       id: 'pages-tests',
       path: '_dogfooding/_pages tests',
       routeBasePath: '/tests/pages',
-    }),
+    } satisfies PageOptions,
   ],
 
-  /** @type {import('@docusaurus/types').Plugin} */
-  function clientModuleTestPlugin() {
+  function clientModuleTestPlugin(): Plugin {
     return {
       name: 'client-module-test-plugin',
       getClientModules() {
@@ -99,9 +97,7 @@ const dogfoodingPluginInstances = [
   },
 ];
 
-exports.dogfoodingPluginInstances = dogfoodingPluginInstances;
-
-exports.dogfoodingRedirects = [
+export const dogfoodingRedirects: {from: string[]; to: string}[] = [
   {
     from: ['/home/'],
     to: '/',

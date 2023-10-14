@@ -89,7 +89,7 @@ type CreateRedirectsFn = (path: string) => string[] | string | null | undefined;
 Here's an example configuration:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   plugins: [
     [
       '@docusaurus/plugin-client-redirects',

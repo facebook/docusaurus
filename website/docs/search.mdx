@@ -69,7 +69,7 @@ npm install --save @docusaurus/theme-search-algolia
 2. Register the theme in `docusaurus.config.js`:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   title: 'My site',
   // ...
   themes: ['@docusaurus/theme-search-algolia'],
@@ -84,7 +84,7 @@ module.exports = {
 Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   themeConfig: {
     // ...
@@ -146,7 +146,7 @@ Contextual search is **enabled by default**.
 It ensures that search results are **relevant to the current language and version**.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   themeConfig: {
     // ...
@@ -177,7 +177,7 @@ When using `contextualSearch: true` (default), the contextual facet filters will
 For specific needs, you can disable `contextualSearch` and define your own `facetFilters`:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   themeConfig: {
     // ...
@@ -252,7 +252,7 @@ Still, you can reuse the [Infima CSS variables](styling-layout.mdx#styling-your-
 Algolia DocSearch supports a [list of options](https://autocomplete-experimental.netlify.app/docs/DocSearchModal#reference) that you can pass to the `algolia` field in the `docusaurus.config.js` file.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     // ...
     algolia: {

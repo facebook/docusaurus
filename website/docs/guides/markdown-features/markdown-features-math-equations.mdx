@@ -63,24 +63,62 @@ Make sure to use `remark-math >= 5` and `rehype-katex >= 6` for Docusaurus v3 (u
 
 :::
 
-Those 2 plugins are now only available as ESM packages, and you will need to import them dynamically.
+Those 2 plugins are now [**only available as ES Modules**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). To simplify usage, it is recommended to use an [**ES Modules**](https://flaviocopes.com/es-modules/) config file:
 
-First, turn your site config into an async config creator function:
+```js title="ES module docusaurus.config.js"
+// highlight-start
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+// highlight-end
 
-```js title="docusaurus.config.js"
+// highlight-start
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+<details>
+    <summary>Using a [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules) config file?</summary>
+
+    If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
+
+```js title="CommonJS module docusaurus.config.js"
+// highlight-start
 module.exports = async function createConfigAsync() {
+  // highlight-end
   return {
-    // your site config...
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            path: 'docs',
+            // highlight-start
+            remarkPlugins: [(await import('remark-math')).default],
+            rehypePlugins: [(await import('rehype-katex')).default],
+            // highlight-end
+          },
+        },
+      ],
+    ],
   };
 };
 ```
 
-It is now possible to import the plugins dynamically and add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
-
-```js
-remarkPlugins: [(await import('remark-math')).default],
-rehypePlugins: [(await import('rehype-katex')).default],
-```
+</details>
 
 Include the KaTeX CSS in your config under `stylesheets`:
 
@@ -99,36 +137,39 @@ stylesheets: [
 Overall the changes look like:
 
 ```js title="docusaurus.config.js"
-module.exports = async function createConfigAsync() {
-  return {
-    title: 'Docusaurus',
-    tagline: 'Build optimized websites quickly, focus on your content',
-    presets: [
-      [
-        '@docusaurus/preset-classic',
-        {
-          docs: {
-            path: 'docs',
-            // highlight-start
-            remarkPlugins: [(await import('remark-math')).default],
-            rehypePlugins: [(await import('rehype-katex')).default],
-            // highlight-end
-          },
-        },
-      ],
-    ],
-    // highlight-start
-    stylesheets: [
+// highlight-start
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+// highlight-end
+
+export default {
+  title: 'Docusaurus',
+  tagline: 'Build optimized websites quickly, focus on your content',
+  presets: [
+    [
+      '@docusaurus/preset-classic',
       {
-        href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
-        type: 'text/css',
-        integrity:
-          'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
-        crossorigin: 'anonymous',
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          // highlight-end
+        },
       },
     ],
-    // highlight-end
-  };
+  ],
+  // highlight-start
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
+  // highlight-end
 };
 ```
 
@@ -137,7 +178,7 @@ module.exports = async function createConfigAsync() {
 Loading stylesheets, fonts, and JavaScript libraries from CDN sources is a good practice for popular libraries and assets, since it reduces the amount of assets you have to host. In case you prefer to self-host the `katex.min.css` (along with required KaTeX fonts), you can download the latest version from [KaTeX GitHub releases](https://github.com/KaTeX/KaTeX/releases), extract and copy `katex.min.css` and `fonts` directory (only `.woff2` font types should be enough) to your site's `static` directory, and in `docusaurus.config.js`, replace the stylesheet's `href` from the CDN URL to your local path (say, `/katex/katex.min.css`).
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   stylesheets: [
     {
       href: '/katex/katex.min.css',
