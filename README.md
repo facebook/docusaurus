@@ -83,7 +83,7 @@ We have a few channels for contact:
 
 ## Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/facebook/docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
+This project exists thanks to all the people who [contribute](CONTRIBUTING.md). <a href="https://github.com/facebook/docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 
