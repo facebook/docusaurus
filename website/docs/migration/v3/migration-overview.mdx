@@ -346,6 +346,20 @@ const blogOptions = {
 
 :::
 
+### Docs Component Refactoring
+
+For users that swizzled docs-related theme components (like `@theme/DocPage`), these components have been significantly refactor to make it easier to customize.
+
+Technically, **this is not a breaking change** because these components are **flagged as unsafe to swizzle**, however many Docusaurus sites ejected docs-related components, and will be interested to know their customizations might break Docusaurus.
+
+:::info How to upgrade
+
+Delete all your swizzled components, re-swizzle them, and re-apply your customizations on top of the newly updated components.
+
+Alternatively, you can look at the [pull-request notes](https://github.com/facebook/docusaurus/pull/7966) to understand the new theme component tree structure, and eventually try to patch your swizzled components manually.
+
+:::
+
 ### MDX v2
 
 The transition from MDX v1 to MDX v2 is the **main challenge** to the adoption of Docusaurus v3.
@@ -365,3 +379,31 @@ Other documents might also **render differently**.
 For large sites where a manual review is complicated, we recommend you to setup [visual regression tests](https://docusaurus.io/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing).
 
 :::
+
+## Ask For Help
+
+In case of any upgrade problem, the first things to try are:
+
+- make sure all your docs compile in the [MDX v2 playground](https://mdxjs.com/playground/), or using [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker)
+- delete `node_modules` and run `npm install` again
+- run `docusaurus clear` to clear the caches
+- remove third-party plugins that might not support Docusaurus v3
+- delete all your swizzled components
+
+Once you have tried that, you can ask for support through the following support channels:
+
+- [Docusaurus v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9336)
+- [Docusaurus v3 - Discord channel #migration-v2-to-v3](https://discord.com/channels/398180168688074762/1154771869094912090)
+- [MDX v2 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053)
+- [MDX v2 - Remark/Rehype Plugins Support](https://github.com/facebook/docusaurus/discussions/9337)
+- [MDX v2 - Discord channel #migration-mdx-v2](https://discord.com/channels/398180168688074762/1116724556976111616)
+
+Please consider **our time is precious**. To ensure that your support request is not ignored, we kindly ask you to
+
+- provide a **minimal** reproduction that we can easily run, ideally created with [docusaurus.new](https://docusaurus.new)
+- provide a live deployment url showing the problem in action (if your site can build)
+- explain clearly the problem, much more than an ambiguous "it doesn't work"
+- include as much relevant material as possible: code snippets, repo url, git branch urls, full stack traces, screenshots and videos
+- present your request clearly, concisely, showing us that you have made an effort to help us help you
+
+Alternatively, you can look for a paid [Docusaurus Service Provider](https://github.com/facebook/docusaurus/discussions/9281) to execute this upgrade for you. If your site is open source, you can also ask our community for [free, benevolent help](https://github.com/facebook/docusaurus/discussions/9283).
