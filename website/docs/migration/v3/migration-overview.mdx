@@ -89,6 +89,25 @@ For TypeScript users:
 
 An exhaustive list of breaking changes coming with Docusaurus v3.
 
+### React 18
+
+Docusaurus v3 now requires **React >= 18.0**.
+
+React 18 comes with its own breaking changes that should be relatively easy to handle, depending on the amount of custom React code you created for your site.
+
+Simple Docusaurus sites that only use our official theme code without swizzling do not have anything to do.
+
+:::tip How to prepare
+
+Read the official [React v18.0](https://react.dev/blog/2022/03/29/react-v18) and [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), and look at your first-party React code to figure out which components might be affected this React 18 upgrade.
+
+We recommend to particularly look for:
+
+- Automatic batching for stateful components
+- New React hydration errors reported to the console
+
+:::
+
 ### MDX v2
 
 The transition from MDX v1 to MDX v2 is the **main challenge** to the adoption of Docusaurus v3.
