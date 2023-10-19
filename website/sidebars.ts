@@ -144,11 +144,6 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'To Docusaurus v2',
-          link: {
-            type: 'generated-index',
-            slug: '/migration/v2/index',
-            description: 'Guide to upgrade from Docusaurus v1 to Docusaurus v2',
-          },
           items: [
             'migration/v2/migration-overview',
             'migration/v2/migration-automated',
