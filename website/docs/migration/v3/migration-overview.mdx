@@ -388,6 +388,24 @@ Alternatively, you can look at the [pull-request notes](https://github.com/faceb
 
 :::
 
+## Optional Changes
+
+Some changes are not mandatory, but remain useful to be aware of to plainly leverage Docusaurus v3.
+
+### Automatic JSX runtime
+
+Docusaurus v3 now uses the React 18 ["automatic" JSX runtime](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+
+It is not needed anymore to import React in JSX files that do not use any React API.
+
+```diff title="src/components/MyComponent.js"
+- import React from 'react';
+
+  export default function MyComponent() {
+    return <div>Hello</div>;
+  }
+```
+
 ## Ask For Help
 
 In case of any upgrade problem, the first things to try are:
