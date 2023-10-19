@@ -8,15 +8,82 @@ This documentation will help you upgrade your site from Docusaurus v2 to Docusau
 
 Docusaurus v3 is a new **major version**, including **breaking changes** requiring you to adjust your site accordingly. We will guide to during this process, and also mention a few optional recommendations.
 
+Docusaurus v3 is not a full rewrite, and the breaking changes are relatively easy to handle. The simplest sites will eventually upgrade by simply updating their npm dependencies.
+
+The most important Docusaurus v3 breaking change is the [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/), which will compile your Markdown content more strictly and with subtle differences.
+
 :::tip Prepare your site for Docusaurus v3
 
 Before upgrading, we recommend [**preparing your site for Docusaurus v3**](/blog/preparing-your-site-for-docusaurus-v3).
 
-There are changes that you can already **handle incrementally, while staying on Docusaurus v2**. Doing so will help reduce the work needed to upgrade to Docusaurus v3.
+There are changes that you can already **handle incrementally, under Docusaurus v2**. Doing so will help reduce the work needed to finally upgrade to Docusaurus v3.
 
 :::
 
-Docusaurus v3 is not a full rewrite, and the breaking changes are relatively easy to handle. The simplest sites will eventually upgrade by simply updating their npm dependencies. The most challenging part is the upgrade to MDX v2, which will eventually require you to adjust your content.
+## New dependencies
+
+Upgrading to Docusaurus v3 requires upgrading core Docusaurus dependencies (`@docusaurus/name`), but also other related packages.
+
+Docusaurus v3 now requires the following dependencies:
+
+- Node.js v18.0+
+- React v18.0+
+- MDX v2.0+
+- TypeScript v5.0+
+- prism-react-renderer v2.0+
+
+:::warning Upgrading community plugins
+
+If your site uses third-party community plugins and themes, you might need to upgrade them.
+
+Make sure those plugins are compatible with Docusaurus v3 before attempting an upgrade.
+
+:::
+
+A typical dependency upgrade should look like:
+
+```diff title="package.json"
+ {
+   "dependencies": {
+     // upgrade to Docusaurus v3
+-    "@docusaurus/core": "2.4.3",
+-    "@docusaurus/preset-classic": "2.4.3",
++    "@docusaurus/core": "3.0.0",
++    "@docusaurus/preset-classic": "3.0.0",
+     // upgrade to MDX v2
+-    "@mdx-js/react": "^1.6.22",
++    "@mdx-js/react": "^2.3.0",
+     // upgrade to prism-react-renderer v2.0+
+-    "prism-react-renderer": "^1.3.5",
++    "prism-react-renderer": "^2.1.0",
+     // upgrade to React v18.0+
+-    "react": "^17.0.2",
+-    "react-dom": "^17.0.2"
++    "react": "^18.2.0",
++    "react-dom": "^18.2.0"
+   },
+   "devDependencies": {
+     // upgrade Docusaurus dev dependencies to v3
+-    "@docusaurus/module-type-aliases": "2.4.3"
+-    "@docusaurus/types": "2.4.3"
++    "@docusaurus/module-type-aliases": "3.0.0"
++    "@docusaurus/types": "3.0.0"
+   }
+ }
+```
+
+For TypeScript users:
+
+```diff title="package.json"
+ {
+   "devDependencies": {
+-    "@types/react": "^17.0.69",
++    "@types/react": "^18.2.29",
+-    "typescript": "^4.7.4"
++    "typescript": "~5.2.2"
+   }
+ }
+```
 
 ## Breaking changes
 
