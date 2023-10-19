@@ -302,6 +302,18 @@ Use it in your `tsconfig.json` file:
 
 :::
 
+### New Config Loader
+
+Docusaurus v3 changes the config loading library from [`import-fresh`](https://github.com/sindresorhus/import-fresh) to [`jiti`](https://github.com/unjs/jiti). It is responsible for loading files such as `docusaurus.config.js` or `sidebars.js`, and Docusaurus plugins.
+
+:::info How to upgrade
+
+In theory, you have nothing to do, and your existing config files should keep working as before.
+
+However, this is a major dependency swap and subtle behavior changes could occur.
+
+:::
+
 ### Admonition Warning
 
 For historical reasons, we support an undocumented admonition `:::warning` that renders with a red color.
