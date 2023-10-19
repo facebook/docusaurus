@@ -6,10 +6,38 @@ slug: /migration/v3
 
 This documentation will help you upgrade your site from Docusaurus v2 to Docusaurus v3.
 
+Docusaurus v3 is a new **major version**, including **breaking changes** requiring you to adjust your site accordingly. We will guide to during this process, and also mention a few optional recommendations.
+
 :::tip Prepare your site for Docusaurus v3
 
-Before upgrading, we recommend [**preparing your site for Docusaurus v3**](/blog/preparing-your-site-for-docusaurus-v3) in advance.
+Before upgrading, we recommend [**preparing your site for Docusaurus v3**](/blog/preparing-your-site-for-docusaurus-v3).
 
 There are changes that you can already **handle incrementally, while staying on Docusaurus v2**. Doing so will help reduce the work needed to upgrade to Docusaurus v3.
+
+:::
+
+Docusaurus v3 is not a full rewrite, and the breaking changes are relatively easy to handle. The simplest sites will eventually upgrade by simply updating their npm dependencies. The most challenging part is the upgrade to MDX v2, which will eventually require you to adjust your content.
+
+## Breaking changes
+
+An exhaustive list of breaking changes coming with Docusaurus v3.
+
+### MDX v2
+
+The transition from MDX v1 to MDX v2 is the **main challenge** to the adoption of Docusaurus v3.
+
+Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3.
+
+:::tip Find problematic content ahead of time
+
+Run [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker) on your site to get a list of files that will now fail to compile under Docusaurus v3.
+
+:::
+
+Other documents might also **render differently**.
+
+:::tip Use visual regression tests
+
+For large sites where a manual review is complicated, we recommend you to setup [visual regression tests](https://docusaurus.io/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing).
 
 :::
