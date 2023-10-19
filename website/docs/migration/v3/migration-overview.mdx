@@ -8,9 +8,9 @@ This documentation will help you upgrade your site from Docusaurus v2 to Docusau
 
 Docusaurus v3 is a new **major version**, including **breaking changes** requiring you to adjust your site accordingly. We will guide to during this process, and also mention a few optional recommendations.
 
-Docusaurus v3 is not a full rewrite, and the breaking changes are relatively easy to handle. The simplest sites will eventually upgrade by simply updating their npm dependencies.
+This is not a full rewrite, and the breaking changes are relatively easy to handle. The simplest sites will eventually upgrade by simply updating their npm dependencies.
 
-The most important Docusaurus v3 breaking change is the [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/), which will compile your Markdown content more strictly and with subtle differences.
+The main breaking change is the [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/), which will compile your Markdown content **more strictly** and with **subtle differences**.
 
 :::tip Before upgrading
 
@@ -22,7 +22,7 @@ For complex sites, we also recommend to set up [**visual regression tests**](/bl
 
 :::note
 
-Check the release notes for [Docusaurus v3.0.0](https://github.com/facebook/docusaurus/releases/tag/v3.0.0), and browse the pull-requests for additional useful information and the motivation behind each change mentioned here.
+Check the release notes for [**Docusaurus v3.0.0**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0), and browse the pull-requests for additional useful information and the motivation behind each change mentioned here.
 
 :::
 
@@ -417,6 +417,48 @@ It is not needed anymore to import React in JSX files that do not use any React 
     return <div>Hello</div>;
   }
 ```
+
+### ESM and TypeScript Configs
+
+Docusaurus v3 supports ESM and TypeScript config files, and it might be a good idea to adopt those new options.
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+```
+
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
+
+const config: Config = {
+  title: 'My Site',
+  favicon: 'img/favicon.ico',
+  presets: [
+    [
+      'classic',
+      {
+        /* Your preset config here */
+      } satisfies Preset.Options,
+    ],
+  ],
+
+  themeConfig: {
+    /* Your theme config here */
+  } satisfies Preset.ThemeConfig,
+};
+
+export default config;
+```
+
+### Using the `.mdx` extension
+
+We recommend using the `.mdx` extension whenever you use JSX, `import`, or `export` (i.e. MDX features) inside a Markdown file. It is semantically more correct and improves compatibility with external tools (IDEs, formatters, linters, etc.).
+
+In future versions of Docusaurus, `.md` files will be parsed as standard [CommonMark](https://commonmark.org/), which does not support these features. In Docusaurus v3, `.md` files keep being compiled as MDX files, but it will be possible to [opt-in for CommonMark](https://github.com/facebook/docusaurus/issues/3018).
 
 ## Ask For Help
 
