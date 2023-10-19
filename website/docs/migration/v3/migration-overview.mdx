@@ -31,6 +31,8 @@ Docusaurus v3 now requires the following dependencies:
 - MDX v2.0+
 - TypeScript v5.0+
 - prism-react-renderer v2.0+
+- react-live v4.0+
+- Mermaid v10.4+
 
 :::warning Upgrading community plugins
 
@@ -99,7 +101,7 @@ For TypeScript users:
 
 An exhaustive list of breaking changes coming with Docusaurus v3.
 
-### Node.js 18.0
+### Node.js v18.0
 
 Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires **Node.js >= 18.0**.
 
@@ -124,7 +126,7 @@ Upgrade your Docusaurus v2 site to Node.js 18 before upgrading to Docusaurus v3.
 
 :::
 
-### React 18
+### React v18.0+
 
 Docusaurus v3 now requires **React >= 18.0**.
 
@@ -141,12 +143,6 @@ We recommend to particularly look for:
 
 :::
 
-:::tip Automatic JSX runtime
-
-Docusaurus v3 now uses React ["automatic" JSX runtime](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html): it is not needed anymore to import React in JSX files.
-
-:::
-
 :::danger Experimental support for React 18 features
 
 React 18 comes with new features:
@@ -159,7 +155,74 @@ Their Docusaurus support is considered as experimental. We might have to adjust 
 
 :::
 
-### TypeScript 5.0+
+### Prism-React-Renderer v2.0+
+
+Docusaurus v3 upgrades [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer) to v2.0+. This library is used for code block syntax highlighting.
+
+:::info How to upgrade
+
+This is a new major library version containing breaking changes, and we can't guarantee a strict retro-compatibility. The [`prism-react-renderer` v2 release notes](https://github.com/FormidableLabs/prism-react-renderer/releases/tag/prism-react-renderer%402.0.0) are not super exhaustive, but there are 3 major changes to be aware of for Docusaurus users.
+
+The dependency should be upgraded:
+
+```diff title="package.json"
+ {
+   "dependencies": {
+-    "prism-react-renderer": "^1.3.5",
++    "prism-react-renderer": "^2.1.0",
+ }
+```
+
+The API to import themes in your Docusaurus config file has been updated:
+
+```diff title="docusaurus.config.js"
+- const lightTheme = require('prism-react-renderer/themes/github');
+- const darkTheme = require('prism-react-renderer/themes/dracula');
++ const {themes} = require('prism-react-renderer');
++ const lightTheme = themes.github;
++ const darkTheme = themes.dracula;
+```
+
+Previously, `react-prism-render` v1 [included more languages by default](https://github.com/FormidableLabs/prism-react-renderer/blob/v1.3.5/src/vendor/prism/includeLangs.js). From v2.0+, [less languages are included by default](https://github.com/FormidableLabs/prism-react-renderer/blob/prism-react-renderer%402.1.0/packages/generate-prism-languages/index.ts#L9). You may need to add extra languages to your Docusaurus config:
+
+```js title="docusaurus.config.js"
+const siteConfig = {
+  themeConfig: {
+    prism: {
+      // highlight-next-line
+      additionalLanguages: ['bash', 'diff', 'json'],
+    },
+  },
+};
+```
+
+:::
+
+### React-Live v4.0+
+
+For users of the `@docusaurus/theme-live-codeblock` package, Docusaurus v3 upgrades [`react-live`](https://github.com/FormidableLabs/react-live) to v4.0+.
+
+:::info How to upgrade
+
+In theory, you have nothing to do, and your existing interactive code blocks should keep working as before.
+
+However, this is a new major library version containing breaking changes, and we can't guarantee a strict retro-compatibility. Read the [v3](https://github.com/FormidableLabs/react-live/releases/tag/v3.0.0) and [v4](https://github.com/FormidableLabs/react-live/releases/tag/v4.0.0) changelogs in case of problems.
+
+:::
+
+### Mermaid v10.4+
+
+For users of the `@docusaurus/theme-mermaid` package, Docusaurus v3 upgrades [`mermaid`](https://github.com/mermaid-js/mermaid) to v10.4+.
+
+:::info How to upgrade
+
+In theory, you have nothing to do, and your existing diagrams should keep working as before.
+
+However, this is a new major library version containing breaking changes, and we can't guarantee a strict retro-compatibility. Read the [v10](https://github.com/mermaid-js/mermaid/releases/tag/v10.0.0) changelog in case of problem.
+
+:::
+
+### TypeScript v5.0+
 
 Docusaurus v3 now requires **TypeScript >= 5.0**.
 
@@ -252,7 +315,7 @@ When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.
 }
 ```
 
-:::tip How to upgrade
+:::info How to upgrade
 
 Remove the useless versioned prefix from your versioned sidebars.
 
