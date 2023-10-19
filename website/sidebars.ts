@@ -138,17 +138,7 @@ const sidebars: SidebarsConfig = {
         id: 'migration/index',
       },
       items: [
-        {
-          type: 'category',
-          label: 'To Docusaurus v3',
-
-          link: {
-            type: 'generated-index',
-            slug: '/migration/v3/index',
-            description: 'Guide to upgrade from Docusaurus v2 to Docusaurus v3',
-          },
-          items: ['migration/v3/migration-overview'],
-        },
+        'migration/v3',
         // TODO do we want to keep upgrade docs for older Docusaurus versions?
         // It contains links to docs of current version :/
         {
