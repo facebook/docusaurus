@@ -20,7 +20,13 @@ For complex sites, we also recommend to set up [**visual regression tests**](/bl
 
 :::
 
-## Upgrading dependencies
+:::note
+
+Check the release notes for [Docusaurus v3.0.0](https://github.com/facebook/docusaurus/releases/tag/v3.0.0), and browse the pull-requests for additional useful information and the motivation behind each change mentioned here.
+
+:::
+
+## Upgrading Dependencies
 
 Upgrading to Docusaurus v3 requires upgrading core Docusaurus dependencies (`@docusaurus/name`), but also other related packages.
 
@@ -97,9 +103,31 @@ For TypeScript users:
  }
 ```
 
-## Breaking changes
+## Upgrading MDX
 
-An exhaustive list of breaking changes coming with Docusaurus v3.
+The transition from MDX v1 to MDX v2 is the **main challenge** to the adoption of Docusaurus v3.
+
+Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3.
+
+:::tip Find problematic content ahead of time
+
+Run [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker) on your site to get a list of files that will now fail to compile under Docusaurus v3.
+
+This command is also a good way to estimate the amount of work to be done to make your content compatible. Remember most of this work can be executed ahead of the upgrade by [preparing your content for Docusaurus v3](/blog/preparing-your-site-for-docusaurus-v3).
+
+:::
+
+Other documents might also **render differently**.
+
+:::tip Use visual regression tests
+
+For large sites where a manual review is complicated, we recommend you to setup [visual regression tests](https://docusaurus.io/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing).
+
+:::
+
+## Other Breaking Changes
+
+Apart the MDX v2.0 upgrade, here is an exhaustive list of breaking changes coming with Docusaurus v3.
 
 ### Node.js v18.0
 
@@ -360,26 +388,6 @@ Alternatively, you can look at the [pull-request notes](https://github.com/faceb
 
 :::
 
-### MDX v2
-
-The transition from MDX v1 to MDX v2 is the **main challenge** to the adoption of Docusaurus v3.
-
-Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3.
-
-:::tip Find problematic content ahead of time
-
-Run [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker) on your site to get a list of files that will now fail to compile under Docusaurus v3.
-
-:::
-
-Other documents might also **render differently**.
-
-:::tip Use visual regression tests
-
-For large sites where a manual review is complicated, we recommend you to setup [visual regression tests](https://docusaurus.io/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing).
-
-:::
-
 ## Ask For Help
 
 In case of any upgrade problem, the first things to try are:
@@ -398,7 +406,7 @@ Once you have tried that, you can ask for support through the following support 
 - [MDX v2 - Remark/Rehype Plugins Support](https://github.com/facebook/docusaurus/discussions/9337)
 - [MDX v2 - Discord channel #migration-mdx-v2](https://discord.com/channels/398180168688074762/1116724556976111616)
 
-Please consider **our time is precious**. To ensure that your support request is not ignored, we kindly ask you to
+Please consider **our time is precious**. To ensure that your support request is not ignored, we kindly ask you to:
 
 - provide a **minimal** reproduction that we can easily run, ideally created with [docusaurus.new](https://docusaurus.new)
 - provide a live deployment url showing the problem in action (if your site can build)
