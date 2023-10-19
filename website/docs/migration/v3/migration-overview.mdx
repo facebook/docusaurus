@@ -12,19 +12,19 @@ Docusaurus v3 is not a full rewrite, and the breaking changes are relatively eas
 
 The most important Docusaurus v3 breaking change is the [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/), which will compile your Markdown content more strictly and with subtle differences.
 
-:::tip Prepare your site for Docusaurus v3
+:::tip Before upgrading
 
-Before upgrading, we recommend [**preparing your site for Docusaurus v3**](/blog/preparing-your-site-for-docusaurus-v3).
+Before upgrading, we recommend [**preparing your site for Docusaurus v3**](/blog/preparing-your-site-for-docusaurus-v3). There are changes that you can already **handle incrementally, under Docusaurus v2**. Doing so will help reduce the work needed to finally upgrade to Docusaurus v3.
 
-There are changes that you can already **handle incrementally, under Docusaurus v2**. Doing so will help reduce the work needed to finally upgrade to Docusaurus v3.
+For complex sites, we also recommend to set up [**visual regression tests**](/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing), a good way to ensure your site stays visually identical. Docusaurus v3 mainly upgrades dependencies, and is not expected to produce any visual changes.
 
 :::
 
-## New dependencies
+## Upgrading dependencies
 
 Upgrading to Docusaurus v3 requires upgrading core Docusaurus dependencies (`@docusaurus/name`), but also other related packages.
 
-Docusaurus v3 now requires the following dependencies:
+Docusaurus v3 now uses the following dependencies:
 
 - Node.js v18.0+
 - React v18.0+
@@ -32,7 +32,7 @@ Docusaurus v3 now requires the following dependencies:
 - TypeScript v5.0+
 - prism-react-renderer v2.0+
 - react-live v4.0+
-- Mermaid v10.4+
+- mermaid v10.4+
 
 :::warning Upgrading community plugins
 
@@ -42,7 +42,7 @@ Make sure those plugins are compatible with Docusaurus v3 before attempting an u
 
 :::
 
-A typical dependency upgrade should look like:
+A typical `package.json` dependency upgrade example:
 
 ```diff title="package.json"
  {
