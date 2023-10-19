@@ -69,6 +69,11 @@ A typical dependency upgrade should look like:
 +    "@docusaurus/module-type-aliases": "3.0.0"
 +    "@docusaurus/types": "3.0.0"
    }
+   "engines": {
+     // require Node.js 18.0+
+-    "node": ">=16.14"
++    "node": ">=18.0"
+   }
  }
 ```
 
@@ -93,6 +98,31 @@ For TypeScript users:
 ## Breaking changes
 
 An exhaustive list of breaking changes coming with Docusaurus v3.
+
+### Node.js 18.0
+
+Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires **Node.js >= 18.0**.
+
+:::tip How to upgrade
+
+Install Node.js 18.0+ on your computer.
+
+Eventually, configure your continuous integration, CDN or host to use this new Node.js version.
+
+You can also update your site `package.json` to prevent usage of an older unsupported version:
+
+```diff title="package.json"
+ {
+   "engines": {
+-     "node": ">=16.14"
++     "node": ">=18.0"
+   }
+ }
+```
+
+Upgrade your Docusaurus v2 site to Node.js 18 before upgrading to Docusaurus v3.
+
+:::
 
 ### React 18
 
