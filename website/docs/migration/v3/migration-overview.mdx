@@ -97,7 +97,7 @@ For TypeScript users:
 -    "@types/react": "^17.0.69",
 +    "@types/react": "^18.2.29",
      // upgrade TypeScript to v5.0+
--    "typescript": "^4.7.4"
+-    "typescript": "~4.7.4"
 +    "typescript": "~5.2.2"
    }
  }
@@ -149,7 +149,7 @@ To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn
 - Use `remark-gfm`
 - Use `remark-directive`
 
-![Screenshot of the MDX v2 playground's options panel, with only the "Use `MDX`", "Use `remark-gfm`", and "Use `remark-directive`" options checked](./img/mdx2-playground-options.png)
+![Screenshot of the MDX v2 playground's options panel, with only the "Use `MDX`", "Use `remark-gfm`", and "Use `remark-directive`" options checked](@site/blog/2023-09-29-preparing-your-site-for-docusaurus-v3/img/mdx2-playground-options.png)
 
 </details>
 
@@ -171,7 +171,7 @@ npx docusaurus-mdx-checker
 
 For each compilation issue, the CLI will log the file path and a line number to look at.
 
-![Screenshot of the terminal showing an example MDX checker CLI output, with a few error messages](./img/mdx-checker-output.png)
+![Screenshot of the terminal showing an example MDX checker CLI output, with a few error messages](@site/blog/2023-09-29-preparing-your-site-for-docusaurus-v3/img/mdx-checker-output.png)
 
 :::tip
 
@@ -187,9 +187,286 @@ It will not report subtle compilation changes that do not produce errors but can
 
 :::
 
+### Common MDX problems
+
+Docusaurus cannot document exhaustively all the changes coming with MDX v2. That's the responsibility of the [MDX v2 migration guide](https://mdxjs.com/migrating/v2/).
+
+However, by upgrading a few Docusaurus sites, we noticed that most of the issues come down to only a few cases that we have documented for you.
+
+#### Bad usage of `{`
+
+The `{` character is used for opening [JavaScript expressions](https://mdxjs.com/docs/what-is-mdx/#expressions). MDX v2 will now fail if what you put inside `{expression}` is not a valid expression.
+
+```md title="example.md"
+The object shape looks like {username: string, age: number}
+```
+
+:::danger Error message
+
+> Could not parse expression with acorn: Unexpected content after expression
+
+:::
+
+:::tip How to upgrade
+
+Available options to fix this error:
+
+- Use inline code: `{username: string, age: number}`
+- Use the HTML code: `&#123;`
+- Escape it: `\{`
+
+:::
+
+#### Bad usage of `<`
+
+The `<` character is used for opening [JSX tags](https://mdxjs.com/docs/what-is-mdx/#jsx). MDX v2 will now fail if it thinks your JSX is invalid.
+
+```md title="example.md"
+Use Android version <5
+
+You can use a generic type like Array<T>
+
+Follow the template "Road to <YOUR_MINOR_VERSION>"
+```
+
+:::danger Error messages
+
+> Unexpected character `5` (U+0035) before name, expected a character that can start a name, such as a letter, `$`, or `_`
+
+> Expected a closing tag for `<T>` (1:6-1:9) before the end of `paragraph` end-tag-mismatch mdast-util-mdx-jsx
+
+> Expected a closing tag for `<YOUR_MINOR_VERSION>` (134:19-134:39) before the end of `paragraph`
+
+:::
+
+:::tip How to upgrade
+
+Available options to fix this error:
+
+- Use inline code: `Array<T>`
+- Use the HTML code: `&lt;` or `&#60;`
+- Escape it: `\<`
+
+:::
+
+#### Bad usage of GFM Autolink
+
+Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/), but [autolink](https://github.github.com/gfm/#autolinks) using the `<link>` syntax is not supported anymore by MDX v2.
+
+```md title="example.md"
+<sebastien@thisweekinreact.com>
+
+<http://localhost:3000>
+```
+
+:::danger Error messages
+
+> Unexpected character `@` (U+0040) in name, expected a name character such as letters, digits, `$`, or `_`; whitespace before attributes; or the end of the tag (note: to create a link in MDX, use `[text](url)`)
+
+> Unexpected character `/` (U+002F) before local name, expected a character that can start a name, such as a letter, `$`, or `_` (note: to create a link in MDX, use `[text](url)`)
+
+:::
+
+:::tip How to upgrade
+
+Use regular Markdown links, or remove the `<` and `>`. MDX and GFM are able to autolink literals already.
+
+{/* prettier-ignore */}
+```md title="example.md"
+sebastien@thisweekinreact.com
+[sebastien@thisweekinreact.com](mailto:sebastien@thisweekinreact.com)
+
+http://localhost:3000
+[http://localhost:3000](http://localhost:3000)
+```
+
+:::
+
+#### Lower-case MDXComponent mapping
+
+For users providing a [custom `MDXComponent`mapping](/docs/3.0.0-beta.0/markdown-features/react#mdx-component-scope), components are now "sandboxed":
+
+- a `MDXComponent` mapping for `h1` only gets used for `# hi` but not for `<h1>hi</h1>`
+- a **lower-cased** custom element name will not be substituted by its respective `MDXComponent` component anymore
+
+:::danger visual difference
+
+Your [`MDXComponent` component mapping](/docs/3.0.0-beta.0/markdown-features/react#mdx-component-scope) might not be applied as before, and your custom components might no longer be used.
+
+:::
+
+:::tip How to upgrade
+
+For native Markdown elements, you can keep using **lower-case**: `p`, `h1`, `img`, `a`...
+
+For any other element, **use upper-case names**.
+
+```diff title="src/theme/MDXComponents.js"
+ import MDXComponents from '@theme-original/MDXComponents';
+
+ export default {
+   ...MDXComponents,
+   p: (props) => <p {...props} className="my-paragraph"/>
+-  myElement: (props) => <div {...props} className="my-class" />,
++  MyElement: (props) => <div {...props} className="my-class" />,
+ };
+```
+
+:::
+
+#### Unintended extra paragraphs
+
+In MDX v2, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
+
+:::danger visual difference
+
+See how this content is rendered differently by MDX v1 and v2.
+
+```md title="example.md"
+<div>Some **Markdown** content</div>
+<div>
+  Some **Markdown** content
+</div>
+```
+
+{/* prettier-ignore */}
+```html title="MDX v1 output"
+<div>Some **Markdown** content</div>
+<div>Some **Markdown** content</div>
+```
+
+{/* prettier-ignore */}
+```html title="MDX v2 output"
+<div>Some <strong>Markdown</strong> content</div>
+<div><p>Some <strong>Markdown</strong> content</p></div></div>
+```
+
+:::
+
+:::tip How to upgrade
+
+If you don't want an extra `<p>` tag, refactor content on a case by case basis to use a single-line JSX tag.
+
+```diff
+ <figure>
+   <img src="/img/myImage.png" alt="My alt" />
+-  <figcaption>
+-    My image caption
+-  </figcaption>
++  <figcaption>My image caption</figcaption>
+ </figure>
+```
+
+:::
+
+#### Unintended usage of directives
+
+Docusaurus v3 now uses [Markdown Directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) (implemented with [remark-directive](https://github.com/remarkjs/remark-directive)) as a generic way to provide support for admonitions, and other upcoming Docusaurus features.
+
+```md title="example.md"
+This is a :textDirective
+
+::leafDirective
+
+:::containerDirective
+
+Container directive content
+
+:::
+```
+
+:::danger Visual change
+
+Directives are parsed with the purpose of being handled by other Remark plugins. Unhandled directives will be ignored, and won't be rendered back in their original form.
+
+```md title="example.md"
+The AWS re:Invent conf is great
+```
+
+Due to `:Invent` being parsed as a text directive, this will now be rendered as:
+
+```
+The AWS re
+conf is great
+```
+
+:::
+
+:::tip How to upgrade
+
+- Use the HTML code: `&#58;`
+- Add a space after `:` (if it makes sense): `: text`
+- Escape it: `\:`
+
+:::
+
+#### Unsupported indented code blocks
+
+MDX v2 does not transform indented text as code blocks anymore.
+
+```md title="example.md"
+    console.log("hello");
+```
+
+:::danger Visual change
+
+The upgrade does not generally produce new MDX v2 compilation errors, but can lead to content being rendered in an unexpected way because there isn't a code block anymore.
+
+:::
+
+:::tip How to upgrade
+
+Use the regular code block syntax instead of indentation:
+
+````md title="example.md"
+```js
+console.log('hello');
+```
+````
+
+:::
+
+### MDX plugins
+
+All the official packages (Unified, Remark, Rehype...) in the MDX ecosystem are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) anymore.
+
+In practice this means that you can't do `require("remark-plugin")` anymore.
+
+:::tip How to upgrade
+
+Docusaurus v3 now supports [**ES Modules**](https://flaviocopes.com/es-modules/) configuration files. We recommend that you migrate your config file to ES module, that enables you to import the Remark plugins easily:
+
+```js title="docusaurus.config.js"
+import remarkPlugin from 'remark-plugin';
+
+export default {
+  title: 'Docusaurus',
+  /* site config using remark plugins here */
+};
+```
+
+If you want to keep using CommonJS modules, you can use dynamic imports as a workaround that enables you to import ES modules inside a CommonJS module. Fortunately, the [Docusaurus config supports the usage of an async function](/docs/configuration#syntax-to-declare-docusaurus-config) to let you do so.
+
+```js title="docusaurus.config.js"
+module.exports = async function () {
+  const myPlugin = (await import('remark-plugin')).default;
+  return {
+    // site config...
+  };
+};
+```
+
+:::
+
+:::info For plugin authors
+
+If you created custom Remark or Rehype plugins, you may need to refactor those, or eventually rewrite them completely, due to how the new AST is structured. We have created a [dedicated support discussion](https://github.com/facebook/docusaurus/discussions/9337) to help plugin authors upgrade their code.
+
+:::
+
 ## Other Breaking Changes
 
-Apart the MDX v2.0 upgrade, here is an exhaustive list of breaking changes coming with Docusaurus v3.
+Apart the MDX v2 upgrade, here is an exhaustive list of breaking changes coming with Docusaurus v3.
 
 ### Node.js v18.0
 
@@ -323,7 +600,7 @@ Upgrade your dependencies to use TypeScript 5+
 ```diff title="package.json"
  {
    "devDependencies": {
--    "typescript": "^4.7.4"
+-    "typescript": "~4.7.4"
 +    "typescript": "~5.2.2"
    }
  }
