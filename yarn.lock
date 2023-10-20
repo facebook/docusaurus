@@ -160,17 +160,17 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@argos-ci/browser@1.0.0-alpha.3":
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@argos-ci/browser/-/browser-1.0.0-alpha.3.tgz#9089f594e7d909be31a3ace6fdc000fd5b190d92"
-  integrity sha512-Cgrap5eom6QuAVedV0616SiIxlP8gtpLLQW7DESHPrPRx3+nIab1OZNNcvWhttiMtPla2mBC6G5BpRWnICK3sw==
+"@argos-ci/browser@1.0.0-alpha.4":
+  version "1.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@argos-ci/browser/-/browser-1.0.0-alpha.4.tgz#41af572ab68c1774d67ae7442cf117957e8dd6a4"
+  integrity sha512-SUCyYi9P5Kjz2pR4++uik7fFo4yFqFmzkzZ7xFK3YJKZw3PWmBNmaujjWruVnuBhPJc+YeesGtVmTO4FBCv0gQ==
 
-"@argos-ci/core@1.0.0-alpha.2":
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@argos-ci/core/-/core-1.0.0-alpha.2.tgz#654c6a41bdc72091595d722a4eae22bdaf9aa7f7"
-  integrity sha512-sQUfuWgA1HUJdD8zeUtd6j0bzW54gl357xzn8xsfxT3tn4pQ04Nm+vH+dRpMP/B1+sWj8nVc/3LQHOLGZiB09g==
+"@argos-ci/core@1.0.0-alpha.3":
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@argos-ci/core/-/core-1.0.0-alpha.3.tgz#fe44ad73cb2d02e243760f96671501f8c0dfab06"
+  integrity sha512-oLQqnmH/ouQS6G+sYfnhh+FwnqGUQsSm0sD+JQSPbrbjifQ6e3HzGNJwFu8dpeeXr1G4xPtRX20cWcg8ran2ig==
   dependencies:
-    "@argos-ci/util" "1.0.0-alpha.2"
+    "@argos-ci/util" "1.0.0-alpha.3"
     axios "^1.5.0"
     convict "^6.2.4"
     debug "^4.3.4"
@@ -178,19 +178,19 @@
     sharp "^0.32.5"
     tmp "^0.2.1"
 
-"@argos-ci/playwright@1.0.0-alpha.3":
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@argos-ci/playwright/-/playwright-1.0.0-alpha.3.tgz#77616923259c624cceadf2923c99a81dc2a36860"
-  integrity sha512-R4dniOcyR3yHbnaHDCVhDy5kuGdK2ci/znEwjv25FhoSzUElHWehgbiWjkDHmSAAD9kn3KuY3APAGNcDdlvLlw==
+"@argos-ci/playwright@1.0.0-alpha.4":
+  version "1.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@argos-ci/playwright/-/playwright-1.0.0-alpha.4.tgz#8821da7d554eed3e349fde1dec6b5790511d0058"
+  integrity sha512-53uuDAFjn+o/Y3NSBVAV/aSdJbZfs3djmTUWFHGsRDC4VT1+mtKyULfkD8DLpcHCb5YsVvar4IYavWB93u3FKw==
   dependencies:
-    "@argos-ci/browser" "1.0.0-alpha.3"
-    "@argos-ci/core" "1.0.0-alpha.2"
-    "@argos-ci/util" "1.0.0-alpha.2"
+    "@argos-ci/browser" "1.0.0-alpha.4"
+    "@argos-ci/core" "1.0.0-alpha.3"
+    "@argos-ci/util" "1.0.0-alpha.3"
 
-"@argos-ci/util@1.0.0-alpha.2":
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@argos-ci/util/-/util-1.0.0-alpha.2.tgz#e6c99596c858b6b2df68ead4dbe5f2c6db0f23ef"
-  integrity sha512-mQGLT4HO8Q7t4FpOUFpbLI6nBwgcj21W+2+TuptaY2Dh4q9XA7d2itFR+3mXRafX+lll841kS5hukdEm7XAf5Q==
+"@argos-ci/util@1.0.0-alpha.3":
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@argos-ci/util/-/util-1.0.0-alpha.3.tgz#67dc05187aa5394c72dcbb5e5348c876779f453c"
+  integrity sha512-+Ce/uZOEeruEm/6lDLXVSqeKWwBGBxSoI8XN0qMVxmZSRuW0HpqrQo5xNR+c5L07J5ApfPZFmrPcby2OH6Zlwg==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.22.5", "@babel/code-frame@^7.8.3":
   version "7.22.5"
