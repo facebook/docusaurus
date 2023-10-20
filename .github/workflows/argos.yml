@@ -49,7 +49,3 @@ jobs:
 
       - name: Take Argos screenshots
         run: yarn argos:screenshot
-
-      - name: Upload Argos screenshots
-        continue-on-error: true
-        run: yarn argos:upload
