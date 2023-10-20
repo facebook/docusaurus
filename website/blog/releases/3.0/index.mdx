@@ -5,6 +5,7 @@ authors:
 tags: [release]
 image: ./img/social-card.png
 date: 2023-10-25
+unlisted: true
 ---
 
 Today we are extremely happy to finally **announce Docusaurus 3.0**! 🥳
@@ -24,9 +25,7 @@ The simplest sites will only need to upgrade a few npm dependencies. For more co
 
 {/* truncate */}
 
-## Highlights
-
-### Breaking changes
+## Breaking changes
 
 This section only gives you a quick glance. All the breaking changes are thoroughly documented on the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3).
 
@@ -94,3 +93,133 @@ The [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/) is the main upgrade chal
 If you created custom [MDX plugins](/docs/markdown-features/plugins) (Remark/Rehype), the AST is slightly different, and you might need to refactor them.
 
 :::
+
+## Highlights
+
+A non-exhaustive list of new useful features coming with this new version. All the features are listed in the [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0).
+
+### ESM and TypeScript configs
+
+In [#9317](https://github.com/facebook/docusaurus/pull/9317), Docusaurus v3 added support for ES Modules and TypeScript config files, including site config, docs sidebars, plugins and presets.
+
+Here are 2 TypeScript examples, giving you a modern experience with IDE autocompletion:
+
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
+
+const config: Config = {
+  title: 'My Site',
+  favicon: 'img/favicon.ico',
+  // your site config ...
+  presets: [
+    [
+      'classic',
+      {
+        // your preset config ...
+      } satisfies Preset.Options,
+    ],
+  ],
+  themeConfig: {
+    // your theme config ...
+  } satisfies Preset.ThemeConfig,
+};
+
+export default config;
+```
+
+```ts title="sidebars.ts"
+import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+
+const sidebars: SidebarsConfig = {
+  docs: ['introduction'],
+};
+
+export default sidebars;
+```
+
+### Markdown improvements
+
+In [#8288](https://github.com/facebook/docusaurus/pull/8288) upgraded to [MDX v2](https://mdxjs.com/blog/v2/). This new version is a much better for content writers and plugin authors, and lays the ground to implement new exciting Markdown features.
+
+This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** ([some features will not work](https://github.com/facebook/docusaurus/issues/9092)), but the plan is to interpret `.md` files as CommonMark
+
+We also introduced a new way to [configure Markdown globally for your site](/docs/3.0.0-rc.0/api/docusaurus-config#markdown), and plan to add more options later.
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    format: 'mdx',
+    mermaid: true,
+    preprocessor: ({filePath, fileContent}) => {
+      return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+    },
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
+  },
+};
+```
+
+Docusaurus now uses the [remark-directive](https://github.com/remarkjs/remark-directive) plugin to support admonition. This also offers you the ability to implement your own Remark plugins to extend Markdown with your own [custom directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) such as `:textDirective`, `::leafDirective` or `:::containerDirective`.
+
+### Unlisted content
+
+Docusaurus already supported a `draft: true` front matter option in our 3 content plugins (docs, blog, pages), which allows you to remove some pages from your production builds.
+
+In [#8004](https://github.com/facebook/docusaurus/pull/8004), we introduced a new `unlisted: true` front matter option, which will keep your pages available in production builds, while "hiding" them and making them impossible to discover unless you have the url. This enables convenient workflows where you can easily ask for feedback on a piece of content before the final publication.
+
+Unlisted content will:
+
+- be excluded from `sitemap.xml`
+- be excluded from SEO results thanks to `<meta name="robots" content="noindex, nofollow" />`
+- be excluded from RSS feeds
+- be excluded from Algolia DocSearch results
+- be filtered from site navbar, docs sidebars, blog sidebar, blog archives, tags pages
+
+Unlisted content will also display a banner so that you don't forget to turn it off once your content is ready for prime time. Here's an example of an [unlisted blog post](/tests/blog/unlisted-post)
+
+[![Unlisted blog post showing an unlisted warning banner](./img/unlisted-blog.png)](/tests/blog/unlisted-post)
+
+### React 18
+
+#8961 feat: React 18 + automatic JSX runtime + build --dev
+
+perf(core): use React 18 startTransition for hydration
+
+- batching
+- automatic JSX runtime
+- warning experimental suspense / lazy / startTransition
+- `docusaurus build --dev`: get clear error messages in dev, notably from React
+
+### TypeScript
+
+#9317 feat(core): support TypeScript + ESM configuration
+
+#9258 feat: Docusaurus v3 upgrades and require TypeScript 5
+
+#9050 feat: create official TypeScript base config @docusaurus/tsconfig
+
+### Syntax highlighting
+
+#9316 chore: upgrade syntax highlighting dependencies, prism-react-renderer to v2, react-live to v4
+
+#8982 feat(theme-common): code block MagicComments support for TeX/LaTeX/Matlab
+
+#8870 feat(theme-common): code block MagicComments support for Lua/Haskell -- and WebAssembly ;;
+
+### Mermaid diagrams
+
+#9305 feat(theme-mermaid): upgrade Mermaid to v10.4 - handle async rendering
+
+### Other
+
+#9028 feat(theme): add ability to inject data attributes from query-string - possibility to create an iframe/embed variant of a page
+
+#9171 feat(client-redirects-plugin): support fully qualified urls and querystring/hash in destination/to url
+
+#8156 feat: add eslint plugin no-html-links
+
+- #8384 feat(eslint-plugin): new prefer-docusaurus-heading rule
