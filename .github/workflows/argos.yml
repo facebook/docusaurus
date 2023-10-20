@@ -28,10 +28,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-        with:
-          # A minimal fetch-depth of 2 is required
-          # to automatically detect branch in @argos-ci/cli
-          fetch-depth: 2
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -49,7 +45,3 @@ jobs:
 
       - name: Take Argos screenshots
         run: yarn argos:screenshot
-
-      - name: Upload Argos screenshots
-        continue-on-error: true
-        run: yarn argos:upload

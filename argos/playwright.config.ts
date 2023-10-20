@@ -14,6 +14,8 @@ import type {PlaywrightTestConfig} from '@playwright/test';
 const config: PlaywrightTestConfig = {
   testDir: './tests',
 
+  reporter: [['list'], ['@argos-ci/playwright/reporter']],
+
   // Run website production built
   // Need to run "yarn website:build:fast" before
   webServer: {
