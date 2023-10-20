@@ -87,8 +87,10 @@ Apart MDX v2, most breaking changes coming with those upgraded dependencies have
 
 :::warning MDX v2 - the main challenge
 
-The [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/) is the main challenge to the adoption of this new version of Docusaurus. Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3, and other documents might **render differently**.
+The [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/) is the main upgrade challenge. Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3, while others might **render differently**.
 
-**Don't be intimidated**, most MDX compilation issues are **easy to fix** and very often related to `{` and `<` characters that you now need to escape. However, depending on the size of your site, you might need to edit many of your existing documents and feel a bit overwhelmed. For this reason we provide a command `npx docusaurus-mdx-checker` to help you get an estimate of the work to be done, and we recommend to [prepare your site in advance](/blog/preparing-your-site-for-docusaurus-v3).
+**Don't be intimidated**, most problems are **easy to fix** and often related to `{` and `<` characters that you now need to escape. However, depending on the size of your site, you might need to edit many files and feel overwhelmed. For this reason we provide a command [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker) to help you get an estimate of the work to be done, and we recommend to [prepare your site in advance](/blog/preparing-your-site-for-docusaurus-v3).
+
+If you created custom [MDX plugins](/docs/markdown-features/plugins) (Remark/Rehype), the AST is slightly different, and you might need to refactor them.
 
 :::
