@@ -7,8 +7,88 @@ image: ./img/social-card.png
 date: 2023-10-25
 ---
 
-Today we are extremely happy to finally **announce Docusaurus 2.0**! 🥳️
+Today we are extremely happy to finally **announce Docusaurus 3.0**! 🥳
+
+This is a new **major version** of Docusaurus, coming with **new exciting features** and upgraded dependencies.
+
+We respect [**Semantic Versioning**](https://semver.org/) and this release also includes **breaking changes** that we documented thoroughly in the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3). Breaking changes can be annoying, but are necessary to set the ground for a new wave of Docusaurus features that we plan to implement later.
+
+We initially planned to release more frequent major versions, but this one has taken longer than expected. **Upgrading to [MDX v2](https://mdxjs.com/blog/v2/) is the main challenge** to the adoption of this new version. We went the extra mile to make this upgrade as easy as possible, notably by adding [compatibility options for MDX v1](/docs/3.0.0-rc.0/api/docusaurus-config#markdown).
+
+The simplest sites will only need to upgrade a few npm dependencies. For more complex sites, we came up with a few strategies than can help you upgrade more confidently:
+
+- [prepare your site](/blog/preparing-your-site-for-docusaurus-v3) ahead of time, incrementally, while staying under Docusaurus v2
+- [set up visual regression tests](/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing) to catch unexpected visual changes happening during the upgrade
 
 ![v3.0 social-card image](./img/social-card.png)
 
 {/* truncate */}
+
+## Highlights
+
+### Breaking changes
+
+This section only gives you a quick glance. All the breaking changes are thoroughly documented on the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3).
+
+Docusaurus v3 upgraded a few dependencies to new major versions, each coming with their own breaking changes:
+
+- Node.js v16 ➡️ v18
+- React v17 ➡️ v18
+- MDX v1 ➡️ v2
+- TypeScript v4 ➡️ v5
+- Prism-React-Renderer v1 ➡️ v2
+- React-live v2 ➡️ v4
+- Mermaid v9 ➡️ v10
+- import-fresh v3 ➡️ jiti v1
+
+A typical `package.json` dependency upgrade looks like:
+
+```diff title="package.json"
+ {
+   "dependencies": {
+     // upgrade to Docusaurus v3
+-    "@docusaurus/core": "2.4.3",
+-    "@docusaurus/preset-classic": "2.4.3",
++    "@docusaurus/core": "3.0.0",
++    "@docusaurus/preset-classic": "3.0.0",
+     // upgrade to MDX v2
+-    "@mdx-js/react": "^1.6.22",
++    "@mdx-js/react": "^2.3.0",
+     // upgrade to prism-react-renderer v2.0+
+-    "prism-react-renderer": "^1.3.5",
++    "prism-react-renderer": "^2.1.0",
+     // upgrade to React v18.0+
+-    "react": "^17.0.2",
+-    "react-dom": "^17.0.2"
++    "react": "^18.2.0",
++    "react-dom": "^18.2.0"
+   },
+   "devDependencies": {
+     // upgrade Docusaurus dev dependencies to v3
+-    "@docusaurus/module-type-aliases": "2.4.3"
+-    "@docusaurus/types": "2.4.3"
++    "@docusaurus/module-type-aliases": "3.0.0"
++    "@docusaurus/types": "3.0.0"
+   }
+   "engines": {
+     // require Node.js 18.0+
+-    "node": ">=16.14"
++    "node": ">=18.0"
+   }
+ }
+```
+
+Apart MDX v2, most breaking changes coming with those upgraded dependencies have been handled internally for you: most of the time, you shouldn't have to do anything. Outside dependencies, the only functional breaking changes coming explicitly from the Docusaurus codebase are:
+
+- [#9189](https://github.com/facebook/docusaurus/pull/9189): new default blog RSS feed limit of 20 entries
+- [#9308](https://github.com/facebook/docusaurus/pull/9308): fix and re-introduce the `:::warning` admonition, deprecate `:::caution`
+- [#9310](https://github.com/facebook/docusaurus/pull/9310): remove the legacy versioned sidebar id prefix, used for sites versioned before `v2.0.0-beta.10` (December 2021)
+- [#7966](https://github.com/facebook/docusaurus/pull/7966): refactor docs theme components, eventually requiring to you re-swizzle them
+
+:::warning MDX v2 - the main challenge
+
+The [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/) is the main challenge to the adoption of this new version of Docusaurus. Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3, and other documents might **render differently**.
+
+**Don't be intimidated**, most MDX compilation issues are **easy to fix** and very often related to `{` and `<` characters that you now need to escape. However, depending on the size of your site, you might need to edit many of your existing documents and feel a bit overwhelmed. For this reason we provide a command `npx docusaurus-mdx-checker` to help you get an estimate of the work to be done, and we recommend to [prepare your site in advance](/blog/preparing-your-site-for-docusaurus-v3).
+
+:::
