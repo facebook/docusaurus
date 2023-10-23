@@ -22,7 +22,51 @@ import type {
 // import type {Plugin} from 'unified';
 type Plugin = any; // TODO fix this asap
 
-const directiveTypes = ['containerDirective', 'leafDirective', 'textDirective'];
+type DirectiveType = Directive['type'];
+
+const directiveTypes: DirectiveType[] = [
+  'containerDirective',
+  'leafDirective',
+  'textDirective',
+];
+
+function formatUnusedDirectiveMessage(unusedDirective: Directive) {
+  let customDirectiveName = unusedDirective.name;
+
+  if (unusedDirective.type === 'containerDirective') {
+    customDirectiveName = `:::${unusedDirective.name}`;
+  } else if (unusedDirective.type === 'leafDirective') {
+    customDirectiveName = `::${unusedDirective.name}`;
+  } else if (unusedDirective.type === 'textDirective') {
+    customDirectiveName = `:${unusedDirective.name}`;
+  }
+
+  const positionMessage = unusedDirective.position?.start
+    ? logger.interpolate`number=${unusedDirective.position.start.line}:number=${unusedDirective.position.start.column}`
+    : '';
+
+  return `- ${positionMessage} ${customDirectiveName} `;
+}
+
+function formatUnusedDirectivesMessage({
+  unusedDirectives,
+  filePath,
+}: {
+  unusedDirectives: Directive[];
+  filePath: string;
+}): string {
+  const supportUrl = 'https://github.com/facebook/docusaurus/pull/9394';
+  const customPath = posixPath(path.relative(process.cwd(), filePath));
+  const warningTitle = logger.interpolate`Docusaurus found ${unusedDirectives.length} unused Markdown directives in file path=${customPath}`;
+  const customSupportUrl = logger.interpolate`url=${supportUrl}`;
+  const warningMessages = unusedDirectives
+    .map(formatUnusedDirectiveMessage)
+    .join('\n');
+
+  return `${warningTitle}
+${warningMessages}
+Your content might render in an unexpected way. Visit ${customSupportUrl} to find out why and how to fix it.`;
+}
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
   return (tree, file) => {
@@ -33,61 +77,22 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
       return;
     }
 
-    const unusedDirectives: Array<{
-      name: string;
-      type: string;
-      position:
-        | {
-            line: number;
-            column: number;
-          }
-        | undefined;
-    }> = [];
+    const unusedDirectives: Directive[] = [];
 
-    visit<Parent>(tree, directiveTypes, (node: Directive) => {
-      if (!node.data) {
-        unusedDirectives.push({
-          name: node.name,
-          type: node.type,
-          position: node.position
-            ? {
-                line: node.position.start.line,
-                column: node.position.start.column,
-              }
-            : undefined,
-        });
+    visit<Parent>(tree, directiveTypes, (directive: Directive) => {
+      // If directive data is set (notably hName/hProperties set by admonitions)
+      // this usually means the directive has been handled by another plugin
+      if (!directive.data) {
+        unusedDirectives.push(directive);
       }
     });
 
     if (unusedDirectives.length > 0) {
-      const supportUrl = 'https://github.com/facebook/docusaurus/pull/9394';
-      const customPath = posixPath(path.relative(process.cwd(), file.path));
-      const warningTitle = logger.interpolate`Docusaurus found ${unusedDirectives.length} unused Markdown directives in file path=${customPath}`;
-      const customSupportUrl = logger.interpolate`url=${supportUrl}`;
-
-      const warningMessages = unusedDirectives
-        .map((unusedDirective) => {
-          let customDirectiveName = unusedDirective.name;
-
-          if (unusedDirective.type === 'containerDirective') {
-            customDirectiveName = `:::${unusedDirective.name}`;
-          } else if (unusedDirective.type === 'leafDirective') {
-            customDirectiveName = `::${unusedDirective.name}`;
-          } else if (unusedDirective.type === 'textDirective') {
-            customDirectiveName = `:${unusedDirective.name}`;
-          }
-
-          const positionMessage = unusedDirective.position
-            ? logger.interpolate`number=${unusedDirective.position.line}:number=${unusedDirective.position.column}`
-            : '';
-
-          return `- ${positionMessage} ${customDirectiveName} `;
-        })
-        .join('\n');
-
-      logger.warn(`${warningTitle}
-${warningMessages}
-Your content might render in an unexpected way. Visit ${customSupportUrl} to find out why and how to fix it.`);
+      const message = formatUnusedDirectivesMessage({
+        unusedDirectives,
+        filePath: file.path,
+      });
+      logger.warn(message);
     }
   };
 };
