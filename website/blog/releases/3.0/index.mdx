@@ -25,6 +25,8 @@ The simplest sites will only need to upgrade a few npm dependencies. For more co
 
 {/* truncate */}
 
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+
 ## Breaking changes
 
 This section only gives you a quick glance. All the breaking changes are thoroughly documented on the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3).
@@ -142,9 +144,9 @@ export default sidebars;
 
 In [#8288](https://github.com/facebook/docusaurus/pull/8288) upgraded to [MDX v2](https://mdxjs.com/blog/v2/). This new version is a much better for content writers and plugin authors, and lays the ground to implement new exciting Markdown features.
 
-This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** ([some features will not work](https://github.com/facebook/docusaurus/issues/9092)), but the plan is to interpret `.md` files as CommonMark
+This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** and limited ([some Docusaurus features will not work](https://github.com/facebook/docusaurus/issues/9092)). In Docusaurus v3, all files are still interpreted as MDX, but we plan to interpret `.md` files as CommonMark in an upcoming major version, and recommend to use the `.mdx` extension for any file using JSX and ES modules.
 
-We also introduced a new way to [configure Markdown globally for your site](/docs/3.0.0-rc.0/api/docusaurus-config#markdown), and plan to add more options later.
+We also introduced a new way to [configure Markdown globally for your site](/docs/3.0.0-rc.0/api/docusaurus-config#markdown), and plan to add more flexible options later.
 
 ```js title="docusaurus.config.js"
 export default {
@@ -163,7 +165,7 @@ export default {
 };
 ```
 
-Docusaurus now uses the [remark-directive](https://github.com/remarkjs/remark-directive) plugin to support admonition. This also offers you the ability to implement your own Remark plugins to extend Markdown with your own [custom directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) such as `:textDirective`, `::leafDirective` or `:::containerDirective`.
+Docusaurus now uses the [remark-directive](https://github.com/remarkjs/remark-directive) plugin to support admonition. This also offers you the ability to create your own Remark plugins to extend Markdown with your own [custom directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) such as `:textDirective`, `::leafDirective` or `:::containerDirective`.
 
 ### Unlisted content
 
@@ -175,13 +177,13 @@ Unlisted content will:
 
 - be excluded from `sitemap.xml`
 - be excluded from SEO results thanks to `<meta name="robots" content="noindex, nofollow" />`
-- be excluded from RSS feeds
+- be excluded from blog RSS feeds
 - be excluded from Algolia DocSearch results
-- be filtered from site navbar, docs sidebars, blog sidebar, blog archives, tags pages
+- be filtered from site navbar items, docs sidebars, blog sidebar, blog archives, tags pages...
 
-Unlisted content will also display a banner so that you don't forget to turn it off once your content is ready for prime time. Here's an example of an [unlisted blog post](/tests/blog/unlisted-post)
+Unlisted content will also display a banner so that you don't forget to turn it off once your content is ready for prime time. Here's an example of an [unlisted blog post](/tests/blog/unlisted-post):
 
-[![Unlisted blog post showing an unlisted warning banner](./img/unlisted-blog.png)](/tests/blog/unlisted-post)
+<IframeWindow url="/tests/blog/unlisted-post" />
 
 ### React 18
 
