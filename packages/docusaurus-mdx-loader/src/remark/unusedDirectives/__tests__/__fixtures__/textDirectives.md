@@ -10,6 +10,8 @@ Simple:textDirective3[label]
 
 Simple:textDirective4{age=42}
 
+Simple:textDirective5
+
 ```sh
 Simple:textDirective1
 ```

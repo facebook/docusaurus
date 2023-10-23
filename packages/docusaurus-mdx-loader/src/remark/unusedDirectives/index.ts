@@ -57,7 +57,7 @@ function formatUnusedDirectiveMessage(directive: Directive) {
   const name = formatDirectiveName(directive);
   const position = formatDirectivePosition(directive);
 
-  return `- ${position ?? ''} ${name} `;
+  return `- ${name} ${position ? `(${position})` : ''}`;
 }
 
 function formatUnusedDirectivesMessage({
