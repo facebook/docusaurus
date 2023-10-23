@@ -13,6 +13,7 @@ import {posixPath} from '@docusaurus/utils';
 import type {Transformer, Processor, Parent} from 'unified';
 import type {
   Directive,
+  TextDirective,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-directive';
 
@@ -30,7 +31,7 @@ const directiveTypes: DirectiveType[] = [
   'textDirective',
 ];
 
-const directivePrefixMap: { [key: DirectiveType]: string } = {
+const directivePrefixMap: {[key: DirectiveType]: string} = {
   textDirective: ':',
   leafDirective: '::',
   containerDirective: ':::',
@@ -80,6 +81,24 @@ ${warningMessages}
 Your content might render in an unexpected way. Visit ${customSupportUrl} to find out why and how to fix it.`;
 }
 
+function isTextDirective(directive: Directive): directive is TextDirective {
+  return directive.type === 'textDirective';
+}
+
+// A simple text directive is one without any label/props
+function isSimpleTextDirective(
+  directive: Directive,
+): directive is TextDirective {
+  if (isTextDirective(directive)) {
+    // Attributes in MDAST = Directive props
+    const hasAttributes = Object.keys(directive.attributes ?? {}).length > 0;
+    // Children in MDAST = Directive label
+    const hasChildren = directive.children.length > 0;
+    return hasAttributes || hasChildren;
+  }
+  return false;
+}
+
 const plugin: Plugin = function plugin(this: Processor): Transformer {
   return (tree, file) => {
     // We only enable these warnings for the client compiler
@@ -95,7 +114,12 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
       // If directive data is set (notably hName/hProperties set by admonitions)
       // this usually means the directive has been handled by another plugin
       if (!directive.data) {
-        unusedDirectives.push(directive);
+        if (isSimpleTextDirective(directive)) {
+          // TODO !
+          unusedDirectives.push(directive);
+        } else {
+          unusedDirectives.push(directive);
+        }
       }
     });
 

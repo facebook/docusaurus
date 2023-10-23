@@ -1,7 +1,7 @@
 Simple: textDirective1
 
 ```sh
-Simple: textDirective1
+Simple: textDirectiveCode
 ```
 
 Simple:textDirective2
@@ -13,5 +13,5 @@ Simple:textDirective4{age=42}
 Simple:textDirective5
 
 ```sh
-Simple:textDirective1
+Simple:textDirectiveCode
 ```

@@ -50,13 +50,13 @@ Your content might render in an unexpected way. Visit https://github.com/faceboo
 
 exports[`directives remark plugin - client compiler default behavior for text directives: result 1`] = `
 "<p>Simple: textDirective1</p>
-<pre><code class="language-sh">Simple: textDirective1
+<pre><code class="language-sh">Simple: textDirectiveCode
 </code></pre>
 <p>Simple<div></div></p>
 <p>Simple<div>label</div></p>
 <p>Simple<div></div></p>
 <p>Simple<div></div></p>
-<pre><code class="language-sh">Simple:textDirective1
+<pre><code class="language-sh">Simple:textDirectiveCode
 </code></pre>"
 `;
 
@@ -77,12 +77,12 @@ exports[`directives remark plugin - server compiler default behavior for leaf di
 
 exports[`directives remark plugin - server compiler default behavior for text directives: result 1`] = `
 "<p>Simple: textDirective1</p>
-<pre><code class="language-sh">Simple: textDirective1
+<pre><code class="language-sh">Simple: textDirectiveCode
 </code></pre>
 <p>Simple<div></div></p>
 <p>Simple<div>label</div></p>
 <p>Simple<div></div></p>
 <p>Simple<div></div></p>
-<pre><code class="language-sh">Simple:textDirective1
+<pre><code class="language-sh">Simple:textDirectiveCode
 </code></pre>"
 `;
