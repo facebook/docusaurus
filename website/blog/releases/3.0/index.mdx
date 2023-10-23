@@ -8,7 +8,7 @@ date: 2023-10-25
 unlisted: true
 ---
 
-Today we are extremely happy to finally **announce Docusaurus 3.0**! 🥳
+Today we are happy to **announce Docusaurus 3.0**! 🥳
 
 This is a new **major version** of Docusaurus, coming with **new exciting features** and upgraded dependencies.
 
@@ -86,6 +86,14 @@ Apart MDX v2, most breaking changes coming with those upgraded dependencies have
 - [#9310](https://github.com/facebook/docusaurus/pull/9310): remove the legacy versioned sidebar id prefix, used for sites versioned before `v2.0.0-beta.10` (December 2021)
 - [#7966](https://github.com/facebook/docusaurus/pull/7966): refactor docs theme components, eventually requiring to you re-swizzle them
 
+## Highlights
+
+A non-exhaustive list of new useful features coming with this new version. All the features are listed in the [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0).
+
+### Markdown
+
+In [#8288](https://github.com/facebook/docusaurus/pull/8288), we upgraded to [**MDX v2**](https://mdxjs.com/blog/v2/). This new version is a **much better for content writers and plugin authors**, and lays the ground to implement new exciting Markdown features.
+
 :::warning MDX v2 - the main challenge
 
 The [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/) is the main upgrade challenge. Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3, while others might **render differently**.
@@ -96,9 +104,28 @@ If you created custom [MDX plugins](/docs/markdown-features/plugins) (Remark/Reh
 
 :::
 
-## Highlights
+This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** and limited ([some Docusaurus features will not work](https://github.com/facebook/docusaurus/issues/9092)). In Docusaurus v3, all files are still interpreted as MDX, but we plan to interpret `.md` files as CommonMark in an upcoming major version, and recommend to use the `.mdx` extension for any file using JSX and ES modules.
 
-A non-exhaustive list of new useful features coming with this new version. All the features are listed in the [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0).
+We also introduced a new way to [configure Markdown globally for your site](/docs/3.0.0-rc.0/api/docusaurus-config#markdown), and plan to add more flexible options later.
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    format: 'mdx',
+    mermaid: true,
+    preprocessor: ({filePath, fileContent}) => {
+      return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+    },
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
+  },
+};
+```
+
+Docusaurus now uses the [remark-directive](https://github.com/remarkjs/remark-directive) plugin to support admonitions. This also offers you the ability to create your own Remark plugins to extend Markdown with your own [custom directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) such as `:textDirective`, `::leafDirective` or `:::containerDirective`.
 
 ### ESM and TypeScript configs {#esm-ts-configs}
 
@@ -139,33 +166,6 @@ const sidebars: SidebarsConfig = {
 
 export default sidebars;
 ```
-
-### Markdown
-
-In [#8288](https://github.com/facebook/docusaurus/pull/8288), we upgraded to [MDX v2](https://mdxjs.com/blog/v2/). This new version is a much better for content writers and plugin authors, and lays the ground to implement new exciting Markdown features.
-
-This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** and limited ([some Docusaurus features will not work](https://github.com/facebook/docusaurus/issues/9092)). In Docusaurus v3, all files are still interpreted as MDX, but we plan to interpret `.md` files as CommonMark in an upcoming major version, and recommend to use the `.mdx` extension for any file using JSX and ES modules.
-
-We also introduced a new way to [configure Markdown globally for your site](/docs/3.0.0-rc.0/api/docusaurus-config#markdown), and plan to add more flexible options later.
-
-```js title="docusaurus.config.js"
-export default {
-  markdown: {
-    format: 'mdx',
-    mermaid: true,
-    preprocessor: ({filePath, fileContent}) => {
-      return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
-    },
-    mdx1Compat: {
-      comments: true,
-      admonitions: true,
-      headingIds: true,
-    },
-  },
-};
-```
-
-Docusaurus now uses the [remark-directive](https://github.com/remarkjs/remark-directive) plugin to support admonition. This also offers you the ability to create your own Remark plugins to extend Markdown with your own [custom directives](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) such as `:textDirective`, `::leafDirective` or `:::containerDirective`.
 
 ### Unlisted content
 
@@ -229,7 +229,7 @@ docusaurus build --dev
 
 Docusaurus will log more errors to the console, notably React 18 hydration errors through the new [`onRecoverableError callback](https://react.dev/reference/react-dom/client/hydrateRoot#parameters).
 
-This new build mode is particularly helpful to troubleshot React problems. Docusaurus will use the development build of React, including long, readable error messages instead of minified ones linking to the [React Error Decoder page](https://reactjs.org/docs/error-decoder.html/).
+This new build mode is particularly helpful to **troubleshot React problems**. Docusaurus will use the development build of React, including long, readable error messages instead of minified ones linking to the [React Error Decoder page](https://reactjs.org/docs/error-decoder.html/).
 
 :::
 
@@ -237,7 +237,7 @@ This new build mode is particularly helpful to troubleshot React problems. Docus
 
 Docusaurus v3 now requires a minimum version of TypeScript 5.0.
 
-We also re-internalized the base recommended TypeScript config to a new official package:
+We re-internalized the base recommended TypeScript config to a new official package:
 
 ```diff title="tsconfig.json"
  {
@@ -259,7 +259,7 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 ### Code blocks
 
-In [#9316](https://github.com/facebook/docusaurus/pull/9316), Docusaurus improves on syntax highlighting thanks the [prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer) v2 upgrade. For example, a bash param `--save` is now colored:
+In [#9316](https://github.com/facebook/docusaurus/pull/9316), we improved on syntax highlighting thanks the [prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer) v2 upgrade. For example, a bash param `--save` is now colored:
 
 ```bash
 npm install --save some-package
@@ -364,3 +364,11 @@ Other new features worth mentioning:
 - [#8384](https://github.com/facebook/docusaurus/pull/8384): new ESLint rule [`prefer-docusaurus-heading`](/docs/3.0.0-rc.0/api/misc/@docusaurus/eslint-plugin/prefer-docusaurus-heading)
 
 Read [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0) for an exhaustive list of changes.
+
+## Conclusion
+
+This release comes with a few features, but more importantly **upgrades many pieces of the Docusaurus infrastructure**.
+
+The adoption of MDX v2 consumed a lot of our time this year, notably because we worked hard to make this important upgrade less difficult for all of you.
+
+Now that we've caught up with our infrastructure, we'll be back **delivering useful documentation features** very soon, in upcoming minor versions.
