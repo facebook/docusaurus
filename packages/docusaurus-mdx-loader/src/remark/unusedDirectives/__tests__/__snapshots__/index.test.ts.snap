@@ -1,60 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`directives remark plugin - client compiler default behavior for container directives 1`] = `
-"<admonition type="danger"><p>Take care of snowstorms...</p></admonition>
-<div><p>unused directive content</p></div>
-<p>:::NotAContainerDirective with a phrase after</p>
-<p>:::</p>
-<p>Phrase before :::NotAContainerDirective</p>
-<p>:::</p>"
-`;
-
-exports[`directives remark plugin - client compiler default behavior for container directives 2`] = `
+exports[`directives remark plugin - client compiler default behavior for container directives: console 1`] = `
 [
   [
-    "[WARNING] Docusaurus found 1 unused Markdown directives in file packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/containerDirectives.md
+    "[WARNING] Docusaurus found 1 unused Markdown directives in file "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/containerDirectives.md"
 - 7:1 :::unusedDirective 
 Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
   ],
 ]
 `;
 
-exports[`directives remark plugin - client compiler default behavior for leaf directives 1`] = `
-"<div></div>
-<p>Leaf directive in a phrase ::NotALeafDirective</p>
-<p>::NotALeafDirective with a phrase after</p>"
-`;
-
-exports[`directives remark plugin - client compiler default behavior for leaf directives 2`] = `
-[
-  [
-    "[WARNING] Docusaurus found 1 unused Markdown directives in file packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/leafDirectives.md
-- 1:1 ::unusedLeafDirective 
-Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
-  ],
-]
-`;
-
-exports[`directives remark plugin - client compiler default behavior for text directives 1`] = `
-"<p>Simple: textDirective1</p>
-<pre><code class="language-sh">Simple: textDirective1
-</code></pre>
-<p>Simple<div></div></p>
-<pre><code class="language-sh">Simple:textDirective1
-</code></pre>"
-`;
-
-exports[`directives remark plugin - client compiler default behavior for text directives 2`] = `
-[
-  [
-    "[WARNING] Docusaurus found 1 unused Markdown directives in file packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/textDirectives.md
-- 7:7 :textDirective2 
-Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
-  ],
-]
-`;
-
-exports[`directives remark plugin - server compiler default behavior for container directives 1`] = `
+exports[`directives remark plugin - client compiler default behavior for container directives: result 1`] = `
 "<admonition type="danger"><p>Take care of snowstorms...</p></admonition>
 <div><p>unused directive content</p></div>
 <p>:::NotAContainerDirective with a phrase after</p>
@@ -63,16 +19,66 @@ exports[`directives remark plugin - server compiler default behavior for contain
 <p>:::</p>"
 `;
 
-exports[`directives remark plugin - server compiler default behavior for leaf directives 1`] = `
+exports[`directives remark plugin - client compiler default behavior for leaf directives: console 1`] = `
+[
+  [
+    "[WARNING] Docusaurus found 1 unused Markdown directives in file "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/leafDirectives.md"
+- 1:1 ::unusedLeafDirective 
+Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
+  ],
+]
+`;
+
+exports[`directives remark plugin - client compiler default behavior for leaf directives: result 1`] = `
 "<div></div>
 <p>Leaf directive in a phrase ::NotALeafDirective</p>
 <p>::NotALeafDirective with a phrase after</p>"
 `;
 
-exports[`directives remark plugin - server compiler default behavior for text directives 1`] = `
+exports[`directives remark plugin - client compiler default behavior for text directives: console 1`] = `
+[
+  [
+    "[WARNING] Docusaurus found 3 unused Markdown directives in file "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/textDirectives.md"
+- 7:7 :textDirective2 
+- 9:7 :textDirective3 
+- 11:7 :textDirective4 
+Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
+  ],
+]
+`;
+
+exports[`directives remark plugin - client compiler default behavior for text directives: result 1`] = `
 "<p>Simple: textDirective1</p>
 <pre><code class="language-sh">Simple: textDirective1
 </code></pre>
+<p>Simple<div></div></p>
+<p>Simple<div>label</div></p>
+<p>Simple<div></div></p>
+<pre><code class="language-sh">Simple:textDirective1
+</code></pre>"
+`;
+
+exports[`directives remark plugin - server compiler default behavior for container directives: result 1`] = `
+"<admonition type="danger"><p>Take care of snowstorms...</p></admonition>
+<div><p>unused directive content</p></div>
+<p>:::NotAContainerDirective with a phrase after</p>
+<p>:::</p>
+<p>Phrase before :::NotAContainerDirective</p>
+<p>:::</p>"
+`;
+
+exports[`directives remark plugin - server compiler default behavior for leaf directives: result 1`] = `
+"<div></div>
+<p>Leaf directive in a phrase ::NotALeafDirective</p>
+<p>::NotALeafDirective with a phrase after</p>"
+`;
+
+exports[`directives remark plugin - server compiler default behavior for text directives: result 1`] = `
+"<p>Simple: textDirective1</p>
+<pre><code class="language-sh">Simple: textDirective1
+</code></pre>
+<p>Simple<div></div></p>
+<p>Simple<div>label</div></p>
 <p>Simple<div></div></p>
 <pre><code class="language-sh">Simple:textDirective1
 </code></pre>"

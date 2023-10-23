@@ -43,23 +43,23 @@ describe('directives remark plugin - client compiler', () => {
 
   it('default behavior for container directives', async () => {
     const result = await processFixture('containerDirectives', options);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(consoleMock.mock.calls).toMatchSnapshot('console');
   });
 
   it('default behavior for leaf directives', async () => {
     const result = await processFixture('leafDirectives', options);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(consoleMock.mock.calls).toMatchSnapshot('console');
   });
 
   it('default behavior for text directives', async () => {
     const result = await processFixture('textDirectives', options);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(consoleMock.mock.calls).toMatchSnapshot('console');
   });
 });
 
@@ -71,19 +71,19 @@ describe('directives remark plugin - server compiler', () => {
 
   it('default behavior for container directives', async () => {
     const result = await processFixture('containerDirectives', options);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 
   it('default behavior for leaf directives', async () => {
     const result = await processFixture('leafDirectives', options);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 
   it('default behavior for text directives', async () => {
     const result = await processFixture('textDirectives', options);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 });
