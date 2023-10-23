@@ -199,6 +199,7 @@ metrika
 microdata
 microlink
 middlewares
+mindmap
 minifier
 mkcert
 mkdir

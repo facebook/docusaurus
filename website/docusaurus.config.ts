@@ -480,6 +480,8 @@ export default async function createConfigAsync() {
         additionalLanguages: [
           'java',
           'latex',
+          'haskell',
+          'matlab',
           'PHp',
           'bash',
           'diff',

@@ -100,9 +100,9 @@ If you created custom [MDX plugins](/docs/markdown-features/plugins) (Remark/Reh
 
 A non-exhaustive list of new useful features coming with this new version. All the features are listed in the [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0).
 
-### ESM and TypeScript configs
+### ESM and TypeScript configs {#esm-ts-configs}
 
-In [#9317](https://github.com/facebook/docusaurus/pull/9317), Docusaurus v3 added support for ES Modules and TypeScript config files, including site config, docs sidebars, plugins and presets.
+In [#9317](https://github.com/facebook/docusaurus/pull/9317), we added support for ES Modules and TypeScript config files, including site config, docs sidebars, plugins and presets.
 
 Here are 2 TypeScript examples, giving you a modern experience with IDE autocompletion:
 
@@ -140,9 +140,9 @@ const sidebars: SidebarsConfig = {
 export default sidebars;
 ```
 
-### Markdown improvements
+### Markdown
 
-In [#8288](https://github.com/facebook/docusaurus/pull/8288) upgraded to [MDX v2](https://mdxjs.com/blog/v2/). This new version is a much better for content writers and plugin authors, and lays the ground to implement new exciting Markdown features.
+In [#8288](https://github.com/facebook/docusaurus/pull/8288), we upgraded to [MDX v2](https://mdxjs.com/blog/v2/). This new version is a much better for content writers and plugin authors, and lays the ground to implement new exciting Markdown features.
 
 This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** and limited ([some Docusaurus features will not work](https://github.com/facebook/docusaurus/issues/9092)). In Docusaurus v3, all files are still interpreted as MDX, but we plan to interpret `.md` files as CommonMark in an upcoming major version, and recommend to use the `.mdx` extension for any file using JSX and ES modules.
 
@@ -187,41 +187,180 @@ Unlisted content will also display a banner so that you don't forget to turn it 
 
 ### React 18
 
-#8961 feat: React 18 + automatic JSX runtime + build --dev
+In [#8961](https://github.com/facebook/docusaurus/pull/8961), we upgraded to React 18. This is important, notably for the [gradual adoption of Concurrent React features](https://react.dev/blog/2022/03/29/react-v18#gradually-adopting-concurrent-features), as well as upcoming exciting features such as [build-time React Server Components](https://github.com/facebook/docusaurus/issues/9089).
 
-perf(core): use React 18 startTransition for hydration
+This new version of React should be a drop-in replacement for most Docusaurus sites. It comes with breaking changes that we handled internally in the Docusaurus codebase. If your site is using a lot of custom React code, we recommend you to take a look at the official [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), notably the new [automatic batching](https://react.dev/blog/2022/03/08/react-18-upgrade-guide#automatic-batching) behavior.
 
-- batching
-- automatic JSX runtime
-- warning experimental suspense / lazy / startTransition
-- `docusaurus build --dev`: get clear error messages in dev, notably from React
+:::danger Experimental support for React 18 features
+
+React 18 comes with new features:
+
+- `<Suspense>`
+- `React.lazy()`
+- `startTransition()`
+
+Their Docusaurus support is considered as **experimental**. We might have to adjust the integration in the future, leading to a different runtime behavior.
+
+:::
+
+### Automatic JSX runtime
+
+Docusaurus now uses the ["automatic" JSX runtime](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+
+It is not needed anymore to import React in JSX files that do not use any React API.
+
+```diff title="src/components/MyComponent.js"
+- import React from 'react';
+
+  export default function MyComponent() {
+    return <div>Hello</div>;
+  }
+```
+
+### Debug builds
+
+It is now possible to build your static site in dev mode.
+
+```bash
+docusaurus build --dev
+```
+
+:::tip Debug React-related problems
+
+Docusaurus will log more errors to the console, notably React 18 hydration errors through the new [`onRecoverableError callback](https://react.dev/reference/react-dom/client/hydrateRoot#parameters).
+
+This new build mode is particularly helpful to troubleshot React problems. Docusaurus will use the development build of React, including long, readable error messages instead of minified ones linking to the [React Error Decoder page](https://reactjs.org/docs/error-decoder.html/).
+
+:::
 
 ### TypeScript
 
-#9317 feat(core): support TypeScript + ESM configuration
+Docusaurus v3 now requires a minimum version of TypeScript 5.0.
 
-#9258 feat: Docusaurus v3 upgrades and require TypeScript 5
+We also re-internalized the base recommended TypeScript config to a new official package:
 
-#9050 feat: create official TypeScript base config @docusaurus/tsconfig
+```diff title="tsconfig.json"
+ {
+-  "extends": "@tsconfig/docusaurus/tsconfig.json",
++  "extends": "@docusaurus/tsconfig",
+   "compilerOptions": {
+     "baseUrl": "."
+   }
+ }
+```
 
-### Syntax highlighting
+We also have cleaner, normalized exports for Docusaurus core type, plugin and preset options, that you can use within the brand-new [TypeScript config files](#esm-ts-configs)
 
-#9316 chore: upgrade syntax highlighting dependencies, prism-react-renderer to v2, react-live to v4
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+import type {Options, ThemeConfig} from '@docusaurus/preset-classic';
+import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+```
 
-#8982 feat(theme-common): code block MagicComments support for TeX/LaTeX/Matlab
+### Code blocks
 
-#8870 feat(theme-common): code block MagicComments support for Lua/Haskell -- and WebAssembly ;;
+In [#9316](https://github.com/facebook/docusaurus/pull/9316), Docusaurus improves on syntax highlighting thanks the [prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer) v2 upgrade. For example, a bash param `--save` is now colored:
+
+```bash
+npm install --save some-package
+```
+
+The [interactive code editor](/docs/3.0.0-rc.0/markdown-features/code-blocks#interactive-code-editor) also upgrades to [react-live](https://github.com/FormidableLabs/react-live) v4, coming with a new [sucrase](https://github.com/alangpierce/sucrase) compiler. It is faster, lighter and supports modern features, notably TypeScript type annotations.
+
+```js live
+function Hello() {
+  const name: string = 'World';
+  return <div>Hello {name}</div>;
+}
+```
+
+In [#8982](https://github.com/facebook/docusaurus/pull/8982) and [#8870](https://github.com/facebook/docusaurus/pull/8870), we also added [Magic Comments](docs/3.0.0-rc.0/markdown-features/code-blocks#custom-magic-comments) support for TeX, LaTeX, Matlab, Lua, Haskell and WebAssembly.
+
+```haskell title="haskell.hs"
+stringLength :: String -> Int
+-- highlight-next-line
+stringLength [] = 0
+stringLength (x:xs) = 1 + stringLength xs
+```
+
+```matlab title="matlab.m"
+% highlight-start
+function result = times2(n)
+  result = n * 2;
+end
+% highlight-end
+x = 10;
+% highlight-next-line
+y = times2(x);
+```
 
 ### Mermaid diagrams
 
-#9305 feat(theme-mermaid): upgrade Mermaid to v10.4 - handle async rendering
+In [#9305](https://github.com/facebook/docusaurus/pull/9305), we upgraded to Mermaid v10.4 and added support for async diagram rendering. Docusaurus is now able to render new types of diagrams.
 
-### Other
+<details>
+  <summary>Mindmap</summary>
 
-#9028 feat(theme): add ability to inject data attributes from query-string - possibility to create an iframe/embed variant of a page
+```mermaid
+mindmap
+  root((mindmap))
+    Research
+      Creative techniques
+      Strategic planning
+      Argument mapping
+    Tools
+      Pen and paper
+      Mermaid
+```
 
-#9171 feat(client-redirects-plugin): support fully qualified urls and querystring/hash in destination/to url
+</details>
 
-#8156 feat: add eslint plugin no-html-links
+<details>
+  <summary>Quadrant chart</summary>
 
-- #8384 feat(eslint-plugin): new prefer-docusaurus-heading rule
+```mermaid
+quadrantChart
+  title Reach and engagement of campaigns
+  x-axis Low Reach --> High Reach
+  y-axis Low Engagement --> High Engagement
+  quadrant-1 We should expand
+  quadrant-2 Need to promote
+  quadrant-3 Re-evaluate
+  quadrant-4 May be improved
+  Campaign A: [0.3, 0.6]
+  Campaign B: [0.45, 0.23]
+  Campaign C: [0.57, 0.69]
+  Campaign D: [0.78, 0.34]
+  Campaign E: [0.40, 0.34]
+  Campaign F: [0.35, 0.78]
+```
+
+</details>
+
+### Query-string data attributes
+
+In [#9028](https://github.com/facebook/docusaurus/pull/9028), we made it possible to set custom html [data attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) though `docusaurus-data-x` query-string parameters. This makes it easier to embed a Docusaurus iframe on another site, and lets you customize the appearance of the embedded version with CSS.
+
+```css title="/src/css/custom.css"
+html[data-navbar='false'] .navbar {
+  display: none;
+}
+
+html[data-red-border] div#__docusaurus {
+  border: red solid thick;
+}
+```
+
+<IframeWindow url="/docs/?docusaurus-data-navbar=false&docusaurus-data-red-border" />
+
+### Other features
+
+Other new features worth mentioning:
+
+- [#9189](https://github.com/facebook/docusaurus/pull/9189): new blog `feedOptions.limit` option
+- [#9071](https://github.com/facebook/docusaurus/pull/9071): add normalized SEO front matter support for the pages plugin
+- [#9171](https://github.com/facebook/docusaurus/pull/9028): the client-redirects plugin now supports fully qualified urls and query-string/hash in destination url
+- [#9171](https://github.com/facebook/docusaurus/pull/9171): new ESLint rule [`no-html-links`](/docs/3.0.0-rc.0/api/misc/@docusaurus/eslint-plugin/no-html-links)
+- [#8384](https://github.com/facebook/docusaurus/pull/8384): new ESLint rule [`prefer-docusaurus-heading`](/docs/3.0.0-rc.0/api/misc/@docusaurus/eslint-plugin/prefer-docusaurus-heading)
+
+Read [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0) for an exhaustive list of changes.
