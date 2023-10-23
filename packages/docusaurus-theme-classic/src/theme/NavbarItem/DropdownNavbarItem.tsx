@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {KeyboardEventHandler} from 'react';
 import React, {useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
 import {
@@ -13,12 +14,14 @@ import {
   Collapsible,
 } from '@docusaurus/theme-common';
 import {isSamePath, useLocalPathname} from '@docusaurus/theme-common/internal';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import NavbarItem, {type LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DropdownNavbarItem';
+import styles from './styles.module.css';
 
 function isItemActive(
   item: LinkLikeNavbarItemProps,
@@ -51,7 +54,17 @@ function DropdownNavbarItemDesktop({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   const [showDropdown, setShowDropdown] = useState(false);
+  const isBrowser = useIsBrowser();
+
+  const onKeyDown: KeyboardEventHandler = (e) => {
+    if (e.key === 'Escape') {
+      setShowDropdown(false);
+      buttonRef.current?.focus();
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (
@@ -78,28 +91,27 @@ function DropdownNavbarItemDesktop({
   }, [dropdownRef]);
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       ref={dropdownRef}
-      className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
+      onMouseEnter={() => setShowDropdown(true)}
+      onMouseLeave={() => setShowDropdown(false)}
+      onKeyDown={onKeyDown}
+      className={clsx('navbar__item', 'dropdown', {
         'dropdown--right': position === 'right',
         'dropdown--show': showDropdown,
+        // When hydrated, handle hover state in JS
+        // It need to be kept in sync with the button onClick
+        'dropdown--hoverable': !isBrowser,
       })}>
-      <NavbarNavLink
-        aria-haspopup="true"
+      <button
+        type="button"
+        ref={buttonRef}
         aria-expanded={showDropdown}
-        role="button"
-        href={props.to ? undefined : '#'}
-        className={clsx('navbar__link', className)}
-        {...props}
-        onClick={props.to ? undefined : (e) => e.preventDefault()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            setShowDropdown(!showDropdown);
-          }
-        }}>
+        className={clsx(styles.dropdownButton, className)}
+        onClick={() => setShowDropdown(!showDropdown)}>
         {props.children ?? props.label}
-      </NavbarNavLink>
+      </button>
       <ul className="dropdown__menu">
         {items.map((childItemProps, i) => (
           <NavbarItem
