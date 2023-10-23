@@ -47,12 +47,17 @@ function formatDirectiveName(directive: Directive) {
   return `${prefix}${directive.name}`;
 }
 
-function formatUnusedDirectiveMessage(directive: Directive) {
-  const positionMessage = directive.position?.start
+function formatDirectivePosition(directive: Directive): string | undefined {
+  return directive.position?.start
     ? logger.interpolate`number=${directive.position.start.line}:number=${directive.position.start.column}`
     : undefined;
+}
 
-  return `- ${positionMessage} ${formatDirectiveName} `;
+function formatUnusedDirectiveMessage(directive: Directive) {
+  const name = formatDirectiveName(directive);
+  const position = formatDirectivePosition(directive);
+
+  return `- ${position ?? ''} ${name} `;
 }
 
 function formatUnusedDirectivesMessage({
