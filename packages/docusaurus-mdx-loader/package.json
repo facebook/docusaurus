@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-rc.0",
   "description": "Docusaurus Loader for MDX",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -20,9 +20,9 @@
   "dependencies": {
     "@babel/parser": "^7.22.7",
     "@babel/traverse": "^7.22.8",
-    "@docusaurus/logger": "3.0.0-beta.0",
-    "@docusaurus/utils": "3.0.0-beta.0",
-    "@docusaurus/utils-validation": "3.0.0-beta.0",
+    "@docusaurus/logger": "3.0.0-rc.0",
+    "@docusaurus/utils": "3.0.0-rc.0",
+    "@docusaurus/utils-validation": "3.0.0-rc.0",
     "@mdx-js/mdx": "^2.1.5",
     "@slorber/remark-comment": "^1.0.0",
     "escape-html": "^1.0.3",
@@ -35,8 +35,8 @@
     "mdast-util-to-string": "^3.2.0",
     "rehype-raw": "^6.1.1",
     "remark-directive": "^2.0.1",
-    "remark-frontmatter": "^5.0.0",
     "remark-emoji": "^2.2.0",
+    "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^3.0.1",
     "stringify-object": "^3.3.0",
     "tslib": "^2.6.0",
@@ -47,7 +47,7 @@
     "webpack": "^5.88.1"
   },
   "devDependencies": {
-    "@docusaurus/types": "3.0.0-beta.0",
+    "@docusaurus/types": "3.0.0-rc.0",
     "@types/escape-html": "^1.0.2",
     "@types/mdast": "^3.0.12",
     "@types/stringify-object": "^3.3.1",

@@ -104,6 +104,7 @@ export {
   type WebpackCompilerName,
 } from './webpackUtils';
 export {escapeShellArg} from './shellUtils';
+export {loadFreshModule} from './moduleUtils';
 export {
   getDataFilePath,
   getDataFileData,

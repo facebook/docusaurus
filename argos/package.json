@@ -1,6 +1,6 @@
 {
   "name": "argos",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-rc.0",
   "description": "Argos visual diff tests",
   "license": "MIT",
   "private": true,
@@ -10,8 +10,7 @@
     "report": "playwright show-report"
   },
   "dependencies": {
-    "@argos-ci/cli": "^0.4.6",
-    "@argos-ci/playwright": "^0.0.6",
+    "@argos-ci/playwright": "1.0.0-alpha.4",
     "@playwright/test": "^1.36.1",
     "cheerio": "^1.0.0-rc.12"
   }

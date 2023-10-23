@@ -157,17 +157,6 @@ async function copyTemplate(
 ): Promise<void> {
   await fs.copy(path.join(templatesDir, 'shared'), dest);
 
-  // TypeScript variants will copy duplicate resources like CSS & config from
-  // base template
-  if (typescript) {
-    await fs.copy(template.path, dest, {
-      filter: async (filePath) =>
-        (await fs.stat(filePath)).isDirectory() ||
-        path.extname(filePath) === '.css' ||
-        path.basename(filePath) === 'docusaurus.config.js',
-    });
-  }
-
   await fs.copy(typescript ? template.tsVariantPath! : template.path, dest, {
     // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing

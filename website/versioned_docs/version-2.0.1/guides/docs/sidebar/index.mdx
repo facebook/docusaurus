@@ -201,8 +201,8 @@ A real-world example from the Docusaurus site:
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
 
-<CodeBlock language="js" title="sidebars.js">
-  {require('!!raw-loader!@site/sidebars.js')
+<CodeBlock language="js" title="sidebars.ts">
+  {require('!!raw-loader!@site/sidebars.ts')
     .default
     .split('\n')
     // remove comments
