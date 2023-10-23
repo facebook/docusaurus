@@ -30,36 +30,43 @@ const directiveTypes: DirectiveType[] = [
   'textDirective',
 ];
 
-function formatUnusedDirectiveMessage(unusedDirective: Directive) {
-  let customDirectiveName = unusedDirective.name;
+const directivePrefixMap: { [key: DirectiveType]: string } = {
+  textDirective: ':',
+  leafDirective: '::',
+  containerDirective: ':::',
+};
 
-  if (unusedDirective.type === 'containerDirective') {
-    customDirectiveName = `:::${unusedDirective.name}`;
-  } else if (unusedDirective.type === 'leafDirective') {
-    customDirectiveName = `::${unusedDirective.name}`;
-  } else if (unusedDirective.type === 'textDirective') {
-    customDirectiveName = `:${unusedDirective.name}`;
+function formatDirectiveName(directive: Directive) {
+  const prefix = directivePrefixMap[directive.type];
+  if (!prefix) {
+    throw new Error(
+      `unexpected, no prefix found for directive of type ${directive.type}`,
+    );
   }
+  // To simplify we don't display the eventual label/props of directives
+  return `${prefix}${directive.name}`;
+}
 
-  const positionMessage = unusedDirective.position?.start
-    ? logger.interpolate`number=${unusedDirective.position.start.line}:number=${unusedDirective.position.start.column}`
-    : '';
+function formatUnusedDirectiveMessage(directive: Directive) {
+  const positionMessage = directive.position?.start
+    ? logger.interpolate`number=${directive.position.start.line}:number=${directive.position.start.column}`
+    : undefined;
 
-  return `- ${positionMessage} ${customDirectiveName} `;
+  return `- ${positionMessage} ${formatDirectiveName} `;
 }
 
 function formatUnusedDirectivesMessage({
-  unusedDirectives,
+  directives,
   filePath,
 }: {
-  unusedDirectives: Directive[];
+  directives: Directive[];
   filePath: string;
 }): string {
   const supportUrl = 'https://github.com/facebook/docusaurus/pull/9394';
   const customPath = posixPath(path.relative(process.cwd(), filePath));
-  const warningTitle = logger.interpolate`Docusaurus found ${unusedDirectives.length} unused Markdown directives in file path=${customPath}`;
+  const warningTitle = logger.interpolate`Docusaurus found ${directives.length} unused Markdown directives in file path=${customPath}`;
   const customSupportUrl = logger.interpolate`url=${supportUrl}`;
-  const warningMessages = unusedDirectives
+  const warningMessages = directives
     .map(formatUnusedDirectiveMessage)
     .join('\n');
 
@@ -89,7 +96,7 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
 
     if (unusedDirectives.length > 0) {
       const message = formatUnusedDirectivesMessage({
-        unusedDirectives,
+        directives: unusedDirectives,
         filePath: file.path,
       });
       logger.warn(message);
