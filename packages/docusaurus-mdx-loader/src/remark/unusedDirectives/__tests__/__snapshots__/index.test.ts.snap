@@ -38,11 +38,9 @@ exports[`directives remark plugin - client compiler default behavior for leaf di
 exports[`directives remark plugin - client compiler default behavior for text directives: console 1`] = `
 [
   [
-    "[WARNING] Docusaurus found 4 unused Markdown directives in file "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/textDirectives.md"
-- :textDirective2 (7:7)
+    "[WARNING] Docusaurus found 2 unused Markdown directives in file "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/textDirectives.md"
 - :textDirective3 (9:7)
 - :textDirective4 (11:7)
-- :textDirective5 (13:7)
 Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.",
   ],
 ]
@@ -52,10 +50,10 @@ exports[`directives remark plugin - client compiler default behavior for text di
 "<p>Simple: textDirective1</p>
 <pre><code class="language-sh">Simple: textDirectiveCode
 </code></pre>
-<p>Simple<div></div></p>
+<p>Simple:textDirective2</p>
 <p>Simple<div>label</div></p>
 <p>Simple<div></div></p>
-<p>Simple<div></div></p>
+<p>Simple:textDirective5</p>
 <pre><code class="language-sh">Simple:textDirectiveCode
 </code></pre>"
 `;

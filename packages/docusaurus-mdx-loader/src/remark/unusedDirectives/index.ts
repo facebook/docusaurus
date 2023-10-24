@@ -9,6 +9,8 @@ import process from 'process';
 import visit from 'unist-util-visit';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
+import {transformNode} from '../utils';
+
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
 import type {
@@ -94,9 +96,22 @@ function isSimpleTextDirective(
     const hasAttributes = Object.keys(directive.attributes ?? {}).length > 0;
     // Children in MDAST = Directive label
     const hasChildren = directive.children.length > 0;
-    return hasAttributes || hasChildren;
+    return !hasAttributes && !hasChildren;
   }
   return false;
+}
+
+function transformSimpleTextDirectiveToString(textDirective: Directive) {
+  transformNode(textDirective, {
+    type: 'text',
+    value: `:${textDirective.name}`, // We ignore label/props on purpose here
+  });
+}
+
+function isUnusedDirective(directive: Directive) {
+  // If directive data is set (notably hName/hProperties set by admonitions)
+  // this usually means the directive has been handled by another plugin
+  return !directive.data;
 }
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
@@ -113,10 +128,9 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     visit<Parent>(tree, directiveTypes, (directive: Directive) => {
       // If directive data is set (notably hName/hProperties set by admonitions)
       // this usually means the directive has been handled by another plugin
-      if (!directive.data) {
+      if (isUnusedDirective(directive)) {
         if (isSimpleTextDirective(directive)) {
-          // TODO !
-          unusedDirectives.push(directive);
+          transformSimpleTextDirectiveToString(directive);
         } else {
           unusedDirectives.push(directive);
         }
