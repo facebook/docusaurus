@@ -15,12 +15,16 @@ import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 import {escapeShellArg} from '@docusaurus/utils';
 
+type Languages = {
+  javascript?: boolean;
+  typescript?: boolean;
+};
+
 type CLIOptions = {
   packageManager?: PackageManager;
   skipInstall?: boolean;
-  typescript?: boolean;
   gitStrategy?: GitStrategy;
-};
+} & Languages;
 
 // Only used in the rare, rare case of running globally installed create +
 // using --skip-install. We need a default name to show the tip text
@@ -418,6 +422,7 @@ async function getSource(
     };
   }
   let useTS = cliOptions.typescript;
+
   if (!useTS && template.tsVariantPath) {
     ({useTS} = (await prompts({
       type: 'confirm',
@@ -452,7 +457,33 @@ export default async function init(
     getSiteName(reqName, rootDir),
   ]);
   const dest = path.resolve(rootDir, siteName);
-  const source = await getSource(reqTemplate, templates, cliOptions);
+
+  let language: {javascript?: boolean; typescript?: boolean} = {};
+  if (!cliOptions.typescript && !cliOptions.javascript) {
+    const {language: selectedLanguage} = (await prompts(
+      {
+        type: 'select',
+        name: 'language',
+        message: 'What language you want to use?',
+        choices: [
+          {title: 'JavaScript', value: 'javascript'},
+          {title: 'TypeScript', value: 'typescript'},
+        ],
+      },
+      {
+        onCancel() {
+          logger.info`Falling back to language=${'javascript'}`;
+        },
+      },
+    )) as {language: keyof Languages};
+
+    language = {[selectedLanguage]: true};
+  }
+
+  const source = await getSource(reqTemplate, templates, {
+    ...cliOptions,
+    ...language,
+  });
 
   logger.info('Creating new Docusaurus project...');
 
