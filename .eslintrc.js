@@ -286,7 +286,7 @@ module.exports = {
     ],
     'import/prefer-default-export': OFF,
 
-    'jest/consistent-test-it': OFF,
+    'jest/consistent-test-it': WARNING,
     'jest/expect-expect': OFF,
     'jest/no-large-snapshots': [
       WARNING,

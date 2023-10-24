@@ -33,7 +33,8 @@ const directiveTypes: DirectiveType[] = [
   'textDirective',
 ];
 
-const directivePrefixMap: {[key: DirectiveType]: string} = {
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+const directivePrefixMap: Record<DirectiveType, string> = {
   textDirective: ':',
   leafDirective: '::',
   containerDirective: ':::',
