@@ -93,7 +93,8 @@ function isSimpleTextDirective(
 ): directive is TextDirective {
   if (isTextDirective(directive)) {
     // Attributes in MDAST = Directive props
-    const hasAttributes = Object.keys(directive.attributes ?? {}).length > 0;
+    const hasAttributes =
+      directive.attributes && Object.keys(directive.attributes).length > 0;
     // Children in MDAST = Directive label
     const hasChildren = directive.children.length > 0;
     return !hasAttributes && !hasChildren;
