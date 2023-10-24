@@ -83,6 +83,22 @@ ${warningMessages}
 Your content might render in an unexpected way. Visit ${customSupportUrl} to find out why and how to fix it.`;
 }
 
+function logUnusedDirectivesWarning({
+  directives,
+  filePath,
+}: {
+  directives: Directive[];
+  filePath: string;
+}) {
+  if (directives.length > 0) {
+    const message = formatUnusedDirectivesMessage({
+      directives,
+      filePath,
+    });
+    logger.warn(message);
+  }
+}
+
 function isTextDirective(directive: Directive): directive is TextDirective {
   return directive.type === 'textDirective';
 }
@@ -117,13 +133,6 @@ function isUnusedDirective(directive: Directive) {
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
   return (tree, file) => {
-    // We only enable these warnings for the client compiler
-    // This avoids emitting duplicate warnings in prod mode
-    // Note: the client compiler is used in both dev/prod modes
-    if (file.data.compilerName !== 'client') {
-      return;
-    }
-
     const unusedDirectives: Directive[] = [];
 
     visit<Parent>(tree, directiveTypes, (directive: Directive) => {
@@ -138,12 +147,14 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
       }
     });
 
-    if (unusedDirectives.length > 0) {
-      const message = formatUnusedDirectivesMessage({
+    // We only enable these warnings for the client compiler
+    // This avoids emitting duplicate warnings in prod mode
+    // Note: the client compiler is used in both dev/prod modes
+    if (file.data.compilerName === 'client') {
+      logUnusedDirectivesWarning({
         directives: unusedDirectives,
         filePath: file.path,
       });
-      logger.warn(message);
     }
   };
 };

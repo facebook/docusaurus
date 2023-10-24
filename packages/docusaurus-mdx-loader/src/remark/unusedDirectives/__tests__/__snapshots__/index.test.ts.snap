@@ -77,10 +77,10 @@ exports[`directives remark plugin - server compiler default behavior for text di
 "<p>Simple: textDirective1</p>
 <pre><code class="language-sh">Simple: textDirectiveCode
 </code></pre>
-<p>Simple<div></div></p>
+<p>Simple:textDirective2</p>
 <p>Simple<div>label</div></p>
 <p>Simple<div></div></p>
-<p>Simple<div></div></p>
+<p>Simple:textDirective5</p>
 <pre><code class="language-sh">Simple:textDirectiveCode
 </code></pre>"
 `;

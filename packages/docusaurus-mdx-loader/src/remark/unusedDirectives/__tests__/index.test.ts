@@ -87,3 +87,25 @@ describe('directives remark plugin - server compiler', () => {
     expect(consoleMock).toHaveBeenCalledTimes(0);
   });
 });
+
+describe('directives remark plugin - client result === server result', () => {
+  // It is important that client/server outputs are exactly the same
+  // otherwise React hydration mismatches can occur
+  async function testSameResult(name: string) {
+    const resultClient = await processFixture(name, {compilerName: 'client'});
+    const resultServer = await processFixture(name, {compilerName: 'server'});
+    expect(resultClient).toEqual(resultServer);
+  }
+
+  it('for containerDirectives', async () => {
+    await testSameResult('containerDirectives');
+  });
+
+  it('for leafDirectives', async () => {
+    await testSameResult('leafDirectives');
+  });
+
+  it('for textDirectives', async () => {
+    await testSameResult('textDirectives');
+  });
+});
