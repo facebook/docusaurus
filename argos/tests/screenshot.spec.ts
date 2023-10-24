@@ -36,8 +36,12 @@ function isBlacklisted(pathname: string) {
   }
   // Some paths explicitly blacklisted
   const BlacklistedPathnames: string[] = [
-    '/feature-requests', // Flaky because of Canny widget
-    '/community/canary', // Flaky because of dynamic canary version fetched from npm
+    // Flaky because of Canny widget
+    '/feature-requests',
+    // Flaky because of dynamic canary version fetched from npm
+    '/community/canary',
+    // Long blog post with many image carousels, often timeouts
+    '/blog/2022/08/01/announcing-docusaurus-2.0',
   ];
 
   return (

@@ -98,7 +98,11 @@ export {
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';
-export {getFileLoaderUtils} from './webpackUtils';
+export {
+  getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
+  type WebpackCompilerName,
+} from './webpackUtils';
 export {escapeShellArg} from './shellUtils';
 export {loadFreshModule} from './moduleUtils';
 export {

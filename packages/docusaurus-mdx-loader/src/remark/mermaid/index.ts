@@ -6,6 +6,8 @@
  */
 
 import visit from 'unist-util-visit';
+import {transformNode} from '../utils';
+
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Code} from 'mdast';
@@ -16,10 +18,10 @@ import type {Code} from 'mdast';
 // by theme-mermaid itself
 export default function plugin(): Transformer {
   return (root) => {
-    visit(root, 'code', (node: Code, index, parent) => {
+    visit(root, 'code', (node: Code) => {
       if (node.lang === 'mermaid') {
         // TODO migrate to mdxJsxFlowElement? cf admonitions
-        parent!.children.splice(index, 1, {
+        transformNode(node, {
           type: 'mermaidCodeBlock',
           data: {
             hName: 'mermaid',

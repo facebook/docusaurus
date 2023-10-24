@@ -62,6 +62,7 @@ customizability
 dabit
 daishi
 datagit
+datamap
 datas
 dbaeumer
 décembre

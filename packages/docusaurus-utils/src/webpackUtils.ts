@@ -11,7 +11,25 @@ import {
   WEBPACK_URL_LOADER_LIMIT,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from './constants';
-import type {RuleSetRule} from 'webpack';
+import type {RuleSetRule, LoaderContext} from 'webpack';
+
+export type WebpackCompilerName = 'server' | 'client';
+
+export function getWebpackLoaderCompilerName(
+  context: LoaderContext<unknown>,
+): WebpackCompilerName {
+  // eslint-disable-next-line no-underscore-dangle
+  const compilerName = context._compiler?.name;
+  switch (compilerName) {
+    case 'server':
+    case 'client':
+      return compilerName;
+    default:
+      throw new Error(
+        `Cannot get valid Docusaurus webpack compiler name. Found compilerName=${compilerName}`,
+      );
+  }
+}
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
