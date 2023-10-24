@@ -14,7 +14,11 @@ At [**Meta Open Source**](https://opensource.fb.com/), we believe Docusaurus wil
 
 This is a new **major version** of Docusaurus, coming with **new exciting features** and upgraded dependencies.
 
-We respect [**Semantic Versioning**](https://semver.org/) and this release also includes **breaking changes** that we documented thoroughly in the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3). Breaking changes can be annoying, but are necessary to set the ground for a new wave of Docusaurus features that we plan to implement later.
+We respect [**Semantic Versioning**](https://semver.org/) and this release also includes **breaking changes** that we documented thoroughly in the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3). Breaking changes can be annoying, but are necessary to set the ground for a **new wave of Docusaurus features** that we plan to implement later.
+
+![v3.0 social-card image](./img/social-card.png)
+
+{/* truncate */}
 
 We initially planned to release more frequent major versions, but this one has taken longer than expected. **Upgrading to [MDX v2](https://mdxjs.com/blog/v2/) is the main challenge** to the adoption of this new version. We went the extra mile to make this upgrade as easy as possible, notably by adding [compatibility options for MDX v1](/docs/3.0.0-rc.0/api/docusaurus-config#markdown).
 
@@ -23,9 +27,11 @@ The simplest sites will only need to upgrade a few npm dependencies. For more co
 - [Prepare your site](/blog/preparing-your-site-for-docusaurus-v3) ahead of time, incrementally, while staying on Docusaurus v2
 - [Set up visual regression tests](/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing) to catch unexpected visual changes happening during the upgrade
 
-![v3.0 social-card image](./img/social-card.png)
+:::info About Docusaurus v2
 
-{/* truncate */}
+According to our [release process](/community/release-process#stable-version), Docusaurus v2 has now entered **maintenance mode**. It will only receive support for major security issues for 3 months, until 31 January 2024. It is recommended to upgrade within that time frame to v3.
+
+:::
 
 import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 
