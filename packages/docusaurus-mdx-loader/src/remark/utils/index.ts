@@ -6,7 +6,7 @@
  */
 
 import escapeHtml from 'escape-html';
-import type {Parent} from 'unist';
+import type {Parent, Node} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
 import type {
   MdxJsxAttribute,
@@ -14,6 +14,27 @@ import type {
   MdxJsxTextElement,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
+
+/**
+ * Util to transform one node type to another node type
+ * The input node is mutated in place
+ * @param node the node to mutate
+ * @param newNode what the original node should become become
+ */
+export function transformNode<NewNode extends Node>(
+  node: Node,
+  newNode: NewNode,
+): NewNode {
+  Object.keys(node).forEach((key) => {
+    // @ts-expect-error: unsafe but ok
+    delete node[key];
+  });
+  Object.keys(newNode).forEach((key) => {
+    // @ts-expect-error: unsafe but ok
+    node[key] = newNode[key];
+  });
+  return node as NewNode;
+}
 
 export function stringifyContent(
   node: Parent,
