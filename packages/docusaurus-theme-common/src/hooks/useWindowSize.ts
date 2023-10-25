@@ -21,7 +21,9 @@ const DesktopThresholdWidth = 996;
 
 function getWindowSize() {
   if (!ExecutionEnvironment.canUseDOM) {
-    return windowSizes.ssr;
+    throw new Error(
+      'getWindowSize() should only be called after React hydration',
+    );
   }
   return window.innerWidth > DesktopThresholdWidth
     ? windowSizes.desktop
