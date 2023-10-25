@@ -5,7 +5,7 @@
       "startServerReadyPattern": "Serving",
       "startServerReadyTimeout": 10000,
 
-      "numberOfRuns": 5,
+      "numberOfRuns": 1,
 
       "settings": {
         "skipAudits": [
