@@ -1,4 +1,4 @@
-name: Lighthouse Report
+name: Lighthouse Report2
 
 on:
   pull_request_target:
