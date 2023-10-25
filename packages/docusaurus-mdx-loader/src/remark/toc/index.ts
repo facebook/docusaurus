@@ -8,7 +8,6 @@
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
-import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
@@ -88,6 +87,8 @@ const plugin: Plugin = function plugin(
 
   return async (root) => {
     const {toString} = await import('mdast-util-to-string');
+    const {visit} = await import('unist-util-visit');
+
     const headings: TOCItem[] = [];
 
     visit(root, 'heading', (child: Heading) => {
@@ -100,10 +101,13 @@ const plugin: Plugin = function plugin(
 
       headings.push({
         value: toValue(child, toString),
+        // @ts-expect-error: TODO how to fix?
         id: child.data!.id as string,
         level: child.depth,
       });
     });
+
+    // @ts-expect-error: TODO how to fix?
     const {children} = root as Parent<Literal>;
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 

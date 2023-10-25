@@ -16,7 +16,6 @@ import {
   getFileLoaderUtils,
   findAsyncSequential,
 } from '@docusaurus/utils';
-import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import logger from '@docusaurus/logger';
@@ -192,6 +191,8 @@ async function processImageNode(target: Target, context: Context) {
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
+    const {visit} = await import('unist-util-visit');
+
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image, index, parent) => {
       promises.push(

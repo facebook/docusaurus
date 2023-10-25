@@ -6,7 +6,6 @@
  */
 import path from 'path';
 import process from 'process';
-import visit from 'unist-util-visit';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
 import {transformNode} from '../utils';
@@ -14,7 +13,7 @@ import {transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
 import type {
-  Directive,
+  Directives,
   TextDirective,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-directive';
@@ -25,7 +24,7 @@ import type {
 // import type {Plugin} from 'unified';
 type Plugin = any; // TODO fix this asap
 
-type DirectiveType = Directive['type'];
+type DirectiveType = Directives['type'];
 
 const directiveTypes: DirectiveType[] = [
   'containerDirective',
@@ -39,7 +38,7 @@ const directivePrefixMap: {[key in DirectiveType]: string} = {
   containerDirective: ':::',
 };
 
-function formatDirectiveName(directive: Directive) {
+function formatDirectiveName(directive: Directives) {
   const prefix = directivePrefixMap[directive.type];
   if (!prefix) {
     throw new Error(
@@ -50,13 +49,13 @@ function formatDirectiveName(directive: Directive) {
   return `${prefix}${directive.name}`;
 }
 
-function formatDirectivePosition(directive: Directive): string | undefined {
+function formatDirectivePosition(directive: Directives): string | undefined {
   return directive.position?.start
     ? logger.interpolate`number=${directive.position.start.line}:number=${directive.position.start.column}`
     : undefined;
 }
 
-function formatUnusedDirectiveMessage(directive: Directive) {
+function formatUnusedDirectiveMessage(directive: Directives) {
   const name = formatDirectiveName(directive);
   const position = formatDirectivePosition(directive);
 
@@ -67,7 +66,7 @@ function formatUnusedDirectivesMessage({
   directives,
   filePath,
 }: {
-  directives: Directive[];
+  directives: Directives[];
   filePath: string;
 }): string {
   const supportUrl = 'https://github.com/facebook/docusaurus/pull/9394';
@@ -87,7 +86,7 @@ function logUnusedDirectivesWarning({
   directives,
   filePath,
 }: {
-  directives: Directive[];
+  directives: Directives[];
   filePath: string;
 }) {
   if (directives.length > 0) {
@@ -99,13 +98,13 @@ function logUnusedDirectivesWarning({
   }
 }
 
-function isTextDirective(directive: Directive): directive is TextDirective {
+function isTextDirective(directive: Directives): directive is TextDirective {
   return directive.type === 'textDirective';
 }
 
 // A simple text directive is one without any label/props
 function isSimpleTextDirective(
-  directive: Directive,
+  directive: Directives,
 ): directive is TextDirective {
   if (isTextDirective(directive)) {
     // Attributes in MDAST = Directive props
@@ -118,34 +117,40 @@ function isSimpleTextDirective(
   return false;
 }
 
-function transformSimpleTextDirectiveToString(textDirective: Directive) {
+function transformSimpleTextDirectiveToString(textDirective: Directives) {
   transformNode(textDirective, {
     type: 'text',
     value: `:${textDirective.name}`, // We ignore label/props on purpose here
   });
 }
 
-function isUnusedDirective(directive: Directive) {
+function isUnusedDirective(directive: Directives) {
   // If directive data is set (notably hName/hProperties set by admonitions)
   // this usually means the directive has been handled by another plugin
   return !directive.data;
 }
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
-  return (tree, file) => {
-    const unusedDirectives: Directive[] = [];
+  return async (tree, file) => {
+    const {visit} = await import('unist-util-visit');
 
-    visit<Parent>(tree, directiveTypes, (directive: Directive) => {
-      // If directive data is set (notably hName/hProperties set by admonitions)
-      // this usually means the directive has been handled by another plugin
-      if (isUnusedDirective(directive)) {
-        if (isSimpleTextDirective(directive)) {
-          transformSimpleTextDirectiveToString(directive);
-        } else {
-          unusedDirectives.push(directive);
+    const unusedDirectives: Directives[] = [];
+
+    visit<Parent, DirectiveType[]>(
+      tree,
+      directiveTypes,
+      (directive: Directives) => {
+        // If directive data is set (hName/hProperties set by admonitions)
+        // this usually means the directive has been handled by another plugin
+        if (isUnusedDirective(directive)) {
+          if (isSimpleTextDirective(directive)) {
+            transformSimpleTextDirectiveToString(directive);
+          } else {
+            unusedDirectives.push(directive);
+          }
         }
-      }
-    });
+      },
+    );
 
     // We only enable these warnings for the client compiler
     // This avoids emitting duplicate warnings in prod mode
