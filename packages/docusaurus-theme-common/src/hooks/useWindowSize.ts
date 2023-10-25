@@ -28,8 +28,6 @@ function getWindowSize() {
     : windowSizes.mobile;
 }
 
-const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
-
 /**
  * Gets the current window size as an enum value. We don't want it to return the
  * actual width value, so that it only re-renders once a breakpoint is crossed.
@@ -39,32 +37,25 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
  * may need to render BOTH the mobile/desktop elements (and hide one of them
  * with mediaquery). We don't return `undefined` on purpose, to make it more
  * explicit.
- *
- * In development mode, this hook will still return `"ssr"` for one second, to
- * catch potential layout shifts, similar to strict mode calling effects twice.
  */
 export function useWindowSize(): WindowSize {
-  const [windowSize, setWindowSize] = useState<WindowSize>(() => {
-    if (DevSimulateSSR) {
-      return 'ssr';
-    }
-    return getWindowSize();
-  });
+  const [windowSize, setWindowSize] = useState<WindowSize>(() => 
+    // It's super important to return a constant value to avoid hydration issues
+    // see https://github.com/facebook/docusaurus/issues/9379
+     'ssr'
+  );
 
   useEffect(() => {
     function updateWindowSize() {
       setWindowSize(getWindowSize());
     }
 
-    const timeout = DevSimulateSSR
-      ? window.setTimeout(updateWindowSize, 1000)
-      : undefined;
+    updateWindowSize();
 
     window.addEventListener('resize', updateWindowSize);
 
     return () => {
       window.removeEventListener('resize', updateWindowSize);
-      clearTimeout(timeout);
     };
   }, []);
 
