@@ -38,6 +38,14 @@ jobs:
         id: lighthouse_audit
         uses: treosh/lighthouse-ci-action@03becbfc543944dd6e7534f7ff768abb8a296826 # 10.1.0
         with:
+          urls: |
+            http://localhost:3000
+            http://localhost:3000/docs/installation
+            http://localhost:3000/docs/category/getting-started
+            http://localhost:3000/blog
+            http://localhost:3000/blog/preparing-your-site-for-docusaurus-v3
+            http://localhost:3000/blog/tags/release
+            http://localhost:3000/blog/tags
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true

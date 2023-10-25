@@ -27,6 +27,18 @@ const scoreEntry = (rawScore) => {
 };
 
 /**
+ * @param {string} url
+ * @returns {module:url.URL}
+ */
+function createURL(url) {
+  try {
+    return new URL(url);
+  } catch (e) {
+    throw new Error(`Can't create URL for string=${url}`, {cause: e});
+  }
+}
+
+/**
  * @param {Object} param0
  * @param {string} param0.url
  * @param {LighthouseSummary} param0.summary
@@ -34,7 +46,7 @@ const scoreEntry = (rawScore) => {
  */
 const createMarkdownTableRow = ({url, summary, reportUrl}) =>
   [
-    `| [${new URL(url).pathname}](${url})`,
+    `| [${createURL(url).pathname}](${url})`,
     .../** @type {(keyof LighthouseSummary)[]} */ (
       Object.keys(summaryKeys)
     ).map((k) => scoreEntry(summary[k])),

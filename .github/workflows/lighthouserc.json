@@ -5,16 +5,6 @@
       "startServerReadyPattern": "Serving",
       "startServerReadyTimeout": 10000,
 
-      "url": [
-        "http://localhost:3000/",
-        "http://localhost:3000/docs/installation/",
-        "http://localhost:3000/docs/category/getting-started/",
-        "http://localhost:3000/blog/",
-        "http://localhost:3000/blog/preparing-your-site-for-docusaurus-v3/",
-        "http://localhost:3000/blog/tags/release/",
-        "http://localhost:3000/blog/tags/"
-      ],
-
       "settings": {
         "skipAudits": [
           "robots-txt",
