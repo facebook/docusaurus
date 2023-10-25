@@ -31,7 +31,7 @@
     "fs-extra": "^11.1.1",
     "hastscript": "^7.1.0",
     "image-size": "^1.0.2",
-    "mdast-util-mdx": "^2.0.0",
+    "mdast-util-mdx": "^3.0.0",
     "mdast-util-to-string": "^3.2.0",
     "rehype-raw": "^6.1.1",
     "remark-directive": "^3.0.0",

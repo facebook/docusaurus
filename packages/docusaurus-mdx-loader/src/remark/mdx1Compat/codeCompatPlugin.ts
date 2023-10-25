@@ -23,14 +23,11 @@ export default function codeCompatPlugin(this: Processor): Transformer {
     visit(root, 'code', (node: Code) => {
       node.data = node.data || {};
 
-      // @ts-expect-error: TODO how to fix?
       node.data.hProperties = node.data.hProperties || {};
-      // @ts-expect-error: TODO how to fix?
       node.data.hProperties.metastring = node.meta;
 
       // Retrocompatible support for live codeblock metastring
       // Not really the appropriate place to handle that :s
-      // @ts-expect-error: TODO how to fix?
       node.data.hProperties.live = node.meta?.split(' ').includes('live');
     });
   };

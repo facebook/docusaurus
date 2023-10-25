@@ -14,6 +14,10 @@ import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+import type {
+  MdxjsEsm,
+  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+} from 'mdast-util-mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // TODO upgrade to TS 5.3
@@ -119,7 +123,7 @@ const plugin: Plugin = function plugin(
 
 export default plugin;
 
-async function createExportNode(name: string, object: any) {
+async function createExportNode(name: string, object: any): Promise<MdxjsEsm> {
   const {valueToEstree} = await import('estree-util-value-to-estree');
 
   return {

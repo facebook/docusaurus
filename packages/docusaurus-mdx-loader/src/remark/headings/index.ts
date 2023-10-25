@@ -20,7 +20,6 @@ export default function plugin(): Transformer {
     const slugs = createSlugger();
     visit(root, 'heading', (headingNode: Heading) => {
       const data = headingNode.data ?? (headingNode.data = {});
-      // @ts-expect-error: TODO how to fix?
       const properties = (data.hProperties || (data.hProperties = {})) as {
         id: string;
       };
