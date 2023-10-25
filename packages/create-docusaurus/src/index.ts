@@ -13,18 +13,17 @@ import logger from '@docusaurus/logger';
 import shell from 'shelljs';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
-import {escapeShellArg} from '@docusaurus/utils';
-
-type Languages = {
-  javascript?: boolean;
-  typescript?: boolean;
-};
+import {
+  escapeShellArg,
+  getLanguage,
+  type LanguagesOptions,
+} from '@docusaurus/utils';
 
 type CLIOptions = {
   packageManager?: PackageManager;
   skipInstall?: boolean;
   gitStrategy?: GitStrategy;
-} & Languages;
+} & LanguagesOptions;
 
 // Only used in the rare, rare case of running globally installed create +
 // using --skip-install. We need a default name to show the tip text
@@ -221,6 +220,23 @@ async function getGitCommand(gitStrategy: GitStrategy): Promise<string> {
   }
 }
 
+function getTemplate(
+  templates: Template[],
+  reqTemplate?: string,
+  typescript?: boolean,
+) {
+  const template = templates.find((t) => t.name === reqTemplate);
+  if (!template) {
+    logger.error('Invalid template.');
+    process.exit(1);
+  }
+  if (typescript && !template.tsVariantPath) {
+    logger.error`Template name=${reqTemplate!} doesn't provide the TypeScript variant.`;
+    process.exit(1);
+  }
+  return template;
+}
+
 async function getSiteName(
   reqName: string | undefined,
   rootDir: string,
@@ -279,6 +295,7 @@ type Source =
 async function getSource(
   reqTemplate: string | undefined,
   templates: Template[],
+  language: LanguagesOptions,
   cliOptions: CLIOptions,
 ): Promise<Source> {
   if (reqTemplate) {
@@ -303,19 +320,13 @@ async function getSource(
         path: path.resolve(reqTemplate),
       };
     }
-    const template = templates.find((t) => t.name === reqTemplate);
-    if (!template) {
-      logger.error('Invalid template.');
-      process.exit(1);
-    }
-    if (cliOptions.typescript && !template.tsVariantPath) {
-      logger.error`Template name=${reqTemplate} doesn't provide the TypeScript variant.`;
-      process.exit(1);
-    }
+
+    const template = getTemplate(templates, reqTemplate, language.typescript);
+
     return {
       type: 'template',
       template,
-      typescript: cliOptions.typescript ?? false,
+      typescript: language.typescript ?? false,
     };
   }
   const template = cliOptions.gitStrategy
@@ -421,7 +432,7 @@ async function getSource(
       path: templateDir,
     };
   }
-  let useTS = cliOptions.typescript;
+  let useTS = language.typescript;
 
   if (!useTS && template.tsVariantPath) {
     ({useTS} = (await prompts({
@@ -457,33 +468,14 @@ export default async function init(
     getSiteName(reqName, rootDir),
   ]);
   const dest = path.resolve(rootDir, siteName);
+  const {typescript, javascript} = cliOptions;
+  const languageOptions = {typescript, javascript};
+  const noTsVersionAvailable = !getTemplate(templates, reqTemplate, typescript)
+    .tsVariantPath;
 
-  let language: {javascript?: boolean; typescript?: boolean} = {};
-  if (!cliOptions.typescript && !cliOptions.javascript) {
-    const {language: selectedLanguage} = (await prompts(
-      {
-        type: 'select',
-        name: 'language',
-        message: 'What language you want to use?',
-        choices: [
-          {title: 'JavaScript', value: 'javascript'},
-          {title: 'TypeScript', value: 'typescript'},
-        ],
-      },
-      {
-        onCancel() {
-          logger.info`Falling back to language=${'javascript'}`;
-        },
-      },
-    )) as {language: keyof Languages};
+  const language = await getLanguage(languageOptions, noTsVersionAvailable);
 
-    language = {[selectedLanguage]: true};
-  }
-
-  const source = await getSource(reqTemplate, templates, {
-    ...cliOptions,
-    ...language,
-  });
+  const source = await getSource(reqTemplate, templates, language, cliOptions);
 
   logger.info('Creating new Docusaurus project...');
 
