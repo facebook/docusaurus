@@ -5,6 +5,8 @@
       "startServerReadyPattern": "Serving",
       "startServerReadyTimeout": 10000,
 
+      "numberOfRuns": 5,
+
       "settings": {
         "skipAudits": [
           "robots-txt",
