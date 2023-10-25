@@ -39,10 +39,11 @@ function getWindowSize() {
  * explicit.
  */
 export function useWindowSize(): WindowSize {
-  const [windowSize, setWindowSize] = useState<WindowSize>(() => 
-    // It's super important to return a constant value to avoid hydration issues
-    // see https://github.com/facebook/docusaurus/issues/9379
-     'ssr'
+  const [windowSize, setWindowSize] = useState<WindowSize>(
+    () =>
+      // super important to return a constant value to avoid hydration mismatch
+      // see https://github.com/facebook/docusaurus/issues/9379
+      'ssr',
   );
 
   useEffect(() => {
