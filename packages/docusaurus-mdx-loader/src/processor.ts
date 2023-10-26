@@ -47,8 +47,8 @@ type SimpleProcessor = {
   }) => Promise<SimpleProcessorResult>;
 };
 
-async function getDefaultRemarkPlugins() {
-  const emoji = await import('remark-emoji');
+async function getDefaultRemarkPlugins(): Promise<MDXPlugin[]> {
+  const {default: emoji} = await import('remark-emoji');
   return [headings, emoji, toc];
 }
 
