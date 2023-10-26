@@ -99,6 +99,7 @@ export default {
     '^unist-util-visit$': '<rootDir>/jest/vendor/unist-util-visit@5.0.0.js',
     '^unist-util-remove-position$':
       '<rootDir>/jest/vendor/unist-util-remove-position@5.0.0.js',
+    '^rehype-stringify$': '<rootDir>/jest/vendor/rehype-stringify@10.0.0.js',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',

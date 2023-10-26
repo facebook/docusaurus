@@ -52,7 +52,7 @@
     "@types/mdast": "^4.0.2",
     "@types/stringify-object": "^3.3.1",
     "@types/unist": "^3.0.1",
-    "rehype-stringify": "^8.0.0",
+    "rehype-stringify": "^10.0.0",
     "remark": "^15.0.1",
     "remark-mdx": "^3.0.0",
     "remark-rehype": "^11.0.0",
