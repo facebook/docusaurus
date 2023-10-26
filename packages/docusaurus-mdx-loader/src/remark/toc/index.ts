@@ -105,8 +105,7 @@ const plugin: Plugin = function plugin(
 
       headings.push({
         value: toValue(child, toString),
-        // @ts-expect-error: TODO how to fix?
-        id: child.data!.id as string,
+        id: child.data!.id!,
         level: child.depth,
       });
     });
