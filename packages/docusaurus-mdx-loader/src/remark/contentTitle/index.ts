@@ -36,7 +36,6 @@ const plugin: Plugin = function plugin(
 
     visit(root, 'heading', (headingNode: Heading, index, parent) => {
       if (headingNode.depth === 1) {
-        vfile.data.compilerName;
         vfile.data.contentTitle = toString(headingNode);
         if (removeContentTitle) {
           // @ts-expect-error: TODO how to fix?
