@@ -6,7 +6,7 @@
  */
 
 .section {
-  padding: 72px 0;
+  padding: 40px 0;
 }
 
 .sectionAlt {
@@ -73,7 +73,12 @@
 }
 
 .topBannerTitleText {
-  background: linear-gradient(90deg, rgb(131 58 180 / 100%) 0%, rgb(253 29 29 / 100%) 50%, rgb(252 176 69 / 100%) 100%);
+  background: linear-gradient(
+    90deg,
+    rgb(131 58 180 / 100%) 0%,
+    rgb(253 29 29 / 100%) 50%,
+    rgb(252 176 69 / 100%) 100%
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -84,7 +89,12 @@
 }
 
 html[data-theme='dark'] .topBannerTitleText {
-  background: linear-gradient(90deg, rgb(152 0 255) 0%, rgb(246 41 41) 50%, rgb(255 169 8) 100%);
+  background: linear-gradient(
+    90deg,
+    rgb(152 0 255) 0%,
+    rgb(246 41 41) 50%,
+    rgb(255 169 8) 100%
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
