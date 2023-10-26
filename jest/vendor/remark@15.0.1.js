@@ -7,9 +7,9 @@ var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-var __export = (target, all3) => {
-  for (var name in all3)
-    __defProp(target, name, { get: all3[name], enumerable: true });
+var __export = (target, all2) => {
+  for (var name in all2)
+    __defProp(target, name, { get: all2[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -120,14 +120,14 @@ var require_extend = __commonJS({
   }
 });
 
-// packages/docusaurus-mdx-loader/node_modules/remark/index.js
+// node_modules/remark/index.js
 var remark_exports = {};
 __export(remark_exports, {
-  remark: () => remark501
+  remark: () => remark1501
 });
 module.exports = __toCommonJS(remark_exports);
 
-// node_modules/mdast-util-from-markdown/node_modules/mdast-util-to-string/lib/index.js
+// node_modules/mdast-util-to-string/lib/index.js
 var emptyOptions = {};
 function toString(value, options) {
   const settings = options || emptyOptions;
@@ -2337,18 +2337,18 @@ function push(list4, items) {
 // node_modules/micromark-util-combine-extensions/index.js
 var hasOwnProperty = {}.hasOwnProperty;
 function combineExtensions(extensions) {
-  const all3 = {};
+  const all2 = {};
   let index2 = -1;
   while (++index2 < extensions.length) {
-    syntaxExtension(all3, extensions[index2]);
+    syntaxExtension(all2, extensions[index2]);
   }
-  return all3;
+  return all2;
 }
-function syntaxExtension(all3, extension2) {
+function syntaxExtension(all2, extension2) {
   let hook;
   for (hook in extension2) {
-    const maybe = hasOwnProperty.call(all3, hook) ? all3[hook] : void 0;
-    const left = maybe || (all3[hook] = {});
+    const maybe = hasOwnProperty.call(all2, hook) ? all2[hook] : void 0;
+    const left = maybe || (all2[hook] = {});
     const right = extension2[hook];
     let code2;
     if (right) {
@@ -2373,6 +2373,22 @@ function constructs(existing, list4) {
     (list4[index2].add === "after" ? existing : before).push(list4[index2]);
   }
   splice(existing, 0, 0, before);
+}
+
+// node_modules/micromark-util-decode-numeric-character-reference/index.js
+function decodeNumericCharacterReference(value, base) {
+  const code2 = Number.parseInt(value, base);
+  if (
+    // C0 except for HT, LF, FF, CR, space.
+    code2 < 9 || code2 === 11 || code2 > 13 && code2 < 32 || // Control character (DEL) of C0, and C1 controls.
+    code2 > 126 && code2 < 160 || // Lone high surrogates and low surrogates.
+    code2 > 55295 && code2 < 57344 || // Noncharacters.
+    code2 > 64975 && code2 < 65008 || (code2 & 65535) === 65535 || (code2 & 65535) === 65534 || // Out of range
+    code2 > 1114111
+  ) {
+    return "\uFFFD";
+  }
+  return String.fromCharCode(code2);
 }
 
 // node_modules/micromark-util-normalize-identifier/index.js
@@ -3499,7 +3515,7 @@ function tokenizeCodeText(effects, ok3, nok) {
   }
 }
 
-// node_modules/micromark-core-commonmark/node_modules/micromark-util-subtokenize/index.js
+// node_modules/micromark-util-subtokenize/index.js
 function subtokenize(events) {
   const jumps = {};
   let index2 = -1;
@@ -5892,12 +5908,12 @@ function createTokenizer(parser, initialize, from) {
         return start;
         function start(code2) {
           const def = code2 !== null && map4[code2];
-          const all3 = code2 !== null && map4.null;
+          const all2 = code2 !== null && map4.null;
           const list4 = [
             // To do: add more extension tests.
             /* c8 ignore next 2 */
             ...Array.isArray(def) ? def : def ? [def] : [],
-            ...Array.isArray(all3) ? all3 : all3 ? [all3] : []
+            ...Array.isArray(all2) ? all2 : all2 ? [all2] : []
           ];
           return handleListOfConstructs(list4)(code2);
         }
@@ -6157,150 +6173,9 @@ function parse(options) {
   }
 }
 
-// node_modules/micromark/node_modules/micromark-util-subtokenize/index.js
-function subtokenize2(events) {
-  const jumps = {};
-  let index2 = -1;
-  let event;
-  let lineIndex;
-  let otherIndex;
-  let otherEvent;
-  let parameters;
-  let subevents;
-  let more;
-  while (++index2 < events.length) {
-    while (index2 in jumps) {
-      index2 = jumps[index2];
-    }
-    event = events[index2];
-    if (index2 && event[1].type === "chunkFlow" && events[index2 - 1][1].type === "listItemPrefix") {
-      subevents = event[1]._tokenizer.events;
-      otherIndex = 0;
-      if (otherIndex < subevents.length && subevents[otherIndex][1].type === "lineEndingBlank") {
-        otherIndex += 2;
-      }
-      if (otherIndex < subevents.length && subevents[otherIndex][1].type === "content") {
-        while (++otherIndex < subevents.length) {
-          if (subevents[otherIndex][1].type === "content") {
-            break;
-          }
-          if (subevents[otherIndex][1].type === "chunkText") {
-            subevents[otherIndex][1]._isInFirstContentOfListItem = true;
-            otherIndex++;
-          }
-        }
-      }
-    }
-    if (event[0] === "enter") {
-      if (event[1].contentType) {
-        Object.assign(jumps, subcontent2(events, index2));
-        index2 = jumps[index2];
-        more = true;
-      }
-    } else if (event[1]._container) {
-      otherIndex = index2;
-      lineIndex = void 0;
-      while (otherIndex--) {
-        otherEvent = events[otherIndex];
-        if (otherEvent[1].type === "lineEnding" || otherEvent[1].type === "lineEndingBlank") {
-          if (otherEvent[0] === "enter") {
-            if (lineIndex) {
-              events[lineIndex][1].type = "lineEndingBlank";
-            }
-            otherEvent[1].type = "lineEnding";
-            lineIndex = otherIndex;
-          }
-        } else {
-          break;
-        }
-      }
-      if (lineIndex) {
-        event[1].end = Object.assign({}, events[lineIndex][1].start);
-        parameters = events.slice(lineIndex, index2);
-        parameters.unshift(event);
-        splice(events, lineIndex, index2 - lineIndex + 1, parameters);
-      }
-    }
-  }
-  return !more;
-}
-function subcontent2(events, eventIndex) {
-  const token = events[eventIndex][1];
-  const context = events[eventIndex][2];
-  let startPosition = eventIndex - 1;
-  const startPositions = [];
-  const tokenizer = token._tokenizer || context.parser[token.contentType](token.start);
-  const childEvents = tokenizer.events;
-  const jumps = [];
-  const gaps = {};
-  let stream;
-  let previous2;
-  let index2 = -1;
-  let current = token;
-  let adjust = 0;
-  let start = 0;
-  const breaks = [start];
-  while (current) {
-    while (events[++startPosition][1] !== current) {
-    }
-    startPositions.push(startPosition);
-    if (!current._tokenizer) {
-      stream = context.sliceStream(current);
-      if (!current.next) {
-        stream.push(null);
-      }
-      if (previous2) {
-        tokenizer.defineSkip(current.start);
-      }
-      if (current._isInFirstContentOfListItem) {
-        tokenizer._gfmTasklistFirstContentOfListItem = true;
-      }
-      tokenizer.write(stream);
-      if (current._isInFirstContentOfListItem) {
-        tokenizer._gfmTasklistFirstContentOfListItem = void 0;
-      }
-    }
-    previous2 = current;
-    current = current.next;
-  }
-  current = token;
-  while (++index2 < childEvents.length) {
-    if (
-      // Find a void token that includes a break.
-      childEvents[index2][0] === "exit" && childEvents[index2 - 1][0] === "enter" && childEvents[index2][1].type === childEvents[index2 - 1][1].type && childEvents[index2][1].start.line !== childEvents[index2][1].end.line
-    ) {
-      start = index2 + 1;
-      breaks.push(start);
-      current._tokenizer = void 0;
-      current.previous = void 0;
-      current = current.next;
-    }
-  }
-  tokenizer.events = [];
-  if (current) {
-    current._tokenizer = void 0;
-    current.previous = void 0;
-  } else {
-    breaks.pop();
-  }
-  index2 = breaks.length;
-  while (index2--) {
-    const slice = childEvents.slice(breaks[index2], breaks[index2 + 1]);
-    const start2 = startPositions.pop();
-    jumps.unshift([start2, start2 + slice.length - 1]);
-    splice(events, start2, 2, slice);
-  }
-  index2 = -1;
-  while (++index2 < jumps.length) {
-    gaps[adjust + jumps[index2][0]] = adjust + jumps[index2][1];
-    adjust += jumps[index2][1] - jumps[index2][0] - 1;
-  }
-  return gaps;
-}
-
 // node_modules/micromark/lib/postprocess.js
 function postprocess(events) {
-  while (!subtokenize2(events)) {
+  while (!subtokenize(events)) {
   }
   return events;
 }
@@ -6387,23 +6262,7 @@ function preprocess() {
   }
 }
 
-// node_modules/mdast-util-from-markdown/node_modules/micromark-util-decode-numeric-character-reference/index.js
-function decodeNumericCharacterReference(value, base) {
-  const code2 = Number.parseInt(value, base);
-  if (
-    // C0 except for HT, LF, FF, CR, space.
-    code2 < 9 || code2 === 11 || code2 > 13 && code2 < 32 || // Control character (DEL) of C0, and C1 controls.
-    code2 > 126 && code2 < 160 || // Lone high surrogates and low surrogates.
-    code2 > 55295 && code2 < 57344 || // Noncharacters.
-    code2 > 64975 && code2 < 65008 || (code2 & 65535) === 65535 || (code2 & 65535) === 65534 || // Out of range
-    code2 > 1114111
-  ) {
-    return "\uFFFD";
-  }
-  return String.fromCharCode(code2);
-}
-
-// node_modules/mdast-util-from-markdown/node_modules/micromark-util-decode-string/index.js
+// node_modules/micromark-util-decode-string/index.js
 var characterEscapeOrReference = /\\([!-/:-@[-`{-~])|&(#(?:\d{1,7}|x[\da-f]{1,6})|[\da-z]{1,31});/gi;
 function decodeString(value) {
   return value.replace(characterEscapeOrReference, decode);
@@ -6737,13 +6596,13 @@ function compiler(options) {
       children: []
     });
   }
-  function enter(node3, token, errorHandler) {
+  function enter(node2, token, errorHandler) {
     const parent = this.stack[this.stack.length - 1];
     const siblings = parent.children;
-    siblings.push(node3);
-    this.stack.push(node3);
+    siblings.push(node2);
+    this.stack.push(node2);
     this.tokenStack.push([token, errorHandler]);
-    node3.position = {
+    node2.position = {
       start: point2(token.start),
       // @ts-expect-error: `end` will be patched later.
       end: void 0
@@ -6758,7 +6617,7 @@ function compiler(options) {
     }
   }
   function exit2(token, onExitError) {
-    const node3 = this.stack.pop();
+    const node2 = this.stack.pop();
     const open = this.tokenStack.pop();
     if (!open) {
       throw new Error(
@@ -6775,7 +6634,7 @@ function compiler(options) {
         handler.call(this, token, open[0]);
       }
     }
-    node3.position.end = point2(token.end);
+    node2.position.end = point2(token.end);
   }
   function resume() {
     return toString(this.stack.pop());
@@ -6792,13 +6651,13 @@ function compiler(options) {
   }
   function onexitcodefencedfenceinfo() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.lang = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.lang = data2;
   }
   function onexitcodefencedfencemeta() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.meta = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.meta = data2;
   }
   function onexitcodefencedfence() {
     if (this.data.flowCodeInside)
@@ -6808,53 +6667,53 @@ function compiler(options) {
   }
   function onexitcodefenced() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.value = data2.replace(/^(\r?\n|\r)|(\r?\n|\r)$/g, "");
+    const node2 = this.stack[this.stack.length - 1];
+    node2.value = data2.replace(/^(\r?\n|\r)|(\r?\n|\r)$/g, "");
     this.data.flowCodeInside = void 0;
   }
   function onexitcodeindented() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.value = data2.replace(/(\r?\n|\r)$/g, "");
+    const node2 = this.stack[this.stack.length - 1];
+    node2.value = data2.replace(/(\r?\n|\r)$/g, "");
   }
   function onexitdefinitionlabelstring(token) {
     const label = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.label = label;
-    node3.identifier = normalizeIdentifier(
+    const node2 = this.stack[this.stack.length - 1];
+    node2.label = label;
+    node2.identifier = normalizeIdentifier(
       this.sliceSerialize(token)
     ).toLowerCase();
   }
   function onexitdefinitiontitlestring() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.title = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.title = data2;
   }
   function onexitdefinitiondestinationstring() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.url = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.url = data2;
   }
   function onexitatxheadingsequence(token) {
-    const node3 = this.stack[this.stack.length - 1];
-    if (!node3.depth) {
+    const node2 = this.stack[this.stack.length - 1];
+    if (!node2.depth) {
       const depth = this.sliceSerialize(token).length;
-      node3.depth = depth;
+      node2.depth = depth;
     }
   }
   function onexitsetextheadingtext() {
     this.data.setextHeadingSlurpLineEnding = true;
   }
   function onexitsetextheadinglinesequence(token) {
-    const node3 = this.stack[this.stack.length - 1];
-    node3.depth = this.sliceSerialize(token).codePointAt(0) === 61 ? 1 : 2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.depth = this.sliceSerialize(token).codePointAt(0) === 61 ? 1 : 2;
   }
   function onexitsetextheading() {
     this.data.setextHeadingSlurpLineEnding = void 0;
   }
   function onenterdata(token) {
-    const node3 = this.stack[this.stack.length - 1];
-    const siblings = node3.children;
+    const node2 = this.stack[this.stack.length - 1];
+    const siblings = node2.children;
     let tail = siblings[siblings.length - 1];
     if (!tail || tail.type !== "text") {
       tail = text4();
@@ -6890,44 +6749,44 @@ function compiler(options) {
   }
   function onexithtmlflow() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.value = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.value = data2;
   }
   function onexithtmltext() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.value = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.value = data2;
   }
   function onexitcodetext() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.value = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.value = data2;
   }
   function onexitlink() {
-    const node3 = this.stack[this.stack.length - 1];
+    const node2 = this.stack[this.stack.length - 1];
     if (this.data.inReference) {
       const referenceType = this.data.referenceType || "shortcut";
-      node3.type += "Reference";
-      node3.referenceType = referenceType;
-      delete node3.url;
-      delete node3.title;
+      node2.type += "Reference";
+      node2.referenceType = referenceType;
+      delete node2.url;
+      delete node2.title;
     } else {
-      delete node3.identifier;
-      delete node3.label;
+      delete node2.identifier;
+      delete node2.label;
     }
     this.data.referenceType = void 0;
   }
   function onexitimage() {
-    const node3 = this.stack[this.stack.length - 1];
+    const node2 = this.stack[this.stack.length - 1];
     if (this.data.inReference) {
       const referenceType = this.data.referenceType || "shortcut";
-      node3.type += "Reference";
-      node3.referenceType = referenceType;
-      delete node3.url;
-      delete node3.title;
+      node2.type += "Reference";
+      node2.referenceType = referenceType;
+      delete node2.url;
+      delete node2.title;
     } else {
-      delete node3.identifier;
-      delete node3.label;
+      delete node2.identifier;
+      delete node2.label;
     }
     this.data.referenceType = void 0;
   }
@@ -6940,24 +6799,24 @@ function compiler(options) {
   function onexitlabel() {
     const fragment = this.stack[this.stack.length - 1];
     const value = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
+    const node2 = this.stack[this.stack.length - 1];
     this.data.inReference = true;
-    if (node3.type === "link") {
+    if (node2.type === "link") {
       const children = fragment.children;
-      node3.children = children;
+      node2.children = children;
     } else {
-      node3.alt = value;
+      node2.alt = value;
     }
   }
   function onexitresourcedestinationstring() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.url = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.url = data2;
   }
   function onexitresourcetitlestring() {
     const data2 = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.title = data2;
+    const node2 = this.stack[this.stack.length - 1];
+    node2.title = data2;
   }
   function onexitresource() {
     this.data.inReference = void 0;
@@ -6967,9 +6826,9 @@ function compiler(options) {
   }
   function onexitreferencestring(token) {
     const label = this.resume();
-    const node3 = this.stack[this.stack.length - 1];
-    node3.label = label;
-    node3.identifier = normalizeIdentifier(
+    const node2 = this.stack[this.stack.length - 1];
+    node2.label = label;
+    node2.identifier = normalizeIdentifier(
       this.sliceSerialize(token)
     ).toLowerCase();
     this.data.referenceType = "full";
@@ -6997,13 +6856,13 @@ function compiler(options) {
   }
   function onexitautolinkprotocol(token) {
     onexitdata.call(this, token);
-    const node3 = this.stack[this.stack.length - 1];
-    node3.url = this.sliceSerialize(token);
+    const node2 = this.stack[this.stack.length - 1];
+    node2.url = this.sliceSerialize(token);
   }
   function onexitautolinkemail(token) {
     onexitdata.call(this, token);
-    const node3 = this.stack[this.stack.length - 1];
-    node3.url = "mailto:" + this.sliceSerialize(token);
+    const node2 = this.stack[this.stack.length - 1];
+    node2.url = "mailto:" + this.sliceSerialize(token);
   }
   function blockQuote2() {
     return {
@@ -7186,7 +7045,7 @@ function defaultOnError(left, right) {
   }
 }
 
-// packages/docusaurus-mdx-loader/node_modules/remark-parse/lib/index.js
+// node_modules/remark-parse/lib/index.js
 function remarkParse(options) {
   const self = this;
   self.parser = parser;
@@ -7207,21 +7066,21 @@ function remarkParse(options) {
 var own3 = {}.hasOwnProperty;
 function zwitch(key, options) {
   const settings = options || {};
-  function one3(value, ...parameters) {
-    let fn = one3.invalid;
-    const handlers = one3.handlers;
+  function one2(value, ...parameters) {
+    let fn = one2.invalid;
+    const handlers = one2.handlers;
     if (value && own3.call(value, key)) {
       const id = String(value[key]);
-      fn = own3.call(handlers, id) ? handlers[id] : one3.unknown;
+      fn = own3.call(handlers, id) ? handlers[id] : one2.unknown;
     }
     if (fn) {
       return fn.call(this, value, ...parameters);
     }
   }
-  one3.handlers = settings.handlers || {};
-  one3.invalid = settings.invalid;
-  one3.unknown = settings.unknown;
-  return one3;
+  one2.handlers = settings.handlers || {};
+  one2.invalid = settings.invalid;
+  one2.unknown = settings.unknown;
+  return one2;
 }
 
 // node_modules/mdast-util-to-markdown/lib/configure.js
@@ -7272,13 +7131,13 @@ function map(left, right) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/blockquote.js
-function blockquote(node3, _, state, info) {
+function blockquote(node2, _, state, info) {
   const exit2 = state.enter("blockquote");
   const tracker = state.createTracker(info);
   tracker.move("> ");
   tracker.shift(2);
   const value = state.indentLines(
-    state.containerFlow(node3, tracker.current()),
+    state.containerFlow(node2, tracker.current()),
     map2
   );
   exit2();
@@ -7344,12 +7203,12 @@ function longestStreak(value, substring) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/util/format-code-as-indented.js
-function formatCodeAsIndented(node3, state) {
+function formatCodeAsIndented(node2, state) {
   return Boolean(
-    state.options.fences === false && node3.value && // If there’s no info…
-    !node3.lang && // And there’s a non-whitespace character…
-    /[^ \r\n]/.test(node3.value) && // And the value doesn’t start or end in a blank…
-    !/^[\t ]*(?:[\r\n]|$)|(?:^|[\r\n])[\t ]*$/.test(node3.value)
+    state.options.fences === false && node2.value && // If there’s no info…
+    !node2.lang && // And there’s a non-whitespace character…
+    /[^ \r\n]/.test(node2.value) && // And the value doesn’t start or end in a blank…
+    !/^[\t ]*(?:[\r\n]|$)|(?:^|[\r\n])[\t ]*$/.test(node2.value)
   );
 }
 
@@ -7365,11 +7224,11 @@ function checkFence(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/code.js
-function code(node3, _, state, info) {
+function code(node2, _, state, info) {
   const marker = checkFence(state);
-  const raw = node3.value || "";
+  const raw = node2.value || "";
   const suffix = marker === "`" ? "GraveAccent" : "Tilde";
-  if (formatCodeAsIndented(node3, state)) {
+  if (formatCodeAsIndented(node2, state)) {
     const exit3 = state.enter("codeIndented");
     const value2 = state.indentLines(raw, map3);
     exit3();
@@ -7379,10 +7238,10 @@ function code(node3, _, state, info) {
   const sequence = marker.repeat(Math.max(longestStreak(raw, marker) + 1, 3));
   const exit2 = state.enter("codeFenced");
   let value = tracker.move(sequence);
-  if (node3.lang) {
+  if (node2.lang) {
     const subexit = state.enter(`codeFencedLang${suffix}`);
     value += tracker.move(
-      state.safe(node3.lang, {
+      state.safe(node2.lang, {
         before: value,
         after: " ",
         encode: ["`"],
@@ -7391,11 +7250,11 @@ function code(node3, _, state, info) {
     );
     subexit();
   }
-  if (node3.lang && node3.meta) {
+  if (node2.lang && node2.meta) {
     const subexit = state.enter(`codeFencedMeta${suffix}`);
     value += tracker.move(" ");
     value += tracker.move(
-      state.safe(node3.meta, {
+      state.safe(node2.meta, {
         before: value,
         after: "\n",
         encode: ["`"],
@@ -7428,7 +7287,7 @@ function checkQuote(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/definition.js
-function definition2(node3, _, state, info) {
+function definition2(node2, _, state, info) {
   const quote = checkQuote(state);
   const suffix = quote === '"' ? "Quote" : "Apostrophe";
   const exit2 = state.enter("definition");
@@ -7436,7 +7295,7 @@ function definition2(node3, _, state, info) {
   const tracker = state.createTracker(info);
   let value = tracker.move("[");
   value += tracker.move(
-    state.safe(state.associationId(node3), {
+    state.safe(state.associationId(node2), {
       before: value,
       after: "]",
       ...tracker.current()
@@ -7446,31 +7305,31 @@ function definition2(node3, _, state, info) {
   subexit();
   if (
     // If there’s no url, or…
-    !node3.url || // If there are control characters or whitespace.
-    /[\0- \u007F]/.test(node3.url)
+    !node2.url || // If there are control characters or whitespace.
+    /[\0- \u007F]/.test(node2.url)
   ) {
     subexit = state.enter("destinationLiteral");
     value += tracker.move("<");
     value += tracker.move(
-      state.safe(node3.url, { before: value, after: ">", ...tracker.current() })
+      state.safe(node2.url, { before: value, after: ">", ...tracker.current() })
     );
     value += tracker.move(">");
   } else {
     subexit = state.enter("destinationRaw");
     value += tracker.move(
-      state.safe(node3.url, {
+      state.safe(node2.url, {
         before: value,
-        after: node3.title ? " " : "\n",
+        after: node2.title ? " " : "\n",
         ...tracker.current()
       })
     );
   }
   subexit();
-  if (node3.title) {
+  if (node2.title) {
     subexit = state.enter(`title${suffix}`);
     value += tracker.move(" " + quote);
     value += tracker.move(
-      state.safe(node3.title, {
+      state.safe(node2.title, {
         before: value,
         after: quote,
         ...tracker.current()
@@ -7496,13 +7355,13 @@ function checkEmphasis(state) {
 
 // node_modules/mdast-util-to-markdown/lib/handle/emphasis.js
 emphasis.peek = emphasisPeek;
-function emphasis(node3, _, state, info) {
+function emphasis(node2, _, state, info) {
   const marker = checkEmphasis(state);
   const exit2 = state.enter("emphasis");
   const tracker = state.createTracker(info);
   let value = tracker.move(marker);
   value += tracker.move(
-    state.containerPhrasing(node3, {
+    state.containerPhrasing(node2, {
       before: value,
       after: marker,
       ...tracker.current()
@@ -7569,12 +7428,12 @@ function propsFactory(check) {
     /** @type {Record<string, unknown>} */
     check
   );
-  return castFactory(all3);
-  function all3(node3) {
+  return castFactory(all2);
+  function all2(node2) {
     const nodeAsRecord = (
       /** @type {Record<string, unknown>} */
       /** @type {unknown} */
-      node3
+      node2
     );
     let key;
     for (key in check) {
@@ -7586,8 +7445,8 @@ function propsFactory(check) {
 }
 function typeFactory(check) {
   return castFactory(type);
-  function type(node3) {
-    return node3 && node3.type === check;
+  function type(node2) {
+    return node2 && node2.type === check;
   }
 }
 function castFactory(testFunction) {
@@ -7631,10 +7490,10 @@ function visitParents(tree, test, visitor, reverse) {
   const is2 = convert(check);
   const step = reverse ? -1 : 1;
   factory(tree, void 0, [])();
-  function factory(node3, index2, parents) {
+  function factory(node2, index2, parents) {
     const value = (
       /** @type {Record<string, unknown>} */
-      node3 && typeof node3 === "object" ? node3 : {}
+      node2 && typeof node2 === "object" ? node2 : {}
     );
     if (typeof value.type === "string") {
       const name = (
@@ -7645,7 +7504,7 @@ function visitParents(tree, test, visitor, reverse) {
         )
       );
       Object.defineProperty(visit2, "name", {
-        value: "node (" + color(node3.type + (name ? "<" + name + ">" : "")) + ")"
+        value: "node (" + color(node2.type + (name ? "<" + name + ">" : "")) + ")"
       });
     }
     return visit2;
@@ -7654,16 +7513,16 @@ function visitParents(tree, test, visitor, reverse) {
       let subresult;
       let offset;
       let grandparents;
-      if (!test || is2(node3, index2, parents[parents.length - 1] || void 0)) {
-        result = toResult(visitor(node3, parents));
+      if (!test || is2(node2, index2, parents[parents.length - 1] || void 0)) {
+        result = toResult(visitor(node2, parents));
         if (result[0] === EXIT) {
           return result;
         }
       }
-      if ("children" in node3 && node3.children) {
+      if ("children" in node2 && node2.children) {
         const nodeAsParent = (
           /** @type {UnistParent} */
-          node3
+          node2
         );
         if (nodeAsParent.children && result[0] !== SKIP) {
           offset = (reverse ? nodeAsParent.children.length : -1) + step;
@@ -7707,72 +7566,35 @@ function visit(tree, testOrVisitor, visitorOrReverse, maybeReverse) {
     reverse = maybeReverse;
   }
   visitParents(tree, test, overload, reverse);
-  function overload(node3, parents) {
+  function overload(node2, parents) {
     const parent = parents[parents.length - 1];
-    const index2 = parent ? parent.children.indexOf(node3) : void 0;
-    return visitor(node3, index2, parent);
+    const index2 = parent ? parent.children.indexOf(node2) : void 0;
+    return visitor(node2, index2, parent);
   }
-}
-
-// node_modules/mdast-util-to-markdown/node_modules/mdast-util-to-string/lib/index.js
-var emptyOptions2 = {};
-function toString2(value, options) {
-  const settings = options || emptyOptions2;
-  const includeImageAlt = typeof settings.includeImageAlt === "boolean" ? settings.includeImageAlt : true;
-  const includeHtml = typeof settings.includeHtml === "boolean" ? settings.includeHtml : true;
-  return one2(value, includeImageAlt, includeHtml);
-}
-function one2(value, includeImageAlt, includeHtml) {
-  if (node2(value)) {
-    if ("value" in value) {
-      return value.type === "html" && !includeHtml ? "" : value.value;
-    }
-    if (includeImageAlt && "alt" in value && value.alt) {
-      return value.alt;
-    }
-    if ("children" in value) {
-      return all2(value.children, includeImageAlt, includeHtml);
-    }
-  }
-  if (Array.isArray(value)) {
-    return all2(value, includeImageAlt, includeHtml);
-  }
-  return "";
-}
-function all2(values, includeImageAlt, includeHtml) {
-  const result = [];
-  let index2 = -1;
-  while (++index2 < values.length) {
-    result[index2] = one2(values[index2], includeImageAlt, includeHtml);
-  }
-  return result.join("");
-}
-function node2(value) {
-  return Boolean(value && typeof value === "object");
 }
 
 // node_modules/mdast-util-to-markdown/lib/util/format-heading-as-setext.js
-function formatHeadingAsSetext(node3, state) {
+function formatHeadingAsSetext(node2, state) {
   let literalWithBreak = false;
-  visit(node3, function(node4) {
-    if ("value" in node4 && /\r?\n|\r/.test(node4.value) || node4.type === "break") {
+  visit(node2, function(node3) {
+    if ("value" in node3 && /\r?\n|\r/.test(node3.value) || node3.type === "break") {
       literalWithBreak = true;
       return EXIT;
     }
   });
   return Boolean(
-    (!node3.depth || node3.depth < 3) && toString2(node3) && (state.options.setext || literalWithBreak)
+    (!node2.depth || node2.depth < 3) && toString(node2) && (state.options.setext || literalWithBreak)
   );
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/heading.js
-function heading(node3, _, state, info) {
-  const rank = Math.max(Math.min(6, node3.depth || 1), 1);
+function heading(node2, _, state, info) {
+  const rank = Math.max(Math.min(6, node2.depth || 1), 1);
   const tracker = state.createTracker(info);
-  if (formatHeadingAsSetext(node3, state)) {
+  if (formatHeadingAsSetext(node2, state)) {
     const exit3 = state.enter("headingSetext");
     const subexit2 = state.enter("phrasing");
-    const value2 = state.containerPhrasing(node3, {
+    const value2 = state.containerPhrasing(node2, {
       ...tracker.current(),
       before: "\n",
       after: "\n"
@@ -7790,7 +7612,7 @@ function heading(node3, _, state, info) {
   const exit2 = state.enter("headingAtx");
   const subexit = state.enter("phrasing");
   tracker.move(sequence + " ");
-  let value = state.containerPhrasing(node3, {
+  let value = state.containerPhrasing(node2, {
     before: "# ",
     after: "\n",
     ...tracker.current()
@@ -7809,8 +7631,8 @@ function heading(node3, _, state, info) {
 
 // node_modules/mdast-util-to-markdown/lib/handle/html.js
 html.peek = htmlPeek;
-function html(node3) {
-  return node3.value || "";
+function html(node2) {
+  return node2.value || "";
 }
 function htmlPeek() {
   return "<";
@@ -7818,7 +7640,7 @@ function htmlPeek() {
 
 // node_modules/mdast-util-to-markdown/lib/handle/image.js
 image.peek = imagePeek;
-function image(node3, _, state, info) {
+function image(node2, _, state, info) {
   const quote = checkQuote(state);
   const suffix = quote === '"' ? "Quote" : "Apostrophe";
   const exit2 = state.enter("image");
@@ -7826,37 +7648,37 @@ function image(node3, _, state, info) {
   const tracker = state.createTracker(info);
   let value = tracker.move("![");
   value += tracker.move(
-    state.safe(node3.alt, { before: value, after: "]", ...tracker.current() })
+    state.safe(node2.alt, { before: value, after: "]", ...tracker.current() })
   );
   value += tracker.move("](");
   subexit();
   if (
     // If there’s no url but there is a title…
-    !node3.url && node3.title || // If there are control characters or whitespace.
-    /[\0- \u007F]/.test(node3.url)
+    !node2.url && node2.title || // If there are control characters or whitespace.
+    /[\0- \u007F]/.test(node2.url)
   ) {
     subexit = state.enter("destinationLiteral");
     value += tracker.move("<");
     value += tracker.move(
-      state.safe(node3.url, { before: value, after: ">", ...tracker.current() })
+      state.safe(node2.url, { before: value, after: ">", ...tracker.current() })
     );
     value += tracker.move(">");
   } else {
     subexit = state.enter("destinationRaw");
     value += tracker.move(
-      state.safe(node3.url, {
+      state.safe(node2.url, {
         before: value,
-        after: node3.title ? " " : ")",
+        after: node2.title ? " " : ")",
         ...tracker.current()
       })
     );
   }
   subexit();
-  if (node3.title) {
+  if (node2.title) {
     subexit = state.enter(`title${suffix}`);
     value += tracker.move(" " + quote);
     value += tracker.move(
-      state.safe(node3.title, {
+      state.safe(node2.title, {
         before: value,
         after: quote,
         ...tracker.current()
@@ -7875,13 +7697,13 @@ function imagePeek() {
 
 // node_modules/mdast-util-to-markdown/lib/handle/image-reference.js
 imageReference.peek = imageReferencePeek;
-function imageReference(node3, _, state, info) {
-  const type = node3.referenceType;
+function imageReference(node2, _, state, info) {
+  const type = node2.referenceType;
   const exit2 = state.enter("imageReference");
   let subexit = state.enter("label");
   const tracker = state.createTracker(info);
   let value = tracker.move("![");
-  const alt = state.safe(node3.alt, {
+  const alt = state.safe(node2.alt, {
     before: value,
     after: "]",
     ...tracker.current()
@@ -7891,7 +7713,7 @@ function imageReference(node3, _, state, info) {
   const stack = state.stack;
   state.stack = [];
   subexit = state.enter("reference");
-  const reference = state.safe(state.associationId(node3), {
+  const reference = state.safe(state.associationId(node2), {
     before: value,
     after: "]",
     ...tracker.current()
@@ -7914,8 +7736,8 @@ function imageReferencePeek() {
 
 // node_modules/mdast-util-to-markdown/lib/handle/inline-code.js
 inlineCode.peek = inlineCodePeek;
-function inlineCode(node3, _, state) {
-  let value = node3.value || "";
+function inlineCode(node2, _, state) {
+  let value = node2.value || "";
   let sequence = "`";
   let index2 = -1;
   while (new RegExp("(^|[^`])" + sequence + "([^`]|$)").test(value)) {
@@ -7945,35 +7767,35 @@ function inlineCodePeek() {
 }
 
 // node_modules/mdast-util-to-markdown/lib/util/format-link-as-autolink.js
-function formatLinkAsAutolink(node3, state) {
-  const raw = toString2(node3);
+function formatLinkAsAutolink(node2, state) {
+  const raw = toString(node2);
   return Boolean(
     !state.options.resourceLink && // If there’s a url…
-    node3.url && // And there’s a no title…
-    !node3.title && // And the content of `node` is a single text node…
-    node3.children && node3.children.length === 1 && node3.children[0].type === "text" && // And if the url is the same as the content…
-    (raw === node3.url || "mailto:" + raw === node3.url) && // And that starts w/ a protocol…
-    /^[a-z][a-z+.-]+:/i.test(node3.url) && // And that doesn’t contain ASCII control codes (character escapes and
+    node2.url && // And there’s a no title…
+    !node2.title && // And the content of `node` is a single text node…
+    node2.children && node2.children.length === 1 && node2.children[0].type === "text" && // And if the url is the same as the content…
+    (raw === node2.url || "mailto:" + raw === node2.url) && // And that starts w/ a protocol…
+    /^[a-z][a-z+.-]+:/i.test(node2.url) && // And that doesn’t contain ASCII control codes (character escapes and
     // references don’t work), space, or angle brackets…
-    !/[\0- <>\u007F]/.test(node3.url)
+    !/[\0- <>\u007F]/.test(node2.url)
   );
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/link.js
 link.peek = linkPeek;
-function link(node3, _, state, info) {
+function link(node2, _, state, info) {
   const quote = checkQuote(state);
   const suffix = quote === '"' ? "Quote" : "Apostrophe";
   const tracker = state.createTracker(info);
   let exit2;
   let subexit;
-  if (formatLinkAsAutolink(node3, state)) {
+  if (formatLinkAsAutolink(node2, state)) {
     const stack = state.stack;
     state.stack = [];
     exit2 = state.enter("autolink");
     let value2 = tracker.move("<");
     value2 += tracker.move(
-      state.containerPhrasing(node3, {
+      state.containerPhrasing(node2, {
         before: value2,
         after: ">",
         ...tracker.current()
@@ -7988,7 +7810,7 @@ function link(node3, _, state, info) {
   subexit = state.enter("label");
   let value = tracker.move("[");
   value += tracker.move(
-    state.containerPhrasing(node3, {
+    state.containerPhrasing(node2, {
       before: value,
       after: "](",
       ...tracker.current()
@@ -7998,31 +7820,31 @@ function link(node3, _, state, info) {
   subexit();
   if (
     // If there’s no url but there is a title…
-    !node3.url && node3.title || // If there are control characters or whitespace.
-    /[\0- \u007F]/.test(node3.url)
+    !node2.url && node2.title || // If there are control characters or whitespace.
+    /[\0- \u007F]/.test(node2.url)
   ) {
     subexit = state.enter("destinationLiteral");
     value += tracker.move("<");
     value += tracker.move(
-      state.safe(node3.url, { before: value, after: ">", ...tracker.current() })
+      state.safe(node2.url, { before: value, after: ">", ...tracker.current() })
     );
     value += tracker.move(">");
   } else {
     subexit = state.enter("destinationRaw");
     value += tracker.move(
-      state.safe(node3.url, {
+      state.safe(node2.url, {
         before: value,
-        after: node3.title ? " " : ")",
+        after: node2.title ? " " : ")",
         ...tracker.current()
       })
     );
   }
   subexit();
-  if (node3.title) {
+  if (node2.title) {
     subexit = state.enter(`title${suffix}`);
     value += tracker.move(" " + quote);
     value += tracker.move(
-      state.safe(node3.title, {
+      state.safe(node2.title, {
         before: value,
         after: quote,
         ...tracker.current()
@@ -8035,19 +7857,19 @@ function link(node3, _, state, info) {
   exit2();
   return value;
 }
-function linkPeek(node3, _, state) {
-  return formatLinkAsAutolink(node3, state) ? "<" : "[";
+function linkPeek(node2, _, state) {
+  return formatLinkAsAutolink(node2, state) ? "<" : "[";
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/link-reference.js
 linkReference.peek = linkReferencePeek;
-function linkReference(node3, _, state, info) {
-  const type = node3.referenceType;
+function linkReference(node2, _, state, info) {
+  const type = node2.referenceType;
   const exit2 = state.enter("linkReference");
   let subexit = state.enter("label");
   const tracker = state.createTracker(info);
   let value = tracker.move("[");
-  const text4 = state.containerPhrasing(node3, {
+  const text4 = state.containerPhrasing(node2, {
     before: value,
     after: "]",
     ...tracker.current()
@@ -8057,7 +7879,7 @@ function linkReference(node3, _, state, info) {
   const stack = state.stack;
   state.stack = [];
   subexit = state.enter("reference");
-  const reference = state.safe(state.associationId(node3), {
+  const reference = state.safe(state.associationId(node2), {
     before: value,
     after: "]",
     ...tracker.current()
@@ -8132,14 +7954,14 @@ function checkRule(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/list.js
-function list3(node3, parent, state, info) {
+function list3(node2, parent, state, info) {
   const exit2 = state.enter("list");
   const bulletCurrent = state.bulletCurrent;
-  let bullet = node3.ordered ? checkBulletOrdered(state) : checkBullet(state);
-  const bulletOther = node3.ordered ? bullet === "." ? ")" : "." : checkBulletOther(state);
+  let bullet = node2.ordered ? checkBulletOrdered(state) : checkBullet(state);
+  const bulletOther = node2.ordered ? bullet === "." ? ")" : "." : checkBulletOther(state);
   let useDifferentMarker = parent && state.bulletLastUsed ? bullet === state.bulletLastUsed : false;
-  if (!node3.ordered) {
-    const firstListItem = node3.children ? node3.children[0] : void 0;
+  if (!node2.ordered) {
+    const firstListItem = node2.children ? node2.children[0] : void 0;
     if (
       // Bullet could be used as a thematic break marker:
       (bullet === "*" || bullet === "-") && // Empty first list item:
@@ -8151,8 +7973,8 @@ function list3(node3, parent, state, info) {
     }
     if (checkRule(state) === bullet && firstListItem) {
       let index2 = -1;
-      while (++index2 < node3.children.length) {
-        const item = node3.children[index2];
+      while (++index2 < node2.children.length) {
+        const item = node2.children[index2];
         if (item && item.type === "listItem" && item.children && item.children[0] && item.children[0].type === "thematicBreak") {
           useDifferentMarker = true;
           break;
@@ -8164,7 +7986,7 @@ function list3(node3, parent, state, info) {
     bullet = bulletOther;
   }
   state.bulletCurrent = bullet;
-  const value = state.containerFlow(node3, info);
+  const value = state.containerFlow(node2, info);
   state.bulletLastUsed = bullet;
   state.bulletCurrent = bulletCurrent;
   exit2();
@@ -8183,14 +8005,14 @@ function checkListItemIndent(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/list-item.js
-function listItem(node3, parent, state, info) {
+function listItem(node2, parent, state, info) {
   const listItemIndent = checkListItemIndent(state);
   let bullet = state.bulletCurrent || checkBullet(state);
   if (parent && parent.type === "list" && parent.ordered) {
-    bullet = (typeof parent.start === "number" && parent.start > -1 ? parent.start : 1) + (state.options.incrementListMarker === false ? 0 : parent.children.indexOf(node3)) + bullet;
+    bullet = (typeof parent.start === "number" && parent.start > -1 ? parent.start : 1) + (state.options.incrementListMarker === false ? 0 : parent.children.indexOf(node2)) + bullet;
   }
   let size = bullet.length + 1;
-  if (listItemIndent === "tab" || listItemIndent === "mixed" && (parent && parent.type === "list" && parent.spread || node3.spread)) {
+  if (listItemIndent === "tab" || listItemIndent === "mixed" && (parent && parent.type === "list" && parent.spread || node2.spread)) {
     size = Math.ceil(size / 4) * 4;
   }
   const tracker = state.createTracker(info);
@@ -8198,7 +8020,7 @@ function listItem(node3, parent, state, info) {
   tracker.shift(size);
   const exit2 = state.enter("listItem");
   const value = state.indentLines(
-    state.containerFlow(node3, tracker.current()),
+    state.containerFlow(node2, tracker.current()),
     map4
   );
   exit2();
@@ -8212,10 +8034,10 @@ function listItem(node3, parent, state, info) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/paragraph.js
-function paragraph(node3, _, state, info) {
+function paragraph(node2, _, state, info) {
   const exit2 = state.enter("paragraph");
   const subexit = state.enter("phrasing");
-  const value = state.containerPhrasing(node3, info);
+  const value = state.containerPhrasing(node2, info);
   subexit();
   exit2();
   return value;
@@ -8241,12 +8063,12 @@ var phrasing = (
 );
 
 // node_modules/mdast-util-to-markdown/lib/handle/root.js
-function root(node3, _, state, info) {
-  const hasPhrasing = node3.children.some(function(d) {
+function root(node2, _, state, info) {
+  const hasPhrasing = node2.children.some(function(d) {
     return phrasing(d);
   });
   const fn = hasPhrasing ? state.containerPhrasing : state.containerFlow;
-  return fn.call(state, node3, info);
+  return fn.call(state, node2, info);
 }
 
 // node_modules/mdast-util-to-markdown/lib/util/check-strong.js
@@ -8262,13 +8084,13 @@ function checkStrong(state) {
 
 // node_modules/mdast-util-to-markdown/lib/handle/strong.js
 strong.peek = strongPeek;
-function strong(node3, _, state, info) {
+function strong(node2, _, state, info) {
   const marker = checkStrong(state);
   const exit2 = state.enter("strong");
   const tracker = state.createTracker(info);
   let value = tracker.move(marker + marker);
   value += tracker.move(
-    state.containerPhrasing(node3, {
+    state.containerPhrasing(node2, {
       before: value,
       after: marker,
       ...tracker.current()
@@ -8283,8 +8105,8 @@ function strongPeek(_, _1, state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/text.js
-function text3(node3, _, state, info) {
-  return state.safe(node3.value, info);
+function text3(node2, _, state, info) {
+  return state.safe(node2.value, info);
 }
 
 // node_modules/mdast-util-to-markdown/lib/util/check-rule-repetition.js
@@ -8478,46 +8300,12 @@ var unsafe = [
   { atBreak: true, character: "~" }
 ];
 
-// node_modules/mdast-util-to-markdown/node_modules/micromark-util-decode-numeric-character-reference/index.js
-function decodeNumericCharacterReference2(value, base) {
-  const code2 = Number.parseInt(value, base);
-  if (
-    // C0 except for HT, LF, FF, CR, space.
-    code2 < 9 || code2 === 11 || code2 > 13 && code2 < 32 || // Control character (DEL) of C0, and C1 controls.
-    code2 > 126 && code2 < 160 || // Lone high surrogates and low surrogates.
-    code2 > 55295 && code2 < 57344 || // Noncharacters.
-    code2 > 64975 && code2 < 65008 || (code2 & 65535) === 65535 || (code2 & 65535) === 65534 || // Out of range
-    code2 > 1114111
-  ) {
-    return "\uFFFD";
-  }
-  return String.fromCharCode(code2);
-}
-
-// node_modules/mdast-util-to-markdown/node_modules/micromark-util-decode-string/index.js
-var characterEscapeOrReference2 = /\\([!-/:-@[-`{-~])|&(#(?:\d{1,7}|x[\da-f]{1,6})|[\da-z]{1,31});/gi;
-function decodeString2(value) {
-  return value.replace(characterEscapeOrReference2, decode2);
-}
-function decode2($0, $1, $2) {
-  if ($1) {
-    return $1;
-  }
-  const head = $2.charCodeAt(0);
-  if (head === 35) {
-    const head2 = $2.charCodeAt(1);
-    const hex = head2 === 120 || head2 === 88;
-    return decodeNumericCharacterReference2($2.slice(hex ? 2 : 1), hex ? 16 : 10);
-  }
-  return decodeNamedCharacterReference($2) || $0;
-}
-
 // node_modules/mdast-util-to-markdown/lib/util/association.js
-function association(node3) {
-  if (node3.label || !node3.identifier) {
-    return node3.label || "";
+function association(node2) {
+  if (node2.label || !node2.identifier) {
+    return node2.label || "";
   }
-  return decodeString2(node3.identifier);
+  return decodeString(node2.identifier);
 }
 
 // node_modules/mdast-util-to-markdown/lib/util/compile-pattern.js
@@ -8638,14 +8426,14 @@ function indentLines(value, map4) {
   let line = 0;
   let match;
   while (match = eol.exec(value)) {
-    one3(value.slice(start, match.index));
+    one2(value.slice(start, match.index));
     result.push(match[0]);
     start = match.index + match[0].length;
     line++;
   }
-  one3(value.slice(start));
+  one2(value.slice(start));
   return result.join("");
-  function one3(value2) {
+  function one2(value2) {
     result.push(map4(value2, line, !value2));
   }
 }
@@ -8811,11 +8599,11 @@ function invalid(value) {
   throw new Error("Cannot handle value `" + value + "`, expected node");
 }
 function unknown(value) {
-  const node3 = (
+  const node2 = (
     /** @type {Nodes} */
     value
   );
-  throw new Error("Cannot handle unknown node `" + node3.type + "`");
+  throw new Error("Cannot handle unknown node `" + node2.type + "`");
 }
 function joinDefinition(left, right) {
   if (left.type === "definition" && left.type === right.type) {
@@ -8823,6 +8611,7 @@ function joinDefinition(left, right) {
   }
 }
 function containerPhrasingBound(parent, info) {
+  console.log("containerPhrasingBound");
   return containerPhrasing(parent, this, info);
 }
 function containerFlowBound(parent, info) {
@@ -8855,7 +8644,7 @@ function bail(error) {
   }
 }
 
-// packages/docusaurus-mdx-loader/node_modules/remark/node_modules/unified/lib/index.js
+// node_modules/unified/lib/index.js
 var import_extend = __toESM(require_extend(), 1);
 
 // node_modules/devlop/lib/default.js
@@ -9564,7 +9353,7 @@ function isUint8Array(value) {
   );
 }
 
-// packages/docusaurus-mdx-loader/node_modules/remark/node_modules/unified/lib/callable-instance.js
+// node_modules/unified/lib/callable-instance.js
 var CallableInstance = (
   /**
    * @type {new <Parameters extends Array<unknown>, Result>(property: string | symbol) => (...parameters: Parameters) => Result}
@@ -9599,7 +9388,7 @@ var CallableInstance = (
   }
 );
 
-// packages/docusaurus-mdx-loader/node_modules/remark/node_modules/unified/lib/index.js
+// node_modules/unified/lib/index.js
 var own5 = {}.hasOwnProperty;
 var Processor = class _Processor extends CallableInstance {
   /**
@@ -10206,9 +9995,9 @@ function assertUnfrozen(name, frozen) {
     );
   }
 }
-function assertNode(node3) {
-  if (!isPlainObject(node3) || typeof node3.type !== "string") {
-    throw new TypeError("Expected node, got `" + node3 + "`");
+function assertNode(node2) {
+  if (!isPlainObject(node2) || typeof node2.type !== "string") {
+    throw new TypeError("Expected node, got `" + node2 + "`");
   }
 }
 function assertDone(name, asyncName, complete) {
@@ -10235,9 +10024,9 @@ function isUint8Array2(value) {
   );
 }
 
-// packages/docusaurus-mdx-loader/node_modules/remark/index.js
-var remark501 = unified().use(remarkParse).use(remarkStringify).freeze();
+// node_modules/remark/index.js
+var remark1501 = unified().use(remarkParse).use(remarkStringify).freeze();
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  remark: remark501
+  remark: remark1501
 });

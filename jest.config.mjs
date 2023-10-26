@@ -95,7 +95,7 @@ export default {
     '^estree-util-value-to-estree$':
       '<rootDir>/jest/vendor/estree-util-value-to-estree@2.1.0.js',
     '^mdast-util-to-string$':
-      '<rootDir>/jest/vendor/mdast-util-to-string@3.1.0.js',
+      '<rootDir>/jest/vendor/mdast-util-to-string@4.0.0.js',
     '^unist-util-visit$': '<rootDir>/jest/vendor/unist-util-visit@5.0.0.js',
   },
   snapshotSerializers: [

@@ -27,7 +27,7 @@ module.exports = __toCommonJS(remark_directive_exports);
 function ok() {
 }
 
-// node_modules/parse-entities/node_modules/character-entities-legacy/index.js
+// node_modules/character-entities-legacy/index.js
 var characterEntitiesLegacy = [
   "AElig",
   "AMP",
@@ -169,7 +169,7 @@ var characterReferenceInvalid = {
   159: "\u0178"
 };
 
-// node_modules/parse-entities/node_modules/is-decimal/index.js
+// node_modules/is-decimal/index.js
 function isDecimal(character) {
   const code = typeof character === "string" ? character.charCodeAt(0) : character;
   return code >= 48 && code <= 57;
@@ -181,21 +181,15 @@ function isHexadecimal(character) {
   return code >= 97 && code <= 102 || code >= 65 && code <= 70 || code >= 48 && code <= 57;
 }
 
-// node_modules/is-alphanumerical/node_modules/is-alphabetical/index.js
+// node_modules/is-alphabetical/index.js
 function isAlphabetical(character) {
   const code = typeof character === "string" ? character.charCodeAt(0) : character;
   return code >= 97 && code <= 122 || code >= 65 && code <= 90;
 }
 
-// node_modules/is-alphanumerical/node_modules/is-decimal/index.js
-function isDecimal2(character) {
-  const code = typeof character === "string" ? character.charCodeAt(0) : character;
-  return code >= 48 && code <= 57;
-}
-
 // node_modules/is-alphanumerical/index.js
 function isAlphanumerical(character) {
-  return isAlphabetical(character) || isDecimal2(character);
+  return isAlphabetical(character) || isDecimal(character);
 }
 
 // node_modules/character-entities/index.js

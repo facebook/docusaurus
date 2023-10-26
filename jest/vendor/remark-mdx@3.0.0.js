@@ -2931,7 +2931,7 @@ var require_acorn = __commonJS({
       pp$52.parseParenArrowList = function(startPos, startLoc, exprList, forInit) {
         return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList, false, forInit);
       };
-      var empty5 = [];
+      var empty3 = [];
       pp$52.parseNew = function() {
         if (this.containsEsc) {
           this.raiseRecoverable(this.start, "Escape sequence in keyword new");
@@ -2958,7 +2958,7 @@ var require_acorn = __commonJS({
         if (this.eat(types$12.parenL)) {
           node.arguments = this.parseExprList(types$12.parenR, this.options.ecmaVersion >= 8, false);
         } else {
-          node.arguments = empty5;
+          node.arguments = empty3;
         }
         return this.finishNode(node, "NewExpression");
       };
@@ -6076,7 +6076,7 @@ var require_acorn_jsx = __commonJS({
 // node_modules/remark-mdx/index.js
 var remark_mdx_exports = {};
 __export(remark_mdx_exports, {
-  default: () => remarkMdx
+  default: () => remarkMdx300
 });
 module.exports = __toCommonJS(remark_mdx_exports);
 
@@ -6154,7 +6154,7 @@ function ccount(value, character) {
   return count;
 }
 
-// node_modules/parse-entities/node_modules/character-entities-legacy/index.js
+// node_modules/character-entities-legacy/index.js
 var characterEntitiesLegacy = [
   "AElig",
   "AMP",
@@ -6296,7 +6296,7 @@ var characterReferenceInvalid = {
   159: "\u0178"
 };
 
-// node_modules/parse-entities/node_modules/is-decimal/index.js
+// node_modules/is-decimal/index.js
 function isDecimal(character) {
   const code = typeof character === "string" ? character.charCodeAt(0) : character;
   return code >= 48 && code <= 57;
@@ -6308,21 +6308,15 @@ function isHexadecimal(character) {
   return code >= 97 && code <= 102 || code >= 65 && code <= 70 || code >= 48 && code <= 57;
 }
 
-// node_modules/is-alphanumerical/node_modules/is-alphabetical/index.js
+// node_modules/is-alphabetical/index.js
 function isAlphabetical(character) {
   const code = typeof character === "string" ? character.charCodeAt(0) : character;
   return code >= 97 && code <= 122 || code >= 65 && code <= 90;
 }
 
-// node_modules/is-alphanumerical/node_modules/is-decimal/index.js
-function isDecimal2(character) {
-  const code = typeof character === "string" ? character.charCodeAt(0) : character;
-  return code >= 48 && code <= 57;
-}
-
 // node_modules/is-alphanumerical/index.js
 function isAlphanumerical(character) {
-  return isAlphabetical(character) || isDecimal2(character);
+  return isAlphabetical(character) || isDecimal(character);
 }
 
 // node_modules/character-entities/index.js
@@ -9359,7 +9353,7 @@ function handleMdxjsEsm(node) {
   return node.value || "";
 }
 
-// node_modules/remark-mdx/node_modules/mdast-util-mdx/lib/index.js
+// node_modules/mdast-util-mdx/lib/index.js
 function mdxFromMarkdown() {
   return [
     mdxExpressionFromMarkdown(),
@@ -14737,12 +14731,12 @@ function regexCheck(regex) {
   }
 }
 
-// node_modules/micromark-extension-mdx-expression/node_modules/estree-util-visit/lib/color.node.js
+// node_modules/estree-util-visit/lib/color.node.js
 function color(d) {
   return "\x1B[33m" + d + "\x1B[39m";
 }
 
-// node_modules/micromark-extension-mdx-expression/node_modules/estree-util-visit/lib/index.js
+// node_modules/estree-util-visit/lib/index.js
 var own2 = {}.hasOwnProperty;
 var CONTINUE = Symbol("continue");
 var EXIT = Symbol("exit");
@@ -14761,10 +14755,10 @@ function visit(tree, visitor) {
   build(tree, void 0, void 0, [])();
   function build(node, key, index2, parents) {
     if (nodelike(node)) {
-      visit4.displayName = "node (" + color(node.type) + ")";
+      visit2.displayName = "node (" + color(node.type) + ")";
     }
-    return visit4;
-    function visit4() {
+    return visit2;
+    function visit2() {
       const result = enter ? toResult(enter(node, key, index2, parents)) : [];
       if (result[0] === EXIT) {
         return result;
@@ -14826,7 +14820,7 @@ function nodelike(value) {
   );
 }
 
-// node_modules/micromark-extension-mdx-expression/node_modules/micromark-util-events-to-acorn/index.js
+// node_modules/micromark-util-events-to-acorn/index.js
 function eventsToAcorn(events, options) {
   const prefix = options.prefix || "";
   const suffix = options.suffix || "";
@@ -15097,7 +15091,7 @@ function numberOrUndefined(value) {
   return typeof value === "number" && value > -1 ? value : void 0;
 }
 
-// node_modules/micromark-extension-mdx-expression/node_modules/micromark-factory-mdx-expression/index.js
+// node_modules/micromark-factory-mdx-expression/index.js
 var trouble = "https://github.com/micromark/micromark-extension-mdx-expression/tree/main/packages/micromark-extension-mdx-expression";
 var unexpectedEofHash = "#unexpected-end-of-file-in-expression-expected-a-corresponding-closing-brace-for-";
 var unexpectedLazyHash = "#unexpected-lazy-line-in-expression-in-container-expected-line-to-be-prefixed";
@@ -15390,524 +15384,8 @@ function cont(code, options) {
   return code ? re.test(String.fromCodePoint(code)) : false;
 }
 
-// node_modules/micromark-extension-mdx-jsx/node_modules/estree-util-visit/lib/color.node.js
-function color2(d) {
-  return "\x1B[33m" + d + "\x1B[39m";
-}
-
-// node_modules/micromark-extension-mdx-jsx/node_modules/estree-util-visit/lib/index.js
-var own3 = {}.hasOwnProperty;
-var CONTINUE2 = Symbol("continue");
-var EXIT2 = Symbol("exit");
-var SKIP2 = Symbol("skip");
-function visit2(tree, visitor) {
-  let enter;
-  let leave;
-  if (typeof visitor === "function") {
-    enter = visitor;
-  } else if (visitor && typeof visitor === "object") {
-    if (visitor.enter)
-      enter = visitor.enter;
-    if (visitor.leave)
-      leave = visitor.leave;
-  }
-  build(tree, void 0, void 0, [])();
-  function build(node, key, index2, parents) {
-    if (nodelike2(node)) {
-      visit4.displayName = "node (" + color2(node.type) + ")";
-    }
-    return visit4;
-    function visit4() {
-      const result = enter ? toResult2(enter(node, key, index2, parents)) : [];
-      if (result[0] === EXIT2) {
-        return result;
-      }
-      if (result[0] !== SKIP2) {
-        let cKey;
-        for (cKey in node) {
-          if (own3.call(node, cKey) && node[cKey] && typeof node[cKey] === "object" && // @ts-expect-error: custom esast extension.
-          cKey !== "data" && // @ts-expect-error: custom esast extension.
-          cKey !== "position") {
-            const grandparents = parents.concat(node);
-            const value = node[cKey];
-            if (Array.isArray(value)) {
-              const nodes = (
-                /** @type {Array<unknown>} */
-                value
-              );
-              let cIndex = 0;
-              while (cIndex > -1 && cIndex < nodes.length) {
-                const subvalue = nodes[cIndex];
-                if (nodelike2(subvalue)) {
-                  const subresult = build(
-                    subvalue,
-                    cKey,
-                    cIndex,
-                    grandparents
-                  )();
-                  if (subresult[0] === EXIT2)
-                    return subresult;
-                  cIndex = typeof subresult[1] === "number" ? subresult[1] : cIndex + 1;
-                } else {
-                  cIndex++;
-                }
-              }
-            } else if (nodelike2(value)) {
-              const subresult = build(value, cKey, void 0, grandparents)();
-              if (subresult[0] === EXIT2)
-                return subresult;
-            }
-          }
-        }
-      }
-      return leave ? toResult2(leave(node, key, index2, parents)) : result;
-    }
-  }
-}
-function toResult2(value) {
-  if (Array.isArray(value)) {
-    return value;
-  }
-  if (typeof value === "number") {
-    return [CONTINUE2, value];
-  }
-  return [value];
-}
-function nodelike2(value) {
-  return Boolean(
-    value && typeof value === "object" && "type" in value && typeof value.type === "string" && value.type.length > 0
-  );
-}
-
-// node_modules/micromark-extension-mdx-jsx/node_modules/micromark-util-events-to-acorn/index.js
-function eventsToAcorn2(events, options) {
-  const prefix = options.prefix || "";
-  const suffix = options.suffix || "";
-  const acornOptions = Object.assign({}, options.acornOptions);
-  const comments = [];
-  const tokens = [];
-  const onComment = acornOptions.onComment;
-  const onToken = acornOptions.onToken;
-  let swallow = false;
-  let estree;
-  let exception;
-  const acornConfig = Object.assign({}, acornOptions, {
-    onComment: comments,
-    preserveParens: true
-  });
-  if (onToken) {
-    acornConfig.onToken = tokens;
-  }
-  const collection = collect2(events, options.tokenTypes);
-  const source = collection.value;
-  const value = prefix + source + suffix;
-  const isEmptyExpression = options.expression && empty3(source);
-  if (isEmptyExpression && !options.allowEmpty) {
-    throw new VFileMessage("Unexpected empty expression", {
-      place: parseOffsetToUnistPoint(0),
-      ruleId: "unexpected-empty-expression",
-      source: "micromark-extension-mdx-expression"
-    });
-  }
-  try {
-    estree = options.expression && !isEmptyExpression ? options.acorn.parseExpressionAt(value, 0, acornConfig) : options.acorn.parse(value, acornConfig);
-  } catch (error_) {
-    const error = (
-      /** @type {AcornError} */
-      error_
-    );
-    const point2 = parseOffsetToUnistPoint(error.pos);
-    error.message = String(error.message).replace(/ \(\d+:\d+\)$/, "");
-    error.pos = point2.offset;
-    error.loc = {
-      line: point2.line,
-      column: point2.column - 1
-    };
-    exception = error;
-    swallow = error.raisedAt >= prefix.length + source.length || // Broken comments are raised at their start, not their end.
-    error.message === "Unterminated comment";
-  }
-  if (estree && options.expression && !isEmptyExpression) {
-    if (empty3(value.slice(estree.end, value.length - suffix.length))) {
-      estree = {
-        type: "Program",
-        start: 0,
-        end: prefix.length + source.length,
-        // @ts-expect-error: It’s good.
-        body: [{
-          type: "ExpressionStatement",
-          expression: estree,
-          start: 0,
-          end: prefix.length + source.length
-        }],
-        sourceType: "module",
-        comments: []
-      };
-    } else {
-      const point2 = parseOffsetToUnistPoint(estree.end);
-      const error = (
-        /** @type {AcornError} */
-        new Error("Unexpected content after expression")
-      );
-      error.pos = point2.offset;
-      error.loc = {
-        line: point2.line,
-        column: point2.column - 1
-      };
-      exception = error;
-      estree = void 0;
-    }
-  }
-  if (estree) {
-    estree.comments = comments;
-    visit2(estree, function(esnode, field, index2, parents) {
-      let context = (
-        /** @type {AcornNode | Array<AcornNode>} */
-        parents[parents.length - 1]
-      );
-      let prop = field;
-      if (esnode.type === "ParenthesizedExpression" && context && prop) {
-        if (typeof index2 === "number") {
-          context = context[prop];
-          prop = index2;
-        }
-        context[prop] = esnode.expression;
-      }
-      fixPosition(esnode);
-    });
-    if (Array.isArray(onComment)) {
-      onComment.push(...comments);
-    } else if (typeof onComment === "function") {
-      for (const comment of comments) {
-        onComment(comment.type === "Block", comment.value, comment.start, comment.end, comment.loc.start, comment.loc.end);
-      }
-    }
-    for (const token of tokens) {
-      if (token.end <= prefix.length || token.start - prefix.length >= source.length) {
-        continue;
-      }
-      fixPosition(token);
-      if (Array.isArray(onToken)) {
-        onToken.push(token);
-      } else {
-        onToken(token);
-      }
-    }
-  }
-  return {
-    estree,
-    error: exception,
-    swallow
-  };
-  function fixPosition(nodeOrToken) {
-    const pointStart = parseOffsetToUnistPoint(nodeOrToken.start);
-    const pointEnd = parseOffsetToUnistPoint(nodeOrToken.end);
-    nodeOrToken.start = pointStart.offset;
-    nodeOrToken.end = pointEnd.offset;
-    nodeOrToken.loc = {
-      start: {
-        line: pointStart.line,
-        column: pointStart.column - 1,
-        offset: pointStart.offset
-      },
-      end: {
-        line: pointEnd.line,
-        column: pointEnd.column - 1,
-        offset: pointEnd.offset
-      }
-    };
-    nodeOrToken.range = [nodeOrToken.start, nodeOrToken.end];
-  }
-  function parseOffsetToUnistPoint(acornOffset) {
-    let sourceOffset = acornOffset - prefix.length;
-    if (sourceOffset < 0) {
-      sourceOffset = 0;
-    } else if (sourceOffset > source.length) {
-      sourceOffset = source.length;
-    }
-    let point2 = relativeToPoint2(collection.stops, sourceOffset);
-    if (!point2) {
-      point2 = {
-        line: options.start.line,
-        column: options.start.column,
-        offset: options.start.offset
-      };
-    }
-    return point2;
-  }
-}
-function empty3(value) {
-  return /^\s*$/.test(value.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\r\n]*(\r\n|\n|\r)/g, ""));
-}
-function collect2(events, tokenTypes) {
-  const result = {
-    value: "",
-    stops: []
-  };
-  let index2 = -1;
-  while (++index2 < events.length) {
-    const event = events[index2];
-    if (event[0] === "enter") {
-      const type = event[1].type;
-      if (type === "lineEnding" || tokenTypes.includes(type)) {
-        const chunks = event[2].sliceStream(event[1]);
-        while (chunks.length > 0 && chunks[0] === -1) {
-          chunks.shift();
-        }
-        const value = serializeChunks2(chunks);
-        result.stops.push([result.value.length, event[1].start]);
-        result.value += value;
-        result.stops.push([result.value.length, event[1].end]);
-      }
-    }
-  }
-  return result;
-}
-function relativeToPoint2(stops, relative) {
-  let index2 = 0;
-  while (index2 < stops.length && stops[index2][0] <= relative) {
-    index2 += 1;
-  }
-  if (index2 === 0) {
-    return void 0;
-  }
-  const [stopRelative, stopAbsolute] = stops[index2 - 1];
-  const rest = relative - stopRelative;
-  return {
-    line: stopAbsolute.line,
-    column: stopAbsolute.column + rest,
-    offset: stopAbsolute.offset + rest
-  };
-}
-function serializeChunks2(chunks) {
-  let index2 = -1;
-  const result = [];
-  let atTab;
-  while (++index2 < chunks.length) {
-    const chunk = chunks[index2];
-    let value;
-    if (typeof chunk === "string") {
-      value = chunk;
-    } else
-      switch (chunk) {
-        case -5: {
-          value = "\r";
-          break;
-        }
-        case -4: {
-          value = "\n";
-          break;
-        }
-        case -3: {
-          value = "\r\n";
-          break;
-        }
-        case -2: {
-          value = "	";
-          break;
-        }
-        case -1: {
-          if (atTab)
-            continue;
-          value = " ";
-          break;
-        }
-        default: {
-          value = String.fromCharCode(chunk);
-        }
-      }
-    atTab = chunk === -2;
-    result.push(value);
-  }
-  return result.join("");
-}
-
-// node_modules/micromark-extension-mdx-jsx/node_modules/micromark-factory-mdx-expression/index.js
-var trouble2 = "https://github.com/micromark/micromark-extension-mdx-expression/tree/main/packages/micromark-extension-mdx-expression";
-var unexpectedEofHash2 = "#unexpected-end-of-file-in-expression-expected-a-corresponding-closing-brace-for-";
-var unexpectedLazyHash2 = "#unexpected-lazy-line-in-expression-in-container-expected-line-to-be-prefixed";
-var nonSpreadHash2 = "#unexpected-type-in-code-expected-an-object-spread-spread";
-var spreadExtraHash2 = "#unexpected-extra-content-in-spread-only-a-single-spread-is-supported";
-var acornHash2 = "#could-not-parse-expression-with-acorn";
-function factoryMdxExpression2(effects, ok2, type, markerType, chunkType, acorn, acornOptions, addResult, spread, allowEmpty, allowLazy) {
-  const self2 = this;
-  const eventStart = this.events.length + 3;
-  let size = 0;
-  let pointStart;
-  let lastCrash;
-  return start2;
-  function start2(code) {
-    effects.enter(type);
-    effects.enter(markerType);
-    effects.consume(code);
-    effects.exit(markerType);
-    pointStart = self2.now();
-    return before;
-  }
-  function before(code) {
-    if (code === null) {
-      if (lastCrash)
-        throw lastCrash;
-      const error = new VFileMessage(
-        "Unexpected end of file in expression, expected a corresponding closing brace for `{`",
-        {
-          place: self2.now(),
-          ruleId: "unexpected-eof",
-          source: "micromark-extension-mdx-expression"
-        }
-      );
-      error.url = trouble2 + unexpectedEofHash2;
-      throw error;
-    }
-    if (markdownLineEnding(code)) {
-      effects.enter("lineEnding");
-      effects.consume(code);
-      effects.exit("lineEnding");
-      return eolAfter;
-    }
-    if (code === 125 && size === 0) {
-      const next = acorn ? mdxExpressionParse2.call(
-        self2,
-        acorn,
-        acornOptions,
-        chunkType,
-        eventStart,
-        pointStart,
-        allowEmpty || false,
-        spread || false
-      ) : {
-        type: "ok",
-        estree: void 0
-      };
-      if (next.type === "ok") {
-        effects.enter(markerType);
-        effects.consume(code);
-        effects.exit(markerType);
-        const token = effects.exit(type);
-        if (addResult && next.estree) {
-          Object.assign(token, {
-            estree: next.estree
-          });
-        }
-        return ok2;
-      }
-      lastCrash = next.message;
-      effects.enter(chunkType);
-      effects.consume(code);
-      return inside;
-    }
-    effects.enter(chunkType);
-    return inside(code);
-  }
-  function inside(code) {
-    if (code === 125 && size === 0 || code === null || markdownLineEnding(code)) {
-      effects.exit(chunkType);
-      return before(code);
-    }
-    if (code === 123 && !acorn) {
-      size += 1;
-    } else if (code === 125) {
-      size -= 1;
-    }
-    effects.consume(code);
-    return inside;
-  }
-  function eolAfter(code) {
-    const now = self2.now();
-    if (now.line !== pointStart.line && !allowLazy && self2.parser.lazy[now.line]) {
-      const error = new VFileMessage(
-        "Unexpected lazy line in expression in container, expected line to be prefixed with `>` when in a block quote, whitespace when in a list, etc",
-        {
-          place: self2.now(),
-          ruleId: "unexpected-lazy",
-          source: "micromark-extension-mdx-expression"
-        }
-      );
-      error.url = trouble2 + unexpectedLazyHash2;
-      throw error;
-    }
-    return before(code);
-  }
-}
-function mdxExpressionParse2(acorn, acornOptions, chunkType, eventStart, pointStart, allowEmpty, spread) {
-  const result = eventsToAcorn2(this.events.slice(eventStart), {
-    acorn,
-    tokenTypes: [chunkType],
-    acornOptions,
-    start: pointStart,
-    expression: true,
-    allowEmpty,
-    prefix: spread ? "({" : "",
-    suffix: spread ? "})" : ""
-  });
-  const estree = result.estree;
-  if (spread && estree) {
-    const head = estree.body[0];
-    if (head.type !== "ExpressionStatement" || head.expression.type !== "ObjectExpression") {
-      const place = positionFromEstree(head);
-      const error = new VFileMessage(
-        "Unexpected `" + head.type + "` in code: expected an object spread (`{...spread}`)",
-        {
-          place: place.start,
-          ruleId: "non-spread",
-          source: "micromark-extension-mdx-expression"
-        }
-      );
-      error.url = trouble2 + nonSpreadHash2;
-      throw error;
-    }
-    if (head.expression.properties[1]) {
-      const place = positionFromEstree(head.expression.properties[1]);
-      const error = new VFileMessage(
-        "Unexpected extra content in spread: only a single spread is supported",
-        {
-          place: place.start,
-          ruleId: "spread-extra",
-          source: "micromark-extension-mdx-expression"
-        }
-      );
-      error.url = trouble2 + spreadExtraHash2;
-      throw error;
-    }
-    if (head.expression.properties[0] && head.expression.properties[0].type !== "SpreadElement") {
-      const place = positionFromEstree(head.expression.properties[0]);
-      const error = new VFileMessage(
-        "Unexpected `" + head.expression.properties[0].type + "` in code: only spread elements are supported",
-        {
-          place: place.start,
-          ruleId: "non-spread",
-          source: "micromark-extension-mdx-expression"
-        }
-      );
-      error.url = trouble2 + nonSpreadHash2;
-      throw error;
-    }
-  }
-  if (result.error) {
-    const error = new VFileMessage("Could not parse expression with acorn", {
-      cause: result.error,
-      place: {
-        line: result.error.loc.line,
-        column: result.error.loc.column + 1,
-        offset: result.error.pos
-      },
-      ruleId: "acorn",
-      source: "micromark-extension-mdx-expression"
-    });
-    error.url = trouble2 + acornHash2;
-    return {
-      type: "nok",
-      message: error
-    };
-  }
-  return {
-    type: "ok",
-    estree
-  };
-}
-
 // node_modules/micromark-extension-mdx-jsx/lib/factory-tag.js
-var trouble3 = "https://github.com/micromark/micromark-extension-mdx-jsx";
+var trouble2 = "https://github.com/micromark/micromark-extension-mdx-jsx";
 function factoryTag(effects, ok2, nok, acorn, acornOptions, addResult, allowLazy, tagType, tagMarkerType, tagClosingMarkerType, tagSelfClosingMarker, tagNameType, tagNamePrimaryType, tagNameMemberMarkerType, tagNameMemberType, tagNamePrefixMarkerType, tagNameLocalType, tagExpressionAttributeType, tagExpressionAttributeMarkerType, tagExpressionAttributeValueType, tagAttributeType, tagAttributeNameType, tagAttributeNamePrimaryType, tagAttributeNamePrefixMarkerType, tagAttributeNameLocalType, tagAttributeInitializerMarkerType, tagAttributeValueLiteralType, tagAttributeValueLiteralMarkerType, tagAttributeValueLiteralValueType, tagAttributeValueExpressionType, tagAttributeValueExpressionMarkerType, tagAttributeValueExpressionValueType) {
   const self2 = this;
   let returnState;
@@ -16070,7 +15548,7 @@ function factoryTag(effects, ok2, nok, acorn, acornOptions, addResult, allowLazy
       return tagEnd(code);
     }
     if (code === 123) {
-      return factoryMdxExpression2.call(self2, effects, attributeExpressionAfter, tagExpressionAttributeType, tagExpressionAttributeMarkerType, tagExpressionAttributeValueType, acorn, acornOptions, addResult, true, false, allowLazy)(code);
+      return factoryMdxExpression.call(self2, effects, attributeExpressionAfter, tagExpressionAttributeType, tagExpressionAttributeMarkerType, tagExpressionAttributeValueType, acorn, acornOptions, addResult, true, false, allowLazy)(code);
     }
     if (code !== null && code >= 0 && start(code)) {
       effects.enter(tagAttributeType);
@@ -16170,7 +15648,7 @@ function factoryTag(effects, ok2, nok, acorn, acornOptions, addResult, allowLazy
       return attributeValueQuotedStart;
     }
     if (code === 123) {
-      return factoryMdxExpression2.call(self2, effects, attributeValueExpressionAfter, tagAttributeValueExpressionType, tagAttributeValueExpressionMarkerType, tagAttributeValueExpressionValueType, acorn, acornOptions, addResult, false, false, allowLazy)(code);
+      return factoryMdxExpression.call(self2, effects, attributeValueExpressionAfter, tagAttributeValueExpressionType, tagAttributeValueExpressionMarkerType, tagAttributeValueExpressionValueType, acorn, acornOptions, addResult, false, false, allowLazy)(code);
     }
     crash(code, "before attribute value", "a character that can start an attribute value, such as `\"`, `'`, or `{`" + (code === 60 ? " (note: to use an element or fragment as a prop value in MDX, use `{<element />}`)" : ""));
   }
@@ -16249,14 +15727,14 @@ function factoryTag(effects, ok2, nok, acorn, acornOptions, addResult, allowLazy
   function esWhitespaceEolAfter(code) {
     if (!allowLazy && self2.parser.lazy[self2.now().line]) {
       const error = new VFileMessage("Unexpected lazy line in container, expected line to be prefixed with `>` when in a block quote, whitespace when in a list, etc", self2.now(), "micromark-extension-mdx-jsx:unexpected-lazy");
-      error.url = trouble3 + "#unexpected-lazy-line-in-container-expected-line-to-be";
+      error.url = trouble2 + "#unexpected-lazy-line-in-container-expected-line-to-be";
       throw error;
     }
     return esWhitespaceStart(code);
   }
   function crash(code, at2, expect) {
     const error = new VFileMessage("Unexpected " + (code === null ? "end of file" : "character `" + (code === 96 ? "` ` `" : String.fromCodePoint(code)) + "` (" + serializeCharCode(code) + ")") + " " + at2 + ", expected " + expect, self2.now(), "micromark-extension-mdx-jsx:unexpected-" + (code === null ? "eof" : "character"));
-    error.url = trouble3 + (code === null ? "#unexpected-end-of-file-at-expected-expect" : "#unexpected-character-at-expected-expect");
+    error.url = trouble2 + (code === null ? "#unexpected-end-of-file-at-expected-expect" : "#unexpected-character-at-expected-expect");
     throw error;
   }
 }
@@ -16390,344 +15868,12 @@ function tokenizeBlankLine(effects, ok2, nok) {
   }
 }
 
-// node_modules/micromark-extension-mdxjs-esm/node_modules/estree-util-visit/lib/color.node.js
-function color3(d) {
-  return "\x1B[33m" + d + "\x1B[39m";
-}
-
-// node_modules/micromark-extension-mdxjs-esm/node_modules/estree-util-visit/lib/index.js
-var own4 = {}.hasOwnProperty;
-var CONTINUE3 = Symbol("continue");
-var EXIT3 = Symbol("exit");
-var SKIP3 = Symbol("skip");
-function visit3(tree, visitor) {
-  let enter;
-  let leave;
-  if (typeof visitor === "function") {
-    enter = visitor;
-  } else if (visitor && typeof visitor === "object") {
-    if (visitor.enter)
-      enter = visitor.enter;
-    if (visitor.leave)
-      leave = visitor.leave;
-  }
-  build(tree, void 0, void 0, [])();
-  function build(node, key, index2, parents) {
-    if (nodelike3(node)) {
-      visit4.displayName = "node (" + color3(node.type) + ")";
-    }
-    return visit4;
-    function visit4() {
-      const result = enter ? toResult3(enter(node, key, index2, parents)) : [];
-      if (result[0] === EXIT3) {
-        return result;
-      }
-      if (result[0] !== SKIP3) {
-        let cKey;
-        for (cKey in node) {
-          if (own4.call(node, cKey) && node[cKey] && typeof node[cKey] === "object" && // @ts-expect-error: custom esast extension.
-          cKey !== "data" && // @ts-expect-error: custom esast extension.
-          cKey !== "position") {
-            const grandparents = parents.concat(node);
-            const value = node[cKey];
-            if (Array.isArray(value)) {
-              const nodes = (
-                /** @type {Array<unknown>} */
-                value
-              );
-              let cIndex = 0;
-              while (cIndex > -1 && cIndex < nodes.length) {
-                const subvalue = nodes[cIndex];
-                if (nodelike3(subvalue)) {
-                  const subresult = build(
-                    subvalue,
-                    cKey,
-                    cIndex,
-                    grandparents
-                  )();
-                  if (subresult[0] === EXIT3)
-                    return subresult;
-                  cIndex = typeof subresult[1] === "number" ? subresult[1] : cIndex + 1;
-                } else {
-                  cIndex++;
-                }
-              }
-            } else if (nodelike3(value)) {
-              const subresult = build(value, cKey, void 0, grandparents)();
-              if (subresult[0] === EXIT3)
-                return subresult;
-            }
-          }
-        }
-      }
-      return leave ? toResult3(leave(node, key, index2, parents)) : result;
-    }
-  }
-}
-function toResult3(value) {
-  if (Array.isArray(value)) {
-    return value;
-  }
-  if (typeof value === "number") {
-    return [CONTINUE3, value];
-  }
-  return [value];
-}
-function nodelike3(value) {
-  return Boolean(
-    value && typeof value === "object" && "type" in value && typeof value.type === "string" && value.type.length > 0
-  );
-}
-
-// node_modules/micromark-extension-mdxjs-esm/node_modules/micromark-util-events-to-acorn/index.js
-function eventsToAcorn3(events, options) {
-  const prefix = options.prefix || "";
-  const suffix = options.suffix || "";
-  const acornOptions = Object.assign({}, options.acornOptions);
-  const comments = [];
-  const tokens = [];
-  const onComment = acornOptions.onComment;
-  const onToken = acornOptions.onToken;
-  let swallow = false;
-  let estree;
-  let exception;
-  const acornConfig = Object.assign({}, acornOptions, {
-    onComment: comments,
-    preserveParens: true
-  });
-  if (onToken) {
-    acornConfig.onToken = tokens;
-  }
-  const collection = collect3(events, options.tokenTypes);
-  const source = collection.value;
-  const value = prefix + source + suffix;
-  const isEmptyExpression = options.expression && empty4(source);
-  if (isEmptyExpression && !options.allowEmpty) {
-    throw new VFileMessage("Unexpected empty expression", {
-      place: parseOffsetToUnistPoint(0),
-      ruleId: "unexpected-empty-expression",
-      source: "micromark-extension-mdx-expression"
-    });
-  }
-  try {
-    estree = options.expression && !isEmptyExpression ? options.acorn.parseExpressionAt(value, 0, acornConfig) : options.acorn.parse(value, acornConfig);
-  } catch (error_) {
-    const error = (
-      /** @type {AcornError} */
-      error_
-    );
-    const point2 = parseOffsetToUnistPoint(error.pos);
-    error.message = String(error.message).replace(/ \(\d+:\d+\)$/, "");
-    error.pos = point2.offset;
-    error.loc = {
-      line: point2.line,
-      column: point2.column - 1
-    };
-    exception = error;
-    swallow = error.raisedAt >= prefix.length + source.length || // Broken comments are raised at their start, not their end.
-    error.message === "Unterminated comment";
-  }
-  if (estree && options.expression && !isEmptyExpression) {
-    if (empty4(value.slice(estree.end, value.length - suffix.length))) {
-      estree = {
-        type: "Program",
-        start: 0,
-        end: prefix.length + source.length,
-        // @ts-expect-error: It’s good.
-        body: [{
-          type: "ExpressionStatement",
-          expression: estree,
-          start: 0,
-          end: prefix.length + source.length
-        }],
-        sourceType: "module",
-        comments: []
-      };
-    } else {
-      const point2 = parseOffsetToUnistPoint(estree.end);
-      const error = (
-        /** @type {AcornError} */
-        new Error("Unexpected content after expression")
-      );
-      error.pos = point2.offset;
-      error.loc = {
-        line: point2.line,
-        column: point2.column - 1
-      };
-      exception = error;
-      estree = void 0;
-    }
-  }
-  if (estree) {
-    estree.comments = comments;
-    visit3(estree, function(esnode, field, index2, parents) {
-      let context = (
-        /** @type {AcornNode | Array<AcornNode>} */
-        parents[parents.length - 1]
-      );
-      let prop = field;
-      if (esnode.type === "ParenthesizedExpression" && context && prop) {
-        if (typeof index2 === "number") {
-          context = context[prop];
-          prop = index2;
-        }
-        context[prop] = esnode.expression;
-      }
-      fixPosition(esnode);
-    });
-    if (Array.isArray(onComment)) {
-      onComment.push(...comments);
-    } else if (typeof onComment === "function") {
-      for (const comment of comments) {
-        onComment(comment.type === "Block", comment.value, comment.start, comment.end, comment.loc.start, comment.loc.end);
-      }
-    }
-    for (const token of tokens) {
-      if (token.end <= prefix.length || token.start - prefix.length >= source.length) {
-        continue;
-      }
-      fixPosition(token);
-      if (Array.isArray(onToken)) {
-        onToken.push(token);
-      } else {
-        onToken(token);
-      }
-    }
-  }
-  return {
-    estree,
-    error: exception,
-    swallow
-  };
-  function fixPosition(nodeOrToken) {
-    const pointStart = parseOffsetToUnistPoint(nodeOrToken.start);
-    const pointEnd = parseOffsetToUnistPoint(nodeOrToken.end);
-    nodeOrToken.start = pointStart.offset;
-    nodeOrToken.end = pointEnd.offset;
-    nodeOrToken.loc = {
-      start: {
-        line: pointStart.line,
-        column: pointStart.column - 1,
-        offset: pointStart.offset
-      },
-      end: {
-        line: pointEnd.line,
-        column: pointEnd.column - 1,
-        offset: pointEnd.offset
-      }
-    };
-    nodeOrToken.range = [nodeOrToken.start, nodeOrToken.end];
-  }
-  function parseOffsetToUnistPoint(acornOffset) {
-    let sourceOffset = acornOffset - prefix.length;
-    if (sourceOffset < 0) {
-      sourceOffset = 0;
-    } else if (sourceOffset > source.length) {
-      sourceOffset = source.length;
-    }
-    let point2 = relativeToPoint3(collection.stops, sourceOffset);
-    if (!point2) {
-      point2 = {
-        line: options.start.line,
-        column: options.start.column,
-        offset: options.start.offset
-      };
-    }
-    return point2;
-  }
-}
-function empty4(value) {
-  return /^\s*$/.test(value.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\r\n]*(\r\n|\n|\r)/g, ""));
-}
-function collect3(events, tokenTypes) {
-  const result = {
-    value: "",
-    stops: []
-  };
-  let index2 = -1;
-  while (++index2 < events.length) {
-    const event = events[index2];
-    if (event[0] === "enter") {
-      const type = event[1].type;
-      if (type === "lineEnding" || tokenTypes.includes(type)) {
-        const chunks = event[2].sliceStream(event[1]);
-        while (chunks.length > 0 && chunks[0] === -1) {
-          chunks.shift();
-        }
-        const value = serializeChunks3(chunks);
-        result.stops.push([result.value.length, event[1].start]);
-        result.value += value;
-        result.stops.push([result.value.length, event[1].end]);
-      }
-    }
-  }
-  return result;
-}
-function relativeToPoint3(stops, relative) {
-  let index2 = 0;
-  while (index2 < stops.length && stops[index2][0] <= relative) {
-    index2 += 1;
-  }
-  if (index2 === 0) {
-    return void 0;
-  }
-  const [stopRelative, stopAbsolute] = stops[index2 - 1];
-  const rest = relative - stopRelative;
-  return {
-    line: stopAbsolute.line,
-    column: stopAbsolute.column + rest,
-    offset: stopAbsolute.offset + rest
-  };
-}
-function serializeChunks3(chunks) {
-  let index2 = -1;
-  const result = [];
-  let atTab;
-  while (++index2 < chunks.length) {
-    const chunk = chunks[index2];
-    let value;
-    if (typeof chunk === "string") {
-      value = chunk;
-    } else
-      switch (chunk) {
-        case -5: {
-          value = "\r";
-          break;
-        }
-        case -4: {
-          value = "\n";
-          break;
-        }
-        case -3: {
-          value = "\r\n";
-          break;
-        }
-        case -2: {
-          value = "	";
-          break;
-        }
-        case -1: {
-          if (atTab)
-            continue;
-          value = " ";
-          break;
-        }
-        default: {
-          value = String.fromCharCode(chunk);
-        }
-      }
-    atTab = chunk === -2;
-    result.push(value);
-  }
-  return result.join("");
-}
-
 // node_modules/micromark-extension-mdxjs-esm/lib/syntax.js
 var blankLineBefore = {
   tokenize: tokenizeNextBlank,
   partial: true
 };
-var trouble4 = "https://github.com/micromark/micromark-extension-mdxjs-esm";
+var trouble3 = "https://github.com/micromark/micromark-extension-mdxjs-esm";
 var allowedAcornTypes = /* @__PURE__ */ new Set(["ExportAllDeclaration", "ExportDefaultDeclaration", "ExportNamedDeclaration", "ImportDeclaration"]);
 function mdxjsEsm(options) {
   const exportImportConstruct = {
@@ -16802,7 +15948,7 @@ function mdxjsEsm(options) {
       return lineStart;
     }
     function atEnd(code) {
-      const result = eventsToAcorn3(self2.events.slice(eventStart), {
+      const result = eventsToAcorn(self2.events.slice(eventStart), {
         acorn,
         acornOptions,
         tokenTypes: ["mdxjsEsmData"],
@@ -16822,7 +15968,7 @@ function mdxjsEsm(options) {
           ruleId: "acorn",
           source: "micromark-extension-mdxjs-esm"
         });
-        error.url = trouble4 + "#could-not-parse-importexports-with-acorn";
+        error.url = trouble3 + "#could-not-parse-importexports-with-acorn";
         throw error;
       }
       if (definedModuleSpecifiers.length > 0) {
@@ -16837,7 +15983,7 @@ function mdxjsEsm(options) {
             ruleId: "non-esm",
             source: "micromark-extension-mdxjs-esm"
           });
-          error.url = trouble4 + "#unexpected-type-in-code-only-importexports-are-supported";
+          error.url = trouble3 + "#unexpected-type-in-code-only-importexports-are-supported";
           throw error;
         }
         if (node.type === "ImportDeclaration" && !self2.interrupt) {
@@ -16926,7 +16072,7 @@ function mdxjs(options) {
 
 // node_modules/remark-mdx/lib/index.js
 var emptyOptions2 = {};
-function remarkMdx(options) {
+function remarkMdx300(options) {
   const self2 = (
     /** @type {Processor} */
     this

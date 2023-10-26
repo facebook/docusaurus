@@ -7102,7 +7102,7 @@ function ccount(value, character) {
   return count;
 }
 
-// node_modules/parse-entities/node_modules/character-entities-legacy/index.js
+// node_modules/character-entities-legacy/index.js
 var characterEntitiesLegacy = [
   "AElig",
   "AMP",
@@ -7244,7 +7244,7 @@ var characterReferenceInvalid = {
   159: "\u0178"
 };
 
-// node_modules/parse-entities/node_modules/is-decimal/index.js
+// node_modules/is-decimal/index.js
 function isDecimal(character) {
   const code2 = typeof character === "string" ? character.charCodeAt(0) : character;
   return code2 >= 48 && code2 <= 57;
@@ -7256,21 +7256,15 @@ function isHexadecimal(character) {
   return code2 >= 97 && code2 <= 102 || code2 >= 65 && code2 <= 70 || code2 >= 48 && code2 <= 57;
 }
 
-// node_modules/is-alphanumerical/node_modules/is-alphabetical/index.js
+// node_modules/is-alphabetical/index.js
 function isAlphabetical(character) {
   const code2 = typeof character === "string" ? character.charCodeAt(0) : character;
   return code2 >= 97 && code2 <= 122 || code2 >= 65 && code2 <= 90;
 }
 
-// node_modules/is-alphanumerical/node_modules/is-decimal/index.js
-function isDecimal2(character) {
-  const code2 = typeof character === "string" ? character.charCodeAt(0) : character;
-  return code2 >= 48 && code2 <= 57;
-}
-
 // node_modules/is-alphanumerical/index.js
 function isAlphanumerical(character) {
-  return isAlphabetical(character) || isDecimal2(character);
+  return isAlphabetical(character) || isDecimal(character);
 }
 
 // node_modules/character-entities/index.js
@@ -10145,7 +10139,7 @@ function handleMdxjsEsm(node2) {
   return node2.value || "";
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-mdx/lib/index.js
+// node_modules/mdast-util-mdx/lib/index.js
 function mdxFromMarkdown() {
   return [
     mdxExpressionFromMarkdown(),
@@ -15495,7 +15489,7 @@ Parser.acorn = {
   nonASCIIwhitespace
 };
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdxjs/index.js
+// node_modules/micromark-extension-mdxjs/index.js
 var import_acorn_jsx = __toESM(require_acorn_jsx(), 1);
 
 // node_modules/micromark-util-character/index.js
@@ -15533,12 +15527,12 @@ function regexCheck(regex2) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/estree-util-visit/lib/color.node.js
+// node_modules/estree-util-visit/lib/color.node.js
 function color(d) {
   return "\x1B[33m" + d + "\x1B[39m";
 }
 
-// node_modules/@mdx-js/mdx/node_modules/estree-util-visit/lib/index.js
+// node_modules/estree-util-visit/lib/index.js
 var own2 = {}.hasOwnProperty;
 var CONTINUE = Symbol("continue");
 var EXIT = Symbol("exit");
@@ -15622,7 +15616,7 @@ function nodelike(value) {
   );
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-util-events-to-acorn/index.js
+// node_modules/micromark-util-events-to-acorn/index.js
 function eventsToAcorn(events, options) {
   const prefix = options.prefix || "";
   const suffix = options.suffix || "";
@@ -15893,7 +15887,7 @@ function numberOrUndefined(value) {
   return typeof value === "number" && value > -1 ? value : void 0;
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-factory-mdx-expression/index.js
+// node_modules/micromark-factory-mdx-expression/index.js
 var trouble = "https://github.com/micromark/micromark-extension-mdx-expression/tree/main/packages/micromark-extension-mdx-expression";
 var unexpectedEofHash = "#unexpected-end-of-file-in-expression-expected-a-corresponding-closing-brace-for-";
 var unexpectedLazyHash = "#unexpected-lazy-line-in-expression-in-container-expected-line-to-be-prefixed";
@@ -16099,7 +16093,7 @@ function factorySpace(effects, ok3, type, max) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdx-expression/lib/syntax.js
+// node_modules/micromark-extension-mdx-expression/lib/syntax.js
 function mdxExpression(options) {
   const options_ = options || {};
   const addResult = options_.addResult;
@@ -16193,7 +16187,7 @@ function name(name2, options) {
   return re2.test(name2);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdx-jsx/lib/factory-tag.js
+// node_modules/micromark-extension-mdx-jsx/lib/factory-tag.js
 var trouble2 = "https://github.com/micromark/micromark-extension-mdx-jsx";
 function factoryTag(effects, ok3, nok, acorn, acornOptions, addResult, allowLazy, tagType, tagMarkerType, tagClosingMarkerType, tagSelfClosingMarker, tagNameType, tagNamePrimaryType, tagNameMemberMarkerType, tagNameMemberType, tagNamePrefixMarkerType, tagNameLocalType, tagExpressionAttributeType, tagExpressionAttributeMarkerType, tagExpressionAttributeValueType, tagAttributeType, tagAttributeNameType, tagAttributeNamePrimaryType, tagAttributeNamePrefixMarkerType, tagAttributeNameLocalType, tagAttributeInitializerMarkerType, tagAttributeValueLiteralType, tagAttributeValueLiteralMarkerType, tagAttributeValueLiteralValueType, tagAttributeValueExpressionType, tagAttributeValueExpressionMarkerType, tagAttributeValueExpressionValueType) {
   const self2 = this;
@@ -16551,7 +16545,7 @@ function serializeCharCode(code2) {
   return "U+" + code2.toString(16).toUpperCase().padStart(4, "0");
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdx-jsx/lib/jsx-text.js
+// node_modules/micromark-extension-mdx-jsx/lib/jsx-text.js
 function jsxText(acorn, options) {
   return {
     name: "mdxJsxTextTag",
@@ -16562,7 +16556,7 @@ function jsxText(acorn, options) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdx-jsx/lib/jsx-flow.js
+// node_modules/micromark-extension-mdx-jsx/lib/jsx-flow.js
 function jsxFlow(acorn, options) {
   return {
     name: "mdxJsxFlowTag",
@@ -16593,7 +16587,7 @@ function jsxFlow(acorn, options) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdx-jsx/lib/syntax.js
+// node_modules/micromark-extension-mdx-jsx/lib/syntax.js
 function mdxJsx(options) {
   const settings = options || {};
   const acorn = settings.acorn;
@@ -16627,7 +16621,7 @@ function mdxJsx(options) {
   };
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdx-md/index.js
+// node_modules/micromark-extension-mdx-md/index.js
 function mdxMd() {
   return {
     disable: { null: ["autolink", "codeIndented", "htmlFlow", "htmlText"] }
@@ -17466,7 +17460,7 @@ function tokenizeCodeText(effects, ok3, nok) {
   }
 }
 
-// node_modules/micromark-core-commonmark/node_modules/micromark-util-subtokenize/index.js
+// node_modules/micromark-util-subtokenize/index.js
 function subtokenize(events) {
   const jumps = {};
   let index2 = -1;
@@ -19519,7 +19513,7 @@ function tokenizeSetextUnderline(effects, ok3, nok) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdxjs-esm/lib/syntax.js
+// node_modules/micromark-extension-mdxjs-esm/lib/syntax.js
 var blankLineBefore2 = {
   tokenize: tokenizeNextBlank,
   partial: true
@@ -19703,7 +19697,7 @@ function constructs(existing, list3) {
   splice(existing, 0, 0, before);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/micromark-extension-mdxjs/index.js
+// node_modules/micromark-extension-mdxjs/index.js
 function mdxjs(options) {
   const settings = Object.assign(
     {
@@ -19721,7 +19715,7 @@ function mdxjs(options) {
   ]);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/remark-mdx/lib/index.js
+// node_modules/remark-mdx/lib/index.js
 var emptyOptions2 = {};
 function remarkMdx(options) {
   const self2 = (
@@ -19738,7 +19732,7 @@ function remarkMdx(options) {
   toMarkdownExtensions.push(mdxToMarkdown(settings));
 }
 
-// node_modules/mdast-util-from-markdown/node_modules/mdast-util-to-string/lib/index.js
+// node_modules/mdast-util-to-string/lib/index.js
 var emptyOptions3 = {};
 function toString2(value, options) {
   const settings = options || emptyOptions3;
@@ -19773,6 +19767,22 @@ function all(values, includeImageAlt, includeHtml) {
 }
 function node(value) {
   return Boolean(value && typeof value === "object");
+}
+
+// node_modules/micromark-util-decode-numeric-character-reference/index.js
+function decodeNumericCharacterReference(value, base) {
+  const code2 = Number.parseInt(value, base);
+  if (
+    // C0 except for HT, LF, FF, CR, space.
+    code2 < 9 || code2 === 11 || code2 > 13 && code2 < 32 || // Control character (DEL) of C0, and C1 controls.
+    code2 > 126 && code2 < 160 || // Lone high surrogates and low surrogates.
+    code2 > 55295 && code2 < 57344 || // Noncharacters.
+    code2 > 64975 && code2 < 65008 || (code2 & 65535) === 65535 || (code2 & 65535) === 65534 || // Out of range
+    code2 > 1114111
+  ) {
+    return "\uFFFD";
+  }
+  return String.fromCharCode(code2);
 }
 
 // node_modules/micromark-util-sanitize-uri/index.js
@@ -20689,150 +20699,9 @@ function parse3(options) {
   }
 }
 
-// node_modules/micromark/node_modules/micromark-util-subtokenize/index.js
-function subtokenize2(events) {
-  const jumps = {};
-  let index2 = -1;
-  let event;
-  let lineIndex;
-  let otherIndex;
-  let otherEvent;
-  let parameters;
-  let subevents;
-  let more;
-  while (++index2 < events.length) {
-    while (index2 in jumps) {
-      index2 = jumps[index2];
-    }
-    event = events[index2];
-    if (index2 && event[1].type === "chunkFlow" && events[index2 - 1][1].type === "listItemPrefix") {
-      subevents = event[1]._tokenizer.events;
-      otherIndex = 0;
-      if (otherIndex < subevents.length && subevents[otherIndex][1].type === "lineEndingBlank") {
-        otherIndex += 2;
-      }
-      if (otherIndex < subevents.length && subevents[otherIndex][1].type === "content") {
-        while (++otherIndex < subevents.length) {
-          if (subevents[otherIndex][1].type === "content") {
-            break;
-          }
-          if (subevents[otherIndex][1].type === "chunkText") {
-            subevents[otherIndex][1]._isInFirstContentOfListItem = true;
-            otherIndex++;
-          }
-        }
-      }
-    }
-    if (event[0] === "enter") {
-      if (event[1].contentType) {
-        Object.assign(jumps, subcontent2(events, index2));
-        index2 = jumps[index2];
-        more = true;
-      }
-    } else if (event[1]._container) {
-      otherIndex = index2;
-      lineIndex = void 0;
-      while (otherIndex--) {
-        otherEvent = events[otherIndex];
-        if (otherEvent[1].type === "lineEnding" || otherEvent[1].type === "lineEndingBlank") {
-          if (otherEvent[0] === "enter") {
-            if (lineIndex) {
-              events[lineIndex][1].type = "lineEndingBlank";
-            }
-            otherEvent[1].type = "lineEnding";
-            lineIndex = otherIndex;
-          }
-        } else {
-          break;
-        }
-      }
-      if (lineIndex) {
-        event[1].end = Object.assign({}, events[lineIndex][1].start);
-        parameters = events.slice(lineIndex, index2);
-        parameters.unshift(event);
-        splice(events, lineIndex, index2 - lineIndex + 1, parameters);
-      }
-    }
-  }
-  return !more;
-}
-function subcontent2(events, eventIndex) {
-  const token = events[eventIndex][1];
-  const context = events[eventIndex][2];
-  let startPosition = eventIndex - 1;
-  const startPositions = [];
-  const tokenizer2 = token._tokenizer || context.parser[token.contentType](token.start);
-  const childEvents = tokenizer2.events;
-  const jumps = [];
-  const gaps = {};
-  let stream;
-  let previous2;
-  let index2 = -1;
-  let current2 = token;
-  let adjust = 0;
-  let start2 = 0;
-  const breaks = [start2];
-  while (current2) {
-    while (events[++startPosition][1] !== current2) {
-    }
-    startPositions.push(startPosition);
-    if (!current2._tokenizer) {
-      stream = context.sliceStream(current2);
-      if (!current2.next) {
-        stream.push(null);
-      }
-      if (previous2) {
-        tokenizer2.defineSkip(current2.start);
-      }
-      if (current2._isInFirstContentOfListItem) {
-        tokenizer2._gfmTasklistFirstContentOfListItem = true;
-      }
-      tokenizer2.write(stream);
-      if (current2._isInFirstContentOfListItem) {
-        tokenizer2._gfmTasklistFirstContentOfListItem = void 0;
-      }
-    }
-    previous2 = current2;
-    current2 = current2.next;
-  }
-  current2 = token;
-  while (++index2 < childEvents.length) {
-    if (
-      // Find a void token that includes a break.
-      childEvents[index2][0] === "exit" && childEvents[index2 - 1][0] === "enter" && childEvents[index2][1].type === childEvents[index2 - 1][1].type && childEvents[index2][1].start.line !== childEvents[index2][1].end.line
-    ) {
-      start2 = index2 + 1;
-      breaks.push(start2);
-      current2._tokenizer = void 0;
-      current2.previous = void 0;
-      current2 = current2.next;
-    }
-  }
-  tokenizer2.events = [];
-  if (current2) {
-    current2._tokenizer = void 0;
-    current2.previous = void 0;
-  } else {
-    breaks.pop();
-  }
-  index2 = breaks.length;
-  while (index2--) {
-    const slice2 = childEvents.slice(breaks[index2], breaks[index2 + 1]);
-    const start3 = startPositions.pop();
-    jumps.unshift([start3, start3 + slice2.length - 1]);
-    splice(events, start3, 2, slice2);
-  }
-  index2 = -1;
-  while (++index2 < jumps.length) {
-    gaps[adjust + jumps[index2][0]] = adjust + jumps[index2][1];
-    adjust += jumps[index2][1] - jumps[index2][0] - 1;
-  }
-  return gaps;
-}
-
 // node_modules/micromark/lib/postprocess.js
 function postprocess(events) {
-  while (!subtokenize2(events)) {
+  while (!subtokenize(events)) {
   }
   return events;
 }
@@ -20919,23 +20788,7 @@ function preprocess() {
   }
 }
 
-// node_modules/mdast-util-from-markdown/node_modules/micromark-util-decode-numeric-character-reference/index.js
-function decodeNumericCharacterReference(value, base) {
-  const code2 = Number.parseInt(value, base);
-  if (
-    // C0 except for HT, LF, FF, CR, space.
-    code2 < 9 || code2 === 11 || code2 > 13 && code2 < 32 || // Control character (DEL) of C0, and C1 controls.
-    code2 > 126 && code2 < 160 || // Lone high surrogates and low surrogates.
-    code2 > 55295 && code2 < 57344 || // Noncharacters.
-    code2 > 64975 && code2 < 65008 || (code2 & 65535) === 65535 || (code2 & 65535) === 65534 || // Out of range
-    code2 > 1114111
-  ) {
-    return "\uFFFD";
-  }
-  return String.fromCharCode(code2);
-}
-
-// node_modules/mdast-util-from-markdown/node_modules/micromark-util-decode-string/index.js
+// node_modules/micromark-util-decode-string/index.js
 var characterEscapeOrReference = /\\([!-/:-@[-`{-~])|&(#(?:\d{1,7}|x[\da-f]{1,6})|[\da-z]{1,31});/gi;
 function decodeString(value) {
   return value.replace(characterEscapeOrReference, decode);
@@ -21692,7 +21545,7 @@ function defaultOnError(left, right) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/remark-parse/lib/index.js
+// node_modules/remark-parse/lib/index.js
 function remarkParse(options) {
   const self2 = this;
   self2.parser = parser;
@@ -21709,7 +21562,7 @@ function remarkParse(options) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/blockquote.js
+// node_modules/mdast-util-to-hast/lib/handlers/blockquote.js
 function blockquote(state, node2) {
   const result = {
     type: "element",
@@ -21721,14 +21574,14 @@ function blockquote(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/break.js
+// node_modules/mdast-util-to-hast/lib/handlers/break.js
 function hardBreak(state, node2) {
   const result = { type: "element", tagName: "br", properties: {}, children: [] };
   state.patch(node2, result);
   return [state.applyData(node2, result), { type: "text", value: "\n" }];
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/code.js
+// node_modules/mdast-util-to-hast/lib/handlers/code.js
 function code(state, node2) {
   const value = node2.value ? node2.value + "\n" : "";
   const properties = {};
@@ -21751,7 +21604,7 @@ function code(state, node2) {
   return result;
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/delete.js
+// node_modules/mdast-util-to-hast/lib/handlers/delete.js
 function strikethrough(state, node2) {
   const result = {
     type: "element",
@@ -21763,7 +21616,7 @@ function strikethrough(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/emphasis.js
+// node_modules/mdast-util-to-hast/lib/handlers/emphasis.js
 function emphasis(state, node2) {
   const result = {
     type: "element",
@@ -21775,7 +21628,7 @@ function emphasis(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/footnote-reference.js
+// node_modules/mdast-util-to-hast/lib/handlers/footnote-reference.js
 function footnoteReference(state, node2) {
   const clobberPrefix = typeof state.options.clobberPrefix === "string" ? state.options.clobberPrefix : "user-content-";
   const id = String(node2.identifier).toUpperCase();
@@ -21814,7 +21667,7 @@ function footnoteReference(state, node2) {
   return state.applyData(node2, sup);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/heading.js
+// node_modules/mdast-util-to-hast/lib/handlers/heading.js
 function heading(state, node2) {
   const result = {
     type: "element",
@@ -21826,7 +21679,7 @@ function heading(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/html.js
+// node_modules/mdast-util-to-hast/lib/handlers/html.js
 function html(state, node2) {
   if (state.options.allowDangerousHtml) {
     const result = { type: "raw", value: node2.value };
@@ -21836,7 +21689,7 @@ function html(state, node2) {
   return void 0;
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/revert.js
+// node_modules/mdast-util-to-hast/lib/revert.js
 function revert(state, node2) {
   const subtype = node2.referenceType;
   let suffix = "]";
@@ -21864,7 +21717,7 @@ function revert(state, node2) {
   return contents;
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/image-reference.js
+// node_modules/mdast-util-to-hast/lib/handlers/image-reference.js
 function imageReference(state, node2) {
   const id = String(node2.identifier).toUpperCase();
   const def = state.definitionById.get(id);
@@ -21880,7 +21733,7 @@ function imageReference(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/image.js
+// node_modules/mdast-util-to-hast/lib/handlers/image.js
 function image(state, node2) {
   const properties = { src: normalizeUri(node2.url) };
   if (node2.alt !== null && node2.alt !== void 0) {
@@ -21894,7 +21747,7 @@ function image(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/inline-code.js
+// node_modules/mdast-util-to-hast/lib/handlers/inline-code.js
 function inlineCode(state, node2) {
   const text5 = { type: "text", value: node2.value.replace(/\r?\n|\r/g, " ") };
   state.patch(node2, text5);
@@ -21908,7 +21761,7 @@ function inlineCode(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/link-reference.js
+// node_modules/mdast-util-to-hast/lib/handlers/link-reference.js
 function linkReference(state, node2) {
   const id = String(node2.identifier).toUpperCase();
   const def = state.definitionById.get(id);
@@ -21929,7 +21782,7 @@ function linkReference(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/link.js
+// node_modules/mdast-util-to-hast/lib/handlers/link.js
 function link(state, node2) {
   const properties = { href: normalizeUri(node2.url) };
   if (node2.title !== null && node2.title !== void 0) {
@@ -21945,7 +21798,7 @@ function link(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/list-item.js
+// node_modules/mdast-util-to-hast/lib/handlers/list-item.js
 function listItem(state, node2, parent) {
   const results = state.all(node2);
   const loose = parent ? listLoose(parent) : listItemLoose(node2);
@@ -22008,7 +21861,7 @@ function listItemLoose(node2) {
   return spread === null || spread === void 0 ? node2.children.length > 1 : spread;
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/list.js
+// node_modules/mdast-util-to-hast/lib/handlers/list.js
 function list2(state, node2) {
   const properties = {};
   const results = state.all(node2);
@@ -22033,7 +21886,7 @@ function list2(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/paragraph.js
+// node_modules/mdast-util-to-hast/lib/handlers/paragraph.js
 function paragraph(state, node2) {
   const result = {
     type: "element",
@@ -22045,14 +21898,14 @@ function paragraph(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/root.js
+// node_modules/mdast-util-to-hast/lib/handlers/root.js
 function root(state, node2) {
   const result = { type: "root", children: state.wrap(state.all(node2)) };
   state.patch(node2, result);
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/strong.js
+// node_modules/mdast-util-to-hast/lib/handlers/strong.js
 function strong(state, node2) {
   const result = {
     type: "element",
@@ -22088,7 +21941,7 @@ function position2(node2) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/table.js
+// node_modules/mdast-util-to-hast/lib/handlers/table.js
 function table(state, node2) {
   const rows = state.all(node2);
   const firstRow = rows.shift();
@@ -22126,7 +21979,7 @@ function table(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/table-row.js
+// node_modules/mdast-util-to-hast/lib/handlers/table-row.js
 function tableRow(state, node2, parent) {
   const siblings = parent ? parent.children : void 0;
   const rowIndex = siblings ? siblings.indexOf(node2) : 1;
@@ -22160,7 +22013,7 @@ function tableRow(state, node2, parent) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/table-cell.js
+// node_modules/mdast-util-to-hast/lib/handlers/table-cell.js
 function tableCell(state, node2) {
   const result = {
     type: "element",
@@ -22213,14 +22066,14 @@ function trimLine(value, start2, end) {
   return endIndex > startIndex ? value.slice(startIndex, endIndex) : "";
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/text.js
+// node_modules/mdast-util-to-hast/lib/handlers/text.js
 function text3(state, node2) {
   const result = { type: "text", value: trimLines(String(node2.value)) };
   state.patch(node2, result);
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/thematic-break.js
+// node_modules/mdast-util-to-hast/lib/handlers/thematic-break.js
 function thematicBreak2(state, node2) {
   const result = {
     type: "element",
@@ -22232,7 +22085,7 @@ function thematicBreak2(state, node2) {
   return state.applyData(node2, result);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/handlers/index.js
+// node_modules/mdast-util-to-hast/lib/handlers/index.js
 var handlers = {
   blockquote,
   break: hardBreak,
@@ -22469,7 +22322,7 @@ var esm_default = typeof structuredClone === "function" ? (
   (any, options) => options && ("json" in options || "lossy" in options) ? deserialize(serialize(any, options)) : structuredClone(any)
 ) : (any, options) => deserialize(serialize(any, options));
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/footer.js
+// node_modules/mdast-util-to-hast/lib/footer.js
 function defaultFootnoteBackContent(_, rereferenceIndex) {
   const result = [{ type: "text", value: "\u21A9" }];
   if (rereferenceIndex > 1) {
@@ -22775,7 +22628,7 @@ function visit2(tree, testOrVisitor, visitorOrReverse, maybeReverse) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/state.js
+// node_modules/mdast-util-to-hast/lib/state.js
 var own4 = {}.hasOwnProperty;
 var emptyOptions4 = {};
 function createState(tree, options) {
@@ -22919,7 +22772,7 @@ function trimMarkdownSpaceStart(value) {
   return value.slice(index2);
 }
 
-// node_modules/@mdx-js/mdx/node_modules/mdast-util-to-hast/lib/index.js
+// node_modules/mdast-util-to-hast/lib/index.js
 function toHast(tree, options) {
   const state = createState(tree, options);
   const node2 = state.one(tree, void 0);
@@ -22932,7 +22785,7 @@ function toHast(tree, options) {
   return result;
 }
 
-// node_modules/@mdx-js/mdx/node_modules/remark-rehype/lib/index.js
+// node_modules/remark-rehype/lib/index.js
 function remarkRehype(destination, options) {
   if (destination && "run" in destination) {
     return async function(tree, file) {
@@ -22958,7 +22811,7 @@ function bail(error) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/unified/lib/index.js
+// node_modules/unified/lib/index.js
 var import_extend = __toESM(require_extend(), 1);
 
 // node_modules/is-plain-obj/index.js
@@ -23054,7 +22907,7 @@ function wrap2(middleware, callback) {
   }
 }
 
-// node_modules/@mdx-js/mdx/node_modules/unified/lib/callable-instance.js
+// node_modules/unified/lib/callable-instance.js
 var CallableInstance = (
   /**
    * @type {new <Parameters extends Array<unknown>, Result>(property: string | symbol) => (...parameters: Parameters) => Result}
@@ -23089,7 +22942,7 @@ var CallableInstance = (
   }
 );
 
-// node_modules/@mdx-js/mdx/node_modules/unified/lib/index.js
+// node_modules/unified/lib/index.js
 var own5 = {}.hasOwnProperty;
 var Processor = class _Processor extends CallableInstance {
   /**
@@ -27077,6 +26930,7 @@ var html2 = create3({
     autoComplete: spaceSeparated,
     autoFocus: boolean,
     autoPlay: boolean,
+    blocking: spaceSeparated,
     capture: boolean,
     charSet: null,
     checked: boolean,
@@ -27102,6 +26956,7 @@ var html2 = create3({
     draggable: booleanish,
     encType: null,
     enterKeyHint: null,
+    fetchPriority: null,
     form: null,
     formAction: null,
     formEncType: null,
@@ -27119,6 +26974,7 @@ var html2 = create3({
     id: null,
     imageSizes: null,
     imageSrcSet: null,
+    inert: boolean,
     inputMode: null,
     integrity: null,
     is: null,
@@ -27242,6 +27098,9 @@ var html2 = create3({
     ping: spaceSeparated,
     placeholder: null,
     playsInline: boolean,
+    popover: null,
+    popoverTarget: null,
+    popoverTargetAction: null,
     poster: null,
     preload: null,
     readOnly: boolean,
@@ -27557,6 +27416,7 @@ var svg = create3({
     textAnchor: "text-anchor",
     textDecoration: "text-decoration",
     textRendering: "text-rendering",
+    transformOrigin: "transform-origin",
     typeOf: "typeof",
     underlinePosition: "underline-position",
     underlineThickness: "underline-thickness",
@@ -27922,6 +27782,7 @@ var svg = create3({
     typeOf: commaOrSpaceSeparated,
     to: null,
     transform: null,
+    transformOrigin: null,
     u1: null,
     u2: null,
     underlinePosition: number,
@@ -28656,7 +28517,7 @@ function rehypeRemoveRaw() {
   };
 }
 
-// node_modules/@mdx-js/mdx/node_modules/collapse-white-space/index.js
+// node_modules/collapse-white-space/index.js
 var js = /\s+/g;
 var html4 = /[\t\n\v\f\r ]+/g;
 function collapseWhiteSpace(value, options) {

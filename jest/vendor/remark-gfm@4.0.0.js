@@ -77,7 +77,7 @@ function regexCheck(regex) {
   }
 }
 
-// node_modules/mdast-util-find-and-replace/node_modules/escape-string-regexp/index.js
+// node_modules/escape-string-regexp/index.js
 function escapeStringRegexp(string) {
   if (typeof string !== "string") {
     throw new TypeError("Expected a string");
@@ -1094,7 +1094,7 @@ function visit(tree, testOrVisitor, visitorOrReverse, maybeReverse) {
   }
 }
 
-// node_modules/mdast-util-to-markdown/node_modules/mdast-util-to-string/lib/index.js
+// node_modules/mdast-util-to-string/lib/index.js
 var emptyOptions = {};
 function toString(value, options) {
   const settings = options || emptyOptions;

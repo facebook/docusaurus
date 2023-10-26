@@ -19,7 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // node_modules/remark-rehype/index.js
 var remark_rehype_exports = {};
 __export(remark_rehype_exports, {
-  default: () => remarkRehype,
+  default: () => remarkRehype1100,
   defaultFootnoteBackContent: () => defaultFootnoteBackContent,
   defaultFootnoteBackLabel: () => defaultFootnoteBackLabel,
   defaultHandlers: () => handlers
@@ -1309,7 +1309,7 @@ function toHast(tree, options) {
 }
 
 // node_modules/remark-rehype/lib/index.js
-function remarkRehype(destination, options) {
+function remarkRehype1100(destination, options) {
   if (destination && "run" in destination) {
     return async function(tree, file) {
       const hastTree = (
