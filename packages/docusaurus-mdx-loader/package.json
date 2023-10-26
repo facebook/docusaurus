@@ -35,7 +35,7 @@
     "mdast-util-to-string": "^3.2.0",
     "rehype-raw": "^7.0.0",
     "remark-directive": "^3.0.0",
-    "remark-emoji": "^2.2.0",
+    "remark-emoji": "^4.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "stringify-object": "^3.3.0",
