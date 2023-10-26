@@ -89,6 +89,7 @@ export default {
     '^unified$': '<rootDir>/jest/vendor/unified@10.1.2.js',
     '^@mdx-js/mdx$': '<rootDir>/jest/vendor/@mdx-js__mdx@3.0.0.js',
     '^remark$': '<rootDir>/jest/vendor/remark@15.0.1.js',
+    '^remark-rehype$': '<rootDir>/jest/vendor/remark-rehype@11.0.0.js',
     '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@3.0.0.js',
     '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@3.0.0.js',
     '^remark-gfm$': '<rootDir>/jest/vendor/remark-gfm@4.0.0.js',

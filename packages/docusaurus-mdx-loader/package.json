@@ -55,7 +55,7 @@
     "rehype-stringify": "^8.0.0",
     "remark": "^15.0.1",
     "remark-mdx": "^3.0.0",
-    "remark-rehype": "^8.1.0",
+    "remark-rehype": "^11.0.0",
     "to-vfile": "^6.1.0",
     "unist-builder": "^2.0.3",
     "unist-util-remove-position": "^3.0.0"
