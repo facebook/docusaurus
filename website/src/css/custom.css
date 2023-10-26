@@ -154,12 +154,19 @@ html[data-theme='dark'] {
 }
 
 div[class^='announcementBar_'] {
+  font-size: 20px;
+
+  /*
   --site-announcement-bar-stripe-color1: hsl(
     var(--site-primary-hue-saturation) 85%
   );
   --site-announcement-bar-stripe-color2: hsl(
     var(--site-primary-hue-saturation) 95%
   );
+   */
+  --site-announcement-bar-stripe-color1: #e8d7ff;
+  --site-announcement-bar-stripe-color2: #ffe9d1;
+
   background: repeating-linear-gradient(
     35deg,
     var(--site-announcement-bar-stripe-color1),
