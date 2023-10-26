@@ -8611,7 +8611,6 @@ function joinDefinition(left, right) {
   }
 }
 function containerPhrasingBound(parent, info) {
-  console.log("containerPhrasingBound");
   return containerPhrasing(parent, this, info);
 }
 function containerFlowBound(parent, info) {
