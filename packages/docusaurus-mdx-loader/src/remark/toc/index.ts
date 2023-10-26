@@ -110,8 +110,7 @@ const plugin: Plugin = function plugin(
       });
     });
 
-    // @ts-expect-error: TODO how to fix?
-    const {children} = root as Parent<Literal>;
+    const {children} = root as Parent;
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
     if (headings?.length) {
