@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import emoji from 'remark-emoji';
 import headings from './remark/headings';
 import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
@@ -48,13 +47,10 @@ type SimpleProcessor = {
   }) => Promise<SimpleProcessorResult>;
 };
 
-const DEFAULT_OPTIONS: MDXOptions = {
-  admonitions: true,
-  rehypePlugins: [],
-  remarkPlugins: [headings, emoji, toc],
-  beforeDefaultRemarkPlugins: [],
-  beforeDefaultRehypePlugins: [],
-};
+async function getDefaultRemarkPlugins(): Promise<MDXPlugin[]> {
+  const {default: emoji} = await import('remark-emoji');
+  return [headings, emoji, toc];
+}
 
 export type MDXPlugin = Pluggable;
 
@@ -91,6 +87,8 @@ async function createProcessorFactory() {
   const {default: directive} = await import('remark-directive');
   const {VFile} = await import('vfile');
 
+  const defaultRemarkPlugins = await getDefaultRemarkPlugins();
+
   // /!\ this method is synchronous on purpose
   // Using async code here can create cache entry race conditions!
   function createProcessorSync({
@@ -106,7 +104,7 @@ async function createProcessorFactory() {
       directive,
       [contentTitle, {removeContentTitle: options.removeContentTitle}],
       ...getAdmonitionsPlugins(options.admonitions ?? false),
-      ...DEFAULT_OPTIONS.remarkPlugins,
+      ...defaultRemarkPlugins,
       details,
       head,
       ...(options.markdownConfig.mermaid ? [mermaid] : []),
@@ -136,7 +134,6 @@ async function createProcessorFactory() {
 
     const rehypePlugins: MDXPlugin[] = [
       ...(options.beforeDefaultRehypePlugins ?? []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
       ...(options.rehypePlugins ?? []),
     ];
 

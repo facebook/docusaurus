@@ -15,7 +15,6 @@ import {
   getFileLoaderUtils,
   findAsyncSequential,
 } from '@docusaurus/utils';
-import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
@@ -175,6 +174,8 @@ async function processLinkNode(target: Target, context: Context) {
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
+    const {visit} = await import('unist-util-visit');
+
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link, index, parent) => {
       promises.push(

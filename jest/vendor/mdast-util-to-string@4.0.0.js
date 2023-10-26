@@ -22,20 +22,42 @@ __export(mdast_util_to_string_exports, {
   toString: () => toString
 });
 module.exports = __toCommonJS(mdast_util_to_string_exports);
-function toString(node, options) {
-  var { includeImageAlt = true } = options || {};
-  return one(node, includeImageAlt);
+
+// node_modules/mdast-util-to-string/lib/index.js
+var emptyOptions = {};
+function toString(value, options) {
+  const settings = options || emptyOptions;
+  const includeImageAlt = typeof settings.includeImageAlt === "boolean" ? settings.includeImageAlt : true;
+  const includeHtml = typeof settings.includeHtml === "boolean" ? settings.includeHtml : true;
+  return one(value, includeImageAlt, includeHtml);
 }
-function one(node, includeImageAlt) {
-  return node && typeof node === "object" && (node.value || (includeImageAlt ? node.alt : "") || "children" in node && all(node.children, includeImageAlt) || Array.isArray(node) && all(node, includeImageAlt)) || "";
+function one(value, includeImageAlt, includeHtml) {
+  if (node(value)) {
+    if ("value" in value) {
+      return value.type === "html" && !includeHtml ? "" : value.value;
+    }
+    if (includeImageAlt && "alt" in value && value.alt) {
+      return value.alt;
+    }
+    if ("children" in value) {
+      return all(value.children, includeImageAlt, includeHtml);
+    }
+  }
+  if (Array.isArray(value)) {
+    return all(value, includeImageAlt, includeHtml);
+  }
+  return "";
 }
-function all(values, includeImageAlt) {
-  var result = [];
-  var index = -1;
+function all(values, includeImageAlt, includeHtml) {
+  const result = [];
+  let index = -1;
   while (++index < values.length) {
-    result[index] = one(values[index], includeImageAlt);
+    result[index] = one(values[index], includeImageAlt, includeHtml);
   }
   return result.join("");
+}
+function node(value) {
+  return Boolean(value && typeof value === "object");
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

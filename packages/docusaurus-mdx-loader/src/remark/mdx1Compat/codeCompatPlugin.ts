@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor} from 'unified';
 import type {Code} from 'mdast';
@@ -18,19 +17,18 @@ import type {Code} from 'mdast';
 // To make theme-classic/src/theme/MDXComponents/Pre work
 // we need to fill two properties that mdx v2 doesn't provide anymore
 export default function codeCompatPlugin(this: Processor): Transformer {
-  return (root) => {
+  return async (root) => {
+    const {visit} = await import('unist-util-visit');
+
     visit(root, 'code', (node: Code) => {
       node.data = node.data || {};
+
       node.data.hProperties = node.data.hProperties || {};
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (node.data.hProperties as any).metastring = node.meta;
+      node.data.hProperties.metastring = node.meta;
 
       // Retrocompatible support for live codeblock metastring
       // Not really the appropriate place to handle that :s
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (node.data.hProperties as any).live = node.meta
-        ?.split(' ')
-        .includes('live');
+      node.data.hProperties.live = node.meta?.split(' ').includes('live');
     });
   };
 }

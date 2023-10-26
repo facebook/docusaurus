@@ -32,7 +32,7 @@
     "@docusaurus/utils": "3.0.0-rc.0",
     "@docusaurus/utils-common": "3.0.0-rc.0",
     "@docusaurus/utils-validation": "3.0.0-rc.0",
-    "@mdx-js/react": "^2.1.5",
+    "@mdx-js/react": "^3.0.0",
     "clsx": "^1.2.1",
     "copy-text-to-clipboard": "^3.2.0",
     "infima": "0.2.0-alpha.43",

@@ -325,6 +325,7 @@ serializers
 setaf
 setext
 shiki
+shortcodes
 showinfo
 sida
 simen

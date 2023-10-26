@@ -23,7 +23,7 @@ __export(estree_util_value_to_estree_exports, {
 });
 module.exports = __toCommonJS(estree_util_value_to_estree_exports);
 
-// node_modules/estree-util-value-to-estree/node_modules/is-plain-obj/index.js
+// node_modules/is-plain-obj/index.js
 function isPlainObject(value) {
   if (typeof value !== "object" || value === null) {
     return false;
@@ -49,7 +49,7 @@ function valueToEstree(value, options = {}) {
     };
   }
   if (typeof value === "number") {
-    return value >= 0 ? { type: "Literal", value } : {
+    return value >= 0 && !Object.is(value, -0) ? { type: "Literal", value } : {
       type: "UnaryExpression",
       operator: "-",
       prefix: true,
@@ -130,17 +130,29 @@ function valueToEstree(value, options = {}) {
     };
   }
   if (options.instanceAsObject || isPlainObject(value)) {
-    return {
-      type: "ObjectExpression",
-      properties: Reflect.ownKeys(value).map((key) => ({
+    const properties = Reflect.ownKeys(value).map((key) => ({
+      type: "Property",
+      method: false,
+      shorthand: false,
+      computed: typeof key !== "string",
+      kind: "init",
+      key: valueToEstree(key, options),
+      value: valueToEstree(value[key], options)
+    }));
+    if (Object.getPrototypeOf(value) == null) {
+      properties.unshift({
         type: "Property",
         method: false,
         shorthand: false,
-        computed: typeof key !== "string",
+        computed: false,
         kind: "init",
-        key: valueToEstree(key, options),
-        value: valueToEstree(value[key], options)
-      }))
+        key: { type: "Identifier", name: "__proto__" },
+        value: { type: "Literal", value: null }
+      });
+    }
+    return {
+      type: "ObjectExpression",
+      properties
     };
   }
   throw new TypeError(`Unsupported value: ${String(value)}`);
