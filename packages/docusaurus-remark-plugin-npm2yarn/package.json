@@ -20,11 +20,11 @@
     "mdast-util-mdx": "^3.0.0",
     "npm-to-yarn": "^2.0.0",
     "tslib": "^2.6.0",
-    "unified": "^10.1.2",
+    "unified": "^11.0.3",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@types/mdast": "^3.0.12",
+    "@types/mdast": "^4.0.2",
     "remark": "^15.0.1",
     "remark-mdx": "^3.0.0",
     "to-vfile": "^6.1.0"

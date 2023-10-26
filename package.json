@@ -62,9 +62,6 @@
     "lock:update": "npx --yes yarn-deduplicate",
     "update-translations": "yarn workspace @docusaurus/theme-translations update"
   },
-  "dependencies": {
-    "unified": "^10.1.2"
-  },
   "devDependencies": {
     "@crowdin/cli": "^3.13.0",
     "@swc/core": "1.2.197",
