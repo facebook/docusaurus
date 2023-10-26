@@ -811,6 +811,21 @@ We recommend using the `.mdx` extension whenever you use JSX, `import`, or `expo
 
 In future versions of Docusaurus, `.md` files will be parsed as standard [CommonMark](https://commonmark.org/), which does not support these features. In Docusaurus v3, `.md` files keep being compiled as MDX files, but it will be possible to [opt-in for CommonMark](https://github.com/facebook/docusaurus/issues/3018).
 
+### Upgrading math packages
+
+If you use Docusaurus to render [Math Equations](../guides/markdown-features/markdown-features-math-equations.mdx), you should upgrade the MDX plugins.
+
+Make sure to use `remark-math 6` and `rehype-katex 7` for Docusaurus v3 (using MDX v3). We can't guarantee other versions will work.
+
+```diff package.json
+{
+-  "remark-math": "^3.0.0",
++  "remark-math": "^6.0.0",
+-  "rehype-katex": "^5.0.0"
++  "rehype-katex": "^7.0.0"
+}
+```
+
 ## Ask For Help
 
 In case of any upgrade problem, the first things to try are:
