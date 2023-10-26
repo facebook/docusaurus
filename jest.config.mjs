@@ -93,7 +93,7 @@ export default {
     '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@3.0.0.js',
     '^remark-gfm$': '<rootDir>/jest/vendor/remark-gfm@4.0.0.js',
     '^estree-util-value-to-estree$':
-      '<rootDir>/jest/vendor/estree-util-value-to-estree@2.1.0.js',
+      '<rootDir>/jest/vendor/estree-util-value-to-estree@3.0.1.js',
     '^mdast-util-to-string$':
       '<rootDir>/jest/vendor/mdast-util-to-string@4.0.0.js',
     '^unist-util-visit$': '<rootDir>/jest/vendor/unist-util-visit@5.0.0.js',

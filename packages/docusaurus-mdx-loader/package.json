@@ -26,7 +26,7 @@
     "@mdx-js/mdx": "^3.0.0",
     "@slorber/remark-comment": "^1.0.0",
     "escape-html": "^1.0.3",
-    "estree-util-value-to-estree": "^2.1.0",
+    "estree-util-value-to-estree": "^3.0.1",
     "file-loader": "^6.2.0",
     "fs-extra": "^11.1.1",
     "hastscript": "^7.1.0",
