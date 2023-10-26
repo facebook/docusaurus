@@ -39,6 +39,7 @@ Docusaurus v3 now uses the following dependencies:
 - TypeScript v5.0+
 - prism-react-renderer v2.0+
 - react-live v4.0+
+- remark-emoji v4.0+
 - mermaid v10.4+
 
 :::warning Upgrading community plugins
@@ -573,6 +574,18 @@ For users of the `@docusaurus/theme-live-codeblock` package, Docusaurus v3 upgra
 In theory, you have nothing to do, and your existing interactive code blocks should keep working as before.
 
 However, this is a new major library version containing breaking changes, and we can't guarantee a strict retro-compatibility. Read the [v3](https://github.com/FormidableLabs/react-live/releases/tag/v3.0.0) and [v4](https://github.com/FormidableLabs/react-live/releases/tag/v4.0.0) changelogs in case of problems.
+
+:::
+
+### remark-emoji v4.0+
+
+Docusaurus v3 upgrades [`prism-react-renderer`](https://github.com/rhysd/remark-emoji) to v4.0+. This library is to support `:emoji:` shortcuts in Markdown.
+
+:::info How to upgrade
+
+Most Docusaurus users have nothing to do. Users of emoji shortcodes should read the [changelog](https://github.com/rhysd/remark-emoji/blob/master/CHANGELOG.md) and double-check their emojis keep rendering as expected.
+
+> **Breaking Change** Update [node-emoji](https://www.npmjs.com/package/node-emoji) from v1 to v2. This change introduces support for many new emojis and removes old emoji short codes which are no longer valid on GitHub.
 
 :::
 
