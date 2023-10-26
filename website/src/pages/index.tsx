@@ -19,12 +19,10 @@ import Tweet from '@site/src/components/Tweet';
 import Tweets, {type TweetItem} from '@site/src/data/tweets';
 import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
+import Heading from '@theme/Heading';
 
-import ProductHuntCard from '@site/src/components/ProductHuntCard';
-import HackerNewsIcon from '@site/src/components/HackerNewsIcon';
 import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
-import Heading from '@theme/Heading';
 
 function HeroBanner() {
   return (
@@ -253,15 +251,14 @@ function TopBanner() {
     <div className={styles.topBanner}>
       <div className={styles.topBannerTitle}>
         {'🎉\xa0'}
-        <Link
-          to="/blog/2022/08/01/announcing-docusaurus-2.0"
-          className={styles.topBannerTitleText}>
-          <Translate id="homepage.banner.launch.2.0">
-            {'Docusaurus\xa02.0 is\xa0out!️'}
+        <Link to="/blog/releases/3.0" className={styles.topBannerTitleText}>
+          <Translate id="homepage.banner.launch.3.0">
+            {'Docusaurus\xa03.0 is\xa0out!️'}
           </Translate>
         </Link>
         {'\xa0🥳'}
       </div>
+      {/*
       <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
         <div style={{flex: 1, whiteSpace: 'nowrap'}}>
           <div className={styles.topBannerDescription}>
@@ -290,6 +287,7 @@ function TopBanner() {
           <HackerNewsIcon />
         </div>
       </div>
+      */}
     </div>
   );
 }
