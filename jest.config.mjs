@@ -97,6 +97,8 @@ export default {
     '^mdast-util-to-string$':
       '<rootDir>/jest/vendor/mdast-util-to-string@4.0.0.js',
     '^unist-util-visit$': '<rootDir>/jest/vendor/unist-util-visit@5.0.0.js',
+    '^unist-util-remove-position$':
+      '<rootDir>/jest/vendor/unist-util-remove-position@5.0.0.js',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',
