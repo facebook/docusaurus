@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import visit from 'unist-util-visit';
+import {visit} from 'unist-util-visit';
 
 /**
  * Turns a "```js config-tabs" code block into a "plugin options" and a "preset

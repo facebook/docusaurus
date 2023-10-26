@@ -19,3 +19,16 @@ declare module 'vfile' {
     contentTitle?: string;
   }
 }
+
+declare module 'unist' {
+  interface Data {
+    hName?: string;
+    hProperties?: Record<string, unknown>;
+  }
+}
+
+declare module 'mdast' {
+  interface HeadingData {
+    id?: string;
+  }
+}

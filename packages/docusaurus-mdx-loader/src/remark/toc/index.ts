@@ -8,13 +8,16 @@
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
-import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+import type {
+  MdxjsEsm,
+  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+} from 'mdast-util-mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // TODO upgrade to TS 5.3
@@ -88,6 +91,8 @@ const plugin: Plugin = function plugin(
 
   return async (root) => {
     const {toString} = await import('mdast-util-to-string');
+    const {visit} = await import('unist-util-visit');
+
     const headings: TOCItem[] = [];
 
     visit(root, 'heading', (child: Heading) => {
@@ -100,11 +105,12 @@ const plugin: Plugin = function plugin(
 
       headings.push({
         value: toValue(child, toString),
-        id: child.data!.id as string,
+        id: child.data!.id!,
         level: child.depth,
       });
     });
-    const {children} = root as Parent<Literal>;
+
+    const {children} = root as Parent;
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
     if (headings?.length) {
@@ -115,7 +121,7 @@ const plugin: Plugin = function plugin(
 
 export default plugin;
 
-async function createExportNode(name: string, object: any) {
+async function createExportNode(name: string, object: any): Promise<MdxjsEsm> {
   const {valueToEstree} = await import('estree-util-value-to-estree');
 
   return {

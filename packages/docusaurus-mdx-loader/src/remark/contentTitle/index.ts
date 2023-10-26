@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import visit, {EXIT} from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Heading} from 'mdast';
@@ -33,11 +32,13 @@ const plugin: Plugin = function plugin(
 
   return async (root, vfile) => {
     const {toString} = await import('mdast-util-to-string');
+    const {visit, EXIT} = await import('unist-util-visit');
+
     visit(root, 'heading', (headingNode: Heading, index, parent) => {
       if (headingNode.depth === 1) {
-        vfile.data.compilerName;
         vfile.data.contentTitle = toString(headingNode);
         if (removeContentTitle) {
+          // @ts-expect-error: TODO how to fix?
           parent!.children.splice(index, 1);
         }
         return EXIT; // We only handle the very first heading

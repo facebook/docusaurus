@@ -22,29 +22,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Wait for the Netlify Preview
-        uses: jakepartusch/wait-for-netlify-action@f1e137043864b9ab9034ae3a5adc1c108e3f1a48 # v1
-        id: netlify
+
+      - name: Use Node.js
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
-          site_name: docusaurus-2
-          max_timeout: 600
+          node-version: 18
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build website fast
+        run: yarn build:website:fast
+
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
         uses: treosh/lighthouse-ci-action@03becbfc543944dd6e7534f7ff768abb8a296826 # 10.1.0
         with:
           urls: |
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/installation/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/category/getting-started/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/preparing-your-site-for-docusaurus-v3/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/tags/release/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog/tags/
+            http://localhost:3000
+            http://localhost:3000/docs/installation
+            http://localhost:3000/docs/category/getting-started
+            http://localhost:3000/blog
+            http://localhost:3000/blog/preparing-your-site-for-docusaurus-v3
+            http://localhost:3000/blog/tags/release
+            http://localhost:3000/blog/tags
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
-        env:
-          PR_NUMBER: ${{ github.event.pull_request.number}}
 
       - name: Format lighthouse score
         id: format_lighthouse_score

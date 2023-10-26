@@ -62,10 +62,10 @@
     "react-lite-youtube-embed": "^2.3.52",
     "react-medium-image-zoom": "^5.1.6",
     "react-popper": "^2.3.0",
-    "rehype-katex": "^6.0.3",
-    "remark-math": "^5.1.1",
+    "rehype-katex": "^7.0.0",
+    "remark-math": "^6.0.0",
     "swc-loader": "^0.2.3",
-    "unist-util-visit": "^2.0.3",
+    "unist-util-visit": "^5.0.0",
     "webpack": "^5.88.1",
     "workbox-routing": "^6.6.1",
     "workbox-strategies": "^6.6.1"

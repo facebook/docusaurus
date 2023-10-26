@@ -74,7 +74,7 @@ function mdxJsxTextElementToHtml(
 }
 
 export function toValue(
-  node: PhrasingContent | Heading,
+  node: PhrasingContent | Heading | MdxJsxTextElement,
   toString: (param: unknown) => string, // TODO weird but works
 ): string {
   switch (node.type) {

@@ -8,7 +8,6 @@
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
-import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Heading, Text} from 'mdast';
@@ -16,6 +15,7 @@ import type {Heading, Text} from 'mdast';
 export default function plugin(): Transformer {
   return async (root) => {
     const {toString} = await import('mdast-util-to-string');
+    const {visit} = await import('unist-util-visit');
 
     const slugs = createSlugger();
     visit(root, 'heading', (headingNode: Heading) => {
