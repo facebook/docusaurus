@@ -60,9 +60,9 @@ A typical `package.json` dependency upgrade looks like:
 -    "@docusaurus/preset-classic": "2.4.3",
 +    "@docusaurus/core": "3.0.0",
 +    "@docusaurus/preset-classic": "3.0.0",
-     // upgrade to MDX v2
+     // upgrade to MDX v3
 -    "@mdx-js/react": "^1.6.22",
-+    "@mdx-js/react": "^2.3.0",
++    "@mdx-js/react": "^3.0.0",
      // upgrade to prism-react-renderer v2.0+
 -    "prism-react-renderer": "^1.3.5",
 +    "prism-react-renderer": "^2.1.0",
@@ -87,7 +87,7 @@ A typical `package.json` dependency upgrade looks like:
  }
 ```
 
-Apart from MDX v2, most breaking changes coming with those upgraded dependencies have been handled internally for you: most of the time, you shouldn't have to do anything. Outside of dependencies, the only functional breaking changes coming explicitly from the Docusaurus codebase are:
+Apart from MDX v3, most breaking changes coming with those upgraded dependencies have been handled internally for you: most of the time, you shouldn't have to do anything. Outside of dependencies, the only functional breaking changes coming explicitly from the Docusaurus codebase are:
 
 - [#9189](https://github.com/facebook/docusaurus/pull/9189): new default blog RSS feed limit of 20 entries
 - [#9308](https://github.com/facebook/docusaurus/pull/9308): fix and re-introduce the `:::warning` admonition, deprecate `:::caution`
@@ -100,11 +100,20 @@ Below is a non-exhaustive list of new useful features coming with this new versi
 
 ### Markdown
 
-In [#8288](https://github.com/facebook/docusaurus/pull/8288), we upgraded to [**MDX v2**](https://mdxjs.com/blog/v2/). This new version is **much better for content writers and plugin authors**, and lays the ground for implementing new exciting Markdown features.
+Docusaurus v3 upgraded from MDX v1 to MDX v3:
 
-:::warning MDX v2 - the main challenge
+- in [#8288](https://github.com/facebook/docusaurus/pull/8288), we upgraded to [**MDX v2**](https://mdxjs.com/blog/v2/) ([migration guide](https://mdxjs.com/migrating/v2/))
+- in [#9451](https://github.com/facebook/docusaurus/pull/9451), we upgraded to [**MDX v3**](https://mdxjs.com/blog/v3/) ([migration guide](https://mdxjs.com/migrating/v3/))
 
-The [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/) is the main upgrade challenge. Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3, while others might **render differently**.
+This new MDX version is **much better for content writers and plugin authors**, and lays the ground for implementing new exciting Markdown features.
+
+:::warning MDX v3 - the main challenge
+
+The transition from MDX v1 to MDX v3 is the **main challenge** to the adoption of Docusaurus v3.
+
+Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3, while others might **render differently**.
+
+Most breaking changes come from [MDX v2](https://mdxjs.com/blog/v2/), and [MDX v3](https://mdxjs.com/blog/v3/) is a relatively small release. The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [update MDX files](https://mdxjs.com/migrating/v2/#update-mdx-files) that will be particularly relevant to us. Also make sure to read the [Troubleshooting MDX](https://mdxjs.com/docs/troubleshooting-mdx/) page that can help you interpret common MDX error messages.
 
 **Don't be intimidated**. Most problems are **easy to fix** and often related to `{` and `<` characters that you now need to escape. However, depending on the size of your site, you might need to edit many files and feel overwhelmed. For this reason, we provide a command [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker) to help you get an estimate of the work to be done, and we recommend to [prepare your site in advance](/blog/preparing-your-site-for-docusaurus-v3).
 
@@ -377,7 +386,7 @@ Read [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusauru
 
 This release comes with a few features, but more importantly **upgrades many pieces of the Docusaurus infrastructure**.
 
-The adoption of **MDX v2** consumed a lot of our time this year, and we worked hard to make this important upgrade less difficult for all of you.
+The **MDX upgrade** consumed a lot of our time this year, and we worked hard to make this important upgrade less difficult for all of you.
 
 Now that we've caught up with our infrastructure, we'll be back **delivering useful documentation features** very soon, in upcoming minor versions.
 
