@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
 import vfile from 'to-vfile';
 import plugin from '../index';
@@ -18,7 +19,6 @@ const processFixture = async (
 ) => {
   const {remark} = await import('remark');
   const {default: directives} = await import('remark-directive');
-  const {default: remark2rehype} = await import('remark-rehype');
 
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
