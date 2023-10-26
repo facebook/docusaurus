@@ -33,7 +33,7 @@
     "image-size": "^1.0.2",
     "mdast-util-mdx": "^3.0.0",
     "mdast-util-to-string": "^3.2.0",
-    "rehype-raw": "^6.1.1",
+    "rehype-raw": "^7.0.0",
     "remark-directive": "^3.0.0",
     "remark-emoji": "^2.2.0",
     "remark-frontmatter": "^5.0.0",
