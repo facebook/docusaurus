@@ -11,7 +11,7 @@ image: ./img/social-card.png
 
 Docusaurus v3 comes with a few **breaking changes**, many of which can be **handled today under Docusaurus v2**. Preparing your site ahead of time can be done incrementally, and will make it easier to upgrade to v3.
 
-The most important Docusaurus v3 breaking change is the [**upgrade to MDX v2**](https://mdxjs.com/blog/v2/), which will compile your Markdown content more strictly and with subtle differences.
+The main breaking change is the upgrade from MDX v1 to MDX v3. Read the [**MDX v2**](https://mdxjs.com/blog/v2/) and [**MDX v3**](https://mdxjs.com/blog/v3/) release notes for details. MDX will now compile your Markdown content **more strictly** and with **subtle differences**.
 
 This article will mostly focus on how to prepare your content for this new MDX version, and will also list a few other breaking changes that you can handle today.
 
@@ -41,19 +41,19 @@ Depending on the complexity of your site, it may be a good idea to adopt the [vi
 
 We also recommend using the `.mdx` extension whenever you use JSX, `import`, or `export` (i.e. MDX features) inside a Markdown file. It is semantically more correct and improves compatibility with external tools (IDEs, formatters, linters, etc.). In future versions of Docusaurus, `.md` files will be parsed as standard [CommonMark](https://commonmark.org/), which does not support these features. In Docusaurus v3, `.md` files keep being compiled as MDX files, but it will be possible to [opt-in for CommonMark](https://github.com/facebook/docusaurus/issues/3018).
 
-## Preparing content for MDX v2
+## Preparing content for MDX v3
 
 MDX is a major dependency of Docusaurus responsible for compiling your `.md` and `.mdx` files to React components.
 
-MDX v2 is much better, but also comes with changes that probably require you to refactor your content a bit. MDX v2 is stricter, and some components that compiled fine under v1 might now fail to compile under v2, most likely because of `{` and `<` characters.
+MDX v3 is much better, but also comes with changes that probably require you to refactor your content a bit. MDX v3 is stricter, and some components that compiled fine under v1 might now fail to compile under v3, most likely because of `{` and `<` characters.
 
-Upgrading MDX comes with all the breaking changes documented on the [MDX v2 release blog post](https://mdxjs.com/blog/v2/). The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [update MDX files](https://mdxjs.com/migrating/v2/#update-mdx-files) that will be particularly relevant to us. Also make sure to read the [Troubleshooting MDX](https://mdxjs.com/docs/troubleshooting-mdx/) page that can help you interpret common MDX error messages.
+Upgrading MDX comes with all the breaking changes documented on the [MDX v2](https://mdxjs.com/blog/v2/) and [MDX v3](https://mdxjs.com/blog/v3/) release blog posts. Most breaking changes come from MDX v2. The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [update MDX files](https://mdxjs.com/migrating/v2/#update-mdx-files) that will be particularly relevant to us. Also make sure to read the [Troubleshooting MDX](https://mdxjs.com/docs/troubleshooting-mdx/) page that can help you interpret common MDX error messages.
 
 Make sure to also read our updated [**MDX and React**](/docs/3.0.0-rc.0/markdown-features/react) documentation page.
 
 :::tip Ask for help
 
-We have a dedicated [MDX v2 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053) discussion.
+We have a dedicated [MDX v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053) discussion.
 
 :::
 
@@ -63,23 +63,23 @@ The MDX playground is your new best friend. It permits to understand how your co
 
 Each MDX version comes with its own playground:
 
-- [MDX v1 playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground/)
-- [MDX v2 playground](https://mdxjs.com/playground/)
+- [MDX playground - current version](https://mdxjs.com/playground/)
+- [MDX playground - v1](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground/)
 
 <details>
-  <summary>Configuring MDX v2 playground options for Docusaurus</summary>
+  <summary>Configuring the MDX playground options for Docusaurus</summary>
 
-To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn on these options on the [MDX v2 playground](https://mdxjs.com/playground/):
+To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn on these options on the [MDX playground](https://mdxjs.com/playground/):
 
 - Use `MDX`
 - Use `remark-gfm`
 - Use `remark-directive`
 
-![Screenshot of the MDX v2 playground's options panel, with only the "Use `MDX`", "Use `remark-gfm`", and "Use `remark-directive`" options checked](./img/mdx2-playground-options.png)
+![Screenshot of the MDX playground's options panel, with only the "Use `MDX`", "Use `remark-gfm`", and "Use `remark-directive`" options checked](./img/mdx2-playground-options.png)
 
 </details>
 
-Using the two MDX playgrounds side-by-side, you will soon notice that some content is compiled differently or fails to compile in v2.
+Using the two MDX playgrounds side-by-side, you will soon notice that some content is compiled differently or fails to compile in v3.
 
 :::tip Making your content future-proof
 
@@ -89,7 +89,7 @@ The goal will be to refactor your problematic content so that it **works fine wi
 
 ### Using the MDX checker CLI
 
-We provide a [docusaurus-mdx-checker](https://github.com/slorber/docusaurus-mdx-checker) CLI that permits to easily spot problematic content. Run this command today on your Docusaurus v2 site to obtain a list of files that will fail to compile under MDX v2.
+We provide a [docusaurus-mdx-checker](https://github.com/slorber/docusaurus-mdx-checker) CLI that permits to easily spot problematic content. Run this command today on your Docusaurus v2 site to obtain a list of files that will fail to compile under MDX v3.
 
 ```bash
 npx docusaurus-mdx-checker
@@ -101,7 +101,7 @@ For each compilation issue, the CLI will log the file path and a line number to 
 
 :::tip
 
-Use this CLI to estimate of how much work will be required to make your content compatible with MDX v2.
+Use this CLI to estimate of how much work will be required to make your content compatible with MDX v3.
 
 :::
 
@@ -115,7 +115,7 @@ It will not report subtle compilation changes that do not produce errors but can
 
 ### Common MDX problems
 
-We upgraded a few Docusaurus sites to Docusaurus v3 and MDX v2:
+We upgraded a few Docusaurus sites to Docusaurus v3 and MDX v3:
 
 - [Docusaurus PR](https://github.com/facebook/docusaurus/pull/8288)
 - [React-Native PR](https://github.com/facebook/react-native-website/pull/3780)
@@ -125,7 +125,7 @@ These upgrades permitted us to aggregate the most common content problems, and d
 
 #### Bad usage of `{`
 
-The `{` character is used for opening [JavaScript expressions](https://mdxjs.com/docs/what-is-mdx/#expressions). MDX v2 will now fail if what you put inside `{expression}` is not a valid expression.
+The `{` character is used for opening [JavaScript expressions](https://mdxjs.com/docs/what-is-mdx/#expressions). MDX will now fail if what you put inside `{expression}` is not a valid expression.
 
 ```md title="example.md"
 The object shape looks like {username: string, age: number}
@@ -149,7 +149,7 @@ Available options to fix this error:
 
 #### Bad usage of `<`
 
-The `<` character is used for opening [JSX tags](https://mdxjs.com/docs/what-is-mdx/#jsx). MDX v2 will now fail if it thinks your JSX is invalid.
+The `<` character is used for opening [JSX tags](https://mdxjs.com/docs/what-is-mdx/#jsx). MDX will now fail if it thinks your JSX is invalid.
 
 ```md title="example.md"
 Use Android version <5
@@ -181,7 +181,7 @@ Available options to fix this error:
 
 #### Bad usage of GFM Autolink
 
-Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/), but [autolink](https://github.github.com/gfm/#autolinks) using the `<link>` syntax is not supported anymore by MDX v2.
+Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/), but [autolink](https://github.github.com/gfm/#autolinks) using the `<link>` syntax is not supported anymore by MDX.
 
 ```md title="example.md"
 <sebastien@thisweekinreact.com>
@@ -246,11 +246,11 @@ For any other element, **use upper-case names**.
 
 #### Unintended extra paragraphs
 
-In MDX v2, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
+In MDX, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
 
 :::danger visual difference
 
-See how this content is rendered differently by MDX v1 and v2.
+See how this content is rendered differently by MDX v1 and v3.
 
 ```md title="example.md"
 <div>Some **Markdown** content</div>
@@ -266,7 +266,7 @@ See how this content is rendered differently by MDX v1 and v2.
 ```
 
 {/* prettier-ignore */}
-```html title="MDX v2 output"
+```html title="MDX v3 output"
 <div>Some <strong>Markdown</strong> content</div>
 <div><p>Some <strong>Markdown</strong> content</p></div></div>
 ```
@@ -334,7 +334,7 @@ conf is great
 
 #### Unsupported indented code blocks
 
-MDX v2 does not transform indented text as code blocks anymore.
+MDX does not transform indented text as code blocks anymore.
 
 ```md title="example.md"
     console.log("hello");
@@ -342,7 +342,7 @@ MDX v2 does not transform indented text as code blocks anymore.
 
 :::danger Visual change
 
-The upgrade does not generally produce new MDX v2 compilation errors, but can lead to content being rendered in an unexpected way because there isn't a code block anymore.
+The upgrade does not generally produce new MDX compilation errors, but can lead to content being rendered in an unexpected way because there isn't a code block anymore.
 
 :::
 
@@ -543,7 +543,7 @@ For most sites, the upgrade should be easy. If you prepared your site ahead of t
 -    "@mdx-js/react": "^1.6.22",
 +    "@docusaurus/core": "3.0.0-beta.0",
 +    "@docusaurus/preset-classic": "3.0.0-beta.0",
-+    "@mdx-js/react": "^2.3.0",
++    "@mdx-js/react": "^3.0.0",
      "clsx": "^1.2.1",
      "prism-react-renderer": "^1.3.5",
 -    "react": "^17.0.2",
@@ -564,9 +564,9 @@ We will be there to help you upgrade through the following support channels:
 
 - [Docusaurus v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9336)
 - [Docusaurus v3 - Discord channel #migration-v2-to-v3](https://discord.com/channels/398180168688074762/1154771869094912090)
-- [MDX v2 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053)
-- [MDX v2 - Remark/Rehype Plugins Support](https://github.com/facebook/docusaurus/discussions/9337)
-- [MDX v2 - Discord channel #migration-mdx-v2](https://discord.com/channels/398180168688074762/1116724556976111616)
+- [MDX v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053)
+- [MDX v3 - Remark/Rehype Plugins Support](https://github.com/facebook/docusaurus/discussions/9337)
+- [MDX v3 - Discord channel #migration-mdx-v3](https://discord.com/channels/398180168688074762/1116724556976111616)
 
 Alternatively, you can look for a paid [Docusaurus Service Provider](https://github.com/facebook/docusaurus/discussions/9281) to execute this upgrade for you. If your site is open source, you can also ask our community for [free, benevolent help](https://github.com/facebook/docusaurus/discussions/9283).
 
