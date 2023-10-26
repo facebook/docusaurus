@@ -26,3 +26,9 @@ declare module 'unist' {
     hProperties?: Record<string, unknown>;
   }
 }
+
+declare module 'mdast' {
+  interface HeadingData {
+    id?: string;
+  }
+}

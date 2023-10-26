@@ -65,7 +65,6 @@ export default function plugin(): Transformer {
         }
       }
 
-      // @ts-expect-error: TODO how to fix?
       data.id = id;
       properties.id = id;
     });
