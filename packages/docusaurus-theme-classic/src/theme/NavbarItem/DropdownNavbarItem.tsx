@@ -142,12 +142,25 @@ function DropdownNavbarItemMobile({
       })}>
       <NavbarNavLink
         role="button"
+        tabIndex={0}
         className={clsx(
           'menu__link menu__link--sublist menu__link--sublist-caret',
           className,
         )}
-        href="#"
         aria-expanded={!collapsed}
+        onKeyUp={(e) => {
+          if (e.code === 'Space') {
+            toggleCollapsed();
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.code === 'Space') {
+            e.preventDefault();
+          }
+          if (e.code === 'Enter') {
+            toggleCollapsed();
+          }
+        }}
         {...props}
         onClick={(e) => {
           e.preventDefault();
