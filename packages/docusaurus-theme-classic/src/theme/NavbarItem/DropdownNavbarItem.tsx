@@ -146,6 +146,8 @@ function DropdownNavbarItemMobile({
           'menu__link menu__link--sublist menu__link--sublist-caret',
           className,
         )}
+        href="#"
+        aria-expanded={!collapsed}
         {...props}
         onClick={(e) => {
           e.preventDefault();
