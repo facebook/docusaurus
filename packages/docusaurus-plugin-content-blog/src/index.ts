@@ -191,6 +191,8 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
+      const listedBlogPosts = blogPosts.filter(shouldBeListed);
+
       const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
@@ -213,7 +215,7 @@ export default async function pluginContentBlog(
         });
       }
 
-      if (archiveBasePath && blogPosts.length) {
+      if (archiveBasePath && listedBlogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
@@ -222,7 +224,7 @@ export default async function pluginContentBlog(
         // Create a blog archive route
         const archiveProp = await createData(
           `${docuHash(archiveUrl)}.json`,
-          JSON.stringify({blogPosts}, null, 2),
+          JSON.stringify({blogPosts: listedBlogPosts}, null, 2),
         );
         addRoute({
           path: archiveUrl,

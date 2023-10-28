@@ -1,6 +1,12 @@
 {
   "ci": {
     "collect": {
+      "startServerCommand": "yarn serve:website",
+      "startServerReadyPattern": "Serving",
+      "startServerReadyTimeout": 10000,
+
+      "numberOfRuns": 1,
+
       "settings": {
         "skipAudits": [
           "robots-txt",

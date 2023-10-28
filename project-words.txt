@@ -62,6 +62,7 @@ customizability
 dabit
 daishi
 datagit
+datamap
 datas
 dbaeumer
 décembre
@@ -324,6 +325,7 @@ serializers
 setaf
 setext
 shiki
+shortcodes
 showinfo
 sida
 simen
