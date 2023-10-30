@@ -27,15 +27,7 @@ Use the **[MDX playground](https://mdxjs.com/playground/)** to debug them and ma
 
 :::info
 
-Prettier, the most popular formatter, [supports only the legacy MDX v1](https://github.com/prettier/prettier/issues/12209). If you get an unintentional format result, you may want to add `{/* prettier-ignore */}` before the problem area.
-
-If you are fed up with inserting `{/* prettier-ignore */}` in too many places, you can consider to disable formatting MDX by Prettier by creating the following `.prettierignore` until it starts supporting MDX v2:
-
-```
-*.mdx
-```
-
-[One of the main authors of MDX recommends `remark-cli` with `remark-mdx`](https://github.com/orgs/mdx-js/discussions/2067).
+Prettier, the most popular formatter, [supports only the legacy MDX v1](https://github.com/prettier/prettier/issues/12209). If you get an unintentional formatting result, you may want to add `{/* prettier-ignore */}` before the problematic area, or add `*.mdx` to your `.prettierignore`, until Prettier has proper support for MDX v2. [One of the main authors of MDX recommends `remark-cli` with `remark-mdx`](https://github.com/orgs/mdx-js/discussions/2067).
 
 :::
 
