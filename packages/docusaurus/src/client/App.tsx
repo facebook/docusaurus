@@ -37,9 +37,7 @@ export default function App(): JSX.Element {
             <SiteMetadata />
             <BaseUrlIssueBanner />
             <PendingNavigation location={normalizeLocation(location)}>
-              <React.Suspense>
-                {routeElement}
-              </React.Suspense>
+              <React.Suspense>{routeElement}</React.Suspense>
             </PendingNavigation>
           </Root>
           <HasHydratedDataAttribute />
