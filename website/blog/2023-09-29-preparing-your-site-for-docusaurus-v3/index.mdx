@@ -49,7 +49,7 @@ MDX v3 is much better, but also comes with changes that probably require you to 
 
 Upgrading MDX comes with all the breaking changes documented on the [MDX v2](https://mdxjs.com/blog/v2/) and [MDX v3](https://mdxjs.com/blog/v3/) release blog posts. Most breaking changes come from MDX v2. The [MDX v2 migration guide](https://mdxjs.com/migrating/v2/) has a section on how to [update MDX files](https://mdxjs.com/migrating/v2/#update-mdx-files) that will be particularly relevant to us. Also make sure to read the [Troubleshooting MDX](https://mdxjs.com/docs/troubleshooting-mdx/) page that can help you interpret common MDX error messages.
 
-Make sure to also read our updated [**MDX and React**](/docs/3.0.0/markdown-features/react) documentation page.
+Make sure to also read our updated [**MDX and React**](/docs/markdown-features/react) documentation page.
 
 :::tip Ask for help
 
@@ -214,14 +214,14 @@ http://localhost:3000
 
 #### Lower-case MDXComponent mapping
 
-For users providing a [custom `MDXComponent`mapping](/docs/3.0.0/markdown-features/react#mdx-component-scope), components are now "sandboxed":
+For users providing a [custom `MDXComponent`mapping](/docs/markdown-features/react#mdx-component-scope), components are now "sandboxed":
 
 - a `MDXComponent` mapping for `h1` only gets used for `# hi` but not for `<h1>hi</h1>`
 - a **lower-cased** custom element name will not be substituted by its respective `MDXComponent` component anymore
 
 :::danger visual difference
 
-Your [`MDXComponent` component mapping](/docs/3.0.0/markdown-features/react#mdx-component-scope) might not be applied as before, and your custom components might no longer be used.
+Your [`MDXComponent` component mapping](/docs/markdown-features/react#mdx-component-scope) might not be applied as before, and your custom components might no longer be used.
 
 :::
 

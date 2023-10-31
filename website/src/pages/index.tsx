@@ -19,12 +19,10 @@ import Tweet from '@site/src/components/Tweet';
 import Tweets, {type TweetItem} from '@site/src/data/tweets';
 import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
+import Heading from '@theme/Heading';
 
-import ProductHuntCard from '@site/src/components/ProductHuntCard';
-import HackerNewsIcon from '@site/src/components/HackerNewsIcon';
 import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
-import Heading from '@theme/Heading';
 
 function HeroBanner() {
   return (
@@ -69,32 +67,6 @@ function HeroBanner() {
             />
           </span>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function MigrationAnnouncement() {
-  return (
-    <div
-      className={clsx(styles.announcement, styles.announcementDark)}
-      data-theme="dark">
-      <div className={styles.announcementInner}>
-        <Translate
-          values={{
-            docusaurusV1Link: (
-              <Link to="https://v1.docusaurus.io/">
-                <Translate>Docusaurus v1</Translate>
-              </Link>
-            ),
-            migrationGuideLink: (
-              <Link to="/docs/migration">
-                <Translate>v1 to v2 migration guide</Translate>
-              </Link>
-            ),
-          }}>
-          {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}.`}
-        </Translate>
       </div>
     </div>
   );
@@ -158,7 +130,7 @@ function QuotesSection() {
 
 function VideoContainer() {
   return (
-    <div className="container text--center margin-bottom--xl">
+    <div className="container text--center margin-top--xl">
       <div className="row">
         <div className="col">
           <Heading as="h2">
@@ -212,10 +184,7 @@ function FeaturesContainer() {
 
   return (
     <div className="container text--center">
-      <Heading as="h2">
-        <Translate>Main features</Translate>
-      </Heading>
-      <div className="row margin-bottom--lg">
+      <div className="row margin-top--lg margin-bottom--lg">
         {firstRow.map((feature, idx) => (
           <Feature feature={feature} key={idx} />
         ))}
@@ -253,15 +222,14 @@ function TopBanner() {
     <div className={styles.topBanner}>
       <div className={styles.topBannerTitle}>
         {'🎉\xa0'}
-        <Link
-          to="/blog/2022/08/01/announcing-docusaurus-2.0"
-          className={styles.topBannerTitleText}>
-          <Translate id="homepage.banner.launch.2.0">
-            {'Docusaurus\xa02.0 is\xa0out!️'}
+        <Link to="/blog/releases/3.0" className={styles.topBannerTitleText}>
+          <Translate id="homepage.banner.launch.3.0">
+            {'Docusaurus\xa03.0 is\xa0out!️'}
           </Translate>
         </Link>
         {'\xa0🥳'}
       </div>
+      {/*
       <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
         <div style={{flex: 1, whiteSpace: 'nowrap'}}>
           <div className={styles.topBannerDescription}>
@@ -290,6 +258,7 @@ function TopBanner() {
           <HackerNewsIcon />
         </div>
       </div>
+      */}
     </div>
   );
 }
@@ -304,10 +273,9 @@ export default function Home(): JSX.Element {
       <main>
         <TopBanner />
         <HeroBanner />
-        <MigrationAnnouncement />
         <div className={styles.section}>
-          <VideoContainer />
           <FeaturesContainer />
+          <VideoContainer />
         </div>
         <TweetsSection />
         <QuotesSection />
