@@ -13,13 +13,13 @@ At [**Meta Open Source**](https://opensource.fb.com/), we believe Docusaurus wil
 
 This is a new **major version** of Docusaurus, coming with **new exciting features** and upgraded dependencies.
 
-In line with the [**Semantic Versioning**](https://semver.org/) principles, this release includes **breaking changes** we documented thoroughly in the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3/). Breaking changes can be bothersome, but they are necessary to set the ground for a **new wave of Docusaurus features** we plan to implement.
+In line with the [**Semantic Versioning**](https://semver.org/) principles, this release includes **breaking changes** we documented thoroughly in the [**v3 upgrade guide**](/docs/migration/v3/). Breaking changes can be bothersome, but they are necessary to set the ground for a **new wave of Docusaurus features** we plan to implement.
 
 ![v3.0 social-card image](./img/social-card.png)
 
 {/* truncate */}
 
-We initially planned to release more frequent major versions, but Docusaurus v3 has taken longer than expected. Among the breaking changes that we accrued, **upgrading to MDX v3** is probably the main challenge to the adoption of this new version. We went the extra mile to make this upgrade as easy as possible, notably by adding [compatibility options for MDX v1](/docs/3.0.0-rc.0/api/docusaurus-config#markdown).
+We initially planned to release more frequent major versions, but Docusaurus v3 has taken longer than expected. Among the breaking changes that we accrued, **upgrading to MDX v3** is probably the main challenge to the adoption of this new version. We went the extra mile to make this upgrade as easy as possible, notably by adding [compatibility options for MDX v1](/docs/api/docusaurus-config#markdown).
 
 The simplest sites will only need to upgrade a few npm dependencies. For more complex sites, we came up with a few strategies that can help you upgrade more confidently:
 
@@ -36,7 +36,7 @@ import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 
 ## Breaking changes
 
-This section only gives you a quick glance. All the breaking changes are thoroughly documented in the [**v3 upgrade guide**](/docs/3.0.0-rc.0/migration/v3).
+This section only gives you a quick glance. All the breaking changes are thoroughly documented in the [**v3 upgrade guide**](/docs/migration/v3).
 
 Docusaurus v3 upgraded a few dependencies to new major versions, each coming with its own breaking changes:
 
@@ -121,9 +121,9 @@ If you created custom [MDX plugins](/docs/markdown-features/plugins) (Remark/Reh
 
 :::
 
-This notably enables us to add a [CommonMark mode](/docs/3.0.0-rc.0/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** and limited ([some Docusaurus features will not work](https://github.com/facebook/docusaurus/issues/9092)). In Docusaurus v3, all files are still interpreted as MDX, but we plan to interpret `.md` files as CommonMark in an upcoming major version, and recommend to use the `.mdx` extension for any file using JSX or ES modules.
+This notably enables us to add a [CommonMark mode](/docs/markdown-features#mdx-vs-commonmark) that should make it easier for existing documentations to adopt Docusaurus. It is currently opt-in and **experimental** and limited ([some Docusaurus features will not work](https://github.com/facebook/docusaurus/issues/9092)). In Docusaurus v3, all files are still interpreted as MDX, but we plan to interpret `.md` files as CommonMark in an upcoming major version, and recommend to use the `.mdx` extension for any file using JSX or ES modules.
 
-We also introduced a new way to [configure Markdown globally for your site](/docs/3.0.0-rc.0/api/docusaurus-config#markdown), and plan to add more flexible options later.
+We also introduced a new way to [configure Markdown globally for your site](/docs/api/docusaurus-config#markdown), and plan to add more flexible options later.
 
 ```js title="docusaurus.config.js"
 export default {
@@ -282,7 +282,7 @@ In [#9316](https://github.com/facebook/docusaurus/pull/9316), we improved on syn
 npm install --save some-package
 ```
 
-The [interactive code editor](/docs/3.0.0-rc.0/markdown-features/code-blocks#interactive-code-editor) also upgrades to [react-live](https://github.com/FormidableLabs/react-live) v4, coming with a new [sucrase](https://github.com/alangpierce/sucrase) compiler. It is faster, lighter, and supports modern features, notably TypeScript type annotations.
+The [interactive code editor](/docs/markdown-features/code-blocks#interactive-code-editor) also upgrades to [react-live](https://github.com/FormidableLabs/react-live) v4, coming with a new [sucrase](https://github.com/alangpierce/sucrase) compiler. It is faster, lighter, and supports modern features, notably TypeScript type annotations.
 
 ```js live
 function Hello() {
@@ -291,7 +291,7 @@ function Hello() {
 }
 ```
 
-In [#8982](https://github.com/facebook/docusaurus/pull/8982) and [#8870](https://github.com/facebook/docusaurus/pull/8870), we also added [magic comments](docs/3.0.0-rc.0/markdown-features/code-blocks#custom-magic-comments) support for TeX-like, Haskell-like, and WebAssembly comment syntax.
+In [#8982](https://github.com/facebook/docusaurus/pull/8982) and [#8870](https://github.com/facebook/docusaurus/pull/8870), we also added [magic comments](docs/markdown-features/code-blocks#custom-magic-comments) support for TeX-like, Haskell-like, and WebAssembly comment syntax.
 
 ```haskell title="haskell.hs"
 stringLength :: String -> Int
@@ -377,8 +377,8 @@ Other new features worth mentioning:
 - [#9189](https://github.com/facebook/docusaurus/pull/9189): new blog `feedOptions.limit` option
 - [#9071](https://github.com/facebook/docusaurus/pull/9071): add normalized SEO front matter support for the pages plugin
 - [#9171](https://github.com/facebook/docusaurus/pull/9028): the client-redirects plugin now supports fully qualified urls and query-string/hash in destination url
-- [#9171](https://github.com/facebook/docusaurus/pull/9171): new ESLint rule [`no-html-links`](/docs/3.0.0-rc.0/api/misc/@docusaurus/eslint-plugin/no-html-links)
-- [#8384](https://github.com/facebook/docusaurus/pull/8384): new ESLint rule [`prefer-docusaurus-heading`](/docs/3.0.0-rc.0/api/misc/@docusaurus/eslint-plugin/prefer-docusaurus-heading)
+- [#9171](https://github.com/facebook/docusaurus/pull/9171): new ESLint rule [`no-html-links`](/docs/api/misc/@docusaurus/eslint-plugin/no-html-links)
+- [#8384](https://github.com/facebook/docusaurus/pull/8384): new ESLint rule [`prefer-docusaurus-heading`](/docs/api/misc/@docusaurus/eslint-plugin/prefer-docusaurus-heading)
 
 Read [**Docusaurus v3.0.0 release notes**](https://github.com/facebook/docusaurus/releases/tag/v3.0.0) for an exhaustive list of changes.
 
