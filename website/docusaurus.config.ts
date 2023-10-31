@@ -475,9 +475,9 @@ export default async function createConfigAsync() {
         respectPrefersColorScheme: true,
       },
       announcementBar: {
-        id: 'announcementBar-3', // Increment on change
+        id: 'announcementBar-4', // Increment on change
         // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
-        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">Docusaurus v3.0</a> it now out!</b> 🥳️`,
+        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">Docusaurus v3.0</a> is now out!</b> 🥳️`,
       },
       prism: {
         additionalLanguages: [
