@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, Suspense} from 'react';
 import {useDocsSidebar} from '@docusaurus/theme-common/internal';
 import BackToTopButton from '@theme/BackToTopButton';
 import DocRootLayoutSidebar from '@theme/DocRoot/Layout/Sidebar';
@@ -29,7 +29,7 @@ export default function DocRootLayout({children}: Props): JSX.Element {
           />
         )}
         <DocRootLayoutMain hiddenSidebarContainer={hiddenSidebarContainer}>
-          {children}
+          <Suspense>{children}</Suspense>
         </DocRootLayoutMain>
       </div>
     </div>

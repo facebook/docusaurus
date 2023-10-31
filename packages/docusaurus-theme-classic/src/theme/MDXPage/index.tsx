@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {Suspense} from 'react';
 import clsx from 'clsx';
 import {
   PageMetadata,
@@ -51,9 +51,11 @@ export default function MDXPage(props: Props): JSX.Element {
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
               {unlisted && <Unlisted />}
               <article>
-                <MDXContent>
-                  <MDXPageContent />
-                </MDXContent>
+                <Suspense>
+                  <MDXContent>
+                    <MDXPageContent />
+                  </MDXContent>
+                </Suspense>
               </article>
             </div>
             {!hideTableOfContents && MDXPageContent.toc.length > 0 && (

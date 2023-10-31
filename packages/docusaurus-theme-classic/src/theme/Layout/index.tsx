@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {Suspense} from 'react';
 import clsx from 'clsx';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import {
@@ -53,7 +53,7 @@ export default function Layout(props: Props): JSX.Element {
           wrapperClassName,
         )}>
         <ErrorBoundary fallback={(params) => <ErrorPageContent {...params} />}>
-          {children}
+          <Suspense>{children}</Suspense>
         </ErrorBoundary>
       </div>
 

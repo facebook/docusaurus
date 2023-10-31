@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {Suspense} from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
@@ -28,7 +28,7 @@ export default function BlogLayout(props: Props): JSX.Element {
             })}
             itemScope
             itemType="https://schema.org/Blog">
-            {children}
+            <Suspense>{children}</Suspense>
           </main>
           {toc && <div className="col col--2">{toc}</div>}
         </div>
