@@ -50,11 +50,15 @@ function scrollAfterNavigation({
 
   const {hash} = location;
   if (!hash) {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   } else {
     const id = decodeURIComponent(hash.substring(1));
     const element = document.getElementById(id);
-    element?.scrollIntoView();
+    element?.scrollIntoView({behavior: 'smooth'});
   }
 }
 
