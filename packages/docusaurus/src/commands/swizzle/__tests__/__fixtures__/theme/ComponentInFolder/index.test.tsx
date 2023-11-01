@@ -1,2 +1,0 @@
-// fake test file
-export {}

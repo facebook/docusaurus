@@ -126,8 +126,7 @@ It is possible to only render the default tab with `<Tabs lazy />`.
 
 :::
 
-:::warning
-The only valid children for `<Tabs>` are `<TabItem>` elements.
+:::warning The only valid children for `Tabs` are `TabItem` elements.
 
 Consider the following invalid example:
 
@@ -142,15 +141,13 @@ Consider the following invalid example:
   <TabItem value="apple">This is an apple 🍎</TabItem>
   <TabItem value="orange">This is an orange 🍊</TabItem>
   <TabItem value="banana">This is a banana 🍌</TabItem>
-  :::tip
-  This is a tip admonition in an invalid position.
-  :::
+  :::tip This is a tip admonition in an invalid position. :::
 </Tabs>
 ```
 
 This will trigger the build error:
 
-> Bad <Tabs> child <Admonition>: all children of the <Tabs> component should be <TabItem>.
+> Bad `<Tabs>` child `<Admonition>`: all children of the `<Tabs>` component should be `<TabItem>`.
 
 The valid usage would be:
 
@@ -171,7 +168,7 @@ The valid usage would be:
 :::
 ```
 
-You could also place the admonition *inside* a `<TabItem>` element.
+You could also place the admonition _inside_ a `TabItem` element.
 
 :::
 

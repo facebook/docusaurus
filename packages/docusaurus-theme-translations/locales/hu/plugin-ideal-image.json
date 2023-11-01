@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "404. A kép nem található",
-  "theme.IdealImageMessage.error": "Hiba. Kattints újratöltéshez",
-  "theme.IdealImageMessage.load": "Kattints a(z) {sizeMessage} betöltéséhez",
-  "theme.IdealImageMessage.loading": "Betöltés...",
-  "theme.IdealImageMessage.offline": "A böngésződ offline módban van. A kép nem töltődött be"
-}

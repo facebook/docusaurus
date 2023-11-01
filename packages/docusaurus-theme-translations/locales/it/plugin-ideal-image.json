@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "404. Immagine non trovata",
-  "theme.IdealImageMessage.error": "Errore. Clicca per ricaricare",
-  "theme.IdealImageMessage.load": "Clicca per caricare{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Caricamento...",
-  "theme.IdealImageMessage.offline": "Il tuo browser è offline. Immagine non caricata"
-}

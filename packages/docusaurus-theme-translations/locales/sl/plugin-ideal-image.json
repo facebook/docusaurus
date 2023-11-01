@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "404. Slika ni najdena",
-  "theme.IdealImageMessage.error": "Napaka. Kliknite, da ponovno naložite stran",
-  "theme.IdealImageMessage.load": "Kliknite, da naložite{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Nalaganje...",
-  "theme.IdealImageMessage.offline": "Vaš brskalnik nima povezave s spletom. Slike ni bilo možno naložiti"
-}

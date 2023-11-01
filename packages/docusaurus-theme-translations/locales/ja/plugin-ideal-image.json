@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "画像が存在しません",
-  "theme.IdealImageMessage.error": "画像の読み込みに失敗しました",
-  "theme.IdealImageMessage.load": "クリックして読み込む{sizeMessage}",
-  "theme.IdealImageMessage.loading": "読み込み中...",
-  "theme.IdealImageMessage.offline": "オフライン中は画像は読み込まれません"
-}

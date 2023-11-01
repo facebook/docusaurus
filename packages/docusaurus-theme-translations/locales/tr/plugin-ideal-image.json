@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "404. Resim Bulunamadı!",
-  "theme.IdealImageMessage.error": "Hata. Yeniden yüklemek için tıklayın",
-  "theme.IdealImageMessage.load": "Yüklemek için tıklayın{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Yükleniyor...",
-  "theme.IdealImageMessage.offline": "Tarayıcınız çevrimdışı. Resim yüklenemedi"
-}

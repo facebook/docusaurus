@@ -1,2 +1,0 @@
-// fake storybook file
-export {};

@@ -1,7 +1,0 @@
-{
-  "theme.IdealImageMessage.404error": "404. Image introuvable",
-  "theme.IdealImageMessage.error": "Erreur. Cliquez pour recharger",
-  "theme.IdealImageMessage.load": "Cliquez pour charger{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Chargement ...",
-  "theme.IdealImageMessage.offline": "Votre navigateur est hors ligne. Image non chargée"
-}
