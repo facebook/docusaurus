@@ -486,6 +486,7 @@ export default async function createConfigAsync() {
           'haskell',
           'matlab',
           'PHp',
+          'powershell',
           'bash',
           'diff',
           'json',
