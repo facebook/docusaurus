@@ -35,7 +35,7 @@ Remove the `node_modules` folder and your package manager's `lock` file using th
 rm -rf node_modules yarn.lock package-lock.json
 ```
 </TabItem>
-<TabItem label="PowerShell" value="powershell"
+<TabItem label="PowerShell" value="powershell">
 ```powershell
 @('node_modules','yarn.lock','package-lock.json') | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 ```
