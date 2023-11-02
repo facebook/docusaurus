@@ -15,6 +15,7 @@ import head from './remark/head';
 import mermaid from './remark/mermaid';
 import transformAdmonitions from './remark/admonitions';
 import unusedDirectivesWarning from './remark/unusedDirectives';
+import brokenAnchorsWarning from './remark/brokenAnchors';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import {getFormat} from './format';
 import type {WebpackCompilerName} from '@docusaurus/utils';
@@ -126,6 +127,7 @@ async function createProcessorFactory() {
       options.markdownConfig.mdx1Compat.comments ? comment : null,
       ...(options.remarkPlugins ?? []),
       unusedDirectivesWarning,
+      brokenAnchorsWarning,
     ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
 
     // codeCompatPlugin needs to be applied last after user-provided plugins
