@@ -3,16 +3,16 @@
 exports[`directives remark plugin - client compiler default behavior for hello file: console 1`] = `
 [
   [
-    "Docusaurus found 2 broken anchor links in <PROJECT_ROOT>/packages/docusaurus-mdx-loader/src/remark/brokenAnchors/__tests__/__fixtures__/hello.md
-custom-id, notvalid",
+    "[WARNING] Docusaurus found 3 broken anchor(s) in file "<PROJECT_ROOT>/packages/docusaurus-mdx-loader/src/remark/brokenAnchors/__tests__/__fixtures__/anchors.md":
+custom-id, notvalidinheading, notvalid",
   ],
 ]
 `;
 
 exports[`directives remark plugin - client compiler default behavior for hello file: result 1`] = `
 "<h1><a href="#found">Hello</a></h1>
-<h2><a href="#hello">Heading</a></h2>
-<h3><a href="#heading">found</a></h3>
+<h2><a href="#hello">found</a></h2>
+<h2><a href="#title-with-space">title link with space</a></h2>
 <p><a href="#hello">Found</a></p>
 <h3>title with space</h3>
 <p><a href="#title-with-space">title with space</a></p>
@@ -22,11 +22,14 @@ exports[`directives remark plugin - client compiler default behavior for hello f
 <p><a href="world.md">world</a></p>
 <h2>test {#custom-id}</h2>
 <p><a href="#custom-id">custom-id</a></p>
+<h3><a href="#notvalidinheading">Not found</a></h3>
 <p><a href="#notvalid">Not found</a></p>
 <p><a href="world.md#worldnotvalid">World not found</a></p>
 <p><a href="https://google.com">google</a></p>
 <p><a href="#emptylink"></a></p>
 <h6></h6>"
 `;
+
+exports[`directives remark plugin - client compiler default behavior for world file: console 1`] = `[]`;
 
 exports[`directives remark plugin - client compiler default behavior for world file: result 1`] = `"<h1>World</h1>"`;

@@ -40,16 +40,16 @@ describe('directives remark plugin - client compiler', () => {
   const options = {compilerName: 'client'} as const;
 
   it('default behavior for hello file', async () => {
-    const result = await processFixture('hello', options);
+    const result = await processFixture('anchors', options);
     expect(result).toMatchSnapshot('result');
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock.mock.calls).toMatchSnapshot('console');
   });
 
   it('default behavior for world file', async () => {
-    const result = await processFixture('world', options);
+    const result = await processFixture('remoteAnchors', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenCalledTimes(0);
     expect(consoleMock.mock.calls).toMatchSnapshot('console');
   });
 });

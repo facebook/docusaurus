@@ -1,6 +1,8 @@
 # [Hello](#found)
 
-### [found](#hello)
+## [found](#hello)
+
+## [title link with space](#title-with-space)
 
 [Found](#hello)
 
@@ -23,6 +25,8 @@
 [custom-id](#custom-id)
 
 <!-- should fail -->
+
+### [Not found](#notvalidinheading)
 
 [Not found](#notvalid)
 

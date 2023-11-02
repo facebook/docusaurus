@@ -4,7 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import type {Heading, Link} from 'mdast';
+import logger from '@docusaurus/logger';
+import type {Heading, Link, Text} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
 
@@ -14,9 +15,17 @@ import type {Transformer, Processor, Parent} from 'unified';
 // import type {Plugin} from 'unified';
 type Plugin = any; // TODO fix this asap
 
-const directiveTypes: ['heading', 'link'] = ['heading', 'link'];
+const nodeTypes: ['heading', 'link'] = ['heading', 'link'];
 
-type AnchorList = any;
+type AnchorList = {
+  links: {link: {url?: string; anchor?: string}}[];
+  headings: {heading: {text: string}}[];
+};
+
+type NodeAnchorList = {
+  nodes: AnchorList;
+  filePath: string;
+};
 
 function isValidURL(url: string): boolean {
   try {
@@ -28,21 +37,20 @@ function isValidURL(url: string): boolean {
   }
 }
 
-function checkAnchor(anchor: AnchorList) {
+function checkAnchor(anchor: NodeAnchorList) {
   const {links, headings} = anchor.nodes;
 
-  const invalidAnchor: any = [];
+  const invalidAnchor: string[] = [];
 
-  console.log(links, headings);
-  const headingsText = headings.map((heading: any) =>
+  const headingsText = headings.map((heading) =>
     heading.heading.text.toLowerCase(),
   );
 
-  const linkAnchor = links.filter((link: any) => link.link.url === undefined);
+  // filter out the anchor that has a url (pointing to another .md file)
+  const linkAnchor = links.filter((link) => link.link.url === undefined);
 
-  linkAnchor.forEach((el: any) => {
+  linkAnchor.forEach((el) => {
     // if the anchor is undefined, then skip
-    console.log(el);
     if (
       el.link.anchor &&
       !headingsText.includes(el.link.anchor.toLowerCase())
@@ -51,12 +59,11 @@ function checkAnchor(anchor: AnchorList) {
     }
   });
 
-  if (invalidAnchor.length !== 0) {
-    console.warn(
-      `Docusaurus found ${invalidAnchor.length} broken anchor links in ${
-        anchor.filePath
-      }\n${invalidAnchor.join(', ')}`,
-    );
+  if (invalidAnchor.length > 0) {
+    const anchorLength = logger.interpolate`number=${invalidAnchor.length}`;
+    const filePath = logger.interpolate`path=${anchor.filePath}`;
+    const invalidAnchors = invalidAnchor.join(', ');
+    logger.warn`Docusaurus found ${anchorLength} broken anchor(s) in file ${filePath}:\n${invalidAnchors}`;
   }
 }
 
@@ -65,42 +72,28 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     const {visit} = await import('unist-util-visit');
 
     const anchorList: AnchorList = {links: [], headings: []};
-
     visit<Parent, ['heading', 'link']>(
       tree,
-      directiveTypes,
+      nodeTypes,
       (directive: Heading | Link) => {
         // we want only markdown links
         if (directive.type === 'link' && isValidURL(directive?.url)) {
           return;
         }
 
-        if (directive.type === 'heading') {
-          const headingNode = directive;
-          // if the heading is empty then skip
-          if (headingNode.children.length === 0) {
-            return;
-          }
-
+        // if the heading is empty then skip
+        if (directive.type === 'heading' && directive.children.length !== 0) {
           // if the heading is a link, then check the anchor
-          if (headingNode.children[0]?.type === 'link') {
-            const linkNode = headingNode.children[0] as Link;
-
-            if (linkNode.children.length !== 0) {
-              const linkTextValue =
-                linkNode.children[0]?.type === 'text'
-                  ? linkNode.children[0].value
-                  : '';
-              anchorList.headings.push({
-                heading: {text: linkTextValue, depth: headingNode.depth},
-              });
-            }
-          } else if (headingNode.children[0]?.type === 'text') {
-            const textNode = headingNode.children[0];
+          const childNode = directive.children[0] as Link | Text;
+          if (childNode?.type === 'link' && childNode.children.length !== 0) {
+            const linkTextValue = childNode.children[0] as any;
+            anchorList.headings.push({
+              heading: {text: linkTextValue.value.replaceAll(' ', '-')},
+            });
+          } else if (childNode?.type === 'text') {
             anchorList.headings.push({
               heading: {
-                text: textNode.value.replaceAll(' ', '-'),
-                depth: headingNode.depth,
+                text: childNode.value.replaceAll(' ', '-'),
               },
             });
           }
@@ -108,12 +101,10 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
 
         // get the URL of link nodes
         if (directive.type === 'link') {
-          const linkNode = directive as Link;
-
           // check if link isn't empty
-          // should we report empty links?
-          if (linkNode.children.length !== 0) {
-            const linkUrlValue = linkNode.url;
+          // ? should we report empty links?
+          if (directive.children.length !== 0) {
+            const linkUrlValue = directive.url;
             const [url, anchor] = linkUrlValue.split('#');
             anchorList.links.push({
               link: {
@@ -129,16 +120,12 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     // We only enable these warnings for the client compiler
     // This avoids emitting duplicate warnings in prod mode
     // Note: the client compiler is used in both dev/prod modes
-    // if (file.data.compilerName === 'client') {
-    //   console.warn({
-    //     directives: unusedDirectives,
-    //     filePath: file.path,
-    //   });
-    // }
-    checkAnchor({
-      nodes: anchorList,
-      filePath: file.path,
-    });
+    if (file.data.compilerName === 'client') {
+      checkAnchor({
+        nodes: anchorList,
+        filePath: file.path,
+      });
+    }
   };
 };
 
