@@ -33,7 +33,6 @@ function toSidebarItemsGeneratorDoc(
 ): SidebarItemsGeneratorDoc {
   return _.pick(doc, [
     'id',
-    'unversionedId',
     'title',
     'frontMatter',
     'source',

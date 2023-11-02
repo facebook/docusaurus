@@ -4,6 +4,7 @@
     "noEmit": false,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "moduleResolution": "bundler",
     "module": "esnext",
     "target": "esnext",
     "sourceMap": true,

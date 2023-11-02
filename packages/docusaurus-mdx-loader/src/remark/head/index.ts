@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 
@@ -15,7 +14,8 @@ import type {MdxJsxFlowElement} from 'mdast-util-mdx';
 // Transform <head> to <Head>
 // MDX 2 doesn't allow to substitute html elements with the provider anymore
 export default function plugin(): Transformer {
-  return (root) => {
+  return async (root) => {
+    const {visit} = await import('unist-util-visit');
     visit(root, 'mdxJsxFlowElement', (node: MdxJsxFlowElement) => {
       if (node.name === 'head') {
         node.name = 'Head';

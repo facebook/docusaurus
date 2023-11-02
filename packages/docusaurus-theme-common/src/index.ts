@@ -107,5 +107,6 @@ export {
 export {
   ErrorBoundaryTryAgainButton,
   ErrorBoundaryError,
+  ErrorBoundaryErrorMessageFallback,
   ErrorCauseBoundary,
 } from './utils/errorBoundaryUtils';

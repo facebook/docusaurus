@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {Feed, type Author as FeedAuthor} from 'feed';
+import * as srcset from 'srcset';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
@@ -42,7 +43,12 @@ async function generateBlogFeed({
   const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
-  const updated = blogPosts[0]?.metadata.date;
+  const blogPostsForFeed =
+    feedOptions.limit === false || feedOptions.limit === null
+      ? blogPosts
+      : blogPosts.slice(0, feedOptions.limit);
+
+  const updated = blogPostsForFeed[0]?.metadata.date;
 
   const feed = new Feed({
     id: blogBaseUrl,
@@ -59,7 +65,7 @@ async function generateBlogFeed({
     options.feedOptions.createFeedItems ?? defaultCreateFeedItems;
 
   const feedItems = await createFeedItems({
-    blogPosts,
+    blogPosts: blogPostsForFeed,
     siteConfig,
     outDir,
     defaultCreateFeedItems,
@@ -105,11 +111,41 @@ async function defaultCreateFeedItems({
       );
       const $ = cheerioLoad(content);
 
-      const link = normalizeUrl([siteUrl, permalink]);
+      const blogPostAbsoluteUrl = normalizeUrl([siteUrl, permalink]);
+
+      const toAbsoluteUrl = (src: string) =>
+        String(new URL(src, blogPostAbsoluteUrl));
+
+      // Make links and image urls absolute
+      // See https://github.com/facebook/docusaurus/issues/9136
+      $(`div#${blogPostContainerID} a, div#${blogPostContainerID} img`).each(
+        (_, elm) => {
+          if (elm.tagName === 'a') {
+            const {href} = elm.attribs;
+            if (href) {
+              elm.attribs.href = toAbsoluteUrl(href);
+            }
+          } else if (elm.tagName === 'img') {
+            const {src, srcset: srcsetAttr} = elm.attribs;
+            if (src) {
+              elm.attribs.src = toAbsoluteUrl(src);
+            }
+            if (srcsetAttr) {
+              elm.attribs.srcset = srcset.stringify(
+                srcset.parse(srcsetAttr).map((props) => ({
+                  ...props,
+                  url: toAbsoluteUrl(props.url),
+                })),
+              );
+            }
+          }
+        },
+      );
+
       const feedItem: BlogFeedItem = {
         title: metadataTitle,
-        id: link,
-        link,
+        id: blogPostAbsoluteUrl,
+        link: blogPostAbsoluteUrl,
         date,
         description,
         // Atom feed demands the "term", while other feeds use "name"

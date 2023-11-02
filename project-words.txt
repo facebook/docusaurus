@@ -31,6 +31,7 @@ browserslist
 browserstack
 buble
 builtins
+bunx
 caabernathy
 cacheable
 callouts
@@ -59,9 +60,9 @@ cssnano
 csvg
 customizability
 dabit
-dabit
 daishi
 datagit
+datamap
 datas
 dbaeumer
 décembre
@@ -97,20 +98,22 @@ eslintcache
 estree
 evaluable
 execa
-execa
 externalwaiting
 failfast
+Fargate
 fbid
 février
 fienny
 flac
+flightcontrol
 formik
 fouc
 froms
 funboxteam
-gantt
 gabrielcsapo
+gantt
 getopts
+gifs
 gitgraph
 gitpod
 globbing
@@ -122,6 +125,7 @@ gtag
 hahaha
 hamel
 hardcoding
+hastscript
 hasura
 heavener
 héctor
@@ -135,6 +139,7 @@ hoverable
 husain
 ianad
 idempotency
+Iframes
 immer
 infima
 inlines
@@ -147,11 +152,13 @@ jakepartusch
 jamstack
 janvier
 javadoc
+jiti
 jmarcey
 jodyheavener
 joshcena
 jscodeshift
 jssdk
+juillet
 kaszubowski
 katex
 kato
@@ -166,6 +173,7 @@ lifecycles
 lighthouserc
 linkify
 localizable
+lockb
 longpaths
 lorber
 lowercased
@@ -180,6 +188,7 @@ mathjax
 maxlynch
 maxresdefault
 mdast
+mdwn
 mdxa
 mdxast
 mdxhast
@@ -191,13 +200,13 @@ metrika
 microdata
 microlink
 middlewares
+mindmap
 minifier
 mkcert
 mkdir
 mkdirs
-mkdocs
 mkdn
-mdwn
+mkdocs
 mkdown
 moesif
 msapplication
@@ -270,6 +279,7 @@ prerendered
 prerendering
 println
 prismjs
+producthunt
 profilo
 protobuf
 protobuffet
@@ -316,7 +326,7 @@ serializers
 setaf
 setext
 shiki
-shiki
+shortcodes
 showinfo
 sida
 simen
@@ -324,7 +334,6 @@ slorber
 sluggified
 sluggifies
 sluggify
-solana
 solana
 spâce
 stackblitz
@@ -370,6 +379,7 @@ typecheck
 typechecks
 typedoc
 typesense
+unavatar
 unflat
 unist
 unlinkable
@@ -412,7 +422,3 @@ yangshunz
 zhou
 zoomable
 zpao
-hastscript
-Flightcontrol
-Fargate
-Flightcontrol's

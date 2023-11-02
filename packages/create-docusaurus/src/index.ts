@@ -30,6 +30,7 @@ const lockfileNames = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
   pnpm: 'pnpm-lock.yaml',
+  bun: 'bun.lockb',
 };
 
 type PackageManager = keyof typeof lockfileNames;
@@ -57,11 +58,12 @@ function findPackageManagerFromUserAgent(): PackageManager | undefined {
 async function askForPackageManagerChoice(): Promise<PackageManager> {
   const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
   const hasPnpm = shell.exec('pnpm --version', {silent: true}).code === 0;
+  const hasBun = shell.exec('bun --version', {silent: true}).code === 0;
 
-  if (!hasYarn && !hasPnpm) {
+  if (!hasYarn && !hasPnpm && !hasBun) {
     return 'npm';
   }
-  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm']
+  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm', hasBun && 'bun']
     .filter((p): p is string => Boolean(p))
     .map((p) => ({title: p, value: p}));
 
@@ -154,17 +156,6 @@ async function copyTemplate(
   typescript: boolean,
 ): Promise<void> {
   await fs.copy(path.join(templatesDir, 'shared'), dest);
-
-  // TypeScript variants will copy duplicate resources like CSS & config from
-  // base template
-  if (typescript) {
-    await fs.copy(template.path, dest, {
-      filter: async (filePath) =>
-        (await fs.stat(filePath)).isDirectory() ||
-        path.extname(filePath) === '.css' ||
-        path.basename(filePath) === 'docusaurus.config.js',
-    });
-  }
 
   await fs.copy(typescript ? template.tsVariantPath! : template.path, dest, {
     // Symlinks don't exist in published npm packages anymore, so this is only
@@ -524,7 +515,11 @@ export default async function init(
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
       shell.exec(
-        pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install --color always`,
+        pkgManager === 'yarn'
+          ? 'yarn'
+          : pkgManager === 'bun'
+          ? 'bun install'
+          : `${pkgManager} install --color always`,
         {
           env: {
             ...process.env,
@@ -545,19 +540,21 @@ export default async function init(
   }
 
   const useNpm = pkgManager === 'npm';
+  const useBun = pkgManager === 'bun';
+  const useRunCommand = useNpm || useBun;
   logger.success`Created name=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}
     Starts the development server.
 
-  code=${`${pkgManager} ${useNpm ? 'run ' : ''}build`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}build`}
     Bundles your website into static files for production.
 
-  code=${`${pkgManager} ${useNpm ? 'run ' : ''}serve`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}serve`}
     Serves the built website locally.
 
-  code=${`${pkgManager} deploy`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:

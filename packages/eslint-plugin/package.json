@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/eslint-plugin",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0",
   "description": "ESLint plugin to enforce best Docusaurus practices.",
   "main": "lib/index.js",
   "keywords": [
@@ -31,6 +31,6 @@
     "eslint": ">=6"
   },
   "engines": {
-    "node": ">=16.14"
+    "node": ">=18.0"
   }
 }

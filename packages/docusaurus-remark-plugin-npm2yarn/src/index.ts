@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
@@ -173,7 +172,9 @@ function createImportNode() {
 const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
   // @ts-expect-error: todo temporary
   const {sync = false, converters = ['yarn', 'pnpm']} = options;
-  return (root) => {
+  return async (root) => {
+    const {visit} = await import('unist-util-visit');
+
     let transformed = false;
     let alreadyImported = false;
 

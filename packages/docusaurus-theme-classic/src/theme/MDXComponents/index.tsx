@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ComponentProps} from 'react';
 import Head from '@docusaurus/Head';
 import MDXCode from '@theme/MDXComponents/Code';
 import MDXA from '@theme/MDXComponents/A';
@@ -28,12 +28,12 @@ const MDXComponents: MDXComponentsObject = {
   pre: MDXPre,
   ul: MDXUl,
   img: MDXImg,
-  h1: (props) => <MDXHeading as="h1" {...props} />,
-  h2: (props) => <MDXHeading as="h2" {...props} />,
-  h3: (props) => <MDXHeading as="h3" {...props} />,
-  h4: (props) => <MDXHeading as="h4" {...props} />,
-  h5: (props) => <MDXHeading as="h5" {...props} />,
-  h6: (props) => <MDXHeading as="h6" {...props} />,
+  h1: (props: ComponentProps<'h1'>) => <MDXHeading as="h1" {...props} />,
+  h2: (props: ComponentProps<'h2'>) => <MDXHeading as="h2" {...props} />,
+  h3: (props: ComponentProps<'h3'>) => <MDXHeading as="h3" {...props} />,
+  h4: (props: ComponentProps<'h4'>) => <MDXHeading as="h4" {...props} />,
+  h5: (props: ComponentProps<'h5'>) => <MDXHeading as="h5" {...props} />,
+  h6: (props: ComponentProps<'h6'>) => <MDXHeading as="h6" {...props} />,
   admonition: Admonition,
   mermaid: Mermaid,
 };

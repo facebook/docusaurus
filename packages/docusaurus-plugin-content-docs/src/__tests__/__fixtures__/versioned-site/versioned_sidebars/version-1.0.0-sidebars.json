@@ -1,11 +1,11 @@
 {
-  "version-1.0.0/docs": {
+  "docs": {
     "Test": [
-      "version-1.0.0/foo/bar",
-      "version-1.0.0/foo/baz"
+      "foo/bar",
+      "foo/baz"
     ],
     "Guides": [
-      "version-1.0.0/hello"
+      "hello"
     ]
   }
 }

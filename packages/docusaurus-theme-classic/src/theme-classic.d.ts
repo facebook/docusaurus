@@ -74,11 +74,20 @@ declare module '@theme/Admonition/Type/Tip' {
   export default function AdmonitionTypeTip(props: Props): JSX.Element;
 }
 
+// TODO remove before v4: Caution replaced by Warning
+// see https://github.com/facebook/docusaurus/issues/7558
 declare module '@theme/Admonition/Type/Caution' {
   import type {Props as AdmonitionProps} from '@theme/Admonition';
 
   export interface Props extends AdmonitionProps {}
   export default function AdmonitionTypeCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Warning' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Type/Danger' {
@@ -128,12 +137,12 @@ declare module '@theme/Admonition/Icon/Tip' {
   export default function AdmonitionIconTip(props: Props): JSX.Element;
 }
 
-declare module '@theme/Admonition/Icon/Caution' {
+declare module '@theme/Admonition/Icon/Warning' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function AdmonitionIconCaution(props: Props): JSX.Element;
+  export default function AdmonitionIconWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Icon/Danger' {
@@ -391,23 +400,20 @@ declare module '@theme/CodeBlock/Content/String' {
 }
 
 declare module '@theme/CodeBlock/Line' {
-  import type {ComponentProps} from 'react';
-  import type Highlight from 'prism-react-renderer';
-
-  // Lib does not make this easy
-  type RenderProps = Parameters<
-    ComponentProps<typeof Highlight>['children']
-  >[0];
-  type GetLineProps = RenderProps['getLineProps'];
-  type GetTokenProps = RenderProps['getTokenProps'];
-  type Token = RenderProps['tokens'][number][number];
+  import type {
+    LineInputProps,
+    LineOutputProps,
+    Token,
+    TokenInputProps,
+    TokenOutputProps,
+  } from 'prism-react-renderer';
 
   export interface Props {
     readonly line: Token[];
     readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
-    readonly getLineProps: GetLineProps;
-    readonly getTokenProps: GetTokenProps;
+    readonly getLineProps: (input: LineInputProps) => LineOutputProps;
+    readonly getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   }
 
   export default function CodeBlockLine(props: Props): JSX.Element;
@@ -891,7 +897,11 @@ declare module '@theme/MDXComponents' {
   import type Mermaid from '@theme/Mermaid';
   import type Head from '@docusaurus/Head';
 
-  export type MDXComponentsObject = {
+  import type {MDXProvider} from '@mdx-js/react';
+
+  type MDXComponentsBase = ComponentProps<typeof MDXProvider>['components'];
+
+  export type MDXComponentsObject = MDXComponentsBase & {
     readonly Head: typeof Head;
     readonly details: typeof MDXDetails;
 

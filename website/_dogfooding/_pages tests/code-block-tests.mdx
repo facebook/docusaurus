@@ -27,6 +27,41 @@ See:
 - https://github.com/facebook/docusaurus/pull/3749
 - https://github.com/facebook/docusaurus/pull/6177
 
+## Code block prism language tests
+
+Code block with/without the good prism language case(lower or upper) in `additionalLanguages[]`
+
+```php title="php"
+<?php
+$x=15;
+$y=30;
+$z=$x+$y;
+echo "Sum: ",$z;
+?>
+```
+
+```PHP title="PHP"
+<?php
+$x=15;
+$y=30;
+$z=$x+$y;
+echo "Sum: ",$z;
+?>
+```
+
+```pHp title="pHp"
+<?php
+$x=15;
+$y=30;
+$z=$x+$y;
+echo "Sum: ",$z;
+?>
+```
+
+See:
+
+- https://github.com/facebook/docusaurus/pull/9183
+
 ## `pre`
 
 ### `pre > string`

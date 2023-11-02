@@ -1,5 +1,25 @@
 # Diagram Examples
 
+## Invalid Diagrams
+
+Those errors should not crash the whole page
+
+### Invalid type
+
+```mermaid
+badType
+    participant Alice
+    participant Bob
+```
+
+### Invalid content
+
+```mermaid
+sequenceDiagram
+    badInstruction Alice
+    participant Bob
+```
+
 ## Sequence Diagram
 
 ```mermaid
@@ -64,6 +84,17 @@ flowchart TD
     C --> D[Rethink]
     D --> B
     B ---->|No| E[End]
+```
+
+### With Markdown:
+
+```mermaid
+flowchart LR
+    markdown["`This **is** _Markdown_`"]
+    newLines["`Line1
+    Line 2
+    Line 3`"]
+    markdown --> newLines
 ```
 
 ## Class Diagram
@@ -314,3 +345,86 @@ graph LR
 </TabItem>
 </Tabs>
 ````
+
+## Mindmap
+
+```mermaid
+mindmap
+  root((conda-forge))
+    (Repos)
+        (Package building)
+            [*-feedstock]
+            [staged-recipes]
+            [cdt-builds]
+            [msys2-recipes]
+        (Maintenance)
+            [admin-requests]
+            [repodata-patches]
+        (Configuration)
+            [.github]
+            [.cirun]
+            [conda-forge-pinning]
+            [conda-forge-ci-setup]
+            [docker-images]
+            [conda-smithy]
+        (Automations)
+            [admin-migrations]
+            [artifact-validation]
+            [regro/cf-scripts]
+            [conda-forge-webservices]
+            [regro/cf-graph-countyfair]
+            [regro/libcfgraph + regro/libcflib]
+            [feedstock-outputs]
+        (Communications)
+            [conda-forge.github.io]
+            [blog]
+            [status]
+            [by-the-numbers]
+            [conda-forge-status-monitor]
+            [feedstocks]
+    (Bots & apps)
+        [conda-forge-admin]
+        [conda-forge-bot]
+        [conda-forge-coordinator]
+        [conda-forge-daemon]
+        [conda-forge-linter]
+        [conda-forge-manager]
+        [conda-forge-status]
+        [regro-cf-autotick-bot]
+        [conda-forge-curator]
+        [conda-forge-webservices]
+    (Delivery)
+        [anaconda.org]
+        [ghcr.io]
+        [quay.io]
+    (Installers)
+        Miniforge
+        Mambaforge
+    (CI for builds)
+        Azure Pipelines
+        Travis CI
+        cirun.io
+    (Infra)
+        Heroku
+        Github Actions
+        Circle CI
+```
+
+## Quadrant Chart
+
+```mermaid
+quadrantChart
+    title Reach and engagement of campaigns
+    x-axis Low Reach --> High Reach
+    y-axis Low Engagement --> High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]
+    Campaign E: [0.40, 0.34]
+    Campaign F: [0.35, 0.78]
+```

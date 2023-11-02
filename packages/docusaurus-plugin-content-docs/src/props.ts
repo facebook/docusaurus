@@ -35,10 +35,11 @@ export function toSidebarDocItemLinkProp({
   item: SidebarItemDoc;
   doc: Pick<
     DocMetadata,
-    'id' | 'title' | 'permalink' | 'unlisted' | 'frontMatter' | 'unversionedId'
+    'id' | 'title' | 'permalink' | 'unlisted' | 'frontMatter'
   >;
 }): PropSidebarItemLink {
   const {
+    id,
     title,
     permalink,
     frontMatter: {
@@ -46,7 +47,6 @@ export function toSidebarDocItemLinkProp({
       sidebar_custom_props: customProps,
     },
     unlisted,
-    unversionedId,
   } = doc;
   return {
     type: 'link',
@@ -54,7 +54,7 @@ export function toSidebarDocItemLinkProp({
     href: permalink,
     className: item.className,
     customProps: item.customProps ?? customProps,
-    docId: unversionedId,
+    docId: id,
     unlisted,
   };
 }
@@ -151,9 +151,9 @@ Available document ids are:
 function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
   return Object.fromEntries(
     loadedVersion.docs.map((doc) => [
-      doc.unversionedId,
+      doc.id,
       {
-        id: doc.unversionedId,
+        id: doc.id,
         title: doc.title,
         description: doc.description,
         sidebar: doc.sidebar,

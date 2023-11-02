@@ -6,28 +6,80 @@
  */
 
 import escapeHtml from 'escape-html';
-import type {Parent} from 'unist';
+import type {Parent, Node} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {MdxJsxAttributeValueExpression} from 'mdast-util-mdx';
+import type {
+  MdxJsxAttribute,
+  MdxJsxAttributeValueExpression,
+  MdxJsxTextElement,
+  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+} from 'mdast-util-mdx';
+
+/**
+ * Util to transform one node type to another node type
+ * The input node is mutated in place
+ * @param node the node to mutate
+ * @param newNode what the original node should become become
+ */
+export function transformNode<NewNode extends Node>(
+  node: Node,
+  newNode: NewNode,
+): NewNode {
+  Object.keys(node).forEach((key) => {
+    // @ts-expect-error: unsafe but ok
+    delete node[key];
+  });
+  Object.keys(newNode).forEach((key) => {
+    // @ts-expect-error: unsafe but ok
+    node[key] = newNode[key];
+  });
+  return node as NewNode;
+}
 
 export function stringifyContent(
   node: Parent,
-  toString: (param: unknown) => string, // TODO weird but works): string {
+  toString: (param: unknown) => string, // TODO weird but works
 ): string {
   return (node.children as PhrasingContent[])
     .map((item) => toValue(item, toString))
     .join('');
 }
 
+// TODO This is really a workaround, and not super reliable
+// For now we only support serializing tagName, className and content
+// Can we implement the TOC with real JSX nodes instead of html strings later?
+function mdxJsxTextElementToHtml(
+  element: MdxJsxTextElement,
+  toString: (param: unknown) => string, // TODO weird but works
+): string {
+  const tag = element.name;
+
+  const attributes = element.attributes.filter(
+    (child): child is MdxJsxAttribute => child.type === 'mdxJsxAttribute',
+  );
+
+  const classAttribute =
+    attributes.find((attr) => attr.name === 'className') ??
+    attributes.find((attr) => attr.name === 'class');
+
+  const classAttributeString = classAttribute
+    ? `class="${escapeHtml(String(classAttribute.value))}"`
+    : ``;
+
+  const allAttributes = classAttributeString ? ` ${classAttributeString}` : '';
+
+  const content = stringifyContent(element, toString);
+
+  return `<${tag}${allAttributes}>${content}</${tag}>`;
+}
+
 export function toValue(
-  node: PhrasingContent | Heading,
+  node: PhrasingContent | Heading | MdxJsxTextElement,
   toString: (param: unknown) => string, // TODO weird but works
 ): string {
   switch (node.type) {
     case 'mdxJsxTextElement': {
-      const tag = node.name;
-      return `<${tag}>${stringifyContent(node, toString)}</${tag}>`;
+      return mdxJsxTextElementToHtml(node as MdxJsxTextElement, toString);
     }
     case 'text':
       return escapeHtml(node.value);

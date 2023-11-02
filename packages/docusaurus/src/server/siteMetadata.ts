@@ -7,7 +7,6 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import type {
   LoadedPlugin,
@@ -82,10 +81,9 @@ function checkDocusaurusPackagesVersion(siteMetadata: SiteMetadata) {
         versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
-        // Should we throw instead? It still could work with different versions
-        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+        throw new Error(`Invalid name=${plugin} version number=${versionInfo.version}.
 All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
-Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`);
       }
     },
   );

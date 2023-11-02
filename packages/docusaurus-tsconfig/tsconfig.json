@@ -7,7 +7,8 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "lib": ["DOM"],
-    "moduleResolution": "Node16",
+    "moduleResolution": "bundler",
+    "module": "esnext",
     "noEmit": true,
     "types": [
       "node",

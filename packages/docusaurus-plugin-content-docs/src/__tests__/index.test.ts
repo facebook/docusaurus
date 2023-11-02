@@ -38,26 +38,21 @@ import type {
   NormalizedSidebar,
 } from '../sidebars/types';
 
-function findDocById(
-  version: LoadedVersion | undefined,
-  unversionedId: string,
-) {
+function findDocById(version: LoadedVersion | undefined, id: string) {
   if (!version) {
     throw new Error('Version not found');
   }
-  return version.docs.find((item) => item.unversionedId === unversionedId);
+  return version.docs.find((item) => item.id === id);
 }
-function getDocById(version: LoadedVersion | undefined, unversionedId: string) {
+function getDocById(version: LoadedVersion | undefined, id: string) {
   if (!version) {
     throw new Error('Version not found');
   }
-  const doc = findDocById(version, unversionedId);
+  const doc = findDocById(version, id);
   if (!doc) {
     throw new Error(
-      `No doc found with id "${unversionedId}" in version ${
-        version.versionName
-      }.
-Available ids are:\n- ${version.docs.map((d) => d.unversionedId).join('\n- ')}`,
+      `No doc found with id "${id}" in version ${version.versionName}.
+Available ids are:\n- ${version.docs.map((d) => d.id).join('\n- ')}`,
     );
   }
   return doc;
