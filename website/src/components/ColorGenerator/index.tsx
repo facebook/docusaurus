@@ -66,7 +66,7 @@ export default function ColorGenerator(): JSX.Element {
     setBaseColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
     setBackground(storedValues.background ?? DEFAULT_BACKGROUND_COLOR);
     setShades(storedValues.shades ?? COLOR_SHADES);
-  }, [storage, DEFAULT_BACKGROUND_COLOR, DEFAULT_PRIMARY_COLOR]);
+  }, [storage, DEFAULT_BACKGROUND_COLOR, DEFAULT_PRIMARY_COLOR, isDarkTheme]);
 
   // State changes -> update DOM styles
   useEffect(() => {
@@ -86,6 +86,13 @@ export default function ColorGenerator(): JSX.Element {
       // Don't update for invalid colors.
     }
   }
+
+  const handleReset = () => {
+    setInputColor(DEFAULT_PRIMARY_COLOR);
+    setBaseColor(DEFAULT_PRIMARY_COLOR);
+    setBackground(DEFAULT_BACKGROUND_COLOR);
+    setShades(COLOR_SHADES);
+  };
 
   return (
     <div>
@@ -155,12 +162,7 @@ export default function ColorGenerator(): JSX.Element {
         <button
           type="button"
           className="clean-btn button button--secondary margin-left--md"
-          onClick={() => {
-            setInputColor(DEFAULT_PRIMARY_COLOR);
-            setBaseColor(DEFAULT_PRIMARY_COLOR);
-            setBackground(DEFAULT_BACKGROUND_COLOR);
-            setShades(COLOR_SHADES);
-          }}>
+          onClick={handleReset}>
           <Translate id="colorGenerator.inputs.resetButton.label">
             Reset
           </Translate>
@@ -247,13 +249,17 @@ export default function ColorGenerator(): JSX.Element {
                           className={styles.input}
                           type="number"
                           value={adjustmentInput}
-                          onChange={(event) => {
-                            const newValue = parseFloat(event.target.value);
+                          onChange={(
+                            e:
+                              | React.ChangeEvent<HTMLInputElement>
+                              | React.FocusEvent<HTMLInputElement>,
+                          ) => {
+                            const newValue = parseFloat(e.target.value);
                             setShades({
                               ...shades,
                               [variableName]: {
                                 ...shades[variableName]!,
-                                adjustmentInput: event.target.value,
+                                adjustmentInput: e.target.value,
                                 adjustment: Number.isNaN(newValue)
                                   ? adjustment
                                   : newValue / 100.0,
