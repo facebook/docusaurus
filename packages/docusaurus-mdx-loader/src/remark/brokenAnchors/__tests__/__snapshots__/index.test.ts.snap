@@ -18,13 +18,14 @@ exports[`directives remark plugin - client compiler default behavior for hello f
 <p><a href="#title-with-space">title with space</a></p>
 <h3>title</h3>
 <p><a href="#title">title</a></p>
-<p><a href="world.md#world">World found</a></p>
-<p><a href="world.md">world</a></p>
+<p><a href="remoteAnchors.md#world">World found</a></p>
+<p><a href="remoteAnchors.md">world</a></p>
+<p><a href="./subfolder/remote.md#test">test</a></p>
 <h2>test {#custom-id}</h2>
 <p><a href="#custom-id">custom-id</a></p>
 <h3><a href="#notvalidinheading">Not found</a></h3>
 <p><a href="#notvalid">Not found</a></p>
-<p><a href="world.md#worldnotvalid">World not found</a></p>
+<p><a href="remoteAnchors.md#worldnotvalid">World not found</a></p>
 <p><a href="https://google.com">google</a></p>
 <p><a href="#emptylink"></a></p>
 <h6></h6>"

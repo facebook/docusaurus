@@ -14,9 +14,11 @@
 
 [title](#title)
 
-[World found](world.md#world)
+[World found](remoteAnchors.md#world)
 
-[world](world.md)
+[world](remoteAnchors.md)
+
+[test](./subfolder/remote.md#test)
 
 <!-- should not fail -->
 
@@ -30,7 +32,7 @@
 
 [Not found](#notvalid)
 
-[World not found](world.md#worldnotvalid)
+[World not found](remoteAnchors.md#worldnotvalid)
 
 <!-- should be ignored by the plugin -->
 

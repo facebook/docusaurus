@@ -17,9 +17,22 @@ type Plugin = any; // TODO fix this asap
 
 const nodeTypes: ['heading', 'link'] = ['heading', 'link'];
 
+type LinkAnchor = {
+  link: {
+    url: string | undefined;
+    anchor: string | undefined;
+  };
+};
+
+type HeadingAnchor = {
+  heading: {
+    text: string;
+  };
+};
+
 type AnchorList = {
-  links: {link: {url?: string; anchor?: string}}[];
-  headings: {heading: {text: string}}[];
+  links: LinkAnchor[];
+  headings: HeadingAnchor[];
 };
 
 type NodeAnchorList = {
@@ -37,10 +50,10 @@ function isValidURL(url: string): boolean {
   }
 }
 
-function checkAnchor(anchor: NodeAnchorList) {
-  const {links, headings} = anchor.nodes;
+function checkAnchor(nodeAnchor: NodeAnchorList) {
+  const {links, headings} = nodeAnchor.nodes;
 
-  const invalidAnchor: string[] = [];
+  const invalidAnchors: string[] = [];
 
   const headingsText = headings.map((heading) =>
     heading.heading.text.toLowerCase(),
@@ -55,15 +68,15 @@ function checkAnchor(anchor: NodeAnchorList) {
       el.link.anchor &&
       !headingsText.includes(el.link.anchor.toLowerCase())
     ) {
-      invalidAnchor.push(el.link.anchor);
+      invalidAnchors.push(el.link.anchor);
     }
   });
 
-  if (invalidAnchor.length > 0) {
-    const anchorLength = logger.interpolate`number=${invalidAnchor.length}`;
-    const filePath = logger.interpolate`path=${anchor.filePath}`;
-    const invalidAnchors = invalidAnchor.join(', ');
-    logger.warn`Docusaurus found ${anchorLength} broken anchor(s) in file ${filePath}:\n${invalidAnchors}`;
+  if (invalidAnchors.length > 0) {
+    const numInvalidAnchors = logger.interpolate`number=${invalidAnchors.length}`;
+    const filePath = logger.interpolate`path=${nodeAnchor.filePath}`;
+    const invalidAnchorList = invalidAnchors.join(', ');
+    logger.warn`Docusaurus found ${numInvalidAnchors} broken anchor(s) in file ${filePath}:\n${invalidAnchorList}`;
   }
 }
 
