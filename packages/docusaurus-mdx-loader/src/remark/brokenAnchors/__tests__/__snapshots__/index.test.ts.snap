@@ -3,8 +3,10 @@
 exports[`directives remark plugin - client compiler default behavior for hello file: console 1`] = `
 [
   [
-    "[WARNING] Docusaurus found 3 broken anchor(s) in file "<PROJECT_ROOT>/packages/docusaurus-mdx-loader/src/remark/brokenAnchors/__tests__/__fixtures__/anchors.md":
-custom-id, notvalidinheading, notvalid",
+    "[WARNING] Docusaurus found 3 broken anchor in file "packages/docusaurus-mdx-loader/src/remark/brokenAnchors/__tests__/__fixtures__/anchors.md"
+- #custom-id
+- #notvalidinheading
+- #notvalid",
   ],
 ]
 `;

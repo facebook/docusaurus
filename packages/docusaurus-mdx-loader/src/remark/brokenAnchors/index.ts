@@ -4,7 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import path from 'path';
+import process from 'process';
 import logger from '@docusaurus/logger';
+import {posixPath} from '@docusaurus/utils';
 import type {Heading, Link, Text} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor, Parent} from 'unified';
@@ -16,6 +19,18 @@ import type {Transformer, Processor, Parent} from 'unified';
 type Plugin = any; // TODO fix this asap
 
 const nodeTypes: ['heading', 'link'] = ['heading', 'link'];
+
+type NodeType = {
+  heading: 'heading';
+  link: 'link';
+  text: 'text';
+};
+
+const nodeType: NodeType = {
+  heading: 'heading',
+  link: 'link',
+  text: 'text',
+};
 
 type LinkAnchor = {
   link: {
@@ -40,44 +55,76 @@ type NodeAnchorList = {
   filePath: string;
 };
 
+/**
+ * Check if a URL is valid based on its protocol.
+ *
+ * @param {string} url - URL to validate.
+ * @returns {boolean} - Returns `true` if the URL is valid, `false` if it's invalid.
+ *
+ * Example:
+ *   - Returns `true` if the URL has an invalid protocol, e.g., "http://www.example.com"
+ *   - Returns `false` if the URL has a custom protocol, e.g., "docs:///path/to/file.txt"
+ */
 function isValidURL(url: string): boolean {
+  const invalidProtocols = [
+    'http:',
+    'https:',
+    'ftp:',
+    'ftps:',
+    'mailto:',
+    'tel:',
+    'sms:',
+  ];
+  const customProtocols = ['docs:', 'file:'];
   try {
-    // eslint-disable-next-line no-new
-    new URL(url);
-    return true;
+    const {protocol} = new URL(url);
+
+    if (invalidProtocols.includes(protocol)) {
+      return true;
+    } else if (customProtocols.includes(protocol)) {
+      return false;
+    }
+    return false;
   } catch {
+    // if there is a problem with the URL, then it's not valid
+    // eg. empty string, url with no protocol
     return false;
   }
 }
 
-function checkAnchor(nodeAnchor: NodeAnchorList) {
+function logBrokenAnchorWarning(nodeAnchor: NodeAnchorList) {
   const {links, headings} = nodeAnchor.nodes;
-
-  const invalidAnchors: string[] = [];
-
+  const {filePath} = nodeAnchor;
   const headingsText = headings.map((heading) =>
     heading.heading.text.toLowerCase(),
   );
 
-  // filter out the anchor that has a url (pointing to another .md file)
-  const linkAnchor = links.filter((link) => link.link.url === undefined);
-
-  linkAnchor.forEach((el) => {
-    // if the anchor is undefined, then skip
-    if (
-      el.link.anchor &&
-      !headingsText.includes(el.link.anchor.toLowerCase())
-    ) {
-      invalidAnchors.push(el.link.anchor);
-    }
-  });
+  const invalidAnchors = links
+    .filter((link) => link.link.url === undefined)
+    .filter(
+      (el) =>
+        el.link.anchor && !headingsText.includes(el.link.anchor.toLowerCase()),
+    )
+    .map((el) => el.link.anchor);
 
   if (invalidAnchors.length > 0) {
     const numInvalidAnchors = logger.interpolate`number=${invalidAnchors.length}`;
-    const filePath = logger.interpolate`path=${nodeAnchor.filePath}`;
-    const invalidAnchorList = invalidAnchors.join(', ');
-    logger.warn`Docusaurus found ${numInvalidAnchors} broken anchor(s) in file ${filePath}:\n${invalidAnchorList}`;
+    const customPath = posixPath(path.relative(process.cwd(), filePath));
+    const fileLog = logger.interpolate`path=${customPath}`;
+    const invalidAnchorList = invalidAnchors
+      .map(formatAnchorMessage)
+      .join('\n');
+    logger.warn`Docusaurus found ${numInvalidAnchors} broken anchor in file ${fileLog}
+${invalidAnchorList}`;
   }
+}
+
+function formatAnchorMessage(str: string | undefined) {
+  return `- #${str}`;
+}
+
+function stringToAnchor(string: string) {
+  return string.replaceAll(' ', '-');
 }
 
 const plugin: Plugin = function plugin(this: Processor): Transformer {
@@ -89,43 +136,44 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
       tree,
       nodeTypes,
       (directive: Heading | Link) => {
-        // we want only markdown links
-        if (directive.type === 'link' && isValidURL(directive?.url)) {
+        // we only want to check custom protocols (eg. docs:, file:)
+        // and string that are considered as file (eg. file.md, google.com)
+        // and invalid protocols (eg. http:, https:, ftp:, etc.)
+        if (
+          (directive.type === 'link' && isValidURL(directive?.url)) ||
+          directive.children.length === 0
+        ) {
           return;
         }
 
-        // if the heading is empty then skip
-        if (directive.type === 'heading' && directive.children.length !== 0) {
-          // if the heading is a link, then check the anchor
+        if (directive.type === nodeType.heading) {
           const childNode = directive.children[0] as Link | Text;
-          if (childNode?.type === 'link' && childNode.children.length !== 0) {
+
+          // if the heading is a link, then check the anchor
+          if (childNode?.type === nodeType.link) {
             const linkTextValue = childNode.children[0] as any;
             anchorList.headings.push({
-              heading: {text: linkTextValue.value.replaceAll(' ', '-')},
+              heading: {text: stringToAnchor(linkTextValue.value)},
             });
-          } else if (childNode?.type === 'text') {
+          } else if (childNode?.type === nodeType.text) {
             anchorList.headings.push({
               heading: {
-                text: childNode.value.replaceAll(' ', '-'),
+                text: stringToAnchor(childNode.value),
               },
             });
           }
         }
 
-        // get the URL of link nodes
-        if (directive.type === 'link') {
-          // check if link isn't empty
-          // ? should we report empty links?
-          if (directive.children.length !== 0) {
-            const linkUrlValue = directive.url;
-            const [url, anchor] = linkUrlValue.split('#');
-            anchorList.links.push({
-              link: {
-                url: url === '' ? undefined : url,
-                anchor: anchor === '' ? undefined : anchor,
-              },
-            });
-          }
+        // check if link isn't empty
+        // ? should we report empty links?
+        if (directive.type === nodeType.link) {
+          const [url, anchor] = directive.url.split('#');
+          anchorList.links.push({
+            link: {
+              url: url === '' ? undefined : url,
+              anchor: anchor === '' ? undefined : anchor,
+            },
+          });
         }
       },
     );
@@ -134,7 +182,7 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     // This avoids emitting duplicate warnings in prod mode
     // Note: the client compiler is used in both dev/prod modes
     if (file.data.compilerName === 'client') {
-      checkAnchor({
+      logBrokenAnchorWarning({
         nodes: anchorList,
         filePath: file.path,
       });
