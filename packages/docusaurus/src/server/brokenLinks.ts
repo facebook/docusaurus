@@ -18,6 +18,7 @@ import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 type BrokenLink = {
   link: string;
   resolvedLink: string;
+  anchor: boolean;
 };
 
 // matchRoutes does not support qs/anchors, so we remove it!
@@ -39,7 +40,8 @@ function getPageBrokenLinks({
   // using `matchRoutes`. `resolvePathname` is used internally by React Router
   function resolveLink(link: string) {
     const resolvedLink = resolvePathname(onlyPathname(link), pagePath);
-    return {link, resolvedLink};
+    // TODO change anchor value
+    return {link, resolvedLink, anchor: false};
   }
 
   function isBrokenLink(link: string) {
@@ -168,7 +170,6 @@ export async function handleBrokenLinks(params: {
   outDir: string;
 }): Promise<void> {
   await handlePathBrokenLinks(params);
-  await handleAnchorBrokenLinks(params);
 }
 
 async function handlePathBrokenLinks({
@@ -198,17 +199,3 @@ async function handlePathBrokenLinks({
     logger.report(onBrokenLinks)(errorMessage);
   }
 }
-
-async function handleAnchorBrokenLinks({
-  allCollectedLinks,
-  onBrokenLinks,
-  routes,
-  baseUrl,
-  outDir,
-}: {
-  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
-  onBrokenLinks: ReportingSeverity;
-  routes: RouteConfig[];
-  baseUrl: string;
-  outDir: string;
-}): Promise<void> {}
