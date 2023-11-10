@@ -20,6 +20,10 @@ import {renderStaticApp} from './serverRenderer';
 import preload from './preload';
 import App from './App';
 import {
+  AnchorsCollectorProvider,
+  createStatefulAnchorsCollector,
+} from './AnchorsCollector';
+import {
   createStatefulLinksCollector,
   LinksCollectorProvider,
 } from './LinksCollector';
@@ -98,13 +102,17 @@ async function doRender(locals: Locals & {path: string}) {
 
   const linksCollector = createStatefulLinksCollector();
 
+  const anchorsCollector = createStatefulAnchorsCollector();
+
   const app = (
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
           <LinksCollectorProvider linksCollector={linksCollector}>
-            <App />
+            <AnchorsCollectorProvider anchorsCollector={anchorsCollector}>
+              <App />
+            </AnchorsCollectorProvider>
           </LinksCollectorProvider>
         </StaticRouter>
       </HelmetProvider>
@@ -113,6 +121,32 @@ async function doRender(locals: Locals & {path: string}) {
 
   const appHtml = await renderStaticApp(app);
   onLinksCollected(location, linksCollector.getCollectedLinks());
+
+  // console.log('Collected anchors');
+  // console.log(anchorsCollector.getCollectedAnchors());
+  // fs.writeFile(
+  //   'anchors.json',
+  //   JSON.stringify(anchorsCollector.getCollectedAnchors()),
+  //   (err) => {
+  //     if (err) {
+  //       throw err;
+  //     }
+  //     console.log('Saved!');
+  //   },
+  // );
+
+  // console.log('Collected links');
+  // console.log(linksCollector.getCollectedLinks());
+  // fs.writeFile(
+  //   'links.json',
+  //   JSON.stringify(linksCollector.getCollectedLinks()),
+  //   (err) => {
+  //     if (err) {
+  //       throw err;
+  //     }
+  //     console.log('Saved!');
+  //   },
+  // );
 
   const {helmet} = helmetContext as FilledContext;
   const htmlAttributes = helmet.htmlAttributes.toString();
