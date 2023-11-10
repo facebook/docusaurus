@@ -177,7 +177,7 @@ export function isVisibleSidebarItem(
       // An unlisted item remains visible if it is active
       return !item.unlisted || isActiveSidebarItem(item, activePath);
     default:
-      return false;
+      return true;
   }
 }
 
