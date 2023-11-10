@@ -42,7 +42,12 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     headTags: string;
     preBodyTags: string;
     postBodyTags: string;
-    onLinksCollected: (staticPagePath: string, links: string[]) => void;
+    // TODO transform arguments into object
+    onLinksCollected: (
+      staticPagePath: string,
+      links: string[],
+      anchors: string[],
+    ) => void;
     onHeadTagsCollected: (
       staticPagePath: string,
       tags: HelmetServerState,

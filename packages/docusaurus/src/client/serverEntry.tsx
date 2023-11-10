@@ -120,7 +120,11 @@ async function doRender(locals: Locals & {path: string}) {
   );
 
   const appHtml = await renderStaticApp(app);
-  onLinksCollected(location, linksCollector.getCollectedLinks());
+  onLinksCollected(
+    location,
+    linksCollector.getCollectedLinks(),
+    anchorsCollector.getCollectedAnchors(),
+  );
 
   // console.log('Collected anchors');
   // console.log(anchorsCollector.getCollectedAnchors());

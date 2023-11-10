@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import path from 'path';
+// TODO Remove this
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import combinePromises from 'combine-promises';
 import {matchRoutes} from 'react-router-config';
-import {removePrefix, removeSuffix, resolvePathname} from '@docusaurus/utils';
+import {resolvePathname} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
@@ -70,13 +70,19 @@ function getAllBrokenLinks({
   allCollectedLinks,
   routes,
 }: {
-  allCollectedLinks: {[location: string]: string[]};
+  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
   routes: RouteConfig[];
 }): {[location: string]: BrokenLink[]} {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = _.mapValues(allCollectedLinks, (pageLinks, pagePath) =>
-    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+  const allBrokenLinks = _.mapValues(
+    allCollectedLinks,
+    (pageCollectedData, pagePath) =>
+      getPageBrokenLinks({
+        pageLinks: pageCollectedData.links,
+        pagePath,
+        routes: filteredRoutes,
+      }),
   );
 
   return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
@@ -154,69 +160,25 @@ ${Object.entries(allBrokenLinks)
 `;
 }
 
-async function isExistingFile(filePath: string) {
-  try {
-    return (await fs.stat(filePath)).isFile();
-  } catch {
-    return false;
-  }
-}
-
-// If a file actually exist on the file system, we know the link is valid
-// even if docusaurus does not know about this file, so we don't report it
-async function filterExistingFileLinks({
-  baseUrl,
-  outDir,
-  allCollectedLinks,
-}: {
+export async function handleBrokenLinks(params: {
+  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
+  onBrokenLinks: ReportingSeverity;
+  routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
-  allCollectedLinks: {[location: string]: string[]};
-}): Promise<{[location: string]: string[]}> {
-  async function linkFileExists(link: string) {
-    // /baseUrl/javadoc/ -> /outDir/javadoc
-    const baseFilePath = onlyPathname(
-      removeSuffix(`${outDir}/${removePrefix(link, baseUrl)}`, '/'),
-    );
-
-    // -> /outDir/javadoc
-    // -> /outDir/javadoc.html
-    // -> /outDir/javadoc/index.html
-    const filePathsToTry: string[] = [baseFilePath];
-    if (!path.extname(baseFilePath)) {
-      filePathsToTry.push(
-        `${baseFilePath}.html`,
-        path.join(baseFilePath, 'index.html'),
-      );
-    }
-
-    for (const file of filePathsToTry) {
-      if (await isExistingFile(file)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  return combinePromises(
-    _.mapValues(allCollectedLinks, async (links) =>
-      (
-        await Promise.all(
-          links.map(async (link) => ((await linkFileExists(link)) ? '' : link)),
-        )
-      ).filter(Boolean),
-    ),
-  );
+}): Promise<void> {
+  await handlePathBrokenLinks(params);
+  await handleAnchorBrokenLinks(params);
 }
 
-export async function handleBrokenLinks({
+async function handlePathBrokenLinks({
   allCollectedLinks,
   onBrokenLinks,
   routes,
   baseUrl,
   outDir,
 }: {
-  allCollectedLinks: {[location: string]: string[]};
+  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
   onBrokenLinks: ReportingSeverity;
   routes: RouteConfig[];
   baseUrl: string;
@@ -226,17 +188,8 @@ export async function handleBrokenLinks({
     return;
   }
 
-  // If we link to a file like /myFile.zip, and the file actually exist for the
-  // file system. It is not a broken link, it may simply be a link to an
-  // existing static file...
-  const allCollectedLinksFiltered = await filterExistingFileLinks({
-    allCollectedLinks,
-    baseUrl,
-    outDir,
-  });
-
   const allBrokenLinks = getAllBrokenLinks({
-    allCollectedLinks: allCollectedLinksFiltered,
+    allCollectedLinks,
     routes,
   });
 
@@ -245,3 +198,17 @@ export async function handleBrokenLinks({
     logger.report(onBrokenLinks)(errorMessage);
   }
 }
+
+async function handleAnchorBrokenLinks({
+  allCollectedLinks,
+  onBrokenLinks,
+  routes,
+  baseUrl,
+  outDir,
+}: {
+  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
+  onBrokenLinks: ReportingSeverity;
+  routes: RouteConfig[];
+  baseUrl: string;
+  outDir: string;
+}): Promise<void> {}
