@@ -97,14 +97,14 @@ export function admonitionTitleToDirectiveLabel(
 
   const directiveNameGroup = `(${admonitionContainerDirectives.join('|')})`;
   const regexp = new RegExp(
-    `^(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)$`,
+    `^(?<indentation>( +|\t+))?(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)$`,
     'gm',
   );
 
   return content.replaceAll(regexp, (substring, ...args: any[]) => {
     const groups = args.at(-1);
 
-    return `${groups.directive}[${groups.title}]`;
+    return `${groups.indentation ?? ''}${groups.directive}[${groups.title}]`;
   });
 }
 
