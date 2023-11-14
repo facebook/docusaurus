@@ -5,9 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import fs from 'fs-extra';
-import waitOn from 'wait-on';
+import {stat} from 'fs/promises';
 import type {Compiler} from 'webpack';
 
 type WaitPluginOptions = {
@@ -23,21 +21,41 @@ export default class WaitPlugin {
 
   apply(compiler: Compiler): void {
     // Before finishing the compilation step
-    compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
-      // To prevent 'waitFile' error on waiting non-existing directory
-      fs.ensureDir(path.dirname(this.filepath), {}, () => {
-        // Wait until file exist
-        waitOn({
-          resources: [this.filepath],
-          interval: 300,
-        })
-          .then(() => {
-            callback();
-          })
-          .catch((error: Error) => {
-            console.warn(`WaitPlugin error: ${error}`);
-          });
-      });
+    compiler.hooks.make.tapPromise('WaitPlugin', () => waitOn(this.filepath));
+  }
+}
+
+async function waitOn(filepath: string): Promise<void> {
+  const pollingIntervalMs = 300;
+  const stabilityWindowMs = 750;
+
+  let lastFileSize = -1;
+  let lastFileTime = -1;
+
+  for (;;) {
+    const size = await fileSize(filepath);
+
+    if (size !== null) {
+      if (size === lastFileSize) {
+        if (performance.now() - lastFileTime >= stabilityWindowMs) {
+          return;
+        }
+      } else {
+        lastFileSize = size;
+        lastFileTime = performance.now();
+      }
+    }
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, pollingIntervalMs);
     });
+  }
+}
+
+async function fileSize(filepath: string): Promise<number | null> {
+  try {
+    return (await stat(filepath)).size;
+  } catch (err) {
+    return null;
   }
 }
