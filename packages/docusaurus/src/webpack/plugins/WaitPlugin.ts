@@ -33,29 +33,22 @@ async function waitOn(filepath: string): Promise<void> {
   let lastFileTime = -1;
 
   for (;;) {
-    const size = await fileSize(filepath);
+    let size = -1;
+    try {
+      size = (await stat(filepath)).size;
+    } catch (err) {}
 
-    if (size !== null) {
-      if (size === lastFileSize) {
-        if (performance.now() - lastFileTime >= stabilityWindowMs) {
-          return;
-        }
-      } else {
+    if (size !== -1) {
+      if (lastFileTime === -1 || size !== lastFileSize) {
         lastFileSize = size;
         lastFileTime = performance.now();
+      } else if (performance.now() - lastFileTime >= stabilityWindowMs) {
+        return;
       }
     }
 
     await new Promise((resolve) => {
       setTimeout(resolve, pollingIntervalMs);
     });
-  }
-}
-
-async function fileSize(filepath: string): Promise<number | null> {
-  try {
-    return (await stat(filepath)).size;
-  } catch (err) {
-    return null;
   }
 }
