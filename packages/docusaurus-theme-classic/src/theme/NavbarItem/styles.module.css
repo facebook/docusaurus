@@ -1,0 +1,32 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.dropdownButton {
+  font-size: inherit;
+  border: none;
+  background: none;
+  color: var(--ifm-navbar-link-color);
+  font-weight: var(--ifm-font-weight-semibold);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dropdownButton:hover {
+  color: var(--ifm-navbar-link-hover-color);
+}
+
+.dropdownButton::after {
+  display: inline-block;
+  border-color: currentColor transparent;
+  border-style: solid;
+  border-width: 0.4em 0.4em 0;
+  content: '';
+  margin-left: 0.3em;
+  position: relative;
+  top: 2px;
+  transform: translateY(-50%);
+}
