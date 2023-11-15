@@ -138,12 +138,13 @@ function DropdownNavbarItemMobile({
 
   return (
     <li
-      className={clsx(styles.dropdownNavbarItemMobile, 'menu__list-item', {
+      className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
       <NavbarNavLink
         role="button"
         className={clsx(
+          styles.dropdownNavbarItemMobile,
           'menu__link menu__link--sublist menu__link--sublist-caret',
           className,
         )}
