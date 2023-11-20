@@ -52,7 +52,7 @@ jobs:
 
       - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@e69ef5462fd455e02edcaf4dd7708eda96b9eda0 # 7.0.0
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # 7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
