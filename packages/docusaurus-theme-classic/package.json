@@ -39,7 +39,7 @@
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.26",
-    "prism-react-renderer": "^2.1.0",
+    "prism-react-renderer": "^2.2.0",
     "prismjs": "^1.29.0",
     "react-router-dom": "^5.3.4",
     "rtlcss": "^4.1.0",
