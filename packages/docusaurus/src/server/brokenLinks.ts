@@ -29,10 +29,12 @@ function onlyPathname(link: string) {
 function getPageBrokenLinks({
   pagePath,
   pageLinks,
+  pageAnchors,
   routes,
 }: {
   pagePath: string;
   pageLinks: string[];
+  pageAnchors: string[];
   routes: RouteConfig[];
 }): BrokenLink[] {
   // ReactRouter is able to support links like ./../somePath but `matchRoutes`
@@ -40,11 +42,10 @@ function getPageBrokenLinks({
   // using `matchRoutes`. `resolvePathname` is used internally by React Router
   function resolveLink(link: string) {
     const resolvedLink = resolvePathname(onlyPathname(link), pagePath);
-    // TODO change anchor value
-    return {link, resolvedLink, anchor: false};
+    return resolvedLink;
   }
 
-  function isBrokenLink(link: string) {
+  function isPathBrokenLink(link: string) {
     const matchedRoutes = [link, decodeURI(link)]
       // @ts-expect-error: React router types RouteConfig with an actual React
       // component, but we load route components with string paths.
@@ -54,7 +55,25 @@ function getPageBrokenLinks({
     return matchedRoutes.length === 0;
   }
 
-  return pageLinks.map(resolveLink).filter((l) => isBrokenLink(l.resolvedLink));
+  function isAnchorBrokenLink(link: string) {
+    console.log('link', link);
+    console.log('pageAnchors', pageAnchors);
+    const urlHash = link.split('#')[1] ?? '';
+
+    return !pageAnchors.includes(urlHash);
+  }
+
+  const brokenLinks = pageLinks.flatMap((pageLink) => {
+    const resolvedLink = resolveLink(pageLink);
+    if (isPathBrokenLink(resolvedLink)) {
+      return [{link: pageLink, resolvedLink, anchor: false}];
+    }
+    if (isAnchorBrokenLink(pageLink)) {
+      return [{link: pageLink, resolvedLink, anchor: true}];
+    }
+    return [];
+  });
+  return brokenLinks;
 }
 
 /**
@@ -82,6 +101,7 @@ function getAllBrokenLinks({
     (pageCollectedData, pagePath) =>
       getPageBrokenLinks({
         pageLinks: pageCollectedData.links,
+        pageAnchors: pageCollectedData.anchors,
         pagePath,
         routes: filteredRoutes,
       }),
@@ -108,11 +128,28 @@ function getBrokenLinksErrorMessage(allBrokenLinks: {
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    return `
-- On source page path = ${pagePath}:
-   -> linking to ${brokenLinks
+    const [pathBrokenLinks, anchorBrokenLinks] = _.partition(
+      brokenLinks,
+      'anchor',
+    );
+
+    const pathMessage =
+      pathBrokenLinks.length > 0
+        ? `- On source page path = ${pagePath}:
+   -> linking to ${pathBrokenLinks
      .map(brokenLinkMessage)
-     .join('\n   -> linking to ')}`;
+     .join('\n   -> linking to ')}`
+        : '';
+
+    const anchorMessage =
+      anchorBrokenLinks.length > 0
+        ? `- Anchor On source page path = ${pagePath}:
+   -> linking to ${anchorBrokenLinks
+     .map(brokenLinkMessage)
+     .join('\n   -> linking to ')}`
+        : '';
+
+    return `${pathMessage}${anchorMessage}`;
   }
 
   /**
@@ -165,6 +202,7 @@ ${Object.entries(allBrokenLinks)
 export async function handleBrokenLinks(params: {
   allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
   onBrokenLinks: ReportingSeverity;
+  onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
@@ -175,17 +213,22 @@ export async function handleBrokenLinks(params: {
 async function handlePathBrokenLinks({
   allCollectedLinks,
   onBrokenLinks,
+  onBrokenAnchors,
   routes,
   baseUrl,
   outDir,
 }: {
   allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
   onBrokenLinks: ReportingSeverity;
+  onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
 }): Promise<void> {
   if (onBrokenLinks === 'ignore') {
+    return;
+  }
+  if (onBrokenAnchors === 'ignore') {
     return;
   }
 

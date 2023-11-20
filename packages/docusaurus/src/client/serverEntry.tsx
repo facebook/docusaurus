@@ -126,32 +126,6 @@ async function doRender(locals: Locals & {path: string}) {
     anchorsCollector.getCollectedAnchors(),
   );
 
-  // console.log('Collected anchors');
-  // console.log(anchorsCollector.getCollectedAnchors());
-  // fs.writeFile(
-  //   'anchors.json',
-  //   JSON.stringify(anchorsCollector.getCollectedAnchors()),
-  //   (err) => {
-  //     if (err) {
-  //       throw err;
-  //     }
-  //     console.log('Saved!');
-  //   },
-  // );
-
-  // console.log('Collected links');
-  // console.log(linksCollector.getCollectedLinks());
-  // fs.writeFile(
-  //   'links.json',
-  //   JSON.stringify(linksCollector.getCollectedLinks()),
-  //   (err) => {
-  //     if (err) {
-  //       throw err;
-  //     }
-  //     console.log('Saved!');
-  //   },
-  // );
-
   const {helmet} = helmetContext as FilledContext;
   const htmlAttributes = helmet.htmlAttributes.toString();
   const bodyAttributes = helmet.bodyAttributes.toString();

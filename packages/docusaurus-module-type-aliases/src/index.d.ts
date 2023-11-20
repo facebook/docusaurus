@@ -269,6 +269,7 @@ declare module '@docusaurus/useAnchor' {
     getCollectedAnchors: () => string[];
   };
 
+  // useAnchorCollector
   export default function useAnchor(): [
     AnchorsCollector,
     () => StatefulAnchorsCollector,

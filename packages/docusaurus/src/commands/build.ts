@@ -154,6 +154,7 @@ async function buildLocale({
     siteConfig: {
       baseUrl,
       onBrokenLinks,
+      onBrokenAnchors,
       staticDirectories: staticDirectoriesOption,
     },
     routes,
@@ -293,6 +294,7 @@ async function buildLocale({
     allCollectedLinks,
     routes,
     onBrokenLinks,
+    onBrokenAnchors,
     outDir,
     baseUrl,
   });

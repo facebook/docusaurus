@@ -50,57 +50,72 @@ describe('handleBrokenLinks', () => {
   const linkToEmptyFolder1 = '/emptyFolder';
   const linkToEmptyFolder2 = '/emptyFolder/';
   const allCollectedLinks = {
-    '/docs/good doc with space': [
-      // Good - valid file with spaces in name
-      './another%20good%20doc%20with%20space',
-      // Good - valid file with percent-20 in its name
-      './weird%20but%20good',
-      // Bad - non-existent file with spaces in name
-      './some%20other%20non-existent%20doc1',
-      // Evil - trying to use ../../ but '/' won't get decoded
-      // cSpell:ignore Fout
-      './break%2F..%2F..%2Fout2',
-    ],
-    '/docs/goodDoc': [
-      // Good links
-      './anotherGoodDoc#someHash',
-      '/docs/anotherGoodDoc?someQueryString=true#someHash',
-      '../docs/anotherGoodDoc?someQueryString=true',
-      '../docs/anotherGoodDoc#someHash',
-      // Bad links
-      '../anotherGoodDoc#reported-because-of-bad-relative-path1',
-      './docThatDoesNotExist2',
-      './badRelativeLink3',
-      '../badRelativeLink4',
-    ],
-    '/community': [
-      // Good links
-      '/docs/goodDoc',
-      '/docs/anotherGoodDoc#someHash',
-      './docs/goodDoc#someHash',
-      './docs/anotherGoodDoc',
-      // Bad links
-      '/someNonExistentDoc1',
-      '/badLink2',
-      './badLink3',
-    ],
-    '/page1': [
-      link1,
-      linkToHtmlFile1,
-      linkToJavadoc1,
-      linkToHtmlFile2,
-      linkToJavadoc3,
-      linkToJavadoc4,
-      linkToEmptyFolder1, // Not filtered!
-    ],
-    '/page2': [
-      link2,
-      linkToEmptyFolder2, // Not filtered!
-      linkToJavadoc2,
-      link3,
-      linkToJavadoc3,
-      linkToZipFile,
-    ],
+    '/docs/good doc with space': {
+      links: [
+        // Good - valid file with spaces in name
+        './another%20good%20doc%20with%20space',
+        // Good - valid file with percent-20 in its name
+        './weird%20but%20good',
+        // Bad - non-existent file with spaces in name
+        './some%20other%20non-existent%20doc1',
+        // Evil - trying to use ../../ but '/' won't get decoded
+        // cSpell:ignore Fout
+        './break%2F..%2F..%2Fout2',
+      ],
+      anchors: [],
+    },
+    '/docs/goodDoc': {
+      links: [
+        // Good links
+        './anotherGoodDoc#someHash',
+        '/docs/anotherGoodDoc?someQueryString=true#someHash',
+        '../docs/anotherGoodDoc?someQueryString=true',
+        '../docs/anotherGoodDoc#someHash',
+        // Bad links
+        '../anotherGoodDoc#reported-because-of-bad-relative-path1',
+        './docThatDoesNotExist2',
+        './badRelativeLink3',
+        '../badRelativeLink4',
+      ],
+      anchors: [],
+    },
+    '/community': {
+      links: [
+        // Good links
+        '/docs/goodDoc',
+        '/docs/anotherGoodDoc#someHash',
+        './docs/goodDoc#someHash',
+        './docs/anotherGoodDoc',
+        // Bad links
+        '/someNonExistentDoc1',
+        '/badLink2',
+        './badLink3',
+      ],
+      anchors: [],
+    },
+    '/page1': {
+      links: [
+        link1,
+        linkToHtmlFile1,
+        linkToJavadoc1,
+        linkToHtmlFile2,
+        linkToJavadoc3,
+        linkToJavadoc4,
+        linkToEmptyFolder1, // Not filtered!
+      ],
+      anchors: [],
+    },
+    '/page2': {
+      links: [
+        link2,
+        linkToEmptyFolder2, // Not filtered!
+        linkToJavadoc2,
+        link3,
+        linkToJavadoc3,
+        linkToZipFile,
+      ],
+      anchors: [],
+    },
   };
 
   const outDir = path.resolve(__dirname, '__fixtures__/brokenLinks/outDir');
@@ -110,33 +125,46 @@ describe('handleBrokenLinks', () => {
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
     const allCollectedCorrectLinks = {
-      '/docs/good doc with space': [
-        './another%20good%20doc%20with%20space',
-        './weird%20but%20good',
-      ],
-      '/docs/goodDoc': [
-        './anotherGoodDoc#someHash',
-        '/docs/anotherGoodDoc?someQueryString=true#someHash',
-        '../docs/anotherGoodDoc?someQueryString=true',
-        '../docs/anotherGoodDoc#someHash',
-      ],
-      '/community': [
-        '/docs/goodDoc',
-        '/docs/anotherGoodDoc#someHash',
-        './docs/goodDoc#someHash',
-        './docs/anotherGoodDoc',
-      ],
-      '/page1': [
-        linkToHtmlFile1,
-        linkToJavadoc1,
-        linkToHtmlFile2,
-        linkToJavadoc3,
-        linkToJavadoc4,
-      ],
+      '/docs/good doc with space': {
+        links: [
+          './another%20good%20doc%20with%20space',
+          './weird%20but%20good',
+        ],
+        anchors: [],
+      },
+      '/docs/goodDoc': {
+        links: [
+          './anotherGoodDoc#someHash',
+          '/docs/anotherGoodDoc?someQueryString=true#someHash',
+          '../docs/anotherGoodDoc?someQueryString=true',
+          '../docs/anotherGoodDoc#someHash',
+        ],
+        anchors: ['someHash'],
+      },
+      '/community': {
+        links: [
+          '/docs/goodDoc',
+          '/docs/anotherGoodDoc#someHash',
+          './docs/goodDoc#someHash',
+          './docs/anotherGoodDoc',
+        ],
+        anchors: [],
+      },
+      '/page1': {
+        links: [
+          linkToHtmlFile1,
+          linkToJavadoc1,
+          linkToHtmlFile2,
+          linkToJavadoc3,
+          linkToJavadoc4,
+        ],
+        anchors: [],
+      },
     };
     await handleBrokenLinks({
       allCollectedLinks: allCollectedCorrectLinks,
       onBrokenLinks: 'warn',
+      onBrokenAnchors: 'throw',
       routes,
       baseUrl: '/',
       outDir,
@@ -149,6 +177,7 @@ describe('handleBrokenLinks', () => {
       handleBrokenLinks({
         allCollectedLinks,
         onBrokenLinks: 'throw',
+        onBrokenAnchors: 'throw',
         routes,
         baseUrl: '/',
         outDir,
@@ -163,6 +192,7 @@ describe('handleBrokenLinks', () => {
     await handleBrokenLinks({
       allCollectedLinks,
       onBrokenLinks: 'ignore',
+      onBrokenAnchors: 'throw',
       routes,
       baseUrl: '/',
       outDir,
@@ -172,20 +202,21 @@ describe('handleBrokenLinks', () => {
   });
 
   it('reports frequent broken links', async () => {
-    Object.values(allCollectedLinks).forEach((links) =>
+    Object.values(allCollectedLinks).forEach(({links}) => {
       links.push(
         '/frequent',
         // This is in the gray area of what should be reported. Relative paths
         // may be resolved to different slugs on different locations. But if
         // this comes from a layout link, it should be reported anyways
         './maybe-not',
-      ),
-    );
+      );
+    });
 
     await expect(() =>
       handleBrokenLinks({
         allCollectedLinks,
         onBrokenLinks: 'throw',
+        onBrokenAnchors: 'throw',
         routes,
         baseUrl: '/',
         outDir,

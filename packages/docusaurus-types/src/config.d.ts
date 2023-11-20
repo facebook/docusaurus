@@ -144,6 +144,13 @@ export type DocusaurusConfig = {
    */
   onBrokenLinks: ReportingSeverity;
   /**
+   * The behavior of Docusaurus when it detects any broken link.
+   *
+   * @see // TODO
+   * @default "warn"
+   */
+  onBrokenAnchors: ReportingSeverity;
+  /**
    * The behavior of Docusaurus when it detects any broken markdown link.
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks

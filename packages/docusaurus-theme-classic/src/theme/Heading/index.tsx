@@ -27,12 +27,11 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
 
   const list = createAnchorList();
 
+  // ! should not be called 2 times, not a problem because we use
+  // Set<string> but still must be removed
   anchorsCollector.collectAnchor(id);
-  // console.log('Heading id:');
-  // console.log(id);
+
   list.collectAnchor(id);
-  // console.log('Heading anchor list:');
-  // console.log(list.getCollectedAnchors());
 
   const anchorTitle = translate(
     {
