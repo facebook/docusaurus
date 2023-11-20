@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {stat} from 'fs/promises';
+import fs from 'fs-extra';
 import type {Compiler} from 'webpack';
 
 type WaitPluginOptions = {
@@ -25,6 +25,8 @@ export default class WaitPlugin {
   }
 }
 
+// This is a re-implementation of the algorithm used by the "wait-on" package
+// https://github.com/jeffbski/wait-on/blob/master/lib/wait-on.js#L200
 async function waitOn(filepath: string): Promise<void> {
   const pollingIntervalMs = 300;
   const stabilityWindowMs = 750;
@@ -35,7 +37,7 @@ async function waitOn(filepath: string): Promise<void> {
   for (;;) {
     let size = -1;
     try {
-      size = (await stat(filepath)).size;
+      size = (await fs.stat(filepath)).size;
     } catch (err) {}
 
     if (size !== -1) {
