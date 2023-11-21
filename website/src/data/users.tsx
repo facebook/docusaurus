@@ -166,6 +166,15 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'versioning'],
   },
   {
+    title: 'CMHQ',
+    description:
+      'A tech hub for learning and collaborating on web development',
+    preview: require('./showcase/cmhq-tech.jpg'),
+    website: 'https://cmhq.tech/',
+    source: 'https://github.com/Ajay-Dhangar/CodeMastermindHQ',
+    tags: ['opensource', 'product', 'personal', 'favorite'],
+  },
+  {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
