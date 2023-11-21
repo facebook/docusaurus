@@ -10,9 +10,6 @@ import {JsonView, darkStyles} from 'react-json-view-lite';
 import type {Props} from '@theme/DebugJsonView';
 import 'react-json-view-lite/dist/index.css';
 
-// Avoids "react-json-view-lite" displaying "root"
-const RootName = undefined;
-
 export default function DebugJsonView({
   src,
   collapseDepth,
@@ -20,15 +17,12 @@ export default function DebugJsonView({
   return (
     <JsonView
       data={src as object}
-      shouldExpandNode={(idx, value, field) => {
-        const hasCollapseDepth = collapseDepth !== undefined;
-        const keyLength = Object.keys(value).length;
+      shouldExpandNode={(idx, value) => {
+        if (Array.isArray(value)) {
+          return value.length < 5;
+        }
 
-        const shouldExpandByLength = keyLength < 50 && keyLength > 0;
-        const shouldExpandByDepth = hasCollapseDepth && idx < collapseDepth;
-        const isRootField = field === RootName;
-
-        return (isRootField || shouldExpandByDepth) && shouldExpandByLength;
+        return collapseDepth !== undefined && idx < collapseDepth;
       }}
       style={darkStyles}
     />
