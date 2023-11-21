@@ -56,11 +56,20 @@ function getPageBrokenLinks({
   }
 
   function isAnchorBrokenLink(link: string) {
-    console.log('link', link);
-    console.log('pageAnchors', pageAnchors);
-    const urlHash = link.split('#')[1] ?? '';
+    const urlHash = link.split('#')[1];
 
-    return !pageAnchors.includes(urlHash);
+    if (urlHash === undefined || pageAnchors.length === 0) {
+      return false;
+    }
+
+    const brokenAnchors = pageAnchors.flatMap((anchor) => {
+      if (anchor === urlHash) {
+        return [];
+      }
+      return [anchor];
+    });
+
+    return brokenAnchors.length > 0;
   }
 
   const brokenLinks = pageLinks.flatMap((pageLink) => {
@@ -128,14 +137,14 @@ function getBrokenLinksErrorMessage(allBrokenLinks: {
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    const [pathBrokenLinks, anchorBrokenLinks] = _.partition(
+    const [anchorBrokenLinks, pathBrokenLinks] = _.partition(
       brokenLinks,
       'anchor',
     );
 
     const pathMessage =
       pathBrokenLinks.length > 0
-        ? `- On source page path = ${pagePath}:
+        ? `- Broken link on source page path = ${pagePath}:
    -> linking to ${pathBrokenLinks
      .map(brokenLinkMessage)
      .join('\n   -> linking to ')}`
@@ -143,13 +152,13 @@ function getBrokenLinksErrorMessage(allBrokenLinks: {
 
     const anchorMessage =
       anchorBrokenLinks.length > 0
-        ? `- Anchor On source page path = ${pagePath}:
+        ? `- Broken anchor on source page path = ${pagePath}:
    -> linking to ${anchorBrokenLinks
      .map(brokenLinkMessage)
      .join('\n   -> linking to ')}`
         : '';
 
-    return `${pathMessage}${anchorMessage}`;
+    return `${pathMessage}\n${anchorMessage}`;
   }
 
   /**
@@ -185,10 +194,10 @@ We recommend that you check your theme configuration for such links (particularl
 Frequent broken links are linking to:${frequentLinks}`;
   }
 
-  return `Docusaurus found broken links!
+  return `Docusaurus found broken links / anchors!
 
 Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
-Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
+Note: it's possible to ignore broken links with the 'onBrokenLinks' or 'onBrokenAnchors' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
 
 Exhaustive list of all broken links found:
 ${Object.entries(allBrokenLinks)

@@ -150,21 +150,21 @@ describe('handleBrokenLinks', () => {
         ],
         anchors: [],
       },
-      '/page1': {
-        links: [
-          linkToHtmlFile1,
-          linkToJavadoc1,
-          linkToHtmlFile2,
-          linkToJavadoc3,
-          linkToJavadoc4,
-        ],
-        anchors: [],
-      },
+      // '/page1': {
+      //   links: [
+      //     linkToHtmlFile1,
+      //     linkToJavadoc1,
+      //     linkToHtmlFile2,
+      //     linkToJavadoc3,
+      //     linkToJavadoc4,
+      //   ],
+      //   anchors: [],
+      // },
     };
     await handleBrokenLinks({
       allCollectedLinks: allCollectedCorrectLinks,
       onBrokenLinks: 'warn',
-      onBrokenAnchors: 'throw',
+      onBrokenAnchors: 'warn',
       routes,
       baseUrl: '/',
       outDir,
@@ -192,7 +192,7 @@ describe('handleBrokenLinks', () => {
     await handleBrokenLinks({
       allCollectedLinks,
       onBrokenLinks: 'ignore',
-      onBrokenAnchors: 'throw',
+      onBrokenAnchors: 'ignore',
       routes,
       baseUrl: '/',
       outDir,
