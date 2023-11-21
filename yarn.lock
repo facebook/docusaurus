@@ -13472,13 +13472,13 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prism-react-renderer@^2.0.6, prism-react-renderer@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-2.2.0.tgz#f199b15716e0b8d0ccfd1986ff6fa226fb7ff2b1"
-  integrity sha512-j4AN0VkEr72598+47xDvpzeYyeh/wPPRNTt9nJFZqIZUxwGKwYqYgt7RVigZ3ZICJWJWN84KEuMKPNyypyhNIw==
+prism-react-renderer@^2.0.6, prism-react-renderer@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-2.3.0.tgz#5f8f615af6af8201a0b734bd8c946df3d818ea54"
+  integrity sha512-UYRg2TkVIaI6tRVHC5OJ4/BxqPUxJkJvq/odLT/ykpt1zGYXooNperUxQcCvi87LyRnR4nCh81ceOA+e7nrydg==
   dependencies:
     "@types/prismjs" "^1.26.0"
-    clsx "^1.2.1"
+    clsx "^2.0.0"
 
 prismjs@^1.29.0:
   version "1.29.0"
