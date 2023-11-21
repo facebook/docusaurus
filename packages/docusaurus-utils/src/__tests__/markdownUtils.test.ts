@@ -1370,6 +1370,57 @@ after
     `);
   });
 
+  it('transforms directives in quotes', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        `
+before
+
+> :::caution There be dragons
+>
+> This is the admonition content
+>
+> :::
+>
+>> :::caution There be dragons
+>>
+>> This is the admonition content
+>>
+>> :::
+> > :::caution There be dragons
+> >
+> > This is the admonition content
+> >
+> > :::
+
+after
+    `,
+        directives,
+      ),
+    ).toBe(`
+before
+
+> :::caution[There be dragons]
+>
+> This is the admonition content
+>
+> :::
+>
+>> :::caution[There be dragons]
+>>
+>> This is the admonition content
+>>
+>> :::
+> > :::caution[There be dragons]
+> >
+> > This is the admonition content
+> >
+> > :::
+
+after
+    `);
+  });
+
   it('does not transform admonition without title', () => {
     expect(
       admonitionTitleToDirectiveLabel(
