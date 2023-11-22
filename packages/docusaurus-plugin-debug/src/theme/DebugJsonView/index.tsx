@@ -11,19 +11,19 @@ import type {Props} from '@theme/DebugJsonView';
 import styles from './styles.module.css';
 
 const paraisoStyles = {
-  container: styles.containerParaiso,
-  basicChildStyle: styles.basicElementParaiso,
-  label: styles.labelParaiso,
-  nullValue: styles.nullValueParaiso,
-  undefinedValue: styles.undefinedValueParaiso,
-  stringValue: styles.stringValueParaiso,
-  booleanValue: styles.booleanValueParaiso,
-  numberValue: styles.numberValueParaiso,
-  otherValue: styles.otherValueParaiso,
-  punctuation: styles.punctuationParaiso,
-  collapseIcon: styles.collapseIconParaiso,
-  expandIcon: styles.expandIconParaiso,
-  collapsedContent: styles.collapseContentParaiso,
+  container: styles.containerParaiso!,
+  basicChildStyle: styles.basicElementParaiso!,
+  label: styles.labelParaiso!,
+  nullValue: styles.nullValueParaiso!,
+  undefinedValue: styles.undefinedValueParaiso!,
+  stringValue: styles.stringValueParaiso!,
+  booleanValue: styles.booleanValueParaiso!,
+  numberValue: styles.numberValueParaiso!,
+  otherValue: styles.otherValueParaiso!,
+  punctuation: styles.punctuationParaiso!,
+  collapseIcon: styles.collapseIconParaiso!,
+  expandIcon: styles.expandIconParaiso!,
+  collapsedContent: styles.collapseContentParaiso!,
 };
 
 export default function DebugJsonView({
