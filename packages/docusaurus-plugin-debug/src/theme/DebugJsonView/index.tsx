@@ -6,9 +6,25 @@
  */
 
 import React from 'react';
-import {JsonView, darkStyles} from 'react-json-view-lite';
+import {JsonView} from 'react-json-view-lite';
 import type {Props} from '@theme/DebugJsonView';
-import 'react-json-view-lite/dist/index.css';
+import './styles.module.css';
+
+const paraisoStyles = {
+  container: 'container-paraiso',
+  basicChildStyle: 'basic-element-paraiso',
+  label: 'label-paraiso',
+  nullValue: 'null-value-paraiso',
+  undefinedValue: 'undefined-value-paraiso',
+  stringValue: 'string-value-paraiso',
+  booleanValue: 'boolean-value-paraiso',
+  numberValue: 'number-value-paraiso',
+  otherValue: 'other-value-paraiso',
+  punctuation: 'punctuation-paraiso',
+  collapseIcon: 'collapse-icon-paraiso',
+  expandIcon: 'expand-icon-paraiso',
+  collapsedContent: 'collapse-content-paraiso',
+};
 
 export default function DebugJsonView({
   src,
@@ -24,7 +40,7 @@ export default function DebugJsonView({
 
         return collapseDepth !== undefined && idx < collapseDepth;
       }}
-      style={darkStyles}
+      style={paraisoStyles}
     />
   );
 }
