@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.container-paraiso {
+.containerParaiso {
   font-family: monospace;
   cursor: default;
   background-color: rgb(41 42 43);
@@ -16,19 +16,19 @@
   font-size: 13px;
 }
 
-.basic-element-paraiso {
+.basicElementParaiso {
   color: white;
   padding: 3px 5px 3px 20px;
   border-left: 1px solid rgb(79 66 76);
 }
 
-.label-paraiso {
+.labelParaiso {
   color: rgb(231 233 219);
   letter-spacing: 0.5px;
   margin-right: 3px;
 }
 
-.null-value-paraiso {
+.nullValueParaiso {
   display: inline-block;
   color: rgb(254 196 24);
   font-size: 11px;
@@ -39,31 +39,31 @@
   text-transform: uppercase;
 }
 
-.undefined-value-paraiso {
+.undefinedValueParaiso {
   color: rgb(141 134 135);
 }
 
-.string-value-paraiso {
+.stringValueParaiso {
   color: rgb(249 155 21);
 }
 
-.boolean-value-paraiso {
+.booleanValueParaiso {
   color: rgb(129 91 164);
 }
 
-.number-value-paraiso {
+.numberValueParaiso {
   color: rgb(233 107 168);
 }
 
-.other-value-paraiso {
+.otherValueParaiso {
   color: white;
 }
 
-.punctuation-paraiso {
+.punctuationParaiso {
   color: white;
 }
 
-.expand-icon-paraiso {
+.expandIconParaiso {
   display: inline-block;
   color: rgb(129 91 164);
   font-size: 22px;
@@ -72,11 +72,11 @@
   line-height: 10px;
 }
 
-.collapse-icon-paraiso::after {
+.collapseIconParaiso::after {
   content: '\25BE';
 }
 
-.collapse-icon-paraiso {
+.collapseIconParaiso {
   display: inline-block;
   color: rgb(6 182 239);
   font-size: 22px;
@@ -85,17 +85,17 @@
   line-height: 10px;
 }
 
-.expand-icon-paraiso::after {
+.expandIconParaiso::after {
   content: '\25B8';
 }
 
-.collapse-content-paraiso {
+.collapseContentParaiso {
   color: rgb(249 155 21);
   font-size: 18px;
   line-height: 10px;
   cursor: pointer;
 }
 
-.collapse-content-paraiso::after {
+.collapseContentParaiso::after {
   content: '...';
 }

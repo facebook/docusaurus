@@ -8,22 +8,22 @@
 import React from 'react';
 import {JsonView} from 'react-json-view-lite';
 import type {Props} from '@theme/DebugJsonView';
-import './styles.module.css';
+import styles from './styles.module.css';
 
 const paraisoStyles = {
-  container: 'container-paraiso',
-  basicChildStyle: 'basic-element-paraiso',
-  label: 'label-paraiso',
-  nullValue: 'null-value-paraiso',
-  undefinedValue: 'undefined-value-paraiso',
-  stringValue: 'string-value-paraiso',
-  booleanValue: 'boolean-value-paraiso',
-  numberValue: 'number-value-paraiso',
-  otherValue: 'other-value-paraiso',
-  punctuation: 'punctuation-paraiso',
-  collapseIcon: 'collapse-icon-paraiso',
-  expandIcon: 'expand-icon-paraiso',
-  collapsedContent: 'collapse-content-paraiso',
+  container: styles.containerParaiso,
+  basicChildStyle: styles.basicElementParaiso,
+  label: styles.labelParaiso,
+  nullValue: styles.nullValueParaiso,
+  undefinedValue: styles.undefinedValueParaiso,
+  stringValue: styles.stringValueParaiso,
+  booleanValue: styles.booleanValueParaiso,
+  numberValue: styles.numberValueParaiso,
+  otherValue: styles.otherValueParaiso,
+  punctuation: styles.punctuationParaiso,
+  collapseIcon: styles.collapseIconParaiso,
+  expandIcon: styles.expandIconParaiso,
+  collapsedContent: styles.collapseContentParaiso,
 };
 
 export default function DebugJsonView({
