@@ -1,7 +1,13 @@
-<h1 align="center">
-  <p align="center">Docusaurus</p>
-  <a href="https://docusaurus.io"><img src="https://docusaurus.io/img/slash-introducing.svg" alt="Docusaurus"></a>
-</h1>
+<div align="center">
+  <h1 align="center">
+    Docusaurus
+    <br />
+    <br />
+    <a href="https://docusaurus.io">
+      <img src="https://docusaurus.io/img/slash-introducing.svg" alt="Docusaurus">
+    </a>
+  </h1>
+</div>
 
 <p align="center">
   <a href="https://twitter.com/docusaurus"><img src="https://img.shields.io/twitter/follow/docusaurus.svg?style=social" align="right" alt="Twitter Follow" /></a>
