@@ -134,21 +134,23 @@ describe('handleBrokenLinks', () => {
       },
       '/docs/goodDoc': {
         links: [
+          '#someHash',
+          '/community#anchorFromGoodDoc',
           './anotherGoodDoc#someHash',
           '/docs/anotherGoodDoc?someQueryString=true#someHash',
           '../docs/anotherGoodDoc?someQueryString=true',
           '../docs/anotherGoodDoc#someHash',
         ],
-        anchors: ['someHash'],
+        anchors: ['someHash'], // anchors here are anchors of the page itself (/docs/goodDoc) not the links in it
       },
       '/community': {
         links: [
           '/docs/goodDoc',
-          '/docs/anotherGoodDoc#someHash',
+          '/docs/anotherGoodDoc#someHash', // anchor here is an anchor of an other page, it should be checked against the anchors of the other page
           './docs/goodDoc#someHash',
           './docs/anotherGoodDoc',
         ],
-        anchors: [],
+        anchors: ['anchorFromGoodDoc'],
       },
       // '/page1': {
       //   links: [

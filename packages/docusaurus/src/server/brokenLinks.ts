@@ -21,9 +21,44 @@ type BrokenLink = {
   anchor: boolean;
 };
 
+type CollectedLinks = {
+  [location: string]: {links: string[]; anchors: string[]};
+};
+
 // matchRoutes does not support qs/anchors, so we remove it!
 function onlyPathname(link: string) {
   return link.split('#')[0]!.split('?')[0]!;
+}
+
+function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
+  [location: string]: BrokenLink[];
+} {
+  const brokenLinksByLocation: {[location: string]: BrokenLink[]} = {};
+
+  Object.entries(allCollectedCorrectLinks).forEach(([key, value]) => {
+    const brokenLinks = value.links.flatMap((link) => {
+      const [route, anchor] = link.split('#');
+      if (route !== '' && anchor !== undefined) {
+        const targetRoute = allCollectedCorrectLinks[route!];
+        if (targetRoute && !targetRoute.anchors.includes(anchor)) {
+          return [
+            {
+              link: `${route}#${anchor}`,
+              resolvedLink: route!,
+              anchor: true,
+            },
+          ];
+        }
+      }
+      return [];
+    });
+
+    if (brokenLinks.length > 0) {
+      brokenLinksByLocation[key] = brokenLinks;
+    }
+  });
+
+  return brokenLinksByLocation;
 }
 
 function getPageBrokenLinks({
@@ -56,18 +91,14 @@ function getPageBrokenLinks({
   }
 
   function isAnchorBrokenLink(link: string) {
-    const urlHash = link.split('#')[1];
+    const [urlPath, urlHash] = link.split('#');
 
-    if (urlHash === undefined || pageAnchors.length === 0) {
+    // ignore anchors that are not on the current page
+    if (urlHash === undefined || pageAnchors.length === 0 || urlPath !== '') {
       return false;
     }
 
-    const brokenAnchors = pageAnchors.flatMap((anchor) => {
-      if (anchor === urlHash) {
-        return [];
-      }
-      return [anchor];
-    });
+    const brokenAnchors = pageAnchors.filter((anchor) => anchor !== urlHash);
 
     return brokenAnchors.length > 0;
   }
@@ -100,7 +131,7 @@ function getAllBrokenLinks({
   allCollectedLinks,
   routes,
 }: {
-  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
+  allCollectedLinks: CollectedLinks;
   routes: RouteConfig[];
 }): {[location: string]: BrokenLink[]} {
   const filteredRoutes = filterIntermediateRoutes(routes);
@@ -116,7 +147,11 @@ function getAllBrokenLinks({
       }),
   );
 
-  return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
+  const allBrokenAnchors = checkAnchorsInOtherRoutes(allCollectedLinks);
+
+  const brokenCollection = _.merge(allBrokenLinks, allBrokenAnchors);
+
+  return _.pickBy(brokenCollection, (brokenLinks) => brokenLinks.length > 0);
 }
 
 function getBrokenLinksErrorMessage(allBrokenLinks: {
@@ -209,7 +244,7 @@ ${Object.entries(allBrokenLinks)
 }
 
 export async function handleBrokenLinks(params: {
-  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
+  allCollectedLinks: CollectedLinks;
   onBrokenLinks: ReportingSeverity;
   onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
@@ -227,17 +262,14 @@ async function handlePathBrokenLinks({
   baseUrl,
   outDir,
 }: {
-  allCollectedLinks: {[location: string]: {links: string[]; anchors: string[]}};
+  allCollectedLinks: CollectedLinks;
   onBrokenLinks: ReportingSeverity;
   onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
 }): Promise<void> {
-  if (onBrokenLinks === 'ignore') {
-    return;
-  }
-  if (onBrokenAnchors === 'ignore') {
+  if (onBrokenLinks === 'ignore' || onBrokenAnchors === 'ignore') {
     return;
   }
 
