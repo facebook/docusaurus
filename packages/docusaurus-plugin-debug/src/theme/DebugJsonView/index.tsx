@@ -6,53 +6,41 @@
  */
 
 import React from 'react';
-import BrowserOnly from '@docusaurus/BrowserOnly';
+import {JsonView} from 'react-json-view-lite';
 import type {Props} from '@theme/DebugJsonView';
-import type {ReactJsonViewProps} from '@microlink/react-json-view';
+import styles from './styles.module.css';
 
-// Avoids "react-json-view" displaying "root"
-const RootName = null;
-
-// Seems ReactJson does not work with SSR
-// https://github.com/mac-s-g/react-json-view/issues/121
-function BrowserOnlyReactJson(props: ReactJsonViewProps) {
-  return (
-    <BrowserOnly>
-      {() => {
-        const {default: ReactJson} =
-          // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-          require('@microlink/react-json-view') as typeof import('@microlink/react-json-view');
-        return <ReactJson {...props} />;
-      }}
-    </BrowserOnly>
-  );
-}
+const paraisoStyles = {
+  container: styles.containerParaiso!,
+  basicChildStyle: styles.basicElementParaiso!,
+  label: styles.labelParaiso!,
+  nullValue: styles.nullValueParaiso!,
+  undefinedValue: styles.undefinedValueParaiso!,
+  stringValue: styles.stringValueParaiso!,
+  booleanValue: styles.booleanValueParaiso!,
+  numberValue: styles.numberValueParaiso!,
+  otherValue: styles.otherValueParaiso!,
+  punctuation: styles.punctuationParaiso!,
+  collapseIcon: styles.collapseIconParaiso!,
+  expandIcon: styles.expandIconParaiso!,
+  collapsedContent: styles.collapseContentParaiso!,
+};
 
 export default function DebugJsonView({
   src,
   collapseDepth,
 }: Props): JSX.Element {
   return (
-    <BrowserOnlyReactJson
-      src={src as object}
-      style={{
-        marginTop: '10px',
-        padding: '10px',
-        borderRadius: '4px',
-        backgroundColor: '#292a2b',
+    <JsonView
+      data={src as object}
+      shouldExpandNode={(idx, value) => {
+        if (Array.isArray(value)) {
+          return value.length < 5;
+        }
+
+        return collapseDepth !== undefined && idx < collapseDepth;
       }}
-      name={RootName}
-      theme="paraiso"
-      shouldCollapse={(field) =>
-        // By default, we collapse the json for performance reasons
-        // See https://github.com/mac-s-g/react-json-view/issues/235
-        // Non-root elements that are larger than 50 fields are collapsed
-        field.name !== RootName && Object.keys(field.src).length > 50
-      }
-      collapsed={collapseDepth}
-      groupArraysAfterLength={5}
-      enableClipboard={false}
-      displayDataTypes={false}
+      style={paraisoStyles}
     />
   );
 }

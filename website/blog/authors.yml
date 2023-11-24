@@ -16,11 +16,11 @@ zpao:
 
 slorber:
   name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
+  title: Docusaurus maintainer, This Week In React editor
+  url: https://thisweekinreact.com
   image_url: https://github.com/slorber.png
   twitter: sebastienlorber
-  email: lorber.sebastien@gmail.com
+  email: sebastien@thisweekinreact.com
 
 yangshun:
   name: Yangshun Tay

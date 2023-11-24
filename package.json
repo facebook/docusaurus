@@ -39,7 +39,6 @@
     "crowdin:download": "crowdin download --config ./crowdin-v2.yaml",
     "crowdin:download:website": "yarn crowdin:download --language fr --language ko --language pt-BR --language zh-CN --language ja",
     "argos:screenshot": "yarn workspace argos screenshot",
-    "argos:upload": "yarn workspace argos upload",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
     "canary:version": "echo 0.0.0-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes",
@@ -60,10 +59,8 @@
     "watch": "yarn lerna run --parallel watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn rimraf test-website && yarn rimraf test-website-in-workspace && yarn lerna exec --ignore docusaurus yarn rimraf lib",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
-    "lock:update": "npx --yes yarn-deduplicate"
-  },
-  "dependencies": {
-    "unified": "^10.1.2"
+    "lock:update": "npx --yes yarn-deduplicate",
+    "update-translations": "yarn workspace @docusaurus/theme-translations update"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.13.0",
@@ -109,7 +106,6 @@
     "react-dom": "^18.0.0",
     "react-helmet-async": "^1.3.0",
     "react-test-renderer": "^18.0.0",
-    "remark-parse": "^8.0.3",
     "rimraf": "^3.0.2",
     "sharp": "^0.32.3",
     "strip-ansi": "^6.0.1",

@@ -86,16 +86,20 @@ export default {
     // MDX packages are ESM-only and it is a pain to use in Jest
     // So we use them in Jest tests as CJS versions
     // see https://mdxjs.com/docs/troubleshooting-mdx/#problems-integrating-mdx
-    '^unified$': '<rootDir>/jest/vendor/unified@10.1.2.js',
-    '^@mdx-js/mdx$': '<rootDir>/jest/vendor/@mdx-js__mdx@2.1.5.js',
-    '^remark$': '<rootDir>/jest/vendor/remark@14.0.2.js',
-    '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@2.1.5.js',
-    '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@2.0.1.js',
-    '^remark-gfm$': '<rootDir>/jest/vendor/remark-gfm@3.0.1.js',
+    '^@mdx-js/mdx$': '<rootDir>/jest/vendor/@mdx-js__mdx@3.0.0.js',
+    '^remark$': '<rootDir>/jest/vendor/remark@15.0.1.js',
+    '^remark-rehype$': '<rootDir>/jest/vendor/remark-rehype@11.0.0.js',
+    '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@3.0.0.js',
+    '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@3.0.0.js',
+    '^remark-gfm$': '<rootDir>/jest/vendor/remark-gfm@4.0.0.js',
     '^estree-util-value-to-estree$':
-      '<rootDir>/jest/vendor/estree-util-value-to-estree@2.1.0.js',
+      '<rootDir>/jest/vendor/estree-util-value-to-estree@3.0.1.js',
     '^mdast-util-to-string$':
-      '<rootDir>/jest/vendor/mdast-util-to-string@3.1.0.js',
+      '<rootDir>/jest/vendor/mdast-util-to-string@4.0.0.js',
+    '^unist-util-visit$': '<rootDir>/jest/vendor/unist-util-visit@5.0.0.js',
+    '^unist-util-remove-position$':
+      '<rootDir>/jest/vendor/unist-util-remove-position@5.0.0.js',
+    '^rehype-stringify$': '<rootDir>/jest/vendor/rehype-stringify@10.0.0.js',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',

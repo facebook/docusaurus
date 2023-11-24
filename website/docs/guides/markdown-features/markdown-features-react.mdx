@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 import styles from './markdown-features-react.module.css';
 ```
 
-Docusaurus has built-in support for [MDX v2](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
+Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
 
 Check out the [MDX docs](https://mdxjs.com/) to see what fancy stuff you can do with MDX.
 
@@ -22,6 +22,12 @@ Check out the [MDX docs](https://mdxjs.com/) to see what fancy stuff you can do 
 The MDX format is quite strict, and you may get compilation errors.
 
 Use the **[MDX playground](https://mdxjs.com/playground/)** to debug them and make sure your syntax is valid.
+
+:::
+
+:::info
+
+Prettier, the most popular formatter, [supports only the legacy MDX v1](https://github.com/prettier/prettier/issues/12209). If you get an unintentional formatting result, you may want to add `{/* prettier-ignore */}` before the problematic area, or add `*.mdx` to your `.prettierignore`, until Prettier has proper support for MDX v3. [One of the main authors of MDX recommends `remark-cli` with `remark-mdx`](https://github.com/orgs/mdx-js/discussions/2067).
 
 :::
 
@@ -72,7 +78,7 @@ I can write **Markdown** alongside my _JSX_!
 </BrowserWindow>
 ```
 
-:::caution MDX is JSX
+:::warning MDX is JSX
 
 Since all doc files are parsed using MDX, anything that looks like HTML is actually JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects.
 
@@ -194,11 +200,11 @@ I can conveniently use <Highlight color="#25c2a0">Docusaurus green</Highlight> e
 
 We use **upper-case** tag names like `Highlight` on purpose.
 
-From MDX v2+ onward (Docusaurus v3+), lower-case tag names are always rendered as native html elements, and will not use any component mapping you provide.
+From MDX v3+ onward (Docusaurus v3+), lower-case tag names are always rendered as native html elements, and will not use any component mapping you provide.
 
 :::
 
-:::caution
+:::warning
 
 This feature is powered by [an `MDXProvider`](https://mdxjs.com/docs/using-mdx/#mdx-provider). If you are importing Markdown in a React page, you have to supply this provider yourself through the `MDXContent` theme component.
 
@@ -227,9 +233,9 @@ If you don't wrap your imported MDX with `MDXContent`, the global scope will not
 
 ### Markdown and JSX interoperability {#markdown-and-jsx-interoperability}
 
-Docusaurus v3 is using [MDX v2](https://mdxjs.com/blog/v2/).
+Docusaurus v3 is using [MDX v3](https://mdxjs.com/blog/v3/).
 
-The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
+The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files can use JSX and are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
 
 Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.com/docs/what-is-mdx/#markdown)), notably:
 
@@ -238,12 +244,14 @@ Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.co
 - HTML syntax (`<p style="color: red;">`): use JSX instead (`<p style={{color: 'red'}}>`)
 - Unescaped `{` and `<`: escape them with `\` instead (`\{` and `\<`)
 
-:::tip
+:::danger Experimental CommonMark support
 
-In case you need a less strict format, with [CommonMark](https://commonmark.org/) compatibility, you can use:
+Docusaurus v3 makes it possible to opt-in for a less strict, standard [CommonMark](https://commonmark.org/) support with the following options:
 
-- The `.md` file extension instead of `.mdx`
 - The `format: md` front matter
+- The `.md` file extension combined with the `siteConfig.markdown.format: "detect"` configuration
+
+This feature is **experimental** and currently has a few [limitations](https://github.com/facebook/docusaurus/issues/9092).
 
 :::
 
@@ -319,7 +327,7 @@ import PartialExample from './_markdown-partial-example.mdx';
 
 This way, you can reuse content among multiple pages and avoid duplicating materials.
 
-:::caution
+:::warning
 
 Currently, the table of contents does not contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
 

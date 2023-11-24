@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const fs = require('fs-extra');
-const pluginContentBlog = require('@docusaurus/plugin-content-blog');
-const {aliasedSitePath, docuHash, normalizeUrl} = require('@docusaurus/utils');
+import path from 'path';
+import fs from 'fs-extra';
+import pluginContentBlog from '@docusaurus/plugin-content-blog';
+import {aliasedSitePath, docuHash, normalizeUrl} from '@docusaurus/utils';
 
 /**
  * Multiple versions may be published on the same day, causing the order to be
@@ -90,7 +90,7 @@ ${content.replace(/####/g, '##')}`,
  * @param {import('@docusaurus/types').LoadContext} context
  * @returns {import('@docusaurus/types').Plugin}
  */
-async function ChangelogPlugin(context, options) {
+export default async function ChangelogPlugin(context, options) {
   const generateDir = path.join(context.siteDir, 'changelog/source');
   const blogPlugin = await pluginContentBlog.default(context, {
     ...options,
@@ -157,6 +157,4 @@ async function ChangelogPlugin(context, options) {
   };
 }
 
-ChangelogPlugin.validateOptions = pluginContentBlog.validateOptions;
-
-module.exports = ChangelogPlugin;
+export const {validateOptions} = pluginContentBlog;

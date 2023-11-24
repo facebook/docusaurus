@@ -16,11 +16,10 @@ import {
   getFileLoaderUtils,
   findAsyncSequential,
 } from '@docusaurus/utils';
-import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import logger from '@docusaurus/logger';
-import {assetRequireAttributeValue} from '../utils';
+import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
@@ -110,14 +109,12 @@ ${(err as Error).message}`;
     }
   }
 
-  Object.keys(jsxNode).forEach(
-    (key) => delete jsxNode[key as keyof typeof jsxNode],
-  );
-
-  jsxNode.type = 'mdxJsxTextElement';
-  jsxNode.name = 'img';
-  jsxNode.attributes = attributes;
-  jsxNode.children = [];
+  transformNode(jsxNode, {
+    type: 'mdxJsxTextElement',
+    name: 'img',
+    attributes,
+    children: [],
+  });
 }
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -194,6 +191,8 @@ async function processImageNode(target: Target, context: Context) {
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
+    const {visit} = await import('unist-util-visit');
+
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image, index, parent) => {
       promises.push(

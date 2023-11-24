@@ -7,7 +7,6 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
-import {getDocIds} from '../docs';
 import type {
   SidebarItem,
   Sidebars,
@@ -102,7 +101,7 @@ export function postProcessSidebars(
   sidebars: ProcessedSidebars,
   params: SidebarProcessorParams,
 ): Sidebars {
-  const draftIds = new Set(params.drafts.flatMap(getDocIds));
+  const draftIds = new Set(params.drafts.map((d) => d.id));
 
   return _.mapValues(sidebars, (sidebar) =>
     sidebar

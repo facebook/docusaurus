@@ -24,7 +24,7 @@ This is the most traditional way of styling that most developers (including non-
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option of the classic theme.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -32,7 +32,7 @@ module.exports = {
       {
         // highlight-start
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: ['./src/css/custom.css'],
         },
         // highlight-end
       },
@@ -221,7 +221,7 @@ The class names will be processed by webpack into a globally unique class name d
 
 ## CSS-in-JS {#css-in-js}
 
-:::caution
+:::warning
 
 CSS-in-JS support is a work in progress, so libs like MUI may have display quirks. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).
 
@@ -229,7 +229,7 @@ CSS-in-JS support is a work in progress, so libs like MUI may have display quirk
 
 ## Sass/SCSS {#sassscss}
 
-To use Sass/SCSS as your CSS preprocessor, install the unofficial Docusaurus 2 plugin [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass). This plugin works for both global styles and the CSS modules approach:
+To use Sass/SCSS as your CSS preprocessor, install the unofficial Docusaurus plugin [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass). This plugin works for both global styles and the CSS modules approach:
 
 1. Install [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass):
 
@@ -240,7 +240,7 @@ npm install --save docusaurus-plugin-sass sass
 2. Include the plugin in your `docusaurus.config.js` file:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   // highlight-next-line
   plugins: ['docusaurus-plugin-sass'],
@@ -255,7 +255,7 @@ module.exports = {
 You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -263,7 +263,7 @@ module.exports = {
         // ...
         theme: {
           // highlight-next-line
-          customCss: [require.resolve('./src/css/custom.scss')],
+          customCss: ['./src/css/custom.scss'],
         },
         // ...
       },
