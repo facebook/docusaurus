@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {BlogContentPaths} from './types';
@@ -68,6 +69,7 @@ export async function getAuthorsMap(params: {
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;
   authorsMap: AuthorsMap | undefined;
+  baseUrl: string;
 };
 
 // Legacy v1/early-v2 front matter fields
@@ -148,9 +150,27 @@ ${Object.keys(authorsMap)
   return frontMatterAuthors.map(toAuthor);
 }
 
+function fixAuthorImageBaseURL(
+  authors: Author[],
+  {baseUrl}: {baseUrl: string},
+) {
+  authors.forEach((author) => {
+    if (
+      !author.imageURL ||
+      baseUrl === '/' ||
+      author.imageURL.startsWith('http')
+    ) {
+      return;
+    }
+    author.imageURL = path.join(baseUrl, author.imageURL);
+  });
+}
+
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authorLegacy = getFrontMatterAuthorLegacy(params.frontMatter);
   const authors = getFrontMatterAuthors(params);
+
+  fixAuthorImageBaseURL(authors, params);
 
   if (authorLegacy) {
     // Technically, we could allow mixing legacy/authors front matter, but do we
