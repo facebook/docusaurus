@@ -17,11 +17,7 @@ const windowSizes = {
 
 type WindowSize = keyof typeof windowSizes;
 
-function getWindowSize({
-  desktopThresholdWidth = 996,
-}: {
-  desktopThresholdWidth?: number;
-}): WindowSize {
+function getWindowSize(desktopThresholdWidth: number): WindowSize {
   if (!ExecutionEnvironment.canUseDOM) {
     throw new Error(
       'getWindowSize() should only be called after React hydration',
@@ -43,7 +39,11 @@ function getWindowSize({
  * with mediaquery). We don't return `undefined` on purpose, to make it more
  * explicit.
  */
-export function useWindowSize(desktopThresholdWidth = 996): WindowSize {
+export function useWindowSize({
+  desktopThresholdWidth = 996,
+}: {
+  desktopThresholdWidth?: number;
+} = {}): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(
     () =>
       // super important to return a constant value to avoid hydration mismatch
