@@ -74,16 +74,20 @@ type AuthorsParam = {
 
 // Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
-function getFrontMatterAuthorLegacy(params: AuthorsParam): Author | undefined {
-  const name = params.frontMatter.author;
-  const title =
-    params.frontMatter.author_title ?? params.frontMatter.authorTitle;
-  const url = params.frontMatter.author_url ?? params.frontMatter.authorURL;
-  let imageURL =
-    params.frontMatter.author_image_url ?? params.frontMatter.authorImageURL;
+function getFrontMatterAuthorLegacy({
+  baseUrl,
+  frontMatter,
+}: {
+  baseUrl: string;
+  frontMatter: BlogPostFrontMatter;
+}): Author | undefined {
+  const name = frontMatter.author;
+  const title = frontMatter.author_title ?? frontMatter.authorTitle;
+  const url = frontMatter.author_url ?? frontMatter.authorURL;
+  let imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
 
-  if (params.baseUrl !== '/' && imageURL && !imageURL.startsWith('http')) {
-    imageURL = path.join(params.baseUrl, imageURL);
+  if (baseUrl !== '/' && imageURL && !imageURL.startsWith('http')) {
+    imageURL = path.join(baseUrl, imageURL);
   }
 
   if (name || title || url || imageURL) {

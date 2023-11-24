@@ -113,6 +113,66 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: {
+          slorber: {
+            name: 'Sébastien Lorber',
+            imageURL: 'https://github.com/slorber.png',
+          },
+        },
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        imageURL: 'https://github.com/slorber.png',
+      },
+    ]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: {
+          slorber: {
+            name: 'Sébastien Lorber',
+            imageURL: '/img/slorber.png',
+          },
+        },
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        imageURL: '/img/slorber.png',
+      },
+    ]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: {
+          slorber: {
+            name: 'Sébastien Lorber',
+            imageURL: '/img/slorber.png',
+          },
+        },
+        baseUrl: '/baseUrl',
+      }),
+    ).toEqual([
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        imageURL: '/baseUrl/img/slorber.png',
+      },
+    ]);
   });
 
   it('can read authors string[]', () => {
