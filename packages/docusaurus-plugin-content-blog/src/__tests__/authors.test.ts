@@ -19,6 +19,7 @@ describe('getBlogPostAuthors', () => {
       getBlogPostAuthors({
         frontMatter: {},
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([]);
     expect(
@@ -27,6 +28,7 @@ describe('getBlogPostAuthors', () => {
           authors: [],
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([]);
   });
@@ -38,6 +40,7 @@ describe('getBlogPostAuthors', () => {
           author: 'Sébastien Lorber',
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([{name: 'Sébastien Lorber'}]);
     expect(
@@ -46,6 +49,7 @@ describe('getBlogPostAuthors', () => {
           authorTitle: 'maintainer',
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([{title: 'maintainer'}]);
     expect(
@@ -54,8 +58,27 @@ describe('getBlogPostAuthors', () => {
           authorImageURL: 'https://github.com/slorber.png',
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([{imageURL: 'https://github.com/slorber.png'}]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authorImageURL: '/img/slorber.png',
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      }),
+    ).toEqual([{imageURL: '/img/slorber.png'}]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authorImageURL: '/img/slorber.png',
+        },
+        authorsMap: undefined,
+        baseUrl: '/baseURL',
+      }),
+    ).toEqual([{imageURL: '/baseURL/img/slorber.png'}]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -68,6 +91,7 @@ describe('getBlogPostAuthors', () => {
           authorURL: 'https://github.com/slorber2',
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([
       {
@@ -86,6 +110,7 @@ describe('getBlogPostAuthors', () => {
           authors: 'slorber',
         },
         authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+        baseUrl: '/',
       }),
     ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
   });
@@ -100,6 +125,7 @@ describe('getBlogPostAuthors', () => {
           slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
           yangshun: {name: 'Yangshun Tay'},
         },
+        baseUrl: '/',
       }),
     ).toEqual([
       {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
@@ -114,6 +140,7 @@ describe('getBlogPostAuthors', () => {
           authors: {name: 'Sébastien Lorber', title: 'maintainer'},
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
   });
@@ -128,6 +155,7 @@ describe('getBlogPostAuthors', () => {
           ],
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toEqual([
       {name: 'Sébastien Lorber', title: 'maintainer'},
@@ -153,6 +181,7 @@ describe('getBlogPostAuthors', () => {
           slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
           yangshun: {name: 'Yangshun Tay', title: 'Yangshun title original'},
         },
+        baseUrl: '/',
       }),
     ).toEqual([
       {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
@@ -173,6 +202,7 @@ describe('getBlogPostAuthors', () => {
           authors: 'slorber',
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
@@ -187,6 +217,7 @@ describe('getBlogPostAuthors', () => {
           authors: 'slorber',
         },
         authorsMap: {},
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
@@ -205,6 +236,7 @@ describe('getBlogPostAuthors', () => {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Blog author with key "slorber" not found in the authors map file.
@@ -225,6 +257,7 @@ describe('getBlogPostAuthors', () => {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Blog author with key "slorber" not found in the authors map file.
@@ -245,6 +278,7 @@ describe('getBlogPostAuthors', () => {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Blog author with key "slorber" not found in the authors map file.
@@ -262,6 +296,7 @@ describe('getBlogPostAuthors', () => {
           author: 'Yangshun Tay',
         },
         authorsMap: undefined,
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "To declare blog post authors, use the 'authors' front matter in priority.
@@ -275,6 +310,7 @@ describe('getBlogPostAuthors', () => {
           author_title: 'legacy title',
         },
         authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+        baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "To declare blog post authors, use the 'authors' front matter in priority.
