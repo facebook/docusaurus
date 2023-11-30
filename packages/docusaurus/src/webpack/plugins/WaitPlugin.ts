@@ -5,9 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import fs from 'fs-extra';
-import waitOn from 'wait-on';
 import type {Compiler} from 'webpack';
 
 type WaitPluginOptions = {
@@ -23,21 +21,36 @@ export default class WaitPlugin {
 
   apply(compiler: Compiler): void {
     // Before finishing the compilation step
-    compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
-      // To prevent 'waitFile' error on waiting non-existing directory
-      fs.ensureDir(path.dirname(this.filepath), {}, () => {
-        // Wait until file exist
-        waitOn({
-          resources: [this.filepath],
-          interval: 300,
-        })
-          .then(() => {
-            callback();
-          })
-          .catch((error: Error) => {
-            console.warn(`WaitPlugin error: ${error}`);
-          });
-      });
+    compiler.hooks.make.tapPromise('WaitPlugin', () => waitOn(this.filepath));
+  }
+}
+
+// This is a re-implementation of the algorithm used by the "wait-on" package
+// https://github.com/jeffbski/wait-on/blob/master/lib/wait-on.js#L200
+async function waitOn(filepath: string): Promise<void> {
+  const pollingIntervalMs = 300;
+  const stabilityWindowMs = 750;
+
+  let lastFileSize = -1;
+  let lastFileTime = -1;
+
+  for (;;) {
+    let size = -1;
+    try {
+      size = (await fs.stat(filepath)).size;
+    } catch (err) {}
+
+    if (size !== -1) {
+      if (lastFileTime === -1 || size !== lastFileSize) {
+        lastFileSize = size;
+        lastFileTime = performance.now();
+      } else if (performance.now() - lastFileTime >= stabilityWindowMs) {
+        return;
+      }
+    }
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, pollingIntervalMs);
     });
   }
 }
