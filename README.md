@@ -26,10 +26,6 @@
   <a href="https://app.netlify.com/start/deploy?repository=https://github.com/slorber/docusaurus-starter"><img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify"></a>
 </p>
 
-> **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://docusaurus.io/) for more details.**
-
-> Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io) and code is available on branch [docusaurus-v1](https://github.com/facebook/docusaurus/tree/docusaurus-v1)
-
 ## Introduction
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
