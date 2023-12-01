@@ -1,5 +1,44 @@
 # Docusaurus 2 Changelog
 
+## 3.0.1 (2023-11-30)
+
+#### :bug: Bug Fix
+
+- `docusaurus-utils`
+  - [#9570](https://github.com/facebook/docusaurus/pull/9570) fix: add v2 retrocompatible support for quoted admonitions ([@slorber](https://github.com/slorber))
+  - [#9535](https://github.com/facebook/docusaurus/pull/9535) fix: v3 admonitions should support v2 title syntax for nested admonitions ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#9567](https://github.com/facebook/docusaurus/pull/9567) fix(theme): upgrade prism-react-renderer, fix html script and style tag highlighting ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-common`
+  - [#9531](https://github.com/facebook/docusaurus/pull/9531) fix(theme): docs html sidebar items should always be visible ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#9530](https://github.com/facebook/docusaurus/pull/9530) fix(theme): fix firefox CSS :has() support bug ([@slorber](https://github.com/slorber))
+- `create-docusaurus`
+  - [#9487](https://github.com/facebook/docusaurus/pull/9487) fix(create-docusaurus): fix readme docusaurus 2 ref ([@slorber](https://github.com/slorber))
+
+#### :robot: Dependencies
+
+- `docusaurus-plugin-debug`
+  - [#9566](https://github.com/facebook/docusaurus/pull/9566) chore(debug-plugin): migrate to a new maintained JSON Viewer ([@mcrstudio](https://github.com/mcrstudio))
+- `create-docusaurus`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#9572](https://github.com/facebook/docusaurus/pull/9572) chore: upgrade prism-react-renderer to 2.3.0 to avoid older clsx ([@harryzcy](https://github.com/harryzcy))
+  - [#9567](https://github.com/facebook/docusaurus/pull/9567) fix(theme): upgrade prism-react-renderer, fix html script and style tag highlighting ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`
+  - [#9464](https://github.com/facebook/docusaurus/pull/9464) chore: Upgrade clsx to 2.0.0 ([@harryzcy](https://github.com/harryzcy))
+- `docusaurus`
+  - [#9547](https://github.com/facebook/docusaurus/pull/9547) chore(core): replace `wait-on` dependency with custom lighter code ([@NickGerleman](https://github.com/NickGerleman))
+- `docusaurus-plugin-pwa`, `docusaurus`
+  - [#9529](https://github.com/facebook/docusaurus/pull/9529) chore: ugrade babel dependencies to v7.23.3 ([@reece-white](https://github.com/reece-white))
+
+#### Committers: 6
+
+- Chongyi Zheng ([@harryzcy](https://github.com/harryzcy))
+- MCR Studio ([@mcrstudio](https://github.com/mcrstudio))
+- Nick Gerleman ([@NickGerleman](https://github.com/NickGerleman))
+- Shreesh Nautiyal ([@Shreesh09](https://github.com/Shreesh09))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- [@reece-white](https://github.com/reece-white)
+
 ## 3.0.0 (2023-10-31)
 
 #### :boom: Breaking Change
