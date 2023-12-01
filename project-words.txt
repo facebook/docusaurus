@@ -64,7 +64,6 @@ Datagit
 datagit
 Datagit's
 dedup
-Déja
 devto
 Dmitry
 docsearch
@@ -80,6 +79,7 @@ dogfooding
 Dojocat
 Dyte
 dyte
+Déja
 easyops
 Endi
 endi
@@ -95,7 +95,6 @@ externalwaiting
 failfast
 Fargate
 FBID
-février
 Fienny
 flac
 Flightcontrol
@@ -104,6 +103,7 @@ Formik
 FOUC
 froms
 funboxteam
+février
 gabrielcsapo
 Gifs
 Goss
@@ -115,14 +115,14 @@ Hamel
 Hasura
 hasura
 Heavener
-Héctor
-héllô
 Hideable
 hideable
 hola
 Hostman
 hoverable
 Husain
+Héctor
+héllô
 IANAD
 idempotency
 Iframes
@@ -297,7 +297,6 @@ Scaleway
 searchbar
 Sebastien
 sebastien
-Sébastien
 sebastienlorber
 sensical
 setaf
@@ -341,6 +340,7 @@ supabase
 SVGR
 svgr
 swizzlable
+Sébastien
 Teik
 templating
 Thanos
