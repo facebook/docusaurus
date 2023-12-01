@@ -84,7 +84,7 @@ function TabList({
         <li
           // TODO extract TabListItem
           role="tab"
-          tabIndex={selectedValue === value ? 0 : -1}
+          tabIndex={selectedValue === value ? -1 : 0}
           aria-selected={selectedValue === value}
           key={value}
           ref={(tabControl) => tabRefs.push(tabControl)}
