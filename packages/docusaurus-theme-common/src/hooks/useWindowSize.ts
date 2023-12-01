@@ -17,14 +17,20 @@ const windowSizes = {
 
 type WindowSize = keyof typeof windowSizes;
 
-function getWindowSize(desktopThresholdWidth: number): WindowSize {
+// Note: this value is also hardcoded in Infima
+// Both JS and CSS must have the same value
+// Updating this JS value alone is not enough
+// See https://github.com/facebook/docusaurus/issues/9603
+const DesktopBreakpoint = 996;
+
+function getWindowSize(desktopBreakpoint: number): WindowSize {
   if (!ExecutionEnvironment.canUseDOM) {
     throw new Error(
       'getWindowSize() should only be called after React hydration',
     );
   }
 
-  return window.innerWidth > desktopThresholdWidth
+  return window.innerWidth > desktopBreakpoint
     ? windowSizes.desktop
     : windowSizes.mobile;
 }
@@ -40,9 +46,9 @@ function getWindowSize(desktopThresholdWidth: number): WindowSize {
  * explicit.
  */
 export function useWindowSize({
-  desktopThresholdWidth = 996,
+  desktopBreakpoint = DesktopBreakpoint,
 }: {
-  desktopThresholdWidth?: number;
+  desktopBreakpoint?: number;
 } = {}): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(
     () =>
@@ -53,7 +59,7 @@ export function useWindowSize({
 
   useEffect(() => {
     function updateWindowSize() {
-      setWindowSize(getWindowSize({desktopThresholdWidth}));
+      setWindowSize(getWindowSize(desktopBreakpoint));
     }
 
     updateWindowSize();
@@ -63,7 +69,7 @@ export function useWindowSize({
     return () => {
       window.removeEventListener('resize', updateWindowSize);
     };
-  }, [desktopThresholdWidth]);
+  }, [desktopBreakpoint]);
 
   return windowSize;
 }
