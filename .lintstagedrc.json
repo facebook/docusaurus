@@ -3,6 +3,6 @@
   "*.css": ["stylelint --allow-empty-input --fix"],
   "*": [
     "prettier --ignore-unknown --write",
-    "cspell --no-must-find-files --no-progress"
+    "cspell --no-must-find-files --no-progress --show-context --show-suggestions"
   ]
 }
