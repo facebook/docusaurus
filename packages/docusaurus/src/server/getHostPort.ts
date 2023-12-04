@@ -98,6 +98,9 @@ export async function getHostPort(options: HostPortOptions): Promise<{
 }> {
   const host = options.host ?? 'localhost';
   const basePort = options.port ? parseInt(options.port, 10) : DEFAULT_PORT;
-  const port = await choosePort(host, basePort);
+  const port = process.env.PORT
+    ? await choosePort(host, parseInt(process.env.PORT, 10))
+    : await choosePort(host, basePort);
+
   return {host, port};
 }
