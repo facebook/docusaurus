@@ -176,6 +176,7 @@ exports[`replaceMarkdownLinks replaces links with same title as URL 1`] = `
   "brokenMarkdownLinks": [],
   "newContent": "
 [foo.md](/docs/foo)
+[./foo.md](</docs/foo>)
 [./foo.md](/docs/foo)
 [foo.md](/docs/foo)
 [./foo.md](/docs/foo)

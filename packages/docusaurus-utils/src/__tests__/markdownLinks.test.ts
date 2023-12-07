@@ -231,6 +231,7 @@ The following operations are defined for [URI]s:
         },
         fileString: `
 [foo.md](foo.md)
+[./foo.md](<./foo.md>)
 [./foo.md](./foo.md)
 [foo.md](./foo.md)
 [./foo.md](foo.md)
