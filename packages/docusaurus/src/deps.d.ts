@@ -42,7 +42,6 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     headTags: string;
     preBodyTags: string;
     postBodyTags: string;
-    // TODO transform arguments into object
     onLinksCollected: (params: {
       staticPagePath: string;
       links: string[];
