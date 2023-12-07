@@ -260,20 +260,13 @@ declare module '@docusaurus/useRouteContext' {
   export default function useRouteContext(): PluginRouteContext;
 }
 
-declare module '@docusaurus/useAnchor' {
-  export type AnchorsCollector = {
-    collectAnchor: (link: string) => void;
+declare module '@docusaurus/useBrokenLinks' {
+  export type BrokenLinks = {
+    collectLink: (link: string) => void;
+    collectAnchor: (anchor: string) => void;
   };
 
-  export type StatefulAnchorsCollector = AnchorsCollector & {
-    getCollectedAnchors: () => string[];
-  };
-
-  // useAnchorCollector
-  export default function useAnchor(): [
-    AnchorsCollector,
-    () => StatefulAnchorsCollector,
-  ];
+  export default function useBrokenLinks(): BrokenLinks;
 }
 
 declare module '@docusaurus/useIsBrowser' {

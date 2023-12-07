@@ -188,7 +188,7 @@ async function buildLocale({
 
   let serverConfig: Configuration = await createServerConfig({
     props,
-    onLinksCollected: (staticPagePath, links, anchors) => {
+    onLinksCollected: ({staticPagePath, links, anchors}) => {
       allCollectedLinks[staticPagePath] = {links, anchors};
     },
     onHeadTagsCollected: (staticPagePath, tags) => {
