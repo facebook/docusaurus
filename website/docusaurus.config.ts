@@ -195,7 +195,11 @@ export default async function createConfigAsync() {
       },
     },
     onBrokenLinks:
-      isBuildFast ||
+      isVersioningDisabled ||
+      process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+        ? 'warn'
+        : 'throw',
+    onBrokenAnchors:
       isVersioningDisabled ||
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'
