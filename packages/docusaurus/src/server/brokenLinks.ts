@@ -154,7 +154,13 @@ function getAllBrokenLinks({
   return _.pickBy(brokenCollection, (brokenLinks) => brokenLinks.length > 0);
 }
 
-function getBrokenLinksErrorMessage(allBrokenLinks: {
+function getAnchorBrokenLinksErrorMessage(allBrokenLinks: {
+  [location: string]: BrokenLink[];
+}): string | undefined {
+  return undefined; // TODO
+}
+
+function getPathBrokenLinksErrorMessage(allBrokenLinks: {
   [location: string]: BrokenLink[];
 }): string | undefined {
   if (Object.keys(allBrokenLinks).length === 0) {
@@ -185,6 +191,7 @@ function getBrokenLinksErrorMessage(allBrokenLinks: {
      .join('\n   -> linking to ')}`
         : '';
 
+    // TODO move to getAnchorBrokenLinksErrorMessage
     const anchorMessage =
       anchorBrokenLinks.length > 0
         ? `- Broken anchor on source page path = ${pagePath}:
@@ -243,18 +250,7 @@ ${Object.entries(allBrokenLinks)
 `;
 }
 
-export async function handleBrokenLinks(params: {
-  allCollectedLinks: CollectedLinks;
-  onBrokenLinks: ReportingSeverity;
-  onBrokenAnchors: ReportingSeverity;
-  routes: RouteConfig[];
-  baseUrl: string;
-  outDir: string;
-}): Promise<void> {
-  await handlePathBrokenLinks(params);
-}
-
-async function handlePathBrokenLinks({
+export async function handleBrokenLinks({
   allCollectedLinks,
   onBrokenLinks,
   onBrokenAnchors,
@@ -269,7 +265,7 @@ async function handlePathBrokenLinks({
   baseUrl: string;
   outDir: string;
 }): Promise<void> {
-  if (onBrokenLinks === 'ignore' || onBrokenAnchors === 'ignore') {
+  if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;
   }
 
@@ -278,8 +274,13 @@ async function handlePathBrokenLinks({
     routes,
   });
 
-  const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
-  if (errorMessage) {
-    logger.report(onBrokenLinks)(errorMessage);
+  const pathErrorMessage = getPathBrokenLinksErrorMessage(allBrokenLinks);
+  if (pathErrorMessage) {
+    logger.report(onBrokenLinks)(pathErrorMessage);
+  }
+
+  const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(allBrokenLinks);
+  if (anchorErrorMessage) {
+    logger.report(onBrokenAnchors)(anchorErrorMessage);
   }
 }
