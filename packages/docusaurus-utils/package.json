@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Node utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "3.0.0",
+    "@docusaurus/logger": "3.0.1",
     "@svgr/webpack": "^6.5.1",
     "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",
@@ -40,7 +40,7 @@
     "node": ">=18.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "3.0.0",
+    "@docusaurus/types": "3.0.1",
     "@types/dedent": "^0.7.0",
     "@types/github-slugger": "^1.3.0",
     "@types/micromatch": "^4.0.2",
