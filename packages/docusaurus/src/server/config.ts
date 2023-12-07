@@ -95,21 +95,20 @@ export async function findThemeConfigPath(
       );
     }
     return customThemeConfigPath;
-  } 
-    const conventionalThemeConfigPath = await findConventionalThemeConfigPath(
-      siteDir,
+  }
+  const conventionalThemeConfigPath = await findConventionalThemeConfigPath(
+    siteDir,
+  );
+  // In Docusaurus v3 we require users to provide either the theme config
+  // through the conventional path, or through the legacy siteConfig attribute
+  // To avoid issues we prevent users to not provide any theme config at all
+  if (
+    !conventionalThemeConfigPath &&
+    Object.keys(siteConfig.themeConfig ?? {}).length === 0
+  ) {
+    throw new Error(
+      `Theme config file couldn't be found at ${DEFAULT_THEME_FILE_NAME}.js or ${DEFAULT_THEME_FILE_NAME}.tsx`,
     );
-    // In Docusaurus v3 we require users to provide either the theme config
-    // through the conventional path, or through the legacy siteConfig attribute
-    // To avoid issues we prevent users to not provide any theme config at all
-    if (
-      !conventionalThemeConfigPath &&
-      Object.keys(siteConfig.themeConfig ?? {}).length
-    ) {
-      throw new Error(
-        `Theme config file couldn't be found at ${DEFAULT_THEME_FILE_NAME}.js or ${DEFAULT_THEME_FILE_NAME}.tsx`,
-      );
-    }
-    return conventionalThemeConfigPath;
-  
+  }
+  return conventionalThemeConfigPath;
 }
