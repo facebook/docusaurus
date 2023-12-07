@@ -17,7 +17,7 @@ export default function AnnouncementBarContent(
   const {announcementBar} = useThemeConfig();
   const {content: Content} = announcementBar!;
 
-  // TODO Docusaurus v4: remove legacy annoncement bar html string form?
+  // TODO Docusaurus v4: remove legacy announcement bar html string form?
   if (typeof Content === 'string') {
     return (
       <div
@@ -28,11 +28,10 @@ export default function AnnouncementBarContent(
         dangerouslySetInnerHTML={{__html: Content}}
       />
     );
-  } 
-    return (
-      <div {...props} className={clsx(styles.content, props.className)}>
-        <Content />
-      </div>
-    );
-  
+  }
+  return (
+    <div {...props} className={clsx(styles.content, props.className)}>
+      <Content />
+    </div>
+  );
 }
