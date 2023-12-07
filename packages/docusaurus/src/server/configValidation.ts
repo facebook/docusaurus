@@ -49,7 +49,7 @@ export const DEFAULT_CONFIG: Pick<
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
-  onBrokenAnchors: 'warn',
+  onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
   onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
   plugins: [],
