@@ -35,6 +35,7 @@ export type LoadContext = {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
+  themeConfigPath: string | undefined; // TODO Docusaurus v4: make it required
   outDir: string;
   /**
    * Directory where all source translations for the current locale can be found

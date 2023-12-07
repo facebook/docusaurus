@@ -16,7 +16,7 @@ import {
   DEFAULT_THEME_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
-import {loadSiteConfig} from './config';
+import {findThemeConfigPath, loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
 import {loadRoutes} from './routes';
@@ -69,6 +69,8 @@ export async function loadContext(
     customConfigFilePath,
   });
 
+  const themeConfigPath = await findThemeConfigPath(siteDir, initialSiteConfig);
+
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
   const baseUrl = localizePath({
@@ -107,6 +109,7 @@ export async function loadContext(
     localizationDir,
     siteConfig,
     siteConfigPath,
+    themeConfigPath,
     outDir,
     baseUrl,
     i18n,
@@ -127,6 +130,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     generatedFilesDir,
     siteConfig,
     siteConfigPath,
+    themeConfigPath,
     outDir,
     baseUrl,
     i18n,
@@ -173,6 +177,13 @@ export default ${JSON.stringify(siteConfig, null, 2)};
 `,
   );
 
+  const themeConfigContent = themeConfigPath
+    ? `export {default} from '@site/${path.relative(
+        siteDir,
+        themeConfigPath,
+      )}';`
+    : // TODO Docusaurus v4: require theme config file, remove this fallback
+      `export default {};`;
   const genThemeConfig = generate(
     generatedFilesDir,
     `${DEFAULT_THEME_FILE_NAME}.js`,
@@ -181,7 +192,7 @@ export default ${JSON.stringify(siteConfig, null, 2)};
  * Your edits in this file will be overwritten in the next build!
  * Modify the docusaurus.config.js file at your site's root instead.
  */
-export {default} from '@site/${DEFAULT_THEME_FILE_NAME}';
+${themeConfigContent}
 `,
   );
 
@@ -262,6 +273,7 @@ ${Object.entries(registry)
   return {
     siteConfig,
     siteConfigPath,
+    themeConfigPath,
     siteMetadata,
     siteDir,
     outDir,
