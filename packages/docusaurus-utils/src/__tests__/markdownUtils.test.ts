@@ -1288,17 +1288,23 @@ describe('admonitionTitleToDirectiveLabel', () => {
     `);
   });
 
-  it('does not transform left-padded directives', () => {
+  it('transforms space indented directives', () => {
     expect(
       admonitionTitleToDirectiveLabel(
         dedent`
         before
 
-         :::note Title
+         :::note 1 space
 
-        content
+         content
 
-        :::
+         :::
+
+          :::note 2 spaces
+
+          content
+
+          :::
 
         after
     `,
@@ -1307,13 +1313,111 @@ describe('admonitionTitleToDirectiveLabel', () => {
     ).toEqual(dedent`
         before
 
-         :::note Title
+         :::note[1 space]
 
-        content
+         content
 
-        :::
+         :::
+
+          :::note[2 spaces]
+
+          content
+
+          :::
 
         after
+    `);
+  });
+
+  it('transforms tab indented directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        `
+before
+
+\t:::note 1 tab
+
+\tcontent
+
+\t:::
+
+\t\t:::note 2 tabs
+
+\t\tcontent
+
+\t\t:::
+
+after
+    `,
+        directives,
+      ),
+    ).toBe(`
+before
+
+\t:::note[1 tab]
+
+\tcontent
+
+\t:::
+
+\t\t:::note[2 tabs]
+
+\t\tcontent
+
+\t\t:::
+
+after
+    `);
+  });
+
+  it('transforms directives in quotes', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        `
+before
+
+> :::caution There be dragons
+>
+> This is the admonition content
+>
+> :::
+>
+>> :::caution There be dragons
+>>
+>> This is the admonition content
+>>
+>> :::
+> > :::caution There be dragons
+> >
+> > This is the admonition content
+> >
+> > :::
+
+after
+    `,
+        directives,
+      ),
+    ).toBe(`
+before
+
+> :::caution[There be dragons]
+>
+> This is the admonition content
+>
+> :::
+>
+>> :::caution[There be dragons]
+>>
+>> This is the admonition content
+>>
+>> :::
+> > :::caution[There be dragons]
+> >
+> > This is the admonition content
+> >
+> > :::
+
+after
     `);
   });
 

@@ -60,7 +60,7 @@ A typical `package.json` dependency upgrade example:
 -    "@docusaurus/preset-classic": "2.4.3",
 +    "@docusaurus/core": "3.0.0",
 +    "@docusaurus/preset-classic": "3.0.0",
-     // upgrade to MDX v2
+     // upgrade to MDX v3
 -    "@mdx-js/react": "^1.6.22",
 +    "@mdx-js/react": "^3.0.0",
      // upgrade to prism-react-renderer v2.0+
@@ -74,9 +74,9 @@ A typical `package.json` dependency upgrade example:
    },
    "devDependencies": {
      // upgrade Docusaurus dev dependencies to v3
--    "@docusaurus/module-type-aliases": "2.4.3"
+-    "@docusaurus/module-type-aliases": "2.4.3",
 -    "@docusaurus/types": "2.4.3"
-+    "@docusaurus/module-type-aliases": "3.0.0"
++    "@docusaurus/module-type-aliases": "3.0.0",
 +    "@docusaurus/types": "3.0.0"
    }
    "engines": {
@@ -338,7 +338,7 @@ See how this content is rendered differently by MDX v1 and v3.
 {/* prettier-ignore */}
 ```html title="MDX v3 output"
 <div>Some <strong>Markdown</strong> content</div>
-<div><p>Some <strong>Markdown</strong> content</p></div></div>
+<div><p>Some <strong>Markdown</strong> content</p></div>
 ```
 
 :::
@@ -464,6 +464,21 @@ If you created custom Remark or Rehype plugins, you may need to refactor those, 
 
 :::
 
+### Formatters
+
+Prettier, the most common formatter, supports only the legacy MDX v1, not v3 yet as of Docusaurus v3.0.0. You can add `{/* prettier-ignore */}` before the incompatible parts of your code to make it work with Prettier.
+
+```mdx
+{/* prettier-ignore */}
+<SomeComponent>Some long text in the component</SomeComponent>
+```
+
+If you get tired of too many `{/* prettier-ignore */}` insertions, you can consider disabling MDX formatting by Prettier by adding the following to your `.prettierignore` file, until it starts supporting MDX v3:
+
+```txt title=".prettierignore"
+*.mdx
+```
+
 ## Other Breaking Changes
 
 Apart the MDX v3 upgrade, here is an exhaustive list of breaking changes coming with Docusaurus v3.
@@ -579,7 +594,7 @@ However, this is a new major library version containing breaking changes, and we
 
 ### remark-emoji v4.0+
 
-Docusaurus v3 upgrades [`prism-react-renderer`](https://github.com/rhysd/remark-emoji) to v4.0+. This library is to support `:emoji:` shortcuts in Markdown.
+Docusaurus v3 upgrades [`remark-emoji`](https://github.com/rhysd/remark-emoji) to v4.0+. This library is to support `:emoji:` shortcuts in Markdown.
 
 :::info How to upgrade
 
@@ -859,7 +874,7 @@ The default blog truncate marker now supports both `<!-- truncate -->` and `{/* 
 This option allows the usage of the Docusaurus v2 [admonition title](../guides/markdown-features/markdown-features-admonitions.mdx#specifying-title) syntax:
 
 ```md
-:::note Your Title
+:::note Your Title
 
 content
 

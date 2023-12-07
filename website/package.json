@@ -51,7 +51,7 @@
     "@docusaurus/utils-common": "3.0.0",
     "@popperjs/core": "^2.11.8",
     "@swc/core": "1.2.197",
-    "clsx": "^1.2.1",
+    "clsx": "^2.0.0",
     "color": "^4.2.3",
     "fs-extra": "^11.1.1",
     "netlify-plugin-cache": "^1.0.3",

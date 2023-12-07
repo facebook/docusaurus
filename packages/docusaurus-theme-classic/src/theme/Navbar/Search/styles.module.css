@@ -9,8 +9,15 @@
 Workaround to avoid rendering empty search container
 See https://github.com/facebook/docusaurus/pull/9385
 */
-.navbarSearchContainer:not(:has(> *)) {
-  display: none;
+/*
+TODO temporary @supports check, remove before 2025
+only needed for Firefox < 121
+see https://github.com/facebook/docusaurus/issues/9527#issuecomment-1805272379
+ */
+@supports selector(:has(*)) {
+  .navbarSearchContainer:not(:has(> *)) {
+    display: none;
+  }
 }
 
 @media (max-width: 996px) {
