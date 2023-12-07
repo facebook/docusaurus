@@ -44,7 +44,7 @@
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes",
     "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access",
     "changelog": "lerna-changelog",
-    "postinstall": "yarn lock:update && yarn build:packages",
+    "postinstall": "yarn build:packages",
     "prepare": "husky install",
     "format": "prettier --write .",
     "format:diff": "prettier --list-different .",
