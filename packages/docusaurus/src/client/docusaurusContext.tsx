@@ -7,6 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import siteConfig from '@generated/docusaurus.config';
+import themeConfig from '@generated/docusaurus.theme';
 import globalData from '@generated/globalData';
 import i18n from '@generated/i18n';
 import codeTranslations from '@generated/codeTranslations';
@@ -18,6 +19,7 @@ import type {DocusaurusContext} from '@docusaurus/types';
 const contextValue: DocusaurusContext = {
   siteConfig,
   siteMetadata,
+  themeConfig,
   globalData,
   i18n,
   codeTranslations,

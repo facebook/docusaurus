@@ -12,6 +12,7 @@ import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
+// TODO use TypeScript interface declaration merging
 export type ThemeConfig = {
   [key: string]: unknown;
 };

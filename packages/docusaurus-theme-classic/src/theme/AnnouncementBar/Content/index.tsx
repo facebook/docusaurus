@@ -15,14 +15,24 @@ export default function AnnouncementBarContent(
   props: Props,
 ): JSX.Element | null {
   const {announcementBar} = useThemeConfig();
-  const {content} = announcementBar!;
-  return (
-    <div
-      {...props}
-      className={clsx(styles.content, props.className)}
-      // Developer provided the HTML, so assume it's safe.
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{__html: content}}
-    />
-  );
+  const {content: Content} = announcementBar!;
+
+  // TODO Docusaurus v4: remove legacy annoncement bar html string form?
+  if (typeof Content === 'string') {
+    return (
+      <div
+        {...props}
+        className={clsx(styles.content, props.className)}
+        // Developer provided the HTML, so assume it's safe.
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{__html: Content}}
+      />
+    );
+  } 
+    return (
+      <div {...props} className={clsx(styles.content, props.className)}>
+        <Content />
+      </div>
+    );
+  
 }
