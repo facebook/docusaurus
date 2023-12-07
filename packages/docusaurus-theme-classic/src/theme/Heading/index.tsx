@@ -10,13 +10,13 @@ import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
-import useAnchor from '@docusaurus/useAnchor';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import type {Props} from '@theme/Heading';
 
 import styles from './styles.module.css';
 
 export default function Heading({as: As, id, ...props}: Props): JSX.Element {
-  const [anchorsCollector, createAnchorList] = useAnchor();
+  const brokenLinks = useBrokenLinks();
   const {
     navbar: {hideOnScroll},
   } = useThemeConfig();
@@ -25,13 +25,7 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
     return <As {...props} id={undefined} />;
   }
 
-  const list = createAnchorList();
-
-  // ! should not be called 2 times, not a problem because we use
-  // Set<string> but still must be removed
-  anchorsCollector.collectAnchor(id);
-
-  list.collectAnchor(id);
+  brokenLinks.collectAnchor(id);
 
   const anchorTitle = translate(
     {
