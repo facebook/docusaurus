@@ -8,7 +8,11 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {posixPath, getFileCommitDate} from '@docusaurus/utils';
+import {
+  posixPath,
+  getFileCommitDate,
+  DEFAULT_PARSE_FRONT_MATTER,
+} from '@docusaurus/utils';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -16,6 +20,7 @@ import type {
   LoadContext,
   I18n,
   Validate,
+  MarkdownConfig,
 } from '@docusaurus/types';
 import type {
   BlogPost,
@@ -23,6 +28,17 @@ import type {
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';
+
+const markdown: MarkdownConfig = {
+  format: 'mdx',
+  mermaid: true,
+  mdx1Compat: {
+    comments: true,
+    headingIds: true,
+    admonitions: true,
+  },
+  parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+};
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -81,6 +97,7 @@ const getPlugin = async (
     title: 'Hello',
     baseUrl: '/',
     url: 'https://docusaurus.io',
+    markdown,
   } as DocusaurusConfig;
   return pluginContentBlog(
     {

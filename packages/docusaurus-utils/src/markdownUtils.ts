@@ -8,6 +8,10 @@
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
 import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
+import type {
+  ParseFrontMatter,
+  DefaultParseFrontMatter,
+} from '@docusaurus/types';
 
 // Some utilities for parsing Markdown content. These things are only used on
 // server-side when we infer metadata like `title` and `description` from the
@@ -214,18 +218,21 @@ export function createExcerpt(fileString: string): string | undefined {
  * ---
  * ```
  */
-export function parseFrontMatter(markdownFileContent: string): {
+function parseFileContentFrontMatter(fileContent: string): {
   /** Front matter as parsed by gray-matter. */
   frontMatter: {[key: string]: unknown};
   /** The remaining content, trimmed. */
   content: string;
 } {
-  const {data, content} = matter(markdownFileContent);
+  const {data, content} = matter(fileContent);
   return {
     frontMatter: data,
     content: content.trim(),
   };
 }
+export const DEFAULT_PARSE_FRONT_MATTER: DefaultParseFrontMatter = async (
+  params,
+) => parseFileContentFrontMatter(params.fileContent);
 
 function toTextContentTitle(contentTitle: string): string {
   return contentTitle.replace(/`(?<text>[^`]*)`/g, '$<text>');
@@ -309,10 +316,16 @@ export function parseMarkdownContentTitle(
  * @throws Throws when `parseFrontMatter` throws, usually because of invalid
  * syntax.
  */
-export function parseMarkdownString(
-  markdownFileContent: string,
-  options?: ParseMarkdownContentTitleOptions,
-): {
+export async function parseMarkdownFile({
+  filePath,
+  fileContent,
+  parseFrontMatter,
+  removeContentTitle,
+}: {
+  filePath: string;
+  fileContent: string;
+  parseFrontMatter: ParseFrontMatter;
+} & ParseMarkdownContentTitleOptions): Promise<{
   /** @see {@link parseFrontMatter} */
   frontMatter: {[key: string]: unknown};
   /** @see {@link parseMarkdownContentTitle} */
@@ -324,14 +337,18 @@ export function parseMarkdownString(
    * the `removeContentTitle` option.
    */
   content: string;
-} {
+}> {
   try {
     const {frontMatter, content: contentWithoutFrontMatter} =
-      parseFrontMatter(markdownFileContent);
+      await parseFrontMatter({
+        filePath,
+        fileContent,
+        defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+      });
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
-      options,
+      {removeContentTitle},
     );
 
     const excerpt = createExcerpt(content);

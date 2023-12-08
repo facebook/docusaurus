@@ -61,6 +61,8 @@ describe('normalizeConfig', () => {
       markdown: {
         format: 'md',
         mermaid: true,
+        parseFrontMatter: async (params) =>
+          params.defaultParseFrontMatter(params),
         preprocessor: ({fileContent}) => fileContent,
         mdx1Compat: {
           comments: true,
@@ -504,6 +506,8 @@ describe('markdown', () => {
     const markdown: DocusaurusConfig['markdown'] = {
       format: 'md',
       mermaid: true,
+      parseFrontMatter: async (params) =>
+        params.defaultParseFrontMatter(params),
       preprocessor: ({fileContent}) => fileContent,
       mdx1Compat: {
         comments: false,
