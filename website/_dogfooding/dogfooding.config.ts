@@ -10,7 +10,7 @@ import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 
-export function dogfoodingParseFrontMatter(frontMatter: {
+export function dogfoodingTransformFrontMatter(frontMatter: {
   [key: string]: unknown;
 }): {[key: string]: unknown} {
   if (frontMatter.force_unlisted_parseFrontMatter_test === true) {

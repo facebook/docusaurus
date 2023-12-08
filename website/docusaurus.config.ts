@@ -17,7 +17,7 @@ import {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
   dogfoodingRedirects,
-  dogfoodingParseFrontMatter,
+  dogfoodingTransformFrontMatter,
 } from './_dogfooding/dogfooding.config';
 
 import ConfigLocalized from './docusaurus.config.localized.json';
@@ -181,7 +181,7 @@ export default async function createConfigAsync() {
         const result = await params.defaultParseFrontMatter(params);
         return {
           ...result,
-          frontMatter: dogfoodingParseFrontMatter(result.frontMatter),
+          frontMatter: dogfoodingTransformFrontMatter(result.frontMatter),
         };
       },
       preprocessor: ({filePath, fileContent}) => {
