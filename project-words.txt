@@ -5,6 +5,7 @@ Agan
 alexbdebrie
 Alexey
 algoliasearch
+Allez
 Anshul
 anshul
 août
@@ -185,6 +186,7 @@ Mdxjs
 mdxjs
 Meilisearch
 meilisearch
+merveilleuse
 metadatum
 metastring
 metrica
@@ -379,6 +381,7 @@ Vieira
 Viet
 Vinnik
 vjeux
+voir
 waivable
 WCAG
 wcag
