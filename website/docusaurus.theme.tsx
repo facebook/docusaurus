@@ -12,7 +12,7 @@ export default {
   announcementBar: {
     id: 'announcementBar-3', // Increment on change
     // content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">Docusaurus v3.0</a> is now out!</b> 🥳️`,
-    content: function AnnoncementBarContent(): ReactNode {
+    content: function AnnouncementBarContent(): ReactNode {
       return (
         <b>
           <Translate
