@@ -319,7 +319,7 @@ async function processBlogSourceFile(
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter});
+  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
 
   return {
     id: slug,
