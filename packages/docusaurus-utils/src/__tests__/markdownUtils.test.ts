@@ -16,6 +16,7 @@ import {
   admonitionTitleToDirectiveLabel,
   parseMarkdownFile,
   DEFAULT_PARSE_FRONT_MATTER,
+  parseFileContentFrontMatter,
 } from '../markdownUtils';
 
 describe('createExcerpt', () => {
@@ -621,6 +622,38 @@ Lorem Ipsum
       content: markdown.replace('# Markdown Title\n', ''),
       contentTitle: 'Markdown Title',
     });
+  });
+});
+
+describe('parseFileContentFrontMatter', () => {
+  function test(fileContent: string) {
+    return parseFileContentFrontMatter(fileContent);
+  }
+
+  it('can parse front matter', () => {
+    const input = dedent`
+        ---
+        title: Frontmatter title
+        author:
+          age: 42
+        ---
+
+        Some text
+        `;
+
+    const expectedResult: ReturnType<typeof test> = {
+      content: 'Some text',
+      frontMatter: {title: 'Frontmatter title', author: {age: 42}},
+    };
+
+    const result = test(input);
+    expect(result).toEqual(expectedResult);
+
+    // A regression test, ensure we don't return gray-matter cached objects
+    result.frontMatter.title = 'modified';
+    // @ts-expect-error: ok
+    result.frontMatter.author.age = 53;
+    expect(test(input)).toEqual(expectedResult);
   });
 });
 

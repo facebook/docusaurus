@@ -218,15 +218,25 @@ export function createExcerpt(fileString: string): string | undefined {
  * ---
  * ```
  */
-function parseFileContentFrontMatter(fileContent: string): {
+export function parseFileContentFrontMatter(fileContent: string): {
   /** Front matter as parsed by gray-matter. */
   frontMatter: {[key: string]: unknown};
   /** The remaining content, trimmed. */
   content: string;
 } {
+  // TODO replace gray-matter by a better lib
+  // gray-matter is unmaintained, not flexible, and the code doesn't look good
   const {data, content} = matter(fileContent);
+
+  // gray-matter has an undocumented front matter caching behavior
+  // https://github.com/jonschlinkert/gray-matter/blob/ce67a86dba419381db0dd01cc84e2d30a1d1e6a5/index.js#L39
+  // Unfortunately, this becomes a problem when we mutate returned front matter
+  // We want to make it possible as part of the parseFrontMatter API
+  // So we make it safe to mutate by always providing a deep copy
+  const frontMatter = structuredClone(data);
+
   return {
-    frontMatter: data,
+    frontMatter,
     content: content.trim(),
   };
 }
