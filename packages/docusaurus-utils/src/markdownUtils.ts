@@ -224,7 +224,7 @@ export function parseFileContentFrontMatter(fileContent: string): {
   /** The remaining content, trimmed. */
   content: string;
 } {
-  // TODO replace gray-matter by a better lib
+  // TODO Docusaurus v4: replace gray-matter by a better lib
   // gray-matter is unmaintained, not flexible, and the code doesn't look good
   const {data, content} = matter(fileContent);
 
@@ -233,13 +233,21 @@ export function parseFileContentFrontMatter(fileContent: string): {
   // Unfortunately, this becomes a problem when we mutate returned front matter
   // We want to make it possible as part of the parseFrontMatter API
   // So we make it safe to mutate by always providing a deep copy
-  const frontMatter = structuredClone(data);
+  const frontMatter =
+    // And of course structuredClone() doesn't work well with Date in Jest...
+    // See https://github.com/jestjs/jest/issues/2549
+    // So we reparse for tests with a {} option object
+    // This undocumented empty option object disables gray-matter caching..
+    process.env.JEST_WORKER_ID
+      ? matter(fileContent, {}).data
+      : structuredClone(data);
 
   return {
     frontMatter,
     content: content.trim(),
   };
 }
+
 export const DEFAULT_PARSE_FRONT_MATTER: DefaultParseFrontMatter = async (
   params,
 ) => parseFileContentFrontMatter(params.fileContent);

@@ -636,18 +636,23 @@ describe('parseFileContentFrontMatter', () => {
         title: Frontmatter title
         author:
           age: 42
+          birth: 2000-07-23
         ---
 
         Some text
         `;
 
-    const expectedResult: ReturnType<typeof test> = {
+    const expectedResult = {
       content: 'Some text',
-      frontMatter: {title: 'Frontmatter title', author: {age: 42}},
+      frontMatter: {
+        title: 'Frontmatter title',
+        author: {age: 42, birth: new Date('2000-07-23')},
+      },
     };
 
-    const result = test(input);
+    const result = test(input) as typeof expectedResult;
     expect(result).toEqual(expectedResult);
+    expect(result.frontMatter.author.birth).toBeInstanceOf(Date);
 
     // A regression test, ensure we don't return gray-matter cached objects
     result.frontMatter.title = 'modified';
