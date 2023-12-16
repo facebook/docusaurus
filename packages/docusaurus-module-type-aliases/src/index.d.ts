@@ -19,6 +19,13 @@ declare module '@generated/docusaurus.config' {
   export default config;
 }
 
+declare module '@generated/docusaurus.theme' {
+  import type {ThemeConfig} from '@docusaurus/types';
+
+  const themeConfig: ThemeConfig;
+  export default themeConfig;
+}
+
 declare module '@generated/site-metadata' {
   import type {SiteMetadata} from '@docusaurus/types';
 

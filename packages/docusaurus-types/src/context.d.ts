@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import type {DocusaurusConfig} from './config';
+import type {DocusaurusConfig, ThemeConfig} from './config';
 import type {CodeTranslations, I18n} from './i18n';
 import type {LoadedPlugin, PluginVersionInformation} from './plugin';
 import type {RouteConfig} from './routing';
@@ -12,6 +12,7 @@ import type {RouteConfig} from './routing';
 export type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
   siteMetadata: SiteMetadata;
+  themeConfig: ThemeConfig;
   globalData: GlobalData;
   i18n: I18n;
   codeTranslations: CodeTranslations;
@@ -34,6 +35,7 @@ export type LoadContext = {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
+  themeConfigPath: string | undefined; // TODO Docusaurus v4: make it required
   outDir: string;
   /**
    * Directory where all source translations for the current locale can be found

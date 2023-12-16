@@ -33,6 +33,7 @@ describe('DocusaurusContextProvider', () => {
         "i18n": {},
         "siteConfig": {},
         "siteMetadata": {},
+        "themeConfig": {},
       }
     `);
   });

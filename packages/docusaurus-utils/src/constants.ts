@@ -36,6 +36,8 @@ export const DEFAULT_BUILD_DIR_NAME = 'build';
  */
 export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config';
 
+export const DEFAULT_THEME_FILE_NAME = 'docusaurus.theme';
+
 /** Can be absolute or relative to site directory. */
 export const BABEL_CONFIG_FILE_NAME =
   process.env.DOCUSAURUS_BABEL_CONFIG_FILE_NAME ?? 'babel.config.js';

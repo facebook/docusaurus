@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ComponentType} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
@@ -51,7 +52,7 @@ export type ColorModeConfig = {
 
 export type AnnouncementBarConfig = {
   id: string;
-  content: string;
+  content: string | ComponentType;
   backgroundColor: string;
   textColor: string;
   isCloseable: boolean;
@@ -99,6 +100,7 @@ export type TableOfContents = {
   maxHeadingLevel: number;
 };
 
+// TODO use TS interface declaration merging?
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {
@@ -129,7 +131,14 @@ export type UserThemeConfig = DeepPartial<ThemeConfig>;
 
 /**
  * A convenient/more semantic way to get theme config from context.
+ * TODO remove old themeConfig in Docusaurus v4?
+ * TODO remove this hook in v4 in favor of a core hook?
  */
 export function useThemeConfig(): ThemeConfig {
-  return useDocusaurusContext().siteConfig.themeConfig as ThemeConfig;
+  const oldThemeConfig = useDocusaurusContext().siteConfig
+    .themeConfig as ThemeConfig;
+  const newThemeConfig = useDocusaurusContext().themeConfig as ThemeConfig;
+
+  // TODO emit errors on duplicate keys
+  return {...oldThemeConfig, ...newThemeConfig};
 }
