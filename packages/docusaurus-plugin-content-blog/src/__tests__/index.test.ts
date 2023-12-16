@@ -8,11 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  posixPath,
-  getFileCommitDate,
-  DEFAULT_PARSE_FRONT_MATTER,
-} from '@docusaurus/utils';
+import {posixPath, getFileCommitDate} from '@docusaurus/utils';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -37,7 +33,14 @@ const markdown: MarkdownConfig = {
     headingIds: true,
     admonitions: true,
   },
-  parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  parseFrontMatter: async (params) => {
+    // Reuse the default parser
+    const result = await params.defaultParseFrontMatter(params);
+    if (result.frontMatter.title === 'Complex Slug') {
+      result.frontMatter.custom_frontMatter = 'added by parseFrontMatter';
+    }
+    return result;
+  },
 };
 
 function findByTitle(
@@ -259,6 +262,7 @@ describe('blog plugin', () => {
         slug: '/hey/my super path/héllô',
         title: 'Complex Slug',
         tags: ['date', 'complex'],
+        custom_frontMatter: 'added by parseFrontMatter',
       },
       tags: [
         {
