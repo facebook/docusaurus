@@ -70,9 +70,9 @@ export {
   unwrapMdxCodeBlocks,
   admonitionTitleToDirectiveLabel,
   createExcerpt,
-  parseFrontMatter,
+  DEFAULT_PARSE_FRONT_MATTER,
   parseMarkdownContentTitle,
-  parseMarkdownString,
+  parseMarkdownFile,
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from './markdownUtils';

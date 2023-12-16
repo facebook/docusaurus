@@ -421,10 +421,20 @@ type MDX1CompatOptions =
       headingIds: boolean;
     };
 
+export type ParseFrontMatter = (params: {
+  filePath: string;
+  fileContent: string;
+  defaultParseFrontMatter: ParseFrontMatter;
+}) => Promise<{
+  frontMatter: {[key: string]: unknown};
+  content: string;
+}>;
+
 type MarkdownConfig = {
   format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
   preprocessor?: MarkdownPreprocessor;
+  parseFrontMatter?: ParseFrontMatter;
   mdx1Compat: MDX1CompatOptions;
 };
 ```
@@ -438,6 +448,12 @@ export default {
     mermaid: true,
     preprocessor: ({filePath, fileContent}) => {
       return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+    },
+    parseFrontMatter: async (params) => {
+      const result = await params.defaultParseFrontMatter(params);
+      result.frontMatter.description =
+        result.frontMatter.description?.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+      return result;
     },
     mdx1Compat: {
       comments: true,
@@ -457,6 +473,7 @@ export default {
 | `format` | `'mdx' \| 'md' \| 'detect'` | `'mdx'` | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`. |
 | `mermaid` | `boolean` | `false` | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams. |
 | `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
+| `parseFrontMatter` | `ParseFrontMatter` | `undefined` | Gives you the ability to provide your own front matter parser, or to enhance the default parser. Read our [front matter guide](../guides/markdown-features/markdown-features-intro.mdx#front-matter) for details. |
 | `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. |
 
 ```mdx-code-block

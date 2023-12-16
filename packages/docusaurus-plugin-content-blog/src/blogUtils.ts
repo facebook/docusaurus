@@ -11,7 +11,7 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import readingTime from 'reading-time';
 import {
-  parseMarkdownString,
+  parseMarkdownFile,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -29,7 +29,7 @@ import {
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import type {LoadContext} from '@docusaurus/types';
+import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
   PluginOptions,
   ReadingTimeFunction,
@@ -180,10 +180,19 @@ function formatBlogPostDate(
   }
 }
 
-async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
+async function parseBlogPostMarkdownFile({
+  filePath,
+  parseFrontMatter,
+}: {
+  filePath: string;
+  parseFrontMatter: ParseFrontMatter;
+}) {
+  const fileContent = await fs.readFile(filePath, 'utf-8');
   try {
-    const result = parseMarkdownString(markdownString, {
+    const result = await parseMarkdownFile({
+      filePath,
+      fileContent,
+      parseFrontMatter,
       removeContentTitle: true,
     });
     return {
@@ -191,7 +200,7 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
       frontMatter: validateBlogPostFrontMatter(result.frontMatter),
     };
   } catch (err) {
-    logger.error`Error while parsing blog post file path=${blogSourceAbsolute}.`;
+    logger.error`Error while parsing blog post file path=${filePath}.`;
     throw err;
   }
 }
@@ -207,7 +216,10 @@ async function processBlogSourceFile(
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
-    siteConfig: {baseUrl},
+    siteConfig: {
+      baseUrl,
+      markdown: {parseFrontMatter},
+    },
     siteDir,
     i18n,
   } = context;
@@ -228,7 +240,10 @@ async function processBlogSourceFile(
   const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
 
   const {frontMatter, content, contentTitle, excerpt} =
-    await parseBlogPostMarkdownFile(blogSourceAbsolute);
+    await parseBlogPostMarkdownFile({
+      filePath: blogSourceAbsolute,
+      parseFrontMatter,
+    });
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 

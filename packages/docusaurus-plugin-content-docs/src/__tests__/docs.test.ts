@@ -567,14 +567,14 @@ describe('simple site', () => {
       description: 'Custom last update',
       frontMatter: {
         last_update: {
-          author: 'Custom Author',
+          author: 'Custom Author (processed by parseFrontMatter)',
           date: '1/1/2000',
         },
         title: 'Custom Last Update',
       },
       lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
       formattedLastUpdatedAt: 'Jan 1, 2000',
-      lastUpdatedBy: 'Custom Author',
+      lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
       unlisted: false,
@@ -607,13 +607,13 @@ describe('simple site', () => {
       description: 'Only custom author, so it will still use the date from Git',
       frontMatter: {
         last_update: {
-          author: 'Custom Author',
+          author: 'Custom Author (processed by parseFrontMatter)',
         },
         title: 'Last Update Author Only',
       },
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: 'Oct 14, 2018',
-      lastUpdatedBy: 'Custom Author',
+      lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
       unlisted: false,
@@ -685,7 +685,7 @@ describe('simple site', () => {
       description: 'Custom last update',
       frontMatter: {
         last_update: {
-          author: 'Custom Author',
+          author: 'Custom Author (processed by parseFrontMatter)',
           date: '1/1/2000',
         },
         title: 'Custom Last Update',
