@@ -78,7 +78,6 @@ dogfood
 Dogfooding
 dogfooding
 Dojocat
-dont
 Dyte
 dyte
 Déja
@@ -287,6 +286,7 @@ refactorings
 Rehype
 rehype
 renderable
+reparse
 REPONAME
 Retrocompatibility
 retrocompatibility
