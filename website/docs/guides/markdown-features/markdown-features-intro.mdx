@@ -139,7 +139,7 @@ export default {
         result.frontMatter.description?.replaceAll('{{MY_VAR}}', 'MY_VALUE');
 
       // Create your own front matter shortcut
-      if (result.frontMatter.i_dont_want_docs_pagination) {
+      if (result.frontMatter.i_do_not_want_docs_pagination) {
         result.frontMatter.pagination_prev = null;
         result.frontMatter.pagination_next = null;
       }
