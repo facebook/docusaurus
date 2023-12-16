@@ -236,7 +236,7 @@ export function parseFileContentFrontMatter(fileContent: string): {
   const frontMatter =
     // And of course structuredClone() doesn't work well with Date in Jest...
     // See https://github.com/jestjs/jest/issues/2549
-    // So we reparse for tests with a {} option object
+    // So we parse again for tests with a {} option object
     // This undocumented empty option object disables gray-matter caching..
     process.env.JEST_WORKER_ID
       ? matter(fileContent, {}).data
