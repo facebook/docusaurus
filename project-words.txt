@@ -286,7 +286,6 @@ refactorings
 Rehype
 rehype
 renderable
-reparse
 REPONAME
 Retrocompatibility
 retrocompatibility
