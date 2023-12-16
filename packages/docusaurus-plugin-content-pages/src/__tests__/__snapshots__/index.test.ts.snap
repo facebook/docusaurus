@@ -14,7 +14,9 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
   },
   {
     "description": "Markdown index page",
-    "frontMatter": {},
+    "frontMatter": {
+      "custom_frontMatter": "added by parseFrontMatter",
+    },
     "permalink": "/hello/",
     "source": "@site/src/pages/hello/index.md",
     "title": "Index",
@@ -24,6 +26,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
   {
     "description": "my MDX page",
     "frontMatter": {
+      "custom_frontMatter": "added by parseFrontMatter",
       "description": "my MDX page",
       "title": "MDX page",
     },
@@ -40,7 +43,9 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
   },
   {
     "description": "translated Markdown page",
-    "frontMatter": {},
+    "frontMatter": {
+      "custom_frontMatter": "added by parseFrontMatter",
+    },
     "permalink": "/hello/translatedMd",
     "source": "@site/src/pages/hello/translatedMd.md",
     "title": undefined,
@@ -69,7 +74,9 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
   },
   {
     "description": "Markdown index page",
-    "frontMatter": {},
+    "frontMatter": {
+      "custom_frontMatter": "added by parseFrontMatter",
+    },
     "permalink": "/fr/hello/",
     "source": "@site/src/pages/hello/index.md",
     "title": "Index",
@@ -79,6 +86,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
   {
     "description": "my MDX page",
     "frontMatter": {
+      "custom_frontMatter": "added by parseFrontMatter",
       "description": "my MDX page",
       "title": "MDX page",
     },
@@ -95,7 +103,9 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
   },
   {
     "description": "translated Markdown page (fr)",
-    "frontMatter": {},
+    "frontMatter": {
+      "custom_frontMatter": "added by parseFrontMatter",
+    },
     "permalink": "/fr/hello/translatedMd",
     "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedMd.md",
     "title": undefined,

@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
+import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils';
 import {DEFAULT_OPTIONS} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
@@ -30,6 +31,8 @@ const DefaultI18N: I18n = {
     },
   },
 };
+
+const markdown = {parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER};
 
 function getBlogContentPaths(siteDir: string): BlogContentPaths {
   return {
@@ -72,6 +75,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
     const outDir = path.join(siteDir, 'build-snap');
 
@@ -110,6 +114,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
@@ -152,6 +157,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
@@ -204,6 +210,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and

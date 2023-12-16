@@ -9,12 +9,14 @@ import dedent from 'dedent';
 import {
   createExcerpt,
   parseMarkdownContentTitle,
-  parseMarkdownString,
   parseMarkdownHeadingId,
   writeMarkdownHeadingId,
   escapeMarkdownHeadingIds,
   unwrapMdxCodeBlocks,
   admonitionTitleToDirectiveLabel,
+  parseMarkdownFile,
+  DEFAULT_PARSE_FRONT_MATTER,
+  parseFileContentFrontMatter,
 } from '../markdownUtils';
 
 describe('createExcerpt', () => {
@@ -623,32 +625,110 @@ Lorem Ipsum
   });
 });
 
-describe('parseMarkdownString', () => {
-  it('parse markdown with front matter', () => {
-    expect(
-      parseMarkdownString(dedent`
+describe('parseFileContentFrontMatter', () => {
+  function test(fileContent: string) {
+    return parseFileContentFrontMatter(fileContent);
+  }
+
+  it('can parse front matter', () => {
+    const input = dedent`
+        ---
+        title: Frontmatter title
+        author:
+          age: 42
+          birth: 2000-07-23
+        ---
+
+        Some text
+        `;
+
+    const expectedResult = {
+      content: 'Some text',
+      frontMatter: {
+        title: 'Frontmatter title',
+        author: {age: 42, birth: new Date('2000-07-23')},
+      },
+    };
+
+    const result = test(input) as typeof expectedResult;
+    expect(result).toEqual(expectedResult);
+    expect(result.frontMatter.author.birth).toBeInstanceOf(Date);
+
+    // A regression test, ensure we don't return gray-matter cached objects
+    result.frontMatter.title = 'modified';
+    // @ts-expect-error: ok
+    result.frontMatter.author.age = 53;
+    expect(test(input)).toEqual(expectedResult);
+  });
+});
+
+describe('parseMarkdownFile', () => {
+  async function test(
+    fileContent: string,
+    options?: Partial<Parameters<typeof parseMarkdownFile>>[0],
+  ) {
+    return parseMarkdownFile({
+      fileContent,
+      filePath: 'some-file-path.mdx',
+      parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+      ...options,
+    });
+  }
+
+  it('parse markdown with front matter', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('parses first heading as contentTitle', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('parse markdown with custom front matter parser', async () => {
+    await expect(
+      test(
+        dedent`
+        ---
+        title: Frontmatter title
+        age: 42
+        ---
+
+        Some text
+        `,
+        {
+          parseFrontMatter: async (params) => {
+            const result = await params.defaultParseFrontMatter(params);
+            return {
+              ...result,
+              frontMatter: {
+                ...result.frontMatter,
+                age: result.frontMatter.age * 2,
+                extra: 'value',
+                great: true,
+              },
+            };
+          },
+        },
+      ),
+    ).resolves.toMatchSnapshot();
+  });
+
+  it('parses first heading as contentTitle', async () => {
+    await expect(
+      test(dedent`
         # Markdown Title
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('warns about duplicate titles (front matter + markdown)', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('warns about duplicate titles (front matter + markdown)', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
@@ -657,12 +737,12 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('warns about duplicate titles (front matter + markdown alternate)', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('warns about duplicate titles (front matter + markdown alternate)', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
@@ -672,12 +752,12 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('does not warn for duplicate title if markdown title is not at the top', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('does not warn for duplicate title if markdown title is not at the top', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
@@ -686,12 +766,12 @@ describe('parseMarkdownString', () => {
 
         # Markdown Title
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('deletes only first heading', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('deletes only first heading', async () => {
+    await expect(
+      test(dedent`
         # Markdown Title
 
         test test test # test bar
@@ -700,12 +780,12 @@ describe('parseMarkdownString', () => {
 
         ### Markdown Title h3
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('parses front-matter and ignore h2', () => {
-    expect(
-      parseMarkdownString(
+  it('parses front-matter and ignore h2', async () => {
+    await expect(
+      test(
         dedent`
           ---
           title: Frontmatter title
@@ -713,55 +793,55 @@ describe('parseMarkdownString', () => {
           ## test
           `,
       ),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('reads front matter only', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('reads front matter only', async () => {
+    await expect(
+      test(dedent`
         ---
         title: test
         ---
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('parses title only', () => {
-    expect(parseMarkdownString('# test')).toMatchSnapshot();
+  it('parses title only', async () => {
+    await expect(test('# test')).resolves.toMatchSnapshot();
   });
 
-  it('parses title only alternate', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('parses title only alternate', async () => {
+    await expect(
+      test(dedent`
         test
         ===
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('warns about duplicate titles', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('warns about duplicate titles', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
         # test
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('ignores markdown title if its not a first text', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('ignores markdown title if its not a first text', async () => {
+    await expect(
+      test(dedent`
         foo
         # test
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('deletes only first heading 2', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('deletes only first heading 2', async () => {
+    await expect(
+      test(dedent`
         # test
 
         test test test test test test
@@ -770,21 +850,21 @@ describe('parseMarkdownString', () => {
         ### test
         test3
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('handles code blocks', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('handles code blocks', async () => {
+    await expect(
+      test(dedent`
         \`\`\`js
         code
         \`\`\`
 
         Content
       `),
-    ).toMatchSnapshot();
-    expect(
-      parseMarkdownString(dedent`
+    ).resolves.toMatchSnapshot();
+    await expect(
+      test(dedent`
         \`\`\`\`js
         Foo
         \`\`\`diff
@@ -795,9 +875,9 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchSnapshot();
-    expect(
-      parseMarkdownString(dedent`
+    ).resolves.toMatchSnapshot();
+    await expect(
+      test(dedent`
         \`\`\`\`js
         Foo
         \`\`\`diff
@@ -806,17 +886,17 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('throws for invalid front matter', () => {
-    expect(() =>
-      parseMarkdownString(dedent`
+  it('throws for invalid front matter', async () => {
+    await expect(
+      test(dedent`
       ---
       foo: f: a
       ---
       `),
-    ).toThrowErrorMatchingInlineSnapshot(`
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 7:
           foo: f: a
                 ^"

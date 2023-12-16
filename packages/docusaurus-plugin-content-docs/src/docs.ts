@@ -15,7 +15,7 @@ import {
   getFolderContainingFile,
   getContentPathList,
   normalizeUrl,
-  parseMarkdownString,
+  parseMarkdownFile,
   posixPath,
   Globby,
   normalizeFrontMatterTags,
@@ -140,13 +140,23 @@ async function doProcessDocMetadata({
   env: DocEnv;
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
-  const {siteDir, i18n} = context;
+  const {
+    siteDir,
+    i18n,
+    siteConfig: {
+      markdown: {parseFrontMatter},
+    },
+  } = context;
 
   const {
     frontMatter: unsafeFrontMatter,
     contentTitle,
     excerpt,
-  } = parseMarkdownString(content);
+  } = await parseMarkdownFile({
+    filePath,
+    fileContent: content,
+    parseFrontMatter,
+  });
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
   const {

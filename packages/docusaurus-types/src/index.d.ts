@@ -9,6 +9,8 @@ export {
   ReportingSeverity,
   ThemeConfig,
   MarkdownConfig,
+  DefaultParseFrontMatter,
+  ParseFrontMatter,
   DocusaurusConfig,
   Config,
 } from './config';
