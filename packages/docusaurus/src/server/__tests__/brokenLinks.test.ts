@@ -6,7 +6,6 @@
  */
 
 import {jest} from '@jest/globals';
-import path from 'path';
 import _ from 'lodash';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
@@ -118,8 +117,6 @@ describe('handleBrokenLinks', () => {
     },
   };
 
-  const outDir = path.resolve(__dirname, '__fixtures__/brokenLinks/outDir');
-
   it('do not report anything for correct paths', async () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
@@ -168,8 +165,6 @@ describe('handleBrokenLinks', () => {
       onBrokenLinks: 'warn',
       onBrokenAnchors: 'warn',
       routes,
-      baseUrl: '/',
-      outDir,
     });
     expect(consoleMock).toHaveBeenCalledTimes(0);
   });
@@ -181,8 +176,6 @@ describe('handleBrokenLinks', () => {
         onBrokenLinks: 'throw',
         onBrokenAnchors: 'throw',
         routes,
-        baseUrl: '/',
-        outDir,
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
@@ -196,8 +189,6 @@ describe('handleBrokenLinks', () => {
       onBrokenLinks: 'ignore',
       onBrokenAnchors: 'ignore',
       routes,
-      baseUrl: '/',
-      outDir,
     });
     expect(lodashMock).toHaveBeenCalledTimes(0);
     lodashMock.mockRestore();
@@ -220,8 +211,6 @@ describe('handleBrokenLinks', () => {
         onBrokenLinks: 'throw',
         onBrokenAnchors: 'throw',
         routes,
-        baseUrl: '/',
-        outDir,
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });

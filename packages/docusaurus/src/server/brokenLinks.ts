@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// TODO Remove this
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {matchRoutes} from 'react-router-config';
@@ -154,10 +151,53 @@ function getAllBrokenLinks({
   return _.pickBy(brokenCollection, (brokenLinks) => brokenLinks.length > 0);
 }
 
+function brokenLinkMessage(brokenLink: BrokenLink): string {
+  const showResolvedLink = brokenLink.link !== brokenLink.resolvedLink;
+  return `${brokenLink.link}${
+    showResolvedLink ? ` (resolved as: ${brokenLink.resolvedLink})` : ''
+  }`;
+}
+
+function generalBrokenLinksMessage(
+  type: 'link' | 'anchor',
+  pagePath: string,
+  brokenLinks: BrokenLink[],
+): string {
+  const anchorBrokenLinks =
+    type === 'anchor'
+      ? brokenLinks.filter((link) => link.anchor)
+      : brokenLinks.filter((link) => !link.anchor);
+
+  const anchorMessage =
+    anchorBrokenLinks.length > 0
+      ? `- Broken ${type} on source page path = ${pagePath}:
+   -> linking to ${anchorBrokenLinks
+     .map(brokenLinkMessage)
+     .join('\n   -> linking to ')}`
+      : '';
+
+  return `${anchorMessage}`;
+}
+
 function getAnchorBrokenLinksErrorMessage(allBrokenLinks: {
   [location: string]: BrokenLink[];
 }): string | undefined {
-  return undefined; // TODO
+  if (Object.keys(allBrokenLinks).length === 0) {
+    return undefined;
+  }
+
+  return `Docusaurus found broken anchors!
+
+Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+Exhaustive list of all broken anchors found:
+${Object.entries(allBrokenLinks)
+  .map(([pagePath, brokenLinks]) =>
+    generalBrokenLinksMessage('anchor', pagePath, brokenLinks),
+  )
+  .join('\n')}
+`;
 }
 
 function getPathBrokenLinksErrorMessage(allBrokenLinks: {
@@ -165,42 +205,6 @@ function getPathBrokenLinksErrorMessage(allBrokenLinks: {
 }): string | undefined {
   if (Object.keys(allBrokenLinks).length === 0) {
     return undefined;
-  }
-
-  function brokenLinkMessage(brokenLink: BrokenLink): string {
-    const showResolvedLink = brokenLink.link !== brokenLink.resolvedLink;
-    return `${brokenLink.link}${
-      showResolvedLink ? ` (resolved as: ${brokenLink.resolvedLink})` : ''
-    }`;
-  }
-
-  function pageBrokenLinksMessage(
-    pagePath: string,
-    brokenLinks: BrokenLink[],
-  ): string {
-    const [anchorBrokenLinks, pathBrokenLinks] = _.partition(
-      brokenLinks,
-      'anchor',
-    );
-
-    const pathMessage =
-      pathBrokenLinks.length > 0
-        ? `- Broken link on source page path = ${pagePath}:
-   -> linking to ${pathBrokenLinks
-     .map(brokenLinkMessage)
-     .join('\n   -> linking to ')}`
-        : '';
-
-    // TODO move to getAnchorBrokenLinksErrorMessage
-    const anchorMessage =
-      anchorBrokenLinks.length > 0
-        ? `- Broken anchor on source page path = ${pagePath}:
-   -> linking to ${anchorBrokenLinks
-     .map(brokenLinkMessage)
-     .join('\n   -> linking to ')}`
-        : '';
-
-    return `${pathMessage}\n${anchorMessage}`;
   }
 
   /**
@@ -236,15 +240,15 @@ We recommend that you check your theme configuration for such links (particularl
 Frequent broken links are linking to:${frequentLinks}`;
   }
 
-  return `Docusaurus found broken links / anchors!
+  return `Docusaurus found broken links!
 
 Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
-Note: it's possible to ignore broken links with the 'onBrokenLinks' or 'onBrokenAnchors' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
+Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
 
 Exhaustive list of all broken links found:
 ${Object.entries(allBrokenLinks)
   .map(([pagePath, brokenLinks]) =>
-    pageBrokenLinksMessage(pagePath, brokenLinks),
+    generalBrokenLinksMessage('link', pagePath, brokenLinks),
   )
   .join('\n')}
 `;
@@ -255,15 +259,11 @@ export async function handleBrokenLinks({
   onBrokenLinks,
   onBrokenAnchors,
   routes,
-  baseUrl,
-  outDir,
 }: {
   allCollectedLinks: CollectedLinks;
   onBrokenLinks: ReportingSeverity;
   onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
-  baseUrl: string;
-  outDir: string;
 }): Promise<void> {
   if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;

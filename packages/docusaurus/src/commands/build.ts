@@ -110,7 +110,7 @@ export async function build(
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
 
-  const results = await mapAsyncSequential(orderedLocales, (locale) => {
+  const results = await mapAsyncSequential(orderedLocales, (locale: any) => {
     const isLastLocale =
       orderedLocales.indexOf(locale) === orderedLocales.length - 1;
     return tryToBuildLocale({locale, isLastLocale});
@@ -152,7 +152,6 @@ async function buildLocale({
     generatedFilesDir,
     plugins,
     siteConfig: {
-      baseUrl,
       onBrokenLinks,
       onBrokenAnchors,
       staticDirectories: staticDirectoriesOption,
@@ -295,8 +294,6 @@ async function buildLocale({
     routes,
     onBrokenLinks,
     onBrokenAnchors,
-    outDir,
-    baseUrl,
   });
 
   logger.success`Generated static files in path=${path.relative(
