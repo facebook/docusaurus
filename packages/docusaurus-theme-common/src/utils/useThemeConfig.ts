@@ -139,6 +139,18 @@ export function useThemeConfig(): ThemeConfig {
     .themeConfig as ThemeConfig;
   const newThemeConfig = useDocusaurusContext().themeConfig as ThemeConfig;
 
-  // TODO emit errors on duplicate keys
+  console.log('oldThemeConfig', oldThemeConfig);
+  console.log('newThemeConfig:', newThemeConfig);
+
+  const duplicateKeys = Object.keys(oldThemeConfig).filter((key) =>
+    Object.prototype.hasOwnProperty.call(newThemeConfig, key),
+  );
+
+  if (duplicateKeys.length > 0) {
+    throw new Error(
+      `Duplicate keys found in siteConfig.themeConfig and themeConfig: ${duplicateKeys}`,
+    );
+  }
+
   return {...oldThemeConfig, ...newThemeConfig};
 }

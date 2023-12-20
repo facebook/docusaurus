@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import {type FooterLinkItem} from '@docusaurus/theme-common';
 import LinkItem from '@theme/Footer/LinkItem';
 import type {Props} from '@theme/Footer/Links/Simple';
 
@@ -30,7 +31,7 @@ export default function FooterLinksSimple({links}: Props): JSX.Element {
   return (
     <div className="footer__links text--center">
       <div className="footer__links">
-        {links.map((item, i) => (
+        {links.map((item: FooterLinkItem, i: number) => (
           <React.Fragment key={i}>
             <SimpleLinkItem item={item} />
             {links.length !== i + 1 && <Separator />}

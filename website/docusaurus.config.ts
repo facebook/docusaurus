@@ -21,10 +21,6 @@ import {
 
 import ConfigLocalized from './docusaurus.config.localized.json';
 
-import PrismLight from './src/utils/prismLight';
-import PrismDark from './src/utils/prismDark';
-
-import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
@@ -149,7 +145,7 @@ export default async function createConfigAsync() {
             [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
     },
     webpack: {
-      jsLoader: (isServer) => ({
+      jsLoader: (isServer: boolean) => ({
         loader: require.resolve('swc-loader'),
         options: {
           jsc: {
@@ -176,7 +172,13 @@ export default async function createConfigAsync() {
       mdx1Compat: {
         // comments: false,
       },
-      preprocessor: ({filePath, fileContent}) => {
+      preprocessor: ({
+        filePath,
+        fileContent,
+      }: {
+        filePath: string;
+        fileContent: string;
+      }) => {
         let result = fileContent;
 
         result = result.replaceAll('{/_', '{/*');
@@ -263,7 +265,7 @@ export default async function createConfigAsync() {
         'client-redirects',
         {
           fromExtensions: ['html'],
-          createRedirects(routePath) {
+          createRedirects(routePath: string) {
             // Redirect to /docs from /docs/introduction (now docs root doc)
             if (routePath === '/docs' || routePath === '/docs/') {
               return [`${routePath}/introduction`];
@@ -375,7 +377,7 @@ export default async function createConfigAsync() {
             sidebarPath: 'sidebars.ts',
             // sidebarCollapsible: false,
             // sidebarCollapsed: true,
-            editUrl: ({locale, docPath}) => {
+            editUrl: ({locale, docPath}: {locale: string; docPath: string}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;
               }
@@ -458,55 +460,8 @@ export default async function createConfigAsync() {
         } satisfies Preset.Options,
       ],
     ],
-
     themeConfig: {
-      liveCodeBlock: {
-        playgroundPosition: 'bottom',
-      },
-      docs: {
-        sidebar: {
-          hideable: true,
-          autoCollapseCategories: true,
-        },
-      },
-      colorMode: {
-        defaultMode: 'light',
-        disableSwitch: false,
-        respectPrefersColorScheme: true,
-      },
-      announcementBar: {
-        id: 'announcementBar-3', // Increment on change
-        // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
-        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">Docusaurus v3.0</a> is now out!</b> 🥳️`,
-      },
-      prism: {
-        additionalLanguages: [
-          'java',
-          'latex',
-          'haskell',
-          'matlab',
-          'PHp',
-          'bash',
-          'diff',
-          'json',
-          'scss',
-        ],
-        magicComments: [
-          {
-            className: 'theme-code-block-highlighted-line',
-            line: 'highlight-next-line',
-            block: {start: 'highlight-start', end: 'highlight-end'},
-          },
-          {
-            className: 'code-block-error-line',
-            line: 'This will error',
-          },
-        ],
-        theme: PrismLight,
-        darkTheme: PrismDark,
-      },
-      image: 'img/docusaurus-social-card.jpg',
-      // metadata: [{name: 'twitter:card', content: 'summary'}],
+      metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
@@ -624,102 +579,6 @@ export default async function createConfigAsync() {
           Preset.ThemeConfig['navbar']
         >['items'],
       },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Learn',
-            items: [
-              {
-                label: 'Introduction',
-                to: 'docs',
-              },
-              {
-                label: 'Installation',
-                to: 'docs/installation',
-              },
-              {
-                label: 'Migration from v1 to v2',
-                to: 'docs/migration',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Feature Requests',
-                to: '/feature-requests',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Help',
-                to: '/community/support',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: 'blog',
-              },
-              {
-                label: 'Changelog',
-                to: '/changelog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-              {
-                html: `
-                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
-                </a>
-              `,
-              },
-            ],
-          },
-          {
-            title: 'Legal',
-            // Please don't remove the privacy and terms, it's a legal
-            // requirement.
-            items: [
-              {
-                label: 'Privacy',
-                href: 'https://opensource.facebook.com/legal/privacy/',
-              },
-              {
-                label: 'Terms',
-                href: 'https://opensource.facebook.com/legal/terms/',
-              },
-              {
-                label: 'Cookie Policy',
-                href: 'https://opensource.facebook.com/legal/cookie-policy/',
-              },
-            ],
-          },
-        ],
-        logo: {
-          alt: 'Meta Open Source Logo',
-          src: '/img/meta_opensource_logo_negative.svg',
-          href: 'https://opensource.fb.com',
-        },
-        copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
-      },
-    } satisfies Preset.ThemeConfig,
-  } satisfies Config;
+    },
+  };
 }

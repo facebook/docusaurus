@@ -14,9 +14,14 @@ import IconExternalLink from '@theme/Icon/ExternalLink';
 import type {Props} from '@theme/Footer/LinkItem';
 
 export default function FooterLinkItem({item}: Props): JSX.Element {
-  const {to, href, label, prependBaseUrlToHref, ...props} = item;
+  const {to, href, label, prependBaseUrlToHref, node, ...props} = item;
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
+
+  if (node) {
+    const NodeElement = node as React.ElementType;
+    return <NodeElement />;
+  }
 
   return (
     <Link
