@@ -139,15 +139,14 @@ export function useThemeConfig(): ThemeConfig {
     .themeConfig as ThemeConfig;
   const newThemeConfig = useDocusaurusContext().themeConfig as ThemeConfig;
 
-  console.log('oldThemeConfig', oldThemeConfig);
-  console.log('newThemeConfig:', newThemeConfig);
-
+  // TODO docusaurus-theme-classic/src/options.ts
+  // assigns default values in oldThemeConfig (navbar, footer...)
   const duplicateKeys = Object.keys(oldThemeConfig).filter((key) =>
     Object.prototype.hasOwnProperty.call(newThemeConfig, key),
   );
 
   if (duplicateKeys.length > 0) {
-    throw new Error(
+    console.warn(
       `Duplicate keys found in siteConfig.themeConfig and themeConfig: ${duplicateKeys}`,
     );
   }

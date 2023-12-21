@@ -8,14 +8,24 @@ import type {ReactNode} from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
+import VersionsArchived from './versionsArchived.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
+import type * as Preset from '@docusaurus/preset-classic';
+// TODO remove this eslint ruse
+// TODO PrismDark and PrismLight types
+// TODO  `satisfies Preset.ThemeConfig`  `satisfies Config`
+// results Expected ';', got 'satisfies'
 /* eslint-disable @docusaurus/no-untranslated-text */
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
+const isDev = process.env.NODE_ENV === 'development';
 
 export default {
   announcementBar: {
     id: 'announcementBar-3', // Increment on change
-    // content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">prout v3.0</a> is now out!</b> 🥳️`,
     content: function AnnouncementBarContent(): ReactNode {
       return (
         <b>
@@ -190,6 +200,110 @@ export default {
       src: '/img/meta_opensource_logo_negative.svg',
       href: 'https://opensource.fb.com',
     },
-    copyright: `prout © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
+    copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
+  },
+  navbar: {
+    hideOnScroll: true,
+    title: 'Docusaurus',
+    logo: {
+      alt: '',
+      src: 'img/docusaurus.svg',
+      srcDark: 'img/docusaurus_keytar.svg',
+      width: 32,
+      height: 32,
+    },
+    items: [
+      {
+        type: 'doc',
+        position: 'left',
+        docId: 'introduction',
+        label: 'Docs',
+      },
+      {
+        type: 'docSidebar',
+        position: 'left',
+        sidebarId: 'api',
+        label: 'API',
+      },
+      {to: 'blog', label: 'Blog', position: 'left'},
+      {to: 'showcase', label: 'Showcase', position: 'left'},
+      {
+        to: '/community/support',
+        label: 'Community',
+        position: 'left',
+        activeBaseRegex: `/community/`,
+      },
+      // This item links to a draft doc: only displayed in dev
+      {
+        type: 'doc',
+        docId: 'index',
+        label: 'Tests',
+        docsPluginId: 'docs-tests',
+      },
+      isDev && {to: '/__docusaurus/debug', label: 'Debug'},
+      // Custom item for dogfooding: only displayed in /tests/ routes
+      {
+        type: 'custom-dogfood-navbar-item',
+        content: '😉',
+      },
+      // Right
+      {
+        type: 'docsVersionDropdown',
+        position: 'right',
+        dropdownActiveClassDisabled: true,
+        dropdownItemsAfter: [
+          {
+            type: 'html',
+            value: '<hr class="dropdown-separator">',
+          },
+          {
+            type: 'html',
+            className: 'dropdown-archived-versions',
+            value: '<b>Archived versions</b>',
+          },
+          ...ArchivedVersionsDropdownItems.map(([versionName, versionUrl]) => ({
+            label: versionName,
+            href: versionUrl,
+          })),
+          {
+            href: 'https://v1.docusaurus.io',
+            label: '1.x.x',
+          },
+          {
+            type: 'html',
+            value: '<hr class="dropdown-separator">',
+          },
+          {
+            to: '/versions',
+            label: 'All versions',
+          },
+        ],
+        dropdownItemsBefore: [],
+      },
+      {
+        type: 'localeDropdown',
+        position: 'right',
+        dropdownItemsAfter: [
+          {
+            type: 'html',
+            value: '<hr style="margin: 0.3rem 0;">',
+          },
+          {
+            href: 'https://github.com/facebook/docusaurus/issues/3526',
+            label: 'Help Us Translate',
+          },
+        ],
+        dropdownItemsBefore: [],
+      },
+      {
+        href: 'https://github.com/facebook/docusaurus',
+        position: 'right',
+        className: 'header-github-link',
+        'aria-label': 'GitHub repository',
+      },
+    ]
+      // TODO fix type
+      .filter(Boolean) as NonNullable<Preset.ThemeConfig['navbar']>['items'],
   },
 };
+// satisfies Preset.ThemeConfig;

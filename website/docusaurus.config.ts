@@ -12,7 +12,6 @@ import rehypeKatex from 'rehype-katex';
 import configTabs from './src/remark/configTabs';
 
 import versions from './versions.json';
-import VersionsArchived from './versionsArchived.json';
 import {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
@@ -27,11 +26,6 @@ import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 import type {Options as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
 import type {Options as ClientRedirectsOptions} from '@docusaurus/plugin-client-redirects';
-
-const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
-  0,
-  5,
-);
 
 function isPrerelease(version: string) {
   return (
@@ -473,111 +467,6 @@ export default async function createConfigAsync() {
                 to: '/docs',
               }
             : undefined,
-      },
-      navbar: {
-        hideOnScroll: true,
-        title: 'Docusaurus',
-        logo: {
-          alt: '',
-          src: 'img/docusaurus.svg',
-          srcDark: 'img/docusaurus_keytar.svg',
-          width: 32,
-          height: 32,
-        },
-        items: [
-          {
-            type: 'doc',
-            position: 'left',
-            docId: 'introduction',
-            label: 'Docs',
-          },
-          {
-            type: 'docSidebar',
-            position: 'left',
-            sidebarId: 'api',
-            label: 'API',
-          },
-          {to: 'blog', label: 'Blog', position: 'left'},
-          {to: 'showcase', label: 'Showcase', position: 'left'},
-          {
-            to: '/community/support',
-            label: 'Community',
-            position: 'left',
-            activeBaseRegex: `/community/`,
-          },
-          // This item links to a draft doc: only displayed in dev
-          {
-            type: 'doc',
-            docId: 'index',
-            label: 'Tests',
-            docsPluginId: 'docs-tests',
-          },
-          isDev && {to: '/__docusaurus/debug', label: 'Debug'},
-          // Custom item for dogfooding: only displayed in /tests/ routes
-          {
-            type: 'custom-dogfood-navbar-item',
-            content: '😉',
-          },
-          // Right
-          {
-            type: 'docsVersionDropdown',
-            position: 'right',
-            dropdownActiveClassDisabled: true,
-            dropdownItemsAfter: [
-              {
-                type: 'html',
-                value: '<hr class="dropdown-separator">',
-              },
-              {
-                type: 'html',
-                className: 'dropdown-archived-versions',
-                value: '<b>Archived versions</b>',
-              },
-              ...ArchivedVersionsDropdownItems.map(
-                ([versionName, versionUrl]) => ({
-                  label: versionName,
-                  href: versionUrl,
-                }),
-              ),
-              {
-                href: 'https://v1.docusaurus.io',
-                label: '1.x.x',
-              },
-              {
-                type: 'html',
-                value: '<hr class="dropdown-separator">',
-              },
-              {
-                to: '/versions',
-                label: 'All versions',
-              },
-            ],
-          },
-          {
-            type: 'localeDropdown',
-            position: 'right',
-            dropdownItemsAfter: [
-              {
-                type: 'html',
-                value: '<hr style="margin: 0.3rem 0;">',
-              },
-              {
-                href: 'https://github.com/facebook/docusaurus/issues/3526',
-                label: 'Help Us Translate',
-              },
-            ],
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            position: 'right',
-            className: 'header-github-link',
-            'aria-label': 'GitHub repository',
-          },
-        ]
-          // TODO fix type
-          .filter(Boolean) as NonNullable<
-          Preset.ThemeConfig['navbar']
-        >['items'],
       },
     },
   };
