@@ -10,6 +10,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {createRequire} from 'module';
+import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import semver from 'semver';
 import updateNotifier from 'update-notifier';
@@ -104,10 +105,35 @@ export default async function beforeCli() {
       .filter((p) => p.startsWith('@docusaurus'))
       .map((p) => p.concat('@latest'))
       .join(' ');
-    const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
-    const upgradeCommand = isYarnUsed
-      ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-      : `npm i ${siteDocusaurusPackagesForUpdate}`;
+
+    const getYarnVersion = async () => {
+      if (!(await fs.pathExists(path.resolve('yarn.lock')))) {
+        return undefined;
+      }
+
+      const yarnVersionResult = shell.exec('yarn --version', {silent: true});
+      if (yarnVersionResult?.code === 0) {
+        const majorVersion = parseInt(
+          yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
+          10,
+        );
+        if (!Number.isNaN(majorVersion)) {
+          return majorVersion;
+        }
+      }
+
+      return undefined;
+    };
+
+    const getUpgradeCommand = async () => {
+      const yarnVersion = await getYarnVersion();
+      if (!yarnVersion) {
+        return `npm i ${siteDocusaurusPackagesForUpdate}`;
+      }
+      return yarnVersion >= 2
+        ? `yarn up ${siteDocusaurusPackagesForUpdate}`
+        : `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
+    };
 
     /** @type {import('boxen').Options} */
     const boxenOptions = {
@@ -115,7 +141,16 @@ export default async function beforeCli() {
       margin: 1,
       align: 'center',
       borderColor: 'yellow',
-      borderStyle: 'round',
+      borderStyle: {
+        topLeft: ' ',
+        topRight: ' ',
+        bottomLeft: ' ',
+        bottomRight: ' ',
+        top: '-',
+        bottom: '-',
+        left: ' ',
+        right: ' ',
+      },
     };
 
     const docusaurusUpdateMessage = boxen(
@@ -124,7 +159,7 @@ export default async function beforeCli() {
       )} → ${logger.green(`${notifier.update.latest}`)}
 
   To upgrade Docusaurus packages with the latest version, run the following command:
-  ${logger.code(upgradeCommand)}`,
+  ${logger.code(await getUpgradeCommand())}`,
       boxenOptions,
     );
 

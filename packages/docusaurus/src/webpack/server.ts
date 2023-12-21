@@ -16,9 +16,9 @@ import {
 import StaticSiteGeneratorPlugin, {
   type Locals,
 } from '@slorber/static-site-generator-webpack-plugin';
+import WebpackBar from 'webpackbar';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
-import LogPlugin from './plugins/LogPlugin';
 import ssrDefaultTemplate from './templates/ssr.html.template';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
@@ -99,7 +99,7 @@ export default async function createServerConfig({
       }),
 
       // Show compilation progress bar.
-      new LogPlugin({
+      new WebpackBar({
         name: 'Server',
         color: 'yellow',
       }),

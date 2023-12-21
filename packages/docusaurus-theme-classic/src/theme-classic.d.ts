@@ -74,11 +74,20 @@ declare module '@theme/Admonition/Type/Tip' {
   export default function AdmonitionTypeTip(props: Props): JSX.Element;
 }
 
+// TODO remove before v4: Caution replaced by Warning
+// see https://github.com/facebook/docusaurus/issues/7558
 declare module '@theme/Admonition/Type/Caution' {
   import type {Props as AdmonitionProps} from '@theme/Admonition';
 
   export interface Props extends AdmonitionProps {}
   export default function AdmonitionTypeCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Warning' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Type/Danger' {
@@ -128,12 +137,12 @@ declare module '@theme/Admonition/Icon/Tip' {
   export default function AdmonitionIconTip(props: Props): JSX.Element;
 }
 
-declare module '@theme/Admonition/Icon/Caution' {
+declare module '@theme/Admonition/Icon/Warning' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function AdmonitionIconCaution(props: Props): JSX.Element;
+  export default function AdmonitionIconWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Icon/Danger' {
@@ -391,23 +400,20 @@ declare module '@theme/CodeBlock/Content/String' {
 }
 
 declare module '@theme/CodeBlock/Line' {
-  import type {ComponentProps} from 'react';
-  import type Highlight from 'prism-react-renderer';
-
-  // Lib does not make this easy
-  type RenderProps = Parameters<
-    ComponentProps<typeof Highlight>['children']
-  >[0];
-  type GetLineProps = RenderProps['getLineProps'];
-  type GetTokenProps = RenderProps['getTokenProps'];
-  type Token = RenderProps['tokens'][number][number];
+  import type {
+    LineInputProps,
+    LineOutputProps,
+    Token,
+    TokenInputProps,
+    TokenOutputProps,
+  } from 'prism-react-renderer';
 
   export interface Props {
     readonly line: Token[];
     readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
-    readonly getLineProps: GetLineProps;
-    readonly getTokenProps: GetTokenProps;
+    readonly getLineProps: (input: LineInputProps) => LineOutputProps;
+    readonly getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   }
 
   export default function CodeBlockLine(props: Props): JSX.Element;
@@ -861,14 +867,6 @@ declare module '@theme/MDXComponents/Img' {
   export default function MDXImg(props: Props): JSX.Element;
 }
 
-declare module '@theme/MDXComponents/Head' {
-  import type {ComponentProps} from 'react';
-
-  export interface Props extends ComponentProps<'head'> {}
-
-  export default function MDXHead(props: Props): JSX.Element;
-}
-
 declare module '@theme/MDXComponents/Heading' {
   import type {ComponentProps} from 'react';
   import type Heading from '@theme/Heading';
@@ -889,7 +887,6 @@ declare module '@theme/MDXComponents/Pre' {
 declare module '@theme/MDXComponents' {
   import type {ComponentType, ComponentProps} from 'react';
 
-  import type MDXHead from '@theme/MDXComponents/Head';
   import type MDXCode from '@theme/MDXComponents/Code';
   import type MDXA from '@theme/MDXComponents/A';
   import type MDXPre from '@theme/MDXComponents/Pre';
@@ -898,13 +895,20 @@ declare module '@theme/MDXComponents' {
   import type MDXImg from '@theme/MDXComponents/Img';
   import type Admonition from '@theme/Admonition';
   import type Mermaid from '@theme/Mermaid';
+  import type Head from '@docusaurus/Head';
 
-  export type MDXComponentsObject = {
-    readonly head: typeof MDXHead;
+  import type {MDXProvider} from '@mdx-js/react';
+
+  type MDXComponentsBase = ComponentProps<typeof MDXProvider>['components'];
+
+  export type MDXComponentsObject = MDXComponentsBase & {
+    readonly Head: typeof Head;
+    readonly details: typeof MDXDetails;
+
+    readonly Details: typeof MDXDetails;
     readonly code: typeof MDXCode;
     readonly a: typeof MDXA;
     readonly pre: typeof MDXPre;
-    readonly details: typeof MDXDetails;
     readonly ul: typeof MDXUl;
     readonly img: typeof MDXImg;
     readonly h1: (props: ComponentProps<'h1'>) => JSX.Element;
@@ -1072,6 +1076,7 @@ declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
   export interface Props extends DropdownNavbarItemProps {
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
+    readonly queryString?: string;
   }
 
   export default function LocaleDropdownNavbarItem(props: Props): JSX.Element;
@@ -1232,38 +1237,17 @@ declare module '@theme/Mermaid' {
 }
 
 declare module '@theme/TabItem' {
-  import type {ReactNode} from 'react';
+  import type {TabItemProps} from '@docusaurus/theme-common/internal';
 
-  export interface Props {
-    readonly children: ReactNode;
-    readonly value: string;
-    readonly default?: boolean;
-    readonly label?: string;
-    readonly hidden?: boolean;
-    readonly className?: string;
-    readonly attributes?: {[key: string]: unknown};
-  }
+  export interface Props extends TabItemProps {}
 
   export default function TabItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/Tabs' {
-  import type {ReactElement} from 'react';
-  import type {Props as TabItemProps} from '@theme/TabItem';
+  import type {TabsProps} from '@docusaurus/theme-common/internal';
 
-  export interface Props {
-    readonly lazy?: boolean;
-    readonly block?: boolean;
-    readonly children: readonly ReactElement<TabItemProps>[];
-    readonly defaultValue?: string | null;
-    readonly values?: readonly {
-      value: string;
-      label?: string;
-      attributes?: {[key: string]: unknown};
-    }[];
-    readonly groupId?: string;
-    readonly className?: string;
-  }
+  export interface Props extends TabsProps {}
 
   export default function Tabs(props: Props): JSX.Element;
 }
@@ -1373,6 +1357,7 @@ declare module '@theme/ColorModeToggle' {
 
   export interface Props {
     readonly className?: string;
+    readonly buttonClassName?: string;
     readonly value: ColorMode;
     /**
      * The parameter represents the "to-be" value. For example, if currently in
@@ -1451,6 +1436,14 @@ declare module '@theme/Icon/Close' {
   export default function IconClose(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Copy' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconCopy(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/Language' {
   import type {ComponentProps} from 'react';
 
@@ -1459,12 +1452,28 @@ declare module '@theme/Icon/Language' {
   export default function IconLanguage(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Success' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconSuccess(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/ExternalLink' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconExternalLink(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/WordWrap' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconWordWrap(props: Props): JSX.Element;
 }
 
 declare module '@theme/TagsListByLetter' {
@@ -1508,4 +1517,8 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
+}
+
+declare module '@theme/DocBreadcrumbs/Items/Home' {
+  export default function HomeBreadcrumbItem(): JSX.Element;
 }

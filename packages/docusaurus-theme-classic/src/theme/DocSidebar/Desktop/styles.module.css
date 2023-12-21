@@ -9,13 +9,9 @@
   .sidebar {
     display: flex;
     flex-direction: column;
-    max-height: 100vh;
     height: 100%;
-    position: sticky;
-    top: 0;
     padding-top: var(--ifm-navbar-height);
     width: var(--doc-sidebar-width);
-    transition: opacity 50ms ease;
   }
 
   .sidebarWithHideableNavbar {
@@ -24,8 +20,6 @@
 
   .sidebarHidden {
     opacity: 0;
-    height: 0;
-    overflow: hidden;
     visibility: hidden;
   }
 

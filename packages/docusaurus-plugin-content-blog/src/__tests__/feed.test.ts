@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
+import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils';
 import {DEFAULT_OPTIONS} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
@@ -30,6 +31,8 @@ const DefaultI18N: I18n = {
     },
   },
 };
+
+const markdown = {parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER};
 
 function getBlogContentPaths(siteDir: string): BlogContentPaths {
   return {
@@ -72,6 +75,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
     const outDir = path.join(siteDir, 'build-snap');
 
@@ -110,6 +114,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
@@ -131,6 +136,103 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
+        },
+        readingTime: ({content, defaultReadingTime}) =>
+          defaultReadingTime({content}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
+      } as PluginOptions,
+    );
+
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
+    fsMock.mockClear();
+  });
+
+  it('filters to the first two entries', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const outDir = path.join(siteDir, 'build-snap');
+    const siteConfig = {
+      title: 'Hello',
+      baseUrl: '/myBaseUrl/',
+      url: 'https://docusaurus.io',
+      favicon: 'image/favicon.ico',
+      markdown,
+    };
+
+    // Build is quite difficult to mock, so we built the blog beforehand and
+    // copied the output to the fixture...
+    await testGenerateFeeds(
+      {
+        siteDir,
+        siteConfig,
+        i18n: DefaultI18N,
+        outDir,
+      } as LoadContext,
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        tagsBasePath: 'tags',
+        authorsMapPath: 'authors.yml',
+        include: DEFAULT_OPTIONS.include,
+        exclude: DEFAULT_OPTIONS.exclude,
+        feedOptions: {
+          type: [feedType],
+          copyright: 'Copyright',
+          createFeedItems: async (params) => {
+            const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+            const blogPostsFiltered = blogPosts.filter(
+              (item, index) => index < 2,
+            );
+            return defaultCreateFeedItems({
+              blogPosts: blogPostsFiltered,
+              ...rest,
+            });
+          },
+        },
+        readingTime: ({content, defaultReadingTime}) =>
+          defaultReadingTime({content}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
+      } as PluginOptions,
+    );
+
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
+    fsMock.mockClear();
+  });
+
+  it('filters to the first two entries using limit', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const outDir = path.join(siteDir, 'build-snap');
+    const siteConfig = {
+      title: 'Hello',
+      baseUrl: '/myBaseUrl/',
+      url: 'https://docusaurus.io',
+      favicon: 'image/favicon.ico',
+      markdown,
+    };
+
+    // Build is quite difficult to mock, so we built the blog beforehand and
+    // copied the output to the fixture...
+    await testGenerateFeeds(
+      {
+        siteDir,
+        siteConfig,
+        i18n: DefaultI18N,
+        outDir,
+      } as LoadContext,
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        tagsBasePath: 'tags',
+        authorsMapPath: 'authors.yml',
+        include: DEFAULT_OPTIONS.include,
+        exclude: DEFAULT_OPTIONS.exclude,
+        feedOptions: {
+          type: [feedType],
+          copyright: 'Copyright',
+          limit: 2,
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),

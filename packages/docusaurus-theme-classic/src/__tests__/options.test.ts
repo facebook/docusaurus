@@ -11,8 +11,7 @@ import {
   normalizeThemeConfig,
   normalizePluginOptions,
 } from '@docusaurus/utils-validation';
-import theme from 'prism-react-renderer/themes/github';
-import darkTheme from 'prism-react-renderer/themes/dracula';
+import {themes} from 'prism-react-renderer';
 import {ThemeConfigSchema, DEFAULT_CONFIG, validateOptions} from '../options';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
@@ -36,10 +35,10 @@ describe('themeConfig', () => {
   it('accepts valid theme config', () => {
     const userConfig = {
       prism: {
-        theme,
-        darkTheme,
-        defaultLanguage: 'javascript',
-        additionalLanguages: ['kotlin', 'java'],
+        theme: themes.github,
+        darkTheme: themes.dracula,
+        defaultLanguage: 'javaSCRIPT',
+        additionalLanguages: ['koTLin', 'jaVa'],
         magicComments: [
           {
             className: 'theme-code-block-highlighted-line',
@@ -126,6 +125,12 @@ describe('themeConfig', () => {
     expect(testValidateThemeConfig(userConfig)).toEqual({
       ...DEFAULT_CONFIG,
       ...userConfig,
+      prism: {
+        ...userConfig.prism,
+        // Modified/normalized values
+        defaultLanguage: 'javascript',
+        additionalLanguages: ['kotlin', 'java'],
+      },
     });
   });
 
@@ -470,10 +475,6 @@ describe('themeConfig', () => {
             href: 'https://opensource.facebook.com/legal/terms/',
           },
           {
-            label: 'Data Policy',
-            href: 'https://opensource.facebook.com/legal/data-policy/',
-          },
-          {
             label: 'Cookie Policy',
             href: 'https://opensource.facebook.com/legal/cookie-policy/',
           },
@@ -497,10 +498,6 @@ describe('themeConfig', () => {
         links: [
           {
             items: [
-              {
-                label: 'Data Policy',
-                href: 'https://opensource.facebook.com/legal/data-policy/',
-              },
               {
                 label: 'Cookie Policy',
                 href: 'https://opensource.facebook.com/legal/cookie-policy/',
@@ -581,7 +578,7 @@ describe('themeConfig', () => {
       const prismConfig = {
         prism: {
           additionalLanguages: ['kotlin', 'java'],
-          theme: darkTheme,
+          theme: themes.dracula,
           magicComments: [],
         },
       };
@@ -592,7 +589,7 @@ describe('themeConfig', () => {
       const prismConfig2 = {
         prism: {
           additionalLanguages: [],
-          theme: darkTheme,
+          theme: themes.dracula,
           magicComments: [
             {
               className: 'a',
@@ -608,7 +605,7 @@ describe('themeConfig', () => {
       const prismConfig3 = {
         prism: {
           additionalLanguages: [],
-          theme: darkTheme,
+          theme: themes.dracula,
           magicComments: [
             {
               className: 'a',

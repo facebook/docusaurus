@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import {
+  isValidPathname,
+  DEFAULT_PLUGIN_ID,
+  type Tag,
+  addLeadingSlash,
+} from '@docusaurus/utils';
 import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
@@ -32,17 +37,10 @@ const MarkdownPluginsSchema = Joi.array()
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
 
-const LegacyAdmonitionConfigSchema = Joi.forbidden().messages({
-  'any.unknown': `The Docusaurus admonitions system has changed, and the option {#label} does not exist anymore.
-You now need to swizzle the admonitions component to provide UI customizations such as icons.
-Please refer to https://github.com/facebook/docusaurus/pull/7152 for detailed upgrade instructions.`,
-});
-
 export const AdmonitionsSchema = JoiFrontMatter.alternatives()
   .try(
     JoiFrontMatter.boolean().required(),
     JoiFrontMatter.object({
-      tag: JoiFrontMatter.string(),
       keywords: JoiFrontMatter.array().items(
         JoiFrontMatter.string(),
         // Apparently this is how we tell job to accept empty arrays...
@@ -50,10 +48,10 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
       ),
       extendDefaults: JoiFrontMatter.boolean(),
 
-      // TODO Remove before 2023
-      customTypes: LegacyAdmonitionConfigSchema,
-      icons: LegacyAdmonitionConfigSchema,
-      infima: LegacyAdmonitionConfigSchema,
+      // TODO Remove before 2024
+      tag: Joi.any().forbidden().messages({
+        'any.unknown': `It is not possible anymore to use a custom admonition tag. The only admonition tag supported is ':::' (Markdown Directive syntax)`,
+      }),
     }).required(),
   )
   .default(true)
@@ -93,7 +91,27 @@ export const PathnameSchema = Joi.string()
     return val;
   })
   .message(
-    '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
+    '{{#label}} ({{#value}}) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
+  );
+
+// Normalized schema for url path segments: baseUrl + routeBasePath...
+// Note we only add a leading slash
+// we don't always want to enforce a trailing slash on urls such as /docs
+//
+// Examples:
+// '' => '/'
+// 'docs' => '/docs'
+// '/docs' => '/docs'
+// 'docs/' => '/docs'
+// 'prefix/docs' => '/prefix/docs'
+// TODO tighter validation: not all strings are valid path segments
+export const RouteBasePathSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) =>
+    // /!\ do not add trailing slash here
+    addLeadingSlash(value),
   );
 
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()

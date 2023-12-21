@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 #v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Dependency Review
-        uses: actions/dependency-review-action@11310527b429536e263dc6cc47873e608189ba21 # v2
+        uses: actions/dependency-review-action@01bc87099ba56df1e897b6874784491ea6309bc4 # 3.1.4

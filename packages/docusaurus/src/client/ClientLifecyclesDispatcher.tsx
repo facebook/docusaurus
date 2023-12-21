@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useLayoutEffect, type ReactElement} from 'react';
+import {type ReactElement} from 'react';
 import clientModules from '@generated/client-modules';
+import useIsomorphicLayoutEffect from './exports/useIsomorphicLayoutEffect';
 import type {ClientModule} from '@docusaurus/types';
 import type {Location} from 'history';
 
@@ -27,7 +28,26 @@ export function dispatchLifecycleAction<K extends keyof ClientModule>(
   return () => callbacks.forEach((cb) => cb?.());
 }
 
-function scrollAfterNavigation(location: Location) {
+function scrollAfterNavigation({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location | null;
+}) {
+  if (!previousLocation) {
+    return; // no-op: use native browser feature
+  }
+
+  const samePathname = location.pathname === previousLocation.pathname;
+  const sameHash = location.hash === previousLocation.hash;
+  const sameSearch = location.search === previousLocation.search;
+
+  // Query-string changes: do not scroll to top/hash
+  if (samePathname && sameHash && !sameSearch) {
+    return;
+  }
+
   const {hash} = location;
   if (!hash) {
     window.scrollTo(0, 0);
@@ -47,11 +67,9 @@ function ClientLifecyclesDispatcher({
   location: Location;
   previousLocation: Location | null;
 }): JSX.Element {
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (previousLocation !== location) {
-      if (previousLocation) {
-        scrollAfterNavigation(location);
-      }
+      scrollAfterNavigation({location, previousLocation});
       dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
     }
   }, [previousLocation, location]);

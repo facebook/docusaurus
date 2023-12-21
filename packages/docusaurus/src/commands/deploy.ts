@@ -66,7 +66,7 @@ This behavior can have SEO impacts and create relative link issues.
 
   // Source repo is the repo from where the command is invoked
   const sourceRepoUrl = shell
-    .exec('git config --get remote.origin.url', {silent: true})
+    .exec('git remote get-url origin', {silent: true})
     .stdout.trim();
 
   // The source branch; defaults to the currently checked out branch
@@ -214,6 +214,16 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
       throw err;
     }
     shellExecLog('git add --all');
+
+    const gitUserName = process.env.GIT_USER_NAME;
+    if (gitUserName) {
+      shellExecLog(`git config user.name "${gitUserName}"`);
+    }
+
+    const gitUserEmail = process.env.GIT_USER_EMAIL;
+    if (gitUserEmail) {
+      shellExecLog(`git config user.email "${gitUserEmail}"`);
+    }
 
     const commitMessage =
       process.env.CUSTOM_COMMIT_MESSAGE ??

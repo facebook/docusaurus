@@ -7,7 +7,7 @@
 
 import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
-import type {PrismTheme} from 'prism-react-renderer';
+import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -19,6 +19,9 @@ const commentPatterns = {
   jsx: {start: '\\{\\s*\\/\\*', end: '\\*\\/\\s*\\}'},
   bash: {start: '#', end: ''},
   html: {start: '<!--', end: '-->'},
+  lua: {start: '--', end: ''},
+  wasm: {start: '\\;\\;', end: ''},
+  tex: {start: '%', end: ''},
 };
 
 type CommentType = keyof typeof commentPatterns;
@@ -83,10 +86,26 @@ function getAllMagicCommentDirectiveStyles(
       // Text uses HTML, front matter uses bash
       return getCommentPattern(['html', 'jsx', 'bash'], magicCommentDirectives);
 
+    case 'tex':
+    case 'latex':
+    case 'matlab':
+      return getCommentPattern(['tex'], magicCommentDirectives);
+
+    case 'lua':
+    case 'haskell':
+    case 'sql':
+      return getCommentPattern(['lua'], magicCommentDirectives);
+
+    case 'wasm':
+      return getCommentPattern(['wasm'], magicCommentDirectives);
+
     default:
-      // All comment types
+      // All comment types except lua, wasm and matlab
       return getCommentPattern(
-        Object.keys(commentPatterns) as CommentType[],
+        Object.keys(commentPatterns).filter(
+          (pattern) =>
+            !['lua', 'wasm', 'tex', 'latex', 'matlab'].includes(pattern),
+        ) as CommentType[],
         magicCommentDirectives,
       );
   }
@@ -235,14 +254,14 @@ export function parseLines(
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
-  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
+  const mapping: PrismThemeEntry = {
     color: '--prism-color',
     backgroundColor: '--prism-background-color',
   };
 
   const properties: {[key: string]: string} = {};
   Object.entries(prismTheme.plain).forEach(([key, value]) => {
-    const varName = mapping[key];
+    const varName = mapping[key as keyof PrismThemeEntry];
     if (varName && typeof value === 'string') {
       properties[varName] = value;
     }

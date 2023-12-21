@@ -44,8 +44,16 @@ export default function ShowcaseFilterToggle(): JSX.Element {
     });
   }, [operator, location, history]);
 
+  const ClearTag = () => {
+    history.push({
+      ...location,
+      search: '',
+      state: prepareUserState(),
+    });
+  };
+
   return (
-    <div>
+    <div className="row" style={{alignItems: 'center'}}>
       <input
         type="checkbox"
         id={id}
@@ -65,6 +73,13 @@ export default function ShowcaseFilterToggle(): JSX.Element {
         <span className={styles.checkboxLabelAnd}>AND</span>
         {/* eslint-enable @docusaurus/no-untranslated-text */}
       </label>
+
+      <button
+        className="button button--outline button--primary"
+        type="button"
+        onClick={() => ClearTag()}>
+        Clear All
+      </button>
     </div>
   );
 }

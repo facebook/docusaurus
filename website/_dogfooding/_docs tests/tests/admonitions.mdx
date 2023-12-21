@@ -1,0 +1,149 @@
+# Admonitions tests
+
+## Empty content
+
+:::note Title Only
+
+:::
+
+## Empty fragment content
+
+:::note Title Only
+
+<></>
+
+:::
+
+## Large font icon
+
+import Admonition from '@theme/Admonition';
+
+```mdx-code-block
+<Admonition
+  type="tip"
+  icon={<span style={{fontSize: 60}}>💡</span>}
+  title="Did you know...">
+    content
+</Admonition>
+
+<Admonition
+  type="info"
+  icon={<span style={{fontSize: 40}}>ℹ️</span>}
+  title="Did you know...">
+    content
+</Admonition>
+```
+
+## Large svg icon
+
+```mdx-code-block
+import InfoIcon from "@theme/Admonition/Icon/Info"
+
+<Admonition
+  type="tip"
+  icon={<InfoIcon style={{width: 60, height: 60}}/>}
+  title="Did you know...">
+    content
+</Admonition>
+
+<Admonition
+  type="info"
+  icon={<InfoIcon style={{width: 40, height: 40}}/>}
+  title="Did you know...">
+    content
+</Admonition>
+```
+
+## Indented admonitions
+
+See admonition title v2 compat syntax bug: https://github.com/facebook/docusaurus/issues/9507
+
+1. Item 1
+
+   :::info Important Considerations
+
+   For better experience, try to keep the upgrade experience smooth.
+
+   :::
+
+- **Scale-up cluster**
+
+  :::caution Warning
+
+  Scaling up a cluster may cause several minutes of downtime. Please exercise caution.
+
+  :::
+
+## Quoted admonitions
+
+> :::caution There be dragons
+>
+> This is the admonition content
+>
+> :::
+>
+> > :::caution There be dragons
+> >
+> > This is the admonition content
+> >
+> > :::
+
+## Official admonitions
+
+Admonitions that are [officially documented](/docs/markdown-features/admonitions)
+
+:::note
+
+note
+
+:::
+
+:::info
+
+info
+
+:::
+
+:::tip
+
+tip
+
+:::
+
+:::warning
+
+warning
+
+:::
+
+:::danger
+
+danger
+
+:::
+
+## Legacy admonitions
+
+:::secondary
+
+secondary
+
+:::
+
+:::important
+
+important
+
+:::
+
+:::success
+
+success
+
+:::
+
+:::caution
+
+caution
+
+:::

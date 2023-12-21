@@ -7,7 +7,7 @@
 
 import React, {type ReactNode, useState, useCallback} from 'react';
 import clsx from 'clsx';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {prefersReducedMotion, ThemeClassNames} from '@docusaurus/theme-common';
 import {useDocsSidebar} from '@docusaurus/theme-common/internal';
 import {useLocation} from '@docusaurus/router';
 import DocSidebar from '@theme/DocSidebar';
@@ -40,6 +40,11 @@ export default function DocRootLayoutSidebar({
     if (hiddenSidebar) {
       setHiddenSidebar(false);
     }
+    // onTransitionEnd won't fire when sidebar animation is disabled
+    // fixes https://github.com/facebook/docusaurus/issues/8918
+    if (!hiddenSidebar && prefersReducedMotion()) {
+      setHiddenSidebar(true);
+    }
     setHiddenSidebarContainer((value) => !value);
   }, [setHiddenSidebarContainer, hiddenSidebar]);
 
@@ -60,15 +65,20 @@ export default function DocRootLayoutSidebar({
         }
       }}>
       <ResetOnSidebarChange>
-        <DocSidebar
-          sidebar={sidebar}
-          path={pathname}
-          onCollapse={toggleSidebar}
-          isHidden={hiddenSidebar}
-        />
+        <div
+          className={clsx(
+            styles.sidebarViewport,
+            hiddenSidebar && styles.sidebarViewportHidden,
+          )}>
+          <DocSidebar
+            sidebar={sidebar}
+            path={pathname}
+            onCollapse={toggleSidebar}
+            isHidden={hiddenSidebar}
+          />
+          {hiddenSidebar && <ExpandButton toggleSidebar={toggleSidebar} />}
+        </div>
       </ResetOnSidebarChange>
-
-      {hiddenSidebar && <ExpandButton toggleSidebar={toggleSidebar} />}
     </aside>
   );
 }

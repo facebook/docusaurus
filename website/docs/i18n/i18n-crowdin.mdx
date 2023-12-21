@@ -12,7 +12,7 @@ You can integrate Docusaurus with the **tools and SaaS of your choice**, as long
 
 We document the usage of [Crowdin](https://crowdin.com/), as **one** possible **integration example**.
 
-:::caution
+:::warning
 
 This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/), and [ReasonML](https://reasonml.github.io/).
 
@@ -44,7 +44,7 @@ Read the **[official documentation](https://support.crowdin.com/)** to know more
 
 ## Crowdin tutorial {#crowdin-tutorial}
 
-This is a walk-through of using Crowdin to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
+This is a walk-through of using Crowdin to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.mdx).
 
 The end result can be seen at [docusaurus-crowdin-example.netlify.app](https://docusaurus-crowdin-example.netlify.app/) ([repository](https://github.com/slorber/docusaurus-crowdin-example)).
 
@@ -59,7 +59,7 @@ npx create-docusaurus@latest website classic
 Add the site configuration for the French language:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
@@ -166,7 +166,7 @@ You can keep the default value `CROWDIN_PERSONAL_TOKEN`, and set this environmen
 
 :::
 
-:::caution
+:::warning
 
 A Personal Access Tokens grant **read-write access to all your Crowdin projects**.
 
@@ -290,7 +290,7 @@ Start your site on the French locale:
 npm run start -- --locale fr
 ```
 
-Make sure that your website is now translated in French at [http://localhost:3000/fr/](http://localhost:3000/fr/).
+Make sure that your website is now translated in French at [`http://localhost:3000/fr/`](http://localhost:3000/fr/).
 
 ### Automate with CI {#automate-with-ci}
 
@@ -318,7 +318,7 @@ Keep your deploy-previews fast: don't download translations, and use `npm run bu
 
 :::
 
-:::caution
+:::warning
 
 Crowdin does not support well multiple concurrent uploads/downloads: it is preferable to only include translations to your production deployment, and keep deploy previews untranslated.
 
@@ -328,7 +328,7 @@ Crowdin does not support well multiple concurrent uploads/downloads: it is prefe
 
 ### MDX {#mdx}
 
-:::caution
+:::warning
 
 Pay special attention to the JSX fragments in MDX documents!
 
@@ -351,7 +351,8 @@ We recommend extracting the complex embedded JSX code as separate standalone com
 
 To deploy Docusaurus, run the following command:
 
-````mdx-code-block
+````mdx-code-block 
+
 import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
@@ -393,7 +394,7 @@ Crowdin provides a `Duplicate Strings` setting.
 
 We recommend using `Hide`, but the ideal setting depends on how much your versions are different.
 
-:::caution
+:::warning
 
 Not using `Hide` leads to a much larger amount of `source strings` in quotas, and will affect the pricing.
 
@@ -442,7 +443,7 @@ In practice, **it didn't work very reliably** for a few reasons:
 
 Crowdin has an [In-Context localization](https://support.crowdin.com/in-context-localization/) feature.
 
-:::caution
+:::warning
 
 Unfortunately, it does not work yet for technical reasons, but we have good hope it can be solved.
 
@@ -459,7 +460,7 @@ You may prefer the edit button to link to the Crowdin interface instead by using
 ```js title="docusaurus.config.js"
 const DefaultLocale = 'en';
 
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -500,7 +501,7 @@ It is currently **not possible to link to a specific file** in Crowdin.
 
 ### Example configuration {#example-configuration}
 
-The **Docusaurus v2 configuration file** is a good example of using versioning and multi-instance:
+The **Docusaurus configuration file** is a good example of using versioning and multi-instance:
 
 ```mdx-code-block
 import CrowdinConfigV2 from '!!raw-loader!@site/../crowdin-v2.yaml';
@@ -514,3 +515,9 @@ import CodeBlock from '@theme/CodeBlock';
     .join('\n')}
 </CodeBlock>
 ```
+
+### Machine Translation (MT) issue: links/image handling
+
+Crowdin recently rolled out some major changes to the markdown file format and now the links are treated differently than they were before. Before they were considered as tags, but now they appear as plain text. Because of these changes the plain text links are passed to the MT engine which attempts to translate the target, thus breaking the translation (for instance: this string `Allez voir [ma merveilleuse page](/ma-merveilleuse-page)` is translated `Check out [my wonderful page](/my-wonderful-page)`, and this breaks docusaurus i18n workflow as the page name should not be translated).
+
+As of 2023 Dec.7, they are not planning to change the logic of how links are treated, so you should have this in mind if you plan to use Crowdin with MT.

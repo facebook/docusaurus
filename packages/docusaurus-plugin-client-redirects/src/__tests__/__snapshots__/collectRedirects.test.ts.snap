@@ -5,6 +5,8 @@ exports[`collectRedirects throw if plugin option redirects contain invalid to pa
 
 These paths are redirected to but do not exist:
 - /this/path/does/not/exist2
+- /this/path/does/not/exist3
+- /this/path/does/not/exist4
 
 Valid paths you can redirect to:
 - /
@@ -37,8 +39,8 @@ exports[`collectRedirects throws if redirect creator creates array of array redi
 
 exports[`collectRedirects throws if redirect creator creates invalid redirects 1`] = `
 "Some created redirects are invalid:
-- {"from":"https://google.com/","to":"/"} => Validation error: "from" is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
-- {"from":"//abc","to":"/"} => Validation error: "from" is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
-- {"from":"/def?queryString=toto","to":"/"} => Validation error: "from" is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
+- {"from":"https://google.com/","to":"/"} => Validation error: "from" (https://google.com/) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
+- {"from":"//abc","to":"/"} => Validation error: "from" (//abc) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
+- {"from":"/def?queryString=toto","to":"/"} => Validation error: "from" (/def?queryString=toto) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
 "
 `;

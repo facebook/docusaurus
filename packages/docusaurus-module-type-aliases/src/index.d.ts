@@ -242,6 +242,12 @@ declare module '@docusaurus/router' {
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
+declare module '@docusaurus/useIsomorphicLayoutEffect' {
+  import {useLayoutEffect} from 'react';
+
+  export = useLayoutEffect;
+}
+
 declare module '@docusaurus/useDocusaurusContext' {
   import type {DocusaurusContext} from '@docusaurus/types';
 
@@ -350,7 +356,9 @@ declare module '@docusaurus/useGlobalData' {
 declare module '*.svg' {
   import type {ComponentType, SVGProps} from 'react';
 
-  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+  const ReactComponent: ComponentType<
+    SVGProps<SVGSVGElement> & {title?: string}
+  >;
 
   export default ReactComponent;
 }

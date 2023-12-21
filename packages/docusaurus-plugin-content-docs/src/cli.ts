@@ -17,7 +17,7 @@ import {
   readVersionsFile,
 } from './versions/files';
 import {validateVersionName} from './versions/validation';
-import {loadSidebarsFileUnsafe} from './sidebars';
+import {loadSidebarsFile} from './sidebars';
 import {CURRENT_VERSION_NAME} from './constants';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
@@ -37,7 +37,7 @@ async function createVersionedSidebarFile({
   // Note: we don't need the sidebars file to be normalized: it's ok to let
   // plugin option changes to impact older, versioned sidebars
   // We don't validate here, assuming the user has already built the version
-  const sidebars = await loadSidebarsFileUnsafe(sidebarPath);
+  const sidebars = await loadSidebarsFile(sidebarPath);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty
   // or sidebars are disabled/false)

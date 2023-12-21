@@ -35,5 +35,18 @@ cd `git rev-parse --show-toplevel` # Back to repo root
 rm -rf test-website-in-workspace
 yarn create-docusaurus test-website-in-workspace classic
 cd test-website-in-workspace
+yarn build
+yarn start
+```
+
+For the TypeScript template:
+
+```bash
+cd `git rev-parse --show-toplevel` # Back to repo root
+rm -rf test-website-in-workspace
+yarn create-docusaurus test-website-in-workspace classic --typescript
+cd test-website-in-workspace
+yarn typecheck
+yarn build
 yarn start
 ```

@@ -9,6 +9,8 @@ export {
   ReportingSeverity,
   ThemeConfig,
   MarkdownConfig,
+  DefaultParseFrontMatter,
+  ParseFrontMatter,
   DocusaurusConfig,
   Config,
 } from './config';
@@ -52,6 +54,7 @@ export {
   PluginVersionInformation,
   Preset,
   PresetConfig,
+  PresetConfigDefined,
   PresetModule,
   OptionValidationContext,
   ThemeConfigValidationContext,

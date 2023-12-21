@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import defaultPrismTheme from 'prism-react-renderer/themes/palenight';
+import {themes} from 'prism-react-renderer';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
@@ -14,6 +14,7 @@ import type {
   OptionValidationContext,
 } from '@docusaurus/types';
 
+const defaultPrismTheme = themes.palenight;
 const DEFAULT_DOCS_CONFIG: ThemeConfig['docs'] = {
   versionPersistence: 'localStorage',
   sidebar: {
@@ -200,6 +201,7 @@ const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('localeDropdown').required(),
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+  queryString: Joi.string(),
 });
 
 const SearchItemSchema = Joi.object({
@@ -312,6 +314,10 @@ const LogoSchema = Joi.object({
   className: Joi.string(),
 });
 
+// Normalize prism language to lowercase
+// See https://github.com/facebook/docusaurus/issues/9012
+const PrismLanguage = Joi.string().custom((val) => val.toLowerCase());
+
 export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   // TODO temporary (@alpha-58)
   // @ts-expect-error: forbidden
@@ -384,9 +390,9 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
-    defaultLanguage: Joi.string(),
+    defaultLanguage: PrismLanguage,
     additionalLanguages: Joi.array()
-      .items(Joi.string())
+      .items(PrismLanguage)
       .default(DEFAULT_CONFIG.prism.additionalLanguages),
     magicComments: Joi.array()
       .items(

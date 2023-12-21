@@ -8,59 +8,30 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
-  parseFrontMatter,
-  parseMarkdownContentTitle,
+  DEFAULT_PARSE_FRONT_MATTER,
   escapePath,
   getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
-import {createCompiler} from '@mdx-js/mdx';
-import emoji from 'remark-emoji';
 import stringifyObject from 'stringify-object';
+import preprocessor from './preprocessor';
+import {validateMDXFrontMatter} from './frontMatter';
+import {createProcessorCached} from './processor';
+import type {MDXOptions} from './processor';
 
-import headings from './remark/headings';
-import toc from './remark/toc';
-import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
-import transformImage from './remark/transformImage';
-import transformLinks from './remark/transformLinks';
-import mermaid from './remark/mermaid';
-
-import transformAdmonitions from './remark/admonitions';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
-import type {Processor, Plugin} from 'unified';
-import type {AdmonitionOptions} from './remark/admonitions';
+
+// TODO as of April 2023, no way to import/re-export this ESM type easily :/
+// This might change soon, likely after TS 5.2
+// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
+type Pluggable = any; // TODO fix this asap
 
 const {
-  loaders: {inlineMarkdownImageFileLoader},
+  loaders: {inlineMarkdownAssetImageFileLoader},
 } = getFileLoaderUtils();
 
-const pragma = `
-/* @jsxRuntime classic */
-/* @jsx mdx */
-/* @jsxFrag React.Fragment */
-`;
-
-const DEFAULT_OPTIONS: MDXOptions = {
-  admonitions: true,
-  rehypePlugins: [],
-  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
-  beforeDefaultRemarkPlugins: [],
-  beforeDefaultRehypePlugins: [],
-};
-
-const compilerCache = new Map<string | Options, [Processor, Options]>();
-
-export type MDXPlugin =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [Plugin<any[]>, any] | Plugin<any[]>;
-
-export type MDXOptions = {
-  admonitions: boolean | Partial<AdmonitionOptions>;
-  remarkPlugins: MDXPlugin[];
-  rehypePlugins: MDXPlugin[];
-  beforeDefaultRemarkPlugins: MDXPlugin[];
-  beforeDefaultRehypePlugins: MDXPlugin[];
-};
+export type MDXPlugin = Pluggable;
 
 export type Options = Partial<MDXOptions> & {
   markdownConfig: MarkdownConfig;
@@ -121,8 +92,9 @@ function createAssetsExportCode(assets: unknown) {
     if (typeof assetValue === 'string' && assetValue.startsWith('./')) {
       // TODO do we have other use-cases than image assets?
       // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
-      const inlineLoader = inlineMarkdownImageFileLoader;
-      return `require("${inlineLoader}${escapePath(assetValue)}").default`;
+      return `require("${inlineMarkdownAssetImageFileLoader}${escapePath(
+        assetValue,
+      )}").default`;
     }
     return undefined;
   }
@@ -139,96 +111,104 @@ function createAssetsExportCode(assets: unknown) {
   return `{\n${codeLines.join('\n')}\n}`;
 }
 
-function getAdmonitionsPlugins(
-  admonitionsOption: MDXOptions['admonitions'],
-): MDXPlugin[] {
-  if (admonitionsOption) {
-    const plugin: MDXPlugin =
-      admonitionsOption === true
-        ? transformAdmonitions
-        : [transformAdmonitions, admonitionsOption];
-    return [plugin];
+// TODO temporary, remove this after v3.1?
+// Some plugin authors use our mdx-loader, despite it not being public API
+// see https://github.com/facebook/docusaurus/issues/8298
+function ensureMarkdownConfig(reqOptions: Options) {
+  if (!reqOptions.markdownConfig) {
+    throw new Error(
+      'Docusaurus v3+ requires MDX loader options.markdownConfig - plugin authors using the MDX loader should make sure to provide that option',
+    );
   }
-  return [];
+}
+
+/**
+ * data.contentTitle is set by the remark contentTitle plugin
+ */
+function extractContentTitleData(data: {
+  [key: string]: unknown;
+}): string | undefined {
+  return data.contentTitle as string | undefined;
 }
 
 export async function mdxLoader(
   this: LoaderContext<Options>,
-  fileString: string,
+  fileContent: string,
 ): Promise<void> {
+  const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions();
+  const reqOptions: Options = this.getOptions();
+  const {query} = this;
 
-  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+  ensureMarkdownConfig(reqOptions);
 
-  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
-    removeContentTitle: reqOptions.removeContentTitle,
+  const {frontMatter} = await reqOptions.markdownConfig.parseFrontMatter({
+    filePath,
+    fileContent,
+    defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  });
+  const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
+
+  const preprocessedContent = preprocessor({
+    fileContent,
+    filePath,
+    admonitions: reqOptions.admonitions,
+    markdownConfig: reqOptions.markdownConfig,
   });
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  if (!compilerCache.has(this.query)) {
-    const remarkPlugins: MDXPlugin[] = [
-      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-      ...getAdmonitionsPlugins(reqOptions.admonitions ?? false),
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      ...(reqOptions.markdownConfig.mermaid ? [mermaid] : []),
-      [
-        transformImage,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
-      ],
-      [
-        transformLinks,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
-      ],
-      ...(reqOptions.remarkPlugins ?? []),
-    ];
+  const processor = await createProcessorCached({
+    filePath,
+    reqOptions,
+    query,
+    mdxFrontMatter,
+  });
 
-    const rehypePlugins: MDXPlugin[] = [
-      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins ?? []),
-    ];
-
-    const options: Options = {
-      ...reqOptions,
-      remarkPlugins,
-      rehypePlugins,
-    };
-    compilerCache.set(this.query, [createCompiler(options), options]);
-  }
-
-  const [compiler, options] = compilerCache.get(this.query)!;
-
-  let result: string;
+  let result: {content: string; data: {[key: string]: unknown}};
   try {
-    result = await compiler
-      .process({
-        contents: content,
-        path: this.resourcePath,
-      })
-      .then((res) => res.toString());
-  } catch (err) {
-    return callback(err as Error);
+    result = await processor.process({
+      content: preprocessedContent,
+      filePath,
+      frontMatter,
+      compilerName,
+    });
+  } catch (errorUnknown) {
+    const error = errorUnknown as Error;
+
+    // MDX can emit errors that have useful extra attributes
+    const errorJSON = JSON.stringify(error, null, 2);
+    const errorDetails =
+      errorJSON === '{}'
+        ? // regular JS error case: print stacktrace
+          error.stack ?? 'N/A'
+        : // MDX error: print extra attributes + stacktrace
+          `${errorJSON}\n${error.stack}`;
+
+    return callback(
+      new Error(
+        `MDX compilation failed for file ${logger.path(filePath)}\nCause: ${
+          error.message
+        }\nDetails:\n${errorDetails}`,
+        // TODO error cause doesn't seem to be used by Webpack stats.errors :s
+        {cause: error},
+      ),
+    );
   }
+
+  const contentTitle = extractContentTitleData(result.data);
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
-  const isMDXPartial = options.isMDXPartial?.(filePath);
+  const isMDXPartial = reqOptions.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain front matter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
 File at ${filePath} contains front matter that will be ignored:
 ${JSON.stringify(frontMatter, null, 2)}`;
 
-    if (!options.isMDXPartialFrontMatterWarningDisabled) {
+    if (!reqOptions.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
@@ -240,8 +220,11 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   function getMetadataPath(): string | undefined {
     if (!isMDXPartial) {
       // Read metadata for this MDX and export it.
-      if (options.metadataPath && typeof options.metadataPath === 'function') {
-        return options.metadataPath(filePath);
+      if (
+        reqOptions.metadataPath &&
+        typeof reqOptions.metadataPath === 'function'
+      ) {
+        return reqOptions.metadataPath(filePath);
       }
     }
     return undefined;
@@ -265,6 +248,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       ? reqOptions.createAssets({frontMatter, metadata})
       : undefined;
 
+  // TODO use remark plugins to insert extra exports instead of string concat?
+  // cf how the toc is exported
   const exportsCode = `
 export const frontMatter = ${stringifyObject(frontMatter)};
 export const contentTitle = ${stringifyObject(contentTitle)};
@@ -273,12 +258,8 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
 `;
 
   const code = `
-${pragma}
-import React from 'react';
-import { mdx } from '@mdx-js/react';
-
 ${exportsCode}
-${result}
+${result.content}
 `;
 
   return callback(null, code);

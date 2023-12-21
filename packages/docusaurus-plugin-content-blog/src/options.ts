@@ -10,6 +10,7 @@ import {
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
+  RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
@@ -21,11 +22,11 @@ import type {
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
-  feedOptions: {type: ['rss', 'atom'], copyright: ''},
+  feedOptions: {type: ['rss', 'atom'], copyright: '', limit: 20},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
-  truncateMarker: /<!--\s*truncate\s*-->/,
+  truncateMarker: /<!--\s*truncate\s*-->|\{\/\*\s*truncate\s*\*\/\}/,
   rehypePlugins: [],
   remarkPlugins: [],
   showReadingTime: true,
@@ -56,10 +57,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   archiveBasePath: Joi.string()
     .default(DEFAULT_OPTIONS.archiveBasePath)
     .allow(null),
-  routeBasePath: Joi.string()
-    // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
-    // .allow('')
-    .default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
@@ -124,6 +122,10 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
         .default(DEFAULT_OPTIONS.feedOptions.copyright),
     }),
     language: Joi.string(),
+    createFeedItems: Joi.function(),
+    limit: Joi.alternatives()
+      .try(Joi.number(), Joi.valid(null), Joi.valid(false))
+      .default(DEFAULT_OPTIONS.feedOptions.limit),
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),

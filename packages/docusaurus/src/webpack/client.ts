@@ -8,15 +8,18 @@
 import path from 'path';
 import logger from '@docusaurus/logger';
 import merge from 'webpack-merge';
+import WebpackBar from 'webpackbar';
+import {DefinePlugin} from 'webpack';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
-import LogPlugin from './plugins/LogPlugin';
+import {formatStatsErrorMessage} from './utils';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
 export default async function createClientConfig(
   props: Props,
   minify: boolean = true,
+  hydrate: boolean = true,
 ): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
   const config = await createBaseConfig(props, false, minify);
@@ -32,9 +35,12 @@ export default async function createClientConfig(
       runtimeChunk: true,
     },
     plugins: [
+      new DefinePlugin({
+        'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
+      }),
       new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
-      new LogPlugin({
+      new WebpackBar({
         name: 'Client',
       }),
     ],
@@ -47,8 +53,11 @@ export default async function createClientConfig(
       apply: (compiler) => {
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {
+            const errorsWarnings = stats.toJson('errors-warnings');
             logger.error(
-              'Client bundle compiled with errors therefore further build is impossible.',
+              `Client bundle compiled with errors therefore further build is impossible.\n${formatStatsErrorMessage(
+                errorsWarnings,
+              )}`,
             );
             process.exit(1);
           }

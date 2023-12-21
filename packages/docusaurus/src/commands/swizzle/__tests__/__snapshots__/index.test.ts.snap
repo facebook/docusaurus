@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/ComponentInSubFolder/index.css 1`] = `
+".testClass {
+  background: black;
+}
+"
+`;
+
+exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/ComponentInSubFolder/styles.css 1`] = `
+".testClass {
+  background: black;
+}
+"
+`;
+
+exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/ComponentInSubFolder/styles.module.css 1`] = `
+".testClass {
+  background: black;
+}
+"
+`;
+
 exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/Sibling.css 1`] = `
 ".testClass {
   background: black;
@@ -17,8 +38,42 @@ exports[`swizzle eject ComponentInFolder JS: ComponentInFolder/index.css 1`] = `
 exports[`swizzle eject ComponentInFolder JS: theme dir tree 1`] = `
 "theme
 └── ComponentInFolder
+    ├── ComponentInSubFolder
+    │   ├── index.css
+    │   ├── styles.css
+    │   └── styles.module.css
     ├── Sibling.css
     └── index.css"
+`;
+
+exports[`swizzle eject ComponentInFolder TS: ComponentInFolder/ComponentInSubFolder/index.css 1`] = `
+".testClass {
+  background: black;
+}
+"
+`;
+
+exports[`swizzle eject ComponentInFolder TS: ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
+"import React from 'react';
+
+export default function ComponentInSubFolder() {
+  return <div>ComponentInSubFolder</div>;
+}
+"
+`;
+
+exports[`swizzle eject ComponentInFolder TS: ComponentInFolder/ComponentInSubFolder/styles.css 1`] = `
+".testClass {
+  background: black;
+}
+"
+`;
+
+exports[`swizzle eject ComponentInFolder TS: ComponentInFolder/ComponentInSubFolder/styles.module.css 1`] = `
+".testClass {
+  background: black;
+}
+"
 `;
 
 exports[`swizzle eject ComponentInFolder TS: ComponentInFolder/Sibling.css 1`] = `
@@ -56,6 +111,11 @@ export default function ComponentInFolder() {
 exports[`swizzle eject ComponentInFolder TS: theme dir tree 1`] = `
 "theme
 └── ComponentInFolder
+    ├── ComponentInSubFolder
+    │   ├── index.css
+    │   ├── index.tsx
+    │   ├── styles.css
+    │   └── styles.module.css
     ├── Sibling.css
     ├── Sibling.tsx
     ├── index.css

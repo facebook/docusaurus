@@ -7,11 +7,11 @@
 
 import path from 'path';
 import webpack, {type Configuration} from 'webpack';
+import WebpackBar from 'webpackbar';
 import Terser from 'terser-webpack-plugin';
 import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import {compile} from '@docusaurus/core/lib/webpack/utils';
-import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
@@ -160,7 +160,7 @@ export default function pluginPWA(
             // Fallback value required with Webpack 5
             PWA_SW_CUSTOM: swCustom ?? '',
           }),
-          new LogPlugin({
+          new WebpackBar({
             name: 'Service Worker',
             color: 'red',
           }),

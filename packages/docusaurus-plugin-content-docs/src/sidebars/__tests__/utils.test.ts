@@ -155,8 +155,7 @@ describe('createSidebarsUtils', () => {
   it('getDocNavigation', () => {
     expect(
       getDocNavigation({
-        unversionedId: 'doc1',
-        versionedId: 'doc1',
+        docId: 'doc1',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -170,8 +169,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(
       getDocNavigation({
-        unversionedId: 'doc2',
-        versionedId: 'doc2',
+        docId: 'doc2',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -186,8 +184,7 @@ describe('createSidebarsUtils', () => {
 
     expect(
       getDocNavigation({
-        unversionedId: 'doc3',
-        versionedId: 'doc3',
+        docId: 'doc3',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -201,8 +198,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(
       getDocNavigation({
-        unversionedId: 'doc4',
-        versionedId: 'doc4',
+        docId: 'doc4',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -218,8 +214,7 @@ describe('createSidebarsUtils', () => {
 
     expect(
       getDocNavigation({
-        unversionedId: 'doc5',
-        versionedId: 'doc5',
+        docId: 'doc5',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -233,8 +228,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(
       getDocNavigation({
-        unversionedId: 'doc6',
-        versionedId: 'doc6',
+        docId: 'doc6',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -251,8 +245,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(
       getDocNavigation({
-        unversionedId: 'doc7',
-        versionedId: 'doc7',
+        docId: 'doc7',
         displayedSidebar: undefined,
         unlistedIds: new Set(),
       }),
@@ -266,8 +259,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(
       getDocNavigation({
-        unversionedId: 'doc3',
-        versionedId: 'doc3',
+        docId: 'doc3',
         displayedSidebar: null,
         unlistedIds: new Set(),
       }),
@@ -278,8 +270,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(() =>
       getDocNavigation({
-        unversionedId: 'doc3',
-        versionedId: 'doc3',
+        docId: 'doc3',
         displayedSidebar: 'foo',
         unlistedIds: new Set(),
       }),
@@ -288,8 +279,7 @@ describe('createSidebarsUtils', () => {
     );
     expect(
       getDocNavigation({
-        unversionedId: 'doc3',
-        versionedId: 'doc3',
+        docId: 'doc3',
         displayedSidebar: 'sidebar1',
         unlistedIds: new Set(),
       }),

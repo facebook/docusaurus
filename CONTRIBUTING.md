@@ -1,6 +1,6 @@
 # Contributing to Docusaurus
 
-[Docusaurus](https://docusaurus.io) is our way to hopefully help to create open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
+[Docusaurus](https://docusaurus.io) is our way to hopefully help make open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 
@@ -166,7 +166,7 @@ feat(core): allow overriding of webpack config
 |   |
 |   +-> The package(s) that this change affected.
 |
-+-------> Type: see below for the list we use.
++-------> Type: see above for the list we use.
 ```
 
 ### Versioned Docs
@@ -182,7 +182,7 @@ Do not edit the auto-generated files within `versioned_docs/` or `versioned_side
 
 A good test plan has the exact commands you ran and their output and provides screenshots or videos if the pull request changes UI. If you've changed APIs, update the documentation.
 
-Tests are integrated into our continuous integration system, so you don't always need to run local tests. However, for significant code changes, it's saves both your and the maintainers' time if you can do exhaustive tests locally first to make sure your PR is in good shape. There are many types of tests:
+Tests are integrated into our continuous integration system, so you don't always need to run local tests. However, for significant code changes, it saves both your and the maintainers' time if you can do exhaustive tests locally first to make sure your PR is in good shape. There are many types of tests:
 
 - **Build and typecheck.** We use TypeScript in our codebase, which can make sure your code is consistent and catches some obvious mistakes early.
 - **Unit tests.** We use [Jest](https://jestjs.io/) for unit tests of API endpoints' behavior. You can run `yarn test` in the root directory to run all tests, or `yarn test path/to/your/file.test.ts` to run a specific test.

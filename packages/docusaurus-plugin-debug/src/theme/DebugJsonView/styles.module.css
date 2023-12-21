@@ -1,0 +1,101 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.containerParaiso {
+  font-family: monospace;
+  cursor: default;
+  background-color: rgb(41 42 43);
+  position: relative;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.basicElementParaiso {
+  color: white;
+  padding: 3px 5px 3px 20px;
+  border-left: 1px solid rgb(79 66 76);
+}
+
+.labelParaiso {
+  color: rgb(231 233 219);
+  letter-spacing: 0.5px;
+  margin-right: 3px;
+}
+
+.nullValueParaiso {
+  display: inline-block;
+  color: rgb(254 196 24);
+  font-size: 11px;
+  font-weight: bold;
+  background-color: rgb(79 66 76);
+  padding: 1px 2px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.undefinedValueParaiso {
+  color: rgb(141 134 135);
+}
+
+.stringValueParaiso {
+  color: rgb(249 155 21);
+}
+
+.booleanValueParaiso {
+  color: rgb(129 91 164);
+}
+
+.numberValueParaiso {
+  color: rgb(233 107 168);
+}
+
+.otherValueParaiso {
+  color: white;
+}
+
+.punctuationParaiso {
+  color: white;
+}
+
+.expandIconParaiso {
+  display: inline-block;
+  color: rgb(129 91 164);
+  font-size: 22px;
+  vertical-align: baseline;
+  margin-right: 3px;
+  line-height: 10px;
+}
+
+.collapseIconParaiso::after {
+  content: '\25BE';
+}
+
+.collapseIconParaiso {
+  display: inline-block;
+  color: rgb(6 182 239);
+  font-size: 22px;
+  vertical-align: baseline;
+  margin-right: 3px;
+  line-height: 10px;
+}
+
+.expandIconParaiso::after {
+  content: '\25B8';
+}
+
+.collapseContentParaiso {
+  color: rgb(249 155 21);
+  font-size: 18px;
+  line-height: 10px;
+  cursor: pointer;
+}
+
+.collapseContentParaiso::after {
+  content: '...';
+}

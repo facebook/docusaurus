@@ -21,28 +21,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3
-      - name: Wait for the Netlify Preview
-        uses: jakepartusch/wait-for-netlify-action@7ccf91c9ba3d64aa4389c0d3adcba0a6e77e5421 # v1
-        id: netlify
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Use Node.js
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
-          site_name: docusaurus-2
-          max_timeout: 600
+          node-version: 18
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build website fast
+        run: yarn build:website:fast
+
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@e0fe113967eee84b631d526ed18ce001f35fe9e9 # 9.3.1
+        uses: treosh/lighthouse-ci-action@03becbfc543944dd6e7534f7ff768abb8a296826 # 10.1.0
         with:
           urls: |
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
-            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/docs/installation
+            http://localhost:3000
+            http://localhost:3000/docs/installation
+            http://localhost:3000/docs/category/getting-started
+            http://localhost:3000/blog
+            http://localhost:3000/blog/preparing-your-site-for-docusaurus-v3
+            http://localhost:3000/blog/tags/release
+            http://localhost:3000/blog/tags
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
-        env:
-          PR_NUMBER: ${{ github.event.pull_request.number}}
+
       - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@d556feaca394842dc55e4734bf3bb9f685482fa0 # v6
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # 7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -54,7 +64,7 @@ jobs:
 
       - name: Add Lighthouse stats as comment
         id: comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@adca94abcaf73c10466a71cc83ae561fd66d1a56 # v2.2.0
+        uses: marocchino/sticky-pull-request-comment@efaaab3fd41a9c3de579aba759d2552635e590fd # 2.8.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.pull_request.number }}

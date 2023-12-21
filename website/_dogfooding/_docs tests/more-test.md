@@ -1,7 +1,0 @@
----
-tags: [a, e, some-tag, some_tag]
----
-
-# Another test page
-
-[Test link](./folder%20with%20space/doc%201.md)

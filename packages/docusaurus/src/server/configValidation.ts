@@ -6,6 +6,7 @@
  */
 
 import {
+  DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
   addLeadingSlash,
@@ -13,7 +14,11 @@ import {
   removeTrailingSlash,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import type {
+  DocusaurusConfig,
+  I18nConfig,
+  MarkdownConfig,
+} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -22,6 +27,18 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   path: DEFAULT_I18N_DIR_NAME,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
+};
+
+export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
+  format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
+  mermaid: false,
+  preprocessor: undefined,
+  parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  mdx1Compat: {
+    comments: true,
+    admonitions: true,
+    headingIds: true,
+  },
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -64,9 +81,7 @@ export const DEFAULT_CONFIG: Pick<
   tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
-  markdown: {
-    mermaid: false,
-  },
+  markdown: DEFAULT_MARKDOWN_CONFIG,
 };
 
 function createPluginSchema(theme: boolean) {
@@ -180,7 +195,10 @@ const SiteUrlSchema = Joi.string()
 
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi.string()
+  baseUrl: Joi
+    // Weird Joi trick needed, otherwise value '' is not normalized...
+    .alternatives()
+    .try(Joi.string().required().allow(''))
     .required()
     .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
@@ -267,7 +285,28 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .optional(),
   }).optional(),
   markdown: Joi.object({
+    format: Joi.string()
+      .equal('mdx', 'md', 'detect')
+      .default(DEFAULT_CONFIG.markdown.format),
+    parseFrontMatter: Joi.function().default(
+      () => DEFAULT_CONFIG.markdown.parseFrontMatter,
+    ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    preprocessor: Joi.function()
+      .arity(1)
+      .optional()
+      .default(() => DEFAULT_CONFIG.markdown.preprocessor),
+    mdx1Compat: Joi.object({
+      comments: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.comments,
+      ),
+      admonitions: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.admonitions,
+      ),
+      headingIds: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
+      ),
+    }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':

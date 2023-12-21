@@ -9,9 +9,14 @@ import dedent from 'dedent';
 import {
   createExcerpt,
   parseMarkdownContentTitle,
-  parseMarkdownString,
   parseMarkdownHeadingId,
   writeMarkdownHeadingId,
+  escapeMarkdownHeadingIds,
+  unwrapMdxCodeBlocks,
+  admonitionTitleToDirectiveLabel,
+  parseMarkdownFile,
+  DEFAULT_PARSE_FRONT_MATTER,
+  parseFileContentFrontMatter,
 } from '../markdownUtils';
 
 describe('createExcerpt', () => {
@@ -125,6 +130,26 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
+    ).toBe(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
+    );
+  });
+
+  it('creates excerpt for content with imports/exports declarations, with CRLF line endings', () => {
+    expect(
+      createExcerpt(
+        dedent`
+          import Component from '@site/src/components/Component';
+
+          export function ItemCol(props) {
+            return <Item {...props} className={'col col--6 margin-bottom--lg'}/>
+          }
+
+          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^note], ~~molestie~~ et sagittis ut, varius ac justo :wink:.
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `.replace(/\n/g, '\r\n'),
+      ),
     ).toBe(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
@@ -600,32 +625,110 @@ Lorem Ipsum
   });
 });
 
-describe('parseMarkdownString', () => {
-  it('parse markdown with front matter', () => {
-    expect(
-      parseMarkdownString(dedent`
+describe('parseFileContentFrontMatter', () => {
+  function test(fileContent: string) {
+    return parseFileContentFrontMatter(fileContent);
+  }
+
+  it('can parse front matter', () => {
+    const input = dedent`
+        ---
+        title: Frontmatter title
+        author:
+          age: 42
+          birth: 2000-07-23
+        ---
+
+        Some text
+        `;
+
+    const expectedResult = {
+      content: 'Some text',
+      frontMatter: {
+        title: 'Frontmatter title',
+        author: {age: 42, birth: new Date('2000-07-23')},
+      },
+    };
+
+    const result = test(input) as typeof expectedResult;
+    expect(result).toEqual(expectedResult);
+    expect(result.frontMatter.author.birth).toBeInstanceOf(Date);
+
+    // A regression test, ensure we don't return gray-matter cached objects
+    result.frontMatter.title = 'modified';
+    // @ts-expect-error: ok
+    result.frontMatter.author.age = 53;
+    expect(test(input)).toEqual(expectedResult);
+  });
+});
+
+describe('parseMarkdownFile', () => {
+  async function test(
+    fileContent: string,
+    options?: Partial<Parameters<typeof parseMarkdownFile>>[0],
+  ) {
+    return parseMarkdownFile({
+      fileContent,
+      filePath: 'some-file-path.mdx',
+      parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+      ...options,
+    });
+  }
+
+  it('parse markdown with front matter', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('parses first heading as contentTitle', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('parse markdown with custom front matter parser', async () => {
+    await expect(
+      test(
+        dedent`
+        ---
+        title: Frontmatter title
+        age: 42
+        ---
+
+        Some text
+        `,
+        {
+          parseFrontMatter: async (params) => {
+            const result = await params.defaultParseFrontMatter(params);
+            return {
+              ...result,
+              frontMatter: {
+                ...result.frontMatter,
+                age: result.frontMatter.age * 2,
+                extra: 'value',
+                great: true,
+              },
+            };
+          },
+        },
+      ),
+    ).resolves.toMatchSnapshot();
+  });
+
+  it('parses first heading as contentTitle', async () => {
+    await expect(
+      test(dedent`
         # Markdown Title
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('warns about duplicate titles (front matter + markdown)', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('warns about duplicate titles (front matter + markdown)', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
@@ -634,12 +737,12 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('warns about duplicate titles (front matter + markdown alternate)', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('warns about duplicate titles (front matter + markdown alternate)', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
@@ -649,12 +752,12 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('does not warn for duplicate title if markdown title is not at the top', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('does not warn for duplicate title if markdown title is not at the top', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
@@ -663,12 +766,12 @@ describe('parseMarkdownString', () => {
 
         # Markdown Title
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('deletes only first heading', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('deletes only first heading', async () => {
+    await expect(
+      test(dedent`
         # Markdown Title
 
         test test test # test bar
@@ -677,12 +780,12 @@ describe('parseMarkdownString', () => {
 
         ### Markdown Title h3
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('parses front-matter and ignore h2', () => {
-    expect(
-      parseMarkdownString(
+  it('parses front-matter and ignore h2', async () => {
+    await expect(
+      test(
         dedent`
           ---
           title: Frontmatter title
@@ -690,55 +793,55 @@ describe('parseMarkdownString', () => {
           ## test
           `,
       ),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('reads front matter only', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('reads front matter only', async () => {
+    await expect(
+      test(dedent`
         ---
         title: test
         ---
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('parses title only', () => {
-    expect(parseMarkdownString('# test')).toMatchSnapshot();
+  it('parses title only', async () => {
+    await expect(test('# test')).resolves.toMatchSnapshot();
   });
 
-  it('parses title only alternate', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('parses title only alternate', async () => {
+    await expect(
+      test(dedent`
         test
         ===
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('warns about duplicate titles', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('warns about duplicate titles', async () => {
+    await expect(
+      test(dedent`
         ---
         title: Frontmatter title
         ---
         # test
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('ignores markdown title if its not a first text', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('ignores markdown title if its not a first text', async () => {
+    await expect(
+      test(dedent`
         foo
         # test
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('deletes only first heading 2', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('deletes only first heading 2', async () => {
+    await expect(
+      test(dedent`
         # test
 
         test test test test test test
@@ -747,21 +850,21 @@ describe('parseMarkdownString', () => {
         ### test
         test3
         `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('handles code blocks', () => {
-    expect(
-      parseMarkdownString(dedent`
+  it('handles code blocks', async () => {
+    await expect(
+      test(dedent`
         \`\`\`js
         code
         \`\`\`
 
         Content
       `),
-    ).toMatchSnapshot();
-    expect(
-      parseMarkdownString(dedent`
+    ).resolves.toMatchSnapshot();
+    await expect(
+      test(dedent`
         \`\`\`\`js
         Foo
         \`\`\`diff
@@ -772,9 +875,9 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchSnapshot();
-    expect(
-      parseMarkdownString(dedent`
+    ).resolves.toMatchSnapshot();
+    await expect(
+      test(dedent`
         \`\`\`\`js
         Foo
         \`\`\`diff
@@ -783,17 +886,17 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchSnapshot();
+    ).resolves.toMatchSnapshot();
   });
 
-  it('throws for invalid front matter', () => {
-    expect(() =>
-      parseMarkdownString(dedent`
+  it('throws for invalid front matter', async () => {
+    await expect(
+      test(dedent`
       ---
       foo: f: a
       ---
       `),
-    ).toThrowErrorMatchingInlineSnapshot(`
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 7:
           foo: f: a
                 ^"
@@ -893,6 +996,660 @@ describe('parseMarkdownHeadingId', () => {
       text: '## a {#b',
       id: 'b',
     });
+  });
+});
+
+describe('escapeMarkdownHeadingIds', () => {
+  it('can escape simple heading id', () => {
+    expect(escapeMarkdownHeadingIds('# title 1 {#id-1}')).toBe(
+      '# title 1 \\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1    {#id-1}')).toBe(
+      '# title 1    \\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1{#id-1}')).toBe(
+      '# title 1\\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1 \\{#id-1}')).toBe(
+      '# title 1 \\{#id-1}',
+    );
+    expect(escapeMarkdownHeadingIds('# title 1\\{#id-1}')).toBe(
+      '# title 1\\{#id-1}',
+    );
+  });
+
+  it('can escape level 1-6 heading ids', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        # title 1 {#id-1}
+
+        ## title 2 {#id-2}
+
+        ### title 3 {#id-3}
+
+        #### title 4 {#id-4}
+
+        ##### title 5 {#id-5}
+
+        ###### title 6 {#id-6}
+    `),
+    ).toEqual(dedent`
+        # title 1 \{#id-1}
+
+        ## title 2 \{#id-2}
+
+        ### title 3 \{#id-3}
+
+        #### title 4 \{#id-4}
+
+        ##### title 5 \{#id-5}
+
+        ###### title 6 \{#id-6}
+    `);
+  });
+
+  it('does not escape level 7 heading id', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        ####### title 7 {#id-7}
+    `),
+    ).toEqual(dedent`
+        ####### title 7 {#id-7}
+    `);
+  });
+
+  it('does not escape non-heading', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        some text {#non-id}
+    `),
+    ).toEqual(dedent`
+        some text {#non-id}
+    `);
+  });
+
+  it('works for realistic example', () => {
+    expect(
+      escapeMarkdownHeadingIds(dedent`
+        # Support
+
+        Docusaurus has a community of thousands of developers.
+
+        On this page we've listed some Docusaurus-related communities that you can be a part of; see the other pages in this section for additional online and in-person learning materials.
+
+        Before participating in Docusaurus' communities, [please read our Code of Conduct](https://engineering.fb.com/codeofconduct/). We have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) and we expect that all community members adhere to the guidelines within.
+
+        ## Stack Overflow {#stack-overflow}
+
+        Stack Overflow is a popular forum to ask code-level questions or if you're stuck with a specific error. Read through the [existing questions](https://stackoverflow.com/questions/tagged/docusaurus) tagged with **docusaurus** or [ask your own](https://stackoverflow.com/questions/ask?tags=docusaurus)!
+
+        ## Discussion forums \{#discussion-forums}
+
+        There are many online forums for discussion about best practices and application architecture as well as the future of Docusaurus. If you have an answerable code-level question, Stack Overflow is usually a better fit.
+
+        - [Docusaurus online chat](https://discord.gg/docusaurus)
+          - [#help-and-questions](https://discord.gg/fwbcrQ3dHR) for user help
+          - [#contributors](https://discord.gg/6g6ASPA) for contributing help
+        - [Reddit's Docusaurus community](https://www.reddit.com/r/docusaurus/)
+
+        ## Feature requests {#feature-requests}
+
+        For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
+
+        ## News {#news}
+
+        For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+    `),
+    ).toEqual(dedent`
+        # Support
+
+        Docusaurus has a community of thousands of developers.
+
+        On this page we've listed some Docusaurus-related communities that you can be a part of; see the other pages in this section for additional online and in-person learning materials.
+
+        Before participating in Docusaurus' communities, [please read our Code of Conduct](https://engineering.fb.com/codeofconduct/). We have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) and we expect that all community members adhere to the guidelines within.
+
+        ## Stack Overflow \{#stack-overflow}
+
+        Stack Overflow is a popular forum to ask code-level questions or if you're stuck with a specific error. Read through the [existing questions](https://stackoverflow.com/questions/tagged/docusaurus) tagged with **docusaurus** or [ask your own](https://stackoverflow.com/questions/ask?tags=docusaurus)!
+
+        ## Discussion forums \{#discussion-forums}
+
+        There are many online forums for discussion about best practices and application architecture as well as the future of Docusaurus. If you have an answerable code-level question, Stack Overflow is usually a better fit.
+
+        - [Docusaurus online chat](https://discord.gg/docusaurus)
+          - [#help-and-questions](https://discord.gg/fwbcrQ3dHR) for user help
+          - [#contributors](https://discord.gg/6g6ASPA) for contributing help
+        - [Reddit's Docusaurus community](https://www.reddit.com/r/docusaurus/)
+
+        ## Feature requests \{#feature-requests}
+
+        For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
+
+        ## News \{#news}
+
+        For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+    `);
+  });
+});
+
+describe('unwrapMdxCodeBlocks', () => {
+  it('can unwrap a simple mdx code block', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        \`\`\`mdx-code-block
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+        \`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+        # Title
+
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+
+        text
+    `);
+  });
+
+  it('can unwrap a nested mdx code block', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        \`\`\`\`mdx-code-block
+
+        some content
+
+        \`\`\`js
+        export const age = 36
+        \`\`\`
+
+        \`\`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+        # Title
+
+
+        some content
+
+        \`\`\`js
+        export const age = 36
+        \`\`\`
+
+
+        text
+    `);
+  });
+
+  it('works for realistic example', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Canary releases
+
+        \`\`\`mdx-code-block
+        import {
+          VersionsProvider,
+        } from "@site/src/components/Versions";
+
+        <VersionsProvider prop={{attr: 42}} test="yes">
+        \`\`\`
+
+        Docusaurus has a canary releases system.
+
+        It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
+
+        It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+        :::note
+
+        Using a canary release in production might seem risky, but in practice, it's not.
+
+        A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+        \`\`\`mdx-code-block
+        </VersionsProvider>
+        \`\`\`
+    `),
+    ).toEqual(dedent`
+        # Canary releases
+
+        import {
+          VersionsProvider,
+        } from "@site/src/components/Versions";
+
+        <VersionsProvider prop={{attr: 42}} test="yes">
+
+        Docusaurus has a canary releases system.
+
+        It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.md#next-version) of Docusaurus.
+
+        It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+        :::note
+
+        Using a canary release in production might seem risky, but in practice, it's not.
+
+        A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+        </VersionsProvider>
+    `);
+  });
+});
+
+describe('admonitionTitleToDirectiveLabel', () => {
+  const directives = ['info', 'note', 'tip', 'caution'];
+
+  it('does not transform markdown without any admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        # Title
+
+        intro
+
+        ## Sub Title
+
+        content
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        # Title
+
+        intro
+
+        ## Sub Title
+
+        content
+    `);
+  });
+
+  it('transform simple admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform already transformed admonition', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note[Title]
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform non-container directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        ::note Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        ::note Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('transforms space indented directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+         :::note 1 space
+
+         content
+
+         :::
+
+          :::note 2 spaces
+
+          content
+
+          :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+         :::note[1 space]
+
+         content
+
+         :::
+
+          :::note[2 spaces]
+
+          content
+
+          :::
+
+        after
+    `);
+  });
+
+  it('transforms tab indented directives', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        `
+before
+
+\t:::note 1 tab
+
+\tcontent
+
+\t:::
+
+\t\t:::note 2 tabs
+
+\t\tcontent
+
+\t\t:::
+
+after
+    `,
+        directives,
+      ),
+    ).toBe(`
+before
+
+\t:::note[1 tab]
+
+\tcontent
+
+\t:::
+
+\t\t:::note[2 tabs]
+
+\t\tcontent
+
+\t\t:::
+
+after
+    `);
+  });
+
+  it('transforms directives in quotes', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        `
+before
+
+> :::caution There be dragons
+>
+> This is the admonition content
+>
+> :::
+>
+>> :::caution There be dragons
+>>
+>> This is the admonition content
+>>
+>> :::
+> > :::caution There be dragons
+> >
+> > This is the admonition content
+> >
+> > :::
+
+after
+    `,
+        directives,
+      ),
+    ).toBe(`
+before
+
+> :::caution[There be dragons]
+>
+> This is the admonition content
+>
+> :::
+>
+>> :::caution[There be dragons]
+>>
+>> This is the admonition content
+>>
+>> :::
+> > :::caution[There be dragons]
+> >
+> > This is the admonition content
+> >
+> > :::
+
+after
+    `);
+  });
+
+  it('does not transform admonition without title', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::note
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::note
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('does not transform non-admonition directive', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        before
+
+        :::whatever Title
+
+        content
+
+        :::
+
+        after
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        before
+
+        :::whatever Title
+
+        content
+
+        :::
+
+        after
+    `);
+  });
+
+  it('transform real-world nested messy admonitions', () => {
+    expect(
+      admonitionTitleToDirectiveLabel(
+        dedent`
+        ---
+        title: "contains :::note"
+        ---
+
+        # Title
+
+        intro
+
+        ::::note note **title**
+
+        note content
+
+        ::::tip tip <span>title</span>
+
+        tip content
+
+        :::whatever whatever title
+
+        whatever content
+
+        :::
+
+        ::::
+
+        :::::
+
+        ## Heading {#my-heading}
+
+        ::::info       weird spaced title
+
+        into content
+
+        :::tip[tip directiveLabel]
+
+        tip content
+
+        ::::
+
+        ## Conclusion
+
+        end
+    `,
+        directives,
+      ),
+    ).toEqual(dedent`
+        ---
+        title: "contains :::note"
+        ---
+
+        # Title
+
+        intro
+
+        ::::note[note **title**]
+
+        note content
+
+        ::::tip[tip <span>title</span>]
+
+        tip content
+
+        :::whatever whatever title
+
+        whatever content
+
+        :::
+
+        ::::
+
+        :::::
+
+        ## Heading {#my-heading}
+
+        ::::info[weird spaced title]
+
+        into content
+
+        :::tip[tip directiveLabel]
+
+        tip content
+
+        ::::
+
+        ## Conclusion
+
+        end
+    `);
   });
 });
 

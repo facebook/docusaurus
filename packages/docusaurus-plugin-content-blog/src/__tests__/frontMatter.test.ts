@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import escapeStringRegexp from 'escape-string-regexp';
+import {escapeRegexp} from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from '../frontMatter';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
@@ -54,7 +54,7 @@ function testField(params: {
         } catch (err) {
           // eslint-disable-next-line jest/no-conditional-expect
           expect((err as Error).message).toMatch(
-            new RegExp(escapeStringRegexp(message)),
+            new RegExp(escapeRegexp(message)),
           );
         }
       });

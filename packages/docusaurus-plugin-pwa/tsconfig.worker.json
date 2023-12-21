@@ -8,6 +8,7 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo-worker",
     "rootDir": "src",
     "outDir": "lib",
+    "moduleResolution": "bundler",
     "module": "esnext",
     "target": "esnext",
     "types": ["node"]

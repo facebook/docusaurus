@@ -179,7 +179,7 @@ export default ${JSON.stringify(siteConfig, null, 2)};
 ${clientModules
   // Use `require()` because `import()` is async but client modules can have CSS
   // and the order matters for loading CSS.
-  .map((clientModule) => `  require('${escapePath(clientModule)}'),`)
+  .map((clientModule) => `  require("${escapePath(clientModule)}"),`)
   .join('\n')}
 ];
 `,
@@ -193,7 +193,8 @@ ${Object.entries(registry)
   .sort((a, b) => a[0].localeCompare(b[0]))
   .map(
     ([chunkName, modulePath]) =>
-      `  '${chunkName}': [() => import(/* webpackChunkName: '${chunkName}' */ '${modulePath}'), '${modulePath}', require.resolveWeak('${modulePath}')],`,
+      // modulePath is already escaped by escapePath
+      `  "${chunkName}": [() => import(/* webpackChunkName: "${chunkName}" */ "${modulePath}"), "${modulePath}", require.resolveWeak("${modulePath}")],`,
   )
   .join('\n')}};
 `,

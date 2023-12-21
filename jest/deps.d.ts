@@ -13,17 +13,6 @@ declare module 'to-vfile' {
   export function read(path: string, encoding?: string): Promise<VFile>;
 }
 
-declare module 'remark-mdx' {
-  import type {Plugin} from 'unified';
-
-  const mdx: Plugin;
-  export = mdx;
-}
-
-declare module 'remark-rehype';
-
-declare module 'rehype-stringify';
-
 declare module '@testing-utils/git' {
   const createTempRepo: typeof import('./utils/git').createTempRepo;
   export {createTempRepo};

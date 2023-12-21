@@ -57,6 +57,10 @@ CSS variables, meant to be overridden by final theme
   padding-top: 1rem;
 }
 
-.collapsibleContent > *:last-child {
+.collapsibleContent p:last-child {
+  margin-bottom: 0;
+}
+
+.details > summary > p:last-child {
   margin-bottom: 0;
 }

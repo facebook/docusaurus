@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/eslint-plugin",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0",
   "description": "ESLint plugin to enforce best Docusaurus practices.",
   "main": "lib/index.js",
   "keywords": [
@@ -21,16 +21,16 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.36.2",
-    "tslib": "^2.4.0"
+    "@typescript-eslint/utils": "^5.62.0",
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "eslint-plugin-eslint-plugin": "^5.0.6"
+    "eslint-plugin-eslint-plugin": "^5.1.0"
   },
   "peerDependencies": {
     "eslint": ">=6"
   },
   "engines": {
-    "node": ">=16.14"
+    "node": ">=18.0"
   }
 }

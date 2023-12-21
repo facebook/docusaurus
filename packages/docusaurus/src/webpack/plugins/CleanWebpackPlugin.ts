@@ -30,6 +30,7 @@
 // More context: https://github.com/facebook/docusaurus/pull/1839
 
 import path from 'path';
+import fs from 'fs-extra';
 import {sync as delSync} from 'del';
 import type {Compiler, Stats} from 'webpack';
 
@@ -150,6 +151,17 @@ export default class CleanWebpackPlugin {
   handleInitial(): void {
     if (this.initialClean) {
       return;
+    }
+
+    if (
+      // eslint-disable-next-line no-restricted-properties
+      fs.pathExistsSync(this.outputPath) &&
+      // eslint-disable-next-line no-restricted-properties
+      fs.statSync(this.outputPath).isFile()
+    ) {
+      throw new Error(
+        `A file '${this.outputPath}' already exists. Docusaurus needs this directory to save the build output. Either remove/change the file or choose a different build directory via '--out-dir'.`,
+      );
     }
 
     this.initialClean = true;

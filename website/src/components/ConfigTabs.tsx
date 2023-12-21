@@ -47,9 +47,8 @@ export default function ConfigTabs({
             }
           </Translate>
         </p>
-        <p>
-          <CodeBlock language="js" title="docusaurus.config.js">
-            {`module.exports = {
+        <CodeBlock language="js" title="docusaurus.config.js">
+          {`module.exports = {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -61,8 +60,7 @@ export default function ConfigTabs({
     ],
   ],
 };`}
-          </CodeBlock>
-        </p>
+        </CodeBlock>
       </TabItem>
       <TabItem value="plugin" label={translate({message: 'Plugin options'})}>
         <p>
@@ -71,9 +69,8 @@ export default function ConfigTabs({
             the plugin:
           </Translate>
         </p>
-        <p>
-          <CodeBlock language="js" title="docusaurus.config.js">
-            {`module.exports = {
+        <CodeBlock language="js" title="docusaurus.config.js">
+          {`module.exports = {
   plugins: [
     [
       '${pluginName}',
@@ -83,8 +80,7 @@ export default function ConfigTabs({
     ],
   ],
 };`}
-          </CodeBlock>
-        </p>
+        </CodeBlock>
       </TabItem>
     </Tabs>
   );

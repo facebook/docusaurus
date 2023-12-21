@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useMemo, useEffect} from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import clsx from 'clsx';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Translate, {translate} from '@docusaurus/Translate';
 import {useHistory, useLocation} from '@docusaurus/router';
 import {usePluralForm} from '@docusaurus/theme-common';
 
+import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import {
@@ -21,6 +22,7 @@ import {
   type User,
   type TagType,
 } from '@site/src/data/users';
+import Heading from '@theme/Heading';
 import ShowcaseTagSelect, {
   readSearchTags,
 } from './_components/ShowcaseTagSelect';
@@ -121,17 +123,13 @@ function useFilteredUsers() {
 function ShowcaseHeader() {
   return (
     <section className="margin-top--lg margin-bottom--lg text--center">
-      <h1>{TITLE}</h1>
+      <Heading as="h1">{TITLE}</Heading>
       <p>{DESCRIPTION}</p>
-      <a
-        className="button button--primary"
-        href={SUBMIT_URL}
-        target="_blank"
-        rel="noreferrer">
+      <Link className="button button--primary" to={SUBMIT_URL}>
         <Translate id="showcase.header.button">
           🙏 Please add your site
         </Translate>
-      </a>
+      </Link>
     </section>
   );
 }
@@ -160,9 +158,9 @@ function ShowcaseFilters() {
     <section className="container margin-top--l margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
         <div>
-          <h2>
+          <Heading as="h2">
             <Translate id="showcase.filters.title">Filters</Translate>
-          </h2>
+          </Heading>
           <span>{siteCountPlural(filteredUsers.length)}</span>
         </div>
         <ShowcaseFilterToggle />
@@ -258,10 +256,9 @@ function ShowcaseCards() {
     return (
       <section className="margin-top--lg margin-bottom--xl">
         <div className="container padding-vert--md text--center">
-          <h2>
+          <Heading as="h2">
             <Translate id="showcase.usersList.noResult">No result</Translate>
-          </h2>
-          <SearchBar />
+          </Heading>
         </div>
       </section>
     );
@@ -278,13 +275,12 @@ function ShowcaseCards() {
                   'margin-bottom--md',
                   styles.showcaseFavoriteHeader,
                 )}>
-                <h2>
+                <Heading as="h2">
                   <Translate id="showcase.favoritesList.title">
                     Our favorites
                   </Translate>
-                </h2>
+                </Heading>
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
-                <SearchBar />
               </div>
               <ul
                 className={clsx(
@@ -299,9 +295,9 @@ function ShowcaseCards() {
             </div>
           </div>
           <div className="container margin-top--lg">
-            <h2 className={styles.showcaseHeader}>
+            <Heading as="h2" className={styles.showcaseHeader}>
               <Translate id="showcase.usersList.allUsers">All sites</Translate>
-            </h2>
+            </Heading>
             <ul className={clsx('clean-list', styles.showcaseList)}>
               {otherUsers.map((user) => (
                 <ShowcaseCard key={user.title} user={user} />
@@ -312,12 +308,8 @@ function ShowcaseCards() {
       ) : (
         <div className="container">
           <div
-            className={clsx(
-              'margin-bottom--md',
-              styles.showcaseFavoriteHeader,
-            )}>
-            <SearchBar />
-          </div>
+            className={clsx('margin-bottom--md', styles.showcaseFavoriteHeader)}
+          />
           <ul className={clsx('clean-list', styles.showcaseList)}>
             {filteredUsers.map((user) => (
               <ShowcaseCard key={user.title} user={user} />
@@ -335,6 +327,11 @@ export default function Showcase(): JSX.Element {
       <main className="margin-vert--lg">
         <ShowcaseHeader />
         <ShowcaseFilters />
+        <div
+          style={{display: 'flex', marginLeft: 'auto'}}
+          className="container">
+          <SearchBar />
+        </div>
         <ShowcaseCards />
       </main>
     </Layout>

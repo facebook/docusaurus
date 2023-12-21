@@ -10,13 +10,14 @@ import React, {
   useEffect,
   useRef,
   useCallback,
-  useLayoutEffect,
   type RefObject,
   type Dispatch,
   type SetStateAction,
   type ReactNode,
 } from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
+import {prefersReducedMotion} from '../../utils/accessibilityUtils';
 
 const DefaultAnimationEasing = 'ease-in-out';
 
@@ -72,6 +73,11 @@ https://material.io/archive/guidelines/motion/duration-easing.html#duration-easi
 https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf050c/packages/material-ui/src/styles/createTransitions.js#L40-L43
  */
 function getAutoHeightDuration(height: number) {
+  if (prefersReducedMotion()) {
+    // Not using 0 because it prevents onTransitionEnd to fire and bubble up :/
+    // See https://github.com/facebook/docusaurus/pull/8906
+    return 1;
+  }
   const constant = height / 36;
   return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
 }
@@ -225,13 +231,13 @@ function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
   // Updated in effect so that first expansion transition can work
   const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!collapsed) {
       setMounted(true);
     }
   }, [collapsed]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (mounted) {
       setLazyCollapsed(collapsed);
     }

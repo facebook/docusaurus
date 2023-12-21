@@ -26,6 +26,11 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
+// Support for ?docusaurus-theme=dark
+const ThemeQueryStringKey = 'docusaurus-theme';
+// Support for ?docusaurus-data-mode=embed&docusaurus-data-myAttr=42
+const DataQueryStringPrefixKey = 'docusaurus-data-';
+
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
@@ -39,17 +44,21 @@ const noFlashColorMode = ({
     document.documentElement.setAttribute('data-theme', theme);
   }
 
-  function getStoredTheme() {
-    var theme = null;
+  function getQueryStringTheme() {
     try {
-      theme = localStorage.getItem('${ThemeStorageKey}');
-    } catch (err) {}
-    return theme;
+      return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
+    } catch(e) {}
   }
 
-  var storedTheme = getStoredTheme();
-  if (storedTheme !== null) {
-    setDataThemeAttribute(storedTheme);
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem('${ThemeStorageKey}');
+    } catch (err) {}
+  }
+
+  var initialTheme = getQueryStringTheme() || getStoredTheme();
+  if (initialTheme !== null) {
+    setDataThemeAttribute(initialTheme);
   } else {
     if (
       respectPrefersColorScheme &&
@@ -66,6 +75,21 @@ const noFlashColorMode = ({
     }
   }
 })();`;
+
+/* language=js */
+const DataAttributeQueryStringInlineJavaScript = `
+(function() {
+  try {
+    const entries = new URLSearchParams(window.location.search).entries();
+    for (var [searchKey, value] of entries) {
+      if (searchKey.startsWith('${DataQueryStringPrefixKey}')) {
+        var key = searchKey.replace('${DataQueryStringPrefixKey}',"data-")
+        document.documentElement.setAttribute(key, value);
+      }
+    }
+  } catch(e) {}
+})();
+`;
 
 // Duplicated constant. Unfortunately we can't import it from theme-common, as
 // we need to support older nodejs versions without ESM support
@@ -195,6 +219,7 @@ export default function themeClassic(
             tagName: 'script',
             innerHTML: `
 ${noFlashColorMode(colorMode)}
+${DataAttributeQueryStringInlineJavaScript}
 ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
             `,
           },

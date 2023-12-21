@@ -24,6 +24,8 @@ import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getHttpsConfig,
+  formatStatsErrorMessage,
+  printStatsWarnings,
 } from '../webpack/utils';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 
@@ -39,10 +41,13 @@ export async function start(
   siteDirParam: string = '.',
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
+  // Temporary workaround to unlock the ability to translate the site config
+  // We'll remove it if a better official API can be designed
+  // See https://github.com/facebook/docusaurus/issues/4542
+  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
+
   const siteDir = await fs.realpath(siteDirParam);
 
-  process.env.NODE_ENV = 'development';
-  process.env.BABEL_ENV = 'development';
   logger.info('Starting the development server...');
 
   function loadSite() {
@@ -118,7 +123,7 @@ export async function start(
   );
 
   let config: webpack.Configuration = merge(
-    await createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify, false),
     {
       watchOptions: {
         ignored: /node_modules\/(?!@docusaurus)/,
@@ -167,16 +172,23 @@ export async function start(
   });
 
   const compiler = webpack(config);
-  if (process.env.E2E_TEST) {
-    compiler.hooks.done.tap('done', (stats) => {
+  compiler.hooks.done.tap('done', (stats) => {
+    const errorsWarnings = stats.toJson('errors-warnings');
+    const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
+    if (statsErrorMessage) {
+      console.error(statsErrorMessage);
+    }
+    printStatsWarnings(errorsWarnings);
+
+    if (process.env.E2E_TEST) {
       if (stats.hasErrors()) {
         logger.error('E2E_TEST: Project has compiler errors.');
         process.exit(1);
       }
       logger.success('E2E_TEST: Project can compile.');
       process.exit(0);
-    });
-  }
+    }
+  });
 
   // https://webpack.js.org/configuration/dev-server
   const defaultDevServerConfig: WebpackDevServer.Configuration = {

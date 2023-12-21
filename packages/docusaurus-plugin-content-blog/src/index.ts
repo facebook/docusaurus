@@ -191,6 +191,8 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
+      const listedBlogPosts = blogPosts.filter(shouldBeListed);
+
       const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
@@ -213,7 +215,7 @@ export default async function pluginContentBlog(
         });
       }
 
-      if (archiveBasePath && blogPosts.length) {
+      if (archiveBasePath && listedBlogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
@@ -222,7 +224,7 @@ export default async function pluginContentBlog(
         // Create a blog archive route
         const archiveProp = await createData(
           `${docuHash(archiveUrl)}.json`,
-          JSON.stringify({blogPosts}, null, 2),
+          JSON.stringify({blogPosts: listedBlogPosts}, null, 2),
         );
         addRoute({
           path: archiveUrl,
@@ -371,7 +373,7 @@ export default async function pluginContentBlog(
       return translateContent(content, translationFiles);
     },
 
-    configureWebpack(_config, isServer, {getJSLoader}, content) {
+    configureWebpack(_config, isServer, utils, content) {
       const {
         admonitions,
         rehypePlugins,
@@ -411,7 +413,6 @@ export default async function pluginContentBlog(
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
-                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {

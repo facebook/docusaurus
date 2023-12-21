@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect} from 'react';
+import {useCallback, useEffect, useSyncExternalStore} from 'react';
 import {useHistory} from '@docusaurus/router';
 import {useEvent} from './reactUtils';
-import type {Location, Action} from 'history';
+
+import type {History, Location, Action} from 'history';
 
 type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 
@@ -42,4 +43,72 @@ export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
     // Don't block other navigation actions
     return undefined;
   });
+}
+
+/**
+ * Permits to efficiently subscribe to a slice of the history
+ * See https://thisweekinreact.com/articles/useSyncExternalStore-the-underrated-react-api
+ * @param selector
+ */
+export function useHistorySelector<Value>(
+  selector: (history: History<unknown>) => Value,
+): Value {
+  const history = useHistory();
+  return useSyncExternalStore(
+    history.listen,
+    () => selector(history),
+    () => selector(history),
+  );
+}
+
+/**
+ * Permits to efficiently subscribe to a specific querystring value
+ * @param key
+ */
+export function useQueryStringValue(key: string | null): string | null {
+  return useHistorySelector((history) => {
+    if (key === null) {
+      return null;
+    }
+    return new URLSearchParams(history.location.search).get(key);
+  });
+}
+
+export function useQueryStringKeySetter(): (
+  key: string,
+  newValue: string | null,
+  options?: {push: boolean},
+) => void {
+  const history = useHistory();
+  return useCallback(
+    (key, newValue, options) => {
+      const searchParams = new URLSearchParams(history.location.search);
+      if (newValue) {
+        searchParams.set(key, newValue);
+      } else {
+        searchParams.delete(key);
+      }
+      const updaterFn = options?.push ? history.push : history.replace;
+      updaterFn({
+        search: searchParams.toString(),
+      });
+    },
+    [history],
+  );
+}
+
+export function useQueryString(
+  key: string,
+): [string, (newValue: string, options?: {push: boolean}) => void] {
+  const value = useQueryStringValue(key) ?? '';
+  const setQueryString = useQueryStringKeySetter();
+  return [
+    value,
+    useCallback(
+      (newValue: string, options) => {
+        setQueryString(key, newValue, options);
+      },
+      [setQueryString, key],
+    ),
+  ];
 }

@@ -35,6 +35,7 @@ export type BuildCLIOptions = Pick<
 > & {
   bundleAnalyzer?: boolean;
   minify?: boolean;
+  dev?: boolean;
 };
 
 export async function build(
@@ -46,6 +47,15 @@ export async function build(
   // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
+  process.env.BABEL_ENV = 'production';
+  process.env.NODE_ENV = 'production';
+  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
+  if (cliOptions.dev) {
+    logger.info`Building in dev mode`;
+    process.env.BABEL_ENV = 'development';
+    process.env.NODE_ENV = 'development';
+  }
+
   const siteDir = await fs.realpath(siteDirParam);
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
@@ -68,8 +78,12 @@ export async function build(
         isLastLocale,
       });
     } catch (err) {
-      logger.error`Unable to build website for locale name=${locale}.`;
-      throw err;
+      throw new Error(
+        logger.interpolate`Unable to build website for locale name=${locale}.`,
+        {
+          cause: err,
+        },
+      );
     }
   }
   const context = await loadContext({
@@ -117,8 +131,11 @@ async function buildLocale({
   forceTerminate: boolean;
   isLastLocale: boolean;
 }): Promise<string> {
-  process.env.BABEL_ENV = 'production';
-  process.env.NODE_ENV = 'production';
+  // Temporary workaround to unlock the ability to translate the site config
+  // We'll remove it if a better official API can be designed
+  // See https://github.com/facebook/docusaurus/issues/4542
+  process.env.DOCUSAURUS_CURRENT_LOCALE = locale;
+
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
   const props: Props = await load({
@@ -147,7 +164,7 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    await createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify, true),
     {
       plugins: [
         // Remove/clean build folders before building bundles.
@@ -199,7 +216,11 @@ async function buildLocale({
     serverConfig = merge(serverConfig, {
       plugins: [
         new CopyWebpackPlugin({
-          patterns: staticDirectories.map((dir) => ({from: dir, to: outDir})),
+          patterns: staticDirectories.map((dir) => ({
+            from: dir,
+            to: outDir,
+            toType: 'dir',
+          })),
         }),
       ],
     });
