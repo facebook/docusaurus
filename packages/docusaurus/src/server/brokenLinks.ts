@@ -130,7 +130,7 @@ function getAllBrokenLinks({
 }: {
   allCollectedLinks: CollectedLinks;
   routes: RouteConfig[];
-}): {[location: string]: BrokenLink[]} {
+}): [{[location: string]: BrokenLink[]}, {[location: string]: BrokenLink[]}] {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
   const allBrokenLinks = _.mapValues(
@@ -143,12 +143,13 @@ function getAllBrokenLinks({
         routes: filteredRoutes,
       }),
   );
+  const filteredLinks = Object.fromEntries(
+    Object.entries(allBrokenLinks).filter(([, value]) => value.length > 0),
+  );
 
   const allBrokenAnchors = checkAnchorsInOtherRoutes(allCollectedLinks);
 
-  const brokenCollection = _.merge(allBrokenLinks, allBrokenAnchors);
-
-  return _.pickBy(brokenCollection, (brokenLinks) => brokenLinks.length > 0);
+  return [filteredLinks, allBrokenAnchors];
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
@@ -269,17 +270,17 @@ export async function handleBrokenLinks({
     return;
   }
 
-  const allBrokenLinks = getAllBrokenLinks({
+  const [brokenLinks, brokenAnchors] = getAllBrokenLinks({
     allCollectedLinks,
     routes,
   });
 
-  const pathErrorMessage = getPathBrokenLinksErrorMessage(allBrokenLinks);
+  const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenLinks);
   if (pathErrorMessage) {
     logger.report(onBrokenLinks)(pathErrorMessage);
   }
 
-  const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(allBrokenLinks);
+  const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(brokenAnchors);
   if (anchorErrorMessage) {
     logger.report(onBrokenAnchors)(anchorErrorMessage);
   }
