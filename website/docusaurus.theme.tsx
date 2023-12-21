@@ -12,18 +12,29 @@ import VersionsArchived from './versionsArchived.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 import type * as Preset from '@docusaurus/preset-classic';
-// TODO remove this eslint ruse
-// TODO PrismDark and PrismLight types
-// TODO  `satisfies Preset.ThemeConfig`  `satisfies Config`
-// results Expected ';', got 'satisfies'
-/* eslint-disable @docusaurus/no-untranslated-text */
+
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
   5,
 );
 const isDev = process.env.NODE_ENV === 'development';
+// const isDeployPreview =
+//   !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 export default {
+  metadata: [{name: 'twitter:card', content: 'summary'}],
+  // algolia: {
+  //   appId: 'X1Z85QJPUV',
+  //   apiKey: 'bf7211c161e8205da2f933a02534105a',
+  //   indexName: 'docusaurus-2',
+  //   replaceSearchResultPathname:
+  //     isDev || isDeployPreview
+  //       ? {
+  //           from: /^\/docs\/next/g.source,
+  //           to: '/docs',
+  //         }
+  //       : undefined,
+  // },
   announcementBar: {
     id: 'announcementBar-3', // Increment on change
     content: function AnnouncementBarContent(): ReactNode {
@@ -92,25 +103,16 @@ export default {
         title: 'Learn',
         items: [
           {
-            node: (): ReactNode => (
-              <Link to="/docs" className="footer__link-item">
-                Introduction
-              </Link>
-            ),
+            label: 'Introduction',
+            to: 'docs',
           },
           {
-            node: (): ReactNode => (
-              <Link to="/docs/installation" className="footer__link-item">
-                Installation
-              </Link>
-            ),
+            label: 'Installation',
+            to: 'docs/installation',
           },
           {
-            node: (): ReactNode => (
-              <Link to="/docs/migration" className="footer__link-item">
-                Migration from v1 to v2
-              </Link>
-            ),
+            label: 'Migration from v1 to v2',
+            to: 'docs/migration',
           },
         ],
       },
@@ -122,22 +124,16 @@ export default {
             href: 'https://stackoverflow.com/questions/tagged/docusaurus',
           },
           {
-            node: (): ReactNode => (
-              <Link to="/feature-requests" className="footer__link-item">
-                Feature Requests
-              </Link>
-            ),
+            label: 'Feature Requests',
+            to: '/feature-requests',
           },
           {
             label: 'Discord',
             href: 'https://discordapp.com/invite/docusaurus',
           },
           {
-            node: (): ReactNode => (
-              <Link to="/community/support" className="footer__link-item">
-                Help
-              </Link>
-            ),
+            label: 'Help',
+            to: '/community/support',
           },
         ],
       },
@@ -145,18 +141,12 @@ export default {
         title: 'More',
         items: [
           {
-            node: (): ReactNode => (
-              <Link to="/blog" className="footer__link-item">
-                Blog
-              </Link>
-            ),
+            label: 'Blog',
+            to: 'blog',
           },
           {
-            node: (): ReactNode => (
-              <Link to="/changelog" className="footer__link-item">
-                Changelog
-              </Link>
-            ),
+            label: 'Changelog',
+            to: '/changelog',
           },
           {
             label: 'GitHub',
@@ -168,10 +158,10 @@ export default {
           },
           {
             html: `
-              <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
-              </a>
-            `,
+            <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+            </a>
+          `,
           },
         ],
       },
@@ -306,4 +296,3 @@ export default {
       .filter(Boolean) as NonNullable<Preset.ThemeConfig['navbar']>['items'],
   },
 };
-// satisfies Preset.ThemeConfig;

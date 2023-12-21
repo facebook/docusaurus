@@ -455,7 +455,6 @@ export default async function createConfigAsync() {
       ],
     ],
     themeConfig: {
-      metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
