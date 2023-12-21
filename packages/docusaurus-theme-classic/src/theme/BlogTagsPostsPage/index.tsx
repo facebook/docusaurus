@@ -53,12 +53,15 @@ function useBlogTagsPostsPageTitle(tag: Props['tag']): string {
   );
 }
 
-function BlogTagsPostsPageMetadata({tag}: Props): JSX.Element {
+function BlogTagsPostsPageMetadata(props: Props): JSX.Element {
+  const {tag, listMetadata} = props;
   const title = useBlogTagsPostsPageTitle(tag);
   return (
     <>
       <PageMetadata title={title}>
-        <meta name="robots" content="noindex" />
+        {listMetadata.page === 1 ? null : (
+          <meta name="robots" content="noindex" />
+        )}
       </PageMetadata>
       <SearchMetadata tag="blog_tags_posts" />
     </>

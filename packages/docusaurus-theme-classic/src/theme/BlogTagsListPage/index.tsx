@@ -27,9 +27,7 @@ export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
         ThemeClassNames.wrapper.blogPages,
         ThemeClassNames.page.blogTagsListPage,
       )}>
-      <PageMetadata title={title}>
-        <meta name="robots" content="noindex" />
-      </PageMetadata>
+      <PageMetadata title={title} />
       <SearchMetadata tag="blog_tags_list" />
       <BlogLayout sidebar={sidebar}>
         <Heading as="h1">{title}</Heading>

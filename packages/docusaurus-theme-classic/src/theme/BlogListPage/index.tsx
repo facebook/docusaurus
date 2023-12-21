@@ -25,13 +25,13 @@ function BlogListPageMetadata(props: Props): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const {blogDescription, blogTitle, permalink} = metadata;
+  const {blogDescription, blogTitle, permalink, page} = metadata;
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
     <>
       <PageMetadata title={title} description={blogDescription}>
-        <meta name="robots" content="noindex" />
+        {page === 1 ? null : <meta name="robots" content="noindex" />}
       </PageMetadata>
       <SearchMetadata tag="blog_posts_list" />
     </>
