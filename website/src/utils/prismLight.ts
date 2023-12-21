@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {themes, type PrismTheme} from 'prism-react-renderer';
+import {themes} from 'prism-react-renderer';
+
+// TODO satisfies cause an error
 
 const baseTheme = themes.github;
 
@@ -99,4 +101,4 @@ export default {
       },
     },
   ],
-} satisfies PrismTheme;
+};
