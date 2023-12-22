@@ -49,92 +49,103 @@ $$
 
 </BrowserWindow>
 
-## Configuration {#configuration}
+## Enabling math equations {#configuration}
 
-To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
+Enable KaTeX:
 
-```bash npm2yarn
-npm install --save remark-math@6 rehype-katex@7
-```
+1.  Install the `remark-math` and `rehype-katex` plugins:
 
-:::warning
+    ```bash npm2yarn
+    npm install --save remark-math@6 rehype-katex@7
+    ```
 
-Make sure to use `remark-math 6` and `rehype-katex 7` for Docusaurus v3 (using MDX v3). We can't guarantee other versions will work.
+    :::warning
 
-:::
+    Make sure to use `remark-math 6` and `rehype-katex 7` for Docusaurus v3 (using MDX v3). We can't guarantee other versions will work.
 
-Those 2 plugins are now [**only available as ES Modules**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). To simplify usage, it is recommended to use an [**ES Modules**](https://flaviocopes.com/es-modules/) config file:
+    :::
 
-```js title="ES module docusaurus.config.js"
-// highlight-start
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-// highlight-end
+2.  These 2 plugins are [**only available as ES Modules**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). We recommended to use an [**ES Modules**](https://flaviocopes.com/es-modules/) config file:
 
-// highlight-start
-export default {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          path: 'docs',
-          // highlight-start
-          remarkPlugins: [remarkMath],
-          rehypePlugins: [rehypeKatex],
-          // highlight-end
-        },
-      },
-    ],
-  ],
-};
-```
+    ```js title="ES module docusaurus.config.js"
+    // highlight-start
+    import remarkMath from 'remark-math';
+    import rehypeKatex from 'rehype-katex';
+    // highlight-end
 
-<details>
-    <summary>Using a [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules) config file?</summary>
-
-    If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
-
-```js title="CommonJS module docusaurus.config.js"
-// highlight-start
-module.exports = async function createConfigAsync() {
-  // highlight-end
-  return {
-    presets: [
-      [
-        '@docusaurus/preset-classic',
-        {
-          docs: {
-            path: 'docs',
-            // highlight-start
-            remarkPlugins: [(await import('remark-math')).default],
-            rehypePlugins: [(await import('rehype-katex')).default],
-            // highlight-end
+    // highlight-start
+    export default {
+      presets: [
+        [
+          '@docusaurus/preset-classic',
+          {
+            docs: {
+              path: 'docs',
+              // highlight-start
+              remarkPlugins: [remarkMath],
+              rehypePlugins: [rehypeKatex],
+              // highlight-end
+            },
           },
+        ],
+      ],
+    };
+    ```
+
+        <details>
+
+    <summary>
+      Using a
+      [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules)
+      config file?
+    </summary>
+
+            If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
+
+    ```js title="CommonJS module docusaurus.config.js"
+    // highlight-start
+    module.exports = async function createConfigAsync() {
+      // highlight-end
+      return {
+        presets: [
+          [
+            '@docusaurus/preset-classic',
+            {
+              docs: {
+                path: 'docs',
+                // highlight-start
+                remarkPlugins: [(await import('remark-math')).default],
+                rehypePlugins: [(await import('rehype-katex')).default],
+                // highlight-end
+              },
+            },
+          ],
+        ],
+      };
+    };
+    ```
+
+        </details>
+
+3.  Include the KaTeX CSS in your config under `stylesheets`:
+
+    ```js
+    export default {
+      //...
+      stylesheets: [
+        {
+          href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+          type: 'text/css',
+          integrity:
+            'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+          crossorigin: 'anonymous',
         },
       ],
-    ],
-  };
-};
-```
+    };
+    ```
 
-</details>
-
-Include the KaTeX CSS in your config under `stylesheets`:
-
-```js
-stylesheets: [
-  {
-    href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
-    type: 'text/css',
-    integrity:
-      'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
-    crossorigin: 'anonymous',
-  },
-],
-```
-
-Overall the changes look like:
+<details>
+<summary>See a config file example</summary>
 
 ```js title="docusaurus.config.js"
 // highlight-start
@@ -172,6 +183,8 @@ export default {
   // highlight-end
 };
 ```
+
+</details>
 
 ## Self-hosting KaTeX assets {#self-hosting-katex-assets}
 
