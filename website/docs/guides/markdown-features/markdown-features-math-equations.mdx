@@ -53,49 +53,49 @@ $$
 
 Enable KaTeX:
 
-1. Install the `remark-math` and `rehype-katex` plugins:
+1.  Install the `remark-math` and `rehype-katex` plugins:
 
-   ```bash npm2yarn
-   npm install --save remark-math@6 rehype-katex@7
-   ```
-   
-   :::warning
-   
-   Make sure to use `remark-math 6` and `rehype-katex 7` for Docusaurus v3 (using MDX v3). We can't guarantee other versions will work.
-   
-   :::
+    ```bash npm2yarn
+    npm install --save remark-math@6 rehype-katex@7
+    ```
 
-2. These 2 plugins are [**only available as ES Modules**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). We recommended to use an [**ES Modules**](https://flaviocopes.com/es-modules/) config file:
+    :::warning
 
-   ```js title="ES module docusaurus.config.js"
-   // highlight-start
-   import remarkMath from 'remark-math';
-   import rehypeKatex from 'rehype-katex';
-   // highlight-end
-   
-   // highlight-start
-   export default {
-     presets: [
-       [
-         '@docusaurus/preset-classic',
-         {
-           docs: {
-             path: 'docs',
-             // highlight-start
-             remarkPlugins: [remarkMath],
-             rehypePlugins: [rehypeKatex],
-             // highlight-end
-           },
-         },
-       ],
-     ],
-   };
-   ```
+    Make sure to use `remark-math 6` and `rehype-katex 7` for Docusaurus v3 (using MDX v3). We can't guarantee other versions will work.
 
-    <details>
-        <summary>Using a [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules) config file?</summary>
+    :::
 
-        If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
+2.  These 2 plugins are [**only available as ES Modules**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). We recommended to use an [**ES Modules**](https://flaviocopes.com/es-modules/) config file:
+
+    ```js title="ES module docusaurus.config.js"
+    // highlight-start
+    import remarkMath from 'remark-math';
+    import rehypeKatex from 'rehype-katex';
+    // highlight-end
+
+    // highlight-start
+    export default {
+      presets: [
+        [
+          '@docusaurus/preset-classic',
+          {
+            docs: {
+              path: 'docs',
+              // highlight-start
+              remarkPlugins: [remarkMath],
+              rehypePlugins: [rehypeKatex],
+              // highlight-end
+            },
+          },
+        ],
+      ],
+    };
+    ```
+
+     <details>
+ <summary>Using a [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules) config file?</summary>
+
+         If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
 
     ```js title="CommonJS module docusaurus.config.js"
     // highlight-start
@@ -120,24 +120,24 @@ Enable KaTeX:
     };
     ```
 
-    </details>
+     </details>
 
-3. Include the KaTeX CSS in your config under `stylesheets`:
+3.  Include the KaTeX CSS in your config under `stylesheets`:
 
-   ```js
-   export default {
-   //...
-     stylesheets: [
-       {
-         href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
-         type: 'text/css',
-         integrity:
-           'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
-         crossorigin: 'anonymous',
-       },
-     ],
-   }
-   ```
+    ```js
+    export default {
+      //...
+      stylesheets: [
+        {
+          href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+          type: 'text/css',
+          integrity:
+            'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+          crossorigin: 'anonymous',
+        },
+      ],
+    };
+    ```
 
 <details>
 <summary>See a config file example</summary>
@@ -178,6 +178,7 @@ export default {
   // highlight-end
 };
 ```
+
 </details>
 
 ## Self-hosting KaTeX assets {#self-hosting-katex-assets}
