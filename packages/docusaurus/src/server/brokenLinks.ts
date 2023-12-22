@@ -159,20 +159,20 @@ function brokenLinkMessage(brokenLink: BrokenLink): string {
   }`;
 }
 
-function generalBrokenLinksMessage(
+function createBrokenLinksMessage(
   type: 'link' | 'anchor',
   pagePath: string,
-  brokenLinks: BrokenLink[],
+  allBrokenLinks: BrokenLink[],
 ): string {
-  const anchorBrokenLinks =
+  const brokenLinks =
     type === 'anchor'
-      ? brokenLinks.filter((link) => link.anchor)
-      : brokenLinks.filter((link) => !link.anchor);
+      ? allBrokenLinks.filter((link) => link.anchor)
+      : allBrokenLinks.filter((link) => !link.anchor);
 
   const anchorMessage =
-    anchorBrokenLinks.length > 0
+    brokenLinks.length > 0
       ? `- Broken ${type} on source page path = ${pagePath}:
-   -> linking to ${anchorBrokenLinks
+   -> linking to ${brokenLinks
      .map(brokenLinkMessage)
      .join('\n   -> linking to ')}`
       : '';
@@ -195,7 +195,7 @@ Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaur
 Exhaustive list of all broken anchors found:
 ${Object.entries(allBrokenLinks)
   .map(([pagePath, brokenLinks]) =>
-    generalBrokenLinksMessage('anchor', pagePath, brokenLinks),
+    createBrokenLinksMessage('anchor', pagePath, brokenLinks),
   )
   .join('\n')}
 `;
@@ -249,7 +249,7 @@ Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus c
 Exhaustive list of all broken links found:
 ${Object.entries(allBrokenLinks)
   .map(([pagePath, brokenLinks]) =>
-    generalBrokenLinksMessage('link', pagePath, brokenLinks),
+    createBrokenLinksMessage('link', pagePath, brokenLinks),
   )
   .join('\n')}
 `;
