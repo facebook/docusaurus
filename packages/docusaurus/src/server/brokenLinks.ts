@@ -112,6 +112,7 @@ function getPageBrokenLinks({
     }
     return [];
   });
+
   return brokenLinks;
 }
 
