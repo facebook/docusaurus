@@ -181,6 +181,7 @@ describe('handleBrokenLinks', () => {
   });
 
   it('no-op for ignore', async () => {
+    // TODO this mock is not future-proof, we may remove mapValues
     // In any case, _.mapValues will always be called, unless handleBrokenLinks
     // has already bailed
     const lodashMock = jest.spyOn(_, 'mapValues');
