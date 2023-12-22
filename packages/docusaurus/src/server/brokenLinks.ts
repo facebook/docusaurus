@@ -18,6 +18,8 @@ type BrokenLink = {
   anchor: boolean;
 };
 
+type BrokenLinksByLocation = {[location: string]: BrokenLink[]};
+
 type CollectedLinks = {
   [location: string]: {links: string[]; anchors: string[]};
 };
@@ -30,7 +32,7 @@ function onlyPathname(link: string) {
 function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
   [location: string]: BrokenLink[];
 } {
-  const brokenLinksByLocation: {[location: string]: BrokenLink[]} = {};
+  const brokenLinksByLocation: BrokenLinksByLocation = {};
 
   Object.entries(allCollectedCorrectLinks).forEach(([key, value]) => {
     const brokenLinks = value.links.flatMap((link) => {
@@ -130,7 +132,7 @@ function getAllBrokenLinks({
 }: {
   allCollectedLinks: CollectedLinks;
   routes: RouteConfig[];
-}): [{[location: string]: BrokenLink[]}, {[location: string]: BrokenLink[]}] {
+}): {brokenLinks: BrokenLinksByLocation; brokenAnchors: BrokenLinksByLocation} {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
   const allBrokenLinks = _.mapValues(
@@ -143,13 +145,13 @@ function getAllBrokenLinks({
         routes: filteredRoutes,
       }),
   );
-  const filteredLinks = Object.fromEntries(
+  const brokenLinks = Object.fromEntries(
     Object.entries(allBrokenLinks).filter(([, value]) => value.length > 0),
   );
 
-  const allBrokenAnchors = checkAnchorsInOtherRoutes(allCollectedLinks);
+  const brokenAnchors = checkAnchorsInOtherRoutes(allCollectedLinks);
 
-  return [filteredLinks, allBrokenAnchors];
+  return {brokenLinks, brokenAnchors};
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
@@ -270,7 +272,7 @@ export async function handleBrokenLinks({
     return;
   }
 
-  const [brokenLinks, brokenAnchors] = getAllBrokenLinks({
+  const {brokenLinks, brokenAnchors} = getAllBrokenLinks({
     allCollectedLinks,
     routes,
   });
