@@ -10,6 +10,59 @@ import _ from 'lodash';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
 
+type Params = Parameters<typeof handleBrokenLinks>[0];
+
+// We don't need all the routes attributes for our tests
+type SimpleRoute = {path: string; routes?: SimpleRoute[]};
+
+// Conveniently apply defaults to function under test
+async function testBrokenLinks(params: {
+  allCollectedLinks?: Params['allCollectedLinks'];
+  onBrokenLinks?: Params['onBrokenLinks'];
+  onBrokenAnchors?: Params['onBrokenAnchors'];
+  routes?: SimpleRoute[];
+}) {
+  await handleBrokenLinks({
+    allCollectedLinks: {},
+    onBrokenLinks: 'throw',
+    onBrokenAnchors: 'throw',
+    ...params,
+    // Unsafe but convenient for tests
+    routes: (params.routes ?? []) as RouteConfig[],
+  });
+}
+
+describe('handleBrokenLinks NEW TESTS', () => {
+  it('can accept simple valid link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      allCollectedLinks: {
+        '/page1': {links: ['/page2'], anchors: []},
+      },
+    });
+  });
+
+  it('can report simple broken link', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        allCollectedLinks: {
+          '/pageWithBrokenLink': {links: ['/brokenLink'], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /pageWithBrokenLink:
+         -> linking to /brokenLink
+      "
+    `);
+  });
+});
+
 describe('handleBrokenLinks', () => {
   const routes: RouteConfig[] = [
     {
