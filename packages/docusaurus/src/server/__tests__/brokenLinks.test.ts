@@ -55,10 +55,10 @@ describe('handleBrokenLinks', () => {
     '/docs/goodDoc': {
       links: [
         // Good links
-        './anotherGoodDoc#someHash',
-        '/docs/anotherGoodDoc?someQueryString=true#someHash',
+        './anotherGoodDoc#anotherGoodDocHash',
+        '/docs/anotherGoodDoc?someQueryString=true#anotherGoodDocHash',
         '../docs/anotherGoodDoc?someQueryString=true',
-        '../docs/anotherGoodDoc#someHash',
+        '../docs/anotherGoodDoc#anotherGoodDocHash',
         // Bad links
         '../anotherGoodDoc#reported-because-of-bad-relative-path1',
         './docThatDoesNotExist2',
@@ -71,8 +71,8 @@ describe('handleBrokenLinks', () => {
       links: [
         // Good links
         '/docs/goodDoc',
-        '/docs/anotherGoodDoc#someHash',
-        './docs/goodDoc#someHash',
+        '/docs/anotherGoodDoc#anotherGoodDocHash',
+        './docs/goodDoc#goodDocHash',
         './docs/anotherGoodDoc',
         // Bad links
         '/someNonExistentDoc1',
@@ -102,23 +102,23 @@ describe('handleBrokenLinks', () => {
       },
       '/docs/goodDoc': {
         links: [
-          '#someHash',
-          '/community#anchorFromGoodDoc',
-          './anotherGoodDoc#someHash',
-          '/docs/anotherGoodDoc?someQueryString=true#someHash',
+          '#goodDocHash',
+          '/community#communityAnchor',
+          './anotherGoodDoc#nonExistingHash', // TODO should be reported!
+          '/docs/anotherGoodDoc?someQueryString=true#anotherGoodDocHash',
           '../docs/anotherGoodDoc?someQueryString=true',
-          '../docs/anotherGoodDoc#someHash',
+          '../docs/anotherGoodDoc#anotherGoodDocHash',
         ],
-        anchors: ['someHash'], // anchors here are anchors of the page itself (/docs/goodDoc) not the links in it
+        anchors: ['goodDocHash'], // anchors here are anchors of the page itself (/docs/goodDoc) not the links in it
       },
       '/community': {
         links: [
           '/docs/goodDoc',
-          '/docs/anotherGoodDoc#someHash', // anchor here is an anchor of an other page, it should be checked against the anchors of the other page
-          './docs/goodDoc#someHash',
+          '/docs/anotherGoodDoc#anotherGoodDocHash', // anchor here is an anchor of an other page, it should be checked against the anchors of the other page
+          './docs/goodDoc#goodDocHash',
           './docs/anotherGoodDoc',
         ],
-        anchors: ['anchorFromGoodDoc'],
+        anchors: ['communityAnchor'],
       },
     };
 
