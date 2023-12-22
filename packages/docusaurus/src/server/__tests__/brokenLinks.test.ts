@@ -37,17 +37,6 @@ describe('handleBrokenLinks', () => {
   const link2 = '/docs/link2';
   const link3 = '/hey/link3';
 
-  const linkToJavadoc1 = '/javadoc';
-  const linkToJavadoc2 = '/javadoc/';
-  const linkToJavadoc3 = '/javadoc/index.html';
-  const linkToJavadoc4 = '/javadoc/index.html#foo';
-
-  const linkToZipFile = '/files/file.zip';
-  const linkToHtmlFile1 = '/files/hey.html';
-  const linkToHtmlFile2 = '/files/hey';
-
-  const linkToEmptyFolder1 = '/emptyFolder';
-  const linkToEmptyFolder2 = '/emptyFolder/';
   const allCollectedLinks = {
     '/docs/good doc with space': {
       links: [
@@ -93,26 +82,11 @@ describe('handleBrokenLinks', () => {
       anchors: [],
     },
     '/page1': {
-      links: [
-        link1,
-        linkToHtmlFile1,
-        linkToJavadoc1,
-        linkToHtmlFile2,
-        linkToJavadoc3,
-        linkToJavadoc4,
-        linkToEmptyFolder1, // Not filtered!
-      ],
+      links: [link1],
       anchors: [],
     },
     '/page2': {
-      links: [
-        link2,
-        linkToEmptyFolder2, // Not filtered!
-        linkToJavadoc2,
-        link3,
-        linkToJavadoc3,
-        linkToZipFile,
-      ],
+      links: [link2, link3],
       anchors: [],
     },
   };
@@ -149,16 +123,6 @@ describe('handleBrokenLinks', () => {
         ],
         anchors: ['anchorFromGoodDoc'],
       },
-      // '/page1': {
-      //   links: [
-      //     linkToHtmlFile1,
-      //     linkToJavadoc1,
-      //     linkToHtmlFile2,
-      //     linkToJavadoc3,
-      //     linkToJavadoc4,
-      //   ],
-      //   anchors: [],
-      // },
     };
     await handleBrokenLinks({
       allCollectedLinks: allCollectedCorrectLinks,

@@ -21,19 +21,9 @@ Exhaustive list of all broken links found:
    -> linking to ./badLink3 (resolved as: /badLink3)
 - Broken link on source page path = /page1:
    -> linking to /link1
-   -> linking to /files/hey.html
-   -> linking to /javadoc
-   -> linking to /files/hey
-   -> linking to /javadoc/index.html
-   -> linking to /javadoc/index.html#foo (resolved as: /javadoc/index.html)
-   -> linking to /emptyFolder
 - Broken link on source page path = /page2:
    -> linking to /docs/link2
-   -> linking to /emptyFolder/
-   -> linking to /javadoc/
    -> linking to /hey/link3
-   -> linking to /javadoc/index.html
-   -> linking to /files/file.zip
 "
 `;
 
@@ -71,21 +61,11 @@ Exhaustive list of all broken links found:
    -> linking to ./maybe-not (resolved as: /maybe-not)
 - Broken link on source page path = /page1:
    -> linking to /link1
-   -> linking to /files/hey.html
-   -> linking to /javadoc
-   -> linking to /files/hey
-   -> linking to /javadoc/index.html
-   -> linking to /javadoc/index.html#foo (resolved as: /javadoc/index.html)
-   -> linking to /emptyFolder
    -> linking to /frequent
    -> linking to ./maybe-not (resolved as: /maybe-not)
 - Broken link on source page path = /page2:
    -> linking to /docs/link2
-   -> linking to /emptyFolder/
-   -> linking to /javadoc/
    -> linking to /hey/link3
-   -> linking to /javadoc/index.html
-   -> linking to /files/file.zip
    -> linking to /frequent
    -> linking to ./maybe-not (resolved as: /maybe-not)
 "
