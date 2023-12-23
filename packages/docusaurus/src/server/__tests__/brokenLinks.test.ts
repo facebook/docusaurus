@@ -89,6 +89,26 @@ describe('handleBrokenLinks NEW TESTS', () => {
     });
   });
 
+  it('accepts valid link to self', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            './page1',
+            '',
+            '/page1#anchor1',
+            '#anchor1',
+            '/page1?age=42#anchor1',
+            '?age=42#anchor1',
+          ],
+          anchors: ['anchor1'],
+        },
+      },
+    });
+  });
+
   it('accepts valid link with spaces and encoding', async () => {
     await testBrokenLinks({
       routes: [{path: '/page 1'}, {path: '/page 2'}],
@@ -154,6 +174,37 @@ describe('handleBrokenLinks NEW TESTS', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot();
+  });
+
+  it('rejects broken anchor to self', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}],
+        allCollectedLinks: {
+          '/page1': {
+            links: [
+              '#goodAnchor',
+              '/page1#goodAnchor',
+              '/page1?age=42#goodAnchor',
+              '#badAnchor1',
+              '/page1#badAnchor2',
+              '/page1?age=42#badAnchor3',
+            ],
+
+            anchors: ['goodAnchor'],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+
+      "
+    `);
   });
 
   it('rejects broken anchor to uncollected page', async () => {
