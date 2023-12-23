@@ -439,6 +439,67 @@ describe('handleBrokenLinks NEW TESTS', () => {
     `);
     warnMock.mockRestore();
   });
+
+  it('reports frequent broken links differently', async () => {
+    const pagePaths = [
+      '/page1',
+      '/page2',
+      '/dir/page3',
+      '/dir/page4',
+      '/dir/page5',
+    ];
+
+    const routes: SimpleRoute[] = pagePaths.map((pagePath) => ({
+      path: pagePath,
+    }));
+
+    const allCollectedLinks: Params['allCollectedLinks'] = Object.fromEntries(
+      pagePaths.map((pagePath) => [
+        pagePath,
+        {
+          links: ['/frequentBrokenLink', './relativeFrequentBrokenLink'],
+          anchors: [],
+        },
+      ]),
+    );
+
+    await expect(() =>
+      testBrokenLinks({
+        routes,
+        allCollectedLinks,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      It looks like some of the broken links we found appear in many pages of your site.
+      Maybe those broken links appear on all pages through your site layout?
+      We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
+      Frequent broken links are linking to:
+      - /frequentBrokenLink
+      - ./relativeFrequentBrokenLink
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /frequentBrokenLink
+         -> linking to ./relativeFrequentBrokenLink (resolved as: /relativeFrequentBrokenLink)
+      - Broken link on source page path = /page2:
+         -> linking to /frequentBrokenLink
+         -> linking to ./relativeFrequentBrokenLink (resolved as: /relativeFrequentBrokenLink)
+      - Broken link on source page path = /dir/page3:
+         -> linking to /frequentBrokenLink
+         -> linking to ./relativeFrequentBrokenLink (resolved as: /dir/relativeFrequentBrokenLink)
+      - Broken link on source page path = /dir/page4:
+         -> linking to /frequentBrokenLink
+         -> linking to ./relativeFrequentBrokenLink (resolved as: /dir/relativeFrequentBrokenLink)
+      - Broken link on source page path = /dir/page5:
+         -> linking to /frequentBrokenLink
+         -> linking to ./relativeFrequentBrokenLink (resolved as: /dir/relativeFrequentBrokenLink)
+      "
+    `);
+  });
 });
 
 describe('handleBrokenLinks', () => {
