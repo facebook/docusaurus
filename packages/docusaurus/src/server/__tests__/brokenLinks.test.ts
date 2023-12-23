@@ -42,6 +42,18 @@ describe('handleBrokenLinks NEW TESTS', () => {
     });
   });
 
+  it('accepts valid link of nested route', async () => {
+    await testBrokenLinks({
+      routes: [
+        {path: '/page1'},
+        {path: '/nested/', routes: [{path: '/nested/page2'}]},
+      ],
+      allCollectedLinks: {
+        '/page1': {links: ['/nested/page2'], anchors: []},
+      },
+    });
+  });
+
   it('accepts valid relative link', async () => {
     await testBrokenLinks({
       routes: [{path: '/dir/page1'}, {path: '/dir/page2'}],
