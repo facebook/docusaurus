@@ -42,7 +42,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
     });
   });
 
-  it('accepts valid link of nested route', async () => {
+  it('accepts valid link to nested route', async () => {
     await testBrokenLinks({
       routes: [
         {path: '/page1'},
