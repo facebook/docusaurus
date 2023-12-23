@@ -192,7 +192,7 @@ function getAnchorBrokenLinksErrorMessage(allBrokenLinks: {
 
   return `Docusaurus found broken anchors!
 
-Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
 Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
 
 Exhaustive list of all broken anchors found:
