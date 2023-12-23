@@ -38,6 +38,17 @@ describe('handleBrokenLinks NEW TESTS', () => {
       routes: [{path: '/page1'}, {path: '/page2'}],
       allCollectedLinks: {
         '/page1': {links: ['/page2'], anchors: []},
+        '/page2': {links: [], anchors: []},
+      },
+    });
+  });
+
+  it('accepts valid link to uncollected page', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      allCollectedLinks: {
+        '/page1': {links: ['/page2'], anchors: []},
+        // /page2 is absent on purpose: it doesn't contain any link/anchor
       },
     });
   });
@@ -113,7 +124,18 @@ describe('handleBrokenLinks NEW TESTS', () => {
     await testBrokenLinks({
       routes: [{path: '/page 1'}, {path: '/page 2'}],
       allCollectedLinks: {
-        '/page 1': {links: ['/page 2', '/page%202'], anchors: []},
+        '/page 1': {
+          links: [
+            '/page 1',
+            '/page%201',
+            '/page%201?age=42',
+            '/page 2',
+            '/page%202',
+            '/page%202?age=42',
+          ],
+          anchors: [],
+        },
+        '/page 2': {links: [], anchors: []},
       },
     });
   });
@@ -139,7 +161,50 @@ describe('handleBrokenLinks NEW TESTS', () => {
     `);
   });
 
-  it('rejects broken anchor', async () => {
+  it('rejects broken link with anchor', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        allCollectedLinks: {
+          '/page1': {links: ['/brokenLink#anchor'], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /brokenLink#anchor (resolved as: /brokenLink)
+      "
+    `);
+  });
+
+  it('rejects broken link with querystring + anchor', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        allCollectedLinks: {
+          '/page1': {links: ['/brokenLink?age=42#anchor'], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /brokenLink?age=42#anchor (resolved as: /brokenLink)
+      "
+    `);
+  });
+
+  // TODO it does not reject
+  it('rejects valid link with broken anchor', async () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
@@ -161,7 +226,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
     `);
   });
 
-  it('rejects broken anchor with query-string', async () => {
+  it('rejects valid link with broken anchor + query-string', async () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
@@ -176,7 +241,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot();
   });
 
-  it('rejects broken anchor to self', async () => {
+  it('rejects valid link with broken anchor to self', async () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}],
@@ -190,12 +255,13 @@ describe('handleBrokenLinks NEW TESTS', () => {
               '/page1#badAnchor2',
               '/page1?age=42#badAnchor3',
             ],
-
             anchors: ['goodAnchor'],
           },
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      // TODO bad error message
+      `
       "Docusaurus found broken links!
 
       Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
@@ -204,10 +270,12 @@ describe('handleBrokenLinks NEW TESTS', () => {
       Exhaustive list of all broken links found:
 
       "
-    `);
+    `,
+    );
   });
 
-  it('rejects broken anchor to uncollected page', async () => {
+  // TODO it does not reject
+  it('rejects valid link with broken anchor to uncollected page', async () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
@@ -219,6 +287,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot();
   });
 
+  // TODO it does not reject
   it('rejects broken anchor with query-string to uncollected page', async () => {
     await expect(() =>
       testBrokenLinks({
@@ -232,6 +301,32 @@ describe('handleBrokenLinks NEW TESTS', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot();
+  });
+
+  it('can ignore broken links', async () => {
+    await testBrokenLinks({
+      onBrokenLinks: 'ignore',
+      routes: [{path: '/page1'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: ['/page2'],
+          anchors: [],
+        },
+      },
+    });
+  });
+
+  it('can ignore broken anchors', async () => {
+    await testBrokenLinks({
+      onBrokenAnchors: 'ignore',
+      routes: [{path: '/page1'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: ['/page1#brokenAnchor'],
+          anchors: [],
+        },
+      },
+    });
   });
 });
 
