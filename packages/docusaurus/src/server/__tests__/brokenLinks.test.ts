@@ -328,6 +328,117 @@ describe('handleBrokenLinks NEW TESTS', () => {
       },
     });
   });
+
+  it('can warn for broken links', async () => {
+    const warnMock = jest.spyOn(console, 'warn');
+
+    await testBrokenLinks({
+      onBrokenLinks: 'warn',
+      routes: [{path: '/page1'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: ['/page2'],
+          anchors: [],
+        },
+      },
+    });
+
+    expect(warnMock).toHaveBeenCalledTimes(1);
+    expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page2
+      ",
+        ],
+      ]
+    `);
+    warnMock.mockRestore();
+  });
+
+  it('can warn for broken anchors', async () => {
+    const warnMock = jest.spyOn(console, 'warn');
+
+    await testBrokenLinks({
+      onBrokenAnchors: 'warn',
+      routes: [{path: '/page1'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: ['/page1#brokenAnchor'],
+          anchors: [],
+        },
+      },
+    });
+
+    expect(warnMock).toHaveBeenCalledTimes(1);
+    expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Docusaurus found broken anchors!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page1#brokenAnchor (resolved as: /page1)
+      ",
+        ],
+      ]
+    `);
+    warnMock.mockRestore();
+  });
+
+  it('can warn for both broken links and anchors', async () => {
+    const warnMock = jest.spyOn(console, 'warn');
+
+    await testBrokenLinks({
+      onBrokenLinks: 'warn',
+      onBrokenAnchors: 'warn',
+      routes: [{path: '/page1'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: ['/page1#brokenAnchor', '/page2'],
+          anchors: [],
+        },
+      },
+    });
+
+    expect(warnMock).toHaveBeenCalledTimes(2);
+    expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page2
+      ",
+        ],
+        [
+          "[WARNING] Docusaurus found broken anchors!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page1#brokenAnchor (resolved as: /page1)
+      ",
+        ],
+      ]
+    `);
+    warnMock.mockRestore();
+  });
 });
 
 describe('handleBrokenLinks', () => {
