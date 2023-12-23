@@ -33,7 +33,7 @@ async function testBrokenLinks(params: {
 }
 
 describe('handleBrokenLinks NEW TESTS', () => {
-  it('can accept simple valid link', async () => {
+  it('accepts valid link', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
       allCollectedLinks: {
@@ -42,11 +42,56 @@ describe('handleBrokenLinks NEW TESTS', () => {
     });
   });
 
-  it('can report simple broken link', async () => {
+  it('accepts valid relative link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/dir/page1'}, {path: '/dir/page2'}],
+      allCollectedLinks: {
+        '/dir/page1': {
+          links: ['./page2', '../dir/page2', '/dir/page2'],
+          anchors: [],
+        },
+      },
+    });
+  });
+
+  it('accepts valid link with anchor', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      allCollectedLinks: {
+        '/page1': {links: ['/page2#page2anchor'], anchors: []},
+        '/page2': {links: [], anchors: ['page2anchor']},
+      },
+    });
+  });
+
+  it('accepts valid link with querystring + anchor', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      allCollectedLinks: {
+        '/page1': {
+          links: ['/page2?age=42&theme=dark#page2anchor'],
+          anchors: [],
+        },
+        '/page2': {links: [], anchors: ['page2anchor']},
+      },
+    });
+  });
+
+  it('accepts valid link with spaces and encoding', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      allCollectedLinks: {
+        '/page 1': {links: ['/page 2', '/page%202'], anchors: []},
+      },
+    });
+  });
+
+  it('rejects broken link', async () => {
     await expect(() =>
       testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
         allCollectedLinks: {
-          '/pageWithBrokenLink': {links: ['/brokenLink'], anchors: []},
+          '/page1': {links: ['/brokenLink'], anchors: []},
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
@@ -56,10 +101,74 @@ describe('handleBrokenLinks NEW TESTS', () => {
       Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
 
       Exhaustive list of all broken links found:
-      - Broken link on source page path = /pageWithBrokenLink:
+      - Broken link on source page path = /page1:
          -> linking to /brokenLink
       "
     `);
+  });
+
+  it('rejects broken anchor', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        allCollectedLinks: {
+          '/page1': {links: ['/page2#brokenAnchor'], anchors: []},
+          '/page2': {links: [], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken anchors!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page2#brokenAnchor (resolved as: /page2)
+      "
+    `);
+  });
+
+  it('rejects broken anchor with query-string', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        allCollectedLinks: {
+          '/page1': {
+            links: ['/page2?age=42&theme=dark#brokenAnchor'],
+            anchors: [],
+          },
+          '/page2': {links: [], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot();
+  });
+
+  it('rejects broken anchor to uncollected page', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        allCollectedLinks: {
+          '/page1': {links: ['/page2#brokenAnchor'], anchors: []},
+          // /page2 is absent on purpose: it doesn't contain any link/anchor
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot();
+  });
+
+  it('rejects broken anchor with query-string to uncollected page', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        allCollectedLinks: {
+          '/page1': {
+            links: ['/page2?age=42&theme=dark#brokenAnchor'],
+            anchors: [],
+          },
+          // /page2 is absent on purpose: it doesn't contain any link/anchor
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot();
   });
 });
 
