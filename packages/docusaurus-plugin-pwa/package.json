@@ -36,9 +36,9 @@
     "webpack": "^5.88.1",
     "webpack-merge": "^5.9.0",
     "webpackbar": "^5.0.2",
-    "workbox-build": "^6.6.1",
-    "workbox-precaching": "^6.6.1",
-    "workbox-window": "^6.6.1"
+    "workbox-build": "^7.0.0",
+    "workbox-precaching": "^7.0.0",
+    "workbox-window": "^7.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.0.0",
