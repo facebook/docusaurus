@@ -40,11 +40,7 @@ function ReadingTime({readingTime}: {readingTime: number}) {
 }
 
 function Date({date, formattedDate}: {date: string; formattedDate: string}) {
-  return (
-    <time dateTime={date} itemProp="datePublished">
-      {formattedDate}
-    </time>
-  );
+  return <time dateTime={date}>{formattedDate}</time>;
 }
 
 function Spacer() {

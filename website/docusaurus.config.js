@@ -430,6 +430,8 @@ module.exports = async function createConfigAsync() {
               type: 'all',
               copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
             },
+            blogTitle: 'Docusaurus blog',
+            blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
           },

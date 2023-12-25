@@ -197,6 +197,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readonly formattedDate: string;
     /** Full link including base URL. */
     readonly permalink: string;
+    /** the path to the base of the blog */
+    readonly baseBlogPermalink: string;
+    /** title of the overall blog */
+    readonly baseBlogTitle: string;
     /**
      * Description used in the meta. Could be an empty string (empty content)
      */
@@ -552,6 +556,27 @@ declare module '@theme/BlogPostPage/Metadata' {
   export default function BlogPostPageMetadata(): JSX.Element;
 }
 
+declare module '@theme/BlogPostPage/StructuredData' {
+  import type {
+    BlogPostFrontMatter,
+    PropBlogPostContent,
+  } from '@docusaurus/plugin-content-blog';
+
+  export type FrontMatter = BlogPostFrontMatter;
+
+  export type Assets = PropBlogPostContent['assets'];
+
+  export type Metadata = PropBlogPostContent['metadata'];
+
+  export interface Props {
+    readonly assets: Assets;
+    readonly frontMatter: FrontMatter;
+    readonly metadata: Metadata;
+  }
+
+  export default function BlogPostStructuredData(props: Props): JSX.Element;
+}
+
 declare module '@theme/BlogListPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
@@ -572,6 +597,28 @@ declare module '@theme/BlogListPage' {
   }
 
   export default function BlogListPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogListPage/StructuredData' {
+  import type {Content} from '@theme/BlogPostPage';
+  import type {
+    BlogSidebar,
+    BlogPaginatedMetadata,
+  } from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    /** Blog sidebar. */
+    readonly sidebar: BlogSidebar;
+    /** Metadata of the current listing page. */
+    readonly metadata: BlogPaginatedMetadata;
+    /**
+     * Array of blog posts included on this page. Every post's metadata is also
+     * available.
+     */
+    readonly items: readonly {readonly content: Content}[];
+  }
+
+  export default function BlogListPageStructuredData(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogTagsListPage' {

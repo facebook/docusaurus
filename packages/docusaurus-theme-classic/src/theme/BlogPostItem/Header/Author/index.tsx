@@ -28,31 +28,18 @@ export default function BlogPostItemHeaderAuthor({
     <div className={clsx('avatar margin-bottom--sm', className)}>
       {imageURL && (
         <MaybeLink href={link} className="avatar__photo-link">
-          <img
-            className="avatar__photo"
-            src={imageURL}
-            alt={name}
-            itemProp="image"
-          />
+          <img className="avatar__photo" src={imageURL} alt={name} />
         </MaybeLink>
       )}
 
       {name && (
-        <div
-          className="avatar__intro"
-          itemProp="author"
-          itemScope
-          itemType="https://schema.org/Person">
+        <div className="avatar__intro">
           <div className="avatar__name">
-            <MaybeLink href={link} itemProp="url">
-              <span itemProp="name">{name}</span>
+            <MaybeLink href={link}>
+              <span>{name}</span>
             </MaybeLink>
           </div>
-          {title && (
-            <small className="avatar__subtitle" itemProp="description">
-              {title}
-            </small>
-          )}
+          {title && <small className="avatar__subtitle">{title}</small>}
         </div>
       )}
     </div>

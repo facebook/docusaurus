@@ -19,6 +19,7 @@ import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogListPage';
 import BlogPostItems from '@theme/BlogPostItems';
+import BlogListPageStructuredData from '@theme/BlogListPage/StructuredData';
 
 function BlogListPageMetadata(props: Props): JSX.Element {
   const {metadata} = props;
@@ -54,6 +55,7 @@ export default function BlogListPage(props: Props): JSX.Element {
         ThemeClassNames.page.blogListPage,
       )}>
       <BlogListPageMetadata {...props} />
+      <BlogListPageStructuredData {...props} />
       <BlogListPageContent {...props} />
     </HtmlClassNameProvider>
   );

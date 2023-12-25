@@ -13,6 +13,7 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import BlogPostPageMetadata from '@theme/BlogPostPage/Metadata';
+import BlogPostPageStructuredData from '@theme/BlogPostPage/StructuredData';
 import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogPostPage';
 import Unlisted from '@theme/Unlisted';
@@ -25,7 +26,7 @@ function BlogPostPageContent({
   sidebar: BlogSidebar;
   children: ReactNode;
 }): JSX.Element {
-  const {metadata, toc} = useBlogPost();
+  const {metadata, toc, assets} = useBlogPost();
   const {nextItem, prevItem, frontMatter, unlisted} = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
@@ -45,6 +46,13 @@ function BlogPostPageContent({
         ) : undefined
       }>
       {unlisted && <Unlisted />}
+
+      <BlogPostPageStructuredData
+        frontMatter={frontMatter}
+        assets={assets}
+        metadata={metadata}
+      />
+
       <BlogPostItem>{children}</BlogPostItem>
 
       {(nextItem || prevItem) && (
