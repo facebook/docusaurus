@@ -259,7 +259,17 @@ describe('handleBrokenLinks NEW TESTS', () => {
           '/page2': {links: [], anchors: []},
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot();
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken anchors!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page2#brokenAnchor (resolved as: /page2)
+      "
+    `);
   });
 
   it('rejects valid link with broken anchor to self', async () => {
@@ -305,7 +315,16 @@ describe('handleBrokenLinks NEW TESTS', () => {
           // /page2 is absent on purpose: it doesn't contain any link/anchor
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot();
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+
+      "
+    `);
   });
 
   // TODO it does not reject
@@ -321,7 +340,16 @@ describe('handleBrokenLinks NEW TESTS', () => {
           // /page2 is absent on purpose: it doesn't contain any link/anchor
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot();
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+
+      "
+    `);
   });
 
   it('can ignore broken links', async () => {

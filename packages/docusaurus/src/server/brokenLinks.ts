@@ -29,14 +29,33 @@ function onlyPathname(link: string) {
   return link.split('#')[0]!.split('?')[0]!;
 }
 
+function getRouteAndAnchor(link: string) {
+  const url = new URL(link, 'https://example.com');
+  const [, splitAnchor] = link.split('#');
+
+  const route = url.pathname;
+  const anchor = url.hash.slice(1) || undefined;
+
+  if (splitAnchor === '') {
+    // rejects valid link with empty broken anchor
+    // new URL will return an empty string /docs# and /docs
+    return {route, anchor: ''};
+  }
+
+  return {route, anchor};
+}
+
 function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
   [location: string]: BrokenLink[];
 } {
   const brokenLinksByLocation: BrokenLinksByLocation = {};
 
-  Object.entries(allCollectedCorrectLinks).forEach(([key, value]) => {
+  const linkEntries = Object.entries(allCollectedCorrectLinks);
+
+  linkEntries.forEach(([key, value]) => {
     const brokenLinks = value.links.flatMap((link) => {
-      const [route, anchor] = link.split('#');
+      const {route, anchor} = getRouteAndAnchor(link);
+      // const [route, anchor] = link.split('#');
       if (route !== '' && anchor !== undefined) {
         const targetRoute = allCollectedCorrectLinks[route!];
         if (targetRoute && !targetRoute.anchors.includes(anchor)) {
@@ -149,6 +168,8 @@ function getAllBrokenLinks({
   const brokenLinks = Object.fromEntries(
     Object.entries(allBrokenLinks).filter(([, value]) => value.length > 0),
   );
+  // console.log('brokenLinks:', brokenLinks);
+  // console.log('allBrokenLinks:', allBrokenLinks);
 
   const brokenAnchors = checkAnchorsInOtherRoutes(allCollectedLinks);
 
