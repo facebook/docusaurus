@@ -609,12 +609,17 @@ const MyComponent = () => {
 
 React hook to access the BrokenLinks context. The context provides methods for collecting and managing information about anchors and links.
 
+:::info
+
+This is an advanced hook, most users won't need it.
+
+:::
+
 Usage example:
 
-```js
+```js title=MyHeading.js
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
 
-// MyHeading component
 export default function MyHeading({id, ...props}): JSX.Element {
   const brokenLinks = useBrokenLinks();
 
@@ -624,10 +629,9 @@ export default function MyHeading({id, ...props}): JSX.Element {
 }
 ```
 
-```js
+```js title=MyLink.js
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
 
-// MyLink component
 export default function MyLink({targetLink, ...props}): JSX.Element {
   const brokenLinks = useBrokenLinks();
 
