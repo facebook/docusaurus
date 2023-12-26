@@ -218,6 +218,9 @@ cli.arguments('<command>').action((cmd) => {
   logger.error`    Unknown command name=${cmd}.`;
 });
 
+// === The above is the commander configuration ===
+// They don't start any code execution yet until cli.parse() is called below
+
 /**
  * @param {string | undefined} command
  */
@@ -237,12 +240,29 @@ function isInternalCommand(command) {
   );
 }
 
-if (!isInternalCommand(process.argv.slice(2)[0])) {
-  await externalCommand(cli);
+// process.argv always looks like this:
+// [
+//   '/path/to/node',
+//   '/path/to/docusaurus.mjs',
+//   '<subcommand>',
+//   ...subcommandArgs
+// ]
+
+// There is no subcommand
+// TODO: can we use commander to handle this case?
+if (process.argv.length < 3 || process.argv[2]?.startsWith('--')) {
+  cli.outputHelp();
+  process.exit(1);
 }
 
-if (!process.argv.slice(2).length) {
-  cli.outputHelp();
+// There is an unrecognized subcommand
+// Let plugins extend the CLI before parsing
+if (!isInternalCommand(process.argv[2])) {
+  // TODO: in this step, we must assume default site structure because there's
+  // no way to know the siteDir/config yet. Maybe the root cli should be
+  // responsible for parsing these arguments?
+  // https://github.com/facebook/docusaurus/issues/8903
+  await externalCommand(cli);
 }
 
 cli.parse(process.argv);

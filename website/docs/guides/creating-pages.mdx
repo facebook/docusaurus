@@ -137,4 +137,4 @@ All JavaScript/TypeScript files within the `src/pages/` directory will have corr
 
 ### Duplicate Routes {#duplicate-routes}
 
-You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build`, but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.
+You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build` (behavior configurable through the [`onDuplicateRoutes`](../api/docusaurus.config.js.mdx#onDuplicateRoutes) config), but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.

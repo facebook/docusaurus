@@ -8,9 +8,10 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
-  parseFrontMatter,
+  DEFAULT_PARSE_FRONT_MATTER,
   escapePath,
   getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
@@ -132,19 +133,25 @@ function extractContentTitleData(data: {
 
 export async function mdxLoader(
   this: LoaderContext<Options>,
-  fileString: string,
+  fileContent: string,
 ): Promise<void> {
+  const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions: Options = this.getOptions();
   const {query} = this;
+
   ensureMarkdownConfig(reqOptions);
 
-  const {frontMatter} = parseFrontMatter(fileString);
+  const {frontMatter} = await reqOptions.markdownConfig.parseFrontMatter({
+    filePath,
+    fileContent,
+    defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  });
   const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
 
   const preprocessedContent = preprocessor({
-    fileContent: fileString,
+    fileContent,
     filePath,
     admonitions: reqOptions.admonitions,
     markdownConfig: reqOptions.markdownConfig,
@@ -165,6 +172,7 @@ export async function mdxLoader(
       content: preprocessedContent,
       filePath,
       frontMatter,
+      compilerName,
     });
   } catch (errorUnknown) {
     const error = errorUnknown as Error;

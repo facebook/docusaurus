@@ -128,7 +128,7 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
     const linkSuffixPattern = '(?:\\?[^#>\\s]+)?(?:#[^>\\s]+)?';
     const linkCapture = (forbidden: string) =>
       `((?!https?://|@site/)[^${forbidden}#?]+)`;
-    const linkURLPattern = `(?:${linkCapture(
+    const linkURLPattern = `(?:(?!<)${linkCapture(
       '()\\s',
     )}${linkSuffixPattern}|<${linkCapture('>')}${linkSuffixPattern}>)`;
     const linkPattern = new RegExp(

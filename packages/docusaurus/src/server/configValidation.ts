@@ -6,6 +6,7 @@
  */
 
 import {
+  DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
   addLeadingSlash,
@@ -13,7 +14,11 @@ import {
   removeTrailingSlash,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import type {
+  DocusaurusConfig,
+  I18nConfig,
+  MarkdownConfig,
+} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -22,6 +27,18 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   path: DEFAULT_I18N_DIR_NAME,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
+};
+
+export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
+  format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
+  mermaid: false,
+  preprocessor: undefined,
+  parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  mdx1Compat: {
+    comments: true,
+    admonitions: true,
+    headingIds: true,
+  },
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -64,16 +81,7 @@ export const DEFAULT_CONFIG: Pick<
   tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
-  markdown: {
-    format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
-    mermaid: false,
-    preprocessor: undefined,
-    mdx1Compat: {
-      comments: true,
-      admonitions: true,
-      headingIds: true,
-    },
-  },
+  markdown: DEFAULT_MARKDOWN_CONFIG,
 };
 
 function createPluginSchema(theme: boolean) {
@@ -280,6 +288,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     format: Joi.string()
       .equal('mdx', 'md', 'detect')
       .default(DEFAULT_CONFIG.markdown.format),
+    parseFrontMatter: Joi.function().default(
+      () => DEFAULT_CONFIG.markdown.parseFrontMatter,
+    ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
     preprocessor: Joi.function()
       .arity(1)

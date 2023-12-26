@@ -16,6 +16,7 @@ import type {
   LoadContext,
   I18n,
   Validate,
+  MarkdownConfig,
 } from '@docusaurus/types';
 import type {
   BlogPost,
@@ -23,6 +24,24 @@ import type {
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';
+
+const markdown: MarkdownConfig = {
+  format: 'mdx',
+  mermaid: true,
+  mdx1Compat: {
+    comments: true,
+    headingIds: true,
+    admonitions: true,
+  },
+  parseFrontMatter: async (params) => {
+    // Reuse the default parser
+    const result = await params.defaultParseFrontMatter(params);
+    if (result.frontMatter.title === 'Complex Slug') {
+      result.frontMatter.custom_frontMatter = 'added by parseFrontMatter';
+    }
+    return result;
+  },
+};
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -81,6 +100,7 @@ const getPlugin = async (
     title: 'Hello',
     baseUrl: '/',
     url: 'https://docusaurus.io',
+    markdown,
   } as DocusaurusConfig;
   return pluginContentBlog(
     {
@@ -242,6 +262,7 @@ describe('blog plugin', () => {
         slug: '/hey/my super path/héllô',
         title: 'Complex Slug',
         tags: ['date', 'complex'],
+        custom_frontMatter: 'added by parseFrontMatter',
       },
       tags: [
         {

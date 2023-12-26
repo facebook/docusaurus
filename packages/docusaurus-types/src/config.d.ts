@@ -27,6 +27,20 @@ export type MDX1CompatOptions = {
   headingIds: boolean;
 };
 
+export type ParseFrontMatterParams = {filePath: string; fileContent: string};
+export type ParseFrontMatterResult = {
+  frontMatter: {[key: string]: unknown};
+  content: string;
+};
+export type DefaultParseFrontMatter = (
+  params: ParseFrontMatterParams,
+) => Promise<ParseFrontMatterResult>;
+export type ParseFrontMatter = (
+  params: ParseFrontMatterParams & {
+    defaultParseFrontMatter: DefaultParseFrontMatter;
+  },
+) => Promise<ParseFrontMatterResult>;
+
 export type MarkdownConfig = {
   /**
    * The Markdown format to use by default.
@@ -43,6 +57,14 @@ export type MarkdownConfig = {
    * @default 'mdx'
    */
   format: 'mdx' | 'md' | 'detect';
+
+  /**
+   * A function callback that lets users parse the front matter themselves.
+   * Gives the opportunity to read it from a different source, or process it.
+   *
+   * @see https://github.com/facebook/docusaurus/issues/5568
+   */
+  parseFrontMatter: ParseFrontMatter;
 
   /**
    * Allow mermaid language code blocks to be rendered into Mermaid diagrams:

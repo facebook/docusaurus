@@ -8,9 +8,9 @@
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 import u from 'unist-builder';
-import removePosition from 'unist-util-remove-position';
+import {removePosition} from 'unist-util-remove-position';
 import {toString} from 'mdast-util-to-string';
-import visit from 'unist-util-visit';
+import {visit} from 'unist-util-visit';
 import slug from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
@@ -18,7 +18,9 @@ import type {Parent} from 'unist';
 async function process(doc: string, plugins: Plugin[] = []) {
   const {remark} = await import('remark');
   const processor = await remark().use({plugins: [...plugins, slug]});
-  return removePosition(await processor.run(processor.parse(doc)), true);
+  const result = await processor.run(processor.parse(doc));
+  removePosition(result, {force: true});
+  return result;
 }
 
 function heading(label: string | null, id: string) {

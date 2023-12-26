@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getDataFileData} from '@docusaurus/utils';
+import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {BlogContentPaths} from './types';
 import type {
@@ -68,17 +68,37 @@ export async function getAuthorsMap(params: {
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;
   authorsMap: AuthorsMap | undefined;
+  baseUrl: string;
 };
+
+function normalizeImageUrl({
+  imageURL,
+  baseUrl,
+}: {
+  imageURL: string | undefined;
+  baseUrl: string;
+}) {
+  return imageURL?.startsWith('/')
+    ? normalizeUrl([baseUrl, imageURL])
+    : imageURL;
+}
 
 // Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
-function getFrontMatterAuthorLegacy(
-  frontMatter: BlogPostFrontMatter,
-): Author | undefined {
+function getFrontMatterAuthorLegacy({
+  baseUrl,
+  frontMatter,
+}: {
+  baseUrl: string;
+  frontMatter: BlogPostFrontMatter;
+}): Author | undefined {
   const name = frontMatter.author;
   const title = frontMatter.author_title ?? frontMatter.authorTitle;
   const url = frontMatter.author_url ?? frontMatter.authorURL;
-  const imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
+  const imageURL = normalizeImageUrl({
+    imageURL: frontMatter.author_image_url ?? frontMatter.authorImageURL,
+    baseUrl,
+  });
 
   if (name || title || url || imageURL) {
     return {
@@ -148,14 +168,26 @@ ${Object.keys(authorsMap)
   return frontMatterAuthors.map(toAuthor);
 }
 
+function fixAuthorImageBaseURL(
+  authors: Author[],
+  {baseUrl}: {baseUrl: string},
+) {
+  return authors.map((author) => ({
+    ...author,
+    imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+  }));
+}
+
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
-  const authorLegacy = getFrontMatterAuthorLegacy(params.frontMatter);
+  const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
+
+  const updatedAuthors = fixAuthorImageBaseURL(authors, params);
 
   if (authorLegacy) {
     // Technically, we could allow mixing legacy/authors front matter, but do we
     // really want to?
-    if (authors.length > 0) {
+    if (updatedAuthors.length > 0) {
       throw new Error(
         `To declare blog post authors, use the 'authors' front matter in priority.
 Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
@@ -164,5 +196,5 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
     return [authorLegacy];
   }
 
-  return authors;
+  return updatedAuthors;
 }

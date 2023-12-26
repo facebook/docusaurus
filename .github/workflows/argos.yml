@@ -23,18 +23,14 @@ jobs:
     # Argos is heavy to run
     # We only want to trigger Argos on PRs with the 'Argos' label
     # See https://stackoverflow.com/questions/62325286/run-github-actions-when-pull-requests-have-a-specific-label
-    if: ${{ github.ref_name == 'main' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos')) }}
+    if: ${{ (github.event_name != 'pull_request' && github.ref_name == 'main') || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-        with:
-          # A minimal fetch-depth of 2 is required
-          # to automatically detect branch in @argos-ci/cli
-          fetch-depth: 2
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4.0.1
         with:
           node-version: 18
 
@@ -49,7 +45,3 @@ jobs:
 
       - name: Take Argos screenshots
         run: yarn argos:screenshot
-
-      - name: Upload Argos screenshots
-        continue-on-error: true
-        run: yarn argos:upload

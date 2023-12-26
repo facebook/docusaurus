@@ -23,8 +23,8 @@ module.exports = {
     ],
     './plugin3.js',
     ['./plugin4.js', {}],
+    './pluginEsm',
+    './pluginTypeScript',
   ],
-  presets: [
-    './preset.js',
-  ],
+  presets: ['./preset.js'],
 };

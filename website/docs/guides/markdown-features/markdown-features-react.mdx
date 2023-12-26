@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 import styles from './markdown-features-react.module.css';
 ```
 
-Docusaurus has built-in support for [MDX v2](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
+Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
 
 Check out the [MDX docs](https://mdxjs.com/) to see what fancy stuff you can do with MDX.
 
@@ -22,6 +22,12 @@ Check out the [MDX docs](https://mdxjs.com/) to see what fancy stuff you can do 
 The MDX format is quite strict, and you may get compilation errors.
 
 Use the **[MDX playground](https://mdxjs.com/playground/)** to debug them and make sure your syntax is valid.
+
+:::
+
+:::info
+
+Prettier, the most popular formatter, [supports only the legacy MDX v1](https://github.com/prettier/prettier/issues/12209). If you get an unintentional formatting result, you may want to add `{/* prettier-ignore */}` before the problematic area, or add `*.mdx` to your `.prettierignore`, until Prettier has proper support for MDX v3. [One of the main authors of MDX recommends `remark-cli` with `remark-mdx`](https://github.com/orgs/mdx-js/discussions/2067).
 
 :::
 
@@ -194,7 +200,7 @@ I can conveniently use <Highlight color="#25c2a0">Docusaurus green</Highlight> e
 
 We use **upper-case** tag names like `Highlight` on purpose.
 
-From MDX v2+ onward (Docusaurus v3+), lower-case tag names are always rendered as native html elements, and will not use any component mapping you provide.
+From MDX v3+ onward (Docusaurus v3+), lower-case tag names are always rendered as native html elements, and will not use any component mapping you provide.
 
 :::
 
@@ -227,7 +233,7 @@ If you don't wrap your imported MDX with `MDXContent`, the global scope will not
 
 ### Markdown and JSX interoperability {#markdown-and-jsx-interoperability}
 
-Docusaurus v3 is using [MDX v2](https://mdxjs.com/blog/v2/).
+Docusaurus v3 is using [MDX v3](https://mdxjs.com/blog/v3/).
 
 The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files can use JSX and are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
 

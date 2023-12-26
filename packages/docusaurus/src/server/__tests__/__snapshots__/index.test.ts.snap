@@ -98,6 +98,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "headingIds": true,
       },
       "mermaid": false,
+      "parseFrontMatter": [Function],
       "preprocessor": undefined,
     },
     "noIndex": false,
