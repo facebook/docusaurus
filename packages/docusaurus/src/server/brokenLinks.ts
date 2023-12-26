@@ -62,15 +62,15 @@ function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
           return [
             {
               link: `${route}#${anchor}`,
-              resolvedLink: route!,
+              resolvedLink: route,
               anchor: true,
             },
           ];
-        } else if (!targetRoute) {
+        } else if (!targetRoute && !collection.anchors.includes(anchor)) {
           return [
             {
               link: `${route}#${anchor}`,
-              resolvedLink: route!,
+              resolvedLink: route,
               anchor: true,
             },
           ];
