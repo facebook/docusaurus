@@ -384,6 +384,61 @@ y = times2(x);
 \end{document}
 ```
 
+```vbnet title="vbnet.vb"
+Dim languages As New Set(Of String) From {
+    ' highlight-start
+    "C#",
+    "Visual Basic",
+    "F#",
+    ' highlight-end
+    "PowerShell",
+    ' highlight-next-line
+    "TypeScript"
+}
+```
+
+```batch title="cmd.bat"
+rem highlight-start
+@echo off
+setlocal
+Rem highlight-end
+ipconfig
+REM highlight-next-line
+echo Docusaurus is awesome
+netstat
+```
+
+```fortran title="fortran.f90"
+! highlight-start
+program hello
+! highlight-end
+  implicit none
+  ! highlight-next-line
+  print *, "Hello, World!"
+end program hello
+```
+
+```cobol title="cobol.cob"
+*> highlight-start
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO.
+*> highlight-end
+PROCEDURE DIVISION.
+  *> highlight-next-line
+  DISPLAY "Hello, World!".
+END PROGRAM HELLO.
+```
+
+```fsharp title="fsharp.fsx"
+(* highlight-start *)
+[<EntryPoint>]
+(* highlight-end *)
+let main _ =
+    // highlight-next-line
+    printfn "Hello, World!"
+    0
+```
+
 ## HTML - script + style highlighting
 
 See https://github.com/facebook/docusaurus/issues/9517
