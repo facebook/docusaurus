@@ -29,8 +29,21 @@ function onlyPathname(link: string) {
   return link.split('#')[0]!.split('?')[0]!;
 }
 
-function getRouteAndAnchor(link: string) {
-  const url = new URL(link, 'https://example.com');
+function parseLocalPath(localUrl: string, base?: string | URL): URL {
+  try {
+    return new URL(localUrl, base ?? 'https://example.com');
+  } catch (e) {
+    throw new Error(`Can't parse local path: ${localUrl}`);
+  }
+}
+
+function parseLink(link: string, from: string): URL {
+  const base = parseLocalPath(from);
+  return parseLocalPath(link, base);
+}
+
+function getRouteAndAnchor(link: string, fromPath: string) {
+  const url = parseLink(link, fromPath);
   const [, splitAnchor] = link.split('#');
 
   const route = url.pathname;
@@ -54,7 +67,7 @@ function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
 
   linkCollection.forEach(([path, collection]) => {
     const brokenLinks = collection.links.flatMap((link) => {
-      const {route, anchor} = getRouteAndAnchor(link);
+      const {route, anchor} = getRouteAndAnchor(link, path);
       if (anchor !== undefined) {
         const targetRoute = allCollectedCorrectLinks[route];
 

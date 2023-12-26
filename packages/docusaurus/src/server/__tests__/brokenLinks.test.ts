@@ -278,6 +278,8 @@ describe('handleBrokenLinks NEW TESTS', () => {
         allCollectedLinks: {
           '/page1': {
             links: [
+              '/page1',
+              '',
               '#goodAnchor',
               '/page1#goodAnchor',
               '/page1?age=42#goodAnchor',
