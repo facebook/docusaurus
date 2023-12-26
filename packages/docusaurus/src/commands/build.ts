@@ -110,7 +110,7 @@ export async function build(
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
 
-  const results = await mapAsyncSequential(orderedLocales, (locale: any) => {
+  const results = await mapAsyncSequential(orderedLocales, (locale) => {
     const isLastLocale =
       orderedLocales.indexOf(locale) === orderedLocales.length - 1;
     return tryToBuildLocale({locale, isLastLocale});
