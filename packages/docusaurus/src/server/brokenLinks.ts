@@ -50,15 +50,23 @@ function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
 } {
   const brokenLinksByLocation: BrokenLinksByLocation = {};
 
-  const linkEntries = Object.entries(allCollectedCorrectLinks);
+  const linkCollection = Object.entries(allCollectedCorrectLinks);
 
-  linkEntries.forEach(([key, value]) => {
-    const brokenLinks = value.links.flatMap((link) => {
+  linkCollection.forEach(([path, collection]) => {
+    const brokenLinks = collection.links.flatMap((link) => {
       const {route, anchor} = getRouteAndAnchor(link);
-      // const [route, anchor] = link.split('#');
-      if (route !== '' && anchor !== undefined) {
-        const targetRoute = allCollectedCorrectLinks[route!];
+      if (anchor !== undefined) {
+        const targetRoute = allCollectedCorrectLinks[route];
+
         if (targetRoute && !targetRoute.anchors.includes(anchor)) {
+          return [
+            {
+              link: `${route}#${anchor}`,
+              resolvedLink: route!,
+              anchor: true,
+            },
+          ];
+        } else if (!targetRoute) {
           return [
             {
               link: `${route}#${anchor}`,
@@ -72,7 +80,7 @@ function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
     });
 
     if (brokenLinks.length > 0) {
-      brokenLinksByLocation[key] = brokenLinks;
+      brokenLinksByLocation[path] = brokenLinks;
     }
   });
 

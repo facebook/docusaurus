@@ -246,7 +246,6 @@ describe('handleBrokenLinks NEW TESTS', () => {
     `);
   });
 
-  // TODO it does not reject
   it('rejects valid link with broken anchor + query-string', async () => {
     await expect(() =>
       testBrokenLinks({
@@ -305,7 +304,6 @@ describe('handleBrokenLinks NEW TESTS', () => {
     );
   });
 
-  // TODO it does not reject
   it('rejects valid link with broken anchor to uncollected page', async () => {
     await expect(() =>
       testBrokenLinks({
@@ -316,18 +314,18 @@ describe('handleBrokenLinks NEW TESTS', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus found broken links!
+      "Docusaurus found broken anchors!
 
-      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
-      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
 
-      Exhaustive list of all broken links found:
-
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page2#brokenAnchor (resolved as: /page2)
       "
     `);
   });
 
-  // TODO it does not reject
   it('rejects broken anchor with query-string to uncollected page', async () => {
     await expect(() =>
       testBrokenLinks({
@@ -341,13 +339,14 @@ describe('handleBrokenLinks NEW TESTS', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus found broken links!
+      "Docusaurus found broken anchors!
 
-      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
-      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
 
-      Exhaustive list of all broken links found:
-
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page2#brokenAnchor (resolved as: /page2)
       "
     `);
   });
