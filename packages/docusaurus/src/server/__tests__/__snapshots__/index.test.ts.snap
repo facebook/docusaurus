@@ -100,6 +100,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
       "mermaid": false,
       "parseFrontMatter": [Function],
       "preprocessor": undefined,
+      "remarkRehypeOptions": undefined,
     },
     "noIndex": false,
     "onBrokenLinks": "throw",

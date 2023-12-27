@@ -69,6 +69,9 @@ describe('normalizeConfig', () => {
           admonitions: false,
           headingIds: true,
         },
+        remarkRehypeOptions: {
+          footnoteLabel: 'Pied de page',
+        },
       },
     };
     const normalizedConfig = normalizeConfig(userConfig);
@@ -513,6 +516,11 @@ describe('markdown', () => {
         comments: false,
         admonitions: true,
         headingIds: false,
+      },
+      remarkRehypeOptions: {
+        footnoteLabel: 'Notes de bas de page',
+        // @ts-expect-error: we don't validate it on purpose
+        anyKey: 'heck we accept it on purpose',
       },
     };
     expect(

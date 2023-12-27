@@ -39,6 +39,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     admonitions: true,
     headingIds: true,
   },
+  remarkRehypeOptions: undefined,
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -307,6 +308,11 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
       ),
     }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
+    remarkRehypeOptions:
+      // add proper external options validation?
+      // Not sure if it's a good idea, validation is likely to become stale
+      // See https://github.com/remarkjs/remark-rehype#options
+      Joi.object().unknown(),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
