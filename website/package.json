@@ -67,8 +67,8 @@
     "swc-loader": "^0.2.3",
     "unist-util-visit": "^5.0.0",
     "webpack": "^5.88.1",
-    "workbox-routing": "^6.6.1",
-    "workbox-strategies": "^6.6.1"
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0"
   },
   "browserslist": {
     "production": [
