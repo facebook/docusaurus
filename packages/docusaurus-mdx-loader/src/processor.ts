@@ -165,6 +165,7 @@ async function createProcessorFactory() {
 
     const mdxProcessor = createMdxProcessor({
       ...processorOptions,
+      remarkRehypeOptions: options.markdownConfig.remarkRehypeOptions,
       format,
     });
 
