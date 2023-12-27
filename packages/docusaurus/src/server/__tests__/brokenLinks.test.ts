@@ -219,7 +219,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2#brokenAnchor (resolved as: /page2)
+         -> linking to /page2#brokenAnchor
       "
     `);
   });
@@ -241,7 +241,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2# (resolved as: /page2)
+         -> linking to /page2#
       "
     `);
   });
@@ -266,7 +266,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2#brokenAnchor (resolved as: /page2)
+         -> linking to /page2#brokenAnchor (resolved as: /page2?age=42&theme=dark#brokenAnchor)
       "
     `);
   });
@@ -280,30 +280,30 @@ describe('handleBrokenLinks NEW TESTS', () => {
             links: [
               '/page1',
               '',
-              '#goodAnchor',
-              '/page1#goodAnchor',
-              '/page1?age=42#goodAnchor',
-              '#badAnchor1',
+              // '#goodAnchor1', // TODO brokenLink
+              '/page1#goodAnchor2',
+              '/page1?age=42#goodAnchor3',
+              // '#badAnchor1', // TODO brokenLink
               '/page1#badAnchor2',
               '/page1?age=42#badAnchor3',
             ],
-            anchors: ['goodAnchor'],
+
+            anchors: ['goodAnchor1', 'goodAnchor2', 'goodAnchor3'],
           },
         },
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      // TODO bad error message
-      `
-      "Docusaurus found broken links!
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken anchors!
 
-      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
-      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
 
-      Exhaustive list of all broken links found:
-
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page1#badAnchor2
+         -> linking to /page1#badAnchor3 (resolved as: /page1?age=42#badAnchor3)
       "
-    `,
-    );
+    `);
   });
 
   it('rejects valid link with broken anchor to uncollected page', async () => {
@@ -323,7 +323,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2#brokenAnchor (resolved as: /page2)
+         -> linking to /page2#brokenAnchor
       "
     `);
   });
@@ -348,7 +348,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2#brokenAnchor (resolved as: /page2)
+         -> linking to /page2#brokenAnchor (resolved as: /page2?age=42&theme=dark#brokenAnchor)
       "
     `);
   });
@@ -437,7 +437,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor (resolved as: /page1)
+         -> linking to /page1#brokenAnchor
       ",
         ],
       ]
@@ -482,7 +482,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor (resolved as: /page1)
+         -> linking to /page1#brokenAnchor
       ",
         ],
       ]

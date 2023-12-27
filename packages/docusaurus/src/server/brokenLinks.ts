@@ -71,24 +71,42 @@ function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
       if (anchor !== undefined) {
         const targetRoute = allCollectedCorrectLinks[route];
 
-        if (targetRoute && !targetRoute.anchors.includes(anchor)) {
+        if (targetRoute) {
+          // means we have a link to an internal or external page that exists
+          if (route === path && !targetRoute.anchors.includes(anchor)) {
+            // internal page
+            return [
+              {
+                link: `${route}#${anchor}`,
+                resolvedLink: link,
+                anchor: true,
+              },
+            ];
+          }
+          if (route !== path && !targetRoute.anchors.includes(anchor)) {
+            // external page
+            return [
+              {
+                link: `${route}#${anchor}`,
+                resolvedLink: link,
+                anchor: true,
+              },
+            ];
+          }
+        } else {
+          // means we have link to an EXTERNAL not collected
+          // (means no anchor or link)
+          // but we have a link to this page with an anchor
           return [
             {
               link: `${route}#${anchor}`,
-              resolvedLink: route,
-              anchor: true,
-            },
-          ];
-        } else if (!targetRoute && !collection.anchors.includes(anchor)) {
-          return [
-            {
-              link: `${route}#${anchor}`,
-              resolvedLink: route,
+              resolvedLink: link,
               anchor: true,
             },
           ];
         }
       }
+
       return [];
     });
 
@@ -189,8 +207,6 @@ function getAllBrokenLinks({
   const brokenLinks = Object.fromEntries(
     Object.entries(allBrokenLinks).filter(([, value]) => value.length > 0),
   );
-  // console.log('brokenLinks:', brokenLinks);
-  // console.log('allBrokenLinks:', allBrokenLinks);
 
   const brokenAnchors = checkAnchorsInOtherRoutes(allCollectedLinks);
 
