@@ -10,6 +10,10 @@ import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
+import type {ProcessorOptions} from '@mdx-js/mdx';
+
+export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
+
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 export type ThemeConfig = {
@@ -91,6 +95,12 @@ export type MarkdownConfig = {
    * See also https://github.com/facebook/docusaurus/issues/4029
    */
   mdx1Compat: MDX1CompatOptions;
+
+  /**
+   * Ability to provide custom remark-rehype options
+   * See also https://github.com/remarkjs/remark-rehype#options
+   */
+  remarkRehypeOptions: RemarkRehypeOptions;
 };
 
 /**

@@ -102,7 +102,7 @@ const TwitterSvg =
 
 const defaultLocale = 'en';
 
-function getLocalizedConfigValue(key: string) {
+function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
   const currentLocale = process.env.DOCUSAURUS_CURRENT_LOCALE ?? defaultLocale;
   const values = ConfigLocalized[key];
   if (!values) {
@@ -176,6 +176,9 @@ export default async function createConfigAsync() {
       mermaid: true,
       mdx1Compat: {
         // comments: false,
+      },
+      remarkRehypeOptions: {
+        footnoteLabel: getLocalizedConfigValue('remarkRehypeOptions_footnotes'),
       },
       parseFrontMatter: async (params) => {
         const result = await params.defaultParseFrontMatter(params);

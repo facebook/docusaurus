@@ -13,6 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@mdx-js/mdx": "^3.0.0",
     "@types/history": "^4.7.11",
     "@types/react": "*",
     "commander": "^5.1.0",
