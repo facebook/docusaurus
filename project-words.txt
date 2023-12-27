@@ -255,6 +255,7 @@ precaching
 preconfigured
 prerendered
 prerendering
+printfn
 println
 prismjs
 producthunt
@@ -301,6 +302,7 @@ sebastienlorber
 sensical
 setaf
 setext
+setlocal
 Shiki
 shiki
 shortcodes
@@ -371,6 +373,7 @@ unswizzle
 upvotes
 urlset
 Vannicatte
+vbnet
 Vetter
 vetter
 vfile
