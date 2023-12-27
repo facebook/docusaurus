@@ -271,7 +271,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
     `);
   });
 
-  it('rejects valid link with broken anchor to self', async () => {
+  it('refactor rejects valid link with broken anchor to self', async () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}],

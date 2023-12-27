@@ -73,18 +73,7 @@ function checkAnchorsInOtherRoutes(allCollectedCorrectLinks: CollectedLinks): {
 
         if (targetRoute) {
           // means we have a link to an internal or external page that exists
-          if (route === path && !targetRoute.anchors.includes(anchor)) {
-            // internal page
-            return [
-              {
-                link: `${route}#${anchor}`,
-                resolvedLink: link,
-                anchor: true,
-              },
-            ];
-          }
-          if (route !== path && !targetRoute.anchors.includes(anchor)) {
-            // external page
+          if (!targetRoute.anchors.includes(anchor)) {
             return [
               {
                 link: `${route}#${anchor}`,
@@ -144,6 +133,7 @@ function getPageBrokenLinks({
       // We don't actually access component here, so it's fine.
       .map((l) => matchRoutes(routes, l))
       .flat();
+    console.log('matchedRoutes:', matchedRoutes.length === 0);
     return matchedRoutes.length === 0;
   }
 
@@ -160,8 +150,13 @@ function getPageBrokenLinks({
     return brokenAnchors.length > 0;
   }
 
+  // console.log('routes:', routes);
+  // console.log('pagePath:', pagePath);
+  // console.log('pageLinks:', pageLinks);
+
   const brokenLinks = pageLinks.flatMap((pageLink) => {
     const resolvedLink = resolveLink(pageLink);
+    // console.log('resolvedLink:', resolvedLink);
     if (isPathBrokenLink(resolvedLink)) {
       return [{link: pageLink, resolvedLink, anchor: false}];
     }
