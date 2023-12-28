@@ -58,61 +58,10 @@ function getRouteAndAnchor(link: string, fromPath: string) {
   return {route, anchor};
 }
 
-// function checkAnchorsInOtherRoutes(allCollectedCorrectLinks:CollectedLinks):{
-//   [location: string]: BrokenLink[];
-// } {
-//   const brokenLinksByLocation: BrokenLinksByLocation = {};
-
-//   const linkCollection = Object.entries(allCollectedCorrectLinks);
-
-//   linkCollection.forEach(([path, collection]) => {
-//     const brokenLinks = collection.links.flatMap((link) => {
-//       const {route, anchor} = getRouteAndAnchor(link, path);
-//       if (anchor !== undefined) {
-//         const targetRoute = allCollectedCorrectLinks[route];
-
-//         if (targetRoute) {
-//           // means we have a link to an internal or external page that exists
-//           // if (!targetRoute.anchors.find((el) => el === anchor)) {
-//           if (targetRoute.anchors.includes(anchor) === false) {
-//             return [
-//               {
-//                 link: `${route}#${anchor}`,
-//                 resolvedLink: link,
-//                 anchor: true,
-//               },
-//             ];
-//           }
-//         } else {
-//           // means we have link to an EXTERNAL not collected
-//           // (means no anchor or link)
-//           // but we have a link to this page with an anchor
-//           return [
-//             {
-//               link: `${route}#${anchor}`,
-//               resolvedLink: link,
-//               anchor: true,
-//             },
-//           ];
-//         }
-//       }
-
-//       return [];
-//     });
-
-//     if (brokenLinks.length > 0) {
-//       brokenLinksByLocation[path] = brokenLinks;
-//     }
-//   });
-
-//   return brokenLinksByLocation;
-// }
-
 function getPageBrokenLinks({
   allCollectedLinks,
   pagePath,
   pageLinks,
-  pageAnchors,
   routes,
 }: {
   allCollectedLinks: CollectedLinks;
@@ -143,22 +92,19 @@ function getPageBrokenLinks({
   function isAnchorBrokenLink(pageLink: string) {
     const {route, anchor} = getRouteAndAnchor(pageLink, pagePath);
     const targetRoute = allCollectedLinks[route];
-    // console.log('d:', pagePath, pageLinks, pageLink, pageAnchors, routes);
-    // console.log('debug2', route, anchor, targetRoute);
-    console.log(pageAnchors);
     if (anchor === undefined) {
       return false;
     }
 
     if (targetRoute) {
-      // console.log('debug3', targetRoute.anchors, anchor);
-      // means we have a link to an internal or external page that exists
+      // link to an internal or external page that exists
       if (targetRoute.anchors.includes(anchor) === false) {
         return true;
       }
       return false;
     }
-    return !allCollectedLinks[route]?.anchors.includes(anchor);
+    // link with anchor to external page that does not exist
+    return anchor !== undefined;
   }
 
   const brokenLinks = pageLinks.flatMap((pageLink) => {
@@ -206,9 +152,6 @@ function getAllBrokenLinks({
         routes: filteredRoutes,
       }),
   );
-  // const brokenLinks = Object.fromEntries(
-  //   Object.entries(allBrokenLinks).filter(([, value]) => value.length > 0),
-  // );
 
   const brokenLinks = Object.fromEntries(
     Object.entries(allBrokenLinks).filter(
@@ -216,16 +159,11 @@ function getAllBrokenLinks({
     ),
   );
 
-  // split allBrokenLinks object into two separate objects brokenLinks and
-  //  brokenAnchors based on anchor boolean value
   const brokenAnchors = Object.fromEntries(
     Object.entries(allBrokenLinks).filter(
       ([, value]) => value[0]?.anchor === true,
     ),
   );
-  // console.log('allBrokenLinks:', allBrokenLinks);
-  // console.log('brokenAnchors:', brokenAnchors);
-  // console.log('brokenLinks:', brokenLinks);
 
   return {brokenLinks, brokenAnchors};
 }
@@ -242,15 +180,10 @@ function createBrokenLinksMessage(
   pagePath: string,
   allBrokenLinks: BrokenLink[],
 ): string {
-  const brokenLinks =
-    type === 'anchor'
-      ? allBrokenLinks.filter((link) => link.anchor)
-      : allBrokenLinks.filter((link) => !link.anchor);
-
   const anchorMessage =
-    brokenLinks.length > 0
+    allBrokenLinks.length > 0
       ? `- Broken ${type} on source page path = ${pagePath}:
-   -> linking to ${brokenLinks
+   -> linking to ${allBrokenLinks
      .map(brokenLinkMessage)
      .join('\n   -> linking to ')}`
       : '';
@@ -353,13 +286,17 @@ export async function handleBrokenLinks({
     routes,
   });
 
-  const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenLinks);
-  if (pathErrorMessage) {
-    logger.report(onBrokenLinks)(pathErrorMessage);
+  if (onBrokenLinks !== 'ignore') {
+    const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenLinks);
+    if (pathErrorMessage) {
+      logger.report(onBrokenLinks)(pathErrorMessage);
+    }
   }
 
-  const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(brokenAnchors);
-  if (anchorErrorMessage) {
-    logger.report(onBrokenAnchors)(anchorErrorMessage);
+  if (onBrokenAnchors !== 'ignore') {
+    const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(brokenAnchors);
+    if (anchorErrorMessage) {
+      logger.report(onBrokenAnchors)(anchorErrorMessage);
+    }
   }
 }

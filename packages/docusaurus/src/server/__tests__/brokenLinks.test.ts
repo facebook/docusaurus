@@ -271,24 +271,24 @@ describe('handleBrokenLinks NEW TESTS', () => {
     `);
   });
 
-  it('refactor rejects valid link with broken anchor to self', async () => {
+  it('rejects valid link with broken anchor to self', async () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}],
         allCollectedLinks: {
           '/page1': {
             links: [
-              // '/page1',
-              // '',
-              '#goodAnchor1', // TODO brokenLink
-              '/page1#goodAnchor2',
-              // '/page1?age=42#goodAnchor3',
-              '#badAnchor1', // TODO brokenLink
-              // '/page1#badAnchor2',
-              // '/page1?age=42#badAnchor3',
+              '/page1',
+              '',
+              '#goodAnchor',
+              '/page1#goodAnchor',
+              '/page1?age=42#goodAnchor',
+              '#badAnchor',
+              '/page1#badAnchor',
+              '/page1?age=42#badAnchor',
             ],
 
-            anchors: ['goodAnchor1'],
+            anchors: ['goodAnchor'],
           },
         },
       }),
@@ -300,8 +300,9 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#badAnchor2
-         -> linking to /page1#badAnchor3 (resolved as: /page1?age=42#badAnchor3)
+         -> linking to #badAnchor (resolved as: /page1)
+         -> linking to /page1#badAnchor (resolved as: /page1)
+         -> linking to /page1?age=42#badAnchor (resolved as: /page1)
       "
     `);
   });
@@ -377,6 +378,63 @@ describe('handleBrokenLinks NEW TESTS', () => {
         },
       },
     });
+  });
+
+  it('can ignore broken anchors but report broken link', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        onBrokenAnchors: 'ignore',
+        routes: [{path: '/page1'}],
+        allCollectedLinks: {
+          '/page1': {
+            links: ['/page1#brokenAnchor', '/page2'],
+            anchors: [],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page2
+      "
+    `);
+  });
+
+  it('can ignore broken link but report broken anchors', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}],
+        allCollectedLinks: {
+          '/page1': {
+            links: [
+              '/page1#brokenAnchor',
+              '/page2',
+              '/page1#brokenAnchor',
+              '#brokenAnchor',
+            ],
+
+            anchors: [],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken anchors!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page1#brokenAnchor (resolved as: /page1)
+         -> linking to /page1#brokenAnchor (resolved as: /page1)
+         -> linking to #brokenAnchor (resolved as: /page1)
+      "
+    `);
   });
 
   it('can warn for broken links', async () => {
