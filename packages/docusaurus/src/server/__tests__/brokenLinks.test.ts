@@ -408,14 +408,15 @@ describe('handleBrokenLinks NEW TESTS', () => {
   it('can ignore broken link but report broken anchors', async () => {
     await expect(() =>
       testBrokenLinks({
+        onBrokenLinks: 'ignore',
         routes: [{path: '/page1'}],
         allCollectedLinks: {
           '/page1': {
             links: [
-              '/page1#brokenAnchor',
               '/page2',
-              '/page1#brokenAnchor',
-              '#brokenAnchor',
+              '/page1#brokenAnchor1',
+              '/page1#brokenAnchor2',
+              '#brokenAnchor3',
             ],
 
             anchors: [],
@@ -430,9 +431,9 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor (resolved as: /page1)
-         -> linking to /page1#brokenAnchor (resolved as: /page1)
-         -> linking to #brokenAnchor (resolved as: /page1)
+         -> linking to /page1#brokenAnchor1 (resolved as: /page1)
+         -> linking to /page1#brokenAnchor2 (resolved as: /page1)
+         -> linking to #brokenAnchor3 (resolved as: /page1)
       "
     `);
   });
@@ -540,7 +541,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor
+         -> linking to /page1#brokenAnchor (resolved as: /page1)
       ",
         ],
       ]

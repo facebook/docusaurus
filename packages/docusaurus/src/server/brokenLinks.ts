@@ -153,19 +153,28 @@ function getAllBrokenLinks({
       }),
   );
 
-  const brokenLinks = Object.fromEntries(
-    Object.entries(allBrokenLinks).filter(
-      ([, value]) => value[0]?.anchor === false,
-    ),
-  );
+  function splitBrokenLinks(collect: {[x: string]: BrokenLink[]}) {
+    const brokenLinks: {[x: string]: BrokenLink[]} = {};
+    const brokenAnchors: {[x: string]: BrokenLink[]} = {};
 
-  const brokenAnchors = Object.fromEntries(
-    Object.entries(allBrokenLinks).filter(
-      ([, value]) => value[0]?.anchor === true,
-    ),
-  );
+    Object.entries(collect).forEach(([page, links]) => {
+      const [linksFiltered, anchorsFiltered] = _.partition(
+        links,
+        (link) => link.anchor === false,
+      );
 
-  return {brokenLinks, brokenAnchors};
+      if (linksFiltered.length > 0) {
+        brokenLinks[page] = linksFiltered;
+      }
+      if (anchorsFiltered.length > 0) {
+        brokenAnchors[page] = anchorsFiltered;
+      }
+    });
+
+    return {brokenLinks, brokenAnchors};
+  }
+
+  return splitBrokenLinks(allBrokenLinks);
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
@@ -176,10 +185,11 @@ function brokenLinkMessage(brokenLink: BrokenLink): string {
 }
 
 function createBrokenLinksMessage(
-  type: 'link' | 'anchor',
   pagePath: string,
   allBrokenLinks: BrokenLink[],
 ): string {
+  const type = allBrokenLinks[0]?.anchor === true ? 'anchor' : 'link';
+
   const anchorMessage =
     allBrokenLinks.length > 0
       ? `- Broken ${type} on source page path = ${pagePath}:
@@ -206,7 +216,7 @@ Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaur
 Exhaustive list of all broken anchors found:
 ${Object.entries(allBrokenLinks)
   .map(([pagePath, brokenLinks]) =>
-    createBrokenLinksMessage('anchor', pagePath, brokenLinks),
+    createBrokenLinksMessage(pagePath, brokenLinks),
   )
   .join('\n')}
 `;
@@ -260,7 +270,7 @@ Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus c
 Exhaustive list of all broken links found:
 ${Object.entries(allBrokenLinks)
   .map(([pagePath, brokenLinks]) =>
-    createBrokenLinksMessage('link', pagePath, brokenLinks),
+    createBrokenLinksMessage(pagePath, brokenLinks),
   )
   .join('\n')}
 `;
@@ -286,17 +296,13 @@ export async function handleBrokenLinks({
     routes,
   });
 
-  if (onBrokenLinks !== 'ignore') {
-    const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenLinks);
-    if (pathErrorMessage) {
-      logger.report(onBrokenLinks)(pathErrorMessage);
-    }
+  const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenLinks);
+  if (pathErrorMessage) {
+    logger.report(onBrokenLinks)(pathErrorMessage);
   }
 
-  if (onBrokenAnchors !== 'ignore') {
-    const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(brokenAnchors);
-    if (anchorErrorMessage) {
-      logger.report(onBrokenAnchors)(anchorErrorMessage);
-    }
+  const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(brokenAnchors);
+  if (anchorErrorMessage) {
+    logger.report(onBrokenAnchors)(anchorErrorMessage);
   }
 }
