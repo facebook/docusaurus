@@ -40,7 +40,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 - **Localizable**
 
-> Docusaurus ships with [localization support](https://docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
+> Docusaurus ships with [localization support](https://docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating documentation.
 
 - **Customizable**
 
@@ -58,11 +58,11 @@ npm init docusaurus@latest
 
 ## Contributing
 
-We've released Docusaurus because it helps us better scale and supports the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
+We released Docusaurus to enhance scalability and support numerous open-source projects at Facebook. We hope that other organizations can benefit from the project. We appreciate and welcome contributions from the community.
 
 ### [Code of Conduct](https://code.fb.com/codeofconduct)
 
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand acceptable and unacceptable actions.
 
 ### Contributing guide
 
