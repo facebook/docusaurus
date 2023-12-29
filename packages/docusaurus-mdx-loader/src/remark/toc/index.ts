@@ -100,7 +100,7 @@ export default function plugin(): Transformer {
         if (child.type === 'import') {
           const importNode = child as Text;
 
-          const markdownExtensionRegex = /\.(?:mdx|md).$/;
+          const markdownExtensionRegex = /\.(?:mdx|md).;?$/;
           const imports = importNode.value
             .split('\n')
             .filter((statement) => markdownExtensionRegex.test(statement));
