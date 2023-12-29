@@ -86,6 +86,10 @@ cli
     '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
   )
+  .option(
+    '-j, --javascript',
+    'copy Javascript theme files when possible (default: false)',
+  )
   .option('--danger', 'enable swizzle for unsafe component of themes')
   .option(
     '--config <config>',

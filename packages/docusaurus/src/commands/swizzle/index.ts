@@ -15,6 +15,7 @@ import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
 import {askSwizzleDangerousComponent} from './prompts';
 import {initSwizzleContext} from './context';
+import {getLanguage} from './language';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleCLIOptions, SwizzlePlugin} from './common';
 import type {ActionResult} from './actions';
@@ -96,14 +97,20 @@ export async function swizzle(
   const siteDir = await fs.realpath(siteDirParam);
 
   const options = normalizeOptions(optionsParam);
-  const {list, danger, typescript} = options;
+  const {list, danger} = options;
 
   const {plugins} = await initSwizzleContext(siteDir, options);
   const themeNames = getThemeNames(plugins);
 
   if (list && !themeNameParam) {
-    await listAllThemeComponents({themeNames, plugins, typescript});
+    await listAllThemeComponents({
+      themeNames,
+      plugins,
+      typescript: options.typescript,
+    });
   }
+
+  const typescript = (await getLanguage(options)) === 'typescript';
 
   const themeName = await getThemeName({themeNameParam, themeNames, list});
   const themePath = getThemePath({themeName, plugins, typescript});
