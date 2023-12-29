@@ -15,7 +15,7 @@ import {toValue} from '../utils';
 import type {Identifier} from '@babel/types';
 import type {TOCItem} from '../..';
 import type {Node, Parent} from 'unist';
-import type {Heading, Literal} from 'mdast';
+import type {Heading, Literal, Text} from 'mdast';
 import type {Transformer} from 'unified';
 
 const parseOptions: ParserOptions = {
@@ -68,31 +68,90 @@ const getOrCreateExistingTargetIndex = (children: Node[]) => {
   return targetIndex;
 };
 
+const removeTags = (input: string) =>
+  input.replace('<', '').replace('/>', '').trim();
+
 export default function plugin(): Transformer {
   return (root) => {
-    const headings: TOCItem[] = [];
+    const headings: (TOCItem | string)[] = [];
 
-    visit(root, 'heading', (child: Heading, index, parent) => {
-      const value = toString(child);
+    const PartialComponentToHeadingsName = Object.create(null);
 
-      // depth: 1 headings are titles and not included in the TOC
-      if (parent !== root || !value || child.depth < 2) {
-        return;
-      }
+    visit(
+      root,
+      ['heading', 'jsx', 'import', 'export'],
+      (child, index, parent) => {
+        if (child.type === 'heading') {
+          const headingNode = child as Heading;
+          const value = toString(headingNode);
 
-      headings.push({
-        value: toValue(child),
-        id: child.data!.id as string,
-        level: child.depth,
-      });
-    });
+          // depth: 1 headings are titles and not included in the TOC
+          if (parent !== root || !value || headingNode.depth < 2) {
+            return;
+          }
+
+          headings.push({
+            value: toValue(headingNode),
+            id: headingNode.data!.id as string,
+            level: headingNode.depth,
+          });
+        }
+
+        if (child.type === 'import') {
+          const importNode = child as Text;
+
+          const markdownExtensionRegex = /\.(?:mdx|md).$/;
+          const imports = importNode.value
+            .split('\n')
+            .filter((statement) => markdownExtensionRegex.test(statement));
+          for (let i = 0; i < imports.length; i += 1) {
+            const localName = `${name}${i}`;
+
+            const importWords = imports[i]!.split(' ');
+            const partialPath = importWords[importWords.length - 1];
+            const partialName = importWords[1] as string;
+            const tocImport = `import {${name} as ${localName}} from ${partialPath}`;
+
+            PartialComponentToHeadingsName[partialName] = localName;
+
+            importNode.value = `${importNode.value}\n${tocImport}`;
+          }
+        }
+
+        if (child.type === 'jsx') {
+          const jsxNode = child as Text;
+
+          const componentName = removeTags(jsxNode.value);
+          const headingsName = PartialComponentToHeadingsName[componentName];
+          if (headingsName) {
+            headings.push(`...${headingsName}`);
+          }
+        }
+
+        if (child.type === 'export') {
+          const exportNode = child as Text;
+
+          if (exportNode.value.includes(name)) {
+            exportNode.value = '';
+          }
+        }
+      },
+    );
     const {children} = root as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children);
 
     if (headings.length) {
-      children[targetIndex]!.value = `export const ${name} = ${stringifyObject(
-        headings,
-      )};`;
+      let headingsArray = '[';
+      for (const heading of headings) {
+        if (typeof heading === 'string') {
+          headingsArray = `${headingsArray}\n${heading},`;
+        } else {
+          headingsArray = `${headingsArray}\n${stringifyObject(heading)},`;
+        }
+      }
+      headingsArray += ']';
+
+      children[targetIndex]!.value = `export const ${name} = ${headingsArray};`;
     }
   };
 }
