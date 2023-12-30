@@ -1,17 +1,22 @@
-import PagePartial from './_pagePartial.md';
-import Readme from '../README.md';
-
 ## Page
 
 Let's import a MDX partial at `./_pagePartial.md`:
 
+```mdx-code-block
+import PagePartial from "./_pagePartial.md"
+
 <PagePartial />
+```
 
 ---
 
 Now let's import `../README.md`:
 
+```mdx-code-block
+import Readme from "../README.md"
+
 <Readme />
+```
 
 ### Other tests
 
@@ -26,4 +31,5 @@ Now let's import `../README.md`:
 - [Tabs tests](/tests/pages/tabs-tests)
 - [z-index tests](/tests/pages/z-index-tests)
 - [Head metadata tests](/tests/pages/head-metadata)
+- [Partials tests](/tests/pages/partials-tests)
 - [Embeds](/tests/pages/embeds)

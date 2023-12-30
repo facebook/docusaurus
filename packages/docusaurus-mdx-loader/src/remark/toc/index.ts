@@ -72,6 +72,7 @@ const removeTags = (input: string) =>
 
 export default function plugin(): Transformer {
   return (root) => {
+    let importsCount = 0;
     const headings: (TOCItem | string)[] = [];
 
     const PartialComponentToHeadingsName = Object.create(null);
@@ -100,10 +101,11 @@ export default function plugin(): Transformer {
         const imports = importNode.value
           .split('\n')
           .filter((statement) => markdownExtensionRegex.test(statement));
-        for (let i = 0; i < imports.length; i += 1) {
-          const localName = `${name}${i}`;
 
-          const importWords = imports[i]!.split(' ');
+        for (const importStatement of imports) {
+          const localName = `${name}${importsCount}`;
+
+          const importWords = importStatement!.split(' ');
           const partialPath = importWords[importWords.length - 1];
           const partialName = importWords[1] as string;
           const tocImport = `import {${name} as ${localName}} from ${partialPath}`;
@@ -111,6 +113,7 @@ export default function plugin(): Transformer {
           PartialComponentToHeadingsName[partialName] = localName;
 
           importNode.value = `${importNode.value}\n${tocImport}`;
+          importsCount += 1;
         }
       }
 
