@@ -7,10 +7,9 @@
 
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
-import stringifyObject from 'stringify-object';
 import toString from 'mdast-util-to-string';
 import visit from 'unist-util-visit';
-import {toValue} from '../utils';
+import {constructArrayString, toValue} from '../utils';
 
 import type {Identifier} from '@babel/types';
 import type {TOCItem} from '../..';
@@ -77,80 +76,59 @@ export default function plugin(): Transformer {
 
     const PartialComponentToHeadingsName = Object.create(null);
 
-    visit(
-      root,
-      ['heading', 'jsx', 'import', 'export'],
-      (child, index, parent) => {
-        if (child.type === 'heading') {
-          const headingNode = child as Heading;
-          const value = toString(headingNode);
+    visit(root, ['heading', 'jsx', 'import'], (child, index, parent) => {
+      if (child.type === 'heading') {
+        const headingNode = child as Heading;
+        const value = toString(headingNode);
 
-          // depth: 1 headings are titles and not included in the TOC
-          if (parent !== root || !value || headingNode.depth < 2) {
-            return;
-          }
-
-          headings.push({
-            value: toValue(headingNode),
-            id: headingNode.data!.id as string,
-            level: headingNode.depth,
-          });
+        // depth: 1 headings are titles and not included in the TOC
+        if (parent !== root || !value || headingNode.depth < 2) {
+          return;
         }
 
-        if (child.type === 'import') {
-          const importNode = child as Text;
+        headings.push({
+          value: toValue(headingNode),
+          id: headingNode.data!.id as string,
+          level: headingNode.depth,
+        });
+      }
 
-          const markdownExtensionRegex = /\.(?:mdx|md).;?$/;
-          const imports = importNode.value
-            .split('\n')
-            .filter((statement) => markdownExtensionRegex.test(statement));
-          for (let i = 0; i < imports.length; i += 1) {
-            const localName = `${name}${i}`;
+      if (child.type === 'import') {
+        const importNode = child as Text;
 
-            const importWords = imports[i]!.split(' ');
-            const partialPath = importWords[importWords.length - 1];
-            const partialName = importWords[1] as string;
-            const tocImport = `import {${name} as ${localName}} from ${partialPath}`;
+        const markdownExtensionRegex = /\.(?:mdx|md).;?$/;
+        const imports = importNode.value
+          .split('\n')
+          .filter((statement) => markdownExtensionRegex.test(statement));
+        for (let i = 0; i < imports.length; i += 1) {
+          const localName = `${name}${i}`;
 
-            PartialComponentToHeadingsName[partialName] = localName;
+          const importWords = imports[i]!.split(' ');
+          const partialPath = importWords[importWords.length - 1];
+          const partialName = importWords[1] as string;
+          const tocImport = `import {${name} as ${localName}} from ${partialPath}`;
 
-            importNode.value = `${importNode.value}\n${tocImport}`;
-          }
+          PartialComponentToHeadingsName[partialName] = localName;
+
+          importNode.value = `${importNode.value}\n${tocImport}`;
         }
+      }
 
-        if (child.type === 'jsx') {
-          const jsxNode = child as Text;
+      if (child.type === 'jsx') {
+        const jsxNode = child as Text;
 
-          const componentName = removeTags(jsxNode.value);
-          const headingsName = PartialComponentToHeadingsName[componentName];
-          if (headingsName) {
-            headings.push(`...${headingsName}`);
-          }
+        const componentName = removeTags(jsxNode.value);
+        const headingsName = PartialComponentToHeadingsName[componentName];
+        if (headingsName) {
+          headings.push(`...${headingsName}`);
         }
-
-        if (child.type === 'export') {
-          const exportNode = child as Text;
-
-          if (exportNode.value.includes(name)) {
-            exportNode.value = '';
-          }
-        }
-      },
-    );
+      }
+    });
     const {children} = root as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children);
 
     if (headings.length) {
-      let headingsArray = '[';
-      for (const heading of headings) {
-        if (typeof heading === 'string') {
-          headingsArray = `${headingsArray}\n${heading},`;
-        } else {
-          headingsArray = `${headingsArray}\n${stringifyObject(heading)},`;
-        }
-      }
-      headingsArray += ']';
-
+      const headingsArray = constructArrayString(headings);
       children[targetIndex]!.value = `export const ${name} = ${headingsArray};`;
     }
   };

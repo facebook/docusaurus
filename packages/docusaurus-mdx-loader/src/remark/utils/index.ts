@@ -7,6 +7,7 @@
 
 import escapeHtml from 'escape-html';
 import toString from 'mdast-util-to-string';
+import stringifyObject from 'stringify-object';
 import type {Parent} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
 
@@ -33,4 +34,26 @@ export function toValue(node: PhrasingContent | Heading): string {
     default:
       return toString(node);
   }
+}
+
+/**
+ * Similar to stringify-object, but keeps spread operators,
+ * instead of turning them into strings.
+ * @param objects
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function constructArrayString(objects: any[]): string {
+  let result = '[';
+  for (const obj of objects) {
+    if (typeof obj === 'string') {
+      result = `${result}\n\t${obj},`;
+    } else {
+      result = `${result}\n\t${stringifyObject(obj).replace(/\n/g, '\n\t')},`;
+    }
+  }
+  // Remove trailing coma
+  result = result.replace(/,$/, '');
+  result += '\n]';
+
+  return result;
 }
