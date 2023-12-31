@@ -7,8 +7,7 @@
 
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
-import stringifyObject from 'stringify-object';
-import {toValue} from '../utils';
+import {constructArrayString, toValue} from '../utils';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
@@ -16,6 +15,7 @@ import type {Heading, Literal} from 'mdast';
 import type {Transformer} from 'unified';
 import type {
   MdxjsEsm,
+  MdxJsxFlowElement,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
 
@@ -93,21 +93,73 @@ const plugin: Plugin = function plugin(
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
 
-    const headings: TOCItem[] = [];
+    const partialComponentToHeadingsName: {[key: string]: string} =
+      Object.create(null);
+    const headings: (TOCItem | string)[] = [];
 
-    visit(root, 'heading', (child: Heading) => {
-      const value = toString(child);
+    visit(root, ['heading', 'mdxjsEsm', 'mdxJsxFlowElement'], (child) => {
+      if (child.type === 'heading') {
+        const headingNode = child as Heading;
+        const value = toString(headingNode);
 
-      // depth:1 headings are titles and not included in the TOC
-      if (!value || child.depth < 2) {
-        return;
+        // depth:1 headings are titles and not included in the TOC
+        if (!value || headingNode.depth < 2) {
+          return;
+        }
+
+        headings.push({
+          value: toValue(headingNode, toString),
+          id: headingNode.data!.id!,
+          level: headingNode.depth,
+        });
       }
 
-      headings.push({
-        value: toValue(child, toString),
-        id: child.data!.id!,
-        level: child.depth,
-      });
+      if (child.type === 'mdxjsEsm') {
+        const importNode = child as MdxjsEsm;
+        if (!importNode.data?.estree) {
+          return;
+        }
+
+        for (const importDeclaration of importNode.data.estree.body) {
+          if (importDeclaration.type !== 'ImportDeclaration') {
+            continue;
+          }
+          const importPath = importDeclaration.source.value as string;
+          const isMdxImport = /\.mdx?$/.test(importPath);
+          if (!isMdxImport) {
+            continue;
+          }
+
+          const componentName = importDeclaration.specifiers.find(
+            (o: any) => o.type === 'ImportDefaultSpecifier',
+          )?.local.name;
+
+          if (!componentName) {
+            continue;
+          }
+          const {length} = Object.keys(partialComponentToHeadingsName);
+          const exportAsName = `${name}${length}`;
+          partialComponentToHeadingsName[componentName] = exportAsName;
+
+          importDeclaration.specifiers.push({
+            type: 'ImportSpecifier',
+            imported: {type: 'Identifier', name},
+            local: {type: 'Identifier', name: exportAsName},
+          });
+        }
+      }
+
+      if (child.type === 'mdxJsxFlowElement') {
+        const node = child as MdxJsxFlowElement;
+        const nodeName = node.name;
+        if (!nodeName) {
+          return;
+        }
+        const headingsName = partialComponentToHeadingsName[nodeName];
+        if (headingsName) {
+          headings.push(headingsName);
+        }
+      }
     });
 
     const {children} = root as Parent;
@@ -124,9 +176,20 @@ export default plugin;
 async function createExportNode(name: string, object: any): Promise<MdxjsEsm> {
   const {valueToEstree} = await import('estree-util-value-to-estree');
 
+  const tocObject = object.map((heading: TOCItem | string) => {
+    if (typeof heading === 'string') {
+      return {
+        type: 'SpreadElement',
+        argument: {type: 'Identifier', name: heading},
+      };
+    }
+
+    return valueToEstree(heading);
+  });
+
   return {
     type: 'mdxjsEsm',
-    value: `export const ${name} = ${stringifyObject(object)}`,
+    value: `export const ${name} = ${constructArrayString(object)}`,
     data: {
       estree: {
         type: 'Program',
@@ -142,7 +205,10 @@ async function createExportNode(name: string, object: any): Promise<MdxjsEsm> {
                     type: 'Identifier',
                     name,
                   },
-                  init: valueToEstree(object),
+                  init: {
+                    type: 'ArrayExpression',
+                    elements: tocObject,
+                  },
                 },
               ],
               kind: 'const',
