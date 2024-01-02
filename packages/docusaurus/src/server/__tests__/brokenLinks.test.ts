@@ -31,7 +31,7 @@ async function testBrokenLinks(params: {
   });
 }
 
-describe('handleBrokenLinks NEW TESTS', () => {
+describe('handleBrokenLinks', () => {
   it('accepts valid link', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
