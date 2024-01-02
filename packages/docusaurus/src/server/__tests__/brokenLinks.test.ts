@@ -283,9 +283,9 @@ describe('handleBrokenLinks NEW TESTS', () => {
               '#goodAnchor',
               '/page1#goodAnchor',
               '/page1?age=42#goodAnchor',
-              '#badAnchor',
-              '/page1#badAnchor',
-              '/page1?age=42#badAnchor',
+              '#badAnchor1',
+              '/page1#badAnchor2',
+              '/page1?age=42#badAnchor3',
             ],
 
             anchors: ['goodAnchor'],
@@ -300,9 +300,9 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to #badAnchor (resolved as: /page1)
-         -> linking to /page1#badAnchor (resolved as: /page1)
-         -> linking to /page1?age=42#badAnchor (resolved as: /page1)
+         -> linking to #badAnchor1 (resolved as: /page1)
+         -> linking to /page1#badAnchor2 (resolved as: /page1)
+         -> linking to /page1?age=42#badAnchor3 (resolved as: /page1)
       "
     `);
   });
