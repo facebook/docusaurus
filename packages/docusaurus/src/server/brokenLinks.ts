@@ -29,33 +29,55 @@ function onlyPathname(link: string) {
   return link.split('#')[0]!.split('?')[0]!;
 }
 
-function parseLocalPath(localUrl: string, base?: string | URL): URL {
-  try {
-    return new URL(localUrl, base ?? 'https://example.com');
-  } catch (e) {
-    throw new Error(`Can't parse local path: ${localUrl}`);
-  }
-}
-
-function parseLink(link: string, from: string): URL {
-  const base = parseLocalPath(from);
-  return parseLocalPath(link, base);
-}
-
-function getRouteAndAnchor(link: string, fromPath: string) {
-  const url = parseLink(link, fromPath);
-  const [, splitAnchor] = link.split('#');
-
-  const route = url.pathname;
-  const anchor = url.hash.slice(1) || undefined;
-
-  if (splitAnchor === '') {
-    // rejects valid link with empty broken anchor
-    // new URL will return an empty string /docs# and /docs
-    return {route, anchor: ''};
+// TODO move to docusaurus-utils + add tests
+// Let's name the concept of (pathname + search + hash) as URL path
+// See also https://twitter.com/kettanaito/status/1741768992866308120
+// A possible alternative? https://github.com/unjs/ufo#url
+function parseURLPath(
+  urlPath: string,
+  fromPath?: string,
+): {pathname: string; search?: string; hash?: string} {
+  function parseURL(url: string, base?: string | URL): URL {
+    try {
+      return new URL(url, base ?? 'https://example.com');
+    } catch (e) {
+      throw new Error(
+        `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
+        {cause: e},
+      );
+    }
   }
 
-  return {route, anchor};
+  const base = fromPath ? parseURL(fromPath) : undefined;
+  const url = parseURL(urlPath, base);
+
+  const {pathname} = url;
+
+  // Fixes annoying url.search behavior
+  // "" => undefined
+  // "?" => ""
+  // "?param => "param"
+  const search = url.search
+    ? url.search.slice(1)
+    : urlPath.includes('?')
+    ? ''
+    : undefined;
+
+  // Fixes annoying url.hash behavior
+  // "" => undefined
+  // "#" => ""
+  // "?param => "param"
+  const hash = url.hash
+    ? url.hash.slice(1)
+    : urlPath.includes('#')
+    ? ''
+    : undefined;
+
+  return {
+    pathname,
+    search,
+    hash,
+  };
 }
 
 function getPageBrokenLinks({
@@ -90,21 +112,24 @@ function getPageBrokenLinks({
   }
 
   function isAnchorBrokenLink(pageLink: string) {
-    const {route, anchor} = getRouteAndAnchor(pageLink, pagePath);
-    const targetRoute = allCollectedLinks[route];
-    if (anchor === undefined) {
+    const {pathname, hash} = parseURLPath(pageLink, pagePath);
+
+    // Link has no hash: it can't be a broken anchor link
+    if (hash === undefined) {
       return false;
     }
 
-    if (targetRoute) {
-      // link to an internal or external page that exists
-      if (targetRoute.anchors.includes(anchor) === false) {
-        return true;
-      }
-      return false;
+    const targetPage = allCollectedLinks[pathname];
+
+    // link with anchor to a page that does not exist (or did not collect any
+    // link/anchor) is considered as a broken anchor
+    if (!targetPage) {
+      return true;
     }
-    // link with anchor to external page that does not exist
-    return anchor !== undefined;
+
+    // it's a broken anchor if the target page exists
+    // but the anchor does not exist on that page
+    return !targetPage.anchors.includes(hash);
   }
 
   const brokenLinks = pageLinks.flatMap((pageLink) => {
