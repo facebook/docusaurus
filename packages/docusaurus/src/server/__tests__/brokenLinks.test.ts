@@ -176,7 +176,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken links found:
       - Broken link on source page path = /page1:
-         -> linking to /brokenLink#anchor (resolved as: /brokenLink)
+         -> linking to /brokenLink#anchor
       "
     `);
   });
@@ -197,7 +197,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken links found:
       - Broken link on source page path = /page1:
-         -> linking to /brokenLink?age=42#anchor (resolved as: /brokenLink)
+         -> linking to /brokenLink?age=42#anchor
       "
     `);
   });
@@ -219,7 +219,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2#brokenAnchor (resolved as: /page2)
+         -> linking to /page2#brokenAnchor
       "
     `);
   });
@@ -241,7 +241,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2# (resolved as: /page2)
+         -> linking to /page2#
       "
     `);
   });
@@ -266,7 +266,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2?age=42&theme=dark#brokenAnchor (resolved as: /page2)
+         -> linking to /page2?age=42&theme=dark#brokenAnchor
       "
     `);
   });
@@ -300,9 +300,9 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to #badAnchor1 (resolved as: /page1)
-         -> linking to /page1#badAnchor2 (resolved as: /page1)
-         -> linking to /page1?age=42#badAnchor3 (resolved as: /page1)
+         -> linking to #badAnchor1 (resolved as: /page1#badAnchor1)
+         -> linking to /page1#badAnchor2
+         -> linking to /page1?age=42#badAnchor3
       "
     `);
   });
@@ -324,7 +324,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2#brokenAnchor (resolved as: /page2)
+         -> linking to /page2#brokenAnchor
       "
     `);
   });
@@ -349,7 +349,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page2?age=42&theme=dark#brokenAnchor (resolved as: /page2)
+         -> linking to /page2?age=42&theme=dark#brokenAnchor
       "
     `);
   });
@@ -431,9 +431,9 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor1 (resolved as: /page1)
-         -> linking to /page1#brokenAnchor2 (resolved as: /page1)
-         -> linking to #brokenAnchor3 (resolved as: /page1)
+         -> linking to /page1#brokenAnchor1
+         -> linking to /page1#brokenAnchor2
+         -> linking to #brokenAnchor3 (resolved as: /page1#brokenAnchor3)
       "
     `);
   });
@@ -496,7 +496,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor (resolved as: /page1)
+         -> linking to /page1#brokenAnchor
       ",
         ],
       ]
@@ -541,7 +541,7 @@ describe('handleBrokenLinks NEW TESTS', () => {
 
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
-         -> linking to /page1#brokenAnchor (resolved as: /page1)
+         -> linking to /page1#brokenAnchor
       ",
         ],
       ]

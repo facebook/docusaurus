@@ -23,20 +23,19 @@ type CollectedLinks = {
   [location: string]: {links: string[]; anchors: string[]};
 };
 
+type URLPath = {pathname: string; search?: string; hash?: string};
+
 // TODO move to docusaurus-utils + add tests
 //
 // TODO: do we still need the urlUtils.resolvePathname ?
 //  this function also resolves the pathname while parsing
 //
-// Let's name the concept of (pathname + search + hash) as URL path
+// Let's name the concept of (pathname + search + hash) as URLPath
 // See also https://twitter.com/kettanaito/status/1741768992866308120
-// A possible alternative? https://github.com/unjs/ufo#url
-function parseURLPath(
-  urlPath: string,
-  fromPath?: string,
-): {pathname: string; search?: string; hash?: string} {
+function parseURLPath(urlPath: string, fromPath?: string): URLPath {
   function parseURL(url: string, base?: string | URL): URL {
     try {
+      // A possible alternative? https://github.com/unjs/ufo#url
       return new URL(url, base ?? 'https://example.com');
     } catch (e) {
       throw new Error(
@@ -78,6 +77,12 @@ function parseURLPath(
   };
 }
 
+function serializeURLPath(urlPath: URLPath): string {
+  const search = urlPath.search === undefined ? '' : `?${urlPath.search}`;
+  const hash = urlPath.hash === undefined ? '' : `#${urlPath.hash}`;
+  return `${urlPath.pathname}${search}${hash}`;
+}
+
 function getPageBrokenLinks({
   allCollectedLinks,
   pagePath,
@@ -90,17 +95,9 @@ function getPageBrokenLinks({
   pageAnchors: string[];
   routes: RouteConfig[];
 }): BrokenLink[] {
-  // ReactRouter is able to support links like ./../somePath but `matchRoutes`
-  // does not do this resolution internally. We must resolve the links before
-  // using `matchRoutes`. `resolvePathname` is used internally by React Router
-  function resolveLink(link: string) {
-    const urlPath = parseURLPath(link, pagePath);
-    return urlPath.pathname;
-  }
-
   // console.log('routes:', routes);
-  function isPathBrokenLink(link: string) {
-    const matchedRoutes = [link, decodeURI(link)]
+  function isPathBrokenLink(linkPath: URLPath) {
+    const matchedRoutes = [linkPath.pathname, decodeURI(linkPath.pathname)]
       // @ts-expect-error: React router types RouteConfig with an actual React
       // component, but we load route components with string paths.
       // We don't actually access component here, so it's fine.
@@ -109,8 +106,8 @@ function getPageBrokenLinks({
     return matchedRoutes.length === 0;
   }
 
-  function isAnchorBrokenLink(pageLink: string) {
-    const {pathname, hash} = parseURLPath(pageLink, pagePath);
+  function isAnchorBrokenLink(linkPath: URLPath) {
+    const {pathname, hash} = linkPath;
 
     // Link has no hash: it can't be a broken anchor link
     if (hash === undefined) {
@@ -130,13 +127,25 @@ function getPageBrokenLinks({
     return !targetPage.anchors.includes(hash);
   }
 
-  const brokenLinks = pageLinks.flatMap((pageLink) => {
-    const resolvedLink = resolveLink(pageLink);
-    if (isPathBrokenLink(resolvedLink)) {
-      return [{link: pageLink, resolvedLink, anchor: false}];
+  const brokenLinks = pageLinks.flatMap((link) => {
+    const linkPath = parseURLPath(link, pagePath);
+    if (isPathBrokenLink(linkPath)) {
+      return [
+        {
+          link,
+          resolvedLink: serializeURLPath(linkPath),
+          anchor: false,
+        },
+      ];
     }
-    if (isAnchorBrokenLink(pageLink)) {
-      return [{link: pageLink, resolvedLink, anchor: true}];
+    if (isAnchorBrokenLink(linkPath)) {
+      return [
+        {
+          link,
+          resolvedLink: serializeURLPath(linkPath),
+          anchor: true,
+        },
+      ];
     }
     return [];
   });
