@@ -702,6 +702,13 @@ export default async function createConfigAsync() {
                 </a>
               `,
               },
+              {
+                html: `
+                <a href="https://argos-ci.com" target="_blank" rel="noreferrer noopener" aria-label="Covered by Argos">
+                  <img src="https://argos-ci.com/badge.svg" alt="Covered by Argos" width="133" height="20" />
+                </a>
+              `,
+              },
             ],
           },
           {
