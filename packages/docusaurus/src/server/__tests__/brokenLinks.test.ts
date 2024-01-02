@@ -131,10 +131,11 @@ describe('handleBrokenLinks', () => {
             '/page 2',
             '/page%202',
             '/page%202?age=42',
+            '/page%202?age=42#page2anchor',
           ],
           anchors: [],
         },
-        '/page 2': {links: [], anchors: []},
+        '/page 2': {links: [], anchors: ['page2anchor']},
       },
     });
   });

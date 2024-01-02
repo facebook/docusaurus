@@ -114,7 +114,8 @@ function getPageBrokenLinks({
       return false;
     }
 
-    const targetPage = allCollectedLinks[pathname];
+    const targetPage =
+      allCollectedLinks[pathname] || allCollectedLinks[decodeURI(pathname)];
 
     // link with anchor to a page that does not exist (or did not collect any
     // link/anchor) is considered as a broken anchor
