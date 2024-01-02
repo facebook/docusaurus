@@ -12,6 +12,7 @@ import type {Options as SitemapPluginOptions} from '@docusaurus/plugin-sitemap';
 import type {Options as GAPluginOptions} from '@docusaurus/plugin-google-analytics';
 import type {Options as GtagPluginOptions} from '@docusaurus/plugin-google-gtag';
 import type {Options as GTMPluginOptions} from '@docusaurus/plugin-google-tag-manager';
+import type {Options as VercelPluginOptions} from '@docusaurus/plugin-vercel-analytics';
 import type {Options as ThemeOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig as BaseThemeConfig} from '@docusaurus/types';
 import type {UserThemeConfig as ClassicThemeConfig} from '@docusaurus/theme-common';
@@ -44,6 +45,7 @@ export type Options = {
    */
   gtag?: GtagPluginOptions;
   googleTagManager?: GTMPluginOptions;
+  vercelAnalytics?: VercelPluginOptions;
 };
 
 export type ThemeConfig = BaseThemeConfig &
