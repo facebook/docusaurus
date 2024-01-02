@@ -8,7 +8,6 @@
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {matchRoutes} from 'react-router-config';
-import {resolvePathname} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
@@ -24,12 +23,11 @@ type CollectedLinks = {
   [location: string]: {links: string[]; anchors: string[]};
 };
 
-// matchRoutes does not support qs/anchors, so we remove it!
-function onlyPathname(link: string) {
-  return link.split('#')[0]!.split('?')[0]!;
-}
-
 // TODO move to docusaurus-utils + add tests
+//
+// TODO: do we still need the urlUtils.resolvePathname ?
+//  this function also resolves the pathname while parsing
+//
 // Let's name the concept of (pathname + search + hash) as URL path
 // See also https://twitter.com/kettanaito/status/1741768992866308120
 // A possible alternative? https://github.com/unjs/ufo#url
@@ -96,8 +94,8 @@ function getPageBrokenLinks({
   // does not do this resolution internally. We must resolve the links before
   // using `matchRoutes`. `resolvePathname` is used internally by React Router
   function resolveLink(link: string) {
-    const resolvedLink = resolvePathname(onlyPathname(link), pagePath);
-    return resolvedLink;
+    const urlPath = parseURLPath(link, pagePath);
+    return urlPath.pathname;
   }
 
   // console.log('routes:', routes);
