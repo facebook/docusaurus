@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {matchRoutes} from 'react-router-config';
+import {parseURLPath, serializeURLPath, type URLPath} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
@@ -22,66 +23,6 @@ type BrokenLinksByLocation = {[location: string]: BrokenLink[]};
 type CollectedLinks = {
   [location: string]: {links: string[]; anchors: string[]};
 };
-
-type URLPath = {pathname: string; search?: string; hash?: string};
-
-// TODO move to docusaurus-utils + add tests
-//
-// TODO: do we still need the urlUtils.resolvePathname ?
-//  this function also resolves the pathname while parsing
-//
-// Let's name the concept of (pathname + search + hash) as URLPath
-// See also https://twitter.com/kettanaito/status/1741768992866308120
-function parseURLPath(urlPath: string, fromPath?: string): URLPath {
-  function parseURL(url: string, base?: string | URL): URL {
-    try {
-      // A possible alternative? https://github.com/unjs/ufo#url
-      return new URL(url, base ?? 'https://example.com');
-    } catch (e) {
-      throw new Error(
-        `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
-        {cause: e},
-      );
-    }
-  }
-
-  const base = fromPath ? parseURL(fromPath) : undefined;
-  const url = parseURL(urlPath, base);
-
-  const {pathname} = url;
-
-  // Fixes annoying url.search behavior
-  // "" => undefined
-  // "?" => ""
-  // "?param => "param"
-  const search = url.search
-    ? url.search.slice(1)
-    : urlPath.includes('?')
-    ? ''
-    : undefined;
-
-  // Fixes annoying url.hash behavior
-  // "" => undefined
-  // "#" => ""
-  // "?param => "param"
-  const hash = url.hash
-    ? url.hash.slice(1)
-    : urlPath.includes('#')
-    ? ''
-    : undefined;
-
-  return {
-    pathname,
-    search,
-    hash,
-  };
-}
-
-function serializeURLPath(urlPath: URLPath): string {
-  const search = urlPath.search === undefined ? '' : `?${urlPath.search}`;
-  const hash = urlPath.hash === undefined ? '' : `#${urlPath.hash}`;
-  return `${urlPath.pathname}${search}${hash}`;
-}
 
 function getPageBrokenLinks({
   allCollectedLinks,

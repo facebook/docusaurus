@@ -48,6 +48,8 @@ export {
   encodePath,
   isValidPathname,
   resolvePathname,
+  parseURLPath,
+  serializeURLPath,
   addLeadingSlash,
   addTrailingSlash,
   removeTrailingSlash,
@@ -55,6 +57,7 @@ export {
   buildHttpsUrl,
   buildSshUrl,
 } from './urlUtils';
+export type {URLPath} from './urlUtils';
 export {
   type Tag,
   type TagsListItem,
