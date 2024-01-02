@@ -227,8 +227,11 @@ export function serializeURLPath(urlPath: URLPath): string {
  * router)
  */
 export function resolvePathname(to: string, from?: string): string {
+  // TODO do we really need resolve-pathname lib anymore?
+  //  possible alternative: decodeURI(parseURLPath(to, from).pathname);
   return resolvePathnameUnsafe(to, from);
 }
+
 /** Appends a leading slash to `str`, if one doesn't exist. */
 export function addLeadingSlash(str: string): string {
   return addPrefix(str, '/');
