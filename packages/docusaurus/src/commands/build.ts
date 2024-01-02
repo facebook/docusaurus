@@ -180,15 +180,15 @@ async function buildLocale({
     },
   );
 
-  const allCollectedLinks: {
-    [location: string]: {links: string[]; anchors: string[]};
+  const collectedLinks: {
+    [pathname: string]: {links: string[]; anchors: string[]};
   } = {};
   const headTags: {[location: string]: HelmetServerState} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: ({staticPagePath, links, anchors}) => {
-      allCollectedLinks[staticPagePath] = {links, anchors};
+      collectedLinks[staticPagePath] = {links, anchors};
     },
     onHeadTagsCollected: (staticPagePath, tags) => {
       headTags[staticPagePath] = tags;
@@ -290,7 +290,7 @@ async function buildLocale({
   );
 
   await handleBrokenLinks({
-    allCollectedLinks,
+    collectedLinks,
     routes,
     onBrokenLinks,
     onBrokenAnchors,

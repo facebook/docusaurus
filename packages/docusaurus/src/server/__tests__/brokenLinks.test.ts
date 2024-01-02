@@ -16,13 +16,13 @@ type SimpleRoute = {path: string; routes?: SimpleRoute[]};
 
 // Conveniently apply defaults to function under test
 async function testBrokenLinks(params: {
-  allCollectedLinks?: Params['allCollectedLinks'];
+  collectedLinks?: Params['collectedLinks'];
   onBrokenLinks?: Params['onBrokenLinks'];
   onBrokenAnchors?: Params['onBrokenAnchors'];
   routes?: SimpleRoute[];
 }) {
   await handleBrokenLinks({
-    allCollectedLinks: {},
+    collectedLinks: {},
     onBrokenLinks: 'throw',
     onBrokenAnchors: 'throw',
     ...params,
@@ -35,7 +35,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid link', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {links: ['/page2'], anchors: []},
         '/page2': {links: [], anchors: []},
       },
@@ -45,7 +45,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid link to uncollected page', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {links: ['/page2'], anchors: []},
         // /page2 is absent on purpose: it doesn't contain any link/anchor
       },
@@ -58,7 +58,7 @@ describe('handleBrokenLinks', () => {
         {path: '/page1'},
         {path: '/nested/', routes: [{path: '/nested/page2'}]},
       ],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {links: ['/nested/page2'], anchors: []},
       },
     });
@@ -67,7 +67,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid relative link', async () => {
     await testBrokenLinks({
       routes: [{path: '/dir/page1'}, {path: '/dir/page2'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/dir/page1': {
           links: ['./page2', '../dir/page2', '/dir/page2'],
           anchors: [],
@@ -79,7 +79,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid link with anchor', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {links: ['/page2#page2anchor'], anchors: []},
         '/page2': {links: [], anchors: ['page2anchor']},
       },
@@ -89,7 +89,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid link with querystring + anchor', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: ['/page2?age=42&theme=dark#page2anchor'],
           anchors: [],
@@ -102,7 +102,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid link to self', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: [
             '/page1',
@@ -122,7 +122,7 @@ describe('handleBrokenLinks', () => {
   it('accepts valid link with spaces and encoding', async () => {
     await testBrokenLinks({
       routes: [{path: '/page 1'}, {path: '/page 2'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page 1': {
           links: [
             '/page 1',
@@ -144,7 +144,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {links: ['/brokenLink'], anchors: []},
         },
       }),
@@ -165,7 +165,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {links: ['/brokenLink#anchor'], anchors: []},
         },
       }),
@@ -186,7 +186,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {links: ['/brokenLink?age=42#anchor'], anchors: []},
         },
       }),
@@ -207,7 +207,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {links: ['/page2#brokenAnchor'], anchors: []},
           '/page2': {links: [], anchors: []},
         },
@@ -229,7 +229,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {links: ['/page2#'], anchors: []},
           '/page2': {links: [], anchors: []},
         },
@@ -251,7 +251,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {
             links: ['/page2?age=42&theme=dark#brokenAnchor'],
             anchors: [],
@@ -276,7 +276,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {
             links: [
               '/page1',
@@ -312,7 +312,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {links: ['/page2#brokenAnchor'], anchors: []},
           // /page2 is absent on purpose: it doesn't contain any link/anchor
         },
@@ -334,7 +334,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes: [{path: '/page1'}, {path: '/page2'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {
             links: ['/page2?age=42&theme=dark#brokenAnchor'],
             anchors: [],
@@ -359,7 +359,7 @@ describe('handleBrokenLinks', () => {
     await testBrokenLinks({
       onBrokenLinks: 'ignore',
       routes: [{path: '/page1'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: ['/page2'],
           anchors: [],
@@ -372,7 +372,7 @@ describe('handleBrokenLinks', () => {
     await testBrokenLinks({
       onBrokenAnchors: 'ignore',
       routes: [{path: '/page1'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: ['/page1#brokenAnchor'],
           anchors: [],
@@ -386,7 +386,7 @@ describe('handleBrokenLinks', () => {
       testBrokenLinks({
         onBrokenAnchors: 'ignore',
         routes: [{path: '/page1'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {
             links: ['/page1#brokenAnchor', '/page2'],
             anchors: [],
@@ -411,7 +411,7 @@ describe('handleBrokenLinks', () => {
       testBrokenLinks({
         onBrokenLinks: 'ignore',
         routes: [{path: '/page1'}],
-        allCollectedLinks: {
+        collectedLinks: {
           '/page1': {
             links: [
               '/page2',
@@ -445,7 +445,7 @@ describe('handleBrokenLinks', () => {
     await testBrokenLinks({
       onBrokenLinks: 'warn',
       routes: [{path: '/page1'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: ['/page2'],
           anchors: [],
@@ -478,7 +478,7 @@ describe('handleBrokenLinks', () => {
     await testBrokenLinks({
       onBrokenAnchors: 'warn',
       routes: [{path: '/page1'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: ['/page1#brokenAnchor'],
           anchors: [],
@@ -512,7 +512,7 @@ describe('handleBrokenLinks', () => {
       onBrokenLinks: 'warn',
       onBrokenAnchors: 'warn',
       routes: [{path: '/page1'}],
-      allCollectedLinks: {
+      collectedLinks: {
         '/page1': {
           links: ['/page1#brokenAnchor', '/page2'],
           anchors: [],
@@ -563,7 +563,7 @@ describe('handleBrokenLinks', () => {
       path: pagePath,
     }));
 
-    const allCollectedLinks: Params['allCollectedLinks'] = Object.fromEntries(
+    const collectedLinks: Params['collectedLinks'] = Object.fromEntries(
       pagePaths.map((pagePath) => [
         pagePath,
         {
@@ -576,7 +576,7 @@ describe('handleBrokenLinks', () => {
     await expect(() =>
       testBrokenLinks({
         routes,
-        allCollectedLinks,
+        collectedLinks,
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "Docusaurus found broken links!

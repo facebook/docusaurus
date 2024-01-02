@@ -18,19 +18,21 @@ type BrokenLink = {
   anchor: boolean;
 };
 
-type BrokenLinksByLocation = {[location: string]: BrokenLink[]};
+type BrokenLinksMap = {[pathname: string]: BrokenLink[]};
 
+// The linking data that has been collected on Docusaurus pages during SSG
+// {rendered page pathname => links and anchors collected on that page}
 type CollectedLinks = {
-  [location: string]: {links: string[]; anchors: string[]};
+  [pathname: string]: {links: string[]; anchors: string[]};
 };
 
-function getPageBrokenLinks({
-  allCollectedLinks,
+function getBrokenLinksForPage({
+  collectedLinks,
   pagePath,
   pageLinks,
   routes,
 }: {
-  allCollectedLinks: CollectedLinks;
+  collectedLinks: CollectedLinks;
   pagePath: string;
   pageLinks: string[];
   pageAnchors: string[];
@@ -56,7 +58,7 @@ function getPageBrokenLinks({
     }
 
     const targetPage =
-      allCollectedLinks[pathname] || allCollectedLinks[decodeURI(pathname)];
+      collectedLinks[pathname] || collectedLinks[decodeURI(pathname)];
 
     // link with anchor to a page that does not exist (or did not collect any
     // link/anchor) is considered as a broken anchor
@@ -106,49 +108,24 @@ function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   return getAllFinalRoutes(routesWithout404);
 }
 
-function getAllBrokenLinks({
-  allCollectedLinks,
+function getBrokenLinks({
+  collectedLinks,
   routes,
 }: {
-  allCollectedLinks: CollectedLinks;
+  collectedLinks: CollectedLinks;
   routes: RouteConfig[];
-}): {brokenLinks: BrokenLinksByLocation; brokenAnchors: BrokenLinksByLocation} {
+}): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = _.mapValues(
-    allCollectedLinks,
-    (pageCollectedData, pagePath) =>
-      getPageBrokenLinks({
-        allCollectedLinks,
-        pageLinks: pageCollectedData.links,
-        pageAnchors: pageCollectedData.anchors,
-        pagePath,
-        routes: filteredRoutes,
-      }),
+  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) =>
+    getBrokenLinksForPage({
+      collectedLinks,
+      pageLinks: pageCollectedData.links,
+      pageAnchors: pageCollectedData.anchors,
+      pagePath,
+      routes: filteredRoutes,
+    }),
   );
-
-  function splitBrokenLinks(collect: {[x: string]: BrokenLink[]}) {
-    const brokenLinks: {[x: string]: BrokenLink[]} = {};
-    const brokenAnchors: {[x: string]: BrokenLink[]} = {};
-
-    Object.entries(collect).forEach(([page, links]) => {
-      const [linksFiltered, anchorsFiltered] = _.partition(
-        links,
-        (link) => link.anchor === false,
-      );
-
-      if (linksFiltered.length > 0) {
-        brokenLinks[page] = linksFiltered;
-      }
-      if (anchorsFiltered.length > 0) {
-        brokenAnchors[page] = anchorsFiltered;
-      }
-    });
-
-    return {brokenLinks, brokenAnchors};
-  }
-
-  return splitBrokenLinks(allBrokenLinks);
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
@@ -175,9 +152,9 @@ function createBrokenLinksMessage(
   return `${anchorMessage}`;
 }
 
-function getAnchorBrokenLinksErrorMessage(allBrokenLinks: {
-  [location: string]: BrokenLink[];
-}): string | undefined {
+function getAnchorBrokenLinksErrorMessage(
+  allBrokenLinks: BrokenLinksMap,
+): string | undefined {
   if (Object.keys(allBrokenLinks).length === 0) {
     return undefined;
   }
@@ -196,10 +173,10 @@ ${Object.entries(allBrokenLinks)
 `;
 }
 
-function getPathBrokenLinksErrorMessage(allBrokenLinks: {
-  [location: string]: BrokenLink[];
-}): string | undefined {
-  if (Object.keys(allBrokenLinks).length === 0) {
+function getPathBrokenLinksErrorMessage(
+  brokenLinksMap: BrokenLinksMap,
+): string | undefined {
+  if (Object.keys(brokenLinksMap).length === 0) {
     return undefined;
   }
 
@@ -209,7 +186,7 @@ function getPathBrokenLinksErrorMessage(allBrokenLinks: {
    * this out. See https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
    */
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = Object.entries(allBrokenLinks).flatMap(
+    const flatList = Object.entries(brokenLinksMap).flatMap(
       ([pagePage, brokenLinks]) =>
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
@@ -242,7 +219,7 @@ Please check the pages of your site in the list below, and make sure you don't r
 Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
 
 Exhaustive list of all broken links found:
-${Object.entries(allBrokenLinks)
+${Object.entries(brokenLinksMap)
   .map(([pagePath, brokenLinks]) =>
     createBrokenLinksMessage(pagePath, brokenLinks),
   )
@@ -250,27 +227,46 @@ ${Object.entries(allBrokenLinks)
 `;
 }
 
-export async function handleBrokenLinks({
-  allCollectedLinks,
-  onBrokenLinks,
-  onBrokenAnchors,
-  routes,
-}: {
-  allCollectedLinks: CollectedLinks;
-  onBrokenLinks: ReportingSeverity;
-  onBrokenAnchors: ReportingSeverity;
-  routes: RouteConfig[];
-}): Promise<void> {
-  if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
-    return;
-  }
+function splitBrokenLinks(brokenLinks: BrokenLinksMap): {
+  brokenPaths: BrokenLinksMap;
+  brokenAnchors: BrokenLinksMap;
+} {
+  const brokenPaths: BrokenLinksMap = {};
+  const brokenAnchors: BrokenLinksMap = {};
 
-  const {brokenLinks, brokenAnchors} = getAllBrokenLinks({
-    allCollectedLinks,
-    routes,
+  Object.entries(brokenLinks).forEach(([pathname, pageBrokenLinks]) => {
+    const [anchorBrokenLinks, pathBrokenLinks] = _.partition(
+      pageBrokenLinks,
+      (link) => link.anchor,
+    );
+
+    if (pathBrokenLinks.length > 0) {
+      brokenPaths[pathname] = pathBrokenLinks;
+    }
+    if (anchorBrokenLinks.length > 0) {
+      brokenAnchors[pathname] = anchorBrokenLinks;
+    }
   });
 
-  const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenLinks);
+  return {brokenPaths, brokenAnchors};
+}
+
+function reportBrokenLinks({
+  brokenLinks,
+  onBrokenLinks,
+  onBrokenAnchors,
+}: {
+  brokenLinks: BrokenLinksMap;
+  onBrokenLinks: ReportingSeverity;
+  onBrokenAnchors: ReportingSeverity;
+}) {
+  // We need to split the broken links reporting in 2 for better granularity
+  // This is because we need to report broken path/anchors independently
+  // For v3.x retro-compatibility, we can't throw by default for broken anchors
+  // TODO Docusaurus v4: make onBrokenAnchors throw by default?
+  const {brokenPaths, brokenAnchors} = splitBrokenLinks(brokenLinks);
+
+  const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenPaths);
   if (pathErrorMessage) {
     logger.report(onBrokenLinks)(pathErrorMessage);
   }
@@ -279,4 +275,22 @@ export async function handleBrokenLinks({
   if (anchorErrorMessage) {
     logger.report(onBrokenAnchors)(anchorErrorMessage);
   }
+}
+
+export async function handleBrokenLinks({
+  collectedLinks,
+  onBrokenLinks,
+  onBrokenAnchors,
+  routes,
+}: {
+  collectedLinks: CollectedLinks;
+  onBrokenLinks: ReportingSeverity;
+  onBrokenAnchors: ReportingSeverity;
+  routes: RouteConfig[];
+}): Promise<void> {
+  if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
+    return;
+  }
+  const brokenLinks = getBrokenLinks({routes, collectedLinks});
+  reportBrokenLinks({brokenLinks, onBrokenLinks, onBrokenAnchors});
 }
