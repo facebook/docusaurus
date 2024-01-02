@@ -137,14 +137,14 @@ function brokenLinkMessage(brokenLink: BrokenLink): string {
 
 function createBrokenLinksMessage(
   pagePath: string,
-  allBrokenLinks: BrokenLink[],
+  brokenLinks: BrokenLink[],
 ): string {
-  const type = allBrokenLinks[0]?.anchor === true ? 'anchor' : 'link';
+  const type = brokenLinks[0]?.anchor === true ? 'anchor' : 'link';
 
   const anchorMessage =
-    allBrokenLinks.length > 0
+    brokenLinks.length > 0
       ? `- Broken ${type} on source page path = ${pagePath}:
-   -> linking to ${allBrokenLinks
+   -> linking to ${brokenLinks
      .map(brokenLinkMessage)
      .join('\n   -> linking to ')}`
       : '';
@@ -152,10 +152,10 @@ function createBrokenLinksMessage(
   return `${anchorMessage}`;
 }
 
-function getAnchorBrokenLinksErrorMessage(
-  allBrokenLinks: BrokenLinksMap,
+function createBrokenAnchorsMessage(
+  brokenAnchors: BrokenLinksMap,
 ): string | undefined {
-  if (Object.keys(allBrokenLinks).length === 0) {
+  if (Object.keys(brokenAnchors).length === 0) {
     return undefined;
   }
 
@@ -165,7 +165,7 @@ Please check the pages of your site in the list below, and make sure you don't r
 Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
 
 Exhaustive list of all broken anchors found:
-${Object.entries(allBrokenLinks)
+${Object.entries(brokenAnchors)
   .map(([pagePath, brokenLinks]) =>
     createBrokenLinksMessage(pagePath, brokenLinks),
   )
@@ -173,10 +173,10 @@ ${Object.entries(allBrokenLinks)
 `;
 }
 
-function getPathBrokenLinksErrorMessage(
-  brokenLinksMap: BrokenLinksMap,
+function createBrokenPathsMessage(
+  brokenPathsMap: BrokenLinksMap,
 ): string | undefined {
-  if (Object.keys(brokenLinksMap).length === 0) {
+  if (Object.keys(brokenPathsMap).length === 0) {
     return undefined;
   }
 
@@ -186,7 +186,7 @@ function getPathBrokenLinksErrorMessage(
    * this out. See https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
    */
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = Object.entries(brokenLinksMap).flatMap(
+    const flatList = Object.entries(brokenPathsMap).flatMap(
       ([pagePage, brokenLinks]) =>
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
@@ -219,9 +219,9 @@ Please check the pages of your site in the list below, and make sure you don't r
 Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
 
 Exhaustive list of all broken links found:
-${Object.entries(brokenLinksMap)
-  .map(([pagePath, brokenLinks]) =>
-    createBrokenLinksMessage(pagePath, brokenLinks),
+${Object.entries(brokenPathsMap)
+  .map(([pagePath, brokenPaths]) =>
+    createBrokenLinksMessage(pagePath, brokenPaths),
   )
   .join('\n')}
 `;
@@ -266,12 +266,12 @@ function reportBrokenLinks({
   // TODO Docusaurus v4: make onBrokenAnchors throw by default?
   const {brokenPaths, brokenAnchors} = splitBrokenLinks(brokenLinks);
 
-  const pathErrorMessage = getPathBrokenLinksErrorMessage(brokenPaths);
+  const pathErrorMessage = createBrokenPathsMessage(brokenPaths);
   if (pathErrorMessage) {
     logger.report(onBrokenLinks)(pathErrorMessage);
   }
 
-  const anchorErrorMessage = getAnchorBrokenLinksErrorMessage(brokenAnchors);
+  const anchorErrorMessage = createBrokenAnchorsMessage(brokenAnchors);
   if (anchorErrorMessage) {
     logger.report(onBrokenAnchors)(anchorErrorMessage);
   }
