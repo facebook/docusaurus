@@ -232,7 +232,9 @@ const config = {
     // No number prefix found
     return {numberPrefix: undefined, filename};
   },
-  docLayoutComponent: '@theme/DocPage',
+  docsRootComponent: '@theme/DocsRoot',
+  docVersionRootComponent: '@theme/DocVersionRoot',
+  docRootComponent: '@theme/DocRoot',
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [require('./my-remark-plugin')],
   rehypePlugins: [],
