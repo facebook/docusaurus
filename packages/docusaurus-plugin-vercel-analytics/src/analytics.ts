@@ -6,7 +6,12 @@
  */
 import {inject} from '@vercel/analytics';
 
+/* eslint-disable prefer-destructuring */
+const VERCEL_ANALYTICS_DEBUG = process.env.VERCEL_ANALYTICS_DEBUG;
+const VERCEL_ANALYTICS_MODE = process.env.VERCEL_ANALYTICS_MODE;
+
+// todo fix type error
 inject({
-  mode: 'production',
-  debug: false,
+  mode: VERCEL_ANALYTICS_MODE ?? 'production',
+  debug: VERCEL_ANALYTICS_DEBUG ?? false,
 });
