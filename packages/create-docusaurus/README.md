@@ -10,6 +10,10 @@ npm init docusaurus
 yarn create docusaurus
 ```
 
+```bash
+npx create-docusaurus@latest
+```
+
 ## Usage
 
 Please see the [installation documentation](https://docusaurus.io/docs/installation).
