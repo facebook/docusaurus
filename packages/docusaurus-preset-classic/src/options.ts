@@ -44,6 +44,10 @@ export type Options = {
    */
   gtag?: GtagPluginOptions;
   googleTagManager?: GTMPluginOptions;
+  /**
+   * Options for `@docusaurus/plugin-vercel-analytics`. Use `false` to disable.
+   */
+  vercelAnalytics?: boolean;
 };
 
 export type ThemeConfig = BaseThemeConfig &

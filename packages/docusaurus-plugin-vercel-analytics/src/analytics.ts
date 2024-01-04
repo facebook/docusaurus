@@ -8,5 +8,5 @@ import {inject} from '@vercel/analytics';
 
 inject({
   mode: 'production',
-  debug: true,
+  debug: false,
 });

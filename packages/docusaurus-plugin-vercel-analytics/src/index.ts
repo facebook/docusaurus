@@ -8,14 +8,13 @@
 import type {Plugin} from '@docusaurus/types';
 
 export default function pluginVercelAnalytics(): Plugin {
-  // const isProd = process.env.NODE_ENV === 'production';
+  const isProd = process.env.NODE_ENV === 'production';
 
   return {
     name: 'docusaurus-plugin-vercel-analytics',
 
     getClientModules() {
-      // return isProd ? ['./analytics'] : [];
-      return ['./analytics'];
+      return isProd ? ['./analytics'] : [];
     },
   };
 }
