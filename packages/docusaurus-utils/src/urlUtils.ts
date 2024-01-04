@@ -165,14 +165,73 @@ export function isValidPathname(str: string): boolean {
   }
 }
 
+export type URLPath = {pathname: string; search?: string; hash?: string};
+
+// Let's name the concept of (pathname + search + hash) as URLPath
+// See also https://twitter.com/kettanaito/status/1741768992866308120
+// Note: this function also resolves relative pathnames while parsing!
+export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
+  function parseURL(url: string, base?: string | URL): URL {
+    try {
+      // A possible alternative? https://github.com/unjs/ufo#url
+      return new URL(url, base ?? 'https://example.com');
+    } catch (e) {
+      throw new Error(
+        `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
+        {cause: e},
+      );
+    }
+  }
+
+  const base = fromPath ? parseURL(fromPath) : undefined;
+  const url = parseURL(urlPath, base);
+
+  const {pathname} = url;
+
+  // Fixes annoying url.search behavior
+  // "" => undefined
+  // "?" => ""
+  // "?param => "param"
+  const search = url.search
+    ? url.search.slice(1)
+    : urlPath.includes('?')
+    ? ''
+    : undefined;
+
+  // Fixes annoying url.hash behavior
+  // "" => undefined
+  // "#" => ""
+  // "?param => "param"
+  const hash = url.hash
+    ? url.hash.slice(1)
+    : urlPath.includes('#')
+    ? ''
+    : undefined;
+
+  return {
+    pathname,
+    search,
+    hash,
+  };
+}
+
+export function serializeURLPath(urlPath: URLPath): string {
+  const search = urlPath.search === undefined ? '' : `?${urlPath.search}`;
+  const hash = urlPath.hash === undefined ? '' : `#${urlPath.hash}`;
+  return `${urlPath.pathname}${search}${hash}`;
+}
+
 /**
  * Resolve pathnames and fail-fast if resolution fails. Uses standard URL
  * semantics (provided by `resolve-pathname` which is used internally by React
  * router)
  */
 export function resolvePathname(to: string, from?: string): string {
+  // TODO do we really need resolve-pathname lib anymore?
+  //  possible alternative: decodeURI(parseURLPath(to, from).pathname);
   return resolvePathnameUnsafe(to, from);
 }
+
 /** Appends a leading slash to `str`, if one doesn't exist. */
 export function addLeadingSlash(str: string): string {
   return addPrefix(str, '/');

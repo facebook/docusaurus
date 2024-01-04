@@ -260,6 +260,15 @@ declare module '@docusaurus/useRouteContext' {
   export default function useRouteContext(): PluginRouteContext;
 }
 
+declare module '@docusaurus/useBrokenLinks' {
+  export type BrokenLinks = {
+    collectLink: (link: string) => void;
+    collectAnchor: (anchor: string) => void;
+  };
+
+  export default function useBrokenLinks(): BrokenLinks;
+}
+
 declare module '@docusaurus/useIsBrowser' {
   export default function useIsBrowser(): boolean;
 }
