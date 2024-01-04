@@ -20,9 +20,9 @@ import {renderStaticApp} from './serverRenderer';
 import preload from './preload';
 import App from './App';
 import {
-  createStatefulLinksCollector,
-  LinksCollectorProvider,
-} from './LinksCollector';
+  createStatefulBrokenLinks,
+  BrokenLinksProvider,
+} from './BrokenLinksContext';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
@@ -96,23 +96,27 @@ async function doRender(locals: Locals & {path: string}) {
   const routerContext = {};
   const helmetContext = {};
 
-  const linksCollector = createStatefulLinksCollector();
+  const statefulBrokenLinks = createStatefulBrokenLinks();
 
   const app = (
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={routerContext}>
-          <LinksCollectorProvider linksCollector={linksCollector}>
+          <BrokenLinksProvider brokenLinks={statefulBrokenLinks}>
             <App />
-          </LinksCollectorProvider>
+          </BrokenLinksProvider>
         </StaticRouter>
       </HelmetProvider>
     </Loadable.Capture>
   );
 
   const appHtml = await renderStaticApp(app);
-  onLinksCollected(location, linksCollector.getCollectedLinks());
+  onLinksCollected({
+    staticPagePath: location,
+    anchors: statefulBrokenLinks.getCollectedAnchors(),
+    links: statefulBrokenLinks.getCollectedLinks(),
+  });
 
   const {helmet} = helmetContext as FilledContext;
   const htmlAttributes = helmet.htmlAttributes.toString();

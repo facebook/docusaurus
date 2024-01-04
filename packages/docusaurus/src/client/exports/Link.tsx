@@ -16,7 +16,7 @@ import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
-import {useLinksCollector} from '../LinksCollector';
+import useBrokenLinks from './useBrokenLinks';
 import {useBaseUrlUtils} from './useBaseUrl';
 import type {Props} from '@docusaurus/Link';
 
@@ -44,7 +44,7 @@ function Link(
     siteConfig: {trailingSlash, baseUrl},
   } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
-  const linksCollector = useLinksCollector();
+  const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
 
   useImperativeHandle(forwardedRef, () => innerRef.current!);
@@ -144,7 +144,7 @@ function Link(
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
   if (!isRegularHtmlLink && !noBrokenLinkCheck) {
-    linksCollector.collectLink(targetLink!);
+    brokenLinks.collectLink(targetLink!);
   }
 
   return isRegularHtmlLink ? (

@@ -5,45 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import combinePromises from 'combine-promises';
 import {matchRoutes} from 'react-router-config';
-import {removePrefix, removeSuffix, resolvePathname} from '@docusaurus/utils';
+import {parseURLPath, serializeURLPath, type URLPath} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
 type BrokenLink = {
   link: string;
   resolvedLink: string;
+  anchor: boolean;
 };
 
-// matchRoutes does not support qs/anchors, so we remove it!
-function onlyPathname(link: string) {
-  return link.split('#')[0]!.split('?')[0]!;
-}
+type BrokenLinksMap = {[pathname: string]: BrokenLink[]};
 
-function getPageBrokenLinks({
+// The linking data that has been collected on Docusaurus pages during SSG
+// {rendered page pathname => links and anchors collected on that page}
+type CollectedLinks = {
+  [pathname: string]: {links: string[]; anchors: string[]};
+};
+
+function getBrokenLinksForPage({
+  collectedLinks,
   pagePath,
   pageLinks,
   routes,
 }: {
+  collectedLinks: CollectedLinks;
   pagePath: string;
   pageLinks: string[];
+  pageAnchors: string[];
   routes: RouteConfig[];
 }): BrokenLink[] {
-  // ReactRouter is able to support links like ./../somePath but `matchRoutes`
-  // does not do this resolution internally. We must resolve the links before
-  // using `matchRoutes`. `resolvePathname` is used internally by React Router
-  function resolveLink(link: string) {
-    const resolvedLink = resolvePathname(onlyPathname(link), pagePath);
-    return {link, resolvedLink};
-  }
-
-  function isBrokenLink(link: string) {
-    const matchedRoutes = [link, decodeURI(link)]
+  // console.log('routes:', routes);
+  function isPathBrokenLink(linkPath: URLPath) {
+    const matchedRoutes = [linkPath.pathname, decodeURI(linkPath.pathname)]
       // @ts-expect-error: React router types RouteConfig with an actual React
       // component, but we load route components with string paths.
       // We don't actually access component here, so it's fine.
@@ -52,7 +49,52 @@ function getPageBrokenLinks({
     return matchedRoutes.length === 0;
   }
 
-  return pageLinks.map(resolveLink).filter((l) => isBrokenLink(l.resolvedLink));
+  function isAnchorBrokenLink(linkPath: URLPath) {
+    const {pathname, hash} = linkPath;
+
+    // Link has no hash: it can't be a broken anchor link
+    if (hash === undefined) {
+      return false;
+    }
+
+    const targetPage =
+      collectedLinks[pathname] || collectedLinks[decodeURI(pathname)];
+
+    // link with anchor to a page that does not exist (or did not collect any
+    // link/anchor) is considered as a broken anchor
+    if (!targetPage) {
+      return true;
+    }
+
+    // it's a broken anchor if the target page exists
+    // but the anchor does not exist on that page
+    return !targetPage.anchors.includes(hash);
+  }
+
+  const brokenLinks = pageLinks.flatMap((link) => {
+    const linkPath = parseURLPath(link, pagePath);
+    if (isPathBrokenLink(linkPath)) {
+      return [
+        {
+          link,
+          resolvedLink: serializeURLPath(linkPath),
+          anchor: false,
+        },
+      ];
+    }
+    if (isAnchorBrokenLink(linkPath)) {
+      return [
+        {
+          link,
+          resolvedLink: serializeURLPath(linkPath),
+          anchor: true,
+        },
+      ];
+    }
+    return [];
+  });
+
+  return brokenLinks;
 }
 
 /**
@@ -66,45 +108,76 @@ function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   return getAllFinalRoutes(routesWithout404);
 }
 
-function getAllBrokenLinks({
-  allCollectedLinks,
+function getBrokenLinks({
+  collectedLinks,
   routes,
 }: {
-  allCollectedLinks: {[location: string]: string[]};
+  collectedLinks: CollectedLinks;
   routes: RouteConfig[];
-}): {[location: string]: BrokenLink[]} {
+}): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = _.mapValues(allCollectedLinks, (pageLinks, pagePath) =>
-    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) =>
+    getBrokenLinksForPage({
+      collectedLinks,
+      pageLinks: pageCollectedData.links,
+      pageAnchors: pageCollectedData.anchors,
+      pagePath,
+      routes: filteredRoutes,
+    }),
   );
-
-  return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
-function getBrokenLinksErrorMessage(allBrokenLinks: {
-  [location: string]: BrokenLink[];
-}): string | undefined {
-  if (Object.keys(allBrokenLinks).length === 0) {
+function brokenLinkMessage(brokenLink: BrokenLink): string {
+  const showResolvedLink = brokenLink.link !== brokenLink.resolvedLink;
+  return `${brokenLink.link}${
+    showResolvedLink ? ` (resolved as: ${brokenLink.resolvedLink})` : ''
+  }`;
+}
+
+function createBrokenLinksMessage(
+  pagePath: string,
+  brokenLinks: BrokenLink[],
+): string {
+  const type = brokenLinks[0]?.anchor === true ? 'anchor' : 'link';
+
+  const anchorMessage =
+    brokenLinks.length > 0
+      ? `- Broken ${type} on source page path = ${pagePath}:
+   -> linking to ${brokenLinks
+     .map(brokenLinkMessage)
+     .join('\n   -> linking to ')}`
+      : '';
+
+  return `${anchorMessage}`;
+}
+
+function createBrokenAnchorsMessage(
+  brokenAnchors: BrokenLinksMap,
+): string | undefined {
+  if (Object.keys(brokenAnchors).length === 0) {
     return undefined;
   }
 
-  function brokenLinkMessage(brokenLink: BrokenLink): string {
-    const showResolvedLink = brokenLink.link !== brokenLink.resolvedLink;
-    return `${brokenLink.link}${
-      showResolvedLink ? ` (resolved as: ${brokenLink.resolvedLink})` : ''
-    }`;
-  }
+  return `Docusaurus found broken anchors!
 
-  function pageBrokenLinksMessage(
-    pagePath: string,
-    brokenLinks: BrokenLink[],
-  ): string {
-    return `
-- On source page path = ${pagePath}:
-   -> linking to ${brokenLinks
-     .map(brokenLinkMessage)
-     .join('\n   -> linking to ')}`;
+Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+Exhaustive list of all broken anchors found:
+${Object.entries(brokenAnchors)
+  .map(([pagePath, brokenLinks]) =>
+    createBrokenLinksMessage(pagePath, brokenLinks),
+  )
+  .join('\n')}
+`;
+}
+
+function createBrokenPathsMessage(
+  brokenPathsMap: BrokenLinksMap,
+): string | undefined {
+  if (Object.keys(brokenPathsMap).length === 0) {
+    return undefined;
   }
 
   /**
@@ -113,7 +186,7 @@ function getBrokenLinksErrorMessage(allBrokenLinks: {
    * this out. See https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
    */
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = Object.entries(allBrokenLinks).flatMap(
+    const flatList = Object.entries(brokenPathsMap).flatMap(
       ([pagePage, brokenLinks]) =>
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
@@ -146,102 +219,78 @@ Please check the pages of your site in the list below, and make sure you don't r
 Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
 
 Exhaustive list of all broken links found:
-${Object.entries(allBrokenLinks)
-  .map(([pagePath, brokenLinks]) =>
-    pageBrokenLinksMessage(pagePath, brokenLinks),
+${Object.entries(brokenPathsMap)
+  .map(([pagePath, brokenPaths]) =>
+    createBrokenLinksMessage(pagePath, brokenPaths),
   )
   .join('\n')}
 `;
 }
 
-async function isExistingFile(filePath: string) {
-  try {
-    return (await fs.stat(filePath)).isFile();
-  } catch {
-    return false;
-  }
-}
+function splitBrokenLinks(brokenLinks: BrokenLinksMap): {
+  brokenPaths: BrokenLinksMap;
+  brokenAnchors: BrokenLinksMap;
+} {
+  const brokenPaths: BrokenLinksMap = {};
+  const brokenAnchors: BrokenLinksMap = {};
 
-// If a file actually exist on the file system, we know the link is valid
-// even if docusaurus does not know about this file, so we don't report it
-async function filterExistingFileLinks({
-  baseUrl,
-  outDir,
-  allCollectedLinks,
-}: {
-  baseUrl: string;
-  outDir: string;
-  allCollectedLinks: {[location: string]: string[]};
-}): Promise<{[location: string]: string[]}> {
-  async function linkFileExists(link: string) {
-    // /baseUrl/javadoc/ -> /outDir/javadoc
-    const baseFilePath = onlyPathname(
-      removeSuffix(`${outDir}/${removePrefix(link, baseUrl)}`, '/'),
+  Object.entries(brokenLinks).forEach(([pathname, pageBrokenLinks]) => {
+    const [anchorBrokenLinks, pathBrokenLinks] = _.partition(
+      pageBrokenLinks,
+      (link) => link.anchor,
     );
 
-    // -> /outDir/javadoc
-    // -> /outDir/javadoc.html
-    // -> /outDir/javadoc/index.html
-    const filePathsToTry: string[] = [baseFilePath];
-    if (!path.extname(baseFilePath)) {
-      filePathsToTry.push(
-        `${baseFilePath}.html`,
-        path.join(baseFilePath, 'index.html'),
-      );
+    if (pathBrokenLinks.length > 0) {
+      brokenPaths[pathname] = pathBrokenLinks;
     }
+    if (anchorBrokenLinks.length > 0) {
+      brokenAnchors[pathname] = anchorBrokenLinks;
+    }
+  });
 
-    for (const file of filePathsToTry) {
-      if (await isExistingFile(file)) {
-        return true;
-      }
-    }
-    return false;
+  return {brokenPaths, brokenAnchors};
+}
+
+function reportBrokenLinks({
+  brokenLinks,
+  onBrokenLinks,
+  onBrokenAnchors,
+}: {
+  brokenLinks: BrokenLinksMap;
+  onBrokenLinks: ReportingSeverity;
+  onBrokenAnchors: ReportingSeverity;
+}) {
+  // We need to split the broken links reporting in 2 for better granularity
+  // This is because we need to report broken path/anchors independently
+  // For v3.x retro-compatibility, we can't throw by default for broken anchors
+  // TODO Docusaurus v4: make onBrokenAnchors throw by default?
+  const {brokenPaths, brokenAnchors} = splitBrokenLinks(brokenLinks);
+
+  const pathErrorMessage = createBrokenPathsMessage(brokenPaths);
+  if (pathErrorMessage) {
+    logger.report(onBrokenLinks)(pathErrorMessage);
   }
 
-  return combinePromises(
-    _.mapValues(allCollectedLinks, async (links) =>
-      (
-        await Promise.all(
-          links.map(async (link) => ((await linkFileExists(link)) ? '' : link)),
-        )
-      ).filter(Boolean),
-    ),
-  );
+  const anchorErrorMessage = createBrokenAnchorsMessage(brokenAnchors);
+  if (anchorErrorMessage) {
+    logger.report(onBrokenAnchors)(anchorErrorMessage);
+  }
 }
 
 export async function handleBrokenLinks({
-  allCollectedLinks,
+  collectedLinks,
   onBrokenLinks,
+  onBrokenAnchors,
   routes,
-  baseUrl,
-  outDir,
 }: {
-  allCollectedLinks: {[location: string]: string[]};
+  collectedLinks: CollectedLinks;
   onBrokenLinks: ReportingSeverity;
+  onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
-  baseUrl: string;
-  outDir: string;
 }): Promise<void> {
-  if (onBrokenLinks === 'ignore') {
+  if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;
   }
-
-  // If we link to a file like /myFile.zip, and the file actually exist for the
-  // file system. It is not a broken link, it may simply be a link to an
-  // existing static file...
-  const allCollectedLinksFiltered = await filterExistingFileLinks({
-    allCollectedLinks,
-    baseUrl,
-    outDir,
-  });
-
-  const allBrokenLinks = getAllBrokenLinks({
-    allCollectedLinks: allCollectedLinksFiltered,
-    routes,
-  });
-
-  const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
-  if (errorMessage) {
-    logger.report(onBrokenLinks)(errorMessage);
-  }
+  const brokenLinks = getBrokenLinks({routes, collectedLinks});
+  reportBrokenLinks({brokenLinks, onBrokenLinks, onBrokenAnchors});
 }

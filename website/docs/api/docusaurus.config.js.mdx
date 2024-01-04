@@ -188,7 +188,7 @@ export default {
 
 The behavior of Docusaurus when it detects any broken link.
 
-By default, it throws an error, to ensure you never ship any broken link, but you can lower this security if needed.
+By default, it throws an error, to ensure you never ship any broken link.
 
 :::note
 
@@ -196,13 +196,21 @@ The broken links detection is only available for a production build (`docusaurus
 
 :::
 
+### `onBrokenAnchors` {#onBrokenAnchors}
+
+- Type: `'ignore' | 'log' | 'warn' | 'throw'`
+
+The behavior of Docusaurus when it detects any broken anchor declared with the `Heading` component of Docusaurus.
+
+By default, it prints a warning, to let you know about your broken anchors.
+
 ### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
 The behavior of Docusaurus when it detects any broken Markdown link.
 
-By default, it prints a warning, to let you know about your broken Markdown link, but you can change this security if needed.
+By default, it prints a warning, to let you know about your broken Markdown link.
 
 ### `onDuplicateRoutes` {#onDuplicateRoutes}
 
