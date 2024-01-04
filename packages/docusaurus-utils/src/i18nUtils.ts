@@ -127,13 +127,13 @@ function addLocaleExtension(filePath: string, locale: string) {
   return path.join(dir, `${name}.${locale}${ext}`);
 }
 
-/**
- * Returns the first existing localized path of a content file
- * @param relativeSource
- * @param contentPaths
- * @param locale
- */
-export async function getLocalizedSourcePath({
+type LocalizedSource = {
+  contentPath: string;
+  source: string;
+  type: 'locale-extension' | 'locale-folder' | 'original';
+};
+
+function getLocalizedSourceCandidates({
   relativeSource,
   contentPaths,
   locale,
@@ -141,38 +141,68 @@ export async function getLocalizedSourcePath({
   relativeSource: string;
   contentPaths: ContentPaths;
   locale: string;
-}): Promise<string> {
+}): LocalizedSource[] {
   // docs/myDoc.fr.md
-  const localeExtensionSource = path.join(
-    contentPaths.contentPath,
-    addLocaleExtension(relativeSource, locale),
-  );
+  const localeExtensionSource: LocalizedSource = {
+    contentPath: contentPaths.contentPath,
+    source: path.join(
+      contentPaths.contentPath,
+      addLocaleExtension(relativeSource, locale),
+    ),
+    type: 'locale-extension',
+  };
 
   // i18n/fr/docs/current/myDoc.md
-  const i18nFolderSource = path.join(
-    contentPaths.contentPathLocalized,
-    relativeSource,
-  );
+  const i18nFolderSource: LocalizedSource = {
+    contentPath: contentPaths.contentPath,
+    source: path.join(contentPaths.contentPathLocalized, relativeSource),
+    type: 'locale-folder',
+  };
 
   // docs/myDoc.md
-  const originalSource = path.join(contentPaths.contentPath, relativeSource);
+  const originalSource: LocalizedSource = {
+    contentPath: contentPaths.contentPath,
+    source: path.join(contentPaths.contentPath, relativeSource),
+    type: 'original',
+  };
 
   // Order matters
-  const possibleSources = [
-    localeExtensionSource,
-    i18nFolderSource,
-    originalSource,
-  ];
+  return [localeExtensionSource, i18nFolderSource, originalSource];
+}
+
+/**
+ * Returns the first existing localized path of a content file
+ * @param relativeSource
+ * @param contentPaths
+ * @param locale
+ */
+export async function getLocalizedSource({
+  relativeSource,
+  contentPaths,
+  locale,
+}: {
+  relativeSource: string;
+  contentPaths: ContentPaths;
+  locale: string;
+}): Promise<LocalizedSource> {
+  // docs/myDoc.fr.md
+  const candidates = getLocalizedSourceCandidates({
+    relativeSource,
+    contentPaths,
+    locale,
+  });
 
   // TODO can we avoid/optimize this by passing all the files we know as param?
-  const localizedSource = await findAsyncSequential(
-    possibleSources,
-    fs.pathExists,
+  const localizedSource = await findAsyncSequential(candidates, (candidate) =>
+    fs.pathExists(candidate.source),
   );
 
   if (!localizedSource) {
     throw new Error(
-      `Unexpected error, couldn't find any existing file at ${originalSource}`,
+      `Unexpected error, couldn't find any localized source for file at ${path.join(
+        contentPaths.contentPath,
+        relativeSource,
+      )}`,
     );
   }
 

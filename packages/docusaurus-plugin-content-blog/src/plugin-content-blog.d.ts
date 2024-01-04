@@ -72,6 +72,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
    * preserved as-is. Default values will be applied when generating metadata
    */
   export type BlogPostFrontMatter = {
+    // TODO Docusaurus v4: remove
     /**
      * @deprecated Use `slug` instead.
      */

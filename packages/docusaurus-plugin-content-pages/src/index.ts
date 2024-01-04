@@ -21,7 +21,7 @@ import {
   parseMarkdownFile,
   isUnlisted,
   isDraft,
-  getLocalizedSourcePath,
+  getLocalizedSource,
   filterFilesWithLocaleExtension,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
@@ -95,7 +95,7 @@ export default function pluginContentPages(
       async function processPageSourceFile(
         relativeSource: string,
       ): Promise<Metadata | undefined> {
-        const source = await getLocalizedSourcePath({
+        const {source} = await getLocalizedSource({
           relativeSource,
           contentPaths,
           locale: context.i18n.currentLocale,

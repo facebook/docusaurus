@@ -34,7 +34,7 @@ export {
   updateTranslationFileMessages,
   getPluginI18nPath,
   localizePath,
-  getLocalizedSourcePath,
+  getLocalizedSource,
   filterFilesWithLocaleExtension,
 } from './i18nUtils';
 export {
