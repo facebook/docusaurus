@@ -21,7 +21,8 @@ import {
   parseMarkdownFile,
   isUnlisted,
   isDraft,
-  findAsyncSequential,
+  getLocalizedSourcePath,
+  filterFilesWithLocaleExtension,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 
@@ -36,48 +37,6 @@ import type {
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
-}
-
-async function getLocalizedSource({
-  relativeSource,
-  contentPaths,
-  locale,
-}: {
-  relativeSource: string;
-  contentPaths: PagesContentPaths;
-  locale: string;
-}) {
-  const {name, dir, ext} = path.parse(relativeSource);
-
-  // Lookup in localized folder in priority
-  const possibleSources = getContentPathList(contentPaths).flatMap(
-    (contentPath) => [
-      path.join(contentPath, dir, `${name}.${locale}${ext}`),
-      path.join(contentPath, relativeSource),
-    ],
-  );
-
-  const localizedSource = await findAsyncSequential(
-    possibleSources,
-    fs.pathExists,
-  );
-
-  if (!localizedSource) {
-    throw new Error('unexpected');
-  }
-
-  return localizedSource;
-}
-
-function filterLocaleExtensionFiles(
-  files: string[],
-  locales: string[],
-): string[] {
-  const localeExtensions = locales.map((locale) => `.${locale}`);
-  return files.filter((file) => {
-    const {name} = path.parse(file);
-    return !localeExtensions.includes(path.extname(name));
-  });
 }
 
 const isMarkdownSource = (source: string) =>
@@ -109,7 +68,10 @@ export default function pluginContentPages(
       cwd: contentPaths.contentPath,
       ignore: options.exclude,
     });
-    return filterLocaleExtensionFiles(files, context.i18n.locales);
+    return filterFilesWithLocaleExtension({
+      files,
+      locales: context.i18n.locales,
+    });
   }
 
   return {
@@ -133,7 +95,7 @@ export default function pluginContentPages(
       async function processPageSourceFile(
         relativeSource: string,
       ): Promise<Metadata | undefined> {
-        const source = await getLocalizedSource({
+        const source = await getLocalizedSourcePath({
           relativeSource,
           contentPaths,
           locale: context.i18n.currentLocale,

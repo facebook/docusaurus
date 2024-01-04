@@ -6,14 +6,17 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import _ from 'lodash';
 import {DEFAULT_PLUGIN_ID} from './constants';
 import {normalizeUrl} from './urlUtils';
+import {findAsyncSequential} from './jsUtils';
 import type {
   TranslationFileContent,
   TranslationFile,
   I18n,
 } from '@docusaurus/types';
+import type {ContentPaths} from './markdownLinks';
 
 /**
  * Takes a list of translation file contents, and shallow-merges them into one.
@@ -111,4 +114,83 @@ export function localizePath({
   }
   // Url paths; add a trailing slash so it's a valid base URL
   return normalizeUrl([originalPath, i18n.currentLocale, '/']);
+}
+
+/**
+ * Localize a content file path
+ * ./dir/myDoc.md => ./dir/myDoc.fr.md
+ * @param filePath
+ * @param locale
+ */
+function addLocaleExtension(filePath: string, locale: string) {
+  const {name, dir, ext} = path.parse(filePath);
+  return path.join(dir, `${name}.${locale}${ext}`);
+}
+
+/**
+ * Returns the first existing localized path of a content file
+ * @param relativeSource
+ * @param contentPaths
+ * @param locale
+ */
+export async function getLocalizedSourcePath({
+  relativeSource,
+  contentPaths,
+  locale,
+}: {
+  relativeSource: string;
+  contentPaths: ContentPaths;
+  locale: string;
+}): Promise<string> {
+  // docs/myDoc.fr.md
+  const localeExtensionSource = path.join(
+    contentPaths.contentPath,
+    addLocaleExtension(relativeSource, locale),
+  );
+
+  // i18n/fr/docs/current/myDoc.md
+  const i18nFolderSource = path.join(
+    contentPaths.contentPathLocalized,
+    relativeSource,
+  );
+
+  // docs/myDoc.md
+  const originalSource = path.join(contentPaths.contentPath, relativeSource);
+
+  // Order matters
+  const possibleSources = [
+    localeExtensionSource,
+    i18nFolderSource,
+    originalSource,
+  ];
+
+  // TODO can we avoid/optimize this by passing all the files we know as param?
+  const localizedSource = await findAsyncSequential(
+    possibleSources,
+    fs.pathExists,
+  );
+
+  if (!localizedSource) {
+    throw new Error(
+      `Unexpected error, couldn't find any existing file at ${originalSource}`,
+    );
+  }
+
+  return localizedSource;
+}
+
+export function filterFilesWithLocaleExtension({
+  files,
+  locales,
+}: {
+  files: string[];
+  locales: string[];
+}): string[] {
+  const possibleLocaleExtensions = new Set(
+    locales.map((locale) => `.${locale}`),
+  );
+  return files.filter((file) => {
+    const {name} = path.parse(file);
+    return !possibleLocaleExtensions.has(path.extname(name));
+  });
 }
