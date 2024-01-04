@@ -376,9 +376,6 @@ export default async function createConfigAsync() {
       [
         'classic',
         {
-          vercelAnalytics: {
-            enabled: true,
-          },
           debug: true, // force debug plugin usage
           docs: {
             // routeBasePath: '/',

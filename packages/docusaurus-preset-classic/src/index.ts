@@ -41,7 +41,6 @@ export default function preset(
     googleAnalytics,
     gtag,
     googleTagManager,
-    vercelAnalytics,
     ...rest
   } = opts;
 
@@ -89,9 +88,6 @@ export default function preset(
         googleTagManager,
       ),
     );
-  }
-  if (vercelAnalytics) {
-    plugins.push(makePluginConfig('@docusaurus/plugin-vercel-analytics'));
   }
   if (isProd && sitemap !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
