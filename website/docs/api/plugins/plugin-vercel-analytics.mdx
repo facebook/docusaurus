@@ -42,11 +42,16 @@ Accepted fields:
 
 You can configure this plugin through plugin options.
 
-```js config-tabs
-// Plugin Options: @docusaurus/plugin-vercel-analytics
-
-const config = {
-  mode: 'development',
-  debug: true,
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      'vercel-analytics',
+      {
+        debug: true,
+        mode: 'auto',
+      },
+    ],
+  ],
 };
 ```
