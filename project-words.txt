@@ -183,8 +183,6 @@ MDXAST
 MDXHAST
 Mdxjs
 mdxjs
-Meilisearch
-meilisearch
 metadatum
 metastring
 metrica
