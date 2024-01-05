@@ -1,5 +1,62 @@
 # Docusaurus 2 Changelog
 
+## 3.1.0 (2024-01-05)
+
+#### :rocket: New Feature
+
+- `docusaurus-mdx-loader`, `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#9528](https://github.com/facebook/docusaurus/pull/9528) feat(core): make broken link checker detect broken anchors - add `onBrokenAnchors` config ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-mdx-loader`, `docusaurus-types`, `docusaurus`
+  - [#9674](https://github.com/facebook/docusaurus/pull/9674) feat(mdx-loader): add support for siteConfig.markdown.remarkRehypeOptions ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-common`
+  - [#9671](https://github.com/facebook/docusaurus/pull/9671) feat(theme-common): code block MagicComments support for (Visual) Basic/Batch/Fortran/COBOL/ML ([@tats-u](https://github.com/tats-u))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#9624](https://github.com/facebook/docusaurus/pull/9624) feat: siteConfig.markdown.parseFrontMatter hook ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#9610](https://github.com/facebook/docusaurus/pull/9610) feat(core): enable port configuration via environment variable ([@OzakIOne](https://github.com/OzakIOne))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#9704](https://github.com/facebook/docusaurus/pull/9704) fix(theme): allow empty code blocks and live playgrounds ([@slorber](https://github.com/slorber))
+- `create-docusaurus`
+  - [#9696](https://github.com/facebook/docusaurus/pull/9696) fix(create-docusaurus): fix init template code blocks, and little improvements ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-pwa`
+  - [#9668](https://github.com/facebook/docusaurus/pull/9668) fix(pwa-plugin): upgrade workbox ([@SimenB](https://github.com/SimenB))
+- `docusaurus`
+  - [#9648](https://github.com/facebook/docusaurus/pull/9648) fix(cli): output help when no conventional config + no subcommand ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-theme-live-codeblock`
+  - [#9631](https://github.com/facebook/docusaurus/pull/9631) fix(live-codeblock): stabilize react-live transformCode callback, fix editor/preview desync ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#9617](https://github.com/facebook/docusaurus/pull/9617) fix(utils): Markdown link replacement with <> but no spaces ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-module-type-aliases`
+  - [#9612](https://github.com/facebook/docusaurus/pull/9612) fix(type-aliases): add `title` prop for imported inline SVG React components ([@axmmisaka](https://github.com/axmmisaka))
+- `docusaurus-plugin-content-blog`
+  - [#9581](https://github.com/facebook/docusaurus/pull/9581) fix(content-blog): add baseUrl for author.image_url ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-theme-translations`
+  - [#9477](https://github.com/facebook/docusaurus/pull/9477) fix(i18n): complete translations for theme-common.json Brazilian Portuguese (pt-BR) ([@c0h1b4](https://github.com/c0h1b4))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-common`
+  - [#9335](https://github.com/facebook/docusaurus/pull/9335) refactor(theme-common): allow optional desktopBreakpoint param in useWindowSize ([@jgarrow](https://github.com/jgarrow))
+
+#### :wrench: Maintenance
+
+- `docusaurus-theme-search-algolia`
+  - [#9604](https://github.com/facebook/docusaurus/pull/9604) chore: add lint autofix CI job ([@slorber](https://github.com/slorber))
+
+#### Committers: 8
+
+- Janessa Garrow ([@jgarrow](https://github.com/jgarrow))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Simen Bekkhus ([@SimenB](https://github.com/SimenB))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tatsunori Uchino ([@tats-u](https://github.com/tats-u))
+- [@c0h1b4](https://github.com/c0h1b4)
+- axmmisaka ([@axmmisaka](https://github.com/axmmisaka))
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
+
 ## 3.0.1 (2023-11-30)
 
 #### :bug: Bug Fix
