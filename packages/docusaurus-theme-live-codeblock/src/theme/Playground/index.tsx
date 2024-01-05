@@ -120,7 +120,7 @@ export default function Playground({
   return (
     <div className={styles.playgroundContainer}>
       <LiveProvider
-        code={children.replace(/\n$/, '')}
+        code={children?.replace(/\n$/, '')}
         noInline={noInline}
         transformCode={transformCode ?? DEFAULT_TRANSFORM_CODE}
         theme={prismTheme}
