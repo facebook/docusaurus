@@ -28,7 +28,6 @@ export default function pluginVercelAnalytics(
     },
 
     contentLoaded({actions}) {
-      console.log('options:', options);
       if (options.id !== DEFAULT_PLUGIN_ID) {
         throw new Error(
           `You cannot use a custom plugin id option with the Vercel Analytics plugin`,
