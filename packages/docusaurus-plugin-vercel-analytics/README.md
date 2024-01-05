@@ -4,6 +4,4 @@
 
 ## Usage
 
-TODO: add documentation
-
-See [plugin-vercel-analytics documentation]().
+See [plugin-vercel-analytics documentation](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-vercel-analytics).

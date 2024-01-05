@@ -1,0 +1,52 @@
+---
+sidebar_position: 11
+slug: /api/plugins/@docusaurus/plugin-vercel-analytics
+---
+
+# 📦 plugin-vercel-analytics
+
+import APITable from '@site/src/components/APITable';
+
+[Vercel Analytics](https://vercel.com/docs/analytics) provides comprehensive insights into your website's visitors, tracking top pages, referrers, and demographics like location, operating systems, and browser info.
+
+:::warning production only
+
+This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-vercel-analytics
+```
+
+## Configuration {#configuration}
+
+Accepted fields:
+
+```mdx-code-block
+<APITable>
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `mode` | string | 'production' | Sets the environment mode ('auto' or 'development' or 'production') |
+| `debug` | `boolean` | `false` | Enable debug logging |
+
+```mdx-code-block
+</APITable>
+```
+
+### Example configuration {#ex-config}
+
+You can configure this plugin through plugin options.
+
+```js config-tabs
+// Plugin Options: @docusaurus/plugin-vercel-analytics
+
+const config = {
+  mode: 'development',
+  debug: true,
+};
+```
