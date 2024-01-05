@@ -1,0 +1,44 @@
+---
+title: Docusaurus 3.1
+authors: [slorber]
+tags: [release]
+image: ./img/social-card.png
+date: 2024-01-05
+---
+
+We are happy to announce **Docusaurus 3.1**.
+
+The upgrade should be easy: as explained in our [release process documentation](/community/release-process), minor versions respect [Semantic Versioning](https://semver.org/).
+
+![Docusaurus blog post social card](./img/social-card.png)
+
+<!--truncate-->
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton';
+
+## Highlights
+
+### Broken anchors
+
+In [#9528](https://github.com/facebook/docusaurus/pull/9528), we improved the broken links checker to also detect broken anchors
+
+`onBrokenAnchors`
+
+`useBrokenLinks`
+
+### parseFrontMatter hook
+
+[#9624](https://github.com/facebook/docusaurus/pull/9624) feat: siteConfig.markdown.parseFrontMatter hook ([@slorber](https://github.com/slorber))
+
+## Other changes
+
+Other notable changes include:
+
+- [#9674](https://github.com/facebook/docusaurus/pull/9674): add `siteConfig.markdown.remarkRehypeOptions` to pass options to `remark-rehype`, letting you customize things such as MDX footnote label
+- [#9671](https://github.com/facebook/docusaurus/pull/9671): add code block MagicComments support for (Visual) Basic/Batch/Fortran/COBOL/ML
+- [#9610](https://github.com/facebook/docusaurus/pull/9610): enable CLI port configuration via `PORT` environment variable
+- [#9477](https://github.com/facebook/docusaurus/pull/9477): complete Brazilian Portuguese (pt-BR) translations
+
+Check the **[3.1.0 changelog entry](/changelog/3.1.0)** for an exhaustive list of changes.
