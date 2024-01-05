@@ -20,17 +20,66 @@ import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButto
 
 ## Highlights
 
-### Broken anchors
+### Broken anchors checker
 
-In [#9528](https://github.com/facebook/docusaurus/pull/9528), we improved the broken links checker to also detect broken anchors
+In [#9528](https://github.com/facebook/docusaurus/pull/9528), we improved the built-in broken links checker to also detect broken anchors.
 
-`onBrokenAnchors`
+![Docusaurus blog post social card](./img/broken-anchor.jpg)
 
-`useBrokenLinks`
+:::tip[Make it fail fast]
 
-### parseFrontMatter hook
+The new [`onBrokenAnchors`](/docs/api/docusaurus-config#onBrokenAnchors) option has value `warn` by default, for retro-compatibility reasons.
 
-[#9624](https://github.com/facebook/docusaurus/pull/9624) feat: siteConfig.markdown.parseFrontMatter hook ([@slorber](https://github.com/slorber))
+We recommend to turn it to `throw` and fail your CI builds instead of deploying broken anchors to productions.
+
+:::
+
+:::note
+
+For users and plugin authors implementing custom `<Heading>` and `<Link>` components, we provide a new [`useBrokenLinks`](/docs/docusaurus-core#useBrokenLinks) React hook API.
+
+**Most Docusaurus users don't need to care about it**, built-in components (`docusaurus/Link` and `@theme/Heading`) already use it internally.
+
+:::
+
+### `parseFrontMatter` hook
+
+In [#9624](https://github.com/facebook/docusaurus/pull/9624), we added a new [`siteConfig.markdown.parseFrontMatter` function hook](/docs/api/docusaurus-config#markdown).
+
+This makes it possible to implement convenient front matter transformations, shortcuts, or to integrate with external systems using front matter that Docusaurus plugins do not support.
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    // highlight-start
+    parseFrontMatter: async (params) => {
+      // Reuse the default parser
+      const result = await params.defaultParseFrontMatter(params);
+
+      // Process front matter description placeholders
+      result.frontMatter.description =
+        result.frontMatter.description?.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+
+      // Create your own front matter shortcut
+      if (result.frontMatter.i_do_not_want_docs_pagination) {
+        result.frontMatter.pagination_prev = null;
+        result.frontMatter.pagination_next = null;
+      }
+
+      // Rename an unsupported front matter coming from another system
+      if (result.frontMatter.cms_seo_summary) {
+        result.frontMatter.description = result.frontMatter.cms_seo_summary;
+        delete result.frontMatter.cms_seo_summary;
+      }
+
+      return result;
+    },
+    // highlight-end
+  },
+};
+```
+
+Read the [front matter guide](/docs/markdown-features#front-matter) and the [`parseFrontMatter` API ref](/docs/api/docusaurus-config#markdown) for details.
 
 ## Other changes
 
