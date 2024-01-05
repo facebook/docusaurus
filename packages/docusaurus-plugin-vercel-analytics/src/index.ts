@@ -5,13 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi} from '@docusaurus/utils-validation';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import type {
-  LoadContext,
-  Plugin,
-  OptionValidationContext,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
 export default function pluginVercelAnalytics(
@@ -37,25 +32,6 @@ export default function pluginVercelAnalytics(
       actions.setGlobalData(options);
     },
   };
-}
-
-export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
-  mode: 'production',
-  debug: false,
-};
-
-const pluginOptionsSchema = Joi.object<PluginOptions>({
-  mode: Joi.string()
-    .valid('auto', 'production', 'development')
-    .default(DEFAULT_OPTIONS.mode),
-  debug: Joi.boolean().default(DEFAULT_OPTIONS.debug),
-});
-
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
-  return validate(pluginOptionsSchema, options);
 }
 
 export type {PluginOptions, Options};
