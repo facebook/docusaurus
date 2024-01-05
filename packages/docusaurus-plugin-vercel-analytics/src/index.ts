@@ -18,6 +18,12 @@ export default function pluginVercelAnalytics(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin {
+  if (options.id !== DEFAULT_PLUGIN_ID) {
+    throw new Error(
+      `You cannot use a custom plugin id option with the Vercel Analytics plugin`,
+    );
+  }
+
   const isProd = process.env.NODE_ENV === 'production';
 
   return {
@@ -28,11 +34,6 @@ export default function pluginVercelAnalytics(
     },
 
     contentLoaded({actions}) {
-      if (options.id !== DEFAULT_PLUGIN_ID) {
-        throw new Error(
-          `You cannot use a custom plugin id option with the Vercel Analytics plugin`,
-        );
-      }
       actions.setGlobalData(options);
     },
   };
