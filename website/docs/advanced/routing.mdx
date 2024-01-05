@@ -265,25 +265,17 @@ export function PageRoute() {
 
 Docusaurus builds a [single-page application](https://developer.mozilla.org/en-US/docs/Glossary/SPA), where route transitions are done through the `history.push()` method of React router. This operation is done on the client side. However, the prerequisite for a route transition to happen this way is that the target URL is known to our router. Otherwise, the router catches this path and displays a 404 page instead.
 
-If you put some HTML pages under the `static` folder, they will be copied to the build output and therefore become accessible as part of your website, yet it's not part of the Docusaurus route system. We provide a `pathname://` protocol that allows you to redirect to another part of your domain in a non-SPA fashion, as if this route is an external link. Try the following two links:
+If you put some HTML pages under the `static` folder, they will be copied to the build output and therefore become accessible as part of your website, yet it's not part of the Docusaurus route system. We provide a `pathname://` protocol that allows you to redirect to another part of your domain in a non-SPA fashion, as if this route is an external link.
 
 ```md
-- [/pure-html](/pure-html)
 - [pathname:///pure-html](pathname:///pure-html)
 ```
 
 <BrowserWindow>
 
-- [`/pure-html`](/pure-html)
 - [`pathname:///pure-html`](pathname:///pure-html)
 
 </BrowserWindow>
-
-:::tip
-
-The first link will **not** trigger a "broken links detected" check during the production build, because the respective file actually exists. Nevertheless, when you click on the link, a "page not found" will be displayed until you refresh.
-
-:::
 
 The `pathname://` protocol is useful for referencing any content in the static folder. For example, Docusaurus would convert [all Markdown static assets to require() calls](../guides/markdown-features/markdown-features-assets.mdx#static-assets). You can use `pathname://` to keep it a regular link instead of being hashed by Webpack.
 

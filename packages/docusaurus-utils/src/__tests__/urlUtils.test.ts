@@ -18,6 +18,8 @@ import {
   buildSshUrl,
   buildHttpsUrl,
   hasSSHProtocol,
+  parseURLPath,
+  serializeURLPath,
 } from '../urlUtils';
 
 describe('normalizeUrl', () => {
@@ -229,6 +231,137 @@ describe('removeTrailingSlash', () => {
   });
   it('removes / for path with trailing slash', () => {
     expect(removeTrailingSlash('/abcd/')).toBe('/abcd');
+  });
+});
+
+describe('parseURLPath', () => {
+  it('parse and resolve pathname', () => {
+    expect(parseURLPath('')).toEqual({
+      pathname: '/',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/')).toEqual({
+      pathname: '/',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/page')).toEqual({
+      pathname: '/page',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/dir1/page')).toEqual({
+      pathname: '/dir1/page',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/dir1/dir2/./../page')).toEqual({
+      pathname: '/dir1/page',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/dir1/dir2/../..')).toEqual({
+      pathname: '/',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/dir1/dir2/../../..')).toEqual({
+      pathname: '/',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('./dir1/dir2./../page', '/dir3/dir4/page2')).toEqual({
+      pathname: '/dir3/dir4/dir1/page',
+      search: undefined,
+      hash: undefined,
+    });
+  });
+
+  it('parse query string', () => {
+    expect(parseURLPath('/page')).toEqual({
+      pathname: '/page',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/page?')).toEqual({
+      pathname: '/page',
+      search: '',
+      hash: undefined,
+    });
+    expect(parseURLPath('/page?test')).toEqual({
+      pathname: '/page',
+      search: 'test',
+      hash: undefined,
+    });
+    expect(parseURLPath('/page?age=42&great=true')).toEqual({
+      pathname: '/page',
+      search: 'age=42&great=true',
+      hash: undefined,
+    });
+  });
+
+  it('parse hash', () => {
+    expect(parseURLPath('/page')).toEqual({
+      pathname: '/page',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseURLPath('/page#')).toEqual({
+      pathname: '/page',
+      search: undefined,
+      hash: '',
+    });
+    expect(parseURLPath('/page#anchor')).toEqual({
+      pathname: '/page',
+      search: undefined,
+      hash: 'anchor',
+    });
+  });
+
+  it('parse fancy real-world edge cases', () => {
+    expect(parseURLPath('/page?#')).toEqual({
+      pathname: '/page',
+      search: '',
+      hash: '',
+    });
+    expect(
+      parseURLPath('dir1/dir2/../page?age=42#anchor', '/dir3/page2'),
+    ).toEqual({
+      pathname: '/dir3/dir1/page',
+      search: 'age=42',
+      hash: 'anchor',
+    });
+  });
+});
+
+describe('serializeURLPath', () => {
+  function test(input: string, base?: string, expectedOutput?: string) {
+    expect(serializeURLPath(parseURLPath(input, base))).toEqual(
+      expectedOutput ?? input,
+    );
+  }
+
+  it('works for already resolved paths', () => {
+    test('/');
+    test('/dir1/page');
+    test('/dir1/page?');
+    test('/dir1/page#');
+    test('/dir1/page?#');
+    test('/dir1/page?age=42#anchor');
+  });
+
+  it('works for relative paths', () => {
+    test('', undefined, '/');
+    test('', '/dir1/dir2/page2', '/dir1/dir2/page2');
+    test('page', '/dir1/dir2/page2', '/dir1/dir2/page');
+    test('../page', '/dir1/dir2/page2', '/dir1/page');
+    test('/dir1/dir2/../page', undefined, '/dir1/page');
+    test(
+      '/dir1/dir2/../page?age=42#anchor',
+      undefined,
+      '/dir1/page?age=42#anchor',
+    );
   });
 });
 

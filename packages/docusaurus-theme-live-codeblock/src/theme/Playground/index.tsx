@@ -98,6 +98,10 @@ function EditorWithHeader() {
   );
 }
 
+// this should rather be a stable function
+// see https://github.com/facebook/docusaurus/issues/9630#issuecomment-1855682643
+const DEFAULT_TRANSFORM_CODE = (code: string) => `${code};`;
+
 export default function Playground({
   children,
   transformCode,
@@ -116,9 +120,9 @@ export default function Playground({
   return (
     <div className={styles.playgroundContainer}>
       <LiveProvider
-        code={children.replace(/\n$/, '')}
+        code={children?.replace(/\n$/, '')}
         noInline={noInline}
-        transformCode={transformCode ?? ((code) => `${code};`)}
+        transformCode={transformCode ?? DEFAULT_TRANSFORM_CODE}
         theme={prismTheme}
         {...props}>
         {playgroundPosition === 'top' ? (

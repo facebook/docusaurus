@@ -152,8 +152,8 @@ async function buildLocale({
     generatedFilesDir,
     plugins,
     siteConfig: {
-      baseUrl,
       onBrokenLinks,
+      onBrokenAnchors,
       staticDirectories: staticDirectoriesOption,
     },
     routes,
@@ -180,13 +180,15 @@ async function buildLocale({
     },
   );
 
-  const allCollectedLinks: {[location: string]: string[]} = {};
+  const collectedLinks: {
+    [pathname: string]: {links: string[]; anchors: string[]};
+  } = {};
   const headTags: {[location: string]: HelmetServerState} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,
-    onLinksCollected: (staticPagePath, links) => {
-      allCollectedLinks[staticPagePath] = links;
+    onLinksCollected: ({staticPagePath, links, anchors}) => {
+      collectedLinks[staticPagePath] = {links, anchors};
     },
     onHeadTagsCollected: (staticPagePath, tags) => {
       headTags[staticPagePath] = tags;
@@ -288,11 +290,10 @@ async function buildLocale({
   );
 
   await handleBrokenLinks({
-    allCollectedLinks,
+    collectedLinks,
     routes,
     onBrokenLinks,
-    outDir,
-    baseUrl,
+    onBrokenAnchors,
   });
 
   logger.success`Generated static files in path=${path.relative(

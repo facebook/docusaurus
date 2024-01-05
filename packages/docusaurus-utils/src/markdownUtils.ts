@@ -8,6 +8,10 @@
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
 import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
+import type {
+  ParseFrontMatter,
+  DefaultParseFrontMatter,
+} from '@docusaurus/types';
 
 // Some utilities for parsing Markdown content. These things are only used on
 // server-side when we infer metadata like `title` and `description` from the
@@ -214,18 +218,39 @@ export function createExcerpt(fileString: string): string | undefined {
  * ---
  * ```
  */
-export function parseFrontMatter(markdownFileContent: string): {
+export function parseFileContentFrontMatter(fileContent: string): {
   /** Front matter as parsed by gray-matter. */
   frontMatter: {[key: string]: unknown};
   /** The remaining content, trimmed. */
   content: string;
 } {
-  const {data, content} = matter(markdownFileContent);
+  // TODO Docusaurus v4: replace gray-matter by a better lib
+  // gray-matter is unmaintained, not flexible, and the code doesn't look good
+  const {data, content} = matter(fileContent);
+
+  // gray-matter has an undocumented front matter caching behavior
+  // https://github.com/jonschlinkert/gray-matter/blob/ce67a86dba419381db0dd01cc84e2d30a1d1e6a5/index.js#L39
+  // Unfortunately, this becomes a problem when we mutate returned front matter
+  // We want to make it possible as part of the parseFrontMatter API
+  // So we make it safe to mutate by always providing a deep copy
+  const frontMatter =
+    // And of course structuredClone() doesn't work well with Date in Jest...
+    // See https://github.com/jestjs/jest/issues/2549
+    // So we parse again for tests with a {} option object
+    // This undocumented empty option object disables gray-matter caching..
+    process.env.JEST_WORKER_ID
+      ? matter(fileContent, {}).data
+      : structuredClone(data);
+
   return {
-    frontMatter: data,
+    frontMatter,
     content: content.trim(),
   };
 }
+
+export const DEFAULT_PARSE_FRONT_MATTER: DefaultParseFrontMatter = async (
+  params,
+) => parseFileContentFrontMatter(params.fileContent);
 
 function toTextContentTitle(contentTitle: string): string {
   return contentTitle.replace(/`(?<text>[^`]*)`/g, '$<text>');
@@ -309,10 +334,16 @@ export function parseMarkdownContentTitle(
  * @throws Throws when `parseFrontMatter` throws, usually because of invalid
  * syntax.
  */
-export function parseMarkdownString(
-  markdownFileContent: string,
-  options?: ParseMarkdownContentTitleOptions,
-): {
+export async function parseMarkdownFile({
+  filePath,
+  fileContent,
+  parseFrontMatter,
+  removeContentTitle,
+}: {
+  filePath: string;
+  fileContent: string;
+  parseFrontMatter: ParseFrontMatter;
+} & ParseMarkdownContentTitleOptions): Promise<{
   /** @see {@link parseFrontMatter} */
   frontMatter: {[key: string]: unknown};
   /** @see {@link parseMarkdownContentTitle} */
@@ -324,14 +355,18 @@ export function parseMarkdownString(
    * the `removeContentTitle` option.
    */
   content: string;
-} {
+}> {
   try {
     const {frontMatter, content: contentWithoutFrontMatter} =
-      parseFrontMatter(markdownFileContent);
+      await parseFrontMatter({
+        filePath,
+        fileContent,
+        defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+      });
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
-      options,
+      {removeContentTitle},
     );
 
     const excerpt = createExcerpt(content);
