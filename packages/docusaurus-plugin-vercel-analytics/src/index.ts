@@ -34,4 +34,6 @@ export default function pluginVercelAnalytics(
   };
 }
 
+export {validateOptions} from './options';
+
 export type {PluginOptions, Options};
