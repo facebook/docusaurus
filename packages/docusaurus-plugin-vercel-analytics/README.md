@@ -1,6 +1,6 @@
 # `@docusaurus/plugin-vercel-analytics`
 
-Vercel analytics plugin for Docusaurus. [Official documentation](https://vercel.com/docs/analytics)
+[Vercel analytics](https://vercel.com/docs/analytics) plugin for Docusaurus.
 
 ## Usage
 

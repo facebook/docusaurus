@@ -6,6 +6,7 @@
  */
 
 import {Joi} from '@docusaurus/utils-validation';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {
   LoadContext,
   Plugin,
@@ -17,17 +18,22 @@ export default function pluginVercelAnalytics(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin {
-  // const isProd = process.env.NODE_ENV === 'production';
+  const isProd = process.env.NODE_ENV === 'production';
 
   return {
     name: 'docusaurus-plugin-vercel-analytics',
 
     getClientModules() {
-      // return isProd ? ['./analytics'] : [];
-      return ['./analytics'];
+      return isProd ? ['./analytics'] : [];
     },
 
     contentLoaded({actions}) {
+      console.log('options:', options);
+      if (options.id !== DEFAULT_PLUGIN_ID) {
+        throw new Error(
+          `You cannot use a custom plugin id option with the Vercel Analytics plugin`,
+        );
+      }
       actions.setGlobalData(options);
     },
   };

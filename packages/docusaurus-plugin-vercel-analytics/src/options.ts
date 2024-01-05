@@ -6,6 +6,7 @@
  */
 
 export type PluginOptions = {
+  id: string;
   mode: 'auto' | 'production' | 'development';
   debug: boolean;
 };
