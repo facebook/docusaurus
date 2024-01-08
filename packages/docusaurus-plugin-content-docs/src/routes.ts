@@ -230,7 +230,6 @@ export async function buildAllRoutes(
     subRoutes.push({
       path: '/*',
       component: '@docusaurus/ComponentCreator',
-      exact: true,
     });
   }
 
