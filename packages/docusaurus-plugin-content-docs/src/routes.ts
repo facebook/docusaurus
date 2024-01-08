@@ -226,6 +226,13 @@ export async function buildAllRoutes(
       }),
     ),
   );
+  if (param.options.routeBasePath === '/') {
+    subRoutes.push({
+      path: '/*',
+      component: '@docusaurus/ComponentCreator',
+      exact: true,
+    });
+  }
 
   // all docs routes are wrapped under a single parent route, this ensures
   // the theme layout never unmounts/remounts when navigating between versions

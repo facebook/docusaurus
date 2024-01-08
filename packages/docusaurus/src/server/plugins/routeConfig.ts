@@ -42,6 +42,14 @@ export function sortConfig(
       return -1;
     }
 
+    // Wildcard also should get placed last
+    if (a.path.endsWith('/*')) {
+      return 1;
+    }
+    if (b.path.endsWith('/*')) {
+      return -1;
+    }
+
     if (a.routes && !b.routes) {
       return 1;
     }
