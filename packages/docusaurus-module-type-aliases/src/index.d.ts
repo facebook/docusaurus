@@ -102,6 +102,10 @@ declare module '@theme/NotFound' {
   export default function NotFound(): JSX.Element;
 }
 
+declare module '@theme/NotFound/Content' {
+  export default function NotFoundContent(): JSX.Element;
+}
+
 declare module '@theme/Root' {
   import type {ReactNode} from 'react';
 
