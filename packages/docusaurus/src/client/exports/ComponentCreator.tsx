@@ -43,7 +43,7 @@ export default function ComponentCreator(
       },
     });
   }
-  if (path === '/*') {
+  if (path.endsWith('/*')) {
     return Loadable({
         loading: Loading,
         loader: () => import('@theme/NotFound/Content'),
