@@ -17,6 +17,7 @@ import {
   dogfoodingPluginInstances,
   dogfoodingThemeInstances,
   dogfoodingRedirects,
+  dogfoodingTransformFrontMatter,
 } from './_dogfooding/dogfooding.config';
 
 import ConfigLocalized from './docusaurus.config.localized.json';
@@ -101,7 +102,7 @@ const TwitterSvg =
 
 const defaultLocale = 'en';
 
-function getLocalizedConfigValue(key: string) {
+function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
   const currentLocale = process.env.DOCUSAURUS_CURRENT_LOCALE ?? defaultLocale;
   const values = ConfigLocalized[key];
   if (!values) {
@@ -176,6 +177,16 @@ export default async function createConfigAsync() {
       mdx1Compat: {
         // comments: false,
       },
+      remarkRehypeOptions: {
+        footnoteLabel: getLocalizedConfigValue('remarkRehypeOptions_footnotes'),
+      },
+      parseFrontMatter: async (params) => {
+        const result = await params.defaultParseFrontMatter(params);
+        return {
+          ...result,
+          frontMatter: dogfoodingTransformFrontMatter(result.frontMatter),
+        };
+      },
       preprocessor: ({filePath, fileContent}) => {
         let result = fileContent;
 
@@ -195,7 +206,11 @@ export default async function createConfigAsync() {
       },
     },
     onBrokenLinks:
-      isBuildFast ||
+      isVersioningDisabled ||
+      process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+        ? 'warn'
+        : 'throw',
+    onBrokenAnchors:
       isVersioningDisabled ||
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'

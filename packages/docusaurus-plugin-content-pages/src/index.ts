@@ -19,7 +19,7 @@ import {
   createAbsoluteFilePathMatcher,
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
-  parseMarkdownString,
+  parseMarkdownFile,
   isUnlisted,
   isDraft,
 } from '@docusaurus/utils';
@@ -113,7 +113,11 @@ export default function pluginContentPages(
           frontMatter: unsafeFrontMatter,
           contentTitle,
           excerpt,
-        } = parseMarkdownString(content);
+        } = await parseMarkdownFile({
+          filePath: source,
+          fileContent: content,
+          parseFrontMatter: siteConfig.markdown.parseFrontMatter,
+        });
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
 
         if (isDraft({frontMatter})) {

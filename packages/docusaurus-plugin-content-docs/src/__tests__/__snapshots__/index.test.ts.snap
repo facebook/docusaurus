@@ -463,7 +463,7 @@ exports[`simple website content: data 1`] = `
   "frontMatter": {
     "title": "Custom Last Update",
     "last_update": {
-      "author": "Custom Author",
+      "author": "Custom Author (processed by parseFrontMatter)",
       "date": "1/1/2000"
     }
   }
@@ -686,7 +686,7 @@ exports[`simple website content: data 1`] = `
   "frontMatter": {
     "title": "Last Update Author Only",
     "last_update": {
-      "author": "Custom Author"
+      "author": "Custom Author (processed by parseFrontMatter)"
     }
   }
 }",

@@ -605,6 +605,49 @@ const MyComponent = () => {
 };
 ```
 
+### `useBrokenLinks` {#useBrokenLinks}
+
+React hook to access the Docusaurus broken link checker APIs, exposing a way for a Docusaurus pages to report and collect their links and anchors.
+
+:::warning
+
+This is an **advanced** API that **most Docusaurus users don't need to use directly**.
+
+It is already **built-in** in existing high-level components:
+
+- the [`<Link>`](#link) component will collect links for you
+- the `@theme/Heading` (used for Markdown headings) will collect anchors
+
+Use `useBrokenLinks()` if you implement your own `<Heading>` or `<Link>` component.
+
+:::
+
+Usage example:
+
+```js title="MyHeading.js"
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+
+export default function MyHeading({id, ...props}): JSX.Element {
+  const brokenLinks = useBrokenLinks();
+
+  brokenLinks.collectAnchor(id);
+
+  return <h2 id={id}>Heading</h2>;
+}
+```
+
+```js title="MyLink.js"
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+
+export default function MyLink({targetLink, ...props}): JSX.Element {
+  const brokenLinks = useBrokenLinks();
+
+  brokenLinks.collectLink(targetLink);
+
+  return <a href={targetLink}>Link</a>;
+}
+```
+
 ## Functions {#functions}
 
 ### `interpolate` {#interpolate-1}
