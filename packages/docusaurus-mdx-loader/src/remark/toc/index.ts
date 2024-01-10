@@ -95,6 +95,8 @@ const plugin: Plugin = function plugin(
 
     const partialComponentToHeadingsName: {[key: string]: string} =
       Object.create(null);
+
+    // TOCItem or string already with the spread operator
     const headings: (TOCItem | string)[] = [];
 
     visit(root, ['heading', 'mdxjsEsm', 'mdxJsxFlowElement'], (child) => {
@@ -157,7 +159,7 @@ const plugin: Plugin = function plugin(
         }
         const headingsName = partialComponentToHeadingsName[nodeName];
         if (headingsName) {
-          headings.push(headingsName);
+          headings.push(`...${headingsName}`);
         }
       }
     });
@@ -178,9 +180,10 @@ async function createExportNode(name: string, object: any): Promise<MdxjsEsm> {
 
   const tocObject = object.map((heading: TOCItem | string) => {
     if (typeof heading === 'string') {
+      const argumentName = heading.replace('...', '');
       return {
         type: 'SpreadElement',
-        argument: {type: 'Identifier', name: heading},
+        argument: {type: 'Identifier', name: argumentName},
       };
     }
 

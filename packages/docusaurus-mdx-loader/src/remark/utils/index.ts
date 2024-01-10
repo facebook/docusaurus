@@ -164,6 +164,7 @@ export function assetRequireAttributeValue(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function constructArrayString(objects: any[]): string {
   let result = '[';
+
   for (const obj of objects) {
     if (typeof obj === 'string') {
       result = `${result}\n\t${obj},`;
@@ -171,9 +172,15 @@ export function constructArrayString(objects: any[]): string {
       result = `${result}\n\t${stringifyObject(obj).replace(/\n/g, '\n\t')},`;
     }
   }
+
   // Remove trailing coma
   result = result.replace(/,$/, '');
-  result += '\n]';
+  // Close array on same line if it is empty
+  if (result === '[') {
+    result += ']';
+  } else {
+    result += '\n]';
+  }
 
   return result;
 }

@@ -70,4 +70,9 @@ describe('toc remark plugin', () => {
     const result = await processFixture('empty-headings');
     expect(result).toMatchSnapshot();
   });
+
+  it('works with imported markdown', async () => {
+    const result = await processFixture('imported-markdown');
+    expect(result).toMatchSnapshot();
+  });
 });
