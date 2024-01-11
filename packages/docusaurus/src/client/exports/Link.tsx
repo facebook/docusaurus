@@ -150,6 +150,10 @@ function Link(
     brokenLinks.collectLink(targetLink!);
   }
 
+  if (props.id) {
+    brokenLinks.collectAnchor(props.id);
+  }
+
   return isRegularHtmlLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content, @docusaurus/no-html-links
     <a
