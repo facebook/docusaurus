@@ -83,9 +83,8 @@ function getBrokenLinksForPage({
 
     // it's a broken anchor if the target page exists
     // but the anchor does not exist on that page
-    return !targetPage.anchors.some((anchor) =>
-      [hash, decodeURIComponent(hash)].includes(anchor),
-    );
+    const hashes = [hash, decodeURIComponent(hash)];
+    return !targetPage.anchors.some((anchor) => hashes.includes(anchor));
   }
 
   const brokenLinks = pageLinks.flatMap((link) => {
