@@ -86,6 +86,52 @@ describe('handleBrokenLinks', () => {
     });
   });
 
+  it('accepts valid link with anchor reported with hash prefix', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      collectedLinks: {
+        '/page1': {links: ['/page2#page2anchor'], anchors: []},
+        '/page2': {links: [], anchors: ['#page2anchor']},
+      },
+    });
+  });
+
+  it('accepts valid links and anchors, sparse arrays', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      collectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            // @ts-expect-error: invalid type on purpose
+            undefined,
+            // @ts-expect-error: invalid type on purpose
+            null,
+            // @ts-expect-error: invalid type on purpose
+            42,
+            '/page2',
+            '/page2#page2anchor1',
+            '/page2#page2anchor2',
+          ],
+          anchors: [],
+        },
+        '/page2': {
+          links: [],
+          anchors: [
+            'page2anchor1',
+            // @ts-expect-error: invalid type on purpose
+            undefined,
+            // @ts-expect-error: invalid type on purpose
+            null,
+            // @ts-expect-error: invalid type on purpose
+            42,
+            'page2anchor2',
+          ],
+        },
+      },
+    });
+  });
+
   it('accepts valid link with querystring + anchor', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],

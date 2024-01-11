@@ -290,6 +290,21 @@ function reportBrokenLinks({
   }
 }
 
+// Users might use the useBrokenLinks() API in weird unexpected ways
+// JS users might call "collectLink(undefined)" for example
+// TS users might call "collectAnchor('#hash')" with/without #
+// We clean/normalize the collected data to avoid obscure errors being thrown
+function normalizeCollectedLinks(
+  collectedLinks: CollectedLinks,
+): CollectedLinks {
+  return _.mapValues(collectedLinks, (pageCollectedData) => ({
+    links: pageCollectedData.links.filter(_.isString),
+    anchors: pageCollectedData.anchors
+      .filter(_.isString)
+      .map((anchor) => (anchor.startsWith('#') ? anchor.slice(1) : anchor)),
+  }));
+}
+
 export async function handleBrokenLinks({
   collectedLinks,
   onBrokenLinks,
@@ -304,6 +319,9 @@ export async function handleBrokenLinks({
   if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;
   }
-  const brokenLinks = getBrokenLinks({routes, collectedLinks});
+  const brokenLinks = getBrokenLinks({
+    routes,
+    collectedLinks: normalizeCollectedLinks(collectedLinks),
+  });
   reportBrokenLinks({brokenLinks, onBrokenLinks, onBrokenAnchors});
 }
