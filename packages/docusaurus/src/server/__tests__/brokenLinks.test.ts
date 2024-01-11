@@ -132,6 +132,25 @@ describe('handleBrokenLinks', () => {
     });
   });
 
+  it('accepts valid link and anchor to collected pages that are not in routes', async () => {
+    // This tests the edge-case of the 404 page:
+    // We don't have a {path: '404.html'} route
+    // But yet we collect links/anchors to it and allow linking to it
+    await testBrokenLinks({
+      routes: [],
+      collectedLinks: {
+        '/page 1': {
+          links: ['/page 2#anchor-page-2'],
+          anchors: ['anchor-page-1'],
+        },
+        '/page 2': {
+          links: ['/page 1#anchor-page-1', '/page%201#anchor-page-1'],
+          anchors: ['anchor-page-2'],
+        },
+      },
+    });
+  });
+
   it('accepts valid link with querystring + anchor', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],

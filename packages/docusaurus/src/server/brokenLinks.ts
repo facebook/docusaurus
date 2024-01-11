@@ -38,15 +38,23 @@ function getBrokenLinksForPage({
   pageAnchors: string[];
   routes: RouteConfig[];
 }): BrokenLink[] {
-  // console.log('routes:', routes);
+  const allCollectedPaths = new Set(Object.keys(collectedLinks));
+
   function isPathBrokenLink(linkPath: URLPath) {
-    const matchedRoutes = [linkPath.pathname, decodeURI(linkPath.pathname)]
+    const pathnames = [linkPath.pathname, decodeURI(linkPath.pathname)];
+    const matchedRoutes = pathnames
       // @ts-expect-error: React router types RouteConfig with an actual React
       // component, but we load route components with string paths.
       // We don't actually access component here, so it's fine.
       .map((l) => matchRoutes(routes, l))
       .flat();
-    return matchedRoutes.length === 0;
+    // The link path is broken if:
+    // - it doesn't match any route
+    // - it doesn't match any collected path
+    return (
+      matchedRoutes.length === 0 &&
+      !pathnames.some((p) => allCollectedPaths.has(p))
+    );
   }
 
   function isAnchorBrokenLink(linkPath: URLPath) {
