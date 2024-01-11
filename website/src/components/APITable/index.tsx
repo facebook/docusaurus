@@ -13,6 +13,7 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import {useHistory} from '@docusaurus/router';
 import styles from './styles.module.css';
 
@@ -41,6 +42,7 @@ function APITableRow(
   const id = name ? `${name}-${entryName}` : entryName;
   const anchor = `#${id}`;
   const history = useHistory();
+  useBrokenLinks().collectAnchor(id);
   return (
     <tr
       id={id}
