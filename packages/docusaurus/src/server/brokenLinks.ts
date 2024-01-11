@@ -117,15 +117,21 @@ function getBrokenLinks({
 }): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) =>
-    getBrokenLinksForPage({
-      collectedLinks,
-      pageLinks: pageCollectedData.links,
-      pageAnchors: pageCollectedData.anchors,
-      pagePath,
-      routes: filteredRoutes,
-    }),
-  );
+  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) => {
+    try {
+      return getBrokenLinksForPage({
+        collectedLinks,
+        pageLinks: pageCollectedData.links,
+        pageAnchors: pageCollectedData.anchors,
+        pagePath,
+        routes: filteredRoutes,
+      });
+    } catch (e) {
+      throw new Error(`Unable to get broken links for page ${pagePath}.`, {
+        cause: e,
+      });
+    }
+  });
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
