@@ -57,6 +57,13 @@ function getBrokenLinksForPage({
       return false;
     }
 
+    // Link has empty hash ("#", "/page#"...): we do not report it as broken
+    // Empty hashes are used for various weird reasons, by us and other users...
+    // See for example: https://github.com/facebook/docusaurus/pull/6003
+    if (hash === '') {
+      return false;
+    }
+
     const targetPage =
       collectedLinks[pathname] || collectedLinks[decodeURI(pathname)];
 

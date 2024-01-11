@@ -140,6 +140,30 @@ describe('handleBrokenLinks', () => {
     });
   });
 
+  it('accepts valid link with empty anchor', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {
+          links: [
+            '/page 1',
+            '/page 2',
+            '/page 1#',
+            '/page 2#',
+            '/page 1?age=42#',
+            '/page 2?age=42#',
+            '#',
+            '#',
+            './page 1#',
+            './page 2#',
+          ],
+          anchors: [],
+        },
+        '/page 2': {links: [], anchors: []},
+      },
+    });
+  });
+
   it('rejects broken link', async () => {
     await expect(() =>
       testBrokenLinks({
@@ -221,28 +245,6 @@ describe('handleBrokenLinks', () => {
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
          -> linking to /page2#brokenAnchor
-      "
-    `);
-  });
-
-  it('rejects valid link with empty broken anchor', async () => {
-    await expect(() =>
-      testBrokenLinks({
-        routes: [{path: '/page1'}, {path: '/page2'}],
-        collectedLinks: {
-          '/page1': {links: ['/page2#'], anchors: []},
-          '/page2': {links: [], anchors: []},
-        },
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus found broken anchors!
-
-      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
-      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
-
-      Exhaustive list of all broken anchors found:
-      - Broken anchor on source page path = /page1:
-         -> linking to /page2#
       "
     `);
   });
