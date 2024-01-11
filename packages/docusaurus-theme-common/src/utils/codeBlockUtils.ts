@@ -28,7 +28,7 @@ const commentPatterns = {
   wasm: {start: '\\;\\;', end: ''},
   tex: {start: '%', end: ''},
   vb: {start: "['‘’]", end: ''},
-  vbnet: {start: "_\s*['‘’]", end: ''}, // Visual Studio 2019 or later
+  vbnet: {start: "(?:_\\s*)?['‘’]", end: ''}, // Visual Studio 2019 or later
   rem: {start: '[Rr][Ee][Mm]\\b', end: ''},
   f90: {start: '!', end: ''}, // Free format only
   ml: {start: '\\(\\*', end: '\\*\\)'},
