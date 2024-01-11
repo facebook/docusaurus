@@ -197,10 +197,51 @@ describe('handleBrokenLinks', () => {
             '/page%202',
             '/page%202?age=42',
             '/page%202?age=42#page2anchor',
+
+            '/some dir/page 3',
+            '/some dir/page 3#page3anchor',
+            '/some%20dir/page%203',
+            '/some%20dir/page%203#page3anchor',
+            '/some%20dir/page 3',
+            '/some dir/page%203',
+            '/some dir/page%203#page3anchor',
           ],
           anchors: [],
         },
         '/page 2': {links: [], anchors: ['page2anchor']},
+        '/some dir/page 3': {links: [], anchors: ['page3anchor']},
+      },
+    });
+  });
+
+  it('accepts valid link with anchor with spaces and encoding', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {
+          links: [
+            '/page 1#a b',
+            '#a b',
+            '#a%20b',
+            '#c d',
+            '#c%20d',
+
+            '/page 2#你好',
+            '/page%202#你好',
+            '/page 2#%E4%BD%A0%E5%A5%BD',
+            '/page%202#%E4%BD%A0%E5%A5%BD',
+
+            '/page 2#schrödingers-cat-principle',
+            '/page%202#schrödingers-cat-principle',
+            '/page 2#schr%C3%B6dingers-cat-principle',
+            '/page%202#schr%C3%B6dingers-cat-principle',
+          ],
+          anchors: ['a b', 'c%20d'],
+        },
+        '/page 2': {
+          links: ['/page 1#a b', '/page%201#c d'],
+          anchors: ['你好', '#schr%C3%B6dingers-cat-principle'],
+        },
       },
     });
   });
