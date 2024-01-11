@@ -384,6 +384,25 @@ y = times2(x);
 \end{document}
 ```
 
+```vba title="vba.vb"
+Function Factorial(ByVal n As Long) As Long
+    If n < 0 Then
+        Err.Raise 5 ' Invalid argument
+    End If
+    'highlight-next-line
+    Factorial = 1 ' return value
+    If n < 2 Then
+        Exit Function
+    End If
+    Dim i As Long
+    ' highlight-start
+    For i = 2 To n
+        Factorial = Factorial * i
+    Next
+    ' highlight-end
+End Function
+```
+
 ```vbnet title="vbnet.vb"
 ' highlight-next-line
 Dim languages As New Set(Of String) From {
