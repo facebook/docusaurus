@@ -13,6 +13,7 @@ import MDXPre from '@theme/MDXComponents/Pre';
 import MDXDetails from '@theme/MDXComponents/Details';
 import MDXHeading from '@theme/MDXComponents/Heading';
 import MDXUl from '@theme/MDXComponents/Ul';
+import MDXLi from '@theme/MDXComponents/Li';
 import MDXImg from '@theme/MDXComponents/Img';
 import Admonition from '@theme/Admonition';
 import Mermaid from '@theme/Mermaid';
@@ -27,6 +28,7 @@ const MDXComponents: MDXComponentsObject = {
   a: MDXA,
   pre: MDXPre,
   ul: MDXUl,
+  li: MDXLi,
   img: MDXImg,
   h1: (props: ComponentProps<'h1'>) => <MDXHeading as="h1" {...props} />,
   h2: (props: ComponentProps<'h2'>) => <MDXHeading as="h2" {...props} />,
