@@ -867,6 +867,14 @@ declare module '@theme/MDXComponents/Ul' {
   export default function MDXUl(props: Props): JSX.Element;
 }
 
+declare module '@theme/MDXComponents/Li' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'li'> {}
+
+  export default function MDXLi(props: Props): JSX.Element;
+}
+
 declare module '@theme/MDXComponents/Img' {
   import type {ComponentProps} from 'react';
 

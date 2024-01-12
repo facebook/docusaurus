@@ -86,6 +86,71 @@ describe('handleBrokenLinks', () => {
     });
   });
 
+  it('accepts valid link with anchor reported with hash prefix', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      collectedLinks: {
+        '/page1': {links: ['/page2#page2anchor'], anchors: []},
+        '/page2': {links: [], anchors: ['#page2anchor']},
+      },
+    });
+  });
+
+  it('accepts valid links and anchors, sparse arrays', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      collectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            // @ts-expect-error: invalid type on purpose
+            undefined,
+            // @ts-expect-error: invalid type on purpose
+            null,
+            // @ts-expect-error: invalid type on purpose
+            42,
+            '/page2',
+            '/page2#page2anchor1',
+            '/page2#page2anchor2',
+          ],
+          anchors: [],
+        },
+        '/page2': {
+          links: [],
+          anchors: [
+            'page2anchor1',
+            // @ts-expect-error: invalid type on purpose
+            undefined,
+            // @ts-expect-error: invalid type on purpose
+            null,
+            // @ts-expect-error: invalid type on purpose
+            42,
+            'page2anchor2',
+          ],
+        },
+      },
+    });
+  });
+
+  it('accepts valid link and anchor to collected pages that are not in routes', async () => {
+    // This tests the edge-case of the 404 page:
+    // We don't have a {path: '404.html'} route
+    // But yet we collect links/anchors to it and allow linking to it
+    await testBrokenLinks({
+      routes: [],
+      collectedLinks: {
+        '/page 1': {
+          links: ['/page 2#anchor-page-2'],
+          anchors: ['anchor-page-1'],
+        },
+        '/page 2': {
+          links: ['/page 1#anchor-page-1', '/page%201#anchor-page-1'],
+          anchors: ['anchor-page-2'],
+        },
+      },
+    });
+  });
+
   it('accepts valid link with querystring + anchor', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1'}, {path: '/page2'}],
@@ -132,10 +197,75 @@ describe('handleBrokenLinks', () => {
             '/page%202',
             '/page%202?age=42',
             '/page%202?age=42#page2anchor',
+
+            '/some dir/page 3',
+            '/some dir/page 3#page3anchor',
+            '/some%20dir/page%203',
+            '/some%20dir/page%203#page3anchor',
+            '/some%20dir/page 3',
+            '/some dir/page%203',
+            '/some dir/page%203#page3anchor',
           ],
           anchors: [],
         },
         '/page 2': {links: [], anchors: ['page2anchor']},
+        '/some dir/page 3': {links: [], anchors: ['page3anchor']},
+      },
+    });
+  });
+
+  it('accepts valid link with anchor with spaces and encoding', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {
+          links: [
+            '/page 1#a b',
+            '#a b',
+            '#a%20b',
+            '#c d',
+            '#c%20d',
+
+            '/page 2#你好',
+            '/page%202#你好',
+            '/page 2#%E4%BD%A0%E5%A5%BD',
+            '/page%202#%E4%BD%A0%E5%A5%BD',
+
+            '/page 2#schrödingers-cat-principle',
+            '/page%202#schrödingers-cat-principle',
+            '/page 2#schr%C3%B6dingers-cat-principle',
+            '/page%202#schr%C3%B6dingers-cat-principle',
+          ],
+          anchors: ['a b', 'c%20d'],
+        },
+        '/page 2': {
+          links: ['/page 1#a b', '/page%201#c d'],
+          anchors: ['你好', '#schr%C3%B6dingers-cat-principle'],
+        },
+      },
+    });
+  });
+
+  it('accepts valid link with empty anchor', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {
+          links: [
+            '/page 1',
+            '/page 2',
+            '/page 1#',
+            '/page 2#',
+            '/page 1?age=42#',
+            '/page 2?age=42#',
+            '#',
+            '#',
+            './page 1#',
+            './page 2#',
+          ],
+          anchors: [],
+        },
+        '/page 2': {links: [], anchors: []},
       },
     });
   });
@@ -221,28 +351,6 @@ describe('handleBrokenLinks', () => {
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
          -> linking to /page2#brokenAnchor
-      "
-    `);
-  });
-
-  it('rejects valid link with empty broken anchor', async () => {
-    await expect(() =>
-      testBrokenLinks({
-        routes: [{path: '/page1'}, {path: '/page2'}],
-        collectedLinks: {
-          '/page1': {links: ['/page2#'], anchors: []},
-          '/page2': {links: [], anchors: []},
-        },
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus found broken anchors!
-
-      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
-      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
-
-      Exhaustive list of all broken anchors found:
-      - Broken anchor on source page path = /page1:
-         -> linking to /page2#
       "
     `);
   });

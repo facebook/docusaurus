@@ -38,15 +38,23 @@ function getBrokenLinksForPage({
   pageAnchors: string[];
   routes: RouteConfig[];
 }): BrokenLink[] {
-  // console.log('routes:', routes);
+  const allCollectedPaths = new Set(Object.keys(collectedLinks));
+
   function isPathBrokenLink(linkPath: URLPath) {
-    const matchedRoutes = [linkPath.pathname, decodeURI(linkPath.pathname)]
+    const pathnames = [linkPath.pathname, decodeURI(linkPath.pathname)];
+    const matchedRoutes = pathnames
       // @ts-expect-error: React router types RouteConfig with an actual React
       // component, but we load route components with string paths.
       // We don't actually access component here, so it's fine.
       .map((l) => matchRoutes(routes, l))
       .flat();
-    return matchedRoutes.length === 0;
+    // The link path is broken if:
+    // - it doesn't match any route
+    // - it doesn't match any collected path
+    return (
+      matchedRoutes.length === 0 &&
+      !pathnames.some((p) => allCollectedPaths.has(p))
+    );
   }
 
   function isAnchorBrokenLink(linkPath: URLPath) {
@@ -54,6 +62,13 @@ function getBrokenLinksForPage({
 
     // Link has no hash: it can't be a broken anchor link
     if (hash === undefined) {
+      return false;
+    }
+
+    // Link has empty hash ("#", "/page#"...): we do not report it as broken
+    // Empty hashes are used for various weird reasons, by us and other users...
+    // See for example: https://github.com/facebook/docusaurus/pull/6003
+    if (hash === '') {
       return false;
     }
 
@@ -68,7 +83,8 @@ function getBrokenLinksForPage({
 
     // it's a broken anchor if the target page exists
     // but the anchor does not exist on that page
-    return !targetPage.anchors.includes(hash);
+    const hashes = [hash, decodeURIComponent(hash)];
+    return !targetPage.anchors.some((anchor) => hashes.includes(anchor));
   }
 
   const brokenLinks = pageLinks.flatMap((link) => {
@@ -117,15 +133,21 @@ function getBrokenLinks({
 }): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) =>
-    getBrokenLinksForPage({
-      collectedLinks,
-      pageLinks: pageCollectedData.links,
-      pageAnchors: pageCollectedData.anchors,
-      pagePath,
-      routes: filteredRoutes,
-    }),
-  );
+  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) => {
+    try {
+      return getBrokenLinksForPage({
+        collectedLinks,
+        pageLinks: pageCollectedData.links,
+        pageAnchors: pageCollectedData.anchors,
+        pagePath,
+        routes: filteredRoutes,
+      });
+    } catch (e) {
+      throw new Error(`Unable to get broken links for page ${pagePath}.`, {
+        cause: e,
+      });
+    }
+  });
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
@@ -277,6 +299,21 @@ function reportBrokenLinks({
   }
 }
 
+// Users might use the useBrokenLinks() API in weird unexpected ways
+// JS users might call "collectLink(undefined)" for example
+// TS users might call "collectAnchor('#hash')" with/without #
+// We clean/normalize the collected data to avoid obscure errors being thrown
+function normalizeCollectedLinks(
+  collectedLinks: CollectedLinks,
+): CollectedLinks {
+  return _.mapValues(collectedLinks, (pageCollectedData) => ({
+    links: pageCollectedData.links.filter(_.isString),
+    anchors: pageCollectedData.anchors
+      .filter(_.isString)
+      .map((anchor) => (anchor.startsWith('#') ? anchor.slice(1) : anchor)),
+  }));
+}
+
 export async function handleBrokenLinks({
   collectedLinks,
   onBrokenLinks,
@@ -291,6 +328,9 @@ export async function handleBrokenLinks({
   if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;
   }
-  const brokenLinks = getBrokenLinks({routes, collectedLinks});
+  const brokenLinks = getBrokenLinks({
+    routes,
+    collectedLinks: normalizeCollectedLinks(collectedLinks),
+  });
   reportBrokenLinks({brokenLinks, onBrokenLinks, onBrokenAnchors});
 }
