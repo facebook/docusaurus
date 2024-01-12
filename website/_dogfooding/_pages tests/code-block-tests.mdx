@@ -384,16 +384,32 @@ y = times2(x);
 \end{document}
 ```
 
-```vbnet title="vbnet.vb"
-Dim languages As New Set(Of String) From {
+```vba title="vba.vb"
+Function Factorial(ByVal n As Long) As Long
+    If n < 0 Then
+        Err.Raise 5 ' Invalid argument
+    End If
+    'highlight-next-line
+    Factorial = 1 ' return value
+    Dim i As Long
     ' highlight-start
+    For i = 2 To n
+        Factorial = Factorial * i
+    Next
+    ' highlight-end
+End Function
+```
+
+```vbnet title="vbnet.vb"
+' highlight-next-line
+Dim languages As New HashSet(Of String) From {
     "C#",
     "Visual Basic",
+    _ ' highlight-start
     "F#",
-    ' highlight-end
     "PowerShell",
-    ' highlight-next-line
     "TypeScript"
+    _' highlight-end
 }
 ```
 
