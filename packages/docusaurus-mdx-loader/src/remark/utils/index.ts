@@ -6,7 +6,6 @@
  */
 
 import escapeHtml from 'escape-html';
-import stringifyObject from 'stringify-object';
 import type {Parent, Node} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
 import type {
@@ -154,33 +153,4 @@ export function assetRequireAttributeValue(
       },
     },
   };
-}
-
-/**
- * Similar to stringify-object, but keeps spread operators,
- * instead of turning them into strings.
- * @param objects
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function constructArrayString(objects: any[]): string {
-  let result = '[';
-
-  for (const obj of objects) {
-    if (typeof obj === 'string') {
-      result = `${result}\n\t${obj},`;
-    } else {
-      result = `${result}\n\t${stringifyObject(obj).replace(/\n/g, '\n\t')},`;
-    }
-  }
-
-  // Remove trailing coma
-  result = result.replace(/,$/, '');
-  // Close array on same line if it is empty
-  if (result === '[') {
-    result += ']';
-  } else {
-    result += '\n]';
-  }
-
-  return result;
 }

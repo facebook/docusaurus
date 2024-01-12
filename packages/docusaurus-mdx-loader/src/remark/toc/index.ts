@@ -7,7 +7,11 @@
 
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
-import {constructArrayString, toValue} from '../utils';
+import {generate} from 'astring';
+import {toValue} from '../utils';
+import {hasImports, isExport, isImport} from './utils';
+import type {TOCItem, NestedTOC} from './utils';
+import type {SpreadElement, Program} from 'estree';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
@@ -17,30 +21,21 @@ import type {
   MdxjsEsm,
   MdxJsxFlowElement,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-} from 'mdast-util-mdx';
+} from 'mdast-util-mdx'; // TODO fix this asap
+
+// Reexport TOCItem, since it's used throughout the project
+export type {TOCItem} from './utils';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // TODO upgrade to TS 5.3
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 // import type {Plugin} from 'unified';
-type Plugin = any; // TODO fix this asap
-
-export type TOCItem = {
-  readonly value: string;
-  readonly id: string;
-  readonly level: number;
-};
+type Plugin = any;
 
 const parseOptions: ParserOptions = {
   plugins: ['jsx'],
   sourceType: 'module',
 };
-
-const isImport = (child: any): child is Literal =>
-  child.type === 'mdxjsEsm' && child.value.startsWith('import');
-const hasImports = (index: number) => index > -1;
-const isExport = (child: any): child is Literal =>
-  child.type === 'mdxjsEsm' && child.value.startsWith('export');
 
 interface PluginOptions {
   name?: string;
@@ -96,8 +91,7 @@ const plugin: Plugin = function plugin(
     const partialComponentToHeadingsName: {[key: string]: string} =
       Object.create(null);
 
-    // TOCItem or string already with the spread operator
-    const headings: (TOCItem | string)[] = [];
+    const headings: (TOCItem | NestedTOC)[] = [];
 
     visit(root, ['heading', 'mdxjsEsm', 'mdxJsxFlowElement'], (child) => {
       if (child.type === 'heading') {
@@ -159,7 +153,10 @@ const plugin: Plugin = function plugin(
         }
         const headingsName = partialComponentToHeadingsName[nodeName];
         if (headingsName) {
-          headings.push(`...${headingsName}`);
+          headings.push({
+            nested: true,
+            name: headingsName,
+          });
         }
       }
     });
@@ -175,53 +172,58 @@ const plugin: Plugin = function plugin(
 
 export default plugin;
 
-async function createExportNode(name: string, object: any): Promise<MdxjsEsm> {
+async function createExportNode(
+  name: string,
+  object: (TOCItem | NestedTOC)[],
+): Promise<MdxjsEsm> {
   const {valueToEstree} = await import('estree-util-value-to-estree');
 
-  const tocObject = object.map((heading: TOCItem | string) => {
-    if (typeof heading === 'string') {
-      const argumentName = heading.replace('...', '');
-      return {
+  const tocObject = object.map((heading) => {
+    if ('nested' in heading) {
+      const spreadElement: SpreadElement = {
         type: 'SpreadElement',
-        argument: {type: 'Identifier', name: argumentName},
+        argument: {type: 'Identifier', name: heading.name},
       };
+      return spreadElement;
     }
 
     return valueToEstree(heading);
   });
 
+  const estree: Program = {
+    type: 'Program',
+    body: [
+      {
+        type: 'ExportNamedDeclaration',
+        declaration: {
+          type: 'VariableDeclaration',
+          declarations: [
+            {
+              type: 'VariableDeclarator',
+              id: {
+                type: 'Identifier',
+                name,
+              },
+              init: {
+                type: 'ArrayExpression',
+                elements: tocObject,
+              },
+            },
+          ],
+          kind: 'const',
+        },
+        specifiers: [],
+        source: null,
+      },
+    ],
+    sourceType: 'module',
+  };
+
   return {
     type: 'mdxjsEsm',
-    value: `export const ${name} = ${constructArrayString(object)}`,
+    value: generate(estree),
     data: {
-      estree: {
-        type: 'Program',
-        body: [
-          {
-            type: 'ExportNamedDeclaration',
-            declaration: {
-              type: 'VariableDeclaration',
-              declarations: [
-                {
-                  type: 'VariableDeclarator',
-                  id: {
-                    type: 'Identifier',
-                    name,
-                  },
-                  init: {
-                    type: 'ArrayExpression',
-                    elements: tocObject,
-                  },
-                },
-              ],
-              kind: 'const',
-            },
-            specifiers: [],
-            source: null,
-          },
-        ],
-        sourceType: 'module',
-      },
+      estree,
     },
   };
 }
