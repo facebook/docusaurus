@@ -66,6 +66,7 @@ datagit
 Datagit's
 dedup
 devto
+dingers
 Dmitry
 docsearch
 Docsify
@@ -401,3 +402,4 @@ yangshunz
 Zhou
 zoomable
 zpao
+ödingers
