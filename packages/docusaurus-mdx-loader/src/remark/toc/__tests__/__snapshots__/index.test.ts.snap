@@ -240,11 +240,12 @@ export const c = 1;
 exports[`toc remark plugin works with imported markdown 1`] = `
 "import Partial from './_partial.md';
 
+import {toc as toc0} from './_partial.md';
 export const toc = [{
   "value": "Thanos",
   "id": "thanos",
   "level": 2
-}, ...__toc0];
+}, ...toc0];
 
 
 ## Thanos
