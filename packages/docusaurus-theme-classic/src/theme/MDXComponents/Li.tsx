@@ -11,8 +11,7 @@ import type {Props} from '@theme/MDXComponents/Li';
 
 export default function MDXLi(props: Props): ReactNode | undefined {
   // MDX Footnotes have ids such as <li id="user-content-fn-1-953011">
-  const brokenLinks = useBrokenLinks();
-  props.id && brokenLinks.collectAnchor(props.id);
+  useBrokenLinks().collectAnchor(props.id);
 
   return <li {...props} />;
 }
