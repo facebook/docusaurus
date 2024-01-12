@@ -627,24 +627,18 @@ Usage example:
 ```js title="MyHeading.js"
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
 
-export default function MyHeading({id, ...props}): JSX.Element {
-  const brokenLinks = useBrokenLinks();
-
-  brokenLinks.collectAnchor(id);
-
-  return <h2 id={id}>Heading</h2>;
+export default function MyHeading(props) {
+  useBrokenLinks().collectAnchor(props.id);
+  return <h2 {...props} />;
 }
 ```
 
 ```js title="MyLink.js"
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
 
-export default function MyLink({targetLink, ...props}): JSX.Element {
-  const brokenLinks = useBrokenLinks();
-
-  brokenLinks.collectLink(targetLink);
-
-  return <a href={targetLink}>Link</a>;
+export default function MyLink(props) {
+  useBrokenLinks().collectLink(props.href);
+  return <a {...props} />;
 }
 ```
 
