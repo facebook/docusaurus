@@ -42,7 +42,6 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@types/mdx-js__react": "^1.5.5",
     "react-test-renderer": "^18.0.0"
   },
   "peerDependencies": {
