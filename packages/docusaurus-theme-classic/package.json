@@ -47,7 +47,6 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@types/mdx-js__react": "^1.5.5",
     "@types/nprogress": "^0.2.0",
     "@types/prismjs": "^1.26.0",
     "@types/rtlcss": "^3.5.1",
