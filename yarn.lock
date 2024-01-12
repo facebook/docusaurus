@@ -3378,13 +3378,6 @@
   dependencies:
     "@types/unist" "*"
 
-"@types/mdx-js__react@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/@types/mdx-js__react/-/mdx-js__react-1.5.5.tgz#fa6daa1a28336d77b6cf071aacc7e497600de9ee"
-  integrity sha512-k8pnaP6JXVlQh18HgL5X6sYFNC/qZnzO7R2+HsmwrwUd+JnnsU0d9lyyT0RQrHg1anxDU36S98TI/fsGtmYqqg==
-  dependencies:
-    "@types/react" "*"
-
 "@types/mdx@^2.0.0":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@types/mdx/-/mdx-2.0.5.tgz#9a85a8f70c7c4d9e695a21d5ae5c93645eda64b1"
