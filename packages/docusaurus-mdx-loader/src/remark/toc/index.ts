@@ -170,7 +170,7 @@ const plugin: Plugin = function plugin(
       }
     }
 
-    visit(root, ['heading', 'mdxjsEsm', 'mdxJsxFlowElement'], (child) => {
+    visit(root, (child) => {
       if (child.type === 'heading') {
         visitHeading(child as Heading);
       } else if (child.type === 'mdxjsEsm') {
