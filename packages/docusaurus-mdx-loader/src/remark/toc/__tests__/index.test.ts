@@ -17,14 +17,7 @@ const processFixture = async (name: string) => {
 
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
-  const result = await remark()
-    .use(headings)
-    .use(gfm)
-    .use(mdx)
-    .use(plugin)
-    .process(file);
-
-  return result.value;
+  return remark().use(headings).use(gfm).use(mdx).use(plugin).parse(file);
 };
 
 describe('toc remark plugin', () => {

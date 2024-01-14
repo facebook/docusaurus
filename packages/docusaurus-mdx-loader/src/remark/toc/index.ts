@@ -7,16 +7,10 @@
 
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
-import {generate} from 'astring';
 import {toValue} from '../utils';
 import {hasImports, isExport, isImport} from './utils';
 import type {TOCItem, NestedTOC} from './utils';
-import type {
-  SpreadElement,
-  Program,
-  ImportDeclaration,
-  ImportSpecifier,
-} from 'estree';
+import type {SpreadElement} from 'estree';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
@@ -75,7 +69,7 @@ const getOrCreateExistingTargetIndex = async (
   });
 
   if (targetIndex === -1) {
-    const target = await createExportNode(name, [], []);
+    const target = await createExportNode(name, []);
 
     targetIndex = hasImports(importsIndex) ? importsIndex + 1 : 0;
     children.splice(targetIndex, 0, target);
@@ -93,11 +87,9 @@ const plugin: Plugin = function plugin(
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
 
-    const partialComponentToHeadingsName: {[key: string]: string} =
-      Object.create(null);
+    const partialComponentToHeadingsName = new Map<string, string>();
 
     const headings: (TOCItem | NestedTOC)[] = [];
-    const imports: ImportDeclaration[] = [];
 
     function visitHeading(node: Heading) {
       const value = toString(node);
@@ -119,40 +111,33 @@ const plugin: Plugin = function plugin(
         return;
       }
 
-      for (const potentialImportDeclaration of node.data.estree.body) {
-        if (potentialImportDeclaration.type !== 'ImportDeclaration') {
+      for (const importDeclaration of node.data.estree.body) {
+        if (importDeclaration.type !== 'ImportDeclaration') {
           continue;
         }
 
-        const importPath = potentialImportDeclaration.source.value as string;
+        const importPath = importDeclaration.source.value as string;
         const isMdxImport = /\.mdx?$/.test(importPath);
         if (!isMdxImport) {
           continue;
         }
 
-        const componentName = potentialImportDeclaration.specifiers.find(
+        const componentName = importDeclaration.specifiers.find(
           (o: Node) => o.type === 'ImportDefaultSpecifier',
         )?.local.name;
 
         if (!componentName) {
           continue;
         }
-        const {length} = Object.keys(partialComponentToHeadingsName);
-        const exportAsName = `${name}${length}`;
-        partialComponentToHeadingsName[componentName] = exportAsName;
+        const {size} = partialComponentToHeadingsName;
+        const exportAsName = `__${name}${size}`;
+        partialComponentToHeadingsName.set(componentName, exportAsName);
 
-        const specifier: ImportSpecifier = {
+        importDeclaration.specifiers.push({
           type: 'ImportSpecifier',
           imported: {type: 'Identifier', name},
           local: {type: 'Identifier', name: exportAsName},
-        };
-
-        imports.push({
-          type: 'ImportDeclaration',
-          specifiers: [specifier],
-          source: potentialImportDeclaration.source,
         });
-        potentialImportDeclaration.specifiers.push(specifier);
       }
     }
 
@@ -161,7 +146,7 @@ const plugin: Plugin = function plugin(
       if (!nodeName) {
         return;
       }
-      const headingsName = partialComponentToHeadingsName[nodeName];
+      const headingsName = partialComponentToHeadingsName.get(nodeName);
       if (headingsName) {
         headings.push({
           nested: true,
@@ -170,7 +155,7 @@ const plugin: Plugin = function plugin(
       }
     }
 
-    visit(root, (child) => {
+    visit(root, (child: Node) => {
       if (child.type === 'heading') {
         visitHeading(child as Heading);
       } else if (child.type === 'mdxjsEsm') {
@@ -184,7 +169,7 @@ const plugin: Plugin = function plugin(
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
     if (headings?.length) {
-      children[targetIndex] = await createExportNode(name, headings, imports);
+      children[targetIndex] = await createExportNode(name, headings);
     }
   };
 };
@@ -194,7 +179,6 @@ export default plugin;
 async function createExportNode(
   name: string,
   headings: (TOCItem | NestedTOC)[],
-  imports: ImportDeclaration[],
 ): Promise<MdxjsEsm> {
   const {valueToEstree} = await import('estree-util-value-to-estree');
 
@@ -210,41 +194,38 @@ async function createExportNode(
     return valueToEstree(heading);
   });
 
-  const estree: Program = {
-    type: 'Program',
-    body: [
-      ...imports,
-      {
-        type: 'ExportNamedDeclaration',
-        declaration: {
-          type: 'VariableDeclaration',
-          declarations: [
-            {
-              type: 'VariableDeclarator',
-              id: {
-                type: 'Identifier',
-                name,
-              },
-              init: {
-                type: 'ArrayExpression',
-                elements: tocObject,
-              },
-            },
-          ],
-          kind: 'const',
-        },
-        specifiers: [],
-        source: null,
-      },
-    ],
-    sourceType: 'module',
-  };
-
   return {
     type: 'mdxjsEsm',
-    value: generate(estree),
+    value: '',
     data: {
-      estree,
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ExportNamedDeclaration',
+            declaration: {
+              type: 'VariableDeclaration',
+              declarations: [
+                {
+                  type: 'VariableDeclarator',
+                  id: {
+                    type: 'Identifier',
+                    name,
+                  },
+                  init: {
+                    type: 'ArrayExpression',
+                    elements: tocObject,
+                  },
+                },
+              ],
+              kind: 'const',
+            },
+            specifiers: [],
+            source: null,
+          },
+        ],
+        sourceType: 'module',
+      },
     },
   };
 }
