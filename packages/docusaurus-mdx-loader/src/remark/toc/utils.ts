@@ -12,17 +12,6 @@ import type {
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
 
-export type TOCItem = {
-  readonly value: string;
-  readonly id: string;
-  readonly level: number;
-};
-
-export type NestedTOC = {
-  readonly nested: true;
-  readonly name: string;
-};
-
 export const isImport = (child: Node): child is Literal => {
   if (child.type === 'mdxjsEsm') {
     return (child as MdxjsEsm).value.startsWith('import');

@@ -9,7 +9,6 @@ import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
 import {toValue} from '../utils';
 import {hasImports, isExport, isImport} from './utils';
-import type {TOCItem, NestedTOC} from './utils';
 import type {SpreadElement} from 'estree';
 import type {Identifier} from '@babel/types';
 import type {Node, Parent} from 'unist';
@@ -22,8 +21,16 @@ import type {
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
 
-// Reexport TOCItem, since it's used throughout the project
-export type {TOCItem} from './utils';
+export type TOCItem = {
+  readonly value: string;
+  readonly id: string;
+  readonly level: number;
+};
+
+type NestedTOC = {
+  readonly nested: true;
+  readonly name: string;
+};
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // TODO upgrade to TS 5.3
