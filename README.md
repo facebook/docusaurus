@@ -52,7 +52,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 Use the initialization CLI to create your site:
 
 ```bash
-npm init docusaurus@latest
+npx create-docusaurus@latest my-website classic
 ```
 
 [Read the docs](https://docusaurus.io/docs/installation) for any further information.
