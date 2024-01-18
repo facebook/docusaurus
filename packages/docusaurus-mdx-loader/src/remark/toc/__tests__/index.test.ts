@@ -19,7 +19,12 @@ const processFixture = async (name: string) => {
   const {default: gfm} = await import('remark-gfm');
   const {default: mdx} = await import('remark-mdx');
 
-  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
+  const filePath = path.join(
+    __dirname,
+    '__fixtures__',
+    name.endsWith('.mdx') ? name : `${name}.md`,
+  );
+
   const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
@@ -90,7 +95,12 @@ describe('toc remark plugin', () => {
   });
 
   it('works with imported markdown', async () => {
-    const result = await processFixture('imported-markdown');
+    const result = await processFixture('partials/index.mdx');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with partials importing other partials', async () => {
+    const result = await processFixture('partials/_partial2.mdx');
     expect(result).toMatchSnapshot();
   });
 });

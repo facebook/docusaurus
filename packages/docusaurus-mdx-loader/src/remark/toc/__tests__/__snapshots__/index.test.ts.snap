@@ -220,20 +220,109 @@ export const c = 1;
 `;
 
 exports[`toc remark plugin works with imported markdown 1`] = `
-"import Partial, {toc as __toc0} from './_partial.md';
+"import Partial, {toc as __toc0} from './_partial1.md';
 
 
-export const toc = [{
-  "value": "Thanos",
-  "id": "thanos",
-  "level": 2
-}, ...__toc0];
+import SomeComponent from './SomeComponent';
 
 
-## Thanos
+# Index
+
+Some text
+
+import Partial2, {toc as __toc1} from './_partial2.md';
+
+
+## Index section 1
 
 Foo
 
 <Partial />
+
+Some text
+
+<SomeComponent />
+
+## Index section 2
+
+<Partial2 />
+
+## Unused partials
+
+Unused partials (that are only imported but not rendered) shouldn't alter the TOC
+
+import UnusedPartialImport, {toc as __toc2} from './_partial3.md';
+
+
+## NonExisting Partials
+
+Partials that do not exist should alter the TOC
+
+It's not the responsibility of the Remark plugin to check for their existance
+
+import DoesNotExist, {toc as __toc3} from './_doesNotExist.md';
+
+
+export const toc = [{
+  "value": "Index section 1",
+  "id": "index-section-1",
+  "level": 2
+}, ...__toc0, {
+  "value": "Index section 2",
+  "id": "index-section-2",
+  "level": 2
+}, ...__toc1, {
+  "value": "Unused partials",
+  "id": "unused-partials",
+  "level": 2
+}, {
+  "value": "NonExisting Partials",
+  "id": "nonexisting-partials",
+  "level": 2
+}, ...__toc3, {
+  "value": "Duplicate partials",
+  "id": "duplicate-partials",
+  "level": 2
+}, ...__toc0, ...__toc0];
+
+
+<DoesNotExist />
+
+## Duplicate partials
+
+It's fine if we use partials at the end
+
+<Partial />
+
+And we can use the partial multiple times!
+
+<Partial />
+"
+`;
+
+exports[`toc remark plugin works with partials importing other partials 1`] = `
+"## Partial 2
+
+Partial 2
+
+### Partial 2 Sub Heading
+
+Content
+
+import Partial2Nested, {toc as __toc0} from './partial2-nested.md';
+
+
+export const toc = [{
+  "value": "Partial 2",
+  "id": "partial-2",
+  "level": 2
+}, {
+  "value": "Partial 2 Sub Heading",
+  "id": "partial-2-sub-heading",
+  "level": 3
+}, ...__toc0];
+
+
+<Partial2Nested />
 "
 `;
