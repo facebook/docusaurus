@@ -258,7 +258,7 @@ import UnusedPartialImport, {toc as __toc2} from './_partial3.md';
 
 Partials that do not exist should alter the TOC
 
-It's not the responsibility of the Remark plugin to check for their existance
+It's not the responsibility of the Remark plugin to check for their existence
 
 import DoesNotExist, {toc as __toc3} from './_doesNotExist.md';
 
