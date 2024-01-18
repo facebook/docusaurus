@@ -32,7 +32,8 @@ const processFixture = async (name: string) => {
     .use(mdx)
     .use(plugin)
     // Permits to convert generated TOC back to string values
-    // More convenient to reveiw tests
+    // Its more convenient to review tests in Markdown format
+    // See https://github.com/facebook/docusaurus/pull/9684#discussion_r1457595181
     .use(() => async (root) => {
       const {generate} = await import('astring');
       const {visit} = await import('unist-util-visit');
