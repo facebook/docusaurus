@@ -426,6 +426,79 @@ console.log('hello');
 
 :::
 
+### Other Markdown incompatibilities
+
+#### Emphasis starting or ending with a space or a punctuation
+
+New MDX parser now strictly complies with the CommonMark spec. CommonMark spec has introduced rules for emphasis around spaces and punctuation, which are incompatible especially with languages that do not use a space to split words, since v0.14.
+
+Japanese and Chinese are most affected by this, but there are some other languages that can be affected (e.g. Thai and Khmer), for example when you try to emphasize an inline code or a link. Languages that use a space to split words are much less affected.
+
+`**` (other than `` `**` ``) in the following example were parsed as intended in Docusaurus 2, but are not now in Docusaurus 3.
+
+{/* For Chinese translators: you can translate the following Japanese into Chinese. */}
+
+{/* prettier-ignore */}
+```md title="example.md"
+**Do not end a range of emphasis with a space. **Or `**` will not work as intended.
+
+<!-- Japanese -->
+**「。」の後に文を続けると`**`が意図した動作をしません。**また、**[リンク](https://docusaurus.io/)**や**`コード`**のすぐ外側に`**`、そのさらに外側に句読点以外がある場合も同様です。
+```
+
+<details>
+<summary>See the detailed conditions and how to upgrade</summary>
+
+If `*` or `**` matches either of the following conditions, it will not work as the beginning of an emphasis mark anymore:
+
+- The next character is a space (e.g. `word* word`)
+- The previous character is a punctuation character and the next character is a letter (not a space or punctuation character) (e.g. `文**（文）`)
+
+On the contrary, if `*` or `**` matches either of the following conditions, it will not work as the end of an emphasis mark anymore:
+
+- The previous character is a space (e.g. `word *word`)
+- The next character is a punctuation character and the previous character is a letter (e.g. `文。**文`)
+
+“A punctuation character” includes non-ASCII ones, brackets, quotation marks and some symbols including `%` and `@`. More strictly speaking, a character whose 2-letters Unicode category starts with `P` is treated as a punctuation character here.
+
+:::tip How to upgrade
+
+If the offending emphasis mark is next to a space, move the space out of the range of emphasis:
+
+```md title="english.md"
+**Do not end a range of emphasis with a space.** Or `**` will not work.
+```
+
+If the offending emphasis mark is surrounded by both a punctuation character and a letter, you can fix it without modifying the content by:
+
+1. Convert the document to MDX if it is a vanilla Markdown.
+2. replace the offending emphasis mark with a raw HTML tag (`<em>` or `<strong>`) instead:
+
+{/* prettier-ignore */}
+```mdx title="japanese.mdx"
+<strong>「。」の後に文を続けると`**`が意図した動作をしません。</strong>また、<strong>[リンク](https://docusaurus.io/)</strong>や<strong>`コード`</strong>のすぐ外側に`**`、そのさらに外側に句読点以外がある場合も同様です。
+```
+
+While not an ideal solution, you can also either of the following without converting the document to MDX:
+
+- Move the most outside punctuation character out of the emphasis mark.
+
+  {/* prettier-ignore */}
+  ```md title="japanese.md"
+  **「。」の後に文を続けると`**`が意図した動作をしません**。また、[**リンク**](https://docusaurus.io/)や・・・
+  ```
+
+- Put a space just outside of the offending `*` or `**`. This solution does not force you to convert the document to MDX.
+
+  {/* prettier-ignore */}
+  ```md title="japanese.md"
+  **「。」の後に文を続けると`**`が意図した動作をしません。** また、**[リンク](https://docusaurus.io/)** や **`コード`** のすぐ外側に`**`、そのさらに外側に句読点以外がある場合も同様です。
+  ```
+
+:::
+
+</details>
+
 ### MDX plugins
 
 All the official packages (Unified, Remark, Rehype...) in the MDX ecosystem are now [**ES Modules only**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and do not support [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) anymore.
