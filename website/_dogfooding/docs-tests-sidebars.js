@@ -140,7 +140,6 @@ const sidebars = {
         },
       ],
     },
-    'toc-partials/index',
     {
       type: 'category',
       label: 'HTML items tests',
