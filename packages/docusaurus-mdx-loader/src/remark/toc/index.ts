@@ -7,10 +7,10 @@
 
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
-import {toValue} from '../utils';
 import {
   createTOCExportNode,
   findDefaultImportName,
+  getImportDeclarations,
   hasImports,
   isExport,
   isImport,
@@ -96,9 +96,8 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
       }
 
       tocItems.push({
-        value: toValue(node, toString),
-        id: node.data!.id!,
-        level: node.depth,
+        type: 'heading',
+        heading: node,
       });
     }
 
@@ -123,19 +122,16 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
         });
       }
 
-      for (const importDeclaration of node.data.estree.body) {
-        if (importDeclaration.type !== 'ImportDeclaration') {
-          continue;
-        }
+      getImportDeclarations(node.data.estree).forEach((importDeclaration) => {
         if (!isMarkdownImport(importDeclaration)) {
-          continue;
+          return;
         }
         const componentName = findDefaultImportName(importDeclaration);
         if (!componentName) {
-          continue;
+          return;
         }
         addTOCNamedImport(importDeclaration, componentName);
-      }
+      });
     }
 
     function visitMdxJsxFlowElement(node: MdxJsxFlowElement) {
@@ -146,7 +142,7 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
       const tocSliceName = partialComponentToTocSliceName.get(nodeName);
       if (tocSliceName) {
         tocItems.push({
-          slice: true,
+          type: 'slice',
           name: tocSliceName,
         });
       }

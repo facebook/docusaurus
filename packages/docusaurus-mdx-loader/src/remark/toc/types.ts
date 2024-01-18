@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {Heading} from 'mdast';
+
 // Note: this type is exported from mdx-loader and used in theme
 // Need to keep it retro compatible
 export type TOCItem = {
@@ -13,10 +15,15 @@ export type TOCItem = {
   readonly level: number;
 };
 
+export type TOCHeading = {
+  readonly type: 'heading';
+  readonly heading: Heading;
+};
+
 // A TOC slice represents a TOCItem[] imported from a partial
 export type TOCSlice = {
-  readonly slice: true;
+  readonly type: 'slice';
   readonly name: string;
 };
 
-export type TOCItems = (TOCItem | TOCSlice)[];
+export type TOCItems = (TOCHeading | TOCSlice)[];
