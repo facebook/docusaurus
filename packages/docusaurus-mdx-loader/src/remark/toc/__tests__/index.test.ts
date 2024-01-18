@@ -9,6 +9,10 @@ import path from 'path';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
+import type {
+  MdxjsEsm,
+  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+} from 'mdast-util-mdx';
 
 const processFixture = async (name: string) => {
   const {remark} = await import('remark');
@@ -22,6 +26,20 @@ const processFixture = async (name: string) => {
     .use(gfm)
     .use(mdx)
     .use(plugin)
+    // Permits to convert generated TOC back to string values
+    // More convenient to reveiw tests
+    .use(() => async (root) => {
+      const {generate} = await import('astring');
+      const {visit} = await import('unist-util-visit');
+      visit(root, (child) => {
+        if (child.type === 'mdxjsEsm') {
+          const node = child as MdxjsEsm;
+          node.value = node.data?.estree
+            ? generate(node.data.estree)
+            : node.value;
+        }
+      });
+    })
     .process(file);
 
   return result.value;

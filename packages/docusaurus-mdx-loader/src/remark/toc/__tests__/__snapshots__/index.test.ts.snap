@@ -14,7 +14,32 @@ export const toc = 1;
 `;
 
 exports[`toc remark plugin escapes inline code 1`] = `
-"
+"export const toc = [{
+  "value": "<code>&lt;Head /&gt;</code>",
+  "id": "head-",
+  "level": 2
+}, {
+  "value": "<code>&lt;Head&gt;Test&lt;/Head&gt;</code>",
+  "id": "headtesthead",
+  "level": 3
+}, {
+  "value": "<code>&lt;div /&gt;</code>",
+  "id": "div-",
+  "level": 2
+}, {
+  "value": "<code>&lt;div&gt; Test &lt;/div&gt;</code>",
+  "id": "div-test-div",
+  "level": 2
+}, {
+  "value": "<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>",
+  "id": "divitestidiv",
+  "level": 2
+}, {
+  "value": "<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>",
+  "id": "divitestidiv-1",
+  "level": 2
+}];
+
 
 ## \`<Head />\`
 
@@ -31,7 +56,20 @@ exports[`toc remark plugin escapes inline code 1`] = `
 `;
 
 exports[`toc remark plugin exports even with existing name 1`] = `
-"
+"export const toc = [{
+  "value": "Thanos",
+  "id": "thanos",
+  "level": 2
+}, {
+  "value": "Tony Stark",
+  "id": "tony-stark",
+  "level": 2
+}, {
+  "value": "Avengers",
+  "id": "avengers",
+  "level": 3
+}];
+
 
 ## Thanos
 
@@ -42,7 +80,8 @@ exports[`toc remark plugin exports even with existing name 1`] = `
 `;
 
 exports[`toc remark plugin handles empty headings 1`] = `
-"
+"export const toc = [];
+
 
 # Ignore this
 
@@ -55,8 +94,23 @@ exports[`toc remark plugin handles empty headings 1`] = `
 exports[`toc remark plugin inserts below imports 1`] = `
 "import something from 'something';
 
+
 import somethingElse from 'something-else';
 
+
+export const toc = [{
+  "value": "Title",
+  "id": "title",
+  "level": 2
+}, {
+  "value": "Test",
+  "id": "test",
+  "level": 2
+}, {
+  "value": "Again",
+  "id": "again",
+  "level": 3
+}];
 
 
 ## Title
@@ -70,7 +124,8 @@ Content.
 `;
 
 exports[`toc remark plugin outputs empty array for no TOC 1`] = `
-"
+"export const toc = [];
+
 
 foo
 
@@ -83,7 +138,32 @@ baz
 `;
 
 exports[`toc remark plugin works on non text phrasing content 1`] = `
-"
+"export const toc = [{
+  "value": "<em>Emphasis</em>",
+  "id": "emphasis",
+  "level": 2
+}, {
+  "value": "<strong>Importance</strong>",
+  "id": "importance",
+  "level": 3
+}, {
+  "value": "<del>Strikethrough</del>",
+  "id": "strikethrough",
+  "level": 2
+}, {
+  "value": "<i>HTML</i>",
+  "id": "html",
+  "level": 2
+}, {
+  "value": "<code>inline.code()</code>",
+  "id": "inlinecode",
+  "level": 2
+}, {
+  "value": "some <span class=\\"some-class\\">styled</span> <strong>heading</strong> <span class=\\"myClassName &lt;&gt; weird char\\"></span> test",
+  "id": "some-styled-heading--test",
+  "level": 2
+}];
+
 
 ## *Emphasis*
 
@@ -100,7 +180,24 @@ exports[`toc remark plugin works on non text phrasing content 1`] = `
 `;
 
 exports[`toc remark plugin works on text content 1`] = `
-"
+"export const toc = [{
+  "value": "Endi",
+  "id": "endi",
+  "level": 3
+}, {
+  "value": "Endi",
+  "id": "endi-1",
+  "level": 2
+}, {
+  "value": "Yangshun",
+  "id": "yangshun",
+  "level": 3
+}, {
+  "value": "I ♥ unicode.",
+  "id": "i--unicode",
+  "level": 2
+}];
+
 
 ### Endi
 
@@ -123,8 +220,14 @@ export const c = 1;
 `;
 
 exports[`toc remark plugin works with imported markdown 1`] = `
-"import Partial from './_partial.md';
+"import Partial, {toc as __toc0} from './_partial.md';
 
+
+export const toc = [{
+  "value": "Thanos",
+  "id": "thanos",
+  "level": 2
+}, ...__toc0];
 
 
 ## Thanos
