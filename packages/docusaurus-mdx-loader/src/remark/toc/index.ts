@@ -11,8 +11,8 @@ import {toValue} from '../utils';
 import {hasImports, isExport, isImport} from './utils';
 import type {SpreadElement} from 'estree';
 import type {Identifier} from '@babel/types';
-import type {Node, Parent} from 'unist';
-import type {Heading, Literal} from 'mdast';
+import type {Node} from 'unist';
+import type {Heading, Literal, Root} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {
@@ -31,12 +31,6 @@ type NestedTOC = {
   readonly nested: true;
   readonly name: string;
 };
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// TODO upgrade to TS 5.3
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-// import type {Plugin} from 'unified';
-type Plugin = any;
 
 const parseOptions: ParserOptions = {
   plugins: ['jsx'],
@@ -85,9 +79,7 @@ const getOrCreateExistingTargetIndex = async (
   return targetIndex;
 };
 
-const plugin: Plugin = function plugin(
-  options: PluginOptions = {},
-): Transformer {
+const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
   const name = options.name || 'toc';
 
   return async (root) => {
@@ -162,17 +154,17 @@ const plugin: Plugin = function plugin(
       }
     }
 
-    visit(root, (child: Node) => {
+    visit(root, (child) => {
       if (child.type === 'heading') {
-        visitHeading(child as Heading);
+        visitHeading(child);
       } else if (child.type === 'mdxjsEsm') {
-        visitMdxjsEsm(child as MdxjsEsm);
+        visitMdxjsEsm(child);
       } else if (child.type === 'mdxJsxFlowElement') {
-        visitMdxJsxFlowElement(child as MdxJsxFlowElement);
+        visitMdxJsxFlowElement(child);
       }
     });
 
-    const {children} = root as Parent;
+    const {children} = root;
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
     if (headings?.length) {
