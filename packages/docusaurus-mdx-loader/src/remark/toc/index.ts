@@ -8,8 +8,14 @@
 import {parse, type ParserOptions} from '@babel/parser';
 import traverse from '@babel/traverse';
 import {toValue} from '../utils';
-import {hasImports, isExport, isImport} from './utils';
-import type {SpreadElement} from 'estree';
+import {
+  createTOCExportNode,
+  findDefaultImportName,
+  hasImports,
+  isExport,
+  isImport,
+  isMarkdownImport,
+} from './utils';
 import type {Identifier} from '@babel/types';
 import type {Node} from 'unist';
 import type {Heading, Literal, Root} from 'mdast';
@@ -20,17 +26,8 @@ import type {
   MdxJsxFlowElement,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
-
-export type TOCItem = {
-  readonly value: string;
-  readonly id: string;
-  readonly level: number;
-};
-
-type NestedTOC = {
-  readonly nested: true;
-  readonly name: string;
-};
+import type {TOCItems} from './types';
+import type {ImportDeclaration} from 'estree';
 
 const parseOptions: ParserOptions = {
   plugins: ['jsx'],
@@ -70,7 +67,7 @@ const getOrCreateExistingTargetIndex = async (
   });
 
   if (targetIndex === -1) {
-    const target = await createExportNode(name, []);
+    const target = await createTOCExportNode(name, []);
 
     targetIndex = hasImports(importsIndex) ? importsIndex + 1 : 0;
     children.splice(targetIndex, 0, target);
@@ -86,9 +83,9 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
 
-    const partialComponentToHeadingsName = new Map<string, string>();
+    const partialComponentToTocSliceName = new Map<string, string>();
 
-    const headings: (TOCItem | NestedTOC)[] = [];
+    const tocItems: TOCItems = [];
 
     function visitHeading(node: Heading) {
       const value = toString(node);
@@ -98,7 +95,7 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
         return;
       }
 
-      headings.push({
+      tocItems.push({
         value: toValue(node, toString),
         id: node.data!.id!,
         level: node.depth,
@@ -110,33 +107,34 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
         return;
       }
 
-      for (const importDeclaration of node.data.estree.body) {
-        if (importDeclaration.type !== 'ImportDeclaration') {
-          continue;
-        }
-
-        const importPath = importDeclaration.source.value as string;
-        const isMdxImport = /\.mdx?$/.test(importPath);
-        if (!isMdxImport) {
-          continue;
-        }
-
-        const componentName = importDeclaration.specifiers.find(
-          (o: Node) => o.type === 'ImportDefaultSpecifier',
-        )?.local.name;
-
-        if (!componentName) {
-          continue;
-        }
-        const {size} = partialComponentToHeadingsName;
+      // Before: import X from 'x.mdx'
+      // After: import X, {toc as __toc42} from 'x.mdx'
+      function addTOCNamedImport(
+        importDeclaration: ImportDeclaration,
+        componentName: string,
+      ) {
+        const {size} = partialComponentToTocSliceName;
         const exportAsName = `__${name}${size}`;
-        partialComponentToHeadingsName.set(componentName, exportAsName);
-
+        partialComponentToTocSliceName.set(componentName, exportAsName);
         importDeclaration.specifiers.push({
           type: 'ImportSpecifier',
           imported: {type: 'Identifier', name},
           local: {type: 'Identifier', name: exportAsName},
         });
+      }
+
+      for (const importDeclaration of node.data.estree.body) {
+        if (importDeclaration.type !== 'ImportDeclaration') {
+          continue;
+        }
+        if (!isMarkdownImport(importDeclaration)) {
+          continue;
+        }
+        const componentName = findDefaultImportName(importDeclaration);
+        if (!componentName) {
+          continue;
+        }
+        addTOCNamedImport(importDeclaration, componentName);
       }
     }
 
@@ -145,11 +143,11 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
       if (!nodeName) {
         return;
       }
-      const headingsName = partialComponentToHeadingsName.get(nodeName);
-      if (headingsName) {
-        headings.push({
-          nested: true,
-          name: headingsName,
+      const tocSliceName = partialComponentToTocSliceName.get(nodeName);
+      if (tocSliceName) {
+        tocItems.push({
+          slice: true,
+          name: tocSliceName,
         });
       }
     }
@@ -167,64 +165,10 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
     const {children} = root;
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
-    if (headings?.length) {
-      children[targetIndex] = await createExportNode(name, headings);
+    if (tocItems?.length) {
+      children[targetIndex] = await createTOCExportNode(name, tocItems);
     }
   };
 };
 
 export default plugin;
-
-async function createExportNode(
-  name: string,
-  headings: (TOCItem | NestedTOC)[],
-): Promise<MdxjsEsm> {
-  const {valueToEstree} = await import('estree-util-value-to-estree');
-
-  const tocObject = headings.map((heading) => {
-    if ('nested' in heading) {
-      const spreadElement: SpreadElement = {
-        type: 'SpreadElement',
-        argument: {type: 'Identifier', name: heading.name},
-      };
-      return spreadElement;
-    }
-
-    return valueToEstree(heading);
-  });
-
-  return {
-    type: 'mdxjsEsm',
-    value: '',
-    data: {
-      estree: {
-        type: 'Program',
-        body: [
-          {
-            type: 'ExportNamedDeclaration',
-            declaration: {
-              type: 'VariableDeclaration',
-              declarations: [
-                {
-                  type: 'VariableDeclarator',
-                  id: {
-                    type: 'Identifier',
-                    name,
-                  },
-                  init: {
-                    type: 'ArrayExpression',
-                    elements: tocObject,
-                  },
-                },
-              ],
-              kind: 'const',
-            },
-            specifiers: [],
-            source: null,
-          },
-        ],
-        sourceType: 'module',
-      },
-    },
-  };
-}
