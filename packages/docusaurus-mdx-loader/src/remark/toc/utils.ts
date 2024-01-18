@@ -27,19 +27,11 @@ export const isImport = (child: Node): child is MdxjsEsm => {
   return false;
 };
 
-export const hasImports = (index: number): boolean => index > -1;
-
-export const isExport = (child: Node): child is MdxjsEsm => {
-  if (child.type === 'mdxjsEsm') {
-    return (child as MdxjsEsm).value.startsWith('export');
+export function isMarkdownImport(node: Node): node is ImportDeclaration {
+  if (node.type !== 'ImportDeclaration') {
+    return false;
   }
-  return false;
-};
-
-export function isMarkdownImport(
-  importDeclaration: ImportDeclaration,
-): boolean {
-  const importPath = importDeclaration.source.value;
+  const importPath = (node as ImportDeclaration).source.value;
   return typeof importPath === 'string' && /\.mdx?$/.test(importPath);
 }
 
@@ -83,7 +75,34 @@ async function createTOCItemAST(tocItem: TOCItems[number]) {
   }
 }
 
-export async function createTOCExportNode(
+export function isNamedExport(node: Node, exportName: string): boolean {
+  if (node.type !== 'mdxjsEsm') {
+    return false;
+  }
+  const program = (node as MdxjsEsm).data?.estree;
+  if (!program) {
+    return false;
+  }
+  if (program.body.length !== 1) {
+    return false;
+  }
+  const exportDeclaration = program.body[0]!;
+  if (exportDeclaration.type !== 'ExportNamedDeclaration') {
+    return false;
+  }
+  const variableDeclaration = exportDeclaration.declaration;
+  if (variableDeclaration?.type !== 'VariableDeclaration') {
+    return false;
+  }
+  const {id} = variableDeclaration.declarations[0]!;
+  if (id.type !== 'Identifier') {
+    return false;
+  }
+
+  return id.name === exportName;
+}
+
+export async function createTOCExportNodeAST(
   name: string,
   tocItems: TOCItems,
 ): Promise<MdxjsEsm> {

@@ -5,20 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {parse, type ParserOptions} from '@babel/parser';
-import traverse from '@babel/traverse';
 import {
-  createTOCExportNode,
+  createTOCExportNodeAST,
   findDefaultImportName,
   getImportDeclarations,
-  hasImports,
-  isExport,
   isImport,
   isMarkdownImport,
+  isNamedExport,
 } from './utils';
-import type {Identifier} from '@babel/types';
 import type {Node} from 'unist';
-import type {Heading, Literal, Root} from 'mdast';
+import type {Heading, Root} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {
@@ -29,27 +25,9 @@ import type {
 import type {TOCItems} from './types';
 import type {ImportDeclaration} from 'estree';
 
-const parseOptions: ParserOptions = {
-  plugins: ['jsx'],
-  sourceType: 'module',
-};
-
 interface PluginOptions {
   name?: string;
 }
-
-const isTarget = (child: Literal, name: string) => {
-  let found = false;
-  const ast = parse(child.value, parseOptions);
-  traverse(ast, {
-    VariableDeclarator: (path) => {
-      if ((path.node.id as Identifier).name === name) {
-        found = true;
-      }
-    },
-  });
-  return found;
-};
 
 const getOrCreateExistingTargetIndex = async (
   children: Node[],
@@ -58,18 +36,18 @@ const getOrCreateExistingTargetIndex = async (
   let importsIndex = -1;
   let targetIndex = -1;
 
-  children.forEach((child, index) => {
-    if (isImport(child)) {
+  children.forEach((node, index) => {
+    if (isImport(node)) {
       importsIndex = index;
-    } else if (isExport(child) && isTarget(child, name)) {
+    } else if (isNamedExport(node, name)) {
       targetIndex = index;
     }
   });
 
   if (targetIndex === -1) {
-    const target = await createTOCExportNode(name, []);
-
-    targetIndex = hasImports(importsIndex) ? importsIndex + 1 : 0;
+    const target = await createTOCExportNodeAST(name, []);
+    const hasImports = importsIndex > -1;
+    targetIndex = hasImports ? importsIndex + 1 : 0;
     children.splice(targetIndex, 0, target);
   }
 
@@ -86,6 +64,8 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
     const partialComponentToTocSliceName = new Map<string, string>();
 
     const tocItems: TOCItems = [];
+
+    // let tocExportAlreadyExists = false;
 
     function visitHeading(node: Heading) {
       const value = toString(node);
@@ -106,6 +86,11 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
         return;
       }
 
+      if (isNamedExport(node, name)) {
+        // tocExportAlreadyExists = true;
+        // return;
+      }
+
       // Before: import X from 'x.mdx'
       // After: import X, {toc as __toc42} from 'x.mdx'
       function addTOCNamedImport(
@@ -122,15 +107,15 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
         });
       }
 
-      getImportDeclarations(node.data.estree).forEach((importDeclaration) => {
-        if (!isMarkdownImport(importDeclaration)) {
+      getImportDeclarations(node.data.estree).forEach((declaration) => {
+        if (!isMarkdownImport(declaration)) {
           return;
         }
-        const componentName = findDefaultImportName(importDeclaration);
+        const componentName = findDefaultImportName(declaration);
         if (!componentName) {
           return;
         }
-        addTOCNamedImport(importDeclaration, componentName);
+        addTOCNamedImport(declaration, componentName);
       });
     }
 
@@ -149,6 +134,12 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
     }
 
     visit(root, (child) => {
+      /*
+      if (tocExportAlreadyExists) {
+        return;
+      }
+      */
+
       if (child.type === 'heading') {
         visitHeading(child);
       } else if (child.type === 'mdxjsEsm') {
@@ -161,8 +152,8 @@ const plugin = function plugin(options: PluginOptions = {}): Transformer<Root> {
     const {children} = root;
     const targetIndex = await getOrCreateExistingTargetIndex(children, name);
 
-    if (tocItems?.length) {
-      children[targetIndex] = await createTOCExportNode(name, tocItems);
+    if (tocItems.length) {
+      children[targetIndex] = await createTOCExportNodeAST(name, tocItems);
     }
   };
 };
