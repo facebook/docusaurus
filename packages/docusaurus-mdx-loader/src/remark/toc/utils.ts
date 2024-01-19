@@ -25,13 +25,6 @@ export function getImportDeclarations(program: Program): ImportDeclaration[] {
   );
 }
 
-export const isImport = (child: Node): child is MdxjsEsm => {
-  if (child.type === 'mdxjsEsm') {
-    return (child as MdxjsEsm).value.startsWith('import');
-  }
-  return false;
-};
-
 export function isMarkdownImport(node: Node): node is ImportDeclaration {
   if (node.type !== 'ImportDeclaration') {
     return false;
@@ -57,38 +50,6 @@ export function findNamedImportSpecifier(
       specifier.type === 'ImportSpecifier' &&
       specifier.local.name === localName,
   );
-}
-
-function createTOCSliceAST(tocSlice: TOCSlice): SpreadElement {
-  return {
-    type: 'SpreadElement',
-    argument: {type: 'Identifier', name: tocSlice.name},
-  };
-}
-
-async function createTOCHeadingAST({heading}: TOCHeading) {
-  const {toString} = await import('mdast-util-to-string');
-  const {valueToEstree} = await import('estree-util-value-to-estree');
-
-  const tocItem: TOCItem = {
-    value: toValue(heading, toString),
-    id: heading.data!.id!,
-    level: heading.depth,
-  };
-
-  return valueToEstree(tocItem);
-}
-
-async function createTOCItemAST(tocItem: TOCItems[number]) {
-  switch (tocItem.type) {
-    case 'slice':
-      return createTOCSliceAST(tocItem);
-    case 'heading':
-      return createTOCHeadingAST(tocItem);
-    default: {
-      throw new Error(`unexpected toc item type`);
-    }
-  }
 }
 
 // Before: import Partial from "partial"
@@ -149,7 +110,35 @@ export async function createTOCExportNodeAST({
   tocExportName: string;
   tocItems: TOCItems;
 }): Promise<MdxjsEsm> {
-  const tocItemArrayAST = await Promise.all(tocItems.map(createTOCItemAST));
+  function createTOCSliceAST(tocSlice: TOCSlice): SpreadElement {
+    return {
+      type: 'SpreadElement',
+      argument: {type: 'Identifier', name: tocSlice.name},
+    };
+  }
+
+  async function createTOCHeadingAST({heading}: TOCHeading) {
+    const {toString} = await import('mdast-util-to-string');
+    const {valueToEstree} = await import('estree-util-value-to-estree');
+    const value: TOCItem = {
+      value: toValue(heading, toString),
+      id: heading.data!.id!,
+      level: heading.depth,
+    };
+    return valueToEstree(value);
+  }
+
+  async function createTOCItemAST(tocItem: TOCItems[number]) {
+    switch (tocItem.type) {
+      case 'slice':
+        return createTOCSliceAST(tocItem);
+      case 'heading':
+        return createTOCHeadingAST(tocItem);
+      default: {
+        throw new Error(`unexpected toc item type`);
+      }
+    }
+  }
 
   return {
     type: 'mdxjsEsm',
@@ -171,7 +160,7 @@ export async function createTOCExportNodeAST({
                   },
                   init: {
                     type: 'ArrayExpression',
-                    elements: tocItemArrayAST,
+                    elements: await Promise.all(tocItems.map(createTOCItemAST)),
                   },
                 },
               ],
