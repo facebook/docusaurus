@@ -144,7 +144,7 @@ async function collectTOCItems({
 
     tocItems.push({
       type: 'slice',
-      name: tocSliceImportName,
+      importName: tocSliceImportName,
     });
 
     addTocSliceImportIfNeeded({

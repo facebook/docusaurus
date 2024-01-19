@@ -113,7 +113,7 @@ export async function createTOCExportNodeAST({
   function createTOCSliceAST(tocSlice: TOCSlice): SpreadElement {
     return {
       type: 'SpreadElement',
-      argument: {type: 'Identifier', name: tocSlice.name},
+      argument: {type: 'Identifier', name: tocSlice.importName},
     };
   }
 

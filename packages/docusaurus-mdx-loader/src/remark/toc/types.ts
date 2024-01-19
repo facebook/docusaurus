@@ -23,7 +23,7 @@ export type TOCHeading = {
 // A TOC slice represents a TOCItem[] imported from a partial
 export type TOCSlice = {
   readonly type: 'slice';
-  readonly name: string;
+  readonly importName: string;
 };
 
 export type TOCItems = (TOCHeading | TOCSlice)[];
