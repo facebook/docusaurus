@@ -30,25 +30,9 @@ interface PluginOptions {
   name?: string;
 }
 
-const getOrCreateExistingTargetIndex = async (
-  children: Node[],
-  name: string,
-) => {
-  let importsIndex = -1;
-  let targetIndex = -1;
-
-  children.forEach((node, index) => {
-    if (isImport(node)) {
-      importsIndex = index;
-    }
-  });
-
-  const target = await createTOCExportNodeAST(name, []);
-  const hasImports = importsIndex > -1;
-  targetIndex = hasImports ? importsIndex + 1 : 0;
-  children.splice(targetIndex, 0, target);
-
-  return targetIndex;
+const insertAfterLastImport = async (children: Node[], nodeToInsert: Node) => {
+  const insertionIndex = children.findLastIndex(isImport) + 1;
+  children.splice(insertionIndex, 0, nodeToInsert);
 };
 
 type VisitTreeResult = {
@@ -159,24 +143,24 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
     const {tocItems, existingTocExport} = await visitTree(root, name);
     const {children} = root;
 
-    const tocExportAST = await createTOCExportNodeAST(name, tocItems);
+    const tocExportNode = await createTOCExportNodeAST(name, tocItems);
 
     // If user explicitly writes "export const toc" in his mdx file
     if (existingTocExport) {
       // We only override user declaration if at least 1 heading
       // TODO this is a suspicious legacy behavior, do we keep it?
+      //  see https://github.com/facebook/docusaurus/pull/7530
       if (tocItems.length) {
-        transformNode(existingTocExport, tocExportAST);
+        transformNode(existingTocExport, tocExportNode);
       } else {
         // Otherwise keep user toc declaration
       }
     }
     // Normal case: we add a brand new "export const toc" declaration
     else {
-      const targetIndex = await getOrCreateExistingTargetIndex(children, name);
-      if (tocItems.length) {
-        children[targetIndex] = await createTOCExportNodeAST(name, tocItems);
-      }
+      // TODO why not just children.push(tocExportNode) ???
+      //  that seems reasonable to always export the toc at the end
+      await insertAfterLastImport(children, tocExportNode);
     }
   };
 }
