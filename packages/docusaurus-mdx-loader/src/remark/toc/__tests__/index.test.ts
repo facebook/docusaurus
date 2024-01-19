@@ -104,4 +104,11 @@ describe('toc remark plugin', () => {
     const result = await processFixture('partials/_partial2.mdx');
     expect(result).toMatchSnapshot();
   });
+
+  it('works with partial imported after its usage', async () => {
+    const result = await processFixture(
+      'partials/partial-used-before-import.mdx',
+    );
+    expect(result).toMatchSnapshot();
+  });
 });

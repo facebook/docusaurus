@@ -220,7 +220,7 @@ export const c = 1;
 `;
 
 exports[`toc remark plugin works with imported markdown 1`] = `
-"import Partial, {toc as __toc0} from './_partial1.md';
+"import Partial1, {toc as __tocPartial1} from './_partial1.md';
 
 
 import SomeComponent from './SomeComponent';
@@ -230,14 +230,14 @@ import SomeComponent from './SomeComponent';
 
 Some text
 
-import Partial2, {toc as __toc1} from './_partial2.md';
+import Partial2, {toc as __tocPartial2} from './_partial2.md';
 
 
 ## Index section 1
 
 Foo
 
-<Partial />
+<Partial1 />
 
 Some text
 
@@ -251,7 +251,7 @@ Some text
 
 Unused partials (that are only imported but not rendered) shouldn't alter the TOC
 
-import UnusedPartialImport, {toc as __toc2} from './_partial3.md';
+import UnusedPartialImport from './_partial3.md';
 
 
 ## NonExisting Partials
@@ -260,18 +260,18 @@ Partials that do not exist should alter the TOC
 
 It's not the responsibility of the Remark plugin to check for their existence
 
-import DoesNotExist, {toc as __toc3} from './_doesNotExist.md';
+import DoesNotExist, {toc as __tocDoesNotExist} from './_doesNotExist.md';
 
 
 export const toc = [{
   "value": "Index section 1",
   "id": "index-section-1",
   "level": 2
-}, ...__toc0, {
+}, ...__tocPartial1, {
   "value": "Index section 2",
   "id": "index-section-2",
   "level": 2
-}, ...__toc1, {
+}, ...__tocPartial2, {
   "value": "Unused partials",
   "id": "unused-partials",
   "level": 2
@@ -279,11 +279,11 @@ export const toc = [{
   "value": "NonExisting Partials",
   "id": "nonexisting-partials",
   "level": 2
-}, ...__toc3, {
+}, ...__tocDoesNotExist, {
   "value": "Duplicate partials",
   "id": "duplicate-partials",
   "level": 2
-}, ...__toc0, ...__toc0];
+}, ...__tocPartial1, ...__tocPartial1];
 
 
 <DoesNotExist />
@@ -292,11 +292,25 @@ export const toc = [{
 
 It's fine if we use partials at the end
 
-<Partial />
+<Partial1 />
 
 And we can use the partial multiple times!
 
+<Partial1 />
+"
+`;
+
+exports[`toc remark plugin works with partial imported after its usage 1`] = `
+"# Partial used before import
+
+While it looks weird to import after usage, this remains valid MDX usage.
+
 <Partial />
+
+import Partial, {toc as __tocPartial} from './_partial.md';
+
+
+export const toc = [...__tocPartial];
 "
 `;
 
@@ -309,7 +323,7 @@ Partial 2
 
 Content
 
-import Partial2Nested, {toc as __toc0} from './partial2-nested.md';
+import Partial2Nested, {toc as __tocPartial2Nested} from './partial2-nested.md';
 
 
 export const toc = [{
@@ -320,7 +334,7 @@ export const toc = [{
   "value": "Partial 2 Sub Heading",
   "id": "partial-2-sub-heading",
   "level": 3
-}, ...__toc0];
+}, ...__tocPartial2Nested];
 
 
 <Partial2Nested />

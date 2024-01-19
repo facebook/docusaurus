@@ -8,6 +8,7 @@
 import {
   createTOCExportNodeAST,
   findDefaultImportName,
+  findNamedImportSpecifier,
   getImportDeclarations,
   isImport,
   isMarkdownImport,
@@ -35,78 +36,40 @@ const insertAfterLastImport = async (children: Node[], nodeToInsert: Node) => {
   children.splice(insertionIndex, 0, nodeToInsert);
 };
 
-type VisitTreeResult = {
-  // The toc items we collected in the tree
-  tocItems: TOCItems;
-  // A potential "export const toc = ..." node found in the tree
-  existingTocExport: MdxjsEsm | null;
-};
+// ComponentName (default export) => ImportDeclaration mapping
+type MarkdownImports = Map<string, {declaration: ImportDeclaration}>;
 
-async function visitTree(root: Root, name: string): Promise<VisitTreeResult> {
-  const {toString} = await import('mdast-util-to-string');
+// MdxjsEsm node representing an already existing "export const toc" declaration
+type ExistingTOCExport = MdxjsEsm | null;
+
+function createTocSliceImportName({
+  name,
+  componentName,
+}: {
+  name: string;
+  componentName: string;
+}) {
+  return `__${name}${componentName}`;
+}
+
+async function collectImportsExports(
+  root: Root,
+  name: string,
+): Promise<{
+  markdownImports: MarkdownImports;
+  existingTocExport: ExistingTOCExport;
+}> {
   const {visit} = await import('unist-util-visit');
 
-  const partialComponentToTocSliceName = new Map<string, string>();
-
-  const tocItems: TOCItems = [];
-
+  const markdownImports = new Map<string, {declaration: ImportDeclaration}>();
   let existingTocExport: MdxjsEsm | null = null;
 
-  visit(root, (child) => {
-    /*
-      if (tocExportAlreadyExists) {
-        return;
-      }
-      */
-
-    if (child.type === 'heading') {
-      visitHeading(child);
-    } else if (child.type === 'mdxjsEsm') {
-      visitMdxjsEsm(child);
-    } else if (child.type === 'mdxJsxFlowElement') {
-      visitMdxJsxFlowElement(child);
-    }
-  });
-
-  return {tocItems, existingTocExport};
-
-  function visitHeading(node: Heading) {
-    const value = toString(node);
-
-    // depth:1 headings are titles and not included in the TOC
-    if (!value || node.depth < 2) {
-      return;
-    }
-
-    tocItems.push({
-      type: 'heading',
-      heading: node,
-    });
-  }
-
-  function visitMdxjsEsm(node: MdxjsEsm) {
+  visit(root, 'mdxjsEsm', (node) => {
     if (!node.data?.estree) {
       return;
     }
-
     if (isNamedExport(node, name)) {
       existingTocExport = node;
-    }
-
-    // Before: import X from 'x.mdx'
-    // After: import X, {toc as __toc42} from 'x.mdx'
-    function addTOCNamedImport(
-      importDeclaration: ImportDeclaration,
-      componentName: string,
-    ) {
-      const {size} = partialComponentToTocSliceName;
-      const exportAsName = `__${name}${size}`;
-      partialComponentToTocSliceName.set(componentName, exportAsName);
-      importDeclaration.specifiers.push({
-        type: 'ImportSpecifier',
-        imported: {type: 'Identifier', name},
-        local: {type: 'Identifier', name: exportAsName},
-      });
     }
 
     getImportDeclarations(node.data.estree).forEach((declaration) => {
@@ -117,22 +80,75 @@ async function visitTree(root: Root, name: string): Promise<VisitTreeResult> {
       if (!componentName) {
         return;
       }
-      addTOCNamedImport(declaration, componentName);
+      markdownImports.set(componentName, {
+        declaration,
+      });
+    });
+  });
+
+  return {markdownImports, existingTocExport};
+}
+
+async function collectTOCItems(
+  root: Root,
+  name: string,
+  markdownImports: MarkdownImports,
+): Promise<{
+  // The toc items we collected in the tree
+  tocItems: TOCItems;
+}> {
+  const {toString} = await import('mdast-util-to-string');
+  const {visit} = await import('unist-util-visit');
+
+  const tocItems: TOCItems = [];
+
+  visit(root, (child) => {
+    if (child.type === 'heading') {
+      visitHeading(child);
+    } else if (child.type === 'mdxJsxFlowElement') {
+      visitMdxJsxFlowElement(child);
+    }
+  });
+
+  return {tocItems};
+
+  function visitHeading(node: Heading) {
+    const value = toString(node);
+    // depth:1 headings are titles and not included in the TOC
+    if (!value || node.depth < 2) {
+      return;
+    }
+    tocItems.push({
+      type: 'heading',
+      heading: node,
     });
   }
 
   function visitMdxJsxFlowElement(node: MdxJsxFlowElement) {
-    const nodeName = node.name;
-    if (!nodeName) {
+    const componentName = node.name;
+    if (!componentName) {
       return;
     }
-    const tocSliceName = partialComponentToTocSliceName.get(nodeName);
-    if (tocSliceName) {
-      tocItems.push({
-        type: 'slice',
-        name: tocSliceName,
+    const declaration = markdownImports.get(componentName)?.declaration;
+    if (!declaration) {
+      return;
+    }
+
+    const tocSliceImportName = createTocSliceImportName({name, componentName});
+
+    // We only add the toc slice named import if it doesn't exist already
+    if (!findNamedImportSpecifier(declaration, tocSliceImportName)) {
+      declaration.specifiers.push({
+        type: 'ImportSpecifier',
+        imported: {type: 'Identifier', name},
+        local: {type: 'Identifier', name: tocSliceImportName},
       });
     }
+
+    tocItems.push({
+      type: 'slice',
+      name: tocSliceImportName,
+    });
   }
 }
 
@@ -140,8 +156,12 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
   const name = options.name || 'toc';
 
   return async (root) => {
-    const {tocItems, existingTocExport} = await visitTree(root, name);
-    const {children} = root;
+    const {markdownImports, existingTocExport} = await collectImportsExports(
+      root,
+      name,
+    );
+
+    const {tocItems} = await collectTOCItems(root, name, markdownImports);
 
     const tocExportNode = await createTOCExportNodeAST(name, tocItems);
 
@@ -160,7 +180,7 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
     else {
       // TODO why not just children.push(tocExportNode) ???
       //  that seems reasonable to always export the toc at the end
-      await insertAfterLastImport(children, tocExportNode);
+      await insertAfterLastImport(root.children, tocExportNode);
     }
   };
 }

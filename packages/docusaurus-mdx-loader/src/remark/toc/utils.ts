@@ -12,7 +12,12 @@ import type {
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
 import type {TOCHeading, TOCItem, TOCItems, TOCSlice} from './types';
-import type {Program, SpreadElement, ImportDeclaration} from 'estree';
+import type {
+  Program,
+  SpreadElement,
+  ImportDeclaration,
+  ImportSpecifier,
+} from 'estree';
 
 export function getImportDeclarations(program: Program): ImportDeclaration[] {
   return program.body.filter(
@@ -41,6 +46,17 @@ export function findDefaultImportName(
   return importDeclaration.specifiers.find(
     (o: Node) => o.type === 'ImportDefaultSpecifier',
   )?.local.name;
+}
+
+export function findNamedImportSpecifier(
+  importDeclaration: ImportDeclaration,
+  localName: string,
+): ImportSpecifier | undefined {
+  return importDeclaration?.specifiers.find(
+    (specifier) =>
+      specifier.type === 'ImportSpecifier' &&
+      specifier.local.name === localName,
+  );
 }
 
 function createTOCSliceAST(tocSlice: TOCSlice): SpreadElement {
