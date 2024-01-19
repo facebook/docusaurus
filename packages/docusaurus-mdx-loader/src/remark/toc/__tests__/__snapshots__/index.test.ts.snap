@@ -375,6 +375,7 @@ export default function MDXContent(props = {}) {
 
 exports[`toc remark plugin works on text content 1`] = `
 "import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+export const c = 1;
 export const toc = [{
   "value": "Endi",
   "id": "endi",
@@ -392,7 +393,6 @@ export const toc = [{
   "id": "i--unicode",
   "level": 2
 }];
-export const c = 1;
 function _createMdxContent(props) {
   const _components = {
     code: "code",
@@ -502,7 +502,7 @@ function _createMdxContent(props) {
       children: "Partials that do not exist should alter the TOC"
     }), "/n", _jsx(_components.p, {
       children: "It's not the responsibility of the Remark plugin to check for their existence"
-    }), "/n", "/n", "/n", _jsx(DoesNotExist, {}), "/n", _jsx(_components.h2, {
+    }), "/n", "/n", _jsx(DoesNotExist, {}), "/n", _jsx(_components.h2, {
       id: "duplicate-partials",
       children: "Duplicate partials"
     }), "/n", _jsx(_components.p, {
@@ -585,7 +585,7 @@ function _createMdxContent(props) {
       children: "Partial 2 Sub Heading"
     }), "/n", _jsx(_components.p, {
       children: "Content"
-    }), "/n", "/n", "/n", _jsx(Partial2Nested, {})]
+    }), "/n", "/n", _jsx(Partial2Nested, {})]
   });
 }
 export default function MDXContent(props = {}) {

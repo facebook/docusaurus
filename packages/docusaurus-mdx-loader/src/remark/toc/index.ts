@@ -10,11 +10,9 @@ import {
   createTOCExportNodeAST,
   findDefaultImportName,
   getImportDeclarations,
-  isImport,
   isMarkdownImport,
   isNamedExport,
 } from './utils';
-import type {Node} from 'unist';
 import type {Heading, Root} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
@@ -29,11 +27,6 @@ import type {ImportDeclaration} from 'estree';
 interface PluginOptions {
   name?: string;
 }
-
-const insertAfterLastImport = async (children: Node[], nodeToInsert: Node) => {
-  const insertionIndex = children.findLastIndex(isImport) + 1;
-  children.splice(insertionIndex, 0, nodeToInsert);
-};
 
 // ComponentName (default export) => ImportDeclaration mapping
 type MarkdownImports = Map<string, {declaration: ImportDeclaration}>;
@@ -184,13 +177,11 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       markdownImports,
     });
 
-    const tocExportNode = await createTOCExportNodeAST({
-      tocExportName,
-      tocItems,
-    });
-
-    // TODO why not just children.push(tocExportNode) ???
-    //  that seems reasonable to always export the toc at the end
-    await insertAfterLastImport(root.children, tocExportNode);
+    root.children.push(
+      await createTOCExportNodeAST({
+        tocExportName,
+        tocItems,
+      }),
+    );
   };
 }
