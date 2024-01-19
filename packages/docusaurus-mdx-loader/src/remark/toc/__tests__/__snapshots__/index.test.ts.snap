@@ -123,19 +123,7 @@ export default function MDXContent(props = {}) {
 
 exports[`toc remark plugin exports even with existing name 1`] = `
 "import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
-export const toc = [{
-  "value": "Thanos",
-  "id": "thanos",
-  "level": 2
-}, {
-  "value": "Tony Stark",
-  "id": "tony-stark",
-  "level": 2
-}, {
-  "value": "Avengers",
-  "id": "avengers",
-  "level": 3
-}];
+export const toc = ['replaceMe'];
 function _createMdxContent(props) {
   const _components = {
     h2: "h2",

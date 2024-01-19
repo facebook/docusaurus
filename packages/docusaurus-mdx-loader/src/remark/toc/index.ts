@@ -14,7 +14,6 @@ import {
   isMarkdownImport,
   isNamedExport,
 } from './utils';
-import {transformNode} from '../utils';
 import type {Node} from 'unist';
 import type {Heading, Root} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
@@ -172,6 +171,13 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       tocExportName,
     });
 
+    // If user explicitly writes "export const toc" in his mdx file
+    // We keep it as is do not override their explicit toc structure
+    // See https://github.com/facebook/docusaurus/pull/7530#discussion_r1458087876
+    if (existingTocExport) {
+      return;
+    }
+
     const {tocItems} = await collectTOCItems({
       root,
       tocExportName,
@@ -183,22 +189,8 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       tocItems,
     });
 
-    // If user explicitly writes "export const toc" in his mdx file
-    if (existingTocExport) {
-      // We only override user declaration if at least 1 heading
-      // TODO this is a suspicious legacy behavior, do we keep it?
-      //  see https://github.com/facebook/docusaurus/pull/7530
-      if (tocItems.length) {
-        transformNode(existingTocExport, tocExportNode);
-      } else {
-        // Otherwise keep user toc declaration
-      }
-    }
-    // Normal case: we add a brand new "export const toc" declaration
-    else {
-      // TODO why not just children.push(tocExportNode) ???
-      //  that seems reasonable to always export the toc at the end
-      await insertAfterLastImport(root.children, tocExportNode);
-    }
+    // TODO why not just children.push(tocExportNode) ???
+    //  that seems reasonable to always export the toc at the end
+    await insertAfterLastImport(root.children, tocExportNode);
   };
 }
