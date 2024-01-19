@@ -91,7 +91,10 @@ async function createTOCItemAST(tocItem: TOCItems[number]) {
   }
 }
 
-export function isNamedExport(node: Node, exportName: string): boolean {
+export function isNamedExport(
+  node: Node,
+  exportName: string,
+): node is MdxjsEsm {
   if (node.type !== 'mdxjsEsm') {
     return false;
   }
@@ -118,10 +121,13 @@ export function isNamedExport(node: Node, exportName: string): boolean {
   return id.name === exportName;
 }
 
-export async function createTOCExportNodeAST(
-  name: string,
-  tocItems: TOCItems,
-): Promise<MdxjsEsm> {
+export async function createTOCExportNodeAST({
+  tocExportName,
+  tocItems,
+}: {
+  tocExportName: string;
+  tocItems: TOCItems;
+}): Promise<MdxjsEsm> {
   const tocItemArrayAST = await Promise.all(tocItems.map(createTOCItemAST));
 
   return {
@@ -140,7 +146,7 @@ export async function createTOCExportNodeAST(
                   type: 'VariableDeclarator',
                   id: {
                     type: 'Identifier',
-                    name,
+                    name: tocExportName,
                   },
                   init: {
                     type: 'ArrayExpression',

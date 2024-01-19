@@ -43,19 +43,24 @@ type MarkdownImports = Map<string, {declaration: ImportDeclaration}>;
 type ExistingTOCExport = MdxjsEsm | null;
 
 function createTocSliceImportName({
-  name,
+  tocExportName,
   componentName,
 }: {
-  name: string;
+  tocExportName: string;
   componentName: string;
 }) {
-  return `__${name}${componentName}`;
+  // The name of the toc slice import alias doesn't matter much
+  // We just need to ensure it's valid and won't conflict with other names
+  return `__${tocExportName}${componentName}`;
 }
 
-async function collectImportsExports(
-  root: Root,
-  name: string,
-): Promise<{
+async function collectImportsExports({
+  root,
+  tocExportName,
+}: {
+  root: Root;
+  tocExportName: string;
+}): Promise<{
   markdownImports: MarkdownImports;
   existingTocExport: ExistingTOCExport;
 }> {
@@ -68,7 +73,7 @@ async function collectImportsExports(
     if (!node.data?.estree) {
       return;
     }
-    if (isNamedExport(node, name)) {
+    if (isNamedExport(node, tocExportName)) {
       existingTocExport = node;
     }
 
@@ -89,11 +94,15 @@ async function collectImportsExports(
   return {markdownImports, existingTocExport};
 }
 
-async function collectTOCItems(
-  root: Root,
-  name: string,
-  markdownImports: MarkdownImports,
-): Promise<{
+async function collectTOCItems({
+  root,
+  tocExportName,
+  markdownImports,
+}: {
+  root: Root;
+  tocExportName: string;
+  markdownImports: MarkdownImports;
+}): Promise<{
   // The toc items we collected in the tree
   tocItems: TOCItems;
 }> {
@@ -134,13 +143,16 @@ async function collectTOCItems(
       return;
     }
 
-    const tocSliceImportName = createTocSliceImportName({name, componentName});
+    const tocSliceImportName = createTocSliceImportName({
+      tocExportName,
+      componentName,
+    });
 
     // We only add the toc slice named import if it doesn't exist already
     if (!findNamedImportSpecifier(declaration, tocSliceImportName)) {
       declaration.specifiers.push({
         type: 'ImportSpecifier',
-        imported: {type: 'Identifier', name},
+        imported: {type: 'Identifier', name: tocExportName},
         local: {type: 'Identifier', name: tocSliceImportName},
       });
     }
@@ -153,17 +165,24 @@ async function collectTOCItems(
 }
 
 export default function plugin(options: PluginOptions = {}): Transformer<Root> {
-  const name = options.name || 'toc';
+  const tocExportName = options.name || 'toc';
 
   return async (root) => {
-    const {markdownImports, existingTocExport} = await collectImportsExports(
+    const {markdownImports, existingTocExport} = await collectImportsExports({
       root,
-      name,
-    );
+      tocExportName,
+    });
 
-    const {tocItems} = await collectTOCItems(root, name, markdownImports);
+    const {tocItems} = await collectTOCItems({
+      root,
+      tocExportName,
+      markdownImports,
+    });
 
-    const tocExportNode = await createTOCExportNodeAST(name, tocItems);
+    const tocExportNode = await createTOCExportNodeAST({
+      tocExportName,
+      tocItems,
+    });
 
     // If user explicitly writes "export const toc" in his mdx file
     if (existingTocExport) {
