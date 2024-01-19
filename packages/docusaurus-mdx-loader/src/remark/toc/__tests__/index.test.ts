@@ -9,15 +9,11 @@ import path from 'path';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
-import type {
-  MdxjsEsm,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-} from 'mdast-util-mdx';
 
 const processFixture = async (name: string) => {
-  const {remark} = await import('remark');
   const {default: gfm} = await import('remark-gfm');
-  const {default: mdx} = await import('remark-mdx');
+
+  const {compile} = await import('@mdx-js/mdx');
 
   const filePath = path.join(
     __dirname,
@@ -26,27 +22,12 @@ const processFixture = async (name: string) => {
   );
 
   const file = await vfile.read(filePath);
-  const result = await remark()
-    .use(headings)
-    .use(gfm)
-    .use(mdx)
-    .use(plugin)
-    // Permits to convert generated TOC back to string values
-    // Its more convenient to review tests in Markdown format
-    // See https://github.com/facebook/docusaurus/pull/9684#discussion_r1457595181
-    .use(() => async (root) => {
-      const {generate} = await import('astring');
-      const {visit} = await import('unist-util-visit');
-      visit(root, (child) => {
-        if (child.type === 'mdxjsEsm') {
-          const node = child as MdxjsEsm;
-          node.value = node.data?.estree
-            ? generate(node.data.estree)
-            : node.value;
-        }
-      });
-    })
-    .process(file);
+
+  const result = await compile(file, {
+    format: 'mdx',
+    remarkPlugins: [headings, gfm, plugin],
+    rehypePlugins: [],
+  });
 
   return result.value;
 };
