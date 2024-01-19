@@ -91,6 +91,27 @@ async function createTOCItemAST(tocItem: TOCItems[number]) {
   }
 }
 
+// Before: import Partial from "partial"
+// After: import Partial, {toc as __tocPartial} from "partial"
+export function addTocSliceImportIfNeeded({
+  importDeclaration,
+  tocExportName,
+  tocSliceImportName,
+}: {
+  importDeclaration: ImportDeclaration;
+  tocExportName: string;
+  tocSliceImportName: string;
+}): void {
+  // We only add the toc slice named import if it doesn't exist already
+  if (!findNamedImportSpecifier(importDeclaration, tocSliceImportName)) {
+    importDeclaration.specifiers.push({
+      type: 'ImportSpecifier',
+      imported: {type: 'Identifier', name: tocExportName},
+      local: {type: 'Identifier', name: tocSliceImportName},
+    });
+  }
+}
+
 export function isNamedExport(
   node: Node,
   exportName: string,

@@ -6,9 +6,9 @@
  */
 
 import {
+  addTocSliceImportIfNeeded,
   createTOCExportNodeAST,
   findDefaultImportName,
-  findNamedImportSpecifier,
   getImportDeclarations,
   isImport,
   isMarkdownImport,
@@ -115,12 +115,13 @@ async function collectTOCItems({
     if (child.type === 'heading') {
       visitHeading(child);
     } else if (child.type === 'mdxJsxFlowElement') {
-      visitMdxJsxFlowElement(child);
+      visitJSXElement(child);
     }
   });
 
   return {tocItems};
 
+  // Visit Markdown headings
   function visitHeading(node: Heading) {
     const value = toString(node);
     // depth:1 headings are titles and not included in the TOC
@@ -133,13 +134,14 @@ async function collectTOCItems({
     });
   }
 
-  function visitMdxJsxFlowElement(node: MdxJsxFlowElement) {
+  // Visit JSX elements, such as <Partial/>
+  function visitJSXElement(node: MdxJsxFlowElement) {
     const componentName = node.name;
     if (!componentName) {
       return;
     }
-    const declaration = markdownImports.get(componentName)?.declaration;
-    if (!declaration) {
+    const importDeclaration = markdownImports.get(componentName)?.declaration;
+    if (!importDeclaration) {
       return;
     }
 
@@ -148,18 +150,15 @@ async function collectTOCItems({
       componentName,
     });
 
-    // We only add the toc slice named import if it doesn't exist already
-    if (!findNamedImportSpecifier(declaration, tocSliceImportName)) {
-      declaration.specifiers.push({
-        type: 'ImportSpecifier',
-        imported: {type: 'Identifier', name: tocExportName},
-        local: {type: 'Identifier', name: tocSliceImportName},
-      });
-    }
-
     tocItems.push({
       type: 'slice',
       name: tocSliceImportName,
+    });
+
+    addTocSliceImportIfNeeded({
+      importDeclaration,
+      tocExportName,
+      tocSliceImportName,
     });
   }
 }
