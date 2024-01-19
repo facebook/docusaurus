@@ -53,7 +53,7 @@ export function findNamedImportSpecifier(
   localName: string,
 ): ImportSpecifier | undefined {
   return importDeclaration?.specifiers.find(
-    (specifier) =>
+    (specifier): specifier is ImportSpecifier =>
       specifier.type === 'ImportSpecifier' &&
       specifier.local.name === localName,
   );
