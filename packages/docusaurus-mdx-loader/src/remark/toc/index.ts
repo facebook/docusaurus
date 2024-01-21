@@ -7,6 +7,7 @@
 
 import {
   addTocSliceImportIfNeeded,
+  createPropsPlacerAST,
   createTOCExportNodeAST,
   findDefaultImportName,
   getImportDeclarations,
@@ -30,6 +31,11 @@ interface PluginOptions {
 
 // ComponentName (default export) => ImportDeclaration mapping
 type MarkdownImports = Map<string, {declaration: ImportDeclaration}>;
+type PartialProp = {
+  componentName: string;
+  propName: string;
+  propValue: any;
+};
 
 // MdxjsEsm node representing an already existing "export const toc" declaration
 type ExistingTOCExport = MdxjsEsm | null;
@@ -155,10 +161,60 @@ async function collectTOCItems({
   }
 }
 
+async function collectPartialProps({
+  root,
+  tocItemsRaw,
+  propsPlacerName,
+}: {
+  root: Root;
+  tocItemsRaw: TOCItems;
+  propsPlacerName: string;
+}): Promise<{
+  tocItems: TOCItems;
+  partialProps: PartialProp[];
+}> {
+  const partialProps: PartialProp[] = [];
+
+  const {visit} = await import('unist-util-visit');
+
+  visit(root, 'mdxJsxFlowElement', (child) => {
+    if (!child.name) {
+      return;
+    }
+
+    for (const prop of child.attributes) {
+      if (prop.type === 'mdxJsxAttribute' && typeof prop.value === 'string') {
+        partialProps.push({
+          componentName: child.name,
+          propName: prop.name,
+          propValue: prop.value,
+        });
+      }
+    }
+  });
+
+  const tocItems = tocItemsRaw.map((tocItem) => {
+    if (tocItem.type === 'heading') {
+      return tocItem;
+    }
+
+    return {
+      ...tocItem,
+      importName: `${propsPlacerName}(${tocItem.importName})`,
+    };
+  });
+
+  return {tocItems, partialProps};
+}
+
 export default function plugin(options: PluginOptions = {}): Transformer<Root> {
   const tocExportName = options.name || 'toc';
+  const partialPropsName = 'partialProps';
+  const propsPlacerName = 'placeProps';
 
   return async (root) => {
+    const {valueToEstree} = await import('estree-util-value-to-estree');
+
     const {markdownImports, existingTocExport} = await collectImportsExports({
       root,
       tocExportName,
@@ -171,10 +227,16 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       return;
     }
 
-    const {tocItems} = await collectTOCItems({
+    const {tocItems: tocItemsRaw} = await collectTOCItems({
       root,
       tocExportName,
       markdownImports,
+    });
+
+    const {tocItems, partialProps} = await collectPartialProps({
+      root,
+      tocItemsRaw,
+      propsPlacerName,
     });
 
     root.children.push(
@@ -183,5 +245,39 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
         tocItems,
       }),
     );
+
+    root.children.push({
+      type: 'mdxjsEsm',
+      value: '',
+      data: {
+        estree: {
+          type: 'Program',
+          body: [
+            {
+              type: 'ExportNamedDeclaration',
+              declaration: {
+                type: 'VariableDeclaration',
+                declarations: [
+                  {
+                    type: 'VariableDeclarator',
+                    id: {
+                      type: 'Identifier',
+                      name: partialPropsName,
+                    },
+                    init: valueToEstree(partialProps),
+                  },
+                ],
+                kind: 'const',
+              },
+              specifiers: [],
+              source: null,
+            },
+          ],
+          sourceType: 'module',
+        },
+      },
+    });
+
+    root.children.push(createPropsPlacerAST(propsPlacerName));
   };
 }

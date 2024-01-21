@@ -175,3 +175,99 @@ export async function createTOCExportNodeAST({
     },
   };
 }
+
+export function createPropsPlacerAST(propsPlacerName: string): MdxjsEsm {
+  return {
+    type: 'mdxjsEsm',
+    value: '',
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'FunctionDeclaration',
+            id: {
+              type: 'Identifier',
+              name: propsPlacerName,
+            },
+            generator: false,
+            async: false,
+            params: [
+              {
+                type: 'Identifier',
+                name: 'toc',
+              },
+            ],
+            body: {
+              type: 'BlockStatement',
+              body: [
+                {
+                  type: 'ReturnStatement',
+                  argument: {
+                    type: 'CallExpression',
+                    callee: {
+                      type: 'MemberExpression',
+                      object: {
+                        type: 'Identifier',
+                        name: 'toc',
+                      },
+                      property: {
+                        type: 'Identifier',
+                        name: 'map',
+                      },
+                      computed: false,
+                      optional: false,
+                    },
+                    arguments: [
+                      {
+                        type: 'ArrowFunctionExpression',
+                        expression: true,
+                        generator: false,
+                        async: false,
+                        params: [
+                          {
+                            type: 'Identifier',
+                            name: 'tocItem',
+                          },
+                        ],
+                        body: {
+                          type: 'ObjectExpression',
+                          properties: [
+                            {
+                              type: 'SpreadElement',
+                              argument: {
+                                type: 'Identifier',
+                                name: 'tocItem',
+                              },
+                            },
+                            {
+                              type: 'Property',
+                              method: false,
+                              shorthand: false,
+                              computed: false,
+                              key: {
+                                type: 'Identifier',
+                                name: 'value',
+                              },
+                              value: {
+                                type: 'Literal',
+                                value: 'TEST',
+                              },
+                              kind: 'init',
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                    optional: false,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
+}
