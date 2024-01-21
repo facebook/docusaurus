@@ -12,7 +12,13 @@ import type {
   MdxjsEsm,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
-import type {TOCHeading, TOCItem, TOCItems, TOCSlice} from './types';
+import type {
+  TOCHeading,
+  TOCItem,
+  TOCItems,
+  TOCSlice,
+  PartialProp,
+} from './types';
 import type {
   Program,
   SpreadElement,
@@ -177,6 +183,48 @@ export async function createTOCExportNodeAST({
   };
 }
 
+export async function createPartialPropsObjAST({
+  partialProps,
+  partialPropsName,
+}: {
+  partialProps: PartialProp[];
+  partialPropsName: string;
+}): Promise<MdxjsEsm> {
+  const {valueToEstree} = await import('estree-util-value-to-estree');
+
+  return {
+    type: 'mdxjsEsm',
+    value: '',
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ExportNamedDeclaration',
+            declaration: {
+              type: 'VariableDeclaration',
+              declarations: [
+                {
+                  type: 'VariableDeclarator',
+                  id: {
+                    type: 'Identifier',
+                    name: partialPropsName,
+                  },
+                  init: valueToEstree(partialProps),
+                },
+              ],
+              kind: 'const',
+            },
+            specifiers: [],
+            source: null,
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
+}
+
 export function createPropsPlacerAST({
   propsPlacerName,
 }: {
@@ -204,7 +252,7 @@ function ${propsPlacerName}(toc, componentName) {
   })
 }
       `,
-        {ecmaVersion: 8},
+        {ecmaVersion: 11},
       ) as Program,
     },
   };

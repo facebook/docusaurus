@@ -27,3 +27,9 @@ export type TOCSlice = {
 };
 
 export type TOCItems = (TOCHeading | TOCSlice)[];
+
+export type PartialProp = {
+  componentName: string;
+  propName: string;
+  propValue: any;
+};

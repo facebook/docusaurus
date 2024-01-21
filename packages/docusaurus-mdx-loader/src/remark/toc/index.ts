@@ -7,6 +7,7 @@
 
 import {
   addTocSliceImportIfNeeded,
+  createPartialPropsObjAST,
   createPropsPlacerAST,
   createTOCExportNodeAST,
   findDefaultImportName,
@@ -22,7 +23,7 @@ import type {
   MdxJsxFlowElement,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
-import type {TOCItems} from './types';
+import type {TOCItems, PartialProp} from './types';
 import type {ImportDeclaration} from 'estree';
 
 interface PluginOptions {
@@ -31,11 +32,6 @@ interface PluginOptions {
 
 // ComponentName (default export) => ImportDeclaration mapping
 type MarkdownImports = Map<string, {declaration: ImportDeclaration}>;
-type PartialProp = {
-  componentName: string;
-  propName: string;
-  propValue: any;
-};
 
 // MdxjsEsm node representing an already existing "export const toc" declaration
 type ExistingTOCExport = MdxjsEsm | null;
@@ -184,8 +180,6 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
   const propsPlacerName = 'placeProps';
 
   return async (root) => {
-    const {valueToEstree} = await import('estree-util-value-to-estree');
-
     const {markdownImports, existingTocExport} = await collectImportsExports({
       root,
       tocExportName,
@@ -204,37 +198,12 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       markdownImports,
     });
 
-    root.children.push({
-      type: 'mdxjsEsm',
-      value: '',
-      data: {
-        estree: {
-          type: 'Program',
-          body: [
-            {
-              type: 'ExportNamedDeclaration',
-              declaration: {
-                type: 'VariableDeclaration',
-                declarations: [
-                  {
-                    type: 'VariableDeclarator',
-                    id: {
-                      type: 'Identifier',
-                      name: partialPropsName,
-                    },
-                    init: valueToEstree(partialProps),
-                  },
-                ],
-                kind: 'const',
-              },
-              specifiers: [],
-              source: null,
-            },
-          ],
-          sourceType: 'module',
-        },
-      },
-    });
+    root.children.push(
+      await createPartialPropsObjAST({
+        partialProps,
+        partialPropsName,
+      }),
+    );
 
     root.children.push(
       await createTOCExportNodeAST({
