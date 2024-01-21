@@ -103,11 +103,15 @@ async function collectTOCItems({
 }): Promise<{
   // The toc items we collected in the tree
   tocItems: TOCItems;
+  partialProps: PartialProp[];
 }> {
   const {toString} = await import('mdast-util-to-string');
   const {visit} = await import('unist-util-visit');
 
   const tocItems: TOCItems = [];
+  const partialProps: PartialProp[] = [];
+
+  const propsPlacerName = 'placeProps';
 
   visit(root, (child) => {
     if (child.type === 'heading') {
@@ -117,7 +121,10 @@ async function collectTOCItems({
     }
   });
 
-  return {tocItems};
+  return {
+    tocItems,
+    partialProps,
+  };
 
   // Visit Markdown headings
   function visitHeading(node: Heading) {
@@ -143,6 +150,16 @@ async function collectTOCItems({
       return;
     }
 
+    for (const prop of node.attributes) {
+      if (prop.type === 'mdxJsxAttribute' && typeof prop.value === 'string') {
+        partialProps.push({
+          componentName,
+          propName: prop.name,
+          propValue: prop.value,
+        });
+      }
+    }
+
     const tocSliceImportName = createTocSliceImportName({
       tocExportName,
       componentName,
@@ -150,7 +167,7 @@ async function collectTOCItems({
 
     tocItems.push({
       type: 'slice',
-      importName: tocSliceImportName,
+      value: `${propsPlacerName}(${tocSliceImportName}, '${componentName}')`,
     });
 
     addTocSliceImportIfNeeded({
@@ -159,52 +176,6 @@ async function collectTOCItems({
       tocSliceImportName,
     });
   }
-}
-
-async function collectPartialProps({
-  root,
-  tocItemsRaw,
-  propsPlacerName,
-}: {
-  root: Root;
-  tocItemsRaw: TOCItems;
-  propsPlacerName: string;
-}): Promise<{
-  tocItems: TOCItems;
-  partialProps: PartialProp[];
-}> {
-  const partialProps: PartialProp[] = [];
-
-  const {visit} = await import('unist-util-visit');
-
-  visit(root, 'mdxJsxFlowElement', (child) => {
-    if (!child.name) {
-      return;
-    }
-
-    for (const prop of child.attributes) {
-      if (prop.type === 'mdxJsxAttribute' && typeof prop.value === 'string') {
-        partialProps.push({
-          componentName: child.name,
-          propName: prop.name,
-          propValue: prop.value,
-        });
-      }
-    }
-  });
-
-  const tocItems = tocItemsRaw.map((tocItem) => {
-    if (tocItem.type === 'heading') {
-      return tocItem;
-    }
-
-    return {
-      ...tocItem,
-      importName: `${propsPlacerName}(${tocItem.importName})`,
-    };
-  });
-
-  return {tocItems, partialProps};
 }
 
 export default function plugin(options: PluginOptions = {}): Transformer<Root> {
@@ -227,24 +198,11 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       return;
     }
 
-    const {tocItems: tocItemsRaw} = await collectTOCItems({
+    const {tocItems, partialProps} = await collectTOCItems({
       root,
       tocExportName,
       markdownImports,
     });
-
-    const {tocItems, partialProps} = await collectPartialProps({
-      root,
-      tocItemsRaw,
-      propsPlacerName,
-    });
-
-    root.children.push(
-      await createTOCExportNodeAST({
-        tocExportName,
-        tocItems,
-      }),
-    );
 
     root.children.push({
       type: 'mdxjsEsm',
@@ -278,6 +236,13 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       },
     });
 
-    root.children.push(createPropsPlacerAST(propsPlacerName));
+    root.children.push(
+      await createTOCExportNodeAST({
+        tocExportName,
+        tocItems,
+      }),
+    );
+
+    root.children.push(createPropsPlacerAST({propsPlacerName}));
   };
 }

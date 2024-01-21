@@ -1,11 +1,7 @@
 import PartialWithProp from './_partial-with-prop.mdx';
 
-export const foo = 'bar';
-
 # TOC partial test with props
 
-<PartialWithProp word={foo} />
+<PartialWithProp word="foo" />
 
 The word in the partial above should be visible in the heading itself and in the TOC as well.
-
-## Heading with prop {foo}

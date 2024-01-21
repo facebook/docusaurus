@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import acorn from 'acorn';
 import {toValue} from '../utils';
 import type {Node} from 'unist';
 import type {
@@ -113,7 +114,7 @@ export async function createTOCExportNodeAST({
   function createTOCSliceAST(tocSlice: TOCSlice): SpreadElement {
     return {
       type: 'SpreadElement',
-      argument: {type: 'Identifier', name: tocSlice.importName},
+      argument: {type: 'Identifier', name: tocSlice.value},
     };
   }
 
@@ -176,98 +177,35 @@ export async function createTOCExportNodeAST({
   };
 }
 
-export function createPropsPlacerAST(propsPlacerName: string): MdxjsEsm {
+export function createPropsPlacerAST({
+  propsPlacerName,
+}: {
+  propsPlacerName: string;
+}): MdxjsEsm {
   return {
     type: 'mdxjsEsm',
     value: '',
     data: {
-      estree: {
-        type: 'Program',
-        body: [
-          {
-            type: 'FunctionDeclaration',
-            id: {
-              type: 'Identifier',
-              name: propsPlacerName,
-            },
-            generator: false,
-            async: false,
-            params: [
-              {
-                type: 'Identifier',
-                name: 'toc',
-              },
-            ],
-            body: {
-              type: 'BlockStatement',
-              body: [
-                {
-                  type: 'ReturnStatement',
-                  argument: {
-                    type: 'CallExpression',
-                    callee: {
-                      type: 'MemberExpression',
-                      object: {
-                        type: 'Identifier',
-                        name: 'toc',
-                      },
-                      property: {
-                        type: 'Identifier',
-                        name: 'map',
-                      },
-                      computed: false,
-                      optional: false,
-                    },
-                    arguments: [
-                      {
-                        type: 'ArrowFunctionExpression',
-                        expression: true,
-                        generator: false,
-                        async: false,
-                        params: [
-                          {
-                            type: 'Identifier',
-                            name: 'tocItem',
-                          },
-                        ],
-                        body: {
-                          type: 'ObjectExpression',
-                          properties: [
-                            {
-                              type: 'SpreadElement',
-                              argument: {
-                                type: 'Identifier',
-                                name: 'tocItem',
-                              },
-                            },
-                            {
-                              type: 'Property',
-                              method: false,
-                              shorthand: false,
-                              computed: false,
-                              key: {
-                                type: 'Identifier',
-                                name: 'value',
-                              },
-                              value: {
-                                type: 'Literal',
-                                value: 'TEST',
-                              },
-                              kind: 'init',
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                    optional: false,
-                  },
-                },
-              ],
-            },
-          },
-        ],
-        sourceType: 'module',
-      },
+      estree: acorn.parse(
+        `
+function ${propsPlacerName}(toc, componentName) {
+  const componentProps = partialProps.filter((partialProp) => partialProp.componentName === componentName)
+
+  return toc.map((tocItem) => {
+    let value = tocItem.value
+    for (let componentProp of componentProps) {
+      value = value.replace('props.' + componentProp.propName, componentProp.propValue);
+    }
+
+    return {
+      ...tocItem,
+      value
+    }
+  })
+}
+      `,
+        {ecmaVersion: 8},
+      ) as Program,
     },
   };
 }
