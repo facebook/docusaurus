@@ -35,6 +35,7 @@ export type LoadContext = {
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
   outDir: string;
+  targetDir: string;
   /**
    * Directory where all source translations for the current locale can be found
    * in. Constructed with `i18n.path` + `i18n.currentLocale.path` (e.g.

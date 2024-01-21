@@ -12,6 +12,7 @@ import {
   escapePath,
   localizePath,
   DEFAULT_BUILD_DIR_NAME,
+  DEFAULT_TARGET_DIR,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
@@ -37,6 +38,8 @@ export type LoadContextOptions = {
   config?: string;
   /** Default is `i18n.defaultLocale` */
   locale?: string;
+  /** Custom target directory. Can be customized with `--target-dir` option */
+  targetDir?: string;
   /**
    * `true` means the paths will have the locale prepended; `false` means they
    * won't (useful for `yarn build -l zh-Hans` where the output should be
@@ -60,6 +63,7 @@ export async function loadContext(
     outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
     locale,
     config: customConfigFilePath,
+    targetDir: baseTargetDir = DEFAULT_TARGET_DIR,
   } = options;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
@@ -82,6 +86,8 @@ export async function loadContext(
     options,
     pathType: 'fs',
   });
+
+  const targetDir = baseTargetDir;
 
   const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
 
@@ -107,6 +113,7 @@ export async function loadContext(
     siteConfig,
     siteConfigPath,
     outDir,
+    targetDir,
     baseUrl,
     i18n,
     codeTranslations,
@@ -127,6 +134,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     siteConfig,
     siteConfigPath,
     outDir,
+    targetDir,
     baseUrl,
     i18n,
     localizationDir,
@@ -251,6 +259,7 @@ ${Object.entries(registry)
     siteMetadata,
     siteDir,
     outDir,
+    targetDir,
     baseUrl,
     i18n,
     localizationDir,
