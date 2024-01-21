@@ -16,7 +16,7 @@ import {build} from './build';
 
 export type DeployCLIOptions = Pick<
   LoadContextOptions,
-  'config' | 'locale' | 'outDir'
+  'config' | 'locale' | 'outDir' | 'targetDir'
 > & {
   skipBuild?: boolean;
 };
@@ -46,10 +46,11 @@ export async function deploy(
 ): Promise<void> {
   const siteDir = await fs.realpath(siteDirParam);
 
-  const {outDir, siteConfig, siteConfigPath} = await loadContext({
+  const {outDir, siteConfig, siteConfigPath, targetDir} = await loadContext({
     siteDir,
     config: cliOptions.config,
     outDir: cliOptions.outDir,
+    targetDir: cliOptions.targetDir,
   });
 
   if (typeof siteConfig.trailingSlash === 'undefined') {
@@ -184,33 +185,31 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   // out to deployment branch.
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
-  const runDeploy = async (outputDirectory: string) => {
+  const runDeploy = async (
+    outputDirectory: string,
+    targetDirectory: string,
+  ) => {
     const fromPath = outputDirectory;
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
     shell.cd(toPath);
 
-    // Check out deployment branch when cloning repository, and then remove all
-    // the files in the directory. If the 'clone' command fails, assume that
-    // the deployment branch doesn't exist, and initialize git in an empty
-    // directory, check out a clean deployment branch and add remote.
-    if (
-      shellExecLog(
-        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
-      ).code === 0
-    ) {
-      shellExecLog('git rm -rf .');
-    } else {
-      shellExecLog('git init');
-      shellExecLog(`git checkout -b ${deploymentBranch}`);
-      shellExecLog(`git remote add origin ${deploymentRepoURL}`);
-    }
+    // Clones the deployment repository, then checks out the deployment
+    // branch and removes all files in the target directory.
+    // If the branch doesn't exist, it is created.
+    // This preserves the existing files outside of the target directory
+    // from being modified.
+    shellExecLog(`git clone --depth 1 ${deploymentRepoURL} .`);
+    shellExecLog(`git checkout -B ${deploymentBranch}`);
+    shellExecLog(`git remote add origin ${deploymentRepoURL}`);
+    shellExecLog(`git rm -rf ${targetDirectory}`);
 
+    const targetPath = path.join(toPath, targetDirectory);
     try {
-      await fs.copy(fromPath, toPath);
+      await fs.copy(fromPath, targetPath);
     } catch (err) {
-      logger.error`Copying build assets from path=${fromPath} to path=${toPath} failed.`;
+      logger.error`Copying build assets from path=${fromPath} to path=${targetPath} failed.`;
       throw err;
     }
     shellExecLog('git add --all');
@@ -254,13 +253,15 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   if (!cliOptions.skipBuild) {
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
-      await build(siteDir, cliOptions, false).then(runDeploy);
+      await build(siteDir, cliOptions, false).then((buildDir) =>
+        runDeploy(buildDir, targetDir),
+      );
     } catch (err) {
       logger.error('Deployment of the build output failed.');
       throw err;
     }
   } else {
     // Push current build to deploymentBranch branch of specified repo.
-    await runDeploy(outDir);
+    await runDeploy(outDir, targetDir);
   }
 }
