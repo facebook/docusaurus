@@ -42,19 +42,20 @@ function getBrokenLinksForPage({
 
   function isPathBrokenLink(linkPath: URLPath) {
     const pathnames = [linkPath.pathname, decodeURI(linkPath.pathname)];
-    const matchedRoutes = pathnames
-      // @ts-expect-error: React router types RouteConfig with an actual React
-      // component, but we load route components with string paths.
-      // We don't actually access component here, so it's fine.
-      .map((l) => matchRoutes(routes, l))
-      .flat();
-    // The link path is broken if:
-    // - it doesn't match any route
-    // - it doesn't match any collected path
-    return (
-      matchedRoutes.length === 0 &&
-      !pathnames.some((p) => allCollectedPaths.has(p))
-    );
+
+    // A link that matches an existing collected path is valid
+    if (pathnames.some((p) => allCollectedPaths.has(p))) {
+      return false;
+    }
+
+    // @ts-expect-error: React router types RouteConfig with an actual React
+    // component, but we load route components with string paths.
+    // We don't actually access component here, so it's fine.
+    if (pathnames.some((p) => matchRoutes(routes, p).length > 0)) {
+      return false;
+    }
+
+    return true;
   }
 
   function isAnchorBrokenLink(linkPath: URLPath) {
