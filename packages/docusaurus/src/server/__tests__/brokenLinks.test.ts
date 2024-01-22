@@ -718,4 +718,63 @@ describe('handleBrokenLinks', () => {
       "
     `);
   });
+
+  it('is fast enough', async () => {
+    const scale = 2000;
+
+    const routes: SimpleRoute[] = [
+      ...Array.from<SimpleRoute>({length: scale}).fill({
+        path: '/pageCollected',
+      }),
+      ...Array.from<SimpleRoute>({length: scale}).fill({
+        path: '/pageUncollected',
+      }),
+      ...Array.from<SimpleRoute>({length: scale}).fill({
+        path: '/pageDynamic1/:subpath1',
+      }),
+      ...Array.from<SimpleRoute>({length: scale}).fill({
+        path: '/pageDynamic2/:subpath2',
+      }),
+    ];
+
+    const collectedLinks: Params['collectedLinks'] = {
+      '/pageCollected': {
+        links: ['/pageUncollected'],
+        anchors: ['pageCollectedAnchor'],
+      },
+    };
+
+    Array.from({length: scale}).forEach((_, i) => {
+      collectedLinks[`/pageCollected${i}`] = {
+        links: [
+          '/pageCollected',
+          '/pageUncollected',
+          ...Array.from<string>({length: scale}).fill(
+            '/pageCollected#pageCollectedAnchor',
+          ),
+          ...Array.from<string>({length: scale}).fill(
+            `/pageCollected?age=${i}`,
+          ),
+
+          // We keep those static (not using "i")
+          // because we can't optimize dynamic links
+          '/pageDynamic1/staticSubPath1',
+          '/pageDynamic2/staticSubPath2',
+        ],
+        anchors: ['anyAnchor'],
+      };
+    });
+
+    const timeBefore = Date.now();
+    await testBrokenLinks({
+      routes,
+      collectedLinks,
+    });
+    const timeAfter = Date.now();
+
+    // Not sure if it's super elegant but we tst for JS execution time here
+    // See https://twitter.com/sebastienlorber/status/1749392773415858587
+    // On Mac M1 execution changed from 10s to 200ms after my optimizations
+    expect(timeAfter - timeBefore).toBeLessThan(3000);
+  });
 });

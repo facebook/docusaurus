@@ -7,10 +7,17 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {matchRoutes} from 'react-router-config';
+import {matchRoutes as reactRouterMatchRoutes} from 'react-router-config';
 import {parseURLPath, serializeURLPath, type URLPath} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+
+function matchRoutes(routeConfig: RouteConfig[], pathname: string) {
+  // @ts-expect-error: React router types RouteConfig with an actual React
+  // component, but we load route components with string paths.
+  // We don't actually access component here, so it's fine.
+  return reactRouterMatchRoutes(routeConfig, pathname);
+}
 
 type BrokenLink = {
   link: string;
@@ -26,89 +33,113 @@ type CollectedLinks = {
   [pathname: string]: {links: string[]; anchors: string[]};
 };
 
-function getBrokenLinksForPage({
+type BrokenLinksHelper = {
+  collectedLinks: CollectedLinks;
+  isPathBrokenLink: (linkPath: URLPath) => boolean;
+  isAnchorBrokenLink: (linkPath: URLPath) => boolean;
+};
+
+function createBrokenLinksHelper({
   collectedLinks,
-  pagePath,
-  pageLinks,
   routes,
 }: {
   collectedLinks: CollectedLinks;
-  pagePath: string;
-  pageLinks: string[];
-  pageAnchors: string[];
   routes: RouteConfig[];
-}): BrokenLink[] {
-  const allCollectedPaths = new Set(Object.keys(collectedLinks));
+}): BrokenLinksHelper {
+  const validPathnames = new Set(Object.keys(collectedLinks));
+
+  // Matching against the route array can be expensive
+  // If the route is already in the valid pathnames,
+  // we can avoid matching against it as an optimization
+  const remainingRoutes = routes.filter(
+    (route) => !validPathnames.has(route.path),
+  );
+
+  function isPathnameMatchingAnyRoute(pathname: string): boolean {
+    if (matchRoutes(remainingRoutes, pathname).length > 0) {
+      // IMPORTANT: this is an optimization here
+      // See https://github.com/facebook/docusaurus/issues/9754
+      // Large Docusaurus sites have many routes!
+      // We try to minimize calls to a possibly expensive matchRoutes function
+      validPathnames.add(pathname);
+      return true;
+    }
+
+    return false;
+  }
 
   function isPathBrokenLink(linkPath: URLPath) {
     const pathnames = [linkPath.pathname, decodeURI(linkPath.pathname)];
-
-    // A link that matches an existing collected path is valid
-    if (pathnames.some((p) => allCollectedPaths.has(p))) {
+    if (pathnames.some((p) => validPathnames.has(p))) {
       return false;
     }
-
-    // @ts-expect-error: React router types RouteConfig with an actual React
-    // component, but we load route components with string paths.
-    // We don't actually access component here, so it's fine.
-    if (pathnames.some((p) => matchRoutes(routes, p).length > 0)) {
+    if (pathnames.some(isPathnameMatchingAnyRoute)) {
       return false;
     }
-
     return true;
   }
 
   function isAnchorBrokenLink(linkPath: URLPath) {
     const {pathname, hash} = linkPath;
-
     // Link has no hash: it can't be a broken anchor link
     if (hash === undefined) {
       return false;
     }
-
     // Link has empty hash ("#", "/page#"...): we do not report it as broken
     // Empty hashes are used for various weird reasons, by us and other users...
     // See for example: https://github.com/facebook/docusaurus/pull/6003
     if (hash === '') {
       return false;
     }
-
     const targetPage =
       collectedLinks[pathname] || collectedLinks[decodeURI(pathname)];
-
     // link with anchor to a page that does not exist (or did not collect any
     // link/anchor) is considered as a broken anchor
     if (!targetPage) {
       return true;
     }
-
     // it's a broken anchor if the target page exists
     // but the anchor does not exist on that page
     const hashes = [hash, decodeURIComponent(hash)];
     return !targetPage.anchors.some((anchor) => hashes.includes(anchor));
   }
 
-  const brokenLinks = pageLinks.flatMap((link) => {
+  return {
+    collectedLinks,
+    isPathBrokenLink,
+    isAnchorBrokenLink,
+  };
+}
+
+function getBrokenLinksForPage({
+  pagePath,
+  helper,
+}: {
+  pagePath: string;
+  helper: BrokenLinksHelper;
+}): BrokenLink[] {
+  const pageData = helper.collectedLinks[pagePath]!;
+
+  // If a link is present twice in page, it's not useful to process it twice
+  const uniqueLinks = _.uniq(pageData.links);
+
+  const brokenLinks: BrokenLink[] = [];
+
+  uniqueLinks.forEach((link) => {
     const linkPath = parseURLPath(link, pagePath);
-    if (isPathBrokenLink(linkPath)) {
-      return [
-        {
-          link,
-          resolvedLink: serializeURLPath(linkPath),
-          anchor: false,
-        },
-      ];
+    if (helper.isPathBrokenLink(linkPath)) {
+      brokenLinks.push({
+        link,
+        resolvedLink: serializeURLPath(linkPath),
+        anchor: false,
+      });
+    } else if (helper.isAnchorBrokenLink(linkPath)) {
+      brokenLinks.push({
+        link,
+        resolvedLink: serializeURLPath(linkPath),
+        anchor: true,
+      });
     }
-    if (isAnchorBrokenLink(linkPath)) {
-      return [
-        {
-          link,
-          resolvedLink: serializeURLPath(linkPath),
-          anchor: true,
-        },
-      ];
-    }
-    return [];
   });
 
   return brokenLinks;
@@ -134,14 +165,16 @@ function getBrokenLinks({
 }): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  return _.mapValues(collectedLinks, (pageCollectedData, pagePath) => {
+  const helper = createBrokenLinksHelper({
+    collectedLinks,
+    routes: filteredRoutes,
+  });
+
+  return _.mapValues(collectedLinks, (_unused, pagePath) => {
     try {
       return getBrokenLinksForPage({
-        collectedLinks,
-        pageLinks: pageCollectedData.links,
-        pageAnchors: pageCollectedData.anchors,
         pagePath,
-        routes: filteredRoutes,
+        helper,
       });
     } catch (e) {
       throw new Error(`Unable to get broken links for page ${pagePath}.`, {
