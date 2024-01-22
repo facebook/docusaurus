@@ -33,8 +33,15 @@ type CollectedLinks = {
   [pathname: string]: {links: string[]; anchors: string[]};
 };
 
+// We use efficient data structures for performance reasons
+// See https://github.com/facebook/docusaurus/issues/9754
+type CollectedLinksNormalized = Map<
+  string,
+  {links: Set<string>; anchors: Set<string>}
+>;
+
 type BrokenLinksHelper = {
-  collectedLinks: CollectedLinks;
+  collectedLinks: CollectedLinksNormalized;
   isPathBrokenLink: (linkPath: URLPath) => boolean;
   isAnchorBrokenLink: (linkPath: URLPath) => boolean;
 };
@@ -43,10 +50,10 @@ function createBrokenLinksHelper({
   collectedLinks,
   routes,
 }: {
-  collectedLinks: CollectedLinks;
+  collectedLinks: CollectedLinksNormalized;
   routes: RouteConfig[];
 }): BrokenLinksHelper {
-  const validPathnames = new Set(Object.keys(collectedLinks));
+  const validPathnames = new Set(collectedLinks.keys());
 
   // Matching against the route array can be expensive
   // If the route is already in the valid pathnames,
@@ -92,16 +99,20 @@ function createBrokenLinksHelper({
       return false;
     }
     const targetPage =
-      collectedLinks[pathname] || collectedLinks[decodeURI(pathname)];
+      collectedLinks.get(pathname) || collectedLinks.get(decodeURI(pathname));
     // link with anchor to a page that does not exist (or did not collect any
     // link/anchor) is considered as a broken anchor
     if (!targetPage) {
       return true;
     }
-    // it's a broken anchor if the target page exists
-    // but the anchor does not exist on that page
-    const hashes = [hash, decodeURIComponent(hash)];
-    return !targetPage.anchors.some((anchor) => hashes.includes(anchor));
+    // it's a not broken anchor if the anchor exists on the target page
+    if (
+      targetPage.anchors.has(hash) ||
+      targetPage.anchors.has(decodeURIComponent(hash))
+    ) {
+      return false;
+    }
+    return true;
   }
 
   return {
@@ -118,14 +129,11 @@ function getBrokenLinksForPage({
   pagePath: string;
   helper: BrokenLinksHelper;
 }): BrokenLink[] {
-  const pageData = helper.collectedLinks[pagePath]!;
-
-  // If a link is present twice in page, it's not useful to process it twice
-  const uniqueLinks = _.uniq(pageData.links);
+  const pageData = helper.collectedLinks.get(pagePath)!;
 
   const brokenLinks: BrokenLink[] = [];
 
-  uniqueLinks.forEach((link) => {
+  pageData.links.forEach((link) => {
     const linkPath = parseURLPath(link, pagePath);
     if (helper.isPathBrokenLink(linkPath)) {
       brokenLinks.push({
@@ -160,7 +168,7 @@ function getBrokenLinks({
   collectedLinks,
   routes,
 }: {
-  collectedLinks: CollectedLinks;
+  collectedLinks: CollectedLinksNormalized;
   routes: RouteConfig[];
 }): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
@@ -170,9 +178,10 @@ function getBrokenLinks({
     routes: filteredRoutes,
   });
 
-  return _.mapValues(collectedLinks, (_unused, pagePath) => {
+  const result: BrokenLinksMap = {};
+  collectedLinks.forEach((_unused, pagePath) => {
     try {
-      return getBrokenLinksForPage({
+      result[pagePath] = getBrokenLinksForPage({
         pagePath,
         helper,
       });
@@ -182,6 +191,7 @@ function getBrokenLinks({
       });
     }
   });
+  return result;
 }
 
 function brokenLinkMessage(brokenLink: BrokenLink): string {
@@ -337,15 +347,22 @@ function reportBrokenLinks({
 // JS users might call "collectLink(undefined)" for example
 // TS users might call "collectAnchor('#hash')" with/without #
 // We clean/normalize the collected data to avoid obscure errors being thrown
+// We also use optimized data structures for a faster algorithm
 function normalizeCollectedLinks(
   collectedLinks: CollectedLinks,
-): CollectedLinks {
-  return _.mapValues(collectedLinks, (pageCollectedData) => ({
-    links: pageCollectedData.links.filter(_.isString),
-    anchors: pageCollectedData.anchors
-      .filter(_.isString)
-      .map((anchor) => (anchor.startsWith('#') ? anchor.slice(1) : anchor)),
-  }));
+): CollectedLinksNormalized {
+  const result: CollectedLinksNormalized = new Map();
+  Object.entries(collectedLinks).forEach(([pathname, pageCollectedData]) => {
+    result.set(pathname, {
+      links: new Set(pageCollectedData.links.filter(_.isString)),
+      anchors: new Set(
+        pageCollectedData.anchors
+          .filter(_.isString)
+          .map((anchor) => (anchor.startsWith('#') ? anchor.slice(1) : anchor)),
+      ),
+    });
+  });
+  return result;
 }
 
 export async function handleBrokenLinks({

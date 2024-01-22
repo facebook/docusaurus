@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import reactRouterConfig from 'react-router-config';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
 
@@ -719,62 +720,59 @@ describe('handleBrokenLinks', () => {
     `);
   });
 
-  it('is fast enough', async () => {
-    const scale = 2000;
+  it('is performant and minimize calls to matchRoutes', async () => {
+    const matchRoutesMock = jest.spyOn(reactRouterConfig, 'matchRoutes');
+
+    const scale = 100;
 
     const routes: SimpleRoute[] = [
+      ...Array.from<SimpleRoute>({length: scale}).map((_, i) => ({
+        path: `/page${i}`,
+      })),
       ...Array.from<SimpleRoute>({length: scale}).fill({
-        path: '/pageCollected',
-      }),
-      ...Array.from<SimpleRoute>({length: scale}).fill({
-        path: '/pageUncollected',
-      }),
-      ...Array.from<SimpleRoute>({length: scale}).fill({
-        path: '/pageDynamic1/:subpath1',
-      }),
-      ...Array.from<SimpleRoute>({length: scale}).fill({
-        path: '/pageDynamic2/:subpath2',
+        path: '/pageDynamic/:subpath1',
       }),
     ];
 
-    const collectedLinks: Params['collectedLinks'] = {
-      '/pageCollected': {
-        links: ['/pageUncollected'],
-        anchors: ['pageCollectedAnchor'],
-      },
-    };
+    const collectedLinks: Params['collectedLinks'] = Object.fromEntries(
+      Array.from<SimpleRoute>({length: scale}).map((_, i) => [
+          `/page${i}`,
+          {
+            links: [
+              ...Array.from<SimpleRoute>({length: scale}).flatMap((_2, j) => [
+                `/page${j}`,
+                `/page${j}?age=42`,
+                `/page${j}#anchor${j}`,
+                `/page${j}?age=42#anchor${j}`,
+                `/pageDynamic/subPath${j}`,
+                `/pageDynamic/subPath${j}?age=42`,
+                // `/pageDynamic/subPath${j}#anchor${j}`,
+                // `/pageDynamic/subPath${j}?age=42#anchor${j}`,
+              ]),
+            ],
+            anchors: Array.from<SimpleRoute>({length: scale}).map(
+              (_2, j) => `anchor${j}`,
+            ),
+          },
+        ]),
+    );
 
-    Array.from({length: scale}).forEach((_, i) => {
-      collectedLinks[`/pageCollected${i}`] = {
-        links: [
-          '/pageCollected',
-          '/pageUncollected',
-          ...Array.from<string>({length: scale}).fill(
-            '/pageCollected#pageCollectedAnchor',
-          ),
-          ...Array.from<string>({length: scale}).fill(
-            `/pageCollected?age=${i}`,
-          ),
-
-          // We keep those static (not using "i")
-          // because we can't optimize dynamic links
-          '/pageDynamic1/staticSubPath1',
-          '/pageDynamic2/staticSubPath2',
-        ],
-        anchors: ['anyAnchor'],
-      };
-    });
-
-    const timeBefore = Date.now();
+    // console.time('testBrokenLinks');
     await testBrokenLinks({
       routes,
       collectedLinks,
     });
-    const timeAfter = Date.now();
+    // console.timeEnd('testBrokenLinks');
 
-    // Not sure if it's super elegant but we tst for JS execution time here
+    // Idiomatic code calling matchRoutes multiple times is not performant
+    // We try to minimize the calls to this expensive function
+    // Otherwise large sites will have super long execution times
+    // See https://github.com/facebook/docusaurus/issues/9754
     // See https://twitter.com/sebastienlorber/status/1749392773415858587
-    // On Mac M1 execution changed from 10s to 200ms after my optimizations
-    expect(timeAfter - timeBefore).toBeLessThan(3000);
+    // We expect no more matchRoutes calls than number of dynamic route links
+    expect(matchRoutesMock).toHaveBeenCalledTimes(scale);
+    // We expect matchRoutes to be called with a reduced number of routes
+    expect(routes).toHaveLength(scale * 2);
+    expect(matchRoutesMock.mock.calls[0]![0]).toHaveLength(scale);
   });
 });
