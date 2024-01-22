@@ -736,25 +736,25 @@ describe('handleBrokenLinks', () => {
 
     const collectedLinks: Params['collectedLinks'] = Object.fromEntries(
       Array.from<SimpleRoute>({length: scale}).map((_, i) => [
-          `/page${i}`,
-          {
-            links: [
-              ...Array.from<SimpleRoute>({length: scale}).flatMap((_2, j) => [
-                `/page${j}`,
-                `/page${j}?age=42`,
-                `/page${j}#anchor${j}`,
-                `/page${j}?age=42#anchor${j}`,
-                `/pageDynamic/subPath${j}`,
-                `/pageDynamic/subPath${j}?age=42`,
-                // `/pageDynamic/subPath${j}#anchor${j}`,
-                // `/pageDynamic/subPath${j}?age=42#anchor${j}`,
-              ]),
-            ],
-            anchors: Array.from<SimpleRoute>({length: scale}).map(
-              (_2, j) => `anchor${j}`,
-            ),
-          },
-        ]),
+        `/page${i}`,
+        {
+          links: [
+            ...Array.from<SimpleRoute>({length: scale}).flatMap((_2, j) => [
+              `/page${j}`,
+              `/page${j}?age=42`,
+              `/page${j}#anchor${j}`,
+              `/page${j}?age=42#anchor${j}`,
+              `/pageDynamic/subPath${j}`,
+              `/pageDynamic/subPath${j}?age=42`,
+              // `/pageDynamic/subPath${j}#anchor${j}`,
+              // `/pageDynamic/subPath${j}?age=42#anchor${j}`,
+            ]),
+          ],
+          anchors: Array.from<SimpleRoute>({length: scale}).map(
+            (_2, j) => `anchor${j}`,
+          ),
+        },
+      ]),
     );
 
     // console.time('testBrokenLinks');
