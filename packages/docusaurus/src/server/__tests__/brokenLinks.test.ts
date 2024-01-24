@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import reactRouterConfig from 'react-router-config';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
 
@@ -717,5 +718,61 @@ describe('handleBrokenLinks', () => {
          -> linking to ./relativeFrequentBrokenLink (resolved as: /dir/relativeFrequentBrokenLink)
       "
     `);
+  });
+
+  it('is performant and minimize calls to matchRoutes', async () => {
+    const matchRoutesMock = jest.spyOn(reactRouterConfig, 'matchRoutes');
+
+    const scale = 100;
+
+    const routes: SimpleRoute[] = [
+      ...Array.from<SimpleRoute>({length: scale}).map((_, i) => ({
+        path: `/page${i}`,
+      })),
+      ...Array.from<SimpleRoute>({length: scale}).fill({
+        path: '/pageDynamic/:subpath1',
+      }),
+    ];
+
+    const collectedLinks: Params['collectedLinks'] = Object.fromEntries(
+      Array.from<SimpleRoute>({length: scale}).map((_, i) => [
+        `/page${i}`,
+        {
+          links: [
+            ...Array.from<SimpleRoute>({length: scale}).flatMap((_2, j) => [
+              `/page${j}`,
+              `/page${j}?age=42`,
+              `/page${j}#anchor${j}`,
+              `/page${j}?age=42#anchor${j}`,
+              `/pageDynamic/subPath${j}`,
+              `/pageDynamic/subPath${j}?age=42`,
+              // `/pageDynamic/subPath${j}#anchor${j}`,
+              // `/pageDynamic/subPath${j}?age=42#anchor${j}`,
+            ]),
+          ],
+          anchors: Array.from<SimpleRoute>({length: scale}).map(
+            (_2, j) => `anchor${j}`,
+          ),
+        },
+      ]),
+    );
+
+    // console.time('testBrokenLinks');
+    await testBrokenLinks({
+      routes,
+      collectedLinks,
+    });
+    // console.timeEnd('testBrokenLinks');
+
+    // Idiomatic code calling matchRoutes multiple times is not performant
+    // We try to minimize the calls to this expensive function
+    // Otherwise large sites will have super long execution times
+    // See https://github.com/facebook/docusaurus/issues/9754
+    // See https://twitter.com/sebastienlorber/status/1749392773415858587
+    // We expect no more matchRoutes calls than number of dynamic route links
+    expect(matchRoutesMock).toHaveBeenCalledTimes(scale);
+    // We expect matchRoutes to be called with a reduced number of routes
+    expect(routes).toHaveLength(scale * 2);
+    expect(matchRoutesMock.mock.calls[0]![0]).toHaveLength(scale);
   });
 });
