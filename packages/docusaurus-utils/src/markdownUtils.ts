@@ -70,9 +70,9 @@ export function escapeMarkdownHeadingIds(content: string): string {
 export function unwrapMdxCodeBlocks(content: string): string {
   // We only support 3/4 backticks on purpose, should be good enough
   const regexp3 =
-    /(?<begin>^|\n)```mdx-code-block\n(?<children>.*?)\n```(?<end>\n|$)/gs;
+    /(?<begin>^|\n)```(?<spaces>\x20*)mdx-code-block\n(?<children>.*?)\n```(?<end>\n|$)/gs;
   const regexp4 =
-    /(?<begin>^|\n)````mdx-code-block\n(?<children>.*?)\n````(?<end>\n|$)/gs;
+    /(?<begin>^|\n)````(?<spaces>\x20*)mdx-code-block\n(?<children>.*?)\n````(?<end>\n|$)/gs;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const replacer = (substring: string, ...args: any[]) => {
