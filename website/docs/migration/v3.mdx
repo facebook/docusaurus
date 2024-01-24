@@ -980,12 +980,12 @@ This syntax is now invalid MDX, and would require to escape the `{` character: `
 
 We recommend to keep this compatibility option on for now, until we provide a new syntax compatible with newer versions of MDX.
 
-## Ask For Help
+## Troubleshooting
 
 In case of any upgrade problem, the first things to try are:
 
 - make sure all your docs compile in the [MDX playground](https://mdxjs.com/playground/), or using [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker)
-- delete `node_modules` and run `npm install` again
+- delete `node_modules` and `package-lock.json`, and then run `npm install` again
 - run `docusaurus clear` to clear the caches
 - remove third-party plugins that might not support Docusaurus v3
 - delete all your swizzled components
