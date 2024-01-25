@@ -48,6 +48,36 @@ describe('handleBrokenLinks', () => {
     });
   });
 
+  it('accepts valid non-exact link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1', exact: false}, {path: '/page2/'}],
+      collectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            '/page1/',
+            '/page2',
+            '/page2/',
+            '/page1/subPath',
+            '/page2/subPath',
+          ],
+          anchors: [],
+        },
+        '/page2/': {
+          links: [
+            '/page1',
+            '/page1/',
+            '/page2',
+            '/page2/',
+            '/page1/subPath',
+            '/page2/subPath',
+          ],
+          anchors: [],
+        },
+      },
+    });
+  });
+
   it('accepts valid non-strict link', async () => {
     await testBrokenLinks({
       routes: [{path: '/page1', strict: false}, {path: '/page2/'}],
