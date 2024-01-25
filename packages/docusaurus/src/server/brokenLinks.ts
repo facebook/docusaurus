@@ -8,7 +8,13 @@
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {matchRoutes as reactRouterMatchRoutes} from 'react-router-config';
-import {parseURLPath, serializeURLPath, type URLPath} from '@docusaurus/utils';
+import {
+  addTrailingSlash,
+  parseURLPath,
+  removeTrailingSlash,
+  serializeURLPath,
+  type URLPath,
+} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
@@ -55,16 +61,37 @@ function createBrokenLinksHelper({
 }): BrokenLinksHelper {
   const validPathnames = new Set(collectedLinks.keys());
 
+  // IMPORTANT: this is an optimization
+  // See https://github.com/facebook/docusaurus/issues/9754
   // Matching against the route array can be expensive
   // If the route is already in the valid pathnames,
-  // we can avoid matching against it as an optimization
-  const remainingRoutes = routes.filter(
-    (route) => !validPathnames.has(route.path),
-  );
+  // we can avoid matching against it
+  const remainingRoutes = (function filterRoutes() {
+    // Goal: unit tests should behave the same with this enabled or disabled
+    const disableOptimization = false;
+    if (disableOptimization) {
+      return routes;
+    }
+    // We must consider the "exact" and "strict" match attribute
+    // We can only infer pre-validated pathnames from a route from exact routes
+    const [validPathnameRoutes, otherRoutes] = _.partition(
+      routes,
+      (route) => route.exact && validPathnames.has(route.path),
+    );
+    // If a route is non-strict (non-sensitive to trailing slashes)
+    // We must pre-validate all possible paths
+    validPathnameRoutes.forEach((validPathnameRoute) => {
+      if (!validPathnameRoute.strict) {
+        validPathnames.add(addTrailingSlash(validPathnameRoute.path));
+        validPathnames.add(removeTrailingSlash(validPathnameRoute.path));
+      }
+    });
+    return otherRoutes;
+  })();
 
   function isPathnameMatchingAnyRoute(pathname: string): boolean {
     if (matchRoutes(remainingRoutes, pathname).length > 0) {
-      // IMPORTANT: this is an optimization here
+      // IMPORTANT: this is an optimization
       // See https://github.com/facebook/docusaurus/issues/9754
       // Large Docusaurus sites have many routes!
       // We try to minimize calls to a possibly expensive matchRoutes function

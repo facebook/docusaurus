@@ -13,7 +13,12 @@ import type {RouteConfig} from '@docusaurus/types';
 type Params = Parameters<typeof handleBrokenLinks>[0];
 
 // We don't need all the routes attributes for our tests
-type SimpleRoute = {path: string; routes?: SimpleRoute[]};
+type SimpleRoute = {
+  path: string;
+  routes?: SimpleRoute[];
+  exact?: boolean;
+  strict?: boolean;
+};
 
 // Conveniently apply defaults to function under test
 async function testBrokenLinks(params: {
@@ -39,6 +44,52 @@ describe('handleBrokenLinks', () => {
       collectedLinks: {
         '/page1': {links: ['/page2'], anchors: []},
         '/page2': {links: [], anchors: []},
+      },
+    });
+  });
+
+  it('accepts valid non-exact link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1', exact: false}, {path: '/page2/'}],
+      collectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            '/page1/',
+            '/page2',
+            '/page2/',
+            '/page1/subPath',
+            '/page2/subPath',
+          ],
+          anchors: [],
+        },
+        '/page2/': {
+          links: [
+            '/page1',
+            '/page1/',
+            '/page2',
+            '/page2/',
+            '/page1/subPath',
+            '/page2/subPath',
+          ],
+          anchors: [],
+        },
+      },
+    });
+  });
+
+  it('accepts valid non-strict link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1', strict: false}, {path: '/page2/'}],
+      collectedLinks: {
+        '/page1': {
+          links: ['/page1', '/page1/', '/page2', '/page2/'],
+          anchors: [],
+        },
+        '/page2/': {
+          links: ['/page1', '/page1/', '/page2', '/page2/'],
+          anchors: [],
+        },
       },
     });
   });
@@ -288,6 +339,76 @@ describe('handleBrokenLinks', () => {
       Exhaustive list of all broken links found:
       - Broken link on source page path = /page1:
          -> linking to /brokenLink
+      "
+    `);
+  });
+
+  it('rejects broken link due to strict matching', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [
+          {path: '/page1', strict: true},
+          {path: '/page2/', strict: true},
+        ],
+
+        collectedLinks: {
+          '/page1': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+          '/page2/': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page2
+      - Broken link on source page path = /page2/:
+         -> linking to /page2
+      "
+    `);
+  });
+
+  it('rejects broken link due to strict exact matching', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [
+          {path: '/page1', exact: true, strict: true},
+          {path: '/page2/', exact: true, strict: true},
+        ],
+
+        collectedLinks: {
+          '/page1': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+          '/page2/': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page1/
+         -> linking to /page2
+      - Broken link on source page path = /page2/:
+         -> linking to /page1/
+         -> linking to /page2
       "
     `);
   });
@@ -728,6 +849,10 @@ describe('handleBrokenLinks', () => {
     const routes: SimpleRoute[] = [
       ...Array.from<SimpleRoute>({length: scale}).map((_, i) => ({
         path: `/page${i}`,
+        exact: true,
+      })),
+      ...Array.from<SimpleRoute>({length: scale}).map((_, i) => ({
+        path: `/page/nonExact/${i}`,
       })),
       ...Array.from<SimpleRoute>({length: scale}).fill({
         path: '/pageDynamic/:subpath1',
@@ -741,6 +866,7 @@ describe('handleBrokenLinks', () => {
           links: [
             ...Array.from<SimpleRoute>({length: scale}).flatMap((_2, j) => [
               `/page${j}`,
+              `/page/nonExact/${j}`,
               `/page${j}?age=42`,
               `/page${j}#anchor${j}`,
               `/page${j}?age=42#anchor${j}`,
@@ -770,9 +896,9 @@ describe('handleBrokenLinks', () => {
     // See https://github.com/facebook/docusaurus/issues/9754
     // See https://twitter.com/sebastienlorber/status/1749392773415858587
     // We expect no more matchRoutes calls than number of dynamic route links
-    expect(matchRoutesMock).toHaveBeenCalledTimes(scale);
+    expect(matchRoutesMock).toHaveBeenCalledTimes(scale * 2);
     // We expect matchRoutes to be called with a reduced number of routes
-    expect(routes).toHaveLength(scale * 2);
-    expect(matchRoutesMock.mock.calls[0]![0]).toHaveLength(scale);
+    expect(routes).toHaveLength(scale * 3);
+    expect(matchRoutesMock.mock.calls[0]![0]).toHaveLength(scale * 2);
   });
 });
