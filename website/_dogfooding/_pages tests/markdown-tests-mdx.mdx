@@ -361,6 +361,37 @@ See [#3309](https://github.com/facebook/docusaurus/issues/3309)
 
 - [pathname://../dogfooding/javadoc/index.html](pathname://../dogfooding/javadoc/index.html)
 
+### Linking to non-SPA page with Link component
+
+See [#9758](https://github.com/facebook/docusaurus/issues/9758), these external urls should not be reported by the broken links checker:
+
+```mdx-code-block
+import Link from '@docusaurus/Link';
+
+export function TestLink({noCheck, ...props}) {
+  return (
+    <Link {...props} data-noBrokenLinkCheck={noCheck}>
+      {(noCheck ? '❌' : '✅') +
+        ' ' +
+        (props.to ?? props.href) +
+        (props.target ? ` (target=${props.target})` : '')}
+    </Link>
+  );
+}
+```
+
+- <TestLink to="pathname:///dogfooding/javadoc#goodlink1" />
+- <TestLink href="pathname:///dogfooding/javadoc#goodlink2" />
+- <TestLink to="/dogfooding/javadoc#goodlink3" target="_blank" />
+- <TestLink href="/dogfooding/javadoc#goodlink4" target="_blank" />
+
+These links are broken (try to single click on them) and should be reported. We need to explicitly disable the broken link checker for them:
+
+- <TestLink to="/dogfooding/javadoc#badlink1" noCheck />
+- <TestLink href="/dogfooding/javadoc#badlink2" noCheck />
+- <TestLink to="/dogfooding/javadoc#badlink3" target="_self" noCheck />
+- <TestLink href="/dogfooding/javadoc#badlink4" target="_self" noCheck />
+
 ### Linking to JSON
 
 - [./script.js](./_script.js)
