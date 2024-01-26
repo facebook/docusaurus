@@ -13,13 +13,12 @@ import {
   DOCUSAURUS_VERSION,
 } from '@docusaurus/utils';
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
-import StaticSiteGeneratorPlugin, {
-  type Locals,
-} from '@slorber/static-site-generator-webpack-plugin';
 import WebpackBar from 'webpackbar';
+import StaticSiteGeneratorWebpackPlugin from './ssg';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import ssrDefaultTemplate from './templates/ssr.html.template';
+import type {ServerEntryParams} from '../types';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
@@ -27,7 +26,7 @@ export default async function createServerConfig({
   props,
   onLinksCollected,
   onHeadTagsCollected,
-}: Pick<Locals, 'onLinksCollected' | 'onHeadTagsCollected'> & {
+}: Pick<ServerEntryParams, 'onLinksCollected' | 'onHeadTagsCollected'> & {
   props: Props;
 }): Promise<Configuration> {
   const {
@@ -67,7 +66,7 @@ export default async function createServerConfig({
       }),
 
       // Static site generator webpack plugin.
-      new StaticSiteGeneratorPlugin({
+      new StaticSiteGeneratorWebpackPlugin({
         entry: 'main',
         locals: {
           baseUrl,
@@ -81,7 +80,7 @@ export default async function createServerConfig({
           ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
           noIndex,
           DOCUSAURUS_VERSION,
-        },
+        } satisfies ServerEntryParams,
         paths: ssgPaths,
         preferFoldersOutput: trailingSlash,
 

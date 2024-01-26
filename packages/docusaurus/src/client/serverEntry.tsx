@@ -23,7 +23,8 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
-import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
+
+import type {ServerEntryParams} from '../types';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -61,13 +62,13 @@ It might also require to wrap your client code in \`useEffect\` hook and/or impo
 }
 
 export default async function render(
-  locals: Locals & {path: string},
+  params: ServerEntryParams & {path: string},
 ): Promise<string> {
   try {
-    return await doRender(locals);
+    return await doRender(params);
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
-    const message = buildSSRErrorMessage({error, pathname: locals.path});
+    const message = buildSSRErrorMessage({error, pathname: params.path});
     const ssrError = new Error(message, {cause: error});
     // It is important to log the error here because the stacktrace causal chain
     // is not available anymore upper in the tree (this SSR runs in eval)
@@ -77,7 +78,7 @@ export default async function render(
 }
 
 // Renderer for static-site-generator-webpack-plugin (async rendering).
-async function doRender(locals: Locals & {path: string}) {
+async function doRender(params: ServerEntryParams & {path: string}) {
   const {
     routesLocation,
     headTags,
@@ -89,8 +90,8 @@ async function doRender(locals: Locals & {path: string}) {
     ssrTemplate,
     noIndex,
     DOCUSAURUS_VERSION,
-  } = locals;
-  const location = routesLocation[locals.path]!;
+  } = params;
+  const location = routesLocation[params.path]!;
   await preload(location);
   const modules = new Set<string>();
   const routerContext = {};
@@ -130,7 +131,7 @@ async function doRender(locals: Locals & {path: string}) {
   onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
 
-  const {generatedFilesDir} = locals;
+  const {generatedFilesDir} = params;
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
   // Using readJSON seems to fail for users of some plugins, possibly because of
   // the eval sandbox having a different `Buffer` instance (native one instead
@@ -178,7 +179,7 @@ async function doRender(locals: Locals & {path: string}) {
     });
   } catch (err) {
     // prettier-ignore
-    console.error(`Minification of page ${locals.path} failed.`);
+    console.error(`Minification of page ${params.path} failed.`);
     console.error(err);
     throw err;
   }

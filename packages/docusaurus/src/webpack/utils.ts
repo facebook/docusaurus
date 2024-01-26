@@ -266,7 +266,7 @@ declare global {
   }
 }
 
-export function compile(config: Configuration[]): Promise<void> {
+export function compile(config: Configuration[]): Promise<webpack.MultiStats> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -296,7 +296,7 @@ export function compile(config: Configuration[]): Promise<void> {
           logger.error(`Error while closing Webpack compiler: ${errClose}`);
           reject(errClose);
         } else {
-          resolve();
+          resolve(stats!);
         }
       });
     });
