@@ -1,5 +1,44 @@
 # Docusaurus 2 Changelog
 
+## 3.1.1 (2024-01-26)
+
+#### :bug: Bug Fix
+
+- `docusaurus-types`, `docusaurus`
+  - [#9791](https://github.com/facebook/docusaurus/pull/9791) fix(core): broken links optimization behaves differently than non-optimized logic ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#9788](https://github.com/facebook/docusaurus/pull/9788) fix(core): links with target "\_blank" should no be checked by the broken link checker ([@slorber](https://github.com/slorber))
+  - [#9407](https://github.com/facebook/docusaurus/pull/9407) fix(core): conditionally include `hostname` parameter when using… ([@jack-robson](https://github.com/jack-robson))
+- `docusaurus-utils`
+  - [#9776](https://github.com/facebook/docusaurus/pull/9776) fix(mdx-loader): allow spaces before `mdx-code-block` info string ([@eitsupi](https://github.com/eitsupi))
+- `create-docusaurus`
+  - [#9783](https://github.com/facebook/docusaurus/pull/9783) fix(create-docusaurus): fix typo in init template sample docs ([@dawei-wang](https://github.com/dawei-wang))
+- `docusaurus-theme-common`
+  - [#9727](https://github.com/facebook/docusaurus/pull/9727) fix(theme-common): fix missing code block MagicComments style in Visual Basic (.NET) 16 ([@tats-u](https://github.com/tats-u))
+- `docusaurus-theme-classic`, `docusaurus-theme-mermaid`
+  - [#9733](https://github.com/facebook/docusaurus/pull/9733) fix: remove old useless mdx typedefs ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#9732](https://github.com/facebook/docusaurus/pull/9732) fix(core): various broken anchor link fixes ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus`
+  - [#9778](https://github.com/facebook/docusaurus/pull/9778) perf(core): optimize broken links checker ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#9470](https://github.com/facebook/docusaurus/pull/9470) polish(theme): MDX images should use async decoding ([@sanjaiyan-dev](https://github.com/sanjaiyan-dev))
+
+#### Committers: 6
+
+- Jack Robson ([@jack-robson](https://github.com/jack-robson))
+- Sanjaiyan Parthipan ([@sanjaiyan-dev](https://github.com/sanjaiyan-dev))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tatsunori Uchino ([@tats-u](https://github.com/tats-u))
+- [@dawei-wang](https://github.com/dawei-wang)
+- [@eitsupi](https://github.com/eitsupi)
+
 ## 3.1.0 (2024-01-05)
 
 #### :rocket: New Feature
