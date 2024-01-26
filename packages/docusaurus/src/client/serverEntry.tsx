@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import path from 'path';
 import fs from 'fs-extra';
 // eslint-disable-next-line no-restricted-imports
 import _ from 'lodash';
@@ -25,6 +24,15 @@ import {
 } from './BrokenLinksContext';
 
 import type {ServerEntryParams} from '../types';
+
+// Result is cached for performance, this file can be heavy
+const readManifestAsync = _.memoize(async (manifestPath: string) => {
+  // Using readJSON seems to fail for users of some plugins, possibly because of
+  // the eval sandbox having a different `Buffer` instance (native one instead
+  // of polyfilled one)
+  const content = await fs.readFile(manifestPath, 'utf-8');
+  return JSON.parse(content) as Manifest;
+});
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -90,7 +98,10 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
     ssrTemplate,
     noIndex,
     DOCUSAURUS_VERSION,
+    manifestPath,
   } = params;
+  const manifest = await readManifestAsync(manifestPath);
+
   const location = routesLocation[params.pathname]!;
   await preload(location);
   const modules = new Set<string>();
@@ -113,6 +124,7 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
   );
 
   const appHtml = await renderStaticApp(app);
+
   onLinksCollected({
     staticPagePath: location,
     anchors: statefulBrokenLinks.getCollectedAnchors(),
@@ -130,15 +142,6 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
   ];
   onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
-
-  const {generatedFilesDir} = params;
-  const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-  // Using readJSON seems to fail for users of some plugins, possibly because of
-  // the eval sandbox having a different `Buffer` instance (native one instead
-  // of polyfilled one)
-  const manifest = (await fs
-    .readFile(manifestPath, 'utf-8')
-    .then(JSON.parse)) as Manifest;
 
   // Get all required assets for this particular page based on client
   // manifest information.

@@ -48,7 +48,10 @@ export default async function createServerConfig({
     routesLocation[ssgPath] = str;
     return ssgPath;
   });
-  const serverConfig = merge(config, {
+
+  const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
+
+  return merge(config, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
@@ -70,7 +73,7 @@ export default async function createServerConfig({
         entry: 'server.bundle.js',
         params: {
           baseUrl,
-          generatedFilesDir,
+          manifestPath,
           routesLocation,
           headTags,
           preBodyTags,
@@ -104,5 +107,4 @@ export default async function createServerConfig({
       }),
     ],
   });
-  return serverConfig;
 }
