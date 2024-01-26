@@ -35,7 +35,7 @@ type Renderer = (
 ) => Promise<string>;
 
 /**
- * This plugin the result of the re-internalization of an external dependency.
+ * This plugin is the result of the re-internalizing an external dependency.
  * Initial code comes from:
  * - Original project: https://github.com/markdalgleish/static-site-generator-webpack-plugin
  * - Our 2022-2024: https://github.com/slorber/static-site-generator-webpack-plugin
