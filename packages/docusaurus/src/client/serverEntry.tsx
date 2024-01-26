@@ -62,13 +62,13 @@ It might also require to wrap your client code in \`useEffect\` hook and/or impo
 }
 
 export default async function render(
-  params: ServerEntryParams & {path: string},
+  params: ServerEntryParams & {pathname: string},
 ): Promise<string> {
   try {
     return await doRender(params);
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
-    const message = buildSSRErrorMessage({error, pathname: params.path});
+    const message = buildSSRErrorMessage({error, pathname: params.pathname});
     const ssrError = new Error(message, {cause: error});
     // It is important to log the error here because the stacktrace causal chain
     // is not available anymore upper in the tree (this SSR runs in eval)
@@ -78,7 +78,7 @@ export default async function render(
 }
 
 // Renderer for static-site-generator-webpack-plugin (async rendering).
-async function doRender(params: ServerEntryParams & {path: string}) {
+async function doRender(params: ServerEntryParams & {pathname: string}) {
   const {
     routesLocation,
     headTags,
@@ -91,7 +91,7 @@ async function doRender(params: ServerEntryParams & {path: string}) {
     noIndex,
     DOCUSAURUS_VERSION,
   } = params;
-  const location = routesLocation[params.path]!;
+  const location = routesLocation[params.pathname]!;
   await preload(location);
   const modules = new Set<string>();
   const routerContext = {};
@@ -179,7 +179,7 @@ async function doRender(params: ServerEntryParams & {path: string}) {
     });
   } catch (err) {
     // prettier-ignore
-    console.error(`Minification of page ${params.path} failed.`);
+    console.error(`Minification of page ${params.pathname} failed.`);
     console.error(err);
     throw err;
   }

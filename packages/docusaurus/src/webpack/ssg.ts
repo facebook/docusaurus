@@ -6,29 +6,33 @@
  */
 
 import path from 'path';
-import RawSource from 'webpack-sources/lib/RawSource';
 import evaluate from 'eval';
 import pMap from 'p-map';
-import type webpack from 'webpack';
+import webpack from 'webpack';
 import type {ServerEntryParams} from '../types';
 
-const pluginName = 'static-site-generator-webpack-plugin';
+const pluginName = 'docusaurus-ssg-plugin';
 
 // Not easy to define a reasonable option default
 // Will still be better than Infinity
 // See also https://github.com/sindresorhus/p-map/issues/24
 const DefaultConcurrency = 32;
 
+// not sure how to import this type otherwise...
+type Compilation = webpack.Stats['compilation'];
+
 type Options = {
   entry: string;
-  locals: ServerEntryParams;
-  paths: string[];
+  params: ServerEntryParams;
+  pathnames: string[];
   preferFoldersOutput?: boolean;
   globals: {[key: string]: unknown};
   concurrency?: number;
 };
 
-type Renderer = (locals: ServerEntryParams) => Promise<string>;
+type Renderer = (
+  params: ServerEntryParams & {pathname: string},
+) => Promise<string>;
 
 /**
  * This plugin the result of the re-internalization of an external dependency.
@@ -40,9 +44,7 @@ type Renderer = (locals: ServerEntryParams) => Promise<string>;
  * Docusaurus only adds friction to modify/simplify/optimize this logic.
  * Note that we'll likely want to decouple this SSG logic from Webpack some day.
  */
-export default class StaticSiteGeneratorWebpackPlugin
-  implements webpack.WebpackPluginInstance
-{
+export default class SSGPlugin implements webpack.WebpackPluginInstance {
   options: Options;
 
   constructor(options: Options) {
@@ -51,213 +53,117 @@ export default class StaticSiteGeneratorWebpackPlugin
 
   apply(compiler: webpack.Compiler): void {
     compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
-      compilation.hooks.optimizeAssets.tapAsync(pluginName, (_, done) => {
-        handleSSG(compilation, this.options).then(
-          () => {
-            done();
-          },
-          (err) => {
-            compilation.errors.push(err.stack);
-            done();
-          },
-        );
+      compilation.hooks.optimizeAssets.tapPromise(pluginName, async () => {
+        await handleStaticSiteGeneration({compilation, options: this.options});
       });
     });
   }
 }
 
-async function handleSSG(
-  compilation: webpack.Stats['compilation'],
-  options: Options,
-) {
-  const concurrency = options.concurrency ?? DefaultConcurrency;
-
-  const webpackStats = compilation.getStats();
-  const {entrySource, assets} = extractFromStats({
-    entry: options.entry,
-    stats: webpackStats,
-  });
-
-  const render = getRenderer(entrySource.source(), options);
-
+/**
+ * This concurrently loops over all static route paths
+ * and generate the html for each page.
+ */
+async function handleStaticSiteGeneration({
+  compilation,
+  options,
+}: {
+  compilation: Compilation;
+  options: Options;
+}) {
+  const renderer = loadServerEntryRenderer({compilation, options});
   return pMap(
-    options.paths,
-    (outputPath) =>
-      renderPath({
-        outputPath,
-        render,
-        assets,
+    options.pathnames,
+    (pathname) =>
+      renderPathname({
+        pathname,
+        renderer,
         options,
-        webpackStats,
         compilation,
       }),
-    {concurrency},
+    {concurrency: options.concurrency ?? DefaultConcurrency},
   );
 }
 
-function findAsset(
-  entry: string,
-  compilation: webpack.Stats['compilation'],
-  webpackStatsJson: webpack.StatsCompilation,
-) {
-  const asset = compilation.assets[entry];
-  if (asset) {
-    return asset;
-  }
-
-  const chunkValues = webpackStatsJson.assetsByChunkName?.[entry];
-  if (!chunkValues) {
-    return undefined;
-  }
-
-  // Is the main bundle always the first element?
-  const chunkValue = chunkValues.find((filename) => /\.js$/.test(filename));
-  if (!chunkValue) {
-    return undefined;
-  }
-
-  return compilation.assets[chunkValue];
-}
-
-// Shamelessly stolen from html-webpack-plugin - Thanks @ampedandwired :)
-function getAssetsFromCompilation(
-  compilation: webpack.Stats['compilation'],
-  webpackStatsJson: webpack.StatsCompilation,
-): {[key: string]: string} {
-  const result: {[key: string]: string} = {};
-
-  Object.entries(webpackStatsJson.assetsByChunkName ?? {}).forEach(
-    ([chunkName, chunkAssets]) => {
-      // Is the main bundle always the first JS element?
-      let chunkValue = chunkAssets.find((filename) => /\.js$/.test(filename));
-      if (!chunkValue) {
-        return;
-      }
-
-      if (compilation.options.output.publicPath) {
-        chunkValue = compilation.options.output.publicPath + chunkValue;
-      }
-
-      result[chunkName] = chunkValue!;
-    },
-  );
-
-  return result;
-}
-
-function extractFromStats({
-  entry,
-  stats,
+/**
+ * This evaluates the "serverEntry.tsx" code
+ * This code is bundled by webpack as in ".docusaurus/server.bundle.js"
+ * @param options
+ * @param compilation
+ */
+function loadServerEntryRenderer({
+  compilation,
+  options,
 }: {
-  entry: string;
-  stats: webpack.Stats;
-}) {
-  const {compilation} = stats;
-  const webpackStats = compilation.getStats();
-  const webpackStatsJson = webpackStats.toJson(
-    {all: false, assets: true},
-    // @ts-expect-error: TODO fix type
-    true,
-  );
-  const entrySource = findAsset(entry, compilation, webpackStatsJson);
-  if (entrySource == null) {
-    throw new Error(`Source file not found: "${entry}"`);
+  compilation: Compilation;
+  options: Options;
+}): Renderer {
+  const entrySource = compilation.assets[options.entry]?.source();
+  if (!entrySource) {
+    throw new Error(`Source file not found: "${options.entry}"`);
   }
-  const assets = getAssetsFromCompilation(compilation, webpackStatsJson);
-  return {entrySource, assets};
-}
-
-function getRenderer(entrySource: string | Buffer, options: Options): Renderer {
-  let render = evaluate(
+  const serverEntry = evaluate(
     entrySource,
     /* filename: */ options.entry,
     /* scope: */ options.globals,
     /* includeGlobals: */ true,
-  ) as any;
-
-  if (render.hasOwnProperty('default')) {
-    render = render.default;
-  }
-
-  if (typeof render !== 'function') {
+  ) as {default?: Renderer};
+  if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(
-      `Export from "${options.entry}" must be a function that returns an HTML string. Is output.libraryTarget in the configuration set to "umd"?`,
+      `Export from "${options.entry}" must be a function that returns an HTML string.`,
     );
   }
-  return render;
+  return serverEntry.default;
 }
 
-function pathToAssetName({
-  outputPath,
+async function renderPathname({
+  pathname,
+  renderer,
+  compilation,
+  options,
+}: {
+  pathname: string;
+  renderer: Renderer;
+  compilation: Compilation;
+  options: Options;
+}): Promise<void> {
+  try {
+    const html = await renderer({pathname, ...options.params});
+    const filename = pathnameToFilename({
+      pathname,
+      preferFoldersOutput: options.preferFoldersOutput,
+    });
+    compilation.emitAsset(filename, new webpack.sources.RawSource(html));
+  } catch (errorUnknown) {
+    const error = errorUnknown as Error;
+
+    // This is historical error handling code, not sure it's good...
+    // See https://github.com/markdalgleish/static-site-generator-webpack-plugin/blob/master/index.js#L107
+    // @ts-expect-error: TODO fix types
+    compilation.errors.push(error);
+  }
+}
+
+function pathnameToFilename({
+  pathname,
   preferFoldersOutput,
 }: {
-  outputPath: string;
+  pathname: string;
   preferFoldersOutput?: boolean;
 }): string {
-  const outputFileName = outputPath.replace(/^(\/|\\)/, ''); // Remove leading slashes for webpack-dev-server
-
+  const outputFileName = pathname.replace(/^[/\\]/, ''); // Remove leading slashes for webpack-dev-server
   // Paths ending with .html are left untouched
   if (/\.html?$/i.test(outputFileName)) {
     return outputFileName;
   }
-
   // Legacy retro-compatible behavior
   if (typeof preferFoldersOutput === 'undefined') {
     return path.join(outputFileName, 'index.html');
   }
-
   // New behavior: we can say if we prefer file/folder output
   // Useful resource: https://github.com/slorber/trailing-slash-guide
-  if (outputPath === '' || outputPath.endsWith('/') || preferFoldersOutput) {
+  if (pathname === '' || pathname.endsWith('/') || preferFoldersOutput) {
     return path.join(outputFileName, 'index.html');
   }
   return `${outputFileName}.html`;
-}
-
-async function renderPath({
-  outputPath,
-  render,
-  assets,
-  webpackStats,
-  compilation,
-  options,
-}: {
-  outputPath: string;
-  render: Renderer;
-  assets: any; // TODO type
-  webpackStats: webpack.Stats;
-  compilation: webpack.Stats['compilation'];
-  options: Options;
-}): Promise<void> {
-  const renderLocals = {
-    path: outputPath,
-    assets,
-    webpackStats,
-    ...options.locals,
-  };
-
-  return render(renderLocals)
-    .then((output) => {
-      const outputByPath =
-        // TODO why object output?
-        typeof output === 'object' ? output : {[outputPath]: output};
-
-      Object.keys(outputByPath).forEach((key) => {
-        const rawSource = outputByPath[key];
-        const assetName = pathToAssetName({
-          outputPath: key,
-          preferFoldersOutput: options.preferFoldersOutput,
-        });
-        if (compilation.assets[assetName]) {
-          return;
-        }
-
-        // @ts-expect-error: TODO fix types
-        compilation.assets[assetName] = new RawSource(rawSource);
-      });
-    })
-    .catch((err: Error) => {
-      // @ts-expect-error: TODO fix types
-      compilation.errors.push(err.stack);
-    });
 }

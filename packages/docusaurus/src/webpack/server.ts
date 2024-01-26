@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/utils';
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import WebpackBar from 'webpackbar';
-import StaticSiteGeneratorWebpackPlugin from './ssg';
+import SSGPlugin from './ssg';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import ssrDefaultTemplate from './templates/ssr.html.template';
@@ -66,9 +66,9 @@ export default async function createServerConfig({
       }),
 
       // Static site generator webpack plugin.
-      new StaticSiteGeneratorWebpackPlugin({
-        entry: 'main',
-        locals: {
+      new SSGPlugin({
+        entry: 'server.bundle.js',
+        params: {
           baseUrl,
           generatedFilesDir,
           routesLocation,
@@ -81,7 +81,7 @@ export default async function createServerConfig({
           noIndex,
           DOCUSAURUS_VERSION,
         } satisfies ServerEntryParams,
-        paths: ssgPaths,
+        pathnames: ssgPaths,
         preferFoldersOutput: trailingSlash,
 
         // When using "new URL('file.js', import.meta.url)", Webpack will emit
