@@ -6,13 +6,19 @@
  */
 
 import {jest} from '@jest/globals';
+import reactRouterConfig from 'react-router-config';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
 
 type Params = Parameters<typeof handleBrokenLinks>[0];
 
 // We don't need all the routes attributes for our tests
-type SimpleRoute = {path: string; routes?: SimpleRoute[]};
+type SimpleRoute = {
+  path: string;
+  routes?: SimpleRoute[];
+  exact?: boolean;
+  strict?: boolean;
+};
 
 // Conveniently apply defaults to function under test
 async function testBrokenLinks(params: {
@@ -38,6 +44,52 @@ describe('handleBrokenLinks', () => {
       collectedLinks: {
         '/page1': {links: ['/page2'], anchors: []},
         '/page2': {links: [], anchors: []},
+      },
+    });
+  });
+
+  it('accepts valid non-exact link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1', exact: false}, {path: '/page2/'}],
+      collectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            '/page1/',
+            '/page2',
+            '/page2/',
+            '/page1/subPath',
+            '/page2/subPath',
+          ],
+          anchors: [],
+        },
+        '/page2/': {
+          links: [
+            '/page1',
+            '/page1/',
+            '/page2',
+            '/page2/',
+            '/page1/subPath',
+            '/page2/subPath',
+          ],
+          anchors: [],
+        },
+      },
+    });
+  });
+
+  it('accepts valid non-strict link', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1', strict: false}, {path: '/page2/'}],
+      collectedLinks: {
+        '/page1': {
+          links: ['/page1', '/page1/', '/page2', '/page2/'],
+          anchors: [],
+        },
+        '/page2/': {
+          links: ['/page1', '/page1/', '/page2', '/page2/'],
+          anchors: [],
+        },
       },
     });
   });
@@ -82,6 +134,71 @@ describe('handleBrokenLinks', () => {
       collectedLinks: {
         '/page1': {links: ['/page2#page2anchor'], anchors: []},
         '/page2': {links: [], anchors: ['page2anchor']},
+      },
+    });
+  });
+
+  it('accepts valid link with anchor reported with hash prefix', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      collectedLinks: {
+        '/page1': {links: ['/page2#page2anchor'], anchors: []},
+        '/page2': {links: [], anchors: ['#page2anchor']},
+      },
+    });
+  });
+
+  it('accepts valid links and anchors, sparse arrays', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page1'}, {path: '/page2'}],
+      collectedLinks: {
+        '/page1': {
+          links: [
+            '/page1',
+            // @ts-expect-error: invalid type on purpose
+            undefined,
+            // @ts-expect-error: invalid type on purpose
+            null,
+            // @ts-expect-error: invalid type on purpose
+            42,
+            '/page2',
+            '/page2#page2anchor1',
+            '/page2#page2anchor2',
+          ],
+          anchors: [],
+        },
+        '/page2': {
+          links: [],
+          anchors: [
+            'page2anchor1',
+            // @ts-expect-error: invalid type on purpose
+            undefined,
+            // @ts-expect-error: invalid type on purpose
+            null,
+            // @ts-expect-error: invalid type on purpose
+            42,
+            'page2anchor2',
+          ],
+        },
+      },
+    });
+  });
+
+  it('accepts valid link and anchor to collected pages that are not in routes', async () => {
+    // This tests the edge-case of the 404 page:
+    // We don't have a {path: '404.html'} route
+    // But yet we collect links/anchors to it and allow linking to it
+    await testBrokenLinks({
+      routes: [],
+      collectedLinks: {
+        '/page 1': {
+          links: ['/page 2#anchor-page-2'],
+          anchors: ['anchor-page-1'],
+        },
+        '/page 2': {
+          links: ['/page 1#anchor-page-1', '/page%201#anchor-page-1'],
+          anchors: ['anchor-page-2'],
+        },
       },
     });
   });
@@ -132,10 +249,75 @@ describe('handleBrokenLinks', () => {
             '/page%202',
             '/page%202?age=42',
             '/page%202?age=42#page2anchor',
+
+            '/some dir/page 3',
+            '/some dir/page 3#page3anchor',
+            '/some%20dir/page%203',
+            '/some%20dir/page%203#page3anchor',
+            '/some%20dir/page 3',
+            '/some dir/page%203',
+            '/some dir/page%203#page3anchor',
           ],
           anchors: [],
         },
         '/page 2': {links: [], anchors: ['page2anchor']},
+        '/some dir/page 3': {links: [], anchors: ['page3anchor']},
+      },
+    });
+  });
+
+  it('accepts valid link with anchor with spaces and encoding', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {
+          links: [
+            '/page 1#a b',
+            '#a b',
+            '#a%20b',
+            '#c d',
+            '#c%20d',
+
+            '/page 2#你好',
+            '/page%202#你好',
+            '/page 2#%E4%BD%A0%E5%A5%BD',
+            '/page%202#%E4%BD%A0%E5%A5%BD',
+
+            '/page 2#schrödingers-cat-principle',
+            '/page%202#schrödingers-cat-principle',
+            '/page 2#schr%C3%B6dingers-cat-principle',
+            '/page%202#schr%C3%B6dingers-cat-principle',
+          ],
+          anchors: ['a b', 'c%20d'],
+        },
+        '/page 2': {
+          links: ['/page 1#a b', '/page%201#c d'],
+          anchors: ['你好', '#schr%C3%B6dingers-cat-principle'],
+        },
+      },
+    });
+  });
+
+  it('accepts valid link with empty anchor', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {
+          links: [
+            '/page 1',
+            '/page 2',
+            '/page 1#',
+            '/page 2#',
+            '/page 1?age=42#',
+            '/page 2?age=42#',
+            '#',
+            '#',
+            './page 1#',
+            './page 2#',
+          ],
+          anchors: [],
+        },
+        '/page 2': {links: [], anchors: []},
       },
     });
   });
@@ -157,6 +339,76 @@ describe('handleBrokenLinks', () => {
       Exhaustive list of all broken links found:
       - Broken link on source page path = /page1:
          -> linking to /brokenLink
+      "
+    `);
+  });
+
+  it('rejects broken link due to strict matching', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [
+          {path: '/page1', strict: true},
+          {path: '/page2/', strict: true},
+        ],
+
+        collectedLinks: {
+          '/page1': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+          '/page2/': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page2
+      - Broken link on source page path = /page2/:
+         -> linking to /page2
+      "
+    `);
+  });
+
+  it('rejects broken link due to strict exact matching', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [
+          {path: '/page1', exact: true, strict: true},
+          {path: '/page2/', exact: true, strict: true},
+        ],
+
+        collectedLinks: {
+          '/page1': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+          '/page2/': {
+            links: ['/page1', '/page1/', '/page2', '/page2/'],
+            anchors: [],
+          },
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page1/
+         -> linking to /page2
+      - Broken link on source page path = /page2/:
+         -> linking to /page1/
+         -> linking to /page2
       "
     `);
   });
@@ -221,28 +473,6 @@ describe('handleBrokenLinks', () => {
       Exhaustive list of all broken anchors found:
       - Broken anchor on source page path = /page1:
          -> linking to /page2#brokenAnchor
-      "
-    `);
-  });
-
-  it('rejects valid link with empty broken anchor', async () => {
-    await expect(() =>
-      testBrokenLinks({
-        routes: [{path: '/page1'}, {path: '/page2'}],
-        collectedLinks: {
-          '/page1': {links: ['/page2#'], anchors: []},
-          '/page2': {links: [], anchors: []},
-        },
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus found broken anchors!
-
-      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
-      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
-
-      Exhaustive list of all broken anchors found:
-      - Broken anchor on source page path = /page1:
-         -> linking to /page2#
       "
     `);
   });
@@ -609,5 +839,66 @@ describe('handleBrokenLinks', () => {
          -> linking to ./relativeFrequentBrokenLink (resolved as: /dir/relativeFrequentBrokenLink)
       "
     `);
+  });
+
+  it('is performant and minimize calls to matchRoutes', async () => {
+    const matchRoutesMock = jest.spyOn(reactRouterConfig, 'matchRoutes');
+
+    const scale = 100;
+
+    const routes: SimpleRoute[] = [
+      ...Array.from<SimpleRoute>({length: scale}).map((_, i) => ({
+        path: `/page${i}`,
+        exact: true,
+      })),
+      ...Array.from<SimpleRoute>({length: scale}).map((_, i) => ({
+        path: `/page/nonExact/${i}`,
+      })),
+      ...Array.from<SimpleRoute>({length: scale}).fill({
+        path: '/pageDynamic/:subpath1',
+      }),
+    ];
+
+    const collectedLinks: Params['collectedLinks'] = Object.fromEntries(
+      Array.from<SimpleRoute>({length: scale}).map((_, i) => [
+        `/page${i}`,
+        {
+          links: [
+            ...Array.from<SimpleRoute>({length: scale}).flatMap((_2, j) => [
+              `/page${j}`,
+              `/page/nonExact/${j}`,
+              `/page${j}?age=42`,
+              `/page${j}#anchor${j}`,
+              `/page${j}?age=42#anchor${j}`,
+              `/pageDynamic/subPath${j}`,
+              `/pageDynamic/subPath${j}?age=42`,
+              // `/pageDynamic/subPath${j}#anchor${j}`,
+              // `/pageDynamic/subPath${j}?age=42#anchor${j}`,
+            ]),
+          ],
+          anchors: Array.from<SimpleRoute>({length: scale}).map(
+            (_2, j) => `anchor${j}`,
+          ),
+        },
+      ]),
+    );
+
+    // console.time('testBrokenLinks');
+    await testBrokenLinks({
+      routes,
+      collectedLinks,
+    });
+    // console.timeEnd('testBrokenLinks');
+
+    // Idiomatic code calling matchRoutes multiple times is not performant
+    // We try to minimize the calls to this expensive function
+    // Otherwise large sites will have super long execution times
+    // See https://github.com/facebook/docusaurus/issues/9754
+    // See https://twitter.com/sebastienlorber/status/1749392773415858587
+    // We expect no more matchRoutes calls than number of dynamic route links
+    expect(matchRoutesMock).toHaveBeenCalledTimes(scale * 2);
+    // We expect matchRoutes to be called with a reduced number of routes
+    expect(routes).toHaveLength(scale * 3);
+    expect(matchRoutesMock.mock.calls[0]![0]).toHaveLength(scale * 2);
   });
 });

@@ -277,6 +277,15 @@ ${JSON.stringify(routeConfig)}`,
 }
 
 /**
+ * Old stuff
+ * As far as I understand, this is what permits to SSG the 404.html file
+ * This is rendered through the catch-all ComponentCreator("*") route
+ * Note CDNs only understand the 404.html file by convention
+ * The extension probably permits to avoid emitting "/404/index.html"
+ */
+const NotFoundRoutePath = '/404.html';
+
+/**
  * Routes are prepared into three temp files:
  *
  * - `routesConfig`, the route config passed to react-router. This file is kept
@@ -296,7 +305,7 @@ export function loadRoutes(
     routesConfig: '',
     routesChunkNames: {},
     registry: {},
-    routesPaths: [normalizeUrl([baseUrl, '404.html'])],
+    routesPaths: [normalizeUrl([baseUrl, NotFoundRoutePath])],
   };
 
   // `genRouteCode` would mutate `res`
