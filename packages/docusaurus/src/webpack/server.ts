@@ -14,9 +14,7 @@ import {
 } from '@docusaurus/utils';
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import WebpackBar from 'webpackbar';
-import SSGPlugin from './ssg';
 import {createBaseConfig} from './base';
-import WaitPlugin from './plugins/WaitPlugin';
 import ssrDefaultTemplate from './templates/ssr.html.template';
 import type {ServerEntryParams} from '../types';
 import type {Props} from '@docusaurus/types';
@@ -47,7 +45,7 @@ function buildRoutesLocation({
   return routesLocation;
 }
 
-function createServerEntryParams(params: Params): ServerEntryParams {
+export function createServerEntryParams(params: Params): ServerEntryParams {
   const {props, onLinksCollected, onHeadTagsCollected} = params;
   const {
     baseUrl,
@@ -55,6 +53,7 @@ function createServerEntryParams(params: Params): ServerEntryParams {
     headTags,
     preBodyTags,
     postBodyTags,
+    outDir,
     siteConfig: {noIndex, ssrTemplate},
   } = props;
 
@@ -64,6 +63,7 @@ function createServerEntryParams(params: Params): ServerEntryParams {
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
 
   return {
+    outDir,
     baseUrl,
     manifestPath,
     routesLocation,
@@ -78,36 +78,10 @@ function createServerEntryParams(params: Params): ServerEntryParams {
   };
 }
 
-function createSSGPlugin(params: Params) {
-  const {props} = params;
-  const {
-    siteConfig: {trailingSlash},
-  } = props;
-  const serverEntryParams = createServerEntryParams(params);
-  const pathnames = Object.keys(serverEntryParams.routesLocation);
-  return new SSGPlugin({
-    entry: 'server.bundle.js',
-    params: serverEntryParams,
-    pathnames,
-    trailingSlash,
-    // When using "new URL('file.js', import.meta.url)", Webpack will emit
-    // __filename, and this plugin will throw. not sure the __filename value
-    // has any importance for this plugin, just using an empty string to
-    // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
-    globals: {__filename: ''},
-    // Secret way to set SSR plugin concurrency option
-    // Waiting for feedback before documenting this officially?
-    concurrency: process.env.DOCUSAURUS_SSR_CONCURRENCY
-      ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
-      : undefined,
-  });
-}
-
 export default async function createServerConfig(
   params: Params,
 ): Promise<Configuration> {
   const {props} = params;
-  const {generatedFilesDir} = props;
   const config = await createBaseConfig(props, true);
 
   return merge(config, {
@@ -122,11 +96,6 @@ export default async function createServerConfig(
       globalObject: 'this',
     },
     plugins: [
-      // Wait until manifest from client bundle is generated
-      new WaitPlugin({
-        filepath: path.join(generatedFilesDir, 'client-manifest.json'),
-      }),
-      createSSGPlugin(params),
       // Show compilation progress bar.
       new WebpackBar({
         name: 'Server',

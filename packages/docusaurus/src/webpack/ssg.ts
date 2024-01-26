@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import path from 'path';
 import evaluate from 'eval';
 import pMap from 'p-map';
@@ -54,7 +55,12 @@ export default class SSGPlugin implements webpack.WebpackPluginInstance {
   apply(compiler: webpack.Compiler): void {
     compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
       compilation.hooks.optimizeAssets.tapPromise(pluginName, async () => {
-        await handleStaticSiteGeneration({compilation, options: this.options});
+        console.time('handleStaticSiteGenerationWebpack');
+        await handleStaticSiteGenerationWebpack({
+          compilation,
+          options: this.options,
+        });
+        console.timeEnd('handleStaticSiteGenerationWebpack');
       });
     });
   }
@@ -64,18 +70,18 @@ export default class SSGPlugin implements webpack.WebpackPluginInstance {
  * This concurrently loops over all static route paths
  * and generate the html for each page.
  */
-async function handleStaticSiteGeneration({
+async function handleStaticSiteGenerationWebpack({
   compilation,
   options,
 }: {
   compilation: Compilation;
   options: Options;
 }) {
-  const renderer = loadServerEntryRenderer({compilation, options});
+  const renderer = loadServerEntryRendererWebpack({compilation, options});
   return pMap(
     options.pathnames,
     (pathname) =>
-      renderPathname({
+      renderPathnameWebpack({
         pathname,
         renderer,
         options,
@@ -91,7 +97,7 @@ async function handleStaticSiteGeneration({
  * @param options
  * @param compilation
  */
-function loadServerEntryRenderer({
+function loadServerEntryRendererWebpack({
   compilation,
   options,
 }: {
@@ -102,10 +108,10 @@ function loadServerEntryRenderer({
   if (!entrySource) {
     throw new Error(`Source file not found: "${options.entry}"`);
   }
-  return loadServerEntrySource({source: entrySource, options});
+  return loadServerEntryRendererFromSource({source: entrySource, options});
 }
 
-export function loadServerEntrySource({
+export function loadServerEntryRendererFromSource({
   source,
   options,
 }: {
@@ -126,7 +132,7 @@ export function loadServerEntrySource({
   return serverEntry.default;
 }
 
-async function renderPathname({
+async function renderPathnameWebpack({
   pathname,
   renderer,
   compilation,
@@ -176,4 +182,58 @@ export function pathnameToFilename({
     return path.join(outputFileName, 'index.html');
   }
   return `${outputFileName}.html`;
+}
+
+export async function generateStaticFiles({
+  serverBundle,
+  options,
+}: {
+  serverBundle: string;
+  options: Options;
+}): Promise<void> {
+  const serverBundleSource = await fs.readFile(serverBundle);
+  const renderer = loadServerEntryRendererFromSource({
+    source: serverBundleSource,
+    options,
+  });
+
+  // TODO throw aggregate error
+  await pMap(
+    options.pathnames,
+    async (pathname) =>
+      generateStaticFile({
+        pathname,
+        renderer,
+        options,
+      }),
+    {concurrency: options.concurrency ?? DefaultConcurrency},
+  );
+}
+
+async function generateStaticFile({
+  pathname,
+  renderer,
+  options,
+}: {
+  pathname: string;
+  renderer: Renderer;
+  options: Options;
+}) {
+  try {
+    const html = await renderer({pathname, ...options.params});
+    const filename = pathnameToFilename({
+      pathname,
+      trailingSlash: options.trailingSlash,
+    });
+
+    // TODO stream write to disk
+    const filePath = path.join(options.params.outDir, filename);
+    await fs.ensureDir(path.dirname(filePath));
+    await fs.writeFile(filePath, html);
+  } catch (errorUnknown) {
+    // TODO throw aggregate error?
+    throw new Error(`Can't render pathname ${pathname}`, {
+      cause: errorUnknown as Error,
+    });
+  }
 }

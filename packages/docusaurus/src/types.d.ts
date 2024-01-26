@@ -22,6 +22,7 @@ export type ServerEntryParams = {
     staticPagePath: string,
     tags: HelmetServerState,
   ) => void;
+  outDir: string;
   baseUrl: string;
   ssrTemplate: string;
   noIndex: boolean;

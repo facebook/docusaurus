@@ -17,7 +17,7 @@ import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import createClientConfig from '../webpack/client';
-import createServerConfig from '../webpack/server';
+import createServerConfig, {createServerEntryParams} from '../webpack/server';
 import {
   applyConfigurePostCss,
   applyConfigureWebpack,
@@ -25,9 +25,11 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
+import {generateStaticFiles} from '../webpack/ssg';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {Configuration} from 'webpack';
 import type {Props} from '@docusaurus/types';
+import type {ServerEntryParams} from '../types';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
@@ -267,9 +269,26 @@ async function buildLocale({
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
 
+  const serverBundle = path.join(
+    outDir,
+    serverConfig.output?.filename as string,
+  );
+
+  console.time('handleSSG');
+  await handleSSG({
+    serverBundle,
+    props,
+    onLinksCollected: ({staticPagePath, links, anchors}) => {
+      collectedLinks[staticPagePath] = {links, anchors};
+    },
+    onHeadTagsCollected: (staticPagePath, tags) => {
+      headTags[staticPagePath] = tags;
+    },
+  });
+  console.timeEnd('handleSSG');
+
   // Remove server.bundle.js because it is not needed.
   if (typeof serverConfig.output?.filename === 'string') {
-    const serverBundle = path.join(outDir, serverConfig.output.filename);
     if (await fs.pathExists(serverBundle)) {
       await fs.unlink(serverBundle);
     }
@@ -310,4 +329,41 @@ async function buildLocale({
   }
 
   return outDir;
+}
+
+type SSGParams = Pick<
+  ServerEntryParams,
+  'onLinksCollected' | 'onHeadTagsCollected'
+> & {
+  props: Props;
+};
+
+async function handleSSG(params: SSGParams & {serverBundle: string}) {
+  const {props} = params;
+  const {
+    siteConfig: {trailingSlash},
+  } = props;
+  const serverEntryParams = createServerEntryParams(params);
+  const pathnames = Object.keys(serverEntryParams.routesLocation);
+
+  // TODO duplicated logic
+  await generateStaticFiles({
+    serverBundle: params.serverBundle,
+    options: {
+      entry: 'TODO USELESS',
+      trailingSlash,
+      params: serverEntryParams,
+      pathnames,
+      // When using "new URL('file.js', import.meta.url)", Webpack will emit
+      // __filename, and this plugin will throw. not sure the __filename value
+      // has any importance for this plugin, just using an empty string to
+      // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
+      globals: {__filename: ''},
+      // Secret way to set SSR plugin concurrency option
+      // Waiting for feedback before documenting this officially?
+      concurrency: process.env.DOCUSAURUS_SSR_CONCURRENCY
+        ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
+        : undefined,
+    },
+  });
 }
