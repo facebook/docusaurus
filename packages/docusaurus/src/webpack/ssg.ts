@@ -102,8 +102,18 @@ function loadServerEntryRenderer({
   if (!entrySource) {
     throw new Error(`Source file not found: "${options.entry}"`);
   }
+  return loadServerEntrySource({source: entrySource, options});
+}
+
+export function loadServerEntrySource({
+  source,
+  options,
+}: {
+  source: Buffer | string;
+  options: Pick<Options, 'entry' | 'globals'>;
+}): Renderer {
   const serverEntry = evaluate(
-    entrySource,
+    source,
     /* filename: */ options.entry,
     /* scope: */ options.globals,
     /* includeGlobals: */ true,
@@ -144,7 +154,7 @@ async function renderPathname({
   }
 }
 
-function pathnameToFilename({
+export function pathnameToFilename({
   pathname,
   trailingSlash,
 }: {
