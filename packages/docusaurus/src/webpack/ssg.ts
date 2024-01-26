@@ -25,7 +25,7 @@ type Options = {
   entry: string;
   params: ServerEntryParams;
   pathnames: string[];
-  preferFoldersOutput?: boolean;
+  trailingSlash?: boolean;
   globals: {[key: string]: unknown};
   concurrency?: number;
 };
@@ -131,7 +131,7 @@ async function renderPathname({
     const html = await renderer({pathname, ...options.params});
     const filename = pathnameToFilename({
       pathname,
-      preferFoldersOutput: options.preferFoldersOutput,
+      trailingSlash: options.trailingSlash,
     });
     compilation.emitAsset(filename, new webpack.sources.RawSource(html));
   } catch (errorUnknown) {
@@ -146,10 +146,10 @@ async function renderPathname({
 
 function pathnameToFilename({
   pathname,
-  preferFoldersOutput,
+  trailingSlash,
 }: {
   pathname: string;
-  preferFoldersOutput?: boolean;
+  trailingSlash?: boolean;
 }): string {
   const outputFileName = pathname.replace(/^[/\\]/, ''); // Remove leading slashes for webpack-dev-server
   // Paths ending with .html are left untouched
@@ -157,12 +157,12 @@ function pathnameToFilename({
     return outputFileName;
   }
   // Legacy retro-compatible behavior
-  if (typeof preferFoldersOutput === 'undefined') {
+  if (typeof trailingSlash === 'undefined') {
     return path.join(outputFileName, 'index.html');
   }
   // New behavior: we can say if we prefer file/folder output
   // Useful resource: https://github.com/slorber/trailing-slash-guide
-  if (pathname === '' || pathname.endsWith('/') || preferFoldersOutput) {
+  if (pathname === '' || pathname.endsWith('/') || trailingSlash) {
     return path.join(outputFileName, 'index.html');
   }
   return `${outputFileName}.html`;

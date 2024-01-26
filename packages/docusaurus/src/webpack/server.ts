@@ -82,7 +82,7 @@ export default async function createServerConfig({
           DOCUSAURUS_VERSION,
         } satisfies ServerEntryParams,
         pathnames: ssgPaths,
-        preferFoldersOutput: trailingSlash,
+        trailingSlash,
 
         // When using "new URL('file.js', import.meta.url)", Webpack will emit
         // __filename, and this plugin will throw. not sure the __filename value
