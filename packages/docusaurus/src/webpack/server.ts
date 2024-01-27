@@ -7,80 +7,15 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
-import {
-  NODE_MAJOR_VERSION,
-  NODE_MINOR_VERSION,
-  DOCUSAURUS_VERSION,
-} from '@docusaurus/utils';
-// Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
+import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
 import WebpackBar from 'webpackbar';
 import {createBaseConfig} from './base';
-import ssrDefaultTemplate from './templates/ssr.html.template';
-import type {ServerEntryParams} from '../types';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
-type Params = Pick<
-  ServerEntryParams,
-  'onLinksCollected' | 'onHeadTagsCollected'
-> & {
+export default async function createServerConfig(params: {
   props: Props;
-};
-
-function buildRoutesLocation({
-  routesPaths,
-  baseUrl,
-}: {
-  routesPaths: string[];
-  baseUrl: string;
-}) {
-  const routesLocation: {[filePath: string]: string} = {};
-  // Array of paths to be rendered. Relative to output directory
-  routesPaths.forEach((str) => {
-    const ssgPath =
-      baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/');
-    routesLocation[ssgPath] = str;
-    return ssgPath;
-  });
-  return routesLocation;
-}
-
-export function createServerEntryParams(params: Params): ServerEntryParams {
-  const {props, onLinksCollected, onHeadTagsCollected} = params;
-  const {
-    baseUrl,
-    generatedFilesDir,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    outDir,
-    siteConfig: {noIndex, ssrTemplate},
-  } = props;
-
-  const routesLocation: {[filePath: string]: string} =
-    buildRoutesLocation(props);
-
-  const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-
-  return {
-    outDir,
-    baseUrl,
-    manifestPath,
-    routesLocation,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    onLinksCollected,
-    onHeadTagsCollected,
-    ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
-    noIndex,
-    DOCUSAURUS_VERSION,
-  };
-}
-
-export default async function createServerConfig(
-  params: Params,
-): Promise<Configuration> {
+}): Promise<Configuration> {
   const {props} = params;
   const config = await createBaseConfig(props, true);
 

@@ -17,7 +17,7 @@ import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import createClientConfig from '../webpack/client';
-import createServerConfig, {createServerEntryParams} from '../webpack/server';
+import createServerConfig from '../webpack/server';
 import {
   applyConfigurePostCss,
   applyConfigureWebpack,
@@ -25,11 +25,11 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
-import {generateStaticFiles} from '../webpack/ssg';
+import {generateStaticFiles, createServerEntryParams} from '../ssg';
+import type {ServerEntryParams} from '../types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {Configuration} from 'webpack';
 import type {Props} from '@docusaurus/types';
-import type {ServerEntryParams} from '../types';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
@@ -189,12 +189,6 @@ async function buildLocale({
 
   let serverConfig: Configuration = await createServerConfig({
     props,
-    onLinksCollected: ({staticPagePath, links, anchors}) => {
-      collectedLinks[staticPagePath] = {links, anchors};
-    },
-    onHeadTagsCollected: (staticPagePath, tags) => {
-      headTags[staticPagePath] = tags;
-    },
   });
 
   // The staticDirectories option can contain empty directories, or non-existent
@@ -216,6 +210,7 @@ async function buildLocale({
     )
   ).filter(Boolean);
 
+  // TODO move to server.ts?
   if (staticDirectories.length > 0) {
     serverConfig = merge(serverConfig, {
       plugins: [
@@ -348,22 +343,11 @@ async function handleSSG(params: SSGParams & {serverBundle: string}) {
 
   // TODO duplicated logic
   await generateStaticFiles({
-    serverBundle: params.serverBundle,
+    serverBundlePath: params.serverBundle,
     options: {
-      entry: 'TODO USELESS',
       trailingSlash,
       params: serverEntryParams,
       pathnames,
-      // When using "new URL('file.js', import.meta.url)", Webpack will emit
-      // __filename, and this plugin will throw. not sure the __filename value
-      // has any importance for this plugin, just using an empty string to
-      // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
-      globals: {__filename: ''},
-      // Secret way to set SSR plugin concurrency option
-      // Waiting for feedback before documenting this officially?
-      concurrency: process.env.DOCUSAURUS_SSR_CONCURRENCY
-        ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
-        : undefined,
     },
   });
 }
