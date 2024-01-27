@@ -26,10 +26,12 @@ import {
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {generateStaticFiles, createServerEntryParams} from '../ssg';
-import type {ServerEntryParams} from '../types';
+import type {
+  Manifest,
+} from 'react-loadable-ssr-addon-v5-slorber';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {Configuration} from 'webpack';
-import type {Props} from '@docusaurus/types';
+import type {LoadedPlugin, Props} from '@docusaurus/types';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
@@ -182,11 +184,6 @@ async function buildLocale({
     },
   );
 
-  const collectedLinks: {
-    [pathname: string]: {links: string[]; anchors: string[]};
-  } = {};
-  const headTags: {[location: string]: HelmetServerState} = {};
-
   let serverConfig: Configuration = await createServerConfig({
     props,
   });
@@ -264,44 +261,30 @@ async function buildLocale({
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
 
-  const serverBundle = path.join(
+  const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
+
+  const serverBundlePath = path.join(
     outDir,
     serverConfig.output?.filename as string,
   );
 
   console.time('handleSSG');
-  await handleSSG({
-    serverBundle,
+  const {collectedLinks, headTags} = await handleSSG({
     props,
-    onLinksCollected: ({staticPagePath, links, anchors}) => {
-      collectedLinks[staticPagePath] = {links, anchors};
-    },
-    onHeadTagsCollected: (staticPagePath, tags) => {
-      headTags[staticPagePath] = tags;
-    },
+    serverBundlePath,
+    manifest,
   });
   console.timeEnd('handleSSG');
 
   // Remove server.bundle.js because it is not needed.
   if (typeof serverConfig.output?.filename === 'string') {
-    if (await fs.pathExists(serverBundle)) {
-      await fs.unlink(serverBundle);
+    if (await fs.pathExists(serverBundlePath)) {
+      await fs.unlink(serverBundlePath);
     }
   }
 
   // Plugin Lifecycle - postBuild.
-  await Promise.all(
-    plugins.map(async (plugin) => {
-      if (!plugin.postBuild) {
-        return;
-      }
-      await plugin.postBuild({
-        ...props,
-        head: headTags,
-        content: plugin.content,
-      });
-    }),
-  );
+  await executePluginsPostBuildLifecycle({plugins, head: headTags, props});
 
   await handleBrokenLinks({
     collectedLinks,
@@ -327,27 +310,62 @@ async function buildLocale({
 }
 
 // TODO refactor
-type SSGParams = Pick<
-  ServerEntryParams,
-  'onLinksCollected' | 'onHeadTagsCollected'
-> & {
+async function handleSSG(params: {
   props: Props;
-};
-
-// TODO refactor
-async function handleSSG(params: SSGParams & {serverBundle: string}) {
+  serverBundlePath: string;
+  manifest: Manifest;
+}) {
   const {props} = params;
   const {
     routesPaths,
     siteConfig: {trailingSlash},
   } = props;
 
+  const collectedLinks: {
+    [pathname: string]: {links: string[]; anchors: string[]};
+  } = {};
+  const headTags: {[location: string]: HelmetServerState} = {};
+
   await generateStaticFiles({
-    serverBundlePath: params.serverBundle,
+    serverBundlePath: params.serverBundlePath,
     options: {
       trailingSlash,
-      params: createServerEntryParams(params),
+      params: createServerEntryParams({
+        props,
+        manifest: params.manifest,
+        onLinksCollected: ({staticPagePath, links, anchors}) => {
+          collectedLinks[staticPagePath] = {links, anchors};
+        },
+        onHeadTagsCollected: (staticPagePath, tags) => {
+          headTags[staticPagePath] = tags;
+        },
+      }),
       pathnames: routesPaths,
     },
   });
+
+  return {collectedLinks, headTags};
+}
+
+async function executePluginsPostBuildLifecycle({
+  plugins,
+  props,
+  head,
+}: {
+  plugins: LoadedPlugin[];
+  props: Props;
+  head: {[location: string]: HelmetServerState};
+}) {
+  await Promise.all(
+    plugins.map(async (plugin) => {
+      if (!plugin.postBuild) {
+        return;
+      }
+      await plugin.postBuild({
+        ...props,
+        head,
+        content: plugin.content,
+      });
+    }),
+  );
 }

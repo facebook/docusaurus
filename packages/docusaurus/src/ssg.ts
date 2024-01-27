@@ -12,6 +12,7 @@ import pMap from 'p-map';
 
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import ssrDefaultTemplate from './webpack/templates/ssr.html.template';
+import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {Props} from '@docusaurus/types';
 import type {ServerEntryParams} from './types';
 
@@ -153,12 +154,12 @@ export function createServerEntryParams(
     'onLinksCollected' | 'onHeadTagsCollected'
   > & {
     props: Props;
+    manifest: Manifest;
   },
 ): ServerEntryParams {
   const {props, onLinksCollected, onHeadTagsCollected} = params;
   const {
     baseUrl,
-    generatedFilesDir,
     headTags,
     preBodyTags,
     postBodyTags,
@@ -166,12 +167,10 @@ export function createServerEntryParams(
     siteConfig: {noIndex, ssrTemplate},
   } = props;
 
-  const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
-
   return {
     outDir,
     baseUrl,
-    manifestPath,
+    manifest: params.manifest,
     headTags,
     preBodyTags,
     postBodyTags,

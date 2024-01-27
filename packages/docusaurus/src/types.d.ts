@@ -6,9 +6,10 @@
  */
 
 import type {HelmetServerState} from 'react-helmet-async';
+import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 
 export type ServerEntryParams = {
-  manifestPath: string;
+  manifest: Manifest;
   headTags: string;
   preBodyTags: string;
   postBodyTags: string;

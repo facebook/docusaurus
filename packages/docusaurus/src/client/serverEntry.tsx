@@ -6,13 +6,12 @@
  */
 
 import React from 'react';
-import fs from 'fs-extra';
 // eslint-disable-next-line no-restricted-imports
 import _ from 'lodash';
 import * as eta from 'eta';
 import {StaticRouter} from 'react-router-dom';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
-import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 import {minify} from 'html-minifier-terser';
 import {renderStaticApp} from './serverRenderer';
@@ -24,15 +23,6 @@ import {
 } from './BrokenLinksContext';
 
 import type {ServerEntryParams} from '../types';
-
-// Result is cached for performance, this file can be heavy
-const readManifestAsync = _.memoize(async (manifestPath: string) => {
-  // Using readJSON seems to fail for users of some plugins, possibly because of
-  // the eval sandbox having a different `Buffer` instance (native one instead
-  // of polyfilled one)
-  const content = await fs.readFile(manifestPath, 'utf-8');
-  return JSON.parse(content) as Manifest;
-});
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -97,9 +87,8 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
     ssrTemplate,
     noIndex,
     DOCUSAURUS_VERSION,
-    manifestPath,
+    manifest,
   } = params;
-  const manifest = await readManifestAsync(manifestPath);
 
   const location = params.pathname;
   await preload(location);
