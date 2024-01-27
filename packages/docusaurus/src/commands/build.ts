@@ -326,6 +326,7 @@ async function buildLocale({
   return outDir;
 }
 
+// TODO refactor
 type SSGParams = Pick<
   ServerEntryParams,
   'onLinksCollected' | 'onHeadTagsCollected'
@@ -333,21 +334,20 @@ type SSGParams = Pick<
   props: Props;
 };
 
+// TODO refactor
 async function handleSSG(params: SSGParams & {serverBundle: string}) {
   const {props} = params;
   const {
+    routesPaths,
     siteConfig: {trailingSlash},
   } = props;
-  const serverEntryParams = createServerEntryParams(params);
-  const pathnames = Object.keys(serverEntryParams.routesLocation);
 
-  // TODO duplicated logic
   await generateStaticFiles({
     serverBundlePath: params.serverBundle,
     options: {
       trailingSlash,
-      params: serverEntryParams,
-      pathnames,
+      params: createServerEntryParams(params),
+      pathnames: routesPaths,
     },
   });
 }

@@ -8,7 +8,6 @@
 import type {HelmetServerState} from 'react-helmet-async';
 
 export type ServerEntryParams = {
-  routesLocation: {[filePath: string]: string};
   manifestPath: string;
   headTags: string;
   preBodyTags: string;

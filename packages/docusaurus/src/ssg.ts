@@ -24,6 +24,7 @@ const Concurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
     // See also https://github.com/sindresorhus/p-map/issues/24
     32;
 
+// TODO refactor type
 type Options = {
   params: ServerEntryParams;
   pathnames: string[];
@@ -122,8 +123,9 @@ async function generateStaticFile({
 }) {
   try {
     const html = await renderer({pathname, ...options.params});
+
     const filename = pathnameToFilename({
-      pathname,
+      pathname: removeBaseUrl(pathname, options.params.baseUrl),
       trailingSlash: options.trailingSlash,
     });
 
@@ -139,24 +141,10 @@ async function generateStaticFile({
   }
 }
 
-// TODO do we really need this?
-//   routesLocation looks useless to me
-function buildRoutesLocation({
-  routesPaths,
-  baseUrl,
-}: {
-  routesPaths: string[];
-  baseUrl: string;
-}) {
-  const routesLocation: {[filePath: string]: string} = {};
-  // Array of paths to be rendered. Relative to output directory
-  routesPaths.forEach((str) => {
-    const ssgPath =
-      baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/');
-    routesLocation[ssgPath] = str;
-    return ssgPath;
-  });
-  return routesLocation;
+function removeBaseUrl(pathname: string, baseUrl: string): string {
+  return baseUrl === '/'
+    ? pathname
+    : pathname.replace(new RegExp(`^${baseUrl}`), '/');
 }
 
 export function createServerEntryParams(
@@ -178,16 +166,12 @@ export function createServerEntryParams(
     siteConfig: {noIndex, ssrTemplate},
   } = props;
 
-  const routesLocation: {[filePath: string]: string} =
-    buildRoutesLocation(props);
-
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
 
   return {
     outDir,
     baseUrl,
     manifestPath,
-    routesLocation,
     headTags,
     preBodyTags,
     postBodyTags,

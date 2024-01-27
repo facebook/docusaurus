@@ -88,7 +88,6 @@ export default async function render(
 // Renderer for static-site-generator-webpack-plugin (async rendering).
 async function doRender(params: ServerEntryParams & {pathname: string}) {
   const {
-    routesLocation,
     headTags,
     preBodyTags,
     postBodyTags,
@@ -102,7 +101,7 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
   } = params;
   const manifest = await readManifestAsync(manifestPath);
 
-  const location = routesLocation[params.pathname]!;
+  const location = params.pathname;
   await preload(location);
   const modules = new Set<string>();
   const routerContext = {};
