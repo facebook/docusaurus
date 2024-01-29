@@ -73,7 +73,7 @@ export default function BlogPostStructuredData(props: Props): JSX.Element {
     <script
       type="application/ld+json"
       // We're using dangerouslySetInnerHTML because we want to avoid React
-      // transforming transforming quotes into &quot; which upsets parsers.
+      // transforming quotes into &quot; which upsets parsers.
       // The entire contents is a stringified JSON object so it is safe
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
