@@ -7,8 +7,9 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {mapAsyncSequential} from '@docusaurus/utils';
+import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
@@ -25,11 +26,12 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
-import {generateStaticFiles, createServerEntryParams} from '../ssg';
+import {generateStaticFiles} from '../ssg';
+import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {HelmetServerState} from 'react-helmet-async';
 import type {Configuration} from 'webpack';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
+import type {SiteCollectedData} from '../types';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
@@ -153,12 +155,7 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {
-      onBrokenLinks,
-      onBrokenAnchors,
-      staticDirectories: staticDirectoriesOption,
-    },
-    routes,
+    siteConfig: {staticDirectories: staticDirectoriesOption},
   } = props;
 
   const clientManifestPath = path.join(
@@ -267,7 +264,7 @@ async function buildLocale({
   );
 
   console.time('handleSSG');
-  const {collectedLinks, headTags} = await handleSSG({
+  const {collectedData} = await handleSSG({
     props,
     serverBundlePath,
     manifest,
@@ -282,14 +279,10 @@ async function buildLocale({
   }
 
   // Plugin Lifecycle - postBuild.
-  await executePluginsPostBuildLifecycle({plugins, head: headTags, props});
+  await executePluginsPostBuildLifecycle({plugins, props, collectedData});
 
-  await handleBrokenLinks({
-    collectedLinks,
-    routes,
-    onBrokenLinks,
-    onBrokenAnchors,
-  });
+  // TODO execute this in parallel to postBuild?
+  await executeBrokenLinksCheck({props, collectedData});
 
   logger.success`Generated static files in path=${path.relative(
     process.cwd(),
@@ -308,52 +301,43 @@ async function buildLocale({
 }
 
 // TODO refactor
-async function handleSSG(params: {
+async function handleSSG({
+  props,
+  serverBundlePath,
+  manifest,
+}: {
   props: Props;
   serverBundlePath: string;
   manifest: Manifest;
 }) {
-  const {props} = params;
-  const {
-    routesPaths,
-    siteConfig: {trailingSlash},
-  } = props;
-
-  const collectedLinks: {
-    [pathname: string]: {links: string[]; anchors: string[]};
-  } = {};
-  const headTags: {[location: string]: HelmetServerState} = {};
-
-  await generateStaticFiles({
-    serverBundlePath: params.serverBundlePath,
-    options: {
-      trailingSlash,
-      params: createServerEntryParams({
-        props,
-        manifest: params.manifest,
-        onLinksCollected: ({staticPagePath, links, anchors}) => {
-          collectedLinks[staticPagePath] = {links, anchors};
-        },
-        onHeadTagsCollected: (staticPagePath, tags) => {
-          headTags[staticPagePath] = tags;
-        },
-      }),
-      pathnames: routesPaths,
+  return generateStaticFiles({
+    pathnames: props.routesPaths,
+    serverBundlePath,
+    serverEntryParams: {
+      trailingSlash: props.siteConfig.trailingSlash,
+      outDir: props.outDir,
+      baseUrl: props.baseUrl,
+      manifest,
+      headTags: props.headTags,
+      preBodyTags: props.preBodyTags,
+      postBodyTags: props.postBodyTags,
+      ssrTemplate: props.siteConfig.ssrTemplate ?? ssrDefaultTemplate,
+      noIndex: props.siteConfig.noIndex,
+      DOCUSAURUS_VERSION,
     },
   });
-
-  return {collectedLinks, headTags};
 }
 
 async function executePluginsPostBuildLifecycle({
   plugins,
   props,
-  head,
+  collectedData,
 }: {
   plugins: LoadedPlugin[];
   props: Props;
-  head: {[location: string]: HelmetServerState};
+  collectedData: SiteCollectedData;
 }) {
+  const head = _.mapValues(collectedData, (d) => d.headTags);
   await Promise.all(
     plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
@@ -366,4 +350,27 @@ async function executePluginsPostBuildLifecycle({
       });
     }),
   );
+}
+
+async function executeBrokenLinksCheck({
+  props: {
+    routes,
+    siteConfig: {onBrokenLinks, onBrokenAnchors},
+  },
+  collectedData,
+}: {
+  props: Props;
+  collectedData: SiteCollectedData;
+}) {
+  const collectedLinks = _.mapValues(collectedData, (d) => ({
+    links: d.links,
+    anchors: d.anchors,
+  }));
+
+  await handleBrokenLinks({
+    collectedLinks,
+    routes,
+    onBrokenLinks,
+    onBrokenAnchors,
+  });
 }

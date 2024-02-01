@@ -9,22 +9,34 @@ import type {HelmetServerState} from 'react-helmet-async';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 
 export type ServerEntryParams = {
+  trailingSlash: boolean | undefined;
   manifest: Manifest;
   headTags: string;
   preBodyTags: string;
   postBodyTags: string;
-  onLinksCollected: (params: {
-    staticPagePath: string;
-    links: string[];
-    anchors: string[];
-  }) => void;
-  onHeadTagsCollected: (
-    staticPagePath: string,
-    tags: HelmetServerState,
-  ) => void;
   outDir: string;
   baseUrl: string;
   ssrTemplate: string;
   noIndex: boolean;
   DOCUSAURUS_VERSION: string;
+};
+
+export type ServerEntryResult = {
+  html: string;
+  collectedData: PageCollectedData;
+};
+
+export type ServerEntryRenderer = (params: {
+  pathname: string;
+  serverEntryParams: ServerEntryParams;
+}) => Promise<ServerEntryResult>;
+
+export type PageCollectedData = {
+  links: string[];
+  anchors: string[];
+  headTags: HelmetServerState;
+};
+
+export type SiteCollectedData = {
+  [pathname: string]: PageCollectedData;
 };

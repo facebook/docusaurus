@@ -7,14 +7,16 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
 
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
-import ssrDefaultTemplate from './webpack/templates/ssr.html.template';
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {Props} from '@docusaurus/types';
-import type {ServerEntryParams} from './types';
+import type {
+  ServerEntryRenderer,
+  ServerEntryResult,
+  SiteCollectedData,
+  ServerEntryParams,
+} from './types';
 
 // Secret way to set SSR plugin concurrency option
 // Waiting for feedback before documenting this officially?
@@ -25,22 +27,11 @@ const Concurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
     // See also https://github.com/sindresorhus/p-map/issues/24
     32;
 
-// TODO refactor type
-type Options = {
-  params: ServerEntryParams;
-  pathnames: string[];
-  trailingSlash?: boolean;
-};
-
-type Renderer = (
-  params: ServerEntryParams & {pathname: string},
-) => Promise<string>;
-
 async function loadServerEntryRenderer({
   serverBundlePath,
 }: {
   serverBundlePath: string;
-}): Promise<Renderer> {
+}): Promise<ServerEntryRenderer> {
   const source = await fs.readFile(serverBundlePath);
 
   const filename = path.basename(serverBundlePath);
@@ -56,7 +47,7 @@ async function loadServerEntryRenderer({
     /* filename: */ filename,
     /* scope: */ globals,
     /* includeGlobals: */ true,
-  ) as {default?: Renderer};
+  ) as {default?: ServerEntryRenderer};
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(
       `Server bundle export from "${filename}" must be a function that returns an HTML string.`,
@@ -90,24 +81,31 @@ function pathnameToFilename({
 }
 
 export async function generateStaticFiles({
+  pathnames,
   serverBundlePath,
-  options,
+  serverEntryParams,
 }: {
+  pathnames: string[];
   serverBundlePath: string;
-  options: Options;
-}): Promise<void> {
+  serverEntryParams: ServerEntryParams;
+}): Promise<{collectedData: SiteCollectedData}> {
   const renderer = await loadServerEntryRenderer({
     serverBundlePath,
   });
 
-  // Note that we implement a fai
-  const results = await pMap(
-    options.pathnames,
+  type SSGSuccess = {pathname: string; error: null; result: ServerEntryResult};
+  type SSGError = {pathname: string; error: Error; result: null};
+  type SSGResult = SSGSuccess | SSGError;
+
+  // Note that we catch all async errors on purpose
+  // Docusaurus presents all the SSG errors to the user, not just the first one
+  const results: SSGResult[] = await pMap(
+    pathnames,
     async (pathname) =>
       generateStaticFile({
         pathname,
         renderer,
-        options,
+        serverEntryParams,
       }).then(
         (result) => ({pathname, result, error: null}),
         (error) => ({pathname, result: null, error: error as Error}),
@@ -115,93 +113,80 @@ export async function generateStaticFiles({
     {concurrency: Concurrency},
   );
 
-  const allErrors = results.flatMap((result) =>
-    result.error ? {pathname: result.pathname, error: result.error} : [],
+  const [allSSGErrors, allSSGSuccesses] = _.partition(
+    results,
+    (r): r is SSGError => !!r.error,
   );
 
-  if (allErrors.length > 0) {
+  if (allSSGErrors.length > 0) {
     // TODO AggregateError does not log properly with Error.cause :/
     // see also https://github.com/nodejs/node/issues/51637
     // throw new AggregateError(allErrors);
 
     // Workaround: log errors individually + emit an aggregated error message
-    allErrors.forEach((e) => {
-      console.error(e.error);
+    allSSGErrors.forEach((ssgError) => {
+      console.error(ssgError.error);
     });
     const message = `Docusaurus static site generation failed for ${
-      allErrors.length
-    } path${allErrors.length ? 's' : ''}:\n- ${allErrors
-      .map((e) => e.pathname)
+      allSSGErrors.length
+    } path${allSSGErrors.length ? 's' : ''}:\n- ${allSSGErrors
+      .map((ssgError) => ssgError.pathname)
       .join('\n- ')}`;
     throw new Error(message);
   }
+
+  const collectedData: SiteCollectedData = _.chain(allSSGSuccesses)
+    .keyBy((success) => success.pathname)
+    .mapValues((ssgSuccess) => ssgSuccess.result.collectedData)
+    .value();
+
+  return {collectedData};
 }
 
 async function generateStaticFile({
   pathname,
   renderer,
-  options,
+  serverEntryParams,
 }: {
   pathname: string;
-  renderer: Renderer;
-  options: Options;
+  renderer: ServerEntryRenderer;
+  serverEntryParams: ServerEntryParams;
 }) {
   try {
-    const html = await renderer({pathname, ...options.params});
-
-    const filename = pathnameToFilename({
-      pathname: removeBaseUrl(pathname, options.params.baseUrl),
-      trailingSlash: options.trailingSlash,
+    const result = await renderer({pathname, serverEntryParams});
+    await writeStaticFile({
+      pathname,
+      content: result.html,
+      serverEntryParams,
     });
-
-    // TODO stream write to disk
-    const filePath = path.join(options.params.outDir, filename);
-    await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, html);
+    return result;
   } catch (errorUnknown) {
-    // TODO throw aggregate error?
     throw new Error(`Can't render static file for pathname=${pathname}`, {
       cause: errorUnknown as Error,
     });
   }
 }
 
+async function writeStaticFile({
+  content,
+  pathname,
+  serverEntryParams,
+}: {
+  content: string;
+  pathname: string;
+  serverEntryParams: ServerEntryParams;
+}) {
+  const filename = pathnameToFilename({
+    pathname: removeBaseUrl(pathname, serverEntryParams.baseUrl),
+    trailingSlash: serverEntryParams.trailingSlash,
+  });
+  const filePath = path.join(serverEntryParams.outDir, filename);
+  await fs.ensureDir(path.dirname(filePath));
+  await fs.writeFile(filePath, content);
+}
+
 function removeBaseUrl(pathname: string, baseUrl: string): string {
   return baseUrl === '/'
     ? pathname
     : pathname.replace(new RegExp(`^${baseUrl}`), '/');
-}
-
-export function createServerEntryParams(
-  params: Pick<
-    ServerEntryParams,
-    'onLinksCollected' | 'onHeadTagsCollected'
-  > & {
-    props: Props;
-    manifest: Manifest;
-  },
-): ServerEntryParams {
-  const {props, onLinksCollected, onHeadTagsCollected} = params;
-  const {
-    baseUrl,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    outDir,
-    siteConfig: {noIndex, ssrTemplate},
-  } = props;
-
-  return {
-    outDir,
-    baseUrl,
-    manifest: params.manifest,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    onLinksCollected,
-    onHeadTagsCollected,
-    ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
-    noIndex,
-    DOCUSAURUS_VERSION,
-  };
 }

@@ -21,8 +21,7 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
-
-import type {ServerEntryParams} from '../types';
+import type {PageCollectedData, ServerEntryRenderer} from '../types';
 
 const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
@@ -59,35 +58,19 @@ It might also require to wrap your client code in \`useEffect\` hook and/or impo
   return parts.join('\n');
 }
 
-export default async function render(
-  params: ServerEntryParams & {pathname: string},
-): Promise<string> {
-  try {
-    return await doRender(params);
-  } catch (errorUnknown) {
-    const error = errorUnknown as Error;
-    const message = buildSSRErrorMessage({error, pathname: params.pathname});
-    throw new Error(message, {cause: error});
-  }
-}
-
-// Renderer for static-site-generator-webpack-plugin (async rendering).
-async function doRender(params: ServerEntryParams & {pathname: string}) {
+const doRender: ServerEntryRenderer = async ({pathname, serverEntryParams}) => {
   const {
     headTags,
     preBodyTags,
     postBodyTags,
-    onLinksCollected,
-    onHeadTagsCollected,
     baseUrl,
     ssrTemplate,
     noIndex,
     DOCUSAURUS_VERSION,
     manifest,
-  } = params;
+  } = serverEntryParams;
 
-  const location = params.pathname;
-  await preload(location);
+  await preload(pathname);
   const modules = new Set<string>();
   const routerContext = {};
   const helmetContext = {};
@@ -98,7 +81,7 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
-        <StaticRouter location={location} context={routerContext}>
+        <StaticRouter location={pathname} context={routerContext}>
           <BrokenLinksProvider brokenLinks={statefulBrokenLinks}>
             <App />
           </BrokenLinksProvider>
@@ -108,14 +91,14 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
   );
 
   const appHtml = await renderStaticApp(app);
+  const {helmet} = helmetContext as FilledContext;
 
-  onLinksCollected({
-    staticPagePath: location,
+  const collectedData: PageCollectedData = {
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),
-  });
+    headTags: helmet,
+  };
 
-  const {helmet} = helmetContext as FilledContext;
   const htmlAttributes = helmet.htmlAttributes.toString();
   const bodyAttributes = helmet.bodyAttributes.toString();
   const metaStrings = [
@@ -124,7 +107,6 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
     helmet.link.toString(),
     helmet.script.toString(),
   ];
-  onHeadTagsCollected(location, helmet);
   const metaAttributes = metaStrings.filter(Boolean);
 
   // Get all required assets for this particular page based on client
@@ -149,13 +131,30 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
     version: DOCUSAURUS_VERSION,
   });
 
+  const minifiedHtml = await minifyHtml(renderedHtml);
+
+  return {html: minifiedHtml, collectedData};
+};
+
+const render: ServerEntryRenderer = async (params) => {
+  try {
+    return await doRender(params);
+  } catch (errorUnknown) {
+    const error = errorUnknown as Error;
+    const message = buildSSRErrorMessage({error, pathname: params.pathname});
+    throw new Error(message, {cause: error});
+  }
+};
+
+export default render;
+
+async function minifyHtml(html: string): Promise<string> {
   try {
     if (process.env.SKIP_HTML_MINIFICATION === 'true') {
-      return renderedHtml;
+      return html;
     }
-
     // Minify html with https://github.com/DanielRuf/html-minifier-terser
-    return await minify(renderedHtml, {
+    return await minify(html, {
       removeComments: false,
       removeRedundantAttributes: true,
       removeEmptyAttributes: true,
@@ -165,9 +164,6 @@ async function doRender(params: ServerEntryParams & {pathname: string}) {
       minifyJS: true,
     });
   } catch (err) {
-    // prettier-ignore
-    console.error(`Minification of page ${params.pathname} failed.`);
-    console.error(err);
-    throw err;
+    throw new Error('HTML minification failed', {cause: err as Error});
   }
 }
