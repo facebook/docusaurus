@@ -67,11 +67,7 @@ export default async function render(
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
     const message = buildSSRErrorMessage({error, pathname: params.pathname});
-    const ssrError = new Error(message, {cause: error});
-    // It is important to log the error here because the stacktrace causal chain
-    // is not available anymore upper in the tree (this SSR runs in eval)
-    console.error(ssrError);
-    throw ssrError;
+    throw new Error(message, {cause: error});
   }
 }
 

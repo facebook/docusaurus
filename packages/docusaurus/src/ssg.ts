@@ -100,17 +100,41 @@ export async function generateStaticFiles({
     serverBundlePath,
   });
 
-  // TODO throw aggregate error
-  await pMap(
+  // Note that we implement a fai
+  const results = await pMap(
     options.pathnames,
     async (pathname) =>
       generateStaticFile({
         pathname,
         renderer,
         options,
-      }),
+      }).then(
+        (result) => ({pathname, result, error: null}),
+        (error) => ({pathname, result: null, error: error as Error}),
+      ),
     {concurrency: Concurrency},
   );
+
+  const allErrors = results.flatMap((result) =>
+    result.error ? {pathname: result.pathname, error: result.error} : [],
+  );
+
+  if (allErrors.length > 0) {
+    // TODO AggregateError does not log properly with Error.cause :/
+    // see also https://github.com/nodejs/node/issues/51637
+    // throw new AggregateError(allErrors);
+
+    // Workaround: log errors individually + emit an aggregated error message
+    allErrors.forEach((e) => {
+      console.error(e.error);
+    });
+    const message = `Docusaurus static site generation failed for ${
+      allErrors.length
+    } path${allErrors.length ? 's' : ''}:\n- ${allErrors
+      .map((e) => e.pathname)
+      .join('\n- ')}`;
+    throw new Error(message);
+  }
 }
 
 async function generateStaticFile({
