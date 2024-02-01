@@ -10,7 +10,6 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
@@ -151,12 +150,7 @@ async function buildLocale({
   });
 
   // Apply user webpack config.
-  const {
-    outDir,
-    generatedFilesDir,
-    plugins,
-    siteConfig: {staticDirectories: staticDirectoriesOption},
-  } = props;
+  const {outDir, generatedFilesDir, plugins} = props;
 
   const clientManifestPath = path.join(
     generatedFilesDir,
@@ -182,40 +176,6 @@ async function buildLocale({
   let serverConfig: Configuration = await createServerConfig({
     props,
   });
-
-  // The staticDirectories option can contain empty directories, or non-existent
-  // directories (e.g. user deleted `static`). Instead of issuing an error, we
-  // just silently filter them out, because user could have never configured it
-  // in the first place (the default option should always "work").
-  const staticDirectories = (
-    await Promise.all(
-      staticDirectoriesOption.map(async (dir) => {
-        const staticDir = path.resolve(siteDir, dir);
-        if (
-          (await fs.pathExists(staticDir)) &&
-          (await fs.readdir(staticDir)).length > 0
-        ) {
-          return staticDir;
-        }
-        return '';
-      }),
-    )
-  ).filter(Boolean);
-
-  // TODO move to server.ts?
-  if (staticDirectories.length > 0) {
-    serverConfig = merge(serverConfig, {
-      plugins: [
-        new CopyWebpackPlugin({
-          patterns: staticDirectories.map((dir) => ({
-            from: dir,
-            to: outDir,
-            toType: 'dir',
-          })),
-        }),
-      ],
-    });
-  }
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
