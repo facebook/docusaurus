@@ -9,9 +9,10 @@ import path from 'path';
 import logger from '@docusaurus/logger';
 import merge from 'webpack-merge';
 import WebpackBar from 'webpackbar';
-import {DefinePlugin} from 'webpack';
+import webpack from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import {formatStatsErrorMessage} from './utils';
@@ -19,11 +20,15 @@ import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
-export default async function createClientConfig(
-  props: Props,
-  minify: boolean = true,
-  hydrate: boolean = true,
-): Promise<Configuration> {
+async function createBaseClientConfig({
+  props,
+  hydrate = true,
+  minify = true,
+}: {
+  props: Props;
+  hydrate?: boolean;
+  minify?: boolean;
+}): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
   const config = await createBaseConfig(props, false, minify);
 
@@ -38,7 +43,7 @@ export default async function createClientConfig(
       runtimeChunk: true,
     },
     plugins: [
-      new DefinePlugin({
+      new webpack.DefinePlugin({
         'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
       }),
       new ChunkAssetPlugin(),
@@ -72,6 +77,56 @@ export default async function createClientConfig(
   return clientConfig;
 }
 
+// client config when running "docusaurus start"
+export async function createStartClientConfig({
+  props,
+  minify,
+  poll,
+}: {
+  props: Props;
+  minify?: boolean;
+  poll?: number | boolean | undefined;
+}): Promise<{clientConfig: Configuration}> {
+  const {siteConfig, headTags, preBodyTags, postBodyTags} = props;
+
+  const clientConfig: webpack.Configuration = merge(
+    await createBaseClientConfig({
+      props,
+      minify,
+      hydrate: false,
+    }),
+    {
+      watchOptions: {
+        ignored: /node_modules\/(?!@docusaurus)/,
+        poll,
+      },
+      infrastructureLogging: {
+        // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+        level: 'warn',
+      },
+      plugins: [
+        // Generates an `index.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          template: path.join(
+            __dirname,
+            '../webpack/templates/index.html.template.ejs',
+          ),
+          // So we can define the position where the scripts are injected.
+          inject: false,
+          filename: 'index.html',
+          title: siteConfig.title,
+          headTags,
+          preBodyTags,
+          postBodyTags,
+        }),
+      ],
+    },
+  );
+
+  return {clientConfig};
+}
+
+// client config when running "docusaurus build"
 export async function createBuildClientConfig({
   props,
   minify,
@@ -90,7 +145,7 @@ export async function createBuildClientConfig({
   );
 
   const clientConfig: Configuration = merge(
-    await createClientConfig(props, minify, true),
+    await createBaseClientConfig({props, minify, hydrate: true}),
     {
       plugins: [
         // Remove/clean build folders before building bundles.

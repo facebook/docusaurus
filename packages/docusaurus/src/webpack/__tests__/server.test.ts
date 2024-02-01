@@ -17,11 +17,8 @@ describe('webpack production config', () => {
     const props = await loadSetup('simple-site');
     const config = await createServerConfig({
       props,
-      onHeadTagsCollected: () => {},
-      onLinksCollected: () => {},
     });
-    const errors = webpack.validate(config);
-    expect(errors).toBeUndefined();
+    webpack.validate(config);
   });
 
   it('custom', async () => {
@@ -29,10 +26,7 @@ describe('webpack production config', () => {
     const props = await loadSetup('custom-site');
     const config = await createServerConfig({
       props,
-      onHeadTagsCollected: () => {},
-      onLinksCollected: () => {},
     });
-    const errors = webpack.validate(config);
-    expect(errors).toBeUndefined();
+    webpack.validate(config);
   });
 });
