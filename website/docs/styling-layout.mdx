@@ -297,3 +297,17 @@ function MyComponent() {
   );
 }
 ```
+
+#### TypeScript support
+
+To enable TypeScript support for Sass/SCSS modules, the TypeScript configuration should be updated to add the `docusaurus-plugin-sass` type definitions. This can be done in the `tsconfig.json` file:
+
+```diff
+{
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    ...
++    "types": ["docusaurus-plugin-sass"]
+  }
+}
+```
