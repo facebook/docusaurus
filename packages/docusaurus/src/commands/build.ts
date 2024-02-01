@@ -16,8 +16,8 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
-  applyConfigurePostCss,
-  applyConfigureWebpack,
+  executePluginsConfigurePostCss,
+  executePluginsConfigureWebpack,
   compile,
 } from '../webpack/utils';
 import {loadI18n} from '../server/i18n';
@@ -148,48 +148,20 @@ async function buildLocale({
   // Apply user webpack config.
   const {outDir, plugins} = props;
 
-  const res = await createBuildClientConfig({
-    props,
-    minify: cliOptions.minify,
-    bundleAnalyzer: cliOptions.bundleAnalyzer,
-  });
-  // TODO awkward, refactor
-  let {clientConfig} = res;
-  const {clientManifestPath} = res;
-
-  let serverConfig: Configuration = await createServerConfig({
-    props,
-  });
-
-  // Plugin Lifecycle - configureWebpack and configurePostCss.
-  plugins.forEach((plugin) => {
-    const {configureWebpack, configurePostCss} = plugin;
-
-    if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(
-        configurePostCss.bind(plugin),
-        clientConfig,
-      );
-    }
-
-    if (configureWebpack) {
-      clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-        clientConfig,
-        false,
-        props.siteConfig.webpack?.jsLoader,
-        plugin.content,
-      );
-
-      serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-        serverConfig,
-        true,
-        props.siteConfig.webpack?.jsLoader,
-        plugin.content,
-      );
-    }
-  });
+  // We can build the 2 configs in parallel
+  const [{clientConfig, clientManifestPath}, {serverConfig}] =
+    await Promise.all([
+      buildPluginsClientConfig({
+        plugins,
+        props,
+        minify: cliOptions.minify,
+        bundleAnalyzer: cliOptions.bundleAnalyzer,
+      }),
+      buildPluginsServerConfig({
+        plugins,
+        props,
+      }),
+    ]);
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
   // the one from previous builds.
@@ -202,6 +174,7 @@ async function buildLocale({
 
   const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
 
+  // TODO return this path from "createServerConfig"?
   const serverBundlePath = path.join(
     outDir,
     serverConfig.output?.filename as string,
@@ -223,7 +196,7 @@ async function buildLocale({
   }
 
   // Plugin Lifecycle - postBuild.
-  await executePluginsPostBuildLifecycle({plugins, props, collectedData});
+  await executePluginsPostBuild({plugins, props, collectedData});
 
   // TODO execute this in parallel to postBuild?
   await executeBrokenLinksCheck({props, collectedData});
@@ -272,7 +245,7 @@ async function handleSSG({
   });
 }
 
-async function executePluginsPostBuildLifecycle({
+async function executePluginsPostBuild({
   plugins,
   props,
   collectedData,
@@ -317,4 +290,55 @@ async function executeBrokenLinksCheck({
     onBrokenLinks,
     onBrokenAnchors,
   });
+}
+
+async function buildPluginsClientConfig({
+  plugins,
+  props,
+  minify,
+  bundleAnalyzer,
+}: {
+  plugins: LoadedPlugin[];
+  props: Props;
+  minify?: boolean;
+  bundleAnalyzer?: boolean;
+}) {
+  const clientConfigResult = await createBuildClientConfig({
+    props,
+    minify,
+    bundleAnalyzer,
+  });
+  // TODO awkward ESLint issue, refactor
+  const {clientManifestPath} = clientConfigResult;
+  let {clientConfig} = clientConfigResult;
+  clientConfig = executePluginsConfigureWebpack({
+    plugins,
+    config: clientConfig,
+    isServer: false,
+    jsLoader: props.siteConfig.webpack?.jsLoader,
+  });
+  return {clientConfig, clientManifestPath};
+}
+
+async function buildPluginsServerConfig({
+  plugins,
+  props,
+}: {
+  plugins: LoadedPlugin[];
+  props: Props;
+}) {
+  let serverConfig: Configuration = await createServerConfig({
+    props,
+  });
+  serverConfig = executePluginsConfigurePostCss({
+    plugins,
+    config: serverConfig,
+  });
+  serverConfig = executePluginsConfigureWebpack({
+    plugins,
+    config: serverConfig,
+    isServer: true,
+    jsLoader: props.siteConfig.webpack?.jsLoader,
+  });
+  return {serverConfig};
 }

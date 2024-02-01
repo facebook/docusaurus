@@ -30,6 +30,7 @@ import type {
   Plugin,
   PostCssOptions,
   ConfigureWebpackUtils,
+  LoadedPlugin,
 } from '@docusaurus/types';
 
 export function formatStatsErrorMessage(
@@ -257,6 +258,57 @@ export function applyConfigurePostCss(
   );
 
   return config;
+}
+
+// Plugin Lifecycle - configurePostCss()
+export function executePluginsConfigurePostCss({
+  plugins,
+  config,
+}: {
+  plugins: LoadedPlugin[];
+  config: Configuration;
+}): Configuration {
+  let resultConfig = config;
+  plugins.forEach((plugin) => {
+    const {configurePostCss} = plugin;
+    if (configurePostCss) {
+      resultConfig = applyConfigurePostCss(
+        configurePostCss.bind(plugin),
+        resultConfig,
+      );
+    }
+  });
+  return resultConfig;
+}
+
+// Plugin Lifecycle - configureWebpack()
+export function executePluginsConfigureWebpack({
+  plugins,
+  config,
+  isServer,
+  jsLoader,
+}: {
+  plugins: LoadedPlugin[];
+  config: Configuration;
+  isServer: boolean;
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined;
+}): Configuration {
+  let resultConfig = config;
+
+  plugins.forEach((plugin) => {
+    const {configureWebpack} = plugin;
+    if (configureWebpack) {
+      resultConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        resultConfig,
+        isServer,
+        jsLoader,
+        plugin.content,
+      );
+    }
+  });
+
+  return resultConfig;
 }
 
 declare global {

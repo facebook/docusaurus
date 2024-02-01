@@ -20,13 +20,14 @@ import merge from 'webpack-merge';
 import {load, type LoadContextOptions} from '../server';
 import {createStartClientConfig} from '../webpack/client';
 import {
-  applyConfigureWebpack,
-  applyConfigurePostCss,
   getHttpsConfig,
   formatStatsErrorMessage,
   printStatsWarnings,
+  executePluginsConfigurePostCss,
+  executePluginsConfigureWebpack,
 } from '../webpack/utils';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
+import type {Compiler} from 'webpack';
 
 export type StartCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'locale' | 'config'> & {
@@ -127,43 +128,17 @@ export async function start(
     poll: cliOptions.poll,
   });
 
-  // Plugin Lifecycle - configureWebpack and configurePostCss.
-  plugins.forEach((plugin) => {
-    const {configureWebpack, configurePostCss} = plugin;
+  config = executePluginsConfigurePostCss({plugins, config});
 
-    if (configurePostCss) {
-      config = applyConfigurePostCss(configurePostCss.bind(plugin), config);
-    }
-
-    if (configureWebpack) {
-      config = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-        config,
-        false,
-        props.siteConfig.webpack?.jsLoader,
-        plugin.content,
-      );
-    }
+  config = executePluginsConfigureWebpack({
+    plugins,
+    config,
+    isServer: false,
+    jsLoader: props.siteConfig.webpack?.jsLoader,
   });
 
   const compiler = webpack(config);
-  compiler.hooks.done.tap('done', (stats) => {
-    const errorsWarnings = stats.toJson('errors-warnings');
-    const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
-    if (statsErrorMessage) {
-      console.error(statsErrorMessage);
-    }
-    printStatsWarnings(errorsWarnings);
-
-    if (process.env.E2E_TEST) {
-      if (stats.hasErrors()) {
-        logger.error('E2E_TEST: Project has compiler errors.');
-        process.exit(1);
-      }
-      logger.success('E2E_TEST: Project can compile.');
-      process.exit(0);
-    }
-  });
+  registerE2ETestHook(compiler);
 
   // https://webpack.js.org/configuration/dev-server
   const defaultDevServerConfig: WebpackDevServer.Configuration = {
@@ -238,5 +213,26 @@ export async function start(
       devServer.stop();
       process.exit();
     });
+  });
+}
+
+// E2E_TEST=true docusaurus start
+// Makes "docusaurus start" exit immediately on success/error, for E2E test
+function registerE2ETestHook(compiler: Compiler) {
+  compiler.hooks.done.tap('done', (stats) => {
+    const errorsWarnings = stats.toJson('errors-warnings');
+    const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
+    if (statsErrorMessage) {
+      console.error(statsErrorMessage);
+    }
+    printStatsWarnings(errorsWarnings);
+    if (process.env.E2E_TEST) {
+      if (stats.hasErrors()) {
+        logger.error('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      logger.success('E2E_TEST: Project can compile.');
+      process.exit(0);
+    }
   });
 }
