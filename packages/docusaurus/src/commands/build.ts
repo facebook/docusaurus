@@ -10,20 +10,16 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
-import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-import merge from 'webpack-merge';
 import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import createClientConfig from '../webpack/client';
+import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
   applyConfigurePostCss,
   applyConfigureWebpack,
   compile,
 } from '../webpack/utils';
-import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {generateStaticFiles} from '../ssg';
 import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
@@ -150,28 +146,16 @@ async function buildLocale({
   });
 
   // Apply user webpack config.
-  const {outDir, generatedFilesDir, plugins} = props;
+  const {outDir, plugins} = props;
 
-  const clientManifestPath = path.join(
-    generatedFilesDir,
-    'client-manifest.json',
-  );
-  let clientConfig: Configuration = merge(
-    await createClientConfig(props, cliOptions.minify, true),
-    {
-      plugins: [
-        // Remove/clean build folders before building bundles.
-        new CleanWebpackPlugin({verbose: false}),
-        // Visualize size of webpack output files with an interactive zoomable
-        // tree map.
-        cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-        // Generate client manifests file that will be used for server bundle.
-        new ReactLoadableSSRAddon({
-          filename: clientManifestPath,
-        }),
-      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
-    },
-  );
+  const res = await createBuildClientConfig({
+    props,
+    minify: cliOptions.minify,
+    bundleAnalyzer: cliOptions.bundleAnalyzer,
+  });
+  // TODO awkward, refactor
+  let {clientConfig} = res;
+  const {clientManifestPath} = res;
 
   let serverConfig: Configuration = await createServerConfig({
     props,

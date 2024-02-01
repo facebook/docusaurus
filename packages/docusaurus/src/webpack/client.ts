@@ -10,9 +10,12 @@ import logger from '@docusaurus/logger';
 import merge from 'webpack-merge';
 import WebpackBar from 'webpackbar';
 import {DefinePlugin} from 'webpack';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import {formatStatsErrorMessage} from './utils';
+import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
@@ -67,4 +70,41 @@ export default async function createClientConfig(
   }
 
   return clientConfig;
+}
+
+export async function createBuildClientConfig({
+  props,
+  minify,
+  bundleAnalyzer,
+}: {
+  props: Props;
+  minify?: boolean;
+  bundleAnalyzer?: boolean;
+}): Promise<{clientConfig: Configuration; clientManifestPath: string}> {
+  // Apply user webpack config.
+  const {generatedFilesDir} = props;
+
+  const clientManifestPath = path.join(
+    generatedFilesDir,
+    'client-manifest.json',
+  );
+
+  const clientConfig: Configuration = merge(
+    await createClientConfig(props, minify, true),
+    {
+      plugins: [
+        // Remove/clean build folders before building bundles.
+        new CleanWebpackPlugin({verbose: false}),
+        // Visualize size of webpack output files with an interactive zoomable
+        // tree map.
+        bundleAnalyzer && new BundleAnalyzerPlugin(),
+        // Generate client manifests file that will be used for server bundle.
+        new ReactLoadableSSRAddon({
+          filename: clientManifestPath,
+        }),
+      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
+    },
+  );
+
+  return {clientConfig, clientManifestPath};
 }
