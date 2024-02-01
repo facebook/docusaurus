@@ -25,6 +25,12 @@ Use the **[MDX playground](https://mdxjs.com/playground/)** to debug them and ma
 
 :::
 
+:::info
+
+Prettier, the most popular formatter, [supports only the legacy MDX v1](https://github.com/prettier/prettier/issues/12209). If you get an unintentional formatting result, you may want to add `{/* prettier-ignore */}` before the problematic area, or add `*.mdx` to your `.prettierignore`, until Prettier has proper support for MDX v3. [One of the main authors of MDX recommends `remark-cli` with `remark-mdx`](https://github.com/orgs/mdx-js/discussions/2067).
+
+:::
+
 ### Exporting components {#exporting-components}
 
 To define any custom component within an MDX file, you have to export it: only paragraphs that start with `export` will be parsed as components instead of prose.
