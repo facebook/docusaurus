@@ -11,6 +11,7 @@ import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
 import {minify} from 'html-minifier-terser';
+import logger from '@docusaurus/logger';
 import {PerfLogger} from './utils';
 import {renderSSRTemplate} from './templates/templates';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from './common';
@@ -136,20 +137,17 @@ export async function generateStaticFiles({
   );
 
   if (allSSGErrors.length > 0) {
-    // TODO AggregateError does not log properly with Error.cause :/
-    // see also https://github.com/nodejs/node/issues/51637
-    // throw new AggregateError(allErrors);
-
-    // Workaround: log errors individually + emit an aggregated error message
-    allSSGErrors.forEach((ssgError) => {
-      console.error(ssgError.error);
-    });
     const message = `Docusaurus static site generation failed for ${
       allSSGErrors.length
     } path${allSSGErrors.length ? 's' : ''}:\n- ${allSSGErrors
-      .map((ssgError) => ssgError.pathname)
+      .map((ssgError) => logger.path(ssgError.pathname))
       .join('\n- ')}`;
-    throw new Error(message);
+
+    // Note logging this error properly require using inspect(error,{depth})
+    // See https://github.com/nodejs/node/issues/51637
+    throw new Error(message, {
+      cause: new AggregateError(allSSGErrors.map((ssgError) => ssgError.error)),
+    });
   }
 
   const collectedData: SiteCollectedData = _.chain(allSSGSuccesses)
@@ -187,10 +185,37 @@ async function generateStaticFile({
     });
     return result;
   } catch (errorUnknown) {
-    throw new Error(`Can't render static file for pathname=${pathname}`, {
-      cause: errorUnknown as Error,
+    const error = errorUnknown as Error;
+    const tips = getSSGErrorTips(error);
+    const message = logger.interpolate`Can't render static file for pathname path=${pathname}${
+      tips ? `\n\n${  tips}` : ''
+    }`;
+    throw new Error(message, {
+      cause: error,
     });
   }
+}
+
+function getSSGErrorTips(error: Error): string {
+  const parts = [];
+
+  const isNotDefinedErrorRegex =
+    /(?:window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+  if (isNotDefinedErrorRegex.test(error.message)) {
+    parts.push(`It looks like you are using code that should run on the client-side only.
+To get around it, try using one of:
+- ${logger.code('<BrowserOnly>')} (${logger.url(
+      'https://docusaurus.io/docs/docusaurus-core/#browseronly',
+    )})
+- ${logger.code('ExecutionEnvironment')} (${logger.url(
+      'https://docusaurus.io/docs/docusaurus-core/#executionenvironment',
+    )}).
+It might also require to wrap your client code in ${logger.code(
+      'useEffect',
+    )} hook and/or import a third-party library dynamically (if any).`);
+  }
+
+  return parts.join('\n');
 }
 
 async function writeStaticFile({
