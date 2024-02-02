@@ -154,8 +154,8 @@ async function buildLocale({
       buildPluginsClientConfig({
         plugins,
         props,
-        minify: cliOptions.minify,
-        bundleAnalyzer: cliOptions.bundleAnalyzer,
+        minify: cliOptions.minify ?? true,
+        bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
       }),
       buildPluginsServerConfig({
         plugins,
@@ -163,7 +163,7 @@ async function buildLocale({
       }),
     ]);
 
-  // Make sure generated client-manifest is cleaned first so we don't reuse
+  // Make sure generated client-manifest is cleaned first, so we don't reuse
   // the one from previous builds.
   if (await fs.pathExists(clientManifestPath)) {
     await fs.unlink(clientManifestPath);
@@ -300,24 +300,22 @@ async function buildPluginsClientConfig({
 }: {
   plugins: LoadedPlugin[];
   props: Props;
-  minify?: boolean;
-  bundleAnalyzer?: boolean;
+  minify: boolean;
+  bundleAnalyzer: boolean;
 }) {
-  const clientConfigResult = await createBuildClientConfig({
+  const result = await createBuildClientConfig({
     props,
     minify,
     bundleAnalyzer,
   });
-  // TODO awkward ESLint issue, refactor
-  const {clientManifestPath} = clientConfigResult;
-  let {clientConfig} = clientConfigResult;
-  clientConfig = executePluginsConfigureWebpack({
+  let {clientConfig: config} = result;
+  config = executePluginsConfigureWebpack({
     plugins,
-    config: clientConfig,
+    config,
     isServer: false,
     jsLoader: props.siteConfig.webpack?.jsLoader,
   });
-  return {clientConfig, clientManifestPath};
+  return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
 
 async function buildPluginsServerConfig({

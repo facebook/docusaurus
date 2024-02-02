@@ -28,6 +28,7 @@ import {
 } from '../webpack/utils';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import type {Compiler} from 'webpack';
+import type {LoadedPlugin, Props} from '@docusaurus/types';
 
 export type StartCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'locale' | 'config'> & {
@@ -122,19 +123,11 @@ export async function start(
     fsWatcher.on(event, reload),
   );
 
-  let {clientConfig: config} = await createStartClientConfig({
-    props,
-    minify: cliOptions.minify,
-    poll: cliOptions.poll,
-  });
-
-  config = executePluginsConfigurePostCss({plugins, config});
-
-  config = executePluginsConfigureWebpack({
+  const config = await buildPluginsClientConfig({
     plugins,
-    config,
-    isServer: false,
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    props,
+    minify: cliOptions.minify ?? true,
+    poll: cliOptions.poll,
   });
 
   const compiler = webpack(config);
@@ -235,4 +228,30 @@ function registerE2ETestHook(compiler: Compiler) {
       process.exit(0);
     }
   });
+}
+
+async function buildPluginsClientConfig({
+  plugins,
+  props,
+  minify,
+  poll,
+}: {
+  plugins: LoadedPlugin[];
+  props: Props;
+  minify: boolean;
+  poll: number | boolean | undefined;
+}) {
+  let {clientConfig: config} = await createStartClientConfig({
+    props,
+    minify,
+    poll,
+  });
+  config = executePluginsConfigurePostCss({plugins, config});
+  config = executePluginsConfigureWebpack({
+    plugins,
+    config,
+    isServer: false,
+    jsLoader: props.siteConfig.webpack?.jsLoader,
+  });
+  return config;
 }

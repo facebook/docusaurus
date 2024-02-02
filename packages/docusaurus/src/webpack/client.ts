@@ -22,12 +22,12 @@ import type {Configuration} from 'webpack';
 
 async function createBaseClientConfig({
   props,
-  hydrate = true,
-  minify = true,
+  hydrate,
+  minify,
 }: {
   props: Props;
-  hydrate?: boolean;
-  minify?: boolean;
+  hydrate: boolean;
+  minify: boolean;
 }): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
   const config = await createBaseConfig(props, false, minify);
@@ -84,8 +84,8 @@ export async function createStartClientConfig({
   poll,
 }: {
   props: Props;
-  minify?: boolean;
-  poll?: number | boolean | undefined;
+  minify: boolean;
+  poll: number | boolean | undefined;
 }): Promise<{clientConfig: Configuration}> {
   const {siteConfig, headTags, preBodyTags, postBodyTags} = props;
 
@@ -133,8 +133,8 @@ export async function createBuildClientConfig({
   bundleAnalyzer,
 }: {
   props: Props;
-  minify?: boolean;
-  bundleAnalyzer?: boolean;
+  minify: boolean;
+  bundleAnalyzer: boolean;
 }): Promise<{clientConfig: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
   const {generatedFilesDir} = props;
