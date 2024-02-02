@@ -19,8 +19,8 @@ describe('webpack dev config', () => {
 
   it('simple build', async () => {
     const props = await loadSetup('simple-site');
-    const {clientConfig} = await createBuildClientConfig({props});
-    webpack.validate(clientConfig);
+    const {config} = await createBuildClientConfig({props});
+    webpack.validate(config);
   });
 
   it('custom start', async () => {
@@ -31,7 +31,7 @@ describe('webpack dev config', () => {
 
   it('custom build', async () => {
     const props = await loadSetup('custom-site');
-    const {clientConfig} = await createBuildClientConfig({props});
-    webpack.validate(clientConfig);
+    const {config} = await createBuildClientConfig({props});
+    webpack.validate(config);
   });
 });

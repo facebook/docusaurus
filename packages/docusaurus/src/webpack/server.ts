@@ -17,17 +17,25 @@ import type {Configuration} from 'webpack';
 
 export default async function createServerConfig(params: {
   props: Props;
-}): Promise<Configuration> {
+}): Promise<{config: Configuration; serverBundlePath: string}> {
   const {props} = params;
-  const config = await createBaseConfig(props, true);
 
-  return merge(config, {
+  const baseConfig = await createBaseConfig({
+    props,
+    isServer: true,
+    minify: true, // TODO is it worth it to minify server bundle??? benchmark
+  });
+
+  const outputFilename = 'server.bundle.js';
+  const serverBundlePath = path.join(props.outDir, outputFilename);
+
+  const config = merge(baseConfig, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
     output: {
-      filename: 'server.bundle.js',
+      filename: outputFilename,
       libraryTarget: 'commonjs2',
       // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
       globalObject: 'this',
@@ -41,6 +49,8 @@ export default async function createServerConfig(params: {
       await createStaticDirectoriesCopyPlugin(params),
     ].filter(Boolean),
   });
+
+  return {config, serverBundlePath};
 }
 
 async function createStaticDirectoriesCopyPlugin({props}: {props: Props}) {

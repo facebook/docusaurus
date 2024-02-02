@@ -30,9 +30,9 @@ async function createBaseClientConfig({
   minify: boolean;
 }): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
-  const config = await createBaseConfig(props, false, minify);
+  const baseConfig = await createBaseConfig({props, isServer: false, minify});
 
-  const clientConfig = merge(config, {
+  const config = merge(baseConfig, {
     // Useless, disabled on purpose (errors on existing sites with no
     // browserslist config)
     // target: 'browserslist',
@@ -57,7 +57,7 @@ async function createBaseClientConfig({
   // When building, include the plugin to force terminate building if errors
   // happened in the client bundle.
   if (isBuilding) {
-    clientConfig.plugins?.push({
+    config.plugins?.push({
       apply: (compiler) => {
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {
@@ -74,7 +74,7 @@ async function createBaseClientConfig({
     });
   }
 
-  return clientConfig;
+  return config;
 }
 
 // client config when running "docusaurus start"
@@ -135,7 +135,7 @@ export async function createBuildClientConfig({
   props: Props;
   minify: boolean;
   bundleAnalyzer: boolean;
-}): Promise<{clientConfig: Configuration; clientManifestPath: string}> {
+}): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
   const {generatedFilesDir} = props;
 
@@ -144,7 +144,7 @@ export async function createBuildClientConfig({
     'client-manifest.json',
   );
 
-  const clientConfig: Configuration = merge(
+  const config: Configuration = merge(
     await createBaseClientConfig({props, minify, hydrate: true}),
     {
       plugins: [
@@ -161,5 +161,5 @@ export async function createBuildClientConfig({
     },
   );
 
-  return {clientConfig, clientManifestPath};
+  return {config, clientManifestPath};
 }

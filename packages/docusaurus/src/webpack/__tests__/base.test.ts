@@ -105,8 +105,9 @@ describe('base webpack config', () => {
   });
 
   it('creates webpack aliases', async () => {
-    const aliases = ((await createBaseConfig(props, true)).resolve?.alias ??
-      {}) as {[alias: string]: string};
+    const aliases = ((
+      await createBaseConfig({props, isServer: true, minify: true})
+    ).resolve?.alias ?? {}) as {[alias: string]: string};
     // Make aliases relative so that test work on all computers
     const relativeAliases = _.mapValues(aliases, (a) =>
       posixPath(path.relative(props.siteDir, a)),
@@ -121,7 +122,7 @@ describe('base webpack config', () => {
       .spyOn(utils, 'getFileLoaderUtils')
       .mockImplementation(() => fileLoaderUtils);
 
-    await createBaseConfig(props, false, false);
+    await createBaseConfig({props, isServer: false, minify: false});
     expect(mockSvg).toHaveBeenCalled();
   });
 });

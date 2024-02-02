@@ -44,11 +44,15 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export async function createBaseConfig(
-  props: Props,
-  isServer: boolean,
-  minify: boolean = true,
-): Promise<Configuration> {
+export async function createBaseConfig({
+  props,
+  isServer,
+  minify,
+}: {
+  props: Props;
+  isServer: boolean;
+  minify: boolean;
+}): Promise<Configuration> {
   const {
     outDir,
     siteDir,

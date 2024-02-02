@@ -24,7 +24,6 @@ import {loadI18n} from '../server/i18n';
 import {generateStaticFiles} from '../ssg';
 import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {Configuration} from 'webpack';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
 import type {SiteCollectedData} from '../types';
 
@@ -308,7 +307,7 @@ async function buildPluginsClientConfig({
     minify,
     bundleAnalyzer,
   });
-  let {clientConfig: config} = result;
+  let {config} = result;
   config = executePluginsConfigureWebpack({
     plugins,
     config,
@@ -325,18 +324,20 @@ async function buildPluginsServerConfig({
   plugins: LoadedPlugin[];
   props: Props;
 }) {
-  let serverConfig: Configuration = await createServerConfig({
+  const result = await createServerConfig({
     props,
   });
-  serverConfig = executePluginsConfigurePostCss({
+  let {config} = result;
+
+  config = executePluginsConfigurePostCss({
     plugins,
-    config: serverConfig,
+    config,
   });
-  serverConfig = executePluginsConfigureWebpack({
+  config = executePluginsConfigureWebpack({
     plugins,
-    config: serverConfig,
+    config,
     isServer: true,
     jsLoader: props.siteConfig.webpack?.jsLoader,
   });
-  return {serverConfig};
+  return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }
