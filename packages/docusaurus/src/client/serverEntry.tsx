@@ -9,7 +9,7 @@ import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import Loadable from 'react-loadable';
-import {renderStaticApp} from './serverRenderer';
+import {renderToHtml} from './renderToHtml';
 import preload from './preload';
 import App from './App';
 import {
@@ -63,7 +63,7 @@ const doRender: ServerEntryRenderer = async ({pathname}) => {
     </Loadable.Capture>
   );
 
-  const html = await renderStaticApp(app);
+  const html = await renderToHtml(app);
   const {helmet} = helmetContext as FilledContext;
 
   const collectedData: PageCollectedData = {
