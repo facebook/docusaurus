@@ -27,6 +27,12 @@ import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
 import type {SiteCollectedData} from '../types';
 
+// For now this is a private env variable we use internally
+// But we'll want to expose this feature officially some day
+const isPerfLogging = !!process.env.DOCUSAURUS_PERF_LOGGER;
+isPerfLogging &&
+  console.log('[PERF] Docusaurus build performance logging enable');
+
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
   'config' | 'locale' | 'outDir'
@@ -44,7 +50,7 @@ export async function build(
   // deploy, we have to let deploy finish.
   // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
-): Promise<string> {
+): Promise<void> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
@@ -68,13 +74,17 @@ export async function build(
     isLastLocale: boolean;
   }) {
     try {
-      return await buildLocale({
+      isPerfLogging &&
+        console.time(`[PERF] Building site for locale ${locale}`);
+      await buildLocale({
         siteDir,
         locale,
         cliOptions,
         forceTerminate,
         isLastLocale,
       });
+      isPerfLogging &&
+        console.timeEnd(`[PERF] Building site for locale ${locale}`);
     } catch (err) {
       throw new Error(
         logger.interpolate`Unable to build website for locale name=${locale}.`,
@@ -84,6 +94,34 @@ export async function build(
       );
     }
   }
+
+  isPerfLogging && console.time(`[PERF] Get locales to build`);
+  const locales = await getLocalesToBuild({siteDir, cliOptions});
+  isPerfLogging && console.timeEnd(`[PERF] Get locales to build`);
+
+  if (locales.length > 1) {
+    logger.info`Website will be built for all these locales: ${locales}`;
+  }
+
+  isPerfLogging && console.time(`[PERF] Building ${locales.length} locales`);
+  await mapAsyncSequential(locales, (locale) => {
+    const isLastLocale = locales.indexOf(locale) === locales.length - 1;
+    return tryToBuildLocale({locale, isLastLocale});
+  });
+  isPerfLogging && console.timeEnd(`[PERF] Building ${locales.length} locales`);
+}
+
+async function getLocalesToBuild({
+  siteDir,
+  cliOptions,
+}: {
+  siteDir: string;
+  cliOptions: BuildCLIOptions;
+}): Promise<[string, ...string[]]> {
+  if (cliOptions.locale) {
+    return [cliOptions.locale];
+  }
+
   const context = await loadContext({
     siteDir,
     outDir: cliOptions.outDir,
@@ -94,26 +132,16 @@ export async function build(
   const i18n = await loadI18n(context.siteConfig, {
     locale: cliOptions.locale,
   });
-  if (cliOptions.locale) {
-    return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
-  }
   if (i18n.locales.length > 1) {
     logger.info`Website will be built for all these locales: ${i18n.locales}`;
   }
 
   // We need the default locale to always be the 1st in the list. If we build it
   // last, it would "erase" the localized sites built in sub-folders
-  const orderedLocales: [string, ...string[]] = [
+  return [
     i18n.defaultLocale,
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
-
-  const results = await mapAsyncSequential(orderedLocales, (locale) => {
-    const isLastLocale =
-      orderedLocales.indexOf(locale) === orderedLocales.length - 1;
-    return tryToBuildLocale({locale, isLastLocale});
-  });
-  return results[0]!;
 }
 
 async function buildLocale({
@@ -136,6 +164,7 @@ async function buildLocale({
 
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
+  isPerfLogging && console.time('[PERF] Loading site');
   const props: Props = await load({
     siteDir,
     outDir: cliOptions.outDir,
@@ -143,12 +172,14 @@ async function buildLocale({
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
+  isPerfLogging && console.timeEnd('[PERF] Loading site');
 
   // Apply user webpack config.
   const {outDir, plugins} = props;
 
   // We can build the 2 configs in parallel
-  const [{clientConfig, clientManifestPath}, {serverConfig}] =
+  isPerfLogging && console.time('[PERF] Creating webpack configs');
+  const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
     await Promise.all([
       buildPluginsClientConfig({
         plugins,
@@ -161,44 +192,50 @@ async function buildLocale({
         props,
       }),
     ]);
+  isPerfLogging && console.timeEnd('[PERF] Creating webpack configs');
 
+  // TODO do we really need this? .docusaurus folder is cleaned between builds
   // Make sure generated client-manifest is cleaned first, so we don't reuse
   // the one from previous builds.
+  isPerfLogging && console.time('[PERF] Deleting previous client manifest');
   if (await fs.pathExists(clientManifestPath)) {
     await fs.unlink(clientManifestPath);
   }
+  isPerfLogging && console.timeEnd('[PERF] Deleting previous client manifest');
 
   // Run webpack to build JS bundle (client) and static html files (server).
+  isPerfLogging && console.time('[PERF] Bundling');
   await compile([clientConfig, serverConfig]);
+  isPerfLogging && console.timeEnd('[PERF] Bundling');
 
+  isPerfLogging && console.time('[PERF] Reading client manifest');
   const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
+  isPerfLogging && console.timeEnd('[PERF] Reading client manifest');
 
-  // TODO return this path from "createServerConfig"?
-  const serverBundlePath = path.join(
-    outDir,
-    serverConfig.output?.filename as string,
-  );
-
-  console.time('handleSSG');
+  isPerfLogging && console.time('[PERF] Executing static site generation');
   const {collectedData} = await handleSSG({
     props,
     serverBundlePath,
     manifest,
   });
-  console.timeEnd('handleSSG');
+  isPerfLogging && console.timeEnd('[PERF] Executing static site generation');
 
   // Remove server.bundle.js because it is not needed.
-  if (typeof serverConfig.output?.filename === 'string') {
-    if (await fs.pathExists(serverBundlePath)) {
-      await fs.unlink(serverBundlePath);
-    }
+  isPerfLogging && console.time('[PERF] Deleting server bundle');
+  if (await fs.pathExists(serverBundlePath)) {
+    await fs.unlink(serverBundlePath);
   }
+  isPerfLogging && console.timeEnd('[PERF] Deleting server bundle');
 
   // Plugin Lifecycle - postBuild.
+  isPerfLogging && console.time('[PERF] Executing postBuild()');
   await executePluginsPostBuild({plugins, props, collectedData});
+  isPerfLogging && console.timeEnd('[PERF] Executing postBuild()');
 
   // TODO execute this in parallel to postBuild?
+  isPerfLogging && console.time('[PERF] Executing broken links checker');
   await executeBrokenLinksCheck({props, collectedData});
+  isPerfLogging && console.timeEnd('[PERF] Executing broken links checker');
 
   logger.success`Generated static files in path=${path.relative(
     process.cwd(),
@@ -282,7 +319,6 @@ async function executeBrokenLinksCheck({
     links: d.links,
     anchors: d.anchors,
   }));
-
   await handleBrokenLinks({
     collectedLinks,
     routes,
@@ -328,7 +364,6 @@ async function buildPluginsServerConfig({
     props,
   });
   let {config} = result;
-
   config = executePluginsConfigurePostCss({
     plugins,
     config,

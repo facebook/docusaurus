@@ -61,8 +61,6 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  // @ts-expect-error: Promise<string> is not assignable to Promise<void>... but
-  // good enough here.
   .action(build);
 
 cli
