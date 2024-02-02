@@ -363,6 +363,7 @@ triaging
 TSES
 twoslash
 typecheck
+typesafe
 Typesense
 typesense
 Unavatar
