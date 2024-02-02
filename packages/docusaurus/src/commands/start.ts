@@ -28,7 +28,7 @@ import {
 } from '../webpack/utils';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import type {Compiler} from 'webpack';
-import type {LoadedPlugin, Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 
 export type StartCLIOptions = HostPortOptions &
   Pick<LoadContextOptions, 'locale' | 'config'> & {
@@ -63,17 +63,8 @@ export async function start(
   // Process all related files as a prop.
   const props = await loadSite();
 
-  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
-
-  const {host, port} = await getHostPort(cliOptions);
-
-  if (port === null) {
-    process.exit();
-  }
-
-  const {baseUrl} = props;
-  const urls = prepareUrls(protocol, host, port);
-  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+  const {host, port, getOpenUrl} = await creatUrlUtils({cliOptions});
+  const openUrl = getOpenUrl({baseUrl: props.baseUrl});
 
   logger.success`Docusaurus website is running at: url=${openUrl}`;
 
@@ -81,7 +72,7 @@ export async function start(
   const reload = _.debounce(() => {
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
-        const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
+        const newOpenUrl = getOpenUrl({baseUrl: newBaseUrl});
         if (newOpenUrl !== openUrl) {
           logger.success`Docusaurus website is running at: url=${newOpenUrl}`;
         }
@@ -90,41 +81,19 @@ export async function start(
         logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins, localizationDir} = props;
 
-  const normalizeToSiteDir = (filepath: string) => {
-    if (filepath && path.isAbsolute(filepath)) {
-      return posixPath(path.relative(siteDir, filepath));
-    }
-    return posixPath(filepath);
-  };
-
-  const pluginPaths = plugins
-    .flatMap((plugin) => plugin.getPathsToWatch?.() ?? [])
-    .filter(Boolean)
-    .map(normalizeToSiteDir);
-
-  const pathsToWatch = [...pluginPaths, props.siteConfigPath, localizationDir];
-
-  const pollingOptions = {
-    usePolling: !!cliOptions.poll,
-    interval: Number.isInteger(cliOptions.poll)
-      ? (cliOptions.poll as number)
-      : undefined,
-  };
-  const httpsConfig = await getHttpsConfig();
-  const fsWatcher = chokidar.watch(pathsToWatch, {
-    cwd: siteDir,
-    ignoreInitial: true,
-    ...{pollingOptions},
+  // TODO this is historically not optimized!
+  //  When any site file changes, we reload absolutely everything :/
+  //  At least we should try to reload only one plugin individually?
+  setupFileWatchers({
+    props,
+    cliOptions,
+    onFileChange: () => {
+      reload();
+    },
   });
 
-  ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
-    fsWatcher.on(event, reload),
-  );
-
-  const config = await buildPluginsClientConfig({
-    plugins,
+  const config = await getStartClientConfig({
     props,
     minify: cliOptions.minify ?? true,
     poll: cliOptions.poll,
@@ -133,8 +102,119 @@ export async function start(
   const compiler = webpack(config);
   registerE2ETestHook(compiler);
 
+  const defaultDevServerConfig = await createDevServerConfig({
+    cliOptions,
+    props,
+    host,
+    port,
+  });
+
+  // Allow plugin authors to customize/override devServer config
+  const devServerConfig: WebpackDevServer.Configuration = merge(
+    [defaultDevServerConfig, config.devServer].filter(Boolean),
+  );
+
+  const devServer = new WebpackDevServer(devServerConfig, compiler);
+  devServer.startCallback(() => {
+    if (cliOptions.open) {
+      openBrowser(openUrl);
+    }
+  });
+
+  ['SIGINT', 'SIGTERM'].forEach((sig) => {
+    process.on(sig, () => {
+      devServer.stop();
+      process.exit();
+    });
+  });
+}
+
+function createPollingOptions({cliOptions}: {cliOptions: StartCLIOptions}) {
+  return {
+    usePolling: !!cliOptions.poll,
+    interval: Number.isInteger(cliOptions.poll)
+      ? (cliOptions.poll as number)
+      : undefined,
+  };
+}
+
+function setupFileWatchers({
+  props,
+  cliOptions,
+  onFileChange,
+}: {
+  props: Props;
+  cliOptions: StartCLIOptions;
+  onFileChange: () => void;
+}) {
+  const {siteDir} = props;
+  const pathsToWatch = getPathsToWatch({props});
+
+  const pollingOptions = createPollingOptions({cliOptions});
+  const fsWatcher = chokidar.watch(pathsToWatch, {
+    cwd: siteDir,
+    ignoreInitial: true,
+    ...{pollingOptions},
+  });
+
+  ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
+    fsWatcher.on(event, onFileChange),
+  );
+}
+
+function getPathsToWatch({props}: {props: Props}): string[] {
+  const {siteDir, siteConfigPath, plugins, localizationDir} = props;
+
+  const normalizeToSiteDir = (filepath: string) => {
+    if (filepath && path.isAbsolute(filepath)) {
+      return posixPath(path.relative(siteDir, filepath));
+    }
+    return posixPath(filepath);
+  };
+
+  const pluginsPaths = plugins
+    .flatMap((plugin) => plugin.getPathsToWatch?.() ?? [])
+    .filter(Boolean)
+    .map(normalizeToSiteDir);
+
+  return [...pluginsPaths, siteConfigPath, localizationDir];
+}
+
+async function creatUrlUtils({cliOptions}: {cliOptions: StartCLIOptions}) {
+  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
+
+  const {host, port} = await getHostPort(cliOptions);
+  if (port === null) {
+    return process.exit();
+  }
+
+  const getOpenUrl = ({baseUrl}: {baseUrl: string}) => {
+    const urls = prepareUrls(protocol, host, port);
+    return normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+  };
+
+  return {host, port, getOpenUrl};
+}
+
+async function createDevServerConfig({
+  cliOptions,
+  props,
+  host,
+  port,
+}: {
+  cliOptions: StartCLIOptions;
+  props: Props;
+  host: string;
+  port: number;
+}): Promise<WebpackDevServer.Configuration> {
+  const {baseUrl, siteDir, siteConfig} = props;
+
+  const pollingOptions = createPollingOptions({cliOptions});
+
+  const httpsConfig = await getHttpsConfig();
+
   // https://webpack.js.org/configuration/dev-server
-  const defaultDevServerConfig: WebpackDevServer.Configuration = {
+  return {
     hot: cliOptions.hotOnly ? 'only' : true,
     liveReload: false,
     client: {
@@ -188,25 +268,6 @@ export async function start(
       return middlewares;
     },
   };
-
-  // Allow plugin authors to customize/override devServer config
-  const devServerConfig: WebpackDevServer.Configuration = merge(
-    [defaultDevServerConfig, config.devServer].filter(Boolean),
-  );
-
-  const devServer = new WebpackDevServer(devServerConfig, compiler);
-  devServer.startCallback(() => {
-    if (cliOptions.open) {
-      openBrowser(openUrl);
-    }
-  });
-
-  ['SIGINT', 'SIGTERM'].forEach((sig) => {
-    process.on(sig, () => {
-      devServer.stop();
-      process.exit();
-    });
-  });
 }
 
 // E2E_TEST=true docusaurus start
@@ -230,17 +291,16 @@ function registerE2ETestHook(compiler: Compiler) {
   });
 }
 
-async function buildPluginsClientConfig({
-  plugins,
+async function getStartClientConfig({
   props,
   minify,
   poll,
 }: {
-  plugins: LoadedPlugin[];
   props: Props;
   minify: boolean;
   poll: number | boolean | undefined;
 }) {
+  const {plugins, siteConfig} = props;
   let {clientConfig: config} = await createStartClientConfig({
     props,
     minify,
@@ -251,7 +311,7 @@ async function buildPluginsClientConfig({
     plugins,
     config,
     isServer: false,
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    jsLoader: siteConfig.webpack?.jsLoader,
   });
   return config;
 }

@@ -181,26 +181,21 @@ async function buildLocale({
   isPerfLogging && console.time('[PERF] Creating webpack configs');
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
     await Promise.all([
-      buildPluginsClientConfig({
-        plugins,
+      getBuildClientConfig({
         props,
-        minify: cliOptions.minify ?? true,
-        bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
+        cliOptions,
       }),
-      buildPluginsServerConfig({
-        plugins,
+      getBuildServerConfig({
         props,
       }),
     ]);
   isPerfLogging && console.timeEnd('[PERF] Creating webpack configs');
 
-  // TODO do we really need this? .docusaurus folder is cleaned between builds
   // Make sure generated client-manifest is cleaned first, so we don't reuse
   // the one from previous builds.
+  // TODO do we really need this? .docusaurus folder is cleaned between builds
   isPerfLogging && console.time('[PERF] Deleting previous client manifest');
-  if (await fs.pathExists(clientManifestPath)) {
-    await fs.unlink(clientManifestPath);
-  }
+  await ensureUnlink(clientManifestPath);
   isPerfLogging && console.timeEnd('[PERF] Deleting previous client manifest');
 
   // Run webpack to build JS bundle (client) and static html files (server).
@@ -222,9 +217,7 @@ async function buildLocale({
 
   // Remove server.bundle.js because it is not needed.
   isPerfLogging && console.time('[PERF] Deleting server bundle');
-  if (await fs.pathExists(serverBundlePath)) {
-    await fs.unlink(serverBundlePath);
-  }
+  await ensureUnlink(serverBundlePath);
   isPerfLogging && console.timeEnd('[PERF] Deleting server bundle');
 
   // Plugin Lifecycle - postBuild.
@@ -253,7 +246,6 @@ async function buildLocale({
   return outDir;
 }
 
-// TODO refactor
 async function handleSSG({
   props,
   serverBundlePath,
@@ -327,21 +319,18 @@ async function executeBrokenLinksCheck({
   });
 }
 
-async function buildPluginsClientConfig({
-  plugins,
+async function getBuildClientConfig({
   props,
-  minify,
-  bundleAnalyzer,
+  cliOptions,
 }: {
-  plugins: LoadedPlugin[];
   props: Props;
-  minify: boolean;
-  bundleAnalyzer: boolean;
+  cliOptions: BuildCLIOptions;
 }) {
+  const {plugins} = props;
   const result = await createBuildClientConfig({
     props,
-    minify,
-    bundleAnalyzer,
+    minify: cliOptions.minify ?? true,
+    bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
   config = executePluginsConfigureWebpack({
@@ -353,13 +342,8 @@ async function buildPluginsClientConfig({
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
 
-async function buildPluginsServerConfig({
-  plugins,
-  props,
-}: {
-  plugins: LoadedPlugin[];
-  props: Props;
-}) {
+async function getBuildServerConfig({props}: {props: Props}) {
+  const {plugins} = props;
   const result = await createServerConfig({
     props,
   });
@@ -375,4 +359,10 @@ async function buildPluginsServerConfig({
     jsLoader: props.siteConfig.webpack?.jsLoader,
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
+}
+
+async function ensureUnlink(filepath: string) {
+  if (await fs.pathExists(filepath)) {
+    await fs.unlink(filepath);
+  }
 }
