@@ -23,8 +23,10 @@ import {
 import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
-import {generateStaticFiles} from '../ssg';
-import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
+import {generateStaticFiles, loadAppRenderer} from '../ssg';
+import {compileSSRTemplate} from '../templates/templates';
+import defaultSSRTemplate from '../templates/ssr.html.template';
+
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
 import type {SiteCollectedData} from '../types';
@@ -197,15 +199,11 @@ async function buildLocale({
   await compile([clientConfig, serverConfig]);
   PerfLogger.end('Bundling');
 
-  PerfLogger.start('Reading client manifest');
-  const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
-  PerfLogger.end('Reading client manifest');
-
   PerfLogger.start('Executing static site generation');
-  const {collectedData} = await handleSSG({
+  const {collectedData} = await executeSSG({
     props,
     serverBundlePath,
-    manifest,
+    clientManifestPath,
   });
   PerfLogger.end('Executing static site generation');
 
@@ -240,19 +238,36 @@ async function buildLocale({
   return outDir;
 }
 
-async function handleSSG({
+async function executeSSG({
   props,
   serverBundlePath,
-  manifest,
+  clientManifestPath,
 }: {
   props: Props;
   serverBundlePath: string;
-  manifest: Manifest;
+  clientManifestPath: string;
 }) {
-  return generateStaticFiles({
-    pathnames: props.routesPaths,
+  PerfLogger.start('Reading client manifest');
+  const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
+  PerfLogger.end('Reading client manifest');
+
+  PerfLogger.start('Compiling SSR template');
+  const ssrTemplate = await compileSSRTemplate(
+    props.siteConfig.ssrTemplate ?? defaultSSRTemplate,
+  );
+  PerfLogger.end('Compiling SSR template');
+
+  PerfLogger.start('Loading App renderer');
+  const renderer = await loadAppRenderer({
     serverBundlePath,
-    serverEntryParams: {
+  });
+  PerfLogger.end('Loading App renderer');
+
+  PerfLogger.start('Generate static files');
+  const ssgResult = generateStaticFiles({
+    pathnames: props.routesPaths,
+    renderer,
+    params: {
       trailingSlash: props.siteConfig.trailingSlash,
       outDir: props.outDir,
       baseUrl: props.baseUrl,
@@ -260,11 +275,14 @@ async function handleSSG({
       headTags: props.headTags,
       preBodyTags: props.preBodyTags,
       postBodyTags: props.postBodyTags,
-      ssrTemplate: props.siteConfig.ssrTemplate ?? ssrDefaultTemplate,
+      ssrTemplate,
       noIndex: props.siteConfig.noIndex,
       DOCUSAURUS_VERSION,
     },
   });
+  PerfLogger.end('Generate static files');
+
+  return ssgResult;
 }
 
 async function executePluginsPostBuild({

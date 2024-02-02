@@ -10,16 +10,14 @@ import path from 'path';
 import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
-import eta from 'eta';
 import {minify} from 'html-minifier-terser';
-import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import {PerfLogger} from './utils';
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import {renderSSRTemplate} from './templates/templates';
 import type {
-  ServerEntryRenderer,
-  ServerEntryResult,
+  AppRenderer,
+  AppRenderResult,
   SiteCollectedData,
-  ServerEntryParams,
+  SSGParams,
 } from './types';
 
 // Secret way to set SSR plugin concurrency option
@@ -31,11 +29,11 @@ const Concurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
     // See also https://github.com/sindresorhus/p-map/issues/24
     32;
 
-async function loadServerEntryRenderer({
+export async function loadAppRenderer({
   serverBundlePath,
 }: {
   serverBundlePath: string;
-}): Promise<ServerEntryRenderer> {
+}): Promise<AppRenderer> {
   PerfLogger.start(`SSG - Load server bundle`);
   const source = await fs.readFile(serverBundlePath);
   PerfLogger.end(`SSG - Load server bundle`);
@@ -57,7 +55,7 @@ async function loadServerEntryRenderer({
     /* filename: */ filename,
     /* scope: */ globals,
     /* includeGlobals: */ true,
-  ) as {default?: ServerEntryRenderer};
+  ) as {default?: AppRenderer};
   PerfLogger.end(`SSG - Evaluate server bundle`);
 
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
@@ -94,18 +92,14 @@ function pathnameToFilename({
 
 export async function generateStaticFiles({
   pathnames,
-  serverBundlePath,
-  serverEntryParams,
+  renderer,
+  params,
 }: {
   pathnames: string[];
-  serverBundlePath: string;
-  serverEntryParams: ServerEntryParams;
+  renderer: AppRenderer;
+  params: SSGParams;
 }): Promise<{collectedData: SiteCollectedData}> {
-  const renderer = await loadServerEntryRenderer({
-    serverBundlePath,
-  });
-
-  type SSGSuccess = {pathname: string; error: null; result: ServerEntryResult};
+  type SSGSuccess = {pathname: string; error: null; result: AppRenderResult};
   type SSGError = {pathname: string; error: Error; result: null};
   type SSGResult = SSGSuccess | SSGError;
 
@@ -117,7 +111,7 @@ export async function generateStaticFiles({
       generateStaticFile({
         pathname,
         renderer,
-        serverEntryParams,
+        params,
       }).then(
         (result) => ({pathname, result, error: null}),
         (error) => ({pathname, result: null, error: error as Error}),
@@ -158,27 +152,29 @@ export async function generateStaticFiles({
 async function generateStaticFile({
   pathname,
   renderer,
-  serverEntryParams,
+  params,
 }: {
   pathname: string;
-  renderer: ServerEntryRenderer;
-  serverEntryParams: ServerEntryParams;
+  renderer: AppRenderer;
+  params: SSGParams;
 }) {
   try {
     // This only renders the app HTML
-    const serverEntryResult = await renderer({pathname, serverEntryParams});
+    const result = await renderer({
+      pathname,
+    });
     // This renders the full page HTML, including head tags...
     const fullPageHtml = renderSSRTemplate({
-      serverEntryParams,
-      serverEntryResult,
+      params,
+      result,
     });
     const content = await minifyHtml(fullPageHtml);
     await writeStaticFile({
       pathname,
       content,
-      serverEntryParams,
+      params,
     });
-    return serverEntryResult;
+    return result;
   } catch (errorUnknown) {
     throw new Error(`Can't render static file for pathname=${pathname}`, {
       cause: errorUnknown as Error,
@@ -189,100 +185,24 @@ async function generateStaticFile({
 async function writeStaticFile({
   content,
   pathname,
-  serverEntryParams,
+  params,
 }: {
   content: string;
   pathname: string;
-  serverEntryParams: ServerEntryParams;
+  params: SSGParams;
 }) {
+  function removeBaseUrl(p: string, baseUrl: string): string {
+    return baseUrl === '/' ? p : p.replace(new RegExp(`^${baseUrl}`), '/');
+  }
+
   const filename = pathnameToFilename({
-    pathname: removeBaseUrl(pathname, serverEntryParams.baseUrl),
-    trailingSlash: serverEntryParams.trailingSlash,
+    pathname: removeBaseUrl(pathname, params.baseUrl),
+    trailingSlash: params.trailingSlash,
   });
-  const filePath = path.join(serverEntryParams.outDir, filename);
+
+  const filePath = path.join(params.outDir, filename);
   await fs.ensureDir(path.dirname(filePath));
   await fs.writeFile(filePath, content);
-}
-
-function removeBaseUrl(pathname: string, baseUrl: string): string {
-  return baseUrl === '/'
-    ? pathname
-    : pathname.replace(new RegExp(`^${baseUrl}`), '/');
-}
-
-function getScriptsAndStylesheets({
-  modules,
-  manifest,
-}: {
-  modules: string[];
-  manifest: Manifest;
-}) {
-  // Get all required assets for this particular page based on client
-  // manifest information.
-  const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
-  const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css ?? []).map((b) => b.file);
-  const scripts = (bundles.js ?? []).map((b) => b.file);
-  return {scripts, stylesheets};
-}
-
-const getCompiledSSRTemplate = _.memoize((template: string) =>
-  eta.compile(template.trim(), {
-    rmWhitespace: true,
-  }),
-);
-
-function renderSSRTemplate({
-  serverEntryParams,
-  serverEntryResult,
-}: {
-  serverEntryParams: ServerEntryParams;
-  serverEntryResult: ServerEntryResult;
-}) {
-  const {
-    ssrTemplate,
-    baseUrl,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    manifest,
-    noIndex,
-    DOCUSAURUS_VERSION,
-  } = serverEntryParams;
-  const {
-    html: appHtml,
-    collectedData: {modules, headTags: helmet},
-  } = serverEntryResult;
-
-  const {scripts, stylesheets} = getScriptsAndStylesheets({manifest, modules});
-
-  const htmlAttributes = helmet.htmlAttributes.toString();
-  const bodyAttributes = helmet.bodyAttributes.toString();
-  const metaStrings = [
-    helmet.title.toString(),
-    helmet.meta.toString(),
-    helmet.link.toString(),
-    helmet.script.toString(),
-  ];
-  const metaAttributes = metaStrings.filter(Boolean);
-
-  const templateData = {
-    appHtml,
-    baseUrl,
-    htmlAttributes,
-    bodyAttributes,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    metaAttributes,
-    scripts,
-    stylesheets,
-    noIndex,
-    version: DOCUSAURUS_VERSION,
-  };
-
-  const compiled = getCompiledSSRTemplate(ssrTemplate);
-  return compiled(templateData, eta.defaultConfig);
 }
 
 async function minifyHtml(html: string): Promise<string> {

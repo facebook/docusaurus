@@ -16,7 +16,7 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
-import type {PageCollectedData, ServerEntryRenderer} from '../types';
+import type {PageCollectedData, AppRenderer} from '../types';
 
 function buildSSRErrorMessage({
   error,
@@ -42,7 +42,7 @@ It might also require to wrap your client code in \`useEffect\` hook and/or impo
   return parts.join('\n');
 }
 
-const doRender: ServerEntryRenderer = async ({pathname}) => {
+const doRender: AppRenderer = async ({pathname}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
@@ -76,7 +76,7 @@ const doRender: ServerEntryRenderer = async ({pathname}) => {
   return {html, collectedData};
 };
 
-const render: ServerEntryRenderer = async (params) => {
+const render: AppRenderer = async (params) => {
   try {
     return await doRender(params);
   } catch (errorUnknown) {

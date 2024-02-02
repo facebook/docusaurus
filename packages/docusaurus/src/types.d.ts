@@ -7,8 +7,9 @@
 
 import type {HelmetServerState} from 'react-helmet-async';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import type {SSRTemplateCompiled} from './templates/templates';
 
-export type ServerEntryParams = {
+export type SSGParams = {
   trailingSlash: boolean | undefined;
   manifest: Manifest;
   headTags: string;
@@ -16,20 +17,19 @@ export type ServerEntryParams = {
   postBodyTags: string;
   outDir: string;
   baseUrl: string;
-  ssrTemplate: string;
   noIndex: boolean;
   DOCUSAURUS_VERSION: string;
+  ssrTemplate: SSRTemplateCompiled;
 };
 
-export type ServerEntryResult = {
+export type AppRenderResult = {
   html: string;
   collectedData: PageCollectedData;
 };
 
-export type ServerEntryRenderer = (params: {
+export type AppRenderer = (params: {
   pathname: string;
-  serverEntryParams: ServerEntryParams;
-}) => Promise<ServerEntryResult>;
+}) => Promise<AppRenderResult>;
 
 export type PageCollectedData = {
   headTags: HelmetServerState;
