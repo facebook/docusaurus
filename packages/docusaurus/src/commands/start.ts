@@ -67,7 +67,7 @@ export async function start(
   // Process all related files as a prop.
   const props = await loadSite();
 
-  const {host, port, getOpenUrl} = await creatUrlUtils({cliOptions});
+  const {host, port, getOpenUrl} = await createUrlUtils({cliOptions});
   const openUrl = getOpenUrl({baseUrl: props.baseUrl});
 
   logger.success`Docusaurus website is running at: url=${openUrl}`;
@@ -184,7 +184,7 @@ function getPathsToWatch({props}: {props: Props}): string[] {
   return [...pluginsPaths, siteConfigPath, localizationDir];
 }
 
-async function creatUrlUtils({cliOptions}: {cliOptions: StartCLIOptions}) {
+async function createUrlUtils({cliOptions}: {cliOptions: StartCLIOptions}) {
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
   const {host, port} = await getHostPort(cliOptions);
