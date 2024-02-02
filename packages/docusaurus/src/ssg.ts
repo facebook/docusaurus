@@ -188,7 +188,7 @@ async function generateStaticFile({
     const error = errorUnknown as Error;
     const tips = getSSGErrorTips(error);
     const message = logger.interpolate`Can't render static file for pathname path=${pathname}${
-      tips ? `\n\n${  tips}` : ''
+      tips ? `\n\n${tips}` : ''
     }`;
     throw new Error(message, {
       cause: error,
