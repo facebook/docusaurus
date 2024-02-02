@@ -81,7 +81,7 @@ export function renderSSRTemplate({
   } = params;
   const {
     html: appHtml,
-    collectedData: {modules, headTags: helmet},
+    collectedData: {modules, helmet},
   } = result;
 
   const {scripts, stylesheets} = getScriptsAndStylesheets({manifest, modules});

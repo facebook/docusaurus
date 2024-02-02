@@ -20,7 +20,7 @@ export type AppRenderer = (params: {
 }) => Promise<AppRenderResult>;
 
 export type PageCollectedData = {
-  headTags: HelmetServerState;
+  helmet: HelmetServerState;
   links: string[];
   anchors: string[];
   modules: string[];

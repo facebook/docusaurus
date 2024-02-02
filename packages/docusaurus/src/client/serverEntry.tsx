@@ -42,7 +42,7 @@ const render: AppRenderer = async ({pathname}) => {
   const html = await renderToHtml(app);
 
   const collectedData: PageCollectedData = {
-    headTags: (helmetContext as FilledContext).helmet,
+    helmet: (helmetContext as FilledContext).helmet,
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),
     modules: Array.from(modules),

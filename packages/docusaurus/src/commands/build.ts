@@ -294,7 +294,7 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = _.mapValues(collectedData, (d) => d.headTags);
+  const head = _.mapValues(collectedData, (d) => d.helmet);
   await Promise.all(
     plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
