@@ -27,6 +27,7 @@ import {
   executePluginsConfigureWebpack,
 } from '../webpack/utils';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
+import {PerfLogger} from '../utils';
 import type {Compiler} from 'webpack';
 import type {Props} from '@docusaurus/types';
 
@@ -51,13 +52,16 @@ export async function start(
 
   logger.info('Starting the development server...');
 
-  function loadSite() {
-    return load({
+  async function loadSite() {
+    PerfLogger.start('Loading site');
+    const result = await load({
       siteDir,
       config: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // Should this be configurable?
     });
+    PerfLogger.end('Loading site');
+    return result;
   }
 
   // Process all related files as a prop.

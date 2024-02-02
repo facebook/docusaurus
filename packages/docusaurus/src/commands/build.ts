@@ -20,18 +20,14 @@ import {
   executePluginsConfigureWebpack,
   compile,
 } from '../webpack/utils';
+import {PerfLogger} from '../utils';
+
 import {loadI18n} from '../server/i18n';
 import {generateStaticFiles} from '../ssg';
 import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
 import type {SiteCollectedData} from '../types';
-
-// For now this is a private env variable we use internally
-// But we'll want to expose this feature officially some day
-const isPerfLogging = !!process.env.DOCUSAURUS_PERF_LOGGER;
-isPerfLogging &&
-  console.log('[PERF] Docusaurus build performance logging enable');
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
@@ -74,8 +70,7 @@ export async function build(
     isLastLocale: boolean;
   }) {
     try {
-      isPerfLogging &&
-        console.time(`[PERF] Building site for locale ${locale}`);
+      PerfLogger.start(`Building site for locale ${locale}`);
       await buildLocale({
         siteDir,
         locale,
@@ -83,8 +78,7 @@ export async function build(
         forceTerminate,
         isLastLocale,
       });
-      isPerfLogging &&
-        console.timeEnd(`[PERF] Building site for locale ${locale}`);
+      PerfLogger.end(`Building site for locale ${locale}`);
     } catch (err) {
       throw new Error(
         logger.interpolate`Unable to build website for locale name=${locale}.`,
@@ -95,20 +89,20 @@ export async function build(
     }
   }
 
-  isPerfLogging && console.time(`[PERF] Get locales to build`);
+  PerfLogger.start(`Get locales to build`);
   const locales = await getLocalesToBuild({siteDir, cliOptions});
-  isPerfLogging && console.timeEnd(`[PERF] Get locales to build`);
+  PerfLogger.end(`Get locales to build`);
 
   if (locales.length > 1) {
     logger.info`Website will be built for all these locales: ${locales}`;
   }
 
-  isPerfLogging && console.time(`[PERF] Building ${locales.length} locales`);
+  PerfLogger.start(`Building ${locales.length} locales`);
   await mapAsyncSequential(locales, (locale) => {
     const isLastLocale = locales.indexOf(locale) === locales.length - 1;
     return tryToBuildLocale({locale, isLastLocale});
   });
-  isPerfLogging && console.timeEnd(`[PERF] Building ${locales.length} locales`);
+  PerfLogger.end(`Building ${locales.length} locales`);
 }
 
 async function getLocalesToBuild({
@@ -164,7 +158,7 @@ async function buildLocale({
 
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  isPerfLogging && console.time('[PERF] Loading site');
+  PerfLogger.start('Loading site');
   const props: Props = await load({
     siteDir,
     outDir: cliOptions.outDir,
@@ -172,13 +166,13 @@ async function buildLocale({
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
-  isPerfLogging && console.timeEnd('[PERF] Loading site');
+  PerfLogger.end('Loading site');
 
   // Apply user webpack config.
   const {outDir, plugins} = props;
 
   // We can build the 2 configs in parallel
-  isPerfLogging && console.time('[PERF] Creating webpack configs');
+  PerfLogger.start('Creating webpack configs');
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
     await Promise.all([
       getBuildClientConfig({
@@ -189,46 +183,46 @@ async function buildLocale({
         props,
       }),
     ]);
-  isPerfLogging && console.timeEnd('[PERF] Creating webpack configs');
+  PerfLogger.end('Creating webpack configs');
 
   // Make sure generated client-manifest is cleaned first, so we don't reuse
   // the one from previous builds.
   // TODO do we really need this? .docusaurus folder is cleaned between builds
-  isPerfLogging && console.time('[PERF] Deleting previous client manifest');
+  PerfLogger.start('Deleting previous client manifest');
   await ensureUnlink(clientManifestPath);
-  isPerfLogging && console.timeEnd('[PERF] Deleting previous client manifest');
+  PerfLogger.end('Deleting previous client manifest');
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  isPerfLogging && console.time('[PERF] Bundling');
+  PerfLogger.start('Bundling');
   await compile([clientConfig, serverConfig]);
-  isPerfLogging && console.timeEnd('[PERF] Bundling');
+  PerfLogger.end('Bundling');
 
-  isPerfLogging && console.time('[PERF] Reading client manifest');
+  PerfLogger.start('Reading client manifest');
   const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
-  isPerfLogging && console.timeEnd('[PERF] Reading client manifest');
+  PerfLogger.end('Reading client manifest');
 
-  isPerfLogging && console.time('[PERF] Executing static site generation');
+  PerfLogger.start('Executing static site generation');
   const {collectedData} = await handleSSG({
     props,
     serverBundlePath,
     manifest,
   });
-  isPerfLogging && console.timeEnd('[PERF] Executing static site generation');
+  PerfLogger.end('Executing static site generation');
 
   // Remove server.bundle.js because it is not needed.
-  isPerfLogging && console.time('[PERF] Deleting server bundle');
+  PerfLogger.start('Deleting server bundle');
   await ensureUnlink(serverBundlePath);
-  isPerfLogging && console.timeEnd('[PERF] Deleting server bundle');
+  PerfLogger.end('Deleting server bundle');
 
   // Plugin Lifecycle - postBuild.
-  isPerfLogging && console.time('[PERF] Executing postBuild()');
+  PerfLogger.start('Executing postBuild()');
   await executePluginsPostBuild({plugins, props, collectedData});
-  isPerfLogging && console.timeEnd('[PERF] Executing postBuild()');
+  PerfLogger.end('Executing postBuild()');
 
   // TODO execute this in parallel to postBuild?
-  isPerfLogging && console.time('[PERF] Executing broken links checker');
+  PerfLogger.start('Executing broken links checker');
   await executeBrokenLinksCheck({props, collectedData});
-  isPerfLogging && console.timeEnd('[PERF] Executing broken links checker');
+  PerfLogger.end('Executing broken links checker');
 
   logger.success`Generated static files in path=${path.relative(
     process.cwd(),

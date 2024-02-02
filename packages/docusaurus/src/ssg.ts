@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
-
+import {PerfLogger} from './utils';
 import type {
   ServerEntryRenderer,
   ServerEntryResult,
@@ -32,7 +32,12 @@ async function loadServerEntryRenderer({
 }: {
   serverBundlePath: string;
 }): Promise<ServerEntryRenderer> {
+  PerfLogger.start(`SSG - Load server bundle`);
   const source = await fs.readFile(serverBundlePath);
+  PerfLogger.end(`SSG - Load server bundle`);
+  PerfLogger.log(
+    `SSG - Server bundle size = ${(source.length / 1024000).toFixed(3)} MB`,
+  );
 
   const filename = path.basename(serverBundlePath);
 
@@ -42,12 +47,15 @@ async function loadServerEntryRenderer({
   // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
   const globals = {__filename: ''};
 
+  PerfLogger.start(`SSG - Evaluate server bundle`);
   const serverEntry = evaluate(
     source,
     /* filename: */ filename,
     /* scope: */ globals,
     /* includeGlobals: */ true,
   ) as {default?: ServerEntryRenderer};
+  PerfLogger.end(`SSG - Evaluate server bundle`);
+
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(
       `Server bundle export from "${filename}" must be a function that returns an HTML string.`,
