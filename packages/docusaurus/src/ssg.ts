@@ -10,7 +10,11 @@ import path from 'path';
 import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
+import eta from 'eta';
+import {minify} from 'html-minifier-terser';
+import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import {PerfLogger} from './utils';
+import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {
   ServerEntryRenderer,
   ServerEntryResult,
@@ -161,13 +165,20 @@ async function generateStaticFile({
   serverEntryParams: ServerEntryParams;
 }) {
   try {
-    const result = await renderer({pathname, serverEntryParams});
+    // This only renders the app HTML
+    const serverEntryResult = await renderer({pathname, serverEntryParams});
+    // This renders the full page HTML, including head tags...
+    const fullPageHtml = renderSSRTemplate({
+      serverEntryParams,
+      serverEntryResult,
+    });
+    const content = await minifyHtml(fullPageHtml);
     await writeStaticFile({
       pathname,
-      content: result.html,
+      content,
       serverEntryParams,
     });
-    return result;
+    return serverEntryResult;
   } catch (errorUnknown) {
     throw new Error(`Can't render static file for pathname=${pathname}`, {
       cause: errorUnknown as Error,
@@ -197,4 +208,99 @@ function removeBaseUrl(pathname: string, baseUrl: string): string {
   return baseUrl === '/'
     ? pathname
     : pathname.replace(new RegExp(`^${baseUrl}`), '/');
+}
+
+function getScriptsAndStylesheets({
+  modules,
+  manifest,
+}: {
+  modules: string[];
+  manifest: Manifest;
+}) {
+  // Get all required assets for this particular page based on client
+  // manifest information.
+  const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
+  const bundles = getBundles(manifest, modulesToBeLoaded);
+  const stylesheets = (bundles.css ?? []).map((b) => b.file);
+  const scripts = (bundles.js ?? []).map((b) => b.file);
+  return {scripts, stylesheets};
+}
+
+const getCompiledSSRTemplate = _.memoize((template: string) =>
+  eta.compile(template.trim(), {
+    rmWhitespace: true,
+  }),
+);
+
+function renderSSRTemplate({
+  serverEntryParams,
+  serverEntryResult,
+}: {
+  serverEntryParams: ServerEntryParams;
+  serverEntryResult: ServerEntryResult;
+}) {
+  const {
+    ssrTemplate,
+    baseUrl,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    manifest,
+    noIndex,
+    DOCUSAURUS_VERSION,
+  } = serverEntryParams;
+  const {
+    html: appHtml,
+    collectedData: {modules, headTags: helmet},
+  } = serverEntryResult;
+
+  const {scripts, stylesheets} = getScriptsAndStylesheets({manifest, modules});
+
+  const htmlAttributes = helmet.htmlAttributes.toString();
+  const bodyAttributes = helmet.bodyAttributes.toString();
+  const metaStrings = [
+    helmet.title.toString(),
+    helmet.meta.toString(),
+    helmet.link.toString(),
+    helmet.script.toString(),
+  ];
+  const metaAttributes = metaStrings.filter(Boolean);
+
+  const templateData = {
+    appHtml,
+    baseUrl,
+    htmlAttributes,
+    bodyAttributes,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    metaAttributes,
+    scripts,
+    stylesheets,
+    noIndex,
+    version: DOCUSAURUS_VERSION,
+  };
+
+  const compiled = getCompiledSSRTemplate(ssrTemplate);
+  return compiled(templateData, eta.defaultConfig);
+}
+
+async function minifyHtml(html: string): Promise<string> {
+  try {
+    if (process.env.SKIP_HTML_MINIFICATION === 'true') {
+      return html;
+    }
+    // Minify html with https://github.com/DanielRuf/html-minifier-terser
+    return await minify(html, {
+      removeComments: false,
+      removeRedundantAttributes: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      useShortDoctype: true,
+      minifyJS: true,
+    });
+  } catch (err) {
+    throw new Error('HTML minification failed', {cause: err as Error});
+  }
 }

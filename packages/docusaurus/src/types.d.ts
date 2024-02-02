@@ -32,9 +32,10 @@ export type ServerEntryRenderer = (params: {
 }) => Promise<ServerEntryResult>;
 
 export type PageCollectedData = {
+  headTags: HelmetServerState;
   links: string[];
   anchors: string[];
-  headTags: HelmetServerState;
+  modules: string[];
 };
 
 export type SiteCollectedData = {
