@@ -16,15 +16,8 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
-import webpack, {
-  type Configuration,
-  type RuleSetRule,
-  type WebpackPluginInstance,
-} from 'webpack';
-import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
-import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {TransformOptions} from '@babel/core';
 import type {
   Plugin,
@@ -417,88 +410,4 @@ export async function getHttpsConfig(): Promise<
     return config;
   }
   return isHttps;
-}
-
-// See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
-function getTerserParallel() {
-  let terserParallel: boolean | number = true;
-  if (process.env.TERSER_PARALLEL === 'false') {
-    terserParallel = false;
-  } else if (
-    process.env.TERSER_PARALLEL &&
-    parseInt(process.env.TERSER_PARALLEL, 10) > 0
-  ) {
-    terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
-  }
-  return terserParallel;
-}
-
-export function getMinimizer(
-  useSimpleCssMinifier = false,
-): WebpackPluginInstance[] {
-  const minimizer: WebpackPluginInstance[] = [
-    new TerserPlugin({
-      parallel: getTerserParallel(),
-      terserOptions: {
-        parse: {
-          // We want uglify-js to parse ecma 8 code. However, we don't want it
-          // to apply any minification steps that turns valid ecma 5 code
-          // into invalid ecma 5 code. This is why the 'compress' and 'output'
-          // sections only apply transformations that are ecma 5 safe
-          // https://github.com/facebook/create-react-app/pull/4234
-          ecma: 2020,
-        },
-        compress: {
-          ecma: 5,
-        },
-        mangle: {
-          safari10: true,
-        },
-        output: {
-          ecma: 5,
-          comments: false,
-          // Turned on because emoji and regex is not minified properly using
-          // default. See https://github.com/facebook/create-react-app/issues/2488
-          ascii_only: true,
-        },
-      },
-    }),
-  ];
-  if (useSimpleCssMinifier) {
-    minimizer.push(new CssMinimizerPlugin());
-  } else {
-    minimizer.push(
-      // Using the array syntax to add 2 minimizers
-      // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-      new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
-        minimizerOptions: [
-          // CssNano options
-          {
-            preset: require.resolve('@docusaurus/cssnano-preset'),
-          },
-          // CleanCss options
-          {
-            inline: false,
-            level: {
-              1: {
-                all: false,
-                removeWhitespace: true,
-              },
-              2: {
-                all: true,
-                restructureRules: true,
-                removeUnusedAtRules: false,
-              },
-            },
-          },
-        ],
-        minify: [
-          CssMinimizerPlugin.cssnanoMinify,
-          CssMinimizerPlugin.cleanCssMinify,
-        ],
-      }),
-    );
-  }
-
-  return minimizer;
 }

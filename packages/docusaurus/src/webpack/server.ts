@@ -23,7 +23,9 @@ export default async function createServerConfig(params: {
   const baseConfig = await createBaseConfig({
     props,
     isServer: true,
-    minify: true, // TODO is it worth it to minify server bundle??? benchmark
+
+    // Minification of server bundle reduces size but doubles bundle time :/
+    minify: false,
   });
 
   const outputFilename = 'server.bundle.js';
