@@ -13,12 +13,23 @@ import pMap from 'p-map';
 import {minify} from 'html-minifier-terser';
 import {PerfLogger} from './utils';
 import {renderSSRTemplate} from './templates/templates';
-import type {
-  AppRenderer,
-  AppRenderResult,
-  SiteCollectedData,
-  SSGParams,
-} from './types';
+import type {AppRenderer, AppRenderResult, SiteCollectedData} from './common';
+
+import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import type {SSRTemplateCompiled} from './templates/templates';
+
+export type SSGParams = {
+  trailingSlash: boolean | undefined;
+  manifest: Manifest;
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
+  outDir: string;
+  baseUrl: string;
+  noIndex: boolean;
+  DOCUSAURUS_VERSION: string;
+  ssrTemplate: SSRTemplateCompiled;
+};
 
 // Secret way to set SSR plugin concurrency option
 // Waiting for feedback before documenting this officially?

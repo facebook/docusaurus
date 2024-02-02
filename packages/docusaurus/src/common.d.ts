@@ -5,22 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {HelmetServerState} from 'react-helmet-async';
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {SSRTemplateCompiled} from './templates/templates';
+// This file is for types that are common between client/server
+// In particular the interface between SSG and serverEntry code
 
-export type SSGParams = {
-  trailingSlash: boolean | undefined;
-  manifest: Manifest;
-  headTags: string;
-  preBodyTags: string;
-  postBodyTags: string;
-  outDir: string;
-  baseUrl: string;
-  noIndex: boolean;
-  DOCUSAURUS_VERSION: string;
-  ssrTemplate: SSRTemplateCompiled;
-};
+import type {HelmetServerState} from 'react-helmet-async';
 
 export type AppRenderResult = {
   html: string;

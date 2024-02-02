@@ -29,7 +29,7 @@ import defaultSSRTemplate from '../templates/ssr.html.template';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
-import type {SiteCollectedData} from '../types';
+import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,

@@ -16,7 +16,7 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
-import type {PageCollectedData, AppRenderer} from '../types';
+import type {PageCollectedData, AppRenderer} from '../common';
 
 function buildSSRErrorMessage({
   error,
