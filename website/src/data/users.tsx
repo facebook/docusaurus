@@ -2867,8 +2867,8 @@ const Users: User[] = [
     title: '前端大刘',
     description: 'Record and share to make progress every day!',
     preview: null,
-    website: 'https://lzwdot.com/',
-    source: 'https://github.com/lzwdot/lzwdot.github.io',
+    website: 'https://lzwdot.github.io/docusaurus/',
+    source: 'https://github.com/lzwdot/docusaurus',
     tags: ['opensource','personal'],
   },
   {
