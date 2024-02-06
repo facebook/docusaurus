@@ -28,6 +28,11 @@ export const DOCUSAURUS_VERSION =
 export const DEFAULT_BUILD_DIR_NAME = 'build';
 
 /**
+ * Can be overridden with cli option `--target-dir`.
+ */
+export const DEFAULT_TARGET_DIR = '.';
+
+/**
  * Can be overridden with cli option `--config`. Code should generally use
  * `context.siteConfigPath` instead (which is always absolute).
  *
