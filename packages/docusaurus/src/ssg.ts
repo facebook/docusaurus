@@ -6,6 +6,7 @@
  */
 
 import fs from 'fs-extra';
+import {createRequire} from 'module';
 import path from 'path';
 import _ from 'lodash';
 import evaluate from 'eval';
@@ -46,6 +47,7 @@ export async function loadAppRenderer({
 }: {
   serverBundlePath: string;
 }): Promise<AppRenderer> {
+  console.log(`SSG - Load server bundle`);
   PerfLogger.start(`SSG - Load server bundle`);
   const source = await fs.readFile(serverBundlePath);
   PerfLogger.end(`SSG - Load server bundle`);
@@ -55,11 +57,17 @@ export async function loadAppRenderer({
 
   const filename = path.basename(serverBundlePath);
 
-  // When using "new URL('file.js', import.meta.url)", Webpack will emit
-  // __filename, and this plugin will throw. not sure the __filename value
-  // has any importance for this plugin, just using an empty string to
-  // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
-  const globals = {__filename: ''};
+  const globals = {
+    // When using "new URL('file.js', import.meta.url)", Webpack will emit
+    // __filename, and this plugin will throw. not sure the __filename value
+    // has any importance for this plugin, just using an empty string to
+    // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
+    __filename: '',
+
+    // This uses module.createRequire() instead of very old "require-like" lib
+    // See also: https://github.com/pierrec/node-eval/issues/33
+    require: createRequire(serverBundlePath),
+  };
 
   PerfLogger.start(`SSG - Evaluate server bundle`);
   const serverEntry = evaluate(
