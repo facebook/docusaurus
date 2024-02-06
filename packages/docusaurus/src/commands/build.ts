@@ -264,7 +264,7 @@ async function executeSSG({
   PerfLogger.end('Loading App renderer');
 
   PerfLogger.start('Generate static files');
-  const ssgResult = generateStaticFiles({
+  const ssgResult = await generateStaticFiles({
     pathnames: props.routesPaths,
     renderer,
     params: {
