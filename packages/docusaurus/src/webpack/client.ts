@@ -20,6 +20,24 @@ import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
+// When building, include the plugin to force terminate building if errors
+// happened in the client bundle.
+class ForceTerminatePlugin implements webpack.WebpackPluginInstance {
+  apply(compiler: webpack.Compiler) {
+    compiler.hooks.done.tap('client:done', (stats) => {
+      if (stats.hasErrors()) {
+        const errorsWarnings = stats.toJson('errors-warnings');
+        logger.error(
+          `Client bundle compiled with errors therefore further build is impossible.\n${formatStatsErrorMessage(
+            errorsWarnings,
+          )}`,
+        );
+        process.exit(1);
+      }
+    });
+  }
+}
+
 async function createBaseClientConfig({
   props,
   hydrate,
@@ -29,10 +47,9 @@ async function createBaseClientConfig({
   hydrate: boolean;
   minify: boolean;
 }): Promise<Configuration> {
-  const isBuilding = process.argv[2] === 'build';
   const baseConfig = await createBaseConfig({props, isServer: false, minify});
 
-  const config = merge(baseConfig, {
+  return merge(baseConfig, {
     // Useless, disabled on purpose (errors on existing sites with no
     // browserslist config)
     // target: 'browserslist',
@@ -53,28 +70,6 @@ async function createBaseClientConfig({
       }),
     ],
   });
-
-  // When building, include the plugin to force terminate building if errors
-  // happened in the client bundle.
-  if (isBuilding) {
-    config.plugins?.push({
-      apply: (compiler) => {
-        compiler.hooks.done.tap('client:done', (stats) => {
-          if (stats.hasErrors()) {
-            const errorsWarnings = stats.toJson('errors-warnings');
-            logger.error(
-              `Client bundle compiled with errors therefore further build is impossible.\n${formatStatsErrorMessage(
-                errorsWarnings,
-              )}`,
-            );
-            process.exit(1);
-          }
-        });
-      },
-    });
-  }
-
-  return config;
 }
 
 // client config when running "docusaurus start"
@@ -145,6 +140,7 @@ export async function createBuildClientConfig({
     await createBaseClientConfig({props, minify, hydrate: true}),
     {
       plugins: [
+        new ForceTerminatePlugin(),
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),
         // Visualize size of webpack output files with an interactive zoomable
