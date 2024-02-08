@@ -9,7 +9,7 @@ import type {ReactNode} from 'react';
 import {renderToPipeableStream} from 'react-dom/server';
 import {Writable} from 'stream';
 
-export async function renderStaticApp(app: ReactNode): Promise<string> {
+export async function renderToHtml(app: ReactNode): Promise<string> {
   // Inspired from
   // https://react.dev/reference/react-dom/server/renderToPipeableStream#waiting-for-all-content-to-load-for-crawlers-and-static-generation
   // https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/cache-dir/static-entry.js

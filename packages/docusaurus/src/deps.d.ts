@@ -32,46 +32,6 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
   }
 }
 
-declare module '@slorber/static-site-generator-webpack-plugin' {
-  import type {WebpackPluginInstance, Compiler} from 'webpack';
-  import type {HelmetServerState} from 'react-helmet-async';
-
-  export type Locals = {
-    routesLocation: {[filePath: string]: string};
-    generatedFilesDir: string;
-    headTags: string;
-    preBodyTags: string;
-    postBodyTags: string;
-    onLinksCollected: (params: {
-      staticPagePath: string;
-      links: string[];
-      anchors: string[];
-    }) => void;
-    onHeadTagsCollected: (
-      staticPagePath: string,
-      tags: HelmetServerState,
-    ) => void;
-    baseUrl: string;
-    ssrTemplate: string;
-    noIndex: boolean;
-    DOCUSAURUS_VERSION: string;
-  };
-
-  export default class StaticSiteGeneratorPlugin
-    implements WebpackPluginInstance
-  {
-    constructor(props: {
-      entry: string;
-      locals: Locals;
-      paths: string[];
-      preferFoldersOutput?: boolean;
-      globals: {[key: string]: unknown};
-      concurrency?: number;
-    });
-    apply(compiler: Compiler): void;
-  }
-}
-
 declare module 'webpack/lib/HotModuleReplacementPlugin' {
   import type {HotModuleReplacementPlugin} from 'webpack';
 

@@ -7,27 +7,29 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {mapAsyncSequential} from '@docusaurus/utils';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-import merge from 'webpack-merge';
+import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {load, loadContext, type LoadContextOptions} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import createClientConfig from '../webpack/client';
+import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
-  applyConfigurePostCss,
-  applyConfigureWebpack,
+  executePluginsConfigurePostCss,
+  executePluginsConfigureWebpack,
   compile,
 } from '../webpack/utils';
-import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
+import {PerfLogger} from '../utils';
+
 import {loadI18n} from '../server/i18n';
-import type {HelmetServerState} from 'react-helmet-async';
-import type {Configuration} from 'webpack';
-import type {Props} from '@docusaurus/types';
+import {generateStaticFiles, loadAppRenderer} from '../ssg';
+import {compileSSRTemplate} from '../templates/templates';
+import defaultSSRTemplate from '../templates/ssr.html.template';
+
+import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import type {LoadedPlugin, Props} from '@docusaurus/types';
+import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
   LoadContextOptions,
@@ -46,7 +48,7 @@ export async function build(
   // deploy, we have to let deploy finish.
   // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
-): Promise<string> {
+): Promise<void> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
@@ -70,13 +72,15 @@ export async function build(
     isLastLocale: boolean;
   }) {
     try {
-      return await buildLocale({
+      PerfLogger.start(`Building site for locale ${locale}`);
+      await buildLocale({
         siteDir,
         locale,
         cliOptions,
         forceTerminate,
         isLastLocale,
       });
+      PerfLogger.end(`Building site for locale ${locale}`);
     } catch (err) {
       throw new Error(
         logger.interpolate`Unable to build website for locale name=${locale}.`,
@@ -86,6 +90,34 @@ export async function build(
       );
     }
   }
+
+  PerfLogger.start(`Get locales to build`);
+  const locales = await getLocalesToBuild({siteDir, cliOptions});
+  PerfLogger.end(`Get locales to build`);
+
+  if (locales.length > 1) {
+    logger.info`Website will be built for all these locales: ${locales}`;
+  }
+
+  PerfLogger.start(`Building ${locales.length} locales`);
+  await mapAsyncSequential(locales, (locale) => {
+    const isLastLocale = locales.indexOf(locale) === locales.length - 1;
+    return tryToBuildLocale({locale, isLastLocale});
+  });
+  PerfLogger.end(`Building ${locales.length} locales`);
+}
+
+async function getLocalesToBuild({
+  siteDir,
+  cliOptions,
+}: {
+  siteDir: string;
+  cliOptions: BuildCLIOptions;
+}): Promise<[string, ...string[]]> {
+  if (cliOptions.locale) {
+    return [cliOptions.locale];
+  }
+
   const context = await loadContext({
     siteDir,
     outDir: cliOptions.outDir,
@@ -96,26 +128,16 @@ export async function build(
   const i18n = await loadI18n(context.siteConfig, {
     locale: cliOptions.locale,
   });
-  if (cliOptions.locale) {
-    return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
-  }
   if (i18n.locales.length > 1) {
     logger.info`Website will be built for all these locales: ${i18n.locales}`;
   }
 
   // We need the default locale to always be the 1st in the list. If we build it
   // last, it would "erase" the localized sites built in sub-folders
-  const orderedLocales: [string, ...string[]] = [
+  return [
     i18n.defaultLocale,
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
-
-  const results = await mapAsyncSequential(orderedLocales, (locale) => {
-    const isLastLocale =
-      orderedLocales.indexOf(locale) === orderedLocales.length - 1;
-    return tryToBuildLocale({locale, isLastLocale});
-  });
-  return results[0]!;
 }
 
 async function buildLocale({
@@ -138,6 +160,7 @@ async function buildLocale({
 
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
+  PerfLogger.start('Loading site');
   const props: Props = await load({
     siteDir,
     outDir: cliOptions.outDir,
@@ -145,156 +168,59 @@ async function buildLocale({
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
+  PerfLogger.end('Loading site');
 
   // Apply user webpack config.
-  const {
-    outDir,
-    generatedFilesDir,
-    plugins,
-    siteConfig: {
-      onBrokenLinks,
-      onBrokenAnchors,
-      staticDirectories: staticDirectoriesOption,
-    },
-    routes,
-  } = props;
+  const {outDir, plugins} = props;
 
-  const clientManifestPath = path.join(
-    generatedFilesDir,
-    'client-manifest.json',
-  );
-  let clientConfig: Configuration = merge(
-    await createClientConfig(props, cliOptions.minify, true),
-    {
-      plugins: [
-        // Remove/clean build folders before building bundles.
-        new CleanWebpackPlugin({verbose: false}),
-        // Visualize size of webpack output files with an interactive zoomable
-        // tree map.
-        cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-        // Generate client manifests file that will be used for server bundle.
-        new ReactLoadableSSRAddon({
-          filename: clientManifestPath,
-        }),
-      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
-    },
-  );
-
-  const collectedLinks: {
-    [pathname: string]: {links: string[]; anchors: string[]};
-  } = {};
-  const headTags: {[location: string]: HelmetServerState} = {};
-
-  let serverConfig: Configuration = await createServerConfig({
-    props,
-    onLinksCollected: ({staticPagePath, links, anchors}) => {
-      collectedLinks[staticPagePath] = {links, anchors};
-    },
-    onHeadTagsCollected: (staticPagePath, tags) => {
-      headTags[staticPagePath] = tags;
-    },
-  });
-
-  // The staticDirectories option can contain empty directories, or non-existent
-  // directories (e.g. user deleted `static`). Instead of issuing an error, we
-  // just silently filter them out, because user could have never configured it
-  // in the first place (the default option should always "work").
-  const staticDirectories = (
-    await Promise.all(
-      staticDirectoriesOption.map(async (dir) => {
-        const staticDir = path.resolve(siteDir, dir);
-        if (
-          (await fs.pathExists(staticDir)) &&
-          (await fs.readdir(staticDir)).length > 0
-        ) {
-          return staticDir;
-        }
-        return '';
+  // We can build the 2 configs in parallel
+  PerfLogger.start('Creating webpack configs');
+  const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
+    await Promise.all([
+      getBuildClientConfig({
+        props,
+        cliOptions,
       }),
-    )
-  ).filter(Boolean);
+      getBuildServerConfig({
+        props,
+      }),
+    ]);
+  PerfLogger.end('Creating webpack configs');
 
-  if (staticDirectories.length > 0) {
-    serverConfig = merge(serverConfig, {
-      plugins: [
-        new CopyWebpackPlugin({
-          patterns: staticDirectories.map((dir) => ({
-            from: dir,
-            to: outDir,
-            toType: 'dir',
-          })),
-        }),
-      ],
-    });
-  }
-
-  // Plugin Lifecycle - configureWebpack and configurePostCss.
-  plugins.forEach((plugin) => {
-    const {configureWebpack, configurePostCss} = plugin;
-
-    if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(
-        configurePostCss.bind(plugin),
-        clientConfig,
-      );
-    }
-
-    if (configureWebpack) {
-      clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-        clientConfig,
-        false,
-        props.siteConfig.webpack?.jsLoader,
-        plugin.content,
-      );
-
-      serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-        serverConfig,
-        true,
-        props.siteConfig.webpack?.jsLoader,
-        plugin.content,
-      );
-    }
-  });
-
-  // Make sure generated client-manifest is cleaned first so we don't reuse
+  // Make sure generated client-manifest is cleaned first, so we don't reuse
   // the one from previous builds.
-  if (await fs.pathExists(clientManifestPath)) {
-    await fs.unlink(clientManifestPath);
-  }
+  // TODO do we really need this? .docusaurus folder is cleaned between builds
+  PerfLogger.start('Deleting previous client manifest');
+  await ensureUnlink(clientManifestPath);
+  PerfLogger.end('Deleting previous client manifest');
 
   // Run webpack to build JS bundle (client) and static html files (server).
+  PerfLogger.start('Bundling');
   await compile([clientConfig, serverConfig]);
+  PerfLogger.end('Bundling');
+
+  PerfLogger.start('Executing static site generation');
+  const {collectedData} = await executeSSG({
+    props,
+    serverBundlePath,
+    clientManifestPath,
+  });
+  PerfLogger.end('Executing static site generation');
 
   // Remove server.bundle.js because it is not needed.
-  if (typeof serverConfig.output?.filename === 'string') {
-    const serverBundle = path.join(outDir, serverConfig.output.filename);
-    if (await fs.pathExists(serverBundle)) {
-      await fs.unlink(serverBundle);
-    }
-  }
+  PerfLogger.start('Deleting server bundle');
+  await ensureUnlink(serverBundlePath);
+  PerfLogger.end('Deleting server bundle');
 
   // Plugin Lifecycle - postBuild.
-  await Promise.all(
-    plugins.map(async (plugin) => {
-      if (!plugin.postBuild) {
-        return;
-      }
-      await plugin.postBuild({
-        ...props,
-        head: headTags,
-        content: plugin.content,
-      });
-    }),
-  );
+  PerfLogger.start('Executing postBuild()');
+  await executePluginsPostBuild({plugins, props, collectedData});
+  PerfLogger.end('Executing postBuild()');
 
-  await handleBrokenLinks({
-    collectedLinks,
-    routes,
-    onBrokenLinks,
-    onBrokenAnchors,
-  });
+  // TODO execute this in parallel to postBuild?
+  PerfLogger.start('Executing broken links checker');
+  await executeBrokenLinksCheck({props, collectedData});
+  PerfLogger.end('Executing broken links checker');
 
   logger.success`Generated static files in path=${path.relative(
     process.cwd(),
@@ -310,4 +236,145 @@ async function buildLocale({
   }
 
   return outDir;
+}
+
+async function executeSSG({
+  props,
+  serverBundlePath,
+  clientManifestPath,
+}: {
+  props: Props;
+  serverBundlePath: string;
+  clientManifestPath: string;
+}) {
+  PerfLogger.start('Reading client manifest');
+  const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
+  PerfLogger.end('Reading client manifest');
+
+  PerfLogger.start('Compiling SSR template');
+  const ssrTemplate = await compileSSRTemplate(
+    props.siteConfig.ssrTemplate ?? defaultSSRTemplate,
+  );
+  PerfLogger.end('Compiling SSR template');
+
+  PerfLogger.start('Loading App renderer');
+  const renderer = await loadAppRenderer({
+    serverBundlePath,
+  });
+  PerfLogger.end('Loading App renderer');
+
+  PerfLogger.start('Generate static files');
+  const ssgResult = await generateStaticFiles({
+    pathnames: props.routesPaths,
+    renderer,
+    params: {
+      trailingSlash: props.siteConfig.trailingSlash,
+      outDir: props.outDir,
+      baseUrl: props.baseUrl,
+      manifest,
+      headTags: props.headTags,
+      preBodyTags: props.preBodyTags,
+      postBodyTags: props.postBodyTags,
+      ssrTemplate,
+      noIndex: props.siteConfig.noIndex,
+      DOCUSAURUS_VERSION,
+    },
+  });
+  PerfLogger.end('Generate static files');
+
+  return ssgResult;
+}
+
+async function executePluginsPostBuild({
+  plugins,
+  props,
+  collectedData,
+}: {
+  plugins: LoadedPlugin[];
+  props: Props;
+  collectedData: SiteCollectedData;
+}) {
+  const head = _.mapValues(collectedData, (d) => d.helmet);
+  await Promise.all(
+    plugins.map(async (plugin) => {
+      if (!plugin.postBuild) {
+        return;
+      }
+      await plugin.postBuild({
+        ...props,
+        head,
+        content: plugin.content,
+      });
+    }),
+  );
+}
+
+async function executeBrokenLinksCheck({
+  props: {
+    routes,
+    siteConfig: {onBrokenLinks, onBrokenAnchors},
+  },
+  collectedData,
+}: {
+  props: Props;
+  collectedData: SiteCollectedData;
+}) {
+  const collectedLinks = _.mapValues(collectedData, (d) => ({
+    links: d.links,
+    anchors: d.anchors,
+  }));
+  await handleBrokenLinks({
+    collectedLinks,
+    routes,
+    onBrokenLinks,
+    onBrokenAnchors,
+  });
+}
+
+async function getBuildClientConfig({
+  props,
+  cliOptions,
+}: {
+  props: Props;
+  cliOptions: BuildCLIOptions;
+}) {
+  const {plugins} = props;
+  const result = await createBuildClientConfig({
+    props,
+    minify: cliOptions.minify ?? true,
+    bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
+  });
+  let {config} = result;
+  config = executePluginsConfigureWebpack({
+    plugins,
+    config,
+    isServer: false,
+    jsLoader: props.siteConfig.webpack?.jsLoader,
+  });
+  return {clientConfig: config, clientManifestPath: result.clientManifestPath};
+}
+
+async function getBuildServerConfig({props}: {props: Props}) {
+  const {plugins} = props;
+  const result = await createServerConfig({
+    props,
+  });
+  let {config} = result;
+  config = executePluginsConfigurePostCss({
+    plugins,
+    config,
+  });
+  config = executePluginsConfigureWebpack({
+    plugins,
+    config,
+    isServer: true,
+    jsLoader: props.siteConfig.webpack?.jsLoader,
+  });
+  return {serverConfig: config, serverBundlePath: result.serverBundlePath};
+}
+
+async function ensureUnlink(filepath: string) {
+  if (await fs.pathExists(filepath)) {
+    await fs.unlink(filepath);
+  }
 }
