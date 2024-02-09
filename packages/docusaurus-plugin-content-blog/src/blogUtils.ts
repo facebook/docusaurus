@@ -229,7 +229,6 @@ async function processBlogSourceFile(
     truncateMarker,
     showReadingTime,
     editUrl,
-    blogTitle: baseBlogTitle,
   } = options;
 
   // Lookup in localized folder in priority
@@ -330,8 +329,6 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const baseBlogPermalink = normalizeUrl([baseUrl, routeBasePath]);
-
   const tagsBasePath = normalizeUrl([
     baseUrl,
     routeBasePath,
@@ -343,8 +340,6 @@ async function processBlogSourceFile(
     id: slug,
     metadata: {
       permalink,
-      baseBlogPermalink,
-      baseBlogTitle,
       editUrl: getBlogEditUrl(),
       source: aliasedSource,
       title,

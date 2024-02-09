@@ -197,10 +197,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readonly formattedDate: string;
     /** Full link including base URL. */
     readonly permalink: string;
-    /** the path to the base of the blog */
-    readonly baseBlogPermalink: string;
-    /** title of the overall blog */
-    readonly baseBlogTitle: string;
     /**
      * Description used in the meta. Could be an empty string (empty content)
      */
@@ -465,6 +461,13 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     blogTagsListPath: string;
   };
 
+  export type BlogMetadata = {
+    /** the path to the base of the blog */
+    baseBlogPermalink: string;
+    /** title of the overall blog */
+    blogTitle: string;
+  };
+
   export type BlogTags = {
     [permalink: string]: BlogTag;
   };
@@ -536,6 +539,7 @@ declare module '@theme/BlogPostPage' {
     BlogPostFrontMatter,
     BlogSidebar,
     PropBlogPostContent,
+    BlogMetadata,
   } from '@docusaurus/plugin-content-blog';
 
   export type FrontMatter = BlogPostFrontMatter;
@@ -547,6 +551,8 @@ declare module '@theme/BlogPostPage' {
     readonly sidebar: BlogSidebar;
     /** Content of this post as an MDX component, with useful metadata. */
     readonly content: Content;
+    /** Metadata about the blog. */
+    readonly blogMetadata: BlogMetadata;
   }
 
   export default function BlogPostPage(props: Props): JSX.Element;
@@ -560,6 +566,7 @@ declare module '@theme/BlogPostPage/StructuredData' {
   import type {
     BlogPostFrontMatter,
     PropBlogPostContent,
+    BlogMetadata,
   } from '@docusaurus/plugin-content-blog';
 
   export type FrontMatter = BlogPostFrontMatter;
@@ -572,6 +579,7 @@ declare module '@theme/BlogPostPage/StructuredData' {
     readonly assets: Assets;
     readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
+    readonly blogMetadata: BlogMetadata;
   }
 
   export default function BlogPostStructuredData(props: Props): JSX.Element;

@@ -17,13 +17,15 @@ import BlogPostPageStructuredData from '@theme/BlogPostPage/StructuredData';
 import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogPostPage';
 import Unlisted from '@theme/Unlisted';
-import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+import type {BlogMetadata, BlogSidebar} from '@docusaurus/plugin-content-blog';
 
 function BlogPostPageContent({
   sidebar,
+  blogMetadata,
   children,
 }: {
   sidebar: BlogSidebar;
+  blogMetadata: BlogMetadata;
   children: ReactNode;
 }): JSX.Element {
   const {metadata, toc, assets} = useBlogPost();
@@ -51,6 +53,7 @@ function BlogPostPageContent({
         frontMatter={frontMatter}
         assets={assets}
         metadata={metadata}
+        blogMetadata={blogMetadata}
       />
 
       <BlogPostItem>{children}</BlogPostItem>
@@ -72,7 +75,9 @@ export default function BlogPostPage(props: Props): JSX.Element {
           ThemeClassNames.page.blogPostPage,
         )}>
         <BlogPostPageMetadata />
-        <BlogPostPageContent sidebar={props.sidebar}>
+        <BlogPostPageContent
+          sidebar={props.sidebar}
+          blogMetadata={props.blogMetadata}>
           <BlogPostContent />
         </BlogPostPageContent>
       </HtmlClassNameProvider>

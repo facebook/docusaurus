@@ -174,8 +174,6 @@ describe('blog plugin', () => {
       title: 'date-matter',
       description: `date inside front matter`,
       authors: [],
-      baseBlogPermalink: '/blog',
-      baseBlogTitle: 'Blog',
       date: new Date('2019-01-01'),
       formattedDate: 'January 1, 2019',
       frontMatter: {
@@ -221,8 +219,6 @@ describe('blog plugin', () => {
           title: 'Docusaurus maintainer (translated)',
         },
       ],
-      baseBlogPermalink: '/blog',
-      baseBlogTitle: 'Blog',
       date: new Date('2018-12-14'),
       formattedDate: 'December 14, 2018',
       frontMatter: {
@@ -254,8 +250,6 @@ describe('blog plugin', () => {
       title: 'Complex Slug',
       description: `complex url slug`,
       authors: [],
-      baseBlogPermalink: '/blog',
-      baseBlogTitle: 'Blog',
       prevItem: undefined,
       nextItem: {
         permalink: '/blog/simple/slug',
@@ -302,8 +296,6 @@ describe('blog plugin', () => {
           imageURL: undefined,
         },
       ],
-      baseBlogPermalink: '/blog',
-      baseBlogTitle: 'Blog',
       prevItem: undefined,
       nextItem: {
         permalink: '/blog/draft',
@@ -335,8 +327,6 @@ describe('blog plugin', () => {
       title: 'some heading',
       description: '',
       authors: [],
-      baseBlogPermalink: '/blog',
-      baseBlogTitle: 'Blog',
       date: new Date('2019-01-02'),
       formattedDate: 'January 2, 2019',
       frontMatter: {
@@ -503,8 +493,6 @@ describe('blog plugin', () => {
       title: 'no date',
       description: `no date`,
       authors: [],
-      baseBlogPermalink: '/blog',
-      baseBlogTitle: 'Blog',
       date: noDateSourceTime,
       formattedDate,
       frontMatter: {},

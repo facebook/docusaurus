@@ -180,6 +180,7 @@ export default async function pluginContentBlog(
         blogArchiveComponent,
         routeBasePath,
         archiveBasePath,
+        blogTitle,
       } = options;
 
       const {addRoute, createData} = actions;
@@ -255,6 +256,8 @@ export default async function pluginContentBlog(
         ),
       );
 
+      const baseBlogPermalink = normalizeUrl([baseUrl, routeBasePath]);
+
       // Create routes for blog entries.
       await Promise.all(
         blogPosts.map(async (blogPost) => {
@@ -266,6 +269,18 @@ export default async function pluginContentBlog(
             JSON.stringify(metadata, null, 2),
           );
 
+          const blogMetadataPath = await createData(
+            `${docuHash(`${metadata.source}-blogMetadata`)}.json`,
+            JSON.stringify(
+              {
+                baseBlogPermalink,
+                blogTitle,
+              },
+              null,
+              2,
+            ),
+          );
+
           addRoute({
             path: metadata.permalink,
             component: blogPostComponent,
@@ -273,6 +288,7 @@ export default async function pluginContentBlog(
             modules: {
               sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
+              blogMetadata: aliasedSource(blogMetadataPath),
             },
           });
 
