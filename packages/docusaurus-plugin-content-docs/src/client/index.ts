@@ -143,9 +143,16 @@ export function useActiveVersion(
 export function useActiveDocContext(
   pluginId: string | undefined,
 ): ActiveDocContext {
-  const data = useDocsData(pluginId);
-  const {pathname} = useLocation();
-  return getActiveDocContext(data, pathname);
+  try {
+    const data = useDocsData(pluginId);
+    const {pathname} = useLocation();
+    return getActiveDocContext(data, pathname);
+  } catch (error) {
+    throw new Error(
+      'It seems that you are using a doc plugin feature while the doc plugin seems to be disabled in `docusaurus.config.js`.',
+      error as Error,
+    );
+  }
 }
 /**
  * Useful to say "hey, you are not on the latest docs version, please switch"
