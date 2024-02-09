@@ -86,10 +86,20 @@ export const useAllDocsData = (): {[pluginId: string]: GlobalPluginData} =>
       }
     | undefined) ?? StableEmptyObject;
 
-export const useDocsData = (pluginId: string | undefined): GlobalPluginData =>
-  usePluginData('docusaurus-plugin-content-docs', pluginId, {
-    failfast: true,
-  }) as GlobalPluginData;
+export const useDocsData = (pluginId: string | undefined): GlobalPluginData => {
+  try {
+    return usePluginData('docusaurus-plugin-content-docs', pluginId, {
+      failfast: true,
+    }) as GlobalPluginData;
+  } catch (error) {
+    throw new Error(
+      `You are using a feature of the Docusaurus docs plugin, but this plugin does not seem to be enabled${
+        pluginId === 'Default' ? '' : ` (pluginId=${pluginId}`
+      }`,
+      {cause: error as Error},
+    );
+  }
+};
 
 // TODO this feature should be provided by docusaurus core
 export function useActivePlugin(
@@ -143,16 +153,9 @@ export function useActiveVersion(
 export function useActiveDocContext(
   pluginId: string | undefined,
 ): ActiveDocContext {
-  try {
-    const data = useDocsData(pluginId);
-    const {pathname} = useLocation();
-    return getActiveDocContext(data, pathname);
-  } catch (error) {
-    throw new Error(
-      'It seems that you are using a doc plugin feature while the doc plugin seems to be disabled in `docusaurus.config.js`.',
-      error as Error,
-    );
-  }
+  const data = useDocsData(pluginId);
+  const {pathname} = useLocation();
+  return getActiveDocContext(data, pathname);
 }
 /**
  * Useful to say "hey, you are not on the latest docs version, please switch"

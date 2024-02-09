@@ -627,7 +627,7 @@ Don't forget to delete the existing homepage at `./src/pages/index.js` or else t
 
 :::warning
 
-Don't forget to delete element of type doc in `docusaurus.config.js` in the navbar for example or else Docusaurus will crash.
+If you disable the docs plugin, don't forget to delete references to the docs plugin elsewhere in your configuration file. Notably, make sure to remove the docs-related navbar items.
 
 :::
 
