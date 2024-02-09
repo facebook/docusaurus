@@ -406,7 +406,6 @@ export async function generateBlogPosts(
   ).filter(Boolean) as BlogPost[];
 
   if (typeof options.sortPosts === 'function') {
-    console.log('options:', options);
     blogPosts.sort(options.sortPosts);
   } else {
     blogPosts.sort(
