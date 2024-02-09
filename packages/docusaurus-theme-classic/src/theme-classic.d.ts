@@ -813,6 +813,14 @@ declare module '@theme/SearchMetadata' {
   export default function SearchMetadata(props: Props): JSX.Element;
 }
 
+declare module '@theme/StructuredData' {
+  export interface Props {
+    readonly structuredData: object;
+  }
+
+  export default function StructuredData(props: Props): JSX.Element;
+}
+
 declare module '@theme/LastUpdated' {
   export interface Props {
     readonly lastUpdatedAt?: number;

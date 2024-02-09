@@ -67,15 +67,13 @@ Similar to [global metadata](#global-metadata), Docusaurus also allows for the a
   <meta name="keywords" content="cooking, blog" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://example.com" />
-  <script type="application/ld+json">
-    {JSON.stringify({
-      '@context': 'https://schema.org/',
-      '@type': 'Organization',
-      name: 'Meta Open Source',
-      url: 'https://opensource.fb.com/',
-      logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
-    })}
-  </script>
+  <StructuredData structuredData={{
+    '@context': 'https://schema.org/',
+    '@type': 'Organization',
+    name: 'Meta Open Source',
+    url: 'https://opensource.fb.com/',
+    logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+  }} />
 </head>
 
 Some content...
@@ -115,6 +113,7 @@ For JSX pages, you can use the Docusaurus [`<Head>`](docusaurus-core.mdx#head) c
 ```jsx title="my-react-page.jsx"
 import React from 'react';
 import Layout from '@theme/Layout';
+import StructuredData from '@theme/StructuredData';
 import Head from '@docusaurus/Head';
 
 export default function page() {
@@ -124,15 +123,15 @@ export default function page() {
         <meta property="og:image" content="image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="preconnect" href="https://example.com" />
-        <script type="application/ld+json">
-          {JSON.stringify({
+        <StructuredData
+          structuredData={{
             '@context': 'https://schema.org/',
             '@type': 'Organization',
             name: 'Meta Open Source',
             url: 'https://opensource.fb.com/',
             logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
-          })}
-        </script>
+          }}
+        />
       </Head>
       {/* ... */}
     </Layout>

@@ -9,6 +9,7 @@ import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Props} from '@theme/BlogListPage/StructuredData';
+import StructuredData from '@theme/StructuredData';
 
 export default function BlogListPageStructuredData(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
@@ -80,16 +81,5 @@ export default function BlogListPageStructuredData(props: Props): JSX.Element {
     }),
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      // We're using dangerouslySetInnerHTML because we want to avoid React
-      // transforming quotes into &quot; which upsets parsers.
-      // The entire contents is a stringified JSON object so it is safe
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(blogStructuredData),
-      }}
-    />
-  );
+  return <StructuredData structuredData={blogStructuredData} />;
 }
