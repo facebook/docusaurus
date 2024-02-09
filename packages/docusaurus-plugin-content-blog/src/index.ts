@@ -256,7 +256,17 @@ export default async function pluginContentBlog(
         ),
       );
 
-      const baseBlogPermalink = normalizeUrl([baseUrl, routeBasePath]);
+      const blogMetadataPath = await createData(
+        `blogMetadata-${pluginId}.json`,
+        JSON.stringify(
+          {
+            baseBlogPermalink: normalizeUrl([baseUrl, routeBasePath]),
+            blogTitle,
+          },
+          null,
+          2,
+        ),
+      );
 
       // Create routes for blog entries.
       await Promise.all(
@@ -267,18 +277,6 @@ export default async function pluginContentBlog(
             // metadataPath provided to mdx-loader.
             `${docuHash(metadata.source)}.json`,
             JSON.stringify(metadata, null, 2),
-          );
-
-          const blogMetadataPath = await createData(
-            `${docuHash(`${metadata.source}-blogMetadata`)}.json`,
-            JSON.stringify(
-              {
-                baseBlogPermalink,
-                blogTitle,
-              },
-              null,
-              2,
-            ),
           );
 
           addRoute({
