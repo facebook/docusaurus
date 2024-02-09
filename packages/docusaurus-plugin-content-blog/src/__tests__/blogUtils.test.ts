@@ -73,7 +73,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 10,
-        pageBasePath: 'page',
+        pageBasePath: 'a-page',
       }),
     ).toMatchSnapshot();
   });
