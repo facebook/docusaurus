@@ -53,6 +53,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 2,
+        pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
     expect(
@@ -62,6 +63,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 2,
+        pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
     expect(
@@ -71,6 +73,7 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 10,
+        pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
   });
