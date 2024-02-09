@@ -6,9 +6,10 @@
  */
 
 import type {Author} from '@docusaurus/plugin-content-blog';
+import type {Person, ImageObject} from 'schema-dts';
 
 /** @returns A {@link https://schema.org/Person} constructed from the {@link Author} */
-export function makePersonStructuredData(author: Author): object {
+export function makePersonStructuredData(author: Author): Person {
   return {
     '@type': 'Person',
     ...(author.name ? {name: author.name} : {}),
@@ -26,7 +27,7 @@ export function makeImageStructuredData({
 }: {
   imageUrl: string;
   caption: string;
-}): object {
+}): ImageObject {
   return {
     '@type': 'ImageObject',
     '@id': imageUrl,

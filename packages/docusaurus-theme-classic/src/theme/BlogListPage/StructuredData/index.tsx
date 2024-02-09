@@ -14,6 +14,7 @@ import {
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogListPage/StructuredData';
 import StructuredData from '@theme/StructuredData';
+import type {Blog, WithContext} from 'schema-dts';
 
 export default function BlogListPageStructuredData(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
@@ -26,7 +27,7 @@ export default function BlogListPageStructuredData(props: Props): JSX.Element {
   const url = `${siteConfig.url}${permalink}`;
 
   // details on structured data support: https://schema.org/Blog
-  const blogStructuredData = {
+  const blogStructuredData: WithContext<Blog> = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     '@id': url,

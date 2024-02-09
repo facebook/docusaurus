@@ -14,6 +14,7 @@ import {
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogPostPage/StructuredData';
 import StructuredData from '@theme/StructuredData';
+import type {BlogPosting, WithContext} from 'schema-dts';
 
 export default function BlogPostStructuredData(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
@@ -32,7 +33,7 @@ export default function BlogPostStructuredData(props: Props): JSX.Element {
   // details on structured data support: https://schema.org/BlogPosting
   // BlogPosting is one of the structured data types that Google explicitly
   // supports: https://developers.google.com/search/docs/appearance/structured-data/article#structured-data-type-definitions
-  const blogPostStructuredData = {
+  const blogPostStructuredData: WithContext<BlogPosting> = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     '@id': url,
