@@ -122,11 +122,10 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
-          blogTagsPaginated: [],
         };
       }
 
-      // Colocate next and prev metadata.
+      // Collocate next and prev metadata.
       listedBlogPosts.forEach((blogPost, index) => {
         const prevItem = index > 0 ? listedBlogPosts[index - 1] : null;
         if (prevItem) {
