@@ -75,7 +75,7 @@ export function paginateBlogPosts({
 
   function permalink(page: number) {
     return page > 0
-      ? normalizeUrl([basePageUrl, `${pageBasePath}/${page + 1}`])
+      ? normalizeUrl([basePageUrl, pageBasePath, `${page + 1}`])
       : basePageUrl;
   }
 
