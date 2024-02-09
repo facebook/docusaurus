@@ -39,6 +39,11 @@ export {
   filterDocCardListItems,
 } from './utils/docsUtils';
 
+export {
+  makeImageStructuredData,
+  makePersonStructuredData,
+} from './utils/structuredDataUtils';
+
 export {usePluralForm} from './utils/usePluralForm';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';

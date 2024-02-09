@@ -8,6 +8,10 @@
 import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {
+  makeImageStructuredData,
+  makePersonStructuredData,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogPostPage/StructuredData';
 import StructuredData from '@theme/StructuredData';
 
@@ -21,17 +25,9 @@ export default function BlogPostStructuredData(props: Props): JSX.Element {
   const keywords = frontMatter.keywords ?? [];
 
   // an array of https://schema.org/Person
-  const authorsStructuredData = metadata.authors.map((author) => ({
-    '@type': 'Person',
-    ...(author.name ? {name: author.name} : {}),
-    ...(author.title ? {description: author.title} : {}),
-    ...(author.url ? {url: author.url} : {}),
-    ...(author.email ? {email: author.email} : {}),
-    ...(author.imageURL ? {image: author.imageURL} : {}),
-  }));
+  const authorsStructuredData = metadata.authors.map(makePersonStructuredData);
 
   const url = `${siteConfig.url}${metadata.permalink}`;
-  const imageUrl = image ? withBaseUrl(image, {absolute: true}) : undefined;
 
   // details on structured data support: https://schema.org/BlogPosting
   // BlogPosting is one of the structured data types that Google explicitly
@@ -52,14 +48,10 @@ export default function BlogPostStructuredData(props: Props): JSX.Element {
         : authorsStructuredData,
     ...(image
       ? {
-          // details on structured data support: https://schema.org/ImageObject
-          image: {
-            '@type': 'ImageObject',
-            '@id': imageUrl,
-            url: imageUrl,
-            contentUrl: imageUrl,
+          image: makeImageStructuredData({
+            imageUrl: withBaseUrl(image, {absolute: true}),
             caption: `title image for the blog post: ${title}`,
-          },
+          }),
         }
       : {}),
     ...(keywords ? {keywords} : {}),
