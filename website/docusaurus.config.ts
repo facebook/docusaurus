@@ -28,10 +28,7 @@ import PrismDark from './src/utils/prismDark';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
-import type {
-  Options as BlogOptions,
-  BlogPost,
-} from '@docusaurus/plugin-content-blog';
+import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 import type {Options as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
 import type {Options as ClientRedirectsOptions} from '@docusaurus/plugin-client-redirects';
@@ -444,8 +441,6 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
-            sortPosts: (a: BlogPost, b: BlogPost): number =>
-              b.metadata.date.getTime() - a.metadata.date.getTime(),
             editUrl: ({locale, blogDirPath, blogPath}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;
