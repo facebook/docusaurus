@@ -405,9 +405,14 @@ export async function generateBlogPosts(
     await Promise.all(blogSourceFiles.map(doProcessBlogSourceFile))
   ).filter(Boolean) as BlogPost[];
 
-  blogPosts.sort(
-    (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
-  );
+  if (typeof options.sortPosts === 'function') {
+    console.log('options:', options);
+    blogPosts.sort(options.sortPosts);
+  } else {
+    blogPosts.sort(
+      (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+    );
+  }
 
   if (options.sortPosts === 'ascending') {
     return blogPosts.reverse();

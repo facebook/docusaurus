@@ -130,7 +130,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
   sortPosts: Joi.string()
-    .valid('descending', 'ascending')
+    .valid('descending', 'ascending', Joi.function())
     .default(DEFAULT_OPTIONS.sortPosts),
 }).default(DEFAULT_OPTIONS);
 

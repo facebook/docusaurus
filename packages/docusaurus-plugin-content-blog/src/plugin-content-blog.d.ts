@@ -418,7 +418,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** A callback to customize the reading time number displayed. */
     readingTime: ReadingTimeFunctionOption;
     /** Governs the direction of blog post sorting. */
-    sortPosts: 'ascending' | 'descending';
+    sortPosts:
+      | 'ascending'
+      | 'descending'
+      | ((a: BlogPost, b: BlogPost) => number);
   };
 
   /**
