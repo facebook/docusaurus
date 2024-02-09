@@ -362,6 +362,37 @@ async function processBlogSourceFile(
     content,
   };
 }
+interface SortBlogPostsOptions {
+  blogPosts: BlogPost[];
+  sortPosts:
+    | 'ascending'
+    | 'descending'
+    | ((args: {blogPosts: BlogPost[]}) => undefined | BlogPost[]);
+}
+
+function sortBlogPosts({
+  blogPosts,
+  sortPosts,
+}: SortBlogPostsOptions): BlogPost[] {
+  const sortPresets = {
+    descending: () =>
+      blogPosts.sort(
+        (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+      ),
+    ascending: () =>
+      blogPosts.sort(
+        (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
+      ),
+  };
+
+  if (typeof sortPosts === 'function') {
+    sortPosts({blogPosts});
+  } else if (sortPresets[sortPosts]) {
+    sortPresets[sortPosts]();
+  }
+
+  return blogPosts;
+}
 
 export async function generateBlogPosts(
   contentPaths: BlogContentPaths,
@@ -405,18 +436,12 @@ export async function generateBlogPosts(
     await Promise.all(blogSourceFiles.map(doProcessBlogSourceFile))
   ).filter(Boolean) as BlogPost[];
 
-  if (typeof options.sortPosts === 'function') {
-    blogPosts.sort(options.sortPosts);
-  } else {
-    blogPosts.sort(
-      (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
-    );
-  }
+  const sortedPosts = sortBlogPosts({
+    blogPosts,
+    sortPosts: options.sortPosts,
+  });
 
-  if (options.sortPosts === 'ascending') {
-    return blogPosts.reverse();
-  }
-  return blogPosts;
+  return sortedPosts;
 }
 
 export type LinkifyParams = {
