@@ -38,14 +38,15 @@ describe('truncate', () => {
 });
 
 describe('paginateBlogPosts', () => {
-  it('generates right pages', () => {
-    const blogPosts = [
-      {id: 'post1', metadata: {}, content: 'Foo 1'},
-      {id: 'post2', metadata: {}, content: 'Foo 2'},
-      {id: 'post3', metadata: {}, content: 'Foo 3'},
-      {id: 'post4', metadata: {}, content: 'Foo 4'},
-      {id: 'post5', metadata: {}, content: 'Foo 5'},
-    ] as BlogPost[];
+  const blogPosts = [
+    {id: 'post1', metadata: {}, content: 'Foo 1'},
+    {id: 'post2', metadata: {}, content: 'Foo 2'},
+    {id: 'post3', metadata: {}, content: 'Foo 3'},
+    {id: 'post4', metadata: {}, content: 'Foo 4'},
+    {id: 'post5', metadata: {}, content: 'Foo 5'},
+  ] as BlogPost[];
+
+  it('generates pages', () => {
     expect(
       paginateBlogPosts({
         blogPosts,
@@ -56,6 +57,9 @@ describe('paginateBlogPosts', () => {
         pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
+  });
+
+  it('generates pages at blog root', () => {
     expect(
       paginateBlogPosts({
         blogPosts,
@@ -66,6 +70,9 @@ describe('paginateBlogPosts', () => {
         pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
+  });
+
+  it('generates a single page', () => {
     expect(
       paginateBlogPosts({
         blogPosts,
@@ -73,7 +80,20 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 10,
-        pageBasePath: 'a-page',
+        pageBasePath: 'page',
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('generates pages with custom pageBasePath', () => {
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/blog',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        postsPerPageOption: 2,
+        pageBasePath: 'customPageBasePath',
       }),
     ).toMatchSnapshot();
   });
