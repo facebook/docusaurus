@@ -14,7 +14,18 @@ import {
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogListPage/StructuredData';
 import StructuredData from '@theme/StructuredData';
+import type {Author} from '@docusaurus/plugin-content-blog';
 import type {Blog, WithContext} from 'schema-dts';
+
+function getAuthor(authors: Author[]) {
+  const authorsStructuredData = authors.map(makePersonStructuredData);
+  return {
+    author:
+      authorsStructuredData.length === 1
+        ? authorsStructuredData[0]
+        : authorsStructuredData,
+  };
+}
 
 function getImage(
   image: string | undefined,
@@ -58,10 +69,6 @@ export default function BlogListPageStructuredData(props: Props): JSX.Element {
       const image = assets.image ?? frontMatter.image;
       const keywords = frontMatter.keywords ?? [];
 
-      const authorsStructuredData = metadata.authors.map(
-        makePersonStructuredData,
-      );
-
       const blogUrl = `${siteConfig.url}${metadata.permalink}`;
 
       return {
@@ -73,10 +80,7 @@ export default function BlogListPageStructuredData(props: Props): JSX.Element {
         name: title,
         description,
         datePublished: date,
-        author:
-          authorsStructuredData.length === 1
-            ? authorsStructuredData[0]
-            : authorsStructuredData,
+        ...getAuthor(metadata.authors),
         ...getImage(image, withBaseUrl, title),
         ...(keywords ? {keywords} : {}),
       };
