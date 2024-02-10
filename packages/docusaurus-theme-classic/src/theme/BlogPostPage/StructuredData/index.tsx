@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {type BaseUrlOptions, useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   makeImageStructuredData,
@@ -29,7 +29,7 @@ function getAuthor(authors: Author[]) {
 
 function getImage(
   image: string | undefined,
-  withBaseUrl: (url: string, options?: BaseUrlOptions | undefined) => string,
+  withBaseUrl: BaseUrlUtils['withBaseUrl'],
   title: string,
 ) {
   return image

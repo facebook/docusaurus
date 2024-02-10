@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {type BaseUrlOptions, useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   makeImageStructuredData,
@@ -14,8 +14,40 @@ import {
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogListPage/StructuredData';
 import StructuredData from '@theme/StructuredData';
-import type {Author} from '@docusaurus/plugin-content-blog';
+import type {
+  Author,
+  PropBlogPostContent,
+} from '@docusaurus/plugin-content-blog';
 import type {Blog, WithContext} from 'schema-dts';
+import type {DocusaurusConfig} from '@docusaurus/types';
+
+function getBlogPost(
+  blogPostContent: PropBlogPostContent,
+  siteConfig: DocusaurusConfig,
+  withBaseUrl: BaseUrlUtils['withBaseUrl'],
+) {
+  const {assets, frontMatter, metadata} = blogPostContent;
+  const {date, title, description} = metadata;
+
+  const image = assets.image ?? frontMatter.image;
+  const keywords = frontMatter.keywords ?? [];
+
+  const blogUrl = `${siteConfig.url}${metadata.permalink}`;
+
+  return {
+    '@type': 'BlogPosting',
+    '@id': blogUrl,
+    mainEntityOfPage: blogUrl,
+    url: blogUrl,
+    headline: title,
+    name: title,
+    description,
+    datePublished: date,
+    ...getAuthor(metadata.authors),
+    ...getImage(image, withBaseUrl, title),
+    ...(keywords ? {keywords} : {}),
+  };
+}
 
 function getAuthor(authors: Author[]) {
   const authorsStructuredData = authors.map(makePersonStructuredData);
@@ -29,7 +61,7 @@ function getAuthor(authors: Author[]) {
 
 function getImage(
   image: string | undefined,
-  withBaseUrl: (url: string, options?: BaseUrlOptions | undefined) => string,
+  withBaseUrl: BaseUrlUtils['withBaseUrl'],
   title: string,
 ) {
   return image
@@ -60,31 +92,9 @@ export default function BlogListPageStructuredData(props: Props): JSX.Element {
     mainEntityOfPage: url,
     headline: blogTitle,
     description: blogDescription,
-    blogPost: props.items.map((blogItem) => {
-      const {
-        content: {assets, frontMatter, metadata},
-      } = blogItem;
-      const {date, title, description} = metadata;
-
-      const image = assets.image ?? frontMatter.image;
-      const keywords = frontMatter.keywords ?? [];
-
-      const blogUrl = `${siteConfig.url}${metadata.permalink}`;
-
-      return {
-        '@type': 'BlogPosting',
-        '@id': blogUrl,
-        mainEntityOfPage: blogUrl,
-        url: blogUrl,
-        headline: title,
-        name: title,
-        description,
-        datePublished: date,
-        ...getAuthor(metadata.authors),
-        ...getImage(image, withBaseUrl, title),
-        ...(keywords ? {keywords} : {}),
-      };
-    }),
+    blogPost: props.items.map((blogItem) =>
+      getBlogPost(blogItem.content, siteConfig, withBaseUrl),
+    ),
   };
 
   return <StructuredData structuredData={blogStructuredData} />;
