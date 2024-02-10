@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {type BaseUrlOptions, useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   makeImageStructuredData,
@@ -15,6 +15,21 @@ import {
 import type {Props} from '@theme/BlogListPage/StructuredData';
 import StructuredData from '@theme/StructuredData';
 import type {Blog, WithContext} from 'schema-dts';
+
+function getImage(
+  image: string | undefined,
+  withBaseUrl: (url: string, options?: BaseUrlOptions | undefined) => string,
+  title: string,
+) {
+  return image
+    ? {
+        image: makeImageStructuredData({
+          imageUrl: withBaseUrl(image, {absolute: true}),
+          caption: `title image for the blog post: ${title}`,
+        }),
+      }
+    : {};
+}
 
 export default function BlogListPageStructuredData(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
@@ -62,14 +77,7 @@ export default function BlogListPageStructuredData(props: Props): JSX.Element {
           authorsStructuredData.length === 1
             ? authorsStructuredData[0]
             : authorsStructuredData,
-        ...(image
-          ? {
-              image: makeImageStructuredData({
-                imageUrl: withBaseUrl(image, {absolute: true}),
-                caption: `title image for the blog post: ${title}`,
-              }),
-            }
-          : {}),
+        ...getImage(image, withBaseUrl, title),
         ...(keywords ? {keywords} : {}),
       };
     }),
