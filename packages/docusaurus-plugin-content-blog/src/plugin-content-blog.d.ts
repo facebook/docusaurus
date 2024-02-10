@@ -463,7 +463,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
 
   export type BlogMetadata = {
     /** the path to the base of the blog */
-    baseBlogPermalink: string;
+    blogBasePath: string;
     /** title of the overall blog */
     blogTitle: string;
   };

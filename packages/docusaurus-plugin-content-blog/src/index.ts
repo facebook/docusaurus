@@ -260,7 +260,7 @@ export default async function pluginContentBlog(
         `blogMetadata-${pluginId}.json`,
         JSON.stringify(
           {
-            baseBlogPermalink: normalizeUrl([baseUrl, routeBasePath]),
+            blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
             blogTitle,
           },
           null,

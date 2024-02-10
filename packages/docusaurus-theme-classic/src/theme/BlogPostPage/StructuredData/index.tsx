@@ -71,7 +71,7 @@ export default function BlogPostStructuredData(props: Props): JSX.Element {
     ...(keywords ? {keywords} : {}),
     isPartOf: {
       '@type': 'Blog',
-      '@id': `${siteConfig.url}${props.blogMetadata.baseBlogPermalink}`,
+      '@id': `${siteConfig.url}${props.blogMetadata.blogBasePath}`,
       name: props.blogMetadata.blogTitle,
     },
   };
