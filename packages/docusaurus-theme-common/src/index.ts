@@ -40,6 +40,8 @@ export {
 } from './utils/docsUtils';
 
 export {
+  useBlogListPageStructuredData,
+  useBlogPostStructuredData,
   makeImageStructuredData,
   makePersonStructuredData,
 } from './utils/structuredDataUtils';
