@@ -17,18 +17,16 @@ import BlogPostPageStructuredData from '@theme/BlogPostPage/StructuredData';
 import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogPostPage';
 import Unlisted from '@theme/Unlisted';
-import type {BlogMetadata, BlogSidebar} from '@docusaurus/plugin-content-blog';
+import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
 function BlogPostPageContent({
   sidebar,
-  blogMetadata,
   children,
 }: {
   sidebar: BlogSidebar;
-  blogMetadata: BlogMetadata;
   children: ReactNode;
 }): JSX.Element {
-  const {metadata, toc, assets} = useBlogPost();
+  const {metadata, toc} = useBlogPost();
   const {nextItem, prevItem, frontMatter, unlisted} = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
@@ -49,12 +47,6 @@ function BlogPostPageContent({
       }>
       {unlisted && <Unlisted />}
 
-      <BlogPostPageStructuredData
-        assets={assets}
-        metadata={metadata}
-        blogMetadata={blogMetadata}
-      />
-
       <BlogPostItem>{children}</BlogPostItem>
 
       {(nextItem || prevItem) && (
@@ -74,9 +66,12 @@ export default function BlogPostPage(props: Props): JSX.Element {
           ThemeClassNames.page.blogPostPage,
         )}>
         <BlogPostPageMetadata />
-        <BlogPostPageContent
-          sidebar={props.sidebar}
-          blogMetadata={props.blogMetadata}>
+        <BlogPostPageStructuredData
+          assets={props.content.assets}
+          metadata={props.content.metadata}
+          blogMetadata={props.blogMetadata}
+        />
+        <BlogPostPageContent sidebar={props.sidebar}>
           <BlogPostContent />
         </BlogPostPageContent>
       </HtmlClassNameProvider>
