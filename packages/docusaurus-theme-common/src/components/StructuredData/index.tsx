@@ -7,7 +7,9 @@
 
 import React from 'react';
 
-import type {Props} from '@theme/StructuredData';
+interface Props {
+  readonly structuredData: object;
+}
 
 export default function StructuredData({structuredData}: Props): JSX.Element {
   return (

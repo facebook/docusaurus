@@ -6,9 +6,11 @@
  */
 
 import React from 'react';
-import {useBlogPostStructuredData} from '@docusaurus/theme-common';
+import {
+  useBlogPostStructuredData,
+  StructuredData,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/BlogPostPage/StructuredData';
-import StructuredData from '@theme/StructuredData';
 
 export default function BlogPostStructuredData(props: Props): JSX.Element {
   const structuredData = useBlogPostStructuredData(props);
