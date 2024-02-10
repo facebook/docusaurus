@@ -577,7 +577,6 @@ declare module '@theme/BlogPostPage/StructuredData' {
 
   export interface Props {
     readonly assets: Assets;
-    readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
     readonly blogMetadata: BlogMetadata;
   }

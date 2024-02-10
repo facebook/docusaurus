@@ -50,7 +50,6 @@ function BlogPostPageContent({
       {unlisted && <Unlisted />}
 
       <BlogPostPageStructuredData
-        frontMatter={frontMatter}
         assets={assets}
         metadata={metadata}
         blogMetadata={blogMetadata}

@@ -108,8 +108,8 @@ export function useBlogPostStructuredData(
 ): WithContext<BlogPosting> {
   const {siteConfig} = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
-  const {assets, frontMatter, metadata} = props;
-  const {date, title, description} = metadata;
+  const {assets, metadata} = props;
+  const {date, title, description, frontMatter} = metadata;
 
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
