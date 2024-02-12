@@ -10,14 +10,14 @@ import type {OptionValidationContext} from '@docusaurus/types';
 export type PluginOptions = {
   id: string;
   mode: 'auto' | 'production' | 'development';
-  debug: boolean;
+  debug: boolean | undefined;
 };
 
 export type Options = Partial<PluginOptions>;
 
 export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
-  mode: 'production',
-  debug: false,
+  mode: 'auto',
+  debug: undefined,
 };
 
 const pluginOptionsSchema = Joi.object<PluginOptions>({

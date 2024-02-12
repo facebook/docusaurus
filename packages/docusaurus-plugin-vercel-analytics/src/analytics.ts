@@ -6,7 +6,7 @@
  */
 import {inject} from '@vercel/analytics';
 import globalData from '@generated/globalData';
-import type {PluginOptions} from '@docusaurus/plugin-vercel-analytics';
+import type {PluginOptions} from './options';
 
 const {debug, mode} = globalData['docusaurus-plugin-vercel-analytics']
   ?.default as PluginOptions;
