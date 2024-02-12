@@ -386,7 +386,10 @@ function sortBlogPosts({
   };
 
   if (typeof sortPosts === 'function') {
-    sortPosts({blogPosts});
+    const customSort = sortPosts({blogPosts});
+    if (customSort !== undefined) {
+      return customSort;
+    }
   } else if (sortPresets[sortPosts]) {
     sortPresets[sortPosts]();
   }
