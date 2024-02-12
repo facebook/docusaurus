@@ -24,7 +24,7 @@ const pluginOptionsSchema = Joi.object<PluginOptions>({
   mode: Joi.string()
     .valid('auto', 'production', 'development')
     .default(DEFAULT_OPTIONS.mode),
-  debug: Joi.boolean().default(DEFAULT_OPTIONS.debug),
+  debug: Joi.boolean().default(false).optional(),
 });
 
 export function validateOptions({
