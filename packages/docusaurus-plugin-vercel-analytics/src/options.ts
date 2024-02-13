@@ -9,22 +9,16 @@ import type {OptionValidationContext} from '@docusaurus/types';
 
 export type PluginOptions = {
   id: string;
-  mode: 'auto' | 'production' | 'development';
+  mode: 'auto' | 'production' | 'development' | undefined;
   debug: boolean | undefined;
 };
 
 export type Options = Partial<PluginOptions>;
 
-export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
-  mode: 'auto',
-  debug: undefined,
-};
-
 const pluginOptionsSchema = Joi.object<PluginOptions>({
-  mode: Joi.string()
-    .valid('auto', 'production', 'development')
-    .default(DEFAULT_OPTIONS.mode),
-  debug: Joi.boolean().default(false).optional(),
+  id: Joi.string().valid('default').default('default'),
+  mode: Joi.string().valid('auto', 'production', 'development').optional(),
+  debug: Joi.boolean().optional(),
 });
 
 export function validateOptions({
