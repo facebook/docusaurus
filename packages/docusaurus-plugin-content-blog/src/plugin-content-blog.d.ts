@@ -421,7 +421,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     sortPosts:
       | 'ascending'
       | 'descending'
-      | (({blogPosts}: {blogPosts: BlogPost[]}) => undefined | BlogPost[]);
+      | (({blogPosts}: {blogPosts: BlogPost[]}) => void | BlogPost[]);
   };
 
   /**

@@ -367,31 +367,31 @@ interface SortBlogPostsOptions {
   sortPosts:
     | 'ascending'
     | 'descending'
-    | ((args: {blogPosts: BlogPost[]}) => undefined | BlogPost[]);
+    | ((args: {blogPosts: BlogPost[]}) => void | BlogPost[]);
 }
+
+const sortPresets = {
+  descending: (blogPosts: BlogPost[]) =>
+    blogPosts.sort(
+      (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+    ),
+  ascending: (blogPosts: BlogPost[]) =>
+    blogPosts.sort(
+      (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
+    ),
+};
 
 function sortBlogPosts({
   blogPosts,
   sortPosts,
 }: SortBlogPostsOptions): BlogPost[] {
-  const sortPresets = {
-    descending: () =>
-      blogPosts.sort(
-        (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
-      ),
-    ascending: () =>
-      blogPosts.sort(
-        (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
-      ),
-  };
-
   if (typeof sortPosts === 'function') {
     const customSort = sortPosts({blogPosts});
     if (customSort !== undefined) {
       return customSort;
     }
   } else if (sortPresets[sortPosts]) {
-    sortPresets[sortPosts]();
+    return sortPresets[sortPosts](blogPosts);
   }
 
   return blogPosts;
