@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import type {OptionValidationContext} from '@docusaurus/types';
 
@@ -16,7 +17,7 @@ export type PluginOptions = {
 export type Options = Partial<PluginOptions>;
 
 const pluginOptionsSchema = Joi.object<PluginOptions>({
-  id: Joi.string().valid('default').default('default'),
+  id: Joi.string().valid(DEFAULT_PLUGIN_ID).default(DEFAULT_PLUGIN_ID),
   mode: Joi.string().valid('auto', 'production', 'development').optional(),
   debug: Joi.boolean().optional(),
 });
