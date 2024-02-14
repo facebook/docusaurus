@@ -29,13 +29,14 @@ describe('validateOptions', () => {
     expect(testValidateOptions(undefined)).toEqual(validationResult(undefined));
   });
 
-  // TODO: fix this test
-  // it('throws for custom id', () => {
-  //   const config: Options = {id: 'custom', mode: 'auto', debug: false};
-  //   expect(() =>
-  //     testValidateOptions(config),
-  //   ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
-  // });
+  it('throws for custom id', () => {
+    const config: Options = {id: 'custom', mode: 'auto', debug: false};
+    expect(() => testValidateOptions(config))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "You site uses the Vercel Analytics plugin with a custom plugin id (custom).
+            But this plugin is only supposed to be used at most once per site. Therefore providing a custom plugin id is unsupported."
+    `);
+  });
 
   it('accept for default id', () => {
     const config: Options = {id: 'default', mode: 'auto', debug: false};
