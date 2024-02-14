@@ -257,16 +257,13 @@ export default async function pluginContentBlog(
         ),
       );
 
+      const blogMetadata: BlogMetadata = {
+        blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
+        blogTitle,
+      };
       const blogMetadataPath = await createData(
         `blogMetadata-${pluginId}.json`,
-        JSON.stringify(
-          {
-            blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
-            blogTitle,
-          } satisfies BlogMetadata,
-          null,
-          2,
-        ),
+        JSON.stringify(blogMetadata, null, 2),
       );
 
       // Create routes for blog entries.
