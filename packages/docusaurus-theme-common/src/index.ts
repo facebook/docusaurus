@@ -44,8 +44,6 @@ export {
 export {
   useBlogListPageStructuredData,
   useBlogPostStructuredData,
-  makeImageStructuredData,
-  makePersonStructuredData,
 } from './utils/structuredDataUtils';
 
 export {usePluralForm} from './utils/usePluralForm';

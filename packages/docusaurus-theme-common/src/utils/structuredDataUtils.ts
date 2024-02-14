@@ -51,7 +51,7 @@ function getBlogPost(
 }
 
 function getAuthor(authors: Author[]) {
-  const authorsStructuredData = authors.map(makePersonStructuredData);
+  const authorsStructuredData = authors.map(createPersonStructuredData);
   return {
     author:
       authorsStructuredData.length === 1
@@ -67,7 +67,7 @@ function getImage(
 ) {
   return image
     ? {
-        image: makeImageStructuredData({
+        image: createImageStructuredData({
           imageUrl: withBaseUrl(image, {absolute: true}),
           caption: `title image for the blog post: ${title}`,
         }),
@@ -143,7 +143,7 @@ export function useBlogPostStructuredData(
 }
 
 /** @returns A {@link https://schema.org/Person} constructed from the {@link Author} */
-export function makePersonStructuredData(author: Author): Person {
+function createPersonStructuredData(author: Author): Person {
   return {
     '@type': 'Person',
     ...(author.name ? {name: author.name} : {}),
@@ -155,7 +155,7 @@ export function makePersonStructuredData(author: Author): Person {
 }
 
 /** @returns A {@link https://schema.org/ImageObject} */
-export function makeImageStructuredData({
+function createImageStructuredData({
   imageUrl,
   caption,
 }: {
