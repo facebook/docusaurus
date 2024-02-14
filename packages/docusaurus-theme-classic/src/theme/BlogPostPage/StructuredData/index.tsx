@@ -10,9 +10,8 @@ import {
   useBlogPostStructuredData,
   StructuredData,
 } from '@docusaurus/theme-common';
-import type {Props} from '@theme/BlogPostPage/StructuredData';
 
-export default function BlogPostStructuredData(props: Props): JSX.Element {
-  const structuredData = useBlogPostStructuredData(props);
+export default function BlogPostStructuredData(): JSX.Element {
+  const structuredData = useBlogPostStructuredData();
   return <StructuredData structuredData={structuredData} />;
 }

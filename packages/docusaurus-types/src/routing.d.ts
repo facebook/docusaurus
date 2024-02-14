@@ -70,7 +70,7 @@ export type RouteContext = {
   /**
    * Plugin-specific context data.
    */
-  data?: object | undefined;
+  data?: {[key: string]: unknown};
 };
 
 /**

@@ -42,6 +42,7 @@ import type {
   BlogTags,
   BlogContent,
   BlogPaginated,
+  BlogMetadata,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
@@ -262,7 +263,7 @@ export default async function pluginContentBlog(
           {
             blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
             blogTitle,
-          },
+          } satisfies BlogMetadata,
           null,
           2,
         ),
@@ -286,6 +287,8 @@ export default async function pluginContentBlog(
             modules: {
               sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
+            },
+            context: {
               blogMetadata: aliasedSource(blogMetadataPath),
             },
           });

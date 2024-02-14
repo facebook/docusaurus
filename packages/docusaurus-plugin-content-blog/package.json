@@ -4,9 +4,21 @@
   "description": "Blog plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-blog.d.ts",
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-blog.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch",
     "test:generate-build-snap": "yarn docusaurus build src/__tests__/__fixtures__/website --out-dir build-snap && yarn rimraf src/__tests__/__fixtures__/website/.docusaurus && yarn rimraf src/__tests__/__fixtures__/website/build-snap/assets && git add src/__tests__/__fixtures__/website/build-snap"
   },
   "repository": {

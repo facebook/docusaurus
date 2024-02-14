@@ -7,8 +7,9 @@
 
 import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
 import type {Props as BlogListPageStructuredDataProps} from '@theme/BlogListPage/StructuredData';
-import type {Props as BlogPostPageStructuredDataProps} from '@theme/BlogPostPage/StructuredData';
+import {useBlogPost} from '../contexts/blogPost';
 import type {
   Blog,
   BlogPosting,
@@ -88,7 +89,7 @@ export function useBlogListPageStructuredData(
   const url = `${siteConfig.url}${permalink}`;
 
   // details on structured data support: https://schema.org/Blog
-  const blogStructuredData: WithContext<Blog> = {
+  return {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     '@id': url,
@@ -99,16 +100,14 @@ export function useBlogListPageStructuredData(
       getBlogPost(blogItem.content, siteConfig, withBaseUrl),
     ),
   };
-
-  return blogStructuredData;
 }
 
-export function useBlogPostStructuredData(
-  props: BlogPostPageStructuredDataProps,
-): WithContext<BlogPosting> {
+export function useBlogPostStructuredData(): WithContext<BlogPosting> {
+  const blogMetadata = useBlogMetadata();
+  const {assets, metadata} = useBlogPost();
   const {siteConfig} = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
-  const {assets, metadata} = props;
+
   const {date, title, description, frontMatter} = metadata;
 
   const image = assets.image ?? frontMatter.image;
@@ -119,7 +118,7 @@ export function useBlogPostStructuredData(
   // details on structured data support: https://schema.org/BlogPosting
   // BlogPosting is one of the structured data types that Google explicitly
   // supports: https://developers.google.com/search/docs/appearance/structured-data/article#structured-data-type-definitions
-  const blogPostStructuredData: WithContext<BlogPosting> = {
+  return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     '@id': url,
@@ -134,12 +133,10 @@ export function useBlogPostStructuredData(
     ...(keywords ? {keywords} : {}),
     isPartOf: {
       '@type': 'Blog',
-      '@id': `${siteConfig.url}${props.blogMetadata.blogBasePath}`,
-      name: props.blogMetadata.blogTitle,
+      '@id': `${siteConfig.url}${blogMetadata.blogBasePath}`,
+      name: blogMetadata.blogTitle,
     },
   };
-
-  return blogPostStructuredData;
 }
 
 /** @returns A {@link https://schema.org/Person} constructed from the {@link Author} */

@@ -66,11 +66,7 @@ export default function BlogPostPage(props: Props): JSX.Element {
           ThemeClassNames.page.blogPostPage,
         )}>
         <BlogPostPageMetadata />
-        <BlogPostPageStructuredData
-          assets={props.content.assets}
-          metadata={props.content.metadata}
-          blogMetadata={props.blogMetadata}
-        />
+        <BlogPostPageStructuredData />
         <BlogPostPageContent sidebar={props.sidebar}>
           <BlogPostContent />
         </BlogPostPageContent>

@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/module-type-aliases" />
+
 declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
@@ -563,25 +565,7 @@ declare module '@theme/BlogPostPage/Metadata' {
 }
 
 declare module '@theme/BlogPostPage/StructuredData' {
-  import type {
-    BlogPostFrontMatter,
-    PropBlogPostContent,
-    BlogMetadata,
-  } from '@docusaurus/plugin-content-blog';
-
-  export type FrontMatter = BlogPostFrontMatter;
-
-  export type Assets = PropBlogPostContent['assets'];
-
-  export type Metadata = PropBlogPostContent['metadata'];
-
-  export interface Props {
-    readonly assets: Assets;
-    readonly metadata: Metadata;
-    readonly blogMetadata: BlogMetadata;
-  }
-
-  export default function BlogPostStructuredData(props: Props): JSX.Element;
+  export default function BlogPostStructuredData(): JSX.Element;
 }
 
 declare module '@theme/BlogListPage' {
