@@ -11,7 +11,7 @@ import APITable from '@site/src/components/APITable';
 
 :::warning production only
 
-This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
+This plugin is always inactive in development and **only active in production** (`docusaurus build`) to avoid polluting the analytics statistics.
 
 :::
 
@@ -30,9 +30,9 @@ Accepted fields:
 ```
 
 | Name | Type | Default | Description |
-| --- | --- | --- | --- | --- |
-| `mode` | string | 'auto' | Sets the environment mode ('auto' or 'development' or 'production') see [vercel doc](https://vercel.com/docs/analytics/package#mode) |
-| `debug` | `boolean | undefined` | `undefined` | Enable debug logging see [vercel doc](https://vercel.com/docs/analytics/package#debug) |
+| --- | --- | --- | --- |
+| `mode` | `string` | `'auto'` | Override the automatic environment detection. Read the [official docs](https://vercel.com/docs/analytics/package#mode) for details. |
+| `debug` | `boolean` | `undefined` | Enable browser console logging of analytics events. SRead the [official docs](https://vercel.com/docs/analytics/package#debug) for details. |
 
 ```mdx-code-block
 </APITable>
