@@ -48,6 +48,8 @@ export {
   encodePath,
   isValidPathname,
   resolvePathname,
+  parseURLPath,
+  serializeURLPath,
   addLeadingSlash,
   addTrailingSlash,
   removeTrailingSlash,
@@ -55,6 +57,7 @@ export {
   buildHttpsUrl,
   buildSshUrl,
 } from './urlUtils';
+export type {URLPath} from './urlUtils';
 export {
   type Tag,
   type TagsListItem,
@@ -70,9 +73,9 @@ export {
   unwrapMdxCodeBlocks,
   admonitionTitleToDirectiveLabel,
   createExcerpt,
-  parseFrontMatter,
+  DEFAULT_PARSE_FRONT_MATTER,
   parseMarkdownContentTitle,
-  parseMarkdownString,
+  parseMarkdownFile,
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from './markdownUtils';
@@ -98,7 +101,11 @@ export {
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';
-export {getFileLoaderUtils} from './webpackUtils';
+export {
+  getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
+  type WebpackCompilerName,
+} from './webpackUtils';
 export {escapeShellArg} from './shellUtils';
 export {loadFreshModule} from './moduleUtils';
 export {

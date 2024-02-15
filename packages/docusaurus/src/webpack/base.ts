@@ -13,8 +13,8 @@ import {
   getCustomizableJSLoader,
   getStyleLoaders,
   getCustomBabelConfigFilePath,
-  getMinimizer,
 } from './utils';
+import {getMinimizer} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
 import type {Props} from '@docusaurus/types';
@@ -44,11 +44,15 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export async function createBaseConfig(
-  props: Props,
-  isServer: boolean,
-  minify: boolean = true,
-): Promise<Configuration> {
+export async function createBaseConfig({
+  props,
+  isServer,
+  minify,
+}: {
+  props: Props;
+  isServer: boolean;
+  minify: boolean;
+}): Promise<Configuration> {
   const {
     outDir,
     siteDir,
@@ -62,8 +66,7 @@ export async function createBaseConfig(
   } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
-  const minimizeEnabled = minify && isProd && !isServer;
-  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
+  const minimizeEnabled = minify && isProd;
 
   const fileLoaderUtils = getFileLoaderUtils();
 
@@ -156,9 +159,7 @@ export async function createBaseConfig(
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled
-        ? getMinimizer(useSimpleCssMinifier)
-        : undefined,
+      minimizer: minimizeEnabled ? getMinimizer() : undefined,
       splitChunks: isServer
         ? false
         : {

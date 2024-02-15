@@ -10,6 +10,10 @@ import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
+import type {ProcessorOptions} from '@mdx-js/mdx';
+
+export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
+
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 export type ThemeConfig = {
@@ -27,6 +31,20 @@ export type MDX1CompatOptions = {
   headingIds: boolean;
 };
 
+export type ParseFrontMatterParams = {filePath: string; fileContent: string};
+export type ParseFrontMatterResult = {
+  frontMatter: {[key: string]: unknown};
+  content: string;
+};
+export type DefaultParseFrontMatter = (
+  params: ParseFrontMatterParams,
+) => Promise<ParseFrontMatterResult>;
+export type ParseFrontMatter = (
+  params: ParseFrontMatterParams & {
+    defaultParseFrontMatter: DefaultParseFrontMatter;
+  },
+) => Promise<ParseFrontMatterResult>;
+
 export type MarkdownConfig = {
   /**
    * The Markdown format to use by default.
@@ -43,6 +61,14 @@ export type MarkdownConfig = {
    * @default 'mdx'
    */
   format: 'mdx' | 'md' | 'detect';
+
+  /**
+   * A function callback that lets users parse the front matter themselves.
+   * Gives the opportunity to read it from a different source, or process it.
+   *
+   * @see https://github.com/facebook/docusaurus/issues/5568
+   */
+  parseFrontMatter: ParseFrontMatter;
 
   /**
    * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
@@ -69,6 +95,12 @@ export type MarkdownConfig = {
    * See also https://github.com/facebook/docusaurus/issues/4029
    */
   mdx1Compat: MDX1CompatOptions;
+
+  /**
+   * Ability to provide custom remark-rehype options
+   * See also https://github.com/remarkjs/remark-rehype#options
+   */
+  remarkRehypeOptions: RemarkRehypeOptions;
 };
 
 /**
@@ -143,6 +175,13 @@ export type DocusaurusConfig = {
    * @default "throw"
    */
   onBrokenLinks: ReportingSeverity;
+  /**
+   * The behavior of Docusaurus when it detects any broken link.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenAnchors
+   * @default "warn"
+   */
+  onBrokenAnchors: ReportingSeverity;
   /**
    * The behavior of Docusaurus when it detects any broken markdown link.
    *

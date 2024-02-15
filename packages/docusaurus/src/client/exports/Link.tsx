@@ -16,7 +16,7 @@ import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
-import {useLinksCollector} from '../LinksCollector';
+import useBrokenLinks from './useBrokenLinks';
 import {useBaseUrlUtils} from './useBaseUrl';
 import type {Props} from '@docusaurus/Link';
 
@@ -44,7 +44,7 @@ function Link(
     siteConfig: {trailingSlash, baseUrl},
   } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
-  const linksCollector = useLinksCollector();
+  const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
 
   useImperativeHandle(forwardedRef, () => innerRef.current!);
@@ -140,11 +140,23 @@ function Link(
     };
   }, [ioRef, targetLink, IOSupported, isInternal]);
 
+  // It is simple local anchor link targeting current page?
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
-  const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (!isRegularHtmlLink && !noBrokenLinkCheck) {
-    linksCollector.collectLink(targetLink!);
+  // See also RR logic:
+  // https://github.com/remix-run/react-router/blob/v5/packages/react-router-dom/modules/Link.js#L47
+  const hasInternalTarget = !props.target || props.target === '_self';
+
+  // Should we use a regular <a> tag instead of React-Router Link component?
+  const isRegularHtmlLink =
+    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
+
+  if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
+    brokenLinks.collectLink(targetLink!);
+  }
+
+  if (props.id) {
+    brokenLinks.collectAnchor(props.id);
   }
 
   return isRegularHtmlLink ? (

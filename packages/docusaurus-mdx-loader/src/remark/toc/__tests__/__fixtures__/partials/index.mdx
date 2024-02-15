@@ -1,0 +1,49 @@
+import Partial1 from './_partial1.md';
+
+import SomeComponent from './SomeComponent';
+
+# Index
+
+Some text
+
+import Partial2 from './_partial2.md';
+
+## Index section 1
+
+Foo
+
+<Partial1 />
+
+Some text
+
+<SomeComponent />
+
+## Index section 2
+
+<Partial2 />
+
+## Unused partials
+
+Unused partials (that are only imported but not rendered) shouldn't alter the TOC
+
+import UnusedPartialImport from './_partial3.md';
+
+## NonExisting Partials
+
+Partials that do not exist should alter the TOC
+
+It's not the responsibility of the Remark plugin to check for their existence
+
+import DoesNotExist from './_doesNotExist.md';
+
+<DoesNotExist />
+
+## Duplicate partials
+
+It's fine if we use partials at the end
+
+<Partial1 />
+
+And we can use the partial multiple times!
+
+<Partial1 />

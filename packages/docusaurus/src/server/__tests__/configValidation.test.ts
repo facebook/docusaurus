@@ -61,11 +61,16 @@ describe('normalizeConfig', () => {
       markdown: {
         format: 'md',
         mermaid: true,
+        parseFrontMatter: async (params) =>
+          params.defaultParseFrontMatter(params),
         preprocessor: ({fileContent}) => fileContent,
         mdx1Compat: {
           comments: true,
           admonitions: false,
           headingIds: true,
+        },
+        remarkRehypeOptions: {
+          footnoteLabel: 'Pied de page',
         },
       },
     };
@@ -504,11 +509,18 @@ describe('markdown', () => {
     const markdown: DocusaurusConfig['markdown'] = {
       format: 'md',
       mermaid: true,
+      parseFrontMatter: async (params) =>
+        params.defaultParseFrontMatter(params),
       preprocessor: ({fileContent}) => fileContent,
       mdx1Compat: {
         comments: false,
         admonitions: true,
         headingIds: false,
+      },
+      remarkRehypeOptions: {
+        footnoteLabel: 'Notes de bas de page',
+        // @ts-expect-error: we don't validate it on purpose
+        anyKey: 'heck we accept it on purpose',
       },
     };
     expect(

@@ -8,6 +8,7 @@
 
 // @ts-check
 
+import {inspect} from 'node:util';
 import logger from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
@@ -61,8 +62,6 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  // @ts-expect-error: Promise<string> is not assignable to Promise<void>... but
-  // good enough here.
   .action(build);
 
 cli
@@ -218,6 +217,9 @@ cli.arguments('<command>').action((cmd) => {
   logger.error`    Unknown command name=${cmd}.`;
 });
 
+// === The above is the commander configuration ===
+// They don't start any code execution yet until cli.parse() is called below
+
 /**
  * @param {string | undefined} command
  */
@@ -237,21 +239,40 @@ function isInternalCommand(command) {
   );
 }
 
-if (!isInternalCommand(process.argv.slice(2)[0])) {
-  await externalCommand(cli);
+// process.argv always looks like this:
+// [
+//   '/path/to/node',
+//   '/path/to/docusaurus.mjs',
+//   '<subcommand>',
+//   ...subcommandArgs
+// ]
+
+// There is no subcommand
+// TODO: can we use commander to handle this case?
+if (process.argv.length < 3 || process.argv[2]?.startsWith('--')) {
+  cli.outputHelp();
+  process.exit(1);
 }
 
-if (!process.argv.slice(2).length) {
-  cli.outputHelp();
+// There is an unrecognized subcommand
+// Let plugins extend the CLI before parsing
+if (!isInternalCommand(process.argv[2])) {
+  // TODO: in this step, we must assume default site structure because there's
+  // no way to know the siteDir/config yet. Maybe the root cli should be
+  // responsible for parsing these arguments?
+  // https://github.com/facebook/docusaurus/issues/8903
+  await externalCommand(cli);
 }
 
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
   console.log('');
-  // Do not use logger.error here: it does not print error causes
-  console.error(err);
-  console.log('');
+
+  // We need to use inspect with increased depth to log the full causal chain
+  // By default Node logging has depth=2
+  // see also https://github.com/nodejs/node/issues/51637
+  logger.error(inspect(err, {depth: Infinity}));
 
   logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
 Node version: number=${process.version}`;

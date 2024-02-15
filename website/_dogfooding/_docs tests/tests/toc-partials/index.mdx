@@ -1,0 +1,46 @@
+import Partial from './_partial.mdx';
+
+# TOC partial test
+
+This page tests that MDX-imported content appears correctly in the table-of-contents
+
+See also:
+
+- https://github.com/facebook/docusaurus/issues/3915
+- https://github.com/facebook/docusaurus/pull/9684
+
+---
+
+**The table of contents should include headings of this partial**:
+
+<Partial />
+
+---
+
+**We can import the same partial using a different name and it still works**:
+
+import WeirdLocalName from './_partial.mdx';
+
+<WeirdLocalName />
+
+---
+
+**We can import a partial and not use it, the TOC remains unaffected**:
+
+import UnusedPartial from './_partial.mdx';
+
+---
+
+import FirstLevelPartial from './_first-level-partial.mdx';
+
+**It also works for partials importing other partials**
+
+<FirstLevelPartial />
+
+---
+
+**And we can even use the same partial twice!**
+
+**(although it's useless and not particularly recommended because headings will have the same ids)**
+
+<FirstLevelPartial />

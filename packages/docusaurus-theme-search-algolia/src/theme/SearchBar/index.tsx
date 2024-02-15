@@ -6,6 +6,7 @@
  */
 
 import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
@@ -20,7 +21,6 @@ import {
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {createPortal} from 'react-dom';
 import translations from '@theme/SearchTranslations';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';

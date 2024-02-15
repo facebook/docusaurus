@@ -107,6 +107,7 @@ export default async function pluginContentBlog(
         blogDescription,
         blogTitle,
         blogSidebarTitle,
+        pageBasePath,
       } = options;
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
@@ -121,11 +122,10 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
-          blogTagsPaginated: [],
         };
       }
 
-      // Colocate next and prev metadata.
+      // Collocate next and prev metadata.
       listedBlogPosts.forEach((blogPost, index) => {
         const prevItem = index > 0 ? listedBlogPosts[index - 1] : null;
         if (prevItem) {
@@ -153,6 +153,7 @@ export default async function pluginContentBlog(
         blogDescription,
         postsPerPageOption,
         basePageUrl: baseBlogUrl,
+        pageBasePath,
       });
 
       const blogTags: BlogTags = getBlogTags({
@@ -160,6 +161,7 @@ export default async function pluginContentBlog(
         postsPerPageOption,
         blogDescription,
         blogTitle,
+        pageBasePath,
       });
 
       return {
@@ -191,6 +193,8 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
+      const listedBlogPosts = blogPosts.filter(shouldBeListed);
+
       const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
@@ -213,7 +217,7 @@ export default async function pluginContentBlog(
         });
       }
 
-      if (archiveBasePath && blogPosts.length) {
+      if (archiveBasePath && listedBlogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
@@ -222,7 +226,7 @@ export default async function pluginContentBlog(
         // Create a blog archive route
         const archiveProp = await createData(
           `${docuHash(archiveUrl)}.json`,
-          JSON.stringify({blogPosts}, null, 2),
+          JSON.stringify({blogPosts: listedBlogPosts}, null, 2),
         );
         addRoute({
           path: archiveUrl,

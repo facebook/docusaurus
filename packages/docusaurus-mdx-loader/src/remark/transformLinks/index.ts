@@ -15,9 +15,8 @@ import {
   getFileLoaderUtils,
   findAsyncSequential,
 } from '@docusaurus/utils';
-import visit from 'unist-util-visit';
 import escapeHtml from 'escape-html';
-import {assetRequireAttributeValue} from '../utils';
+import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
@@ -74,6 +73,34 @@ async function toAssetRequireNode(
     value: '_blank',
   });
 
+  // Assets are not routes, and are required by Webpack already
+  // They should not trigger the broken link checker
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'data-noBrokenLinkCheck',
+    value: {
+      type: 'mdxJsxAttributeValueExpression',
+      value: 'true',
+      data: {
+        estree: {
+          type: 'Program',
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'Literal',
+                value: true,
+                raw: 'true',
+              },
+            },
+          ],
+          sourceType: 'module',
+          comments: [],
+        },
+      },
+    },
+  });
+
   attributes.push({
     type: 'mdxJsxAttribute',
     name: 'href',
@@ -90,14 +117,12 @@ async function toAssetRequireNode(
 
   const {children} = node;
 
-  Object.keys(jsxNode).forEach(
-    (key) => delete jsxNode[key as keyof typeof jsxNode],
-  );
-
-  jsxNode.type = 'mdxJsxTextElement';
-  jsxNode.name = 'a';
-  jsxNode.attributes = attributes;
-  jsxNode.children = children;
+  transformNode(jsxNode, {
+    type: 'mdxJsxTextElement',
+    name: 'a',
+    attributes,
+    children,
+  });
 }
 
 async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
@@ -177,6 +202,8 @@ async function processLinkNode(target: Target, context: Context) {
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
+    const {visit} = await import('unist-util-visit');
+
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link, index, parent) => {
       promises.push(
