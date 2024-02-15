@@ -7,6 +7,7 @@
 
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
+import {askPreferredLanguage} from '@docusaurus/utils';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {helpTables, themeComponentsTable} from './tables';
@@ -15,10 +16,19 @@ import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
 import {askSwizzleDangerousComponent} from './prompts';
 import {initSwizzleContext} from './context';
-import {getLanguage} from './language';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleCLIOptions, SwizzlePlugin} from './common';
 import type {ActionResult} from './actions';
+
+async function getLanguage(options: SwizzleCLIOptions) {
+  if (options.typescript) {
+    return 'typescript';
+  }
+  if (options.javascript) {
+    return 'javascript';
+  }
+  return askPreferredLanguage({exit: true});
+}
 
 async function listAllThemeComponents({
   themeNames,
