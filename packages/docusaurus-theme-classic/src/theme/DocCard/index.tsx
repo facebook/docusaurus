@@ -33,7 +33,7 @@ function useCategoryItemsPlural() {
       translate(
         {
           message: '{count} items',
-          id: 'theme.docs.DocCard.categoryDescription',
+          id: 'theme.docs.DocCard.categoryDescription.plurals',
           description:
             'The default description for a category card in the generated index about how many items this category includes',
         },

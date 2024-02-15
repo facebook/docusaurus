@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "ویرایش مطالب این صفحه",
   "theme.common.headingLinkTitle": "لینک مستقیم به {heading}",
   "theme.common.skipToMainContent": "پرش به مطلب اصلی",
-  "theme.docs.DocCard.categoryDescription": "{count} مورد",
+  "theme.docs.DocCard.categoryDescription.plurals": "{count} مورد",
   "theme.docs.breadcrumbs.home": "صفحه اصلی",
   "theme.docs.breadcrumbs.navAriaLabel": "نشانگر صفحات",
   "theme.docs.paginator.navAriaLabel": "صفحات مستندات",

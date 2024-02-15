@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Sửa trang này",
   "theme.common.headingLinkTitle": "Đường dẫn trực tiếp tới {heading}",
   "theme.common.skipToMainContent": "Nhảy tới nội dung",
-  "theme.docs.DocCard.categoryDescription": "{count} mục",
+  "theme.docs.DocCard.categoryDescription.plurals": "{count} mục",
   "theme.docs.breadcrumbs.home": "Trang chủ",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Trang tài liệu",

@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Відредагувати цю сторінку",
   "theme.common.headingLinkTitle": "Пряме посилання на {heading}",
   "theme.common.skipToMainContent": "Перейти до основного вмісту",
-  "theme.docs.DocCard.categoryDescription": "{count} елемент|{count} елементи|{count} елементів",
+  "theme.docs.DocCard.categoryDescription.plurals": "{count} елемент|{count} елементи|{count} елементів",
   "theme.docs.breadcrumbs.home": "Головна сторінка",
   "theme.docs.breadcrumbs.navAriaLabel": "Навігаційний ланцюжок поточної сторінки",
   "theme.docs.paginator.navAriaLabel": "сторінка документації",
