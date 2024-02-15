@@ -368,7 +368,8 @@ type SortBlogPostsFn = (args: {blogPosts: BlogPost[]}) => void | BlogPost[];
 
 type SortBlogPostsPreset = 'ascending' | 'descending';
 
-const sortPresets: { [key: SortBlogPostsPreset]: SortBlogPostsFn } = {
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+const sortPresets: Record<SortBlogPostsPreset, SortBlogPostsFn> = {
   descending: ({blogPosts}) =>
     blogPosts.sort(
       (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
