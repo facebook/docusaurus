@@ -31,7 +31,7 @@
   "theme.blog.post.plurals": "{count} запис|{count} записи|{count} записів",
   "theme.blog.post.readMore": "Читати далі",
   "theme.blog.post.readMoreLabel": "Докладніше про {title}",
-  "theme.blog.post.readingTime.plurals": "{readingTime} хв. читання",
+  "theme.blog.post.readingTime.plurals": "{readingTime} хв. читання|{readingTime} хв. читання|{readingTime} хв. читання",
   "theme.blog.sidebar.navAriaLabel": "Навігація за останніми постами у блозі",
   "theme.blog.tagTitle": "{nPosts} з тегом \"{tagName}\"",
   "theme.colorToggle.ariaLabel": "Перемикання між темним та світлим режимом (зараз використовується {mode})",
