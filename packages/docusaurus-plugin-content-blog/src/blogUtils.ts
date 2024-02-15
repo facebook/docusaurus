@@ -36,6 +36,7 @@ import type {
   BlogPost,
   BlogTags,
   BlogPaginated,
+  Options,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
@@ -362,45 +363,63 @@ async function processBlogSourceFile(
     content,
   };
 }
-interface SortBlogPostsOptions {
-  blogPosts: BlogPost[];
-  sortPosts:
-    | 'ascending'
-    | 'descending'
-    | ((args: {blogPosts: BlogPost[]}) => void | BlogPost[]);
-}
 
-const sortPresets = {
-  descending: (blogPosts: BlogPost[]) =>
+type SortBlogPostsFn = (args: {blogPosts: BlogPost[]}) => void | BlogPost[];
+
+type SortBlogPostsPreset = 'ascending' | 'descending';
+
+const sortPresets: { [key: SortBlogPostsPreset]: SortBlogPostsFn } = {
+  descending: ({blogPosts}) =>
     blogPosts.sort(
       (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
     ),
-  ascending: (blogPosts: BlogPost[]) =>
+  ascending: ({blogPosts}) =>
     blogPosts.sort(
       (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
     ),
 };
 
+interface SortBlogPostsOptions {
+  blogPosts: BlogPost[];
+  sortPosts: 'ascending' | 'descending' | SortBlogPostsFn;
+}
+
+function getSortFunction(sortPosts: Options['sortPosts']): SortBlogPostsFn {
+  if (typeof sortPosts === 'function') {
+    return sortPosts;
+  }
+
+  if (typeof sortPosts === 'string') {
+    const presetFn = sortPresets[sortPosts];
+    if (!presetFn) {
+      throw new Error(
+        `sortPosts preset ${sortPosts} does not exist, valid presets are: ${Object.keys(
+          sortPresets,
+        ).join(', ')}`,
+      );
+    }
+    return presetFn;
+  }
+
+  return () => [];
+}
+
 function sortBlogPosts({
   blogPosts,
   sortPosts,
 }: SortBlogPostsOptions): BlogPost[] {
-  if (typeof sortPosts === 'function') {
-    const sortedBlogPosts = sortPosts({blogPosts});
-    if (sortedBlogPosts !== undefined) {
-      return sortedBlogPosts;
-    }
-  } else if (sortPresets[sortPosts]) {
-    return sortPresets[sortPosts](blogPosts);
-  } else {
-    throw new Error(
-      `Invalid blog config sortPost value: ${sortPosts}, must be one of: ${Object.keys(
-        sortPresets,
-      ).join(', ')}`,
-    );
+  const sortFunction = getSortFunction(sortPosts);
+  const sortedBlogPosts = sortFunction({blogPosts});
+
+  if (sortedBlogPosts !== undefined) {
+    return sortedBlogPosts;
   }
 
-  return blogPosts;
+  throw new Error(
+    `Invalid blog config sortPost value: ${sortPosts}, must be one of: ${Object.keys(
+      sortPresets,
+    ).join(', ')}`,
+  );
 }
 
 export async function generateBlogPosts(
