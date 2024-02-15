@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "このページを編集",
   "theme.common.headingLinkTitle": "{heading} への直接リンク",
   "theme.common.skipToMainContent": "メインコンテンツまでスキップ",
-  "theme.docs.DocCard.categoryDescription": "{count}項目",
+  "theme.docs.DocCard.categoryDescription.plurals": "{count}項目",
   "theme.docs.breadcrumbs.home": "ホームページ",
   "theme.docs.breadcrumbs.navAriaLabel": "パンくずリストのナビゲーション",
   "theme.docs.paginator.navAriaLabel": "ドキュメントページ",

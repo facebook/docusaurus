@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "تعديل هذه الصفحة",
   "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان {heading}",
   "theme.common.skipToMainContent": "انتقل إلى المحتوى الرئيسي",
-  "theme.docs.DocCard.categoryDescription": "{count} مواد",
+  "theme.docs.DocCard.categoryDescription.plurals": "{count} مواد",
   "theme.docs.breadcrumbs.home": "الرئيسية",
   "theme.docs.breadcrumbs.navAriaLabel": "التنقل التفصيلي",
   "theme.docs.paginator.navAriaLabel": "صفحة التوثيق",

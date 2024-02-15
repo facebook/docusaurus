@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "페이지 편집",
   "theme.common.headingLinkTitle": "{heading}에 대한 직접 링크",
   "theme.common.skipToMainContent": "본문으로 건너뛰기",
-  "theme.docs.DocCard.categoryDescription": "{count} 항목",
+  "theme.docs.DocCard.categoryDescription.plurals": "{count} 항목",
   "theme.docs.breadcrumbs.home": "홈",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "문서 페이지",
