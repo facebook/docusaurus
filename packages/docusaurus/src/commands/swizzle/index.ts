@@ -8,7 +8,12 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {askPreferredLanguage} from '@docusaurus/utils';
-import {getThemeName, getThemePath, getThemeNames} from './themes';
+import {
+  getThemeName,
+  getThemePath,
+  getThemeNames,
+  getPluginByThemeName,
+} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {helpTables, themeComponentsTable} from './tables';
 import {normalizeOptions} from './common';
@@ -20,14 +25,39 @@ import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleCLIOptions, SwizzlePlugin} from './common';
 import type {ActionResult} from './actions';
 
-async function getLanguage(options: SwizzleCLIOptions) {
+async function getLanguageForThemeName({
+  themeName,
+  plugins,
+  options,
+}: {
+  themeName: string;
+  plugins: SwizzlePlugin[];
+  options: SwizzleCLIOptions;
+}): Promise<'javascript' | 'typescript'> {
+  const plugin = getPluginByThemeName(plugins, themeName);
+  const supportsTS = !!plugin.instance.getTypeScriptThemePath?.();
+
   if (options.typescript) {
+    if (!supportsTS) {
+      throw new Error(
+        logger.interpolate`Theme name=${
+          plugin.instance.name
+        } does not support the code=${'--typescript'} CLI option.`,
+      );
+    }
     return 'typescript';
   }
+
   if (options.javascript) {
     return 'javascript';
   }
-  return askPreferredLanguage({exit: true});
+
+  // It's only useful to prompt the user for themes that support both JS/TS
+  if (supportsTS) {
+    return askPreferredLanguage({exit: true});
+  }
+
+  return 'javascript';
 }
 
 async function listAllThemeComponents({
@@ -120,10 +150,17 @@ export async function swizzle(
     });
   }
 
-  const typescript = (await getLanguage(options)) === 'typescript';
-
   const themeName = await getThemeName({themeNameParam, themeNames, list});
-  const themePath = getThemePath({themeName, plugins, typescript});
+
+  const language = await getLanguageForThemeName({themeName, plugins, options});
+  const typescript = language === 'typescript';
+
+  const themePath = getThemePath({
+    themeName,
+    plugins,
+    typescript,
+  });
+
   const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
 
   const themeComponents = await getThemeComponents({
