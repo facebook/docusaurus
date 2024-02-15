@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/module-type-aliases" />
+
 declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
@@ -466,6 +468,13 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     blogTagsListPath: string;
   };
 
+  export type BlogMetadata = {
+    /** the path to the base of the blog */
+    blogBasePath: string;
+    /** title of the overall blog */
+    blogTitle: string;
+  };
+
   export type BlogTags = {
     [permalink: string]: BlogTag;
   };
@@ -537,6 +546,7 @@ declare module '@theme/BlogPostPage' {
     BlogPostFrontMatter,
     BlogSidebar,
     PropBlogPostContent,
+    BlogMetadata,
   } from '@docusaurus/plugin-content-blog';
 
   export type FrontMatter = BlogPostFrontMatter;
@@ -548,6 +558,8 @@ declare module '@theme/BlogPostPage' {
     readonly sidebar: BlogSidebar;
     /** Content of this post as an MDX component, with useful metadata. */
     readonly content: Content;
+    /** Metadata about the blog. */
+    readonly blogMetadata: BlogMetadata;
   }
 
   export default function BlogPostPage(props: Props): JSX.Element;
@@ -555,6 +567,10 @@ declare module '@theme/BlogPostPage' {
 
 declare module '@theme/BlogPostPage/Metadata' {
   export default function BlogPostPageMetadata(): JSX.Element;
+}
+
+declare module '@theme/BlogPostPage/StructuredData' {
+  export default function BlogPostStructuredData(): JSX.Element;
 }
 
 declare module '@theme/BlogListPage' {
@@ -577,6 +593,28 @@ declare module '@theme/BlogListPage' {
   }
 
   export default function BlogListPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogListPage/StructuredData' {
+  import type {Content} from '@theme/BlogPostPage';
+  import type {
+    BlogSidebar,
+    BlogPaginatedMetadata,
+  } from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    /** Blog sidebar. */
+    readonly sidebar: BlogSidebar;
+    /** Metadata of the current listing page. */
+    readonly metadata: BlogPaginatedMetadata;
+    /**
+     * Array of blog posts included on this page. Every post's metadata is also
+     * available.
+     */
+    readonly items: readonly {readonly content: Content}[];
+  }
+
+  export default function BlogListPageStructuredData(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogTagsListPage' {

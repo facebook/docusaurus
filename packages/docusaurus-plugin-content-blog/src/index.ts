@@ -42,6 +42,7 @@ import type {
   BlogTags,
   BlogContent,
   BlogPaginated,
+  BlogMetadata,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
@@ -182,6 +183,7 @@ export default async function pluginContentBlog(
         blogArchiveComponent,
         routeBasePath,
         archiveBasePath,
+        blogTitle,
       } = options;
 
       const {addRoute, createData} = actions;
@@ -257,6 +259,15 @@ export default async function pluginContentBlog(
         ),
       );
 
+      const blogMetadata: BlogMetadata = {
+        blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
+        blogTitle,
+      };
+      const blogMetadataPath = await createData(
+        `blogMetadata-${pluginId}.json`,
+        JSON.stringify(blogMetadata, null, 2),
+      );
+
       // Create routes for blog entries.
       await Promise.all(
         blogPosts.map(async (blogPost) => {
@@ -275,6 +286,9 @@ export default async function pluginContentBlog(
             modules: {
               sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
+            },
+            context: {
+              blogMetadata: aliasedSource(blogMetadataPath),
             },
           });
 
