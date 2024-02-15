@@ -87,7 +87,7 @@ cli
   )
   .option(
     '-j, --javascript',
-    'copy Javascript theme files when possible (default: false)',
+    'copy JavaScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
   .option(
