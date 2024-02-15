@@ -386,12 +386,18 @@ function sortBlogPosts({
   sortPosts,
 }: SortBlogPostsOptions): BlogPost[] {
   if (typeof sortPosts === 'function') {
-    const customSort = sortPosts({blogPosts});
-    if (customSort !== undefined) {
-      return customSort;
+    const sortedBlogPosts = sortPosts({blogPosts});
+    if (sortedBlogPosts !== undefined) {
+      return sortedBlogPosts;
     }
   } else if (sortPresets[sortPosts]) {
     return sortPresets[sortPosts](blogPosts);
+  } else {
+    throw new Error(
+      `Invalid blog config sortPost value: ${sortPosts}, must be one of: ${Object.keys(
+        sortPresets,
+      ).join(', ')}`,
+    );
   }
 
   return blogPosts;
