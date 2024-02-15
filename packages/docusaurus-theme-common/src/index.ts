@@ -26,8 +26,6 @@ export {
 
 export {default as ThemedComponent} from './components/ThemedComponent';
 
-export {default as StructuredData} from './components/StructuredData';
-
 export {
   createStorageSlot,
   useStorageSlot,
