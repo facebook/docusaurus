@@ -38,6 +38,7 @@ program
     'Do not run package manager immediately after scaffolding',
   )
   .option('-t, --typescript', 'Use the TypeScript template variant')
+  .option('-j, --javascript', 'Use the JavaScript template variant')
   .option(
     '-g, --git-strategy <strategy>',
     `Only used if the template is a git repository.

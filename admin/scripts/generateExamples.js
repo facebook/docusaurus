@@ -25,7 +25,8 @@ async function generateTemplateExample(template) {
     // Run the docusaurus script to create the template in the examples folder
     const command = template.endsWith('-typescript')
       ? template.replace('-typescript', ' -- --typescript')
-      : template;
+      : `${template} -- --javascript`;
+
     shell.exec(
       // We use the published init script on purpose, because the local init is
       // too new and could generate upcoming/unavailable config options.
