@@ -5,40 +5,61 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import prompts from 'prompts';
+import prompts, {type Choice} from 'prompts';
 import logger from '@docusaurus/logger';
 
-export type LanguagesOptions = {
-  javascript?: boolean;
-  typescript?: boolean;
+type PreferredLanguage = 'javascript' | 'typescript';
+
+type AskPreferredLanguageOptions = {
+  fallback: PreferredLanguage | undefined;
+  exit: boolean;
 };
 
-export async function getLanguage(
-  languages: LanguagesOptions,
-  noTsVersionAvailable?: boolean,
-): Promise<LanguagesOptions> {
-  if (languages.typescript || languages.javascript) {
-    return languages;
+const DefaultOptions: AskPreferredLanguageOptions = {
+  fallback: undefined,
+  exit: false,
+};
+
+const ExitChoice: Choice = {title: logger.yellow('[Exit]'), value: '[Exit]'};
+
+export async function askPreferredLanguage(
+  options: Partial<AskPreferredLanguageOptions> = {},
+): Promise<'javascript' | 'typescript'> {
+  const {fallback, exit} = {...DefaultOptions, ...options};
+
+  const choices: Choice[] = [
+    {title: logger.bold('JavaScript'), value: 'javascript'},
+    {title: logger.bold('TypeScript'), value: 'typescript'},
+  ];
+  if (exit) {
+    choices.push(ExitChoice);
   }
-  if (noTsVersionAvailable) {
-    return {javascript: true};
-  }
-  const {language: selectedLanguage} = (await prompts(
+
+  const {language} = await prompts(
     {
       type: 'select',
       name: 'language',
       message: 'Which language do you want to use?',
-      choices: [
-        {title: 'JavaScript', value: 'javascript'},
-        {title: 'TypeScript', value: 'typescript'},
-      ],
+      choices,
     },
     {
       onCancel() {
-        logger.info`Falling back to language=${'javascript'}`;
+        exit && process.exit(0);
       },
     },
-  )) as {language: keyof LanguagesOptions};
+  );
 
-  return {[selectedLanguage]: true};
+  if (language === ExitChoice.value) {
+    process.exit(0);
+  }
+
+  if (!language) {
+    if (fallback) {
+      logger.info`Falling back to language=${fallback}`;
+      return fallback;
+    }
+    process.exit(0);
+  }
+
+  return language;
 }
