@@ -66,6 +66,7 @@ datagit
 Datagit's
 dedup
 devto
+dingers
 Dmitry
 docsearch
 Docsify
@@ -362,6 +363,7 @@ triaging
 TSES
 twoslash
 typecheck
+typesafe
 Typesense
 typesense
 Unavatar
@@ -401,3 +403,4 @@ yangshunz
 Zhou
 zoomable
 zpao
+ödingers

@@ -363,6 +363,14 @@ declare module '@theme/CodeBlock' {
   export default function CodeBlock(props: Props): JSX.Element;
 }
 
+declare module '@theme/CodeInline' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'code'> {}
+
+  export default function CodeInline(props: Props): JSX.Element;
+}
+
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
@@ -857,6 +865,14 @@ declare module '@theme/MDXComponents/Ul' {
   export interface Props extends ComponentProps<'ul'> {}
 
   export default function MDXUl(props: Props): JSX.Element;
+}
+
+declare module '@theme/MDXComponents/Li' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'li'> {}
+
+  export default function MDXLi(props: Props): JSX.Element;
 }
 
 declare module '@theme/MDXComponents/Img' {

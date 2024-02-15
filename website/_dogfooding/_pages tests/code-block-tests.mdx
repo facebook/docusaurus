@@ -384,16 +384,32 @@ y = times2(x);
 \end{document}
 ```
 
-```vbnet title="vbnet.vb"
-Dim languages As New Set(Of String) From {
+```vba title="vba.vb"
+Function Factorial(ByVal n As Long) As Long
+    If n < 0 Then
+        Err.Raise 5 ' Invalid argument
+    End If
+    'highlight-next-line
+    Factorial = 1 ' return value
+    Dim i As Long
     ' highlight-start
+    For i = 2 To n
+        Factorial = Factorial * i
+    Next
+    ' highlight-end
+End Function
+```
+
+```vbnet title="vbnet.vb"
+' highlight-next-line
+Dim languages As New HashSet(Of String) From {
     "C#",
     "Visual Basic",
+    _ ' highlight-start
     "F#",
-    ' highlight-end
     "PowerShell",
-    ' highlight-next-line
     "TypeScript"
+    _' highlight-end
 }
 ```
 
@@ -457,4 +473,34 @@ See https://github.com/facebook/docusaurus/issues/9517
     </style>
   </head>
 </html>
+```
+
+## Empty code blocks edge cases
+
+Empty inline code block: ``
+
+Single space inline code block: ` `
+
+Empty code block
+
+{/* prettier-ignore */}
+```
+```
+
+Empty 1 line code block
+
+```
+
+```
+
+Empty 2 line code block
+
+```
+
+```
+
+Empty live code block
+
+```js live
+
 ```
