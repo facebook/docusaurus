@@ -73,7 +73,7 @@ Accepted fields:
 | `feedOptions.description` | `string` | <code>\`$\{siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
-| `sortPosts` | <code>'descending' \| 'ascending' \| function()</code> | `'descending'` | Governs the direction of blog post sorting. |
+| `sortPosts` | <code>'descending' \| 'ascending' \| <a href="#SortBlogPostsFn">SortBlogPostsFn</a> </code> | `'descending'` | Governs the direction of blog post sorting. |
 
 ```mdx-code-block
 </APITable>
@@ -128,6 +128,13 @@ type CreateFeedItemsFn = (params: {
   outDir: string;
   defaultCreateFeedItemsFn: CreateFeedItemsFn;
 }) => Promise<BlogFeedItem[]>;
+```
+
+#### `SortBlogPostsFn` {#SortBlogPostsFn}
+
+```ts
+// TODO document this type
+((args: {blogPosts: BlogPost[]}) => void | BlogPost[])
 ```
 
 ### Example configuration {#ex-config}
