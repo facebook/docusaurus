@@ -36,16 +36,24 @@ function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   }
 }
 
+function absoluteToRelativeTagAttribute(name: string, value: string): string {
+  if ((name === 'src' || name === 'href') && value.startsWith('/')) {
+    return `.${value}`; // TODO would only work for homepage
+  }
+  return value;
+}
+
 function htmlTagObjectToString(tag: unknown): string {
   assertIsHtmlTagObject(tag);
   const isVoidTag = (voidHtmlTags as string[]).includes(tag.tagName);
   const tagAttributes = tag.attributes ?? {};
   const attributes = Object.keys(tagAttributes)
     .map((attr) => {
-      const value = tagAttributes[attr]!;
+      let value = tagAttributes[attr]!;
       if (typeof value === 'boolean') {
         return value ? attr : undefined;
       }
+      value = absoluteToRelativeTagAttribute(attr, value);
       return `${attr}="${escapeHTML(value)}"`;
     })
     .filter((str): str is string => Boolean(str));

@@ -63,9 +63,11 @@ function getScriptsAndStylesheets({
 }
 
 export function renderSSRTemplate({
+  pathname,
   params,
   result,
 }: {
+  pathname: string;
   params: SSGParams;
   result: AppRenderResult;
 }): string {
@@ -96,9 +98,18 @@ export function renderSSRTemplate({
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
+  const numberOfSlashes = pathname.match(/\//g)?.length ?? 0;
+
+  const local = true;
+
+  const localBaseUrl =
+    numberOfSlashes === 1 ? `./` : '../'.repeat(numberOfSlashes - 1);
+
+  // console.log({pathname, numberOfSlashes, baseUrl, finalBaseUrl, headTags});
+
   const data: SSRTemplateData = {
     appHtml,
-    baseUrl,
+    baseUrl: local ? localBaseUrl : baseUrl,
     htmlAttributes,
     bodyAttributes,
     headTags,

@@ -182,6 +182,7 @@ async function generateStaticFile({
     });
     // This renders the full page HTML, including head tags...
     const fullPageHtml = renderSSRTemplate({
+      pathname,
       params,
       result,
     });

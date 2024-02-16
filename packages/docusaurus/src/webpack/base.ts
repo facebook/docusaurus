@@ -112,7 +112,7 @@ export async function createBaseConfig({
       chunkFilename: isProd
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
-      publicPath: baseUrl,
+      publicPath: isServer ? baseUrl : 'auto',
       hashFunction: 'xxhash64',
     },
     // Don't throw warning when asset created is over 250kb
