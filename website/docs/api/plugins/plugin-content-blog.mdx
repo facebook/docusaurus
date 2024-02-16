@@ -134,7 +134,7 @@ type CreateFeedItemsFn = (params: {
 
 ```ts
 // TODO document this type
-((args: {blogPosts: BlogPost[]}) => void | BlogPost[])
+type SortBlogPostsFn = (params: {blogPosts: BlogPost[]}) => void | BlogPost[];
 ```
 
 ### Example configuration {#ex-config}

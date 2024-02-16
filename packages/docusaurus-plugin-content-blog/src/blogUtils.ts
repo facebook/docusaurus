@@ -37,6 +37,9 @@ import type {
   BlogTags,
   BlogPaginated,
   Options,
+  SortBlogPostsFn,
+  SortPresets,
+  SortBlogPostsPreset,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
@@ -364,12 +367,7 @@ async function processBlogSourceFile(
   };
 }
 
-type SortBlogPostsFn = (args: {blogPosts: BlogPost[]}) => void | BlogPost[];
-
-type SortBlogPostsPreset = 'ascending' | 'descending';
-
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-const sortPresets: Record<SortBlogPostsPreset, SortBlogPostsFn> = {
+const sortPresets: SortPresets = {
   descending: ({blogPosts}) =>
     blogPosts.sort(
       (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
@@ -382,7 +380,7 @@ const sortPresets: Record<SortBlogPostsPreset, SortBlogPostsFn> = {
 
 interface SortBlogPostsOptions {
   blogPosts: BlogPost[];
-  sortPosts: 'ascending' | 'descending' | SortBlogPostsFn;
+  sortPosts: SortBlogPostsPreset | SortBlogPostsFn;
 }
 
 function getSortFunction(sortPosts: Options['sortPosts']): SortBlogPostsFn {
@@ -402,7 +400,7 @@ function getSortFunction(sortPosts: Options['sortPosts']): SortBlogPostsFn {
     return presetFn;
   }
 
-  return () => [];
+  return () => {};
 }
 
 function sortBlogPosts({
@@ -413,14 +411,16 @@ function sortBlogPosts({
   const sortedBlogPosts = sortFunction({blogPosts});
 
   if (sortedBlogPosts !== undefined) {
+    if (sortedBlogPosts.length === 0) {
+      logger.warn(
+        `Sorting function returned an empty array. Reverting to the original list to prevent issues.`,
+      );
+      return blogPosts;
+    }
     return sortedBlogPosts;
   }
 
-  throw new Error(
-    `Invalid blog config sortPost value: ${sortPosts}, must be one of: ${Object.keys(
-      sortPresets,
-    ).join(', ')}`,
-  );
+  return blogPosts;
 }
 
 export async function generateBlogPosts(
