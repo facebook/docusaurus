@@ -15,6 +15,7 @@ import {
   getSourceToPermalink,
   paginateBlogPosts,
   type LinkifyParams,
+  sortBlogPosts,
 } from '../blogUtils';
 import type {BlogBrokenMarkdownLink, BlogContentPaths} from '../types';
 import type {BlogPost} from '@docusaurus/plugin-content-blog';
@@ -270,5 +271,206 @@ describe('linkify', () => {
       contentPaths,
       link: './postNotExist2.mdx',
     } as BlogBrokenMarkdownLink);
+  });
+});
+
+describe('blog sort', () => {
+  const pluginDir = 'blog-with-ref';
+
+  const descendingBlogPost: BlogPost[] = [
+    {
+      id: 'newest',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'Happy 1st Birthday Slash!',
+        description: `pattern name`,
+        date: new Date('2018-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        hasTruncateMarker: false,
+        frontMatter: {},
+        authors: [],
+        unlisted: false,
+        formattedDate: '',
+      },
+      content: '',
+    },
+    {
+      id: 'oldest',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'draft',
+        description: `pattern name`,
+        date: new Date('2017-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        hasTruncateMarker: false,
+        frontMatter: {},
+        authors: [],
+        unlisted: false,
+        formattedDate: '',
+      },
+      content: '',
+    },
+  ];
+
+  const ascendingBlogPost: BlogPost[] = [
+    {
+      id: 'oldest',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'draft',
+        description: `pattern name`,
+        date: new Date('2017-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        hasTruncateMarker: false,
+        frontMatter: {},
+        authors: [],
+        unlisted: false,
+        formattedDate: '',
+      },
+      content: '',
+    },
+    {
+      id: 'newest',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'Happy 1st Birthday Slash!',
+        description: `pattern name`,
+        date: new Date('2018-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        hasTruncateMarker: false,
+        frontMatter: {},
+        authors: [],
+        unlisted: false,
+        formattedDate: '',
+      },
+      content: '',
+    },
+  ];
+
+  const BlogPostList: BlogPost[] = [
+    {
+      id: 'newest',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'Happy 1st Birthday Slash!',
+        description: `pattern name`,
+        date: new Date('2018-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        hasTruncateMarker: false,
+        frontMatter: {},
+        authors: [],
+        unlisted: false,
+        formattedDate: '',
+      },
+      content: '',
+    },
+    {
+      id: 'oldest',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'draft',
+        description: `pattern name`,
+        date: new Date('2017-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        hasTruncateMarker: false,
+        frontMatter: {},
+        authors: [],
+        unlisted: false,
+        formattedDate: '',
+      },
+      content: '',
+    },
+  ];
+
+  it('sort blog posts by descending date no return', () => {
+    const sortedBlogPosts = sortBlogPosts({
+      blogPosts: BlogPostList,
+      sortPosts: 'descending',
+    });
+    expect(sortedBlogPosts).toEqual(BlogPostList);
+  });
+
+  it('sort blog posts by ascending date no return', () => {
+    const sortedBlogPosts = sortBlogPosts({
+      blogPosts: BlogPostList,
+      sortPosts: 'ascending',
+    });
+    expect(sortedBlogPosts).toEqual(BlogPostList);
+  });
+
+  it('sort blog posts by descending date with function return', () => {
+    const sortedBlogPosts = sortBlogPosts({
+      blogPosts: BlogPostList,
+      sortPosts: ({blogPosts}) =>
+        [...blogPosts].sort(
+          (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+        ),
+    });
+    expect(sortedBlogPosts).toEqual(descendingBlogPost);
+  });
+
+  it('sort blog posts by ascending date with function return', () => {
+    const sortedBlogPosts = sortBlogPosts({
+      blogPosts: BlogPostList,
+      sortPosts: ({blogPosts}) =>
+        [...blogPosts].sort(
+          (b, a) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+        ),
+    });
+    expect(sortedBlogPosts).toEqual(ascendingBlogPost);
   });
 });

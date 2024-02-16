@@ -403,7 +403,7 @@ function getSortFunction(sortPosts: Options['sortPosts']): SortBlogPostsFn {
   return () => {};
 }
 
-function sortBlogPosts({
+export function sortBlogPosts({
   blogPosts,
   sortPosts,
 }: SortBlogPostsOptions): BlogPost[] {
