@@ -88,6 +88,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       } as LoadContext,
       {
         path: 'invalid-blog-path',
+        sortPosts: 'descending',
         routeBasePath: 'blog',
         tagsBasePath: 'tags',
         authorsMapPath: 'authors.yml',
@@ -128,6 +129,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       } as LoadContext,
       {
         path: 'blog',
+        sortPosts: 'descending',
         routeBasePath: 'blog',
         tagsBasePath: 'tags',
         authorsMapPath: 'authors.yml',
@@ -171,6 +173,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       } as LoadContext,
       {
         path: 'blog',
+        sortPosts: 'descending',
         routeBasePath: 'blog',
         tagsBasePath: 'tags',
         authorsMapPath: 'authors.yml',
@@ -224,6 +227,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       } as LoadContext,
       {
         path: 'blog',
+        sortPosts: 'descending',
         routeBasePath: 'blog',
         tagsBasePath: 'tags',
         authorsMapPath: 'authors.yml',
