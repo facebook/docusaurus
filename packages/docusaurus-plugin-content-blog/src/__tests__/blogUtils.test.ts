@@ -473,4 +473,20 @@ describe('blog sort', () => {
     });
     expect(sortedBlogPosts).toEqual(ascendingBlogPost);
   });
+
+  it('sort blog posts with empty function', () => {
+    const sortedBlogPosts = sortBlogPosts({
+      blogPosts: BlogPostList,
+      sortPosts: () => {},
+    });
+    expect(sortedBlogPosts).toEqual(ascendingBlogPost);
+  });
+
+  it('sort blog posts with function return empty array', () => {
+    const sortedBlogPosts = sortBlogPosts({
+      blogPosts: BlogPostList,
+      sortPosts: () => [],
+    });
+    expect(sortedBlogPosts).toEqual(ascendingBlogPost);
+  });
 });
