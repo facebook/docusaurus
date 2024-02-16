@@ -70,7 +70,7 @@ export function renderSSRTemplate({
   result: AppRenderResult;
 }): string {
   const {
-    baseUrl,
+    // baseUrl,
     headTags,
     preBodyTags,
     postBodyTags,
@@ -98,7 +98,7 @@ export function renderSSRTemplate({
 
   const data: SSRTemplateData = {
     appHtml,
-    baseUrl,
+    baseUrl: './',
     htmlAttributes,
     bodyAttributes,
     headTags,

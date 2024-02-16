@@ -35,6 +35,11 @@ async function generateBlogFeed({
   outDir: string;
   locale: string;
 }): Promise<Feed | null> {
+  const localBuild = true;
+  if (localBuild) {
+    return null;
+  }
+
   if (!blogPosts.length) {
     return null;
   }

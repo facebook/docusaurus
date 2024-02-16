@@ -7,7 +7,7 @@
 
 import React from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
-import {BrowserRouter} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
@@ -31,9 +31,9 @@ if (ExecutionEnvironment.canUseDOM) {
 
   const app = (
     <HelmetProvider>
-      <BrowserRouter>
+      <HashRouter>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </HelmetProvider>
   );
 
@@ -45,8 +45,10 @@ if (ExecutionEnvironment.canUseDOM) {
     );
   };
 
+  const localBuild = true;
+
   const renderApp = () => {
-    if (hydrate) {
+    if (!localBuild && hydrate) {
       React.startTransition(() => {
         ReactDOM.hydrateRoot(container, app, {
           onRecoverableError,

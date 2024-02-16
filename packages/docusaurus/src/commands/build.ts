@@ -265,7 +265,7 @@ async function executeSSG({
 
   PerfLogger.start('Generate static files');
   const ssgResult = await generateStaticFiles({
-    pathnames: props.routesPaths,
+    pathnames: ['/'],
     renderer,
     params: {
       trailingSlash: props.siteConfig.trailingSlash,

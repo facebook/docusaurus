@@ -26,13 +26,29 @@ const render: AppRenderer = async ({pathname}) => {
   const helmetContext = {};
   const statefulBrokenLinks = createStatefulBrokenLinks();
 
+  const localBuild = true;
+  const appContent = localBuild ? (
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <div style={{fontSize: 200}}>... LOADING ...</div>
+    </div>
+  ) : (
+    <App />
+  );
+
   const app = (
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={pathname} context={routerContext}>
           <BrokenLinksProvider brokenLinks={statefulBrokenLinks}>
-            <App />
+            {appContent}
           </BrokenLinksProvider>
         </StaticRouter>
       </HelmetProvider>

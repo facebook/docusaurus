@@ -81,6 +81,14 @@ function Link(
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
+  if (targetLink?.startsWith('./')) {
+    targetLink = targetLink?.slice(1);
+  }
+  console.log('link', {
+    before: targetLinkWithoutPathnameProtocol,
+    after: targetLink,
+  });
+
   if (targetLink && isInternal) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
   }

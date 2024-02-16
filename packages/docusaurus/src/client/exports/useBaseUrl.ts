@@ -22,6 +22,10 @@ function addBaseUrl(
     return url;
   }
 
+  if (url.startsWith('/')) {
+    return `.${url}`;
+  }
+
   if (forcePrependBaseUrl) {
     return baseUrl + url.replace(/^\//, '');
   }
