@@ -30,3 +30,22 @@ export function useVisibleBlogSidebarItems(
     [items, pathname],
   );
 }
+
+export function formatBlogPostDate(
+  locale: string,
+  date: Date | string,
+  calendar: string,
+): string {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+      calendar,
+    }).format(typeof date === 'string' ? new Date(date) : date);
+  } catch (err) {
+    console.error('Failed to format date', err);
+    throw err;
+  }
+}

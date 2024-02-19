@@ -9,6 +9,8 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import {PageMetadata} from '@docusaurus/theme-common';
+import {formatBlogPostDate} from '@docusaurus/theme-common/internal';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
 import Heading from '@theme/Heading';
@@ -19,6 +21,17 @@ type YearProp = {
 };
 
 function Year({year, posts}: YearProp) {
+  const {
+    i18n: {currentLocale, localeConfigs},
+  } = useDocusaurusContext();
+
+  const formattedDate = (date: string) =>
+    formatBlogPostDate(
+      currentLocale,
+      date,
+      localeConfigs[currentLocale]!.calendar,
+    );
+
   return (
     <>
       <Heading as="h3" id={year}>
@@ -28,7 +41,7 @@ function Year({year, posts}: YearProp) {
         {posts.map((post) => (
           <li key={post.metadata.date}>
             <Link to={post.metadata.permalink}>
-              {post.metadata.formattedDate} - {post.metadata.title}
+              {formattedDate(post.metadata.date)} - {post.metadata.title}
             </Link>
           </li>
         ))}

@@ -8,8 +8,12 @@
 import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {usePluralForm} from '@docusaurus/theme-common';
-import {useBlogPost} from '@docusaurus/theme-common/internal';
+import {
+  useBlogPost,
+  formatBlogPostDate,
+} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogPostItem/Header/Info';
 
 import styles from './styles.module.css';
@@ -51,11 +55,20 @@ export default function BlogPostItemHeaderInfo({
   className,
 }: Props): JSX.Element {
   const {metadata} = useBlogPost();
-  const {date, formattedDate, readingTime} = metadata;
-
+  const {date, readingTime} = metadata;
+  const {
+    i18n: {currentLocale, localeConfigs},
+  } = useDocusaurusContext();
   return (
     <div className={clsx(styles.container, 'margin-vert--md', className)}>
-      <Date date={date} formattedDate={formattedDate} />
+      <Date
+        date={date}
+        formattedDate={formatBlogPostDate(
+          currentLocale,
+          date,
+          localeConfigs[currentLocale]!.calendar,
+        )}
+      />
       {typeof readingTime !== 'undefined' && (
         <>
           <Spacer />
