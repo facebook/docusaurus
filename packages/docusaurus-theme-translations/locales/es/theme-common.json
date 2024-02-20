@@ -51,7 +51,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Colapsar barra lateral",
   "theme.docs.sidebar.expandButtonAriaLabel": "Expandir barra lateral",
   "theme.docs.sidebar.expandButtonTitle": "Expandir barra lateral",
-  "theme.docs.sidebar.navAriaLabel": "Barra lateral",
+  "theme.docs.sidebar.navAriaLabel": "Barra lateral de Documentos",
   "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Alternar barra lateral",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} con \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Un documento etiquetado|{count} documentos etiquetados",
