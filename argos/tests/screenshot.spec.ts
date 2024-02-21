@@ -91,11 +91,19 @@ function waitForDocusaurusHydration() {
   return document.documentElement.dataset.hasHydrated === 'true';
 }
 
+async function waitForImageDecoding(): Promise<void> {
+  const images = document.getElementsByName('img');
+  await Promise.all(
+    Array.from(images.values()).map((image) => (image as HTMLImageElement)?.decode())
+  );
+}
+
 function createPathnameTest(pathname: string) {
   test(`pathname ${pathname}`, async ({page}) => {
     const url = siteUrl + pathname;
     await page.goto(url);
     await page.waitForFunction(waitForDocusaurusHydration);
+    await waitForImageDecoding();
     await page.addStyleTag({content: stylesheet});
     // await expect(page).toHaveScreenshot({ fullPage: true, ...options });
     await argosScreenshot(page, pathnameToArgosName(pathname));
