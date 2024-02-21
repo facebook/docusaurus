@@ -262,8 +262,8 @@ declare module '@docusaurus/useRouteContext' {
 
 declare module '@docusaurus/useBrokenLinks' {
   export type BrokenLinks = {
-    collectLink: (link: string) => void;
-    collectAnchor: (anchor: string) => void;
+    collectLink: (link: string | undefined) => void;
+    collectAnchor: (anchor: string | undefined) => void;
   };
 
   export default function useBrokenLinks(): BrokenLinks;

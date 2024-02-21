@@ -18,11 +18,11 @@ export const createStatefulBrokenLinks = (): StatefulBrokenLinks => {
   const allAnchors = new Set<string>();
   const allLinks = new Set<string>();
   return {
-    collectAnchor: (anchor: string): void => {
-      allAnchors.add(anchor);
+    collectAnchor: (anchor: string | undefined): void => {
+      typeof anchor !== 'undefined' && allAnchors.add(anchor);
     },
-    collectLink: (link: string): void => {
-      allLinks.add(link);
+    collectLink: (link: string | undefined): void => {
+      typeof link !== 'undefined' && allLinks.add(link);
     },
     getCollectedAnchors: (): string[] => [...allAnchors],
     getCollectedLinks: (): string[] => [...allLinks],

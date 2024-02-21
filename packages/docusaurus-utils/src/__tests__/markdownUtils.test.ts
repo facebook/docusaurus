@@ -1251,6 +1251,38 @@ describe('unwrapMdxCodeBlocks', () => {
         </VersionsProvider>
     `);
   });
+
+  it('allow spaces before mdx-code-block info string', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        \`\`\` mdx-code-block
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+        \`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+        # Title
+
+        import Comp, {User} from "@site/components/comp"
+
+        <Comp prop="test">
+          <User user={{firstName: "Sébastien"}} />
+        </Comp>
+
+        export const age = 36
+
+        text
+    `);
+  });
 });
 
 describe('admonitionTitleToDirectiveLabel', () => {

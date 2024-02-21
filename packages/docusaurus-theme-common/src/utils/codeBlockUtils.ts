@@ -28,6 +28,7 @@ const commentPatterns = {
   wasm: {start: '\\;\\;', end: ''},
   tex: {start: '%', end: ''},
   vb: {start: "['‘’]", end: ''},
+  vbnet: {start: "(?:_\\s*)?['‘’]", end: ''}, // Visual Studio 2019 or later
   rem: {start: '[Rr][Ee][Mm]\\b', end: ''},
   f90: {start: '!', end: ''}, // Free format only
   ml: {start: '\\(\\*', end: '\\*\\)'},
@@ -113,10 +114,11 @@ function getAllMagicCommentDirectiveStyles(
       return getCommentPattern(['wasm'], magicCommentDirectives);
 
     case 'vb':
-    case 'vbnet':
     case 'vba':
     case 'visual-basic':
       return getCommentPattern(['vb', 'rem'], magicCommentDirectives);
+    case 'vbnet':
+      return getCommentPattern(['vbnet', 'rem'], magicCommentDirectives);
 
     case 'batch':
       return getCommentPattern(['rem'], magicCommentDirectives);

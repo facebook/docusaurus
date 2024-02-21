@@ -140,11 +140,23 @@ function Link(
     };
   }, [ioRef, targetLink, IOSupported, isInternal]);
 
+  // It is simple local anchor link targeting current page?
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
-  const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (!isRegularHtmlLink && !noBrokenLinkCheck) {
+  // See also RR logic:
+  // https://github.com/remix-run/react-router/blob/v5/packages/react-router-dom/modules/Link.js#L47
+  const hasInternalTarget = !props.target || props.target === '_self';
+
+  // Should we use a regular <a> tag instead of React-Router Link component?
+  const isRegularHtmlLink =
+    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
+
+  if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);
+  }
+
+  if (props.id) {
+    brokenLinks.collectAnchor(props.id);
   }
 
   return isRegularHtmlLink ? (
