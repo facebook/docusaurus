@@ -27,7 +27,7 @@ function Year({year, posts}: YearProp) {
     timeZone: 'UTC',
   });
 
-  const formattedDate = (date: string) => dateTimeFormat.format(new Date(date));
+  const formatDate = (date: string) => dateTimeFormat.format(new Date(date));
 
   return (
     <>
@@ -38,7 +38,7 @@ function Year({year, posts}: YearProp) {
         {posts.map((post) => (
           <li key={post.metadata.date}>
             <Link to={post.metadata.permalink}>
-              {formattedDate(post.metadata.date)} - {post.metadata.title}
+              {formatDate(post.metadata.date)} - {post.metadata.title}
             </Link>
           </li>
         ))}

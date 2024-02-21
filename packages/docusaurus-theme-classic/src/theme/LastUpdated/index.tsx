@@ -8,6 +8,7 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import {ThemeClassNames} from '@docusaurus/theme-common';
+import {useDateTimeFormat} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/LastUpdated';
 
 function LastUpdatedAtDate({
@@ -54,9 +55,21 @@ function LastUpdatedByUser({
 
 export default function LastUpdated({
   lastUpdatedAt,
-  formattedLastUpdatedAt,
   lastUpdatedBy,
 }: Props): JSX.Element {
+  const dateTimeFormat = useDateTimeFormat({
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+
+  const formatDate = (blogDate: string | number) =>
+    dateTimeFormat.format(new Date(blogDate));
+
+  const formattedLastUpdatedAt =
+    lastUpdatedAt && formatDate(lastUpdatedAt * 1000);
+
   return (
     <span className={ThemeClassNames.common.lastUpdated}>
       <Translate

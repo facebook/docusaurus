@@ -69,12 +69,12 @@ export default function BlogPostItemHeaderInfo({
     timeZone: 'UTC',
   });
 
-  const formattedDate = (blogDate: string) =>
+  const formatDate = (blogDate: string) =>
     dateTimeFormat.format(new Date(blogDate));
 
   return (
     <div className={clsx(styles.container, 'margin-vert--md', className)}>
-      <DateTime date={date} formattedDate={formattedDate(date)} />
+      <DateTime date={date} formattedDate={formatDate(date)} />
       {typeof readingTime !== 'undefined' && (
         <>
           <Spacer />
