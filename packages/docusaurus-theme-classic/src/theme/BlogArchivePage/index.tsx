@@ -9,8 +9,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import {PageMetadata} from '@docusaurus/theme-common';
-import {formatBlogPostDate} from '@docusaurus/theme-common/internal';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useDateTimeFormat} from '@docusaurus/theme-common/internal';
 import Layout from '@theme/Layout';
 import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
 import Heading from '@theme/Heading';
@@ -21,16 +20,14 @@ type YearProp = {
 };
 
 function Year({year, posts}: YearProp) {
-  const {
-    i18n: {currentLocale, localeConfigs},
-  } = useDocusaurusContext();
+  const dateTimeFormat = useDateTimeFormat({
+    day: 'numeric',
+    month: 'long',
+    year: undefined, // Can be customized just for this page
+    timeZone: 'UTC',
+  });
 
-  const formattedDate = (date: string) =>
-    formatBlogPostDate(
-      currentLocale,
-      date,
-      localeConfigs[currentLocale]!.calendar,
-    );
+  const formattedDate = (date: string) => dateTimeFormat.format(new Date(date));
 
   return (
     <>
