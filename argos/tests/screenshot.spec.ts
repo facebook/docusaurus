@@ -94,7 +94,9 @@ function waitForDocusaurusHydration() {
 async function waitForImageDecoding(): Promise<void> {
   const images = document.getElementsByName('img');
   await Promise.all(
-    Array.from(images.values()).map((image) => (image as HTMLImageElement)?.decode())
+    Array.from(images.values()).map((image) =>
+      (image as HTMLImageElement)?.decode(),
+    ),
   );
 }
 
