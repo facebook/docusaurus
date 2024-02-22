@@ -35,8 +35,8 @@ async function generateBlogFeed({
   outDir: string;
   locale: string;
 }): Promise<Feed | null> {
-  const localBuild = true;
-  if (localBuild) {
+  // TODO we should be able to generate a blog feed with hash-based urls?
+  if (siteConfig.router === 'hash') {
     return null;
   }
 

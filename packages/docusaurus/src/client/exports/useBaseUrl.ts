@@ -9,20 +9,29 @@ import {useCallback} from 'react';
 import useDocusaurusContext from './useDocusaurusContext';
 import {hasProtocol} from './isInternalUrl';
 import type {BaseUrlOptions, BaseUrlUtils} from '@docusaurus/useBaseUrl';
+import type {RouterType} from '@docusaurus/types';
 
-function addBaseUrl(
-  siteUrl: string,
-  baseUrl: string,
-  url: string,
-  {forcePrependBaseUrl = false, absolute = false}: BaseUrlOptions = {},
-): string {
+function addBaseUrl({
+  siteUrl,
+  baseUrl,
+  url,
+  options: {forcePrependBaseUrl = false, absolute = false} = {},
+  router,
+}: {
+  siteUrl: string;
+  baseUrl: string;
+  url: string;
+  router: RouterType;
+  options?: BaseUrlOptions;
+}): string {
   // It never makes sense to add base url to a local anchor url, or one with a
   // protocol
   if (!url || url.startsWith('#') || hasProtocol(url)) {
     return url;
   }
 
-  if (url.startsWith('/')) {
+  // TODO temp hack
+  if (router === 'hash' && url.startsWith('/')) {
     return `.${url}`;
   }
 
@@ -46,13 +55,13 @@ function addBaseUrl(
 
 export function useBaseUrlUtils(): BaseUrlUtils {
   const {
-    siteConfig: {baseUrl, url: siteUrl},
+    siteConfig: {baseUrl, url: siteUrl, router},
   } = useDocusaurusContext();
 
   const withBaseUrl = useCallback(
     (url: string, options?: BaseUrlOptions) =>
-      addBaseUrl(siteUrl, baseUrl, url, options),
-    [siteUrl, baseUrl],
+      addBaseUrl({siteUrl, baseUrl, url, options, router}),
+    [siteUrl, baseUrl, router],
   );
 
   return {
