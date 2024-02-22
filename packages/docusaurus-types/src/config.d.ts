@@ -16,6 +16,8 @@ export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
+export type RouterType = 'browser' | 'hash';
+
 export type ThemeConfig = {
   [key: string]: unknown;
 };
@@ -136,6 +138,10 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#favicon
    */
   favicon?: string;
+  /**
+   * TODO doc
+   */
+  router: RouterType;
   /**
    * Allow to customize the presence/absence of a trailing slash at the end of
    * URLs/links, and how static HTML files are generated:

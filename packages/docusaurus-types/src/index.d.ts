@@ -7,6 +7,7 @@
 
 export {
   ReportingSeverity,
+  RouterType,
   ThemeConfig,
   MarkdownConfig,
   DefaultParseFrontMatter,
