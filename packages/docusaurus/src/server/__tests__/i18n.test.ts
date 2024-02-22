@@ -81,7 +81,7 @@ describe('defaultLocaleConfig', () => {
       label: 'فارسی',
       direction: 'rtl',
       htmlLang: 'fa',
-      calendar: 'gregory',
+      calendar: 'persian',
       path: 'fa',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
