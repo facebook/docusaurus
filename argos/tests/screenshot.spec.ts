@@ -105,7 +105,7 @@ function createPathnameTest(pathname: string) {
     const url = siteUrl + pathname;
     await page.goto(url);
     await page.waitForFunction(waitForDocusaurusHydration);
-    await waitForImageDecoding();
+    await page.waitForFunction(waitForImageDecoding);
     await page.addStyleTag({content: stylesheet});
     // await expect(page).toHaveScreenshot({ fullPage: true, ...options });
     await argosScreenshot(page, pathnameToArgosName(pathname));
