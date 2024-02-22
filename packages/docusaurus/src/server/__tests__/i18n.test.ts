@@ -89,7 +89,7 @@ describe('defaultLocaleConfig', () => {
       label: 'فارسی (ایران)',
       direction: 'rtl',
       htmlLang: 'fa-IR',
-      calendar: 'gregory',
+      calendar: 'persian',
       path: 'fa-IR',
     });
     expect(getDefaultLocaleConfig('en-US-u-ca-buddhist')).toEqual({
