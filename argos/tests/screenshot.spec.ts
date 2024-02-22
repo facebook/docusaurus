@@ -91,13 +91,23 @@ function waitForDocusaurusHydration() {
   return document.documentElement.dataset.hasHydrated === 'true';
 }
 
-async function waitForImageDecoding(): Promise<void> {
-  const images = document.getElementsByName('img');
-  await Promise.all(
-    Array.from(images.values()).map((image) =>
-      (image as HTMLImageElement)?.decode(),
-    ),
-  );
+function waitForImageDecoding() {
+  const images = Array.from(document.images);
+
+  // Force eager loading
+  images.forEach((img) => {
+    // Force sync decoding
+    if (img.decoding !== 'sync') {
+      img.decoding = 'sync';
+    }
+
+    // Force eager loading
+    if (img.loading !== 'eager') {
+      img.loading = 'eager';
+    }
+  });
+
+  return images.every((img) => img.complete);
 }
 
 function createPathnameTest(pathname: string) {
