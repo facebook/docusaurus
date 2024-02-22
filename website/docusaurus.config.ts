@@ -74,6 +74,8 @@ function getNextVersionName() {
 // Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
+const router = process.env.DOCUSAURUS_ROUTER as Config['router'];
+
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
@@ -126,6 +128,7 @@ export default async function createConfigAsync() {
     baseUrl,
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
+    router,
     // Dogfood both settings:
     // - force trailing slashes for deploy previews
     // - avoid trailing slashes in prod
