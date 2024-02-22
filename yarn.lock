@@ -160,10 +160,10 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@argos-ci/browser@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@argos-ci/browser/-/browser-1.4.1.tgz#157347d76bca5697976000f7c4289bee498b7022"
-  integrity sha512-XE5TZnoP+zKeV/Gm0pjuJUx0+xoCnVo4ajWBM2V6vyMAP8P+gO7v8HPHWXBLJoEGgF1Ij365fDA3R3+OMD5Hzw==
+"@argos-ci/browser@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@argos-ci/browser/-/browser-1.5.0.tgz#44e9638c7a261b47865f171582826153d1a16734"
+  integrity sha512-a9uzWL3L2qalqXa5kzkjlfnznpkGbzNhS5QSf0DtCylOWSrpnUMK+cIj3xzGMgmZK7SZ/r9OYdSZfsaSizWLXA==
 
 "@argos-ci/core@1.5.4":
   version "1.5.4"
@@ -178,12 +178,12 @@
     sharp "^0.32.5"
     tmp "^0.2.1"
 
-"@argos-ci/playwright@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@argos-ci/playwright/-/playwright-1.9.2.tgz#79bd15ac34a042d12462f5d6a6337ed2944b4573"
-  integrity sha512-gasqd5s46gEb0LPjuNvD2bsH2vCAGK+O4U8Xm4H+BATJiig58B6O1Kmy1YK4MtgReNqZRbOFhVl1SDYGfnVBOw==
+"@argos-ci/playwright@^1.9.3":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@argos-ci/playwright/-/playwright-1.9.3.tgz#9782000d194cabb8113fd91e7f089169af2b9b72"
+  integrity sha512-kgMy7SHkBj4MFXfpeqh8Gk6upQwgs16/4zcV9U/C2A8JpXRov96IKetK5vlCqqcrO/k0oglS+eZypMP5bvmfsw==
   dependencies:
-    "@argos-ci/browser" "1.4.1"
+    "@argos-ci/browser" "1.5.0"
     "@argos-ci/core" "1.5.4"
     "@argos-ci/util" "1.2.1"
     chalk "^5.3.0"

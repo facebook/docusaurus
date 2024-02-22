@@ -91,31 +91,11 @@ function waitForDocusaurusHydration() {
   return document.documentElement.dataset.hasHydrated === 'true';
 }
 
-function waitForImageDecoding() {
-  const images = Array.from(document.images);
-
-  // Force eager loading
-  images.forEach((img) => {
-    // Force sync decoding
-    if (img.decoding !== 'sync') {
-      img.decoding = 'sync';
-    }
-
-    // Force eager loading
-    if (img.loading !== 'eager') {
-      img.loading = 'eager';
-    }
-  });
-
-  return images.every((img) => img.complete);
-}
-
 function createPathnameTest(pathname: string) {
   test(`pathname ${pathname}`, async ({page}) => {
     const url = siteUrl + pathname;
     await page.goto(url);
     await page.waitForFunction(waitForDocusaurusHydration);
-    await page.waitForFunction(waitForImageDecoding);
     await page.addStyleTag({content: stylesheet});
     // await expect(page).toHaveScreenshot({ fullPage: true, ...options });
     await argosScreenshot(page, pathnameToArgosName(pathname));
