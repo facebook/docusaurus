@@ -27,7 +27,7 @@ export default function pluginClientRedirectsPages(
     async postBuild(props) {
       if (router === 'hash') {
         logger.warn(
-          'The Docusaurus redirect plugin is automatically disabled when using the Hash router',
+          'The Docusaurus client redirects plugin is automatically disabled when using the Hash router',
         );
         return;
       }
