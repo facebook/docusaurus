@@ -16,22 +16,22 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginContext, RedirectItem} from './types';
 import type {PluginOptions, Options} from './options';
 
+const PluginName = 'docusaurus-plugin-client-redirects';
+
 export default function pluginClientRedirectsPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
   const {trailingSlash, router} = context.siteConfig;
 
-  return {
-    name: 'docusaurus-plugin-client-redirects',
-    async postBuild(props) {
-      if (router === 'hash') {
-        logger.warn(
-          'The Docusaurus client redirects plugin is automatically disabled when using the Hash router',
-        );
-        return;
-      }
+  if (router === 'hash') {
+    logger.warn(`${PluginName} does not support the Hash Router`);
+    return {name: PluginName};
+  }
 
+  return {
+    name: PluginName,
+    async postBuild(props) {
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map(
           (path) => `${addLeadingSlash(removePrefix(path, props.baseUrl))}`,
