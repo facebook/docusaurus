@@ -81,14 +81,10 @@ function Link(
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
-  // TODO not temp hack
+  // TODO temporary hack
   if (router === 'hash' && targetLink?.startsWith('./')) {
     targetLink = targetLink?.slice(1);
   }
-  console.log('link', {
-    before: targetLinkWithoutPathnameProtocol,
-    after: targetLink,
-  });
 
   if (targetLink && isInternal) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
@@ -157,8 +153,7 @@ function Link(
   const hasInternalTarget = !props.target || props.target === '_self';
 
   // Should we use a regular <a> tag instead of React-Router Link component?
-  const isRegularHtmlLink =
-    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
+  const isRegularHtmlLink = !targetLink || !isInternal || !hasInternalTarget;
 
   if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);
