@@ -41,7 +41,7 @@ function Link(
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
   const {
-    siteConfig: {trailingSlash, baseUrl},
+    siteConfig: {trailingSlash, baseUrl, router},
   } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
@@ -81,7 +81,8 @@ function Link(
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
-  if (targetLink?.startsWith('./')) {
+  // TODO not temp hack
+  if (router === 'hash' && targetLink?.startsWith('./')) {
     targetLink = targetLink?.slice(1);
   }
   console.log('link', {
