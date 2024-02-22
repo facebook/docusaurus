@@ -263,9 +263,13 @@ async function executeSSG({
   });
   PerfLogger.end('Loading App renderer');
 
+  // TODO maybe there's a more elegant way than reusing our SSG pipeline?
+  const pathnames =
+    props.siteConfig.router === 'hash' ? ['/'] : props.routesPaths;
+
   PerfLogger.start('Generate static files');
   const ssgResult = await generateStaticFiles({
-    pathnames: ['/'],
+    pathnames,
     renderer,
     params: {
       trailingSlash: props.siteConfig.trailingSlash,

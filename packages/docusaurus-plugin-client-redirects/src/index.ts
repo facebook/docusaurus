@@ -6,6 +6,7 @@
  */
 
 import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
   toRedirectFiles,
@@ -19,11 +20,18 @@ export default function pluginClientRedirectsPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
-  const {trailingSlash} = context.siteConfig;
+  const {trailingSlash, router} = context.siteConfig;
 
   return {
     name: 'docusaurus-plugin-client-redirects',
     async postBuild(props) {
+      if (router === 'hash') {
+        logger.warn(
+          'The Docusaurus redirect plugin is automatically disabled when using the Hash router',
+        );
+        return;
+      }
+
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map(
           (path) => `${addLeadingSlash(removePrefix(path, props.baseUrl))}`,
