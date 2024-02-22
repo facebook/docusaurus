@@ -160,17 +160,17 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@argos-ci/browser@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@argos-ci/browser/-/browser-1.0.0.tgz#a7bc160351d3efe02dfd95103cab4efe599f686b"
-  integrity sha512-v2Oi5+qX3hkBPgIeRbpUOBRL6M8QtDYFcOaK2krWzTy2Njrh8CPu+JHhnXpQTTrg7r12NJWtc3TEPAhYWJdh0A==
+"@argos-ci/browser@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@argos-ci/browser/-/browser-1.5.0.tgz#44e9638c7a261b47865f171582826153d1a16734"
+  integrity sha512-a9uzWL3L2qalqXa5kzkjlfnznpkGbzNhS5QSf0DtCylOWSrpnUMK+cIj3xzGMgmZK7SZ/r9OYdSZfsaSizWLXA==
 
-"@argos-ci/core@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@argos-ci/core/-/core-1.0.0.tgz#7f6ca7f3ce07fd050282e1016e397828757bc37e"
-  integrity sha512-ZrD7p6sOAk8gnOSJOEp94y0GHns8O9QFAbClsp4Hax5gSlFMcN0UxoVk2K8f7SFKFwudHJeoK3NzypBrotAlIw==
+"@argos-ci/core@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@argos-ci/core/-/core-1.5.4.tgz#a3fee71caf1fe816d7aeb842a91f6ba6242df881"
+  integrity sha512-XgRJSJYfauCbqOGNLFFiVri70TAp0TORfKrK/6yXyt7k9NgZD6vD10hUhSMeJP7REwYrqD3wxY7l85K+wwoo3Q==
   dependencies:
-    "@argos-ci/util" "1.0.0"
+    "@argos-ci/util" "1.2.1"
     axios "^1.5.0"
     convict "^6.2.4"
     debug "^4.3.4"
@@ -178,19 +178,20 @@
     sharp "^0.32.5"
     tmp "^0.2.1"
 
-"@argos-ci/playwright@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@argos-ci/playwright/-/playwright-1.0.1.tgz#97d5d037210526d5aabc7761eb8188a2a6ef4b90"
-  integrity sha512-mBQI5dsO8Y/Abj0JPsckshPwWtZ7ib7Pmf13oBckh0rdBF6QOgAbJ2vHs893pNU9zbc3Y8Jtofj+2KOmSwufzA==
+"@argos-ci/playwright@^1.9.3":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@argos-ci/playwright/-/playwright-1.9.3.tgz#9782000d194cabb8113fd91e7f089169af2b9b72"
+  integrity sha512-kgMy7SHkBj4MFXfpeqh8Gk6upQwgs16/4zcV9U/C2A8JpXRov96IKetK5vlCqqcrO/k0oglS+eZypMP5bvmfsw==
   dependencies:
-    "@argos-ci/browser" "1.0.0"
-    "@argos-ci/core" "1.0.0"
-    "@argos-ci/util" "1.0.0"
+    "@argos-ci/browser" "1.5.0"
+    "@argos-ci/core" "1.5.4"
+    "@argos-ci/util" "1.2.1"
+    chalk "^5.3.0"
 
-"@argos-ci/util@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@argos-ci/util/-/util-1.0.0.tgz#52f5270f5377e25f471951d0620c8a6b82e5aee6"
-  integrity sha512-aljQTWre/WoLY88WlXyK72cxxI391bQYoSVDFfcZ17dKw/BKnzVSfL7yB/oD9XrsZahzEwGZmooFPs8c27hNaQ==
+"@argos-ci/util@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@argos-ci/util/-/util-1.2.1.tgz#ed1b4984b53e2eab62ee8728e9b520932e760c60"
+  integrity sha512-/o7t0TcSED3BsBnnPrvXdmT+reThGMoGC9Lk+TTghrEE9GFlSKhjBmfYt4fUgXj5hQIe5tcdO01BVB2TsjjYSw==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.22.13", "@babel/code-frame@^7.8.3":
   version "7.22.13"
@@ -2595,15 +2596,12 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@playwright/test@^1.36.1":
-  version "1.36.1"
-  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.36.1.tgz#0b1247d279f142ac0876ce25e7daf15439d5367b"
-  integrity sha512-YK7yGWK0N3C2QInPU6iaf/L3N95dlGdbsezLya4n0ZCh3IL7VgPGxC6Gnznh9ApWdOmkJeleT2kMTcWPRZvzqg==
+"@playwright/test@^1.41.2":
+  version "1.41.2"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.41.2.tgz#bd9db40177f8fd442e16e14e0389d23751cdfc54"
+  integrity sha512-qQB9h7KbibJzrDpkXkYvsmiDJK14FULCCZgEcoe2AvFAS64oCirWTwzTlAYEbKaRxWs5TFesE1Na6izMv3HfGg==
   dependencies:
-    "@types/node" "*"
-    playwright-core "1.36.1"
-  optionalDependencies:
-    fsevents "2.3.2"
+    playwright "1.41.2"
 
 "@pnpm/config.env-replace@^1.1.0":
   version "1.1.0"
@@ -13057,10 +13055,19 @@ pkg-up@^3.1.0:
   dependencies:
     find-up "^3.0.0"
 
-playwright-core@1.36.1:
-  version "1.36.1"
-  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.36.1.tgz#f5f275d70548768ca892583519c89b237a381c77"
-  integrity sha512-7+tmPuMcEW4xeCL9cp9KxmYpQYHKkyjwoXRnoeTowaeNat8PoBMk/HwCYhqkH2fRkshfKEOiVus/IhID2Pg8kg==
+playwright-core@1.41.2:
+  version "1.41.2"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.41.2.tgz#db22372c708926c697acc261f0ef8406606802d9"
+  integrity sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==
+
+playwright@1.41.2:
+  version "1.41.2"
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.41.2.tgz#4e760b1c79f33d9129a8c65cc27953be6dd35042"
+  integrity sha512-v0bOa6H2GJChDL8pAeLa/LZC4feoAMbSQm1/jF/ySsWWoaNItvrMP7GEkvEEFyCTUYKMxjQKaTSg5up7nR6/8A==
+  dependencies:
+    playwright-core "1.41.2"
+  optionalDependencies:
+    fsevents "2.3.2"
 
 postcss-calc@^8.2.3:
   version "8.2.4"
