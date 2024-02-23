@@ -8,7 +8,7 @@
 import type {ReactElement} from 'react';
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {createMatcher} from '@docusaurus/utils';
+import {createMatcher, normalizeUrl} from '@docusaurus/utils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
@@ -78,14 +78,11 @@ export default async function createSitemap(
   const sitemapStream = new SitemapStream({hostname});
 
   const createSitemapUrl = (routePath: string): string => {
-    const routerPrefix = router === 'hash' ? '/#' : '';
-    return (
-      routerPrefix +
-      applyTrailingSlash(routePath, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      })
-    );
+    const path = normalizeUrl([router === 'hash' ? '/#/' : '', routePath]);
+    return applyTrailingSlash(path, {
+      trailingSlash: siteConfig.trailingSlash,
+      baseUrl: siteConfig.baseUrl,
+    });
   };
 
   includedRoutes.forEach((routePath) =>
