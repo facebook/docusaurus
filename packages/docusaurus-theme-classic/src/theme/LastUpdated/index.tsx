@@ -16,7 +16,7 @@ function LastUpdatedAtDate({
 }: {
   lastUpdatedAt: number;
 }): JSX.Element {
-  const convertedLastUpdateAt = lastUpdatedAt * 1000;
+  const atDate = new Date(lastUpdatedAt * 1000);
 
   const dateTimeFormat = useDateTimeFormat({
     day: 'numeric',
@@ -25,11 +25,7 @@ function LastUpdatedAtDate({
     timeZone: 'UTC',
   });
 
-  const formatLastUpdatedAt = (lastUpdated: number) =>
-    dateTimeFormat.format(new Date(lastUpdated));
-
-  const formattedLastUpdatedAt =
-    lastUpdatedAt && formatLastUpdatedAt(convertedLastUpdateAt);
+  const formattedLastUpdatedAt = dateTimeFormat.format(atDate);
 
   return (
     <Translate
@@ -38,7 +34,7 @@ function LastUpdatedAtDate({
       values={{
         date: (
           <b>
-            <time dateTime={new Date(convertedLastUpdateAt).toISOString()}>
+            <time dateTime={atDate.toISOString()}>
               {formattedLastUpdatedAt}
             </time>
           </b>

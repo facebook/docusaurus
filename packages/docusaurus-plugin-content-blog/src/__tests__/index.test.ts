@@ -213,7 +213,6 @@ describe('blog plugin', () => {
           name: 'Yangshun Tay (translated)',
         },
         {
-          imageURL: undefined,
           email: 'lorber.sebastien@gmail.com',
           key: 'slorber',
           name: 'Sébastien Lorber (translated)',
