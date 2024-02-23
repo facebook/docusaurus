@@ -113,7 +113,6 @@ export default async function pluginContentBlog(
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
       let blogPosts = await generateBlogPosts(contentPaths, context, options);
-      const listedBlogPosts = blogPosts.filter(shouldBeListed);
       const processedBlogPosts = processPosts({
         blogPosts,
       });
@@ -121,6 +120,8 @@ export default async function pluginContentBlog(
       if (processedBlogPosts !== undefined) {
         blogPosts = processedBlogPosts;
       }
+
+      const listedBlogPosts = blogPosts.filter(shouldBeListed);
 
       if (!blogPosts.length) {
         return {

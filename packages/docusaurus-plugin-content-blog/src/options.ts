@@ -133,7 +133,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   sortPosts: Joi.alternatives()
     .try(Joi.string().valid('descending', 'ascending'))
     .default(DEFAULT_OPTIONS.sortPosts),
-  processPosts: Joi.function().optional().default(DEFAULT_OPTIONS.processPosts),
+  processPosts: Joi.function()
+    .optional()
+    .default(() => DEFAULT_OPTIONS.processPosts),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({
