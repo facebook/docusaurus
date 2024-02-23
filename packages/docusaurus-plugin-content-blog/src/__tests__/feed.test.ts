@@ -17,6 +17,7 @@ import type {
   I18n,
   DocusaurusConfig,
   MarkdownConfig,
+  RouterType,
 } from '@docusaurus/types';
 import type {BlogContentPaths} from '../types';
 import type {FeedType, PluginOptions} from '@docusaurus/plugin-content-blog';
@@ -100,10 +101,14 @@ function pluginOptions(
   });
 }
 
-function siteFor(siteDir: string, siteOptions?: {baseUrl?: string}) {
+function siteFor(
+  siteDir: string,
+  siteOptions?: {baseUrl?: string; router?: RouterType},
+) {
   const siteConfig = partial<DocusaurusConfig>({
     title: 'Hello',
-    baseUrl: siteOptions?.baseUrl ?? '/',
+    router: siteOptions?.router,
+    baseUrl: siteOptions?.baseUrl,
     url: 'https://docusaurus.io',
     favicon: 'image/favicon.ico',
     markdown,
@@ -138,6 +143,23 @@ describe.each(['atom', 'rss', 'json'] as FeedType[])('%s', (feedType) => {
   it('has feed item for each post', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const {loadContext} = siteFor(siteDir, {baseUrl: '/myBaseUrl/'});
+
+    // Build is quite difficult to mock, so we built the blog beforehand and
+    // copied the output to the fixture...
+    await testGenerateFeeds(loadContext, pluginOptions(feedType));
+
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
+    fsMock.mockClear();
+  });
+
+  it('has feed item for each post using hash router', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const {loadContext} = siteFor(siteDir, {
+      baseUrl: '/myBaseUrl/',
+      router: 'hash',
+    });
 
     // Build is quite difficult to mock, so we built the blog beforehand and
     // copied the output to the fixture...

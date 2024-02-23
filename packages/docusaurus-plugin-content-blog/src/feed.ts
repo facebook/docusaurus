@@ -35,11 +35,6 @@ async function generateBlogFeed({
   outDir: string;
   locale: string;
 }): Promise<Feed | null> {
-  // TODO we should be able to generate a blog feed with hash-based urls?
-  if (siteConfig.router === 'hash') {
-    return null;
-  }
-
   if (!blogPosts.length) {
     return null;
   }
@@ -81,6 +76,65 @@ async function generateBlogFeed({
   return feed;
 }
 
+async function readBlogPostContent({
+  blogPost: post,
+  absoluteUrl,
+  siteConfig,
+  outDir,
+}: {
+  blogPost: BlogPost;
+  absoluteUrl: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+}): Promise<string | undefined> {
+  const {router, trailingSlash, baseUrl} = siteConfig;
+  const {
+    metadata: {permalink},
+  } = post;
+
+  // The hash router does not SSG: we can't read content from HTML files
+  if (router === 'hash') {
+    return undefined;
+  }
+
+  const content = await readOutputHTMLFile(
+    permalink.replace(baseUrl, ''),
+    outDir,
+    trailingSlash,
+  );
+  const $ = cheerioLoad(content);
+
+  const toAbsoluteUrl = (src: string) => String(new URL(src, absoluteUrl));
+
+  // Make links and image urls absolute
+  // See https://github.com/facebook/docusaurus/issues/9136
+  $(`div#${blogPostContainerID} a, div#${blogPostContainerID} img`).each(
+    (_, elm) => {
+      if (elm.tagName === 'a') {
+        const {href} = elm.attribs;
+        if (href) {
+          elm.attribs.href = toAbsoluteUrl(href);
+        }
+      } else if (elm.tagName === 'img') {
+        const {src, srcset: srcsetAttr} = elm.attribs;
+        if (src) {
+          elm.attribs.src = toAbsoluteUrl(src);
+        }
+        if (srcsetAttr) {
+          elm.attribs.srcset = srcset.stringify(
+            srcset.parse(srcsetAttr).map((props) => ({
+              ...props,
+              url: toAbsoluteUrl(props.url),
+            })),
+          );
+        }
+      }
+    },
+  );
+
+  return $(`#${blogPostContainerID}`).html()!;
+}
+
 async function defaultCreateFeedItems({
   blogPosts,
   siteConfig,
@@ -90,7 +144,7 @@ async function defaultCreateFeedItems({
   siteConfig: DocusaurusConfig;
   outDir: string;
 }): Promise<BlogFeedItem[]> {
-  const {url: siteUrl} = siteConfig;
+  const {url: siteUrl, router} = siteConfig;
 
   function toFeedAuthor(author: Author): FeedAuthor {
     return {name: author.name, link: author.url, email: author.email};
@@ -109,53 +163,28 @@ async function defaultCreateFeedItems({
         },
       } = post;
 
-      const content = await readOutputHTMLFile(
-        permalink.replace(siteConfig.baseUrl, ''),
+      const absoluteUrl = normalizeUrl([
+        siteUrl,
+        router === 'hash' ? '/#/' : '',
+        permalink,
+      ]);
+
+      const content = await readBlogPostContent({
+        blogPost: post,
+        absoluteUrl,
+        siteConfig,
         outDir,
-        siteConfig.trailingSlash,
-      );
-      const $ = cheerioLoad(content);
-
-      const blogPostAbsoluteUrl = normalizeUrl([siteUrl, permalink]);
-
-      const toAbsoluteUrl = (src: string) =>
-        String(new URL(src, blogPostAbsoluteUrl));
-
-      // Make links and image urls absolute
-      // See https://github.com/facebook/docusaurus/issues/9136
-      $(`div#${blogPostContainerID} a, div#${blogPostContainerID} img`).each(
-        (_, elm) => {
-          if (elm.tagName === 'a') {
-            const {href} = elm.attribs;
-            if (href) {
-              elm.attribs.href = toAbsoluteUrl(href);
-            }
-          } else if (elm.tagName === 'img') {
-            const {src, srcset: srcsetAttr} = elm.attribs;
-            if (src) {
-              elm.attribs.src = toAbsoluteUrl(src);
-            }
-            if (srcsetAttr) {
-              elm.attribs.srcset = srcset.stringify(
-                srcset.parse(srcsetAttr).map((props) => ({
-                  ...props,
-                  url: toAbsoluteUrl(props.url),
-                })),
-              );
-            }
-          }
-        },
-      );
+      });
 
       const feedItem: BlogFeedItem = {
         title: metadataTitle,
-        id: blogPostAbsoluteUrl,
-        link: blogPostAbsoluteUrl,
+        id: absoluteUrl,
+        link: absoluteUrl,
         date,
         description,
         // Atom feed demands the "term", while other feeds use "name"
         category: tags.map((tag) => ({name: tag.label, term: tag.label})),
-        content: $(`#${blogPostContainerID}`).html()!,
+        content,
       };
 
       // json1() method takes the first item of authors array
