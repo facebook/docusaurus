@@ -41,6 +41,7 @@ const markdown: MarkdownConfig = {
     }
     return result;
   },
+  remarkRehypeOptions: undefined,
 };
 
 function findByTitle(
@@ -175,7 +176,6 @@ describe('blog plugin', () => {
       description: `date inside front matter`,
       authors: [],
       date: new Date('2019-01-01'),
-      formattedDate: 'January 1, 2019',
       frontMatter: {
         date: new Date('2019-01-01'),
         tags: ['date'],
@@ -220,7 +220,6 @@ describe('blog plugin', () => {
         },
       ],
       date: new Date('2018-12-14'),
-      formattedDate: 'December 14, 2018',
       frontMatter: {
         authors: [
           {
@@ -256,7 +255,6 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       date: new Date('2020-08-16'),
-      formattedDate: 'August 16, 2020',
       frontMatter: {
         date: '2020/08/16',
         slug: '/hey/my super path/héllô',
@@ -302,7 +300,6 @@ describe('blog plugin', () => {
         title: 'draft',
       },
       date: new Date('2020-08-15'),
-      formattedDate: 'August 15, 2020',
       frontMatter: {
         author: 'Sébastien Lorber',
         author_title: 'Docusaurus maintainer',
@@ -328,7 +325,6 @@ describe('blog plugin', () => {
       description: '',
       authors: [],
       date: new Date('2019-01-02'),
-      formattedDate: 'January 2, 2019',
       frontMatter: {
         date: new Date('2019-01-02'),
       },
@@ -341,39 +337,6 @@ describe('blog plugin', () => {
       hasTruncateMarker: false,
       unlisted: false,
     });
-  });
-
-  it('builds simple website blog with localized dates', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(10);
-    expect(blogPostsFrench[0]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"23 juillet 2023"`,
-    );
-    expect(blogPostsFrench[1]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"6 mars 2021"`,
-    );
-    expect(blogPostsFrench[2]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"5 mars 2021"`,
-    );
-    expect(blogPostsFrench[3]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"16 août 2020"`,
-    );
-    expect(blogPostsFrench[4]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"15 août 2020"`,
-    );
-    expect(blogPostsFrench[5]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"27 février 2020"`,
-    );
-    expect(blogPostsFrench[6]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"27 février 2020"`,
-    );
-    expect(blogPostsFrench[7]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"2 janvier 2019"`,
-    );
-    expect(blogPostsFrench[8]!.metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
-    );
   });
 
   it('handles edit URL with editLocalizedBlogs: true', async () => {
@@ -476,11 +439,6 @@ describe('blog plugin', () => {
     // We know the file exists and we know we have git
     const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
     const noDateSourceTime = result.date;
-    const formattedDate = Intl.DateTimeFormat('en', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }).format(noDateSourceTime);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -494,7 +452,6 @@ describe('blog plugin', () => {
       description: `no date`,
       authors: [],
       date: noDateSourceTime,
-      formattedDate,
       frontMatter: {},
       tags: [],
       prevItem: undefined,

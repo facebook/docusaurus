@@ -192,11 +192,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * into a string.
      */
     readonly date: Date;
-    /**
-     * Publish date formatted according to the locale, so that the client can
-     * render the date regardless of the existence of `Intl.DateTimeFormat`.
-     */
-    readonly formattedDate: string;
     /** Full link including base URL. */
     readonly permalink: string;
     /**
