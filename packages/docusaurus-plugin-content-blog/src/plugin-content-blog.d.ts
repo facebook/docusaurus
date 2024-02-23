@@ -334,14 +334,14 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     },
   ) => number | undefined;
 
-  export type SortBlogPostsFn = (params: {
+  export type ProcessBlogPostsFn = (params: {
     blogPosts: BlogPost[];
   }) => void | BlogPost[];
 
   export type SortBlogPostsPreset = 'ascending' | 'descending';
 
   // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-  export type SortPresets = Record<SortBlogPostsPreset, SortBlogPostsFn>;
+  export type SortPresets = Record<SortBlogPostsPreset, ProcessBlogPostsFn>;
 
   /**
    * Plugin options after normalization.
@@ -428,7 +428,9 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** A callback to customize the reading time number displayed. */
     readingTime: ReadingTimeFunctionOption;
     /** Governs the direction of blog post sorting. */
-    sortPosts: SortBlogPostsPreset | SortBlogPostsFn;
+    sortPosts: SortBlogPostsPreset;
+    /** TODO process blog posts. */
+    processPosts: ProcessBlogPostsFn;
   };
 
   /**

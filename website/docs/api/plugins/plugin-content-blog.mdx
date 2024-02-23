@@ -73,7 +73,8 @@ Accepted fields:
 | `feedOptions.description` | `string` | <code>\`$\{siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
-| `sortPosts` | <code>'descending' \| 'ascending' \| <a href="#SortBlogPostsFn">SortBlogPostsFn</a> </code> | `'descending'` | Governs the direction of blog post sorting. |
+| `sortPosts` | <code>'descending' \| 'ascending' \| </code> | `'descending'` | Governs the direction of blog post sorting. |
+| `processPosts` | <code><a href="#ProcessBlogPostsFn">ProcessBlogPostsFn</a> </code> | `undefined` | Function which process blog posts (filter, modify, delete, etc...). |
 
 ```mdx-code-block
 </APITable>
@@ -130,11 +131,12 @@ type CreateFeedItemsFn = (params: {
 }) => Promise<BlogFeedItem[]>;
 ```
 
-#### `SortBlogPostsFn` {#SortBlogPostsFn}
+#### `ProcessBlogPostsFn` {#ProcessBlogPostsFn}
 
 ```ts
-// TODO document this type
-type SortBlogPostsFn = (params: {blogPosts: BlogPost[]}) => void | BlogPost[];
+type ProcessBlogPostsFn = (params: {
+  blogPosts: BlogPost[];
+}) => void | BlogPost[];
 ```
 
 ### Example configuration {#ex-config}

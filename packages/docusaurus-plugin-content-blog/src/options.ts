@@ -50,6 +50,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   authorsMapPath: 'authors.yml',
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
   sortPosts: 'descending',
+  processPosts: () => undefined,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -130,8 +131,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
   sortPosts: Joi.alternatives()
-    .try(Joi.string().valid('descending', 'ascending'), Joi.function())
+    .try(Joi.string().valid('descending', 'ascending'))
     .default(DEFAULT_OPTIONS.sortPosts),
+  processPosts: Joi.function().optional().default(DEFAULT_OPTIONS.processPosts),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

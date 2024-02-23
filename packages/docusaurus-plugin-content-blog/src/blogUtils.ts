@@ -37,7 +37,6 @@ import type {
   BlogTags,
   BlogPaginated,
   Options,
-  SortBlogPostsFn,
   SortPresets,
   SortBlogPostsPreset,
 } from '@docusaurus/plugin-content-blog';
@@ -380,45 +379,29 @@ const sortPresets: SortPresets = {
 
 interface SortBlogPostsOptions {
   blogPosts: BlogPost[];
-  sortPosts: SortBlogPostsPreset | SortBlogPostsFn;
+  sortPosts: SortBlogPostsPreset;
 }
 
-function getSortFunction(sortPosts: Options['sortPosts']): SortBlogPostsFn {
-  if (typeof sortPosts === 'function') {
-    return sortPosts;
+function getSortFunction(sortPosts: Options['sortPosts']) {
+  if (sortPosts === undefined) {
+    return sortPresets.descending;
   }
-
-  if (typeof sortPosts === 'string') {
-    const presetFn = sortPresets[sortPosts];
-    if (!presetFn) {
-      throw new Error(
-        `sortPosts preset ${sortPosts} does not exist, valid presets are: ${Object.keys(
-          sortPresets,
-        ).join(', ')}`,
-      );
-    }
-    return presetFn;
+  const presetFn = sortPresets[sortPosts];
+  if (!presetFn) {
+    throw new Error(
+      `sortPosts preset ${sortPosts} does not exist, valid presets are: ${Object.keys(
+        sortPresets,
+      ).join(', ')}`,
+    );
   }
-
-  return () => {};
+  return presetFn;
 }
 
 export function sortBlogPosts({
   blogPosts,
   sortPosts,
 }: SortBlogPostsOptions): BlogPost[] {
-  const sortFunction = getSortFunction(sortPosts);
-  const sortedBlogPosts = sortFunction({blogPosts});
-
-  if (sortedBlogPosts !== undefined) {
-    if (sortedBlogPosts.length === 0) {
-      logger.warn(
-        `Sorting function returned an empty array. Reverting to the original list to prevent issues.`,
-      );
-      return blogPosts;
-    }
-    return sortedBlogPosts;
-  }
+  getSortFunction(sortPosts);
 
   return blogPosts;
 }
