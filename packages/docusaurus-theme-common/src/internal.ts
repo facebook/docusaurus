@@ -114,6 +114,7 @@ export {
 } from './hooks/useTOCHighlight';
 
 export {useVisibleBlogSidebarItems} from './utils/blogUtils';
+export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
