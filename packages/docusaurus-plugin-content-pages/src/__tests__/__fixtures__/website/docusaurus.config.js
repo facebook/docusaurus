@@ -11,6 +11,10 @@ module.exports = {
   url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
   markdown: {
     parseFrontMatter: async (params) => {
       const result = await params.defaultParseFrontMatter(params);

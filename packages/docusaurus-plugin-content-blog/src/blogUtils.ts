@@ -26,6 +26,8 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
+  filterFilesWithLocaleExtension,
+  getLocalizedSource,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -192,13 +194,19 @@ async function parseBlogPostMarkdownFile({
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
-async function processBlogSourceFile(
-  blogSourceRelative: string,
-  contentPaths: BlogContentPaths,
-  context: LoadContext,
-  options: PluginOptions,
-  authorsMap?: AuthorsMap,
-): Promise<BlogPost | undefined> {
+async function processBlogSourceFile({
+  blogSourceRelative,
+  contentPaths,
+  context,
+  options,
+  authorsMap,
+}: {
+  blogSourceRelative: string;
+  contentPaths: BlogContentPaths;
+  context: LoadContext;
+  options: PluginOptions;
+  authorsMap?: AuthorsMap;
+}): Promise<BlogPost | undefined> {
   const {
     siteConfig: {
       baseUrl,
@@ -215,21 +223,30 @@ async function processBlogSourceFile(
     editUrl,
   } = options;
 
+  // TODO remove this in favor of getLocalizedSource
   // Lookup in localized folder in priority
   const blogDirPath = await getFolderContainingFile(
     getContentPathList(contentPaths),
     blogSourceRelative,
   );
 
-  const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
+  const {
+    source: blogSource,
+
+    // contentPath: blogDirPath
+  } = await getLocalizedSource({
+    relativeSource: blogSourceRelative,
+    contentPaths,
+    locale: context.i18n.currentLocale,
+  });
 
   const {frontMatter, content, contentTitle, excerpt} =
     await parseBlogPostMarkdownFile({
-      filePath: blogSourceAbsolute,
+      filePath: blogSource,
       parseFrontMatter,
     });
 
-  const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
+  const aliasedSource = aliasedSitePath(blogSource, siteDir);
 
   const draft = isDraft({frontMatter});
   const unlisted = isUnlisted({frontMatter});
@@ -258,14 +275,14 @@ async function processBlogSourceFile(
     }
 
     try {
-      const result = getFileCommitDate(blogSourceAbsolute, {
+      const result = getFileCommitDate(blogSource, {
         age: 'oldest',
         includeAuthor: false,
       });
       return result.date;
     } catch (err) {
       logger.warn(err);
-      return (await fs.stat(blogSourceAbsolute)).birthtime;
+      return (await fs.stat(blogSource)).birthtime;
     }
   }
 
@@ -281,7 +298,7 @@ async function processBlogSourceFile(
   function getBlogEditUrl() {
     const blogPathRelative = path.relative(
       blogDirPath,
-      path.resolve(blogSourceAbsolute),
+      path.resolve(blogSource),
     );
 
     if (typeof editUrl === 'function') {
@@ -352,28 +369,36 @@ export async function generateBlogPosts(
     return [];
   }
 
-  const blogSourceFiles = await Globby(include, {
-    cwd: contentPaths.contentPath,
-    ignore: exclude,
-  });
+  async function getBlogSourceFiles() {
+    const files = await Globby(include, {
+      cwd: contentPaths.contentPath,
+      ignore: exclude,
+    });
+    return filterFilesWithLocaleExtension({
+      files,
+      locales: context.i18n.locales,
+    });
+  }
+
+  const blogSourceFiles = await getBlogSourceFiles();
 
   const authorsMap = await getAuthorsMap({
     contentPaths,
     authorsMapPath: options.authorsMapPath,
   });
 
-  async function doProcessBlogSourceFile(blogSourceFile: string) {
+  async function doProcessBlogSourceFile(blogSourceRelative: string) {
     try {
-      return await processBlogSourceFile(
-        blogSourceFile,
+      return await processBlogSourceFile({
+        blogSourceRelative,
         contentPaths,
         context,
         options,
         authorsMap,
-      );
+      });
     } catch (err) {
       throw new Error(
-        `Processing of blog source file path=${blogSourceFile} failed.`,
+        `Processing of blog source file path=${blogSourceRelative} failed.`,
         {cause: err as Error},
       );
     }

@@ -34,6 +34,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
     {
       id: 'docs-tests',
       routeBasePath: '/tests/docs',
+      editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
       sidebarPath: '_dogfooding/docs-tests-sidebars.js',
       versions: {
         current: {
@@ -69,8 +70,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       id: 'blog-tests',
       path: '_dogfooding/_blog tests',
       routeBasePath: '/tests/blog',
-      editUrl:
-        'https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_blog-tests',
+      editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
       postsPerPage: 3,
       feedOptions: {
         type: 'all',

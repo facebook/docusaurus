@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type PagesContentPaths = {
-  contentPath: string;
-  contentPathLocalized: string;
-};
+import type {ContentPaths} from '@docusaurus/utils';
+
+export type PagesContentPaths = ContentPaths;

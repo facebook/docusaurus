@@ -6,14 +6,17 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import _ from 'lodash';
 import {DEFAULT_PLUGIN_ID} from './constants';
 import {normalizeUrl} from './urlUtils';
+import {findAsyncSequential} from './jsUtils';
 import type {
   TranslationFileContent,
   TranslationFile,
   I18n,
 } from '@docusaurus/types';
+import type {ContentPaths} from './markdownLinks';
 
 /**
  * Takes a list of translation file contents, and shallow-merges them into one.
@@ -111,4 +114,113 @@ export function localizePath({
   }
   // Url paths; add a trailing slash so it's a valid base URL
   return normalizeUrl([originalPath, i18n.currentLocale, '/']);
+}
+
+/**
+ * Localize a content file path
+ * ./dir/myDoc.md => ./dir/myDoc.fr.md
+ * @param filePath
+ * @param locale
+ */
+function addLocaleExtension(filePath: string, locale: string) {
+  const {name, dir, ext} = path.parse(filePath);
+  return path.join(dir, `${name}.${locale}${ext}`);
+}
+
+type LocalizedSource = {
+  contentPath: string;
+  source: string;
+  type: 'locale-extension' | 'locale-folder' | 'original';
+};
+
+function getLocalizedSourceCandidates({
+  relativeSource,
+  contentPaths,
+  locale,
+}: {
+  relativeSource: string;
+  contentPaths: ContentPaths;
+  locale: string;
+}): LocalizedSource[] {
+  // docs/myDoc.fr.md
+  const localeExtensionSource: LocalizedSource = {
+    contentPath: contentPaths.contentPath,
+    source: path.join(
+      contentPaths.contentPath,
+      addLocaleExtension(relativeSource, locale),
+    ),
+    type: 'locale-extension',
+  };
+
+  // i18n/fr/docs/current/myDoc.md
+  const i18nFolderSource: LocalizedSource = {
+    contentPath: contentPaths.contentPath,
+    source: path.join(contentPaths.contentPathLocalized, relativeSource),
+    type: 'locale-folder',
+  };
+
+  // docs/myDoc.md
+  const originalSource: LocalizedSource = {
+    contentPath: contentPaths.contentPath,
+    source: path.join(contentPaths.contentPath, relativeSource),
+    type: 'original',
+  };
+
+  // Order matters
+  return [localeExtensionSource, i18nFolderSource, originalSource];
+}
+
+/**
+ * Returns the first existing localized path of a content file
+ * @param relativeSource
+ * @param contentPaths
+ * @param locale
+ */
+export async function getLocalizedSource({
+  relativeSource,
+  contentPaths,
+  locale,
+}: {
+  relativeSource: string;
+  contentPaths: ContentPaths;
+  locale: string;
+}): Promise<LocalizedSource> {
+  // docs/myDoc.fr.md
+  const candidates = getLocalizedSourceCandidates({
+    relativeSource,
+    contentPaths,
+    locale,
+  });
+
+  // TODO can we avoid/optimize this by passing all the files we know as param?
+  const localizedSource = await findAsyncSequential(candidates, (candidate) =>
+    fs.pathExists(candidate.source),
+  );
+
+  if (!localizedSource) {
+    throw new Error(
+      `Unexpected error, couldn't find any localized source for file at ${path.join(
+        contentPaths.contentPath,
+        relativeSource,
+      )}`,
+    );
+  }
+
+  return localizedSource;
+}
+
+export function filterFilesWithLocaleExtension({
+  files,
+  locales,
+}: {
+  files: string[];
+  locales: string[];
+}): string[] {
+  const possibleLocaleExtensions = new Set(
+    locales.map((locale) => `.${locale}`),
+  );
+  return files.filter((file) => {
+    const {name} = path.parse(file);
+    return !possibleLocaleExtensions.has(path.extname(name));
+  });
 }

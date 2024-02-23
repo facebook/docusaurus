@@ -34,6 +34,8 @@ export {
   updateTranslationFileMessages,
   getPluginI18nPath,
   localizePath,
+  getLocalizedSource,
+  filterFilesWithLocaleExtension,
 } from './i18nUtils';
 export {
   removeSuffix,

@@ -69,7 +69,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
   },
   {
     "permalink": "/fr/typescript",
-    "source": "@site/src/pages/typescript.tsx",
+    "source": "@site/src/pages/typescript.fr.tsx",
     "type": "jsx",
   },
   {

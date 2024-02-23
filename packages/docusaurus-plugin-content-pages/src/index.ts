@@ -13,7 +13,6 @@ import {
   aliasedSitePath,
   docuHash,
   getPluginI18nPath,
-  getFolderContainingFile,
   addTrailingPathSeparator,
   Globby,
   createAbsoluteFilePathMatcher,
@@ -22,6 +21,8 @@ import {
   parseMarkdownFile,
   isUnlisted,
   isDraft,
+  getLocalizedSource,
+  filterFilesWithLocaleExtension,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 
@@ -62,6 +63,17 @@ export default function pluginContentPages(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
+  async function getPageFiles() {
+    const files = await Globby(options.include, {
+      cwd: contentPaths.contentPath,
+      ignore: options.exclude,
+    });
+    return filterFilesWithLocaleExtension({
+      files,
+      locales: context.i18n.locales,
+    });
+  }
+
   return {
     name: 'docusaurus-plugin-content-pages',
 
@@ -73,28 +85,21 @@ export default function pluginContentPages(
     },
 
     async loadContent() {
-      const {include} = options;
-
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
 
       const {baseUrl} = siteConfig;
-      const pagesFiles = await Globby(include, {
-        cwd: contentPaths.contentPath,
-        ignore: options.exclude,
-      });
+      const pagesFiles = await getPageFiles();
 
       async function processPageSourceFile(
         relativeSource: string,
       ): Promise<Metadata | undefined> {
-        // Lookup in localized folder in priority
-        const contentPath = await getFolderContainingFile(
-          getContentPathList(contentPaths),
+        const {source} = await getLocalizedSource({
           relativeSource,
-        );
-
-        const source = path.join(contentPath, relativeSource);
+          contentPaths,
+          locale: context.i18n.currentLocale,
+        });
         const aliasedSourcePath = aliasedSitePath(source, siteDir);
         const permalink = normalizeUrl([
           baseUrl,
