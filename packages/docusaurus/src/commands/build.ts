@@ -26,15 +26,14 @@ import {loadI18n} from '../server/i18n';
 import {
   generateHashRouterEntrypoint,
   generateStaticFiles,
-  loadAppRenderer
+  loadAppRenderer,
 } from '../ssg';
 import {
   compileSSRTemplate,
   renderHashRouterTemplate,
 } from '../templates/templates';
 import defaultSSRTemplate from '../templates/ssr.html.template';
-import type {
-  SSGParams} from '../ssg';
+import type {SSGParams} from '../ssg';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {LoadedPlugin, Props, RouterType} from '@docusaurus/types';
