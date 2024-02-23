@@ -38,8 +38,6 @@ const DefaultI18N: I18n = {
   },
 };
 
-// Pattern 1
-
 function partial<T>(t: Partial<T>): T {
   return t as T;
 }
