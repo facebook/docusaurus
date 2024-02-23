@@ -129,7 +129,14 @@ export async function createBuildClientConfig({
   bundleAnalyzer: boolean;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
-  const {generatedFilesDir} = props;
+  const {
+    generatedFilesDir,
+    siteConfig: {router},
+  } = props;
+
+  // With the hash router, we don't hydrate the React app, even in build mode!
+  // This is because it will always be a client-rendered React app
+  const hydrate = router !== 'hash';
 
   const clientManifestPath = path.join(
     generatedFilesDir,
@@ -137,7 +144,7 @@ export async function createBuildClientConfig({
   );
 
   const config: Configuration = merge(
-    await createBaseClientConfig({props, minify, hydrate: true}),
+    await createBaseClientConfig({props, minify, hydrate}),
     {
       plugins: [
         new ForceTerminatePlugin(),

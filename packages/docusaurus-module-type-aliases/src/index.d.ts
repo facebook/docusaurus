@@ -45,6 +45,19 @@ declare module '@generated/routes' {
   export default routes;
 }
 
+declare module '@generated/router' {
+  import type {ReactNode, ComponentType} from 'react';
+
+  export type Props = {
+    basename?: string | undefined;
+    children?: ReactNode;
+  };
+
+  const Router: ComponentType<Props>;
+
+  export default Router;
+}
+
 declare module '@generated/routesChunkNames' {
   import type {RouteChunkNames} from '@docusaurus/types';
 

@@ -232,6 +232,14 @@ ${Object.entries(registry)
     JSON.stringify(siteMetadata, null, 2),
   );
 
+  const routerImport =
+    siteConfig.router === 'hash' ? 'HashRouter' : 'BrowserRouter';
+  const genRouter = generate(
+    generatedFilesDir,
+    'router.js',
+    `export {${routerImport} as default} from 'react-router-dom';`,
+  );
+
   await Promise.all([
     genWarning,
     genClientModules,
@@ -243,6 +251,7 @@ ${Object.entries(registry)
     genSiteMetadata,
     genI18n,
     genCodeTranslations,
+    genRouter,
   ]);
 
   return {
