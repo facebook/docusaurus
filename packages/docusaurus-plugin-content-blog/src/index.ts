@@ -20,11 +20,11 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {
-  generateBlogPosts,
   getSourceToPermalink,
   getBlogTags,
   paginateBlogPosts,
   shouldBeListed,
+  applyProcessBlogPosts,
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
@@ -113,7 +113,11 @@ export default async function pluginContentBlog(
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
-      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const blogPosts = await applyProcessBlogPosts(
+        contentPaths,
+        context,
+        options,
+      );
       const listedBlogPosts = blogPosts.filter(shouldBeListed);
 
       if (!blogPosts.length) {

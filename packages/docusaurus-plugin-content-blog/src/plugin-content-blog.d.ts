@@ -335,6 +335,11 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
       defaultReadingTime: ReadingTimeFunction;
     },
   ) => number | undefined;
+
+  export type ProcessBlogPostsFn = (params: {
+    blogPosts: BlogPost[];
+  }) => void | BlogPost[];
+
   /**
    * Plugin options after normalization.
    */
@@ -426,6 +431,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readingTime: ReadingTimeFunctionOption;
     /** Governs the direction of blog post sorting. */
     sortPosts: 'ascending' | 'descending';
+    /** TODO process blog posts. */
+    processBlogPosts: ProcessBlogPostsFn;
   };
 
   /**
