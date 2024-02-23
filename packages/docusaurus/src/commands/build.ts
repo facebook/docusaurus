@@ -23,12 +23,21 @@ import {
 import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
-import {generateStaticFiles, loadAppRenderer} from '../ssg';
-import {compileSSRTemplate} from '../templates/templates';
+import {
+  generateHashRouterEntrypoint,
+  generateStaticFiles,
+  loadAppRenderer
+} from '../ssg';
+import {
+  compileSSRTemplate,
+  renderHashRouterTemplate,
+} from '../templates/templates';
 import defaultSSRTemplate from '../templates/ssr.html.template';
+import type {
+  SSGParams} from '../ssg';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {LoadedPlugin, Props} from '@docusaurus/types';
+import type {LoadedPlugin, Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
@@ -171,7 +180,11 @@ async function buildLocale({
   PerfLogger.end('Loading site');
 
   // Apply user webpack config.
-  const {outDir, plugins} = props;
+  const {
+    outDir,
+    plugins,
+    siteConfig: {router},
+  } = props;
 
   // We can build the 2 configs in parallel
   PerfLogger.start('Creating webpack configs');
@@ -196,7 +209,11 @@ async function buildLocale({
 
   // Run webpack to build JS bundle (client) and static html files (server).
   PerfLogger.start('Bundling');
-  await compile([clientConfig, serverConfig]);
+  if (router === 'hash') {
+    await compile([clientConfig]);
+  } else {
+    await compile([clientConfig, serverConfig]);
+  }
   PerfLogger.end('Bundling');
 
   PerfLogger.start('Executing static site generation');
@@ -204,6 +221,7 @@ async function buildLocale({
     props,
     serverBundlePath,
     clientManifestPath,
+    router,
   });
   PerfLogger.end('Executing static site generation');
 
@@ -242,11 +260,13 @@ async function executeSSG({
   props,
   serverBundlePath,
   clientManifestPath,
+  router,
 }: {
   props: Props;
   serverBundlePath: string;
   clientManifestPath: string;
-}) {
+  router: RouterType;
+}): Promise<{collectedData: SiteCollectedData}> {
   PerfLogger.start('Reading client manifest');
   const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
   PerfLogger.end('Reading client manifest');
@@ -257,32 +277,38 @@ async function executeSSG({
   );
   PerfLogger.end('Compiling SSR template');
 
+  const params: SSGParams = {
+    trailingSlash: props.siteConfig.trailingSlash,
+    outDir: props.outDir,
+    baseUrl: props.baseUrl,
+    manifest,
+    headTags: props.headTags,
+    preBodyTags: props.preBodyTags,
+    postBodyTags: props.postBodyTags,
+    ssrTemplate,
+    noIndex: props.siteConfig.noIndex,
+    DOCUSAURUS_VERSION,
+  };
+
+  if (router === 'hash') {
+    PerfLogger.start('Generate Hash Router entry point');
+    const content = renderHashRouterTemplate({params});
+    await generateHashRouterEntrypoint({content, params});
+    PerfLogger.end('Generate Hash Router entry point');
+    return {collectedData: {}};
+  }
+
   PerfLogger.start('Loading App renderer');
   const renderer = await loadAppRenderer({
     serverBundlePath,
   });
   PerfLogger.end('Loading App renderer');
 
-  // TODO maybe there's a more elegant way than reusing our SSG pipeline?
-  const pathnames =
-    props.siteConfig.router === 'hash' ? ['/'] : props.routesPaths;
-
   PerfLogger.start('Generate static files');
   const ssgResult = await generateStaticFiles({
-    pathnames,
+    pathnames: props.routesPaths,
     renderer,
-    params: {
-      trailingSlash: props.siteConfig.trailingSlash,
-      outDir: props.outDir,
-      baseUrl: props.baseUrl,
-      manifest,
-      headTags: props.headTags,
-      preBodyTags: props.preBodyTags,
-      postBodyTags: props.postBodyTags,
-      ssrTemplate,
-      noIndex: props.siteConfig.noIndex,
-      DOCUSAURUS_VERSION,
-    },
+    params,
   });
   PerfLogger.end('Generate static files');
 

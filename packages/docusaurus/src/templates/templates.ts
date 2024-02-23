@@ -70,7 +70,7 @@ export function renderSSRTemplate({
   result: AppRenderResult;
 }): string {
   const {
-    // baseUrl,
+    baseUrl,
     headTags,
     preBodyTags,
     postBodyTags,
@@ -98,7 +98,7 @@ export function renderSSRTemplate({
 
   const data: SSRTemplateData = {
     appHtml,
-    baseUrl: './',
+    baseUrl,
     htmlAttributes,
     bodyAttributes,
     headTags,
@@ -108,6 +108,44 @@ export function renderSSRTemplate({
     scripts,
     stylesheets,
     noIndex,
+    version: DOCUSAURUS_VERSION,
+  };
+
+  return ssrTemplate(data);
+}
+
+export function renderHashRouterTemplate({
+  params,
+}: {
+  params: SSGParams;
+}): string {
+  const {
+    // baseUrl,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    manifest,
+    DOCUSAURUS_VERSION,
+    ssrTemplate,
+  } = params;
+
+  const {scripts, stylesheets} = getScriptsAndStylesheets({
+    manifest,
+    modules: [],
+  });
+
+  const data: SSRTemplateData = {
+    appHtml: '',
+    baseUrl: './',
+    htmlAttributes: '',
+    bodyAttributes: '',
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    metaAttributes: [],
+    scripts,
+    stylesheets,
+    noIndex: false,
     version: DOCUSAURUS_VERSION,
   };
 
