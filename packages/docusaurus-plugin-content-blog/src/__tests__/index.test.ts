@@ -210,7 +210,6 @@ describe('blog plugin', () => {
       description: `Happy birthday! (translated)`,
       authors: [
         {
-          imageURL: undefined,
           name: 'Yangshun Tay (translated)',
         },
         {

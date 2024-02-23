@@ -13,11 +13,24 @@ import type {Props} from '@theme/LastUpdated';
 
 function LastUpdatedAtDate({
   lastUpdatedAt,
-  formattedLastUpdatedAt,
 }: {
   lastUpdatedAt: number;
-  formattedLastUpdatedAt: string;
 }): JSX.Element {
+  const convertedLastUpdateAt = lastUpdatedAt * 1000;
+
+  const dateTimeFormat = useDateTimeFormat({
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+
+  const formatLastUpdatedAt = (lastUpdated: number) =>
+    dateTimeFormat.format(new Date(lastUpdated));
+
+  const formattedLastUpdatedAt =
+    lastUpdatedAt && formatLastUpdatedAt(convertedLastUpdateAt);
+
   return (
     <Translate
       id="theme.lastUpdated.atDate"
@@ -25,7 +38,7 @@ function LastUpdatedAtDate({
       values={{
         date: (
           <b>
-            <time dateTime={new Date(lastUpdatedAt * 1000).toISOString()}>
+            <time dateTime={new Date(convertedLastUpdateAt).toISOString()}>
               {formattedLastUpdatedAt}
             </time>
           </b>
@@ -57,34 +70,17 @@ export default function LastUpdated({
   lastUpdatedAt,
   lastUpdatedBy,
 }: Props): JSX.Element {
-  const dateTimeFormat = useDateTimeFormat({
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
-  });
-
-  const formatDate = (blogDate: string | number) =>
-    dateTimeFormat.format(new Date(blogDate));
-
-  const formattedLastUpdatedAt =
-    lastUpdatedAt && formatDate(lastUpdatedAt * 1000);
-
   return (
     <span className={ThemeClassNames.common.lastUpdated}>
       <Translate
         id="theme.lastUpdated.lastUpdatedAtBy"
         description="The sentence used to display when a page has been last updated, and by who"
         values={{
-          atDate:
-            lastUpdatedAt && formattedLastUpdatedAt ? (
-              <LastUpdatedAtDate
-                lastUpdatedAt={lastUpdatedAt}
-                formattedLastUpdatedAt={formattedLastUpdatedAt}
-              />
-            ) : (
-              ''
-            ),
+          atDate: lastUpdatedAt ? (
+            <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
+          ) : (
+            ''
+          ),
           byUser: lastUpdatedBy ? (
             <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
           ) : (

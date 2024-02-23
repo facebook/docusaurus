@@ -23,11 +23,11 @@ function Year({year, posts}: YearProp) {
   const dateTimeFormat = useDateTimeFormat({
     day: 'numeric',
     month: 'long',
-    year: undefined, // Can be customized just for this page
     timeZone: 'UTC',
   });
 
-  const formatDate = (date: string) => dateTimeFormat.format(new Date(date));
+  const formatDate = (lastUpdated: string) =>
+    dateTimeFormat.format(new Date(lastUpdated));
 
   return (
     <>
