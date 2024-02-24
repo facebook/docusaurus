@@ -447,17 +447,18 @@ export function linkify({
   return newContent;
 }
 
-export async function applyProcessBlogPosts(
-  contentPaths: BlogContentPaths,
-  context: LoadContext,
-  options: PluginOptions,
-): Promise<BlogPost[]> {
-  const blogPosts = await generateBlogPosts(contentPaths, context, options);
-  const {processBlogPosts} = options;
+export async function applyProcessBlogPosts({
+  blogPosts,
+  processBlogPosts,
+}: {
+  blogPosts: BlogPost[];
+  processBlogPosts: PluginOptions['processBlogPosts'];
+}): Promise<BlogPost[]> {
   const processedBlogPosts = processBlogPosts({blogPosts});
 
   if (Array.isArray(processedBlogPosts)) {
     return processedBlogPosts;
   }
+
   return blogPosts;
 }

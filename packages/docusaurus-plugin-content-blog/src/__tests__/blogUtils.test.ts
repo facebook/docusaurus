@@ -14,10 +14,11 @@ import {
   linkify,
   getSourceToPermalink,
   paginateBlogPosts,
+  applyProcessBlogPosts,
   type LinkifyParams,
 } from '../blogUtils';
 import type {BlogBrokenMarkdownLink, BlogContentPaths} from '../types';
-import type {BlogPost} from '@docusaurus/plugin-content-blog';
+import type {BlogPost, BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -237,6 +238,7 @@ describe('linkify', () => {
         frontMatter: {},
         authors: [],
         formattedDate: '',
+        unlisted: false,
       },
       content: '',
     },
@@ -293,5 +295,51 @@ describe('linkify', () => {
       contentPaths,
       link: './postNotExist2.mdx',
     } as BlogBrokenMarkdownLink);
+  });
+});
+
+const defaultValuesForOtherKeys: Omit<BlogPostMetadata, 'date'> = {
+  source: '',
+  title: '',
+  formattedDate: '',
+  permalink: '',
+  description: '',
+  hasTruncateMarker: false,
+  authors: [],
+  frontMatter: {},
+  tags: [],
+  unlisted: false,
+};
+const createBlogPost = (args: Partial<BlogPost>): BlogPost => ({
+  id: '',
+  metadata: {
+    date: new Date(),
+    ...defaultValuesForOtherKeys,
+    ...args.metadata,
+  },
+  content: args.content || '',
+});
+
+describe('processBlogPosts', () => {
+  const blogPost2022 = createBlogPost({
+    metadata: {date: new Date('2022-01-01'), ...defaultValuesForOtherKeys},
+  });
+  const blogPost2023 = createBlogPost({
+    metadata: {date: new Date('2023-01-01'), ...defaultValuesForOtherKeys},
+  });
+  const blogPost2024 = createBlogPost({
+    metadata: {date: new Date('2024-01-01'), ...defaultValuesForOtherKeys},
+  });
+
+  it('filter blogs', async () => {
+    const processedBlogPosts = applyProcessBlogPosts({
+      blogPosts: [blogPost2022, blogPost2023, blogPost2024],
+      processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.filter(
+          (blogPost) => blogPost.metadata.date.getFullYear() === 2024,
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([blogPost2024]);
   });
 });
