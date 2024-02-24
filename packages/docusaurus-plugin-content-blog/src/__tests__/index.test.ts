@@ -437,7 +437,7 @@ describe('blog plugin', () => {
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
     const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
     // We know the file exists and we know we have git
-    const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
+    const result = await getFileCommitDate(noDateSourceFile, {age: 'oldest'});
     const noDateSourceTime = result.date;
 
     expect({
