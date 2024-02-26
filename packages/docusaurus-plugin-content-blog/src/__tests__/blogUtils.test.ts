@@ -18,7 +18,8 @@ import {
   type LinkifyParams,
 } from '../blogUtils';
 import type {BlogBrokenMarkdownLink, BlogContentPaths} from '../types';
-import type {BlogPost, BlogPostMetadata} from '@docusaurus/plugin-content-blog';
+import type {BlogPost} from '@docusaurus/plugin-content-blog';
+import type {DeepPartial} from 'utility-types';
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -298,23 +299,19 @@ describe('linkify', () => {
   });
 });
 
-const defaultValuesForOtherKeys: Omit<BlogPostMetadata, 'date'> = {
-  source: '',
-  title: '',
-  formattedDate: '',
-  permalink: '',
-  description: '',
-  hasTruncateMarker: false,
-  authors: [],
-  frontMatter: {},
-  tags: [],
-  unlisted: false,
-};
-const createBlogPost = (args: Partial<BlogPost>): BlogPost => ({
+const createBlogPost = (args: DeepPartial<BlogPost>): BlogPost => ({
   id: '',
   metadata: {
-    date: new Date(),
-    ...defaultValuesForOtherKeys,
+    source: '',
+    title: '',
+    formattedDate: '',
+    permalink: '',
+    description: '',
+    hasTruncateMarker: false,
+    authors: [],
+    frontMatter: {},
+    tags: [],
+    unlisted: false,
     ...args.metadata,
   },
   content: args.content || '',
@@ -322,17 +319,17 @@ const createBlogPost = (args: Partial<BlogPost>): BlogPost => ({
 
 describe('processBlogPosts', () => {
   const blogPost2022 = createBlogPost({
-    metadata: {date: new Date('2022-01-01'), ...defaultValuesForOtherKeys},
+    metadata: {date: new Date('2022-01-01')},
   });
   const blogPost2023 = createBlogPost({
-    metadata: {date: new Date('2023-01-01'), ...defaultValuesForOtherKeys},
+    metadata: {date: new Date('2023-01-01')},
   });
   const blogPost2024 = createBlogPost({
-    metadata: {date: new Date('2024-01-01'), ...defaultValuesForOtherKeys},
+    metadata: {date: new Date('2024-01-01')},
   });
 
-  it('filter blogs', async () => {
-    const processedBlogPosts = applyProcessBlogPosts({
+  it('filter only blogs from 2024', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
       blogPosts: [blogPost2022, blogPost2023, blogPost2024],
       processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
         blogPosts.filter(
