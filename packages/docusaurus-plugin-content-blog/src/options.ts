@@ -51,7 +51,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   authorsMapPath: 'authors.yml',
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
   sortPosts: 'descending',
-  processBlogPosts: () => undefined,
+  processBlogPosts: async () => undefined,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({

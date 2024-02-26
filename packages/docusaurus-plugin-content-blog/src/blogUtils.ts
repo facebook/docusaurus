@@ -454,7 +454,7 @@ export async function applyProcessBlogPosts({
   blogPosts: BlogPost[];
   processBlogPosts: PluginOptions['processBlogPosts'];
 }): Promise<BlogPost[]> {
-  const processedBlogPosts = processBlogPosts({blogPosts});
+  const processedBlogPosts = await processBlogPosts({blogPosts});
 
   if (Array.isArray(processedBlogPosts)) {
     return processedBlogPosts;

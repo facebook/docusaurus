@@ -338,7 +338,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
 
   export type ProcessBlogPostsFn = (params: {
     blogPosts: BlogPost[];
-  }) => void | BlogPost[];
+  }) => Promise<void | BlogPost[]>;
 
   /**
    * Plugin options after normalization.

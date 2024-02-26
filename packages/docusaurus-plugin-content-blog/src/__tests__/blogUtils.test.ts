@@ -331,7 +331,7 @@ describe('processBlogPosts', () => {
   it('filter blogs only from 2024', async () => {
     const processedBlogPosts = await applyProcessBlogPosts({
       blogPosts: [blogPost2022, blogPost2023, blogPost2024],
-      processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
         blogPosts.filter(
           (blogPost) => blogPost.metadata.date.getFullYear() === 2024,
         ),
@@ -343,7 +343,7 @@ describe('processBlogPosts', () => {
   it('sort blogs by date in ascending order', async () => {
     const processedBlogPosts = await applyProcessBlogPosts({
       blogPosts: [blogPost2023, blogPost2022, blogPost2024],
-      processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
         blogPosts.sort(
           (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
         ),
@@ -359,7 +359,7 @@ describe('processBlogPosts', () => {
   it('sort blogs by date in descending order', async () => {
     const processedBlogPosts = await applyProcessBlogPosts({
       blogPosts: [blogPost2023, blogPost2022, blogPost2024],
-      processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
         blogPosts.sort(
           (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
         ),
@@ -369,6 +369,28 @@ describe('processBlogPosts', () => {
       blogPost2024,
       blogPost2023,
       blogPost2022,
+    ]);
+  });
+
+  it('processBlogPosts return 2022 only', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async () => [blogPost2022],
+    });
+
+    expect(processedBlogPosts).toEqual([blogPost2022]);
+  });
+
+  it('processBlogPosts return undefined', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async () => {},
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2023,
+      blogPost2022,
+      blogPost2024,
     ]);
   });
 });
