@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`blog plugin process blog posts load content 1`] = `
+[
+  {
+    "content": "2031",
+    "id": "/date/2031",
+    "metadata": {
+      "authors": [],
+      "date": 2031-01-01T00:00:00.000Z,
+      "description": "2031",
+      "editUrl": "https://baseEditUrl.com/edit/blog/date-2031-unlisted.md",
+      "formattedDate": "January 1, 2031",
+      "frontMatter": {
+        "date": 2031-01-01T00:00:00.000Z,
+        "slug": "/date/2031",
+        "title": "2031",
+        "unlisted": true,
+      },
+      "hasTruncateMarker": false,
+      "nextItem": {
+        "permalink": "/blog/date/2030",
+        "title": "2030",
+      },
+      "permalink": "/blog/date/2031",
+      "readingTime": 0.005,
+      "source": "@site/blog/date-2031-unlisted.md",
+      "tags": [],
+      "title": "2031",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "2030",
+    "id": "/date/2030",
+    "metadata": {
+      "authors": [],
+      "date": 2030-01-01T00:00:00.000Z,
+      "description": "2030",
+      "editUrl": "https://baseEditUrl.com/edit/blog/date-2030.md",
+      "formattedDate": "January 1, 2030",
+      "frontMatter": {
+        "date": 2030-01-01T00:00:00.000Z,
+        "slug": "/date/2030",
+        "title": "2030",
+      },
+      "hasTruncateMarker": false,
+      "permalink": "/blog/date/2030",
+      "prevItem": {
+        "permalink": "/blog/date/2031",
+        "title": "2031",
+      },
+      "readingTime": 0.005,
+      "source": "@site/blog/date-2030.md",
+      "tags": [],
+      "title": "2030",
+      "unlisted": false,
+    },
+  },
+]
+`;
+
 exports[`blog plugin works on blog tags without pagination 1`] = `
 {
   "/blog/tags/tag-1": {

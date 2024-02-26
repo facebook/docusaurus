@@ -541,4 +541,19 @@ describe('blog plugin', () => {
 
     expect(blogTags).toMatchSnapshot();
   });
+
+  it('process blog posts load content', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-dates',
+    );
+    const processedBlogPosts = await getBlogPosts(siteDir, {
+      postsPerPage: 2,
+      processBlogPosts: async ({blogPosts}) =>
+        blogPosts.filter((blog) => blog.metadata.date.getFullYear() > 2029),
+    });
+
+    expect(processedBlogPosts).toMatchSnapshot();
+  });
 });
