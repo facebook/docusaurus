@@ -313,7 +313,7 @@ const createBlogPost = (args: DeepPartial<BlogPost>): BlogPost => ({
     tags: [],
     unlisted: false,
     ...args.metadata,
-  },
+  } as BlogPost['metadata'],
   content: args.content || '',
 });
 
@@ -328,7 +328,7 @@ describe('processBlogPosts', () => {
     metadata: {date: new Date('2024-01-01')},
   });
 
-  it('filter only blogs from 2024', async () => {
+  it('filter blogs only from 2024', async () => {
     const processedBlogPosts = await applyProcessBlogPosts({
       blogPosts: [blogPost2022, blogPost2023, blogPost2024],
       processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
@@ -338,5 +338,37 @@ describe('processBlogPosts', () => {
     });
 
     expect(processedBlogPosts).toEqual([blogPost2024]);
+  });
+
+  it('sort blogs by date in ascending order', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.sort(
+          (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2022,
+      blogPost2023,
+      blogPost2024,
+    ]);
+  });
+
+  it('sort blogs by date in descending order', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.sort(
+          (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2024,
+      blogPost2023,
+      blogPost2022,
+    ]);
   });
 });
