@@ -503,14 +503,26 @@ describe('blog plugin', () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
-      'website-blog-with-dates',
+      'website-blog-with-tags',
     );
-    const processedBlogPosts = await getBlogPosts(siteDir, {
-      postsPerPage: 2,
-      processBlogPosts: async ({blogPosts}) =>
-        blogPosts.filter((blog) => blog.metadata.date.getFullYear() > 2029),
-    });
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        postsPerPage: 1,
+        processBlogPosts: async ({blogPosts}) =>
+          blogPosts.filter((blog) => blog.metadata.tags[0].label === 'tag1'),
+      },
+      DefaultI18N,
+    );
+    const {blogPosts, blogTags, blogListPaginated} =
+      (await plugin.loadContent!())!;
 
-    expect(processedBlogPosts).toMatchSnapshot();
+    expect(blogListPaginated).toHaveLength(3);
+
+    expect(Object.keys(blogTags)).toHaveLength(2);
+    expect(blogTags).toMatchSnapshot();
+
+    expect(blogPosts).toHaveLength(3);
+    expect(blogPosts).toMatchSnapshot();
   });
 });

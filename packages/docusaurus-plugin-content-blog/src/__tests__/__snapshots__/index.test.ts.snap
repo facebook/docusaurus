@@ -1,59 +1,238 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`blog plugin process blog posts load content 1`] = `
+{
+  "/blog/tags/tag-1": {
+    "items": [
+      "/simple/slug/another",
+      "/another/tags",
+      "/another/tags2",
+    ],
+    "label": "tag1",
+    "pages": [
+      {
+        "items": [
+          "/simple/slug/another",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": "/blog/tags/tag-1/page/2",
+          "page": 1,
+          "permalink": "/blog/tags/tag-1",
+          "postsPerPage": 1,
+          "previousPage": undefined,
+          "totalCount": 3,
+          "totalPages": 3,
+        },
+      },
+      {
+        "items": [
+          "/another/tags",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": "/blog/tags/tag-1/page/3",
+          "page": 2,
+          "permalink": "/blog/tags/tag-1/page/2",
+          "postsPerPage": 1,
+          "previousPage": "/blog/tags/tag-1",
+          "totalCount": 3,
+          "totalPages": 3,
+        },
+      },
+      {
+        "items": [
+          "/another/tags2",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": undefined,
+          "page": 3,
+          "permalink": "/blog/tags/tag-1/page/3",
+          "postsPerPage": 1,
+          "previousPage": "/blog/tags/tag-1/page/2",
+          "totalCount": 3,
+          "totalPages": 3,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/tag-1",
+    "unlisted": false,
+  },
+  "/blog/tags/tag-2": {
+    "items": [
+      "/another/tags",
+      "/another/tags2",
+    ],
+    "label": "tag2",
+    "pages": [
+      {
+        "items": [
+          "/another/tags",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": "/blog/tags/tag-2/page/2",
+          "page": 1,
+          "permalink": "/blog/tags/tag-2",
+          "postsPerPage": 1,
+          "previousPage": undefined,
+          "totalCount": 2,
+          "totalPages": 2,
+        },
+      },
+      {
+        "items": [
+          "/another/tags2",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": undefined,
+          "page": 2,
+          "permalink": "/blog/tags/tag-2/page/2",
+          "postsPerPage": 1,
+          "previousPage": "/blog/tags/tag-2",
+          "totalCount": 2,
+          "totalPages": 2,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/tag-2",
+    "unlisted": false,
+  },
+}
+`;
+
+exports[`blog plugin process blog posts load content 2`] = `
 [
   {
-    "content": "2031",
-    "id": "/date/2031",
+    "content": "simple url slug",
+    "id": "/simple/slug/another",
     "metadata": {
-      "authors": [],
-      "date": 2031-01-01T00:00:00.000Z,
-      "description": "2031",
-      "editUrl": "https://baseEditUrl.com/edit/blog/date-2031-unlisted.md",
-      "formattedDate": "January 1, 2031",
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "Sébastien Lorber",
+          "title": "Docusaurus maintainer",
+          "url": "https://sebastienlorber.com",
+        },
+      ],
+      "date": 2020-08-15T00:00:00.000Z,
+      "description": "simple url slug",
+      "editUrl": "https://baseEditUrl.com/edit/blog/another-simple-slug-with-tags.md",
       "frontMatter": {
-        "date": 2031-01-01T00:00:00.000Z,
-        "slug": "/date/2031",
-        "title": "2031",
-        "unlisted": true,
+        "author": "Sébastien Lorber",
+        "author_title": "Docusaurus maintainer",
+        "author_url": "https://sebastienlorber.com",
+        "date": 2020-08-15T00:00:00.000Z,
+        "slug": "/simple/slug/another",
+        "tags": [
+          "tag1",
+        ],
+        "title": "Another Simple Slug",
       },
       "hasTruncateMarker": false,
       "nextItem": {
-        "permalink": "/blog/date/2030",
-        "title": "2030",
+        "permalink": "/blog/another/tags",
+        "title": "Another With Tag",
       },
-      "permalink": "/blog/date/2031",
-      "readingTime": 0.005,
-      "source": "@site/blog/date-2031-unlisted.md",
-      "tags": [],
-      "title": "2031",
+      "permalink": "/blog/simple/slug/another",
+      "readingTime": 0.015,
+      "source": "@site/blog/another-simple-slug-with-tags.md",
+      "tags": [
+        {
+          "label": "tag1",
+          "permalink": "/blog/tags/tag-1",
+        },
+      ],
+      "title": "Another Simple Slug",
       "unlisted": false,
     },
   },
   {
-    "content": "2030",
-    "id": "/date/2030",
+    "content": "with tag",
+    "id": "/another/tags",
     "metadata": {
       "authors": [],
-      "date": 2030-01-01T00:00:00.000Z,
-      "description": "2030",
-      "editUrl": "https://baseEditUrl.com/edit/blog/date-2030.md",
-      "formattedDate": "January 1, 2030",
+      "date": 2020-08-15T00:00:00.000Z,
+      "description": "with tag",
+      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags.md",
       "frontMatter": {
-        "date": 2030-01-01T00:00:00.000Z,
-        "slug": "/date/2030",
-        "title": "2030",
+        "date": 2020-08-15T00:00:00.000Z,
+        "slug": "/another/tags",
+        "tags": [
+          "tag1",
+          "tag2",
+        ],
+        "title": "Another With Tag",
       },
       "hasTruncateMarker": false,
-      "permalink": "/blog/date/2030",
-      "prevItem": {
-        "permalink": "/blog/date/2031",
-        "title": "2031",
+      "nextItem": {
+        "permalink": "/blog/another/tags2",
+        "title": "Another With Tag",
       },
-      "readingTime": 0.005,
-      "source": "@site/blog/date-2030.md",
-      "tags": [],
-      "title": "2030",
+      "permalink": "/blog/another/tags",
+      "prevItem": {
+        "permalink": "/blog/simple/slug/another",
+        "title": "Another Simple Slug",
+      },
+      "readingTime": 0.01,
+      "source": "@site/blog/another-with-tags.md",
+      "tags": [
+        {
+          "label": "tag1",
+          "permalink": "/blog/tags/tag-1",
+        },
+        {
+          "label": "tag2",
+          "permalink": "/blog/tags/tag-2",
+        },
+      ],
+      "title": "Another With Tag",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "with tag",
+    "id": "/another/tags2",
+    "metadata": {
+      "authors": [],
+      "date": 2020-08-15T00:00:00.000Z,
+      "description": "with tag",
+      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags2.md",
+      "frontMatter": {
+        "date": 2020-08-15T00:00:00.000Z,
+        "slug": "/another/tags2",
+        "tags": [
+          "tag1",
+          "tag2",
+        ],
+        "title": "Another With Tag",
+      },
+      "hasTruncateMarker": false,
+      "permalink": "/blog/another/tags2",
+      "prevItem": {
+        "permalink": "/blog/another/tags",
+        "title": "Another With Tag",
+      },
+      "readingTime": 0.01,
+      "source": "@site/blog/another-with-tags2.md",
+      "tags": [
+        {
+          "label": "tag1",
+          "permalink": "/blog/tags/tag-1",
+        },
+        {
+          "label": "tag2",
+          "permalink": "/blog/tags/tag-2",
+        },
+      ],
+      "title": "Another With Tag",
       "unlisted": false,
     },
   },
