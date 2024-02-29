@@ -49,10 +49,6 @@ export default [
   },
 ];
 ",
-  "routesPaths": [
-    "/404.html",
-    "/blog",
-  ],
 }
 `;
 
@@ -122,11 +118,6 @@ export default [
   },
 ];
 ",
-  "routesPaths": [
-    "/404.html",
-    "/docs/hello",
-    "docs/foo/baz",
-  ],
 }
 `;
 
@@ -154,9 +145,5 @@ export default [
   },
 ];
 ",
-  "routesPaths": [
-    "/404.html",
-    "",
-  ],
 }
 `;

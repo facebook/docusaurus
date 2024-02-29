@@ -6,25 +6,25 @@
  */
 
 import path from 'path';
-import _ from 'lodash';
 import {
   localizePath,
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
+import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
-import {loadRoutes} from './codegen/routes';
 import {loadHtmlTags} from './htmlTags';
 import {loadSiteMetadata} from './siteMetadata';
 import {loadI18n} from './i18n';
 import {
-  readCodeTranslationFileContent,
+  loadSiteCodeTranslations,
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {PerfLogger} from '../utils';
-import {generateSiteCode} from './codegen/codegen';
+import {generateSiteFiles} from './codegen/codegen';
+import {getRoutesPaths, handleDuplicateRoutes} from './routes';
 import type {DocusaurusConfig, LoadContext, Props} from '@docusaurus/types';
 
 export type LoadContextOptions = {
@@ -81,23 +81,15 @@ export async function loadContext(
     options,
     pathType: 'fs',
   });
-
-  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
-
   const localizationDir = path.resolve(
     siteDir,
     i18n.path,
     i18n.localeConfigs[i18n.currentLocale]!.path,
   );
 
-  const codeTranslationFileContent =
-    (await readCodeTranslationFileContent({localizationDir})) ?? {};
+  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
 
-  // We only need key->message for code translations
-  const codeTranslations = _.mapValues(
-    codeTranslationFileContent,
-    (value) => value.message,
-  );
+  const codeTranslations = await loadSiteCodeTranslations({localizationDir});
 
   return {
     siteDir,
@@ -140,35 +132,24 @@ export async function load(options: LoadContextOptions): Promise<Props> {
   const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
   PerfLogger.end('Load - loadPlugins');
 
-  PerfLogger.start('Load - loadClientModules');
-  const clientModules = loadClientModules(plugins);
-  PerfLogger.end('Load - loadClientModules');
-
-  PerfLogger.start('Load - loadHtmlTags');
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
-  PerfLogger.end('Load - loadHtmlTags');
+  const clientModules = loadClientModules(plugins);
 
-  PerfLogger.start('Load - loadRoutes');
-  const {registry, routesChunkNames, routesConfig, routesPaths} = loadRoutes(
-    pluginsRouteConfigs,
-    baseUrl,
-    siteConfig.onDuplicateRoutes,
-  );
-  PerfLogger.end('Load - loadRoutes');
-
-  PerfLogger.start('Load - load codeTranslations');
-  const codeTranslations = {
-    ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
-    ...siteCodeTranslations,
-  };
-  PerfLogger.end('Load - load codeTranslations');
-
-  PerfLogger.start('Load - loadSiteMetadata');
-  const siteMetadata = await loadSiteMetadata({plugins, siteDir});
-  PerfLogger.end('Load - loadSiteMetadata');
+  const {codeTranslations, siteMetadata} = await combinePromises({
+    codeTranslations: PerfLogger.async(
+      'Load - loadCodeTranslations',
+      async () => ({
+        ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
+        ...siteCodeTranslations,
+      }),
+    ),
+    siteMetadata: PerfLogger.async('Load - loadSiteMetadata', () =>
+      loadSiteMetadata({plugins, siteDir}),
+    ),
+  });
 
   PerfLogger.start('Load - generateSiteCode');
-  await generateSiteCode({
+  await generateSiteFiles({
     generatedFilesDir,
     clientModules,
     siteConfig,
@@ -176,11 +157,13 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     i18n,
     codeTranslations,
     globalData,
-    routesChunkNames,
-    routesConfig,
-    registry,
+    routeConfigs: pluginsRouteConfigs,
+    baseUrl,
   });
   PerfLogger.end('Load - generateSiteCode');
+
+  handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
+  const routesPaths = getRoutesPaths(pluginsRouteConfigs, baseUrl);
 
   return {
     siteConfig,

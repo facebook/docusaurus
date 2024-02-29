@@ -279,3 +279,15 @@ Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
     }),
   );
 }
+
+export async function loadSiteCodeTranslations({
+  localizationDir,
+}: {
+  localizationDir: string;
+}): Promise<CodeTranslations> {
+  const codeTranslationFileContent =
+    (await readCodeTranslationFileContent({localizationDir})) ?? {};
+
+  // We only need key->message for code translations
+  return _.mapValues(codeTranslationFileContent, (value) => value.message);
+}

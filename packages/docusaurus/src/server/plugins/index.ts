@@ -12,6 +12,7 @@ import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import {localizePluginTranslationFile} from '../translations/translations';
 import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
+import {PerfLogger} from '../../utils';
 import type {
   LoadContext,
   PluginContentLoadedActions,
@@ -35,7 +36,9 @@ export async function loadPlugins(context: LoadContext): Promise<{
   globalData: GlobalData;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
+  PerfLogger.start('Plugins - initPlugins');
   const plugins: InitializedPlugin[] = await initPlugins(context);
+  PerfLogger.end('Plugins - initPlugins');
 
   plugins.push(
     createBootstrapPlugin(context),
@@ -48,9 +51,17 @@ export async function loadPlugins(context: LoadContext): Promise<{
   // need to run in certain order or depend on others for data.
   // This would also translate theme config and content upfront, given the
   // translation files that the plugin declares.
+  PerfLogger.start(`Plugins - loadContent`);
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
+      PerfLogger.start(
+        `Plugins - loadContent - ${plugin.name}@${plugin.options.id}`,
+      );
       const content = await plugin.loadContent?.();
+      PerfLogger.end(
+        `Plugins - loadContent - ${plugin.name}@${plugin.options.id}`,
+      );
+
       const rawTranslationFiles =
         (await plugin.getTranslationFiles?.({content})) ?? [];
       const translationFiles = await Promise.all(
@@ -62,6 +73,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
           }),
         ),
       );
+
       const translatedContent =
         plugin.translateContent?.({content, translationFiles}) ?? content;
       const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
@@ -75,6 +87,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
       return {...plugin, content: translatedContent};
     }),
   );
+  PerfLogger.end(`Plugins - loadContent`);
 
   const allContent: AllContent = _.chain(loadedPlugins)
     .groupBy((item) => item.name)
@@ -90,6 +103,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
   const pluginsRouteConfigs: RouteConfig[] = [];
   const globalData: GlobalData = {};
 
+  PerfLogger.start(`Plugins - contentLoaded`);
   await Promise.all(
     loadedPlugins.map(async ({content, ...plugin}) => {
       if (!plugin.contentLoaded) {
@@ -144,6 +158,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
       await plugin.contentLoaded({content, actions, allContent});
     }),
   );
+  PerfLogger.end(`Plugins - contentLoaded`);
 
   // Sort the route config. This ensures that route with nested
   // routes are always placed last.

@@ -10,17 +10,18 @@ import {
   escapePath,
   DEFAULT_CONFIG_FILE_NAME,
 } from '@docusaurus/utils';
+import {generateRouteFiles} from './codegenRoutes';
 import type {
   CodeTranslations,
   DocusaurusConfig,
   GlobalData,
   I18n,
+  RouteConfig,
   SiteMetadata,
 } from '@docusaurus/types';
-import type {LoadedRoutes} from './routes';
 
-const genWarning = ({generatedFilesDir}: {generatedFilesDir: string}) =>
-  generate(
+function genWarning({generatedFilesDir}: {generatedFilesDir: string}) {
+  return generate(
     generatedFilesDir,
     // cSpell:ignore DONT
     'DONT-EDIT-THIS-FOLDER',
@@ -31,15 +32,16 @@ next build. You can clear all build artifacts (including this folder) with the
 \`docusaurus clear\` command.
 `,
   );
+}
 
-const genSiteConfig = ({
+function genSiteConfig({
   generatedFilesDir,
   siteConfig,
 }: {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
-}) =>
-  generate(
+}) {
+  return generate(
     generatedFilesDir,
     `${DEFAULT_CONFIG_FILE_NAME}.mjs`,
     `/*
@@ -50,15 +52,16 @@ const genSiteConfig = ({
 export default ${JSON.stringify(siteConfig, null, 2)};
 `,
   );
+}
 
-const genClientModules = ({
+function genClientModules({
   generatedFilesDir,
   clientModules,
 }: {
   generatedFilesDir: string;
   clientModules: string[];
-}) =>
-  generate(
+}) {
+  return generate(
     generatedFilesDir,
     'client-modules.js',
     `export default [
@@ -70,118 +73,82 @@ ${clientModules
 ];
 `,
   );
+}
 
-const genRegistry = ({
-  generatedFilesDir,
-  registry,
-}: {
-  generatedFilesDir: string;
-  registry: LoadedRoutes['registry'];
-}) =>
-  generate(
-    generatedFilesDir,
-    'registry.js',
-    `export default {
-${Object.entries(registry)
-  .sort((a, b) => a[0].localeCompare(b[0]))
-  .map(
-    ([chunkName, modulePath]) =>
-      // modulePath is already escaped by escapePath
-      `  "${chunkName}": [() => import(/* webpackChunkName: "${chunkName}" */ "${modulePath}"), "${modulePath}", require.resolveWeak("${modulePath}")],`,
-  )
-  .join('\n')}};
-`,
-  );
-
-const genRoutesChunkNames = ({
-  generatedFilesDir,
-  routesChunkNames,
-}: {
-  generatedFilesDir: string;
-  routesChunkNames: LoadedRoutes['routesChunkNames'];
-}) =>
-  generate(
-    generatedFilesDir,
-    'routesChunkNames.json',
-    JSON.stringify(routesChunkNames, null, 2),
-  );
-
-const genRoutes = ({
-  generatedFilesDir,
-  routesConfig,
-}: {
-  generatedFilesDir: string;
-  routesConfig: LoadedRoutes['routesConfig'];
-}) => generate(generatedFilesDir, 'routes.js', routesConfig);
-
-const genGlobalData = ({
+function genGlobalData({
   generatedFilesDir,
   globalData,
 }: {
   generatedFilesDir: string;
   globalData: GlobalData;
-}) =>
-  generate(
+}) {
+  return generate(
     generatedFilesDir,
     'globalData.json',
     JSON.stringify(globalData, null, 2),
   );
+}
 
-const genI18n = ({
+function genI18n({
   generatedFilesDir,
   i18n,
 }: {
   generatedFilesDir: string;
   i18n: I18n;
-}) => generate(generatedFilesDir, 'i18n.json', JSON.stringify(i18n, null, 2));
+}) {
+  return generate(
+    generatedFilesDir,
+    'i18n.json',
+    JSON.stringify(i18n, null, 2),
+  );
+}
 
-const genCodeTranslations = ({
+function genCodeTranslations({
   generatedFilesDir,
   codeTranslations,
 }: {
   generatedFilesDir: string;
   codeTranslations: CodeTranslations;
-}) =>
-  generate(
+}) {
+  return generate(
     generatedFilesDir,
     'codeTranslations.json',
     JSON.stringify(codeTranslations, null, 2),
   );
+}
 
-const genSiteMetadata = ({
+function genSiteMetadata({
   generatedFilesDir,
   siteMetadata,
 }: {
   generatedFilesDir: string;
   siteMetadata: SiteMetadata;
-}) =>
-  generate(
+}) {
+  return generate(
     generatedFilesDir,
     'site-metadata.json',
     JSON.stringify(siteMetadata, null, 2),
   );
+}
 
 type CodegenParams = {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
+  baseUrl: string;
   clientModules: string[];
-  registry: LoadedRoutes['registry'];
-  routesChunkNames: LoadedRoutes['routesChunkNames'];
-  routesConfig: LoadedRoutes['routesConfig'];
   globalData: GlobalData;
   i18n: I18n;
   codeTranslations: CodeTranslations;
   siteMetadata: SiteMetadata;
+  routeConfigs: RouteConfig[];
 };
 
-export async function generateSiteCode(params: CodegenParams): Promise<void> {
+export async function generateSiteFiles(params: CodegenParams): Promise<void> {
   await Promise.all([
     genWarning(params),
     genClientModules(params),
     genSiteConfig(params),
-    genRegistry(params),
-    genRoutesChunkNames(params),
-    genRoutes(params),
+    generateRouteFiles(params),
     genGlobalData(params),
     genSiteMetadata(params),
     genI18n(params),

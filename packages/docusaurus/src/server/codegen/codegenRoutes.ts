@@ -7,24 +7,16 @@
 
 import query from 'querystring';
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
-import {
-  docuHash,
-  normalizeUrl,
-  simpleHash,
-  escapePath,
-} from '@docusaurus/utils';
-import {getAllFinalRoutes} from '../utils';
+import {docuHash, simpleHash, escapePath, generate} from '@docusaurus/utils';
 import type {
   Module,
   RouteConfig,
   RouteModules,
   ChunkNames,
   RouteChunkNames,
-  ReportingSeverity,
 } from '@docusaurus/types';
 
-export type LoadedRoutes = {
+type RoutesCode = {
   /** Serialized routes config that can be directly emitted into temp file. */
   routesConfig: string;
   /** @see {ChunkNames} */
@@ -36,13 +28,6 @@ export type LoadedRoutes = {
   registry: {
     [chunkName: string]: string;
   };
-  /**
-   * Collect all page paths for injecting it later in the plugin lifecycle.
-   * This is useful for plugins like sitemaps, redirects etc... Only collects
-   * "actual" pages, i.e. those without subroutes, because if a route has
-   * subroutes, it is probably a wrapper.
-   */
-  routesPaths: string[];
 };
 
 /** Indents every line of `str` by one level. */
@@ -172,19 +157,19 @@ function genChunkNames(
   routeModule: RouteModules,
   prefix: string,
   name: string,
-  res: LoadedRoutes,
+  res: RoutesCode,
 ): ChunkNames;
 function genChunkNames(
   routeModule: RouteModules | RouteModules[] | Module,
   prefix: string,
   name: string,
-  res: LoadedRoutes,
+  res: RoutesCode,
 ): ChunkNames | ChunkNames[] | string;
 function genChunkNames(
   routeModule: RouteModules | RouteModules[] | Module,
   prefix: string,
   name: string,
-  res: LoadedRoutes,
+  res: RoutesCode,
 ): string | ChunkNames | ChunkNames[] {
   if (isModule(routeModule)) {
     // This is a leaf node, no need to recurse
@@ -201,41 +186,12 @@ function genChunkNames(
   return _.mapValues(routeModule, (v, key) => genChunkNames(v, key, name, res));
 }
 
-export function handleDuplicateRoutes(
-  pluginsRouteConfigs: RouteConfig[],
-  onDuplicateRoutes: ReportingSeverity,
-): void {
-  if (onDuplicateRoutes === 'ignore') {
-    return;
-  }
-  const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
-    (routeConfig) => routeConfig.path,
-  );
-  const seenRoutes = new Set<string>();
-  const duplicatePaths = allRoutes.filter((route) => {
-    if (seenRoutes.has(route)) {
-      return true;
-    }
-    seenRoutes.add(route);
-    return false;
-  });
-  if (duplicatePaths.length > 0) {
-    logger.report(
-      onDuplicateRoutes,
-    )`Duplicate routes found!${duplicatePaths.map(
-      (duplicateRoute) =>
-        logger.interpolate`Attempting to create page at url=${duplicateRoute}, but a page already exists at this route.`,
-    )}
-This could lead to non-deterministic routing behavior.`;
-  }
-}
-
 /**
  * This is the higher level overview of route code generation. For each route
  * config node, it returns the node's serialized form, and mutates `registry`,
  * `routesPaths`, and `routesChunkNames` accordingly.
  */
-function genRouteCode(routeConfig: RouteConfig, res: LoadedRoutes): string {
+function genRouteCode(routeConfig: RouteConfig, res: RoutesCode): string {
   const {
     path: routePath,
     component,
@@ -252,10 +208,6 @@ function genRouteCode(routeConfig: RouteConfig, res: LoadedRoutes): string {
       `Invalid route config: path must be a string and component is required.
 ${JSON.stringify(routeConfig)}`,
     );
-  }
-
-  if (!subroutes) {
-    res.routesPaths.push(routePath);
   }
 
   const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
@@ -277,15 +229,6 @@ ${JSON.stringify(routeConfig)}`,
 }
 
 /**
- * Old stuff
- * As far as I understand, this is what permits to SSG the 404.html file
- * This is rendered through the catch-all ComponentCreator("*") route
- * Note CDNs only understand the 404.html file by convention
- * The extension probably permits to avoid emitting "/404/index.html"
- */
-const NotFoundRoutePath = '/404.html';
-
-/**
  * Routes are prepared into three temp files:
  *
  * - `routesConfig`, the route config passed to react-router. This file is kept
@@ -294,18 +237,12 @@ const NotFoundRoutePath = '/404.html';
  * chunk names.
  * - `registry`, a mapping from chunk names to options for react-loadable.
  */
-export function loadRoutes(
-  routeConfigs: RouteConfig[],
-  baseUrl: string,
-  onDuplicateRoutes: ReportingSeverity,
-): LoadedRoutes {
-  handleDuplicateRoutes(routeConfigs, onDuplicateRoutes);
-  const res: LoadedRoutes = {
+export function generateRoutesCode(routeConfigs: RouteConfig[]): RoutesCode {
+  const res: RoutesCode = {
     // To be written by `genRouteCode`
     routesConfig: '',
     routesChunkNames: {},
     registry: {},
-    routesPaths: [normalizeUrl([baseUrl, NotFoundRoutePath])],
   };
 
   // `genRouteCode` would mutate `res`
@@ -326,4 +263,66 @@ ${indent(routeConfigSerialized)},
 `;
 
   return res;
+}
+
+const genRegistry = ({
+  generatedFilesDir,
+  registry,
+}: {
+  generatedFilesDir: string;
+  registry: RoutesCode['registry'];
+}) =>
+  generate(
+    generatedFilesDir,
+    'registry.js',
+    `export default {
+${Object.entries(registry)
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .map(
+    ([chunkName, modulePath]) =>
+      // modulePath is already escaped by escapePath
+      `  "${chunkName}": [() => import(/* webpackChunkName: "${chunkName}" */ "${modulePath}"), "${modulePath}", require.resolveWeak("${modulePath}")],`,
+  )
+  .join('\n')}};
+`,
+  );
+
+const genRoutesChunkNames = ({
+  generatedFilesDir,
+  routesChunkNames,
+}: {
+  generatedFilesDir: string;
+  routesChunkNames: RoutesCode['routesChunkNames'];
+}) =>
+  generate(
+    generatedFilesDir,
+    'routesChunkNames.json',
+    JSON.stringify(routesChunkNames, null, 2),
+  );
+
+const genRoutes = ({
+  generatedFilesDir,
+  routesConfig,
+}: {
+  generatedFilesDir: string;
+  routesConfig: RoutesCode['routesConfig'];
+}) => generate(generatedFilesDir, 'routes.js', routesConfig);
+
+type GenerateRouteFilesParams = {
+  generatedFilesDir: string;
+  routeConfigs: RouteConfig[];
+  baseUrl: string;
+};
+
+export async function generateRouteFiles({
+  generatedFilesDir,
+  routeConfigs,
+}: GenerateRouteFilesParams): Promise<void> {
+  const {registry, routesChunkNames, routesConfig} =
+    generateRoutesCode(routeConfigs);
+  await Promise.all([
+    genRegistry({generatedFilesDir, registry}),
+    genRoutesChunkNames({generatedFilesDir, routesChunkNames}),
+    genRoutes({generatedFilesDir, routesConfig}),
+  ]);
 }
