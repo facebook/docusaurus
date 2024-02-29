@@ -10,7 +10,7 @@ export {clear} from './commands/clear';
 export {deploy} from './commands/deploy';
 export {externalCommand} from './commands/external';
 export {serve} from './commands/serve';
-export {start} from './commands/start';
+export {start} from './commands/start/start';
 export {swizzle} from './commands/swizzle';
 export {writeHeadingIds} from './commands/writeHeadingIds';
 export {writeTranslations} from './commands/writeTranslations';
