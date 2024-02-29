@@ -24,7 +24,7 @@ import type {
   ReportingSeverity,
 } from '@docusaurus/types';
 
-type LoadedRoutes = {
+export type LoadedRoutes = {
   /** Serialized routes config that can be directly emitted into temp file. */
   routesConfig: string;
   /** @see {ChunkNames} */
