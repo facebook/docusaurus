@@ -14,7 +14,7 @@ import {
   simpleHash,
   escapePath,
 } from '@docusaurus/utils';
-import {getAllFinalRoutes} from './utils';
+import {getAllFinalRoutes} from '../utils';
 import type {
   Module,
   RouteConfig,

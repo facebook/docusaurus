@@ -15,7 +15,7 @@ import {
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
-import {loadRoutes} from './routes';
+import {loadRoutes} from './codegen/routes';
 import {loadHtmlTags} from './htmlTags';
 import {loadSiteMetadata} from './siteMetadata';
 import {loadI18n} from './i18n';
@@ -24,7 +24,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {PerfLogger} from '../utils';
-import {generateSiteCode} from './codegen';
+import {generateSiteCode} from './codegen/codegen';
 import type {DocusaurusConfig, LoadContext, Props} from '@docusaurus/types';
 
 export type LoadContextOptions = {
