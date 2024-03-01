@@ -28,11 +28,11 @@ import {getRoutesPaths, handleDuplicateRoutes} from './routes';
 import type {
   DocusaurusConfig,
   LoadContext,
+  LoadedPlugin,
   Props,
-  Site,
 } from '@docusaurus/types';
 
-export type LoadContextOptions = {
+export type LoadContextParams = {
   /** Usually the CWD; can be overridden with command argument. */
   siteDir: string;
   /** Custom output directory. Can be customized with `--out-dir` option */
@@ -50,21 +50,28 @@ export type LoadContextOptions = {
   localizePath?: boolean;
 };
 
+export type LoadSiteParams = LoadContextParams;
+
+export type Site = {
+  props: Props;
+  params: LoadSiteParams;
+};
+
 /**
- * Loading context is the very first step in site building. Its options are
+ * Loading context is the very first step in site building. Its params are
  * directly acquired from CLI options. It mainly loads `siteConfig` and the i18n
  * context (which includes code translations). The `LoadContext` will be passed
  * to plugin constructors.
  */
 export async function loadContext(
-  options: LoadContextOptions,
+  params: LoadContextParams,
 ): Promise<LoadContext> {
   const {
     siteDir,
     outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
     locale,
     config: customConfigFilePath,
-  } = options;
+  } = params;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
   const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
@@ -77,13 +84,13 @@ export async function loadContext(
   const baseUrl = localizePath({
     path: initialSiteConfig.baseUrl,
     i18n,
-    options,
+    options: params,
     pathType: 'url',
   });
   const outDir = localizePath({
     path: path.resolve(siteDir, baseOutDir),
     i18n,
-    options,
+    options: params,
     pathType: 'fs',
   });
   const localizationDir = path.resolve(
@@ -115,11 +122,11 @@ export async function loadContext(
  * lifecycles to generate content and other data. It is side-effect-ful because
  * it generates temp files in the `.docusaurus` folder for the bundler.
  */
-export async function loadSite(options: LoadContextOptions): Promise<Site> {
-  const {siteDir} = options;
+export async function loadSite(params: LoadContextParams): Promise<Site> {
+  const {siteDir} = params;
 
   PerfLogger.start('Load - loadContext');
-  const context = await loadContext(options);
+  const context = await loadContext(params);
   PerfLogger.end('Load - loadContext');
 
   const {
@@ -191,5 +198,21 @@ export async function loadSite(options: LoadContextOptions): Promise<Site> {
 
   return {
     props,
+    params,
   };
+}
+
+export async function reloadSite(site: Site): Promise<Site> {
+  // TODO this can be optimized, for example:
+  //  - plugins loading same data as before should not recreate routes/bundles
+  //  - codegen does not need to re-run if nothing changed
+  return loadSite(site.params);
+}
+
+export async function reloadSitePlugin(
+  site: Site,
+  plugin: LoadedPlugin,
+): Promise<Site> {
+  console.log(`reloadSitePlugin ${plugin.name}`);
+  return loadSite(site.params);
 }

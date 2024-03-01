@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
-import {loadSite, loadContext, type LoadContextOptions} from '../server';
+import {loadSite, loadContext, type LoadContextParams} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
@@ -32,7 +32,7 @@ import type {LoadedPlugin, Props} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
-  LoadContextOptions,
+  LoadContextParams,
   'config' | 'locale' | 'outDir'
 > & {
   bundleAnalyzer?: boolean;

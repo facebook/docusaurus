@@ -6,13 +6,13 @@
  */
 
 import path from 'path';
-import {loadSite, type LoadContextOptions} from '../index';
+import {loadSite, type LoadContextParams} from '../index';
 import type {Site} from '@docusaurus/types';
 
 // Helper methods to setup dummy/fake projects.
 export async function loadSetup(
   name: string,
-  options?: Partial<LoadContextOptions>,
+  options?: Partial<LoadContextParams>,
 ): Promise<Site> {
   const fixtures = path.join(__dirname, '__fixtures__');
   return loadSite({siteDir: path.join(fixtures, name), ...options});

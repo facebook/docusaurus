@@ -21,7 +21,6 @@ export {
   GlobalData,
   LoadContext,
   Props,
-  Site,
 } from './context';
 
 export {ClientModule} from './clientModule';
