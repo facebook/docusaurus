@@ -54,6 +54,7 @@ async function translatePlugin({
     translationFiles,
   });
 
+  // TODO dangerous legacy, need to be refactored!
   // Side-effect to merge theme config translations. A plugin should only
   // translate its own slice of theme config and should make no assumptions
   // about other plugins' keys, so this is safe to run in parallel.
@@ -115,6 +116,12 @@ async function executePluginContentLoaded({
 }: {
   plugin: LoadedPlugin;
   context: LoadContext;
+  // TODO AllContent was injected to this lifecycle for the debug plugin
+  //  This is what permits to create the debug routes for all other plugins
+  //  This was likely a bad idea and prevents to start executing contentLoaded()
+  //  until all plugins have finished loading all the data
+  //  we'd rather remove this and find another way to implement the debug plugin
+  //  A possible solution: make it a core feature instead of a plugin?
   allContent: AllContent;
 }): Promise<{routes: RouteConfig[]; globalData: unknown}> {
   return PerfLogger.async(
@@ -187,18 +194,13 @@ async function executePluginContentLoaded({
 async function executePluginsContentLoaded({
   plugins,
   context,
-  allContent,
 }: {
   plugins: LoadedPlugin[];
   context: LoadContext;
-  // TODO AllContent was injected to this lifecycle for the debug plugin
-  //  this was likely a bad idea and prevent to start executing contentLoaded()
-  //  until all plugins have finished loading all the data
-  //  we'd rather remove this and find another way to implement the debug plugin
-  //  A possible solution: make it a core feature instead of a plugin?
-  allContent: AllContent;
 }): Promise<{routes: RouteConfig[]; globalData: GlobalData}> {
   return PerfLogger.async(`Plugins - contentLoaded`, async () => {
+    const allContent = aggregateAllContent(plugins);
+
     const routes: RouteConfig[] = [];
     const globalData: GlobalData = {};
 
@@ -228,17 +230,21 @@ async function executePluginsContentLoaded({
   });
 }
 
+export type LoadPluginsResult = {
+  plugins: LoadedPlugin[];
+  routes: RouteConfig[];
+  globalData: GlobalData;
+};
+
 /**
  * Initializes the plugins, runs `loadContent`, `translateContent`,
  * `contentLoaded`, and `translateThemeConfig`. Because `contentLoaded` is
  * side-effect-ful (it generates temp files), so is this function. This function
  * would also mutate `context.siteConfig.themeConfig` to translate it.
  */
-export async function loadPlugins(context: LoadContext): Promise<{
-  plugins: LoadedPlugin[];
-  routes: RouteConfig[];
-  globalData: GlobalData;
-}> {
+export async function loadPlugins(
+  context: LoadContext,
+): Promise<LoadPluginsResult> {
   return PerfLogger.async('Plugins - loadPlugins', async () => {
     // 1. Plugin Lifecycle - Initialization/Constructor.
     const plugins: InitializedPlugin[] = await PerfLogger.async(
@@ -254,15 +260,45 @@ export async function loadPlugins(context: LoadContext): Promise<{
     // 2. Plugin Lifecycle - loadContent.
     const loadedPlugins = await executePluginsLoadContent({plugins, context});
 
-    const allContent = aggregateAllContent(loadedPlugins);
-
     // 3. Plugin Lifecycle - contentLoaded.
     const {routes, globalData} = await executePluginsContentLoaded({
       plugins: loadedPlugins,
       context,
-      allContent,
     });
 
     return {plugins: loadedPlugins, routes, globalData};
+  });
+}
+
+export async function reloadPlugin({
+  plugin,
+  plugins,
+  context,
+}: {
+  plugin: LoadedPlugin;
+  plugins: LoadedPlugin[];
+  context: LoadContext;
+}): Promise<LoadPluginsResult> {
+  return PerfLogger.async('Plugins - reloadPlugin', async () => {
+    const pluginIndex = plugins.findIndex(
+      (p) => p.name === plugin.name && p.options.id === plugin.options.id,
+    );
+    if (pluginIndex === -1) {
+      throw new Error(
+        'Unexpected: this code assumes the plugin to reload is in the list of provided plugins',
+      );
+    }
+
+    const reloadedPlugin = await executePluginLoadContent({plugin, context});
+    const newPlugins = plugins.with(pluginIndex, reloadedPlugin);
+
+    // Unfortunately, due to the "AllContent" data we have to re-execute this
+    // for all plugins, not just the one to reload...
+    const {routes, globalData} = await executePluginsContentLoaded({
+      plugins: newPlugins,
+      context,
+    });
+
+    return {plugins: newPlugins, routes, globalData};
   });
 }

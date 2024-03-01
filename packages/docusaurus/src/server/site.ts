@@ -14,7 +14,7 @@ import {
 import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
-import {loadPlugins} from './plugins/plugins';
+import {loadPlugins, reloadPlugin} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
 import {loadSiteMetadata} from './siteMetadata';
 import {loadI18n} from './i18n';
@@ -25,8 +25,10 @@ import {
 import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
+import type {LoadPluginsResult} from './plugins/plugins';
 import type {
   DocusaurusConfig,
+  GlobalData,
   LoadContext,
   LoadedPlugin,
   Props,
@@ -116,21 +118,13 @@ export async function loadContext(
   };
 }
 
-/**
- * This is the crux of the Docusaurus server-side. It reads everything it needs—
- * code translations, config file, plugin modules... Plugins then use their
- * lifecycles to generate content and other data. It is side-effect-ful because
- * it generates temp files in the `.docusaurus` folder for the bundler.
- */
-export async function loadSite(params: LoadContextParams): Promise<Site> {
-  const {siteDir} = params;
-
-  PerfLogger.start('Load - loadContext');
-  const context = await loadContext(params);
-  PerfLogger.end('Load - loadContext');
-
+async function createSiteProps(
+  params: LoadPluginsResult & {context: LoadContext},
+): Promise<Props> {
+  const {plugins, routes, context} = params;
   const {
     generatedFilesDir,
+    siteDir,
     siteConfig,
     siteConfigPath,
     outDir,
@@ -140,14 +134,10 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
     codeTranslations: siteCodeTranslations,
   } = context;
 
-  PerfLogger.start('Load - loadPlugins');
-  const {plugins, routes, globalData} = await loadPlugins(context);
-  PerfLogger.end('Load - loadPlugins');
-
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
-  const clientModules = loadClientModules(plugins);
 
   const {codeTranslations, siteMetadata} = await combinePromises({
+    // TODO code translations should be loaded as part of LoadedPlugin?
     codeTranslations: PerfLogger.async(
       'Load - loadCodeTranslations',
       async () => ({
@@ -160,24 +150,10 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
     ),
   });
 
-  PerfLogger.start('Load - generateSiteCode');
-  await generateSiteFiles({
-    generatedFilesDir,
-    clientModules,
-    siteConfig,
-    siteMetadata,
-    i18n,
-    codeTranslations,
-    globalData,
-    routeConfigs: routes,
-    baseUrl,
-  });
-  PerfLogger.end('Load - generateSiteCode');
-
   handleDuplicateRoutes(routes, siteConfig.onDuplicateRoutes);
   const routesPaths = getRoutesPaths(routes, baseUrl);
 
-  const props: Props = {
+  return {
     siteConfig,
     siteConfigPath,
     siteMetadata,
@@ -195,11 +171,69 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
     postBodyTags,
     codeTranslations,
   };
+}
 
-  return {
-    props,
-    params,
-  };
+// TODO global data should be part of site props?
+async function createSiteFiles({
+  site,
+  globalData,
+}: {
+  site: Site;
+  globalData: GlobalData;
+}) {
+  return PerfLogger.async('Load - createSiteFiles', async () => {
+    const {
+      props: {
+        plugins,
+        generatedFilesDir,
+        siteConfig,
+        siteMetadata,
+        i18n,
+        codeTranslations,
+        routes,
+        baseUrl,
+      },
+    } = site;
+    const clientModules = loadClientModules(plugins);
+    await generateSiteFiles({
+      generatedFilesDir,
+      clientModules,
+      siteConfig,
+      siteMetadata,
+      i18n,
+      codeTranslations,
+      globalData,
+      routes,
+      baseUrl,
+    });
+  });
+}
+
+/**
+ * This is the crux of the Docusaurus server-side. It reads everything it needs—
+ * code translations, config file, plugin modules... Plugins then use their
+ * lifecycles to generate content and other data. It is side-effect-ful because
+ * it generates temp files in the `.docusaurus` folder for the bundler.
+ */
+export async function loadSite(params: LoadContextParams): Promise<Site> {
+  PerfLogger.start('Load - loadContext');
+  const context = await loadContext(params);
+  PerfLogger.end('Load - loadContext');
+
+  PerfLogger.start('Load - loadPlugins');
+  const {plugins, routes, globalData} = await loadPlugins(context);
+  PerfLogger.end('Load - loadPlugins');
+
+  const props = await createSiteProps({plugins, routes, globalData, context});
+
+  const site: Site = {props, params};
+
+  await createSiteFiles({
+    site,
+    globalData,
+  });
+
+  return site;
 }
 
 export async function reloadSite(site: Site): Promise<Site> {
@@ -214,5 +248,27 @@ export async function reloadSitePlugin(
   plugin: LoadedPlugin,
 ): Promise<Site> {
   console.log(`reloadSitePlugin ${plugin.name}`);
-  return loadSite(site.params);
+
+  const {plugins, routes, globalData} = await reloadPlugin({
+    plugin,
+    plugins: site.props.plugins,
+    context: site.props,
+  });
+
+  const newProps = await createSiteProps({
+    plugins,
+    routes,
+    globalData,
+    context: site.props, // Props extends Context
+  });
+
+  const newSite: Site = {
+    props: newProps,
+    params: site.params,
+  };
+
+  // TODO optimize, bypass codegen if new site is similar to old site
+  await createSiteFiles({site: newSite, globalData});
+
+  return newSite;
 }

@@ -140,7 +140,7 @@ type CodegenParams = {
   i18n: I18n;
   codeTranslations: CodeTranslations;
   siteMetadata: SiteMetadata;
-  routeConfigs: RouteConfig[];
+  routes: RouteConfig[];
 };
 
 export async function generateSiteFiles(params: CodegenParams): Promise<void> {

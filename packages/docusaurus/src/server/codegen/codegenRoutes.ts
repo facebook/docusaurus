@@ -310,16 +310,15 @@ const genRoutes = ({
 
 type GenerateRouteFilesParams = {
   generatedFilesDir: string;
-  routeConfigs: RouteConfig[];
+  routes: RouteConfig[];
   baseUrl: string;
 };
 
 export async function generateRouteFiles({
   generatedFilesDir,
-  routeConfigs,
+  routes,
 }: GenerateRouteFilesParams): Promise<void> {
-  const {registry, routesChunkNames, routesConfig} =
-    generateRoutesCode(routeConfigs);
+  const {registry, routesChunkNames, routesConfig} = generateRoutesCode(routes);
   await Promise.all([
     genRegistry({generatedFilesDir, registry}),
     genRoutesChunkNames({generatedFilesDir, routesChunkNames}),
