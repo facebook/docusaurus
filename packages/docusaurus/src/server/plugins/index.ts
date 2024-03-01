@@ -24,20 +24,18 @@ import type {
   PluginRouteContext,
 } from '@docusaurus/types';
 
-async function loadPlugin({
+async function translatePlugin({
   plugin,
   context,
 }: {
-  plugin: InitializedPlugin;
+  plugin: LoadedPlugin;
   context: LoadContext;
 }): Promise<LoadedPlugin> {
-  const content = await PerfLogger.async(
-    `Plugins - loadContent - ${plugin.name}@${plugin.options.id}`,
-    () => plugin.loadContent?.(),
-  );
+  const {content} = plugin;
 
   const rawTranslationFiles =
-    (await plugin.getTranslationFiles?.({content})) ?? [];
+    (await plugin.getTranslationFiles?.({content: plugin.content})) ?? [];
+
   const translationFiles = await Promise.all(
     rawTranslationFiles.map((translationFile) =>
       localizePluginTranslationFile({
@@ -50,6 +48,7 @@ async function loadPlugin({
 
   const translatedContent =
     plugin.translateContent?.({content, translationFiles}) ?? content;
+
   const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
     themeConfig: context.siteConfig.themeConfig,
     translationFiles,
@@ -60,6 +59,37 @@ async function loadPlugin({
   // about other plugins' keys, so this is safe to run in parallel.
   Object.assign(context.siteConfig.themeConfig, translatedThemeConfigSlice);
   return {...plugin, content: translatedContent};
+}
+
+async function executePluginLoadContent({
+  plugin,
+  context,
+}: {
+  plugin: InitializedPlugin;
+  context: LoadContext;
+}): Promise<LoadedPlugin> {
+  return PerfLogger.async(
+    `Plugin - loadContent - ${plugin.name}@${plugin.options.id}`,
+    async () => {
+      const content = await plugin.loadContent?.();
+      const loadedPlugin: LoadedPlugin = {...plugin, content};
+      return translatePlugin({plugin: loadedPlugin, context});
+    },
+  );
+}
+
+async function executePluginsLoadContent({
+  plugins,
+  context,
+}: {
+  plugins: InitializedPlugin[];
+  context: LoadContext;
+}) {
+  return PerfLogger.async(`Plugins - loadContent`, () =>
+    Promise.all(
+      plugins.map((plugin) => executePluginLoadContent({plugin, context})),
+    ),
+  );
 }
 
 function aggregateAllContent(loadedPlugins: LoadedPlugin[]): AllContent {
@@ -87,64 +117,71 @@ async function executePluginContentLoaded({
   context: LoadContext;
   allContent: AllContent;
 }): Promise<{routes: RouteConfig[]; globalData: unknown}> {
-  if (!plugin.contentLoaded) {
-    return {routes: [], globalData: undefined};
-  }
-  PerfLogger.start(
+  return PerfLogger.async(
     `Plugins - contentLoaded - ${plugin.name}@${plugin.options.id}`,
-  );
+    async () => {
+      if (!plugin.contentLoaded) {
+        return {routes: [], globalData: undefined};
+      }
 
-  const pluginId = plugin.options.id;
-  // Plugins data files are namespaced by pluginName/pluginId
-  const dataDir = path.join(context.generatedFilesDir, plugin.name, pluginId);
-  const pluginRouteContextModulePath = path.join(
-    dataDir,
-    `${docuHash('pluginRouteContextModule')}.json`,
-  );
-  const pluginRouteContext: PluginRouteContext['plugin'] = {
-    name: plugin.name,
-    id: pluginId,
-  };
-  await generate(
-    '/',
-    pluginRouteContextModulePath,
-    JSON.stringify(pluginRouteContext, null, 2),
-  );
-
-  const routes: RouteConfig[] = [];
-  let globalData: unknown;
-
-  const actions: PluginContentLoadedActions = {
-    addRoute(initialRouteConfig) {
-      // Trailing slash behavior is handled generically for all plugins
-      const finalRouteConfig = applyRouteTrailingSlash(
-        initialRouteConfig,
-        context.siteConfig,
+      const pluginId = plugin.options.id;
+      // Plugins data files are namespaced by pluginName/pluginId
+      const dataDir = path.join(
+        context.generatedFilesDir,
+        plugin.name,
+        pluginId,
       );
-      routes.push({
-        ...finalRouteConfig,
-        context: {
-          ...(finalRouteConfig.context && {data: finalRouteConfig.context}),
-          plugin: pluginRouteContextModulePath,
+      const pluginRouteContextModulePath = path.join(
+        dataDir,
+        `${docuHash('pluginRouteContextModule')}.json`,
+      );
+      const pluginRouteContext: PluginRouteContext['plugin'] = {
+        name: plugin.name,
+        id: pluginId,
+      };
+      await generate(
+        '/',
+        pluginRouteContextModulePath,
+        JSON.stringify(pluginRouteContext, null, 2),
+      );
+
+      const routes: RouteConfig[] = [];
+      let globalData: unknown;
+
+      const actions: PluginContentLoadedActions = {
+        addRoute(initialRouteConfig) {
+          // Trailing slash behavior is handled generically for all plugins
+          const finalRouteConfig = applyRouteTrailingSlash(
+            initialRouteConfig,
+            context.siteConfig,
+          );
+          routes.push({
+            ...finalRouteConfig,
+            context: {
+              ...(finalRouteConfig.context && {data: finalRouteConfig.context}),
+              plugin: pluginRouteContextModulePath,
+            },
+          });
         },
+        async createData(name, data) {
+          const modulePath = path.join(dataDir, name);
+          await generate(dataDir, name, data);
+          return modulePath;
+        },
+        setGlobalData(data) {
+          globalData = data;
+        },
+      };
+
+      await plugin.contentLoaded({
+        content: plugin.content,
+        actions,
+        allContent,
       });
-    },
-    async createData(name, data) {
-      const modulePath = path.join(dataDir, name);
-      await generate(dataDir, name, data);
-      return modulePath;
-    },
-    setGlobalData(data) {
-      globalData = data;
-    },
-  };
 
-  await plugin.contentLoaded({content: plugin.content, actions, allContent});
-  PerfLogger.end(
-    `Plugins - contentLoaded - ${plugin.name}@${plugin.options.id}`,
+      return {routes, globalData};
+    },
   );
-
-  return {routes, globalData};
 }
 
 async function executePluginsContentLoaded({
@@ -161,29 +198,28 @@ async function executePluginsContentLoaded({
   //  A possible solution: make it a core feature instead of a plugin?
   allContent: AllContent;
 }): Promise<{routes: RouteConfig[]; globalData: GlobalData}> {
-  PerfLogger.start(`Plugins - contentLoaded`);
+  return PerfLogger.async(`Plugins - contentLoaded`, async () => {
+    const allRoutes: RouteConfig[] = [];
+    const allGlobalData: GlobalData = {};
 
-  const allRoutes: RouteConfig[] = [];
-  const allGlobalData: GlobalData = {};
+    await Promise.all(
+      plugins.map(async (plugin) => {
+        const {routes, globalData} = await executePluginContentLoaded({
+          plugin,
+          context,
+          allContent,
+        });
 
-  await Promise.all(
-    plugins.map(async (plugin) => {
-      const {routes, globalData} = await executePluginContentLoaded({
-        plugin,
-        context,
-        allContent,
-      });
+        allRoutes.push(...routes);
+        if (globalData !== undefined) {
+          allGlobalData[plugin.name] ??= {};
+          allGlobalData[plugin.name]![plugin.options.id] = globalData;
+        }
+      }),
+    );
 
-      allRoutes.push(...routes);
-      if (globalData !== undefined) {
-        allGlobalData[plugin.name] ??= {};
-        allGlobalData[plugin.name]![plugin.options.id] = globalData;
-      }
-    }),
-  );
-  PerfLogger.end(`Plugins - contentLoaded`);
-
-  return {routes: allRoutes, globalData: allGlobalData};
+    return {routes: allRoutes, globalData: allGlobalData};
+  });
 }
 
 /**
@@ -197,45 +233,39 @@ export async function loadPlugins(context: LoadContext): Promise<{
   routes: RouteConfig[];
   globalData: GlobalData;
 }> {
-  // 1. Plugin Lifecycle - Initialization/Constructor.
-  PerfLogger.start('Plugins - initPlugins');
-  const plugins: InitializedPlugin[] = await initPlugins(context);
-  PerfLogger.end('Plugins - initPlugins');
+  return PerfLogger.async('Plugins - loadPlugins', async () => {
+    // 1. Plugin Lifecycle - Initialization/Constructor.
+    const plugins: InitializedPlugin[] = await PerfLogger.async(
+      'Plugins - initPlugins',
+      () => initPlugins(context),
+    );
 
-  plugins.push(
-    createBootstrapPlugin(context),
-    createMDXFallbackPlugin(context),
-  );
+    plugins.push(
+      createBootstrapPlugin(context),
+      createMDXFallbackPlugin(context),
+    );
 
-  // 2. Plugin Lifecycle - loadContent.
-  // Currently plugins run lifecycle methods in parallel and are not
-  // order-dependent. We could change this in future if there are plugins which
-  // need to run in certain order or depend on others for data.
-  // This would also translate theme config and content upfront, given the
-  // translation files that the plugin declares.
-  PerfLogger.start(`Plugins - loadContent`);
-  const loadedPlugins: LoadedPlugin[] = await Promise.all(
-    plugins.map((plugin) => loadPlugin({plugin, context})),
-  );
-  PerfLogger.end(`Plugins - loadContent`);
+    // 2. Plugin Lifecycle - loadContent.
+    // Currently plugins run lifecycle methods in parallel and are not
+    // order-dependent. We could change this in future if there are plugins which
+    // need to run in certain order or depend on others for data.
+    // This would also translate theme config and content upfront, given the
+    // translation files that the plugin declares.
+    const loadedPlugins = await executePluginsLoadContent({plugins, context});
 
-  const allContent = aggregateAllContent(loadedPlugins);
+    const allContent = aggregateAllContent(loadedPlugins);
 
-  // 3. Plugin Lifecycle - contentLoaded.
-  const {routes, globalData} = await PerfLogger.async(
-    'Plugins - contentLoaded',
-    () =>
-      executePluginsContentLoaded({
-        plugins: loadedPlugins,
-        context,
-        allContent,
-      }),
-  );
-  PerfLogger.end(`Plugins - contentLoaded`);
+    // 3. Plugin Lifecycle - contentLoaded.
+    const {routes, globalData} = await executePluginsContentLoaded({
+      plugins: loadedPlugins,
+      context,
+      allContent,
+    });
 
-  // Sort the route config. This ensures that route with nested
-  // routes are always placed last.
-  sortRoutes(routes, context.siteConfig.baseUrl);
+    // Sort the route config. This ensures that route with nested
+    // routes are always placed last.
+    sortRoutes(routes, context.siteConfig.baseUrl);
 
-  return {plugins: loadedPlugins, routes, globalData};
+    return {plugins: loadedPlugins, routes, globalData};
+  });
 }
