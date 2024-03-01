@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {loadPlugins} from '../index';
+import {loadPlugins} from '../plugins';
 import type {Plugin, Props} from '@docusaurus/types';
 
 describe('loadPlugins', () => {

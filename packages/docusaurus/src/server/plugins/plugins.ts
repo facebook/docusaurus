@@ -199,26 +199,32 @@ async function executePluginsContentLoaded({
   allContent: AllContent;
 }): Promise<{routes: RouteConfig[]; globalData: GlobalData}> {
   return PerfLogger.async(`Plugins - contentLoaded`, async () => {
-    const allRoutes: RouteConfig[] = [];
-    const allGlobalData: GlobalData = {};
+    const routes: RouteConfig[] = [];
+    const globalData: GlobalData = {};
 
     await Promise.all(
       plugins.map(async (plugin) => {
-        const {routes, globalData} = await executePluginContentLoaded({
-          plugin,
-          context,
-          allContent,
-        });
+        const {routes: pluginRoutes, globalData: pluginGlobalData} =
+          await executePluginContentLoaded({
+            plugin,
+            context,
+            allContent,
+          });
 
-        allRoutes.push(...routes);
-        if (globalData !== undefined) {
-          allGlobalData[plugin.name] ??= {};
-          allGlobalData[plugin.name]![plugin.options.id] = globalData;
+        routes.push(...pluginRoutes);
+
+        if (pluginGlobalData !== undefined) {
+          globalData[plugin.name] ??= {};
+          globalData[plugin.name]![plugin.options.id] = pluginGlobalData;
         }
       }),
     );
 
-    return {routes: allRoutes, globalData: allGlobalData};
+    // Sort the route config.
+    // This ensures that route with sub routes are always placed last.
+    sortRoutes(routes, context.siteConfig.baseUrl);
+
+    return {routes, globalData};
   });
 }
 
@@ -246,11 +252,6 @@ export async function loadPlugins(context: LoadContext): Promise<{
     );
 
     // 2. Plugin Lifecycle - loadContent.
-    // Currently plugins run lifecycle methods in parallel and are not
-    // order-dependent. We could change this in future if there are plugins which
-    // need to run in certain order or depend on others for data.
-    // This would also translate theme config and content upfront, given the
-    // translation files that the plugin declares.
     const loadedPlugins = await executePluginsLoadContent({plugins, context});
 
     const allContent = aggregateAllContent(loadedPlugins);
@@ -261,10 +262,6 @@ export async function loadPlugins(context: LoadContext): Promise<{
       context,
       allContent,
     });
-
-    // Sort the route config. This ensures that route with nested
-    // routes are always placed last.
-    sortRoutes(routes, context.siteConfig.baseUrl);
 
     return {plugins: loadedPlugins, routes, globalData};
   });

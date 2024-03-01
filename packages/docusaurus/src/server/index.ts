@@ -14,7 +14,7 @@ import {
 import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
 import {loadClientModules} from './clientModules';
-import {loadPlugins} from './plugins';
+import {loadPlugins} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
 import {loadSiteMetadata} from './siteMetadata';
 import {loadI18n} from './i18n';
