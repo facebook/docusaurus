@@ -141,7 +141,7 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
   } = context;
 
   PerfLogger.start('Load - loadPlugins');
-  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
+  const {plugins, routes, globalData} = await loadPlugins(context);
   PerfLogger.end('Load - loadPlugins');
 
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
@@ -169,13 +169,13 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
     i18n,
     codeTranslations,
     globalData,
-    routeConfigs: pluginsRouteConfigs,
+    routeConfigs: routes,
     baseUrl,
   });
   PerfLogger.end('Load - generateSiteCode');
 
-  handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
-  const routesPaths = getRoutesPaths(pluginsRouteConfigs, baseUrl);
+  handleDuplicateRoutes(routes, siteConfig.onDuplicateRoutes);
+  const routesPaths = getRoutesPaths(routes, baseUrl);
 
   const props: Props = {
     siteConfig,
@@ -187,7 +187,7 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
     i18n,
     localizationDir,
     generatedFilesDir,
-    routes: pluginsRouteConfigs,
+    routes,
     routesPaths,
     plugins,
     headTags,

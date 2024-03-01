@@ -18,13 +18,13 @@ export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
 }
 
 export function handleDuplicateRoutes(
-  pluginsRouteConfigs: RouteConfig[],
+  routes: RouteConfig[],
   onDuplicateRoutes: ReportingSeverity,
 ): void {
   if (onDuplicateRoutes === 'ignore') {
     return;
   }
-  const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
+  const allRoutes: string[] = getAllFinalRoutes(routes).map(
     (routeConfig) => routeConfig.path,
   );
   const seenRoutes = new Set<string>();

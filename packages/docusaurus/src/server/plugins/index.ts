@@ -194,7 +194,7 @@ async function executePluginsContentLoaded({
  */
 export async function loadPlugins(context: LoadContext): Promise<{
   plugins: LoadedPlugin[];
-  pluginsRouteConfigs: RouteConfig[];
+  routes: RouteConfig[];
   globalData: GlobalData;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
@@ -237,5 +237,5 @@ export async function loadPlugins(context: LoadContext): Promise<{
   // routes are always placed last.
   sortRoutes(routes, context.siteConfig.baseUrl);
 
-  return {plugins: loadedPlugins, pluginsRouteConfigs: routes, globalData};
+  return {plugins: loadedPlugins, routes, globalData};
 }
