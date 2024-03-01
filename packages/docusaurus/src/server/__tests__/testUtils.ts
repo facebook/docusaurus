@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {loadSite, type LoadContextParams} from '../index';
+import {loadSite, type LoadContextParams} from '../site';
 import type {Site} from '@docusaurus/types';
 
 // Helper methods to setup dummy/fake projects.

@@ -7,7 +7,7 @@
 
 import path from 'path';
 
-import {loadContext, type LoadContextParams} from '../../index';
+import {loadContext, type LoadContextParams} from '../../site';
 import {initPlugins} from '../init';
 
 describe('initPlugins', () => {

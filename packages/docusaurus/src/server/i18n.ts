@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import {getLangDir} from 'rtl-detect';
 import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
-import type {LoadContextParams} from './index';
+import type {LoadContextParams} from './site';
 
 function getDefaultLocaleLabel(locale: string) {
   const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(

@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
-import {loadSite, loadContext, type LoadContextParams} from '../server';
+import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';

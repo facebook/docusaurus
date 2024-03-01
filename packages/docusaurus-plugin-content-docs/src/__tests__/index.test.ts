@@ -12,7 +12,7 @@ import _ from 'lodash';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
 import webpack from 'webpack';
-import {loadContext} from '@docusaurus/core/src/server/index';
+import {loadContext} from '@docusaurus/core/src/server/site';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
 import {posixPath} from '@docusaurus/utils';

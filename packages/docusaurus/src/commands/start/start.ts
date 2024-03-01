@@ -9,12 +9,12 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import openBrowser from 'react-dev-utils/openBrowser';
-import {loadSite, reloadSite, reloadSitePlugin} from '../../server';
+import {loadSite, reloadSite, reloadSitePlugin} from '../../server/site';
 import {PerfLogger} from '../../utils';
 import {setupSiteFileWatchers} from './watcher';
 import {createWebpackDevServer} from './webpack';
 import {createOpenUrlContext} from './utils';
-import type {LoadContextParams, LoadSiteParams} from '../../server';
+import type {LoadContextParams, LoadSiteParams} from '../../server/site';
 import type {HostPortOptions} from '../../server/getHostPort';
 import type {LoadedPlugin} from '@docusaurus/types';
 
