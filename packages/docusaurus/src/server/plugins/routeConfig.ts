@@ -27,7 +27,7 @@ export function applyRouteTrailingSlash(
   };
 }
 
-export function sortConfig(
+export function sortRoutes(
   routeConfigs: RouteConfig[],
   baseUrl: string = '/',
 ): void {
@@ -64,7 +64,7 @@ export function sortConfig(
 
   routeConfigs.forEach((routeConfig) => {
     if (routeConfig.routes) {
-      sortConfig(routeConfig.routes, baseUrl);
+      sortRoutes(routeConfig.routes, baseUrl);
     }
   });
 }
