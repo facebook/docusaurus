@@ -54,12 +54,9 @@ export async function loadPlugins(context: LoadContext): Promise<{
   PerfLogger.start(`Plugins - loadContent`);
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
-      PerfLogger.start(
+      const content = await PerfLogger.async(
         `Plugins - loadContent - ${plugin.name}@${plugin.options.id}`,
-      );
-      const content = await plugin.loadContent?.();
-      PerfLogger.end(
-        `Plugins - loadContent - ${plugin.name}@${plugin.options.id}`,
+        () => plugin.loadContent?.(),
       );
 
       const rawTranslationFiles =
@@ -109,6 +106,10 @@ export async function loadPlugins(context: LoadContext): Promise<{
       if (!plugin.contentLoaded) {
         return;
       }
+      PerfLogger.start(
+        `Plugins - contentLoaded - ${plugin.name}@${plugin.options.id}`,
+      );
+
       const pluginId = plugin.options.id;
       // Plugins data files are namespaced by pluginName/pluginId
       const dataDir = path.join(
@@ -156,6 +157,9 @@ export async function loadPlugins(context: LoadContext): Promise<{
       };
 
       await plugin.contentLoaded({content, actions, allContent});
+      PerfLogger.end(
+        `Plugins - contentLoaded - ${plugin.name}@${plugin.options.id}`,
+      );
     }),
   );
   PerfLogger.end(`Plugins - contentLoaded`);

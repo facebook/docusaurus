@@ -13,15 +13,15 @@ import type {DeepPartial} from 'utility-types';
 
 describe('load', () => {
   it('loads props for site with custom i18n path', async () => {
-    const props = await loadSetup('custom-i18n-site');
-    expect(props).toMatchSnapshot();
-    const props2 = await loadSetup('custom-i18n-site', {locale: 'zh-Hans'});
-    expect(props2).toEqual(
+    const site = await loadSetup('custom-i18n-site');
+    expect(site.props).toMatchSnapshot();
+    const site2 = await loadSetup('custom-i18n-site', {locale: 'zh-Hans'});
+    expect(site2.props).toEqual(
       mergeWithCustomize<DeepPartial<Props>>({
         customizeArray(a, b, key) {
           return ['routesPaths', 'plugins'].includes(key) ? b : undefined;
         },
-      })(props, {
+      })(site.props, {
         baseUrl: '/zh-Hans/',
         i18n: {
           currentLocale: 'zh-Hans',
@@ -38,7 +38,7 @@ describe('load', () => {
         siteConfig: {
           baseUrl: '/zh-Hans/',
         },
-        plugins: props2.plugins,
+        plugins: site2.props.plugins,
       }),
     );
   });

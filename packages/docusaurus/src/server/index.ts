@@ -25,7 +25,12 @@ import {
 import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
-import type {DocusaurusConfig, LoadContext, Props} from '@docusaurus/types';
+import type {
+  DocusaurusConfig,
+  LoadContext,
+  Props,
+  Site,
+} from '@docusaurus/types';
 
 export type LoadContextOptions = {
   /** Usually the CWD; can be overridden with command argument. */
@@ -110,7 +115,7 @@ export async function loadContext(
  * lifecycles to generate content and other data. It is side-effect-ful because
  * it generates temp files in the `.docusaurus` folder for the bundler.
  */
-export async function load(options: LoadContextOptions): Promise<Props> {
+export async function loadSite(options: LoadContextOptions): Promise<Site> {
   const {siteDir} = options;
 
   PerfLogger.start('Load - loadContext');
@@ -165,7 +170,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
   handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
   const routesPaths = getRoutesPaths(pluginsRouteConfigs, baseUrl);
 
-  return {
+  const props: Props = {
     siteConfig,
     siteConfigPath,
     siteMetadata,
@@ -182,5 +187,9 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     preBodyTags,
     postBodyTags,
     codeTranslations,
+  };
+
+  return {
+    props,
   };
 }

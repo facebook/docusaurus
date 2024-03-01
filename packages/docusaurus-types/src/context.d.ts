@@ -60,3 +60,7 @@ export type Props = LoadContext & {
   routesPaths: string[];
   plugins: LoadedPlugin[];
 };
+
+export type Site = {
+  props: Props;
+};

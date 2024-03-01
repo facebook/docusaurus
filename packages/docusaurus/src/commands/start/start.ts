@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import openBrowser from 'react-dev-utils/openBrowser';
-import {load, type LoadContextOptions} from '../../server';
+import {loadSite, type LoadContextOptions} from '../../server';
 import {type HostPortOptions} from '../../server/getHostPort';
 import {PerfLogger} from '../../utils';
 import {setupSiteFileWatchers} from './watcher';
@@ -36,30 +36,32 @@ export async function start(
   const siteDir = await fs.realpath(siteDirParam);
   logger.info('Starting the development server...');
 
-  async function loadSite() {
+  async function doLoadSite() {
     PerfLogger.start('Loading site');
-    const result = await load({
+    const site = await loadSite({
       siteDir,
       config: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // Should this be configurable?
     });
     PerfLogger.end('Loading site');
-    return result;
+    return site;
   }
 
   // Process all related files as a prop.
-  const props = await loadSite();
+  const site = await doLoadSite();
 
   const openUrlContext = await createOpenUrlContext({cliOptions});
-  const openUrl = openUrlContext.getOpenUrl({baseUrl: props.baseUrl});
+  const openUrl = openUrlContext.getOpenUrl({baseUrl: site.props.baseUrl});
 
   logger.success`Docusaurus website is running at: url=${openUrl}`;
 
   const reloadSite = _.debounce(() => {
-    loadSite()
-      .then(({baseUrl: newBaseUrl}) => {
-        const newOpenUrl = openUrlContext.getOpenUrl({baseUrl: newBaseUrl});
+    doLoadSite()
+      .then((newSite) => {
+        const newOpenUrl = openUrlContext.getOpenUrl({
+          baseUrl: newSite.props.baseUrl,
+        });
         if (newOpenUrl !== openUrl) {
           logger.success`Docusaurus website is running at: url=${newOpenUrl}`;
         }
@@ -70,14 +72,14 @@ export async function start(
   }, 500);
 
   const reloadPlugin = (plugin: LoadedPlugin) => {
-    console.log('reload plugin', plugin);
+    console.log(`Reload plugin ${plugin.name}@${plugin.options.id}`);
     // TODO this is historically not optimized!
     //  When any site file changes, we reload absolutely everything :/
     //  At least we should try to reload only one plugin individually?
     reloadSite();
   };
 
-  setupSiteFileWatchers({props, cliOptions}, ({plugin}) => {
+  setupSiteFileWatchers({props: site.props, cliOptions}, ({plugin}) => {
     if (plugin) {
       reloadPlugin(plugin);
     } else {
@@ -86,7 +88,7 @@ export async function start(
   });
 
   const devServer = await createWebpackDevServer({
-    props,
+    props: site.props,
     cliOptions,
     openUrlContext,
   });
@@ -100,6 +102,6 @@ export async function start(
 
   await devServer.start();
   if (cliOptions.open) {
-    openBrowser(openUrlContext.getOpenUrl({baseUrl: props.baseUrl}));
+    openBrowser(openUrlContext.getOpenUrl({baseUrl: site.props.baseUrl}));
   }
 }

@@ -12,26 +12,42 @@ import {loadSetup} from '../../server/__tests__/testUtils';
 
 describe('webpack dev config', () => {
   it('simple start', async () => {
-    const props = await loadSetup('simple-site');
-    const {clientConfig} = await createStartClientConfig({props});
+    const {props} = await loadSetup('simple-site');
+    const {clientConfig} = await createStartClientConfig({
+      props,
+      minify: false,
+      poll: false,
+    });
     webpack.validate(clientConfig);
   });
 
   it('simple build', async () => {
-    const props = await loadSetup('simple-site');
-    const {config} = await createBuildClientConfig({props});
+    const {props} = await loadSetup('simple-site');
+    const {config} = await createBuildClientConfig({
+      props,
+      minify: false,
+      bundleAnalyzer: false,
+    });
     webpack.validate(config);
   });
 
   it('custom start', async () => {
-    const props = await loadSetup('custom-site');
-    const {clientConfig} = await createStartClientConfig({props});
+    const {props} = await loadSetup('custom-site');
+    const {clientConfig} = await createStartClientConfig({
+      props,
+      minify: false,
+      poll: false,
+    });
     webpack.validate(clientConfig);
   });
 
   it('custom build', async () => {
-    const props = await loadSetup('custom-site');
-    const {config} = await createBuildClientConfig({props});
+    const {props} = await loadSetup('custom-site');
+    const {config} = await createBuildClientConfig({
+      props,
+      minify: false,
+      bundleAnalyzer: false,
+    });
     webpack.validate(config);
   });
 });
