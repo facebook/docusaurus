@@ -33,12 +33,13 @@ function TagsRow(props: TagsListInlineProps) {
 
 type EditMetaRowProps = Pick<
   DocContextValue['metadata'],
-  'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy'
+  'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy' | 'formattedLastUpdatedAt'
 >;
 function EditMetaRow({
   editUrl,
   lastUpdatedAt,
   lastUpdatedBy,
+  formattedLastUpdatedAt,
 }: EditMetaRowProps) {
   return (
     <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
@@ -48,6 +49,7 @@ function EditMetaRow({
         {(lastUpdatedAt || lastUpdatedBy) && (
           <LastUpdated
             lastUpdatedAt={lastUpdatedAt}
+            formattedLastUpdatedAt={formattedLastUpdatedAt}
             lastUpdatedBy={lastUpdatedBy}
           />
         )}
@@ -58,7 +60,8 @@ function EditMetaRow({
 
 export default function DocItemFooter(): JSX.Element | null {
   const {metadata} = useDoc();
-  const {editUrl, lastUpdatedAt, lastUpdatedBy, tags} = metadata;
+  const {editUrl, lastUpdatedAt, formattedLastUpdatedAt, lastUpdatedBy, tags} =
+    metadata;
 
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
@@ -78,6 +81,7 @@ export default function DocItemFooter(): JSX.Element | null {
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
+          formattedLastUpdatedAt={formattedLastUpdatedAt}
         />
       )}
     </footer>

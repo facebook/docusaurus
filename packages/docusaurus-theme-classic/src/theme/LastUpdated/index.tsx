@@ -8,25 +8,15 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import {useDateTimeFormat} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/LastUpdated';
 
 function LastUpdatedAtDate({
   lastUpdatedAt,
+  formattedLastUpdatedAt,
 }: {
   lastUpdatedAt: number;
+  formattedLastUpdatedAt: string;
 }): JSX.Element {
-  const atDate = new Date(lastUpdatedAt * 1000);
-
-  const dateTimeFormat = useDateTimeFormat({
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
-  });
-
-  const formattedLastUpdatedAt = dateTimeFormat.format(atDate);
-
   return (
     <Translate
       id="theme.lastUpdated.atDate"
@@ -34,7 +24,7 @@ function LastUpdatedAtDate({
       values={{
         date: (
           <b>
-            <time dateTime={atDate.toISOString()}>
+            <time dateTime={new Date(lastUpdatedAt * 1000).toISOString()}>
               {formattedLastUpdatedAt}
             </time>
           </b>
@@ -64,6 +54,7 @@ function LastUpdatedByUser({
 
 export default function LastUpdated({
   lastUpdatedAt,
+  formattedLastUpdatedAt,
   lastUpdatedBy,
 }: Props): JSX.Element {
   return (
@@ -72,11 +63,15 @@ export default function LastUpdated({
         id="theme.lastUpdated.lastUpdatedAtBy"
         description="The sentence used to display when a page has been last updated, and by who"
         values={{
-          atDate: lastUpdatedAt ? (
-            <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
-          ) : (
-            ''
-          ),
+          atDate:
+            lastUpdatedAt && formattedLastUpdatedAt ? (
+              <LastUpdatedAtDate
+                lastUpdatedAt={lastUpdatedAt}
+                formattedLastUpdatedAt={formattedLastUpdatedAt}
+              />
+            ) : (
+              ''
+            ),
           byUser: lastUpdatedBy ? (
             <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
           ) : (

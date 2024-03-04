@@ -8,6 +8,7 @@ algoliasearch
 Allez
 Anshul
 anshul
+août
 APFS
 apfs
 appinstalled
@@ -104,6 +105,7 @@ Formik
 FOUC
 froms
 funboxteam
+février
 gabrielcsapo
 Gifs
 Goss
@@ -137,12 +139,14 @@ interactiveness
 Interpolatable
 interpolatable
 Investec
+janvier
 javadoc
 jiti
 jmarcey
 jodyheavener
 joshcena
 jssdk
+juillet
 Kaszubowski
 Katex
 katex
