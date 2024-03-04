@@ -47,92 +47,88 @@ function initializeTempRepo() {
 describe('getFileCommitDate', () => {
   const repoDir = initializeTempRepo();
   it('returns earliest commit date', async () => {
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'test.txt'), {}),
-    ).resolves.toEqual({
+    expect(getFileCommitDate(path.join(repoDir, 'test.txt'), {})).toEqual({
       date: new Date('2020-06-19'),
       timestamp: new Date('2020-06-19').getTime() / 1000,
     });
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'dest.txt'), {}),
-    ).resolves.toEqual({
+    expect(getFileCommitDate(path.join(repoDir, 'dest.txt'), {})).toEqual({
       date: new Date('2020-09-13'),
       timestamp: new Date('2020-09-13').getTime() / 1000,
     });
   });
   it('returns latest commit date', async () => {
-    await expect(
+    expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {age: 'newest'}),
-    ).resolves.toEqual({
+    ).toEqual({
       date: new Date('2020-09-13'),
       timestamp: new Date('2020-09-13').getTime() / 1000,
     });
-    await expect(
+    expect(
       getFileCommitDate(path.join(repoDir, 'dest.txt'), {age: 'newest'}),
-    ).resolves.toEqual({
+    ).toEqual({
       date: new Date('2020-11-13'),
       timestamp: new Date('2020-11-13').getTime() / 1000,
     });
   });
   it('returns latest commit date with author', async () => {
-    await expect(
+    expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {
         age: 'oldest',
         includeAuthor: true,
       }),
-    ).resolves.toEqual({
+    ).toEqual({
       date: new Date('2020-06-19'),
       timestamp: new Date('2020-06-19').getTime() / 1000,
       author: 'Caroline',
     });
-    await expect(
+    expect(
       getFileCommitDate(path.join(repoDir, 'dest.txt'), {
         age: 'oldest',
         includeAuthor: true,
       }),
-    ).resolves.toEqual({
+    ).toEqual({
       date: new Date('2020-09-13'),
       timestamp: new Date('2020-09-13').getTime() / 1000,
       author: 'Caroline',
     });
   });
   it('returns earliest commit date with author', async () => {
-    await expect(
+    expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {
         age: 'newest',
         includeAuthor: true,
       }),
-    ).resolves.toEqual({
+    ).toEqual({
       date: new Date('2020-09-13'),
       timestamp: new Date('2020-09-13').getTime() / 1000,
       author: 'Caroline',
     });
-    await expect(
+    expect(
       getFileCommitDate(path.join(repoDir, 'dest.txt'), {
         age: 'newest',
         includeAuthor: true,
       }),
-    ).resolves.toEqual({
+    ).toEqual({
       date: new Date('2020-11-13'),
       timestamp: new Date('2020-11-13').getTime() / 1000,
       author: 'Josh-Cena',
     });
   });
   it('throws custom error when file is not tracked', async () => {
-    await expect(() =>
+    expect(() =>
       getFileCommitDate(path.join(repoDir, 'untracked.txt'), {
         age: 'newest',
         includeAuthor: true,
       }),
-    ).rejects.toThrow(FileNotTrackedError);
+    ).toThrow(FileNotTrackedError);
   });
   it('throws when file not found', async () => {
-    await expect(() =>
+    expect(() =>
       getFileCommitDate(path.join(repoDir, 'nonexistent.txt'), {
         age: 'newest',
         includeAuthor: true,
       }),
-    ).rejects.toThrow(
+    ).toThrow(
       /Failed to retrieve git history for ".*nonexistent.txt" because the file does not exist./,
     );
   });

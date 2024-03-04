@@ -25,11 +25,10 @@ export async function getFileLastUpdate(
   // Wrap in try/catch in case the shell commands fail
   // (e.g. project doesn't use Git, etc).
   try {
-    const result = await getFileCommitDate(filePath, {
+    const result = getFileCommitDate(filePath, {
       age: 'newest',
       includeAuthor: true,
     });
-
     return {timestamp: result.timestamp, author: result.author};
   } catch (err) {
     if (err instanceof GitNotFoundError) {

@@ -258,11 +258,10 @@ async function processBlogSourceFile(
     }
 
     try {
-      const result = await getFileCommitDate(blogSourceAbsolute, {
+      const result = getFileCommitDate(blogSourceAbsolute, {
         age: 'oldest',
         includeAuthor: false,
       });
-
       return result.date;
     } catch (err) {
       logger.warn(err);

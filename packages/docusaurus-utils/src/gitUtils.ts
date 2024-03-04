@@ -24,7 +24,7 @@ export class FileNotTrackedError extends Error {}
  * @throws Also throws when `git log` exited with non-zero, or when it outputs
  * unexpected text.
  */
-export async function getFileCommitDate(
+export function getFileCommitDate(
   /** Absolute path to the file. */
   file: string,
   args: {
@@ -36,12 +36,12 @@ export async function getFileCommitDate(
     /** Use `includeAuthor: true` to get the author information as well. */
     includeAuthor?: false;
   },
-): Promise<{
+): {
   /** Relevant commit date. */
   date: Date;
   /** Timestamp in **seconds**, as returned from git. */
   timestamp: number;
-}>;
+};
 /**
  * Fetches the git history of a file and returns a relevant commit date.
  * It gets the commit date instead of author date so that amended commits
@@ -52,7 +52,7 @@ export async function getFileCommitDate(
  * @throws Also throws when `git log` exited with non-zero, or when it outputs
  * unexpected text.
  */
-export async function getFileCommitDate(
+export function getFileCommitDate(
   /** Absolute path to the file. */
   file: string,
   args: {
@@ -63,16 +63,15 @@ export async function getFileCommitDate(
     age?: 'oldest' | 'newest';
     includeAuthor: true;
   },
-): Promise<{
+): {
   /** Relevant commit date. */
   date: Date;
   /** Timestamp in **seconds**, as returned from git. */
   timestamp: number;
   /** The author's name, as returned from git. */
   author: string;
-}>;
-
-export async function getFileCommitDate(
+};
+export function getFileCommitDate(
   file: string,
   {
     age = 'oldest',
@@ -81,11 +80,11 @@ export async function getFileCommitDate(
     age?: 'oldest' | 'newest';
     includeAuthor?: boolean;
   },
-): Promise<{
+): {
   date: Date;
   timestamp: number;
   author?: string;
-}> {
+} {
   if (!shell.which('git')) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
@@ -106,24 +105,11 @@ export async function getFileCommitDate(
     .filter(Boolean)
     .join(' ');
 
-  const result = await new Promise<{
-    code: number;
-    stdout: string;
-    stderr: string;
-  }>((resolve) => {
-    shell.exec(
-      `git log ${args} -- "${path.basename(file)}"`,
-      {
-        // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-        cwd: path.dirname(file),
-        silent: true,
-      },
-      (code, stdout, stderr) => {
-        resolve({code, stdout, stderr});
-      },
-    );
+  const result = shell.exec(`git log ${args} -- "${path.basename(file)}"`, {
+    // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
+    cwd: path.dirname(file),
+    silent: true,
   });
-
   if (result.code !== 0) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
