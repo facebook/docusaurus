@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
   parseBlogFileName,
@@ -238,7 +239,6 @@ describe('linkify', () => {
         hasTruncateMarker: false,
         frontMatter: {},
         authors: [],
-        formattedDate: '',
         unlisted: false,
       },
       content: '',
@@ -301,19 +301,9 @@ describe('linkify', () => {
 
 const createBlogPost = (args: DeepPartial<BlogPost>): BlogPost => ({
   id: '',
-  metadata: {
-    source: '',
-    title: '',
-    formattedDate: '',
-    permalink: '',
-    description: '',
-    hasTruncateMarker: false,
-    authors: [],
-    frontMatter: {},
-    tags: [],
-    unlisted: false,
+  metadata: fromPartial({
     ...args.metadata,
-  } as BlogPost['metadata'],
+  }),
   content: args.content || '',
 });
 

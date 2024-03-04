@@ -125,7 +125,6 @@ exports[`blog plugin process blog posts load content 2`] = `
       "date": 2020-08-15T00:00:00.000Z,
       "description": "simple url slug",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-simple-slug-with-tags.md",
-      "formattedDate": "August 15, 2020",
       "frontMatter": {
         "author": "Sébastien Lorber",
         "author_title": "Docusaurus maintainer",
@@ -163,7 +162,6 @@ exports[`blog plugin process blog posts load content 2`] = `
       "date": 2020-08-15T00:00:00.000Z,
       "description": "with tag",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags.md",
-      "formattedDate": "August 15, 2020",
       "frontMatter": {
         "date": 2020-08-15T00:00:00.000Z,
         "slug": "/another/tags",
@@ -207,7 +205,6 @@ exports[`blog plugin process blog posts load content 2`] = `
       "date": 2020-08-15T00:00:00.000Z,
       "description": "with tag",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags2.md",
-      "formattedDate": "August 15, 2020",
       "frontMatter": {
         "date": 2020-08-15T00:00:00.000Z,
         "slug": "/another/tags2",
