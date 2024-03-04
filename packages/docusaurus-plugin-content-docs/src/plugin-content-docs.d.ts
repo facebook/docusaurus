@@ -407,8 +407,6 @@ declare module '@docusaurus/plugin-content-docs' {
   export type LastUpdateData = {
     /** A timestamp in **seconds**, directly acquired from `git log`. */
     lastUpdatedAt?: number;
-    /** `lastUpdatedAt` formatted as a date according to the current locale. */
-    formattedLastUpdatedAt?: string;
     /** The author's name directly acquired from `git log`. */
     lastUpdatedBy?: string;
   };
