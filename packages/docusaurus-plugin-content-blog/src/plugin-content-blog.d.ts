@@ -69,6 +69,14 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     [key: string]: unknown;
   };
 
+  export type FileChange = {
+    author?: string;
+    /** Date can be any
+     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+     */
+    date?: Date | string;
+  };
+
   /**
    * Everything is partial/unnormalized, because front matter is always
    * preserved as-is. Default values will be applied when generating metadata
@@ -156,6 +164,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     toc_min_heading_level?: number;
     /** Maximum TOC heading level. Must be between 2 and 6. */
     toc_max_heading_level?: number;
+    /** Allows overriding the last updated author and/or date. */
+    last_update?: FileChange;
   };
 
   export type BlogPostFrontMatterAuthor = Author & {
@@ -180,7 +190,14 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     | BlogPostFrontMatterAuthor
     | (string | BlogPostFrontMatterAuthor)[];
 
-  export type BlogPostMetadata = {
+  export type LastUpdateData = {
+    /** A timestamp in **seconds**, directly acquired from `git log`. */
+    lastUpdatedAt?: number;
+    /** The author's name directly acquired from `git log`. */
+    lastUpdatedBy?: string;
+  };
+
+  export type BlogPostMetadata = LastUpdateData & {
     /** Path to the Markdown source, with `@site` alias. */
     readonly source: string;
     /**
@@ -421,6 +438,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readingTime: ReadingTimeFunctionOption;
     /** Governs the direction of blog post sorting. */
     sortPosts: 'ascending' | 'descending';
+    /**	Whether to display the last date the doc was updated. */
+    showLastUpdateTime?: boolean;
+    /** Whether to display the author who last updated the doc. */
+    showLastUpdateAuthor?: boolean;
   };
 
   /**

@@ -28,6 +28,9 @@ const BlogPostFrontMatterAuthorSchema = Joi.object({
 const FrontMatterAuthorErrorMessage =
   '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
 
+const FrontMatterLastUpdateErrorMessage =
+  '{{#label}} does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).';
+
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   id: Joi.string(),
   title: Joi.string().allow(''),
@@ -69,6 +72,15 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   hide_table_of_contents: Joi.boolean(),
 
   ...FrontMatterTOCHeadingLevels,
+  last_update: Joi.object({
+    author: Joi.string(),
+    date: Joi.date().raw(),
+  })
+    .or('author', 'date')
+    .messages({
+      'object.missing': FrontMatterLastUpdateErrorMessage,
+      'object.base': FrontMatterLastUpdateErrorMessage,
+    }),
 })
   .messages({
     'deprecate.error':
