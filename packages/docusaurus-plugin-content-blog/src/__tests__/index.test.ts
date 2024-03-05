@@ -170,6 +170,7 @@ describe('blog plugin', () => {
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/date-matter.md`,
       permalink: '/blog/date-matter',
+      aliases: ['/blog/alias1', '/blog/alias2'],
       readingTime: 0.02,
       source: path.posix.join('@site', PluginPath, 'date-matter.md'),
       title: 'date-matter',
@@ -179,6 +180,7 @@ describe('blog plugin', () => {
       frontMatter: {
         date: new Date('2019-01-01'),
         tags: ['date'],
+        aliases: ['/alias1', '/alias2'],
       },
       prevItem: undefined,
       tags: [
@@ -208,6 +210,7 @@ describe('blog plugin', () => {
       ),
       title: 'Happy 1st Birthday Slash! (translated)',
       description: `Happy birthday! (translated)`,
+      aliases: [],
       authors: [
         {
           name: 'Yangshun Tay (translated)',
@@ -248,6 +251,7 @@ describe('blog plugin', () => {
       source: path.posix.join('@site', PluginPath, 'complex-slug.md'),
       title: 'Complex Slug',
       description: `complex url slug`,
+      aliases: [],
       authors: [],
       prevItem: undefined,
       nextItem: {
@@ -286,6 +290,7 @@ describe('blog plugin', () => {
       source: path.posix.join('@site', PluginPath, 'simple-slug.md'),
       title: 'Simple Slug',
       description: `simple url slug`,
+      aliases: [],
       authors: [
         {
           name: 'Sébastien Lorber',
@@ -323,6 +328,7 @@ describe('blog plugin', () => {
       source: path.posix.join('@site', PluginPath, 'heading-as-title.md'),
       title: 'some heading',
       description: '',
+      aliases: [],
       authors: [],
       date: new Date('2019-01-02'),
       frontMatter: {
@@ -450,6 +456,7 @@ describe('blog plugin', () => {
       source: noDateSource,
       title: 'no date',
       description: `no date`,
+      aliases: [],
       authors: [],
       date: noDateSourceTime,
       frontMatter: {},

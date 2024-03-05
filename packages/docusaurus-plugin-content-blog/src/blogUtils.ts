@@ -278,6 +278,11 @@ async function processBlogSourceFile(
   const slug = frontMatter.slug ?? parsedBlogFileName.slug;
 
   const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
+  const aliases = frontMatter.aliases
+    ? frontMatter.aliases.map((alias) =>
+        normalizeUrl([baseUrl, routeBasePath, alias]),
+      )
+    : [];
 
   function getBlogEditUrl() {
     const blogPathRelative = path.relative(
@@ -320,6 +325,7 @@ async function processBlogSourceFile(
     id: slug,
     metadata: {
       permalink,
+      aliases,
       editUrl: getBlogEditUrl(),
       source: aliasedSource,
       title,

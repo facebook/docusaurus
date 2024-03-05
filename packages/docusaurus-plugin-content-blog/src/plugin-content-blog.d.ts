@@ -96,6 +96,11 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Custom slug appended after `/<baseUrl>/<routeBasePath>/` */
     slug?: string;
     /**
+     * Alias URLs appended after `/<baseUrl>/<routeBasePath>/`
+     * If supplied these pages will point to the canonical URL.
+     */
+    aliases?: string[];
+    /**
      * Marks the post as draft and excludes it from the production build.
      */
     draft?: boolean;
@@ -194,6 +199,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readonly date: Date;
     /** Full link including base URL. */
     readonly permalink: string;
+    /** Alias full links including base URL. */
+    readonly aliases: string[];
     /**
      * Description used in the meta. Could be an empty string (empty content)
      */
