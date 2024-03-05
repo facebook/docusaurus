@@ -43,8 +43,8 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `fromExtensions` | `string[]` | `[]` | The extensions to be removed from the route after redirecting. |
 | `toExtensions` | `string[]` | `[]` | The extensions to be appended to the route after redirecting. |
-| `redirects` | <code><a href="#RedirectRule">RedirectRule</a>[]</code> | `[]` | The list of redirect rules. |
-| `createRedirects` | <code><a href="#CreateRedirectsFn">CreateRedirectsFn</a></code> | `undefined` | A callback to create a redirect rule. Docusaurus query this callback against every path it has created, and use its return value to output more paths. |
+| `redirects` | <code>[RedirectRule](#RedirectRule)[]</code> | `[]` | The list of redirect rules. |
+| `createRedirects` | <code>[CreateRedirectsFn](#CreateRedirectsFn)</code> | `undefined` | A callback to create a redirect rule. Docusaurus query this callback against every path it has created, and use its return value to output more paths. |
 
 ```mdx-code-block
 </APITable>
