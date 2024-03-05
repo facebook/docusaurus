@@ -10,8 +10,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
 import {createTempRepo} from '@testing-utils/git';
-
-import {getFileLastUpdate} from '../lastUpdate';
+import {getFileLastUpdate} from '@docusaurus/utils';
 
 describe('getFileLastUpdate', () => {
   const existingFilePath = path.join(

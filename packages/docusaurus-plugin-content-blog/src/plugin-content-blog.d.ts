@@ -10,7 +10,7 @@
 declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {FrontMatterTag, Tag} from '@docusaurus/utils';
+  import type {FrontMatterTag, Tag, LastUpdateData} from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
   import type {Overwrite} from 'utility-types';
@@ -67,14 +67,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * e.g., `twitter`.
      */
     [key: string]: unknown;
-  };
-
-  export type FileChange = {
-    author?: string;
-    /** Date can be any
-     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
-     */
-    date?: Date | string;
   };
 
   /**
@@ -189,13 +181,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     | string
     | BlogPostFrontMatterAuthor
     | (string | BlogPostFrontMatterAuthor)[];
-
-  export type LastUpdateData = {
-    /** A timestamp in **seconds**, directly acquired from `git log`. */
-    lastUpdatedAt?: number;
-    /** The author's name directly acquired from `git log`. */
-    lastUpdatedBy?: string;
-  };
 
   export type BlogPostMetadata = LastUpdateData & {
     /** Path to the Markdown source, with `@site` alias. */

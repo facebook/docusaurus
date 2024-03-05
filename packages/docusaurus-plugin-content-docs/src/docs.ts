@@ -20,9 +20,8 @@ import {
   normalizeFrontMatterTags,
   isUnlisted,
   isDraft,
+  getFileLastUpdate,
 } from '@docusaurus/utils';
-
-import {getFileLastUpdate} from './lastUpdate';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './frontMatter';

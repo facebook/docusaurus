@@ -26,10 +26,12 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
+  getFileLastUpdate,
+  type FrontMatterLastUpdate,
+  type LastUpdateData,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import {getFileLastUpdate} from './lastUpdate';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
   PluginOptions,
@@ -37,8 +39,6 @@ import type {
   BlogPost,
   BlogTags,
   BlogPaginated,
-  FileChange,
-  LastUpdateData,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 
@@ -62,7 +62,7 @@ type LastUpdateOptions = Pick<
 async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
-  lastUpdateFrontMatter: FileChange | undefined,
+  lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {

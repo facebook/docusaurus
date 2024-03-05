@@ -118,3 +118,9 @@ export {
 export {isDraft, isUnlisted} from './contentVisibilityUtils';
 export {escapeRegexp} from './regExpUtils';
 export {askPreferredLanguage} from './cliUtils';
+
+export {
+  getFileLastUpdate,
+  type LastUpdateData,
+  type FrontMatterLastUpdate,
+} from './lastUpdateUtils';
