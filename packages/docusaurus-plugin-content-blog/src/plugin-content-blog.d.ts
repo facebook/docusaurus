@@ -429,7 +429,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** An optional function which can be used to transform blog posts
      *  (filter, modify, delete, etc...).
      */
-    processBlogPosts?: ProcessBlogPostsFn;
+    processBlogPosts: ProcessBlogPostsFn;
   };
 
   /**
