@@ -20,7 +20,6 @@ import {
 } from '../blogUtils';
 import type {BlogBrokenMarkdownLink, BlogContentPaths} from '../types';
 import type {BlogPost} from '@docusaurus/plugin-content-blog';
-import type {DeepPartial} from 'utility-types';
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -299,22 +298,14 @@ describe('linkify', () => {
   });
 });
 
-const createBlogPost = (args: DeepPartial<BlogPost>): BlogPost => ({
-  id: '',
-  metadata: fromPartial({
-    ...args.metadata,
-  }),
-  content: args.content || '',
-});
-
 describe('processBlogPosts', () => {
-  const blogPost2022 = createBlogPost({
+  const blogPost2022: BlogPost = fromPartial({
     metadata: {date: new Date('2022-01-01')},
   });
-  const blogPost2023 = createBlogPost({
+  const blogPost2023: BlogPost = fromPartial({
     metadata: {date: new Date('2023-01-01')},
   });
-  const blogPost2024 = createBlogPost({
+  const blogPost2024: BlogPost = fromPartial({
     metadata: {date: new Date('2024-01-01')},
   });
 
