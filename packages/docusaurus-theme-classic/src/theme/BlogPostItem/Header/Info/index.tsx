@@ -82,10 +82,12 @@ export default function BlogPostItemHeaderInfo({
           <Spacer />
           <ReadingTime readingTime={readingTime} />
           <Spacer />
-          <LastUpdated
-            lastUpdatedAt={lastUpdatedAt}
-            lastUpdatedBy={lastUpdatedBy}
-          />
+          {(lastUpdatedAt || lastUpdatedBy) && (
+            <LastUpdated
+              lastUpdatedAt={lastUpdatedAt}
+              lastUpdatedBy={lastUpdatedBy}
+            />
+          )}
         </>
       )}
     </div>
