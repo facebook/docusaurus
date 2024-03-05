@@ -29,7 +29,6 @@ const sampleBlogPosts: BlogPost[] = [
       source: '/blog/2021/06/19/hello',
       description: '/blog/2021/06/19/hello',
       date: new Date(2021, 6, 19),
-      formattedDate: 'June 19, 2021',
       tags: [],
       title: 'Hello',
       hasTruncateMarker: true,
