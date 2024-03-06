@@ -93,9 +93,9 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editLocalizedFiles: boolean;
     /**	Whether to display the last date the doc was updated. */
-    showLastUpdateTime?: boolean;
+    showLastUpdateTime: boolean;
     /** Whether to display the author who last updated the doc. */
-    showLastUpdateAuthor?: boolean;
+    showLastUpdateAuthor: boolean;
     /**
      * Custom parsing logic to extract number prefixes from file names. Use
      * `false` to disable this behavior and leave the docs untouched, and `true`

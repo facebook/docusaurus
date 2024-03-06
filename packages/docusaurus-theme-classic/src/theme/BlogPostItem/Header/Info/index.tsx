@@ -15,7 +15,6 @@ import {
 } from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogPostItem/Header/Info';
 
-import LastUpdated from '@theme/LastUpdated';
 import styles from './styles.module.css';
 
 // Very simple pluralization: probably good enough for now
@@ -61,8 +60,7 @@ export default function BlogPostItemHeaderInfo({
   className,
 }: Props): JSX.Element {
   const {metadata} = useBlogPost();
-  const {date, readingTime, lastUpdatedAt, lastUpdatedBy} = metadata;
-  console.log('metadata:', metadata);
+  const {date, readingTime} = metadata;
 
   const dateTimeFormat = useDateTimeFormat({
     day: 'numeric',
@@ -81,13 +79,6 @@ export default function BlogPostItemHeaderInfo({
         <>
           <Spacer />
           <ReadingTime readingTime={readingTime} />
-          <Spacer />
-          {(lastUpdatedAt || lastUpdatedBy) && (
-            <LastUpdated
-              lastUpdatedAt={lastUpdatedAt}
-              lastUpdatedBy={lastUpdatedBy}
-            />
-          )}
         </>
       )}
     </div>

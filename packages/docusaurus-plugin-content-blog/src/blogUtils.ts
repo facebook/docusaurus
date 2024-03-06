@@ -26,10 +26,8 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
-  getFileLastUpdate,
-  type FrontMatterLastUpdate,
-  type LastUpdateData,
 } from '@docusaurus/utils';
+import {readLastUpdateData} from '@docusaurus/utils/lib/lastUpdateUtils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
@@ -52,52 +50,6 @@ export function getSourceToPermalink(blogPosts: BlogPost[]): {
   return Object.fromEntries(
     blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
   );
-}
-
-type LastUpdateOptions = Pick<
-  PluginOptions,
-  'showLastUpdateAuthor' | 'showLastUpdateTime'
->;
-
-async function readLastUpdateData(
-  filePath: string,
-  options: LastUpdateOptions,
-  lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
-): Promise<LastUpdateData> {
-  const {showLastUpdateAuthor, showLastUpdateTime} = options;
-  if (showLastUpdateAuthor || showLastUpdateTime) {
-    const frontMatterTimestamp = lastUpdateFrontMatter?.date
-      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
-      : undefined;
-
-    if (lastUpdateFrontMatter?.author && lastUpdateFrontMatter.date) {
-      return {
-        lastUpdatedAt: frontMatterTimestamp,
-        lastUpdatedBy: lastUpdateFrontMatter.author,
-      };
-    }
-
-    // Use fake data in dev for faster development.
-    const fileLastUpdateData =
-      process.env.NODE_ENV === 'production'
-        ? await getFileLastUpdate(filePath)
-        : {
-            author: 'Author',
-            timestamp: 1539502055,
-          };
-    const {author, timestamp} = fileLastUpdateData ?? {};
-
-    return {
-      lastUpdatedBy: showLastUpdateAuthor
-        ? lastUpdateFrontMatter?.author ?? author
-        : undefined,
-      lastUpdatedAt: showLastUpdateTime
-        ? frontMatterTimestamp ?? timestamp
-        : undefined,
-    };
-  }
-
-  return {};
 }
 
 export function paginateBlogPosts({

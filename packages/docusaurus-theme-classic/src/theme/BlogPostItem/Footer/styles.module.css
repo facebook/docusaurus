@@ -8,3 +8,8 @@
 .blogPostFooterDetailsFull {
   flex-direction: column;
 }
+
+.blogPostFooterLastUpdated {
+  display: flex;
+  justify-content: space-between;
+}

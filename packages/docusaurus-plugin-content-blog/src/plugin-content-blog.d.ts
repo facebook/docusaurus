@@ -424,9 +424,9 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Governs the direction of blog post sorting. */
     sortPosts: 'ascending' | 'descending';
     /**	Whether to display the last date the doc was updated. */
-    showLastUpdateTime?: boolean;
+    showLastUpdateTime: boolean;
     /** Whether to display the author who last updated the doc. */
-    showLastUpdateAuthor?: boolean;
+    showLastUpdateAuthor: boolean;
   };
 
   /**
