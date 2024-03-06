@@ -110,7 +110,7 @@ export function ActiveTeamRow(): JSX.Element {
         githubUrl="https://github.com/ozakione">
         <Translate id="team.profile.Yangshun Tay.body">
           Student from CPE Lyon, France. Passionate web developer who tries to
-          become a expert web developer.
+          become an expert web developer.
         </Translate>
       </TeamProfileCardCol>
     </div>
