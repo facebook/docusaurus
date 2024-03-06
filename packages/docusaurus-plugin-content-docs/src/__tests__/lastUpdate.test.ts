@@ -55,11 +55,10 @@ describe('getFileLastUpdate', () => {
       '__fixtures__',
       nonExistingFileName,
     );
-    await expect(getFileLastUpdate(nonExistingFilePath)).resolves.toBeNull();
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(/because the file does not exist./),
+    await expect(getFileLastUpdate(nonExistingFilePath)).rejects.toThrow(
+      /An error occurred when trying to get the last update date/,
     );
+    expect(consoleMock).toHaveBeenCalledTimes(0);
     consoleMock.mockRestore();
   });
 

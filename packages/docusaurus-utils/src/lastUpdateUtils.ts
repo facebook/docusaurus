@@ -61,7 +61,10 @@ export async function getFileLastUpdate(
         showedFileNotTrackedError = true;
       }
     } else {
-      logger.warn(err);
+      throw new Error(
+        `An error occurred when trying to get the last update date`,
+        {cause: err},
+      );
     }
     return null;
   }
