@@ -332,6 +332,11 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
       defaultReadingTime: ReadingTimeFunction;
     },
   ) => number | undefined;
+
+  export type ProcessBlogPostsFn = (params: {
+    blogPosts: BlogPost[];
+  }) => Promise<void | BlogPost[]>;
+
   /**
    * Plugin options after normalization.
    */
@@ -427,6 +432,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     showLastUpdateTime: boolean;
     /** Whether to display the author who last updated the doc. */
     showLastUpdateAuthor: boolean;
+    /** An optional function which can be used to transform blog posts
+     *  (filter, modify, delete, etc...).
+     */
+    processBlogPosts: ProcessBlogPostsFn;
   };
 
   /**

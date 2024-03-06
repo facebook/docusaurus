@@ -5,11 +5,11 @@
   "theme.CodeBlock.copy": "コピー",
   "theme.CodeBlock.copyButtonAriaLabel": "クリップボードにコードをコピー",
   "theme.CodeBlock.wordWrapToggle": "折り返し",
-  "theme.DocSidebarItem.collapseCategoryAriaLabel": "Collapse sidebar category '{label}'",
-  "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": "'{label}'の目次を隠す",
+  "theme.DocSidebarItem.expandCategoryAriaLabel": "'{label}'の目次を表示",
   "theme.ErrorPageContent.title": "エラーが発生しました",
   "theme.ErrorPageContent.tryAgain": "もう一度試してください",
-  "theme.NavBar.navAriaLabel": "Main",
+  "theme.NavBar.navAriaLabel": "ナビゲーション",
   "theme.NotFound.p1": "お探しのページが見つかりませんでした",
   "theme.NotFound.p2": "このページにリンクしているサイトの所有者にリンクが壊れていることを伝えてください",
   "theme.NotFound.title": "ページが見つかりません",
@@ -51,7 +51,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "サイドバーを隠す",
   "theme.docs.sidebar.expandButtonAriaLabel": "サイドバーを開く",
   "theme.docs.sidebar.expandButtonTitle": "サイドバーを開く",
-  "theme.docs.sidebar.navAriaLabel": "Docs sidebar",
+  "theme.docs.sidebar.navAriaLabel": "ドキュメントのサイドバー",
   "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Toggle navigation bar",
   "theme.docs.tagDocListPageTitle": "「{tagName}」タグのついた{nDocsTagged}",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "{count}記事",
@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "タグ:",
   "theme.tags.tagsPageLink": "全てのタグを見る",
   "theme.tags.tagsPageTitle": "タグ",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.unlistedContent.message": "このページは非公開です。 検索対象外となり、このページのリンクに直接アクセスできるユーザーのみに公開されます。",
+  "theme.unlistedContent.title": "非公開のページ"
 }

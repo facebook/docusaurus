@@ -53,6 +53,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   sortPosts: 'descending',
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  processBlogPosts: async () => undefined,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -140,6 +141,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
+  processBlogPosts: Joi.function()
+    .optional()
+    .default(() => DEFAULT_OPTIONS.processBlogPosts),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({
