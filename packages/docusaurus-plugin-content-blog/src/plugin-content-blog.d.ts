@@ -10,7 +10,12 @@
 declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {FrontMatterTag, Tag, LastUpdateData} from '@docusaurus/utils';
+  import type {
+    FrontMatterTag,
+    Tag,
+    LastUpdateData,
+    FrontMatterLastUpdate,
+  } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
   import type {Overwrite} from 'utility-types';
@@ -157,7 +162,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Maximum TOC heading level. Must be between 2 and 6. */
     toc_max_heading_level?: number;
     /** Allows overriding the last updated author and/or date. */
-    last_update?: FileChange;
+    last_update?: FrontMatterLastUpdate;
   };
 
   export type BlogPostFrontMatterAuthor = Author & {

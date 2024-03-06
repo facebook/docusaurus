@@ -296,7 +296,7 @@ Accepted fields:
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 | `draft` | `boolean` | `false` | Draft documents will only be available during development. |
 | `unlisted` | `boolean` | `false` | Unlisted documents will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
-| `last_update` | `FileChange` | `undefined` | Allows overriding the last updated author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
+| `last_update` | `FrontMatterLastUpdate` | `undefined` | Allows overriding the last updated author and/or date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
 
 ```mdx-code-block
 </APITable>
@@ -307,7 +307,7 @@ type Tag = string | {label: string; permalink: string};
 ```
 
 ```ts
-type FileChange = {date: string; author: string};
+type FrontMatterLastUpdate = {date: string; author: string};
 ```
 
 Example:

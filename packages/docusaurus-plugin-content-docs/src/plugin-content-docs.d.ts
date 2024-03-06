@@ -16,20 +16,13 @@ declare module '@docusaurus/plugin-content-docs' {
     TagsListItem,
     TagModule,
     Tag,
+    FrontMatterLastUpdate,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
     image?: string;
-  };
-
-  export type FileChange = {
-    author?: string;
-    /** Date can be any
-     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
-     */
-    date?: Date | string;
   };
 
   /**
@@ -401,7 +394,7 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Should this doc be accessible but hidden in production builds? */
     unlisted?: boolean;
     /** Allows overriding the last updated author and/or date. */
-    last_update?: FileChange;
+    last_update?: FrontMatterLastUpdate;
   };
 
   export type LastUpdateData = {
