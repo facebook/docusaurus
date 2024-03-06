@@ -34,7 +34,7 @@ function LastUpdatedAtDate({
       values={{
         date: (
           <b>
-            <time dateTime={atDate.toISOString()}>
+            <time dateTime={atDate.toISOString()} itemProp="dateModified">
               {formattedLastUpdatedAt}
             </time>
           </b>
