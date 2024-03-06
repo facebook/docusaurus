@@ -525,4 +525,24 @@ describe('blog plugin', () => {
     expect(blogPosts).toHaveLength(3);
     expect(blogPosts).toMatchSnapshot();
   });
+
+  it('lastupdated author time posts load content', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-tags',
+    );
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        postsPerPage: 1,
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts).toMatchSnapshot();
+  });
 });
