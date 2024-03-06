@@ -13,6 +13,10 @@ import {
   FrontMatterTOCHeadingLevels,
   ContentVisibilitySchema,
 } from '@docusaurus/utils-validation';
+import {
+  FrontMatterAuthorErrorMessage,
+  FrontMatterLastUpdateErrorMessage,
+} from '@docusaurus/utils/lib/lastUpdateUtils';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 const BlogPostFrontMatterAuthorSchema = Joi.object({
@@ -24,12 +28,6 @@ const BlogPostFrontMatterAuthorSchema = Joi.object({
 })
   .or('key', 'name', 'imageURL')
   .rename('image_url', 'imageURL', {alias: true});
-
-const FrontMatterAuthorErrorMessage =
-  '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
-
-const FrontMatterLastUpdateErrorMessage =
-  '{{#label}} does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).';
 
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   id: Joi.string(),

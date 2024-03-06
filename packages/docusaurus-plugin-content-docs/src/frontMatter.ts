@@ -13,10 +13,8 @@ import {
   validateFrontMatter,
   ContentVisibilitySchema,
 } from '@docusaurus/utils-validation';
+import {FrontMatterLastUpdateErrorMessage} from '@docusaurus/utils/lib/lastUpdateUtils';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
-
-const FrontMatterLastUpdateErrorMessage =
-  '{{#label}} does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).';
 
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadata and props

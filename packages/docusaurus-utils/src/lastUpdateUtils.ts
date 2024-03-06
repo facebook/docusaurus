@@ -112,3 +112,9 @@ export async function readLastUpdateData(
 
   return {};
 }
+
+export const FrontMatterAuthorErrorMessage =
+  '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
+
+export const FrontMatterLastUpdateErrorMessage =
+  '{{#label}} does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).';
