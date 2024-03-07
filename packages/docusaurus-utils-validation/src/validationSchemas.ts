@@ -13,6 +13,9 @@ import {
 } from '@docusaurus/utils';
 import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
+import {validateFrontMatter} from '.';
+import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
+import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
 export const PluginIdSchema = Joi.string()
   .regex(/^[\w-]+$/)
@@ -167,3 +170,122 @@ export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
       "Can't be draft and unlisted at the same time.",
   })
   .unknown();
+
+export const FrontMatterAuthorErrorMessage =
+  '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
+
+export const FrontMatterLastUpdateErrorMessage =
+  '{{#label}} does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.';
+
+export const FrontMatterLastUpdateSchema = Joi.object({
+  author: Joi.string(),
+  date: Joi.date().raw(),
+})
+  .or('author', 'date')
+  .messages({
+    'object.missing': FrontMatterLastUpdateErrorMessage,
+    'object.base': FrontMatterLastUpdateErrorMessage,
+  });
+
+const BlogPostFrontMatterAuthorSchema = Joi.object({
+  key: Joi.string(),
+  name: Joi.string(),
+  title: Joi.string(),
+  url: URISchema,
+  imageURL: Joi.string(),
+})
+  .or('key', 'name', 'imageURL')
+  .rename('image_url', 'imageURL', {alias: true});
+
+// NOTE: we don't add any default value on purpose here
+// We don't want default values to magically appear in doc metadata and props
+// While the user did not provide those values explicitly
+// We use default values in code instead
+const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
+  id: Joi.string(),
+  // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+  title: Joi.string().allow(''),
+  hide_title: Joi.boolean(),
+  hide_table_of_contents: Joi.boolean(),
+  keywords: Joi.array().items(Joi.string().required()),
+  image: URISchema,
+  // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+  description: Joi.string().allow(''),
+  slug: Joi.string(),
+  sidebar_label: Joi.string(),
+  sidebar_position: Joi.number(),
+  sidebar_class_name: Joi.string(),
+  sidebar_custom_props: Joi.object().unknown(),
+  displayed_sidebar: Joi.string().allow(null),
+  tags: FrontMatterTagsSchema,
+  pagination_label: Joi.string(),
+  custom_edit_url: URISchema.allow('', null),
+  parse_number_prefixes: Joi.boolean(),
+  pagination_next: Joi.string().allow(null),
+  pagination_prev: Joi.string().allow(null),
+  ...FrontMatterTOCHeadingLevels,
+  last_update: FrontMatterLastUpdateSchema,
+})
+  .unknown()
+  .concat(ContentVisibilitySchema);
+
+const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
+  id: Joi.string(),
+  title: Joi.string().allow(''),
+  description: Joi.string().allow(''),
+  tags: FrontMatterTagsSchema,
+  date: Joi.date().raw(),
+
+  // New multi-authors front matter:
+  authors: Joi.alternatives()
+    .try(
+      Joi.string(),
+      BlogPostFrontMatterAuthorSchema,
+      Joi.array()
+        .items(Joi.string(), BlogPostFrontMatterAuthorSchema)
+        .messages({
+          'array.sparse': FrontMatterAuthorErrorMessage,
+          'array.includes': FrontMatterAuthorErrorMessage,
+        }),
+    )
+    .messages({
+      'alternatives.match': FrontMatterAuthorErrorMessage,
+    }),
+  // Legacy author front matter
+  author: Joi.string(),
+  author_title: Joi.string(),
+  author_url: URISchema,
+  author_image_url: URISchema,
+  // TODO enable deprecation warnings later
+  authorURL: URISchema,
+  // .warning('deprecate.error', { alternative: '"author_url"'}),
+  authorTitle: Joi.string(),
+  // .warning('deprecate.error', { alternative: '"author_title"'}),
+  authorImageURL: URISchema,
+  // .warning('deprecate.error', { alternative: '"author_image_url"'}),
+
+  slug: Joi.string(),
+  image: URISchema,
+  keywords: Joi.array().items(Joi.string().required()),
+  hide_table_of_contents: Joi.boolean(),
+
+  ...FrontMatterTOCHeadingLevels,
+  last_update: FrontMatterLastUpdateSchema,
+})
+  .messages({
+    'deprecate.error':
+      '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
+  })
+  .concat(ContentVisibilitySchema);
+
+export function validateBlogPostFrontMatter(frontMatter: {
+  [key: string]: unknown;
+}): BlogPostFrontMatter {
+  return validateFrontMatter(frontMatter, BlogFrontMatterSchema);
+}
+
+export function validateDocFrontMatter(frontMatter: {
+  [key: string]: unknown;
+}): DocFrontMatter {
+  return validateFrontMatter(frontMatter, DocFrontMatterSchema);
+}

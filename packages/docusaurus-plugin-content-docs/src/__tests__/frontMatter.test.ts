@@ -6,7 +6,7 @@
  */
 
 import {escapeRegexp} from '@docusaurus/utils';
-import {validateDocFrontMatter} from '../frontMatter';
+import {validateDocFrontMatter} from '@docusaurus/utils-validation';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
 function testField(params: {

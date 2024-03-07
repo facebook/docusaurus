@@ -525,19 +525,60 @@ describe('blog plugin', () => {
     expect(blogPosts).toHaveLength(3);
     expect(blogPosts).toMatchSnapshot();
   });
+});
 
-  it('lastupdated author time posts load content', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'website-blog-with-tags',
-    );
+describe('last update', () => {
+  const siteDir = path.join(
+    __dirname,
+    '__fixtures__',
+    'website-blog-with-last-update',
+  );
+  it('author and time', async () => {
     const plugin = await getPlugin(
       siteDir,
       {
-        postsPerPage: 1,
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts).toMatchSnapshot();
+  });
+  it('author only', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: true,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts).toMatchSnapshot();
+  });
+  it('time only', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: false,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts).toMatchSnapshot();
+  });
+
+  it('none', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: false,
       },
       DefaultI18N,
     );

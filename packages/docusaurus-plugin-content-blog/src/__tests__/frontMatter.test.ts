@@ -6,7 +6,7 @@
  */
 
 import {escapeRegexp} from '@docusaurus/utils';
-import {validateBlogPostFrontMatter} from '../frontMatter';
+import {validateBlogPostFrontMatter} from '@docusaurus/utils-validation';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 // TODO this abstraction reduce verbosity but it makes it harder to debug

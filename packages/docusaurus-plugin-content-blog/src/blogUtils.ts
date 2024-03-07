@@ -28,7 +28,7 @@ import {
   isDraft,
 } from '@docusaurus/utils';
 import {readLastUpdateData} from '@docusaurus/utils/lib/lastUpdateUtils';
-import {validateBlogPostFrontMatter} from './frontMatter';
+import {validateBlogPostFrontMatter} from '@docusaurus/utils-validation';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {

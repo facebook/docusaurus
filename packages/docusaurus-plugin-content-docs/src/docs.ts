@@ -22,9 +22,9 @@ import {
   isDraft,
 } from '@docusaurus/utils';
 import {readLastUpdateData} from '@docusaurus/utils/lib/lastUpdateUtils';
+import {validateDocFrontMatter} from '@docusaurus/utils-validation';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
-import {validateDocFrontMatter} from './frontMatter';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
 import type {
   MetadataOptions,

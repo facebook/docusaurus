@@ -1,184 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`blog plugin lastupdated author time posts load content 1`] = `
-[
-  {
-    "content": "with tag",
-    "id": "/another/blog-with-tags-unlisted",
-    "metadata": {
-      "authors": [],
-      "date": 2020-08-19T00:00:00.000Z,
-      "description": "with tag",
-      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags-unlisted.md",
-      "frontMatter": {
-        "date": 2020-08-19T00:00:00.000Z,
-        "slug": "/another/blog-with-tags-unlisted",
-        "tags": [
-          "unlisted",
-        ],
-        "title": "Another Blog With Tag - unlisted",
-        "unlisted": true,
-      },
-      "hasTruncateMarker": false,
-      "lastUpdatedAt": 1539502055,
-      "lastUpdatedBy": "Author",
-      "nextItem": {
-        "permalink": "/blog/simple/slug/another",
-        "title": "Another Simple Slug",
-      },
-      "permalink": "/blog/another/blog-with-tags-unlisted",
-      "readingTime": 0.01,
-      "source": "@site/blog/another-with-tags-unlisted.md",
-      "tags": [
-        {
-          "label": "unlisted",
-          "permalink": "/blog/tags/unlisted",
-        },
-      ],
-      "title": "Another Blog With Tag - unlisted",
-      "unlisted": false,
-    },
-  },
-  {
-    "content": "simple url slug",
-    "id": "/simple/slug/another",
-    "metadata": {
-      "authors": [
-        {
-          "imageURL": undefined,
-          "name": "Sébastien Lorber",
-          "title": "Docusaurus maintainer",
-          "url": "https://sebastienlorber.com",
-        },
-      ],
-      "date": 2020-08-15T00:00:00.000Z,
-      "description": "simple url slug",
-      "editUrl": "https://baseEditUrl.com/edit/blog/another-simple-slug-with-tags.md",
-      "frontMatter": {
-        "author": "Sébastien Lorber",
-        "author_title": "Docusaurus maintainer",
-        "author_url": "https://sebastienlorber.com",
-        "date": 2020-08-15T00:00:00.000Z,
-        "last_updated": 2022-08-15T00:00:00.000Z,
-        "slug": "/simple/slug/another",
-        "tags": [
-          "tag1",
-        ],
-        "title": "Another Simple Slug",
-      },
-      "hasTruncateMarker": false,
-      "lastUpdatedAt": 1539502055,
-      "lastUpdatedBy": "Author",
-      "nextItem": {
-        "permalink": "/blog/another/tags",
-        "title": "Another With Tag",
-      },
-      "permalink": "/blog/simple/slug/another",
-      "prevItem": {
-        "permalink": "/blog/another/blog-with-tags-unlisted",
-        "title": "Another Blog With Tag - unlisted",
-      },
-      "readingTime": 0.015,
-      "source": "@site/blog/another-simple-slug-with-tags.md",
-      "tags": [
-        {
-          "label": "tag1",
-          "permalink": "/blog/tags/tag-1",
-        },
-      ],
-      "title": "Another Simple Slug",
-      "unlisted": false,
-    },
-  },
-  {
-    "content": "with tag",
-    "id": "/another/tags",
-    "metadata": {
-      "authors": [],
-      "date": 2020-08-15T00:00:00.000Z,
-      "description": "with tag",
-      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags.md",
-      "frontMatter": {
-        "date": 2020-08-15T00:00:00.000Z,
-        "slug": "/another/tags",
-        "tags": [
-          "tag1",
-          "tag2",
-        ],
-        "title": "Another With Tag",
-      },
-      "hasTruncateMarker": false,
-      "lastUpdatedAt": 1539502055,
-      "lastUpdatedBy": "Author",
-      "nextItem": {
-        "permalink": "/blog/another/tags2",
-        "title": "Another With Tag",
-      },
-      "permalink": "/blog/another/tags",
-      "prevItem": {
-        "permalink": "/blog/simple/slug/another",
-        "title": "Another Simple Slug",
-      },
-      "readingTime": 0.01,
-      "source": "@site/blog/another-with-tags.md",
-      "tags": [
-        {
-          "label": "tag1",
-          "permalink": "/blog/tags/tag-1",
-        },
-        {
-          "label": "tag2",
-          "permalink": "/blog/tags/tag-2",
-        },
-      ],
-      "title": "Another With Tag",
-      "unlisted": false,
-    },
-  },
-  {
-    "content": "with tag",
-    "id": "/another/tags2",
-    "metadata": {
-      "authors": [],
-      "date": 2020-08-15T00:00:00.000Z,
-      "description": "with tag",
-      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags2.md",
-      "frontMatter": {
-        "date": 2020-08-15T00:00:00.000Z,
-        "slug": "/another/tags2",
-        "tags": [
-          "tag1",
-          "tag2",
-        ],
-        "title": "Another With Tag",
-      },
-      "hasTruncateMarker": false,
-      "lastUpdatedAt": 1539502055,
-      "lastUpdatedBy": "Author",
-      "permalink": "/blog/another/tags2",
-      "prevItem": {
-        "permalink": "/blog/another/tags",
-        "title": "Another With Tag",
-      },
-      "readingTime": 0.01,
-      "source": "@site/blog/another-with-tags2.md",
-      "tags": [
-        {
-          "label": "tag1",
-          "permalink": "/blog/tags/tag-1",
-        },
-        {
-          "label": "tag2",
-          "permalink": "/blog/tags/tag-2",
-        },
-      ],
-      "title": "Another With Tag",
-      "unlisted": false,
-    },
-  },
-]
-`;
-
 exports[`blog plugin process blog posts load content 1`] = `
 {
   "/blog/tags/tag-1": {
@@ -309,7 +130,6 @@ exports[`blog plugin process blog posts load content 2`] = `
         "author_title": "Docusaurus maintainer",
         "author_url": "https://sebastienlorber.com",
         "date": 2020-08-15T00:00:00.000Z,
-        "last_updated": 2022-08-15T00:00:00.000Z,
         "slug": "/simple/slug/another",
         "tags": [
           "tag1",
@@ -616,4 +436,600 @@ exports[`blog plugin works with blog tags 1`] = `
     "unlisted": false,
   },
 }
+`;
+
+exports[`last update author and time 1`] = `
+[
+  {
+    "content": "author",
+    "id": "author",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "author",
+      "editUrl": "https://baseEditUrl.com/edit/blog/author.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "last_update": {
+          "author": "seb",
+        },
+        "slug": "author",
+        "title": "Author",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1539502055,
+      "lastUpdatedBy": "seb",
+      "nextItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "permalink": "/blog/author",
+      "readingTime": 0.005,
+      "source": "@site/blog/author.md",
+      "tags": [],
+      "title": "Author",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "nothing",
+    "id": "nothing",
+    "metadata": {
+      "authors": [],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "nothing",
+      "editUrl": "https://baseEditUrl.com/edit/blog/nothing.md",
+      "frontMatter": {
+        "slug": "nothing",
+        "title": "Nothing",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1539502055,
+      "lastUpdatedBy": "Author",
+      "nextItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "permalink": "/blog/nothing",
+      "prevItem": {
+        "permalink": "/blog/author",
+        "title": "Author",
+      },
+      "readingTime": 0.005,
+      "source": "@site/blog/nothing.md",
+      "tags": [],
+      "title": "Nothing",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "both",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/both.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "author": "seb",
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "both",
+        "title": "Both",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1609459200,
+      "lastUpdatedBy": "seb",
+      "nextItem": {
+        "permalink": "/blog/lastUpdateDate",
+        "title": "Last update date",
+      },
+      "permalink": "/blog/both",
+      "prevItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/both.md",
+      "tags": [],
+      "title": "Both",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "lastUpdateDate",
+    "metadata": {
+      "authors": [],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/lastUpdateDate.md",
+      "frontMatter": {
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "lastUpdateDate",
+        "title": "Last update date",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1609459200,
+      "lastUpdatedBy": "Author",
+      "permalink": "/blog/lastUpdateDate",
+      "prevItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/lastUpdateDate.md",
+      "tags": [],
+      "title": "Last update date",
+      "unlisted": false,
+    },
+  },
+]
+`;
+
+exports[`last update author only 1`] = `
+[
+  {
+    "content": "author",
+    "id": "author",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "author",
+      "editUrl": "https://baseEditUrl.com/edit/blog/author.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "last_update": {
+          "author": "seb",
+        },
+        "slug": "author",
+        "title": "Author",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1539502055,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "permalink": "/blog/author",
+      "readingTime": 0.005,
+      "source": "@site/blog/author.md",
+      "tags": [],
+      "title": "Author",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "nothing",
+    "id": "nothing",
+    "metadata": {
+      "authors": [],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "nothing",
+      "editUrl": "https://baseEditUrl.com/edit/blog/nothing.md",
+      "frontMatter": {
+        "slug": "nothing",
+        "title": "Nothing",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1539502055,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "permalink": "/blog/nothing",
+      "prevItem": {
+        "permalink": "/blog/author",
+        "title": "Author",
+      },
+      "readingTime": 0.005,
+      "source": "@site/blog/nothing.md",
+      "tags": [],
+      "title": "Nothing",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "both",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/both.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "author": "seb",
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "both",
+        "title": "Both",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1609459200,
+      "lastUpdatedBy": "seb",
+      "nextItem": {
+        "permalink": "/blog/lastUpdateDate",
+        "title": "Last update date",
+      },
+      "permalink": "/blog/both",
+      "prevItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/both.md",
+      "tags": [],
+      "title": "Both",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "lastUpdateDate",
+    "metadata": {
+      "authors": [],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/lastUpdateDate.md",
+      "frontMatter": {
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "lastUpdateDate",
+        "title": "Last update date",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1609459200,
+      "lastUpdatedBy": undefined,
+      "permalink": "/blog/lastUpdateDate",
+      "prevItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/lastUpdateDate.md",
+      "tags": [],
+      "title": "Last update date",
+      "unlisted": false,
+    },
+  },
+]
+`;
+
+exports[`last update none 1`] = `
+[
+  {
+    "content": "author",
+    "id": "author",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "author",
+      "editUrl": "https://baseEditUrl.com/edit/blog/author.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "last_update": {
+          "author": "seb",
+        },
+        "slug": "author",
+        "title": "Author",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "permalink": "/blog/author",
+      "readingTime": 0.005,
+      "source": "@site/blog/author.md",
+      "tags": [],
+      "title": "Author",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "nothing",
+    "id": "nothing",
+    "metadata": {
+      "authors": [],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "nothing",
+      "editUrl": "https://baseEditUrl.com/edit/blog/nothing.md",
+      "frontMatter": {
+        "slug": "nothing",
+        "title": "Nothing",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "permalink": "/blog/nothing",
+      "prevItem": {
+        "permalink": "/blog/author",
+        "title": "Author",
+      },
+      "readingTime": 0.005,
+      "source": "@site/blog/nothing.md",
+      "tags": [],
+      "title": "Nothing",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "both",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/both.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "author": "seb",
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "both",
+        "title": "Both",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/lastUpdateDate",
+        "title": "Last update date",
+      },
+      "permalink": "/blog/both",
+      "prevItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/both.md",
+      "tags": [],
+      "title": "Both",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "lastUpdateDate",
+    "metadata": {
+      "authors": [],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/lastUpdateDate.md",
+      "frontMatter": {
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "lastUpdateDate",
+        "title": "Last update date",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "permalink": "/blog/lastUpdateDate",
+      "prevItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/lastUpdateDate.md",
+      "tags": [],
+      "title": "Last update date",
+      "unlisted": false,
+    },
+  },
+]
+`;
+
+exports[`last update time only 1`] = `
+[
+  {
+    "content": "author",
+    "id": "author",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "author",
+      "editUrl": "https://baseEditUrl.com/edit/blog/author.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "last_update": {
+          "author": "seb",
+        },
+        "slug": "author",
+        "title": "Author",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": "seb",
+      "nextItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "permalink": "/blog/author",
+      "readingTime": 0.005,
+      "source": "@site/blog/author.md",
+      "tags": [],
+      "title": "Author",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "nothing",
+    "id": "nothing",
+    "metadata": {
+      "authors": [],
+      "date": 2024-03-07T17:28:43.000Z,
+      "description": "nothing",
+      "editUrl": "https://baseEditUrl.com/edit/blog/nothing.md",
+      "frontMatter": {
+        "slug": "nothing",
+        "title": "Nothing",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": "Author",
+      "nextItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "permalink": "/blog/nothing",
+      "prevItem": {
+        "permalink": "/blog/author",
+        "title": "Author",
+      },
+      "readingTime": 0.005,
+      "source": "@site/blog/nothing.md",
+      "tags": [],
+      "title": "Nothing",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "both",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "name": "ozaki",
+          "title": undefined,
+          "url": undefined,
+        },
+      ],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/both.md",
+      "frontMatter": {
+        "author": "ozaki",
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "author": "seb",
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "both",
+        "title": "Both",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": 1609459200,
+      "lastUpdatedBy": "seb",
+      "nextItem": {
+        "permalink": "/blog/lastUpdateDate",
+        "title": "Last update date",
+      },
+      "permalink": "/blog/both",
+      "prevItem": {
+        "permalink": "/blog/nothing",
+        "title": "Nothing",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/both.md",
+      "tags": [],
+      "title": "Both",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "last update date",
+    "id": "lastUpdateDate",
+    "metadata": {
+      "authors": [],
+      "date": 2020-01-01T00:00:00.000Z,
+      "description": "last update date",
+      "editUrl": "https://baseEditUrl.com/edit/blog/lastUpdateDate.md",
+      "frontMatter": {
+        "date": 2020-01-01T00:00:00.000Z,
+        "last_update": {
+          "date": 2021-01-01T00:00:00.000Z,
+        },
+        "slug": "lastUpdateDate",
+        "title": "Last update date",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": "Author",
+      "permalink": "/blog/lastUpdateDate",
+      "prevItem": {
+        "permalink": "/blog/both",
+        "title": "Both",
+      },
+      "readingTime": 0.015,
+      "source": "@site/blog/lastUpdateDate.md",
+      "tags": [],
+      "title": "Last update date",
+      "unlisted": false,
+    },
+  },
+]
 `;

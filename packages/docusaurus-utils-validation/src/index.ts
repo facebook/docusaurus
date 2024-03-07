@@ -26,4 +26,9 @@ export {
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
   ContentVisibilitySchema,
+  FrontMatterAuthorErrorMessage,
+  FrontMatterLastUpdateErrorMessage,
+  FrontMatterLastUpdateSchema,
+  validateBlogPostFrontMatter,
+  validateDocFrontMatter,
 } from './validationSchemas';
