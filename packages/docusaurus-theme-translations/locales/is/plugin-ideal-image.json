@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Mynd fannst ekki.",
+  "theme.IdealImageMessage.error": "Villa. Smelltu til að endurhlaða.",
+  "theme.IdealImageMessage.load": "Smelltu til að hlaða{sizeMessage}",
+  "theme.IdealImageMessage.loading": "Hleður...",
+  "theme.IdealImageMessage.offline": "Vafrinn þinn er ónettengdur. Mynd hleðst ekki."
+}
