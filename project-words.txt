@@ -155,7 +155,6 @@ Knapen
 Koyeb
 Koyeb's
 Lamana
-lastupdated
 Lifecycles
 lifecycles
 Linkify
@@ -226,6 +225,7 @@ orta
 Outerbounds
 outerbounds
 overrideable
+ozaki
 O’Shannessy
 pageview
 Palenight
