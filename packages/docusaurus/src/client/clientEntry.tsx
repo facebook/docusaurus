@@ -7,7 +7,7 @@
 
 import React from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
-import {BrowserRouter} from 'react-router-dom';
+import Router from '@generated/router';
 import {HelmetProvider} from 'react-helmet-async';
 
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
@@ -31,9 +31,9 @@ if (ExecutionEnvironment.canUseDOM) {
 
   const app = (
     <HelmetProvider>
-      <BrowserRouter>
+      <Router>
         <App />
-      </BrowserRouter>
+      </Router>
     </HelmetProvider>
   );
 

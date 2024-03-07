@@ -41,7 +41,7 @@ function Link(
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
   const {
-    siteConfig: {trailingSlash, baseUrl},
+    siteConfig: {trailingSlash, baseUrl, router},
   } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
@@ -80,6 +80,11 @@ function Link(
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
+
+  // TODO temporary hack
+  if (router === 'hash' && targetLink?.startsWith('./')) {
+    targetLink = targetLink?.slice(1);
+  }
 
   if (targetLink && isInternal) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
@@ -148,8 +153,7 @@ function Link(
   const hasInternalTarget = !props.target || props.target === '_self';
 
   // Should we use a regular <a> tag instead of React-Router Link component?
-  const isRegularHtmlLink =
-    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
+  const isRegularHtmlLink = !targetLink || !isInternal || !hasInternalTarget;
 
   if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);

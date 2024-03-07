@@ -26,8 +26,28 @@ describe('createSitemap', () => {
         filename: 'sitemap.xml',
       },
     );
-    expect(sitemap).toContain(
-      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`,
+    expect(sitemap).toMatchInlineSnapshot(
+      `"<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"><url><loc>https://example.com/</loc><changefreq>daily</changefreq><priority>0.7</priority></url><url><loc>https://example.com/test</loc><changefreq>daily</changefreq><priority>0.7</priority></url></urlset>"`,
+    );
+  });
+
+  it('simple site - hash router', async () => {
+    const sitemap = await createSitemap(
+      {
+        url: 'https://example.com',
+        router: 'hash',
+      } as DocusaurusConfig,
+      ['/', '/test'],
+      {},
+      {
+        changefreq: EnumChangefreq.DAILY,
+        priority: 0.7,
+        ignorePatterns: [],
+        filename: 'sitemap.xml',
+      },
+    );
+    expect(sitemap).toMatchInlineSnapshot(
+      `"<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"><url><loc>https://example.com/#/</loc><changefreq>daily</changefreq><priority>0.7</priority></url><url><loc>https://example.com/#/test</loc><changefreq>daily</changefreq><priority>0.7</priority></url></urlset>"`,
     );
   });
 

@@ -45,6 +45,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
+  | 'router'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
   | 'onBrokenMarkdownLinks'
@@ -66,6 +67,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
+  router: 'browser',
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
   onBrokenMarkdownLinks: 'warn',
@@ -208,6 +210,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
   url: SiteUrlSchema,
+  router: Joi.string().equal('browser', 'hash').default(DEFAULT_CONFIG.router),
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()

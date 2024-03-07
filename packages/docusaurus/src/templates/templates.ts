@@ -113,3 +113,41 @@ export function renderSSRTemplate({
 
   return ssrTemplate(data);
 }
+
+export function renderHashRouterTemplate({
+  params,
+}: {
+  params: SSGParams;
+}): string {
+  const {
+    // baseUrl,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    manifest,
+    DOCUSAURUS_VERSION,
+    ssrTemplate,
+  } = params;
+
+  const {scripts, stylesheets} = getScriptsAndStylesheets({
+    manifest,
+    modules: [],
+  });
+
+  const data: SSRTemplateData = {
+    appHtml: '',
+    baseUrl: './',
+    htmlAttributes: '',
+    bodyAttributes: '',
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    metaAttributes: [],
+    scripts,
+    stylesheets,
+    noIndex: false,
+    version: DOCUSAURUS_VERSION,
+  };
+
+  return ssrTemplate(data);
+}

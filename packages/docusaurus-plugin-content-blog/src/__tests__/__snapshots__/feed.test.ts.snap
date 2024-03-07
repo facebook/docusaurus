@@ -220,6 +220,91 @@ exports[`atom has feed item for each post 1`] = `
 ]
 `;
 
+exports[`atom has feed item for each post using hash router 1`] = `
+[
+  "<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://docusaurus.io/myBaseUrl/blog</id>
+    <title>Hello Blog</title>
+    <updated>2023-07-23T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://docusaurus.io/myBaseUrl/blog"/>
+    <subtitle>Hello Blog</subtitle>
+    <icon>https://docusaurus.io/myBaseUrl/image/favicon.ico</icon>
+    <rights>Copyright</rights>
+    <entry>
+        <title type="html"><![CDATA[test links]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/blog-with-links</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/blog-with-links"/>
+        <updated>2023-07-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[absolute full url]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MDX Blog Sample with require calls]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/mdx-require-blog-post</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/mdx-require-blog-post"/>
+        <updated>2021-03-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Test MDX with require calls]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Full Blog Sample]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/mdx-blog-post</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/mdx-blog-post"/>
+        <updated>2021-03-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[HTML Heading 1]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Complex Slug]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/hey/my super path/héllô</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/hey/my super path/héllô"/>
+        <updated>2020-08-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[complex url slug]]></summary>
+        <category label="date" term="date"/>
+        <category label="complex" term="complex"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Simple Slug]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/simple/slug</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/simple/slug"/>
+        <updated>2020-08-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[simple url slug]]></summary>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[some heading]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/heading-as-title</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/heading-as-title"/>
+        <updated>2019-01-02T00:00:00.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[date-matter]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/date-matter</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/date-matter"/>
+        <updated>2019-01-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[date inside front matter]]></summary>
+        <category label="date" term="date"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
+        <id>https://docusaurus.io/#/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash</id>
+        <link href="https://docusaurus.io/#/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash"/>
+        <updated>2018-12-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Happy birthday! (translated)]]></summary>
+        <author>
+            <name>Yangshun Tay (translated)</name>
+        </author>
+        <author>
+            <name>Sébastien Lorber (translated)</name>
+            <email>lorber.sebastien@gmail.com</email>
+        </author>
+    </entry>
+</feed>",
+]
+`;
+
 exports[`json filters to the first two entries 1`] = `
 [
   "{
@@ -365,6 +450,94 @@ exports[`json has feed item for each post 1`] = `
             "id": "https://docusaurus.io/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash",
             "content_html": "<p>Happy birthday! (translated)</p>",
             "url": "https://docusaurus.io/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash",
+            "title": "Happy 1st Birthday Slash! (translated)",
+            "summary": "Happy birthday! (translated)",
+            "date_modified": "2018-12-14T00:00:00.000Z",
+            "author": {
+                "name": "Yangshun Tay (translated)"
+            },
+            "tags": []
+        }
+    ]
+}",
+]
+`;
+
+exports[`json has feed item for each post using hash router 1`] = `
+[
+  "{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Hello Blog",
+    "home_page_url": "https://docusaurus.io/myBaseUrl/blog",
+    "description": "Hello Blog",
+    "items": [
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/blog-with-links",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/blog-with-links",
+            "title": "test links",
+            "summary": "absolute full url",
+            "date_modified": "2023-07-23T00:00:00.000Z",
+            "tags": []
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/mdx-require-blog-post",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/mdx-require-blog-post",
+            "title": "MDX Blog Sample with require calls",
+            "summary": "Test MDX with require calls",
+            "date_modified": "2021-03-06T00:00:00.000Z",
+            "tags": []
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/mdx-blog-post",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/mdx-blog-post",
+            "title": "Full Blog Sample",
+            "summary": "HTML Heading 1",
+            "date_modified": "2021-03-05T00:00:00.000Z",
+            "tags": []
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/hey/my super path/héllô",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/hey/my super path/héllô",
+            "title": "Complex Slug",
+            "summary": "complex url slug",
+            "date_modified": "2020-08-16T00:00:00.000Z",
+            "tags": [
+                "date",
+                "complex"
+            ]
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/simple/slug",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/simple/slug",
+            "title": "Simple Slug",
+            "summary": "simple url slug",
+            "date_modified": "2020-08-15T00:00:00.000Z",
+            "author": {
+                "name": "Sébastien Lorber",
+                "url": "https://sebastienlorber.com"
+            },
+            "tags": []
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/heading-as-title",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/heading-as-title",
+            "title": "some heading",
+            "date_modified": "2019-01-02T00:00:00.000Z",
+            "tags": []
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/date-matter",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/date-matter",
+            "title": "date-matter",
+            "summary": "date inside front matter",
+            "date_modified": "2019-01-01T00:00:00.000Z",
+            "tags": [
+                "date"
+            ]
+        },
+        {
+            "id": "https://docusaurus.io/#/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash",
+            "url": "https://docusaurus.io/#/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash",
             "title": "Happy 1st Birthday Slash! (translated)",
             "summary": "Happy birthday! (translated)",
             "date_modified": "2018-12-14T00:00:00.000Z",
@@ -587,6 +760,83 @@ exports[`rss has feed item for each post 1`] = `
             <pubDate>Fri, 14 Dec 2018 00:00:00 GMT</pubDate>
             <description><![CDATA[Happy birthday! (translated)]]></description>
             <content:encoded><![CDATA[<p>Happy birthday! (translated)</p>]]></content:encoded>
+            <author>lorber.sebastien@gmail.com (Sébastien Lorber (translated))</author>
+        </item>
+    </channel>
+</rss>",
+]
+`;
+
+exports[`rss has feed item for each post using hash router 1`] = `
+[
+  "<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Hello Blog</title>
+        <link>https://docusaurus.io/myBaseUrl/blog</link>
+        <description>Hello Blog</description>
+        <lastBuildDate>Sun, 23 Jul 2023 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[test links]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/blog-with-links</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/blog-with-links</guid>
+            <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[absolute full url]]></description>
+        </item>
+        <item>
+            <title><![CDATA[MDX Blog Sample with require calls]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/mdx-require-blog-post</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/mdx-require-blog-post</guid>
+            <pubDate>Sat, 06 Mar 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Test MDX with require calls]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Full Blog Sample]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/mdx-blog-post</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/mdx-blog-post</guid>
+            <pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[HTML Heading 1]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Complex Slug]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/hey/my super path/héllô</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/hey/my super path/héllô</guid>
+            <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[complex url slug]]></description>
+            <category>date</category>
+            <category>complex</category>
+        </item>
+        <item>
+            <title><![CDATA[Simple Slug]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/simple/slug</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/simple/slug</guid>
+            <pubDate>Sat, 15 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[simple url slug]]></description>
+        </item>
+        <item>
+            <title><![CDATA[some heading]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/heading-as-title</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/heading-as-title</guid>
+            <pubDate>Wed, 02 Jan 2019 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[date-matter]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/date-matter</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/date-matter</guid>
+            <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[date inside front matter]]></description>
+            <category>date</category>
+        </item>
+        <item>
+            <title><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
+            <link>https://docusaurus.io/#/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash</link>
+            <guid>https://docusaurus.io/#/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash</guid>
+            <pubDate>Fri, 14 Dec 2018 00:00:00 GMT</pubDate>
+            <description><![CDATA[Happy birthday! (translated)]]></description>
             <author>lorber.sebastien@gmail.com (Sébastien Lorber (translated))</author>
         </item>
     </channel>

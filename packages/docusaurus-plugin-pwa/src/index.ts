@@ -11,10 +11,13 @@ import WebpackBar from 'webpackbar';
 import Terser from 'terser-webpack-plugin';
 import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 import {compile} from '@docusaurus/core/lib/webpack/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
+
+const PluginName = 'docusaurus-plugin-pwa';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -47,6 +50,7 @@ export default function pluginPWA(
     outDir,
     baseUrl,
     i18n: {currentLocale},
+    siteConfig: {router},
   } = context;
   const {
     debug,
@@ -57,8 +61,13 @@ export default function pluginPWA(
     swRegister,
   } = options;
 
+  if (router === 'hash') {
+    logger.warn(`${PluginName} does not support the Hash Router`);
+    return {name: PluginName};
+  }
+
   return {
-    name: 'docusaurus-plugin-pwa',
+    name: PluginName,
 
     getThemePath() {
       return '../lib/theme';

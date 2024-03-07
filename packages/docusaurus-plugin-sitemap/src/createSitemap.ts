@@ -8,7 +8,7 @@
 import type {ReactElement} from 'react';
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {createMatcher} from '@docusaurus/utils';
+import {createMatcher, normalizeUrl} from '@docusaurus/utils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
@@ -53,7 +53,7 @@ export default async function createSitemap(
   head: {[location: string]: HelmetServerState},
   options: PluginOptions,
 ): Promise<string | null> {
-  const {url: hostname} = siteConfig;
+  const {url: hostname, router} = siteConfig;
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
@@ -77,12 +77,17 @@ export default async function createSitemap(
 
   const sitemapStream = new SitemapStream({hostname});
 
+  const createSitemapUrl = (routePath: string): string => {
+    const path = normalizeUrl([router === 'hash' ? '/#/' : '', routePath]);
+    return applyTrailingSlash(path, {
+      trailingSlash: siteConfig.trailingSlash,
+      baseUrl: siteConfig.baseUrl,
+    });
+  };
+
   includedRoutes.forEach((routePath) =>
     sitemapStream.write({
-      url: applyTrailingSlash(routePath, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      }),
+      url: createSitemapUrl(routePath),
       changefreq,
       priority,
     }),
