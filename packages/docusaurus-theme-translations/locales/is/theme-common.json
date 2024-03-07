@@ -62,7 +62,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Þetta er óútgefin skjölun fyrir {siteTitle} {versionLabel} útgáfa.",
   "theme.lastUpdated.atDate": " þann {date}",
   "theme.lastUpdated.byUser": " af {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "Seinast uppfært {atDate}{byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "Seinast uppfært{atDate}{byUser}",
   "theme.navbar.mobileLanguageDropdown.label": "Tungumál",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Til baka á aðal valmynd",
   "theme.navbar.mobileVersionsDropdown.label": "Útgáfur",
