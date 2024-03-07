@@ -251,7 +251,7 @@ const Users: User[] = [
     title: "Bruce's Wiki",
     description: 'A personal wiki by Bruce Song',
     preview: require('./showcase/bruce-wiki.png'),
-    website: 'https://wiki.bruceworld.top/',
+    website: 'https://wiki.brucesong.xyz/',
     source: 'https://github.com/recallwei/wiki',
     tags: ['opensource', 'design', 'personal'],
   },
