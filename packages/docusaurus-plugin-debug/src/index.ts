@@ -30,7 +30,7 @@ export default function pluginDebug({
       return '../src/theme';
     },
 
-    async contentLoaded({actions: {createData, addRoute}, allContent}) {
+    async allContentLoaded({actions: {createData, addRoute}, allContent}) {
       const allContentPath = await createData(
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.

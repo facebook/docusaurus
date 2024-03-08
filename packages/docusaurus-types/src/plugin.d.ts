@@ -110,7 +110,9 @@ export type Plugin<Content = unknown> = {
   contentLoaded?: (args: {
     /** The content loaded by this plugin instance */
     content: Content; //
-    /** Content loaded by ALL the plugins */
+    actions: PluginContentLoadedActions;
+  }) => Promise<void> | void;
+  allContentLoaded?: (args: {
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
