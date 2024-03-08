@@ -29,6 +29,4 @@ export {
   FrontMatterAuthorErrorMessage,
   FrontMatterLastUpdateErrorMessage,
   FrontMatterLastUpdateSchema,
-  validateBlogPostFrontMatter,
-  validateDocFrontMatter,
 } from './validationSchemas';

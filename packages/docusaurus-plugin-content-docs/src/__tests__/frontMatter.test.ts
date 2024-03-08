@@ -6,7 +6,7 @@
  */
 
 import {escapeRegexp} from '@docusaurus/utils';
-import {validateDocFrontMatter} from '@docusaurus/utils-validation';
+import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
 function testField(params: {
@@ -444,19 +444,19 @@ describe('validateDocFrontMatter last_update', () => {
     invalidFrontMatters: [
       [
         {last_update: null},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: {}},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: ''},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: {invalid: 'key'}},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: {author: 'test author', date: 'I am not a date :('}},

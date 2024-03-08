@@ -26,9 +26,9 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
+  readLastUpdateData,
 } from '@docusaurus/utils';
-import {readLastUpdateData} from '@docusaurus/utils/lib/lastUpdateUtils';
-import {validateBlogPostFrontMatter} from '@docusaurus/utils-validation';
+import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {

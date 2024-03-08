@@ -20,9 +20,9 @@ import {
   normalizeFrontMatterTags,
   isUnlisted,
   isDraft,
+  readLastUpdateData,
 } from '@docusaurus/utils';
-import {readLastUpdateData} from '@docusaurus/utils/lib/lastUpdateUtils';
-import {validateDocFrontMatter} from '@docusaurus/utils-validation';
+import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';

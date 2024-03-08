@@ -123,4 +123,5 @@ export {
   getFileLastUpdate,
   type LastUpdateData,
   type FrontMatterLastUpdate,
+  readLastUpdateData,
 } from './lastUpdateUtils';
