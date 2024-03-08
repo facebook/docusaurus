@@ -9,6 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import {FileNotTrackedError, getFileCommitDate} from '../gitUtils';
+import {getFileLastUpdate} from '../lastUpdateUtils';
 
 /* eslint-disable no-restricted-properties */
 function initializeTempRepo() {
@@ -135,5 +136,37 @@ describe('getFileCommitDate', () => {
     ).rejects.toThrow(
       /Failed to retrieve git history for ".*nonexistent.txt" because the file does not exist./,
     );
+  });
+
+  it('temporary created file that is not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const tempFilePath = path.join(repoDir, 'file.md');
+    await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
+    await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
+    await fs.unlink(tempFilePath);
+  });
+
+  it('multiple files not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const tempFilePath1 = path.join(repoDir, 'file1.md');
+    const tempFilePath2 = path.join(repoDir, 'file2.md');
+    await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
+    await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
+    await expect(getFileLastUpdate(tempFilePath1)).resolves.toBeNull();
+    await expect(getFileLastUpdate(tempFilePath2)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
+    await fs.unlink(tempFilePath1);
+    await fs.unlink(tempFilePath2);
   });
 });
