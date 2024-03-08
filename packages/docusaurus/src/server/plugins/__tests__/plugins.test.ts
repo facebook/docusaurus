@@ -79,6 +79,17 @@ describe('mergeGlobalData', () => {
     expect(mergeGlobalData(globalData)).toEqual(globalData);
   });
 
+  it('1 global data - primitive value', () => {
+    // For retro-compatibility we allow primitive values to be kept as is
+    // Not sure anyone is using primitive global data though...
+    const globalData: GlobalData = {
+      plugin: {
+        default: 42,
+      },
+    };
+    expect(mergeGlobalData(globalData)).toEqual(globalData);
+  });
+
   it('3 distinct plugins global data', () => {
     const globalData1: GlobalData = {
       plugin1: {
@@ -160,6 +171,31 @@ describe('mergeGlobalData', () => {
           someData3: 'val3',
           shared: 'shared3',
         },
+      },
+    });
+  });
+
+  it('3 times same plugin - including primitive values', () => {
+    // Very unlikely to happen, but we can't merge primitive values together
+    // Since we use Object.assign(), the primitive values are simply ignored
+    const globalData1: GlobalData = {
+      plugin: {
+        default: 42,
+      },
+    };
+    const globalData2: GlobalData = {
+      plugin: {
+        default: {hey: 'val'},
+      },
+    };
+    const globalData3: GlobalData = {
+      plugin: {
+        default: 84,
+      },
+    };
+    expect(mergeGlobalData(globalData1, globalData2, globalData3)).toEqual({
+      plugin: {
+        default: {hey: 'val'},
       },
     });
   });
@@ -392,7 +428,7 @@ describe('loadPlugins', () => {
     `);
   });
 
-  it('plugin with allContentLoaded lifecycle', async () => {
+  it('plugin with contentLoaded + allContentLoaded lifecycle', async () => {
     const {routes, globalData} = await testPlugin(() => ({
       name: 'plugin-name',
       contentLoaded({actions}) {

@@ -261,8 +261,11 @@ export function mergeGlobalData(...globalDatas: GlobalData[]): GlobalData {
   );
 
   allPluginIdentifiers.forEach(({name, id}) => {
-    const allData = globalDatas.map((gd) => gd?.[name]?.[id]).filter(Boolean);
-    const mergedData = Object.assign({}, ...allData);
+    const allData = globalDatas
+      .map((gd) => gd?.[name]?.[id])
+      .filter((d) => typeof d !== 'undefined');
+    const mergedData =
+      allData.length === 1 ? allData[0] : Object.assign({}, ...allData);
     result[name] ??= {};
     result[name]![id] = mergedData;
   });
