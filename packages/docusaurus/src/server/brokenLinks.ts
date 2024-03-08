@@ -15,7 +15,7 @@ import {
   serializeURLPath,
   type URLPath,
 } from '@docusaurus/utils';
-import {getAllFinalRoutes} from './utils';
+import {getAllFinalRoutes} from './routes';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
 function matchRoutes(routeConfig: RouteConfig[], pathname: string) {

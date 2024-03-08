@@ -11,11 +11,11 @@ import os from 'os';
 import logger from '@docusaurus/logger';
 import shell from 'shelljs';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
-import {loadContext, type LoadContextOptions} from '../server';
+import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build';
 
 export type DeployCLIOptions = Pick<
-  LoadContextOptions,
+  LoadContextParams,
   'config' | 'locale' | 'outDir'
 > & {
   skipBuild?: boolean;

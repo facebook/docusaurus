@@ -15,6 +15,10 @@ type PerfLoggerAPI = {
   start: (label: string) => void;
   end: (label: string) => void;
   log: (message: string) => void;
+  async: <Result>(
+    label: string,
+    asyncFn: () => Result | Promise<Result>,
+  ) => Promise<Result>;
 };
 
 function createPerfLogger(): PerfLoggerAPI {
@@ -24,14 +28,31 @@ function createPerfLogger(): PerfLoggerAPI {
       start: noop,
       end: noop,
       log: noop,
+      async: async (_label, asyncFn) => asyncFn(),
     };
   }
 
   const prefix = logger.yellow(`[PERF] `);
+
+  const start: PerfLoggerAPI['start'] = (label) => console.time(prefix + label);
+
+  const end: PerfLoggerAPI['end'] = (label) => console.timeEnd(prefix + label);
+
+  const log: PerfLoggerAPI['log'] = (label: string) =>
+    console.log(prefix + label);
+
+  const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
+    start(label);
+    const result = await asyncFn();
+    end(label);
+    return result;
+  };
+
   return {
-    start: (label) => console.time(prefix + label),
-    end: (label) => console.timeEnd(prefix + label),
-    log: (label) => console.log(prefix + label),
+    start,
+    end,
+    log,
+    async,
   };
 }
 

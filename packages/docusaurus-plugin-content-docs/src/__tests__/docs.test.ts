@@ -7,7 +7,7 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
-import {loadContext} from '@docusaurus/core/src/server/index';
+import {loadContext} from '@docusaurus/core/src/server/site';
 import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {

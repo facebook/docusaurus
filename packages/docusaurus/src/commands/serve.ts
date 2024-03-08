@@ -15,10 +15,10 @@ import openBrowser from 'react-dev-utils/openBrowser';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
-import type {LoadContextOptions} from '../server';
+import type {LoadContextParams} from '../server/site';
 
 export type ServeCLIOptions = HostPortOptions &
-  Pick<LoadContextOptions, 'config'> & {
+  Pick<LoadContextParams, 'config'> & {
     dir?: string;
     build?: boolean;
     open?: boolean;

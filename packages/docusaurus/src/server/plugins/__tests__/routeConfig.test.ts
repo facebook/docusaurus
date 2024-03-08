@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {applyRouteTrailingSlash, sortConfig} from '../routeConfig';
+import {applyRouteTrailingSlash, sortRoutes} from '../routeConfig';
 import type {RouteConfig} from '@docusaurus/types';
 import type {ApplyTrailingSlashParams} from '@docusaurus/utils-common';
 
@@ -164,7 +164,7 @@ describe('applyRouteTrailingSlash', () => {
   });
 });
 
-describe('sortConfig', () => {
+describe('sortRoutes', () => {
   it('sorts route config correctly', () => {
     const routes: RouteConfig[] = [
       {
@@ -202,7 +202,7 @@ describe('sortConfig', () => {
       },
     ];
 
-    sortConfig(routes);
+    sortRoutes(routes);
 
     expect(routes).toMatchSnapshot();
   });
@@ -248,7 +248,7 @@ describe('sortConfig', () => {
       },
     ];
 
-    sortConfig(routes);
+    sortRoutes(routes);
 
     expect(routes).toMatchSnapshot();
   });
@@ -290,7 +290,7 @@ describe('sortConfig', () => {
       },
     ];
 
-    sortConfig(routes, baseURL);
+    sortRoutes(routes, baseURL);
 
     expect(routes).toMatchSnapshot();
   });

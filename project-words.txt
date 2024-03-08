@@ -47,6 +47,8 @@ changefreq
 Chedeau
 chedeau
 Clément
+Codegen
+codegen
 codesandbox
 Codespaces
 commonmark
@@ -284,6 +286,8 @@ redwoodjs
 refactorings
 Rehype
 rehype
+Reloadable
+reloadable
 renderable
 REPONAME
 Retrocompatibility

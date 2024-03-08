@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
-import {load, loadContext, type LoadContextOptions} from '../server';
+import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
@@ -32,7 +32,7 @@ import type {LoadedPlugin, Props} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
-  LoadContextOptions,
+  LoadContextParams,
   'config' | 'locale' | 'outDir'
 > & {
   bundleAnalyzer?: boolean;
@@ -161,7 +161,7 @@ async function buildLocale({
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
   PerfLogger.start('Loading site');
-  const props: Props = await load({
+  const site = await loadSite({
     siteDir,
     outDir: cliOptions.outDir,
     config: cliOptions.config,
@@ -170,7 +170,7 @@ async function buildLocale({
   });
   PerfLogger.end('Loading site');
 
-  // Apply user webpack config.
+  const {props} = site;
   const {outDir, plugins} = props;
 
   // We can build the 2 configs in parallel

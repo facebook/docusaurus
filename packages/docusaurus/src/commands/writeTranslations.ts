@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {loadContext, type LoadContextOptions} from '../server';
+import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {
   writePluginTranslations,
@@ -24,7 +24,7 @@ import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 import type {InitializedPlugin} from '@docusaurus/types';
 
 export type WriteTranslationsCLIOptions = Pick<
-  LoadContextOptions,
+  LoadContextParams,
   'config' | 'locale'
 > &
   WriteTranslationsOptions;

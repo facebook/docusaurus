@@ -12,9 +12,9 @@ import _ from 'lodash';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
 import webpack from 'webpack';
-import {loadContext} from '@docusaurus/core/src/server/index';
+import {loadContext} from '@docusaurus/core/src/server/site';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
-import {sortConfig} from '@docusaurus/core/src/server/plugins/routeConfig';
+import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
 import {posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
@@ -109,7 +109,7 @@ Entries created:
     expectSnapshot: () => {
       // Sort the route config like in src/server/plugins/index.ts for
       // consistent snapshot ordering
-      sortConfig(routeConfigs);
+      sortRoutes(routeConfigs);
       expect(routeConfigs).not.toEqual([]);
       expect(routeConfigs).toMatchSnapshot('route config');
       expect(dataContainer).toMatchSnapshot('data');
