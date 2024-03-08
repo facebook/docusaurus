@@ -18,11 +18,11 @@ import type {RouteConfig} from './routing';
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
-export type PluginConfig =
+export type PluginConfig<Content = unknown> =
   | string
   | [string, PluginOptions]
-  | [PluginModule, PluginOptions]
-  | PluginModule
+  | [PluginModule<Content>, PluginOptions]
+  | PluginModule<Content>
   | false
   | null;
 
@@ -185,8 +185,10 @@ export type LoadedPlugin = InitializedPlugin & {
   readonly content: unknown;
 };
 
-export type PluginModule = {
-  (context: LoadContext, options: unknown): Plugin | Promise<Plugin>;
+export type PluginModule<Content = unknown> = {
+  (context: LoadContext, options: unknown):
+    | Plugin<Content>
+    | Promise<Plugin<Content>>;
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 
