@@ -30,9 +30,9 @@ import type {
   DocusaurusConfig,
   GlobalData,
   LoadContext,
-  LoadedPlugin,
   Props,
 } from '@docusaurus/types';
+import type {PluginIdentifier} from '@docusaurus/types/src/plugin';
 
 export type LoadContextParams = {
   /** Usually the CWD; can be overridden with command argument. */
@@ -245,12 +245,14 @@ export async function reloadSite(site: Site): Promise<Site> {
 
 export async function reloadSitePlugin(
   site: Site,
-  plugin: LoadedPlugin,
+  pluginIdentifier: PluginIdentifier,
 ): Promise<Site> {
-  console.log(`reloadSitePlugin ${plugin.name}`);
+  console.log(
+    `reloadSitePlugin ${pluginIdentifier.name}@${pluginIdentifier.id}`,
+  );
 
   const {plugins, routes, globalData} = await reloadPlugin({
-    plugin,
+    pluginIdentifier,
     plugins: site.props.plugins,
     context: site.props,
   });
@@ -267,7 +269,7 @@ export async function reloadSitePlugin(
     params: site.params,
   };
 
-  // TODO optimize, bypass codegen if new site is similar to old site
+  // TODO optimize, bypass useless codegen if new site is similar to old site
   await createSiteFiles({site: newSite, globalData});
 
   return newSite;

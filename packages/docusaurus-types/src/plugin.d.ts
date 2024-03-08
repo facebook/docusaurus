@@ -163,6 +163,15 @@ export type Plugin<Content = unknown> = {
   }) => ThemeConfig;
 };
 
+/**
+ * Data required to uniquely identify a plugin
+ * The name or instance id alone is not enough
+ */
+export type PluginIdentifier = {
+  readonly name: string;
+  readonly id: string;
+};
+
 export type InitializedPlugin = Plugin & {
   readonly options: Required<PluginOptions>;
   readonly version: PluginVersionInformation;

@@ -8,6 +8,7 @@
 import path from 'path';
 import _ from 'lodash';
 import {docuHash, generate} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import {localizePluginTranslationFile} from '../translations/translations';
@@ -23,6 +24,7 @@ import type {
   InitializedPlugin,
   PluginRouteContext,
 } from '@docusaurus/types';
+import type {PluginIdentifier} from '@docusaurus/types/src/plugin';
 
 async function translatePlugin({
   plugin,
@@ -270,27 +272,39 @@ export async function loadPlugins(
   });
 }
 
+export function getPluginByIdentifier({
+  plugins,
+  pluginIdentifier,
+}: {
+  pluginIdentifier: PluginIdentifier;
+  plugins: LoadedPlugin[];
+}): LoadedPlugin {
+  const plugin = plugins.find(
+    (p) =>
+      p.name === pluginIdentifier.name && p.options.id === pluginIdentifier.id,
+  );
+  if (!plugin) {
+    throw new Error(
+      logger.interpolate`Plugin not found for identifier ${pluginIdentifier.name}@${pluginIdentifier.id}`,
+    );
+  }
+  return plugin;
+}
+
 export async function reloadPlugin({
-  plugin,
+  pluginIdentifier,
   plugins,
   context,
 }: {
-  plugin: LoadedPlugin;
+  pluginIdentifier: PluginIdentifier;
   plugins: LoadedPlugin[];
   context: LoadContext;
 }): Promise<LoadPluginsResult> {
   return PerfLogger.async('Plugins - reloadPlugin', async () => {
-    const pluginIndex = plugins.findIndex(
-      (p) => p.name === plugin.name && p.options.id === plugin.options.id,
-    );
-    if (pluginIndex === -1) {
-      throw new Error(
-        'Unexpected: this code assumes the plugin to reload is in the list of provided plugins',
-      );
-    }
+    const plugin = getPluginByIdentifier({plugins, pluginIdentifier});
 
     const reloadedPlugin = await executePluginLoadContent({plugin, context});
-    const newPlugins = plugins.with(pluginIndex, reloadedPlugin);
+    const newPlugins = plugins.with(plugins.indexOf(plugin), reloadedPlugin);
 
     // Unfortunately, due to the "AllContent" data we have to re-execute this
     // for all plugins, not just the one to reload...
