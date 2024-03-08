@@ -66,6 +66,7 @@ Daishi
 Datagit
 datagit
 Datagit's
+Datas
 dedup
 devto
 dingers
