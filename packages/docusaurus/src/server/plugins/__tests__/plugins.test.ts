@@ -6,53 +6,70 @@
  */
 
 import path from 'path';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {loadPlugins} from '../plugins';
-import type {Plugin, Props} from '@docusaurus/types';
+import type {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
+
+function testLoadPlugins({
+  plugins,
+  themes,
+}: {
+  plugins: PluginConfig[];
+  themes: PluginConfig[];
+}) {
+  const siteDir = path.join(__dirname, '__fixtures__/site-with-plugin');
+
+  const context = fromPartial<LoadContext>({
+    siteDir,
+    siteConfigPath: path.join(siteDir, 'docusaurus.config.js'),
+    generatedFilesDir: path.join(siteDir, '.docusaurus'),
+    outDir: path.join(siteDir, 'build'),
+    siteConfig: {
+      baseUrl: '/',
+      trailingSlash: true,
+      themeConfig: {},
+      presets: [],
+      plugins,
+      themes,
+    },
+  });
+
+  return loadPlugins(context);
+}
 
 describe('loadPlugins', () => {
   it('loads plugins', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__/site-with-plugin');
-    await expect(
-      loadPlugins({
-        siteDir,
-        generatedFilesDir: path.join(siteDir, '.docusaurus'),
-        outDir: path.join(siteDir, 'build'),
-        siteConfig: {
-          baseUrl: '/',
-          trailingSlash: true,
-          themeConfig: {},
-          presets: [],
-          plugins: [
-            () =>
-              ({
-                name: 'test1',
-                prop: 'a',
-                async loadContent() {
-                  // Testing that plugin lifecycle is bound to the instance
-                  return this.prop;
-                },
-                async contentLoaded({content, actions}) {
-                  actions.addRoute({
-                    path: 'foo',
-                    component: 'Comp',
-                    modules: {content: 'path'},
-                    context: {content: 'path'},
-                  });
-                  actions.setGlobalData({content, prop: this.prop});
-                },
-              } as Plugin & ThisType<{prop: 'a'}>),
-          ],
-          themes: [
-            () => ({
-              name: 'test2',
-              configureWebpack() {
-                return {};
-              },
-            }),
-          ],
-        },
-        siteConfigPath: path.join(siteDir, 'docusaurus.config.js'),
-      } as unknown as Props),
-    ).resolves.toMatchSnapshot();
+    const result = await testLoadPlugins({
+      plugins: [
+        () =>
+          ({
+            name: 'test1',
+            prop: 'a',
+            async loadContent() {
+              // Testing that plugin lifecycle is bound to the instance
+              return this.prop;
+            },
+            async contentLoaded({content, actions}) {
+              actions.addRoute({
+                path: 'foo',
+                component: 'Comp',
+                modules: {content: 'path'},
+                context: {content: 'path'},
+              });
+              actions.setGlobalData({content, prop: this.prop});
+            },
+          } as Plugin & ThisType<{prop: 'a'}>),
+      ],
+      themes: [
+        () => ({
+          name: 'test2',
+          configureWebpack() {
+            return {};
+          },
+        }),
+      ],
+    });
+
+    expect(result).toMatchSnapshot();
   });
 });
