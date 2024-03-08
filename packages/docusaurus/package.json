@@ -107,6 +107,7 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.0.0",
     "@docusaurus/types": "3.0.0",
+    "@total-typescript/shoehorn": "^0.1.2",
     "@types/detect-port": "^1.3.3",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-config": "^5.0.7",
