@@ -251,17 +251,18 @@ export type LoadPluginsResult = {
 
 type ContentLoadedResult = {routes: RouteConfig[]; globalData: GlobalData};
 
-export function mergeGlobalData(...globalDatas: GlobalData[]): GlobalData {
+export function mergeGlobalData(...globalDataList: GlobalData[]): GlobalData {
   const result: GlobalData = {};
 
-  const allPluginIdentifiers: PluginIdentifier[] = globalDatas.flatMap((gd) =>
-    Object.keys(gd).flatMap((name) =>
-      Object.keys(gd[name]!).map((id) => ({name, id})),
-    ),
+  const allPluginIdentifiers: PluginIdentifier[] = globalDataList.flatMap(
+    (gd) =>
+      Object.keys(gd).flatMap((name) =>
+        Object.keys(gd[name]!).map((id) => ({name, id})),
+      ),
   );
 
   allPluginIdentifiers.forEach(({name, id}) => {
-    const allData = globalDatas
+    const allData = globalDataList
       .map((gd) => gd?.[name]?.[id])
       .filter((d) => typeof d !== 'undefined');
     const mergedData =
