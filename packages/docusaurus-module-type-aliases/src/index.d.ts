@@ -320,6 +320,7 @@ declare module '@docusaurus/BrowserOnly' {
 
 declare module '@docusaurus/isInternalUrl' {
   export function hasProtocol(url: string): boolean;
+  export function hasLocalhost(url: string): boolean;
   export default function isInternalUrl(url?: string): boolean;
 }
 

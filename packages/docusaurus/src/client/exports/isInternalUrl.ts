@@ -9,6 +9,10 @@ export function hasProtocol(url: string): boolean {
   return /^(?:\w*:|\/\/)/.test(url);
 }
 
+export function hasLocalhost(url: string): boolean {
+  return /^\w*:\/\/(?:localhost|127\.0\.0\.1)/.test(url);
+}
+
 export default function isInternalUrl(url?: string): boolean {
-  return typeof url !== 'undefined' && !hasProtocol(url);
+  return typeof url !== 'undefined' && (!hasProtocol(url) || hasLocalhost(url));
 }

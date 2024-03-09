@@ -20,6 +20,14 @@ describe('isInternalUrl', () => {
     expect(isInternalUrl('foo/bar')).toBeTruthy();
   });
 
+  it('returns true for localhost links', () => {
+    expect(isInternalUrl('http://localhost:3000/foo/bar')).toBeTruthy();
+  });
+
+  it('returns true for 127.0.0.1 links', () => {
+    expect(isInternalUrl('http://127.0.0.1:3000/foo/bar')).toBeTruthy();
+  });
+
   it('returns false for HTTP links', () => {
     expect(isInternalUrl('http://foo.com')).toBeFalsy();
   });
