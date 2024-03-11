@@ -20,7 +20,6 @@ export default function EditMetaRow({
 }: EditMetaRowProps): JSX.Element {
   return (
     <div className={clsx('row', className)}>
-      <div className="col">EditMetaRow component</div>
       <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
       <div className={clsx('col', styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
