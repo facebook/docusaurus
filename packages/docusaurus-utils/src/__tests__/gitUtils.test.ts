@@ -138,20 +138,6 @@ describe('getFileCommitDate', () => {
     );
   });
 
-  it('temporary created file that is not tracked by git', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
-    const tempFilePath = path.join(repoDir, 'file.md');
-    await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
-    await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(/not tracked by git./),
-    );
-    await fs.unlink(tempFilePath);
-  });
-
   it('multiple files not tracked by git', async () => {
     const consoleMock = jest
       .spyOn(console, 'warn')

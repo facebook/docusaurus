@@ -168,9 +168,6 @@ export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
   })
   .unknown();
 
-export const FrontMatterAuthorErrorMessage =
-  '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
-
 export const FrontMatterLastUpdateErrorMessage =
   '{{#label}} does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.';
 

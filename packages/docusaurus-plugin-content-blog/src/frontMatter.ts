@@ -6,7 +6,6 @@
  */
 import {
   ContentVisibilitySchema,
-  FrontMatterAuthorErrorMessage,
   FrontMatterLastUpdateSchema,
   FrontMatterTOCHeadingLevels,
   FrontMatterTagsSchema,
@@ -15,6 +14,9 @@ import {
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
+
+const FrontMatterAuthorErrorMessage =
+  '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
 
 const BlogPostFrontMatterAuthorSchema = Joi.object({
   key: Joi.string(),
