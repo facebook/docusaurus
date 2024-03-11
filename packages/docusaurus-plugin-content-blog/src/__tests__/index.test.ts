@@ -544,9 +544,20 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    expect(blogPosts).toMatchSnapshot();
+    expect(blogPosts[0].metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[0].metadata.lastUpdatedAt).toBe(1539502055);
+
+    expect(blogPosts[1].metadata.lastUpdatedBy).toBe('Author');
+    expect(blogPosts[1].metadata.lastUpdatedAt).toBe(1539502055);
+
+    expect(blogPosts[2].metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[2].metadata.lastUpdatedAt).toBe(1609459200);
+
+    expect(blogPosts[3].metadata.lastUpdatedBy).toBe('Author');
+    expect(blogPosts[3].metadata.lastUpdatedAt).toBe(1609459200);
   });
-  it('author only', async () => {
+
+  it('time only', async () => {
     const plugin = await getPlugin(
       siteDir,
       {
@@ -557,9 +568,22 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    expect(blogPosts).toMatchSnapshot();
+    expect(blogPosts[0].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[0].metadata.lastUpdatedAt).toBe(1539502055);
+
+    expect(blogPosts[1].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[1].metadata.lastUpdatedAt).toBe(1539502055);
+
+    // TODO author should be undefined instead of 'seb'
+    //  as showLastUpdateAuthor is set to false
+    expect(blogPosts[2].metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[2].metadata.lastUpdatedAt).toBe(1609459200);
+
+    expect(blogPosts[3].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[3].metadata.lastUpdatedAt).toBe(1609459200);
   });
-  it('time only', async () => {
+
+  it('author only', async () => {
     const plugin = await getPlugin(
       siteDir,
       {
@@ -570,7 +594,19 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    expect(blogPosts).toMatchSnapshot();
+    expect(blogPosts[0].metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[0].metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[1].metadata.lastUpdatedBy).toBe('Author');
+    expect(blogPosts[1].metadata.lastUpdatedAt).toBeUndefined();
+
+    // TODO time should be undefined instead of 1609459200
+    //  as showLastUpdateTime is set to false
+    expect(blogPosts[2].metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[2].metadata.lastUpdatedAt).toBe(1609459200);
+
+    expect(blogPosts[3].metadata.lastUpdatedBy).toBe('Author');
+    expect(blogPosts[3].metadata.lastUpdatedAt).toBeUndefined();
   });
 
   it('none', async () => {
@@ -584,6 +620,16 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    expect(blogPosts).toMatchSnapshot();
+    expect(blogPosts[0].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[0].metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[1].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[1].metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[2].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[2].metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[3].metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[3].metadata.lastUpdatedAt).toBeUndefined();
   });
 });
