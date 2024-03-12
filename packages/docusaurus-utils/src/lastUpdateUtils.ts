@@ -13,6 +13,10 @@ import {
 } from './gitUtils';
 import type {PluginOptions} from '@docusaurus/types';
 
+export const GIT_FALLBACK_LAST_UPDATE_DATE = 1539502055;
+
+export const GIT_FALLBACK_LAST_UPDATE_AUTHOR = 'Author';
+
 export type LastUpdateData = {
   /** A timestamp in **seconds**, directly acquired from `git log`. */
   lastUpdatedAt?: number;
@@ -98,8 +102,8 @@ export async function readLastUpdateData(
       process.env.NODE_ENV === 'production'
         ? await getFileLastUpdate(filePath)
         : {
-            author: 'Author',
-            timestamp: 1539502055,
+            author: GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+            timestamp: GIT_FALLBACK_LAST_UPDATE_DATE,
           };
     const {author, timestamp} = fileLastUpdateData ?? {};
 
