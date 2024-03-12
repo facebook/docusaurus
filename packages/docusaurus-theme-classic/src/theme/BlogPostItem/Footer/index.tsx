@@ -56,7 +56,7 @@ export default function BlogPostItemFooter(): JSX.Element | null {
           className={clsx(
             'col',
             ThemeClassNames.blog.blogFooterEditMetaRow,
-            styles.blogFooterPagePading,
+            styles.blogFooterPagePadding,
           )}
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
