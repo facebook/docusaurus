@@ -73,5 +73,6 @@ export const ThemeClassNames = {
   },
   blog: {
     // TODO add other stable classNames here
+    blogFooterEditMetaRow: 'theme-blog-footer-edit-meta-row',
   },
 } as const;

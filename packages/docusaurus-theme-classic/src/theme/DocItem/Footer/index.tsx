@@ -48,7 +48,7 @@ export default function DocItemFooter(): JSX.Element | null {
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <EditMetaRow
-          className=""
+          className={clsx(ThemeClassNames.docs.docFooterEditMetaRow)}
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}

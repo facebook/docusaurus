@@ -8,3 +8,7 @@
 .blogPostFooterDetailsFull {
   flex-direction: column;
 }
+
+.blogFooterPagePading {
+  padding: 0;
+}

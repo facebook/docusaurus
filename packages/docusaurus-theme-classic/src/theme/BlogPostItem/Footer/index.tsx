@@ -8,6 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import EditMetaRow from '@theme/EditMetaRow';
 import TagsListInline from '@theme/TagsListInline';
 import ReadMoreLink from '@theme/BlogPostItem/Footer/ReadMoreLink';
@@ -52,7 +53,11 @@ export default function BlogPostItemFooter(): JSX.Element | null {
 
       {!truncatedPost && canDisplayEditMetaRow && (
         <EditMetaRow
-          className="margin-top--sm"
+          className={clsx(
+            'col',
+            ThemeClassNames.blog.blogFooterEditMetaRow,
+            styles.blogFooterPagePading,
+          )}
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
