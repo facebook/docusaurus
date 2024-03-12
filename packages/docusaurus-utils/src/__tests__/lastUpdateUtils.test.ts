@@ -76,7 +76,7 @@ describe('getFileLastUpdate', () => {
     expect(lastUpdateData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(
-        /.*\[WARNING\].* Sorry, the docs plugin last update options require Git\..*/,
+        /.*\[WARNING\].* Sorry, the last update options require Git\..*/,
       ),
     );
 

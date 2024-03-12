@@ -50,7 +50,7 @@ export async function getFileLastUpdate(
   } catch (err) {
     if (err instanceof GitNotFoundError) {
       if (!showedGitRequirementError) {
-        logger.warn('Sorry, the docs plugin last update options require Git.');
+        logger.warn('Sorry, the last update options require Git.');
         showedGitRequirementError = true;
       }
     } else if (err instanceof FileNotTrackedError) {
