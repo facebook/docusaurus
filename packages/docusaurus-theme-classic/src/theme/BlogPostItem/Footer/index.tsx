@@ -52,6 +52,7 @@ export default function BlogPostItemFooter(): JSX.Element | null {
 
       {!truncatedPost && canDisplayEditMetaRow && (
         <EditMetaRow
+          className="margin-top--sm"
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}

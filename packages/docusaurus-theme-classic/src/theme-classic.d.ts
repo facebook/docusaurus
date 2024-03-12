@@ -677,18 +677,11 @@ declare module '@theme/DocVersionSuggestions' {
 }
 
 declare module '@theme/EditMetaRow' {
-  import {type DocContextValue} from '@docusaurus/theme-common/internal';
-
-  // type EditMetaRowProps = Pick<
-  //   DocContextValue['metadata'],
-  //   'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy'
-  // >;
-
-  export interface EditMetaRowProps {
+  export interface Props {
     readonly className: string;
-    readonly editUrl: DocContextValue['metadata']['editUrl'];
-    readonly lastUpdatedAt: DocContextValue['metadata']['lastUpdatedAt'];
-    readonly lastUpdatedBy: DocContextValue['metadata']['lastUpdatedBy'];
+    readonly editUrl: string | null | undefined;
+    readonly lastUpdatedAt: number | undefined;
+    readonly lastUpdatedBy: string | undefined;
   }
   export default function EditMetaRow(props: Props): JSX.Element;
 }
