@@ -8,12 +8,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
-// import EditThisPage from '@theme/EditThisPage';
 import EditMetaRow from '@theme/EditMetaRow';
 import TagsListInline from '@theme/TagsListInline';
 import ReadMoreLink from '@theme/BlogPostItem/Footer/ReadMoreLink';
 
-// import LastUpdated from '@theme/LastUpdated';
 import styles from './styles.module.css';
 
 export default function BlogPostItemFooter(): JSX.Element | null {
@@ -51,25 +49,14 @@ export default function BlogPostItemFooter(): JSX.Element | null {
           <TagsListInline tags={tags} />
         </div>
       )}
-      {canDisplayEditMetaRow && (
+
+      {!truncatedPost && canDisplayEditMetaRow && (
         <EditMetaRow
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
         />
       )}
-      {/*
-      {isBlogPostPage && editUrl && (
-        <div className="row margin-top--sm">
-          <EditThisPage editUrl={editUrl} />
-          {(lastUpdatedAt || lastUpdatedBy) && (
-            <LastUpdated
-              lastUpdatedAt={lastUpdatedAt}
-              lastUpdatedBy={lastUpdatedBy}
-            />
-          )}
-        </div>
-      )} */}
 
       {truncatedPost && (
         <div

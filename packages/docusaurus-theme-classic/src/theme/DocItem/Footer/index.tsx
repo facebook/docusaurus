@@ -9,14 +9,10 @@ import React from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {useDoc} from '@docusaurus/theme-common/internal';
-// import {useDoc, type DocContextValue} from '@docusaurus/theme-common/internal';
-// import LastUpdated from '@theme/LastUpdated';
-// import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {
   type Props as TagsListInlineProps,
 } from '@theme/TagsListInline';
 
-// import styles from './styles.module.css';
 import EditMetaRow from '@theme/EditMetaRow';
 
 function TagsRow(props: TagsListInlineProps) {
@@ -32,31 +28,6 @@ function TagsRow(props: TagsListInlineProps) {
     </div>
   );
 }
-
-// type EditMetaRowProps = Pick<
-//   DocContextValue['metadata'],
-//   'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy'
-// >;
-// function EditMetaRow({
-//   editUrl,
-//   lastUpdatedAt,
-//   lastUpdatedBy,
-// }: EditMetaRowProps) {
-//   return (
-//     <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
-//       <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
-
-//       <div className={clsx('col', styles.lastUpdated)}>
-//         {(lastUpdatedAt || lastUpdatedBy) && (
-//           <LastUpdated
-//             lastUpdatedAt={lastUpdatedAt}
-//             lastUpdatedBy={lastUpdatedBy}
-//           />
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
 
 export default function DocItemFooter(): JSX.Element | null {
   const {metadata} = useDoc();
