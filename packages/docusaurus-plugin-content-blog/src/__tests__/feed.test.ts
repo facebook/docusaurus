@@ -245,4 +245,48 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
     ).toMatchSnapshot();
     fsMock.mockClear();
   });
+
+  it('has feed item for each post trailing slash', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const outDir = path.join(siteDir, 'build-snap');
+    const siteConfig = {
+      title: 'Hello',
+      baseUrl: '/myBaseUrl/',
+      url: 'https://docusaurus.io',
+      favicon: 'image/favicon.ico',
+      trailingSlash: true,
+      markdown,
+    };
+
+    // Build is quite difficult to mock, so we built the blog beforehand and
+    // copied the output to the fixture...
+    await testGenerateFeeds(
+      {
+        siteDir,
+        siteConfig,
+        i18n: DefaultI18N,
+        outDir,
+      } as LoadContext,
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        tagsBasePath: 'tags',
+        authorsMapPath: 'authors.yml',
+        include: DEFAULT_OPTIONS.include,
+        exclude: DEFAULT_OPTIONS.exclude,
+        feedOptions: {
+          type: [feedType],
+          copyright: 'Copyright',
+        },
+        readingTime: ({content, defaultReadingTime}) =>
+          defaultReadingTime({content}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
+      } as PluginOptions,
+    );
+
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
+    fsMock.mockClear();
+  });
 });
