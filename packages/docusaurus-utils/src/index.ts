@@ -51,7 +51,6 @@ export {
   parseURLPath,
   serializeURLPath,
   addLeadingSlash,
-  addTrailingSlash,
   removeTrailingSlash,
   hasSSHProtocol,
   buildHttpsUrl,

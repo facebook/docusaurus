@@ -7,10 +7,10 @@
 
 import {
   addLeadingSlash,
-  addTrailingSlash,
   isValidPathname,
   resolvePathname,
 } from '@docusaurus/utils';
+import {addTrailingSlash} from '@docusaurus/utils-common';
 import {
   DefaultNumberPrefixParser,
   stripPathNumberPrefixes,

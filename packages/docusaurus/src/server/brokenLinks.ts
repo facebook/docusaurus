@@ -9,12 +9,12 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {matchRoutes as reactRouterMatchRoutes} from 'react-router-config';
 import {
-  addTrailingSlash,
   parseURLPath,
   removeTrailingSlash,
   serializeURLPath,
   type URLPath,
 } from '@docusaurus/utils';
+import {addTrailingSlash} from '@docusaurus/utils-common';
 import {getAllFinalRoutes} from './routes';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 

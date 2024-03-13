@@ -12,6 +12,10 @@ export type ApplyTrailingSlashParams = Pick<
   'trailingSlash' | 'baseUrl'
 >;
 
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
+
 // Trailing slash handling depends in some site configuration options
 export default function applyTrailingSlash(
   path: string,
@@ -24,10 +28,6 @@ export default function applyTrailingSlash(
     return path;
   }
 
-  // TODO deduplicate: also present in @docusaurus/utils
-  function addTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str : `${str}/`;
-  }
   function removeTrailingSlash(str: string): string {
     return str.endsWith('/') ? str.slice(0, -1) : str;
   }
