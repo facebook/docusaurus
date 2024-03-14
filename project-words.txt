@@ -51,7 +51,6 @@ codesandbox
 Codespaces
 commonmark
 contravariance
-conver
 corejs
 Couriol
 creativecommons
