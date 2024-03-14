@@ -108,7 +108,7 @@ export function ActiveTeamRow(): JSX.Element {
       <TeamProfileCardCol
         name="Clément Couriol"
         githubUrl="https://github.com/ozakione">
-        <Translate id="team.profile.Yangshun Tay.body">
+        <Translate id="team.profile.Clement Couriol.body">
           Student from CPE Lyon, France. Passionate web developer who tries to
           become an expert web developer.
         </Translate>
