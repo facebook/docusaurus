@@ -11,7 +11,10 @@ import logger from '@docusaurus/logger';
 import {Feed, type Author as FeedAuthor} from 'feed';
 import * as srcset from 'srcset';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
-import {blogPostContainerID} from '@docusaurus/utils-common';
+import {
+  blogPostContainerID,
+  applyTrailingSlash,
+} from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import type {
@@ -40,8 +43,14 @@ async function generateBlogFeed({
   }
 
   const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
+  const {url: siteUrl, baseUrl, title, favicon, trailingSlash} = siteConfig;
+  const blogBaseUrl = applyTrailingSlash(
+    normalizeUrl([siteUrl, baseUrl, routeBasePath]),
+    {
+      trailingSlash,
+      baseUrl,
+    },
+  );
 
   const blogPostsForFeed =
     feedOptions.limit === false || feedOptions.limit === null
@@ -85,7 +94,7 @@ async function defaultCreateFeedItems({
   siteConfig: DocusaurusConfig;
   outDir: string;
 }): Promise<BlogFeedItem[]> {
-  const {url: siteUrl} = siteConfig;
+  const {url: siteUrl, baseUrl, trailingSlash} = siteConfig;
 
   function toFeedAuthor(author: Author): FeedAuthor {
     return {name: author.name, link: author.url, email: author.email};
@@ -105,13 +114,19 @@ async function defaultCreateFeedItems({
       } = post;
 
       const content = await readOutputHTMLFile(
-        permalink.replace(siteConfig.baseUrl, ''),
+        permalink.replace(baseUrl, ''),
         outDir,
-        siteConfig.trailingSlash,
+        trailingSlash,
       );
       const $ = cheerioLoad(content);
 
-      const blogPostAbsoluteUrl = normalizeUrl([siteUrl, permalink]);
+      const blogPostAbsoluteUrl = applyTrailingSlash(
+        normalizeUrl([siteUrl, permalink]),
+        {
+          trailingSlash,
+          baseUrl,
+        },
+      );
 
       const toAbsoluteUrl = (src: string) =>
         String(new URL(src, blogPostAbsoluteUrl));
