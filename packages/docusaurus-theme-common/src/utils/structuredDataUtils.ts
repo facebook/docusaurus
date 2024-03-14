@@ -37,9 +37,7 @@ function getBlogPost(
   const blogUrl = `${siteConfig.url}${metadata.permalink}`;
 
   const converDate = (dateMs: number | undefined) =>
-    typeof dateMs === 'undefined'
-      ? undefined
-      : new Date(dateMs * 1000).toISOString();
+    typeof dateMs === 'undefined' ? '' : new Date(dateMs * 1000).toISOString();
 
   return {
     '@type': 'BlogPosting',
@@ -121,7 +119,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
 
   const converDate = (dateMs: string | Date | undefined) => {
     if (typeof dateMs === 'undefined') {
-      return undefined;
+      return '';
     } else if (typeof dateMs === 'string') {
       return new Date(dateMs).toISOString();
     }
