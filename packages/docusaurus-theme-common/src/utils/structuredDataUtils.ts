@@ -29,12 +29,17 @@ function getBlogPost(
   withBaseUrl: BaseUrlUtils['withBaseUrl'],
 ) {
   const {assets, frontMatter, metadata} = blogPostContent;
-  const {date, title, description} = metadata;
+  const {date, title, description, lastUpdatedAt} = metadata;
 
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
 
   const blogUrl = `${siteConfig.url}${metadata.permalink}`;
+
+  const converDate = (dateMs: number | undefined) =>
+    typeof dateMs === 'undefined'
+      ? undefined
+      : new Date(dateMs * 1000).toISOString();
 
   return {
     '@type': 'BlogPosting',
@@ -45,6 +50,7 @@ function getBlogPost(
     name: title,
     description,
     datePublished: date,
+    dateModified: converDate(lastUpdatedAt),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),
@@ -113,6 +119,15 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
 
+  const converDate = (dateMs: string | Date | undefined) => {
+    if (typeof dateMs === 'undefined') {
+      return undefined;
+    } else if (typeof dateMs === 'string') {
+      return new Date(dateMs).toISOString();
+    }
+    return dateMs.toISOString();
+  };
+
   const url = `${siteConfig.url}${metadata.permalink}`;
 
   // details on structured data support: https://schema.org/BlogPosting
@@ -128,6 +143,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
     name: title,
     description,
     datePublished: date,
+    dateModified: converDate(frontMatter.last_update?.date),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),
