@@ -10,10 +10,12 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import shell from 'shelljs';
-import {getFileLastUpdate, readLastUpdateData} from '@docusaurus/utils';
-
-const convertDate = (date: number | undefined) =>
-  typeof date === 'number' ? date * 1000 : undefined;
+import {
+  getFileLastUpdate,
+  GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+  GIT_FALLBACK_LAST_UPDATE_DATE,
+  readLastUpdateData,
+} from '@docusaurus/utils';
 
 describe('getFileLastUpdate', () => {
   const {repoDir} = createTempRepo();
@@ -100,10 +102,8 @@ describe('getFileLastUpdate', () => {
 });
 
 describe('readLastUpdateData', () => {
-  const defaultDevDate = 1539502055;
-  const defaultDevAuthor = 'Author';
   const testDate = '2021-01-01';
-  const testDateTime = new Date(testDate).getTime();
+  const testDateTime = new Date(testDate).getTime() / 1000;
   const testAuthor = 'ozaki';
 
   it('read last time show author time', async () => {
@@ -112,8 +112,8 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: true},
       {date: testDate},
     );
-    expect(convertDate(lastUpdatedAt)).toEqual(testDateTime);
-    expect(lastUpdatedBy).toBe(defaultDevAuthor);
+    expect(lastUpdatedAt).toEqual(testDateTime);
+    expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
   });
 
   it('read last author show author time', async () => {
@@ -123,7 +123,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(lastUpdatedAt).toBe(defaultDevDate);
+    expect(lastUpdatedAt).toBe(GIT_FALLBACK_LAST_UPDATE_DATE);
   });
 
   it('read last all show author time', async () => {
@@ -133,7 +133,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor, date: testDate},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(convertDate(lastUpdatedAt)).toEqual(testDateTime);
+    expect(lastUpdatedAt).toEqual(testDateTime);
   });
 
   it('read last default show none', async () => {
@@ -160,7 +160,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {date: testDate},
     );
-    expect(lastUpdatedBy).toBe(defaultDevAuthor);
+    expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -180,7 +180,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {},
     );
-    expect(lastUpdatedBy).toBe(defaultDevAuthor);
+    expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -191,7 +191,7 @@ describe('readLastUpdateData', () => {
       {date: testDate},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(convertDate(lastUpdatedAt)).toEqual(testDateTime);
+    expect(lastUpdatedAt).toEqual(testDateTime);
   });
 
   it('read last author show time', async () => {
@@ -201,6 +201,26 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(defaultDevDate);
+    expect(lastUpdatedAt).toEqual(GIT_FALLBACK_LAST_UPDATE_DATE);
+  });
+
+  it('read last author show time only - both front matter', async () => {
+    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+      '',
+      {showLastUpdateAuthor: false, showLastUpdateTime: true},
+      {author: testAuthor, date: testDate},
+    );
+    expect(lastUpdatedBy).toBeUndefined();
+    expect(lastUpdatedAt).toEqual(testDateTime);
+  });
+
+  it('read last author show author only - both front matter', async () => {
+    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+      '',
+      {showLastUpdateAuthor: true, showLastUpdateTime: false},
+      {author: testAuthor, date: testDate},
+    );
+    expect(lastUpdatedBy).toEqual(testAuthor);
+    expect(lastUpdatedAt).toBeUndefined();
   });
 });

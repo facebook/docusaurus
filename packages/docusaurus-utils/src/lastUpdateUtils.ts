@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
   FileNotTrackedError,
@@ -16,6 +17,18 @@ import type {PluginOptions} from '@docusaurus/types';
 export const GIT_FALLBACK_LAST_UPDATE_DATE = 1539502055;
 
 export const GIT_FALLBACK_LAST_UPDATE_AUTHOR = 'Author';
+
+async function getGitLastUpdate(filePath: string): Promise<LastUpdateData> {
+  if (process.env.NODE_ENV !== 'production') {
+    // Use fake data in dev/test for faster development.
+    return {
+      lastUpdatedBy: GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+      lastUpdatedAt: GIT_FALLBACK_LAST_UPDATE_DATE,
+    };
+  }
+  const {author, timestamp} = (await getFileLastUpdate(filePath)) ?? {};
+  return {lastUpdatedBy: author, lastUpdatedAt: timestamp};
+}
 
 export type LastUpdateData = {
   /** A timestamp in **seconds**, directly acquired from `git log`. */
@@ -85,37 +98,35 @@ export async function readLastUpdateData(
   lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
-  if (showLastUpdateAuthor || showLastUpdateTime) {
-    const frontMatterTimestamp = lastUpdateFrontMatter?.date
-      ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
-      : undefined;
 
-    if (lastUpdateFrontMatter?.author && lastUpdateFrontMatter.date) {
-      return {
-        lastUpdatedAt: frontMatterTimestamp,
-        lastUpdatedBy: lastUpdateFrontMatter.author,
-      };
-    }
-
-    // Use fake data in dev for faster development.
-    const fileLastUpdateData =
-      process.env.NODE_ENV === 'production'
-        ? await getFileLastUpdate(filePath)
-        : {
-            author: GIT_FALLBACK_LAST_UPDATE_AUTHOR,
-            timestamp: GIT_FALLBACK_LAST_UPDATE_DATE,
-          };
-    const {author, timestamp} = fileLastUpdateData ?? {};
-
-    return {
-      lastUpdatedBy: showLastUpdateAuthor
-        ? lastUpdateFrontMatter?.author ?? author
-        : undefined,
-      lastUpdatedAt: showLastUpdateTime
-        ? frontMatterTimestamp ?? timestamp
-        : undefined,
-    };
+  if (!showLastUpdateAuthor && !showLastUpdateTime) {
+    return {};
   }
 
-  return {};
+  const frontMatterAuthor = lastUpdateFrontMatter?.author;
+  const frontMatterTimestamp = lastUpdateFrontMatter?.date
+    ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+    : undefined;
+
+  // We try to minimize git last update calls
+  // We call it at most once
+  // If all the data is provided as front matter, we do not call it
+  const getGitLastUpdateMemoized = _.memoize(() => getGitLastUpdate(filePath));
+  const getGitLastUpdateBy = () =>
+    getGitLastUpdateMemoized().then((update) => update.lastUpdatedBy);
+  const getGitLastUpdateAt = () =>
+    getGitLastUpdateMemoized().then((update) => update.lastUpdatedAt);
+
+  const lastUpdatedBy = showLastUpdateAuthor
+    ? frontMatterAuthor ?? (await getGitLastUpdateBy())
+    : undefined;
+
+  const lastUpdatedAt = showLastUpdateTime
+    ? frontMatterTimestamp ?? (await getGitLastUpdateAt())
+    : undefined;
+
+  return {
+    lastUpdatedBy,
+    lastUpdatedAt,
+  };
 }
