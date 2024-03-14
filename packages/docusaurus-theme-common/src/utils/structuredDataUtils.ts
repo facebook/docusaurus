@@ -23,6 +23,8 @@ import type {
 } from '@docusaurus/plugin-content-blog';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
+const convertDate = (dateMs: number) => new Date(dateMs * 1000).toISOString();
+
 function getBlogPost(
   blogPostContent: PropBlogPostContent,
   siteConfig: DocusaurusConfig,
@@ -36,8 +38,7 @@ function getBlogPost(
 
   const blogUrl = `${siteConfig.url}${metadata.permalink}`;
 
-  const convertDate = (dateMs: number | undefined) =>
-    typeof dateMs === 'undefined' ? '' : new Date(dateMs * 1000).toISOString();
+  const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
   return {
     '@type': 'BlogPosting',
@@ -48,7 +49,7 @@ function getBlogPost(
     name: title,
     description,
     datePublished: date,
-    dateModified: convertDate(lastUpdatedAt),
+    ...(dateModified ? {dateModified} : {}),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),
@@ -112,19 +113,12 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
   const {siteConfig} = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
 
-  const {date, title, description, frontMatter} = metadata;
+  const {date, title, description, frontMatter, lastUpdatedAt} = metadata;
 
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
 
-  const converDate = (dateMs: string | Date | undefined) => {
-    if (typeof dateMs === 'undefined') {
-      return '';
-    } else if (typeof dateMs === 'string') {
-      return new Date(dateMs).toISOString();
-    }
-    return dateMs.toISOString();
-  };
+  const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
   const url = `${siteConfig.url}${metadata.permalink}`;
 
@@ -141,7 +135,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
     name: title,
     description,
     datePublished: date,
-    dateModified: converDate(frontMatter.last_update?.date),
+    ...(dateModified ? {dateModified} : {}),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),
