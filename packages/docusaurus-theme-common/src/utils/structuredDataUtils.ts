@@ -36,7 +36,7 @@ function getBlogPost(
 
   const blogUrl = `${siteConfig.url}${metadata.permalink}`;
 
-  const converDate = (dateMs: number | undefined) =>
+  const convertDate = (dateMs: number | undefined) =>
     typeof dateMs === 'undefined' ? '' : new Date(dateMs * 1000).toISOString();
 
   return {
@@ -48,7 +48,7 @@ function getBlogPost(
     name: title,
     description,
     datePublished: date,
-    dateModified: converDate(lastUpdatedAt),
+    dateModified: convertDate(lastUpdatedAt),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),
