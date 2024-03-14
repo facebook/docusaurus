@@ -54,7 +54,7 @@ export default function BlogPostItemFooter(): JSX.Element | null {
       {!truncatedPost && canDisplayEditMetaRow && (
         <EditMetaRow
           className={clsx(
-            'col',
+            'col margin-top--sm',
             ThemeClassNames.blog.blogFooterEditMetaRow,
             styles.blogFooterPagePadding,
           )}
