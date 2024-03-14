@@ -600,10 +600,8 @@ describe('last update', () => {
       GIT_FALLBACK_LAST_UPDATE_DATE,
     );
 
-    // TODO author should be undefined instead of 'seb'
-    //  as showLastUpdateAuthor is set to false
     expect(blogPosts[2]?.metadata.title).toBe('Both');
-    expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[2]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
       lastUpdateFor('2021-01-01'),
     );
@@ -634,12 +632,8 @@ describe('last update', () => {
     );
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    // TODO time should be undefined instead of 2021-01-01
-    //  as showLastUpdateTime is set to false
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
 
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
       GIT_FALLBACK_LAST_UPDATE_AUTHOR,
