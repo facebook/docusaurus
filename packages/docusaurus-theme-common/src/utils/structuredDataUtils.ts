@@ -29,7 +29,7 @@ function getBlogPost(
   blogPostContent: PropBlogPostContent,
   siteConfig: DocusaurusConfig,
   withBaseUrl: BaseUrlUtils['withBaseUrl'],
-) {
+): BlogPosting {
   const {assets, frontMatter, metadata} = blogPostContent;
   const {date, title, description, lastUpdatedAt} = metadata;
 
