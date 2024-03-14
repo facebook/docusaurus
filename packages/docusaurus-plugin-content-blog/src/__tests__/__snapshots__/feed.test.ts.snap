@@ -220,7 +220,7 @@ exports[`atom has feed item for each post 1`] = `
 ]
 `;
 
-exports[`atom has feed item for each post trailing slash 1`] = `
+exports[`atom has feed item for each post - with trailing slash 1`] = `
 [
   "<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -506,7 +506,7 @@ exports[`json has feed item for each post 1`] = `
 ]
 `;
 
-exports[`json has feed item for each post trailing slash 1`] = `
+exports[`json has feed item for each post - with trailing slash 1`] = `
 [
   "{
     "version": "https://jsonfeed.org/version/1",
@@ -818,7 +818,7 @@ exports[`rss has feed item for each post 1`] = `
 ]
 `;
 
-exports[`rss has feed item for each post trailing slash 1`] = `
+exports[`rss has feed item for each post - with trailing slash 1`] = `
 [
   "<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
