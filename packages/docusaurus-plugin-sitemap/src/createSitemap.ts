@@ -8,8 +8,8 @@
 import type {ReactElement} from 'react';
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {createMatcher} from '@docusaurus/utils';
-import type {DocusaurusConfig} from '@docusaurus/types';
+import {createMatcher, flattenRoutes} from '@docusaurus/utils';
+import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
 
@@ -47,12 +47,19 @@ function isNoIndexMetaRoute({
   );
 }
 
-export default async function createSitemap(
-  siteConfig: DocusaurusConfig,
-  routesPaths: string[],
-  head: {[location: string]: HelmetServerState},
-  options: PluginOptions,
-): Promise<string | null> {
+type CreateSitemapParams = {
+  siteConfig: DocusaurusConfig;
+  routes: RouteConfig[];
+  head: {[location: string]: HelmetServerState};
+  options: PluginOptions;
+};
+
+export default async function createSitemap({
+  siteConfig,
+  routes,
+  head,
+  options,
+}: CreateSitemapParams): Promise<string | null> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
@@ -61,15 +68,15 @@ export default async function createSitemap(
 
   const ignoreMatcher = createMatcher(ignorePatterns);
 
-  function isRouteExcluded(route: string) {
+  function isRouteExcluded(route: RouteConfig) {
     return (
-      route.endsWith('404.html') ||
-      ignoreMatcher(route) ||
-      isNoIndexMetaRoute({head, route})
+      ignoreMatcher(route.path) || isNoIndexMetaRoute({head, route: route.path})
     );
   }
 
-  const includedRoutes = routesPaths.filter((route) => !isRouteExcluded(route));
+  const includedRoutes = flattenRoutes(routes).filter(
+    (route) => !isRouteExcluded(route),
+  );
 
   if (includedRoutes.length === 0) {
     return null;
@@ -77,9 +84,9 @@ export default async function createSitemap(
 
   const sitemapStream = new SitemapStream({hostname});
 
-  includedRoutes.forEach((routePath) =>
+  includedRoutes.forEach((route) =>
     sitemapStream.write({
-      url: applyTrailingSlash(routePath, {
+      url: applyTrailingSlash(route.path, {
         trailingSlash: siteConfig.trailingSlash,
         baseUrl: siteConfig.baseUrl,
       }),
@@ -90,7 +97,7 @@ export default async function createSitemap(
 
   sitemapStream.end();
 
-  const generatedSitemap = (await streamToPromise(sitemapStream)).toString();
+  const buffer = await streamToPromise(sitemapStream);
 
-  return generatedSitemap;
+  return buffer.toString();
 }

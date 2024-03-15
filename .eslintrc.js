@@ -85,6 +85,7 @@ module.exports = {
         ignorePattern: '(eslint-disable|@)',
       },
     ],
+    'arrow-body-style': OFF,
     'no-await-in-loop': OFF,
     'no-case-declarations': WARNING,
     'no-console': OFF,
