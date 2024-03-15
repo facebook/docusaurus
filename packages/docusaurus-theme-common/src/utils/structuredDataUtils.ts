@@ -23,18 +23,22 @@ import type {
 } from '@docusaurus/plugin-content-blog';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
+const convertDate = (dateMs: number) => new Date(dateMs * 1000).toISOString();
+
 function getBlogPost(
   blogPostContent: PropBlogPostContent,
   siteConfig: DocusaurusConfig,
   withBaseUrl: BaseUrlUtils['withBaseUrl'],
-) {
+): BlogPosting {
   const {assets, frontMatter, metadata} = blogPostContent;
-  const {date, title, description} = metadata;
+  const {date, title, description, lastUpdatedAt} = metadata;
 
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
 
   const blogUrl = `${siteConfig.url}${metadata.permalink}`;
+
+  const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
   return {
     '@type': 'BlogPosting',
@@ -45,6 +49,7 @@ function getBlogPost(
     name: title,
     description,
     datePublished: date,
+    ...(dateModified ? {dateModified} : {}),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),
@@ -108,10 +113,12 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
   const {siteConfig} = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
 
-  const {date, title, description, frontMatter} = metadata;
+  const {date, title, description, frontMatter, lastUpdatedAt} = metadata;
 
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
+
+  const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
   const url = `${siteConfig.url}${metadata.permalink}`;
 
@@ -128,6 +135,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
     name: title,
     description,
     datePublished: date,
+    ...(dateModified ? {dateModified} : {}),
     ...getAuthor(metadata.authors),
     ...getImage(image, withBaseUrl, title),
     ...(keywords ? {keywords} : {}),

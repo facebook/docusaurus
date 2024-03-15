@@ -195,7 +195,9 @@ export default async function createConfigAsync() {
         result = result.replaceAll('{/_', '{/*');
         result = result.replaceAll('_/}', '*/}');
 
-        if (isDev) {
+        const showDevLink = false;
+
+        if (isDev && showDevLink) {
           const isPartial = path.basename(filePath).startsWith('_');
           if (!isPartial) {
             // "vscode://file/${projectPath}${filePath}:${line}:${column}",
@@ -441,6 +443,8 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
             editUrl: ({locale, blogDirPath, blogPath}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;

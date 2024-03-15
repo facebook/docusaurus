@@ -6,9 +6,9 @@
  */
 
 .lastUpdated {
-  margin-top: 0.2rem;
-  font-style: italic;
   font-size: smaller;
+  font-style: italic;
+  margin-top: 0.2rem;
 }
 
 @media (min-width: 997px) {

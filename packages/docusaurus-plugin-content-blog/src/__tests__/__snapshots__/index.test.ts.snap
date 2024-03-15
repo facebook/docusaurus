@@ -137,6 +137,8 @@ exports[`blog plugin process blog posts load content 2`] = `
         "title": "Another Simple Slug",
       },
       "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
       "nextItem": {
         "permalink": "/blog/another/tags",
         "title": "Another With Tag",
@@ -172,6 +174,8 @@ exports[`blog plugin process blog posts load content 2`] = `
         "title": "Another With Tag",
       },
       "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
       "nextItem": {
         "permalink": "/blog/another/tags2",
         "title": "Another With Tag",
@@ -215,6 +219,8 @@ exports[`blog plugin process blog posts load content 2`] = `
         "title": "Another With Tag",
       },
       "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
       "permalink": "/blog/another/tags2",
       "prevItem": {
         "permalink": "/blog/another/tags",
