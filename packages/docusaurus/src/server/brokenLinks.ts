@@ -13,9 +13,9 @@ import {
   parseURLPath,
   removeTrailingSlash,
   serializeURLPath,
+  flattenRoutes,
   type URLPath,
 } from '@docusaurus/utils';
-import {getAllFinalRoutes} from './routes';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
 function matchRoutes(routeConfig: RouteConfig[], pathname: string) {
@@ -188,7 +188,7 @@ function getBrokenLinksForPage({
  */
 function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   const routesWithout404 = routesInput.filter((route) => route.path !== '*');
-  return getAllFinalRoutes(routesWithout404);
+  return flattenRoutes(routesWithout404);
 }
 
 function getBrokenLinks({

@@ -118,6 +118,7 @@ export {
 export {isDraft, isUnlisted} from './contentVisibilityUtils';
 export {escapeRegexp} from './regExpUtils';
 export {askPreferredLanguage} from './cliUtils';
+export {flattenRoutes} from './routeUtils';
 
 export {
   getFileLastUpdate,

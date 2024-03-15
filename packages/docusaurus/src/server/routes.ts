@@ -6,16 +6,8 @@
  */
 
 import logger from '@docusaurus/logger';
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, flattenRoutes} from '@docusaurus/utils';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-
-// Recursively get the final routes (routes with no subroutes)
-export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
-  function getFinalRoutes(route: RouteConfig): RouteConfig[] {
-    return route.routes ? route.routes.flatMap(getFinalRoutes) : [route];
-  }
-  return routeConfig.flatMap(getFinalRoutes);
-}
 
 export function handleDuplicateRoutes(
   routes: RouteConfig[],
@@ -24,7 +16,7 @@ export function handleDuplicateRoutes(
   if (onDuplicateRoutes === 'ignore') {
     return;
   }
-  const allRoutes: string[] = getAllFinalRoutes(routes).map(
+  const allRoutes: string[] = flattenRoutes(routes).map(
     (routeConfig) => routeConfig.path,
   );
   const seenRoutes = new Set<string>();
@@ -52,6 +44,13 @@ This could lead to non-deterministic routing behavior.`;
  * This is rendered through the catch-all ComponentCreator("*") route
  * Note CDNs only understand the 404.html file by convention
  * The extension probably permits to avoid emitting "/404/index.html"
+ *
+ * TODO we should probably deprecate/remove "postBuild({routesPaths})
+ *  The 404 generation handling can be moved to the SSG code
+ *  We only need getAllFinalRoutes() utils IMHO
+ *  This would be a plugin lifecycle breaking change :/
+ *  Although not many plugins probably use this
+ *
  */
 const NotFoundRoutePath = '/404.html';
 
@@ -61,6 +60,6 @@ export function getRoutesPaths(
 ): string[] {
   return [
     normalizeUrl([baseUrl, NotFoundRoutePath]),
-    ...getAllFinalRoutes(routeConfigs).map((r) => r.path),
+    ...flattenRoutes(routeConfigs).map((r) => r.path),
   ];
 }

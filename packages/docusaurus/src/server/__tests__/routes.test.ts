@@ -6,32 +6,8 @@
  */
 
 import {jest} from '@jest/globals';
-import {getAllFinalRoutes, handleDuplicateRoutes} from '../routes';
+import {handleDuplicateRoutes} from '../routes';
 import type {RouteConfig} from '@docusaurus/types';
-
-describe('getAllFinalRoutes', () => {
-  it('gets final routes correctly', () => {
-    const routes: RouteConfig[] = [
-      {
-        path: '/docs',
-        component: '',
-        routes: [
-          {path: '/docs/someDoc', component: ''},
-          {path: '/docs/someOtherDoc', component: ''},
-        ],
-      },
-      {
-        path: '/community',
-        component: '',
-      },
-    ];
-    expect(getAllFinalRoutes(routes)).toEqual([
-      routes[0]!.routes![0],
-      routes[0]!.routes![1],
-      routes[1],
-    ]);
-  });
-});
 
 describe('handleDuplicateRoutes', () => {
   const routes: RouteConfig[] = [
