@@ -195,7 +195,9 @@ export default async function createConfigAsync() {
         result = result.replaceAll('{/_', '{/*');
         result = result.replaceAll('_/}', '*/}');
 
-        if (isDev) {
+        const showDevLink = false;
+
+        if (isDev && showDevLink) {
           const isPartial = path.basename(filePath).startsWith('_');
           if (!isPartial) {
             // "vscode://file/${projectPath}${filePath}:${line}:${column}",

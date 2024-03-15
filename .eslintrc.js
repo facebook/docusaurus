@@ -91,7 +91,7 @@ module.exports = {
     'no-constant-binary-expression': ERROR,
     'no-continue': OFF,
     'no-control-regex': WARNING,
-    'no-else-return': [WARNING, {allowElseIf: true}],
+    'no-else-return': OFF,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-lonely-if': WARNING,
     'no-nested-ternary': WARNING,

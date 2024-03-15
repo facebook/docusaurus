@@ -9,25 +9,9 @@ import React from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {useDoc} from '@docusaurus/theme-common/internal';
-import TagsListInline, {
-  type Props as TagsListInlineProps,
-} from '@theme/TagsListInline';
+import TagsListInline from '@theme/TagsListInline';
 
 import EditMetaRow from '@theme/EditMetaRow';
-
-function TagsRow(props: TagsListInlineProps) {
-  return (
-    <div
-      className={clsx(
-        ThemeClassNames.docs.docFooterTagsRow,
-        'row margin-bottom--sm',
-      )}>
-      <div className="col">
-        <TagsListInline {...props} />
-      </div>
-    </div>
-  );
-}
 
 export default function DocItemFooter(): JSX.Element | null {
   const {metadata} = useDoc();
@@ -45,10 +29,23 @@ export default function DocItemFooter(): JSX.Element | null {
   return (
     <footer
       className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}>
-      {canDisplayTagsRow && <TagsRow tags={tags} />}
+      {canDisplayTagsRow && (
+        <div
+          className={clsx(
+            'row margin-top--sm',
+            ThemeClassNames.docs.docFooterTagsRow,
+          )}>
+          <div className="col">
+            <TagsListInline tags={tags} />
+          </div>
+        </div>
+      )}
       {canDisplayEditMetaRow && (
         <EditMetaRow
-          className={clsx(ThemeClassNames.docs.docFooterEditMetaRow)}
+          className={clsx(
+            'margin-top--sm',
+            ThemeClassNames.docs.docFooterEditMetaRow,
+          )}
           editUrl={editUrl}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
