@@ -118,3 +118,12 @@ export {
 export {isDraft, isUnlisted} from './contentVisibilityUtils';
 export {escapeRegexp} from './regExpUtils';
 export {askPreferredLanguage} from './cliUtils';
+
+export {
+  getFileLastUpdate,
+  type LastUpdateData,
+  type FrontMatterLastUpdate,
+  readLastUpdateData,
+  GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+  GIT_FALLBACK_LAST_UPDATE_DATE,
+} from './lastUpdateUtils';

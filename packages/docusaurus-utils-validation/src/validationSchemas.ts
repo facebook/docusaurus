@@ -167,3 +167,16 @@ export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
       "Can't be draft and unlisted at the same time.",
   })
   .unknown();
+
+export const FrontMatterLastUpdateErrorMessage =
+  '{{#label}} does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.';
+
+export const FrontMatterLastUpdateSchema = Joi.object({
+  author: Joi.string(),
+  date: Joi.date().raw(),
+})
+  .or('author', 'date')
+  .messages({
+    'object.missing': FrontMatterLastUpdateErrorMessage,
+    'object.base': FrontMatterLastUpdateErrorMessage,
+  });

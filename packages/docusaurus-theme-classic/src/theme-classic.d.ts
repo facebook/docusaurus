@@ -676,6 +676,16 @@ declare module '@theme/DocVersionSuggestions' {
   export default function DocVersionSuggestions(): JSX.Element;
 }
 
+declare module '@theme/EditMetaRow' {
+  export interface Props {
+    readonly className: string;
+    readonly editUrl: string | null | undefined;
+    readonly lastUpdatedAt: number | undefined;
+    readonly lastUpdatedBy: string | undefined;
+  }
+  export default function EditMetaRow(props: Props): JSX.Element;
+}
+
 declare module '@theme/EditThisPage' {
   export interface Props {
     readonly editUrl: string;

@@ -26,6 +26,7 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
+  readLastUpdateData,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -231,6 +232,12 @@ async function processBlogSourceFile(
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
+  const lastUpdate = await readLastUpdateData(
+    blogSourceAbsolute,
+    options,
+    frontMatter.last_update,
+  );
+
   const draft = isDraft({frontMatter});
   const unlisted = isUnlisted({frontMatter});
 
@@ -337,6 +344,8 @@ async function processBlogSourceFile(
       authors,
       frontMatter,
       unlisted,
+      lastUpdatedAt: lastUpdate.lastUpdatedAt,
+      lastUpdatedBy: lastUpdate.lastUpdatedBy,
     },
     content,
   };

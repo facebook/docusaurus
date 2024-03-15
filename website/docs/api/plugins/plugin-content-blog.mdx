@@ -76,6 +76,8 @@ Accepted fields:
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
 | `sortPosts` | <code>'descending' \| 'ascending' </code> | `'descending'` | Governs the direction of blog post sorting. |
 | `processBlogPosts` | <code>[ProcessBlogPostsFn](#ProcessBlogPostsFn)</code> | `undefined` | An optional function which can be used to transform blog posts (filter, modify, delete, etc...). |
+| `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the blog post. |
+| `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
 
 ```mdx-code-block
 </APITable>
@@ -232,12 +234,15 @@ Accepted fields:
 | `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used as the `<meta property="og:image" content="..."/>` in the `<head>`, enhancing link previews on social media and messaging platforms. |
 | `slug` | `string` | File path | Allows to customize the blog post URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`. |
+| `last_update` | `FrontMatterLastUpdate` | `undefined` | Allows overriding the last update author/date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
 
 ```mdx-code-block
 </APITable>
 ```
 
 ```ts
+type FrontMatterLastUpdate = {date?: string; author?: string};
+
 type Tag = string | {label: string; permalink: string};
 
 // An author key references an author from the global plugin authors.yml file
