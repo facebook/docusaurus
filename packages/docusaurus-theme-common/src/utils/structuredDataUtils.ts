@@ -23,7 +23,7 @@ import type {
 } from '@docusaurus/plugin-content-blog';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
-const convertDate = (dateMs: number) => new Date(dateMs * 1000).toISOString();
+const convertDate = (dateMs: number) => new Date(dateMs).toISOString();
 
 function getBlogPost(
   blogPostContent: PropBlogPostContent,

@@ -103,7 +103,7 @@ describe('getFileLastUpdate', () => {
 
 describe('readLastUpdateData', () => {
   const testDate = '2021-01-01';
-  const testDateTime = new Date(testDate).getTime() / 1000;
+  const testTimestamp = new Date(testDate).getTime();
   const testAuthor = 'ozaki';
 
   it('read last time show author time', async () => {
@@ -112,7 +112,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: true},
       {date: testDate},
     );
-    expect(lastUpdatedAt).toEqual(testDateTime);
+    expect(lastUpdatedAt).toEqual(testTimestamp);
     expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
   });
 
@@ -133,7 +133,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor, date: testDate},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(lastUpdatedAt).toEqual(testDateTime);
+    expect(lastUpdatedAt).toEqual(testTimestamp);
   });
 
   it('read last default show none', async () => {
@@ -191,7 +191,7 @@ describe('readLastUpdateData', () => {
       {date: testDate},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(testDateTime);
+    expect(lastUpdatedAt).toEqual(testTimestamp);
   });
 
   it('read last author show time', async () => {
@@ -211,7 +211,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor, date: testDate},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(testDateTime);
+    expect(lastUpdatedAt).toEqual(testTimestamp);
   });
 
   it('read last author show author only - both front matter', async () => {
