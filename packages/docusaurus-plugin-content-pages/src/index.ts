@@ -23,6 +23,7 @@ import {
   isUnlisted,
   isDraft,
 } from '@docusaurus/utils';
+import {aliasedSitePathToRelativePath} from '@docusaurus/utils/lib/pathUtils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {RouteMetadata} from '@docusaurus/types/src/routing';
 import type {LoadContext, Plugin} from '@docusaurus/types';
@@ -161,7 +162,7 @@ export default function pluginContentPages(
 
       function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
         return {
-          sourceFilePath: metadata.source,
+          sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
           // TODO add support for last updated date in the page plugin
           //  at least for Markdown files
           // lastUpdatedAt: metadata.lastUpdatedAt,
