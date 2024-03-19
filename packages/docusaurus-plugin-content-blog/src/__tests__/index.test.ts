@@ -539,7 +539,7 @@ describe('last update', () => {
     'website-blog-with-last-update',
   );
 
-  const lastUpdateFor = (date: string) => new Date(date).getTime() / 1000;
+  const lastUpdateFor = (date: string) => new Date(date).getTime();
 
   it('author and time', async () => {
     const plugin = await getPlugin(

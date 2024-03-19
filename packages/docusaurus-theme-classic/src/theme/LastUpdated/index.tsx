@@ -16,7 +16,7 @@ function LastUpdatedAtDate({
 }: {
   lastUpdatedAt: number;
 }): JSX.Element {
-  const atDate = new Date(lastUpdatedAt * 1000);
+  const atDate = new Date(lastUpdatedAt);
 
   const dateTimeFormat = useDateTimeFormat({
     day: 'numeric',

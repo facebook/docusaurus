@@ -14,7 +14,7 @@ import {
 } from './gitUtils';
 import type {PluginOptions} from '@docusaurus/types';
 
-export const GIT_FALLBACK_LAST_UPDATE_DATE = 1539502055;
+export const GIT_FALLBACK_LAST_UPDATE_DATE = 1539502055000;
 
 export const GIT_FALLBACK_LAST_UPDATE_AUTHOR = 'Author';
 
@@ -31,9 +31,9 @@ async function getGitLastUpdate(filePath: string): Promise<LastUpdateData> {
 }
 
 export type LastUpdateData = {
-  /** A timestamp in **seconds**, directly acquired from `git log`. */
+  /** A timestamp in **milliseconds**, usually read from `git log` */
   lastUpdatedAt?: number;
-  /** The author's name directly acquired from `git log`. */
+  /** The author's name, usually coming from `git log` */
   lastUpdatedBy?: string;
 };
 
@@ -105,7 +105,7 @@ export async function readLastUpdateData(
 
   const frontMatterAuthor = lastUpdateFrontMatter?.author;
   const frontMatterTimestamp = lastUpdateFrontMatter?.date
-    ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+    ? new Date(lastUpdateFrontMatter.date).getTime()
     : undefined;
 
   // We try to minimize git last update calls

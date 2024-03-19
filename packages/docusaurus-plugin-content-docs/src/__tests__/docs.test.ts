@@ -8,7 +8,12 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/site';
-import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {
+  createSlugger,
+  posixPath,
+  DEFAULT_PLUGIN_ID,
+  GIT_FALLBACK_LAST_UPDATE_DATE,
+} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {
   processDocMetadata,
@@ -474,7 +479,7 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: 1539502055,
+      lastUpdatedAt: GIT_FALLBACK_LAST_UPDATE_DATE,
       lastUpdatedBy: 'Author',
       tags: [],
       unlisted: false,
@@ -571,7 +576,7 @@ describe('simple site', () => {
         },
         title: 'Custom Last Update',
       },
-      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
@@ -609,7 +614,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: 1539502055,
+      lastUpdatedAt: GIT_FALLBACK_LAST_UPDATE_DATE,
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
@@ -647,7 +652,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Date Only',
       },
-      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
       lastUpdatedBy: 'Author',
       sidebarPosition: undefined,
       tags: [],

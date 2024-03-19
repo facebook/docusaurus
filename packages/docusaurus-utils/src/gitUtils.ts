@@ -39,7 +39,7 @@ export async function getFileCommitDate(
 ): Promise<{
   /** Relevant commit date. */
   date: Date;
-  /** Timestamp in **seconds**, as returned from git. */
+  /** Timestamp returned from git, converted to **milliseconds**. */
   timestamp: number;
 }>;
 /**
@@ -66,7 +66,7 @@ export async function getFileCommitDate(
 ): Promise<{
   /** Relevant commit date. */
   date: Date;
-  /** Timestamp in **seconds**, as returned from git. */
+  /** Timestamp returned from git, converted to **milliseconds**. */
   timestamp: number;
   /** The author's name, as returned from git. */
   author: string;
@@ -150,8 +150,9 @@ export async function getFileCommitDate(
     );
   }
 
-  const timestamp = Number(match.groups!.timestamp);
-  const date = new Date(timestamp * 1000);
+  const timestampInSeconds = Number(match.groups!.timestamp);
+  const timestamp = timestampInSeconds * 1_000;
+  const date = new Date(timestamp);
 
   if (includeAuthor) {
     return {date, timestamp, author: match.groups!.author!};

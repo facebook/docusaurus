@@ -52,13 +52,13 @@ describe('getFileCommitDate', () => {
       getFileCommitDate(path.join(repoDir, 'test.txt'), {}),
     ).resolves.toEqual({
       date: new Date('2020-06-19'),
-      timestamp: new Date('2020-06-19').getTime() / 1000,
+      timestamp: new Date('2020-06-19').getTime(),
     });
     await expect(
       getFileCommitDate(path.join(repoDir, 'dest.txt'), {}),
     ).resolves.toEqual({
       date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime() / 1000,
+      timestamp: new Date('2020-09-13').getTime(),
     });
   });
   it('returns latest commit date', async () => {
@@ -66,13 +66,13 @@ describe('getFileCommitDate', () => {
       getFileCommitDate(path.join(repoDir, 'test.txt'), {age: 'newest'}),
     ).resolves.toEqual({
       date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime() / 1000,
+      timestamp: new Date('2020-09-13').getTime(),
     });
     await expect(
       getFileCommitDate(path.join(repoDir, 'dest.txt'), {age: 'newest'}),
     ).resolves.toEqual({
       date: new Date('2020-11-13'),
-      timestamp: new Date('2020-11-13').getTime() / 1000,
+      timestamp: new Date('2020-11-13').getTime(),
     });
   });
   it('returns latest commit date with author', async () => {
@@ -83,7 +83,7 @@ describe('getFileCommitDate', () => {
       }),
     ).resolves.toEqual({
       date: new Date('2020-06-19'),
-      timestamp: new Date('2020-06-19').getTime() / 1000,
+      timestamp: new Date('2020-06-19').getTime(),
       author: 'Caroline',
     });
     await expect(
@@ -93,7 +93,7 @@ describe('getFileCommitDate', () => {
       }),
     ).resolves.toEqual({
       date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime() / 1000,
+      timestamp: new Date('2020-09-13').getTime(),
       author: 'Caroline',
     });
   });
@@ -105,7 +105,7 @@ describe('getFileCommitDate', () => {
       }),
     ).resolves.toEqual({
       date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime() / 1000,
+      timestamp: new Date('2020-09-13').getTime(),
       author: 'Caroline',
     });
     await expect(
@@ -115,7 +115,7 @@ describe('getFileCommitDate', () => {
       }),
     ).resolves.toEqual({
       date: new Date('2020-11-13'),
-      timestamp: new Date('2020-11-13').getTime() / 1000,
+      timestamp: new Date('2020-11-13').getTime(),
       author: 'Josh-Cena',
     });
   });
