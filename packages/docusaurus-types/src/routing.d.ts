@@ -37,6 +37,29 @@ export type RouteModules = {
 };
 
 /**
+ * Plugin authors can assign extra metadata to the created routes
+ * It is only available on the Node.js side, and not sent to the browser
+ * Optional: plugin authors are not required to provide it
+ */
+export type RouteMetadata = {
+  /**
+   * The source code file path that led to the creation of the current route
+   * In official content plugins, this is usually a Markdown or React file
+   * This path is expected to be relative to the site directory
+   */
+  sourceFilePath?: string;
+  /**
+   * The last updated date of this route
+   * This is generally read from the Git history of the sourceFilePath
+   * but can also be provided through other means (usually front matter)
+   *
+   * This has notably been introduced for adding "lastmod" support to the
+   * sitemap plugin, see https://github.com/facebook/docusaurus/pull/9954
+   */
+  lastUpdatedAt?: number;
+};
+
+/**
  * Represents a "slice" of the final route structure returned from the plugin
  * `addRoute` action.
  */
@@ -67,6 +90,12 @@ export type RouteConfig = {
   strict?: boolean;
   /** Used to sort routes. Higher-priority routes will be placed first. */
   priority?: number;
+
+  /**
+   * Optional route metadata
+   */
+  metadata?: RouteMetadata;
+
   /** Extra props; will be copied to routes.js. */
   [propName: string]: unknown;
 };

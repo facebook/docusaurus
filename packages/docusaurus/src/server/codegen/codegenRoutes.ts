@@ -200,6 +200,7 @@ function genRouteCode(routeConfig: RouteConfig, res: RoutesCode): string {
     routes: subroutes,
     priority,
     exact,
+    metadata,
     ...props
   } = routeConfig;
 

@@ -93,6 +93,20 @@ export function aliasedSitePath(filePath: string, siteDir: string): string {
 }
 
 /**
+ * Converts back the aliased site path (starting with "@site/...") to a relative path
+ *
+ * TODO method this is a workaround, we shouldn't need to alias/un-alias paths
+ *  we should refactor the codebase to not have aliased site paths everywhere
+ *  We probably only need aliasing for client-only paths required by Webpack
+ */
+export function aliasedSitePathToRelativePath(filePath: string): string {
+  if (filePath.startsWith('@site/')) {
+    return filePath.replace('@site/', '');
+  }
+  throw new Error(`Unexpected, filePath is not site-aliased: ${filePath}`);
+}
+
+/**
  * When you have a path like C:\X\Y
  * It is not safe to use directly when generating code
  * For example, this would fail due to unescaped \:

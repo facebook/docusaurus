@@ -1482,6 +1482,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/hello.md",
+                },
                 "modules": {
                   "content": "@site/docs/hello.md",
                 },
@@ -1491,6 +1495,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/absoluteSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/absoluteSlug.md",
                 },
@@ -1508,6 +1516,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/customLastUpdate.md",
+                },
                 "modules": {
                   "content": "@site/docs/customLastUpdate.md",
                 },
@@ -1516,6 +1528,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/doc with space.md",
+                },
                 "modules": {
                   "content": "@site/docs/doc with space.md",
                 },
@@ -1524,6 +1540,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/doc-draft.md",
+                },
                 "modules": {
                   "content": "@site/docs/doc-draft.md",
                 },
@@ -1532,6 +1552,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/doc-unlisted.md",
+                },
                 "modules": {
                   "content": "@site/docs/doc-unlisted.md",
                 },
@@ -1541,6 +1565,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/foo/bar.md",
+                },
                 "modules": {
                   "content": "@site/docs/foo/bar.md",
                 },
@@ -1550,6 +1578,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/foo/baz.md",
+                },
                 "modules": {
                   "content": "@site/docs/foo/baz.md",
                 },
@@ -1559,6 +1591,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/headingAsTitle.md",
+                },
                 "modules": {
                   "content": "@site/docs/headingAsTitle.md",
                 },
@@ -1568,6 +1604,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/rootResolvedSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/rootResolvedSlug.md",
                 },
@@ -1577,6 +1617,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/ipsum.md",
+                },
                 "modules": {
                   "content": "@site/docs/ipsum.md",
                 },
@@ -1585,6 +1629,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/lastUpdateAuthorOnly.md",
+                },
                 "modules": {
                   "content": "@site/docs/lastUpdateAuthorOnly.md",
                 },
@@ -1593,6 +1641,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/lastUpdateDateOnly.md",
+                },
                 "modules": {
                   "content": "@site/docs/lastUpdateDateOnly.md",
                 },
@@ -1601,6 +1653,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/lorem.md",
+                },
                 "modules": {
                   "content": "@site/docs/lorem.md",
                 },
@@ -1609,6 +1665,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/rootAbsoluteSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/rootAbsoluteSlug.md",
                 },
@@ -1618,6 +1678,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/rootRelativeSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/rootRelativeSlug.md",
                 },
@@ -1627,6 +1691,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/rootTryToEscapeSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/rootTryToEscapeSlug.md",
                 },
@@ -1636,6 +1704,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/resolvedSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/resolvedSlug.md",
                 },
@@ -1644,6 +1716,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/relativeSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/relativeSlug.md",
                 },
@@ -1652,6 +1728,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/tryToEscapeSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/tryToEscapeSlug.md",
                 },
@@ -1660,6 +1740,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/unlisted-category/index.md",
+                },
                 "modules": {
                   "content": "@site/docs/unlisted-category/index.md",
                 },
@@ -1669,6 +1753,10 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/unlisted-category/unlisted-category-doc.md",
+                },
                 "modules": {
                   "content": "@site/docs/unlisted-category/unlisted-category-doc.md",
                 },
@@ -2940,6 +3028,10 @@ exports[`versioned website (community) content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
+                },
                 "modules": {
                   "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
                 },
@@ -2967,6 +3059,10 @@ exports[`versioned website (community) content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "community_versioned_docs/version-1.0.0/team.md",
+                },
                 "modules": {
                   "content": "@site/community_versioned_docs/version-1.0.0/team.md",
                 },
@@ -4174,6 +4270,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
+                },
                 "modules": {
                   "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
                 },
@@ -4183,6 +4283,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-1.0.0/foo/bar.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
                 },
@@ -4192,6 +4296,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-1.0.0/foo/baz.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
                 },
@@ -4251,6 +4359,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/hello.md",
+                },
                 "modules": {
                   "content": "@site/docs/hello.md",
                 },
@@ -4260,6 +4372,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/absoluteSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/absoluteSlug.md",
                 },
@@ -4268,6 +4384,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/foo/bar.md",
+                },
                 "modules": {
                   "content": "@site/docs/foo/bar.md",
                 },
@@ -4277,6 +4397,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/resolvedSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/resolvedSlug.md",
                 },
@@ -4285,6 +4409,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/relativeSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/relativeSlug.md",
                 },
@@ -4293,6 +4421,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "docs/slugs/tryToEscapeSlug.md",
+                },
                 "modules": {
                   "content": "@site/docs/slugs/tryToEscapeSlug.md",
                 },
@@ -4319,6 +4451,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
                 },
@@ -4327,6 +4463,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/rootResolvedSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/rootResolvedSlug.md",
                 },
@@ -4335,6 +4475,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
                 },
@@ -4344,6 +4488,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/rootRelativeSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/rootRelativeSlug.md",
                 },
@@ -4352,6 +4500,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/rootTryToEscapeSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md",
                 },
@@ -4360,6 +4512,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
                 },
@@ -4368,6 +4524,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/slugs/relativeSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md",
                 },
@@ -4376,6 +4536,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md",
                 },
@@ -4402,6 +4566,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-1.0.1/hello.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-1.0.1/hello.md",
                 },
@@ -4411,6 +4579,10 @@ exports[`versioned website content: route config 1`] = `
               {
                 "component": "@theme/DocItem",
                 "exact": true,
+                "metadata": {
+                  "lastUpdatedAt": undefined,
+                  "sourceFilePath": "versioned_docs/version-1.0.1/foo/bar.md",
+                },
                 "modules": {
                   "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
                 },
