@@ -47,17 +47,15 @@ describe('createSitemap', () => {
     );
   });
 
-  it('empty site', () =>
-    expect(async () => {
-      await createSitemap({
-        siteConfig: fromPartial({}),
-        routes: [],
-        head: {},
-        options,
-      });
-    }).rejects.toThrow(
-      'URL in docusaurus.config.js cannot be empty/undefined.',
-    ));
+  it('site with no routes', async () => {
+    const sitemap = await createSitemap({
+      siteConfig,
+      routes: routes([]),
+      head: {},
+      options,
+    });
+    expect(sitemap).toBeNull();
+  });
 
   it('excludes patterns configured to be ignored', async () => {
     const sitemap = await createSitemap({

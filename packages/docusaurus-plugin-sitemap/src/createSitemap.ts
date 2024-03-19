@@ -6,13 +6,23 @@
  */
 
 import type {ReactElement} from 'react';
-import {SitemapStream, streamToPromise} from 'sitemap';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {createMatcher, flattenRoutes} from '@docusaurus/utils';
+import {createMatcher, flattenRoutes, normalizeUrl} from '@docusaurus/utils';
+import {sitemapItemsToXmlString} from './xml';
+import type {SitemapItem} from './types';
 import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 import type {PluginOptions} from './options';
 
+type CreateSitemapParams = {
+  siteConfig: DocusaurusConfig;
+  routes: RouteConfig[];
+  head: {[location: string]: HelmetServerState};
+  options: PluginOptions;
+};
+
+// Maybe we want to add a routeConfig.metadata.noIndex instead?
+// But using Helmet is more reliable for third-party plugins...
 function isNoIndexMetaRoute({
   head,
   route,
@@ -47,24 +57,35 @@ function isNoIndexMetaRoute({
   );
 }
 
-type CreateSitemapParams = {
-  siteConfig: DocusaurusConfig;
-  routes: RouteConfig[];
-  head: {[location: string]: HelmetServerState};
-  options: PluginOptions;
-};
-
-export default async function createSitemap({
+async function createRouteSitemapItem({
+  route,
   siteConfig,
-  routes,
-  head,
   options,
-}: CreateSitemapParams): Promise<string | null> {
-  const {url: hostname} = siteConfig;
-  if (!hostname) {
-    throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
-  }
-  const {changefreq, priority, ignorePatterns} = options;
+}: {
+  route: RouteConfig;
+  siteConfig: DocusaurusConfig;
+  options: PluginOptions;
+}): Promise<SitemapItem> {
+  const {changefreq, priority} = options;
+  return {
+    url: normalizeUrl([
+      siteConfig.url,
+      applyTrailingSlash(route.path, {
+        trailingSlash: siteConfig.trailingSlash,
+        baseUrl: siteConfig.baseUrl,
+      }),
+    ]),
+    changefreq,
+    priority,
+  };
+}
+
+// Not all routes should appear in the sitemap, and we should filter:
+// - parent routes, used for layouts
+// - routes matching options.ignorePatterns
+// - routes with no index metadata
+function getSitemapRoutes({routes, head, options}: CreateSitemapParams) {
+  const {ignorePatterns} = options;
 
   const ignoreMatcher = createMatcher(ignorePatterns);
 
@@ -74,30 +95,34 @@ export default async function createSitemap({
     );
   }
 
-  const includedRoutes = flattenRoutes(routes).filter(
-    (route) => !isRouteExcluded(route),
-  );
+  return flattenRoutes(routes).filter((route) => !isRouteExcluded(route));
+}
 
-  if (includedRoutes.length === 0) {
+async function createSitemapItems(
+  params: CreateSitemapParams,
+): Promise<SitemapItem[]> {
+  const sitemapRoutes = getSitemapRoutes(params);
+  if (sitemapRoutes.length === 0) {
+    return [];
+  }
+  return Promise.all(
+    sitemapRoutes.map((route) =>
+      createRouteSitemapItem({
+        route,
+        siteConfig: params.siteConfig,
+        options: params.options,
+      }),
+    ),
+  );
+}
+
+export default async function createSitemap(
+  params: CreateSitemapParams,
+): Promise<string | null> {
+  const items = await createSitemapItems(params);
+  if (items.length === 0) {
     return null;
   }
-
-  const sitemapStream = new SitemapStream({hostname});
-
-  includedRoutes.forEach((route) =>
-    sitemapStream.write({
-      url: applyTrailingSlash(route.path, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      }),
-      changefreq,
-      priority,
-    }),
-  );
-
-  sitemapStream.end();
-
-  const buffer = await streamToPromise(sitemapStream);
-
-  return buffer.toString();
+  const xmlString = await sitemapItemsToXmlString(items);
+  return xmlString;
 }
