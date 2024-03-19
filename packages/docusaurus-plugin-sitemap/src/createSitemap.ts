@@ -6,9 +6,9 @@
  */
 
 import type {ReactElement} from 'react';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {createMatcher, flattenRoutes, normalizeUrl} from '@docusaurus/utils';
+import {createMatcher, flattenRoutes} from '@docusaurus/utils';
 import {sitemapItemsToXmlString} from './xml';
+import {createSitemapItem} from './createSitemapItem';
 import type {SitemapItem} from './types';
 import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
@@ -57,29 +57,6 @@ function isNoIndexMetaRoute({
   );
 }
 
-async function createRouteSitemapItem({
-  route,
-  siteConfig,
-  options,
-}: {
-  route: RouteConfig;
-  siteConfig: DocusaurusConfig;
-  options: PluginOptions;
-}): Promise<SitemapItem> {
-  const {changefreq, priority} = options;
-  return {
-    url: normalizeUrl([
-      siteConfig.url,
-      applyTrailingSlash(route.path, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      }),
-    ]),
-    changefreq,
-    priority,
-  };
-}
-
 // Not all routes should appear in the sitemap, and we should filter:
 // - parent routes, used for layouts
 // - routes matching options.ignorePatterns
@@ -107,7 +84,7 @@ async function createSitemapItems(
   }
   return Promise.all(
     sitemapRoutes.map((route) =>
-      createRouteSitemapItem({
+      createSitemapItem({
         route,
         siteConfig: params.siteConfig,
         options: params.options,
@@ -123,6 +100,8 @@ export default async function createSitemap(
   if (items.length === 0) {
     return null;
   }
-  const xmlString = await sitemapItemsToXmlString(items);
+  const xmlString = await sitemapItemsToXmlString(items, {
+    lastmod: params.options.lastmod,
+  });
   return xmlString;
 }

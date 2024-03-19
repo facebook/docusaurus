@@ -5,17 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export const LastModOptionList = ['date', 'datetime'] as const;
+
+export type LastModOption = (typeof LastModOptionList)[number];
+
 // types are according to the sitemap spec:
 // see also https://www.sitemaps.org/protocol.html
 
-export type ChangeFred =
-  | 'hourly'
-  | 'daily'
-  | 'weekly'
-  | 'monthly'
-  | 'yearly'
-  | 'always'
-  | 'never';
+export const ChangeFreqList = [
+  'hourly',
+  'daily',
+  'weekly',
+  'monthly',
+  'yearly',
+  'always',
+  'never',
+] as const;
+
+export type ChangeFred = (typeof ChangeFreqList)[number];
 
 // We re-recreate our own type because the "sitemap" lib types are not good
 export type SitemapItem = {
@@ -38,7 +45,7 @@ export type SitemapItem = {
    * Note: as of 2024, Google uses this value for crawling priority.
    * See also https://github.com/facebook/docusaurus/issues/2604
    */
-  lastmod?: string;
+  lastmod?: string | null;
 
   /**
    * One of the specified enum values
@@ -46,7 +53,7 @@ export type SitemapItem = {
    * Note: as of 2024, Google ignores this value.
    * See also https://github.com/facebook/docusaurus/issues/2604
    */
-  changefreq?: ChangeFred;
+  changefreq?: ChangeFred | null;
 
   /**
    * The priority of this URL relative to other URLs on your site.
@@ -56,5 +63,5 @@ export type SitemapItem = {
    * Note: as of 2024, Google ignores this value.
    * See also https://github.com/facebook/docusaurus/issues/2604
    */
-  priority?: number;
+  priority?: number | null;
 };

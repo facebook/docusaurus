@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import {EnumChangefreq} from 'sitemap';
 import {fromPartial} from '@total-typescript/shoehorn';
 import createSitemap from '../createSitemap';
 import type {PluginOptions} from '../options';
@@ -17,10 +16,11 @@ const siteConfig: DocusaurusConfig = fromPartial({
 });
 
 const options: PluginOptions = {
-  changefreq: EnumChangefreq.DAILY,
+  changefreq: 'daily',
   priority: 0.7,
   ignorePatterns: [],
   filename: 'sitemap.xml',
+  lastmod: 'datetime',
 };
 
 const route = (routePath: string, routePaths?: string[]): RouteConfig => {
