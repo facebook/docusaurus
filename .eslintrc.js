@@ -348,10 +348,7 @@ module.exports = {
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
     ],
-    '@typescript-eslint/consistent-indexed-object-style': [
-      WARNING,
-      'index-signature',
-    ],
+    '@typescript-eslint/consistent-indexed-object-style': OFF,
     '@typescript-eslint/consistent-type-imports': [
       WARNING,
       {disallowTypeAnnotations: false},
