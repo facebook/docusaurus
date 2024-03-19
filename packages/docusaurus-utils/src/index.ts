@@ -121,10 +121,10 @@ export {askPreferredLanguage} from './cliUtils';
 export {flattenRoutes} from './routeUtils';
 
 export {
-  getFileLastUpdate,
+  getGitLastUpdate,
+  getLastUpdate,
+  readLastUpdateData,
+  LAST_UPDATE_FALLBACK,
   type LastUpdateData,
   type FrontMatterLastUpdate,
-  readLastUpdateData,
-  GIT_FALLBACK_LAST_UPDATE_AUTHOR,
-  GIT_FALLBACK_LAST_UPDATE_DATE,
 } from './lastUpdateUtils';

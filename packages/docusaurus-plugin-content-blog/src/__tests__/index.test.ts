@@ -11,8 +11,7 @@ import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {
   posixPath,
   getFileCommitDate,
-  GIT_FALLBACK_LAST_UPDATE_DATE,
-  GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+  LAST_UPDATE_FALLBACK,
 } from '@docusaurus/utils';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
@@ -554,14 +553,14 @@ describe('last update', () => {
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
-      GIT_FALLBACK_LAST_UPDATE_DATE,
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
     );
 
     expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
-      GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
     );
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
-      GIT_FALLBACK_LAST_UPDATE_DATE,
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
     );
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
@@ -570,7 +569,7 @@ describe('last update', () => {
     );
 
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
-      GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
     );
     expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
       lastUpdateFor('2021-01-01'),
@@ -591,13 +590,13 @@ describe('last update', () => {
     expect(blogPosts[0]?.metadata.title).toBe('Author');
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
-      GIT_FALLBACK_LAST_UPDATE_DATE,
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
     );
 
     expect(blogPosts[1]?.metadata.title).toBe('Nothing');
     expect(blogPosts[1]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
-      GIT_FALLBACK_LAST_UPDATE_DATE,
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
     );
 
     expect(blogPosts[2]?.metadata.title).toBe('Both');
@@ -628,7 +627,7 @@ describe('last update', () => {
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
 
     expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
-      GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
     );
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
 
@@ -636,7 +635,7 @@ describe('last update', () => {
     expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
 
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
-      GIT_FALLBACK_LAST_UPDATE_AUTHOR,
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
     );
     expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
   });
