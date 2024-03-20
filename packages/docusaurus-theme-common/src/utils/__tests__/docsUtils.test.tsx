@@ -17,6 +17,7 @@ import {
   useCurrentSidebarCategory,
   useSidebarBreadcrumbs,
   isVisibleSidebarItem,
+  filterDocCardListItems,
 } from '../docsUtils';
 import {DocsSidebarProvider} from '../../contexts/docsSidebar';
 import {DocsVersionProvider} from '../../contexts/docsVersion';
@@ -760,5 +761,35 @@ describe('useCurrentSidebarCategory', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Unexpected: cant find current sidebar in context"`,
     );
+  });
+});
+
+describe('filterDocCardListItems', () => {
+  it('returns original list of valid items', () => {
+    const items = [
+      {type: 'link', href: '/foo/bar', label: 'Foo'},
+      {type: 'link', href: 'bar/foo', label: 'Bar'},
+      {type: 'link', href: '/foo/listed', label: 'Listed'},
+    ];
+    expect(filterDocCardListItems(items)).toEqual(items);
+  });
+  it('filters out unlisted items', () => {
+    const items = [
+      {type: 'link', href: '/foo/bar', label: 'Foo'},
+      {type: 'link', href: 'bar/foo', label: 'Bar'},
+      {type: 'link', href: '/foo/unlisted', label: 'Unlisted', unlisted: true},
+    ];
+    expect(filterDocCardListItems(items)).toEqual([
+      {type: 'link', href: '/foo/bar', label: 'Foo'},
+      {type: 'link', href: 'bar/foo', label: 'Bar'},
+    ]);
+  });
+  it('includes html items', () => {
+    const items = [
+      {type: 'link', href: '/foo/bar', label: 'Foo'},
+      {type: 'link', href: 'bar/foo', label: 'Bar'},
+      {type: 'html', value: 'baz'},
+    ];
+    expect(filterDocCardListItems(items)).toEqual(items);
   });
 });
