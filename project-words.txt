@@ -312,6 +312,7 @@ setlocal
 Shiki
 shiki
 shortcodes
+showcasetes
 showinfo
 Sida
 Simen
