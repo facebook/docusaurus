@@ -239,6 +239,7 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      'showcase',
       [
         './src/plugins/changelog/index.js',
         {

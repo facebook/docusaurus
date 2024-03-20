@@ -247,6 +247,14 @@ declare module '@theme/BlogPostItems' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/Showcase' {
+  export interface Props {
+    [key: string]: string;
+  }
+
+  export default function Showcase(props: Props): JSX.Element;
+}
+
 declare module '@theme/BlogPostItem/Container' {
   import type {ReactNode} from 'react';
 
