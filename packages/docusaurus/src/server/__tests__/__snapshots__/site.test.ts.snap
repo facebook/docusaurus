@@ -37,12 +37,14 @@ exports[`load loads props for site with custom i18n path 1`] = `
     {
       "content": undefined,
       "getClientModules": [Function],
+      "globalData": undefined,
       "injectHtmlTags": [Function],
       "name": "docusaurus-bootstrap-plugin",
       "options": {
         "id": "default",
       },
       "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site",
+      "routes": [],
       "version": {
         "type": "synthetic",
       },
@@ -50,11 +52,13 @@ exports[`load loads props for site with custom i18n path 1`] = `
     {
       "configureWebpack": [Function],
       "content": undefined,
+      "globalData": undefined,
       "name": "docusaurus-mdx-fallback-plugin",
       "options": {
         "id": "default",
       },
       "path": ".",
+      "routes": [],
       "version": {
         "type": "synthetic",
       },

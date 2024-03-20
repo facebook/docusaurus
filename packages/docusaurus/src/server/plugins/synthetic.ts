@@ -7,7 +7,11 @@
 
 import path from 'path';
 import type {RuleSetRule} from 'webpack';
-import type {HtmlTagObject, LoadedPlugin, LoadContext} from '@docusaurus/types';
+import type {
+  HtmlTagObject,
+  LoadContext,
+  InitializedPlugin,
+} from '@docusaurus/types';
 import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 /**
@@ -18,7 +22,7 @@ import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 export function createBootstrapPlugin({
   siteDir,
   siteConfig,
-}: LoadContext): LoadedPlugin {
+}: LoadContext): InitializedPlugin {
   const {
     stylesheets,
     scripts,
@@ -27,7 +31,6 @@ export function createBootstrapPlugin({
   } = siteConfig;
   return {
     name: 'docusaurus-bootstrap-plugin',
-    content: null,
     options: {
       id: 'default',
     },
@@ -75,10 +78,9 @@ export function createBootstrapPlugin({
 export function createMDXFallbackPlugin({
   siteDir,
   siteConfig,
-}: LoadContext): LoadedPlugin {
+}: LoadContext): InitializedPlugin {
   return {
     name: 'docusaurus-mdx-fallback-plugin',
-    content: null,
     options: {
       id: 'default',
     },
