@@ -8,7 +8,7 @@
 import {Joi} from '@docusaurus/utils-validation';
 import {ChangeFreqList, LastModOptionList} from './types';
 import type {OptionValidationContext} from '@docusaurus/types';
-import type {ChangeFred, LastModOption} from './types';
+import type {ChangeFreq, LastModOption} from './types';
 
 export type PluginOptions = {
   /**
@@ -37,7 +37,7 @@ export type PluginOptions = {
    * TODO Docusaurus v4 breaking change: remove useless option
    * @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions
    */
-  changefreq: ChangeFred | null;
+  changefreq: ChangeFreq | null;
 
   /**
    * TODO Docusaurus v4 breaking change: remove useless option

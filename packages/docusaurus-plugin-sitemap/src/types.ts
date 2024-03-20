@@ -22,7 +22,7 @@ export const ChangeFreqList = [
   'never',
 ] as const;
 
-export type ChangeFred = (typeof ChangeFreqList)[number];
+export type ChangeFreq = (typeof ChangeFreqList)[number];
 
 // We re-recreate our own type because the "sitemap" lib types are not good
 export type SitemapItem = {
@@ -53,7 +53,7 @@ export type SitemapItem = {
    * Note: as of 2024, Google ignores this value.
    * See also https://github.com/facebook/docusaurus/issues/2604
    */
-  changefreq?: ChangeFred | null;
+  changefreq?: ChangeFreq | null;
 
   /**
    * The priority of this URL relative to other URLs on your site.
