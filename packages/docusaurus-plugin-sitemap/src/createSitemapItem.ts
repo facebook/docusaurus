@@ -34,7 +34,6 @@ const LastmodFormatters: Record<LastModOption, LastModFormatter> = {
 
 function formatLastmod(timestamp: number, lastmodOption: LastModOption) {
   const format = LastmodFormatters[lastmodOption];
-  console.log('formatLastmod', {lastmodOption, res: format(timestamp)});
   return format(timestamp);
 }
 
