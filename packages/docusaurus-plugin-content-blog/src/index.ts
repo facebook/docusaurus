@@ -11,6 +11,7 @@ import {
   normalizeUrl,
   docuHash,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   getPluginI18nPath,
   posixPath,
   addTrailingPathSeparator,
@@ -19,7 +20,6 @@ import {
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {aliasedSitePathToRelativePath} from '@docusaurus/utils/lib/pathUtils';
 import {
   getSourceToPermalink,
   getBlogTags,
@@ -34,7 +34,12 @@ import {createBlogFeedFiles} from './feed';
 
 import {toTagProp, toTagsProp} from './props';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
+import type {
+  LoadContext,
+  Plugin,
+  HtmlTags,
+  RouteMetadata,
+} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
@@ -46,7 +51,6 @@ import type {
   BlogPaginated,
   BlogMetadata,
 } from '@docusaurus/plugin-content-blog';
-import type {RouteMetadata} from '@docusaurus/types/src/routing';
 
 export default async function pluginContentBlog(
   context: LoadContext,

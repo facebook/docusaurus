@@ -7,16 +7,23 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {docuHash, createSlugger, normalizeUrl} from '@docusaurus/utils';
-import {aliasedSitePathToRelativePath} from '@docusaurus/utils/lib/pathUtils';
+import {
+  docuHash,
+  createSlugger,
+  normalizeUrl,
+  aliasedSitePathToRelativePath,
+} from '@docusaurus/utils';
 import {
   toTagDocListProp,
   toTagsListTagsProp,
   toVersionMetadataProp,
 } from './props';
 import {getVersionTags} from './tags';
-import type {RouteMetadata} from '@docusaurus/types/src/routing';
-import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
+import type {
+  PluginContentLoadedActions,
+  RouteConfig,
+  RouteMetadata,
+} from '@docusaurus/types';
 import type {FullVersion, VersionTag} from './types';
 import type {
   CategoryGeneratedIndexMetadata,

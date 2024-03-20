@@ -91,6 +91,7 @@ export {
   posixPath,
   toMessageRelativeFilePath,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   escapePath,
   addTrailingPathSeparator,
 } from './pathUtils';

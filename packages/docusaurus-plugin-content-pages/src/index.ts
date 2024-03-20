@@ -11,6 +11,7 @@ import {
   encodePath,
   fileToPath,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   docuHash,
   getPluginI18nPath,
   getFolderContainingFile,
@@ -23,10 +24,8 @@ import {
   isUnlisted,
   isDraft,
 } from '@docusaurus/utils';
-import {aliasedSitePathToRelativePath} from '@docusaurus/utils/lib/pathUtils';
 import {validatePageFrontMatter} from './frontMatter';
-import type {RouteMetadata} from '@docusaurus/types/src/routing';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
 import type {PagesContentPaths} from './types';
 import type {
   PluginOptions,
