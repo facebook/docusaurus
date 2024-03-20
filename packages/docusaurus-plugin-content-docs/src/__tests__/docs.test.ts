@@ -12,7 +12,7 @@ import {
   createSlugger,
   posixPath,
   DEFAULT_PLUGIN_ID,
-  GIT_FALLBACK_LAST_UPDATE_DATE,
+  LAST_UPDATE_FALLBACK,
 } from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {
@@ -479,8 +479,8 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: GIT_FALLBACK_LAST_UPDATE_DATE,
-      lastUpdatedBy: 'Author',
+      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdatedBy: LAST_UPDATE_FALLBACK.lastUpdatedBy,
       tags: [],
       unlisted: false,
     });
@@ -614,7 +614,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: GIT_FALLBACK_LAST_UPDATE_DATE,
+      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],

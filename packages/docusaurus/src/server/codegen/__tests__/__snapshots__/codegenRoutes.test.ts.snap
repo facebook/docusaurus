@@ -9,7 +9,7 @@ exports[`loadRoutes loads flat route config 1`] = `
     "metadata---blog-0-b-6-74c": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
   },
   "routesChunkNames": {
-    "/blog-599": {
+    "/blog-030": {
       "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
       "items": [
         {
@@ -31,7 +31,7 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/blog',
-    component: ComponentCreator('/blog', '599'),
+    component: ComponentCreator('/blog', '030'),
     exact: true
   },
   {
@@ -56,7 +56,7 @@ exports[`loadRoutes loads nested route config 1`] = `
     "plugin---docs-hello-665-3ca": "pluginRouteContextModule-100.json",
   },
   "routesChunkNames": {
-    "/docs/hello-fcc": {
+    "/docs/hello-ab4": {
       "__comp": "__comp---theme-doc-item-178-a40",
       "__context": {
         "plugin": "plugin---docs-hello-665-3ca",
@@ -64,11 +64,11 @@ exports[`loadRoutes loads nested route config 1`] = `
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-9d0": {
+    "/docs:route-001": {
       "__comp": "__comp---theme-doc-roota-94-67a",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-eb2": {
+    "docs/foo/baz-125": {
       "__comp": "__comp---theme-doc-item-178-a40",
       "__context": {
         "plugin": "plugin---docs-hello-665-3ca",
@@ -83,17 +83,17 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route', '9d0'),
+    component: ComponentCreator('/docs:route', '001'),
     routes: [
       {
         path: '/docs/hello',
-        component: ComponentCreator('/docs/hello', 'fcc'),
+        component: ComponentCreator('/docs/hello', 'ab4'),
         exact: true,
         sidebar: "main"
       },
       {
         path: 'docs/foo/baz',
-        component: ComponentCreator('docs/foo/baz', 'eb2'),
+        component: ComponentCreator('docs/foo/baz', '125'),
         sidebar: "secondary",
         "key:a": "containing colon",
         "key'b": "containing quote",

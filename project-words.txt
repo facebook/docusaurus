@@ -42,7 +42,6 @@ cdabcdab
 cdpath
 Cena
 cena
-Changefreq
 changefreq
 Chedeau
 chedeau
@@ -157,6 +156,8 @@ Knapen
 Koyeb
 Koyeb's
 Lamana
+Lastmod
+lastmod
 Lifecycles
 lifecycles
 Linkify

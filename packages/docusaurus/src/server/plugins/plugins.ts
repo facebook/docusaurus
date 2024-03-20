@@ -18,10 +18,10 @@ import type {
   RouteConfig,
   AllContent,
   GlobalData,
+  PluginIdentifier,
   LoadedPlugin,
   InitializedPlugin,
 } from '@docusaurus/types';
-import type {PluginIdentifier} from '@docusaurus/types/src/plugin';
 
 async function translatePlugin({
   plugin,

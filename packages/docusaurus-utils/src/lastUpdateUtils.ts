@@ -14,22 +14,6 @@ import {
 } from './gitUtils';
 import type {PluginOptions} from '@docusaurus/types';
 
-export const GIT_FALLBACK_LAST_UPDATE_DATE = 1539502055000;
-
-export const GIT_FALLBACK_LAST_UPDATE_AUTHOR = 'Author';
-
-async function getGitLastUpdate(filePath: string): Promise<LastUpdateData> {
-  if (process.env.NODE_ENV !== 'production') {
-    // Use fake data in dev/test for faster development.
-    return {
-      lastUpdatedBy: GIT_FALLBACK_LAST_UPDATE_AUTHOR,
-      lastUpdatedAt: GIT_FALLBACK_LAST_UPDATE_DATE,
-    };
-  }
-  const {author, timestamp} = (await getFileLastUpdate(filePath)) ?? {};
-  return {lastUpdatedBy: author, lastUpdatedAt: timestamp};
-}
-
 export type LastUpdateData = {
   /** A timestamp in **milliseconds**, usually read from `git log` */
   lastUpdatedAt?: number;
@@ -37,20 +21,12 @@ export type LastUpdateData = {
   lastUpdatedBy?: string;
 };
 
-export type FrontMatterLastUpdate = {
-  author?: string;
-  /** Date can be any
-   * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
-   */
-  date?: Date | string;
-};
-
 let showedGitRequirementError = false;
 let showedFileNotTrackedError = false;
 
-export async function getFileLastUpdate(
+export async function getGitLastUpdate(
   filePath: string,
-): Promise<{timestamp: number; author: string} | null> {
+): Promise<LastUpdateData | null> {
   if (!filePath) {
     return null;
   }
@@ -63,7 +39,7 @@ export async function getFileLastUpdate(
       includeAuthor: true,
     });
 
-    return {timestamp: result.timestamp, author: result.author};
+    return {lastUpdatedAt: result.timestamp, lastUpdatedBy: result.author};
   } catch (err) {
     if (err instanceof GitNotFoundError) {
       if (!showedGitRequirementError) {
@@ -87,10 +63,34 @@ export async function getFileLastUpdate(
   }
 }
 
+export const LAST_UPDATE_FALLBACK: LastUpdateData = {
+  lastUpdatedAt: 1539502055000,
+  lastUpdatedBy: 'Author',
+};
+
+export async function getLastUpdate(
+  filePath: string,
+): Promise<LastUpdateData | null> {
+  if (process.env.NODE_ENV !== 'production') {
+    // Use fake data in dev/test for faster development.
+    return LAST_UPDATE_FALLBACK;
+  }
+  return getGitLastUpdate(filePath);
+}
+
 type LastUpdateOptions = Pick<
   PluginOptions,
   'showLastUpdateAuthor' | 'showLastUpdateTime'
 >;
+
+export type FrontMatterLastUpdate = {
+  author?: string;
+  /**
+   * Date can be any
+   * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+   */
+  date?: Date | string;
+};
 
 export async function readLastUpdateData(
   filePath: string,
@@ -111,18 +111,18 @@ export async function readLastUpdateData(
   // We try to minimize git last update calls
   // We call it at most once
   // If all the data is provided as front matter, we do not call it
-  const getGitLastUpdateMemoized = _.memoize(() => getGitLastUpdate(filePath));
-  const getGitLastUpdateBy = () =>
-    getGitLastUpdateMemoized().then((update) => update.lastUpdatedBy);
-  const getGitLastUpdateAt = () =>
-    getGitLastUpdateMemoized().then((update) => update.lastUpdatedAt);
+  const getLastUpdateMemoized = _.memoize(() => getLastUpdate(filePath));
+  const getLastUpdateBy = () =>
+    getLastUpdateMemoized().then((update) => update?.lastUpdatedBy);
+  const getLastUpdateAt = () =>
+    getLastUpdateMemoized().then((update) => update?.lastUpdatedAt);
 
   const lastUpdatedBy = showLastUpdateAuthor
-    ? frontMatterAuthor ?? (await getGitLastUpdateBy())
+    ? frontMatterAuthor ?? (await getLastUpdateBy())
     : undefined;
 
   const lastUpdatedAt = showLastUpdateTime
-    ? frontMatterTimestamp ?? (await getGitLastUpdateAt())
+    ? frontMatterTimestamp ?? (await getLastUpdateAt())
     : undefined;
 
   return {

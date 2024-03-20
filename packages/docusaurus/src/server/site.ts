@@ -31,8 +31,8 @@ import type {
   GlobalData,
   LoadContext,
   Props,
+  PluginIdentifier,
 } from '@docusaurus/types';
-import type {PluginIdentifier} from '@docusaurus/types/src/plugin';
 
 export type LoadContextParams = {
   /** Usually the CWD; can be overridden with command argument. */

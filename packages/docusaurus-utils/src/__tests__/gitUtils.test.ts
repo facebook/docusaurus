@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import {FileNotTrackedError, getFileCommitDate} from '../gitUtils';
-import {getFileLastUpdate} from '../lastUpdateUtils';
+import {getGitLastUpdate} from '../lastUpdateUtils';
 
 /* eslint-disable no-restricted-properties */
 function initializeTempRepo() {
@@ -146,8 +146,9 @@ describe('getFileCommitDate', () => {
     const tempFilePath2 = path.join(repoDir, 'file2.md');
     await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
     await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
-    await expect(getFileLastUpdate(tempFilePath1)).resolves.toBeNull();
-    await expect(getFileLastUpdate(tempFilePath2)).resolves.toBeNull();
+    // TODO this is not the correct place to test "getGitLastUpdate"
+    await expect(getGitLastUpdate(tempFilePath1)).resolves.toBeNull();
+    await expect(getGitLastUpdate(tempFilePath2)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/not tracked by git./),

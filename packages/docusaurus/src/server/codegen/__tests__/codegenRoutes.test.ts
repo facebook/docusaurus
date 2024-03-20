@@ -108,6 +108,10 @@ describe('loadRoutes', () => {
             content: 'docs/hello.md',
             metadata: 'docs-hello-da2.json',
           },
+          metadata: {
+            sourceFilePath: 'docs/hello.md',
+            lastUpdatedAt: 1710842708527,
+          },
           context: {
             plugin: 'pluginRouteContextModule-100.json',
           },
@@ -119,6 +123,10 @@ describe('loadRoutes', () => {
           modules: {
             content: 'docs/foo/baz.md',
             metadata: 'docs-foo-baz-dd9.json',
+          },
+          metadata: {
+            sourceFilePath: 'docs/foo/baz.md',
+            lastUpdatedAt: 1710842708527,
           },
           context: {
             plugin: 'pluginRouteContextModule-100.json',
@@ -142,6 +150,9 @@ describe('loadRoutes', () => {
       path: '/blog',
       component: '@theme/BlogListPage',
       exact: true,
+      metadata: {
+        lastUpdatedAt: 1710842708527,
+      },
       modules: {
         items: [
           {

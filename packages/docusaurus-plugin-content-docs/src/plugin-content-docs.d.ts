@@ -17,6 +17,7 @@ declare module '@docusaurus/plugin-content-docs' {
     TagModule,
     Tag,
     FrontMatterLastUpdate,
+    LastUpdateData,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
@@ -395,13 +396,6 @@ declare module '@docusaurus/plugin-content-docs' {
     unlisted?: boolean;
     /** Allows overriding the last updated author and/or date. */
     last_update?: FrontMatterLastUpdate;
-  };
-
-  export type LastUpdateData = {
-    /** A timestamp in **seconds**, directly acquired from `git log`. */
-    lastUpdatedAt?: number;
-    /** The author's name directly acquired from `git log`. */
-    lastUpdatedBy?: string;
   };
 
   export type DocMetadataBase = LastUpdateData & {

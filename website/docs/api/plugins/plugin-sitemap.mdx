@@ -39,8 +39,9 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `changefreq` | `string` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
-| `priority` | `number` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `lastmod` | `'date' \| 'datetime' \| null` | `null` | `date` is YYYY-MM-DD. `datetime` is a ISO 8601 datetime. `null` is disabled. See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions). |
+| `changefreq` | `string \| null` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `priority` | `number \| null` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
 | `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
 | `filename` | `string` | `sitemap.xml` | The path to the created sitemap file, relative to the output directory. Useful if you have two plugin instances outputting two files. |
 
@@ -54,6 +55,14 @@ This plugin also respects some site config:
 
 - [`noIndex`](../docusaurus.config.js.mdx#noIndex): results in no sitemap generated
 - [`trailingSlash`](../docusaurus.config.js.mdx#trailingSlash): determines if the URLs in the sitemap have trailing slashes
+
+:::
+
+:::note About `lastmod`
+
+The `lastmod` option will only output a sitemap `<lastmod>` tag if plugins provide [route metadata](../plugin-methods/lifecycle-apis.mdx#addRoute) attributes `sourceFilePath` and/or `lastUpdatedAt`.
+
+All the official content plugins provide the metadata for routes backed by a content file (Markdown, MDX or React page components), but it is possible third-party plugin authors do not provide this information, and the plugin will not be able to output a `<lastmod>` tag for their routes.
 
 :::
 
@@ -72,6 +81,7 @@ Most Docusaurus users configure this plugin through the preset options.
 // Plugin Options: @docusaurus/plugin-sitemap
 
 const config = {
+  lastmod: 'date',
   changefreq: 'weekly',
   priority: 0.5,
   ignorePatterns: ['/tags/**'],

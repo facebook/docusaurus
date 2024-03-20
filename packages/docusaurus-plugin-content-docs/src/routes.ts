@@ -7,20 +7,37 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {docuHash, createSlugger, normalizeUrl} from '@docusaurus/utils';
+import {
+  docuHash,
+  createSlugger,
+  normalizeUrl,
+  aliasedSitePathToRelativePath,
+} from '@docusaurus/utils';
 import {
   toTagDocListProp,
   toTagsListTagsProp,
   toVersionMetadataProp,
 } from './props';
 import {getVersionTags} from './tags';
-import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
+import type {
+  PluginContentLoadedActions,
+  RouteConfig,
+  RouteMetadata,
+} from '@docusaurus/types';
 import type {FullVersion, VersionTag} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
+  DocMetadata,
   PluginOptions,
   PropTagsListPage,
 } from '@docusaurus/plugin-content-docs';
+
+function createDocRouteMetadata(docMeta: DocMetadata): RouteMetadata {
+  return {
+    sourceFilePath: aliasedSitePathToRelativePath(docMeta.source),
+    lastUpdatedAt: docMeta.lastUpdatedAt,
+  };
+}
 
 async function buildVersionCategoryGeneratedIndexRoutes({
   version,
@@ -68,26 +85,27 @@ async function buildVersionDocRoutes({
   options,
 }: BuildVersionRoutesParam): Promise<RouteConfig[]> {
   return Promise.all(
-    version.docs.map(async (metadataItem) => {
+    version.docs.map(async (doc) => {
       await actions.createData(
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
-        `${docuHash(metadataItem.source)}.json`,
-        JSON.stringify(metadataItem, null, 2),
+        `${docuHash(doc.source)}.json`,
+        JSON.stringify(doc, null, 2),
       );
 
       const docRoute: RouteConfig = {
-        path: metadataItem.permalink,
+        path: doc.permalink,
         component: options.docItemComponent,
         exact: true,
         modules: {
-          content: metadataItem.source,
+          content: doc.source,
         },
+        metadata: createDocRouteMetadata(doc),
         // Because the parent (DocRoot) comp need to access it easily
         // This permits to render the sidebar once without unmount/remount when
         // navigating (and preserve sidebar state)
-        ...(metadataItem.sidebar && {
-          sidebar: metadataItem.sidebar,
+        ...(doc.sidebar && {
+          sidebar: doc.sidebar,
         }),
       };
 

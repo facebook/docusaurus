@@ -11,6 +11,7 @@ import {
   normalizeUrl,
   docuHash,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   getPluginI18nPath,
   posixPath,
   addTrailingPathSeparator,
@@ -33,7 +34,12 @@ import {createBlogFeedFiles} from './feed';
 
 import {toTagProp, toTagsProp} from './props';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
+import type {
+  LoadContext,
+  Plugin,
+  HtmlTags,
+  RouteMetadata,
+} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
@@ -273,6 +279,15 @@ export default async function pluginContentBlog(
         JSON.stringify(blogMetadata, null, 2),
       );
 
+      function createBlogPostRouteMetadata(
+        blogPostMeta: BlogPostMetadata,
+      ): RouteMetadata {
+        return {
+          sourceFilePath: aliasedSitePathToRelativePath(blogPostMeta.source),
+          lastUpdatedAt: blogPostMeta.lastUpdatedAt,
+        };
+      }
+
       // Create routes for blog entries.
       await Promise.all(
         blogPosts.map(async (blogPost) => {
@@ -292,6 +307,7 @@ export default async function pluginContentBlog(
               sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
             },
+            metadata: createBlogPostRouteMetadata(metadata),
             context: {
               blogMetadata: aliasedSource(blogMetadataPath),
             },

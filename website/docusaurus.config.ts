@@ -480,6 +480,9 @@ export default async function createConfigAsync() {
           sitemap: {
             // Note: /tests/docs already has noIndex: true
             ignorePatterns: ['/tests/{blog,pages}/**'],
+            lastmod: 'date',
+            priority: null,
+            changefreq: null,
           },
         } satisfies Preset.Options,
       ],

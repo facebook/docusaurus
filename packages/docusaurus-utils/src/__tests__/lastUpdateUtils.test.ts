@@ -11,13 +11,12 @@ import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import shell from 'shelljs';
 import {
-  getFileLastUpdate,
-  GIT_FALLBACK_LAST_UPDATE_AUTHOR,
-  GIT_FALLBACK_LAST_UPDATE_DATE,
+  getGitLastUpdate,
+  LAST_UPDATE_FALLBACK,
   readLastUpdateData,
 } from '@docusaurus/utils';
 
-describe('getFileLastUpdate', () => {
+describe('getGitLastUpdate', () => {
   const {repoDir} = createTempRepo();
 
   const existingFilePath = path.join(
@@ -25,15 +24,15 @@ describe('getFileLastUpdate', () => {
     '__fixtures__/simple-site/hello.md',
   );
   it('existing test file in repository with Git timestamp', async () => {
-    const lastUpdateData = await getFileLastUpdate(existingFilePath);
+    const lastUpdateData = await getGitLastUpdate(existingFilePath);
     expect(lastUpdateData).not.toBeNull();
 
-    const {author, timestamp} = lastUpdateData!;
-    expect(author).not.toBeNull();
-    expect(typeof author).toBe('string');
+    const {lastUpdatedAt, lastUpdatedBy} = lastUpdateData!;
+    expect(lastUpdatedBy).not.toBeNull();
+    expect(typeof lastUpdatedBy).toBe('string');
 
-    expect(timestamp).not.toBeNull();
-    expect(typeof timestamp).toBe('number');
+    expect(lastUpdatedAt).not.toBeNull();
+    expect(typeof lastUpdatedAt).toBe('number');
   });
 
   it('existing test file with spaces in path', async () => {
@@ -41,15 +40,15 @@ describe('getFileLastUpdate', () => {
       __dirname,
       '__fixtures__/simple-site/doc with space.md',
     );
-    const lastUpdateData = await getFileLastUpdate(filePathWithSpace);
+    const lastUpdateData = await getGitLastUpdate(filePathWithSpace);
     expect(lastUpdateData).not.toBeNull();
 
-    const {author, timestamp} = lastUpdateData!;
-    expect(author).not.toBeNull();
-    expect(typeof author).toBe('string');
+    const {lastUpdatedBy, lastUpdatedAt} = lastUpdateData!;
+    expect(lastUpdatedBy).not.toBeNull();
+    expect(typeof lastUpdatedBy).toBe('string');
 
-    expect(timestamp).not.toBeNull();
-    expect(typeof timestamp).toBe('number');
+    expect(lastUpdatedAt).not.toBeNull();
+    expect(typeof lastUpdatedAt).toBe('number');
   });
 
   it('non-existing file', async () => {
@@ -62,7 +61,7 @@ describe('getFileLastUpdate', () => {
       '__fixtures__',
       nonExistingFileName,
     );
-    await expect(getFileLastUpdate(nonExistingFilePath)).rejects.toThrow(
+    await expect(getGitLastUpdate(nonExistingFilePath)).rejects.toThrow(
       /An error occurred when trying to get the last update date/,
     );
     expect(consoleMock).toHaveBeenCalledTimes(0);
@@ -74,7 +73,7 @@ describe('getFileLastUpdate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const lastUpdateData = await getFileLastUpdate(existingFilePath);
+    const lastUpdateData = await getGitLastUpdate(existingFilePath);
     expect(lastUpdateData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(
@@ -92,7 +91,7 @@ describe('getFileLastUpdate', () => {
       .mockImplementation(() => {});
     const tempFilePath = path.join(repoDir, 'file.md');
     await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
-    await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
+    await expect(getGitLastUpdate(tempFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/not tracked by git./),
@@ -113,7 +112,7 @@ describe('readLastUpdateData', () => {
       {date: testDate},
     );
     expect(lastUpdatedAt).toEqual(testTimestamp);
-    expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
+    expect(lastUpdatedBy).toBe(LAST_UPDATE_FALLBACK.lastUpdatedBy);
   });
 
   it('read last author show author time', async () => {
@@ -123,7 +122,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(lastUpdatedAt).toBe(GIT_FALLBACK_LAST_UPDATE_DATE);
+    expect(lastUpdatedAt).toBe(LAST_UPDATE_FALLBACK.lastUpdatedAt);
   });
 
   it('read last all show author time', async () => {
@@ -160,7 +159,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {date: testDate},
     );
-    expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
+    expect(lastUpdatedBy).toBe(LAST_UPDATE_FALLBACK.lastUpdatedBy);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -180,7 +179,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {},
     );
-    expect(lastUpdatedBy).toBe(GIT_FALLBACK_LAST_UPDATE_AUTHOR);
+    expect(lastUpdatedBy).toBe(LAST_UPDATE_FALLBACK.lastUpdatedBy);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -201,7 +200,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(GIT_FALLBACK_LAST_UPDATE_DATE);
+    expect(lastUpdatedAt).toEqual(LAST_UPDATE_FALLBACK.lastUpdatedAt);
   });
 
   it('read last author show time only - both front matter', async () => {

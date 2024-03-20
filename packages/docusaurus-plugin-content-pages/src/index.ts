@@ -11,6 +11,7 @@ import {
   encodePath,
   fileToPath,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   docuHash,
   getPluginI18nPath,
   getFolderContainingFile,
@@ -24,8 +25,7 @@ import {
   isDraft,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
-
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
 import type {PagesContentPaths} from './types';
 import type {
   PluginOptions,
@@ -159,9 +159,20 @@ export default function pluginContentPages(
 
       const {addRoute, createData} = actions;
 
+      function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
+        return {
+          sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
+          // TODO add support for last updated date in the page plugin
+          //  at least for Markdown files
+          // lastUpdatedAt: metadata.lastUpdatedAt,
+          lastUpdatedAt: undefined,
+        };
+      }
+
       await Promise.all(
         content.map(async (metadata) => {
           const {permalink, source} = metadata;
+          const routeMetadata = createPageRouteMetadata(metadata);
           if (metadata.type === 'mdx') {
             await createData(
               // Note that this created data path must be in sync with
@@ -173,6 +184,7 @@ export default function pluginContentPages(
               path: permalink,
               component: options.mdxPageComponent,
               exact: true,
+              metadata: routeMetadata,
               modules: {
                 content: source,
               },
@@ -182,6 +194,7 @@ export default function pluginContentPages(
               path: permalink,
               component: source,
               exact: true,
+              metadata: routeMetadata,
               modules: {
                 config: `@generated/docusaurus.config`,
               },
