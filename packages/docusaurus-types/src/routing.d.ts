@@ -11,7 +11,7 @@ import type {ParsedUrlQueryInput} from 'querystring';
  * A "module" represents a unit of serialized data emitted from the plugin. It
  * will be imported on client-side and passed as props, context, etc.
  *
- * If it's a string, it's a file path that Webpack can `require`; if it's
+ * If it's a string, it's a file path that the bundler can `require`; if it's
  * an object, it can also contain `query` or other metadata.
  */
 export type Module =
@@ -39,7 +39,11 @@ export type RouteModules = {
 /**
  * Plugin authors can assign extra metadata to the created routes
  * It is only available on the Node.js side, and not sent to the browser
- * Optional: plugin authors are not required to provide it
+ * Optional: plugin authors are encouraged but not required to provide it
+ *
+ * Some plugins might use this data to provide additional features.
+ * This is the case of the sitemap plugin to provide support for "lastmod".
+ * See also: https://github.com/facebook/docusaurus/pull/9954
  */
 export type RouteMetadata = {
   /**
@@ -64,9 +68,13 @@ export type RouteMetadata = {
  * `addRoute` action.
  */
 export type RouteConfig = {
-  /** With leading slash. Trailing slash will be normalized by config. */
+  /**
+   * With leading slash. Trailing slash will be normalized by config.
+   */
   path: string;
-  /** Component used to render this route, a path that Webpack can `require`. */
+  /**
+   * Component used to render this route, a path that the bundler can `require`.
+   */
   component: string;
   /**
    * Props. Each entry should be `[propName]: pathToPropModule` (created with
@@ -79,24 +87,31 @@ export type RouteConfig = {
    * here will be namespaced under {@link RouteContext.data}.
    */
   context?: RouteModules;
-  /** Nested routes config. */
+  /**
+   * Nested routes config, useful for "layout routes" having subroutes.
+   */
   routes?: RouteConfig[];
-  /** React router config option: `exact` routes would not match subroutes. */
+  /**
+   * React router config option: `exact` routes would not match subroutes.
+   */
   exact?: boolean;
   /**
    * React router config option: `strict` routes are sensitive to the presence
    * of a trailing slash.
    */
   strict?: boolean;
-  /** Used to sort routes. Higher-priority routes will be placed first. */
+  /**
+   * Used to sort routes.
+   * Higher-priority routes will be matched first.
+   */
   priority?: number;
-
   /**
    * Optional route metadata
    */
   metadata?: RouteMetadata;
-
-  /** Extra props; will be copied to routes.js. */
+  /**
+   * Extra props; will be available on the client side.
+   */
   [propName: string]: unknown;
 };
 

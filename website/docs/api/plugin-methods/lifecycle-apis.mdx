@@ -43,17 +43,85 @@ The data that was loaded in `loadContent` will be consumed in `contentLoaded`. I
 Create a route to add to the website.
 
 ```ts
-type RouteConfig = {
+export type RouteConfig = {
+  /**
+   * With leading slash. Trailing slash will be normalized by config.
+   */
   path: string;
+  /**
+   * Component used to render this route, a path that the bundler can `require`.
+   */
   component: string;
+  /**
+   * Props. Each entry should be `[propName]: pathToPropModule` (created with
+   * `createData`)
+   */
   modules?: RouteModules;
+  /**
+   * The route context will wrap the `component`. Use `useRouteContext` to
+   * retrieve what's declared here. Note that all custom route context declared
+   * here will be namespaced under {@link RouteContext.data}.
+   */
+  context?: RouteModules;
+  /**
+   * Nested routes config, useful for "layout routes" having subroutes.
+   */
   routes?: RouteConfig[];
+  /**
+   * React router config option: `exact` routes would not match subroutes.
+   */
   exact?: boolean;
+  /**
+   * React router config option: `strict` routes are sensitive to the presence
+   * of a trailing slash.
+   */
+  strict?: boolean;
+  /**
+   * Used to sort routes.
+   * Higher-priority routes will be matched first.
+   */
   priority?: number;
+  /**
+   * Optional route metadata
+   */
+  metadata?: RouteMetadata;
+  /**
+   * Extra props; will be available on the client side.
+   */
+  [propName: string]: unknown;
 };
+
+/**
+ * Plugin authors can assign extra metadata to the created routes
+ * It is only available on the Node.js side, and not sent to the browser
+ * Optional: plugin authors are encouraged but not required to provide it
+ *
+ * Some plugins might use this data to provide additional features.
+ * This is the case of the sitemap plugin to provide support for "lastmod".
+ * See also: https://github.com/facebook/docusaurus/pull/9954
+ */
+export type RouteMetadata = {
+  /**
+   * The source code file path that led to the creation of the current route
+   * In official content plugins, this is usually a Markdown or React file
+   * This path is expected to be relative to the site directory
+   */
+  sourceFilePath?: string;
+  /**
+   * The last updated date of this route
+   * This is generally read from the Git history of the sourceFilePath
+   * but can also be provided through other means (usually front matter)
+   *
+   * This has notably been introduced for adding "lastmod" support to the
+   * sitemap plugin, see https://github.com/facebook/docusaurus/pull/9954
+   */
+  lastUpdatedAt?: number;
+};
+
 type RouteModules = {
   [module: string]: Module | RouteModules | RouteModules[];
 };
+
 type Module =
   | {
       path: string;
