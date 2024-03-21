@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {removeSuffix, removeTrailingSlash} from '@docusaurus/utils';
-import {addTrailingSlash} from '@docusaurus/utils-common';
+import {
+  addTrailingSlash,
+  removeSuffix,
+  removeTrailingSlash,
+} from '@docusaurus/utils-common';
 import type {RedirectItem} from './types';
 
 const ExtensionAdditionalMessage =

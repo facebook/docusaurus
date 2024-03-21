@@ -28,9 +28,6 @@ export default function applyTrailingSlash(
     return path;
   }
 
-  function removeTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str.slice(0, -1) : str;
-  }
   function handleTrailingSlash(str: string, trailing: boolean): string {
     return trailing ? addTrailingSlash(str) : removeTrailingSlash(str);
   }
@@ -54,4 +51,28 @@ export default function applyTrailingSlash(
     : handleTrailingSlash(pathname, trailingSlash);
 
   return path.replace(pathname, newPathname);
+}
+
+/** Adds a given string prefix to `str`. */
+export function addPrefix(str: string, prefix: string): string {
+  return str.startsWith(prefix) ? str : `${prefix}${str}`;
+}
+
+/** Removes a given string suffix from `str`. */
+export function removeSuffix(str: string, suffix: string): string {
+  if (suffix === '') {
+    // str.slice(0, 0) is ""
+    return str;
+  }
+  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
+}
+
+/** Appends a leading slash to `str`, if one doesn't exist. */
+export function addLeadingSlash(str: string): string {
+  return addPrefix(str, '/');
+}
+
+/** Removes the trailing slash from `str`. */
+export function removeTrailingSlash(str: string): string {
+  return removeSuffix(str, '/');
 }
