@@ -229,6 +229,7 @@ Outerbounds
 outerbounds
 overrideable
 ozaki
+ozakii
 O’Shannessy
 pageview
 Palenight
@@ -312,7 +313,6 @@ setlocal
 Shiki
 shiki
 shortcodes
-showcasetes
 showinfo
 Sida
 Simen
