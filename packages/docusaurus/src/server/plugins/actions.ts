@@ -9,7 +9,7 @@ import path from 'path';
 import {docuHash, generate} from '@docusaurus/utils';
 import {applyRouteTrailingSlash} from './routeConfig';
 import type {
-  LoadedPlugin,
+  InitializedPlugin,
   PluginContentLoadedActions,
   PluginRouteContext,
   RouteConfig,
@@ -31,7 +31,7 @@ export async function createPluginActionsUtils({
   baseUrl,
   trailingSlash,
 }: {
-  plugin: LoadedPlugin;
+  plugin: InitializedPlugin;
   generatedFilesDir: string;
   baseUrl: string;
   trailingSlash: boolean | undefined;

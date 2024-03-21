@@ -183,6 +183,8 @@ export type InitializedPlugin = Plugin & {
 
 export type LoadedPlugin = InitializedPlugin & {
   readonly content: unknown;
+  readonly globalData: unknown;
+  readonly routes: RouteConfig[];
 };
 
 export type PluginModule<Content = unknown> = {

@@ -247,10 +247,6 @@ export async function reloadSitePlugin(
   site: Site,
   pluginIdentifier: PluginIdentifier,
 ): Promise<Site> {
-  console.log(
-    `reloadSitePlugin ${pluginIdentifier.name}@${pluginIdentifier.id}`,
-  );
-
   const {plugins, routes, globalData} = await reloadPlugin({
     pluginIdentifier,
     plugins: site.props.plugins,

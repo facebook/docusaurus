@@ -11,6 +11,12 @@ import logger from '@docusaurus/logger';
 export const PerfDebuggingEnabled: boolean =
   !!process.env.DOCUSAURUS_PERF_LOGGER;
 
+const Thresholds = {
+  min: 5,
+  yellow: 100,
+  red: 1000,
+};
+
 type PerfLoggerAPI = {
   start: (label: string) => void;
   end: (label: string) => void;
@@ -34,17 +40,40 @@ function createPerfLogger(): PerfLoggerAPI {
 
   const prefix = logger.yellow(`[PERF] `);
 
-  const start: PerfLoggerAPI['start'] = (label) => console.time(prefix + label);
+  const formatDuration = (duration: number): string => {
+    if (duration > Thresholds.red) {
+      return logger.red(`${(duration / 1000).toFixed(2)} seconds!`);
+    } else if (duration > Thresholds.yellow) {
+      return logger.yellow(`${duration.toFixed(2)} ms`);
+    } else {
+      return logger.green(`${duration.toFixed(2)} ms`);
+    }
+  };
 
-  const end: PerfLoggerAPI['end'] = (label) => console.timeEnd(prefix + label);
+  const logDuration = (label: string, duration: number) => {
+    if (duration < Thresholds.min) {
+      return;
+    }
+    console.log(`${prefix + label} - ${formatDuration(duration)}`);
+  };
+
+  const start: PerfLoggerAPI['start'] = (label) => performance.mark(label);
+
+  const end: PerfLoggerAPI['end'] = (label) => {
+    const {duration} = performance.measure(label);
+    performance.clearMarks(label);
+    logDuration(label, duration);
+  };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
     console.log(prefix + label);
 
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
     start(label);
+    const before = performance.now();
     const result = await asyncFn();
-    end(label);
+    const duration = performance.now() - before;
+    logDuration(label, duration);
     return result;
   };
 
