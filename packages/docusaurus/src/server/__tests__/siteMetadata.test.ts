@@ -7,13 +7,13 @@
 
 import path from 'path';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
-import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
+import {loadPluginVersion, createSiteMetadata} from '../siteMetadata';
 import type {LoadedPlugin} from '@docusaurus/types';
 
-describe('getPluginVersion', () => {
+describe('loadPluginVersion', () => {
   it('detects external packages plugins versions', async () => {
     await expect(
-      getPluginVersion(
+      loadPluginVersion(
         path.join(__dirname, '__fixtures__/siteMetadata/dummy-plugin.js'),
         // Make the plugin appear external.
         path.join(__dirname, '..', '..', '..', '..', '..', '..', 'website'),
@@ -23,7 +23,7 @@ describe('getPluginVersion', () => {
 
   it('detects project plugins versions', async () => {
     await expect(
-      getPluginVersion(
+      loadPluginVersion(
         path.join(__dirname, '__fixtures__/siteMetadata/dummy-plugin.js'),
         // Make the plugin appear project local.
         path.join(__dirname, '__fixtures__/siteMetadata'),
@@ -32,14 +32,14 @@ describe('getPluginVersion', () => {
   });
 
   it('detects local packages versions', async () => {
-    await expect(getPluginVersion('/', '/')).resolves.toEqual({type: 'local'});
+    await expect(loadPluginVersion('/', '/')).resolves.toEqual({type: 'local'});
   });
 });
 
-describe('loadSiteMetadata', () => {
-  it('throws if plugin versions mismatch', async () => {
-    await expect(
-      loadSiteMetadata({
+describe('createSiteMetadata', () => {
+  it('throws if plugin versions mismatch', () => {
+    expect(() =>
+      createSiteMetadata({
         plugins: [
           {
             name: 'docusaurus-plugin-content-docs',
@@ -50,10 +50,9 @@ describe('loadSiteMetadata', () => {
             },
           },
         ] as LoadedPlugin[],
-        siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
+        siteVersion: 'some-random-version',
       }),
-    ).rejects
-      .toThrow(`Invalid name=docusaurus-plugin-content-docs version number=1.0.0.
+    ).toThrow(`Invalid name=docusaurus-plugin-content-docs version number=1.0.0.
 All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${DOCUSAURUS_VERSION}).
 Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`);
   });

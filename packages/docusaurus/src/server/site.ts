@@ -16,7 +16,7 @@ import {loadSiteConfig} from './config';
 import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
-import {loadSiteMetadata} from './siteMetadata';
+import {createSiteMetadata, loadSiteVersion} from './siteMetadata';
 import {loadI18n} from './i18n';
 import {
   loadSiteCodeTranslations,
@@ -76,9 +76,15 @@ export async function loadContext(
   } = params;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
-  const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
-    siteDir,
-    customConfigFilePath,
+  const {
+    siteVersion,
+    loadSiteConfig: {siteConfig: initialSiteConfig, siteConfigPath},
+  } = await combinePromises({
+    siteVersion: loadSiteVersion(siteDir),
+    loadSiteConfig: loadSiteConfig({
+      siteDir,
+      customConfigFilePath,
+    }),
   });
 
   const i18n = await loadI18n(initialSiteConfig, {locale});
@@ -107,6 +113,7 @@ export async function loadContext(
 
   return {
     siteDir,
+    siteVersion,
     generatedFilesDir,
     localizationDir,
     siteConfig,
@@ -125,6 +132,7 @@ async function createSiteProps(
   const {
     generatedFilesDir,
     siteDir,
+    siteVersion,
     siteConfig,
     siteConfigPath,
     outDir,
@@ -136,16 +144,15 @@ async function createSiteProps(
 
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
-  const {codeTranslations, siteMetadata} = await combinePromises({
-    // TODO code translations should be loaded as part of LoadedPlugin?
-    codeTranslations: PerfLogger.async('Load code translations', async () => ({
+  const siteMetadata = createSiteMetadata({plugins, siteVersion});
+
+  const codeTranslations = await PerfLogger.async(
+    'Load code translations',
+    async () => ({
       ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
       ...siteCodeTranslations,
-    })),
-    siteMetadata: PerfLogger.async('Load site metadata', () =>
-      loadSiteMetadata({plugins, siteDir}),
-    ),
-  });
+    }),
+  );
 
   handleDuplicateRoutes(routes, siteConfig.onDuplicateRoutes);
   const routesPaths = getRoutesPaths(routes, baseUrl);
@@ -154,6 +161,7 @@ async function createSiteProps(
     siteConfig,
     siteConfigPath,
     siteMetadata,
+    siteVersion,
     siteDir,
     outDir,
     baseUrl,

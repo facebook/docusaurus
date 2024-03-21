@@ -31,6 +31,7 @@ export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
 export type LoadContext = {
   siteDir: string;
+  siteVersion: string | undefined;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
