@@ -13,7 +13,7 @@ import {
 } from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
-import {loadClientModules} from './clientModules';
+import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
 import {loadSiteMetadata} from './siteMetadata';
@@ -138,14 +138,11 @@ async function createSiteProps(
 
   const {codeTranslations, siteMetadata} = await combinePromises({
     // TODO code translations should be loaded as part of LoadedPlugin?
-    codeTranslations: PerfLogger.async(
-      'Load - loadCodeTranslations',
-      async () => ({
-        ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
-        ...siteCodeTranslations,
-      }),
-    ),
-    siteMetadata: PerfLogger.async('Load - loadSiteMetadata', () =>
+    codeTranslations: PerfLogger.async('Load code translations', async () => ({
+      ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
+      ...siteCodeTranslations,
+    })),
+    siteMetadata: PerfLogger.async('Load site metadata', () =>
       loadSiteMetadata({plugins, siteDir}),
     ),
   });
@@ -181,7 +178,7 @@ async function createSiteFiles({
   site: Site;
   globalData: GlobalData;
 }) {
-  return PerfLogger.async('Load - createSiteFiles', async () => {
+  return PerfLogger.async('Create site files', async () => {
     const {
       props: {
         plugins,
@@ -194,7 +191,7 @@ async function createSiteFiles({
         baseUrl,
       },
     } = site;
-    const clientModules = loadClientModules(plugins);
+    const clientModules = getAllClientModules(plugins);
     await generateSiteFiles({
       generatedFilesDir,
       clientModules,
@@ -216,14 +213,11 @@ async function createSiteFiles({
  * it generates temp files in the `.docusaurus` folder for the bundler.
  */
 export async function loadSite(params: LoadContextParams): Promise<Site> {
-  PerfLogger.start('Load - loadContext');
-  const context = await loadContext(params);
-  PerfLogger.end('Load - loadContext');
+  const context = await PerfLogger.async('Load context', () =>
+    loadContext(params),
+  );
 
-  PerfLogger.start('Load - loadPlugins');
   const {plugins, routes, globalData} = await loadPlugins(context);
-  PerfLogger.end('Load - loadPlugins');
-
   const props = await createSiteProps({plugins, routes, globalData, context});
 
   const site: Site = {props, params};

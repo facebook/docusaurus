@@ -48,6 +48,7 @@ export async function createPluginActionsUtils({
     dataDir,
     `${docuHash('pluginRouteContextModule')}.json`,
   );
+  // TODO not ideal place to generate that file
   await generate(
     '/',
     pluginRouteContextModulePath,
