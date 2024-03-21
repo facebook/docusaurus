@@ -19,8 +19,10 @@ declare module '@docusaurus/plugin-showcase' {
   };
 
   export type Content = {
-    title: string;
-    author: string;
+    website: {
+      author: string;
+      title: string;
+    }[];
   };
 
   export type Options = Partial<PluginOptions>;

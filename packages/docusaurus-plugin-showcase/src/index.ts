@@ -35,44 +35,63 @@ export default function pluginContentShowcase(
     //   return [path.join(siteDir, options.path, 'authors.yaml')];
     // },
 
-    async loadContent() {
-      const yaml = await fs.readFile(
-        path.join(siteDir, options.path, 'authors.yaml'),
-        'utf-8',
+    async loadContent(): Promise<Content> {
+      const files = await fs.readdir(
+        path.join(siteDir, options.path, 'website'),
       );
-      const authors = Yaml.load(yaml);
-      const parsedAuthors = contentAuthorsSchema.validate(authors);
+      const yamlFiles = files.filter((file) => file.endsWith('.yaml'));
 
-      if (parsedAuthors.error) {
-        throw new Error(`Validation failed: ${parsedAuthors.error.message}`, {
-          cause: parsedAuthors.error,
-        });
-      }
+      const contentPromises = yamlFiles.map(async (file) => {
+        const yaml = await fs.readFile(
+          path.join(siteDir, options.path, 'website', file),
+          'utf-8',
+        );
+        const authors = Yaml.load(yaml);
+        const parsedAuthors = contentAuthorsSchema.validate(authors);
 
-      const validatedAuthors: Content = parsedAuthors.value;
-      return validatedAuthors;
+        if (parsedAuthors.error) {
+          throw new Error(`Validation failed: ${parsedAuthors.error.message}`, {
+            cause: parsedAuthors.error,
+          });
+        }
+
+        return {
+          title: parsedAuthors.value.title,
+          author: parsedAuthors.value.author, // Assuming author is part of Content type
+        };
+      });
+
+      const content = await Promise.all(contentPromises);
+      return {
+        website: content,
+      };
     },
 
     async contentLoaded({content, actions}) {
       if (!content) {
         return;
       }
+      console.log('content:', content);
 
       const {addRoute, createData} = actions;
 
-      const dataAuthor = await createData(
-        'authors.json',
-        JSON.stringify(content),
-      );
+      await Promise.all(
+        content.website.map(async (item) => {
+          const dataAuthor = await createData(
+            `${item.title}.json`,
+            JSON.stringify(item),
+          );
 
-      addRoute({
-        path: '/showcaseTest',
-        component: '@theme/Showcase',
-        modules: {
-          content: dataAuthor,
-        },
-        exact: true,
-      });
+          addRoute({
+            path: `/${item.title}`,
+            component: '@theme/Showcase',
+            modules: {
+              content: dataAuthor,
+            },
+            exact: true,
+          });
+        }),
+      );
     },
   };
 }
