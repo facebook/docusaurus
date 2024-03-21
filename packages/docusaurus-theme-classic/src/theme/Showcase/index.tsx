@@ -7,7 +7,14 @@
 
 import React from 'react';
 import type {Props} from '@theme/Showcase';
+import Layout from '@theme/Layout';
 
 export default function Showcase(props: Props): JSX.Element {
-  return <div>{props.author}</div>;
+  return (
+    <Layout title="Showcase">
+      <div>Content for Showcase</div>
+      <div>{props.content.author}</div>
+      <div>{props.content.title}</div>
+    </Layout>
+  );
 }

@@ -10,7 +10,9 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import Yaml from 'js-yaml';
 
+import {contentAuthorsSchema} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Content} from '@docusaurus/plugin-showcase';
 
@@ -29,11 +31,26 @@ export default function pluginContentShowcase(
   return {
     name: 'docusaurus-plugin-showcase',
 
+    // getPathsToWatch() {
+    //   return [path.join(siteDir, options.path, 'authors.yaml')];
+    // },
+
     async loadContent() {
-      const authors = await fs.readJson(
-        path.join(siteDir, options.path, 'authors.json'),
+      const yaml = await fs.readFile(
+        path.join(siteDir, options.path, 'authors.yaml'),
+        'utf-8',
       );
-      return authors;
+      const authors = Yaml.load(yaml);
+      const parsedAuthors = contentAuthorsSchema.validate(authors);
+
+      if (parsedAuthors.error) {
+        throw new Error(`Validation failed: ${parsedAuthors.error.message}`, {
+          cause: parsedAuthors.error,
+        });
+      }
+
+      const validatedAuthors: Content = parsedAuthors.value;
+      return validatedAuthors;
     },
 
     async contentLoaded({content, actions}) {
@@ -44,13 +61,12 @@ export default function pluginContentShowcase(
       const {addRoute, createData} = actions;
 
       const dataAuthor = await createData(
-        'authors.json', // what is this?
+        'authors.json',
         JSON.stringify(content),
       );
 
       addRoute({
-        path: '/showcasetes',
-        // component: '@site/src/components/Showcase.js',
+        path: '/showcaseTest',
         component: '@theme/Showcase',
         modules: {
           content: dataAuthor,

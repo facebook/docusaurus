@@ -249,7 +249,9 @@ declare module '@theme/BlogPostItems' {
 
 declare module '@theme/Showcase' {
   export interface Props {
-    [key: string]: string;
+    content: {
+      [key: string]: string;
+    };
   }
 
   export default function Showcase(props: Props): JSX.Element;

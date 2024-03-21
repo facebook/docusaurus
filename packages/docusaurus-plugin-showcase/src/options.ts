@@ -20,6 +20,11 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
 });
 
+export const contentAuthorsSchema = Joi.object({
+  author: Joi.string().required(),
+  title: Joi.string().required(),
+});
+
 export function validateOptions({
   validate,
   options,
