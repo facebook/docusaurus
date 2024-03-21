@@ -88,6 +88,8 @@ export function mergeGlobalData(...globalDataList: GlobalData[]): GlobalData {
   return result;
 }
 
+// This is primarily useful for colored logging purpose
+// Do not rely on this for logic
 export function formatPluginName(
   plugin: InitializedPlugin | PluginIdentifier,
 ): string {

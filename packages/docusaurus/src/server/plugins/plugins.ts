@@ -87,10 +87,16 @@ async function executePluginContentLoading({
       }),
     );
 
+    const defaultCodeTranslations =
+      (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
+        plugin.getDefaultCodeTranslationMessages?.(),
+      )) ?? {};
+
     if (!plugin.contentLoaded) {
       return {
         ...plugin,
         content,
+        defaultCodeTranslations,
         routes: [],
         globalData: undefined,
       };
@@ -114,6 +120,7 @@ async function executePluginContentLoading({
     return {
       ...plugin,
       content,
+      defaultCodeTranslations,
       routes: pluginActionsUtils.getRoutes(),
       globalData: pluginActionsUtils.getGlobalData(),
     };

@@ -13,7 +13,7 @@ import {
   writePluginTranslations,
   writeCodeTranslations,
   type WriteTranslationsOptions,
-  getPluginsDefaultCodeTranslationMessages,
+  loadPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../server/translations/translations';
 import {
@@ -114,7 +114,7 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     await getExtraSourceCodeFilePaths(),
   );
 
-  const defaultCodeMessages = await getPluginsDefaultCodeTranslationMessages(
+  const defaultCodeMessages = await loadPluginsDefaultCodeTranslationMessages(
     plugins,
   );
 

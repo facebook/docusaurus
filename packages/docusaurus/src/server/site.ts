@@ -20,7 +20,7 @@ import {createSiteMetadata, loadSiteVersion} from './siteMetadata';
 import {loadI18n} from './i18n';
 import {
   loadSiteCodeTranslations,
-  getPluginsDefaultCodeTranslationMessages,
+  getPluginsDefaultCodeTranslations,
 } from './translations/translations';
 import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
@@ -125,9 +125,9 @@ export async function loadContext(
   };
 }
 
-async function createSiteProps(
+function createSiteProps(
   params: LoadPluginsResult & {context: LoadContext},
-): Promise<Props> {
+): Props {
   const {plugins, routes, context} = params;
   const {
     generatedFilesDir,
@@ -146,13 +146,10 @@ async function createSiteProps(
 
   const siteMetadata = createSiteMetadata({plugins, siteVersion});
 
-  const codeTranslations = await PerfLogger.async(
-    'Load code translations',
-    async () => ({
-      ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
-      ...siteCodeTranslations,
-    }),
-  );
+  const codeTranslations = {
+    ...getPluginsDefaultCodeTranslations({plugins}),
+    ...siteCodeTranslations,
+  };
 
   handleDuplicateRoutes(routes, siteConfig.onDuplicateRoutes);
   const routesPaths = getRoutesPaths(routes, baseUrl);
@@ -226,6 +223,7 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
   );
 
   const {plugins, routes, globalData} = await loadPlugins(context);
+
   const props = await createSiteProps({plugins, routes, globalData, context});
 
   const site: Site = {props, params};
