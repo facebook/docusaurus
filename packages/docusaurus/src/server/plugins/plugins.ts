@@ -281,10 +281,16 @@ export async function reloadPlugin({
       plugin: previousPlugin,
       context,
     });
+
+    /*
+    // TODO Docusaurus v4 - upgrade to Node 20, use array.with()
     const plugins = previousPlugins.with(
       previousPlugins.indexOf(previousPlugin),
       plugin,
     );
+     */
+    const plugins = [...previousPlugins];
+    plugins[previousPlugins.indexOf(previousPlugin)] = plugin;
 
     const allContentLoadedResult = await executeAllPluginsAllContentLoaded({
       plugins,
