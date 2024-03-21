@@ -42,7 +42,7 @@ function createPerfLogger(): PerfLoggerAPI {
 
   const formatDuration = (duration: number): string => {
     if (duration > Thresholds.red) {
-      return logger.red(`${(duration / 1000).toFixed(2)  } seconds!`);
+      return logger.red(`${(duration / 1000).toFixed(2)} seconds!`);
     } else if (duration > Thresholds.yellow) {
       return logger.yellow(`${duration.toFixed(2)} ms`);
     } else {
