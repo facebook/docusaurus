@@ -7,10 +7,10 @@
 
 import path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {loadPlugins} from '../plugins';
+import {loadPlugins, reloadPlugin} from '../plugins';
 import type {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 
-function testLoad({
+async function testLoad({
   plugins,
   themes,
 }: {
@@ -34,7 +34,9 @@ function testLoad({
     },
   });
 
-  return loadPlugins(context);
+  const result = await loadPlugins(context);
+
+  return {context, ...result};
 }
 
 const SyntheticPluginNames = [
@@ -45,7 +47,7 @@ const SyntheticPluginNames = [
 async function testPlugin<Content = unknown>(
   pluginConfig: PluginConfig<Content>,
 ) {
-  const {plugins, routes, globalData} = await testLoad({
+  const {context, plugins, routes, globalData} = await testLoad({
     plugins: [pluginConfig],
     themes: [],
   });
@@ -57,7 +59,7 @@ async function testPlugin<Content = unknown>(
   const plugin = nonSyntheticPlugins[0]!;
   expect(plugin).toBeDefined();
 
-  return {plugin, routes, globalData};
+  return {context, plugin, routes, globalData};
 }
 
 describe('loadPlugins', () => {
@@ -324,5 +326,274 @@ describe('loadPlugins', () => {
         },
       }
     `);
+  });
+});
+
+describe('reloadPlugin', () => {
+  it('can reload a single complex plugin with same content', async () => {
+    const plugin: PluginConfig = () => ({
+      name: 'plugin-name',
+      contentLoaded({actions}) {
+        actions.addRoute({
+          path: '/contentLoadedRouteParent',
+          component: 'Comp',
+          routes: [
+            {path: '/contentLoadedRouteParent/child', component: 'Comp'},
+          ],
+        });
+        actions.addRoute({
+          path: '/contentLoadedRouteSingle',
+          component: 'Comp',
+        });
+        actions.setGlobalData({
+          globalContentLoaded: 'val1',
+          globalOverridden: 'initial-value',
+        });
+      },
+      allContentLoaded({actions}) {
+        actions.addRoute({
+          path: '/allContentLoadedRouteParent',
+          component: 'Comp',
+          routes: [
+            {path: '/allContentLoadedRouteParent/child', component: 'Comp'},
+          ],
+        });
+        actions.addRoute({
+          path: '/allContentLoadedRouteSingle',
+          component: 'Comp',
+        });
+        actions.setGlobalData({
+          globalAllContentLoaded: 'val2',
+          globalOverridden: 'override-value',
+        });
+      },
+    });
+
+    const loadResult = await testLoad({
+      plugins: [plugin],
+      themes: [],
+    });
+    const reloadResult = await reloadPlugin({
+      context: loadResult.context,
+      plugins: loadResult.plugins,
+      pluginIdentifier: {name: 'plugin-name', id: 'default'},
+    });
+
+    expect(loadResult.routes).toEqual(reloadResult.routes);
+    expect(loadResult.globalData).toEqual(reloadResult.globalData);
+    expect(reloadResult.routes).toMatchInlineSnapshot(`
+      [
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
+          },
+          "path": "/allContentLoadedRouteSingle/",
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
+          },
+          "path": "/contentLoadedRouteSingle/",
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
+          },
+          "path": "/allContentLoadedRouteParent/",
+          "routes": [
+            {
+              "component": "Comp",
+              "path": "/allContentLoadedRouteParent/child/",
+            },
+          ],
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
+          },
+          "path": "/contentLoadedRouteParent/",
+          "routes": [
+            {
+              "component": "Comp",
+              "path": "/contentLoadedRouteParent/child/",
+            },
+          ],
+        },
+      ]
+    `);
+    expect(reloadResult.globalData).toMatchInlineSnapshot(`
+      {
+        "plugin-name": {
+          "default": {
+            "globalAllContentLoaded": "val2",
+            "globalContentLoaded": "val1",
+            "globalOverridden": "override-value",
+          },
+        },
+      }
+    `);
+  });
+
+  it('can reload plugins in real-world setup', async () => {
+    let isPlugin1Reload = false;
+
+    const plugin1: PluginConfig = () => ({
+      name: 'plugin-name-1',
+      contentLoaded({actions}) {
+        actions.addRoute({
+          path: isPlugin1Reload
+            ? '/contentLoaded-route-reload'
+            : '/contentLoaded-route-initial',
+          component: 'Comp',
+        });
+        actions.setGlobalData({
+          contentLoadedVal: isPlugin1Reload
+            ? 'contentLoaded-val-reload'
+            : 'contentLoaded-val-initial',
+        });
+      },
+      allContentLoaded({actions}) {
+        actions.addRoute({
+          path: isPlugin1Reload
+            ? '/allContentLoaded-route-reload'
+            : '/allContentLoaded-route-initial',
+          component: 'Comp',
+        });
+        actions.setGlobalData({
+          allContentLoadedVal: isPlugin1Reload
+            ? 'allContentLoaded-val-reload'
+            : 'allContentLoaded-val-initial',
+        });
+      },
+    });
+
+    const plugin2: PluginConfig = () => ({
+      name: 'plugin-name-2',
+      contentLoaded({actions}) {
+        actions.addRoute({
+          path: '/plugin-2-route',
+          component: 'Comp',
+        });
+        actions.setGlobalData({plugin2Val: 'val'});
+      },
+    });
+
+    const loadResult = await testLoad({
+      plugins: [plugin1, plugin2],
+      themes: [],
+    });
+
+    isPlugin1Reload = true;
+
+    const reloadResult = await reloadPlugin({
+      context: loadResult.context,
+      plugins: loadResult.plugins,
+      pluginIdentifier: {name: 'plugin-name-1', id: 'default'},
+    });
+
+    expect(loadResult.routes).not.toEqual(reloadResult.routes);
+    expect(loadResult.globalData).not.toEqual(reloadResult.globalData);
+    expect(loadResult.routes).toMatchInlineSnapshot(`
+      [
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
+          },
+          "path": "/allContentLoaded-route-initial/",
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
+          },
+          "path": "/contentLoaded-route-initial/",
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-2/default/plugin-route-context-module-100.json",
+          },
+          "path": "/plugin-2-route/",
+        },
+      ]
+    `);
+    expect(loadResult.globalData).toMatchInlineSnapshot(`
+      {
+        "plugin-name-1": {
+          "default": {
+            "allContentLoadedVal": "allContentLoaded-val-initial",
+            "contentLoadedVal": "contentLoaded-val-initial",
+          },
+        },
+        "plugin-name-2": {
+          "default": {
+            "plugin2Val": "val",
+          },
+        },
+      }
+    `);
+    expect(reloadResult.routes).toMatchInlineSnapshot(`
+      [
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
+          },
+          "path": "/allContentLoaded-route-reload/",
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
+          },
+          "path": "/contentLoaded-route-reload/",
+        },
+        {
+          "component": "Comp",
+          "context": {
+            "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-2/default/plugin-route-context-module-100.json",
+          },
+          "path": "/plugin-2-route/",
+        },
+      ]
+    `);
+    expect(reloadResult.globalData).toMatchInlineSnapshot(`
+      {
+        "plugin-name-1": {
+          "default": {
+            "allContentLoadedVal": "allContentLoaded-val-reload",
+            "contentLoadedVal": "contentLoaded-val-reload",
+          },
+        },
+        "plugin-name-2": {
+          "default": {
+            "plugin2Val": "val",
+          },
+        },
+      }
+    `);
+
+    // Trying to reload again one plugin or the other should give
+    // the same result because the plugin content doesn't change
+    const reloadResult2 = await reloadPlugin({
+      context: loadResult.context,
+      plugins: reloadResult.plugins,
+      pluginIdentifier: {name: 'plugin-name-1', id: 'default'},
+    });
+    expect(reloadResult2.routes).toEqual(reloadResult.routes);
+    expect(reloadResult2.globalData).toEqual(reloadResult.globalData);
+
+    const reloadResult3 = await reloadPlugin({
+      context: loadResult.context,
+      plugins: reloadResult2.plugins,
+      pluginIdentifier: {name: 'plugin-name-2', id: 'default'},
+    });
+    expect(reloadResult3.routes).toEqual(reloadResult.routes);
+    expect(reloadResult3.globalData).toEqual(reloadResult.globalData);
   });
 });
