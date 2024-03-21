@@ -10,10 +10,10 @@ import {
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
   addLeadingSlash,
-  addTrailingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
+import {addTrailingSlash} from '@docusaurus/utils-common';
 import type {
   DocusaurusConfig,
   I18nConfig,

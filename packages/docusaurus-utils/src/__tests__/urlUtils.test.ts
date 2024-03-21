@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {addTrailingSlash} from '@docusaurus/utils-common';
 import {
   normalizeUrl,
   getEditUrl,
   fileToPath,
   isValidPathname,
-  addTrailingSlash,
   addLeadingSlash,
   removeTrailingSlash,
   resolvePathname,
