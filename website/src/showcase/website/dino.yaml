@@ -1,6 +1,6 @@
 title: 'Dinosaur'
 description: 'Docusaurus dino'
-preview: require('./showcase/agilets.png')
+preview: require('./showcase/test.png')
 website: 'https://agile-ts.org/'
 source: 'https://github.com/agile-ts/documentation'
 tags: ['opensource', 'design']
