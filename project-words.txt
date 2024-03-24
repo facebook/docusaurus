@@ -2,6 +2,7 @@
 abernathyca
 Adriaan
 Agan
+agilets
 alexbdebrie
 Alexey
 algoliasearch
@@ -228,6 +229,7 @@ orta
 Outerbounds
 outerbounds
 overrideable
+Ozaki
 ozaki
 O’Shannessy
 pageview
