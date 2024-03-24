@@ -9,11 +9,27 @@ import React, {useState, useEffect, useCallback} from 'react';
 import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {Operator} from '@theme/Showcase/ShowcaseFilterToggle';
 import {OperatorQueryKey} from '@theme/Showcase/ShowcaseFilterToggle';
-import {prepareUserState} from '@theme/Showcase';
 
 import styles from './styles.module.css';
+
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
+};
+
+function prepareUserState(): UserState | undefined {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement?.id,
+    };
+  }
+
+  return undefined;
+}
 
 function readOperator(search: string): Operator {
   return (new URLSearchParams(search).get(OperatorQueryKey) ??

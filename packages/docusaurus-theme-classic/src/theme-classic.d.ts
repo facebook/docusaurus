@@ -248,13 +248,15 @@ declare module '@theme/BlogPostItems' {
 }
 
 declare module '@theme/Showcase' {
-  export interface Props {
-    content: {
-      [key: string]: string;
-    };
-  }
+  import type {Content} from '@docusaurus/plugin-showcase';
 
   export function prepareUserState(): UserState | undefined;
+
+  export type User = Content['website'][number];
+
+  export type Props = {
+    content: User[];
+  };
 
   export default function Showcase(props: Props): JSX.Element;
 }

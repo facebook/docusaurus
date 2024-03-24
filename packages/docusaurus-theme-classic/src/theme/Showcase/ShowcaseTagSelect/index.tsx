@@ -15,8 +15,24 @@ import React, {
 } from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 
-import {prepareUserState} from '@theme/Showcase';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import styles from './styles.module.css';
+
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
+};
+
+function prepareUserState(): UserState | undefined {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement?.id,
+    };
+  }
+
+  return undefined;
+}
 
 function toggleListItem<T>(list: T[], item: T): T[] {
   const itemIndex = list.indexOf(item);

@@ -36,28 +36,33 @@ export default function pluginContentShowcase(
     // },
 
     async loadContent(): Promise<Content> {
-      const files = await fs.readdir(
-        path.join(siteDir, options.path, 'website'),
-      );
+      const files = await fs.readdir(path.join(siteDir, options.path));
       const yamlFiles = files.filter((file) => file.endsWith('.yaml'));
 
       const contentPromises = yamlFiles.map(async (file) => {
-        const yaml = await fs.readFile(
-          path.join(siteDir, options.path, 'website', file),
+        const rawYaml = await fs.readFile(
+          path.join(siteDir, options.path, file),
           'utf-8',
         );
-        const authors = Yaml.load(yaml);
-        const parsedAuthors = contentAuthorsSchema.validate(authors);
+        const yaml = Yaml.load(rawYaml);
+        const parsedYaml = contentAuthorsSchema.validate(yaml);
 
-        if (parsedAuthors.error) {
-          throw new Error(`Validation failed: ${parsedAuthors.error.message}`, {
-            cause: parsedAuthors.error,
+        if (parsedYaml.error) {
+          throw new Error(`Validation failed: ${parsedYaml.error.message}`, {
+            cause: parsedYaml.error,
           });
         }
 
+        const {title, description, preview, website, source, tags} =
+          parsedYaml.value;
+
         return {
-          title: parsedAuthors.value.title,
-          author: parsedAuthors.value.author, // Assuming author is part of Content type
+          title,
+          description,
+          preview,
+          website,
+          source,
+          tags,
         };
       });
 
@@ -71,7 +76,6 @@ export default function pluginContentShowcase(
       if (!content) {
         return;
       }
-      console.log('content:', content);
 
       const {addRoute, createData} = actions;
 
@@ -83,7 +87,7 @@ export default function pluginContentShowcase(
           );
 
           addRoute({
-            path: `/${item.title}`,
+            path: `/showcaseAll/${item.title}`,
             component: '@theme/Showcase',
             modules: {
               content: dataAuthor,
@@ -92,6 +96,20 @@ export default function pluginContentShowcase(
           });
         }),
       );
+
+      const showcaseAllData = await createData(
+        'showcaseAll.json',
+        JSON.stringify(content.website),
+      );
+
+      addRoute({
+        path: '/showcaseAll',
+        component: '@theme/Showcase',
+        modules: {
+          content: showcaseAllData,
+        },
+        exact: true,
+      });
     },
   };
 }

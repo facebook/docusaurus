@@ -11,7 +11,7 @@ import type {PluginOptions, Options} from '@docusaurus/plugin-showcase';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   id: 'showcase',
-  path: 'src/showcase', // Path to data on filesystem, relative to site dir.
+  path: 'src/showcase/website', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
 };
 
@@ -21,8 +21,12 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
 });
 
 export const contentAuthorsSchema = Joi.object({
-  author: Joi.string().required(),
   title: Joi.string().required(),
+  description: Joi.string().required(),
+  preview: Joi.string().required(),
+  website: Joi.string().required(),
+  source: Joi.string().required(),
+  tags: Joi.array().items(Joi.string()).required(),
 });
 
 export function validateOptions({

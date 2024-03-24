@@ -1,5 +1,5 @@
-title: 'Seb'
-description: "Docusaurus maintainer's personal website"
+title: 'Dinosaur'
+description: 'Docusaurus dino'
 preview: require('./showcase/agilets.png')
 website: 'https://agile-ts.org/'
 source: 'https://github.com/agile-ts/documentation'

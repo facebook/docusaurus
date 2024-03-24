@@ -18,10 +18,26 @@ declare module '@docusaurus/plugin-showcase' {
     routeBasePath: string;
   };
 
+  export type TagType =
+    | 'favorite'
+    | 'opensource'
+    | 'product'
+    | 'design'
+    | 'i18n'
+    | 'versioning'
+    | 'large'
+    | 'meta'
+    | 'personal'
+    | 'rtl';
+
   export type Content = {
     website: {
-      author: string;
       title: string;
+      description: string;
+      preview: string | null; // null = use our serverless screenshot service
+      website: string;
+      source: string | null;
+      tags: TagType[];
     }[];
   };
 
@@ -30,5 +46,5 @@ declare module '@docusaurus/plugin-showcase' {
   export default function pluginShowcase(
     context: LoadContext,
     options: PluginOptions,
-  ): Promise<Plugin<LoadedContent | null>>;
+  ): Promise<Plugin<Content | null>>;
 }

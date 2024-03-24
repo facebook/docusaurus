@@ -12,20 +12,19 @@ import {useHistory, useLocation} from 'react-router-dom';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Translate, {translate} from '@docusaurus/Translate';
 import {usePluralForm} from '@docusaurus/theme-common';
-import type {Props} from '@theme/Showcase';
+import type {User, Props} from '@theme/Showcase';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';
 import ShowcaseTooltip from '@theme/Showcase/ShowcaseTooltip';
-import ShowcaseTagSelect, {
-  readSearchTags,
-} from '@theme/Showcase/ShowcaseTagSelect';
-import ShowcaseFilterToggle, {
-  readOperator,
-} from '@theme/Showcase/ShowcaseFilterToggle';
+import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
+import ShowcaseFilterToggle from '@theme/Showcase/ShowcaseFilterToggle';
 import type {Operator} from '@theme/Showcase/ShowcaseFilterToggle';
+import type {TagType} from '@docusaurus/plugin-showcase';
 import styles from './styles.module.css';
+
+type Users = User[];
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
 const DESCRIPTION = translate({
@@ -33,6 +32,12 @@ const DESCRIPTION = translate({
 });
 const SUBMIT_URL = 'https://github.com/facebook/docusaurus/discussions/7826';
 
+const OperatorQueryKey = 'operator';
+
+function readOperator(search: string): Operator {
+  return (new URLSearchParams(search).get(OperatorQueryKey) ??
+    'OR') as Operator;
+}
 type UserState = {
   scrollTopPosition: number;
   focusedElementId: string | undefined;
@@ -145,17 +150,6 @@ const Tags: {[type in TagType]: Tag} = {
 
 const TagList = Object.keys(Tags) as TagType[];
 
-const Users: User[] = [
-  {
-    title: 'AgileTs',
-    description: 'Global State and Logic Framework for reactive Applications',
-    preview: 'https://github.com/ozakione.png',
-    website: 'https://agile-ts.org/',
-    source: 'https://github.com/agile-ts/documentation',
-    tags: ['opensource', 'design'],
-  },
-];
-
 function sortBy<T>(
   array: T[],
   getter: (item: T) => string | number | boolean,
@@ -168,16 +162,13 @@ function sortBy<T>(
   return sortedArray;
 }
 
-function sortUsers() {
-  let result = Users;
+function sortUsers(users: Users): Users {
   // Sort by site name
-  result = sortBy(result, (user) => user.title.toLowerCase());
+  let result = sortBy(users, (user) => user.title.toLowerCase());
   // Sort by favorite tag, favorites first
-  result = sortBy(result, (user) => !user.tags.includes('favorite'));
+  result = sortBy(result, (user) => (user.tags.includes('favorite') ? -1 : 1));
   return result;
 }
-
-const sortedUsers = sortUsers();
 
 function ShowcaseHeader() {
   return (
@@ -213,35 +204,9 @@ function restoreUserState(userState: UserState | null) {
   document.getElementById(focusedElementId)?.focus();
   window.scrollTo({top: scrollTopPosition});
 }
-type TagType =
-  | 'favorite'
-  | 'opensource'
-  | 'product'
-  | 'design'
-  | 'i18n'
-  | 'versioning'
-  | 'large'
-  | 'meta'
-  | 'personal'
-  | 'rtl';
-
-type User = {
-  title: string;
-  description: string;
-  preview: string | null; // null = use our serverless screenshot service
-  website: string;
-  source: string | null;
-  tags: TagType[];
-};
-
-// type Tag = {
-//   label: string;
-//   description: string;
-//   color: string;
-// };
 
 function filterUsers(
-  users: User[],
+  users: Users,
   selectedTags: TagType[],
   operator: Operator,
   searchName: string | null,
@@ -266,7 +231,19 @@ function filterUsers(
   });
 }
 
-function useFilteredUsers() {
+const SearchNameQueryKey = 'name';
+
+function readSearchName(search: string) {
+  return new URLSearchParams(search).get(SearchNameQueryKey);
+}
+
+const TagQueryStringKey = 'tags';
+
+function readSearchTags(search: string): TagType[] {
+  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
+}
+
+function useFilteredUsers(users: Users) {
   const location = useLocation<UserState>();
   const [operator, setOperator] = useState<Operator>('OR');
   // On SSR / first mount (hydration) no tag is selected
@@ -282,8 +259,8 @@ function useFilteredUsers() {
   }, [location]);
 
   return useMemo(
-    () => filterUsers(sortedUsers, selectedTags, operator, searchName),
-    [selectedTags, operator, searchName],
+    () => filterUsers(sortUsers(users), selectedTags, operator, searchName),
+    [selectedTags, operator, searchName, users],
   );
 }
 
@@ -304,8 +281,8 @@ function useSiteCountPlural() {
     );
 }
 
-function ShowcaseFilters() {
-  const filteredUsers = useFilteredUsers();
+function ShowcaseFilters({users}: {users: Users}) {
+  const filteredUsers = useFilteredUsers(users);
   const siteCountPlural = useSiteCountPlural();
   return (
     <section className="container margin-top--l margin-bottom--lg">
@@ -358,12 +335,6 @@ function ShowcaseFilters() {
   );
 }
 
-const SearchNameQueryKey = 'name';
-
-function readSearchName(search: string) {
-  return new URLSearchParams(search).get(SearchNameQueryKey);
-}
-
 function SearchBar() {
   const history = useHistory();
   const location = useLocation();
@@ -401,15 +372,8 @@ function SearchBar() {
   );
 }
 
-const favoriteUsers = sortedUsers.filter((user) =>
-  user.tags.includes('favorite'),
-);
-const otherUsers = sortedUsers.filter(
-  (user) => !user.tags.includes('favorite'),
-);
-
-function ShowcaseCards() {
-  const filteredUsers = useFilteredUsers();
+function ShowcaseCards({users}: {users: Users}) {
+  const filteredUsers = useFilteredUsers(users);
 
   if (filteredUsers.length === 0) {
     return (
@@ -423,9 +387,12 @@ function ShowcaseCards() {
     );
   }
 
+  const favoriteUsers = users.filter((user) => user.tags.includes('favorite'));
+  const otherUsers = users.filter((user) => !user.tags.includes('favorite'));
+
   return (
     <section className="margin-top--lg margin-bottom--xl">
-      {filteredUsers.length === sortedUsers.length ? (
+      {filteredUsers.length === sortUsers(users).length ? (
         <>
           <div className={styles.showcaseFavorite}>
             <div className="container">
@@ -481,18 +448,21 @@ function ShowcaseCards() {
 }
 
 export default function Showcase(props: Props): JSX.Element {
+  // TODO remove temporary to test showcase specific page
+  const users = Array.isArray(props.content) ? props.content : [props.content];
+
   return (
     <Layout title="Showcase">
       <div>{JSON.stringify(props)}</div>
       <main className="margin-vert--lg">
         <ShowcaseHeader />
-        <ShowcaseFilters />
+        <ShowcaseFilters users={users} />
         <div
           style={{display: 'flex', marginLeft: 'auto'}}
           className="container">
           <SearchBar />
         </div>
-        <ShowcaseCards />
+        <ShowcaseCards users={users} />
       </main>
     </Layout>
   );
