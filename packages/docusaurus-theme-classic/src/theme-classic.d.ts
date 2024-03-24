@@ -247,10 +247,20 @@ declare module '@theme/BlogPostItems' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
-declare module '@theme/Showcase' {
+declare module '@theme/ShowcaseDetails' {
   import type {Content} from '@docusaurus/plugin-showcase';
 
-  export function prepareUserState(): UserState | undefined;
+  export type User = Content['website'][number];
+
+  export type Props = {
+    content: User;
+  };
+
+  export default function Showcase(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase' {
+  import type {Content} from '@docusaurus/plugin-showcase';
 
   export type User = Content['website'][number];
 
@@ -296,15 +306,11 @@ declare module '@theme/Showcase/ShowcaseTagSelect' {
     tag: TagType;
   }
 
-  export function readSearchTags(search: string): TagType[];
-
   export default function ShowcaseTagSelect(props: Props): JSX.Element;
 }
 declare module '@theme/Showcase/ShowcaseFilterToggle' {
   export type Operator = 'OR' | 'AND';
   export const OperatorQueryKey = 'operator';
-
-  export function readOperator(search: string): Operator;
 
   export default function ShowcaseFilterToggle(): JSX.Element;
 }

@@ -448,8 +448,7 @@ function ShowcaseCards({users}: {users: Users}) {
 }
 
 export default function Showcase(props: Props): JSX.Element {
-  // TODO remove temporary to test showcase specific page
-  const users = Array.isArray(props.content) ? props.content : [props.content];
+  const users = props.content;
 
   return (
     <Layout title="Showcase">

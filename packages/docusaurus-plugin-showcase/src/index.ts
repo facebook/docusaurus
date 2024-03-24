@@ -16,6 +16,17 @@ import {contentAuthorsSchema} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Content} from '@docusaurus/plugin-showcase';
 
+// https://stackoverflow.com/a/71166133
+const walk = async (dirPath: string): Promise<any[]> =>
+  Promise.all(
+    await fs.readdir(dirPath, {withFileTypes: true}).then((entries) =>
+      entries.map((entry) => {
+        const childPath = path.join(dirPath, entry.name);
+        return entry.isDirectory() ? walk(childPath) : childPath;
+      }),
+    ),
+  );
+
 export default function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
@@ -36,35 +47,33 @@ export default function pluginContentShowcase(
     // },
 
     async loadContent(): Promise<Content> {
-      const files = await fs.readdir(path.join(siteDir, options.path));
-      const yamlFiles = files.filter((file) => file.endsWith('.yaml'));
+      const files: string[] = await walk(path.join(siteDir, options.path));
+      console.log('allFiles:', files.flat(Number.POSITIVE_INFINITY));
+      const contentPromises = files
+        .flat(Number.POSITIVE_INFINITY)
+        .map(async (file) => {
+          const rawYaml = await fs.readFile(path.join(file), 'utf-8');
+          const yaml = Yaml.load(rawYaml);
+          const parsedYaml = contentAuthorsSchema.validate(yaml);
 
-      const contentPromises = yamlFiles.map(async (file) => {
-        const rawYaml = await fs.readFile(
-          path.join(siteDir, options.path, file),
-          'utf-8',
-        );
-        const yaml = Yaml.load(rawYaml);
-        const parsedYaml = contentAuthorsSchema.validate(yaml);
+          if (parsedYaml.error) {
+            throw new Error(`Validation failed: ${parsedYaml.error.message}`, {
+              cause: parsedYaml.error,
+            });
+          }
 
-        if (parsedYaml.error) {
-          throw new Error(`Validation failed: ${parsedYaml.error.message}`, {
-            cause: parsedYaml.error,
-          });
-        }
+          const {title, description, preview, website, source, tags} =
+            parsedYaml.value;
 
-        const {title, description, preview, website, source, tags} =
-          parsedYaml.value;
-
-        return {
-          title,
-          description,
-          preview,
-          website,
-          source,
-          tags,
-        };
-      });
+          return {
+            title,
+            description,
+            preview,
+            website,
+            source,
+            tags,
+          };
+        });
 
       const content = await Promise.all(contentPromises);
       return {
@@ -88,7 +97,7 @@ export default function pluginContentShowcase(
 
           addRoute({
             path: `/showcaseAll/${item.title}`,
-            component: '@theme/Showcase',
+            component: '@theme/ShowcaseDetails',
             modules: {
               content: dataAuthor,
             },
