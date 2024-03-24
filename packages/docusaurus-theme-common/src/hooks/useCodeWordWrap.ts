@@ -4,8 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import type {RefObject} from 'react';
+import type {CSSProperties, RefObject} from 'react';
 import {useState, useCallback, useEffect, useRef} from 'react';
+import {useStorageSlot} from '../index';
 import {useMutationObserver} from './useMutationObserver';
 
 // Callback fires when the "hidden" attribute of a tabpanel changes
@@ -52,30 +53,34 @@ function useTabBecameVisibleCallback(
   );
 }
 
+function useCodeWrapState() {
+  const [value, storageSlot] = useStorageSlot('docusaurus.code.wordWrap');
+
+  const toggle = useCallback(() => {
+    const newValue = value === 'true' ? 'false' : 'true';
+    storageSlot.set(newValue);
+  }, [value, storageSlot]);
+
+  return [value === 'true', toggle] as const;
+}
+
 export function useCodeWordWrap(): {
   readonly codeBlockRef: RefObject<HTMLPreElement>;
   readonly isEnabled: boolean;
   readonly isCodeScrollable: boolean;
   readonly toggle: () => void;
+  readonly codeStyle: CSSProperties;
 } {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled, toggleWrap] = useCodeWrapState();
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
   const codeBlockRef = useRef<HTMLPreElement>(null);
+  const codeStyle: CSSProperties = isEnabled
+    ? {whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}
+    : {};
 
   const toggle = useCallback(() => {
-    const codeElement = codeBlockRef.current!.querySelector('code')!;
-
-    if (isEnabled) {
-      codeElement.removeAttribute('style');
-    } else {
-      codeElement.style.whiteSpace = 'pre-wrap';
-      // When code wrap is enabled, we want to avoid a scrollbar in any case
-      // Ensure that very very long words/strings/tokens still wrap
-      codeElement.style.overflowWrap = 'anywhere';
-    }
-
-    setIsEnabled((value) => !value);
-  }, [codeBlockRef, isEnabled]);
+    toggleWrap();
+  }, [toggleWrap]);
 
   const updateCodeIsScrollable = useCallback(() => {
     const {scrollWidth, clientWidth} = codeBlockRef.current!;
@@ -101,5 +106,5 @@ export function useCodeWordWrap(): {
     };
   }, [updateCodeIsScrollable]);
 
-  return {codeBlockRef, isEnabled, isCodeScrollable, toggle};
+  return {codeBlockRef, isEnabled, isCodeScrollable, toggle, codeStyle};
 }
