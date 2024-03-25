@@ -9,12 +9,21 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {
+  DEFAULT_PLUGIN_ID,
+  addTrailingPathSeparator,
+  aliasedSitePath,
+  docuHash,
+} from '@docusaurus/utils';
 import Yaml from 'js-yaml';
 
 import {contentAuthorsSchema} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginOptions, Content} from '@docusaurus/plugin-showcase';
+import type {
+  PluginOptions,
+  Content,
+  ShowcaseMetadata,
+} from '@docusaurus/plugin-showcase';
 
 // https://stackoverflow.com/a/71166133
 const walk = async (dirPath: string): Promise<any[]> =>
@@ -39,6 +48,8 @@ export default function pluginContentShowcase(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
+  const showcasePath = path.join(siteDir, options.path);
+
   return {
     name: 'docusaurus-plugin-showcase',
 
@@ -48,32 +59,33 @@ export default function pluginContentShowcase(
 
     async loadContent(): Promise<Content> {
       const files: string[] = await walk(path.join(siteDir, options.path));
-      console.log('allFiles:', files.flat(Number.POSITIVE_INFINITY));
-      const contentPromises = files
+      const filteredFiles = files
         .flat(Number.POSITIVE_INFINITY)
-        .map(async (file) => {
-          const rawYaml = await fs.readFile(path.join(file), 'utf-8');
-          const yaml = Yaml.load(rawYaml);
-          const parsedYaml = contentAuthorsSchema.validate(yaml);
+        .filter((file) => file.endsWith('.yaml'));
 
-          if (parsedYaml.error) {
-            throw new Error(`Validation failed: ${parsedYaml.error.message}`, {
-              cause: parsedYaml.error,
-            });
-          }
+      const contentPromises = filteredFiles.map(async (file) => {
+        const rawYaml = await fs.readFile(path.join(file), 'utf-8');
+        const yaml = Yaml.load(rawYaml);
+        const parsedYaml = contentAuthorsSchema.validate(yaml);
 
-          const {title, description, preview, website, source, tags} =
-            parsedYaml.value;
+        if (parsedYaml.error) {
+          throw new Error(`Validation failed: ${parsedYaml.error.message}`, {
+            cause: parsedYaml.error,
+          });
+        }
 
-          return {
-            title,
-            description,
-            preview,
-            website,
-            source,
-            tags,
-          };
-        });
+        const {title, description, preview, website, source, tags} =
+          parsedYaml.value;
+
+        return {
+          title,
+          description,
+          preview,
+          website,
+          source,
+          tags,
+        };
+      });
 
       const content = await Promise.all(contentPromises);
       return {
@@ -91,7 +103,7 @@ export default function pluginContentShowcase(
       await Promise.all(
         content.website.map(async (item) => {
           const dataAuthor = await createData(
-            `${item.title}.json`,
+            `${docuHash(item.title)}.json`,
             JSON.stringify(item),
           );
 
@@ -119,6 +131,68 @@ export default function pluginContentShowcase(
         },
         exact: true,
       });
+    },
+
+    configureWebpack(_config, isServer, utils, content) {
+      return {
+        resolve: {
+          alias: {
+            '~blog': pluginDataDirRoot,
+          },
+        },
+        module: {
+          rules: [
+            {
+              test: /\.mdx?$/i,
+              include: [...showcasePath]
+                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+                .map(addTrailingPathSeparator),
+              use: [
+                {
+                  loader: require.resolve('@docusaurus/mdx-loader'),
+                  options: {
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
+                    metadataPath: (mdxPath: string) => {
+                      // Note that metadataPath must be the same/in-sync as
+                      // the path from createData for each MDX.
+                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+                      return path.join(
+                        dataDir,
+                        `${docuHash(aliasedPath)}.json`,
+                      );
+                    },
+                    // For blog posts a title in markdown is always removed
+                    // Blog posts title are rendered separately
+                    removeContentTitle: true,
+
+                    // Assets allow to convert some relative images paths to
+                    // require() calls
+                    // createAssets: ({
+                    //   frontMatter,
+                    //   metadata,
+                    // }: {
+                    //   frontMatter: Content['website'][number];
+                    //   metadata: ShowcaseMetadata;
+                    // }): Assets => ({
+                    //   image: frontMatter.preview,
+                    //   authorsImageUrls: metadata.frontMatter.preview.map(
+                    //     (author) => author.imageURL,
+                    //   ),
+                    // }),
+                    markdownConfig: siteConfig.markdown,
+                  },
+                },
+                {
+                  loader: path.resolve(__dirname, './markdownLoader.js'),
+                },
+              ].filter(Boolean),
+            },
+          ],
+        },
+      };
     },
   };
 }

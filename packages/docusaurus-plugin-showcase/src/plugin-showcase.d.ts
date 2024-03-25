@@ -47,4 +47,23 @@ declare module '@docusaurus/plugin-showcase' {
     context: LoadContext,
     options: PluginOptions,
   ): Promise<Plugin<Content | null>>;
+
+  export type ShowcaseMetadata = {
+    /** Path to the Markdown source, with `@site` alias. */
+    readonly source: string;
+    /**
+     * Used to generate the page h1 heading, tab title, and pagination title.
+     */
+    readonly title: string;
+    /** Full link including base URL. */
+    readonly permalink: string;
+    /**
+     * Description used in the meta. Could be an empty string (empty content)
+     */
+    readonly description: string;
+    /** Front matter, as-is. */
+    readonly frontMatter: Content['website'][number] & {[key: string]: unknown};
+    /** Tags, normalized. */
+    readonly tags: TagType[];
+  };
 }
