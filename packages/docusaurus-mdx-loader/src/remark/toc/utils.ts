@@ -5,13 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import acorn from 'acorn';
 import {toValue} from '../utils';
 import type {Node} from 'unist';
 import type {
   MdxjsEsm,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
-import type {TOCHeading, TOCItem, TOCItems, TOCSlice} from './types';
+import type {
+  TOCHeading,
+  TOCItem,
+  TOCItems,
+  TOCSlice,
+  PartialProp,
+} from './types';
 import type {
   Program,
   SpreadElement,
@@ -113,7 +120,7 @@ export async function createTOCExportNodeAST({
   function createTOCSliceAST(tocSlice: TOCSlice): SpreadElement {
     return {
       type: 'SpreadElement',
-      argument: {type: 'Identifier', name: tocSlice.importName},
+      argument: {type: 'Identifier', name: tocSlice.value},
     };
   }
 
@@ -172,6 +179,81 @@ export async function createTOCExportNodeAST({
         ],
         sourceType: 'module',
       },
+    },
+  };
+}
+
+export async function createPartialPropsObjAST({
+  partialProps,
+  partialPropsName,
+}: {
+  partialProps: PartialProp[];
+  partialPropsName: string;
+}): Promise<MdxjsEsm> {
+  const {valueToEstree} = await import('estree-util-value-to-estree');
+
+  return {
+    type: 'mdxjsEsm',
+    value: '',
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ExportNamedDeclaration',
+            declaration: {
+              type: 'VariableDeclaration',
+              declarations: [
+                {
+                  type: 'VariableDeclarator',
+                  id: {
+                    type: 'Identifier',
+                    name: partialPropsName,
+                  },
+                  init: valueToEstree(partialProps),
+                },
+              ],
+              kind: 'const',
+            },
+            specifiers: [],
+            source: null,
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
+}
+
+export function createPropsPlacerAST({
+  propsPlacerName,
+}: {
+  propsPlacerName: string;
+}): MdxjsEsm {
+  return {
+    type: 'mdxjsEsm',
+    value: '',
+    data: {
+      estree: acorn.parse(
+        `
+function ${propsPlacerName}(toc, componentName) {
+  const componentProps = partialProps.filter((partialProp) => partialProp.componentName === componentName)
+
+  return toc.map((tocItem) => {
+    let value = tocItem.value
+    for (let componentProp of componentProps) {
+      value = value.replace('props.' + componentProp.propName, componentProp.propValue);
+    }
+
+    return {
+      ...tocItem,
+      value
+    }
+  })
+}
+      `,
+        {ecmaVersion: 11},
+      ) as Program,
     },
   };
 }
