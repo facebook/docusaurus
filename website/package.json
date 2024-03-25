@@ -10,6 +10,7 @@
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear && rimraf changelog && rimraf _dogfooding/_swizzle_theme_tests",
     "serve": "docusaurus serve",
+    "upgrade": "docusaurus upgrade",
     "test:css-order": "node testCSSOrder.mjs",
     "test:swizzle:eject:js": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
     "test:swizzle:eject:ts": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='true' node _dogfooding/testSwizzleThemeClassic.mjs",
