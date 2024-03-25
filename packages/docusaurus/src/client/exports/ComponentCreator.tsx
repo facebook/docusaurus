@@ -43,6 +43,24 @@ export default function ComponentCreator(
       },
     });
   }
+  if (path.endsWith('/*')) {
+    return Loadable({
+      loading: Loading,
+      loader: () => import('@theme/NotFound/Content'),
+      modules: ['@theme/NotFound/Content'],
+      webpack: () => [require.resolveWeak('@theme/NotFound/Content')],
+      render(loaded, props) {
+        const NotFoundContent = loaded.default;
+        return (
+          <RouteContextProvider
+            // Do we want a better name than native-default?
+            value={{plugin: {name: 'native', id: 'default'}}}>
+            <NotFoundContent {...(props as JSX.IntrinsicAttributes)} />
+          </RouteContextProvider>
+        );
+      },
+    });
+  }
 
   const chunkNames = routesChunkNames[`${path}-${hash}`]!;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
