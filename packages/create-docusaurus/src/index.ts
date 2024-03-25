@@ -582,6 +582,18 @@ export default async function init(
   // Display the most elegant way to cd.
   const cdpath = path.relative('.', dest);
   const pkgManager = await getPackageManager(dest, cliOptions);
+
+  if (pkgManager === 'pnpm') {
+    await fs.writeFile(
+      path.join(dest, '.npmrc'),
+      `\npublic-hoist-pattern[]=@docusaurus/types`,
+      {
+        flag: 'a',
+        encoding: 'utf-8',
+      },
+    );
+  }
+
   if (!cliOptions.skipInstall) {
     shell.cd(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;
