@@ -14,33 +14,37 @@ import {
   addTrailingPathSeparator,
   aliasedSitePath,
   docuHash,
+  getFolderContainingFile,
+  getPluginI18nPath,
+  Globby,
 } from '@docusaurus/utils';
 import Yaml from 'js-yaml';
 
 import {contentAuthorsSchema} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {
-  PluginOptions,
-  Content,
-  ShowcaseMetadata,
-} from '@docusaurus/plugin-showcase';
+import type {PluginOptions, Content} from '@docusaurus/plugin-showcase';
+import type {ShowcaseContentPaths} from './types';
 
-// https://stackoverflow.com/a/71166133
-const walk = async (dirPath: string): Promise<any[]> =>
-  Promise.all(
-    await fs.readdir(dirPath, {withFileTypes: true}).then((entries) =>
-      entries.map((entry) => {
-        const childPath = path.join(dirPath, entry.name);
-        return entry.isDirectory() ? walk(childPath) : childPath;
-      }),
-    ),
-  );
+export function getContentPathList(
+  contentPaths: ShowcaseContentPaths,
+): string[] {
+  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
+}
 
 export default function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<Content> {
-  const {siteConfig, siteDir, generatedFilesDir} = context;
+): Plugin<Content | null> {
+  const {siteConfig, siteDir, generatedFilesDir, localizationDir} = context;
+
+  const contentPaths: ShowcaseContentPaths = {
+    contentPath: path.resolve(siteDir, options.path),
+    contentPathLocalized: getPluginI18nPath({
+      localizationDir,
+      pluginName: 'docusaurus-plugin-content-pages',
+      pluginId: options.id,
+    }),
+  };
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -48,35 +52,52 @@ export default function pluginContentShowcase(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
-  const showcasePath = path.join(siteDir, options.path);
-
   return {
     name: 'docusaurus-plugin-showcase',
 
-    // getPathsToWatch() {
-    //   return [path.join(siteDir, options.path, 'authors.yaml')];
-    // },
+    getPathsToWatch() {
+      const {include} = options;
+      return getContentPathList(contentPaths).flatMap((contentPath) =>
+        include.map((pattern) => `${contentPath}/${pattern}`),
+      );
+    },
 
-    async loadContent(): Promise<Content> {
-      const files: string[] = await walk(path.join(siteDir, options.path));
-      const filteredFiles = files
-        .flat(Number.POSITIVE_INFINITY)
-        .filter((file) => file.endsWith('.yaml'));
+    async loadContent() {
+      const {include} = options;
 
-      const contentPromises = filteredFiles.map(async (file) => {
-        const rawYaml = await fs.readFile(path.join(file), 'utf-8');
-        const yaml = Yaml.load(rawYaml);
-        const parsedYaml = contentAuthorsSchema.validate(yaml);
+      if (!(await fs.pathExists(contentPaths.contentPath))) {
+        return null;
+      }
 
-        if (parsedYaml.error) {
-          throw new Error(`Validation failed: ${parsedYaml.error.message}`, {
-            cause: parsedYaml.error,
+      // const {baseUrl} = siteConfig;
+      const showcaseFiles = await Globby(include, {
+        cwd: contentPaths.contentPath,
+        ignore: options.exclude,
+      });
+
+      const filteredFiles = showcaseFiles.filter((file) =>
+        file.endsWith('.yaml'),
+      );
+
+      async function processPageSourceFile(relativeSource: string) {
+        // Lookup in localized folder in priority
+        const contentPath = await getFolderContainingFile(
+          getContentPathList(contentPaths),
+          relativeSource,
+        );
+
+        const sourcePath = path.join(contentPath, relativeSource);
+        const aliasedSourcePath = aliasedSitePath(sourcePath, siteDir);
+        const rawYaml = await fs.readFile(sourcePath, 'utf-8');
+        const unsafeYaml = Yaml.load(rawYaml);
+        const yaml = contentAuthorsSchema.validate(unsafeYaml);
+        if (yaml.error) {
+          throw new Error(`Validation failed: ${yaml.error.message}`, {
+            cause: yaml.error,
           });
         }
 
-        const {title, description, preview, website, source, tags} =
-          parsedYaml.value;
-
+        const {title, description, preview, website, source, tags} = yaml.value;
         return {
           title,
           description,
@@ -85,11 +106,21 @@ export default function pluginContentShowcase(
           source,
           tags,
         };
-      });
+      }
 
-      const content = await Promise.all(contentPromises);
+      async function doProcessPageSourceFile(relativeSource: string) {
+        try {
+          return await processPageSourceFile(relativeSource);
+        } catch (err) {
+          throw new Error(
+            `Processing of page source file path=${relativeSource} failed.`,
+            {cause: err as Error},
+          );
+        }
+      }
+
       return {
-        website: content,
+        website: await Promise.all(filteredFiles.map(doProcessPageSourceFile)),
       };
     },
 
@@ -134,17 +165,19 @@ export default function pluginContentShowcase(
     },
 
     configureWebpack(_config, isServer, utils, content) {
+      const contentDirs = getContentPathList(contentPaths);
+
       return {
         resolve: {
           alias: {
-            '~blog': pluginDataDirRoot,
+            '~showcase': pluginDataDirRoot,
           },
         },
         module: {
           rules: [
             {
               test: /\.mdx?$/i,
-              include: [...showcasePath]
+              include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
@@ -155,6 +188,10 @@ export default function pluginContentShowcase(
                       path.resolve(siteDir, dir),
                     ),
                     siteDir,
+                    // isMDXPartial: createAbsoluteFilePathMatcher(
+                    //   options.exclude,
+                    //   contentDirs,
+                    // ),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.
@@ -164,24 +201,15 @@ export default function pluginContentShowcase(
                         `${docuHash(aliasedPath)}.json`,
                       );
                     },
-                    // For blog posts a title in markdown is always removed
-                    // Blog posts title are rendered separately
-                    removeContentTitle: true,
-
                     // Assets allow to convert some relative images paths to
                     // require() calls
-                    // createAssets: ({
-                    //   frontMatter,
-                    //   metadata,
-                    // }: {
-                    //   frontMatter: Content['website'][number];
-                    //   metadata: ShowcaseMetadata;
-                    // }): Assets => ({
-                    //   image: frontMatter.preview,
-                    //   authorsImageUrls: metadata.frontMatter.preview.map(
-                    //     (author) => author.imageURL,
-                    //   ),
-                    // }),
+                    createAssets: ({
+                      frontMatter,
+                    }: {
+                      frontMatter: Content['website'][number];
+                    }) => ({
+                      image: frontMatter.preview,
+                    }),
                     markdownConfig: siteConfig.markdown,
                   },
                 },

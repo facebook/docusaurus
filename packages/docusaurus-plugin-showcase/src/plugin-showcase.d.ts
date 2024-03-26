@@ -16,6 +16,8 @@ declare module '@docusaurus/plugin-showcase' {
     id?: string;
     path: string;
     routeBasePath: string;
+    include: string[];
+    exclude: string[];
   };
 
   export type TagType =

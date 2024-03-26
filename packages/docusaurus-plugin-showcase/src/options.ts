@@ -6,6 +6,7 @@
  */
 
 import {Joi, RouteBasePathSchema} from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
 import type {PluginOptions, Options} from '@docusaurus/plugin-showcase';
 
@@ -13,11 +14,16 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   id: 'showcase',
   path: 'src/showcase/website', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
+  include: ['**/*.{yml,yaml,md,mdx}'], // Extensions to include.
+  exclude: GlobExcludeDefault,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
+  include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
+  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
+  id: Joi.string().default(DEFAULT_OPTIONS.id),
 });
 
 export const contentAuthorsSchema = Joi.object({
