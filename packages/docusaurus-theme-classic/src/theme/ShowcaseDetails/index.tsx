@@ -9,11 +9,11 @@ import type {Props} from '@theme/ShowcaseDetails';
 import Layout from '@theme/Layout';
 
 export default function Showcase(props: Props): JSX.Element {
-  const user = props.content;
+  const user = props;
 
   return (
     <Layout title="Showcase Details">
-      <div>{user.title}</div>
+      <div>{JSON.stringify(user)}</div>
     </Layout>
   );
 }

@@ -5,10 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi, RouteBasePathSchema} from '@docusaurus/utils-validation';
+import {
+  Joi,
+  validateFrontMatter,
+  RouteBasePathSchema,
+} from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
-import type {PluginOptions, Options} from '@docusaurus/plugin-showcase';
+import type {
+  PluginOptions,
+  Options,
+  ShowcaseFrontMatter,
+} from '@docusaurus/plugin-showcase';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   id: 'showcase',
@@ -26,7 +34,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   id: Joi.string().default(DEFAULT_OPTIONS.id),
 });
 
-export const contentAuthorsSchema = Joi.object({
+const contentAuthorsSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string().required(),
   preview: Joi.string().required(),
@@ -41,4 +49,10 @@ export function validateOptions({
 }: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
+}
+
+export function validateShowcaseFrontMatter(frontMatter: {
+  [key: string]: unknown;
+}): ShowcaseFrontMatter {
+  return validateFrontMatter(frontMatter, contentAuthorsSchema);
 }

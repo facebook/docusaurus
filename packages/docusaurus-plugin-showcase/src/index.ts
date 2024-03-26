@@ -17,10 +17,13 @@ import {
   getFolderContainingFile,
   getPluginI18nPath,
   Globby,
+  parseMarkdownFile,
+  aliasedSitePathToRelativePath,
+  createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
 import Yaml from 'js-yaml';
 
-import {contentAuthorsSchema} from './options';
+import {validateShowcaseFrontMatter} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Content} from '@docusaurus/plugin-showcase';
 import type {ShowcaseContentPaths} from './types';
@@ -30,6 +33,9 @@ export function getContentPathList(
 ): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
+
+const isMarkdownSource = (source: string) =>
+  source.endsWith('.md') || source.endsWith('.mdx');
 
 export default function pluginContentShowcase(
   context: LoadContext,
@@ -55,12 +61,13 @@ export default function pluginContentShowcase(
   return {
     name: 'docusaurus-plugin-showcase',
 
-    getPathsToWatch() {
-      const {include} = options;
-      return getContentPathList(contentPaths).flatMap((contentPath) =>
-        include.map((pattern) => `${contentPath}/${pattern}`),
-      );
-    },
+    // todo doesn't work
+    // getPathsToWatch() {
+    //   const {include} = options;
+    //   return getContentPathList(contentPaths).flatMap((contentPath) =>
+    //     include.map((pattern) => `${contentPath}/${pattern}`),
+    //   );
+    // },
 
     async loadContent() {
       const {include} = options;
@@ -75,42 +82,44 @@ export default function pluginContentShowcase(
         ignore: options.exclude,
       });
 
-      const filteredFiles = showcaseFiles.filter((file) =>
-        file.endsWith('.yaml'),
-      );
-
-      async function processPageSourceFile(relativeSource: string) {
+      async function processShowcaseSourceFile(relativeSource: string) {
         // Lookup in localized folder in priority
         const contentPath = await getFolderContainingFile(
           getContentPathList(contentPaths),
           relativeSource,
         );
+        console.log('contentPath:', contentPath);
 
         const sourcePath = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(sourcePath, siteDir);
-        const rawYaml = await fs.readFile(sourcePath, 'utf-8');
-        const unsafeYaml = Yaml.load(rawYaml);
-        const yaml = contentAuthorsSchema.validate(unsafeYaml);
-        if (yaml.error) {
-          throw new Error(`Validation failed: ${yaml.error.message}`, {
-            cause: yaml.error,
-          });
+        if (!isMarkdownSource(sourcePath)) {
+          const rawYaml = await fs.readFile(sourcePath, 'utf-8');
+          const unsafeYaml = Yaml.load(rawYaml) as {[key: string]: unknown};
+          const yaml = validateShowcaseFrontMatter(unsafeYaml);
+          return {
+            type: 'yaml',
+            ...yaml,
+          };
         }
-
-        const {title, description, preview, website, source, tags} = yaml.value;
+        const rawMarkdown = await fs.readFile(sourcePath, 'utf-8');
+        const {frontMatter: unsafeFrontMatter, content} =
+          await parseMarkdownFile({
+            filePath: sourcePath,
+            fileContent: rawMarkdown,
+            parseFrontMatter: siteConfig.markdown?.parseFrontMatter,
+          });
+        const frontMatter = validateShowcaseFrontMatter(unsafeFrontMatter);
         return {
-          title,
-          description,
-          preview,
-          website,
-          source,
-          tags,
+          type: 'markdown',
+          ...frontMatter,
+          content,
+          sourcePath: aliasedSourcePath,
         };
       }
 
-      async function doProcessPageSourceFile(relativeSource: string) {
+      async function doProcessShowcaseSourceFile(relativeSource: string) {
         try {
-          return await processPageSourceFile(relativeSource);
+          return await processShowcaseSourceFile(relativeSource);
         } catch (err) {
           throw new Error(
             `Processing of page source file path=${relativeSource} failed.`,
@@ -120,7 +129,9 @@ export default function pluginContentShowcase(
       }
 
       return {
-        website: await Promise.all(filteredFiles.map(doProcessPageSourceFile)),
+        website: await Promise.all(
+          showcaseFiles.map(doProcessShowcaseSourceFile),
+        ),
       };
     },
 
@@ -133,16 +144,23 @@ export default function pluginContentShowcase(
 
       await Promise.all(
         content.website.map(async (item) => {
-          const dataAuthor = await createData(
-            `${docuHash(item.title)}.json`,
+          if (item.type === 'yaml') {
+            return;
+          }
+          await createData(
+            `${docuHash(item.sourcePath!)}.json`,
             JSON.stringify(item),
           );
 
           addRoute({
             path: `/showcaseAll/${item.title}`,
             component: '@theme/ShowcaseDetails',
+            metadata: {
+              sourceFilePath: aliasedSitePathToRelativePath(item.sourcePath!),
+              lastUpdatedAt: undefined,
+            },
             modules: {
-              content: dataAuthor,
+              content: item.sourcePath!,
             },
             exact: true,
           });
@@ -188,10 +206,10 @@ export default function pluginContentShowcase(
                       path.resolve(siteDir, dir),
                     ),
                     siteDir,
-                    // isMDXPartial: createAbsoluteFilePathMatcher(
-                    //   options.exclude,
-                    //   contentDirs,
-                    // ),
+                    isMDXPartial: createAbsoluteFilePathMatcher(
+                      options.exclude,
+                      contentDirs,
+                    ),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.

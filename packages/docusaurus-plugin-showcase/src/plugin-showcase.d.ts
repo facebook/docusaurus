@@ -32,13 +32,24 @@ declare module '@docusaurus/plugin-showcase' {
     | 'personal'
     | 'rtl';
 
+  export type ShowcaseFrontMatter = {
+    readonly title: string;
+    readonly description: string;
+    readonly preview: string | null; // null = use our serverless screenshot service
+    readonly website: string;
+    readonly source: string | null;
+    readonly tags: TagType[];
+  };
+
   export type Content = {
     website: {
+      type: string;
       title: string;
       description: string;
       preview: string | null; // null = use our serverless screenshot service
       website: string;
       source: string | null;
+      sourcePath?: string;
       tags: TagType[];
     }[];
   };
