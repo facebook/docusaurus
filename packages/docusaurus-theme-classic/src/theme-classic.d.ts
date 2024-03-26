@@ -310,7 +310,6 @@ declare module '@theme/Showcase/ShowcaseTagSelect' {
 }
 declare module '@theme/Showcase/ShowcaseFilterToggle' {
   export type Operator = 'OR' | 'AND';
-  export const OperatorQueryKey = 'operator';
 
   export default function ShowcaseFilterToggle(): JSX.Element;
 }

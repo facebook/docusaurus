@@ -11,9 +11,10 @@ import {useHistory, useLocation} from '@docusaurus/router';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {Operator} from '@theme/Showcase/ShowcaseFilterToggle';
-import {OperatorQueryKey} from '@theme/Showcase/ShowcaseFilterToggle';
 
 import styles from './styles.module.css';
+
+const OperatorQueryKey = 'operator';
 
 type UserState = {
   scrollTopPosition: number;
