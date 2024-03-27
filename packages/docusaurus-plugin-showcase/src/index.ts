@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -24,7 +24,7 @@ import {
 import Yaml from 'js-yaml';
 
 import {validateShowcaseFrontMatter} from './options';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
 import type {PluginOptions, Content} from '@docusaurus/plugin-showcase';
 import type {ShowcaseContentPaths} from './types';
 
@@ -88,7 +88,6 @@ export default function pluginContentShowcase(
           getContentPathList(contentPaths),
           relativeSource,
         );
-        console.log('contentPath:', contentPath);
 
         const sourcePath = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(sourcePath, siteDir);
@@ -142,6 +141,18 @@ export default function pluginContentShowcase(
 
       const {addRoute, createData} = actions;
 
+      function createPageRouteMetadata(
+        metadata: Content['website'][number],
+      ): RouteMetadata {
+        return {
+          sourceFilePath: aliasedSitePathToRelativePath(metadata.sourcePath!),
+          // TODO add support for last updated date in the page plugin
+          //  at least for Markdown files
+          // lastUpdatedAt: metadata.lastUpdatedAt,
+          lastUpdatedAt: undefined,
+        };
+      }
+
       await Promise.all(
         content.website.map(async (item) => {
           if (item.type === 'yaml') {
@@ -152,13 +163,15 @@ export default function pluginContentShowcase(
             JSON.stringify(item),
           );
 
+          const routeMetadata = createPageRouteMetadata(item);
+
+          const mdxPath = aliasedSitePathToRelativePath(item.sourcePath!);
+          console.log('mdxPath', mdxPath);
+
           addRoute({
             path: `/showcaseAll/${item.title}`,
             component: '@theme/ShowcaseDetails',
-            metadata: {
-              sourceFilePath: aliasedSitePathToRelativePath(item.sourcePath!),
-              lastUpdatedAt: undefined,
-            },
+            metadata: routeMetadata,
             modules: {
               content: item.sourcePath!,
             },
@@ -182,7 +195,7 @@ export default function pluginContentShowcase(
       });
     },
 
-    configureWebpack(_config, isServer, utils, content) {
+    configureWebpack() {
       const contentDirs = getContentPathList(contentPaths);
 
       return {

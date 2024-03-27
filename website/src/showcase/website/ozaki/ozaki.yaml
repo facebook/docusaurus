@@ -1,6 +1,6 @@
 title: 'Ozaki'
 description: 'Ozaki website'
-preview: require('./showcase/test.png')
+preview: /img/aot.jpg
 website: 'https://agile-ts.org/'
 source: 'https://github.com/agile-ts/documentation'
 tags: ['opensource', 'design']

@@ -9,7 +9,6 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
-// import Image from '@theme/IdealImage';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import Heading from '@theme/Heading';
 import Tooltip from '@theme/Showcase/ShowcaseTooltip';
@@ -191,21 +190,21 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   );
 }
 
-// function getCardImage(user: User): string {
-//   return (
-//     user.preview ??
-//     `https://slorber-api-screenshot.netlify.app/${encodeURIComponent(
-//       user.website,
-//     )}/showcase`
-//   );
-// }
+function getCardImage(user: User): string {
+  return (
+    user.preview ??
+    `https://slorber-api-screenshot.netlify.app/${encodeURIComponent(
+      user.website,
+    )}/showcase`
+  );
+}
 
 function ShowcaseCard({user}: {user: User}) {
-  // const image = getCardImage(user);
+  const image = getCardImage(user);
   return (
     <li key={user.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>
-        {/* <Image img={image} alt={user.title} /> */}
+        <img src={image} alt={user.title} />
       </div>
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
