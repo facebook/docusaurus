@@ -232,3 +232,17 @@ If you intend to write URLs, you can use the `pathname://` protocol to disable a
 ```
 
 This link will be generated as `<img src="/img/docusaurus-asset-example-banner.png" alt="banner" />`, without any processing or file existence checking.
+
+
+#### Video Example
+If want to add video files you can use the following example to render a video asset:
+```md
+<video src={VideoReference} type="video/mp4" width="500" controls></video>
+```
+
+_Note we import the image into the file from its path location in order to reference it in the src parameter without the file path:_
+```md
+import VideoReference from "./assets/add-a-video.mov";
+```
+
+
