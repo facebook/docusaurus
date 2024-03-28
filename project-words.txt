@@ -16,6 +16,7 @@ architecting
 Astro
 atrule
 Autoconverted
+autofix
 Autogen
 autogen
 autogenerating
@@ -239,7 +240,6 @@ Paraiso
 paraiso
 pathinfo
 paularmstrong
-peaceiris
 philpl
 Photoshop
 photoshop

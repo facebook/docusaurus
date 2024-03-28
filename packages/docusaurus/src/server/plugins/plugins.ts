@@ -15,6 +15,7 @@ import {
   aggregateAllContent,
   aggregateGlobalData,
   aggregateRoutes,
+  formatPluginName,
   getPluginByIdentifier,
   mergeGlobalData,
 } from './pluginsUtils';
@@ -73,46 +74,57 @@ async function executePluginContentLoading({
   plugin: InitializedPlugin;
   context: LoadContext;
 }): Promise<LoadedPlugin> {
-  return PerfLogger.async(
-    `Plugins - single plugin content loading - ${plugin.name}@${plugin.options.id}`,
-    async () => {
-      let content = await plugin.loadContent?.();
+  return PerfLogger.async(`Load ${formatPluginName(plugin)}`, async () => {
+    let content = await PerfLogger.async('loadContent()', () =>
+      plugin.loadContent?.(),
+    );
 
-      content = await translatePluginContent({
+    content = await PerfLogger.async('translatePluginContent()', () =>
+      translatePluginContent({
         plugin,
         content,
         context,
-      });
+      }),
+    );
 
-      if (!plugin.contentLoaded) {
-        return {
-          ...plugin,
-          content,
-          routes: [],
-          globalData: undefined,
-        };
-      }
+    const defaultCodeTranslations =
+      (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
+        plugin.getDefaultCodeTranslationMessages?.(),
+      )) ?? {};
 
-      const pluginActionsUtils = await createPluginActionsUtils({
-        plugin,
-        generatedFilesDir: context.generatedFilesDir,
-        baseUrl: context.siteConfig.baseUrl,
-        trailingSlash: context.siteConfig.trailingSlash,
-      });
-
-      await plugin.contentLoaded({
-        content,
-        actions: pluginActionsUtils.getActions(),
-      });
-
+    if (!plugin.contentLoaded) {
       return {
         ...plugin,
         content,
-        routes: pluginActionsUtils.getRoutes(),
-        globalData: pluginActionsUtils.getGlobalData(),
+        defaultCodeTranslations,
+        routes: [],
+        globalData: undefined,
       };
-    },
-  );
+    }
+
+    const pluginActionsUtils = await createPluginActionsUtils({
+      plugin,
+      generatedFilesDir: context.generatedFilesDir,
+      baseUrl: context.siteConfig.baseUrl,
+      trailingSlash: context.siteConfig.trailingSlash,
+    });
+
+    await PerfLogger.async('contentLoaded()', () =>
+      // @ts-expect-error: should autofix with TS 5.4
+      plugin.contentLoaded({
+        content,
+        actions: pluginActionsUtils.getActions(),
+      }),
+    );
+
+    return {
+      ...plugin,
+      content,
+      defaultCodeTranslations,
+      routes: pluginActionsUtils.getRoutes(),
+      globalData: pluginActionsUtils.getGlobalData(),
+    };
+  });
 }
 
 async function executeAllPluginsContentLoading({
@@ -122,7 +134,7 @@ async function executeAllPluginsContentLoading({
   plugins: InitializedPlugin[];
   context: LoadContext;
 }): Promise<LoadedPlugin[]> {
-  return PerfLogger.async(`Plugins - all plugins content loading`, () => {
+  return PerfLogger.async(`Load plugins content`, () => {
     return Promise.all(
       plugins.map((plugin) => executePluginContentLoading({plugin, context})),
     );
@@ -139,7 +151,7 @@ async function executePluginAllContentLoaded({
   allContent: AllContent;
 }): Promise<{routes: RouteConfig[]; globalData: unknown}> {
   return PerfLogger.async(
-    `Plugins - allContentLoaded - ${plugin.name}@${plugin.options.id}`,
+    `allContentLoaded() - ${formatPluginName(plugin)}`,
     async () => {
       if (!plugin.allContentLoaded) {
         return {routes: [], globalData: undefined};
@@ -171,7 +183,7 @@ async function executeAllPluginsAllContentLoaded({
   plugins: LoadedPlugin[];
   context: LoadContext;
 }): Promise<AllContentLoadedResult> {
-  return PerfLogger.async(`Plugins - allContentLoaded`, async () => {
+  return PerfLogger.async(`allContentLoaded()`, async () => {
     const allContent = aggregateAllContent(plugins);
 
     const routes: RouteConfig[] = [];
@@ -199,6 +211,9 @@ async function executeAllPluginsAllContentLoaded({
   });
 }
 
+// This merges plugins routes and global data created from both lifecycles:
+// - contentLoaded()
+// - allContentLoaded()
 function mergeResults({
   plugins,
   allContentLoadedResult,
@@ -232,9 +247,9 @@ export type LoadPluginsResult = {
 export async function loadPlugins(
   context: LoadContext,
 ): Promise<LoadPluginsResult> {
-  return PerfLogger.async('Plugins - loadPlugins', async () => {
+  return PerfLogger.async('Load plugins', async () => {
     const initializedPlugins: InitializedPlugin[] = await PerfLogger.async(
-      'Plugins - initPlugins',
+      'Init plugins',
       () => initPlugins(context),
     );
 
@@ -272,36 +287,39 @@ export async function reloadPlugin({
   plugins: LoadedPlugin[];
   context: LoadContext;
 }): Promise<LoadPluginsResult> {
-  return PerfLogger.async('Plugins - reloadPlugin', async () => {
-    const previousPlugin = getPluginByIdentifier({
-      plugins: previousPlugins,
-      pluginIdentifier,
-    });
-    const plugin = await executePluginContentLoading({
-      plugin: previousPlugin,
-      context,
-    });
+  return PerfLogger.async(
+    `Reload plugin ${formatPluginName(pluginIdentifier)}`,
+    async () => {
+      const previousPlugin = getPluginByIdentifier({
+        plugins: previousPlugins,
+        pluginIdentifier,
+      });
+      const plugin = await executePluginContentLoading({
+        plugin: previousPlugin,
+        context,
+      });
 
-    /*
+      /*
     // TODO Docusaurus v4 - upgrade to Node 20, use array.with()
     const plugins = previousPlugins.with(
       previousPlugins.indexOf(previousPlugin),
       plugin,
     );
      */
-    const plugins = [...previousPlugins];
-    plugins[previousPlugins.indexOf(previousPlugin)] = plugin;
+      const plugins = [...previousPlugins];
+      plugins[previousPlugins.indexOf(previousPlugin)] = plugin;
 
-    const allContentLoadedResult = await executeAllPluginsAllContentLoaded({
-      plugins,
-      context,
-    });
+      const allContentLoadedResult = await executeAllPluginsAllContentLoaded({
+        plugins,
+        context,
+      });
 
-    const {routes, globalData} = mergeResults({
-      plugins,
-      allContentLoadedResult,
-    });
+      const {routes, globalData} = mergeResults({
+        plugins,
+        allContentLoadedResult,
+      });
 
-    return {plugins, routes, globalData};
-  });
+      return {plugins, routes, globalData};
+    },
+  );
 }
