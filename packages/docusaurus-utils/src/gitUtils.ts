@@ -6,7 +6,16 @@
  */
 
 import path from 'path';
-import shell from 'shelljs';
+import fs from 'fs-extra';
+import _ from 'lodash';
+import shell from 'shelljs'; // TODO replace with async-first version
+
+const realHasGitFn = () => !!shell.which('git');
+
+// The hasGit call is synchronous IO so we memoize it
+// The user won't install Git in the middle of a build anyway...
+const hasGit =
+  process.env.NODE_ENV === 'test' ? realHasGitFn : _.memoize(realHasGitFn);
 
 /** Custom error thrown when git is not found in `PATH`. */
 export class GitNotFoundError extends Error {}
@@ -86,13 +95,13 @@ export async function getFileCommitDate(
   timestamp: number;
   author?: string;
 }> {
-  if (!shell.which('git')) {
+  if (!hasGit()) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
     );
   }
 
-  if (!shell.test('-f', file)) {
+  if (!(await fs.pathExists(file))) {
     throw new Error(
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
     );

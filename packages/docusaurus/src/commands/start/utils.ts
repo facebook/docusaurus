@@ -18,6 +18,7 @@ import {
   reloadSite,
   reloadSitePlugin,
 } from '../../server/site';
+import {formatPluginName} from '../../server/plugins/pluginsUtils';
 import type {StartCLIOptions} from './start';
 import type {LoadedPlugin} from '@docusaurus/types';
 
@@ -69,10 +70,13 @@ async function createLoadSiteParams({
 export async function createReloadableSite(startParams: StartParams) {
   const openUrlContext = await createOpenUrlContext(startParams);
 
-  let site = await PerfLogger.async('Loading site', async () => {
-    const params = await createLoadSiteParams(startParams);
-    return loadSite(params);
-  });
+  const loadSiteParams = await PerfLogger.async('createLoadSiteParams', () =>
+    createLoadSiteParams(startParams),
+  );
+
+  let site = await PerfLogger.async('Load site', () =>
+    loadSite(loadSiteParams),
+  );
 
   const get = () => site;
 
@@ -89,7 +93,7 @@ export async function createReloadableSite(startParams: StartParams) {
   const reloadBase = async () => {
     try {
       const oldSite = site;
-      site = await PerfLogger.async('Reloading site', () => reloadSite(site));
+      site = await PerfLogger.async('Reload site', () => reloadSite(site));
       if (oldSite.props.baseUrl !== site.props.baseUrl) {
         printOpenUrlMessage();
       }
@@ -108,7 +112,7 @@ export async function createReloadableSite(startParams: StartParams) {
   const reloadPlugin = async (plugin: LoadedPlugin) => {
     try {
       site = await PerfLogger.async(
-        `Reloading site plugin ${plugin.name}@${plugin.options.id}`,
+        `Reload site plugin ${formatPluginName(plugin)}`,
         () => {
           const pluginIdentifier = {name: plugin.name, id: plugin.options.id};
           return reloadSitePlugin(site, pluginIdentifier);
@@ -116,7 +120,7 @@ export async function createReloadableSite(startParams: StartParams) {
       );
     } catch (e) {
       logger.error(
-        `Site plugin reload failure - Plugin ${plugin.name}@${plugin.options.id}`,
+        `Site plugin reload failure - Plugin ${formatPluginName(plugin)}`,
       );
       console.error(e);
     }

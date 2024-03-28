@@ -29,7 +29,9 @@ export function getPluginByIdentifier<P extends InitializedPlugin>({
   );
   if (!plugin) {
     throw new Error(
-      logger.interpolate`Plugin not found for identifier ${pluginIdentifier.name}@${pluginIdentifier.id}`,
+      logger.interpolate`Plugin not found for identifier ${formatPluginName(
+        pluginIdentifier,
+      )}`,
     );
   }
   return plugin;
@@ -84,4 +86,23 @@ export function mergeGlobalData(...globalDataList: GlobalData[]): GlobalData {
   });
 
   return result;
+}
+
+// This is primarily useful for colored logging purpose
+// Do not rely on this for logic
+export function formatPluginName(
+  plugin: InitializedPlugin | PluginIdentifier,
+): string {
+  let formattedName = plugin.name;
+  // Hacky way to reduce string size for logging purpose
+  formattedName = formattedName.replace('docusaurus-plugin-content-', '');
+  formattedName = formattedName.replace('docusaurus-plugin-', '');
+  formattedName = formattedName.replace('docusaurus-theme-', '');
+  formattedName = formattedName.replace('-plugin', '');
+  formattedName = logger.name(formattedName);
+
+  const id = 'id' in plugin ? plugin.id : plugin.options.id;
+  const formattedId = logger.subdue(id);
+
+  return `${formattedName}@${formattedId}`;
 }
