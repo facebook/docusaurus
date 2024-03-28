@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {AsyncLocalStorage} from 'async_hooks';
 import logger from '@docusaurus/logger';
 
 // For now this is a private env variable we use internally
@@ -16,6 +17,16 @@ const Thresholds = {
   yellow: 100,
   red: 1000,
 };
+
+const PerfPrefix = logger.yellow(`[PERF] `);
+
+// This is what enables to "see the parent stack" for each log
+// Parent1 > Parent2 > Parent3 > child trace
+const ParentPrefix = new AsyncLocalStorage<string>();
+function applyParentPrefix(label: string) {
+  const parentPrefix = ParentPrefix.getStore();
+  return parentPrefix ? `${parentPrefix} > ${label}` : label;
+}
 
 type PerfLoggerAPI = {
   start: (label: string) => void;
@@ -38,8 +49,6 @@ function createPerfLogger(): PerfLoggerAPI {
     };
   }
 
-  const prefix = logger.yellow(`[PERF] `);
-
   const formatDuration = (duration: number): string => {
     if (duration > Thresholds.red) {
       return logger.red(`${(duration / 1000).toFixed(2)} seconds!`);
@@ -54,7 +63,7 @@ function createPerfLogger(): PerfLoggerAPI {
     if (duration < Thresholds.min) {
       return;
     }
-    console.log(`${prefix + label} - ${formatDuration(duration)}`);
+    console.log(`${PerfPrefix + label} - ${formatDuration(duration)}`);
   };
 
   const start: PerfLoggerAPI['start'] = (label) => performance.mark(label);
@@ -62,18 +71,18 @@ function createPerfLogger(): PerfLoggerAPI {
   const end: PerfLoggerAPI['end'] = (label) => {
     const {duration} = performance.measure(label);
     performance.clearMarks(label);
-    logDuration(label, duration);
+    logDuration(applyParentPrefix(label), duration);
   };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
-    console.log(prefix + label);
+    console.log(PerfPrefix + applyParentPrefix(label));
 
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
-    start(label);
+    const finalLabel = applyParentPrefix(label);
     const before = performance.now();
-    const result = await asyncFn();
+    const result = await ParentPrefix.run(finalLabel, () => asyncFn());
     const duration = performance.now() - before;
-    logDuration(label, duration);
+    logDuration(finalLabel, duration);
     return result;
   };
 

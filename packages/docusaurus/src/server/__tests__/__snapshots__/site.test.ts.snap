@@ -36,6 +36,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
   "plugins": [
     {
       "content": undefined,
+      "defaultCodeTranslations": {},
       "getClientModules": [Function],
       "globalData": undefined,
       "injectHtmlTags": [Function],
@@ -52,6 +53,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
     {
       "configureWebpack": [Function],
       "content": undefined,
+      "defaultCodeTranslations": {},
       "globalData": undefined,
       "name": "docusaurus-mdx-fallback-plugin",
       "options": {
@@ -132,5 +134,6 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "pluginVersions": {},
     "siteVersion": undefined,
   },
+  "siteVersion": undefined,
 }
 `;

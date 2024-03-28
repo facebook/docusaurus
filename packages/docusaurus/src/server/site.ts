@@ -13,14 +13,14 @@ import {
 } from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
-import {loadClientModules} from './clientModules';
+import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
-import {loadSiteMetadata} from './siteMetadata';
+import {createSiteMetadata, loadSiteVersion} from './siteMetadata';
 import {loadI18n} from './i18n';
 import {
   loadSiteCodeTranslations,
-  getPluginsDefaultCodeTranslationMessages,
+  getPluginsDefaultCodeTranslations,
 } from './translations/translations';
 import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
@@ -76,9 +76,15 @@ export async function loadContext(
   } = params;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
-  const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
-    siteDir,
-    customConfigFilePath,
+  const {
+    siteVersion,
+    loadSiteConfig: {siteConfig: initialSiteConfig, siteConfigPath},
+  } = await combinePromises({
+    siteVersion: loadSiteVersion(siteDir),
+    loadSiteConfig: loadSiteConfig({
+      siteDir,
+      customConfigFilePath,
+    }),
   });
 
   const i18n = await loadI18n(initialSiteConfig, {locale});
@@ -107,6 +113,7 @@ export async function loadContext(
 
   return {
     siteDir,
+    siteVersion,
     generatedFilesDir,
     localizationDir,
     siteConfig,
@@ -118,13 +125,14 @@ export async function loadContext(
   };
 }
 
-async function createSiteProps(
+function createSiteProps(
   params: LoadPluginsResult & {context: LoadContext},
-): Promise<Props> {
+): Props {
   const {plugins, routes, context} = params;
   const {
     generatedFilesDir,
     siteDir,
+    siteVersion,
     siteConfig,
     siteConfigPath,
     outDir,
@@ -136,19 +144,12 @@ async function createSiteProps(
 
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
-  const {codeTranslations, siteMetadata} = await combinePromises({
-    // TODO code translations should be loaded as part of LoadedPlugin?
-    codeTranslations: PerfLogger.async(
-      'Load - loadCodeTranslations',
-      async () => ({
-        ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
-        ...siteCodeTranslations,
-      }),
-    ),
-    siteMetadata: PerfLogger.async('Load - loadSiteMetadata', () =>
-      loadSiteMetadata({plugins, siteDir}),
-    ),
-  });
+  const siteMetadata = createSiteMetadata({plugins, siteVersion});
+
+  const codeTranslations = {
+    ...getPluginsDefaultCodeTranslations({plugins}),
+    ...siteCodeTranslations,
+  };
 
   handleDuplicateRoutes(routes, siteConfig.onDuplicateRoutes);
   const routesPaths = getRoutesPaths(routes, baseUrl);
@@ -157,6 +158,7 @@ async function createSiteProps(
     siteConfig,
     siteConfigPath,
     siteMetadata,
+    siteVersion,
     siteDir,
     outDir,
     baseUrl,
@@ -181,7 +183,7 @@ async function createSiteFiles({
   site: Site;
   globalData: GlobalData;
 }) {
-  return PerfLogger.async('Load - createSiteFiles', async () => {
+  return PerfLogger.async('Create site files', async () => {
     const {
       props: {
         plugins,
@@ -194,7 +196,7 @@ async function createSiteFiles({
         baseUrl,
       },
     } = site;
-    const clientModules = loadClientModules(plugins);
+    const clientModules = getAllClientModules(plugins);
     await generateSiteFiles({
       generatedFilesDir,
       clientModules,
@@ -216,13 +218,11 @@ async function createSiteFiles({
  * it generates temp files in the `.docusaurus` folder for the bundler.
  */
 export async function loadSite(params: LoadContextParams): Promise<Site> {
-  PerfLogger.start('Load - loadContext');
-  const context = await loadContext(params);
-  PerfLogger.end('Load - loadContext');
+  const context = await PerfLogger.async('Load context', () =>
+    loadContext(params),
+  );
 
-  PerfLogger.start('Load - loadPlugins');
   const {plugins, routes, globalData} = await loadPlugins(context);
-  PerfLogger.end('Load - loadPlugins');
 
   const props = await createSiteProps({plugins, routes, globalData, context});
 
