@@ -6,7 +6,6 @@
  */
 
 import resolvePathnameUnsafe from 'resolve-pathname';
-import {addPrefix, addSuffix, removeSuffix} from './jsUtils';
 
 /**
  * Much like `path.join`, but much better. Takes an array of URL segments, and
@@ -230,22 +229,6 @@ export function resolvePathname(to: string, from?: string): string {
   // TODO do we really need resolve-pathname lib anymore?
   //  possible alternative: decodeURI(parseURLPath(to, from).pathname);
   return resolvePathnameUnsafe(to, from);
-}
-
-/** Appends a leading slash to `str`, if one doesn't exist. */
-export function addLeadingSlash(str: string): string {
-  return addPrefix(str, '/');
-}
-
-// TODO deduplicate: also present in @docusaurus/utils-common
-/** Appends a trailing slash to `str`, if one doesn't exist. */
-export function addTrailingSlash(str: string): string {
-  return addSuffix(str, '/');
-}
-
-/** Removes the trailing slash from `str`. */
-export function removeTrailingSlash(str: string): string {
-  return removeSuffix(str, '/');
 }
 
 /** Constructs an SSH URL that can be used to push to GitHub. */

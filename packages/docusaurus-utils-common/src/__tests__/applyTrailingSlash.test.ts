@@ -6,7 +6,11 @@
  */
 
 import applyTrailingSlash, {
+  addTrailingSlash,
   type ApplyTrailingSlashParams,
+  addLeadingSlash,
+  removeSuffix,
+  removeTrailingSlash,
 } from '../applyTrailingSlash';
 
 function params(
@@ -174,5 +178,46 @@ describe('applyTrailingSlash', () => {
         params(undefined),
       ),
     ).toBe('https://xyz.com/abc/?search#anchor');
+  });
+});
+
+describe('addTrailingSlash', () => {
+  it('is no-op for path with trailing slash', () => {
+    expect(addTrailingSlash('/abcd/')).toBe('/abcd/');
+  });
+  it('adds / for path without trailing slash', () => {
+    expect(addTrailingSlash('/abcd')).toBe('/abcd/');
+  });
+});
+
+describe('addLeadingSlash', () => {
+  it('is no-op for path with leading slash', () => {
+    expect(addLeadingSlash('/abc')).toBe('/abc');
+  });
+  it('adds / for path without leading slash', () => {
+    expect(addLeadingSlash('abc')).toBe('/abc');
+  });
+});
+
+describe('removeTrailingSlash', () => {
+  it('is no-op for path without trailing slash', () => {
+    expect(removeTrailingSlash('/abcd')).toBe('/abcd');
+  });
+  it('removes / for path with trailing slash', () => {
+    expect(removeTrailingSlash('/abcd/')).toBe('/abcd');
+  });
+});
+
+describe('removeSuffix', () => {
+  it("is no-op when suffix doesn't exist", () => {
+    expect(removeSuffix('abcdef', 'ijk')).toBe('abcdef');
+    expect(removeSuffix('abcdef', 'abc')).toBe('abcdef');
+    expect(removeSuffix('abcdef', '')).toBe('abcdef');
+  });
+  it('removes suffix', () => {
+    expect(removeSuffix('abcdef', 'ef')).toBe('abcd');
+  });
+  it('removes empty suffix', () => {
+    expect(removeSuffix('abcdef', '')).toBe('abcdef');
   });
 });

@@ -9,13 +9,12 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {matchRoutes as reactRouterMatchRoutes} from 'react-router-config';
 import {
-  addTrailingSlash,
   parseURLPath,
-  removeTrailingSlash,
   serializeURLPath,
   flattenRoutes,
   type URLPath,
 } from '@docusaurus/utils';
+import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils-common';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
 function matchRoutes(routeConfig: RouteConfig[], pathname: string) {

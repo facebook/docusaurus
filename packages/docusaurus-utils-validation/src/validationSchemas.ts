@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  isValidPathname,
-  DEFAULT_PLUGIN_ID,
-  type Tag,
-  addLeadingSlash,
-} from '@docusaurus/utils';
+import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import {addLeadingSlash} from '@docusaurus/utils-common';
 import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 

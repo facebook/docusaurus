@@ -11,6 +11,11 @@ export const blogPostContainerID = '__blog-post-container';
 
 export {
   default as applyTrailingSlash,
+  addTrailingSlash,
+  addLeadingSlash,
+  addPrefix,
+  removeSuffix,
+  removeTrailingSlash,
   type ApplyTrailingSlashParams,
 } from './applyTrailingSlash';
 export {getErrorCausalChain} from './errorUtils';
