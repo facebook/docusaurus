@@ -69,6 +69,7 @@ Datagit's
 dedup
 devto
 dingers
+dinooooooo
 Dmitry
 docsearch
 Docsify
@@ -106,6 +107,7 @@ Flightcontrol's
 Formik
 FOUC
 froms
+frontmatter
 funboxteam
 gabrielcsapo
 Gifs
@@ -229,6 +231,7 @@ orta
 Outerbounds
 outerbounds
 overrideable
+Ozaki
 ozaki
 O’Shannessy
 pageview

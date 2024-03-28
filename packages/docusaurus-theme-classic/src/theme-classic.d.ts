@@ -247,6 +247,96 @@ declare module '@theme/BlogPostItems' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/ShowcaseDetails' {
+  import type {Content} from '@docusaurus/plugin-showcase';
+
+  export type User = Content['website'][number];
+
+  export type Props = {
+    content: User;
+  };
+
+  export default function Showcase(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase' {
+  import type {Content} from '@docusaurus/plugin-showcase';
+
+  export type User = Content['website'][number];
+
+  export type Props = {
+    content: User[];
+  };
+
+  export default function Showcase(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase/ShowcaseCard' {
+  export type User = {
+    title: string;
+    description: string;
+    preview: string | null; // null = use our serverless screenshot service
+    website: string;
+    source: string | null;
+    tags: TagType[];
+  };
+
+  export interface Props {
+    readonly user: User;
+  }
+
+  export default function ShowcaseCard(props: Props): JSX.Element;
+}
+declare module '@theme/Showcase/ShowcaseTooltip' {
+  export interface Props {
+    anchorEl?: HTMLElement | string;
+    id: string;
+    text: string;
+    children: React.ReactElement;
+  }
+
+  export default function ShowcaseTooltip(props: Props): JSX.Element;
+}
+declare module '@theme/Showcase/ShowcaseTagSelect' {
+  import {type ComponentProps, type ReactNode, type ReactElement} from 'react';
+
+  export interface Props extends ComponentProps<'input'> {
+    icon: ReactElement<ComponentProps<'svg'>>;
+    label: ReactNode;
+    tag: TagType;
+  }
+
+  export default function ShowcaseTagSelect(props: Props): JSX.Element;
+}
+declare module '@theme/Showcase/ShowcaseFilterToggle' {
+  export type Operator = 'OR' | 'AND';
+
+  export default function ShowcaseFilterToggle(): JSX.Element;
+}
+
+declare module '@theme/Showcase/FavoriteIcon' {
+  import {type ReactNode, type ComponentProps} from 'react';
+
+  export type SvgIconProps = ComponentProps<'svg'> & {
+    viewBox?: string;
+    size?: 'inherit' | 'small' | 'medium' | 'large';
+    color?:
+      | 'inherit'
+      | 'primary'
+      | 'secondary'
+      | 'success'
+      | 'error'
+      | 'warning';
+    svgClass?: string; // Class attribute on the child
+    colorAttr?: string; // Applies a color attribute to the SVG element.
+    children: ReactNode; // Node passed into the SVG element.
+  };
+
+  export type Props = Omit<SvgIconProps, 'children'>;
+
+  export default function FavoriteIcon(props: Props): JSX.Element;
+}
+
 declare module '@theme/BlogPostItem/Container' {
   import type {ReactNode} from 'react';
 
