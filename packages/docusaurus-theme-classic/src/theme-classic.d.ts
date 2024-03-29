@@ -248,7 +248,7 @@ declare module '@theme/BlogPostItems' {
 }
 
 declare module '@theme/ShowcaseDetails' {
-  import type {Content} from '@docusaurus/plugin-showcase';
+  import type {Content} from '@docusaurus/plugin-content-showcase';
 
   export type User = Content['website'][number];
 
@@ -260,7 +260,7 @@ declare module '@theme/ShowcaseDetails' {
 }
 
 declare module '@theme/Showcase' {
-  import type {Content} from '@docusaurus/plugin-showcase';
+  import type {Content} from '@docusaurus/plugin-content-showcase';
 
   export type User = Content['website'][number];
 

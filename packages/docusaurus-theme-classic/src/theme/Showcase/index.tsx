@@ -21,7 +21,7 @@ import ShowcaseTooltip from '@theme/Showcase/ShowcaseTooltip';
 import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
 import ShowcaseFilterToggle from '@theme/Showcase/ShowcaseFilterToggle';
 import type {Operator} from '@theme/Showcase/ShowcaseFilterToggle';
-import type {TagType} from '@docusaurus/plugin-showcase';
+import type {TagType} from '@docusaurus/plugin-content-showcase';
 import styles from './styles.module.css';
 
 type Users = User[];

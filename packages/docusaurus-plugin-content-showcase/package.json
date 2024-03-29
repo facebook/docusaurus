@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Showcase plugin for Docusaurus.",
   "main": "lib/index.js",
-  "types": "src/plugin-showcase.d.ts",
+  "types": "src/plugin-content-showcase.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
-    "directory": "packages/docusaurus-plugin-showcase"
+    "directory": "packages/docusaurus-plugin-content-showcase"
   },
   "license": "MIT",
   "dependencies": {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module '@docusaurus/plugin-showcase' {
+declare module '@docusaurus/plugin-content-showcase' {
   import type {LoadContext, Plugin} from '@docusaurus/types';
 
   export type Assets = {
@@ -43,7 +43,6 @@ declare module '@docusaurus/plugin-showcase' {
 
   export type Content = {
     website: {
-      type: string;
       title: string;
       description: string;
       preview: string | null; // null = use our serverless screenshot service
@@ -59,7 +58,7 @@ declare module '@docusaurus/plugin-showcase' {
   export default function pluginShowcase(
     context: LoadContext,
     options: PluginOptions,
-  ): Promise<Plugin<Content | null>>;
+  ): Promise<Plugin<Content>>;
 
   export type ShowcaseMetadata = {
     /** Path to the Markdown source, with `@site` alias. */
