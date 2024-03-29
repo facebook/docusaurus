@@ -5,16 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/** Adds a given string suffix to `str`. */
-export function addSuffix(str: string, suffix: string): string {
-  return str.endsWith(suffix) ? str : `${str}${suffix}`;
-}
-
-/** Removes a given string prefix from `str`. */
-export function removePrefix(str: string, prefix: string): string {
-  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
-}
-
 /**
  * `Array#map` for async operations where order matters.
  * @param array The array to traverse.

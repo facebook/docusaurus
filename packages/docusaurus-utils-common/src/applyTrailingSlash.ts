@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {addPrefix, removeSuffix} from './stringUtils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
 export type ApplyTrailingSlashParams = Pick<
@@ -51,20 +52,6 @@ export default function applyTrailingSlash(
     : handleTrailingSlash(pathname, trailingSlash);
 
   return path.replace(pathname, newPathname);
-}
-
-/** Adds a given string prefix to `str`. */
-export function addPrefix(str: string, prefix: string): string {
-  return str.startsWith(prefix) ? str : `${prefix}${str}`;
-}
-
-/** Removes a given string suffix from `str`. */
-export function removeSuffix(str: string, suffix: string): string {
-  if (suffix === '') {
-    // str.slice(0, 0) is ""
-    return str;
-  }
-  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
 }
 
 /** Appends a leading slash to `str`, if one doesn't exist. */

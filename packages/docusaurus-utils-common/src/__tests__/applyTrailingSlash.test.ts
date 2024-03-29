@@ -9,7 +9,6 @@ import applyTrailingSlash, {
   addTrailingSlash,
   type ApplyTrailingSlashParams,
   addLeadingSlash,
-  removeSuffix,
   removeTrailingSlash,
 } from '../applyTrailingSlash';
 
@@ -205,19 +204,5 @@ describe('removeTrailingSlash', () => {
   });
   it('removes / for path with trailing slash', () => {
     expect(removeTrailingSlash('/abcd/')).toBe('/abcd');
-  });
-});
-
-describe('removeSuffix', () => {
-  it("is no-op when suffix doesn't exist", () => {
-    expect(removeSuffix('abcdef', 'ijk')).toBe('abcdef');
-    expect(removeSuffix('abcdef', 'abc')).toBe('abcdef');
-    expect(removeSuffix('abcdef', '')).toBe('abcdef');
-  });
-  it('removes suffix', () => {
-    expect(removeSuffix('abcdef', 'ef')).toBe('abcd');
-  });
-  it('removes empty suffix', () => {
-    expect(removeSuffix('abcdef', '')).toBe('abcdef');
   });
 });

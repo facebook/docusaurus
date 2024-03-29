@@ -35,7 +35,7 @@ export {
   getPluginI18nPath,
   localizePath,
 } from './i18nUtils';
-export {removePrefix, mapAsyncSequential, findAsyncSequential} from './jsUtils';
+export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
 export {
   normalizeUrl,
   getEditUrl,

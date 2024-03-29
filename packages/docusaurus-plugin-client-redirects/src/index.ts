@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {removePrefix} from '@docusaurus/utils';
-import {addLeadingSlash} from '@docusaurus/utils-common';
+import {addLeadingSlash, removePrefix} from '@docusaurus/utils-common';
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
   toRedirectFiles,

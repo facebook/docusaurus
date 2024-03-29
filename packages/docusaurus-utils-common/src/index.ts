@@ -13,9 +13,8 @@ export {
   default as applyTrailingSlash,
   addTrailingSlash,
   addLeadingSlash,
-  addPrefix,
-  removeSuffix,
   removeTrailingSlash,
   type ApplyTrailingSlashParams,
 } from './applyTrailingSlash';
+export {addPrefix, removeSuffix, addSuffix, removePrefix} from './stringUtils';
 export {getErrorCausalChain} from './errorUtils';
