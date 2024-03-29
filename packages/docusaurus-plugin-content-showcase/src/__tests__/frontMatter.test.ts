@@ -6,7 +6,7 @@
  */
 
 import {escapeRegexp} from '@docusaurus/utils';
-import {validateShowcaseFrontMatter} from '../yaml';
+import {validateShowcaseFrontMatter} from '../frontMatter';
 import type {ShowcaseFrontMatter} from '@docusaurus/plugin-content-showcase';
 
 function testField(params: {

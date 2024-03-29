@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/utils';
 import Yaml from 'js-yaml';
 
-import {validateShowcaseFrontMatter} from './yaml';
+import {validateShowcaseFrontMatter} from './frontMatter';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Content} from '@docusaurus/plugin-content-showcase';
 import type {ShowcaseContentPaths} from './types';
