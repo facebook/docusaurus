@@ -35,12 +35,7 @@ export {
   getPluginI18nPath,
   localizePath,
 } from './i18nUtils';
-export {
-  removeSuffix,
-  removePrefix,
-  mapAsyncSequential,
-  findAsyncSequential,
-} from './jsUtils';
+export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
 export {
   normalizeUrl,
   getEditUrl,
@@ -50,9 +45,6 @@ export {
   resolvePathname,
   parseURLPath,
   serializeURLPath,
-  addLeadingSlash,
-  addTrailingSlash,
-  removeTrailingSlash,
   hasSSHProtocol,
   buildHttpsUrl,
   buildSshUrl,

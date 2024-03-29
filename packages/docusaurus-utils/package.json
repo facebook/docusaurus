@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "3.0.0",
+    "@docusaurus/utils-common": "3.0.0",
     "@svgr/webpack": "^6.5.1",
     "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",

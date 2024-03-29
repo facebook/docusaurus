@@ -10,9 +10,6 @@ import {
   getEditUrl,
   fileToPath,
   isValidPathname,
-  addTrailingSlash,
-  addLeadingSlash,
-  removeTrailingSlash,
   resolvePathname,
   encodePath,
   buildSshUrl,
@@ -204,33 +201,6 @@ describe('isValidPathname', () => {
     expect(isValidPathname('https://fb.com/hey')).toBe(false);
     expect(isValidPathname('//hey')).toBe(false);
     expect(isValidPathname('////')).toBe(false);
-  });
-});
-
-describe('addTrailingSlash', () => {
-  it('is no-op for path with trailing slash', () => {
-    expect(addTrailingSlash('/abcd/')).toBe('/abcd/');
-  });
-  it('adds / for path without trailing slash', () => {
-    expect(addTrailingSlash('/abcd')).toBe('/abcd/');
-  });
-});
-
-describe('addLeadingSlash', () => {
-  it('is no-op for path with leading slash', () => {
-    expect(addLeadingSlash('/abc')).toBe('/abc');
-  });
-  it('adds / for path without leading slash', () => {
-    expect(addLeadingSlash('abc')).toBe('/abc');
-  });
-});
-
-describe('removeTrailingSlash', () => {
-  it('is no-op for path without trailing slash', () => {
-    expect(removeTrailingSlash('/abcd')).toBe('/abcd');
-  });
-  it('removes / for path with trailing slash', () => {
-    expect(removeTrailingSlash('/abcd/')).toBe('/abcd');
   });
 });
 
