@@ -1,5 +1,136 @@
 # Docusaurus 2 Changelog
 
+## 3.2.0 (2024-03-29)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#9954](https://github.com/facebook/docusaurus/pull/9954) feat(sitemap): add support for "lastmod" ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus-utils`
+  - [#9912](https://github.com/facebook/docusaurus/pull/9912) feat(blog): add LastUpdateAuthor & LastUpdateTime ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-plugin-debug`, `docusaurus-types`, `docusaurus`
+  - [#9931](https://github.com/facebook/docusaurus/pull/9931) feat(core): add new plugin allContentLoaded lifecycle ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#9928](https://github.com/facebook/docusaurus/pull/9928) feat(theme-translations) Icelandic (is) ([@Hallinn](https://github.com/Hallinn))
+- `docusaurus-plugin-content-blog`
+  - [#9886](https://github.com/facebook/docusaurus/pull/9886) feat(blog): allow processing blog posts through a processBlogPosts function ([@OzakIOne](https://github.com/OzakIOne))
+  - [#9838](https://github.com/facebook/docusaurus/pull/9838) feat(blog): add blog pageBasePath plugin option ([@ilg-ul](https://github.com/ilg-ul))
+- `docusaurus`
+  - [#9681](https://github.com/facebook/docusaurus/pull/9681) feat(swizzle): ask user preferred language if no language CLI option provided ([@yixiaojiu](https://github.com/yixiaojiu))
+- `create-docusaurus`, `docusaurus-utils`
+  - [#9442](https://github.com/facebook/docusaurus/pull/9442) feat(create-docusaurus): ask user for preferred language when no language CLI option provided ([@Rafael-Martins](https://github.com/Rafael-Martins))
+- `docusaurus-plugin-vercel-analytics`
+  - [#9687](https://github.com/facebook/docusaurus/pull/9687) feat(plugin-vercel-analytics): add new vercel analytics plugin ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-mdx-loader`
+  - [#9684](https://github.com/facebook/docusaurus/pull/9684) feat(mdx-loader): the table-of-contents should display toc/headings of imported MDX partials ([@anatolykopyl](https://github.com/anatolykopyl))
+
+#### :bug: Bug Fix
+
+- `docusaurus-mdx-loader`
+  - [#9999](https://github.com/facebook/docusaurus/pull/9999) fix(mdx-loader): Ignore contentTitle coming after Markdown thematicBreak ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#9945](https://github.com/facebook/docusaurus/pull/9945) fix(a11y): move focus algolia-search focus back to search input on Escape ([@mxschmitt](https://github.com/mxschmitt))
+- `docusaurus-plugin-content-blog`
+  - [#9920](https://github.com/facebook/docusaurus/pull/9920) fix(blog): apply trailing slash to blog feed ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-theme-classic`
+  - [#9944](https://github.com/facebook/docusaurus/pull/9944) fix(theme): improve a11y of DocSidebarItemCategory expand/collapsed button ([@mxschmitt](https://github.com/mxschmitt))
+- `docusaurus-theme-translations`
+  - [#9915](https://github.com/facebook/docusaurus/pull/9915) fix(theme-translations): complete and modify Japanese translations ([@Suenaga-Ryuya](https://github.com/Suenaga-Ryuya))
+  - [#9910](https://github.com/facebook/docusaurus/pull/9910) fix(theme-translations): add Japanese translations ([@Suenaga-Ryuya](https://github.com/Suenaga-Ryuya))
+  - [#9872](https://github.com/facebook/docusaurus/pull/9872) fix(theme-translations): complete and improve Spanish theme translations ([@4troDev](https://github.com/4troDev))
+  - [#9812](https://github.com/facebook/docusaurus/pull/9812) fix(i18n): add missing theme translations for fa locale ([@VahidNaderi](https://github.com/VahidNaderi))
+- `docusaurus-utils`
+  - [#9897](https://github.com/facebook/docusaurus/pull/9897) fix(mdx-loader): mdx-code-block should support CRLF ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#9878](https://github.com/facebook/docusaurus/pull/9878) fix(core): fix default i18n calendar used, infer it from locale if possible ([@slorber](https://github.com/slorber))
+  - [#9852](https://github.com/facebook/docusaurus/pull/9852) fix(core): ensure core error boundary is able to render theme layout ([@slorber](https://github.com/slorber))
+- `docusaurus-remark-plugin-npm2yarn`
+  - [#9861](https://github.com/facebook/docusaurus/pull/9861) fix(remark-npm2yarn): update npm-to-yarn from 2.0.0 to 2.2.1, fix pnpm extra args syntax ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-theme-classic`, `docusaurus-theme-translations`
+  - [#9851](https://github.com/facebook/docusaurus/pull/9851) fix(theme-classic): should use plurals for category items description ([@baradusov](https://github.com/baradusov))
+
+#### :running_woman: Performance
+
+- `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#9975](https://github.com/facebook/docusaurus/pull/9975) refactor(core): improve dev perf, fine-grained site reloads - part 3 ([@slorber](https://github.com/slorber))
+- `docusaurus-types`, `docusaurus`
+  - [#9968](https://github.com/facebook/docusaurus/pull/9968) refactor(core): improve dev perf, fine-grained site reloads - part2 ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-types`, `docusaurus`
+  - [#9903](https://github.com/facebook/docusaurus/pull/9903) refactor(core): improve dev perf, fine-grained site reloads - part1 ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#9890](https://github.com/facebook/docusaurus/pull/9890) perf: optimize getFileCommitDate, make it async ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#9798](https://github.com/facebook/docusaurus/pull/9798) refactor(core): internalize, simplify and optimize the SSG logic ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#9868](https://github.com/facebook/docusaurus/pull/9868) refactor(theme): dates should be formatted on the client-side instead of in nodejs code ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-types`
+  - [#9669](https://github.com/facebook/docusaurus/pull/9669) refactor(theme): use JSON-LD instead of microdata for blog structured data ([@johnnyreilly](https://github.com/johnnyreilly))
+- `docusaurus-plugin-content-docs`
+  - [#9839](https://github.com/facebook/docusaurus/pull/9839) refactor(blog): improve doc global data hook error message + add doc warning to blogOnly mode ([@OzakIOne](https://github.com/OzakIOne))
+
+#### :memo: Documentation
+
+- [#9937](https://github.com/facebook/docusaurus/pull/9937) docs: use official GitHub Action to deploy to GitHub Pages ([@vlad-nestorov](https://github.com/vlad-nestorov))
+- [#9971](https://github.com/facebook/docusaurus/pull/9971) docs: replace VuePress by VitePress on tool comparison section ([@sunkanmii](https://github.com/sunkanmii))
+- [#9914](https://github.com/facebook/docusaurus/pull/9914) docs: update legacy MDX v1 links to markdown links ([@OzakIOne](https://github.com/OzakIOne))
+- [#9913](https://github.com/facebook/docusaurus/pull/9913) docs: update legacy MDX v1 links to markdown links ([@OzakIOne](https://github.com/OzakIOne))
+- [#9906](https://github.com/facebook/docusaurus/pull/9906) docs: emphasize "index slug" convention ([@Josh-Cena](https://github.com/Josh-Cena))
+- [#9877](https://github.com/facebook/docusaurus/pull/9877) docs: fix typos in deployment.mdx ([@Oreoxmt](https://github.com/Oreoxmt))
+- [#9845](https://github.com/facebook/docusaurus/pull/9845) docs: typo ([@OzakIOne](https://github.com/OzakIOne))
+- [#9816](https://github.com/facebook/docusaurus/pull/9816) docs: Add docs for Mermaid Component ([@Its-Just-Nans](https://github.com/Its-Just-Nans))
+
+#### :robot: Dependencies
+
+- [#9981](https://github.com/facebook/docusaurus/pull/9981) chore(deps): bump actions/dependency-review-action from 4.1.3 to 4.2.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9982](https://github.com/facebook/docusaurus/pull/9982) chore(deps): bump katex from 0.16.8 to 0.16.10 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9983](https://github.com/facebook/docusaurus/pull/9983) chore(deps): bump express from 4.18.2 to 4.19.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9977](https://github.com/facebook/docusaurus/pull/9977) chore(deps): bump webpack-dev-middleware from 5.3.3 to 5.3.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9958](https://github.com/facebook/docusaurus/pull/9958) chore(deps): bump follow-redirects from 1.15.4 to 1.15.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9892](https://github.com/facebook/docusaurus/pull/9892) chore(deps): bump actions/dependency-review-action from 4.1.2 to 4.1.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9869](https://github.com/facebook/docusaurus/pull/9869) chore(deps): bump actions/dependency-review-action from 4.0.0 to 4.1.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9874](https://github.com/facebook/docusaurus/pull/9874) chore(deps): bump ip from 2.0.0 to 2.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9843](https://github.com/facebook/docusaurus/pull/9843) chore(deps): bump actions/setup-node from 4.0.1 to 4.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9824](https://github.com/facebook/docusaurus/pull/9824) chore(deps): bump treosh/lighthouse-ci-action from 10.1.0 to 11.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#9823](https://github.com/facebook/docusaurus/pull/9823) chore(deps): bump marocchino/sticky-pull-request-comment from 2.8.0 to 2.9.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :wrench: Maintenance
+
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-docs`, `docusaurus-utils-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#9972](https://github.com/facebook/docusaurus/pull/9972) refactor(utils): remove duplicated function ([@OzakIOne](https://github.com/OzakIOne))
+- Other
+  - [#9965](https://github.com/facebook/docusaurus/pull/9965) refactor(website): organise blog posts by year ([@GingerGeek](https://github.com/GingerGeek))
+  - [#9865](https://github.com/facebook/docusaurus/pull/9865) chore(website): update @crowdin/crowdin-api-client ([@chris-bateman](https://github.com/chris-bateman))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils`
+  - [#9963](https://github.com/facebook/docusaurus/pull/9963) refactor(docs,blog): last update timestamp should be in milliseconds instead of seconds ([@slorber](https://github.com/slorber))
+
+#### Committers: 22
+
+- Aolin ([@Oreoxmt](https://github.com/Oreoxmt))
+- Anatoly Kopyl ([@anatolykopyl](https://github.com/anatolykopyl))
+- Chris Bateman ([@chris-bateman](https://github.com/chris-bateman))
+- Fafowora Sunkanmi ([@sunkanmii](https://github.com/sunkanmii))
+- Hallbjörn Magnússon ([@Hallinn](https://github.com/Hallinn))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Josue [4tro] A ([@4troDev](https://github.com/4troDev))
+- Liviu Ionescu ([@ilg-ul](https://github.com/ilg-ul))
+- Max Schmitt ([@mxschmitt](https://github.com/mxschmitt))
+- Rafael Martins ([@Rafael-Martins](https://github.com/Rafael-Martins))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Vahid Naderi ([@VahidNaderi](https://github.com/VahidNaderi))
+- Vlad Nestorov ([@vlad-nestorov](https://github.com/vlad-nestorov))
+- Zed Spencer-Milnes ([@GingerGeek](https://github.com/GingerGeek))
+- axel7083 ([@axel7083](https://github.com/axel7083))
+- krinza.eth ([@kaymomin](https://github.com/kaymomin))
+- n4n5 ([@Its-Just-Nans](https://github.com/Its-Just-Nans))
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
+- suenryu ([@Suenaga-Ryuya](https://github.com/Suenaga-Ryuya))
+- Нуриль Барадусов ([@baradusov](https://github.com/baradusov))
+- 翊小久 ([@yixiaojiu](https://github.com/yixiaojiu))
+
 ## 3.1.1 (2024-01-26)
 
 #### :bug: Bug Fix
