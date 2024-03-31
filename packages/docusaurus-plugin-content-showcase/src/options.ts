@@ -12,11 +12,23 @@ import type {PluginOptions, Options} from '@docusaurus/plugin-content-showcase';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   id: 'showcase',
-  path: 'src/showcase/website', // Path to data on filesystem, relative to site dir.
+  path: 'showcase', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
   include: ['**/*.{yml,yaml}'], // Extensions to include.
   exclude: GlobExcludeDefault,
+  tags: '@site/showcase/tags.yaml',
 };
+
+export const tagSchema = Joi.array().items(
+  Joi.object({
+    label: Joi.string().required(),
+    description: Joi.object({
+      message: Joi.string().required(),
+      id: Joi.string().required(),
+    }).required(),
+    color: Joi.string().required(),
+  }),
+);
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
@@ -24,6 +36,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   id: Joi.string().default(DEFAULT_OPTIONS.id),
+  tags: Joi.alternatives()
+    .try(Joi.string().default(DEFAULT_OPTIONS.tags), tagSchema)
+    .default(DEFAULT_OPTIONS.tags),
 });
 
 export function validateOptions({

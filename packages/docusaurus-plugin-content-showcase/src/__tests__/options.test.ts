@@ -6,7 +6,7 @@
  */
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {validateOptions, DEFAULT_OPTIONS} from '../options';
-import type {Options} from '@docusaurus/plugin-content-pages';
+import type {Options} from '@docusaurus/plugin-content-showcase';
 
 function testValidate(options: Options) {
   return validateOptions({validate: normalizePluginOptions, options});
@@ -59,5 +59,69 @@ describe('normalizeShowcasePluginOptions', () => {
       ...defaultOptions,
       routeBasePath: '/',
     });
+  });
+
+  it('accepts correctly defined tags file options', () => {
+    const userOptions = {
+      tags: '@site/showcase/tags.yaml',
+    };
+    expect(testValidate(userOptions)).toEqual({
+      ...defaultOptions,
+      ...userOptions,
+    });
+  });
+
+  it('reject badly defined tags file options', () => {
+    const userOptions = {
+      tags: 42,
+    };
+    expect(() =>
+      testValidate(
+        // @ts-expect-error: bad attributes
+        userOptions,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""tags" must be one of [string, array]"`,
+    );
+  });
+
+  it('accepts correctly defined tags object options', () => {
+    const userOptions = {
+      tags: [
+        {
+          label: 'foo',
+          description: {
+            message: 'bar',
+            id: 'baz',
+          },
+          color: 'red',
+        },
+      ],
+    };
+    expect(testValidate(userOptions)).toEqual({
+      ...defaultOptions,
+      ...userOptions,
+    });
+  });
+
+  it('reject bedly defined tags object options', () => {
+    const userOptions = {
+      tags: [
+        {
+          label: 'foo',
+          description: {
+            message: 'bar',
+            id: 'baz',
+          },
+          color: 42,
+        },
+      ],
+    };
+    expect(() =>
+      testValidate(
+        // @ts-expect-error: bad attributes
+        userOptions,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`""tags[0].color" must be a string"`);
   });
 });

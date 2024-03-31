@@ -2,7 +2,7 @@
 
 exports[`docusaurus-plugin-content-showcase loads simple showcase 1`] = `
 {
-  "website": [
+  "items": [
     {
       "description": "World",
       "preview": "github.com/ozakione.png",

@@ -248,9 +248,9 @@ declare module '@theme/BlogPostItems' {
 }
 
 declare module '@theme/ShowcaseDetails' {
-  import type {Content} from '@docusaurus/plugin-content-showcase';
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-  export type User = Content['website'][number];
+  export type User = ShowcaseItem['website'][number];
 
   export type Props = {
     content: User;
@@ -260,9 +260,9 @@ declare module '@theme/ShowcaseDetails' {
 }
 
 declare module '@theme/Showcase' {
-  import type {Content} from '@docusaurus/plugin-content-showcase';
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-  export type User = Content['website'][number];
+  export type User = ShowcaseItem['website'][number];
 
   export type Props = {
     content: User[];

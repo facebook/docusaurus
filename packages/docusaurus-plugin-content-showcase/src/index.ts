@@ -14,9 +14,15 @@ import {
 } from '@docusaurus/utils';
 import Yaml from 'js-yaml';
 
+import {Joi} from '@docusaurus/utils-validation';
 import {validateShowcaseFrontMatter} from './frontMatter';
+import {tagSchema} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginOptions, Content} from '@docusaurus/plugin-content-showcase';
+import type {
+  PluginOptions,
+  ShowcaseItem,
+  TagOption,
+} from '@docusaurus/plugin-content-showcase';
 import type {ShowcaseContentPaths} from './types';
 
 export function getContentPathList(
@@ -25,10 +31,59 @@ export function getContentPathList(
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
+async function getTagsDefinition(
+  filePath: string | TagOption[],
+): Promise<string[]> {
+  if (Array.isArray(filePath)) {
+    return filePath.map((tag) => tag.label);
+  }
+
+  const rawYaml = await fs.readFile(filePath, 'utf-8');
+  const unsafeYaml: any = Yaml.load(rawYaml);
+  console.log('unsafeYaml:', unsafeYaml);
+
+  const transformedData = unsafeYaml.tags.map((item: any) => {
+    const [label] = Object.keys(item); // Extract label from object key
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const {description, color} = item[label]; // Extract description and color
+    return {label, description, color}; // Create new object with transformed structure
+  });
+  console.log('transformedData:', transformedData);
+
+  const safeYaml = tagSchema.validate(transformedData);
+
+  if (safeYaml.error) {
+    throw new Error(`Invalid tags.yaml file: ${safeYaml.error.message}`);
+  }
+
+  const tagLabels = safeYaml.value.map((tag: any) => Object.keys(tag)[0]);
+  return tagLabels;
+}
+
+function createTagSchema(tags: string[]): Joi.Schema {
+  return Joi.alternatives().try(
+    Joi.string().valid(...tags), // Schema for single string
+    Joi.array().items(Joi.string().valid(...tags)), // Schema for array of strings
+  );
+}
+
+function validateFrontMatterTags(
+  frontMatterTags: string[],
+  tagListSchema: Joi.Schema,
+): void {
+  const result = tagListSchema.validate(frontMatterTags);
+  if (result.error) {
+    throw new Error(
+      `Front matter contains invalid tags: ${result.error.message}`,
+    );
+  }
+}
+
 export default function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<Content | null> {
+): Plugin<ShowcaseItem | null> {
   const {siteDir, localizationDir} = context;
 
   const contentPaths: ShowcaseContentPaths = {
@@ -51,7 +106,7 @@ export default function pluginContentShowcase(
     //   );
     // },
 
-    async loadContent(): Promise<Content | null> {
+    async loadContent(): Promise<ShowcaseItem | null> {
       const {include} = options;
 
       if (!(await fs.pathExists(contentPaths.contentPath))) {
@@ -64,6 +119,23 @@ export default function pluginContentShowcase(
         ignore: options.exclude,
       });
 
+      const filteredShowcaseFiles = showcaseFiles.filter(
+        (source) => source !== 'tags.yaml',
+      );
+
+      // todo refactor ugly
+      const tagFilePath = path.join(
+        await getFolderContainingFile(
+          getContentPathList(contentPaths),
+          'tags.yaml',
+        ),
+        'tags.yaml',
+      );
+
+      const tagList = await getTagsDefinition(tagFilePath);
+      const createdTagSchema = createTagSchema(tagList);
+      console.log('createdTagSchema:', createdTagSchema.describe());
+
       async function processShowcaseSourceFile(relativeSource: string) {
         // Lookup in localized folder in priority
         const contentPath = await getFolderContainingFile(
@@ -72,9 +144,14 @@ export default function pluginContentShowcase(
         );
 
         const sourcePath = path.join(contentPath, relativeSource);
+
         const rawYaml = await fs.readFile(sourcePath, 'utf-8');
         const unsafeYaml = Yaml.load(rawYaml) as {[key: string]: unknown};
-        return validateShowcaseFrontMatter(unsafeYaml);
+        const yaml = validateShowcaseFrontMatter(unsafeYaml);
+
+        validateFrontMatterTags(yaml.tags, createdTagSchema);
+
+        return yaml;
       }
 
       async function doProcessShowcaseSourceFile(relativeSource: string) {
@@ -89,8 +166,8 @@ export default function pluginContentShowcase(
       }
 
       return {
-        website: await Promise.all(
-          showcaseFiles.map(doProcessShowcaseSourceFile),
+        items: await Promise.all(
+          filteredShowcaseFiles.map(doProcessShowcaseSourceFile),
         ),
       };
     },
@@ -104,7 +181,7 @@ export default function pluginContentShowcase(
 
       const showcaseAllData = await createData(
         'showcaseAll.json',
-        JSON.stringify(content.website),
+        JSON.stringify(content.items),
       );
 
       addRoute({

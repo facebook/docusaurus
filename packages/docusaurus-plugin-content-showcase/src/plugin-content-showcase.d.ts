@@ -8,8 +8,13 @@
 declare module '@docusaurus/plugin-content-showcase' {
   import type {LoadContext, Plugin} from '@docusaurus/types';
 
-  export type Assets = {
-    image?: string;
+  export type TagOption = {
+    label: string;
+    description: {
+      message: string;
+      id: string;
+    };
+    color: string;
   };
 
   export type PluginOptions = {
@@ -18,9 +23,10 @@ declare module '@docusaurus/plugin-content-showcase' {
     routeBasePath: string;
     include: string[];
     exclude: string[];
+    tags: string | TagOption[];
   };
 
-  export type TagType =
+  type TagType =
     | 'favorite'
     | 'opensource'
     | 'product'
@@ -41,41 +47,14 @@ declare module '@docusaurus/plugin-content-showcase' {
     readonly tags: TagType[];
   };
 
-  export type Content = {
-    website: {
-      title: string;
-      description: string;
-      preview: string | null; // null = use our serverless screenshot service
-      website: string;
-      source: string | null;
-      sourcePath?: string;
-      tags: TagType[];
-    }[];
+  export type ShowcaseItem = {
+    items: ShowcaseFrontMatter[];
   };
 
   export type Options = Partial<PluginOptions>;
 
-  export default function pluginShowcase(
+  export default function pluginContentShowcase(
     context: LoadContext,
     options: PluginOptions,
-  ): Promise<Plugin<Content>>;
-
-  export type ShowcaseMetadata = {
-    /** Path to the Markdown source, with `@site` alias. */
-    readonly source: string;
-    /**
-     * Used to generate the page h1 heading, tab title, and pagination title.
-     */
-    readonly title: string;
-    /** Full link including base URL. */
-    readonly permalink: string;
-    /**
-     * Description used in the meta. Could be an empty string (empty content)
-     */
-    readonly description: string;
-    /** Front matter, as-is. */
-    readonly frontMatter: Content['website'][number] & {[key: string]: unknown};
-    /** Tags, normalized. */
-    readonly tags: TagType[];
-  };
+  ): Promise<Plugin<ShowcaseItem | null>>;
 }
