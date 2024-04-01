@@ -12,6 +12,9 @@ import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import pluginContentPages from '../index';
 import {validateOptions} from '../options';
 
+// todo add test with tags in config
+// todo add test with tags in yaml
+
 describe('docusaurus-plugin-content-showcase', () => {
   it('loads simple showcase', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');

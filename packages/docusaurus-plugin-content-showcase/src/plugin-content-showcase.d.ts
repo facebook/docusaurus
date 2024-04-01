@@ -9,12 +9,14 @@ declare module '@docusaurus/plugin-content-showcase' {
   import type {LoadContext, Plugin} from '@docusaurus/types';
 
   export type TagOption = {
-    label: string;
-    description: {
-      message: string;
-      id: string;
+    [key: string]: {
+      label: string;
+      description: {
+        message: string;
+        id: string;
+      };
+      color: string;
     };
-    color: string;
   };
 
   export type PluginOptions = {

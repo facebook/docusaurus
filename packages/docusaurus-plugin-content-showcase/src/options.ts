@@ -19,7 +19,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   tags: '@site/showcase/tags.yaml',
 };
 
-export const tagSchema = Joi.array().items(
+export const tagSchema = Joi.object().pattern(
+  Joi.string(),
   Joi.object({
     label: Joi.string().required(),
     description: Joi.object({

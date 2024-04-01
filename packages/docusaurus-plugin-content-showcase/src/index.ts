@@ -31,33 +31,23 @@ export function getContentPathList(
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
-async function getTagsDefinition(
-  filePath: string | TagOption[],
-): Promise<string[]> {
+async function getTagsList(filePath: string | TagOption[]): Promise<string[]> {
   if (Array.isArray(filePath)) {
-    return filePath.map((tag) => tag.label);
+    return Object.keys(filePath);
   }
 
   const rawYaml = await fs.readFile(filePath, 'utf-8');
-  const unsafeYaml: any = Yaml.load(rawYaml);
-  console.log('unsafeYaml:', unsafeYaml);
-
-  const transformedData = unsafeYaml.tags.map((item: any) => {
-    const [label] = Object.keys(item); // Extract label from object key
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const {description, color} = item[label]; // Extract description and color
-    return {label, description, color}; // Create new object with transformed structure
-  });
-  console.log('transformedData:', transformedData);
-
-  const safeYaml = tagSchema.validate(transformedData);
+  const unsafeYaml = Yaml.load(rawYaml);
+  const safeYaml = tagSchema.validate(unsafeYaml);
 
   if (safeYaml.error) {
-    throw new Error(`Invalid tags.yaml file: ${safeYaml.error.message}`);
+    throw new Error(
+      `There was an error extracting tags: ${safeYaml.error.message}`,
+      {cause: safeYaml.error},
+    );
   }
 
-  const tagLabels = safeYaml.value.map((tag: any) => Object.keys(tag)[0]);
+  const tagLabels = Object.keys(safeYaml.value);
   return tagLabels;
 }
 
@@ -132,9 +122,8 @@ export default function pluginContentShowcase(
         'tags.yaml',
       );
 
-      const tagList = await getTagsDefinition(tagFilePath);
+      const tagList = await getTagsList(tagFilePath);
       const createdTagSchema = createTagSchema(tagList);
-      console.log('createdTagSchema:', createdTagSchema.describe());
 
       async function processShowcaseSourceFile(relativeSource: string) {
         // Lookup in localized folder in priority

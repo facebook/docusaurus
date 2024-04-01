@@ -16,6 +16,8 @@ const defaultOptions = {
   id: 'default',
 };
 
+// todo add test that validate and reject tags.yaml file
+
 describe('normalizeShowcasePluginOptions', () => {
   it('returns default options for undefined user options', () => {
     expect(testValidate({})).toEqual(defaultOptions);
@@ -89,12 +91,14 @@ describe('normalizeShowcasePluginOptions', () => {
     const userOptions = {
       tags: [
         {
-          label: 'foo',
-          description: {
-            message: 'bar',
-            id: 'baz',
+          foo: {
+            label: 'foo',
+            description: {
+              message: 'bar',
+              id: 'baz',
+            },
+            color: 'red',
           },
-          color: 'red',
         },
       ],
     };
