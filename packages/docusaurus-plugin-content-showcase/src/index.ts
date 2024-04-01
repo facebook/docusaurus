@@ -48,6 +48,8 @@ async function getTagsList(filePath: string | TagOption[]): Promise<string[]> {
   }
 
   const rawYaml = await fs.readFile(
+    // todo should we use aliasedPath ?
+    // because it breaks tests showcase/index.test.ts#L27-L28
     aliasedSitePathToRelativePath(filePath),
     'utf-8',
   );
@@ -95,6 +97,7 @@ export default function pluginContentShowcase(
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
+      console.log('contentPaths:', contentPaths);
 
       const {include} = options;
 

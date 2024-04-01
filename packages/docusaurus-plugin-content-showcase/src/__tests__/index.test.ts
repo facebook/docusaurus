@@ -24,6 +24,7 @@ describe('docusaurus-plugin-content-showcase', () => {
       validateOptions({
         validate: normalizePluginOptions,
         options: {
+          // todo broken because we use aliasedPaths
           path: 'src/showcase',
         },
       }),

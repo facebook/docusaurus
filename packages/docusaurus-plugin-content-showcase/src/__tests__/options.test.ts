@@ -83,25 +83,25 @@ describe('normalizeShowcasePluginOptions', () => {
         userOptions,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""tags" must be one of [string, array]"`,
+      `""tags" must be one of [string, object]"`,
     );
   });
 
   it('accepts correctly defined tags object options', () => {
     const userOptions = {
-      tags: [
-        {
-          foo: {
-            label: 'foo',
-            description: {
-              message: 'bar',
-              id: 'baz',
-            },
-            color: 'red',
+      tags: {
+        favorite: {
+          label: 'Favorite',
+          description: {
+            message:
+              'Our favorite Docusaurus sites that you must absolutely check out!',
+            id: 'showcase.tag.favorite.description',
           },
+          color: '#e9669e',
         },
-      ],
+      },
     };
+    // todo fix ts error
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
@@ -110,22 +110,25 @@ describe('normalizeShowcasePluginOptions', () => {
 
   it('reject bedly defined tags object options', () => {
     const userOptions = {
-      tags: [
-        {
-          label: 'foo',
+      tags: {
+        favorite: {
+          label: 32,
           description: {
-            message: 'bar',
-            id: 'baz',
+            message:
+              'Our favorite Docusaurus sites that you must absolutely check out!',
+            id: 'showcase.tag.favorite.description',
           },
-          color: 42,
+          color: '#e9669e',
         },
-      ],
+      },
     };
     expect(() =>
       testValidate(
         // @ts-expect-error: bad attributes
         userOptions,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(`""tags[0].color" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""tags.favorite.label" must be a string"`,
+    );
   });
 });
