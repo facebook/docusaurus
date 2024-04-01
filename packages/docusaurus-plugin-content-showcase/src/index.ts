@@ -131,7 +131,7 @@ export default function pluginContentShowcase(
         } catch (err) {
           throw new Error(
             `Processing of page source file path=${relativeSource} failed.`,
-            {cause: err as Error},
+            {cause: err},
           );
         }
       }
