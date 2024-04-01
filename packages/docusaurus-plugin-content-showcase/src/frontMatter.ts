@@ -22,3 +22,15 @@ export function validateShowcaseFrontMatter(frontMatter: {
 }): ShowcaseFrontMatter {
   return validateFrontMatter(frontMatter, showcaseFrontMatterSchema);
 }
+
+export function validateFrontMatterTags(
+  frontMatterTags: string[],
+  tagListSchema: Joi.Schema,
+): void {
+  const result = tagListSchema.validate(frontMatterTags);
+  if (result.error) {
+    throw new Error(
+      `Front matter contains invalid tags: ${result.error.message}`,
+    );
+  }
+}

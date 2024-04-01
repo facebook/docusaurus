@@ -14,8 +14,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   id: 'showcase',
   path: 'showcase', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
-  include: ['**/*.{yml,yaml}'], // Extensions to include.
-  exclude: GlobExcludeDefault,
+  include: ['**/*.{yml,yaml}'],
+  exclude: [...GlobExcludeDefault, 'tags.*'],
   tags: '@site/showcase/tags.yaml',
 };
 

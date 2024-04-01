@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {
+  aliasedSitePathToRelativePath,
   getFolderContainingFile,
   getPluginI18nPath,
   Globby,
@@ -15,7 +16,10 @@ import {
 import Yaml from 'js-yaml';
 
 import {Joi} from '@docusaurus/utils-validation';
-import {validateShowcaseFrontMatter} from './frontMatter';
+import {
+  validateFrontMatterTags,
+  validateShowcaseFrontMatter,
+} from './frontMatter';
 import {tagSchema} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -31,12 +35,22 @@ export function getContentPathList(
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
+function createTagSchema(tags: string[]): Joi.Schema {
+  return Joi.alternatives().try(
+    Joi.string().valid(...tags), // Schema for single string
+    Joi.array().items(Joi.string().valid(...tags)), // Schema for array of strings
+  );
+}
+
 async function getTagsList(filePath: string | TagOption[]): Promise<string[]> {
-  if (Array.isArray(filePath)) {
+  if (typeof filePath === 'object') {
     return Object.keys(filePath);
   }
 
-  const rawYaml = await fs.readFile(filePath, 'utf-8');
+  const rawYaml = await fs.readFile(
+    aliasedSitePathToRelativePath(filePath),
+    'utf-8',
+  );
   const unsafeYaml = Yaml.load(rawYaml);
   const safeYaml = tagSchema.validate(unsafeYaml);
 
@@ -49,25 +63,6 @@ async function getTagsList(filePath: string | TagOption[]): Promise<string[]> {
 
   const tagLabels = Object.keys(safeYaml.value);
   return tagLabels;
-}
-
-function createTagSchema(tags: string[]): Joi.Schema {
-  return Joi.alternatives().try(
-    Joi.string().valid(...tags), // Schema for single string
-    Joi.array().items(Joi.string().valid(...tags)), // Schema for array of strings
-  );
-}
-
-function validateFrontMatterTags(
-  frontMatterTags: string[],
-  tagListSchema: Joi.Schema,
-): void {
-  const result = tagListSchema.validate(frontMatterTags);
-  if (result.error) {
-    throw new Error(
-      `Front matter contains invalid tags: ${result.error.message}`,
-    );
-  }
 }
 
 export default function pluginContentShowcase(
@@ -97,32 +92,18 @@ export default function pluginContentShowcase(
     // },
 
     async loadContent(): Promise<ShowcaseItem | null> {
-      const {include} = options;
-
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
 
-      // const {baseUrl} = siteConfig;
+      const {include} = options;
+
       const showcaseFiles = await Globby(include, {
         cwd: contentPaths.contentPath,
         ignore: options.exclude,
       });
 
-      const filteredShowcaseFiles = showcaseFiles.filter(
-        (source) => source !== 'tags.yaml',
-      );
-
-      // todo refactor ugly
-      const tagFilePath = path.join(
-        await getFolderContainingFile(
-          getContentPathList(contentPaths),
-          'tags.yaml',
-        ),
-        'tags.yaml',
-      );
-
-      const tagList = await getTagsList(tagFilePath);
+      const tagList = await getTagsList(options.tags);
       const createdTagSchema = createTagSchema(tagList);
 
       async function processShowcaseSourceFile(relativeSource: string) {
@@ -135,6 +116,7 @@ export default function pluginContentShowcase(
         const sourcePath = path.join(contentPath, relativeSource);
 
         const rawYaml = await fs.readFile(sourcePath, 'utf-8');
+        // todo remove as ... because bad practice ?
         const unsafeYaml = Yaml.load(rawYaml) as {[key: string]: unknown};
         const yaml = validateShowcaseFrontMatter(unsafeYaml);
 
@@ -156,7 +138,7 @@ export default function pluginContentShowcase(
 
       return {
         items: await Promise.all(
-          filteredShowcaseFiles.map(doProcessShowcaseSourceFile),
+          showcaseFiles.map(doProcessShowcaseSourceFile),
         ),
       };
     },
