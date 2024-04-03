@@ -16,7 +16,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   routeBasePath: '/', // URL Route.
   include: ['**/*.{yml,yaml}'],
   exclude: [...GlobExcludeDefault, 'tags.*'],
-  tags: '@site/showcase/tags.yaml',
+  tags: 'tags.yaml',
 };
 
 export const tagSchema = Joi.object().pattern(

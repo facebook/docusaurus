@@ -8,7 +8,6 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {
-  aliasedSitePathToRelativePath,
   getFolderContainingFile,
   getPluginI18nPath,
   Globby,
@@ -42,31 +41,6 @@ function createTagSchema(tags: string[]): Joi.Schema {
   );
 }
 
-async function getTagsList(filePath: string | TagOption[]): Promise<string[]> {
-  if (typeof filePath === 'object') {
-    return Object.keys(filePath);
-  }
-
-  const rawYaml = await fs.readFile(
-    // todo should we use aliasedPath ?
-    // because it breaks tests showcase/index.test.ts#L27-L28
-    aliasedSitePathToRelativePath(filePath),
-    'utf-8',
-  );
-  const unsafeYaml = Yaml.load(rawYaml);
-  const safeYaml = tagSchema.validate(unsafeYaml);
-
-  if (safeYaml.error) {
-    throw new Error(
-      `There was an error extracting tags: ${safeYaml.error.message}`,
-      {cause: safeYaml.error},
-    );
-  }
-
-  const tagLabels = Object.keys(safeYaml.value);
-  return tagLabels;
-}
-
 export default function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
@@ -81,6 +55,34 @@ export default function pluginContentShowcase(
       pluginId: options.id,
     }),
   };
+
+  async function getTagsList(
+    configTags: string | TagOption[],
+  ): Promise<string[]> {
+    if (typeof configTags === 'object') {
+      return Object.keys(configTags);
+    }
+
+    const tagsPath = path.resolve(contentPaths.contentPath, configTags);
+
+    try {
+      const rawYaml = await fs.readFile(tagsPath, 'utf-8');
+      const unsafeYaml = Yaml.load(rawYaml);
+      const safeYaml = tagSchema.validate(unsafeYaml);
+
+      if (safeYaml.error) {
+        throw new Error(
+          `There was an error extracting tags: ${safeYaml.error.message}`,
+          {cause: safeYaml.error},
+        );
+      }
+
+      const tagLabels = Object.keys(safeYaml.value);
+      return tagLabels;
+    } catch (error) {
+      throw new Error(`Failed to read tags file for showcase`, {cause: error});
+    }
+  }
 
   return {
     name: 'docusaurus-plugin-content-showcase',
@@ -97,7 +99,6 @@ export default function pluginContentShowcase(
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
-      console.log('contentPaths:', contentPaths);
 
       const {include} = options;
 

@@ -17,3 +17,21 @@ exports[`docusaurus-plugin-content-showcase loads simple showcase 1`] = `
   ],
 }
 `;
+
+exports[`docusaurus-plugin-content-showcase loads simple showcase with tags in options 1`] = `
+{
+  "items": [
+    {
+      "description": "World",
+      "preview": "github.com/ozakione.png",
+      "source": "https://github.com/facebook/docusaurus",
+      "tags": [
+        "opensource",
+        "meta",
+      ],
+      "title": "Hello",
+      "website": "https://docusaurus.io/",
+    },
+  ],
+}
+`;

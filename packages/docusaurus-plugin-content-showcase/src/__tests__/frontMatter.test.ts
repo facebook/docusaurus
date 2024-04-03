@@ -45,7 +45,7 @@ function testField(params: {
       try {
         validateShowcaseFrontMatter(frontMatter);
         throw new Error(
-          `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+          `Showcase front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
             frontMatter,
             null,
             2,
@@ -61,7 +61,7 @@ function testField(params: {
   });
 }
 
-describe('doc front matter schema', () => {
+describe('showcase front matter schema', () => {
   it('accepts valid frontmatter', () => {
     const frontMatter: ShowcaseFrontMatter = {
       title: 'title',
@@ -96,6 +96,12 @@ describe('validateShowcaseFrontMatter full', () => {
         tags: [],
         website: 'website',
       },
+    ],
+    invalidFrontMatters: [
+      [
+        {},
+        '"title" is required. "description" is required. "preview" is required. "website" is required. "source" is required. "tags" is required',
+      ],
     ],
   });
 });

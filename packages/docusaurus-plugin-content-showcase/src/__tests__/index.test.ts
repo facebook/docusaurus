@@ -12,9 +12,6 @@ import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import pluginContentPages from '../index';
 import {validateOptions} from '../options';
 
-// todo add test with tags in config
-// todo add test with tags in yaml
-
 describe('docusaurus-plugin-content-showcase', () => {
   it('loads simple showcase', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -24,13 +21,70 @@ describe('docusaurus-plugin-content-showcase', () => {
       validateOptions({
         validate: normalizePluginOptions,
         options: {
-          // todo broken because we use aliasedPaths
           path: 'src/showcase',
+          tags: 'tags.yaml',
         },
       }),
     );
     const showcaseMetadata = await plugin.loadContent!();
 
     expect(showcaseMetadata).toMatchSnapshot();
+  });
+
+  it('loads simple showcase with tags in options', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const context = await loadContext({siteDir});
+    const plugin = pluginContentPages(
+      context,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/showcase',
+          tags: {
+            opensource: {
+              label: 'Open-Source',
+              description: {
+                message:
+                  'Open-Source Docusaurus sites can be useful for inspiration!',
+                id: 'showcase.tag.opensource.description',
+              },
+              color: '#39ca30',
+            },
+            meta: {
+              label: 'Meta',
+              description: {
+                message:
+                  'Docusaurus sites of Meta (formerly Facebook) projects',
+                id: 'showcase.tag.meta.description',
+              },
+              color: '#4267b2',
+            },
+          },
+        },
+      }),
+    );
+    const showcaseMetadata = await plugin.loadContent!();
+
+    expect(showcaseMetadata).toMatchSnapshot();
+  });
+
+  it('throw loading inexistant tags file', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const context = await loadContext({siteDir});
+    const plugin = pluginContentPages(
+      context,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/showcase',
+          tags: 'wrong.yaml',
+        },
+      }),
+    );
+    await expect(
+      plugin.loadContent!(),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Failed to read tags file for showcase"`,
+    );
   });
 });
