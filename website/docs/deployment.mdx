@@ -815,6 +815,19 @@ echo subdomain.surge.sh > CNAME
 
 You can deploy any other changes in the future with the command `surge`.
 
+## Deploying to Stormkit {#deploying-to-stormkit}
+
+You can deploy your Docusaurus project to Stormkit, a deployment platform for static websites, single-page applications (SPAs), and serverless functions.
+
+- Log in to [Stormkit](https://stormkit.io/).
+- Using the user interface, import your Docusaurus project from one of the three supported Git providers (GitHub, GitLab, or Bitbucket).
+- Navigate to the project’s production environment in Stormkit or create a new environment if needed.
+- Verify the build command in your Stormkit configuration. By default, Stormkit CI will run npm run build but you can specify a custom build command on this page.
+- Click the “Deploy Now” button to deploy your site.
+
+Read more in the [Stormkit Documentation](https://stormkit.io/docs/welcome/getting-started).
+
+
 ## Deploying to QuantCDN {#deploying-to-quantcdn}
 
 1. Install [Quant CLI](https://docs.quantcdn.io/docs/cli/get-started)
