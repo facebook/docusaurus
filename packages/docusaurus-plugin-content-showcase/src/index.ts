@@ -87,10 +87,8 @@ export default function pluginContentShowcase(
         );
 
         const sourcePath = path.join(contentPath, relativeSource);
-
         const data = await fs.readFile(sourcePath, 'utf-8');
-        // todo remove as ... because bad practice ?
-        const unsafeData = Yaml.load(data) as {[key: string]: unknown};
+        const unsafeData = Yaml.load(data);
         const showcaseItem = validateShowcaseItem(unsafeData);
 
         validateFrontMatterTags(showcaseItem.tags, createdTagSchema);

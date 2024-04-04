@@ -17,9 +17,7 @@ const showcaseItemSchema = Joi.object({
   tags: Joi.array().items(Joi.string()).required(),
 });
 
-export function validateShowcaseItem(frontMatter: {
-  [key: string]: unknown;
-}): ShowcaseItem {
+export function validateShowcaseItem(frontMatter: unknown): ShowcaseItem {
   return validateFrontMatter(frontMatter, showcaseItemSchema);
 }
 
