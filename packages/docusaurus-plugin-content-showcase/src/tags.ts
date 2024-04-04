@@ -8,10 +8,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 import Yaml from 'js-yaml';
+import {Joi} from '@docusaurus/utils-validation';
 import {tagSchema} from './options';
 import type {TagsOption} from '@docusaurus/plugin-content-showcase';
 
-// todo extract in another file
 export async function getTagsList({
   configTags,
   configPath,
@@ -42,4 +42,8 @@ export async function getTagsList({
   } catch (error) {
     throw new Error(`Failed to read tags file for showcase`, {cause: error});
   }
+}
+
+export function createTagSchema(tags: string[]): Joi.Schema {
+  return Joi.array().items(Joi.string().valid(...tags)); // Schema for array of strings
 }

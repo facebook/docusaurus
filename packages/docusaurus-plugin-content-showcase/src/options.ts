@@ -17,7 +17,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   include: ['**/*.{yml,yaml}'],
   // todo exclude won't work if user pass a custom file name
   exclude: [...GlobExcludeDefault, 'tags.*'],
-  tags: 'tags.yaml',
+  tags: 'tags.yml',
 };
 
 export const tagSchema = Joi.object().pattern(

@@ -13,8 +13,7 @@ import {
   Globby,
 } from '@docusaurus/utils';
 import Yaml from 'js-yaml';
-import {Joi} from '@docusaurus/utils-validation';
-import {validateFrontMatterTags, validateShowcaseItem} from './validation';
+import {validateShowcaseItem} from './validation';
 import {getTagsList} from './tags';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -29,18 +28,16 @@ export function getContentPathList(
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
-function createTagSchema(tags: string[]): Joi.Schema {
-  return Joi.array().items(Joi.string().valid(...tags)); // Schema for array of strings
-}
-
 export default function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<ShowcaseItems | null> {
   const {siteDir, localizationDir} = context;
+  // todo check for better naming of path: sitePath
+  const {include, exclude, tags, routeBasePath, path: sitePath} = options;
 
   const contentPaths: ShowcaseContentPaths = {
-    contentPath: path.resolve(siteDir, options.path),
+    contentPath: path.resolve(siteDir, sitePath),
     contentPathLocalized: getPluginI18nPath({
       localizationDir,
       pluginName: 'docusaurus-plugin-content-showcase',
@@ -66,18 +63,15 @@ export default function pluginContentShowcase(
         );
       }
 
-      const {include} = options;
-
       const showcaseFiles = await Globby(include, {
         cwd: contentPaths.contentPath,
-        ignore: [...options.exclude],
+        ignore: [...exclude],
       });
 
       const tagList = await getTagsList({
-        configTags: options.tags,
+        configTags: tags,
         configPath: contentPaths.contentPath,
       });
-      const createdTagSchema = createTagSchema(tagList);
 
       async function processShowcaseSourceFile(relativeSource: string) {
         // Lookup in localized folder in priority
@@ -88,10 +82,11 @@ export default function pluginContentShowcase(
 
         const sourcePath = path.join(contentPath, relativeSource);
         const data = await fs.readFile(sourcePath, 'utf-8');
-        const unsafeData = Yaml.load(data);
-        const showcaseItem = validateShowcaseItem(unsafeData);
-
-        validateFrontMatterTags(showcaseItem.tags, createdTagSchema);
+        const item = Yaml.load(data);
+        const showcaseItem = validateShowcaseItem({
+          item,
+          tags: tagList,
+        });
 
         return showcaseItem;
       }
@@ -127,7 +122,7 @@ export default function pluginContentShowcase(
       );
 
       addRoute({
-        path: options.routeBasePath,
+        path: routeBasePath,
         component: '@theme/Showcase',
         modules: {
           content: showcaseAllData,
