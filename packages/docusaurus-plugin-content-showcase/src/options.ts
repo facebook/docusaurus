@@ -13,8 +13,9 @@ import type {PluginOptions, Options} from '@docusaurus/plugin-content-showcase';
 export const DEFAULT_OPTIONS: PluginOptions = {
   id: 'showcase',
   path: 'showcase', // Path to data on filesystem, relative to site dir.
-  routeBasePath: '/', // URL Route.
+  routeBasePath: '/showcase', // URL Route.
   include: ['**/*.{yml,yaml}'],
+  // todo exclude won't work if user pass a custom file name
   exclude: [...GlobExcludeDefault, 'tags.*'],
   tags: 'tags.yaml',
 };

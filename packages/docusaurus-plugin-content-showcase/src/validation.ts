@@ -6,9 +6,9 @@
  */
 
 import {Joi, validateFrontMatter} from '@docusaurus/utils-validation';
-import type {ShowcaseFrontMatter} from '@docusaurus/plugin-content-showcase';
+import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-const showcaseFrontMatterSchema = Joi.object({
+const showcaseItemSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string().required(),
   preview: Joi.string().required(),
@@ -17,10 +17,10 @@ const showcaseFrontMatterSchema = Joi.object({
   tags: Joi.array().items(Joi.string()).required(),
 });
 
-export function validateShowcaseFrontMatter(frontMatter: {
+export function validateShowcaseItem(frontMatter: {
   [key: string]: unknown;
-}): ShowcaseFrontMatter {
-  return validateFrontMatter(frontMatter, showcaseFrontMatterSchema);
+}): ShowcaseItem {
+  return validateFrontMatter(frontMatter, showcaseItemSchema);
 }
 
 export function validateFrontMatterTags(

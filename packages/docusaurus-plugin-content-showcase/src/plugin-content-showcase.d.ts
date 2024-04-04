@@ -8,15 +8,17 @@
 declare module '@docusaurus/plugin-content-showcase' {
   import type {LoadContext, Plugin} from '@docusaurus/types';
 
-  export type TagOption = {
-    [key: string]: {
-      label: string;
-      description: {
-        message: string;
-        id: string;
-      };
-      color: string;
+  type Tag = {
+    label: string;
+    description: {
+      message: string;
+      id: string;
     };
+    color: string;
+  };
+
+  export type TagsOption = {
+    [tagName: string]: Tag;
   };
 
   export type PluginOptions = {
@@ -25,32 +27,20 @@ declare module '@docusaurus/plugin-content-showcase' {
     routeBasePath: string;
     include: string[];
     exclude: string[];
-    tags: string | TagOption[];
+    tags: string | TagsOption;
   };
 
-  type TagType =
-    | 'favorite'
-    | 'opensource'
-    | 'product'
-    | 'design'
-    | 'i18n'
-    | 'versioning'
-    | 'large'
-    | 'meta'
-    | 'personal'
-    | 'rtl';
-
-  export type ShowcaseFrontMatter = {
+  export type ShowcaseItem = {
     readonly title: string;
     readonly description: string;
     readonly preview: string | null; // null = use our serverless screenshot service
     readonly website: string;
     readonly source: string | null;
-    readonly tags: TagType[];
+    readonly tags: string[];
   };
 
-  export type ShowcaseItem = {
-    items: ShowcaseFrontMatter[];
+  export type ShowcaseItems = {
+    items: ShowcaseItem[];
   };
 
   export type Options = Partial<PluginOptions>;
@@ -58,5 +48,5 @@ declare module '@docusaurus/plugin-content-showcase' {
   export default function pluginContentShowcase(
     context: LoadContext,
     options: PluginOptions,
-  ): Promise<Plugin<ShowcaseItem | null>>;
+  ): Promise<Plugin<ShowcaseItems | null>>;
 }
