@@ -325,6 +325,10 @@ async function getBuildClientConfig({
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
+  config = executePluginsConfigurePostCss({
+    plugins,
+    config,
+  });
   config = executePluginsConfigureWebpack({
     plugins,
     config,
@@ -340,10 +344,6 @@ async function getBuildServerConfig({props}: {props: Props}) {
     props,
   });
   let {config} = result;
-  config = executePluginsConfigurePostCss({
-    plugins,
-    config,
-  });
   config = executePluginsConfigureWebpack({
     plugins,
     config,
