@@ -1,5 +1,27 @@
 # Docusaurus 2 Changelog
 
+## 3.2.1 (2024-04-04)
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#10012](https://github.com/facebook/docusaurus/pull/10012) fix(core): fix configurePostCss v3.2 regression ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#9980](https://github.com/facebook/docusaurus/pull/9980) docs: remove old github action description ([@OzakIOne](https://github.com/OzakIOne))
+- [#10014](https://github.com/facebook/docusaurus/pull/10014) docs(website): fix SEO docs headTags example ([@OzakIOne](https://github.com/OzakIOne))
+- [#10004](https://github.com/facebook/docusaurus/pull/10004) docs(website): Announce v3.2 on website/homepage ([@slorber](https://github.com/slorber))
+
+#### :robot: Dependencies
+
+- [#10006](https://github.com/facebook/docusaurus/pull/10006) chore(deps): bump actions/dependency-review-action from 4.2.4 to 4.2.5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
+
 ## 3.2.0 (2024-03-29)
 
 #### :rocket: New Feature
