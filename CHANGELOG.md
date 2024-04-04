@@ -20,7 +20,7 @@
 #### Committers: 2
 
 - Sébastien Lorber ([@slorber](https://github.com/slorber))
-- ozaki ([@OzakIOne](https://github.com/OzakIOne)) ✨ Done in 1.21s.
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
 
 ## 3.2.0 (2024-03-29)
 
