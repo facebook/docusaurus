@@ -18,8 +18,8 @@ export type Operator = 'OR' | 'AND';
 export const OperatorQueryKey = 'operator';
 
 export function readOperator(search: string): Operator {
-  return (new URLSearchParams(search).get(OperatorQueryKey) ??
-    'OR') as Operator;
+  const qsOperator = new URLSearchParams(search).get(OperatorQueryKey) ?? 'OR';
+  return qsOperator === 'AND' ? 'AND' : 'OR';
 }
 
 export default function ShowcaseFilterToggle(): JSX.Element {
