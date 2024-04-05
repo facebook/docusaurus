@@ -107,13 +107,21 @@ export async function getFileCommitDate(
     );
   }
 
+  // We add a "RESULT:" prefix to make parsing easier
+  // See why: https://github.com/facebook/docusaurus/pull/10022
+  const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
+
   const args = [
-    `--format=%ct${includeAuthor ? ',%an' : ''}`,
+    `--format=${resultFormat}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
   ]
     .filter(Boolean)
     .join(' ');
+
+  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
+    file,
+  )}"`;
 
   const result = await new Promise<{
     code: number;
@@ -121,7 +129,7 @@ export async function getFileCommitDate(
     stderr: string;
   }>((resolve) => {
     shell.exec(
-      `git log ${args} -- "${path.basename(file)}"`,
+      command,
       {
         // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
         cwd: path.dirname(file),
@@ -138,10 +146,12 @@ export async function getFileCommitDate(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
     );
   }
-  let regex = /^(?<timestamp>\d+)$/;
-  if (includeAuthor) {
-    regex = /^(?<timestamp>\d+),(?<author>.+)$/;
-  }
+
+  // We only parse the output line starting with our "RESULT:" prefix
+  // See why https://github.com/facebook/docusaurus/pull/10022
+  const regex = includeAuthor
+    ? /(?:^|\n)RESULT:(?<timestamp>\d+),(?<author>.+)(?:$|\n)/
+    : /(?:^|\n)RESULT:(?<timestamp>\d+)(?:$|\n)/;
 
   const output = result.stdout.trim();
 
