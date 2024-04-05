@@ -15,45 +15,53 @@ import styles from './styles.module.css';
 
 export type Operator = 'OR' | 'AND';
 
+const DefaultOperator: Operator = 'OR';
+
 export const OperatorQueryKey = 'operator';
 
 export function readOperator(search: string): Operator {
-  const qsOperator = new URLSearchParams(search).get(OperatorQueryKey) ?? 'OR';
+  const qsOperator =
+    new URLSearchParams(search).get(OperatorQueryKey) ?? DefaultOperator;
   return qsOperator === 'AND' ? 'AND' : 'OR';
 }
 
-export default function ShowcaseFilterToggle(): JSX.Element {
-  const id = 'showcase_filter_toggle';
+function setSearchOperator(search: string, operator: Operator): string {
+  const searchParams = new URLSearchParams(search);
+  searchParams.delete(OperatorQueryKey);
+  if (!operator) {
+    searchParams.append(OperatorQueryKey, 'AND');
+  }
+  return searchParams.toString();
+}
+
+function useOperator() {
   const location = useLocation();
   const history = useHistory();
-  const [operator, setOperator] = useState(false);
+
+  const [operator, setOperator] = useState(DefaultOperator);
   useEffect(() => {
-    setOperator(readOperator(location.search) === 'AND');
+    setOperator(readOperator(location.search));
   }, [location]);
+
   const toggleOperator = useCallback(() => {
-    setOperator((o) => !o);
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.delete(OperatorQueryKey);
-    if (!operator) {
-      searchParams.append(OperatorQueryKey, 'AND');
-    }
+    const newOperator = operator === 'AND' ? 'OR' : 'AND';
+    setOperator(newOperator);
+    const newSearch = setSearchOperator(location.search, newOperator);
     history.push({
       ...location,
-      search: searchParams.toString(),
+      search: newSearch,
       state: prepareUserState(),
     });
   }, [operator, location, history]);
 
-  const ClearTag = () => {
-    history.push({
-      ...location,
-      search: '',
-      state: prepareUserState(),
-    });
-  };
+  return {operator, toggleOperator};
+}
 
+export default function OperatorButton() {
+  const id = 'showcase_filter_toggle';
+  const {operator, toggleOperator} = useOperator();
   return (
-    <div className="row" style={{alignItems: 'center'}}>
+    <>
       <input
         type="checkbox"
         id={id}
@@ -65,7 +73,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
             toggleOperator();
           }
         }}
-        checked={operator}
+        checked={operator !== DefaultOperator}
       />
       <label htmlFor={id} className={clsx(styles.checkboxLabel, 'shadow--md')}>
         {/* eslint-disable @docusaurus/no-untranslated-text */}
@@ -73,13 +81,6 @@ export default function ShowcaseFilterToggle(): JSX.Element {
         <span className={styles.checkboxLabelAnd}>AND</span>
         {/* eslint-enable @docusaurus/no-untranslated-text */}
       </label>
-
-      <button
-        className="button button--outline button--primary"
-        type="button"
-        onClick={() => ClearTag()}>
-        Clear All
-      </button>
-    </div>
+    </>
   );
 }

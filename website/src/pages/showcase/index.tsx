@@ -26,10 +26,12 @@ import Heading from '@theme/Heading';
 import ShowcaseTagSelect, {
   readSearchTags,
 } from './_components/ShowcaseTagSelect';
-import ShowcaseFilterToggle, {
+import OperatorButton, {
   type Operator,
   readOperator,
-} from './_components/ShowcaseFilterToggle';
+} from './_components/OperatorButton';
+import ClearAllButton from './_components/ClearAllButton';
+
 import ShowcaseCard from './_components/ShowcaseCard';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
@@ -163,7 +165,10 @@ function ShowcaseFilters() {
           </Heading>
           <span>{siteCountPlural(filteredUsers.length)}</span>
         </div>
-        <ShowcaseFilterToggle />
+        <div className="row" style={{alignItems: 'center'}}>
+          <OperatorButton />
+          <ClearAllButton />
+        </div>
       </div>
       <ul className={clsx('clean-list', styles.checkboxList)}>
         {TagList.map((tag, i) => {
