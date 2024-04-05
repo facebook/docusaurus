@@ -250,7 +250,7 @@ declare module '@theme/BlogPostItems' {
 declare module '@theme/ShowcaseDetails' {
   import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-  export type User = ShowcaseItem['website'][number];
+  export type User = ShowcaseItem;
 
   export type Props = {
     content: User;
@@ -262,7 +262,7 @@ declare module '@theme/ShowcaseDetails' {
 declare module '@theme/Showcase' {
   import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-  export type User = ShowcaseItem['website'][number];
+  export type User = ShowcaseItem;
 
   export type Props = {
     content: User[];
@@ -278,7 +278,7 @@ declare module '@theme/Showcase/ShowcaseCard' {
     preview: string | null; // null = use our serverless screenshot service
     website: string;
     source: string | null;
-    tags: TagType[];
+    tags: string[];
   };
 
   export interface Props {

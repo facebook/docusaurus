@@ -17,6 +17,18 @@ declare module '@docusaurus/plugin-content-showcase' {
     color: string;
   };
 
+  type TagType =
+    | 'favorite'
+    | 'opensource'
+    | 'product'
+    | 'design'
+    | 'i18n'
+    | 'versioning'
+    | 'large'
+    | 'meta'
+    | 'personal'
+    | 'rtl';
+
   export type TagsOption = {
     [tagName: string]: Tag;
   };
