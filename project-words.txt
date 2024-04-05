@@ -324,6 +324,7 @@ solana
 spâce
 stackblitz
 stackblitzrc
+Stormkit
 Strikethrough
 strikethroughs
 stylelint
