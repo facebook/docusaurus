@@ -9,7 +9,7 @@ import {Joi, validateFrontMatter} from '@docusaurus/utils-validation';
 import {createTagSchema} from './tags';
 import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-const createShowcaseItemSchema = (tags: string[]) => {
+export const createShowcaseItemSchema = (tags: string[]): Joi.ObjectSchema => {
   const tagsSchema = createTagSchema(tags);
 
   return Joi.object({
@@ -24,12 +24,10 @@ const createShowcaseItemSchema = (tags: string[]) => {
 
 export function validateShowcaseItem({
   item,
-  tags,
+  showcaseItemSchema,
 }: {
   item: unknown;
-  tags: string[];
+  showcaseItemSchema: Joi.ObjectSchema;
 }): ShowcaseItem {
-  const showcaseItemSchema = createShowcaseItemSchema(tags);
-
   return validateFrontMatter(item, showcaseItemSchema);
 }

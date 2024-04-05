@@ -13,7 +13,7 @@ import {
   Globby,
 } from '@docusaurus/utils';
 import Yaml from 'js-yaml';
-import {validateShowcaseItem} from './validation';
+import {createShowcaseItemSchema, validateShowcaseItem} from './validation';
 import {getTagsList} from './tags';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -28,10 +28,10 @@ export function getContentPathList(
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
-export default function pluginContentShowcase(
+export default async function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<ShowcaseItems | null> {
+): Promise<Plugin<ShowcaseItems | null>> {
   const {siteDir, localizationDir} = context;
   // todo check for better naming of path: sitePath
   const {include, exclude, tags, routeBasePath, path: sitePath} = options;
@@ -44,6 +44,13 @@ export default function pluginContentShowcase(
       pluginId: options.id,
     }),
   };
+
+  const tagList = await getTagsList({
+    configTags: tags,
+    configPath: contentPaths.contentPath,
+  });
+
+  const showcaseItemSchema = createShowcaseItemSchema(tagList);
 
   return {
     name: 'docusaurus-plugin-content-showcase',
@@ -68,11 +75,6 @@ export default function pluginContentShowcase(
         ignore: [...exclude],
       });
 
-      const tagList = await getTagsList({
-        configTags: tags,
-        configPath: contentPaths.contentPath,
-      });
-
       async function processShowcaseSourceFile(relativeSource: string) {
         // Lookup in localized folder in priority
         const contentPath = await getFolderContainingFile(
@@ -85,7 +87,7 @@ export default function pluginContentShowcase(
         const item = Yaml.load(data);
         const showcaseItem = validateShowcaseItem({
           item,
-          tags: tagList,
+          showcaseItemSchema,
         });
 
         return showcaseItem;
