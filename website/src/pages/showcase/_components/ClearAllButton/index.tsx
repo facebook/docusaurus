@@ -7,7 +7,7 @@
 
 import React from 'react';
 import {useHistory} from '@docusaurus/router';
-import {prepareUserState} from '../../index';
+import {prepareUserState} from '../../_utils';
 
 export default function ClearAllButton() {
   const history = useHistory();

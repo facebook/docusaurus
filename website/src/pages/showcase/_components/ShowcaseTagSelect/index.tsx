@@ -17,7 +17,7 @@ import {useHistory, useLocation} from '@docusaurus/router';
 import {toggleListItem} from '@site/src/utils/jsUtils';
 import type {TagType} from '@site/src/data/users';
 
-import {prepareUserState} from '../../index';
+import {prepareUserState} from '../../_utils';
 import styles from './styles.module.css';
 
 interface Props extends ComponentProps<'input'> {

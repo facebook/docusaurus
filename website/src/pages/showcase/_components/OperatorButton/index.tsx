@@ -9,13 +9,13 @@ import React, {useState, useEffect, useCallback} from 'react';
 import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
-import {prepareUserState} from '../../index';
+import {prepareUserState} from '../../_utils';
 
 import styles from './styles.module.css';
 
 export type Operator = 'OR' | 'AND';
 
-const DefaultOperator: Operator = 'OR';
+export const DefaultOperator: Operator = 'OR';
 
 export const OperatorQueryKey = 'operator';
 

@@ -5,36 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useMemo, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import clsx from 'clsx';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Translate, {translate} from '@docusaurus/Translate';
 import {useHistory, useLocation} from '@docusaurus/router';
-import {usePluralForm} from '@docusaurus/theme-common';
 
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
-import {
-  sortedUsers,
-  Tags,
-  TagList,
-  type User,
-  type TagType,
-} from '@site/src/data/users';
+import {sortedUsers, Tags, TagList} from '@site/src/data/users';
 import Heading from '@theme/Heading';
-import ShowcaseTagSelect, {
-  readSearchTags,
-} from './_components/ShowcaseTagSelect';
-import OperatorButton, {
-  type Operator,
-  readOperator,
-} from './_components/OperatorButton';
+import ShowcaseTagSelect from './_components/ShowcaseTagSelect';
+import OperatorButton from './_components/OperatorButton';
 import ClearAllButton from './_components/ClearAllButton';
 
 import ShowcaseCard from './_components/ShowcaseCard';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
+import {
+  prepareUserState,
+  readSearchName,
+  setSearchName,
+  useFilteredUsers,
+  useSiteCountPlural,
+} from './_utils';
 import styles from './styles.module.css';
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
@@ -42,85 +36,6 @@ const DESCRIPTION = translate({
   message: 'List of websites people are building with Docusaurus',
 });
 const SUBMIT_URL = 'https://github.com/facebook/docusaurus/discussions/7826';
-
-type UserState = {
-  scrollTopPosition: number;
-  focusedElementId: string | undefined;
-};
-
-function restoreUserState(userState: UserState | null) {
-  const {scrollTopPosition, focusedElementId} = userState ?? {
-    scrollTopPosition: 0,
-    focusedElementId: undefined,
-  };
-  // @ts-expect-error: if focusedElementId is undefined it returns null
-  document.getElementById(focusedElementId)?.focus();
-  window.scrollTo({top: scrollTopPosition});
-}
-
-export function prepareUserState(): UserState | undefined {
-  if (ExecutionEnvironment.canUseDOM) {
-    return {
-      scrollTopPosition: window.scrollY,
-      focusedElementId: document.activeElement?.id,
-    };
-  }
-
-  return undefined;
-}
-
-const SearchNameQueryKey = 'name';
-
-function readSearchName(search: string) {
-  return new URLSearchParams(search).get(SearchNameQueryKey);
-}
-
-function filterUsers(
-  users: User[],
-  selectedTags: TagType[],
-  operator: Operator,
-  searchName: string | null,
-) {
-  if (searchName) {
-    // eslint-disable-next-line no-param-reassign
-    users = users.filter((user) =>
-      user.title.toLowerCase().includes(searchName.toLowerCase()),
-    );
-  }
-  if (selectedTags.length === 0) {
-    return users;
-  }
-  return users.filter((user) => {
-    if (user.tags.length === 0) {
-      return false;
-    }
-    if (operator === 'AND') {
-      return selectedTags.every((tag) => user.tags.includes(tag));
-    }
-    return selectedTags.some((tag) => user.tags.includes(tag));
-  });
-}
-
-function useFilteredUsers() {
-  const location = useLocation<UserState>();
-  const [operator, setOperator] = useState<Operator>('OR');
-  // On SSR / first mount (hydration) no tag is selected
-  const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-  const [searchName, setSearchName] = useState<string | null>(null);
-  // Sync tags from QS to state (delayed on purpose to avoid SSR/Client
-  // hydration mismatch)
-  useEffect(() => {
-    setSelectedTags(readSearchTags(location.search));
-    setOperator(readOperator(location.search));
-    setSearchName(readSearchName(location.search));
-    restoreUserState(location.state);
-  }, [location]);
-
-  return useMemo(
-    () => filterUsers(sortedUsers, selectedTags, operator, searchName),
-    [selectedTags, operator, searchName],
-  );
-}
 
 function ShowcaseHeader() {
   return (
@@ -134,23 +49,6 @@ function ShowcaseHeader() {
       </Link>
     </section>
   );
-}
-
-function useSiteCountPlural() {
-  const {selectMessage} = usePluralForm();
-  return (sitesCount: number) =>
-    selectMessage(
-      sitesCount,
-      translate(
-        {
-          id: 'showcase.filters.resultCount',
-          description:
-            'Pluralized label for the number of sites found on the showcase. Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
-          message: '1 site|{sitesCount} sites',
-        },
-        {sitesCount},
-      ),
-    );
 }
 
 function ShowcaseFilters() {
@@ -234,17 +132,16 @@ function SearchBar() {
         })}
         value={value ?? undefined}
         onInput={(e) => {
-          setValue(e.currentTarget.value);
-          const newSearch = new URLSearchParams(location.search);
-          newSearch.delete(SearchNameQueryKey);
-          if (e.currentTarget.value) {
-            newSearch.set(SearchNameQueryKey, e.currentTarget.value);
-          }
+          const name = e.currentTarget.value;
+          setValue(name);
+          const newSearch = setSearchName(location.search, name);
           history.push({
             ...location,
-            search: newSearch.toString(),
+            search: newSearch,
             state: prepareUserState(),
           });
+
+          // TODO ???
           setTimeout(() => {
             document.getElementById('searchbar')?.focus();
           }, 0);
