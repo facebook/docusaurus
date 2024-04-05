@@ -107,13 +107,18 @@ export async function getFileCommitDate(
     );
   }
 
+  const format = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
   const args = [
-    `--format=%ct${includeAuthor ? ',%an' : ''}`,
+    `--format=${format}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
   ]
     .filter(Boolean)
     .join(' ');
+
+  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
+    file,
+  )}"`;
 
   const result = await new Promise<{
     code: number;
@@ -121,7 +126,7 @@ export async function getFileCommitDate(
     stderr: string;
   }>((resolve) => {
     shell.exec(
-      `git log ${args} -- "${path.basename(file)}"`,
+      command,
       {
         // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
         cwd: path.dirname(file),
@@ -138,10 +143,10 @@ export async function getFileCommitDate(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
     );
   }
-  let regex = /^(?<timestamp>\d+)$/;
-  if (includeAuthor) {
-    regex = /^(?<timestamp>\d+),(?<author>.+)$/;
-  }
+
+  const regex = includeAuthor
+    ? /^RESULT:(?<timestamp>\d+),(?<author>.+)$/
+    : /^RESULT:(?<timestamp>\d+)$/;
 
   const output = result.stdout.trim();
 
