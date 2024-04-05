@@ -145,8 +145,8 @@ export async function getFileCommitDate(
   }
 
   const regex = includeAuthor
-    ? /^RESULT:(?<timestamp>\d+),(?<author>.+)$/
-    : /^RESULT:(?<timestamp>\d+)$/;
+    ? /(?:^|\n)RESULT:(?<timestamp>\d+),(?<author>.+)(?:$|\n)/
+    : /(?:^|\n)RESULT:(?<timestamp>\d+)(?:$|\n)/;
 
   const output = result.stdout.trim();
 
