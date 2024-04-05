@@ -10,7 +10,6 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import Image from '@theme/IdealImage';
-import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import {
   Tags,
   TagList,
@@ -20,6 +19,7 @@ import {
 } from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
 import Heading from '@theme/Heading';
+import FavoriteIcon from '../FavoriteIcon';
 import Tooltip from '../ShowcaseTooltip';
 import styles from './styles.module.css';
 
@@ -84,7 +84,7 @@ function ShowcaseCard({user}: {user: User}) {
             </Link>
           </Heading>
           {user.tags.includes('favorite') && (
-            <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
+            <FavoriteIcon size="medium" style={{marginRight: '0.25rem'}} />
           )}
           {user.source && (
             <Link

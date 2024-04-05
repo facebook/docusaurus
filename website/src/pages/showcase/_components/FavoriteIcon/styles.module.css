@@ -1,0 +1,27 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.svg {
+  user-select: none;
+  color: #e9669e;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+}
+
+.small {
+  font-size: 1rem;
+}
+
+.medium {
+  font-size: 1.25rem;
+}
+
+.large {
+  font-size: 1.8rem;
+}

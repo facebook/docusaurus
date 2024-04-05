@@ -79,17 +79,3 @@
   width: 30px;
   height: 30px;
 }
-
-.svgIconFavoriteXs,
-.svgIconFavorite {
-  color: var(--site-color-svg-icon-favorite);
-}
-
-.svgIconFavoriteXs {
-  margin-left: 0.625rem;
-  font-size: 1rem;
-}
-
-.svgIconFavorite {
-  margin-left: 1rem;
-}

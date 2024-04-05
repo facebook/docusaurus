@@ -12,14 +12,14 @@ import {useHistory, useLocation} from '@docusaurus/router';
 
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
-import {sortedUsers, Tags, TagList} from '@site/src/data/users';
+import FavoriteIcon from '@site/src/pages/showcase/_components/FavoriteIcon';
+import {Tags, TagList} from '@site/src/data/users';
 import Heading from '@theme/Heading';
 import ShowcaseTagSelect from './_components/ShowcaseTagSelect';
 import OperatorButton from './_components/OperatorButton';
 import ClearAllButton from './_components/ClearAllButton';
 
-import ShowcaseCard from './_components/ShowcaseCard';
+import ShowcaseCards from './_components/ShowcaseCards';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
 import {
@@ -29,6 +29,7 @@ import {
   useFilteredUsers,
   useSiteCountPlural,
 } from './_utils';
+
 import styles from './styles.module.css';
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
@@ -72,7 +73,6 @@ function ShowcaseFilters() {
         {TagList.map((tag, i) => {
           const {label, description, color} = Tags[tag];
           const id = `showcase_checkbox_id_${tag}`;
-
           return (
             <li key={i} className={styles.checkboxListItem}>
               <ShowcaseTooltip
@@ -85,7 +85,10 @@ function ShowcaseFilters() {
                   label={label}
                   icon={
                     tag === 'favorite' ? (
-                      <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
+                      <FavoriteIcon
+                        size="small"
+                        style={{marginLeft: '0.625rem'}}
+                      />
                     ) : (
                       <span
                         style={{
@@ -107,13 +110,6 @@ function ShowcaseFilters() {
     </section>
   );
 }
-
-const favoriteUsers = sortedUsers.filter((user) =>
-  user.tags.includes('favorite'),
-);
-const otherUsers = sortedUsers.filter(
-  (user) => !user.tags.includes('favorite'),
-);
 
 function SearchBar() {
   const history = useHistory();
@@ -148,78 +144,6 @@ function SearchBar() {
         }}
       />
     </div>
-  );
-}
-
-function ShowcaseCards() {
-  const filteredUsers = useFilteredUsers();
-
-  if (filteredUsers.length === 0) {
-    return (
-      <section className="margin-top--lg margin-bottom--xl">
-        <div className="container padding-vert--md text--center">
-          <Heading as="h2">
-            <Translate id="showcase.usersList.noResult">No result</Translate>
-          </Heading>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="margin-top--lg margin-bottom--xl">
-      {filteredUsers.length === sortedUsers.length ? (
-        <>
-          <div className={styles.showcaseFavorite}>
-            <div className="container">
-              <div
-                className={clsx(
-                  'margin-bottom--md',
-                  styles.showcaseFavoriteHeader,
-                )}>
-                <Heading as="h2">
-                  <Translate id="showcase.favoritesList.title">
-                    Our favorites
-                  </Translate>
-                </Heading>
-                <FavoriteIcon svgClass={styles.svgIconFavorite} />
-              </div>
-              <ul
-                className={clsx(
-                  'container',
-                  'clean-list',
-                  styles.showcaseList,
-                )}>
-                {favoriteUsers.map((user) => (
-                  <ShowcaseCard key={user.title} user={user} />
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="container margin-top--lg">
-            <Heading as="h2" className={styles.showcaseHeader}>
-              <Translate id="showcase.usersList.allUsers">All sites</Translate>
-            </Heading>
-            <ul className={clsx('clean-list', styles.showcaseList)}>
-              {otherUsers.map((user) => (
-                <ShowcaseCard key={user.title} user={user} />
-              ))}
-            </ul>
-          </div>
-        </>
-      ) : (
-        <div className="container">
-          <div
-            className={clsx('margin-bottom--md', styles.showcaseFavoriteHeader)}
-          />
-          <ul className={clsx('clean-list', styles.showcaseList)}>
-            {filteredUsers.map((user) => (
-              <ShowcaseCard key={user.title} user={user} />
-            ))}
-          </ul>
-        </div>
-      )}
-    </section>
   );
 }
 
