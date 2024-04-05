@@ -6,29 +6,16 @@
  */
 
 import {useState, useEffect} from 'react';
-import clsx from 'clsx';
 import Translate, {translate} from '@docusaurus/Translate';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-import FavoriteIcon from '@site/src/pages/showcase/_components/FavoriteIcon';
-import {Tags, TagList} from '@site/src/data/users';
 import Heading from '@theme/Heading';
-import ShowcaseTagSelect from './_components/ShowcaseTagSelect';
-import OperatorButton from './_components/OperatorButton';
-import ClearAllButton from './_components/ClearAllButton';
 
 import ShowcaseCards from './_components/ShowcaseCards';
-import ShowcaseTooltip from './_components/ShowcaseTooltip';
-
-import {
-  prepareUserState,
-  readSearchName,
-  setSearchName,
-  useFilteredUsers,
-  useSiteCountPlural,
-} from './_utils';
+import ShowcaseFilters from './_components/ShowcaseFilters';
+import {prepareUserState, readSearchName, setSearchName} from './_utils';
 
 import styles from './styles.module.css';
 
@@ -48,65 +35,6 @@ function ShowcaseHeader() {
           🙏 Please add your site
         </Translate>
       </Link>
-    </section>
-  );
-}
-
-function ShowcaseFilters() {
-  const filteredUsers = useFilteredUsers();
-  const siteCountPlural = useSiteCountPlural();
-  return (
-    <section className="container margin-top--l margin-bottom--lg">
-      <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
-        <div>
-          <Heading as="h2">
-            <Translate id="showcase.filters.title">Filters</Translate>
-          </Heading>
-          <span>{siteCountPlural(filteredUsers.length)}</span>
-        </div>
-        <div className="row" style={{alignItems: 'center'}}>
-          <OperatorButton />
-          <ClearAllButton />
-        </div>
-      </div>
-      <ul className={clsx('clean-list', styles.checkboxList)}>
-        {TagList.map((tag, i) => {
-          const {label, description, color} = Tags[tag];
-          const id = `showcase_checkbox_id_${tag}`;
-          return (
-            <li key={i} className={styles.checkboxListItem}>
-              <ShowcaseTooltip
-                id={id}
-                text={description}
-                anchorEl="#__docusaurus">
-                <ShowcaseTagSelect
-                  tag={tag}
-                  id={id}
-                  label={label}
-                  icon={
-                    tag === 'favorite' ? (
-                      <FavoriteIcon
-                        size="small"
-                        style={{marginLeft: '0.625rem'}}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          backgroundColor: color,
-                          width: 10,
-                          height: 10,
-                          borderRadius: '50%',
-                          marginLeft: 8,
-                        }}
-                      />
-                    )
-                  }
-                />
-              </ShowcaseTooltip>
-            </li>
-          );
-        })}
-      </ul>
     </section>
   );
 }
