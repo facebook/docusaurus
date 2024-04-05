@@ -9,8 +9,19 @@ import fs from 'fs-extra';
 import path from 'path';
 import Yaml from 'js-yaml';
 import {Joi} from '@docusaurus/utils-validation';
-import {tagSchema} from './options';
 import type {TagsOption} from '@docusaurus/plugin-content-showcase';
+
+export const tagSchema = Joi.object().pattern(
+  Joi.string(),
+  Joi.object({
+    label: Joi.string().required(),
+    description: Joi.object({
+      message: Joi.string().required(),
+      id: Joi.string().required(),
+    }).required(),
+    color: Joi.string().required(),
+  }),
+);
 
 export async function getTagsList({
   configTags,

@@ -7,6 +7,7 @@
 
 import {Joi, RouteBasePathSchema} from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
+import {tagSchema} from './tags';
 import type {OptionValidationContext} from '@docusaurus/types';
 import type {PluginOptions, Options} from '@docusaurus/plugin-content-showcase';
 
@@ -19,18 +20,6 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   exclude: [...GlobExcludeDefault, 'tags.*'],
   tags: 'tags.yml',
 };
-
-export const tagSchema = Joi.object().pattern(
-  Joi.string(),
-  Joi.object({
-    label: Joi.string().required(),
-    description: Joi.object({
-      message: Joi.string().required(),
-      id: Joi.string().required(),
-    }).required(),
-    color: Joi.string().required(),
-  }),
-);
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
