@@ -107,9 +107,12 @@ export async function getFileCommitDate(
     );
   }
 
-  const format = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
+  // We add a "RESULT:" prefix to make parsing easier
+  // See why: https://github.com/facebook/docusaurus/pull/10022
+  const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
+
   const args = [
-    `--format=${format}`,
+    `--format=${resultFormat}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
   ]
@@ -144,6 +147,8 @@ export async function getFileCommitDate(
     );
   }
 
+  // We only parse the output line starting with our "RESULT:" prefix
+  // See why https://github.com/facebook/docusaurus/pull/10022
   const regex = includeAuthor
     ? /(?:^|\n)RESULT:(?<timestamp>\d+),(?<author>.+)(?:$|\n)/
     : /(?:^|\n)RESULT:(?<timestamp>\d+)(?:$|\n)/;
