@@ -5,19 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect} from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
-import {useHistory, useLocation} from '@docusaurus/router';
 
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 
+import ShowcaseSearchBar from '@site/src/pages/showcase/_components/ShowcaseSearchBar';
 import ShowcaseCards from './_components/ShowcaseCards';
 import ShowcaseFilters from './_components/ShowcaseFilters';
-import {prepareUserState, readSearchName, setSearchName} from './_utils';
-
-import styles from './styles.module.css';
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
 const DESCRIPTION = translate({
@@ -39,42 +35,6 @@ function ShowcaseHeader() {
   );
 }
 
-function SearchBar() {
-  const history = useHistory();
-  const location = useLocation();
-  const [value, setValue] = useState<string | null>(null);
-  useEffect(() => {
-    setValue(readSearchName(location.search));
-  }, [location]);
-  return (
-    <div className={styles.searchContainer}>
-      <input
-        id="searchbar"
-        placeholder={translate({
-          message: 'Search for site name...',
-          id: 'showcase.searchBar.placeholder',
-        })}
-        value={value ?? undefined}
-        onInput={(e) => {
-          const name = e.currentTarget.value;
-          setValue(name);
-          const newSearch = setSearchName(location.search, name);
-          history.push({
-            ...location,
-            search: newSearch,
-            state: prepareUserState(),
-          });
-
-          // TODO ???
-          setTimeout(() => {
-            document.getElementById('searchbar')?.focus();
-          }, 0);
-        }}
-      />
-    </div>
-  );
-}
-
 export default function Showcase(): JSX.Element {
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
@@ -84,7 +44,7 @@ export default function Showcase(): JSX.Element {
         <div
           style={{display: 'flex', marginLeft: 'auto'}}
           className="container">
-          <SearchBar />
+          <ShowcaseSearchBar />
         </div>
         <ShowcaseCards />
       </main>
