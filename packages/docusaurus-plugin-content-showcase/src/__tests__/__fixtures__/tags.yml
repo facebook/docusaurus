@@ -1,0 +1,12 @@
+favorite:
+  label: "Favorite"
+  description:
+    message: "Our favorite Docusaurus sites that you must absolutely check out!"
+    id: "showcase.tag.favorite.description"
+  color: "#e9669e"
+opensource:
+  label: "Open-Source"
+  description:
+    message: "Open-Source Docusaurus sites can be useful for inspiration!"
+    id: "showcase.tag.opensource.description"
+  color: "#39ca30"

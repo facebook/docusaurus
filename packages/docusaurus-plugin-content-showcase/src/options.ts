@@ -28,6 +28,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   id: Joi.string().default(DEFAULT_OPTIONS.id),
   tags: Joi.alternatives()
+    // todo ozaki understand this
     .try(Joi.string().default(DEFAULT_OPTIONS.tags), tagSchema)
     .default(DEFAULT_OPTIONS.tags),
 });

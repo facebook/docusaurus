@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {fromPartial} from '@total-typescript/shoehorn';
 import {createShowcaseItemSchema, validateShowcaseItem} from '../validation';
 import {getTagsList} from '../tags';
 import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
@@ -68,7 +69,7 @@ describe('showcase item schema', () => {
     );
   });
   it('reject invalid item', async () => {
-    const item = {};
+    const item: ShowcaseItem = fromPartial({});
     const showcaseItemSchema = await prepareSchema();
     expect(() =>
       validateShowcaseItem({item, showcaseItemSchema}),
@@ -77,7 +78,8 @@ describe('showcase item schema', () => {
     );
   });
   it('reject invalid item value', async () => {
-    const item = {title: 42};
+    // @ts-expect-error: title should be a string
+    const item: ShowcaseItem = fromPartial({title: 42});
     const showcaseItemSchema = await prepareSchema();
 
     expect(() =>
