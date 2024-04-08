@@ -17,6 +17,9 @@ const tags = {
     },
     color: '#e9669e',
   },
+};
+
+const invalidTags = {
   opensource: {
     label: 'Open-Source',
     description: {
@@ -46,10 +49,13 @@ describe('showcase tags', () => {
   });
 
   it('error get tag list', async () => {
-    const tagList = await getTagsList({
-      configTags: tags,
+    const tagList = getTagsList({
+      configTags: invalidTags,
       configPath: '',
     });
-    expect(tagList).toEqual(Object.keys(tags));
+
+    await expect(() => tagList).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"There was an error extracting tags: Color must be a hexadecimal color string (e.g., #RRGGBB #rrggbb)"`,
+    );
   });
 });

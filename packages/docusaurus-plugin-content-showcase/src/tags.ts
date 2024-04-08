@@ -20,6 +20,7 @@ export const tagSchema = Joi.object().pattern(
       id: Joi.string().required(),
     }).required(),
     color: Joi.string()
+      // todo doesnt work ???
       .pattern(/^#[\dA-Fa-f]{6}$/)
       .required()
       .messages({
@@ -37,7 +38,15 @@ export async function getTagsList({
   configPath: string;
 }): Promise<string[]> {
   if (typeof configTags === 'object') {
+    console.log('Gettings Tag List and validating');
+    tagSchema.describe();
     const tags = tagSchema.validate(configTags);
+    if (tags.error) {
+      throw new Error(
+        `There was an error extracting tags: ${tags.error.message}`,
+        {cause: tags},
+      );
+    }
     return Object.keys(tags.value);
   }
 
