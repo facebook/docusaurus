@@ -19,7 +19,10 @@ export const tagSchema = Joi.object().pattern(
       message: Joi.string().required(),
       id: Joi.string().required(),
     }).required(),
-    color: Joi.string().required(),
+    color: Joi.string()
+      // todo doesn't seems to work ???
+      .regex(/^#[\dA-Fa-f]{6}$/)
+      .required(),
   }),
 );
 

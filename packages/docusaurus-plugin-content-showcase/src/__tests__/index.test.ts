@@ -8,82 +8,80 @@
 import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-
+import {fromPartial} from '@total-typescript/shoehorn';
 import pluginContentPages from '../index';
 import {validateOptions} from '../options';
+import type {PluginOptions} from '@docusaurus/plugin-content-showcase';
+
+const loadPluginContent = async (siteDir: string, options: PluginOptions) => {
+  const context = await loadContext({siteDir});
+  const plugin = await pluginContentPages(
+    context,
+    validateOptions({
+      validate: normalizePluginOptions,
+      options,
+    }),
+  );
+  return plugin.loadContent!();
+};
 
 describe('docusaurus-plugin-content-showcase', () => {
   it('loads simple showcase', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext({siteDir});
-    const plugin = pluginContentPages(
-      context,
-      validateOptions({
-        validate: normalizePluginOptions,
-        options: {
-          path: 'src/showcase',
-          tags: 'tags.yaml',
-        },
+    const showcaseMetadata = await loadPluginContent(
+      siteDir,
+      fromPartial({
+        path: 'src/showcase',
+        tags: 'tags.yaml',
       }),
     );
-    const showcaseMetadata = await plugin.loadContent!();
 
     expect(showcaseMetadata).toMatchSnapshot();
   });
 
   it('loads simple showcase with tags in options', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext({siteDir});
-    const plugin = pluginContentPages(
-      context,
-      validateOptions({
-        validate: normalizePluginOptions,
-        options: {
-          path: 'src/showcase',
-          tags: {
-            opensource: {
-              label: 'Open-Source',
-              description: {
-                message:
-                  'Open-Source Docusaurus sites can be useful for inspiration!',
-                id: 'showcase.tag.opensource.description',
-              },
-              color: '#39ca30',
-            },
-            meta: {
-              label: 'Meta',
-              description: {
-                message:
-                  'Docusaurus sites of Meta (formerly Facebook) projects',
-                id: 'showcase.tag.meta.description',
-              },
-              color: '#4267b2',
-            },
-          },
+    const tags = {
+      opensource: {
+        label: 'Open-Source',
+        description: {
+          message:
+            'Open-Source Docusaurus sites can be useful for inspiration!',
+          id: 'showcase.tag.opensource.description',
         },
+        color: '#39ca30',
+      },
+      meta: {
+        label: 'Meta',
+        description: {
+          message: 'Docusaurus sites of Meta (formerly Facebook) projects',
+          id: 'showcase.tag.meta.description',
+        },
+        color: '#4267b2',
+      },
+    };
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const showcaseMetadata = await loadPluginContent(
+      siteDir,
+      fromPartial({
+        path: 'src/showcase',
+        tags,
       }),
     );
-    const showcaseMetadata = await plugin.loadContent!();
 
     expect(showcaseMetadata).toMatchSnapshot();
   });
 
   it('throw loading inexistant tags file', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext({siteDir});
-    const plugin = pluginContentPages(
-      context,
-      validateOptions({
-        validate: normalizePluginOptions,
-        options: {
+    await expect(async () => {
+      await loadPluginContent(
+        siteDir,
+        fromPartial({
           path: 'src/showcase',
           tags: 'wrong.yaml',
-        },
-      }),
-    );
-    await expect(
-      plugin.loadContent!(),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
+        }),
+      );
+    }).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Failed to read tags file for showcase"`,
     );
   });
