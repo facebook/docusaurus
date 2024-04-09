@@ -8,6 +8,7 @@
 declare module '@docusaurus/plugin-content-pages' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {FrontMatterLastUpdate} from '@docusaurus/utils';
 
   export type Assets = {
     image?: string;
@@ -20,6 +21,8 @@ declare module '@docusaurus/plugin-content-pages' {
     include: string[];
     exclude: string[];
     mdxPageComponent: string;
+    showLastUpdateTime: boolean;
+    showLastUpdateAuthor: boolean;
   };
 
   export type Options = Partial<PluginOptions>;
@@ -35,6 +38,7 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly toc_max_heading_level?: number;
     readonly draft?: boolean;
     readonly unlisted?: boolean;
+    readonly last_update?: FrontMatterLastUpdate;
   };
 
   export type JSXPageMetadata = {

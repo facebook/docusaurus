@@ -30,6 +30,8 @@ export default function MDXPage(props: Props): JSX.Element {
     keywords,
     wrapperClassName,
     hide_table_of_contents: hideTableOfContents,
+    last_update: lastUpdate,
+    author,
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
 
@@ -67,6 +69,10 @@ export default function MDXPage(props: Props): JSX.Element {
             )}
           </div>
         </main>
+        <div>Author 1 : {author as string}</div>
+        <div>Author 2 : {lastUpdate?.author}</div>
+        <div>Date : {String(lastUpdate?.date)}</div>
+        <div>Json : {JSON.stringify(frontMatter)}</div>
       </Layout>
     </HtmlClassNameProvider>
   );

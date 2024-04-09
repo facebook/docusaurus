@@ -27,6 +27,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
+  showLastUpdateTime: false,
+  showLastUpdateAuthor: false,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -44,6 +46,10 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
   ),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
+  showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
+  showLastUpdateAuthor: Joi.bool().default(
+    DEFAULT_OPTIONS.showLastUpdateAuthor,
+  ),
 });
 
 export function validateOptions({

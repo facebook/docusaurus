@@ -23,6 +23,7 @@ import {
   parseMarkdownFile,
   isUnlisted,
   isDraft,
+  readLastUpdateData,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
@@ -159,12 +160,27 @@ export default function pluginContentPages(
 
       const {addRoute, createData} = actions;
 
-      function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
+      async function createPageRouteMetadata(
+        metadata: Metadata,
+      ): Promise<RouteMetadata> {
+        if (metadata.type === 'mdx') {
+          const lastUpdate = await readLastUpdateData(
+            metadata.source,
+            options,
+            metadata.frontMatter.last_update,
+          );
+
+          return {
+            sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
+            // TODO add support for last updated date in the page plugin
+            //  at least for Markdown files
+            // lastUpdatedAt: metadata.lastUpdatedAt,
+            lastUpdatedAt: lastUpdate.lastUpdatedAt,
+          };
+        }
+
         return {
           sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-          // TODO add support for last updated date in the page plugin
-          //  at least for Markdown files
-          // lastUpdatedAt: metadata.lastUpdatedAt,
           lastUpdatedAt: undefined,
         };
       }
@@ -184,7 +200,7 @@ export default function pluginContentPages(
               path: permalink,
               component: options.mdxPageComponent,
               exact: true,
-              metadata: routeMetadata,
+              metadata: await routeMetadata,
               modules: {
                 content: source,
               },
@@ -194,7 +210,7 @@ export default function pluginContentPages(
               path: permalink,
               component: source,
               exact: true,
-              metadata: routeMetadata,
+              metadata: await routeMetadata,
               modules: {
                 config: `@generated/docusaurus.config`,
               },
