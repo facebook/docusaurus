@@ -97,7 +97,7 @@ function useQueryStringUpdater(
 
 export function useQueryString(
   key: string,
-): [string, (newValue: string, options?: {push: boolean}) => void] {
+): [string, (newValue: string | null, options?: {push: boolean}) => void] {
   const value = useQueryStringValue(key) ?? '';
   const update = useQueryStringUpdater(key);
   return [value, update];

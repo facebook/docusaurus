@@ -4,21 +4,30 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useLocation} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 import {usePluralForm, useQueryString} from '@docusaurus/theme-common';
 import type {TagType, User} from '@site/src/data/users';
 import {sortedUsers} from '@site/src/data/users';
-import type {Operator} from '@site/src/pages/showcase/_components/OperatorButton';
-import {
-  DefaultOperator,
-  readOperator,
-} from '@site/src/pages/showcase/_components/OperatorButton';
 import {readSearchTags} from '@site/src/pages/showcase/_components/ShowcaseTagSelect';
 
 export function useQueryStringSearchName() {
   return useQueryString('name');
+}
+
+export type Operator = 'OR' | 'AND';
+
+export const DefaultOperator: Operator = 'OR';
+
+export function useOperator() {
+  const [searchOperator, setSearchOperator] = useQueryString('operator');
+  const operator = searchOperator === 'AND' ? 'AND' : 'OR';
+  const toggleOperator = useCallback(() => {
+    const newOperator = operator === 'OR' ? 'AND' : null;
+    setSearchOperator(newOperator);
+  }, [operator, setSearchOperator]);
+  return [operator, toggleOperator] as const;
 }
 
 function filterUsers(
@@ -49,7 +58,7 @@ function filterUsers(
 
 export function useFilteredUsers() {
   const location = useLocation();
-  const [operator, setOperator] = useState<Operator>(DefaultOperator);
+  const [operator] = useOperator();
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
   const [searchName] = useQueryStringSearchName();
@@ -57,7 +66,6 @@ export function useFilteredUsers() {
   // hydration mismatch)
   useEffect(() => {
     setSelectedTags(readSearchTags(location.search));
-    setOperator(readOperator(location.search));
   }, [location]);
 
   return useMemo(
