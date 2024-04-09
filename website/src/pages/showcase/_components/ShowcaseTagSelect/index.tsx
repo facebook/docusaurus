@@ -7,15 +7,12 @@
 
 import React, {
   useCallback,
-  useState,
-  useEffect,
   type ComponentProps,
   type ReactNode,
   type ReactElement,
 } from 'react';
-import {useHistory, useLocation} from '@docusaurus/router';
-import {toggleListItem} from '@site/src/utils/jsUtils';
 import type {TagType} from '@site/src/data/users';
+import {useTags} from '../../_utils';
 
 import styles from './styles.module.css';
 
@@ -25,44 +22,28 @@ interface Props extends ComponentProps<'input'> {
   tag: TagType;
 }
 
-const TagQueryStringKey = 'tags';
-
-export function readSearchTags(search: string): TagType[] {
-  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
-}
-
-function replaceSearchTags(search: string, newTags: TagType[]) {
-  const searchParams = new URLSearchParams(search);
-  searchParams.delete(TagQueryStringKey);
-  newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
-  return searchParams.toString();
-}
-
 function ShowcaseTagSelect(
   {id, icon, label, tag, ...rest}: Props,
   ref: React.ForwardedRef<HTMLLabelElement>,
 ) {
-  const location = useLocation();
-  const history = useHistory();
-  const [selected, setSelected] = useState(false);
-  useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelected(tags.includes(tag));
-  }, [tag, location]);
+  const [tags, setTags] = useTags();
+  const isTagSelected = tags.includes(tag);
+
   const toggleTag = useCallback(() => {
-    const tags = readSearchTags(location.search);
-    const newTags = toggleListItem(tags, tag);
-    const newSearch = replaceSearchTags(location.search, newTags);
-    history.push({
-      ...location,
-      search: newSearch,
+    setTags((list) => {
+      return list.includes(tag)
+        ? list.filter((t) => t !== tag)
+        : [...list, tag];
     });
-  }, [tag, location, history]);
+  }, [tag, setTags]);
+
   return (
     <>
       <input
         type="checkbox"
         id={id}
+        checked={isTagSelected}
+        onChange={toggleTag}
         className="screen-reader-only"
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
@@ -79,8 +60,6 @@ function ShowcaseTagSelect(
         onBlur={(e) => {
           e.target.nextElementSibling?.dispatchEvent(new KeyboardEvent('blur'));
         }}
-        onChange={toggleTag}
-        checked={selected}
         {...rest}
       />
       <label ref={ref} htmlFor={id} className={styles.checkboxLabel}>

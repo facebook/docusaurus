@@ -7,7 +7,7 @@
 
 import React, {useId} from 'react';
 import clsx from 'clsx';
-import {DefaultOperator, useOperator} from '../../_utils';
+import {useOperator} from '../../_utils';
 
 import styles from './styles.module.css';
 
@@ -22,7 +22,7 @@ export default function OperatorButton() {
         type="checkbox"
         className="screen-reader-only"
         aria-label="Toggle between or and and for the tags you selected"
-        checked={operator !== DefaultOperator}
+        checked={operator === 'AND'}
         onChange={toggleOperator}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {

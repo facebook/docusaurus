@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useEffect, useSyncExternalStore} from 'react';
+import {useCallback, useEffect, useMemo, useSyncExternalStore} from 'react';
 import {useHistory} from '@docusaurus/router';
 import {useEvent} from './reactUtils';
 
@@ -104,9 +104,14 @@ export function useQueryString(
 }
 
 function useQueryStringListValues(key: string): string[] {
-  return useHistorySelector((history) => {
-    return new URLSearchParams(history.location.search).getAll(key);
+  // Unfortunately we can't just use searchParams.getAll(key) in the selector
+  // It would create a new array every time and lead to an infinite loop...
+  // The selector has to return a primitive/string value to avoid that...
+  const arrayJsonString = useHistorySelector((history) => {
+    const values = new URLSearchParams(history.location.search).getAll(key);
+    return JSON.stringify(values);
   });
+  return useMemo(() => JSON.parse(arrayJsonString), [arrayJsonString]);
 }
 
 type ListUpdate = string[] | ((oldValues: string[]) => string[]);
@@ -147,7 +152,7 @@ export function useQueryStringList(
 export function useClearQueryString(): () => void {
   const history = useHistory();
   return useCallback(() => {
-    history.push({
+    history.replace({
       search: undefined,
     });
   }, [history]);
