@@ -5,20 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect, type ReactNode} from 'react';
+import {type ReactNode} from 'react';
 import {translate} from '@docusaurus/Translate';
-import {useHistory, useLocation} from '@docusaurus/router';
-import {readSearchName, setSearchName} from '../../_utils';
-
+import {useQueryStringSearchName} from '@site/src/pages/showcase/_utils';
 import styles from './styles.module.css';
 
 export default function ShowcaseSearchBar(): ReactNode {
-  const history = useHistory();
-  const location = useLocation();
-  const [value, setValue] = useState<string>('');
-  useEffect(() => {
-    setValue(readSearchName(location.search) ?? '');
-  }, [location]);
+  // TODO need to optimize these slow QS updates
+  const [searchName, setSearchName] = useQueryStringSearchName();
   return (
     <div className={styles.searchBar}>
       <input
@@ -26,15 +20,9 @@ export default function ShowcaseSearchBar(): ReactNode {
           message: 'Search for site name...',
           id: 'showcase.searchBar.placeholder',
         })}
-        value={value}
+        value={searchName}
         onInput={(e) => {
-          const name = e.currentTarget.value;
-          setValue(name);
-          const newSearch = setSearchName(location.search, name);
-          history.replace({
-            ...location,
-            search: newSearch,
-          });
+          setSearchName(e.currentTarget.value);
         }}
       />
     </div>

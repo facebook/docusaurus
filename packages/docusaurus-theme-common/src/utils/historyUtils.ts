@@ -74,26 +74,24 @@ export function useQueryStringValue(key: string | null): string | null {
   });
 }
 
-export function useQueryStringKeySetter(): (
+function useQueryStringUpdater(
   key: string,
-  newValue: string | null,
-  options?: {push: boolean},
-) => void {
+): (newValue: string | null, options?: {push: boolean}) => void {
   const history = useHistory();
   return useCallback(
-    (key, newValue, options) => {
+    (newValue, options) => {
       const searchParams = new URLSearchParams(history.location.search);
       if (newValue) {
         searchParams.set(key, newValue);
       } else {
         searchParams.delete(key);
       }
-      const updaterFn = options?.push ? history.push : history.replace;
-      updaterFn({
+      const updateHistory = options?.push ? history.push : history.replace;
+      updateHistory({
         search: searchParams.toString(),
       });
     },
-    [history],
+    [key, history],
   );
 }
 
@@ -101,14 +99,56 @@ export function useQueryString(
   key: string,
 ): [string, (newValue: string, options?: {push: boolean}) => void] {
   const value = useQueryStringValue(key) ?? '';
-  const setQueryString = useQueryStringKeySetter();
-  return [
-    value,
-    useCallback(
-      (newValue: string, options) => {
-        setQueryString(key, newValue, options);
-      },
-      [setQueryString, key],
-    ),
-  ];
+  const update = useQueryStringUpdater(key);
+  return [value, update];
+}
+
+function useQueryStringListValues(key: string): string[] {
+  return useHistorySelector((history) => {
+    return new URLSearchParams(history.location.search).getAll(key);
+  });
+}
+
+type ListUpdate = string[] | ((oldValues: string[]) => string[]);
+type ListUpdateFunction = (
+  update: ListUpdate,
+  options?: {push: boolean},
+) => void;
+
+function useQueryStringListUpdater(key: string): ListUpdateFunction {
+  const history = useHistory();
+  const setValues: ListUpdateFunction = useCallback(
+    (update, options) => {
+      const searchParams = new URLSearchParams(history.location.search);
+      const newValues = Array.isArray(update)
+        ? update
+        : update(searchParams.getAll(key));
+      searchParams.delete(key);
+      newValues.forEach((v) => searchParams.append(key, v));
+
+      const updateHistory = options?.push ? history.push : history.replace;
+      updateHistory({
+        search: searchParams.toString(),
+      });
+    },
+    [history, key],
+  );
+  return setValues;
+}
+
+export function useQueryStringList(
+  key: string,
+): [string[], ListUpdateFunction] {
+  const values = useQueryStringListValues(key);
+  const setValues = useQueryStringListUpdater(key);
+  return [values, setValues];
+}
+
+export function useClearQueryString(): () => void {
+  const history = useHistory();
+  return useCallback(() => {
+    history.push({
+      search: undefined,
+    });
+  }, [history]);
 }

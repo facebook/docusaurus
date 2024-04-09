@@ -98,7 +98,12 @@ export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';
 
 export {processAdmonitionProps} from './utils/admonitionUtils';
 
-export {useQueryString} from './utils/historyUtils';
+export {
+  useHistorySelector,
+  useQueryString,
+  useQueryStringList,
+  useClearQueryString,
+} from './utils/historyUtils';
 
 export {
   SkipToContentFallbackId,

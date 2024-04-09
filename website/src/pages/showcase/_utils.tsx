@@ -7,7 +7,7 @@
 import {useEffect, useMemo, useState} from 'react';
 import {useLocation} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
-import {usePluralForm} from '@docusaurus/theme-common';
+import {usePluralForm, useQueryString} from '@docusaurus/theme-common';
 import type {TagType, User} from '@site/src/data/users';
 import {sortedUsers} from '@site/src/data/users';
 import type {Operator} from '@site/src/pages/showcase/_components/OperatorButton';
@@ -17,19 +17,8 @@ import {
 } from '@site/src/pages/showcase/_components/OperatorButton';
 import {readSearchTags} from '@site/src/pages/showcase/_components/ShowcaseTagSelect';
 
-const SearchNameQueryKey = 'name';
-
-export function readSearchName(search: string) {
-  return new URLSearchParams(search).get(SearchNameQueryKey);
-}
-
-export function setSearchName(search: string, value: string): string {
-  const newSearch = new URLSearchParams(search);
-  newSearch.delete(SearchNameQueryKey);
-  if (value) {
-    newSearch.set(SearchNameQueryKey, value);
-  }
-  return newSearch.toString();
+export function useQueryStringSearchName() {
+  return useQueryString('name');
 }
 
 function filterUsers(
@@ -63,18 +52,17 @@ export function useFilteredUsers() {
   const [operator, setOperator] = useState<Operator>(DefaultOperator);
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-  const [name, setName] = useState<string | null>(null);
+  const [searchName] = useQueryStringSearchName();
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client
   // hydration mismatch)
   useEffect(() => {
     setSelectedTags(readSearchTags(location.search));
     setOperator(readOperator(location.search));
-    setName(readSearchName(location.search));
   }, [location]);
 
   return useMemo(
-    () => filterUsers(sortedUsers, selectedTags, operator, name),
-    [selectedTags, operator, name],
+    () => filterUsers(sortedUsers, selectedTags, operator, searchName),
+    [selectedTags, operator, searchName],
   );
 }
 

@@ -5,24 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import {useHistory} from '@docusaurus/router';
+import React, {type ReactNode} from 'react';
+import {useClearQueryString} from '@docusaurus/theme-common';
 
-export default function ClearAllButton() {
-  const history = useHistory();
-  const clearAll = () => {
-    history.push({
-      ...history.location,
-      search: '',
-    });
-  };
-
+export default function ClearAllButton(): ReactNode {
+  const clearQueryString = useClearQueryString();
   // TODO translate
   return (
     <button
       className="button button--outline button--primary"
       type="button"
-      onClick={() => clearAll()}>
+      onClick={() => clearQueryString()}>
       Clear All
     </button>
   );
