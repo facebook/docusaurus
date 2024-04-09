@@ -25,10 +25,12 @@ function TagItem({
   description: string;
   color: string;
 }) {
-  return <li className={styles.tag} title={description}>
-    <span className={styles.textLabel}>{label.toLowerCase()}</span>
-    <span className={styles.colorLabel} style={{backgroundColor: color}} />
-  </li>
+  return (
+    <li className={styles.tag} title={description}>
+      <span className={styles.textLabel}>{label.toLowerCase()}</span>
+      <span className={styles.colorLabel} style={{backgroundColor: color}} />
+    </li>
+  );
 }
 
 function ShowcaseCardTag({tags}: {tags: TagType[]}) {
