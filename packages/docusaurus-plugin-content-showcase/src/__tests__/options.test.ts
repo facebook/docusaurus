@@ -101,7 +101,6 @@ describe('normalizeShowcasePluginOptions', () => {
         },
       },
     };
-    // todo fix ts error
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,

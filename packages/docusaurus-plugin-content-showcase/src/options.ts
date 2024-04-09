@@ -12,11 +12,10 @@ import type {OptionValidationContext} from '@docusaurus/types';
 import type {PluginOptions, Options} from '@docusaurus/plugin-content-showcase';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
-  id: 'showcase',
   path: 'showcase', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/showcase', // URL Route.
   include: ['**/*.{yml,yaml}'],
-  // todo exclude won't work if user pass a custom file name
+  // TODO exclude won't work if user pass a custom file name
   exclude: [...GlobExcludeDefault, 'tags.*'],
   tags: 'tags.yml',
 };
@@ -26,9 +25,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
-  id: Joi.string().default(DEFAULT_OPTIONS.id),
   tags: Joi.alternatives()
-    // todo ozaki understand this
     .try(Joi.string().default(DEFAULT_OPTIONS.tags), tagSchema)
     .default(DEFAULT_OPTIONS.tags),
 });

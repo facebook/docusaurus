@@ -20,12 +20,11 @@ export const tagSchema = Joi.object().pattern(
       id: Joi.string().required(),
     }).required(),
     color: Joi.string()
-      // todo doesnt work ???
       .pattern(/^#[\dA-Fa-f]{6}$/)
       .required()
       .messages({
         'string.pattern.base':
-          'Color must be a hexadecimal color string (e.g., #RRGGBB #rrggbb)',
+          'Color must be a hexadecimal color string (e.g., #14cfc3 #E9669E)',
       }),
   }),
 );
@@ -38,8 +37,6 @@ export async function getTagsList({
   configPath: string;
 }): Promise<string[]> {
   if (typeof configTags === 'object') {
-    console.log('Gettings Tag List and validating');
-    tagSchema.describe();
     const tags = tagSchema.validate(configTags);
     if (tags.error) {
       throw new Error(
@@ -72,5 +69,5 @@ export async function getTagsList({
 }
 
 export function createTagSchema(tags: string[]): Joi.Schema {
-  return Joi.array().items(Joi.string().valid(...tags)); // Schema for array of strings
+  return Joi.array().items(Joi.string().valid(...tags));
 }

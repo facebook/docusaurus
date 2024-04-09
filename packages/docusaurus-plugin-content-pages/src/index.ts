@@ -26,7 +26,7 @@ import {
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
-import type {PagesContentPaths} from './types';
+import type {ShowcaseContentPaths} from './types';
 import type {
   PluginOptions,
   Metadata,
@@ -34,7 +34,9 @@ import type {
   PageFrontMatter,
 } from '@docusaurus/plugin-content-pages';
 
-export function getContentPathList(contentPaths: PagesContentPaths): string[] {
+export function getContentPathList(
+  contentPaths: ShowcaseContentPaths,
+): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
@@ -47,7 +49,7 @@ export default function pluginContentPages(
 ): Plugin<LoadedContent | null> {
   const {siteConfig, siteDir, generatedFilesDir, localizationDir} = context;
 
-  const contentPaths: PagesContentPaths = {
+  const contentPaths: ShowcaseContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
       localizationDir,

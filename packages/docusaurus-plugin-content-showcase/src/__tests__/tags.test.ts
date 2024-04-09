@@ -26,7 +26,6 @@ const invalidTags = {
       message: 'Open-Source Docusaurus sites can be useful for inspiration!',
       id: 'showcase.tag.opensource.description',
     },
-    // todo throw an error with `getTagsList tagSchema`
     color: '#39c',
   },
 };
@@ -55,7 +54,7 @@ describe('showcase tags', () => {
     });
 
     await expect(() => tagList).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"There was an error extracting tags: Color must be a hexadecimal color string (e.g., #RRGGBB #rrggbb)"`,
+      `"There was an error extracting tags: Color must be a hexadecimal color string (e.g., #14cfc3 #E9669E)"`,
     );
   });
 });

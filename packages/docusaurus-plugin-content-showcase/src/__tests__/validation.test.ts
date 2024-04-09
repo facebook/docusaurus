@@ -38,7 +38,6 @@ async function prepareSchema() {
   return createShowcaseItemSchema(tagList);
 }
 
-// todo broken
 describe('showcase item schema', () => {
   it('accepts valid item', async () => {
     const item: ShowcaseItem = {

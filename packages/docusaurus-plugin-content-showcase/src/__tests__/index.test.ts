@@ -9,13 +9,13 @@ import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {fromPartial} from '@total-typescript/shoehorn';
-import pluginContentPages from '../index';
+import pluginContentShowcase from '../index';
 import {validateOptions} from '../options';
 import type {PluginOptions} from '@docusaurus/plugin-content-showcase';
 
 const loadPluginContent = async (siteDir: string, options: PluginOptions) => {
   const context = await loadContext({siteDir});
-  const plugin = await pluginContentPages(
+  const plugin = await pluginContentShowcase(
     context,
     validateOptions({
       validate: normalizePluginOptions,
