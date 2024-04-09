@@ -7,7 +7,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import {useLocation} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {usePluralForm} from '@docusaurus/theme-common';
 import type {TagType, User} from '@site/src/data/users';
 import {sortedUsers} from '@site/src/data/users';
@@ -17,32 +16,6 @@ import {
   readOperator,
 } from '@site/src/pages/showcase/_components/OperatorButton';
 import {readSearchTags} from '@site/src/pages/showcase/_components/ShowcaseTagSelect';
-
-type UserState = {
-  scrollTopPosition: number;
-  focusedElementId: string | undefined;
-};
-
-export function restoreUserState(userState: UserState | null) {
-  const {scrollTopPosition, focusedElementId} = userState ?? {
-    scrollTopPosition: 0,
-    focusedElementId: undefined,
-  };
-  // @ts-expect-error: if focusedElementId is undefined it returns null
-  document.getElementById(focusedElementId)?.focus();
-  window.scrollTo({top: scrollTopPosition});
-}
-
-export function prepareUserState(): UserState | undefined {
-  if (ExecutionEnvironment.canUseDOM) {
-    return {
-      scrollTopPosition: window.scrollY,
-      focusedElementId: document.activeElement?.id,
-    };
-  }
-
-  return undefined;
-}
 
 const SearchNameQueryKey = 'name';
 
@@ -86,7 +59,7 @@ function filterUsers(
 }
 
 export function useFilteredUsers() {
-  const location = useLocation<UserState>();
+  const location = useLocation();
   const [operator, setOperator] = useState<Operator>(DefaultOperator);
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
@@ -97,7 +70,6 @@ export function useFilteredUsers() {
     setSelectedTags(readSearchTags(location.search));
     setOperator(readOperator(location.search));
     setName(readSearchName(location.search));
-    restoreUserState(location.state);
   }, [location]);
 
   return useMemo(

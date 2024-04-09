@@ -9,8 +9,6 @@ import React, {useState, useEffect, useCallback} from 'react';
 import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
-import {prepareUserState} from '../../_utils';
-
 import styles from './styles.module.css';
 
 export type Operator = 'OR' | 'AND';
@@ -50,7 +48,6 @@ function useOperator() {
     history.push({
       ...location,
       search: newSearch,
-      state: prepareUserState(),
     });
   }, [operator, location, history]);
 

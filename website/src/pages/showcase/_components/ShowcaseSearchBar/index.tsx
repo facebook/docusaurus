@@ -8,40 +8,33 @@
 import {useState, useEffect, type ReactNode} from 'react';
 import {translate} from '@docusaurus/Translate';
 import {useHistory, useLocation} from '@docusaurus/router';
-import {prepareUserState, readSearchName, setSearchName} from '../../_utils';
+import {readSearchName, setSearchName} from '../../_utils';
 
 import styles from './styles.module.css';
 
 export default function ShowcaseSearchBar(): ReactNode {
   const history = useHistory();
   const location = useLocation();
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<string>('');
   useEffect(() => {
-    setValue(readSearchName(location.search));
+    setValue(readSearchName(location.search) ?? '');
   }, [location]);
   return (
     <div className={styles.searchBar}>
       <input
-        id="searchbar"
         placeholder={translate({
           message: 'Search for site name...',
           id: 'showcase.searchBar.placeholder',
         })}
-        value={value ?? undefined}
+        value={value}
         onInput={(e) => {
           const name = e.currentTarget.value;
           setValue(name);
           const newSearch = setSearchName(location.search, name);
-          history.push({
+          history.replace({
             ...location,
             search: newSearch,
-            state: prepareUserState(),
           });
-
-          // TODO ???
-          setTimeout(() => {
-            document.getElementById('searchbar')?.focus();
-          }, 0);
         }}
       />
     </div>
