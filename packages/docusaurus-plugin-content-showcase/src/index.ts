@@ -28,7 +28,7 @@ export function getContentPathList(
 export default async function pluginContentShowcase(
   context: LoadContext,
   options: PluginOptions,
-): Promise<Plugin<ShowcaseItems | null>> {
+): Promise<Plugin<ShowcaseItems>> {
   const {siteDir, localizationDir} = context;
   // todo check for better naming of path: sitePath
   const {include, exclude, tags, routeBasePath, path: sitePath, id} = options;
@@ -37,7 +37,7 @@ export default async function pluginContentShowcase(
     contentPath: path.resolve(siteDir, sitePath),
     contentPathLocalized: getPluginI18nPath({
       localizationDir,
-      pluginName: 'docusaurus-plugin-content-showcase',
+      pluginName: 'docusaurus-plugin-content-pages',
       pluginId: id,
     }),
   };
@@ -54,16 +54,12 @@ export default async function pluginContentShowcase(
 
     // TODO doesn't work
     getPathsToWatch() {
-      console.log(
-        'getContentPathList(contentPaths):',
-        getContentPathList(contentPaths),
-      );
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
       );
     },
 
-    async loadContent(): Promise<ShowcaseItems | null> {
+    async loadContent(): Promise<ShowcaseItems> {
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         throw new Error(
           `The showcase content path does not exist: ${contentPaths.contentPath}`,

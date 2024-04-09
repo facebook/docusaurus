@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import Yaml from 'js-yaml';
 import {Joi} from '@docusaurus/utils-validation';
-import type {TagsOption} from '@docusaurus/plugin-content-showcase';
+import type {PluginOptions} from '@docusaurus/plugin-content-showcase';
 
 export const tagSchema = Joi.object().pattern(
   Joi.string(),
@@ -33,8 +33,8 @@ export async function getTagsList({
   configTags,
   configPath,
 }: {
-  configTags: string | TagsOption;
-  configPath: string;
+  configTags: PluginOptions['tags'];
+  configPath: PluginOptions['path'];
 }): Promise<string[]> {
   if (typeof configTags === 'object') {
     const tags = tagSchema.validate(configTags);

@@ -60,5 +60,5 @@ declare module '@docusaurus/plugin-content-showcase' {
   export default function pluginContentShowcase(
     context: LoadContext,
     options: PluginOptions,
-  ): Promise<Plugin<ShowcaseItems | null>>;
+  ): Promise<Plugin<ShowcaseItems>>;
 }

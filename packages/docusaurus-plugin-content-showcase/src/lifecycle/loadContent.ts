@@ -14,8 +14,12 @@ import {
   getFolderContainingFile,
 } from '@docusaurus/utils';
 import {validateShowcaseItem} from '../validation';
+import type {Joi} from '@docusaurus/utils-validation';
 import type {ShowcaseContentPaths} from '../types';
-import type {ShowcaseItems} from '@docusaurus/plugin-content-showcase';
+import type {
+  PluginOptions,
+  ShowcaseItems,
+} from '@docusaurus/plugin-content-showcase';
 
 export async function processLoadContent({
   include,
@@ -23,11 +27,11 @@ export async function processLoadContent({
   contentPaths,
   showcaseItemSchema,
 }: {
-  include: string[];
-  exclude: string[];
+  include: PluginOptions['include'];
+  exclude: PluginOptions['exclude'];
   contentPaths: ShowcaseContentPaths;
-  showcaseItemSchema: any;
-}): Promise<ShowcaseItems | null> {
+  showcaseItemSchema: Joi.ObjectSchema;
+}): Promise<ShowcaseItems> {
   const showcaseFiles = await Globby(include, {
     cwd: contentPaths.contentPath,
     ignore: [...exclude],
