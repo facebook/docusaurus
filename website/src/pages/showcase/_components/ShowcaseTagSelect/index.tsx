@@ -10,26 +10,17 @@ import React, {
   type ComponentProps,
   type ReactNode,
   type ReactElement,
+  useId,
 } from 'react';
 import type {TagType} from '@site/src/data/users';
 import {useTags} from '../../_utils';
 
 import styles from './styles.module.css';
 
-interface Props extends ComponentProps<'input'> {
-  icon: ReactElement<ComponentProps<'svg'>>;
-  label: ReactNode;
-  tag: TagType;
-}
-
-function ShowcaseTagSelect(
-  {id, icon, label, tag, ...rest}: Props,
-  ref: React.ForwardedRef<HTMLLabelElement>,
-) {
+function useTagState(tag: string) {
   const [tags, setTags] = useTags();
-  const isTagSelected = tags.includes(tag);
-
-  const toggleTag = useCallback(() => {
+  const isSelected = tags.includes(tag);
+  const toggle = useCallback(() => {
     setTags((list) => {
       return list.includes(tag)
         ? list.filter((t) => t !== tag)
@@ -37,37 +28,44 @@ function ShowcaseTagSelect(
     });
   }, [tag, setTags]);
 
+  return [isSelected, toggle] as const;
+}
+
+interface Props extends ComponentProps<'input'> {
+  tag: TagType;
+  label: string;
+  description: string;
+  icon: ReactElement<ComponentProps<'svg'>>;
+}
+
+export default function ShowcaseTagSelect({
+  icon,
+  label,
+  description,
+  tag,
+  ...rest
+}: Props): ReactNode {
+  const id = useId();
+  const [isSelected, toggle] = useTagState(tag);
   return (
     <>
       <input
         type="checkbox"
         id={id}
-        checked={isTagSelected}
-        onChange={toggleTag}
+        checked={isSelected}
+        onChange={toggle}
         className="screen-reader-only"
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            toggleTag();
+            toggle();
           }
-        }}
-        onFocus={(e) => {
-          if (e.relatedTarget) {
-            e.target.nextElementSibling?.dispatchEvent(
-              new KeyboardEvent('focus'),
-            );
-          }
-        }}
-        onBlur={(e) => {
-          e.target.nextElementSibling?.dispatchEvent(new KeyboardEvent('blur'));
         }}
         {...rest}
       />
-      <label ref={ref} htmlFor={id} className={styles.checkboxLabel}>
+      <label htmlFor={id} className={styles.checkboxLabel} title={description}>
         {label}
         {icon}
       </label>
     </>
   );
 }
-
-export default React.forwardRef(ShowcaseTagSelect);

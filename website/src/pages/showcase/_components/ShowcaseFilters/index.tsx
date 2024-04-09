@@ -14,7 +14,6 @@ import Heading from '@theme/Heading';
 import ShowcaseTagSelect from '../ShowcaseTagSelect';
 import OperatorButton from '../OperatorButton';
 import ClearAllButton from '../ClearAllButton';
-import ShowcaseTooltip from '../ShowcaseTooltip';
 import {useFilteredUsers, useSiteCountPlural} from '../../_utils';
 
 import styles from './styles.module.css';
@@ -35,34 +34,26 @@ function TagCircleIcon({color, style}: {color: string; style?: CSSProperties}) {
 
 function ShowcaseTagListItem({tag}: {tag: TagType}) {
   const {label, description, color} = Tags[tag];
-  const id = `showcase_checkbox_id_${tag}`;
-
-  const tagSelect = (
-    <ShowcaseTagSelect
-      tag={tag}
-      id={id}
-      label={label}
-      icon={
-        tag === 'favorite' ? (
-          <FavoriteIcon size="small" style={{marginLeft: 8}} />
-        ) : (
-          <TagCircleIcon
-            color={color}
-            style={{
-              backgroundColor: color,
-              marginLeft: 8,
-            }}
-          />
-        )
-      }
-    />
-  );
-
   return (
     <li className={styles.tagListItem}>
-      <ShowcaseTooltip id={id} text={description} anchorEl="#__docusaurus">
-        {tagSelect}
-      </ShowcaseTooltip>
+      <ShowcaseTagSelect
+        tag={tag}
+        label={label}
+        description={description}
+        icon={
+          tag === 'favorite' ? (
+            <FavoriteIcon size="small" style={{marginLeft: 8}} />
+          ) : (
+            <TagCircleIcon
+              color={color}
+              style={{
+                backgroundColor: color,
+                marginLeft: 8,
+              }}
+            />
+          )
+        }
+      />
     </li>
   );
 }
