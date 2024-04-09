@@ -12,7 +12,7 @@ import type {TagType, User} from '@site/src/data/users';
 import {sortedUsers} from '@site/src/data/users';
 import {readSearchTags} from '@site/src/pages/showcase/_components/ShowcaseTagSelect';
 
-export function useQueryStringSearchName() {
+export function useSearchName() {
   return useQueryString('name');
 }
 
@@ -61,7 +61,7 @@ export function useFilteredUsers() {
   const [operator] = useOperator();
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-  const [searchName] = useQueryStringSearchName();
+  const [searchName] = useSearchName();
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client
   // hydration mismatch)
   useEffect(() => {

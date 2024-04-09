@@ -7,12 +7,11 @@
 
 import {type ReactNode} from 'react';
 import {translate} from '@docusaurus/Translate';
-import {useQueryStringSearchName} from '@site/src/pages/showcase/_utils';
+import {useSearchName} from '@site/src/pages/showcase/_utils';
 import styles from './styles.module.css';
 
 export default function ShowcaseSearchBar(): ReactNode {
-  // TODO need to optimize these slow QS updates
-  const [searchName, setSearchName] = useQueryStringSearchName();
+  const [searchName, setSearchName] = useSearchName();
   return (
     <div className={styles.searchBar}>
       <input
