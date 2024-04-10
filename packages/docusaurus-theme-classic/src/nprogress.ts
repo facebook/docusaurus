@@ -7,7 +7,7 @@
 
 import nprogress from 'nprogress';
 import type {ClientModule} from '@docusaurus/types';
-import {debounce} from 'lodash'
+import {debounce} from 'lodash';
 
 import './nprogress.css';
 
