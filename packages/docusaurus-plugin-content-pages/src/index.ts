@@ -75,6 +75,7 @@ export default function pluginContentPages(
 
     async loadContent() {
       const {include} = options;
+      console.log('options:', options);
 
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
