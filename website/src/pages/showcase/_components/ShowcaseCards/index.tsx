@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {sortedUsers, type User} from '@site/src/data/users';
@@ -48,13 +49,16 @@ function HeadingAllSites() {
   );
 }
 
-function CardList({items}: {items: User[]}) {
+function CardList({heading, items}: {heading?: ReactNode; items: User[]}) {
   return (
-    <ul className={clsx('clean-list', styles.cardList)}>
-      {items.map((item) => (
-        <ShowcaseCard key={item.title} user={item} />
-      ))}
-    </ul>
+    <div className="container">
+      {heading}
+      <ul className={clsx('clean-list', styles.cardList)}>
+        {items.map((item) => (
+          <ShowcaseCard key={item.title} user={item} />
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -79,19 +83,15 @@ export default function ShowcaseCards() {
     <section className="margin-top--lg margin-bottom--xl">
       {filteredUsers.length === sortedUsers.length ? (
         <>
-          <div className={clsx('container', styles.showcaseFavorite)}>
-            <HeadingFavorites />
-            <CardList items={favoriteUsers} />
+          <div className={styles.showcaseFavorite}>
+            <CardList heading={<HeadingFavorites />} items={favoriteUsers} />
           </div>
-          <div className="container margin-top--lg">
-            <HeadingAllSites />
-            <CardList items={otherUsers} />
+          <div className="margin-top--lg">
+            <CardList heading={<HeadingAllSites />} items={otherUsers} />
           </div>
         </>
       ) : (
-        <div className="container">
-          <CardList items={filteredUsers} />
-        </div>
+        <CardList items={filteredUsers} />
       )}
     </section>
   );
