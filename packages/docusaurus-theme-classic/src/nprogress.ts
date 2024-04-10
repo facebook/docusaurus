@@ -7,6 +7,7 @@
 
 import nprogress from 'nprogress';
 import type {ClientModule} from '@docusaurus/types';
+import {debounce} from 'lodash'
 
 import './nprogress.css';
 
@@ -17,10 +18,10 @@ const delay = 200;
 const clientModule: ClientModule = {
   onRouteUpdate({location, previousLocation}) {
     if (previousLocation && location.pathname !== previousLocation.pathname) {
-      const progressBarTimeout = window.setTimeout(() => {
+      const progressBarTimeout = debounce(() => {
         nprogress.start();
       }, delay);
-      return () => window.clearTimeout(progressBarTimeout);
+      return () => progressBarTimeout.cancel();
     }
     return undefined;
   },
