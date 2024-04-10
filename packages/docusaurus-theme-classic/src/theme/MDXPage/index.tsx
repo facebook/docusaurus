@@ -18,6 +18,7 @@ import TOC from '@theme/TOC';
 import Unlisted from '@theme/Unlisted';
 import type {Props} from '@theme/MDXPage';
 
+import EditMetaRow from '@theme/EditMetaRow';
 import styles from './styles.module.css';
 
 export default function MDXPage(props: Props): JSX.Element {
@@ -31,7 +32,6 @@ export default function MDXPage(props: Props): JSX.Element {
     wrapperClassName,
     hide_table_of_contents: hideTableOfContents,
     last_update: lastUpdate,
-    author,
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
 
@@ -68,11 +68,17 @@ export default function MDXPage(props: Props): JSX.Element {
               </div>
             )}
           </div>
+          <div>{JSON.stringify(frontMatter)}</div>
+          <EditMetaRow
+            className={clsx(
+              'margin-top--sm',
+              ThemeClassNames.blog.blogFooterEditMetaRow,
+            )}
+            editUrl=""
+            lastUpdatedAt={new Date(lastUpdate?.date ?? 0).getTime()}
+            lastUpdatedBy={lastUpdate?.author}
+          />
         </main>
-        <div>Author 1 : {author as string}</div>
-        <div>Author 2 : {lastUpdate?.author}</div>
-        <div>Date : {String(lastUpdate?.date)}</div>
-        <div>Json : {JSON.stringify(frontMatter)}</div>
       </Layout>
     </HtmlClassNameProvider>
   );
