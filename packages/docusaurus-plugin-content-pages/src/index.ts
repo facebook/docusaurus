@@ -75,7 +75,6 @@ export default function pluginContentPages(
 
     async loadContent() {
       const {include} = options;
-      console.log('options:', options);
 
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
@@ -166,11 +165,10 @@ export default function pluginContentPages(
       ): Promise<RouteMetadata> {
         if (metadata.type === 'mdx') {
           const lastUpdate = await readLastUpdateData(
-            metadata.source,
+            aliasedSitePathToRelativePath(metadata.source),
             options,
             metadata.frontMatter.last_update,
           );
-
           return {
             sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
             // TODO add support for last updated date in the page plugin
@@ -189,7 +187,8 @@ export default function pluginContentPages(
       await Promise.all(
         content.map(async (metadata) => {
           const {permalink, source} = metadata;
-          const routeMetadata = createPageRouteMetadata(metadata);
+          const routeMetadata = await createPageRouteMetadata(metadata);
+          console.log('routeMetadata:', routeMetadata);
           if (metadata.type === 'mdx') {
             await createData(
               // Note that this created data path must be in sync with
@@ -201,7 +200,7 @@ export default function pluginContentPages(
               path: permalink,
               component: options.mdxPageComponent,
               exact: true,
-              metadata: await routeMetadata,
+              metadata: routeMetadata,
               modules: {
                 content: source,
               },
@@ -211,7 +210,7 @@ export default function pluginContentPages(
               path: permalink,
               component: source,
               exact: true,
-              metadata: await routeMetadata,
+              metadata: routeMetadata,
               modules: {
                 config: `@generated/docusaurus.config`,
               },
