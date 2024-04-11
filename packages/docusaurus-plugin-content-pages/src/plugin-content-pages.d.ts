@@ -8,7 +8,7 @@
 declare module '@docusaurus/plugin-content-pages' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {LoadContext, Plugin} from '@docusaurus/types';
-  import type {FrontMatterLastUpdate} from '@docusaurus/utils';
+  import type {FrontMatterLastUpdate, LastUpdateData} from '@docusaurus/utils';
 
   export type Assets = {
     image?: string;
@@ -47,7 +47,7 @@ declare module '@docusaurus/plugin-content-pages' {
     source: string;
   };
 
-  export type MDXPageMetadata = {
+  export type MDXPageMetadata = LastUpdateData & {
     type: 'mdx';
     permalink: string;
     source: string;

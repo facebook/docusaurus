@@ -121,6 +121,12 @@ export default function pluginContentPages(
         });
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
 
+        const lastUpdatedData = await readLastUpdateData(
+          source,
+          options,
+          frontMatter.last_update,
+        );
+
         if (isDraft({frontMatter})) {
           return undefined;
         }
@@ -133,6 +139,8 @@ export default function pluginContentPages(
           title: frontMatter.title ?? contentTitle,
           description: frontMatter.description ?? excerpt,
           frontMatter,
+          lastUpdatedBy: lastUpdatedData.lastUpdatedBy,
+          lastUpdatedAt: lastUpdatedData.lastUpdatedAt,
           unlisted,
         };
       }
@@ -164,17 +172,9 @@ export default function pluginContentPages(
         metadata: Metadata,
       ): Promise<RouteMetadata> {
         if (metadata.type === 'mdx') {
-          const lastUpdate = await readLastUpdateData(
-            aliasedSitePathToRelativePath(metadata.source),
-            options,
-            metadata.frontMatter.last_update,
-          );
           return {
             sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-            // TODO add support for last updated date in the page plugin
-            //  at least for Markdown files
-            // lastUpdatedAt: metadata.lastUpdatedAt,
-            lastUpdatedAt: lastUpdate.lastUpdatedAt,
+            lastUpdatedAt: metadata.lastUpdatedAt,
           };
         }
 
@@ -188,7 +188,6 @@ export default function pluginContentPages(
         content.map(async (metadata) => {
           const {permalink, source} = metadata;
           const routeMetadata = await createPageRouteMetadata(metadata);
-          console.log('routeMetadata:', routeMetadata);
           if (metadata.type === 'mdx') {
             await createData(
               // Note that this created data path must be in sync with

@@ -24,14 +24,20 @@ import styles from './styles.module.css';
 export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
-    metadata: {title, description, frontMatter, unlisted},
+    metadata: {
+      title,
+      description,
+      frontMatter,
+      unlisted,
+      lastUpdatedBy,
+      lastUpdatedAt,
+    },
     assets,
   } = MDXPageContent;
   const {
     keywords,
     wrapperClassName,
     hide_table_of_contents: hideTableOfContents,
-    last_update: lastUpdate,
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
 
@@ -68,15 +74,14 @@ export default function MDXPage(props: Props): JSX.Element {
               </div>
             )}
           </div>
-          <div>{JSON.stringify(frontMatter)}</div>
           <EditMetaRow
             className={clsx(
               'margin-top--sm',
               ThemeClassNames.blog.blogFooterEditMetaRow,
             )}
             editUrl=""
-            lastUpdatedAt={new Date(lastUpdate?.date ?? 0).getTime()}
-            lastUpdatedBy={lastUpdate?.author}
+            lastUpdatedAt={lastUpdatedAt}
+            lastUpdatedBy={lastUpdatedBy}
           />
         </main>
       </Layout>
