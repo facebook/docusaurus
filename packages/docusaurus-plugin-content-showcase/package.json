@@ -3,10 +3,23 @@
   "version": "3.2.1",
   "description": "Showcase plugin for Docusaurus.",
   "main": "lib/index.js",
+  "sideEffects": false,
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-showcase.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "types": "src/plugin-content-showcase.d.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "publishConfig": {
     "access": "public"

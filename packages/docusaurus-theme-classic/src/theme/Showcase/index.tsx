@@ -12,6 +12,7 @@ import {useHistory, useLocation} from 'react-router-dom';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Translate, {translate} from '@docusaurus/Translate';
 import {usePluralForm} from '@docusaurus/theme-common';
+import {clientShowcase} from '@docusaurus/plugin-content-showcase/client';
 import type {User, Props} from '@theme/Showcase';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -447,6 +448,8 @@ export default function Showcase(props: Props): JSX.Element {
 
   return (
     <Layout title="Showcase">
+      {/* eslint-disable-next-line @docusaurus/prefer-docusaurus-heading */}
+      <h1>Client showcase API: {clientShowcase}</h1>
       <div>{JSON.stringify(props)}</div>
       <main className="margin-vert--lg">
         <ShowcaseHeader />
