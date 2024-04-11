@@ -41,6 +41,8 @@ export default function MDXPage(props: Props): JSX.Element {
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
 
+  const canDisplayEditMetaRow = !!(lastUpdatedAt || lastUpdatedBy);
+
   return (
     <HtmlClassNameProvider
       className={clsx(
@@ -74,15 +76,17 @@ export default function MDXPage(props: Props): JSX.Element {
               </div>
             )}
           </div>
-          <EditMetaRow
-            className={clsx(
-              'margin-top--sm',
-              ThemeClassNames.blog.blogFooterEditMetaRow,
-            )}
-            editUrl=""
-            lastUpdatedAt={lastUpdatedAt}
-            lastUpdatedBy={lastUpdatedBy}
-          />
+          {canDisplayEditMetaRow && (
+            <EditMetaRow
+              className={clsx(
+                'margin-top--sm',
+                ThemeClassNames.blog.blogFooterEditMetaRow,
+              )}
+              editUrl=""
+              lastUpdatedAt={lastUpdatedAt}
+              lastUpdatedBy={lastUpdatedBy}
+            />
+          )}
         </main>
       </Layout>
     </HtmlClassNameProvider>
