@@ -23,6 +23,7 @@ autogenerating
 autohide
 Autolinks
 Bartosz
+bedly
 beforeinstallprompt
 Bhatt
 Blockquotes
@@ -69,7 +70,6 @@ Datagit's
 dedup
 devto
 dingers
-dinooooooo
 Dmitry
 docsearch
 Docsify
@@ -107,7 +107,6 @@ Flightcontrol's
 Formik
 FOUC
 froms
-frontmatter
 funboxteam
 gabrielcsapo
 Gifs
@@ -132,6 +131,7 @@ IANAD
 idempotency
 Iframes
 Immer
+inexistant
 Infima
 infima
 Infima's
@@ -226,6 +226,7 @@ opensearch
 opensearchdescription
 opensource
 optimizt
+Orama
 orama
 Orta
 orta
@@ -306,6 +307,7 @@ rtcts
 rtlcss
 saurus
 Scaleway
+searchbar
 Sebastien
 sebastien
 sebastienlorber
