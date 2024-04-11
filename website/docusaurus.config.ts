@@ -468,7 +468,10 @@ export default async function createConfigAsync() {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;
               }
-              return `https://github.com/facebook/docusaurus/edit/main/website/${pagesPath}`;
+              // We want users to submit updates to the upstream/next version!
+              // Otherwise we risk losing the update on the next release.
+              const nextVersionDocsDirPath = 'src/pages';
+              return `https://github.com/facebook/docusaurus/edit/main/website/${nextVersionDocsDirPath}/${pagesPath}`;
             },
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
