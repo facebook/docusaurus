@@ -224,6 +224,7 @@ opensearch
 opensearchdescription
 opensource
 optimizt
+orama
 Orta
 orta
 Outerbounds
@@ -301,7 +302,6 @@ rtcts
 rtlcss
 saurus
 Scaleway
-searchbar
 Sebastien
 sebastien
 sebastienlorber
