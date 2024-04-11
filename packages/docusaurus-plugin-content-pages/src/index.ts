@@ -24,6 +24,8 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  getEditUrl,
+  posixPath,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
@@ -46,7 +48,8 @@ export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null> {
-  const {siteConfig, siteDir, generatedFilesDir, localizationDir} = context;
+  const {siteConfig, siteDir, generatedFilesDir, localizationDir, i18n} =
+    context;
 
   const contentPaths: PagesContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -74,7 +77,7 @@ export default function pluginContentPages(
     },
 
     async loadContent() {
-      const {include} = options;
+      const {include, editUrl} = options;
 
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
@@ -121,6 +124,44 @@ export default function pluginContentPages(
         });
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
 
+        const pagesDirPath = await getFolderContainingFile(
+          getContentPathList(contentPaths),
+          relativeSource,
+        );
+
+        const pagesSourceAbsolute = path.join(pagesDirPath, relativeSource);
+
+        function getPagesEditUrl() {
+          const pagesPathRelative = path.relative(
+            pagesDirPath,
+            path.resolve(pagesSourceAbsolute),
+          );
+
+          if (typeof editUrl === 'function') {
+            return editUrl({
+              pagesDirPath: posixPath(path.relative(siteDir, pagesDirPath)),
+              pagesPath: posixPath(pagesPathRelative),
+              permalink,
+              locale: i18n.currentLocale,
+            });
+          } else if (typeof editUrl === 'string') {
+            const isLocalized =
+              pagesDirPath === contentPaths.contentPathLocalized;
+            const fileContentPath =
+              isLocalized && options.editLocalizedFiles
+                ? contentPaths.contentPathLocalized
+                : contentPaths.contentPath;
+
+            const contentPathEditUrl = normalizeUrl([
+              editUrl,
+              posixPath(path.relative(siteDir, fileContentPath)),
+            ]);
+
+            return getEditUrl(pagesPathRelative, contentPathEditUrl);
+          }
+          return undefined;
+        }
+
         const lastUpdatedData = await readLastUpdateData(
           source,
           options,
@@ -141,6 +182,7 @@ export default function pluginContentPages(
           frontMatter,
           lastUpdatedBy: lastUpdatedData.lastUpdatedBy,
           lastUpdatedAt: lastUpdatedData.lastUpdatedAt,
+          editUrl: getPagesEditUrl(),
           unlisted,
         };
       }
@@ -168,26 +210,20 @@ export default function pluginContentPages(
 
       const {addRoute, createData} = actions;
 
-      async function createPageRouteMetadata(
-        metadata: Metadata,
-      ): Promise<RouteMetadata> {
-        if (metadata.type === 'mdx') {
-          return {
-            sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-            lastUpdatedAt: metadata.lastUpdatedAt,
-          };
-        }
+      function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
+        const lastUpdatedAt =
+          metadata.type === 'mdx' ? metadata.lastUpdatedAt : undefined;
 
         return {
           sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-          lastUpdatedAt: undefined,
+          lastUpdatedAt,
         };
       }
 
       await Promise.all(
         content.map(async (metadata) => {
           const {permalink, source} = metadata;
-          const routeMetadata = await createPageRouteMetadata(metadata);
+          const routeMetadata = createPageRouteMetadata(metadata);
           if (metadata.type === 'mdx') {
             await createData(
               // Note that this created data path must be in sync with

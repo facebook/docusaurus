@@ -23,6 +23,8 @@ declare module '@docusaurus/plugin-content-pages' {
     mdxPageComponent: string;
     showLastUpdateTime: boolean;
     showLastUpdateAuthor: boolean;
+    editUrl?: string | EditUrlFunction;
+    editLocalizedFiles?: boolean;
   };
 
   export type Options = Partial<PluginOptions>;
@@ -52,10 +54,25 @@ declare module '@docusaurus/plugin-content-pages' {
     permalink: string;
     source: string;
     frontMatter: PageFrontMatter & {[key: string]: unknown};
+    editUrl?: string;
     title?: string;
     description?: string;
     unlisted: boolean;
   };
+
+  export type EditUrlFunction = (editUrlParams: {
+    /**
+     * The root content directory containing this post file, relative to the
+     * site path. Usually the same as `options.path` but can be localized
+     */
+    pagesDirPath: string;
+    /** Path to this pages file, relative to `pagesDirPath`. */
+    pagesPath: string;
+    /** @see {@link PagesPostMetadata.permalink} */
+    permalink: string;
+    /** Locale name. */
+    locale: string;
+  }) => string | undefined;
 
   export type Metadata = JSXPageMetadata | MDXPageMetadata;
 

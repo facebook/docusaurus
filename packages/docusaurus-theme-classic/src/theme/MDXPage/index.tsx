@@ -26,6 +26,7 @@ export default function MDXPage(props: Props): JSX.Element {
   const {
     metadata: {
       title,
+      editUrl,
       description,
       frontMatter,
       unlisted,
@@ -41,7 +42,7 @@ export default function MDXPage(props: Props): JSX.Element {
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
 
-  const canDisplayEditMetaRow = !!(lastUpdatedAt || lastUpdatedBy);
+  const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
 
   return (
     <HtmlClassNameProvider
@@ -82,7 +83,7 @@ export default function MDXPage(props: Props): JSX.Element {
                 'margin-top--sm',
                 ThemeClassNames.blog.blogFooterEditMetaRow,
               )}
-              editUrl=""
+              editUrl={editUrl}
               lastUpdatedAt={lastUpdatedAt}
               lastUpdatedBy={lastUpdatedBy}
             />

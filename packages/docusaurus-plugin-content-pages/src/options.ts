@@ -11,6 +11,7 @@ import {
   RehypePluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
+  URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
@@ -29,6 +30,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   admonitions: true,
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  editLocalizedFiles: false,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -50,6 +52,8 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
+  editUrl: Joi.alternatives().try(URISchema, Joi.function()),
+  editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
 });
 
 export function validateOptions({
