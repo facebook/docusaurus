@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-showcase",
-  "version": "3.0.0",
+  "version": "3.2.1",
   "description": "Showcase plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-showcase.d.ts",
@@ -18,10 +18,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.0.0",
-    "@docusaurus/types": "3.0.0",
-    "@docusaurus/utils": "3.0.0",
-    "@docusaurus/utils-validation": "3.0.0",
+    "@docusaurus/core": "3.2.1",
+    "@docusaurus/types": "3.2.1",
+    "@docusaurus/utils": "3.2.1",
+    "@docusaurus/utils-validation": "3.2.1",
     "fs-extra": "^11.1.1",
     "js-yaml": "^4.1.0",
     "tslib": "^2.6.0",
