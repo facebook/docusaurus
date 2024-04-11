@@ -287,16 +287,6 @@ declare module '@theme/Showcase/ShowcaseCard' {
 
   export default function ShowcaseCard(props: Props): JSX.Element;
 }
-declare module '@theme/Showcase/ShowcaseTooltip' {
-  export interface Props {
-    anchorEl?: HTMLElement | string;
-    id: string;
-    text: string;
-    children: React.ReactElement;
-  }
-
-  export default function ShowcaseTooltip(props: Props): JSX.Element;
-}
 declare module '@theme/Showcase/ShowcaseTagSelect' {
   import {type ComponentProps, type ReactNode, type ReactElement} from 'react';
 

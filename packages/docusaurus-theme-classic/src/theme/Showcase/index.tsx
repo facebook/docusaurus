@@ -17,7 +17,6 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';
-import ShowcaseTooltip from '@theme/Showcase/ShowcaseTooltip';
 import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
 import ShowcaseFilterToggle from '@theme/Showcase/ShowcaseFilterToggle';
 import type {Operator} from '@theme/Showcase/ShowcaseFilterToggle';
@@ -297,36 +296,32 @@ function ShowcaseFilters({users}: {users: Users}) {
       </div>
       <ul className={clsx('clean-list', styles.checkboxList)}>
         {TagList.map((tag, i) => {
-          const {label, description, color} = Tags[tag];
+          const {label, color} = Tags[tag];
           const id = `showcase_checkbox_id_${tag}`;
 
           return (
             <li key={i} className={styles.checkboxListItem}>
-              <ShowcaseTooltip
+              <ShowcaseTagSelect
+                tag={tag}
                 id={id}
-                text={description}
-                anchorEl="#__docusaurus">
-                <ShowcaseTagSelect
-                  tag={tag}
-                  id={id}
-                  label={label}
-                  icon={
-                    tag === 'favorite' ? (
-                      <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
-                    ) : (
-                      <span
-                        style={{
-                          backgroundColor: color,
-                          width: 10,
-                          height: 10,
-                          borderRadius: '50%',
-                          marginLeft: 8,
-                        }}
-                      />
-                    )
-                  }
-                />
-              </ShowcaseTooltip>
+                label={label}
+                // description={description} TODO
+                icon={
+                  tag === 'favorite' ? (
+                    <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
+                  ) : (
+                    <span
+                      style={{
+                        backgroundColor: color,
+                        width: 10,
+                        height: 10,
+                        borderRadius: '50%',
+                        marginLeft: 8,
+                      }}
+                    />
+                  )
+                }
+              />
             </li>
           );
         })}

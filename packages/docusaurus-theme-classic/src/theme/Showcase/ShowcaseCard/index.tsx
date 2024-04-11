@@ -11,7 +11,6 @@ import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import Heading from '@theme/Heading';
-import Tooltip from '@theme/Showcase/ShowcaseTooltip';
 import styles from './styles.module.css';
 
 const Tags: {[type in TagType]: Tag} = {
@@ -174,17 +173,7 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   return (
     <>
       {tagObjectsSorted.map((tagObject, index) => {
-        const id = `showcase_card_tag_${tagObject.tag}`;
-
-        return (
-          <Tooltip
-            key={index}
-            text={tagObject.description}
-            anchorEl="#__docusaurus"
-            id={id}>
-            <TagComp key={index} {...tagObject} />
-          </Tooltip>
-        );
+        return <TagComp key={index} {...tagObject} />;
       })}
     </>
   );
