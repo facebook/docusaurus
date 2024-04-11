@@ -6,7 +6,16 @@
  */
 
 import path from 'path';
-import shell from 'shelljs';
+import fs from 'fs-extra';
+import _ from 'lodash';
+import shell from 'shelljs'; // TODO replace with async-first version
+
+const realHasGitFn = () => !!shell.which('git');
+
+// The hasGit call is synchronous IO so we memoize it
+// The user won't install Git in the middle of a build anyway...
+const hasGit =
+  process.env.NODE_ENV === 'test' ? realHasGitFn : _.memoize(realHasGitFn);
 
 /** Custom error thrown when git is not found in `PATH`. */
 export class GitNotFoundError extends Error {}
@@ -86,25 +95,33 @@ export async function getFileCommitDate(
   timestamp: number;
   author?: string;
 }> {
-  if (!shell.which('git')) {
+  if (!hasGit()) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
     );
   }
 
-  if (!shell.test('-f', file)) {
+  if (!(await fs.pathExists(file))) {
     throw new Error(
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
     );
   }
 
+  // We add a "RESULT:" prefix to make parsing easier
+  // See why: https://github.com/facebook/docusaurus/pull/10022
+  const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
+
   const args = [
-    `--format=%ct${includeAuthor ? ',%an' : ''}`,
+    `--format=${resultFormat}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
   ]
     .filter(Boolean)
     .join(' ');
+
+  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
+    file,
+  )}"`;
 
   const result = await new Promise<{
     code: number;
@@ -112,7 +129,7 @@ export async function getFileCommitDate(
     stderr: string;
   }>((resolve) => {
     shell.exec(
-      `git log ${args} -- "${path.basename(file)}"`,
+      command,
       {
         // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
         cwd: path.dirname(file),
@@ -129,10 +146,12 @@ export async function getFileCommitDate(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
     );
   }
-  let regex = /^(?<timestamp>\d+)$/;
-  if (includeAuthor) {
-    regex = /^(?<timestamp>\d+),(?<author>.+)$/;
-  }
+
+  // We only parse the output line starting with our "RESULT:" prefix
+  // See why https://github.com/facebook/docusaurus/pull/10022
+  const regex = includeAuthor
+    ? /(?:^|\n)RESULT:(?<timestamp>\d+),(?<author>.+)(?:$|\n)/
+    : /(?:^|\n)RESULT:(?<timestamp>\d+)(?:$|\n)/;
 
   const output = result.stdout.trim();
 

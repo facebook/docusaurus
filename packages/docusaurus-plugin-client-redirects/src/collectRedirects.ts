@@ -7,8 +7,11 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {
+  applyTrailingSlash,
+  addTrailingSlash,
+  removeTrailingSlash,
+} from '@docusaurus/utils-common';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,

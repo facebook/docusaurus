@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {TranslationFile} from './i18n';
+import type {CodeTranslations, TranslationFile} from './i18n';
 import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
@@ -183,6 +183,9 @@ export type InitializedPlugin = Plugin & {
 
 export type LoadedPlugin = InitializedPlugin & {
   readonly content: unknown;
+  readonly globalData: unknown;
+  readonly routes: RouteConfig[];
+  readonly defaultCodeTranslations: CodeTranslations;
 };
 
 export type PluginModule<Content = unknown> = {

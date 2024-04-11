@@ -4,12 +4,29 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {AsyncLocalStorage} from 'async_hooks';
 import logger from '@docusaurus/logger';
 
 // For now this is a private env variable we use internally
 // But we'll want to expose this feature officially some day
 export const PerfDebuggingEnabled: boolean =
   !!process.env.DOCUSAURUS_PERF_LOGGER;
+
+const Thresholds = {
+  min: 5,
+  yellow: 100,
+  red: 1000,
+};
+
+const PerfPrefix = logger.yellow(`[PERF] `);
+
+// This is what enables to "see the parent stack" for each log
+// Parent1 > Parent2 > Parent3 > child trace
+const ParentPrefix = new AsyncLocalStorage<string>();
+function applyParentPrefix(label: string) {
+  const parentPrefix = ParentPrefix.getStore();
+  return parentPrefix ? `${parentPrefix} > ${label}` : label;
+}
 
 type PerfLoggerAPI = {
   start: (label: string) => void;
@@ -32,19 +49,40 @@ function createPerfLogger(): PerfLoggerAPI {
     };
   }
 
-  const prefix = logger.yellow(`[PERF] `);
+  const formatDuration = (duration: number): string => {
+    if (duration > Thresholds.red) {
+      return logger.red(`${(duration / 1000).toFixed(2)} seconds!`);
+    } else if (duration > Thresholds.yellow) {
+      return logger.yellow(`${duration.toFixed(2)} ms`);
+    } else {
+      return logger.green(`${duration.toFixed(2)} ms`);
+    }
+  };
 
-  const start: PerfLoggerAPI['start'] = (label) => console.time(prefix + label);
+  const logDuration = (label: string, duration: number) => {
+    if (duration < Thresholds.min) {
+      return;
+    }
+    console.log(`${PerfPrefix + label} - ${formatDuration(duration)}`);
+  };
 
-  const end: PerfLoggerAPI['end'] = (label) => console.timeEnd(prefix + label);
+  const start: PerfLoggerAPI['start'] = (label) => performance.mark(label);
+
+  const end: PerfLoggerAPI['end'] = (label) => {
+    const {duration} = performance.measure(label);
+    performance.clearMarks(label);
+    logDuration(applyParentPrefix(label), duration);
+  };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
-    console.log(prefix + label);
+    console.log(PerfPrefix + applyParentPrefix(label));
 
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
-    start(label);
-    const result = await asyncFn();
-    end(label);
+    const finalLabel = applyParentPrefix(label);
+    const before = performance.now();
+    const result = await ParentPrefix.run(finalLabel, () => asyncFn());
+    const duration = performance.now() - before;
+    logDuration(finalLabel, duration);
     return result;
   };
 
