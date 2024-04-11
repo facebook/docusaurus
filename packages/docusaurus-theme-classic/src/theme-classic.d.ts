@@ -247,28 +247,18 @@ declare module '@theme/BlogPostItems' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
-declare module '@theme/ShowcaseDetails' {
-  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
-
-  export type User = ShowcaseItem;
-
-  export type Props = {
-    content: User;
-  };
-
-  export default function Showcase(props: Props): JSX.Element;
+declare module '@theme/Showcase' {
+  export default function Showcase(): JSX.Element;
 }
 
-declare module '@theme/Showcase' {
-  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
+declare module '@theme/Showcase/FavoriteIcon' {
+  export interface Props {
+    className?: string;
+    style?: ComponentProps<'svg'>['style'];
+    size: 'small' | 'medium' | 'large';
+  }
 
-  export type User = ShowcaseItem;
-
-  export type Props = {
-    content: User[];
-  };
-
-  export default function Showcase(props: Props): JSX.Element;
+  export default function FavoriteIcon(props: Props): JSX.Element;
 }
 
 declare module '@theme/Showcase/ShowcaseCard' {
@@ -287,13 +277,41 @@ declare module '@theme/Showcase/ShowcaseCard' {
 
   export default function ShowcaseCard(props: Props): JSX.Element;
 }
-declare module '@theme/Showcase/ShowcaseTagSelect' {
-  import {type ComponentProps, type ReactNode, type ReactElement} from 'react';
 
-  export interface Props extends ComponentProps<'input'> {
-    icon: ReactElement<ComponentProps<'svg'>>;
-    label: ReactNode;
+declare module '@theme/Showcase/ShowcaseCards' {
+  export default function ShowcaseCards(): JSX.Element;
+}
+declare module '@theme/Showcase/ShowcaseTooltip' {
+  export interface Props {
+    anchorEl?: HTMLElement | string;
+    id: string;
+    text: string;
+    children: React.ReactElement;
+  }
+
+  export default function ShowcaseTooltip(props: Props): JSX.Element;
+}
+declare module '@theme/Showcase/ShowcaseTagSelect' {
+  import {type ComponentProps, type ReactElement} from 'react';
+
+  // TODO use from plugin content showcase
+  type TagType =
+    | 'favorite'
+    | 'opensource'
+    | 'product'
+    | 'design'
+    | 'i18n'
+    | 'versioning'
+    | 'large'
+    | 'meta'
+    | 'personal'
+    | 'rtl';
+
+  interface Props extends ComponentProps<'input'> {
     tag: TagType;
+    label: string;
+    description: string;
+    icon: ReactElement<ComponentProps<'svg'>>;
   }
 
   export default function ShowcaseTagSelect(props: Props): JSX.Element;
@@ -304,27 +322,32 @@ declare module '@theme/Showcase/ShowcaseFilterToggle' {
   export default function ShowcaseFilterToggle(): JSX.Element;
 }
 
-declare module '@theme/Showcase/FavoriteIcon' {
-  import {type ReactNode, type ComponentProps} from 'react';
+declare module '@theme/Showcase/ShowcaseFilters' {
+  // TODO use from plugin content showcase
+  export type TagType =
+    | 'favorite'
+    | 'opensource'
+    | 'product'
+    | 'design'
+    | 'i18n'
+    | 'versioning'
+    | 'large'
+    | 'meta'
+    | 'personal'
+    | 'rtl';
 
-  export type SvgIconProps = ComponentProps<'svg'> & {
-    viewBox?: string;
-    size?: 'inherit' | 'small' | 'medium' | 'large';
-    color?:
-      | 'inherit'
-      | 'primary'
-      | 'secondary'
-      | 'success'
-      | 'error'
-      | 'warning';
-    svgClass?: string; // Class attribute on the child
-    colorAttr?: string; // Applies a color attribute to the SVG element.
-    children: ReactNode; // Node passed into the SVG element.
-  };
+  export default function ShowcaseFilters(): JSX.Element;
+}
 
-  export type Props = Omit<SvgIconProps, 'children'>;
+declare module '@theme/Showcase/OperatorButton' {
+  export default function OperatorButton(): JSX.Element;
+}
+declare module '@theme/Showcase/ClearAllButton' {
+  export default function ClearAllButton(): JSX.Element;
+}
 
-  export default function FavoriteIcon(props: Props): JSX.Element;
+declare module '@theme/Showcase/ShowcaseSearchBar' {
+  export default function ShowcaseSearchBar(): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Container' {

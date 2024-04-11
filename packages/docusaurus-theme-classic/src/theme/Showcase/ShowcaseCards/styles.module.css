@@ -1,0 +1,27 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.showcaseFavorite {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: #f6fdfd;
+}
+
+html[data-theme='dark'] .showcaseFavorite {
+  background-color: #232525;
+}
+
+.headingFavorites {
+  display: flex;
+  align-items: center;
+}
