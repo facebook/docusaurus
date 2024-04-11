@@ -224,6 +224,7 @@ opensearch
 opensearchdescription
 opensource
 optimizt
+orama
 Orta
 orta
 Outerbounds
