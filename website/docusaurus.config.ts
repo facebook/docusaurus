@@ -464,6 +464,8 @@ export default async function createConfigAsync() {
           } satisfies BlogOptions,
           pages: {
             remarkPlugins: [npm2yarn],
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
           } satisfies PageOptions,
           theme: {
             customCss: [

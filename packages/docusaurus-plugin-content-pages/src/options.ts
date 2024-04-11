@@ -27,9 +27,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
-  // TODO not working in config ??
-  showLastUpdateTime: true,
-  showLastUpdateAuthor: true,
+  showLastUpdateTime: false,
+  showLastUpdateAuthor: false,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
