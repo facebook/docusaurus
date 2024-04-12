@@ -125,6 +125,10 @@ describe('loadPlugins', () => {
             "someModule": "someModulePath",
           },
           "path": "/foo/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
         },
       ]
     `);
@@ -183,6 +187,10 @@ describe('loadPlugins', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/plugin-id/plugin-route-context-module-100.json",
           },
           "path": "/foo/",
+          "plugin": {
+            "id": "plugin-id",
+            "name": "plugin-name",
+          },
         },
       ]
     `);
@@ -278,6 +286,10 @@ describe('loadPlugins', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/allContentLoadedRouteSingle/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
         },
         {
           "component": "Comp",
@@ -285,6 +297,10 @@ describe('loadPlugins', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/contentLoadedRouteSingle/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
         },
         {
           "component": "Comp",
@@ -292,6 +308,10 @@ describe('loadPlugins', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/allContentLoadedRouteParent/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
           "routes": [
             {
               "component": "Comp",
@@ -305,6 +325,10 @@ describe('loadPlugins', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/contentLoadedRouteParent/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
           "routes": [
             {
               "component": "Comp",
@@ -389,6 +413,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/allContentLoadedRouteSingle/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
         },
         {
           "component": "Comp",
@@ -396,6 +424,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/contentLoadedRouteSingle/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
         },
         {
           "component": "Comp",
@@ -403,6 +435,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/allContentLoadedRouteParent/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
           "routes": [
             {
               "component": "Comp",
@@ -416,6 +452,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name/default/plugin-route-context-module-100.json",
           },
           "path": "/contentLoadedRouteParent/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name",
+          },
           "routes": [
             {
               "component": "Comp",
@@ -505,6 +545,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
           },
           "path": "/allContentLoaded-route-initial/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name-1",
+          },
         },
         {
           "component": "Comp",
@@ -512,6 +556,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
           },
           "path": "/contentLoaded-route-initial/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name-1",
+          },
         },
         {
           "component": "Comp",
@@ -519,6 +567,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-2/default/plugin-route-context-module-100.json",
           },
           "path": "/plugin-2-route/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name-2",
+          },
         },
       ]
     `);
@@ -545,6 +597,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
           },
           "path": "/allContentLoaded-route-reload/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name-1",
+          },
         },
         {
           "component": "Comp",
@@ -552,6 +608,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-1/default/plugin-route-context-module-100.json",
           },
           "path": "/contentLoaded-route-reload/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name-1",
+          },
         },
         {
           "component": "Comp",
@@ -559,6 +619,10 @@ describe('reloadPlugin', () => {
             "plugin": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin/.docusaurus/plugin-name-2/default/plugin-route-context-module-100.json",
           },
           "path": "/plugin-2-route/",
+          "plugin": {
+            "id": "default",
+            "name": "plugin-name-2",
+          },
         },
       ]
     `);
