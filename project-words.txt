@@ -224,6 +224,7 @@ opensearch
 opensearchdescription
 opensource
 optimizt
+Orama
 orama
 Orta
 orta
