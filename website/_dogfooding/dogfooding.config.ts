@@ -90,6 +90,9 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       id: 'pages-tests',
       path: '_dogfooding/_pages tests',
       routeBasePath: '/tests/pages',
+      showLastUpdateTime: true,
+      showLastUpdateAuthor: true,
+      editUrl: () => 'url placeholder',
     } satisfies PageOptions,
   ],
 

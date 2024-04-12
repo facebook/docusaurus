@@ -76,18 +76,18 @@ export default function MDXPage(props: Props): JSX.Element {
                 />
               </div>
             )}
+            {canDisplayEditMetaRow && (
+              <EditMetaRow
+                className={clsx(
+                  'margin-top--sm col col--8',
+                  ThemeClassNames.pages.pageFooterEditMetaRow,
+                )}
+                editUrl={editUrl}
+                lastUpdatedAt={lastUpdatedAt}
+                lastUpdatedBy={lastUpdatedBy}
+              />
+            )}
           </div>
-          {canDisplayEditMetaRow && (
-            <EditMetaRow
-              className={clsx(
-                'margin-top--sm',
-                ThemeClassNames.blog.blogFooterEditMetaRow,
-              )}
-              editUrl={editUrl}
-              lastUpdatedAt={lastUpdatedAt}
-              lastUpdatedBy={lastUpdatedBy}
-            />
-          )}
         </main>
       </Layout>
     </HtmlClassNameProvider>
