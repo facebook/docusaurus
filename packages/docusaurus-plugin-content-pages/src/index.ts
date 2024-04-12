@@ -24,7 +24,8 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
-  getItemEditUrl,
+  getEditUrl,
+  posixPath,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
@@ -130,36 +131,36 @@ export default function pluginContentPages(
 
         const pagesSourceAbsolute = path.join(pagesDirPath, relativeSource);
 
-        // function getPagesEditUrl() {
-        //   const pagesPathRelative = path.relative(
-        //     pagesDirPath,
-        //     path.resolve(pagesSourceAbsolute),
-        //   );
+        function getPagesEditUrl() {
+          const pagesPathRelative = path.relative(
+            pagesDirPath,
+            path.resolve(pagesSourceAbsolute),
+          );
 
-        //   if (typeof editUrl === 'function') {
-        //     return editUrl({
-        //       pagesDirPath: posixPath(path.relative(siteDir, pagesDirPath)),
-        //       pagesPath: posixPath(pagesPathRelative),
-        //       permalink,
-        //       locale: i18n.currentLocale,
-        //     });
-        //   } else if (typeof editUrl === 'string') {
-        //     const isLocalized =
-        //       pagesDirPath === contentPaths.contentPathLocalized;
-        //     const fileContentPath =
-        //       isLocalized && options.editLocalizedFiles
-        //         ? contentPaths.contentPathLocalized
-        //         : contentPaths.contentPath;
+          if (typeof editUrl === 'function') {
+            return editUrl({
+              pagesDirPath: posixPath(path.relative(siteDir, pagesDirPath)),
+              pagesPath: posixPath(pagesPathRelative),
+              permalink,
+              locale: i18n.currentLocale,
+            });
+          } else if (typeof editUrl === 'string') {
+            const isLocalized =
+              pagesDirPath === contentPaths.contentPathLocalized;
+            const fileContentPath =
+              isLocalized && options.editLocalizedFiles
+                ? contentPaths.contentPathLocalized
+                : contentPaths.contentPath;
 
-        //     const contentPathEditUrl = normalizeUrl([
-        //       editUrl,
-        //       posixPath(path.relative(siteDir, fileContentPath)),
-        //     ]);
+            const contentPathEditUrl = normalizeUrl([
+              editUrl,
+              posixPath(path.relative(siteDir, fileContentPath)),
+            ]);
 
-        //     return getEditUrl(pagesPathRelative, contentPathEditUrl);
-        //   }
-        //   return undefined;
-        // }
+            return getEditUrl(pagesPathRelative, contentPathEditUrl);
+          }
+          return undefined;
+        }
 
         const lastUpdatedData = await readLastUpdateData(
           source,
@@ -181,16 +182,7 @@ export default function pluginContentPages(
           frontMatter,
           lastUpdatedBy: lastUpdatedData.lastUpdatedBy,
           lastUpdatedAt: lastUpdatedData.lastUpdatedAt,
-          editUrl: getItemEditUrl({
-            editUrl,
-            itemDirPath: pagesDirPath,
-            itemSourceAbsolute: pagesSourceAbsolute,
-            permalink,
-            i18n,
-            options,
-            siteDir,
-            contentPaths,
-          }),
+          editUrl: getPagesEditUrl(),
           unlisted,
         };
       }

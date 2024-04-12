@@ -48,8 +48,6 @@ export {
   hasSSHProtocol,
   buildHttpsUrl,
   buildSshUrl,
-  getItemEditUrl,
-  type EditUrlFunction,
 } from './urlUtils';
 export type {URLPath} from './urlUtils';
 export {
