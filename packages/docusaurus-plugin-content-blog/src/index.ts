@@ -312,11 +312,6 @@ export default async function pluginContentBlog(
         blogListPaginated.map(async (listPage) => {
           const {metadata, items} = listPage;
           const {permalink} = metadata;
-          const pageMetadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(metadata, null, 2),
-          );
-
           addRoute({
             path: permalink,
             component: blogListComponent,
@@ -324,7 +319,9 @@ export default async function pluginContentBlog(
             modules: {
               sidebar: aliasedSource(sidebarProp),
               items: blogPostItemsModule(items),
-              metadata: aliasedSource(pageMetadataPath),
+            },
+            props: {
+              metadata,
             },
           });
         }),
@@ -336,17 +333,15 @@ export default async function pluginContentBlog(
       }
 
       async function createTagsListPage() {
-        const tagsPropPath = await createData(
-          `${docuHash(`${blogTagsListPath}-tags`)}.json`,
-          JSON.stringify(toTagsProp({blogTags}), null, 2),
-        );
         addRoute({
           path: blogTagsListPath,
           component: blogTagsListComponent,
           exact: true,
           modules: {
             sidebar: aliasedSource(sidebarProp),
-            tags: aliasedSource(tagsPropPath),
+          },
+          props: {
+            tags: toTagsProp({blogTags}),
           },
         });
       }
@@ -354,26 +349,17 @@ export default async function pluginContentBlog(
       async function createTagPostsListPage(tag: BlogTag): Promise<void> {
         await Promise.all(
           tag.pages.map(async (blogPaginated) => {
-            const {metadata, items} = blogPaginated;
-            const tagPropPath = await createData(
-              `${docuHash(metadata.permalink)}.json`,
-              JSON.stringify(toTagProp({tag, blogTagsListPath}), null, 2),
-            );
-
-            const listMetadataPath = await createData(
-              `${docuHash(metadata.permalink)}-list.json`,
-              JSON.stringify(metadata, null, 2),
-            );
-
             addRoute({
-              path: metadata.permalink,
+              path: blogPaginated.metadata.permalink,
               component: blogTagsPostsComponent,
               exact: true,
               modules: {
                 sidebar: aliasedSource(sidebarProp),
-                items: blogPostItemsModule(items),
-                tag: aliasedSource(tagPropPath),
-                listMetadata: aliasedSource(listMetadataPath),
+                items: blogPostItemsModule(blogPaginated.items),
+              },
+              props: {
+                tag: toTagProp({tag, blogTagsListPath}),
+                listMetadata: blogPaginated.metadata,
               },
             });
           }),
