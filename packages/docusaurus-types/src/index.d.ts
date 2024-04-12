@@ -70,6 +70,7 @@ export {
 
 export {
   RouteConfig,
+  PluginRouteConfig,
   RouteMetadata,
   RouteContext,
   PluginRouteContext,

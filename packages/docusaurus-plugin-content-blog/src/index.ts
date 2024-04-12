@@ -231,22 +231,12 @@ export default async function pluginContentBlog(
       }
 
       if (archiveBasePath && listedBlogPosts.length) {
-        const archiveUrl = normalizeUrl([
-          baseUrl,
-          routeBasePath,
-          archiveBasePath,
-        ]);
-        // Create a blog archive route
-        const archiveProp = await createData(
-          `${docuHash(archiveUrl)}.json`,
-          JSON.stringify({blogPosts: listedBlogPosts}, null, 2),
-        );
         addRoute({
-          path: archiveUrl,
+          path: normalizeUrl([baseUrl, routeBasePath, archiveBasePath]),
           component: blogArchiveComponent,
           exact: true,
-          modules: {
-            archive: aliasedSource(archiveProp),
+          props: {
+            archive: {blogPosts: listedBlogPosts},
           },
         });
       }

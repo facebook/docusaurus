@@ -18,6 +18,7 @@ import {
   formatPluginName,
   getPluginByIdentifier,
   mergeGlobalData,
+  toPluginRoute,
 } from './pluginsUtils';
 import type {
   LoadContext,
@@ -27,6 +28,7 @@ import type {
   PluginIdentifier,
   LoadedPlugin,
   InitializedPlugin,
+  PluginRouteConfig,
 } from '@docusaurus/types';
 
 async function translatePluginContent({
@@ -174,7 +176,10 @@ async function executePluginAllContentLoaded({
   );
 }
 
-type AllContentLoadedResult = {routes: RouteConfig[]; globalData: GlobalData};
+type AllContentLoadedResult = {
+  routes: PluginRouteConfig[];
+  globalData: GlobalData;
+};
 
 async function executeAllPluginsAllContentLoaded({
   plugins,
@@ -186,28 +191,32 @@ async function executeAllPluginsAllContentLoaded({
   return PerfLogger.async(`allContentLoaded()`, async () => {
     const allContent = aggregateAllContent(plugins);
 
-    const routes: RouteConfig[] = [];
-    const globalData: GlobalData = {};
+    const allRoutes: PluginRouteConfig[] = [];
+    const allGlobalData: GlobalData = {};
 
     await Promise.all(
       plugins.map(async (plugin) => {
-        const {routes: pluginRoutes, globalData: pluginGlobalData} =
+        const {routes, globalData: pluginGlobalData} =
           await executePluginAllContentLoaded({
             plugin,
             context,
             allContent,
           });
 
-        routes.push(...pluginRoutes);
+        const pluginRoutes = routes.map((route) =>
+          toPluginRoute({plugin, route}),
+        );
+
+        allRoutes.push(...pluginRoutes);
 
         if (pluginGlobalData !== undefined) {
-          globalData[plugin.name] ??= {};
-          globalData[plugin.name]![plugin.options.id] = pluginGlobalData;
+          allGlobalData[plugin.name] ??= {};
+          allGlobalData[plugin.name]![plugin.options.id] = pluginGlobalData;
         }
       }),
     );
 
-    return {routes, globalData};
+    return {routes: allRoutes, globalData: allGlobalData};
   });
 }
 
@@ -221,7 +230,7 @@ function mergeResults({
   plugins: LoadedPlugin[];
   allContentLoadedResult: AllContentLoadedResult;
 }) {
-  const routes: RouteConfig[] = [
+  const routes: PluginRouteConfig[] = [
     ...aggregateRoutes(plugins),
     ...allContentLoadedResult.routes,
   ];
@@ -237,7 +246,7 @@ function mergeResults({
 
 export type LoadPluginsResult = {
   plugins: LoadedPlugin[];
-  routes: RouteConfig[];
+  routes: PluginRouteConfig[];
   globalData: GlobalData;
 };
 

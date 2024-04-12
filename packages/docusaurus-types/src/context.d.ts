@@ -7,7 +7,7 @@
 import type {DocusaurusConfig} from './config';
 import type {CodeTranslations, I18n} from './i18n';
 import type {LoadedPlugin, PluginVersionInformation} from './plugin';
-import type {RouteConfig} from './routing';
+import type {PluginRouteConfig} from './routing';
 
 export type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
@@ -57,7 +57,7 @@ export type Props = LoadContext & {
   preBodyTags: string;
   postBodyTags: string;
   siteMetadata: SiteMetadata;
-  routes: RouteConfig[];
+  routes: PluginRouteConfig[];
   routesPaths: string[];
   plugins: LoadedPlugin[];
 };
