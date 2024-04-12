@@ -88,7 +88,6 @@ export default function ComponentCreator(
         __props?: {[propName: string]: unknown};
         [attributeName: string]: unknown;
       };
-      console.log({loadedModules});
       Object.entries(loaded).forEach(([keyPath, loadedModule]) => {
         // JSON modules are also loaded as `{ default: ... }` (`import()`
         // semantics) but we just want to pass the actual value to props.
