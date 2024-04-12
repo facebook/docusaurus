@@ -92,7 +92,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       routeBasePath: '/tests/pages',
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
-      editUrl: () => 'url placeholder',
+      editUrl: ({pagesPath}) =>
+        `https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_pages tests/${pagesPath}`,
     } satisfies PageOptions,
   ],
 
