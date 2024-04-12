@@ -38,6 +38,9 @@ export async function createPluginActionsUtils({
 }): Promise<PluginActionUtils> {
   const pluginId = plugin.options.id;
   // Plugins data files are namespaced by pluginName/pluginId
+
+  // TODO use @generated data dir here!
+  // The module registry should not contain absolute paths
   const dataDir = path.join(generatedFilesDir, plugin.name, pluginId);
 
   const pluginRouteContext: PluginRouteContext['plugin'] = {
@@ -49,6 +52,7 @@ export async function createPluginActionsUtils({
     `${docuHash('pluginRouteContextModule')}.json`,
   );
   // TODO not ideal place to generate that file
+  // move to codegen step instead!
   await generate(
     '/',
     pluginRouteContextModulePath,
