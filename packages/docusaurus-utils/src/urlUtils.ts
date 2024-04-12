@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import resolvePathnameUnsafe from 'resolve-pathname';
+import {posixPath} from './pathUtils';
+import type {I18n, PluginOptions} from '@docusaurus/types';
+import type {ContentPaths} from './markdownLinks';
 
 /**
  * Much like `path.join`, but much better. Takes an array of URL segments, and
@@ -273,4 +277,66 @@ export function hasSSHProtocol(sourceRepoUrl: string): boolean {
     // Fails when there isn't a protocol
     return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl);
   }
+}
+
+export type EditUrlFunction = (editUrlParams: {
+  /**
+   * The root content directory containing this post file, relative to the
+   * site path. Usually the same as `options.path` but can be localized
+   */
+  itemDirPath: string;
+  /** Path to this item file, relative to `pagesDirPath`. */
+  itemPath: string;
+  /** @see {@link PagesPostMetadata.permalink} */
+  permalink: string;
+  /** Locale name. */
+  locale: string;
+}) => string | undefined;
+
+export function getItemEditUrl({
+  siteDir,
+  contentPaths,
+  itemDirPath,
+  itemSourceAbsolute,
+  editUrl,
+  permalink,
+  i18n,
+  options,
+}: {
+  siteDir: string;
+  contentPaths: ContentPaths;
+  itemDirPath: string;
+  itemSourceAbsolute: string;
+  editUrl: string | EditUrlFunction | undefined;
+  permalink: string;
+  i18n: I18n;
+  options: PluginOptions;
+}): string | undefined {
+  const itemPathRelative = path.relative(
+    itemDirPath,
+    path.resolve(itemSourceAbsolute),
+  );
+
+  if (typeof editUrl === 'function') {
+    return editUrl({
+      itemDirPath: posixPath(path.relative(siteDir, itemDirPath)),
+      itemPath: posixPath(itemPathRelative),
+      permalink,
+      locale: i18n.currentLocale,
+    });
+  } else if (typeof editUrl === 'string') {
+    const isLocalized = itemDirPath === contentPaths.contentPathLocalized;
+    const fileContentPath =
+      isLocalized && options.editLocalizedFiles
+        ? contentPaths.contentPathLocalized
+        : contentPaths.contentPath;
+
+    const contentPathEditUrl = normalizeUrl([
+      editUrl,
+      posixPath(path.relative(siteDir, fileContentPath)),
+    ]);
+
+    return getEditUrl(itemPathRelative, contentPathEditUrl);
+  }
+  return undefined;
 }
