@@ -205,6 +205,7 @@ function genRouteCode(routeConfig: RouteConfig, res: RoutesCode): string {
     exact,
     metadata,
     props,
+    plugin,
     ...attributes
   } = routeConfig;
 
