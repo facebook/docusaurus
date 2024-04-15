@@ -88,8 +88,6 @@ export async function buildAllRoutes({
 
   async function createSidebarModule() {
     const modulePath = await createData(
-      // Note that this created data path must be in sync with
-      // metadataPath provided to mdx-loader.
       `blog-post-list-prop-${pluginId}.json`,
       JSON.stringify(
         {
