@@ -66,6 +66,17 @@ export default function MDXPage(props: Props): JSX.Element {
                   <MDXPageContent />
                 </MDXContent>
               </article>
+              {canDisplayEditMetaRow && (
+                <EditMetaRow
+                  className={clsx(
+                    'margin-top--sm',
+                    ThemeClassNames.pages.pageFooterEditMetaRow,
+                  )}
+                  editUrl={editUrl}
+                  lastUpdatedAt={lastUpdatedAt}
+                  lastUpdatedBy={lastUpdatedBy}
+                />
+              )}
             </div>
             {!hideTableOfContents && MDXPageContent.toc.length > 0 && (
               <div className="col col--2">
@@ -75,17 +86,6 @@ export default function MDXPage(props: Props): JSX.Element {
                   maxHeadingLevel={frontMatter.toc_max_heading_level}
                 />
               </div>
-            )}
-            {canDisplayEditMetaRow && (
-              <EditMetaRow
-                className={clsx(
-                  'margin-top--sm col col--8',
-                  ThemeClassNames.pages.pageFooterEditMetaRow,
-                )}
-                editUrl={editUrl}
-                lastUpdatedAt={lastUpdatedAt}
-                lastUpdatedBy={lastUpdatedBy}
-              />
             )}
           </div>
         </main>
