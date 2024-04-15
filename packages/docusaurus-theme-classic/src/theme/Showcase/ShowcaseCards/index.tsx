@@ -8,22 +8,17 @@
 import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import {sortedUsers} from '@site/src/data/users';
+import {
+  useFilteredUsers,
+  sortUsers,
+} from '@docusaurus/plugin-content-showcase/client';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';
-import {type User} from '@theme/Showcase/ShowcaseCard';
-import {useFilteredUsers} from '../../_utils';
+import type {Props} from '@theme/Showcase/ShowcaseCards';
+import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
 import styles from './styles.module.css';
-
-const favoriteUsers = sortedUsers.filter((user) =>
-  user.tags.includes('favorite'),
-);
-
-const otherUsers = sortedUsers.filter(
-  (user) => !user.tags.includes('favorite'),
-);
 
 function HeadingNoResult() {
   return (
@@ -50,7 +45,13 @@ function HeadingAllSites() {
   );
 }
 
-function CardList({heading, items}: {heading?: ReactNode; items: User[]}) {
+function CardList({
+  heading,
+  items,
+}: {
+  heading?: ReactNode;
+  items: ShowcaseItem[];
+}) {
   return (
     <div className="container">
       {heading}
@@ -73,12 +74,22 @@ function NoResultSection() {
   );
 }
 
-export default function ShowcaseCards(): JSX.Element {
-  const filteredUsers = useFilteredUsers();
+export default function ShowcaseCards(props: Props): JSX.Element {
+  const filteredUsers = useFilteredUsers(props.users);
 
   if (filteredUsers.length === 0) {
     return <NoResultSection />;
   }
+
+  const sortedUsers = sortUsers(props.users);
+
+  const favoriteUsers = sortedUsers.filter((user: ShowcaseItem) =>
+    user.tags.includes('favorite'),
+  );
+
+  const otherUsers = sortedUsers.filter(
+    (user: ShowcaseItem) => !user.tags.includes('favorite'),
+  );
 
   return (
     <section className="margin-top--lg margin-bottom--xl">

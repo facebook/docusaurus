@@ -6,8 +6,8 @@
  */
 
 import React, {useCallback, type ReactNode, useId} from 'react';
+import {useTags} from '@docusaurus/plugin-content-showcase/client';
 import type {Props} from '@theme/Showcase/ShowcaseTagSelect';
-import {useTags} from '../../_utils';
 
 import styles from './styles.module.css';
 

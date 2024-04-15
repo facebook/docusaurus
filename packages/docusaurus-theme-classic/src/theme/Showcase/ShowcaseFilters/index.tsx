@@ -8,14 +8,19 @@
 import type {ReactNode, CSSProperties} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
+import {
+  useFilteredUsers,
+  useSiteCountPlural,
+  Tags,
+  TagList,
+} from '@docusaurus/plugin-content-showcase/client';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
-import {Tags, TagList} from '@site/src/data/users';
 import Heading from '@theme/Heading';
 import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
-import {type TagType} from '@theme/Showcase/ShowcaseFilters';
 import OperatorButton from '@theme/Showcase/OperatorButton';
 import ClearAllButton from '@theme/Showcase/ClearAllButton';
-import {useFilteredUsers, useSiteCountPlural} from '../../_utils';
+import type {Props} from '@theme/Showcase/ShowcaseFilters';
+import type {TagType} from '@docusaurus/plugin-content-showcase';
 
 import styles from './styles.module.css';
 
@@ -69,8 +74,8 @@ function ShowcaseTagList() {
   );
 }
 
-function HeadingText() {
-  const filteredUsers = useFilteredUsers();
+function HeadingText(props: Props) {
+  const filteredUsers = useFilteredUsers(props.users);
   const siteCountPlural = useSiteCountPlural();
   return (
     <div className={styles.headingText}>
@@ -91,19 +96,19 @@ function HeadingButtons() {
   );
 }
 
-function HeadingRow() {
+function HeadingRow(props: Props) {
   return (
     <div className={clsx('margin-bottom--sm', styles.headingRow)}>
-      <HeadingText />
+      <HeadingText users={props.users} />
       <HeadingButtons />
     </div>
   );
 }
 
-export default function ShowcaseFilters(): ReactNode {
+export default function ShowcaseFilters(props: Props): ReactNode {
   return (
     <section className="container margin-top--l margin-bottom--lg">
-      <HeadingRow />
+      <HeadingRow users={props.users} />
       <ShowcaseTagList />
     </section>
   );

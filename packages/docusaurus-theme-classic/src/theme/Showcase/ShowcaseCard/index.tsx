@@ -10,11 +10,14 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 // import Image from '@theme/IdealImage';
-import {Tags, TagList, type TagType} from '@site/src/data/users';
-import {type User} from '@theme/Showcase/ShowcaseCard';
-import {sortBy} from '@site/src/utils/jsUtils';
+import {
+  sortBy,
+  Tags,
+  TagList,
+} from '@docusaurus/plugin-content-showcase/client';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
+import type {ShowcaseItem, TagType} from '@docusaurus/plugin-content-showcase';
 import styles from './styles.module.css';
 
 function TagItem({
@@ -51,7 +54,7 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   );
 }
 
-function getCardImage(user: User): string {
+function getCardImage(user: ShowcaseItem): string {
   return (
     user.preview ??
     // TODO make it configurable
@@ -61,7 +64,7 @@ function getCardImage(user: User): string {
   );
 }
 
-function ShowcaseCard({user}: {user: User}) {
+function ShowcaseCard({user}: {user: ShowcaseItem}) {
   const image = getCardImage(user);
   return (
     <li key={user.title} className="card shadow--md">

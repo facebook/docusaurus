@@ -248,7 +248,15 @@ declare module '@theme/BlogPostItems' {
 }
 
 declare module '@theme/Showcase' {
-  export default function Showcase(): JSX.Element;
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
+
+  export type User = ShowcaseItem;
+
+  export type Props = {
+    content: User[];
+  };
+
+  export default function Showcase(props: Props): JSX.Element;
 }
 
 declare module '@theme/Showcase/FavoriteIcon' {
@@ -262,24 +270,23 @@ declare module '@theme/Showcase/FavoriteIcon' {
 }
 
 declare module '@theme/Showcase/ShowcaseCard' {
-  export type User = {
-    title: string;
-    description: string;
-    preview: string | null; // null = use our serverless screenshot service
-    website: string;
-    source: string | null;
-    tags: string[];
-  };
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
   export interface Props {
-    readonly user: User;
+    readonly user: ShowcaseItem;
   }
 
   export default function ShowcaseCard(props: Props): JSX.Element;
 }
 
 declare module '@theme/Showcase/ShowcaseCards' {
-  export default function ShowcaseCards(): JSX.Element;
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
+
+  export interface Props {
+    readonly users: ShowcaseItem[];
+  }
+
+  export default function ShowcaseCards(props: Props): JSX.Element;
 }
 declare module '@theme/Showcase/ShowcaseTooltip' {
   export interface Props {
@@ -293,19 +300,7 @@ declare module '@theme/Showcase/ShowcaseTooltip' {
 }
 declare module '@theme/Showcase/ShowcaseTagSelect' {
   import {type ComponentProps, type ReactElement} from 'react';
-
-  // TODO use from plugin content showcase
-  type TagType =
-    | 'favorite'
-    | 'opensource'
-    | 'product'
-    | 'design'
-    | 'i18n'
-    | 'versioning'
-    | 'large'
-    | 'meta'
-    | 'personal'
-    | 'rtl';
+  import type {TagType} from '@docusaurus/plugin-content-showcase';
 
   interface Props extends ComponentProps<'input'> {
     tag: TagType;
@@ -323,20 +318,13 @@ declare module '@theme/Showcase/ShowcaseFilterToggle' {
 }
 
 declare module '@theme/Showcase/ShowcaseFilters' {
-  // TODO use from plugin content showcase
-  export type TagType =
-    | 'favorite'
-    | 'opensource'
-    | 'product'
-    | 'design'
-    | 'i18n'
-    | 'versioning'
-    | 'large'
-    | 'meta'
-    | 'personal'
-    | 'rtl';
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-  export default function ShowcaseFilters(): JSX.Element;
+  export interface Props {
+    readonly users: ShowcaseItem[];
+  }
+
+  export default function ShowcaseFilters(props: Props): JSX.Element;
 }
 
 declare module '@theme/Showcase/OperatorButton' {

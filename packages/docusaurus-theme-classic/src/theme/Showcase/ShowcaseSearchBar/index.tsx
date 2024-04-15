@@ -7,7 +7,7 @@
 
 import {type ReactNode} from 'react';
 import {translate} from '@docusaurus/Translate';
-import {useSearchName} from '@site/src/pages/showcase/_utils';
+import {useSearchName} from '@docusaurus/plugin-content-showcase/client';
 import styles from './styles.module.css';
 
 export default function ShowcaseSearchBar(): ReactNode {
@@ -21,6 +21,7 @@ export default function ShowcaseSearchBar(): ReactNode {
         })}
         value={searchName}
         onInput={(e) => {
+          // TODO fix typescript error ?
           setSearchName(e.currentTarget.value);
         }}
       />

@@ -15,6 +15,7 @@ import Heading from '@theme/Heading';
 import ShowcaseSearchBar from '@theme/Showcase/ShowcaseSearchBar';
 import ShowcaseCards from '@theme/Showcase/ShowcaseCards';
 import ShowcaseFilters from '@theme/Showcase/ShowcaseFilters';
+import type {Props} from '@theme/Showcase';
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
 const DESCRIPTION = translate({
@@ -36,20 +37,21 @@ function ShowcaseHeader() {
   );
 }
 
-export default function Showcase(): JSX.Element {
+export default function Showcase(props: Props): JSX.Element {
+  const users = props.content;
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
       {/* eslint-disable-next-line @docusaurus/prefer-docusaurus-heading, @docusaurus/no-untranslated-text */}
       <h1>Client showcase API: {clientShowcase}</h1>
       <main className="margin-vert--lg">
         <ShowcaseHeader />
-        <ShowcaseFilters />
+        <ShowcaseFilters users={users} />
         <div
           style={{display: 'flex', marginLeft: 'auto'}}
           className="container">
           <ShowcaseSearchBar />
         </div>
-        <ShowcaseCards />
+        <ShowcaseCards users={users} />
       </main>
     </Layout>
   );

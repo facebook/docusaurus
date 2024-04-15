@@ -17,7 +17,9 @@ declare module '@docusaurus/plugin-content-showcase' {
     color: string;
   };
 
-  type TagType =
+  export type Operator = 'AND' | 'OR';
+
+  export type TagType =
     | 'favorite'
     | 'opensource'
     | 'product'
