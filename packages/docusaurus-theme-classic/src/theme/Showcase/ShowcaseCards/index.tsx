@@ -12,10 +12,10 @@ import {
   useFilteredUsers,
   sortUsers,
 } from '@docusaurus/plugin-content-showcase/client';
+import {useShowcase} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';
-import type {Props} from '@theme/Showcase/ShowcaseCards';
 import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
 import styles from './styles.module.css';
@@ -74,14 +74,16 @@ function NoResultSection() {
   );
 }
 
-export default function ShowcaseCards(props: Props): JSX.Element {
-  const filteredUsers = useFilteredUsers(props.users);
+export default function ShowcaseCards(): JSX.Element {
+  const users = useShowcase().items;
+
+  const filteredUsers = useFilteredUsers(users);
 
   if (filteredUsers.length === 0) {
     return <NoResultSection />;
   }
 
-  const sortedUsers = sortUsers(props.users);
+  const sortedUsers = sortUsers(users);
 
   const favoriteUsers = sortedUsers.filter((user: ShowcaseItem) =>
     user.tags.includes('favorite'),

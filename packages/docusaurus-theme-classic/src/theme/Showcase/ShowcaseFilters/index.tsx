@@ -14,12 +14,12 @@ import {
   Tags,
   TagList,
 } from '@docusaurus/plugin-content-showcase/client';
+import {useShowcase} from '@docusaurus/theme-common/internal';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import Heading from '@theme/Heading';
 import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
 import OperatorButton from '@theme/Showcase/OperatorButton';
 import ClearAllButton from '@theme/Showcase/ClearAllButton';
-import type {Props} from '@theme/Showcase/ShowcaseFilters';
 import type {TagType} from '@docusaurus/plugin-content-showcase';
 
 import styles from './styles.module.css';
@@ -74,8 +74,9 @@ function ShowcaseTagList() {
   );
 }
 
-function HeadingText(props: Props) {
-  const filteredUsers = useFilteredUsers(props.users);
+function HeadingText() {
+  const users = useShowcase().items;
+  const filteredUsers = useFilteredUsers(users);
   const siteCountPlural = useSiteCountPlural();
   return (
     <div className={styles.headingText}>
@@ -96,19 +97,19 @@ function HeadingButtons() {
   );
 }
 
-function HeadingRow(props: Props) {
+function HeadingRow() {
   return (
     <div className={clsx('margin-bottom--sm', styles.headingRow)}>
-      <HeadingText users={props.users} />
+      <HeadingText />
       <HeadingButtons />
     </div>
   );
 }
 
-export default function ShowcaseFilters(props: Props): ReactNode {
+export default function ShowcaseFilters(): ReactNode {
   return (
     <section className="container margin-top--l margin-bottom--lg">
-      <HeadingRow users={props.users} />
+      <HeadingRow />
       <ShowcaseTagList />
     </section>
   );

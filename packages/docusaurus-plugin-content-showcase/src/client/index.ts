@@ -19,8 +19,6 @@ import type {
   ShowcaseItem,
 } from '@docusaurus/plugin-content-showcase';
 
-export const clientShowcase = 42;
-
 export function filterUsers({
   users,
   tags,

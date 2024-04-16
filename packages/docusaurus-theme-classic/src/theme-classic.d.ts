@@ -280,13 +280,7 @@ declare module '@theme/Showcase/ShowcaseCard' {
 }
 
 declare module '@theme/Showcase/ShowcaseCards' {
-  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
-
-  export interface Props {
-    readonly users: ShowcaseItem[];
-  }
-
-  export default function ShowcaseCards(props: Props): JSX.Element;
+  export default function ShowcaseCards(): JSX.Element;
 }
 declare module '@theme/Showcase/ShowcaseTooltip' {
   export interface Props {
@@ -318,13 +312,7 @@ declare module '@theme/Showcase/ShowcaseFilterToggle' {
 }
 
 declare module '@theme/Showcase/ShowcaseFilters' {
-  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
-
-  export interface Props {
-    readonly users: ShowcaseItem[];
-  }
-
-  export default function ShowcaseFilters(props: Props): JSX.Element;
+  export default function ShowcaseFilters(): JSX.Element;
 }
 
 declare module '@theme/Showcase/OperatorButton' {

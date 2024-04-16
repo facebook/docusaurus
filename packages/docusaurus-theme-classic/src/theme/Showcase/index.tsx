@@ -8,7 +8,7 @@
 import Translate, {translate} from '@docusaurus/Translate';
 
 import Link from '@docusaurus/Link';
-import {clientShowcase} from '@docusaurus/plugin-content-showcase/client';
+import {ShowcaseProvider} from '@docusaurus/theme-common/internal';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 
@@ -40,19 +40,19 @@ function ShowcaseHeader() {
 export default function Showcase(props: Props): JSX.Element {
   const users = props.content;
   return (
-    <Layout title={TITLE} description={DESCRIPTION}>
-      {/* eslint-disable-next-line @docusaurus/prefer-docusaurus-heading, @docusaurus/no-untranslated-text */}
-      <h1>Client showcase API: {clientShowcase}</h1>
-      <main className="margin-vert--lg">
-        <ShowcaseHeader />
-        <ShowcaseFilters users={users} />
-        <div
-          style={{display: 'flex', marginLeft: 'auto'}}
-          className="container">
-          <ShowcaseSearchBar />
-        </div>
-        <ShowcaseCards users={users} />
-      </main>
-    </Layout>
+    <ShowcaseProvider content={{items: users}}>
+      <Layout title={TITLE} description={DESCRIPTION}>
+        <main className="margin-vert--lg">
+          <ShowcaseHeader />
+          <ShowcaseFilters />
+          <div
+            style={{display: 'flex', marginLeft: 'auto'}}
+            className="container">
+            <ShowcaseSearchBar />
+          </div>
+          <ShowcaseCards />
+        </main>
+      </Layout>
+    </ShowcaseProvider>
   );
 }

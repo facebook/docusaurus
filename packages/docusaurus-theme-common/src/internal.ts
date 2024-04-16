@@ -26,6 +26,7 @@ export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
+export {ShowcaseProvider, useShowcase} from './contexts/showcase';
 export {
   BlogPostProvider,
   useBlogPost,
