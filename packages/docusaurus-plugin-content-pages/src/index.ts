@@ -11,7 +11,6 @@ import {
   encodePath,
   fileToPath,
   aliasedSitePath,
-  aliasedSitePathToRelativePath,
   docuHash,
   getPluginI18nPath,
   getFolderContainingFile,
@@ -28,7 +27,8 @@ import {
   posixPath,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
-import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
+import {createAllRoutes} from './routes';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PagesContentPaths} from './types';
 import type {
   PluginOptions,
@@ -207,52 +207,7 @@ export default function pluginContentPages(
       if (!content) {
         return;
       }
-
-      const {addRoute, createData} = actions;
-
-      function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
-        const lastUpdatedAt =
-          metadata.type === 'mdx' ? metadata.lastUpdatedAt : undefined;
-
-        return {
-          sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-          lastUpdatedAt,
-        };
-      }
-
-      await Promise.all(
-        content.map(async (metadata) => {
-          const {permalink, source} = metadata;
-          const routeMetadata = createPageRouteMetadata(metadata);
-          if (metadata.type === 'mdx') {
-            await createData(
-              // Note that this created data path must be in sync with
-              // metadataPath provided to mdx-loader.
-              `${docuHash(metadata.source)}.json`,
-              JSON.stringify(metadata, null, 2),
-            );
-            addRoute({
-              path: permalink,
-              component: options.mdxPageComponent,
-              exact: true,
-              metadata: routeMetadata,
-              modules: {
-                content: source,
-              },
-            });
-          } else {
-            addRoute({
-              path: permalink,
-              component: source,
-              exact: true,
-              metadata: routeMetadata,
-              modules: {
-                config: `@generated/docusaurus.config`,
-              },
-            });
-          }
-        }),
-      );
+      await createAllRoutes({content, options, actions});
     },
 
     configureWebpack() {
