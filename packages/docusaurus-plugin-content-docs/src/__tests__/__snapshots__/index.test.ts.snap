@@ -430,21 +430,6 @@ exports[`simple website content 5`] = `
 
 exports[`simple website content: data 1`] = `
 {
-  "category-docs-docs-category-slugs-0fe.json": "{
-  "title": "Slugs",
-  "slug": "/category/slugs",
-  "permalink": "/docs/category/slugs",
-  "navigation": {
-    "previous": {
-      "title": "unlisted-category-doc",
-      "permalink": "/docs/unlisted-category/unlisted-category-doc"
-    },
-    "next": {
-      "title": "rootAbsoluteSlug",
-      "permalink": "/docs/rootAbsoluteSlug"
-    }
-  }
-}",
   "site-docs-custom-last-update-md-b8d.json": "{
   "id": "customLastUpdate",
   "title": "Custom Last Update",
@@ -948,335 +933,6 @@ exports[`simple website content: data 1`] = `
     "permalink": "/docs/category/slugs"
   }
 }",
-  "tag-docs-tags-tag-1-b3f.json": "{
-  "label": "tag 1",
-  "permalink": "/docs/tags/tag-1",
-  "allTagsPath": "/docs/tags",
-  "count": 2,
-  "items": [
-    {
-      "id": "foo/baz",
-      "title": "baz",
-      "description": "Images",
-      "permalink": "/docs/foo/bazSlug.html"
-    },
-    {
-      "id": "hello",
-      "title": "Hello, World !",
-      "description": "Hi, Endilie here :)",
-      "permalink": "/docs/"
-    }
-  ],
-  "unlisted": false
-}",
-  "tag-docs-tags-tag-2-custom-permalink-825.json": "{
-  "label": "tag 2",
-  "permalink": "/docs/tags/tag2-custom-permalink",
-  "allTagsPath": "/docs/tags",
-  "count": 1,
-  "items": [
-    {
-      "id": "foo/baz",
-      "title": "baz",
-      "description": "Images",
-      "permalink": "/docs/foo/bazSlug.html"
-    }
-  ],
-  "unlisted": false
-}",
-  "tag-docs-tags-tag-3-ab5.json": "{
-  "label": "tag 3",
-  "permalink": "/docs/tags/tag-3",
-  "allTagsPath": "/docs/tags",
-  "count": 1,
-  "items": [
-    {
-      "id": "hello",
-      "title": "Hello, World !",
-      "description": "Hi, Endilie here :)",
-      "permalink": "/docs/"
-    }
-  ],
-  "unlisted": false
-}",
-  "tags-list-current-prop-15a.json": "[
-  {
-    "label": "tag 1",
-    "permalink": "/docs/tags/tag-1",
-    "count": 2
-  },
-  {
-    "label": "tag 2",
-    "permalink": "/docs/tags/tag2-custom-permalink",
-    "count": 1
-  },
-  {
-    "label": "tag 3",
-    "permalink": "/docs/tags/tag-3",
-    "count": 1
-  }
-]",
-  "version-current-metadata-prop-751.json": "{
-  "pluginId": "default",
-  "version": "current",
-  "label": "Next",
-  "banner": null,
-  "badge": false,
-  "noIndex": false,
-  "className": "docs-version-current",
-  "isLast": true,
-  "docsSidebars": {
-    "docs": [
-      {
-        "type": "category",
-        "label": "Test",
-        "items": [
-          {
-            "type": "category",
-            "label": "foo",
-            "items": [
-              {
-                "type": "link",
-                "label": "Bar",
-                "href": "/docs/foo/bar",
-                "docId": "foo/bar",
-                "unlisted": false
-              },
-              {
-                "type": "link",
-                "label": "doc-unlisted",
-                "href": "/docs/doc-unlisted",
-                "docId": "doc-unlisted",
-                "unlisted": false
-              },
-              {
-                "type": "link",
-                "label": "baz",
-                "href": "/docs/foo/bazSlug.html",
-                "docId": "foo/baz",
-                "unlisted": false
-              }
-            ],
-            "collapsed": true,
-            "collapsible": true
-          },
-          {
-            "type": "category",
-            "label": "Unlisted category",
-            "items": [
-              {
-                "type": "link",
-                "label": "unlisted-category-doc",
-                "href": "/docs/unlisted-category/unlisted-category-doc",
-                "docId": "unlisted-category/unlisted-category-doc",
-                "unlisted": false
-              }
-            ],
-            "collapsed": true,
-            "collapsible": true,
-            "href": "/docs/unlisted-category/"
-          },
-          {
-            "type": "category",
-            "label": "Slugs",
-            "items": [
-              {
-                "type": "link",
-                "label": "rootAbsoluteSlug",
-                "href": "/docs/rootAbsoluteSlug",
-                "docId": "rootAbsoluteSlug",
-                "unlisted": false
-              },
-              {
-                "type": "link",
-                "label": "rootRelativeSlug",
-                "href": "/docs/rootRelativeSlug",
-                "docId": "rootRelativeSlug",
-                "unlisted": false
-              },
-              {
-                "type": "link",
-                "label": "rootResolvedSlug",
-                "href": "/docs/hey/rootResolvedSlug",
-                "docId": "rootResolvedSlug",
-                "unlisted": false
-              },
-              {
-                "type": "link",
-                "label": "rootTryToEscapeSlug",
-                "href": "/docs/rootTryToEscapeSlug",
-                "docId": "rootTryToEscapeSlug",
-                "unlisted": false
-              }
-            ],
-            "collapsed": true,
-            "collapsible": true,
-            "href": "/docs/category/slugs"
-          },
-          {
-            "type": "link",
-            "label": "My heading as title",
-            "href": "/docs/headingAsTitle",
-            "docId": "headingAsTitle",
-            "unlisted": false
-          },
-          {
-            "type": "link",
-            "label": "GitHub",
-            "href": "https://github.com"
-          },
-          {
-            "type": "link",
-            "label": "Hello sidebar_label",
-            "href": "/docs/",
-            "docId": "hello",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      },
-      {
-        "type": "category",
-        "label": "Guides",
-        "items": [
-          {
-            "type": "link",
-            "label": "Hello sidebar_label",
-            "href": "/docs/",
-            "docId": "hello",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      }
-    ]
-  },
-  "docs": {
-    "customLastUpdate": {
-      "id": "customLastUpdate",
-      "title": "Custom Last Update",
-      "description": "Custom last update"
-    },
-    "doc with space": {
-      "id": "doc with space",
-      "title": "Hoo hoo, if this path tricks you...",
-      "description": ""
-    },
-    "doc-draft": {
-      "id": "doc-draft",
-      "title": "doc-draft",
-      "description": "This is a draft document"
-    },
-    "doc-unlisted": {
-      "id": "doc-unlisted",
-      "title": "doc-unlisted",
-      "description": "This is an unlisted document",
-      "sidebar": "docs"
-    },
-    "foo/bar": {
-      "id": "foo/bar",
-      "title": "Bar",
-      "description": "This is custom description",
-      "sidebar": "docs"
-    },
-    "foo/baz": {
-      "id": "foo/baz",
-      "title": "baz",
-      "description": "Images",
-      "sidebar": "docs"
-    },
-    "headingAsTitle": {
-      "id": "headingAsTitle",
-      "title": "My heading as title",
-      "description": "",
-      "sidebar": "docs"
-    },
-    "hello": {
-      "id": "hello",
-      "title": "Hello, World !",
-      "description": "Hi, Endilie here :)",
-      "sidebar": "docs"
-    },
-    "ipsum": {
-      "id": "ipsum",
-      "title": "ipsum",
-      "description": "Lorem ipsum."
-    },
-    "lastUpdateAuthorOnly": {
-      "id": "lastUpdateAuthorOnly",
-      "title": "Last Update Author Only",
-      "description": "Only custom author, so it will still use the date from Git"
-    },
-    "lastUpdateDateOnly": {
-      "id": "lastUpdateDateOnly",
-      "title": "Last Update Date Only",
-      "description": "Only custom date, so it will still use the author from Git"
-    },
-    "lorem": {
-      "id": "lorem",
-      "title": "lorem",
-      "description": "Lorem ipsum."
-    },
-    "rootAbsoluteSlug": {
-      "id": "rootAbsoluteSlug",
-      "title": "rootAbsoluteSlug",
-      "description": "Lorem",
-      "sidebar": "docs"
-    },
-    "rootRelativeSlug": {
-      "id": "rootRelativeSlug",
-      "title": "rootRelativeSlug",
-      "description": "Lorem",
-      "sidebar": "docs"
-    },
-    "rootResolvedSlug": {
-      "id": "rootResolvedSlug",
-      "title": "rootResolvedSlug",
-      "description": "Lorem",
-      "sidebar": "docs"
-    },
-    "rootTryToEscapeSlug": {
-      "id": "rootTryToEscapeSlug",
-      "title": "rootTryToEscapeSlug",
-      "description": "Lorem",
-      "sidebar": "docs"
-    },
-    "slugs/absoluteSlug": {
-      "id": "slugs/absoluteSlug",
-      "title": "absoluteSlug",
-      "description": "Lorem"
-    },
-    "slugs/relativeSlug": {
-      "id": "slugs/relativeSlug",
-      "title": "relativeSlug",
-      "description": "Lorem"
-    },
-    "slugs/resolvedSlug": {
-      "id": "slugs/resolvedSlug",
-      "title": "resolvedSlug",
-      "description": "Lorem"
-    },
-    "slugs/tryToEscapeSlug": {
-      "id": "slugs/tryToEscapeSlug",
-      "title": "tryToEscapeSlug",
-      "description": "Lorem"
-    },
-    "unlisted-category/unlisted-category-doc": {
-      "id": "unlisted-category/unlisted-category-doc",
-      "title": "unlisted-category-doc",
-      "description": "This is an unlisted category doc",
-      "sidebar": "docs"
-    },
-    "unlisted-category/unlisted-category-index": {
-      "id": "unlisted-category/unlisted-category-index",
-      "title": "unlisted-category-index",
-      "description": "This is an unlisted category index",
-      "sidebar": "docs"
-    }
-  }
-}",
 }
 `;
 
@@ -1436,43 +1092,400 @@ exports[`simple website content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-current-metadata-prop-751.json",
-        },
         "path": "/docs",
         "priority": -1,
+        "props": {
+          "version": {
+            "badge": false,
+            "banner": null,
+            "className": "docs-version-current",
+            "docs": {
+              "customLastUpdate": {
+                "description": "Custom last update",
+                "id": "customLastUpdate",
+                "sidebar": undefined,
+                "title": "Custom Last Update",
+              },
+              "doc with space": {
+                "description": "",
+                "id": "doc with space",
+                "sidebar": undefined,
+                "title": "Hoo hoo, if this path tricks you...",
+              },
+              "doc-draft": {
+                "description": "This is a draft document",
+                "id": "doc-draft",
+                "sidebar": undefined,
+                "title": "doc-draft",
+              },
+              "doc-unlisted": {
+                "description": "This is an unlisted document",
+                "id": "doc-unlisted",
+                "sidebar": "docs",
+                "title": "doc-unlisted",
+              },
+              "foo/bar": {
+                "description": "This is custom description",
+                "id": "foo/bar",
+                "sidebar": "docs",
+                "title": "Bar",
+              },
+              "foo/baz": {
+                "description": "Images",
+                "id": "foo/baz",
+                "sidebar": "docs",
+                "title": "baz",
+              },
+              "headingAsTitle": {
+                "description": "",
+                "id": "headingAsTitle",
+                "sidebar": "docs",
+                "title": "My heading as title",
+              },
+              "hello": {
+                "description": "Hi, Endilie here :)",
+                "id": "hello",
+                "sidebar": "docs",
+                "title": "Hello, World !",
+              },
+              "ipsum": {
+                "description": "Lorem ipsum.",
+                "id": "ipsum",
+                "sidebar": undefined,
+                "title": "ipsum",
+              },
+              "lastUpdateAuthorOnly": {
+                "description": "Only custom author, so it will still use the date from Git",
+                "id": "lastUpdateAuthorOnly",
+                "sidebar": undefined,
+                "title": "Last Update Author Only",
+              },
+              "lastUpdateDateOnly": {
+                "description": "Only custom date, so it will still use the author from Git",
+                "id": "lastUpdateDateOnly",
+                "sidebar": undefined,
+                "title": "Last Update Date Only",
+              },
+              "lorem": {
+                "description": "Lorem ipsum.",
+                "id": "lorem",
+                "sidebar": undefined,
+                "title": "lorem",
+              },
+              "rootAbsoluteSlug": {
+                "description": "Lorem",
+                "id": "rootAbsoluteSlug",
+                "sidebar": "docs",
+                "title": "rootAbsoluteSlug",
+              },
+              "rootRelativeSlug": {
+                "description": "Lorem",
+                "id": "rootRelativeSlug",
+                "sidebar": "docs",
+                "title": "rootRelativeSlug",
+              },
+              "rootResolvedSlug": {
+                "description": "Lorem",
+                "id": "rootResolvedSlug",
+                "sidebar": "docs",
+                "title": "rootResolvedSlug",
+              },
+              "rootTryToEscapeSlug": {
+                "description": "Lorem",
+                "id": "rootTryToEscapeSlug",
+                "sidebar": "docs",
+                "title": "rootTryToEscapeSlug",
+              },
+              "slugs/absoluteSlug": {
+                "description": "Lorem",
+                "id": "slugs/absoluteSlug",
+                "sidebar": undefined,
+                "title": "absoluteSlug",
+              },
+              "slugs/relativeSlug": {
+                "description": "Lorem",
+                "id": "slugs/relativeSlug",
+                "sidebar": undefined,
+                "title": "relativeSlug",
+              },
+              "slugs/resolvedSlug": {
+                "description": "Lorem",
+                "id": "slugs/resolvedSlug",
+                "sidebar": undefined,
+                "title": "resolvedSlug",
+              },
+              "slugs/tryToEscapeSlug": {
+                "description": "Lorem",
+                "id": "slugs/tryToEscapeSlug",
+                "sidebar": undefined,
+                "title": "tryToEscapeSlug",
+              },
+              "unlisted-category/unlisted-category-doc": {
+                "description": "This is an unlisted category doc",
+                "id": "unlisted-category/unlisted-category-doc",
+                "sidebar": "docs",
+                "title": "unlisted-category-doc",
+              },
+              "unlisted-category/unlisted-category-index": {
+                "description": "This is an unlisted category index",
+                "id": "unlisted-category/unlisted-category-index",
+                "sidebar": "docs",
+                "title": "unlisted-category-index",
+              },
+            },
+            "docsSidebars": {
+              "docs": [
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "collapsed": true,
+                      "collapsible": true,
+                      "items": [
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "foo/bar",
+                          "href": "/docs/foo/bar",
+                          "label": "Bar",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "doc-unlisted",
+                          "href": "/docs/doc-unlisted",
+                          "label": "doc-unlisted",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "foo/baz",
+                          "href": "/docs/foo/bazSlug.html",
+                          "label": "baz",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                      ],
+                      "label": "foo",
+                      "type": "category",
+                    },
+                    {
+                      "collapsed": true,
+                      "collapsible": true,
+                      "href": "/docs/unlisted-category/",
+                      "items": [
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "unlisted-category/unlisted-category-doc",
+                          "href": "/docs/unlisted-category/unlisted-category-doc",
+                          "label": "unlisted-category-doc",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                      ],
+                      "label": "Unlisted category",
+                      "type": "category",
+                    },
+                    {
+                      "collapsed": true,
+                      "collapsible": true,
+                      "href": "/docs/category/slugs",
+                      "items": [
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "rootAbsoluteSlug",
+                          "href": "/docs/rootAbsoluteSlug",
+                          "label": "rootAbsoluteSlug",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "rootRelativeSlug",
+                          "href": "/docs/rootRelativeSlug",
+                          "label": "rootRelativeSlug",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "rootResolvedSlug",
+                          "href": "/docs/hey/rootResolvedSlug",
+                          "label": "rootResolvedSlug",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                        {
+                          "className": undefined,
+                          "customProps": undefined,
+                          "docId": "rootTryToEscapeSlug",
+                          "href": "/docs/rootTryToEscapeSlug",
+                          "label": "rootTryToEscapeSlug",
+                          "type": "link",
+                          "unlisted": false,
+                        },
+                      ],
+                      "label": "Slugs",
+                      "type": "category",
+                    },
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "headingAsTitle",
+                      "href": "/docs/headingAsTitle",
+                      "label": "My heading as title",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                    {
+                      "href": "https://github.com",
+                      "label": "GitHub",
+                      "type": "link",
+                    },
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "hello",
+                      "href": "/docs/",
+                      "label": "Hello sidebar_label",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Test",
+                  "type": "category",
+                },
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "hello",
+                      "href": "/docs/",
+                      "label": "Hello sidebar_label",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Guides",
+                  "type": "category",
+                },
+              ],
+            },
+            "isLast": true,
+            "label": "Next",
+            "noIndex": false,
+            "pluginId": "default",
+            "version": "current",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocTagsListPage",
             "exact": true,
-            "modules": {
-              "tags": "~docs/tags-list-current-prop-15a.json",
-            },
             "path": "/docs/tags",
+            "props": {
+              "tags": [
+                {
+                  "count": 2,
+                  "label": "tag 1",
+                  "permalink": "/docs/tags/tag-1",
+                },
+                {
+                  "count": 1,
+                  "label": "tag 2",
+                  "permalink": "/docs/tags/tag2-custom-permalink",
+                },
+                {
+                  "count": 1,
+                  "label": "tag 3",
+                  "permalink": "/docs/tags/tag-3",
+                },
+              ],
+            },
           },
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "modules": {
-              "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
-            },
             "path": "/docs/tags/tag-1",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/tags",
+                "count": 2,
+                "items": [
+                  {
+                    "description": "Images",
+                    "id": "foo/baz",
+                    "permalink": "/docs/foo/bazSlug.html",
+                    "title": "baz",
+                  },
+                  {
+                    "description": "Hi, Endilie here :)",
+                    "id": "hello",
+                    "permalink": "/docs/",
+                    "title": "Hello, World !",
+                  },
+                ],
+                "label": "tag 1",
+                "permalink": "/docs/tags/tag-1",
+                "unlisted": false,
+              },
+            },
           },
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "modules": {
-              "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
-            },
             "path": "/docs/tags/tag-3",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/tags",
+                "count": 1,
+                "items": [
+                  {
+                    "description": "Hi, Endilie here :)",
+                    "id": "hello",
+                    "permalink": "/docs/",
+                    "title": "Hello, World !",
+                  },
+                ],
+                "label": "tag 3",
+                "permalink": "/docs/tags/tag-3",
+                "unlisted": false,
+              },
+            },
           },
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "modules": {
-              "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
-            },
             "path": "/docs/tags/tag2-custom-permalink",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/tags",
+                "count": 1,
+                "items": [
+                  {
+                    "description": "Images",
+                    "id": "foo/baz",
+                    "permalink": "/docs/foo/bazSlug.html",
+                    "title": "baz",
+                  },
+                ],
+                "label": "tag 2",
+                "permalink": "/docs/tags/tag2-custom-permalink",
+                "unlisted": false,
+              },
+            },
           },
           {
             "component": "@theme/DocRoot",
@@ -1507,10 +1520,28 @@ exports[`simple website content: route config 1`] = `
               {
                 "component": "@theme/DocCategoryGeneratedIndexPage",
                 "exact": true,
-                "modules": {
-                  "categoryGeneratedIndex": "~docs/category-docs-docs-category-slugs-0fe.json",
-                },
                 "path": "/docs/category/slugs",
+                "props": {
+                  "categoryGeneratedIndex": {
+                    "description": undefined,
+                    "image": undefined,
+                    "keywords": undefined,
+                    "navigation": {
+                      "next": {
+                        "permalink": "/docs/rootAbsoluteSlug",
+                        "title": "rootAbsoluteSlug",
+                      },
+                      "previous": {
+                        "permalink": "/docs/unlisted-category/unlisted-category-doc",
+                        "title": "unlisted-category-doc",
+                      },
+                    },
+                    "permalink": "/docs/category/slugs",
+                    "sidebar": "docs",
+                    "slug": "/category/slugs",
+                    "title": "Slugs",
+                  },
+                },
                 "sidebar": "docs",
               },
               {
@@ -2884,64 +2915,6 @@ exports[`versioned website (community) content: data 1`] = `
   },
   "sidebar": "community"
 }",
-  "version-1-0-0-metadata-prop-608.json": "{
-  "pluginId": "community",
-  "version": "1.0.0",
-  "label": "1.0.0",
-  "banner": null,
-  "badge": true,
-  "noIndex": false,
-  "className": "docs-version-1.0.0",
-  "isLast": true,
-  "docsSidebars": {
-    "community": [
-      {
-        "type": "link",
-        "label": "team",
-        "href": "/community/team",
-        "docId": "team",
-        "unlisted": false
-      }
-    ]
-  },
-  "docs": {
-    "team": {
-      "id": "team",
-      "title": "team",
-      "description": "Team 1.0.0",
-      "sidebar": "community"
-    }
-  }
-}",
-  "version-current-metadata-prop-751.json": "{
-  "pluginId": "community",
-  "version": "current",
-  "label": "Next",
-  "banner": "unreleased",
-  "badge": true,
-  "noIndex": false,
-  "className": "docs-version-current",
-  "isLast": false,
-  "docsSidebars": {
-    "community": [
-      {
-        "type": "link",
-        "label": "Team title translated",
-        "href": "/community/next/team",
-        "docId": "team",
-        "unlisted": false
-      }
-    ]
-  },
-  "docs": {
-    "team": {
-      "id": "team",
-      "title": "Team title translated",
-      "description": "Team current version (translated)",
-      "sidebar": "community"
-    }
-  }
-}",
 }
 `;
 
@@ -3014,11 +2987,41 @@ exports[`versioned website (community) content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-current-metadata-prop-751.json",
-        },
         "path": "/community/next",
         "priority": undefined,
+        "props": {
+          "version": {
+            "badge": true,
+            "banner": "unreleased",
+            "className": "docs-version-current",
+            "docs": {
+              "team": {
+                "description": "Team current version (translated)",
+                "id": "team",
+                "sidebar": "community",
+                "title": "Team title translated",
+              },
+            },
+            "docsSidebars": {
+              "community": [
+                {
+                  "className": undefined,
+                  "customProps": undefined,
+                  "docId": "team",
+                  "href": "/community/next/team",
+                  "label": "Team title translated",
+                  "type": "link",
+                  "unlisted": false,
+                },
+              ],
+            },
+            "isLast": false,
+            "label": "Next",
+            "noIndex": false,
+            "pluginId": "community",
+            "version": "current",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocRoot",
@@ -3045,11 +3048,41 @@ exports[`versioned website (community) content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-1-0-0-metadata-prop-608.json",
-        },
         "path": "/community",
         "priority": -1,
+        "props": {
+          "version": {
+            "badge": true,
+            "banner": null,
+            "className": "docs-version-1.0.0",
+            "docs": {
+              "team": {
+                "description": "Team 1.0.0",
+                "id": "team",
+                "sidebar": "community",
+                "title": "team",
+              },
+            },
+            "docsSidebars": {
+              "community": [
+                {
+                  "className": undefined,
+                  "customProps": undefined,
+                  "docId": "team",
+                  "href": "/community/team",
+                  "label": "team",
+                  "type": "link",
+                  "unlisted": false,
+                },
+              ],
+            },
+            "isLast": true,
+            "label": "1.0.0",
+            "noIndex": false,
+            "pluginId": "community",
+            "version": "1.0.0",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocRoot",
@@ -3722,347 +3755,6 @@ exports[`versioned website content: data 1`] = `
     "slug": "../../../../../../../../tryToEscapeSlug"
   }
 }",
-  "tag-docs-next-tags-bar-tag-1-a8f.json": "{
-  "label": "barTag 1",
-  "permalink": "/docs/next/tags/bar-tag-1",
-  "allTagsPath": "/docs/next/tags",
-  "count": 1,
-  "items": [
-    {
-      "id": "foo/bar",
-      "title": "bar",
-      "description": "This is next version of bar.",
-      "permalink": "/docs/next/foo/barSlug"
-    }
-  ],
-  "unlisted": false
-}",
-  "tag-docs-next-tags-bar-tag-2-216.json": "{
-  "label": "barTag-2",
-  "permalink": "/docs/next/tags/bar-tag-2",
-  "allTagsPath": "/docs/next/tags",
-  "count": 1,
-  "items": [
-    {
-      "id": "foo/bar",
-      "title": "bar",
-      "description": "This is next version of bar.",
-      "permalink": "/docs/next/foo/barSlug"
-    }
-  ],
-  "unlisted": false
-}",
-  "tag-docs-next-tags-bar-tag-3-permalink-94a.json": "{
-  "label": "barTag 3",
-  "permalink": "/docs/next/tags/barTag-3-permalink",
-  "allTagsPath": "/docs/next/tags",
-  "count": 1,
-  "items": [
-    {
-      "id": "foo/bar",
-      "title": "bar",
-      "description": "This is next version of bar.",
-      "permalink": "/docs/next/foo/barSlug"
-    }
-  ],
-  "unlisted": false
-}",
-  "tags-list-current-prop-15a.json": "[
-  {
-    "label": "barTag 1",
-    "permalink": "/docs/next/tags/bar-tag-1",
-    "count": 1
-  },
-  {
-    "label": "barTag-2",
-    "permalink": "/docs/next/tags/bar-tag-2",
-    "count": 1
-  },
-  {
-    "label": "barTag 3",
-    "permalink": "/docs/next/tags/barTag-3-permalink",
-    "count": 1
-  }
-]",
-  "version-1-0-0-metadata-prop-608.json": "{
-  "pluginId": "default",
-  "version": "1.0.0",
-  "label": "1.0.0",
-  "banner": "unmaintained",
-  "badge": true,
-  "noIndex": false,
-  "className": "docs-version-1.0.0",
-  "isLast": false,
-  "docsSidebars": {
-    "docs": [
-      {
-        "type": "category",
-        "label": "Test",
-        "items": [
-          {
-            "type": "link",
-            "label": "bar",
-            "href": "/docs/1.0.0/foo/barSlug",
-            "docId": "foo/bar",
-            "unlisted": false
-          },
-          {
-            "type": "link",
-            "label": "baz",
-            "href": "/docs/1.0.0/foo/baz",
-            "docId": "foo/baz",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      },
-      {
-        "type": "category",
-        "label": "Guides",
-        "items": [
-          {
-            "type": "link",
-            "label": "hello",
-            "href": "/docs/1.0.0/",
-            "docId": "hello",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      }
-    ]
-  },
-  "docs": {
-    "foo/bar": {
-      "id": "foo/bar",
-      "title": "bar",
-      "description": "Bar 1.0.0 !",
-      "sidebar": "docs"
-    },
-    "foo/baz": {
-      "id": "foo/baz",
-      "title": "baz",
-      "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
-      "sidebar": "docs"
-    },
-    "hello": {
-      "id": "hello",
-      "title": "hello",
-      "description": "Hello 1.0.0 ! (translated en)",
-      "sidebar": "docs"
-    }
-  }
-}",
-  "version-1-0-1-metadata-prop-e87.json": "{
-  "pluginId": "default",
-  "version": "1.0.1",
-  "label": "1.0.1",
-  "banner": null,
-  "badge": true,
-  "noIndex": true,
-  "className": "docs-version-1.0.1",
-  "isLast": true,
-  "docsSidebars": {
-    "VersionedSideBarNameDoesNotMatter/docs": [
-      {
-        "type": "category",
-        "label": "Test",
-        "items": [
-          {
-            "type": "link",
-            "label": "bar",
-            "href": "/docs/foo/bar",
-            "docId": "foo/bar",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      },
-      {
-        "type": "category",
-        "label": "Guides",
-        "items": [
-          {
-            "type": "link",
-            "label": "hello",
-            "href": "/docs/",
-            "docId": "hello",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      }
-    ]
-  },
-  "docs": {
-    "foo/bar": {
-      "id": "foo/bar",
-      "title": "bar",
-      "description": "Bar 1.0.1 !",
-      "sidebar": "VersionedSideBarNameDoesNotMatter/docs"
-    },
-    "hello": {
-      "id": "hello",
-      "title": "hello",
-      "description": "Hello 1.0.1 !",
-      "sidebar": "VersionedSideBarNameDoesNotMatter/docs"
-    }
-  }
-}",
-  "version-current-metadata-prop-751.json": "{
-  "pluginId": "default",
-  "version": "current",
-  "label": "Next",
-  "banner": "unreleased",
-  "badge": true,
-  "noIndex": false,
-  "className": "docs-version-current",
-  "isLast": false,
-  "docsSidebars": {
-    "docs": [
-      {
-        "type": "category",
-        "label": "Test",
-        "items": [
-          {
-            "type": "link",
-            "label": "bar",
-            "href": "/docs/next/foo/barSlug",
-            "docId": "foo/bar",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      },
-      {
-        "type": "category",
-        "label": "Guides",
-        "items": [
-          {
-            "type": "link",
-            "label": "hello",
-            "href": "/docs/next/",
-            "docId": "hello",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      }
-    ]
-  },
-  "docs": {
-    "foo/bar": {
-      "id": "foo/bar",
-      "title": "bar",
-      "description": "This is next version of bar.",
-      "sidebar": "docs"
-    },
-    "hello": {
-      "id": "hello",
-      "title": "hello",
-      "description": "Hello next !",
-      "sidebar": "docs"
-    },
-    "slugs/absoluteSlug": {
-      "id": "slugs/absoluteSlug",
-      "title": "absoluteSlug",
-      "description": "Lorem"
-    },
-    "slugs/relativeSlug": {
-      "id": "slugs/relativeSlug",
-      "title": "relativeSlug",
-      "description": "Lorem"
-    },
-    "slugs/resolvedSlug": {
-      "id": "slugs/resolvedSlug",
-      "title": "resolvedSlug",
-      "description": "Lorem"
-    },
-    "slugs/tryToEscapeSlug": {
-      "id": "slugs/tryToEscapeSlug",
-      "title": "tryToEscapeSlug",
-      "description": "Lorem"
-    }
-  }
-}",
-  "version-with-slugs-metadata-prop-2bf.json": "{
-  "pluginId": "default",
-  "version": "withSlugs",
-  "label": "withSlugs",
-  "banner": "unmaintained",
-  "badge": true,
-  "noIndex": false,
-  "className": "docs-version-withSlugs",
-  "isLast": false,
-  "docsSidebars": {
-    "docs": [
-      {
-        "type": "category",
-        "label": "Test",
-        "items": [
-          {
-            "type": "link",
-            "label": "rootAbsoluteSlug",
-            "href": "/docs/withSlugs/rootAbsoluteSlug",
-            "docId": "rootAbsoluteSlug",
-            "unlisted": false
-          }
-        ],
-        "collapsed": true,
-        "collapsible": true
-      }
-    ]
-  },
-  "docs": {
-    "rootAbsoluteSlug": {
-      "id": "rootAbsoluteSlug",
-      "title": "rootAbsoluteSlug",
-      "description": "Lorem",
-      "sidebar": "docs"
-    },
-    "rootRelativeSlug": {
-      "id": "rootRelativeSlug",
-      "title": "rootRelativeSlug",
-      "description": "Lorem"
-    },
-    "rootResolvedSlug": {
-      "id": "rootResolvedSlug",
-      "title": "rootResolvedSlug",
-      "description": "Lorem"
-    },
-    "rootTryToEscapeSlug": {
-      "id": "rootTryToEscapeSlug",
-      "title": "rootTryToEscapeSlug",
-      "description": "Lorem"
-    },
-    "slugs/absoluteSlug": {
-      "id": "slugs/absoluteSlug",
-      "title": "absoluteSlug",
-      "description": "Lorem"
-    },
-    "slugs/relativeSlug": {
-      "id": "slugs/relativeSlug",
-      "title": "relativeSlug",
-      "description": "Lorem"
-    },
-    "slugs/resolvedSlug": {
-      "id": "slugs/resolvedSlug",
-      "title": "resolvedSlug",
-      "description": "Lorem"
-    },
-    "slugs/tryToEscapeSlug": {
-      "id": "slugs/tryToEscapeSlug",
-      "title": "tryToEscapeSlug",
-      "description": "Lorem"
-    }
-  }
-}",
 }
 `;
 
@@ -4256,11 +3948,87 @@ exports[`versioned website content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-1-0-0-metadata-prop-608.json",
-        },
         "path": "/docs/1.0.0",
         "priority": undefined,
+        "props": {
+          "version": {
+            "badge": true,
+            "banner": "unmaintained",
+            "className": "docs-version-1.0.0",
+            "docs": {
+              "foo/bar": {
+                "description": "Bar 1.0.0 !",
+                "id": "foo/bar",
+                "sidebar": "docs",
+                "title": "bar",
+              },
+              "foo/baz": {
+                "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
+                "id": "foo/baz",
+                "sidebar": "docs",
+                "title": "baz",
+              },
+              "hello": {
+                "description": "Hello 1.0.0 ! (translated en)",
+                "id": "hello",
+                "sidebar": "docs",
+                "title": "hello",
+              },
+            },
+            "docsSidebars": {
+              "docs": [
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "foo/bar",
+                      "href": "/docs/1.0.0/foo/barSlug",
+                      "label": "bar",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "foo/baz",
+                      "href": "/docs/1.0.0/foo/baz",
+                      "label": "baz",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Test",
+                  "type": "category",
+                },
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "hello",
+                      "href": "/docs/1.0.0/",
+                      "label": "hello",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Guides",
+                  "type": "category",
+                },
+              ],
+            },
+            "isLast": false,
+            "label": "1.0.0",
+            "noIndex": false,
+            "pluginId": "default",
+            "version": "1.0.0",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocRoot",
@@ -4313,43 +4081,186 @@ exports[`versioned website content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-current-metadata-prop-751.json",
-        },
         "path": "/docs/next",
         "priority": undefined,
+        "props": {
+          "version": {
+            "badge": true,
+            "banner": "unreleased",
+            "className": "docs-version-current",
+            "docs": {
+              "foo/bar": {
+                "description": "This is next version of bar.",
+                "id": "foo/bar",
+                "sidebar": "docs",
+                "title": "bar",
+              },
+              "hello": {
+                "description": "Hello next !",
+                "id": "hello",
+                "sidebar": "docs",
+                "title": "hello",
+              },
+              "slugs/absoluteSlug": {
+                "description": "Lorem",
+                "id": "slugs/absoluteSlug",
+                "sidebar": undefined,
+                "title": "absoluteSlug",
+              },
+              "slugs/relativeSlug": {
+                "description": "Lorem",
+                "id": "slugs/relativeSlug",
+                "sidebar": undefined,
+                "title": "relativeSlug",
+              },
+              "slugs/resolvedSlug": {
+                "description": "Lorem",
+                "id": "slugs/resolvedSlug",
+                "sidebar": undefined,
+                "title": "resolvedSlug",
+              },
+              "slugs/tryToEscapeSlug": {
+                "description": "Lorem",
+                "id": "slugs/tryToEscapeSlug",
+                "sidebar": undefined,
+                "title": "tryToEscapeSlug",
+              },
+            },
+            "docsSidebars": {
+              "docs": [
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "foo/bar",
+                      "href": "/docs/next/foo/barSlug",
+                      "label": "bar",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Test",
+                  "type": "category",
+                },
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "hello",
+                      "href": "/docs/next/",
+                      "label": "hello",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Guides",
+                  "type": "category",
+                },
+              ],
+            },
+            "isLast": false,
+            "label": "Next",
+            "noIndex": false,
+            "pluginId": "default",
+            "version": "current",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocTagsListPage",
             "exact": true,
-            "modules": {
-              "tags": "~docs/tags-list-current-prop-15a.json",
-            },
             "path": "/docs/next/tags",
+            "props": {
+              "tags": [
+                {
+                  "count": 1,
+                  "label": "barTag 1",
+                  "permalink": "/docs/next/tags/bar-tag-1",
+                },
+                {
+                  "count": 1,
+                  "label": "barTag-2",
+                  "permalink": "/docs/next/tags/bar-tag-2",
+                },
+                {
+                  "count": 1,
+                  "label": "barTag 3",
+                  "permalink": "/docs/next/tags/barTag-3-permalink",
+                },
+              ],
+            },
           },
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "modules": {
-              "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
-            },
             "path": "/docs/next/tags/bar-tag-1",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/next/tags",
+                "count": 1,
+                "items": [
+                  {
+                    "description": "This is next version of bar.",
+                    "id": "foo/bar",
+                    "permalink": "/docs/next/foo/barSlug",
+                    "title": "bar",
+                  },
+                ],
+                "label": "barTag 1",
+                "permalink": "/docs/next/tags/bar-tag-1",
+                "unlisted": false,
+              },
+            },
           },
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "modules": {
-              "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
-            },
             "path": "/docs/next/tags/bar-tag-2",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/next/tags",
+                "count": 1,
+                "items": [
+                  {
+                    "description": "This is next version of bar.",
+                    "id": "foo/bar",
+                    "permalink": "/docs/next/foo/barSlug",
+                    "title": "bar",
+                  },
+                ],
+                "label": "barTag-2",
+                "permalink": "/docs/next/tags/bar-tag-2",
+                "unlisted": false,
+              },
+            },
           },
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "modules": {
-              "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
-            },
             "path": "/docs/next/tags/barTag-3-permalink",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/next/tags",
+                "count": 1,
+                "items": [
+                  {
+                    "description": "This is next version of bar.",
+                    "id": "foo/bar",
+                    "permalink": "/docs/next/foo/barSlug",
+                    "title": "bar",
+                  },
+                ],
+                "label": "barTag 3",
+                "permalink": "/docs/next/tags/barTag-3-permalink",
+                "unlisted": false,
+              },
+            },
           },
           {
             "component": "@theme/DocRoot",
@@ -4437,11 +4348,91 @@ exports[`versioned website content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-with-slugs-metadata-prop-2bf.json",
-        },
         "path": "/docs/withSlugs",
         "priority": undefined,
+        "props": {
+          "version": {
+            "badge": true,
+            "banner": "unmaintained",
+            "className": "docs-version-withSlugs",
+            "docs": {
+              "rootAbsoluteSlug": {
+                "description": "Lorem",
+                "id": "rootAbsoluteSlug",
+                "sidebar": "docs",
+                "title": "rootAbsoluteSlug",
+              },
+              "rootRelativeSlug": {
+                "description": "Lorem",
+                "id": "rootRelativeSlug",
+                "sidebar": undefined,
+                "title": "rootRelativeSlug",
+              },
+              "rootResolvedSlug": {
+                "description": "Lorem",
+                "id": "rootResolvedSlug",
+                "sidebar": undefined,
+                "title": "rootResolvedSlug",
+              },
+              "rootTryToEscapeSlug": {
+                "description": "Lorem",
+                "id": "rootTryToEscapeSlug",
+                "sidebar": undefined,
+                "title": "rootTryToEscapeSlug",
+              },
+              "slugs/absoluteSlug": {
+                "description": "Lorem",
+                "id": "slugs/absoluteSlug",
+                "sidebar": undefined,
+                "title": "absoluteSlug",
+              },
+              "slugs/relativeSlug": {
+                "description": "Lorem",
+                "id": "slugs/relativeSlug",
+                "sidebar": undefined,
+                "title": "relativeSlug",
+              },
+              "slugs/resolvedSlug": {
+                "description": "Lorem",
+                "id": "slugs/resolvedSlug",
+                "sidebar": undefined,
+                "title": "resolvedSlug",
+              },
+              "slugs/tryToEscapeSlug": {
+                "description": "Lorem",
+                "id": "slugs/tryToEscapeSlug",
+                "sidebar": undefined,
+                "title": "tryToEscapeSlug",
+              },
+            },
+            "docsSidebars": {
+              "docs": [
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "rootAbsoluteSlug",
+                      "href": "/docs/withSlugs/rootAbsoluteSlug",
+                      "label": "rootAbsoluteSlug",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Test",
+                  "type": "category",
+                },
+              ],
+            },
+            "isLast": false,
+            "label": "withSlugs",
+            "noIndex": false,
+            "pluginId": "default",
+            "version": "withSlugs",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocRoot",
@@ -4552,11 +4543,72 @@ exports[`versioned website content: route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "exact": false,
-        "modules": {
-          "version": "~docs/version-1-0-1-metadata-prop-e87.json",
-        },
         "path": "/docs",
         "priority": -1,
+        "props": {
+          "version": {
+            "badge": true,
+            "banner": null,
+            "className": "docs-version-1.0.1",
+            "docs": {
+              "foo/bar": {
+                "description": "Bar 1.0.1 !",
+                "id": "foo/bar",
+                "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
+                "title": "bar",
+              },
+              "hello": {
+                "description": "Hello 1.0.1 !",
+                "id": "hello",
+                "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
+                "title": "hello",
+              },
+            },
+            "docsSidebars": {
+              "VersionedSideBarNameDoesNotMatter/docs": [
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "foo/bar",
+                      "href": "/docs/foo/bar",
+                      "label": "bar",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Test",
+                  "type": "category",
+                },
+                {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": [
+                    {
+                      "className": undefined,
+                      "customProps": undefined,
+                      "docId": "hello",
+                      "href": "/docs/",
+                      "label": "hello",
+                      "type": "link",
+                      "unlisted": false,
+                    },
+                  ],
+                  "label": "Guides",
+                  "type": "category",
+                },
+              ],
+            },
+            "isLast": true,
+            "label": "1.0.1",
+            "noIndex": true,
+            "pluginId": "default",
+            "version": "1.0.1",
+          },
+        },
         "routes": [
           {
             "component": "@theme/DocRoot",
