@@ -117,6 +117,11 @@ export async function buildAllRoutes({
     return aliasedSource(modulePath);
   }
 
+  // TODO we should have a parent blog route,
+  //  and inject blog metadata + sidebar as a parent context
+  //  unfortunately we can't have a parent route for blog yet
+  //  because if both blog/docs are using routeBasePath /,
+  //  React router config rendering doesn't support that well
   const sidebarModulePath = await createSidebarModule();
   const blogMetadataModulePath = await createBlogMetadataModule();
 
