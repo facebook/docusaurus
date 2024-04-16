@@ -307,7 +307,6 @@ rtcts
 rtlcss
 saurus
 Scaleway
-searchbar
 Sebastien
 sebastien
 sebastienlorber
