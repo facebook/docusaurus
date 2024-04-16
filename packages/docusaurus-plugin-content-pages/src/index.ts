@@ -75,11 +75,6 @@ export default function pluginContentPages(
       } = options;
       const contentDirs = getContentPathList(contentPaths);
       return {
-        resolve: {
-          alias: {
-            '~pages': pluginDataDirRoot,
-          },
-        },
         module: {
           rules: [
             {
