@@ -331,19 +331,20 @@ async function generateRoutePropModule({
 }) {
   ensureNoPropsConflict(route);
 
+  const moduleContent = JSON.stringify(route.props);
+
   // TODO we should aim to reduce this path length
   // This adds bytes to the global module registry
-
   const relativePath = path.posix.join(
     plugin.name,
     plugin.id,
     'p',
-    `${route.path}.json`,
+    `${docuHash(route.path)}.json`,
   );
   const modulePath = path.posix.join(generatedFilesDir, relativePath);
   const aliasedPath = path.posix.join('@generated', relativePath);
 
-  await generate(generatedFilesDir, modulePath, JSON.stringify(route.props));
+  await generate(generatedFilesDir, modulePath, moduleContent);
   return aliasedPath;
 }
 
