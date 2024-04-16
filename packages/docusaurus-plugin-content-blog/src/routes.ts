@@ -26,6 +26,7 @@ import type {
   BlogContent,
   PluginOptions,
   BlogPost,
+  BlogSidebar,
 } from '@docusaurus/plugin-content-blog';
 
 type CreateAllRoutesParam = {
@@ -87,20 +88,17 @@ export async function buildAllRoutes({
       : blogPosts.slice(0, options.blogSidebarCount);
 
   async function createSidebarModule() {
+    const sidebar: BlogSidebar = {
+      title: blogSidebarTitle,
+      items: sidebarBlogPosts.map((blogPost) => ({
+        title: blogPost.metadata.title,
+        permalink: blogPost.metadata.permalink,
+        unlisted: blogPost.metadata.unlisted,
+      })),
+    };
     const modulePath = await createData(
       `blog-post-list-prop-${pluginId}.json`,
-      JSON.stringify(
-        {
-          title: blogSidebarTitle,
-          items: sidebarBlogPosts.map((blogPost) => ({
-            title: blogPost.metadata.title,
-            permalink: blogPost.metadata.permalink,
-            unlisted: blogPost.metadata.unlisted,
-          })),
-        },
-        null,
-        2,
-      ),
+      sidebar,
     );
     return aliasedSource(modulePath);
   }
@@ -112,7 +110,7 @@ export async function buildAllRoutes({
     };
     const modulePath = await createData(
       `blogMetadata-${pluginId}.json`,
-      JSON.stringify(blogMetadata, null, 2),
+      blogMetadata,
     );
     return aliasedSource(modulePath);
   }
@@ -171,7 +169,7 @@ export async function buildAllRoutes({
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
         `${docuHash(metadata.source)}.json`,
-        JSON.stringify(metadata, null, 2),
+        metadata,
       );
     }),
   );

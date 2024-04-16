@@ -84,7 +84,9 @@ export async function createPluginActionsUtils({
     },
     async createData(name, data) {
       const modulePath = path.join(dataDir, name);
-      await generate(dataDir, name, data);
+      const dataString =
+        typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+      await generate(dataDir, name, dataString);
       return modulePath;
     },
     setGlobalData(data) {
