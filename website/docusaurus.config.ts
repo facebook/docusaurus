@@ -464,6 +464,14 @@ export default async function createConfigAsync() {
           } satisfies BlogOptions,
           pages: {
             remarkPlugins: [npm2yarn],
+            editUrl: ({locale, pagesPath}) => {
+              if (locale !== defaultLocale) {
+                return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+              }
+              return `https://github.com/facebook/docusaurus/edit/main/website/src/pages/${pagesPath}`;
+            },
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
           } satisfies PageOptions,
           theme: {
             customCss: [

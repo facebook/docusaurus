@@ -23,6 +23,9 @@ import {
   parseMarkdownFile,
   isUnlisted,
   isDraft,
+  readLastUpdateData,
+  getEditUrl,
+  posixPath,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
@@ -45,7 +48,8 @@ export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null> {
-  const {siteConfig, siteDir, generatedFilesDir, localizationDir} = context;
+  const {siteConfig, siteDir, generatedFilesDir, localizationDir, i18n} =
+    context;
 
   const contentPaths: PagesContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -73,7 +77,7 @@ export default function pluginContentPages(
     },
 
     async loadContent() {
-      const {include} = options;
+      const {include, editUrl} = options;
 
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
@@ -120,6 +124,50 @@ export default function pluginContentPages(
         });
         const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
 
+        const pagesDirPath = await getFolderContainingFile(
+          getContentPathList(contentPaths),
+          relativeSource,
+        );
+
+        const pagesSourceAbsolute = path.join(pagesDirPath, relativeSource);
+
+        function getPagesEditUrl() {
+          const pagesPathRelative = path.relative(
+            pagesDirPath,
+            path.resolve(pagesSourceAbsolute),
+          );
+
+          if (typeof editUrl === 'function') {
+            return editUrl({
+              pagesDirPath: posixPath(path.relative(siteDir, pagesDirPath)),
+              pagesPath: posixPath(pagesPathRelative),
+              permalink,
+              locale: i18n.currentLocale,
+            });
+          } else if (typeof editUrl === 'string') {
+            const isLocalized =
+              pagesDirPath === contentPaths.contentPathLocalized;
+            const fileContentPath =
+              isLocalized && options.editLocalizedFiles
+                ? contentPaths.contentPathLocalized
+                : contentPaths.contentPath;
+
+            const contentPathEditUrl = normalizeUrl([
+              editUrl,
+              posixPath(path.relative(siteDir, fileContentPath)),
+            ]);
+
+            return getEditUrl(pagesPathRelative, contentPathEditUrl);
+          }
+          return undefined;
+        }
+
+        const lastUpdatedData = await readLastUpdateData(
+          source,
+          options,
+          frontMatter.last_update,
+        );
+
         if (isDraft({frontMatter})) {
           return undefined;
         }
@@ -132,6 +180,9 @@ export default function pluginContentPages(
           title: frontMatter.title ?? contentTitle,
           description: frontMatter.description ?? excerpt,
           frontMatter,
+          lastUpdatedBy: lastUpdatedData.lastUpdatedBy,
+          lastUpdatedAt: lastUpdatedData.lastUpdatedAt,
+          editUrl: getPagesEditUrl(),
           unlisted,
         };
       }
@@ -160,12 +211,12 @@ export default function pluginContentPages(
       const {addRoute, createData} = actions;
 
       function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
+        const lastUpdatedAt =
+          metadata.type === 'mdx' ? metadata.lastUpdatedAt : undefined;
+
         return {
           sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-          // TODO add support for last updated date in the page plugin
-          //  at least for Markdown files
-          // lastUpdatedAt: metadata.lastUpdatedAt,
-          lastUpdatedAt: undefined,
+          lastUpdatedAt,
         };
       }
 

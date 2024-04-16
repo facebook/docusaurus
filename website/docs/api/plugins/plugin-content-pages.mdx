@@ -34,6 +34,8 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'src/pages'` | Path to data on filesystem relative to site dir. Components in this directory will be automatically converted to pages. |
+| `editUrl` | <code>string \| [EditUrlFn](#EditUrlFn)</code> | `undefined` | **Only for Markdown pages**. Base URL to edit your site. The final URL is computed by `editUrl + relativePostPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editLocalizedFiles` | `boolean` | `false` | **Only for Markdown pages**. The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `routeBasePath` | `string` | `'/'` | URL route for the pages section of your site. **DO NOT** include a trailing slash. |
 | `include` | `string[]` | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
@@ -42,9 +44,24 @@ Accepted fields:
 | `rehypePlugins` | `[]` | `any[]` | Rehype plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
+| `showLastUpdateAuthor` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the author who last updated the page. |
+| `showLastUpdateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the last date the page post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
 
 ```mdx-code-block
 </APITable>
+```
+
+### Types {#types}
+
+#### `EditUrlFn` {#EditUrlFn}
+
+```ts
+type EditUrlFunction = (params: {
+  blogDirPath: string;
+  blogPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
 ```
 
 ### Example configuration {#ex-config}

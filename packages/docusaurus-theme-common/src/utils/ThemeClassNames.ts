@@ -76,4 +76,7 @@ export const ThemeClassNames = {
     blogFooterTagsRow: 'theme-blog-footer-tags-row',
     blogFooterEditMetaRow: 'theme-blog-footer-edit-meta-row',
   },
+  pages: {
+    pageFooterEditMetaRow: 'theme-pages-footer-edit-meta-row',
+  },
 } as const;
