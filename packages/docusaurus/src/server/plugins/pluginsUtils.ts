@@ -13,6 +13,7 @@ import type {
   InitializedPlugin,
   LoadedPlugin,
   PluginIdentifier,
+  PluginRouteConfig,
   RouteConfig,
 } from '@docusaurus/types';
 
@@ -49,8 +50,22 @@ export function aggregateAllContent(loadedPlugins: LoadedPlugin[]): AllContent {
     .value();
 }
 
-export function aggregateRoutes(loadedPlugins: LoadedPlugin[]): RouteConfig[] {
-  return loadedPlugins.flatMap((p) => p.routes);
+export function toPluginRoute({
+  plugin,
+  route,
+}: {
+  plugin: LoadedPlugin;
+  route: RouteConfig;
+}): PluginRouteConfig {
+  return {plugin: {name: plugin.name, id: plugin.options.id}, ...route};
+}
+
+export function aggregateRoutes(
+  loadedPlugins: LoadedPlugin[],
+): PluginRouteConfig[] {
+  return loadedPlugins.flatMap((plugin) =>
+    plugin.routes.map((route) => toPluginRoute({plugin, route})),
+  );
 }
 
 export function aggregateGlobalData(loadedPlugins: LoadedPlugin[]): GlobalData {

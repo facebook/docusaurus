@@ -8,53 +8,32 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {
-  encodePath,
-  fileToPath,
   aliasedSitePath,
-  aliasedSitePathToRelativePath,
   docuHash,
-  getPluginI18nPath,
-  getFolderContainingFile,
   addTrailingPathSeparator,
-  Globby,
   createAbsoluteFilePathMatcher,
-  normalizeUrl,
   DEFAULT_PLUGIN_ID,
-  parseMarkdownFile,
-  isUnlisted,
-  isDraft,
 } from '@docusaurus/utils';
-import {validatePageFrontMatter} from './frontMatter';
-import type {LoadContext, Plugin, RouteMetadata} from '@docusaurus/types';
-import type {PagesContentPaths} from './types';
+import {createAllRoutes} from './routes';
+import {
+  createPagesContentPaths,
+  getContentPathList,
+  loadPagesContent,
+} from './content';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
-  Metadata,
   LoadedContent,
   PageFrontMatter,
 } from '@docusaurus/plugin-content-pages';
-
-export function getContentPathList(contentPaths: PagesContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
-}
-
-const isMarkdownSource = (source: string) =>
-  source.endsWith('.md') || source.endsWith('.mdx');
 
 export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null> {
-  const {siteConfig, siteDir, generatedFilesDir, localizationDir} = context;
+  const {siteConfig, siteDir, generatedFilesDir} = context;
 
-  const contentPaths: PagesContentPaths = {
-    contentPath: path.resolve(siteDir, options.path),
-    contentPathLocalized: getPluginI18nPath({
-      localizationDir,
-      pluginName: 'docusaurus-plugin-content-pages',
-      pluginId: options.id,
-    }),
-  };
+  const contentPaths = createPagesContentPaths({context, options});
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -73,135 +52,17 @@ export default function pluginContentPages(
     },
 
     async loadContent() {
-      const {include} = options;
-
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
-
-      const {baseUrl} = siteConfig;
-      const pagesFiles = await Globby(include, {
-        cwd: contentPaths.contentPath,
-        ignore: options.exclude,
-      });
-
-      async function processPageSourceFile(
-        relativeSource: string,
-      ): Promise<Metadata | undefined> {
-        // Lookup in localized folder in priority
-        const contentPath = await getFolderContainingFile(
-          getContentPathList(contentPaths),
-          relativeSource,
-        );
-
-        const source = path.join(contentPath, relativeSource);
-        const aliasedSourcePath = aliasedSitePath(source, siteDir);
-        const permalink = normalizeUrl([
-          baseUrl,
-          options.routeBasePath,
-          encodePath(fileToPath(relativeSource)),
-        ]);
-        if (!isMarkdownSource(relativeSource)) {
-          return {
-            type: 'jsx',
-            permalink,
-            source: aliasedSourcePath,
-          };
-        }
-        const content = await fs.readFile(source, 'utf-8');
-        const {
-          frontMatter: unsafeFrontMatter,
-          contentTitle,
-          excerpt,
-        } = await parseMarkdownFile({
-          filePath: source,
-          fileContent: content,
-          parseFrontMatter: siteConfig.markdown.parseFrontMatter,
-        });
-        const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
-
-        if (isDraft({frontMatter})) {
-          return undefined;
-        }
-        const unlisted = isUnlisted({frontMatter});
-
-        return {
-          type: 'mdx',
-          permalink,
-          source: aliasedSourcePath,
-          title: frontMatter.title ?? contentTitle,
-          description: frontMatter.description ?? excerpt,
-          frontMatter,
-          unlisted,
-        };
-      }
-
-      async function doProcessPageSourceFile(relativeSource: string) {
-        try {
-          return await processPageSourceFile(relativeSource);
-        } catch (err) {
-          throw new Error(
-            `Processing of page source file path=${relativeSource} failed.`,
-            {cause: err as Error},
-          );
-        }
-      }
-
-      return (
-        await Promise.all(pagesFiles.map(doProcessPageSourceFile))
-      ).filter(Boolean) as Metadata[];
+      return loadPagesContent({context, options, contentPaths});
     },
 
     async contentLoaded({content, actions}) {
       if (!content) {
         return;
       }
-
-      const {addRoute, createData} = actions;
-
-      function createPageRouteMetadata(metadata: Metadata): RouteMetadata {
-        return {
-          sourceFilePath: aliasedSitePathToRelativePath(metadata.source),
-          // TODO add support for last updated date in the page plugin
-          //  at least for Markdown files
-          // lastUpdatedAt: metadata.lastUpdatedAt,
-          lastUpdatedAt: undefined,
-        };
-      }
-
-      await Promise.all(
-        content.map(async (metadata) => {
-          const {permalink, source} = metadata;
-          const routeMetadata = createPageRouteMetadata(metadata);
-          if (metadata.type === 'mdx') {
-            await createData(
-              // Note that this created data path must be in sync with
-              // metadataPath provided to mdx-loader.
-              `${docuHash(metadata.source)}.json`,
-              JSON.stringify(metadata, null, 2),
-            );
-            addRoute({
-              path: permalink,
-              component: options.mdxPageComponent,
-              exact: true,
-              metadata: routeMetadata,
-              modules: {
-                content: source,
-              },
-            });
-          } else {
-            addRoute({
-              path: permalink,
-              component: source,
-              exact: true,
-              metadata: routeMetadata,
-              modules: {
-                config: `@generated/docusaurus.config`,
-              },
-            });
-          }
-        }),
-      );
+      await createAllRoutes({content, options, actions});
     },
 
     configureWebpack() {
@@ -214,11 +75,6 @@ export default function pluginContentPages(
       } = options;
       const contentDirs = getContentPathList(contentPaths);
       return {
-        resolve: {
-          alias: {
-            '~pages': pluginDataDirRoot,
-          },
-        },
         module: {
           rules: [
             {

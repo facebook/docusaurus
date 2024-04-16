@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {docuHash, generate} from '@docusaurus/utils';
+import {generate, posixPath} from '@docusaurus/utils';
 import {applyRouteTrailingSlash} from './routeConfig';
 import type {
   InitializedPlugin,
@@ -38,17 +38,26 @@ export async function createPluginActionsUtils({
 }): Promise<PluginActionUtils> {
   const pluginId = plugin.options.id;
   // Plugins data files are namespaced by pluginName/pluginId
+
+  // TODO Docusaurus v4 breaking change
+  //  module aliasing should be automatic
+  //  we should never find local absolute FS paths in the codegen registry
+  const aliasedSource = (source: string) =>
+    `@generated/${posixPath(path.relative(generatedFilesDir, source))}`;
+
+  // TODO use @generated data dir here!
+  // The module registry should not contain absolute paths
   const dataDir = path.join(generatedFilesDir, plugin.name, pluginId);
 
   const pluginRouteContext: PluginRouteContext['plugin'] = {
     name: plugin.name,
     id: pluginId,
   };
-  const pluginRouteContextModulePath = path.join(
-    dataDir,
-    `${docuHash('pluginRouteContextModule')}.json`,
-  );
+
+  const pluginRouteContextModulePath = path.join(dataDir, `__plugin.json`);
+
   // TODO not ideal place to generate that file
+  // move to codegen step instead!
   await generate(
     '/',
     pluginRouteContextModulePath,
@@ -69,13 +78,15 @@ export async function createPluginActionsUtils({
         ...finalRouteConfig,
         context: {
           ...(finalRouteConfig.context && {data: finalRouteConfig.context}),
-          plugin: pluginRouteContextModulePath,
+          plugin: aliasedSource(pluginRouteContextModulePath),
         },
       });
     },
     async createData(name, data) {
       const modulePath = path.join(dataDir, name);
-      await generate(dataDir, name, data);
+      const dataString =
+        typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+      await generate(dataDir, name, dataString);
       return modulePath;
     },
     setGlobalData(data) {

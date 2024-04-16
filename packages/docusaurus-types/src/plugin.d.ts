@@ -49,7 +49,7 @@ export type PluginVersionInformation =
 
 export type PluginContentLoadedActions = {
   addRoute: (config: RouteConfig) => void;
-  createData: (name: string, data: string) => Promise<string>;
+  createData: (name: string, data: string | object) => Promise<string>;
   setGlobalData: (data: unknown) => void;
 };
 

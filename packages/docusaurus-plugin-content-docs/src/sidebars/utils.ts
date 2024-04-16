@@ -478,7 +478,10 @@ Available document ids are:
   };
 }
 
-export function toDocNavigationLink(doc: DocMetadataBase): PropNavigationLink {
+export function toDocNavigationLink(
+  doc: DocMetadataBase,
+  options?: {sidebarItemLabel?: string | undefined},
+): PropNavigationLink {
   const {
     title,
     permalink,
@@ -487,7 +490,11 @@ export function toDocNavigationLink(doc: DocMetadataBase): PropNavigationLink {
       sidebar_label: sidebarLabel,
     },
   } = doc;
-  return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
+  return {
+    title:
+      paginationLabel ?? sidebarLabel ?? options?.sidebarItemLabel ?? title,
+    permalink,
+  };
 }
 
 export function toNavigationLink(
@@ -516,5 +523,7 @@ export function toNavigationLink(
           permalink: navigationItem.link.permalink,
         };
   }
-  return toDocNavigationLink(getDocById(navigationItem.id));
+  return toDocNavigationLink(getDocById(navigationItem.id), {
+    sidebarItemLabel: navigationItem?.label,
+  });
 }

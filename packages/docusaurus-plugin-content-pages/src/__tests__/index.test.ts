@@ -46,4 +46,24 @@ describe('docusaurus-plugin-content-pages', () => {
 
     expect(pagesMetadata).toMatchSnapshot();
   });
+
+  it('loads simple pages with last update', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const context = await loadContext({siteDir});
+    const plugin = pluginContentPages(
+      context,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/pages',
+          editUrl: () => 'url placeholder',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+      }),
+    );
+    const pagesMetadata = await plugin.loadContent!();
+
+    expect(pagesMetadata).toMatchSnapshot();
+  });
 });

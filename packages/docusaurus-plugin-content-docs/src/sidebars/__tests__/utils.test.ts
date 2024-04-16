@@ -719,6 +719,22 @@ describe('toDocNavigationLink', () => {
     } as PropNavigationLink);
   });
 
+  it('with sidebar item label', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {},
+        }),
+        {sidebarItemLabel: 'Doc sidebar item label'},
+      ),
+    ).toEqual({
+      title: 'Doc sidebar item label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
   it('with pagination_label + sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
@@ -733,6 +749,24 @@ describe('toDocNavigationLink', () => {
       ),
     ).toEqual({
       title: 'pagination_label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
+  it('with sidebar_label + sidebar item label', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            sidebar_label: 'sidebar_label',
+          },
+        }),
+        {sidebarItemLabel: 'Doc sidebar item label'},
+      ),
+    ).toEqual({
+      title: 'sidebar_label',
       permalink: '/docPermalink',
     } as PropNavigationLink);
   });
