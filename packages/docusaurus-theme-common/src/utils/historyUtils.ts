@@ -115,7 +115,7 @@ function useQueryStringListValues(key: string): string[] {
 }
 
 type ListUpdate = string[] | ((oldValues: string[]) => string[]);
-type ListUpdateFunction = (
+export type ListUpdateFunction = (
   update: ListUpdate,
   options?: {push: boolean},
 ) => void;

@@ -11,6 +11,7 @@ import {
   usePluralForm,
   useQueryString,
   useQueryStringList,
+  type ListUpdateFunction,
 } from '@docusaurus/theme-common';
 import type {
   TagType,
@@ -51,25 +52,28 @@ export function filterUsers({
   });
 }
 
-export function useSearchName(): string | undefined {
-  return useQueryString('name')[0];
+export function useSearchName(): [
+  string,
+  (newValue: string | null, options?: {push: boolean}) => void,
+] {
+  return useQueryString('name');
 }
 
-export function useTags() {
+export function useTags(): [string[], ListUpdateFunction] {
   return useQueryStringList('tags');
 }
 
-export function useOperator() {
+export function useOperator(): [Operator, () => void] {
   const [searchOperator, setSearchOperator] = useQueryString('operator');
   const operator: Operator = searchOperator === 'AND' ? 'AND' : 'OR';
   const toggleOperator = useCallback(() => {
     const newOperator = operator === 'OR' ? 'AND' : null;
     setSearchOperator(newOperator);
   }, [operator, setSearchOperator]);
-  return [operator, toggleOperator] as const;
+  return [operator, toggleOperator];
 }
 
-export function useFilteredUsers(users: ShowcaseItem[]) {
+export function useFilteredUsers(users: ShowcaseItem[]): ShowcaseItem[] {
   const [tags] = useTags();
   const [searchName] = useSearchName() ?? [''];
   const [operator] = useOperator();
@@ -85,7 +89,7 @@ export function useFilteredUsers(users: ShowcaseItem[]) {
   );
 }
 
-export function useSiteCountPlural() {
+export function useSiteCountPlural(): (sitesCount: number) => string {
   const {selectMessage} = usePluralForm();
   return (sitesCount: number) =>
     selectMessage(

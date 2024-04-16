@@ -21,7 +21,6 @@ export default function ShowcaseSearchBar(): ReactNode {
         })}
         value={searchName}
         onInput={(e) => {
-          // TODO fix typescript error ?
           setSearchName(e.currentTarget.value);
         }}
       />

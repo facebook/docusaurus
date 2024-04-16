@@ -50,7 +50,7 @@ declare module '@docusaurus/plugin-content-showcase' {
     readonly preview: string | null; // null = use our serverless screenshot service
     readonly website: string;
     readonly source: string | null;
-    readonly tags: string[];
+    readonly tags: TagType[];
   };
 
   export type ShowcaseItems = {
