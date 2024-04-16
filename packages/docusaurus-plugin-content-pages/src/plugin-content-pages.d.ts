@@ -8,6 +8,7 @@
 declare module '@docusaurus/plugin-content-pages' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {FrontMatterLastUpdate, LastUpdateData} from '@docusaurus/utils';
 
   export type Assets = {
     image?: string;
@@ -20,6 +21,10 @@ declare module '@docusaurus/plugin-content-pages' {
     include: string[];
     exclude: string[];
     mdxPageComponent: string;
+    showLastUpdateTime: boolean;
+    showLastUpdateAuthor: boolean;
+    editUrl?: string | EditUrlFunction;
+    editLocalizedFiles?: boolean;
   };
 
   export type Options = Partial<PluginOptions>;
@@ -35,6 +40,7 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly toc_max_heading_level?: number;
     readonly draft?: boolean;
     readonly unlisted?: boolean;
+    readonly last_update?: FrontMatterLastUpdate;
   };
 
   export type JSXPageMetadata = {
@@ -43,15 +49,30 @@ declare module '@docusaurus/plugin-content-pages' {
     source: string;
   };
 
-  export type MDXPageMetadata = {
+  export type MDXPageMetadata = LastUpdateData & {
     type: 'mdx';
     permalink: string;
     source: string;
     frontMatter: PageFrontMatter & {[key: string]: unknown};
+    editUrl?: string;
     title?: string;
     description?: string;
     unlisted: boolean;
   };
+
+  export type EditUrlFunction = (editUrlParams: {
+    /**
+     * The root content directory containing this post file, relative to the
+     * site path. Usually the same as `options.path` but can be localized
+     */
+    pagesDirPath: string;
+    /** Path to this pages file, relative to `pagesDirPath`. */
+    pagesPath: string;
+    /** @see {@link PagesPostMetadata.permalink} */
+    permalink: string;
+    /** Locale name. */
+    locale: string;
+  }) => string | undefined;
 
   export type Metadata = JSXPageMetadata | MDXPageMetadata;
 
