@@ -54,7 +54,7 @@ export async function buildAllRoutes({
       // Note that this created data path must be in sync with
       // metadataPath provided to mdx-loader.
       `${docuHash(metadata.source)}.json`,
-      JSON.stringify(metadata, null, 2),
+      metadata,
     );
     return {
       path: metadata.permalink,

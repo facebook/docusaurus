@@ -75,7 +75,7 @@ async function buildVersionDocRoutes({
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
         `${docuHash(doc.source)}.json`,
-        JSON.stringify(doc, null, 2),
+        doc,
       );
 
       const docRoute: RouteConfig = {
