@@ -52,7 +52,6 @@ export default async function pluginContentShowcase(
   return {
     name: 'docusaurus-plugin-content-showcase',
 
-    // TODO doesn't work
     getPathsToWatch() {
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
@@ -74,18 +73,15 @@ export default async function pluginContentShowcase(
       });
     },
 
-    async contentLoaded({content, actions}) {
+    async contentLoaded({content, actions: {addRoute}}) {
       if (!content) {
         return;
       }
-
-      const {addRoute, createData} = actions;
 
       await processContentLoaded({
         content,
         routeBasePath,
         addRoute,
-        createData,
       });
     },
   };

@@ -12,23 +12,16 @@ export async function processContentLoaded({
   content,
   routeBasePath,
   addRoute,
-  createData,
 }: {
   content: ShowcaseItems;
   routeBasePath: string;
   addRoute: PluginContentLoadedActions['addRoute'];
-  createData: PluginContentLoadedActions['createData'];
 }): Promise<void> {
-  const showcaseAllData = await createData(
-    'showcaseAll.json',
-    JSON.stringify(content.items),
-  );
-
   addRoute({
     path: routeBasePath,
     component: '@theme/Showcase',
-    modules: {
-      content: showcaseAllData,
+    props: {
+      items: content.items,
     },
     exact: true,
   });
