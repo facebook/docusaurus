@@ -6,6 +6,7 @@
  */
 
 import type {ParsedUrlQueryInput} from 'querystring';
+import type {PluginIdentifier} from './plugin';
 
 /**
  * A "module" represents a unit of serialized data emitted from the plugin. It
@@ -110,9 +111,23 @@ export type RouteConfig = {
    */
   metadata?: RouteMetadata;
   /**
-   * Extra props; will be available on the client side.
+   * Optional props object; will be converted to a module and injected as props
+   * into the route component.
    */
-  [propName: string]: unknown;
+  props?: {[propName: string]: unknown};
+  /**
+   * Extra route attribute; will be available on the client side route object.
+   */
+  [attributeName: string]: unknown;
+};
+
+export type PluginRouteConfig = RouteConfig & {
+  /**
+   * Routes are always created by Docusaurus plugins
+   * A plugin identifier is available at the top of a routing tree
+   * (child routes are implicitly created by the same plugin as their parent)
+   */
+  plugin: PluginIdentifier;
 };
 
 export type RouteContext = {

@@ -73,6 +73,9 @@ export default async function pluginContentDocs(
     'docusaurus-plugin-content-docs',
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
+  // TODO Docusaurus v4 breaking change
+  //  module aliasing should be automatic
+  //  we should never find local absolute FS paths in the codegen registry
   const aliasedSource = (source: string) =>
     `~docs/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 

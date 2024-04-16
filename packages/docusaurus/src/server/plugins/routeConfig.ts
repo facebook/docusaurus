@@ -12,10 +12,10 @@ import {
 import type {RouteConfig} from '@docusaurus/types';
 
 /** Recursively applies trailing slash config to all nested routes. */
-export function applyRouteTrailingSlash(
-  route: RouteConfig,
+export function applyRouteTrailingSlash<Route extends RouteConfig>(
+  route: Route,
   params: ApplyTrailingSlashParams,
-): RouteConfig {
+): Route {
   return {
     ...route,
     path: applyTrailingSlash(route.path, params),

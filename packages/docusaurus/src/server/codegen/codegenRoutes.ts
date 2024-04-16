@@ -6,6 +6,7 @@
  */
 
 import query from 'querystring';
+import path from 'path';
 import _ from 'lodash';
 import {docuHash, simpleHash, escapePath, generate} from '@docusaurus/utils';
 import type {
@@ -14,6 +15,8 @@ import type {
   RouteModules,
   ChunkNames,
   RouteChunkNames,
+  PluginRouteConfig,
+  PluginIdentifier,
 } from '@docusaurus/types';
 
 type RoutesCode = {
@@ -88,13 +91,13 @@ function serializeRouteConfig({
   routeHash,
   exact,
   subroutesCodeStrings,
-  props,
+  attributes,
 }: {
   routePath: string;
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
-  props: {[propName: string]: unknown};
+  attributes: {[attributeName: string]: unknown};
 }) {
   const parts = [
     `path: '${routePath}'`,
@@ -113,11 +116,11 @@ ${indent(subroutesCodeStrings.join(',\n'))}
     );
   }
 
-  Object.entries(props).forEach(([propName, propValue]) => {
+  Object.entries(attributes).forEach(([attrName, attrValue]) => {
     const isIdentifier =
-      /^[$_\p{ID_Start}][$\u200c\u200d\p{ID_Continue}]*$/u.test(propName);
-    const key = isIdentifier ? propName : JSON.stringify(propName);
-    parts.push(`${key}: ${JSON.stringify(propValue)}`);
+      /^[$_\p{ID_Start}][$\u200c\u200d\p{ID_Continue}]*$/u.test(attrName);
+    const key = isIdentifier ? attrName : JSON.stringify(attrName);
+    parts.push(`${key}: ${JSON.stringify(attrValue)}`);
   });
 
   return `{
@@ -201,7 +204,9 @@ function genRouteCode(routeConfig: RouteConfig, res: RoutesCode): string {
     priority,
     exact,
     metadata,
-    ...props
+    props,
+    plugin,
+    ...attributes
   } = routeConfig;
 
   if (typeof routePath !== 'string' || !component) {
@@ -225,7 +230,7 @@ ${JSON.stringify(routeConfig)}`,
     routeHash,
     subroutesCodeStrings: subroutes?.map((r) => genRouteCode(r, res)),
     exact,
-    props,
+    attributes,
   });
 }
 
@@ -311,14 +316,134 @@ const genRoutes = ({
 
 type GenerateRouteFilesParams = {
   generatedFilesDir: string;
-  routes: RouteConfig[];
+  routes: PluginRouteConfig[];
   baseUrl: string;
 };
 
-export async function generateRouteFiles({
+async function generateRoutePropModule({
+  generatedFilesDir,
+  route,
+  plugin,
+}: {
+  generatedFilesDir: string;
+  route: RouteConfig;
+  plugin: PluginIdentifier;
+}) {
+  ensureNoPropsConflict(route);
+
+  const moduleContent = JSON.stringify(route.props);
+
+  // TODO we should aim to reduce this path length
+  // This adds bytes to the global module registry
+  const relativePath = path.posix.join(
+    plugin.name,
+    plugin.id,
+    'p',
+    `${docuHash(route.path)}.json`,
+  );
+  const modulePath = path.posix.join(generatedFilesDir, relativePath);
+  const aliasedPath = path.posix.join('@generated', relativePath);
+
+  await generate(generatedFilesDir, modulePath, moduleContent);
+  return aliasedPath;
+}
+
+function ensureNoPropsConflict(route: RouteConfig) {
+  if (!route.props && !route.modules) {
+    return;
+  }
+  const conflictingPropNames = _.intersection(
+    Object.keys(route.props ?? {}),
+    Object.keys(route.modules ?? {}),
+  );
+  if (conflictingPropNames.length > 0) {
+    throw new Error(
+      `Route ${
+        route.path
+      } has conflicting props declared using both route.modules and route.props APIs for keys: ${conflictingPropNames.join(
+        ', ',
+      )}\nThis is not permitted, otherwise one prop would override the over.`,
+    );
+  }
+}
+
+async function preprocessRouteProps({
+  generatedFilesDir,
+  route,
+  plugin,
+}: {
+  generatedFilesDir: string;
+  route: RouteConfig;
+  plugin: PluginIdentifier;
+}): Promise<RouteConfig> {
+  const propsModulePathPromise = route.props
+    ? generateRoutePropModule({
+        generatedFilesDir,
+        route,
+        plugin,
+      })
+    : undefined;
+
+  const subRoutesPromise = route.routes
+    ? Promise.all(
+        route.routes.map((subRoute: RouteConfig) => {
+          return preprocessRouteProps({
+            generatedFilesDir,
+            route: subRoute,
+            plugin,
+          });
+        }),
+      )
+    : undefined;
+
+  const [propsModulePath, subRoutes] = await Promise.all([
+    propsModulePathPromise,
+    subRoutesPromise,
+  ]);
+
+  const newRoute: RouteConfig = {
+    ...route,
+    modules: {
+      ...route.modules,
+      ...(propsModulePath && {__props: propsModulePath}),
+    },
+    routes: subRoutes,
+    props: undefined,
+  };
+
+  return newRoute;
+}
+
+// For convenience, it's possible to pass a "route.props" object
+// This method converts the props object to a regular module
+// and assigns it to route.modules.__props attribute
+async function preprocessAllPluginsRoutesProps({
   generatedFilesDir,
   routes,
+}: {
+  generatedFilesDir: string;
+  routes: PluginRouteConfig[];
+}) {
+  return Promise.all(
+    routes.map((route) => {
+      return preprocessRouteProps({
+        generatedFilesDir,
+        route,
+        plugin: route.plugin,
+      });
+    }),
+  );
+}
+
+export async function generateRouteFiles({
+  generatedFilesDir,
+  routes: initialRoutes,
 }: GenerateRouteFilesParams): Promise<void> {
+  const routes = await preprocessAllPluginsRoutesProps({
+    generatedFilesDir,
+    routes: initialRoutes,
+  });
+
   const {registry, routesChunkNames, routesConfig} = generateRoutesCode(routes);
   await Promise.all([
     genRegistry({generatedFilesDir, registry}),

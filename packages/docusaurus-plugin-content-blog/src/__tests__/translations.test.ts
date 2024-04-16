@@ -34,6 +34,7 @@ const sampleBlogPosts: BlogPost[] = [
       hasTruncateMarker: true,
       authors: [],
       frontMatter: {},
+      unlisted: false,
     },
     content: '',
   },

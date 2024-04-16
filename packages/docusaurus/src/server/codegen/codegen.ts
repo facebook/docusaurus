@@ -16,7 +16,7 @@ import type {
   DocusaurusConfig,
   GlobalData,
   I18n,
-  RouteConfig,
+  PluginRouteConfig,
   SiteMetadata,
 } from '@docusaurus/types';
 
@@ -140,7 +140,7 @@ type CodegenParams = {
   i18n: I18n;
   codeTranslations: CodeTranslations;
   siteMetadata: SiteMetadata;
-  routes: RouteConfig[];
+  routes: PluginRouteConfig[];
 };
 
 export async function generateSiteFiles(params: CodegenParams): Promise<void> {

@@ -11,7 +11,6 @@ import {
   normalizeUrl,
   docuHash,
   aliasedSitePath,
-  aliasedSitePathToRelativePath,
   getPluginI18nPath,
   posixPath,
   addTrailingPathSeparator,
@@ -32,24 +31,17 @@ import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles} from './feed';
 
-import {toTagProp, toTagsProp} from './props';
+import {createAllRoutes} from './routes';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
-import type {
-  LoadContext,
-  Plugin,
-  HtmlTags,
-  RouteMetadata,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
   BlogPostMetadata,
   Assets,
-  BlogTag,
   BlogTags,
   BlogContent,
   BlogPaginated,
-  BlogMetadata,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
@@ -80,6 +72,9 @@ export default async function pluginContentBlog(
     'docusaurus-plugin-content-blog',
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
+  // TODO Docusaurus v4 breaking change
+  //  module aliasing should be automatic
+  //  we should never find local absolute FS paths in the codegen registry
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
@@ -185,213 +180,14 @@ export default async function pluginContentBlog(
       };
     },
 
-    async contentLoaded({content: blogContents, actions}) {
-      const {
-        blogListComponent,
-        blogPostComponent,
-        blogTagsListComponent,
-        blogTagsPostsComponent,
-        blogArchiveComponent,
-        routeBasePath,
-        archiveBasePath,
-        blogTitle,
-      } = options;
-
-      const {addRoute, createData} = actions;
-      const {
-        blogSidebarTitle,
-        blogPosts,
-        blogListPaginated,
-        blogTags,
-        blogTagsListPath,
-      } = blogContents;
-
-      const listedBlogPosts = blogPosts.filter(shouldBeListed);
-
-      const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
-
-      const sidebarBlogPosts =
-        options.blogSidebarCount === 'ALL'
-          ? blogPosts
-          : blogPosts.slice(0, options.blogSidebarCount);
-
-      function blogPostItemsModule(items: string[]) {
-        return items.map((postId) => {
-          const blogPostMetadata = blogItemsToMetadata[postId]!;
-          return {
-            content: {
-              __import: true,
-              path: blogPostMetadata.source,
-              query: {
-                truncated: true,
-              },
-            },
-          };
-        });
-      }
-
-      if (archiveBasePath && listedBlogPosts.length) {
-        const archiveUrl = normalizeUrl([
-          baseUrl,
-          routeBasePath,
-          archiveBasePath,
-        ]);
-        // Create a blog archive route
-        const archiveProp = await createData(
-          `${docuHash(archiveUrl)}.json`,
-          JSON.stringify({blogPosts: listedBlogPosts}, null, 2),
-        );
-        addRoute({
-          path: archiveUrl,
-          component: blogArchiveComponent,
-          exact: true,
-          modules: {
-            archive: aliasedSource(archiveProp),
-          },
-        });
-      }
-
-      // This prop is useful to provide the blog list sidebar
-      const sidebarProp = await createData(
-        // Note that this created data path must be in sync with
-        // metadataPath provided to mdx-loader.
-        `blog-post-list-prop-${pluginId}.json`,
-        JSON.stringify(
-          {
-            title: blogSidebarTitle,
-            items: sidebarBlogPosts.map((blogPost) => ({
-              title: blogPost.metadata.title,
-              permalink: blogPost.metadata.permalink,
-              unlisted: blogPost.metadata.unlisted,
-            })),
-          },
-          null,
-          2,
-        ),
-      );
-
-      const blogMetadata: BlogMetadata = {
-        blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
-        blogTitle,
-      };
-      const blogMetadataPath = await createData(
-        `blogMetadata-${pluginId}.json`,
-        JSON.stringify(blogMetadata, null, 2),
-      );
-
-      function createBlogPostRouteMetadata(
-        blogPostMeta: BlogPostMetadata,
-      ): RouteMetadata {
-        return {
-          sourceFilePath: aliasedSitePathToRelativePath(blogPostMeta.source),
-          lastUpdatedAt: blogPostMeta.lastUpdatedAt,
-        };
-      }
-
-      // Create routes for blog entries.
-      await Promise.all(
-        blogPosts.map(async (blogPost) => {
-          const {id, metadata} = blogPost;
-          await createData(
-            // Note that this created data path must be in sync with
-            // metadataPath provided to mdx-loader.
-            `${docuHash(metadata.source)}.json`,
-            JSON.stringify(metadata, null, 2),
-          );
-
-          addRoute({
-            path: metadata.permalink,
-            component: blogPostComponent,
-            exact: true,
-            modules: {
-              sidebar: aliasedSource(sidebarProp),
-              content: metadata.source,
-            },
-            metadata: createBlogPostRouteMetadata(metadata),
-            context: {
-              blogMetadata: aliasedSource(blogMetadataPath),
-            },
-          });
-
-          blogItemsToMetadata[id] = metadata;
-        }),
-      );
-
-      // Create routes for blog's paginated list entries.
-      await Promise.all(
-        blogListPaginated.map(async (listPage) => {
-          const {metadata, items} = listPage;
-          const {permalink} = metadata;
-          const pageMetadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(metadata, null, 2),
-          );
-
-          addRoute({
-            path: permalink,
-            component: blogListComponent,
-            exact: true,
-            modules: {
-              sidebar: aliasedSource(sidebarProp),
-              items: blogPostItemsModule(items),
-              metadata: aliasedSource(pageMetadataPath),
-            },
-          });
-        }),
-      );
-
-      // Tags. This is the last part so we early-return if there are no tags.
-      if (Object.keys(blogTags).length === 0) {
-        return;
-      }
-
-      async function createTagsListPage() {
-        const tagsPropPath = await createData(
-          `${docuHash(`${blogTagsListPath}-tags`)}.json`,
-          JSON.stringify(toTagsProp({blogTags}), null, 2),
-        );
-        addRoute({
-          path: blogTagsListPath,
-          component: blogTagsListComponent,
-          exact: true,
-          modules: {
-            sidebar: aliasedSource(sidebarProp),
-            tags: aliasedSource(tagsPropPath),
-          },
-        });
-      }
-
-      async function createTagPostsListPage(tag: BlogTag): Promise<void> {
-        await Promise.all(
-          tag.pages.map(async (blogPaginated) => {
-            const {metadata, items} = blogPaginated;
-            const tagPropPath = await createData(
-              `${docuHash(metadata.permalink)}.json`,
-              JSON.stringify(toTagProp({tag, blogTagsListPath}), null, 2),
-            );
-
-            const listMetadataPath = await createData(
-              `${docuHash(metadata.permalink)}-list.json`,
-              JSON.stringify(metadata, null, 2),
-            );
-
-            addRoute({
-              path: metadata.permalink,
-              component: blogTagsPostsComponent,
-              exact: true,
-              modules: {
-                sidebar: aliasedSource(sidebarProp),
-                items: blogPostItemsModule(items),
-                tag: aliasedSource(tagPropPath),
-                listMetadata: aliasedSource(listMetadataPath),
-              },
-            });
-          }),
-        );
-      }
-
-      await createTagsListPage();
-      await Promise.all(Object.values(blogTags).map(createTagPostsListPage));
+    async contentLoaded({content, actions}) {
+      await createAllRoutes({
+        baseUrl,
+        content,
+        actions,
+        options,
+        aliasedSource,
+      });
     },
 
     translateContent({content, translationFiles}) {

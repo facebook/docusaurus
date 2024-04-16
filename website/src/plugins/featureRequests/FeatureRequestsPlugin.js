@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
+import path from 'path';
+import {normalizeUrl, posixPath} from '@docusaurus/utils';
 
 /**
  * @param {import('@docusaurus/types').LoadContext} context
@@ -20,12 +21,21 @@ export default function FeatureRequestsPlugin(context) {
         'paths.json',
         JSON.stringify(basePath),
       );
+
+      // TODO Docusaurus v4 breaking change
+      //  module aliasing should be automatic
+      //  we should never find local absolute FS paths in the codegen registry
+      const aliasedSource = (source) =>
+        `@generated/${posixPath(
+          path.relative(context.generatedFilesDir, source),
+        )}`;
+
       actions.addRoute({
         path: basePath,
         exact: false,
         component: '@site/src/plugins/featureRequests/FeatureRequestsPage',
         modules: {
-          basePath: paths,
+          basePath: aliasedSource(paths),
         },
       });
     },
