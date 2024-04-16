@@ -64,27 +64,28 @@ function getCardImage(user: ShowcaseItem): string {
   );
 }
 
-function ShowcaseCard({user}: {user: ShowcaseItem}) {
-  const image = getCardImage(user);
+function ShowcaseCard({item}: {item: ShowcaseItem}) {
+  console.log('ShowcaseCard user:', item);
+  const image = getCardImage(item);
   return (
-    <li key={user.title} className="card shadow--md">
+    <li key={item.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>
         {/* TODO change back to ideal image */}
-        <img src={image} alt={user.title} />
+        <img src={image} alt={item.title} />
       </div>
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
           <Heading as="h4" className={styles.showcaseCardTitle}>
-            <Link href={user.website} className={styles.showcaseCardLink}>
-              {user.title}
+            <Link href={item.website} className={styles.showcaseCardLink}>
+              {item.title}
             </Link>
           </Heading>
-          {user.tags.includes('favorite') && (
+          {item.tags.includes('favorite') && (
             <FavoriteIcon size="medium" style={{marginRight: '0.25rem'}} />
           )}
-          {user.source && (
+          {item.source && (
             <Link
-              href={user.source}
+              href={item.source}
               className={clsx(
                 'button button--secondary button--sm',
                 styles.showcaseCardSrcBtn,
@@ -93,10 +94,10 @@ function ShowcaseCard({user}: {user: ShowcaseItem}) {
             </Link>
           )}
         </div>
-        <p className={styles.showcaseCardBody}>{user.description}</p>
+        <p className={styles.showcaseCardBody}>{item.description}</p>
       </div>
       <ul className={clsx('card__footer', styles.cardFooter)}>
-        <ShowcaseCardTag tags={user.tags} />
+        <ShowcaseCardTag tags={item.tags} />
       </ul>
     </li>
   );

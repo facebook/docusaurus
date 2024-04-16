@@ -52,12 +52,13 @@ function CardList({
   heading?: ReactNode;
   items: ShowcaseItem[];
 }) {
+  console.log('CardList items:', items);
   return (
     <div className="container">
       {heading}
       <ul className={clsx('clean-list', styles.cardList)}>
         {items.map((item) => (
-          <ShowcaseCard key={item.title} user={item} />
+          <ShowcaseCard key={item.title} item={item} />
         ))}
       </ul>
     </div>
@@ -76,6 +77,7 @@ function NoResultSection() {
 
 export default function ShowcaseCards(): JSX.Element {
   const users = useShowcase().items;
+  console.log('ShowcaseCards users:', users);
 
   const filteredUsers = useFilteredUsers(users);
 
@@ -88,10 +90,12 @@ export default function ShowcaseCards(): JSX.Element {
   const favoriteUsers = sortedUsers.filter((user: ShowcaseItem) =>
     user.tags.includes('favorite'),
   );
+  console.log('favoriteUsers:', favoriteUsers);
 
   const otherUsers = sortedUsers.filter(
     (user: ShowcaseItem) => !user.tags.includes('favorite'),
   );
+  console.log('otherUsers:', otherUsers);
 
   return (
     <section className="margin-top--lg margin-bottom--xl">

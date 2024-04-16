@@ -250,10 +250,8 @@ declare module '@theme/BlogPostItems' {
 declare module '@theme/Showcase' {
   import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
-  export type User = ShowcaseItem;
-
   export type Props = {
-    content: User[];
+    items: ShowcaseItem[];
   };
 
   export default function Showcase(props: Props): JSX.Element;
@@ -262,7 +260,7 @@ declare module '@theme/Showcase' {
 declare module '@theme/Showcase/FavoriteIcon' {
   export interface Props {
     className?: string;
-    style?: ComponentProps<'svg'>['style'];
+    style?: React.ComponentProps<'svg'>['style'];
     size: 'small' | 'medium' | 'large';
   }
 
@@ -273,7 +271,7 @@ declare module '@theme/Showcase/ShowcaseCard' {
   import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
 
   export interface Props {
-    readonly user: ShowcaseItem;
+    readonly item: ShowcaseItem;
   }
 
   export default function ShowcaseCard(props: Props): JSX.Element;
@@ -282,16 +280,7 @@ declare module '@theme/Showcase/ShowcaseCard' {
 declare module '@theme/Showcase/ShowcaseCards' {
   export default function ShowcaseCards(): JSX.Element;
 }
-declare module '@theme/Showcase/ShowcaseTooltip' {
-  export interface Props {
-    anchorEl?: HTMLElement | string;
-    id: string;
-    text: string;
-    children: React.ReactElement;
-  }
 
-  export default function ShowcaseTooltip(props: Props): JSX.Element;
-}
 declare module '@theme/Showcase/ShowcaseTagSelect' {
   import {type ComponentProps, type ReactElement} from 'react';
   import type {TagType} from '@docusaurus/plugin-content-showcase';
@@ -301,14 +290,11 @@ declare module '@theme/Showcase/ShowcaseTagSelect' {
     label: string;
     description: string;
     icon: ReactElement<ComponentProps<'svg'>>;
+    // TODO: update this type
+    rest?: any;
   }
 
   export default function ShowcaseTagSelect(props: Props): JSX.Element;
-}
-declare module '@theme/Showcase/ShowcaseFilterToggle' {
-  export type Operator = 'OR' | 'AND';
-
-  export default function ShowcaseFilterToggle(): JSX.Element;
 }
 
 declare module '@theme/Showcase/ShowcaseFilters' {

@@ -38,9 +38,8 @@ function ShowcaseHeader() {
 }
 
 export default function Showcase(props: Props): JSX.Element {
-  const users = props.content;
   return (
-    <ShowcaseProvider content={{items: users}}>
+    <ShowcaseProvider content={{items: props.items}}>
       <Layout title={TITLE} description={DESCRIPTION}>
         <main className="margin-vert--lg">
           <ShowcaseHeader />
