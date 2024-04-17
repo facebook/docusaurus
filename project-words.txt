@@ -355,6 +355,7 @@ SVGR
 svgr
 swizzlable
 Sébastien
+tagkeys
 Teik
 templating
 Thanos
