@@ -32,13 +32,12 @@ export type SwizzleConfig = {
 export type WrapperProps<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
-> =
-  T extends JSXElementConstructor<infer P>
-    ? unknown extends P
-      ? // eslint-disable-next-line @typescript-eslint/ban-types
-        {}
-      : P
-    : T extends keyof JSX.IntrinsicElements
-      ? JSX.IntrinsicElements[T]
-      : // eslint-disable-next-line @typescript-eslint/ban-types
-        {};
+> = T extends JSXElementConstructor<infer P>
+  ? unknown extends P
+    ? // eslint-disable-next-line @typescript-eslint/ban-types
+      {}
+    : P
+  : T extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[T]
+  : // eslint-disable-next-line @typescript-eslint/ban-types
+    {};

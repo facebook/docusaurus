@@ -221,7 +221,7 @@ describe('loadPlugins', () => {
               someAttributeGlobal: this.someAttribute,
             });
           },
-        }) as Plugin & ThisType<{someAttribute: string}>,
+        } as Plugin & ThisType<{someAttribute: string}>),
     );
 
     expect(plugin.content).toMatchInlineSnapshot(`"val"`);

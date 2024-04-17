@@ -114,8 +114,9 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     await getExtraSourceCodeFilePaths(),
   );
 
-  const defaultCodeMessages =
-    await loadPluginsDefaultCodeTranslationMessages(plugins);
+  const defaultCodeMessages = await loadPluginsDefaultCodeTranslationMessages(
+    plugins,
+  );
 
   const codeTranslations = applyDefaultCodeTranslations({
     extractedCodeTranslations,

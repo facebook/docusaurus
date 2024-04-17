@@ -25,8 +25,8 @@ const value =
   (_obj = obj) === null || _obj === void 0
     ? void 0
     : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
-      ? void 0
-      : _obj$prop.val;
+    ? void 0
+    : _obj$prop.val;
 ```
 
 However, this penalizes all other users with increased site load time because the 29-character line now becomes 168 characters—a 6-fold increase! (In practice, it will be better because the names used will be shorter.) As a tradeoff, the JS loader only transpiles the syntax to the degree that's supported by all browser versions defined in the browser list.

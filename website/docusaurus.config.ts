@@ -144,10 +144,10 @@ export default async function createConfigAsync() {
           ? // Deploy preview and branch deploys: keep them fast!
             [defaultLocale]
           : isI18nStaging
-            ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-              [defaultLocale, 'ja']
-            : // Production locales
-              [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
+          ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+            [defaultLocale, 'ja']
+          : // Production locales
+            [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
     },
     webpack: {
       jsLoader: (isServer) => ({

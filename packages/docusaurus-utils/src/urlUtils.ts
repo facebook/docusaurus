@@ -194,8 +194,8 @@ export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
   const search = url.search
     ? url.search.slice(1)
     : urlPath.includes('?')
-      ? ''
-      : undefined;
+    ? ''
+    : undefined;
 
   // Fixes annoying url.hash behavior
   // "" => undefined
@@ -204,8 +204,8 @@ export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
   const hash = url.hash
     ? url.hash.slice(1)
     : urlPath.includes('#')
-      ? ''
-      : undefined;
+    ? ''
+    : undefined;
 
   return {
     pathname,

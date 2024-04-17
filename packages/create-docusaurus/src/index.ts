@@ -590,8 +590,8 @@ export default async function init(
         pkgManager === 'yarn'
           ? 'yarn'
           : pkgManager === 'bun'
-            ? 'bun install'
-            : `${pkgManager} install --color always`,
+          ? 'bun install'
+          : `${pkgManager} install --color always`,
         {
           env: {
             ...process.env,
