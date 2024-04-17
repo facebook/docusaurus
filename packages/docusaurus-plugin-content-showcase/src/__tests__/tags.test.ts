@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {fromPartial} from '@total-typescript/shoehorn';
 import {getTagsList} from '../tags';
 
 const tags = {
@@ -32,24 +33,24 @@ const invalidTags = {
 
 describe('showcase tags', () => {
   it('get tag list', async () => {
-    const tagList = await getTagsList({
-      configTags: tags,
+    const {tagKeys} = await getTagsList({
+      configTags: fromPartial(tags),
       configPath: '',
     });
-    expect(tagList).toEqual(Object.keys(tags));
+    expect(tagKeys).toEqual(Object.keys(tags));
   });
 
   it('get tag list from file', async () => {
-    const tagList = await getTagsList({
+    const {tagKeys} = await getTagsList({
       configTags: './__fixtures__/tags.yml',
       configPath: __dirname,
     });
-    expect(tagList).toEqual(Object.keys(tags));
+    expect(tagKeys).toEqual(Object.keys(tags));
   });
 
   it('error get tag list', async () => {
     const tagList = getTagsList({
-      configTags: invalidTags,
+      configTags: fromPartial(invalidTags),
       configPath: '',
     });
 

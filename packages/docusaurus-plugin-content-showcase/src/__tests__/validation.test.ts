@@ -31,11 +31,11 @@ const tags = {
 };
 
 async function prepareSchema() {
-  const tagList = await getTagsList({
-    configTags: tags,
+  const {tagKeys} = await getTagsList({
+    configTags: fromPartial(tags),
     configPath: '',
   });
-  return createShowcaseItemSchema(tagList);
+  return createShowcaseItemSchema(tagKeys);
 }
 
 describe('showcase item schema', () => {
@@ -57,6 +57,7 @@ describe('showcase item schema', () => {
       description: 'description',
       preview: 'preview',
       source: 'source',
+      // @ts-expect-error: invalid tag
       tags: ['invalid'],
       website: 'website',
     };
