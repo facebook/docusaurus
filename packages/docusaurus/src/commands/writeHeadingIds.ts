@@ -63,8 +63,6 @@ export async function writeHeadingIds(
   if (pathsModified.length) {
     logger.success`Heading ids added to Markdown files (number=${`${pathsModified.length}/${markdownFiles.length}`} files): ${pathsModified}`;
   } else {
-    logger.warn`number=${
-      markdownFiles.length
-    } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the code=${'--overwrite'} option.`;
+    logger.warn`number=${markdownFiles.length} Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the code=${'--overwrite'} option.`;
   }
 }

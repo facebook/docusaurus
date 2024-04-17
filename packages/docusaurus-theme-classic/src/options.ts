@@ -131,8 +131,8 @@ const itemWithType = (type: string | RegExp | undefined) => {
     type instanceof RegExp
       ? Joi.string().required().regex(type)
       : type
-      ? Joi.string().required().equal(type)
-      : Joi.string().forbidden();
+        ? Joi.string().required().equal(type)
+        : Joi.string().forbidden();
   return Joi.object({
     type: typeSchema,
   })

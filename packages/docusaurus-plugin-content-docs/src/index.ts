@@ -159,9 +159,8 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
-          versionMetadata,
-        );
+        const docsBase: DocMetadataBase[] =
+          await loadVersionDocsBase(versionMetadata);
 
         // TODO we only ever need draftIds in further code, not full draft items
         // To simplify and prevent mistakes, avoid exposing draft

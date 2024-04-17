@@ -40,9 +40,7 @@ async function getLanguageForThemeName({
   if (options.typescript) {
     if (!supportsTS) {
       throw new Error(
-        logger.interpolate`Theme name=${
-          plugin.instance.name
-        } does not support the code=${'--typescript'} CLI option.`,
+        logger.interpolate`Theme name=${plugin.instance.name} does not support the code=${'--typescript'} CLI option.`,
       );
     }
     return 'typescript';

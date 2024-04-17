@@ -191,8 +191,9 @@ function DocSearch({
     useMemo(
       () =>
         // eslint-disable-next-line react/no-unstable-nested-components
-        (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element =>
-          <ResultsFooter {...footerProps} onClose={onClose} />,
+        (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element => (
+          <ResultsFooter {...footerProps} onClose={onClose} />
+        ),
       [onClose],
     );
 
