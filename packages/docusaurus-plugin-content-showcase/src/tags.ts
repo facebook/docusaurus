@@ -9,7 +9,10 @@ import fs from 'fs-extra';
 import path from 'path';
 import Yaml from 'js-yaml';
 import {Joi} from '@docusaurus/utils-validation';
-import type {PluginOptions} from '@docusaurus/plugin-content-showcase';
+import type {
+  PluginOptions,
+  TagsOption,
+} from '@docusaurus/plugin-content-showcase';
 
 export const tagSchema = Joi.object().pattern(
   Joi.string(),
@@ -35,7 +38,7 @@ export async function getTagsList({
 }: {
   configTags: PluginOptions['tags'];
   configPath: PluginOptions['path'];
-}): Promise<string[]> {
+}): Promise<{tagkeys: string[]; tags: TagsOption}> {
   if (typeof configTags === 'object') {
     const tags = tagSchema.validate(configTags);
     if (tags.error) {
@@ -44,7 +47,10 @@ export async function getTagsList({
         {cause: tags},
       );
     }
-    return Object.keys(tags.value);
+    return {
+      tagkeys: Object.keys(tags.value),
+      tags: tags.value,
+    };
   }
 
   const tagsPath = path.resolve(configPath, configTags);
@@ -61,8 +67,10 @@ export async function getTagsList({
       );
     }
 
-    const tagLabels = Object.keys(tags.value);
-    return tagLabels;
+    return {
+      tagkeys: Object.keys(tags.value),
+      tags: tags.value,
+    };
   } catch (error) {
     throw new Error(`Failed to read tags file for showcase`, {cause: error});
   }

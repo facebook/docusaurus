@@ -9,10 +9,8 @@ import type {ReactNode, CSSProperties} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {
-  useFilteredUsers,
+  useFilteredItems,
   useSiteCountPlural,
-  Tags,
-  TagList,
 } from '@docusaurus/plugin-content-showcase/client';
 import {useShowcase} from '@docusaurus/theme-common/internal';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
@@ -21,7 +19,6 @@ import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
 import OperatorButton from '@theme/Showcase/OperatorButton';
 import ClearAllButton from '@theme/Showcase/ClearAllButton';
 import type {TagType} from '@docusaurus/plugin-content-showcase';
-
 import styles from './styles.module.css';
 
 function TagCircleIcon({color, style}: {color: string; style?: CSSProperties}) {
@@ -39,13 +36,14 @@ function TagCircleIcon({color, style}: {color: string; style?: CSSProperties}) {
 }
 
 function ShowcaseTagListItem({tag}: {tag: TagType}) {
-  const {label, description, color} = Tags[tag];
+  const {tags} = useShowcase();
+  const {label, description, color} = tags[tag];
   return (
     <li className={styles.tagListItem}>
       <ShowcaseTagSelect
         tag={tag}
         label={label}
-        description={description}
+        description={description.message}
         icon={
           tag === 'favorite' ? (
             <FavoriteIcon size="small" style={{marginLeft: 8}} />
@@ -65,6 +63,8 @@ function ShowcaseTagListItem({tag}: {tag: TagType}) {
 }
 
 function ShowcaseTagList() {
+  const {tags} = useShowcase();
+  const TagList = Object.keys(tags) as TagType[];
   return (
     <ul className={clsx('clean-list', styles.tagList)}>
       {TagList.map((tag) => {
@@ -75,15 +75,15 @@ function ShowcaseTagList() {
 }
 
 function HeadingText() {
-  const users = useShowcase().items;
-  const filteredUsers = useFilteredUsers(users);
+  const {showcaseItems: items} = useShowcase();
+  const filteredItems = useFilteredItems(items);
   const siteCountPlural = useSiteCountPlural();
   return (
     <div className={styles.headingText}>
       <Heading as="h2">
         <Translate id="showcase.filters.title">Filters</Translate>
       </Heading>
-      <span>{siteCountPlural(filteredUsers.length)}</span>
+      <span>{siteCountPlural(filteredItems.length)}</span>
     </div>
   );
 }

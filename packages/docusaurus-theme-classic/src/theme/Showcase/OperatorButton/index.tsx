@@ -8,13 +8,12 @@
 import React, {useId} from 'react';
 import clsx from 'clsx';
 import {useOperator} from '@docusaurus/plugin-content-showcase/client';
-
+import Translate from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 export default function OperatorButton(): JSX.Element {
   const id = useId();
   const [operator, toggleOperator] = useOperator();
-  // TODO add translations
   return (
     <>
       <input
@@ -30,11 +29,22 @@ export default function OperatorButton(): JSX.Element {
           }
         }}
       />
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label htmlFor={id} className={clsx(styles.checkboxLabel, 'shadow--md')}>
-        {/* eslint-disable @docusaurus/no-untranslated-text */}
-        <span className={styles.checkboxLabelOr}>OR</span>
-        <span className={styles.checkboxLabelAnd}>AND</span>
-        {/* eslint-enable @docusaurus/no-untranslated-text */}
+        <span className={styles.checkboxLabelOr}>
+          <Translate
+            id="theme.Showcase.OrOperatorButton.label"
+            description="The label for the OR operator button">
+            OR
+          </Translate>
+        </span>
+        <span className={styles.checkboxLabelAnd}>
+          <Translate
+            id="theme.Showcase.AndOperatorButton.label"
+            description="The label for the AND operator button">
+            AND
+          </Translate>
+        </span>
       </label>
     </>
   );

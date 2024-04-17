@@ -7,16 +7,20 @@
 
 import React, {type ReactNode} from 'react';
 import {useClearQueryString} from '@docusaurus/theme-common';
+import Translate from '@docusaurus/Translate';
 
 export default function ClearAllButton(): ReactNode {
   const clearQueryString = useClearQueryString();
-  // TODO translate
   return (
     <button
       className="button button--outline button--primary"
       type="button"
       onClick={() => clearQueryString()}>
-      Clear All
+      <Translate
+        id="theme.Showcase.ClearAllButton.label"
+        description="The label for the Clear All button">
+        Clear All
+      </Translate>
     </button>
   );
 }

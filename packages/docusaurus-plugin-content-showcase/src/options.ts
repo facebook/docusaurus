@@ -17,6 +17,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   include: ['**/*.{yml,yaml}'],
   // TODO exclude won't work if user pass a custom file name
   exclude: [...GlobExcludeDefault, 'tags.*'],
+  screenshotApi: 'https://slorber-api-screenshot.netlify.app',
   tags: 'tags.yml',
 };
 
@@ -28,6 +29,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   tags: Joi.alternatives()
     .try(Joi.string().default(DEFAULT_OPTIONS.tags), tagSchema)
     .default(DEFAULT_OPTIONS.tags),
+  screenshotApi: Joi.string().default(DEFAULT_OPTIONS.screenshotApi),
 });
 
 export function validateOptions({

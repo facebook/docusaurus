@@ -6,12 +6,10 @@
  */
 
 import Translate, {translate} from '@docusaurus/Translate';
-
 import Link from '@docusaurus/Link';
 import {ShowcaseProvider} from '@docusaurus/theme-common/internal';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
-
 import ShowcaseSearchBar from '@theme/Showcase/ShowcaseSearchBar';
 import ShowcaseCards from '@theme/Showcase/ShowcaseCards';
 import ShowcaseFilters from '@theme/Showcase/ShowcaseFilters';
@@ -39,7 +37,7 @@ function ShowcaseHeader() {
 
 export default function Showcase(props: Props): JSX.Element {
   return (
-    <ShowcaseProvider content={{items: props.items}}>
+    <ShowcaseProvider content={props.items} tags={props.tags}>
       <Layout title={TITLE} description={DESCRIPTION}>
         <main className="margin-vert--lg">
           <ShowcaseHeader />

@@ -248,10 +248,14 @@ declare module '@theme/BlogPostItems' {
 }
 
 declare module '@theme/Showcase' {
-  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
+  import type {
+    ShowcaseItem,
+    TagsOption,
+  } from '@docusaurus/plugin-content-showcase';
 
   export type Props = {
     items: ShowcaseItem[];
+    tags: TagsOption;
   };
 
   export default function Showcase(props: Props): JSX.Element;

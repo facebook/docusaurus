@@ -37,17 +37,17 @@ export default async function pluginContentShowcase(
     contentPath: path.resolve(siteDir, sitePath),
     contentPathLocalized: getPluginI18nPath({
       localizationDir,
-      pluginName: 'docusaurus-plugin-content-pages',
+      pluginName: 'docusaurus-plugin-content-showcase',
       pluginId: id,
     }),
   };
 
-  const tagList = await getTagsList({
+  const {tags: validatedTags, tagkeys} = await getTagsList({
     configTags: tags,
     configPath: contentPaths.contentPath,
   });
 
-  const showcaseItemSchema = createShowcaseItemSchema(tagList);
+  const showcaseItemSchema = createShowcaseItemSchema(tagkeys);
 
   return {
     name: 'docusaurus-plugin-content-showcase',
@@ -80,6 +80,7 @@ export default async function pluginContentShowcase(
 
       await processContentLoaded({
         content,
+        tags: validatedTags,
         routeBasePath,
         addRoute,
       });

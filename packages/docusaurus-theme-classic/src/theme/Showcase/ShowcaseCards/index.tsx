@@ -9,21 +9,20 @@ import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {
-  useFilteredUsers,
-  sortUsers,
+  useFilteredItems,
+  sortItems,
 } from '@docusaurus/plugin-content-showcase/client';
 import {useShowcase} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';
 import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
-
 import styles from './styles.module.css';
 
 function HeadingNoResult() {
   return (
     <Heading as="h2">
-      <Translate id="showcase.usersList.noResult">No result</Translate>
+      <Translate id="showcase.itemsList.noResult">No result</Translate>
     </Heading>
   );
 }
@@ -40,7 +39,7 @@ function HeadingFavorites() {
 function HeadingAllSites() {
   return (
     <Heading as="h2">
-      <Translate id="showcase.usersList.allUsers">All sites</Translate>
+      <Translate id="showcase.itemsList.allItems">All sites</Translate>
     </Heading>
   );
 }
@@ -52,7 +51,6 @@ function CardList({
   heading?: ReactNode;
   items: ShowcaseItem[];
 }) {
-  console.log('CardList items:', items);
   return (
     <div className="container">
       {heading}
@@ -76,40 +74,37 @@ function NoResultSection() {
 }
 
 export default function ShowcaseCards(): JSX.Element {
-  const users = useShowcase().items;
-  console.log('ShowcaseCards users:', users);
+  const {showcaseItems: items} = useShowcase();
 
-  const filteredUsers = useFilteredUsers(users);
+  const filteredItems = useFilteredItems(items);
 
-  if (filteredUsers.length === 0) {
+  if (filteredItems.length === 0) {
     return <NoResultSection />;
   }
 
-  const sortedUsers = sortUsers(users);
+  const sortedItems = sortItems(items);
 
-  const favoriteUsers = sortedUsers.filter((user: ShowcaseItem) =>
-    user.tags.includes('favorite'),
+  const favoriteItems = sortedItems.filter((item: ShowcaseItem) =>
+    item.tags.includes('favorite'),
   );
-  console.log('favoriteUsers:', favoriteUsers);
 
-  const otherUsers = sortedUsers.filter(
-    (user: ShowcaseItem) => !user.tags.includes('favorite'),
+  const otherItems = sortedItems.filter(
+    (item: ShowcaseItem) => !item.tags.includes('favorite'),
   );
-  console.log('otherUsers:', otherUsers);
 
   return (
     <section className="margin-top--lg margin-bottom--xl">
-      {filteredUsers.length === sortedUsers.length ? (
+      {filteredItems.length === sortedItems.length ? (
         <>
           <div className={styles.showcaseFavorite}>
-            <CardList heading={<HeadingFavorites />} items={favoriteUsers} />
+            <CardList heading={<HeadingFavorites />} items={favoriteItems} />
           </div>
           <div className="margin-top--lg">
-            <CardList heading={<HeadingAllSites />} items={otherUsers} />
+            <CardList heading={<HeadingAllSites />} items={otherItems} />
           </div>
         </>
       ) : (
-        <CardList items={filteredUsers} />
+        <CardList items={filteredItems} />
       )}
     </section>
   );

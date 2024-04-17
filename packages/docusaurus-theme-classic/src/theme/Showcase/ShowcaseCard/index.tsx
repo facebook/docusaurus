@@ -9,12 +9,8 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-// import Image from '@theme/IdealImage';
-import {
-  sortBy,
-  Tags,
-  TagList,
-} from '@docusaurus/plugin-content-showcase/client';
+import {sortBy} from '@docusaurus/plugin-content-showcase/client';
+import {useShowcase} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import type {ShowcaseItem, TagType} from '@docusaurus/plugin-content-showcase';
@@ -26,11 +22,14 @@ function TagItem({
   color,
 }: {
   label: string;
-  description: string;
+  description: {
+    message: string;
+    id: string;
+  };
   color: string;
 }) {
   return (
-    <li className={styles.tag} title={description}>
+    <li className={styles.tag} title={description.message}>
       <span className={styles.textLabel}>{label.toLowerCase()}</span>
       <span className={styles.colorLabel} style={{backgroundColor: color}} />
     </li>
@@ -38,6 +37,9 @@ function TagItem({
 }
 
 function ShowcaseCardTag({tags}: {tags: TagType[]}) {
+  const {tags: Tags} = useShowcase();
+  const TagList = Object.keys(Tags) as TagType[];
+
   const tagObjects = tags.map((tag) => ({tag, ...Tags[tag]}));
 
   // Keep same order for all tags
@@ -54,23 +56,21 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   );
 }
 
-function getCardImage(user: ShowcaseItem): string {
+function getCardImage(item: ShowcaseItem): string {
   return (
-    user.preview ??
+    item.preview ??
     // TODO make it configurable
     `https://slorber-api-screenshot.netlify.app/${encodeURIComponent(
-      user.website,
+      item.website,
     )}/showcase`
   );
 }
 
 function ShowcaseCard({item}: {item: ShowcaseItem}) {
-  console.log('ShowcaseCard user:', item);
   const image = getCardImage(item);
   return (
     <li key={item.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>
-        {/* TODO change back to ideal image */}
         <img src={image} alt={item.title} />
       </div>
       <div className="card__body">

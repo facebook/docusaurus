@@ -32,7 +32,7 @@ declare module '@docusaurus/plugin-content-showcase' {
     | 'rtl';
 
   export type TagsOption = {
-    [tagName: string]: Tag;
+    [type in TagType]: Tag;
   };
 
   export type PluginOptions = {
@@ -42,6 +42,7 @@ declare module '@docusaurus/plugin-content-showcase' {
     include: string[];
     exclude: string[];
     tags: string | TagsOption;
+    screenshotApi: string;
   };
 
   export type ShowcaseItem = {

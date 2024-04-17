@@ -7,31 +7,40 @@
 
 import React, {useMemo, type ReactNode, useContext} from 'react';
 import {ReactContextError} from '../utils/reactUtils';
-import type {ShowcaseItems} from '@docusaurus/plugin-content-showcase';
+import type {
+  ShowcaseItem,
+  TagsOption,
+} from '@docusaurus/plugin-content-showcase';
 
-const Context = React.createContext<ShowcaseItems | null>(null);
+const Context = React.createContext<{
+  showcaseItems: ShowcaseItem[];
+  tags: TagsOption;
+} | null>(null);
 
-function useContextValue(content: ShowcaseItems): ShowcaseItems {
-  return useMemo(
-    () => ({
-      items: content.items,
-    }),
-    [content],
-  );
+function useContextValue(
+  content: ShowcaseItem[],
+  tags: TagsOption,
+): {showcaseItems: ShowcaseItem[]; tags: TagsOption} {
+  return useMemo(() => ({showcaseItems: content, tags}), [content, tags]);
 }
 
 export function ShowcaseProvider({
   children,
   content,
+  tags,
 }: {
   children: ReactNode;
-  content: ShowcaseItems;
+  content: ShowcaseItem[];
+  tags: TagsOption;
 }): JSX.Element {
-  const contextValue = useContextValue(content);
+  const contextValue = useContextValue(content, tags);
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
 
-export function useShowcase(): ShowcaseItems {
+export function useShowcase(): {
+  showcaseItems: ShowcaseItem[];
+  tags: TagsOption;
+} {
   const showcase = useContext(Context);
   if (showcase === null) {
     throw new ReactContextError('ShowcaseProvider');
