@@ -2,6 +2,7 @@ title: Outerbounds
 description: >-
   Resources for data scientists and engineers, authored in jupyter notebooks using nbdoc and docusaurus.
 
+
 preview: ./showcase/outerbounds.png
 website: https://outerbounds.com
 source: null

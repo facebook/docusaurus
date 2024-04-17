@@ -2,6 +2,7 @@ title: AvN Gateway
 description: >-
   The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.
 
+
 preview: ./showcase/aventus.png
 website: https://aventus-network-services.github.io/avn-gateway-docs/
 source: null

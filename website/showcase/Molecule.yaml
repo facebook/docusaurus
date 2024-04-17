@@ -2,6 +2,7 @@ title: Molecule
 description: >-
   A lightweight Web IDE UI framework built with React.js and inspired by VS Code.
 
+
 preview: ./showcase/molecule-home.png
 website: https://dtstack.github.io/molecule/
 source: https://github.com/DTStack/molecule/tree/main/website

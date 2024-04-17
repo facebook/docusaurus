@@ -2,6 +2,7 @@ title: SigNoz
 description: >-
   Open source Application Performance Monitoring (APM), observability, and troubleshooting tool
 
+
 preview: ./showcase/signoz.png
 website: https://signoz.io/
 source: null

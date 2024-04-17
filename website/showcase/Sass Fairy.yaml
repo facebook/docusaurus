@@ -2,6 +2,7 @@ title: Sass Fairy
 description: >-
   Enhances built-in Sass modules with additional functions and adds modules for handling breakpoints and exceptions.
 
+
 preview: ./showcase/sass-fairy.png
 website: https://sass-fairy.com/
 source: https://github.com/roydukkey/sass-fairy/tree/master/website

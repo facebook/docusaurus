@@ -2,6 +2,7 @@ title: social-embed
 description: >-
   Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)
 
+
 preview: ./showcase/social-embed.png
 website: https://social-embed.git-pull.com/
 source: https://github.com/social-embed/social-embed/tree/master/packages/site

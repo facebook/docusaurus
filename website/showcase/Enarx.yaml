@@ -2,6 +2,7 @@ title: Enarx
 description: >-
   Open source framework for running applications in TEEs (Trusted Execution Environments) based on WebAssembly.
 
+
 preview: ./showcase/enarx.png
 website: https://enarx.dev/
 source: https://github.com/enarx/enarx.github.io
