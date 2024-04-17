@@ -1,0 +1,9 @@
+title: Awe framework
+description: Awe framework, Build light-weight and functional websites quickly
+preview: ./showcase/awe-framework.png
+website: https://docs.aweframework.com/
+source: https://gitlab.com/aweframework/awe/-/tree/develop/website
+tags:
+  - opensource
+  - i18n
+  - versioning

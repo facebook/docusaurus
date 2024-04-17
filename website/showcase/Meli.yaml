@@ -1,0 +1,7 @@
+title: Meli
+description: Platform to deploy static sites, frontend applications and hosted forms
+preview: ./showcase/meli.png
+website: https://docs.meli.sh/
+source: https://github.com/getmeli/meli-docs
+tags:
+  - opensource

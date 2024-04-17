@@ -1,0 +1,10 @@
+title: FoalTS
+description: Node.JS framework for building web applications
+preview: ./showcase/foal.png
+website: https://foalts.org/
+source: https://github.com/FoalTS/foal/tree/master/docs
+tags:
+  - opensource
+  - design
+  - versioning
+  - i18n

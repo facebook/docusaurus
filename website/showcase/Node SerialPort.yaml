@@ -1,0 +1,8 @@
+title: Node SerialPort
+description: Talk to your Serial devices
+preview: ./showcase/node-serialport.png
+website: https://serialport.io
+source: https://github.com/serialport/website
+tags:
+  - opensource
+  - versioning

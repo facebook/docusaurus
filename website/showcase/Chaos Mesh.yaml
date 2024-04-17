@@ -1,0 +1,9 @@
+title: Chaos Mesh
+description: A Powerful Chaos Engineering Platform for Kubernetes.
+preview: ./showcase/chaos-mesh.png
+website: https://chaos-mesh.org
+source: https://github.com/chaos-mesh/website
+tags:
+  - opensource
+  - product
+  - i18n

@@ -1,0 +1,7 @@
+title: Tasit
+description: A JavaScript SDK for building native mobile Ethereum dapps with React Native
+preview: ./showcase/tasit.png
+website: https://docs.tasit.io/
+source: https://github.com/tasitlabs/tasit-sdk/tree/develop/packages/docs
+tags:
+  - opensource

@@ -1,0 +1,8 @@
+title: Metro
+description: The JavaScript bundler for React Native
+preview: ./showcase/metro.png
+website: https://facebook.github.io/metro/
+source: https://github.com/facebook/metro/tree/main/website
+tags:
+  - opensource
+  - meta

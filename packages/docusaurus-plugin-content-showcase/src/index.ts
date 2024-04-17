@@ -42,12 +42,12 @@ export default async function pluginContentShowcase(
     }),
   };
 
-  const {tags: validatedTags, tagkeys} = await getTagsList({
+  const {tags: validatedTags, tagKeys} = await getTagsList({
     configTags: tags,
     configPath: contentPaths.contentPath,
   });
 
-  const showcaseItemSchema = createShowcaseItemSchema(tagkeys);
+  const showcaseItemSchema = createShowcaseItemSchema(tagKeys);
 
   return {
     name: 'docusaurus-plugin-content-showcase',

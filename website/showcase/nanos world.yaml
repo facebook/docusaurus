@@ -1,0 +1,10 @@
+title: nanos world
+description: The next-generation multiplayer open world sandbox game.
+preview: ./showcase/nanos-world.png
+website: https://docs.nanos.world/
+source: https://github.com/nanos-world/docs
+tags:
+  - opensource
+  - versioning
+  - i18n
+  - product

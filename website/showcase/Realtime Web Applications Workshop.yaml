@@ -1,0 +1,9 @@
+title: Realtime Web Applications Workshop
+description: >-
+  A workshop about building realtime web applications with WebSockets and WebRTC.
+
+preview: ./showcase/realtime-apps-workshop.png
+website: https://realtime-apps-iap.github.io
+source: https://github.com/realtime-apps-iap/realtime-apps-iap.github.io
+tags:
+  - opensource

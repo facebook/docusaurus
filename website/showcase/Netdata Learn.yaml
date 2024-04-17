@@ -1,0 +1,9 @@
+title: Netdata Learn
+description: An educational site for monitoring and troubleshooting systems
+preview: ./showcase/netdata.png
+website: https://learn.netdata.cloud
+source: https://github.com/netdata/netdata-learn-docusaurus
+tags:
+  - opensource
+  - product
+  - large

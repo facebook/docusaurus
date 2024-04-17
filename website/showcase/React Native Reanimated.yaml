@@ -1,0 +1,9 @@
+title: React Native Reanimated
+description: React Native's Animated library reimplemented
+preview: ./showcase/react-native-reanimated.png
+website: https://docs.swmansion.com/react-native-reanimated/
+source: https://github.com/software-mansion/react-native-reanimated/tree/master/docs
+tags:
+  - opensource
+  - design
+  - versioning

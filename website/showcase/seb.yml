@@ -1,6 +1,0 @@
-title: 'Seb'
-description: "Docusaurus maintainer's personal website"
-preview: require('./showcase/test.png')
-website: 'https://agile-ts.org/'
-source: 'https://github.com/agile-ts/documentation'
-tags: ['opensource', 'design']

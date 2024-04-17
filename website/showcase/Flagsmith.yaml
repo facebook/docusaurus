@@ -1,0 +1,7 @@
+title: Flagsmith
+description: Open Source Feature Flag and Remote Config Service
+preview: ./showcase/flagsmith.png
+website: https://docs.flagsmith.com
+source: https://github.com/Flagsmith/flagsmith-docs
+tags:
+  - opensource

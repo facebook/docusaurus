@@ -1,0 +1,9 @@
+title: StackQL
+description: >-
+  A data centric approach to provision, querying, and management of cloud infra and SaaS across multiple clouds.
+
+preview: ./showcase/stackql.png
+website: https://stackql.io/
+source: null
+tags:
+  - product

@@ -1,0 +1,10 @@
+title: PcapPlusPlus
+description: >-
+  A multi-platform C++ library for capturing, parsing and crafting of network packets
+
+preview: ./showcase/pcapplusplus.png
+website: https://pcapplusplus.github.io/
+source: https://github.com/PcapPlusPlus/pcapplusplus.github.io
+tags:
+  - opensource
+  - versioning

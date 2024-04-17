@@ -1,0 +1,9 @@
+title: LiveKit
+description: Open source, scalable, real-time audio and video rooms over WebRTC
+preview: ./showcase/livekit.png
+website: https://docs.livekit.io
+source: https://github.com/livekit/livekit-docs
+tags:
+  - opensource
+  - product
+  - design

@@ -1,0 +1,7 @@
+title: Apex FP
+description: Functional programming library for Salesforce Apex
+preview: ./showcase/apexfp.png
+website: https://www.apexfp.org
+source: https://github.com/ipavlic/apex-fp/tree/master/website
+tags:
+  - opensource

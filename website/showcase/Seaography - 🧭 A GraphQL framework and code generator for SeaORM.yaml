@@ -1,0 +1,9 @@
+title: Seaography - 🧭 A GraphQL framework and code generator for SeaORM
+description: >-
+  Seaography is a GraphQL framework for building GraphQL resolvers using SeaORM entities.
+
+preview: ./showcase/Seaography.png
+website: https://www.sea-ql.org/Seaography/
+source: https://github.com/SeaQL/seaql.github.io/tree/master/Seaography
+tags:
+  - opensource

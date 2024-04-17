@@ -1,0 +1,9 @@
+title: SeaQL - Building data intensive applications in Rust
+description: >-
+  We help developers in building data intensive applications in Rust, such as web services, command line tools or apps.
+
+preview: ./showcase/SeaQL-blog.png
+website: https://www.sea-ql.org/blog/
+source: https://github.com/SeaQL/seaql.github.io/tree/master/Blog
+tags:
+  - opensource

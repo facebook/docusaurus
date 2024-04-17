@@ -1,0 +1,10 @@
+title: Darklang
+description: >-
+  A new way of building serverless backends, with no infra, framework or deployment nightmares.
+
+preview: ./showcase/darklang.png
+website: https://docs.darklang.com/
+source: https://github.com/darklang/docs
+tags:
+  - product
+  - opensource

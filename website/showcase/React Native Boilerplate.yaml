@@ -1,0 +1,11 @@
+title: React Native Boilerplate
+description: >-
+  A template for building solid applications with separation of concerns between UI, state management, and business logic.
+
+preview: ./showcase/reactnativeboilerplate.png
+website: https://thecodingmachine.github.io/react-native-boilerplate/
+source: >-
+  https://github.com/thecodingmachine/react-native-boilerplate/tree/master/documentation
+
+tags:
+  - opensource

@@ -1,0 +1,8 @@
+title: Nodify
+description: High-performance WPF node editor component designed for MVVM.
+preview: ./showcase/nodify.png
+website: https://miroiu.github.io/nodify/
+source: https://github.com/miroiu/nodify/tree/docs
+tags:
+  - opensource
+  - design

@@ -1,0 +1,7 @@
+title: DevSpace
+description: Deploy & Develop Kubernetes Apps
+preview: ./showcase/devspace.png
+website: https://devspace.sh/cli/docs/
+source: https://github.com/loft-sh/devspace/tree/master/docs
+tags:
+  - opensource

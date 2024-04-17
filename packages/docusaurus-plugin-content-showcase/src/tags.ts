@@ -38,7 +38,7 @@ export async function getTagsList({
 }: {
   configTags: PluginOptions['tags'];
   configPath: PluginOptions['path'];
-}): Promise<{tagkeys: string[]; tags: TagsOption}> {
+}): Promise<{tagKeys: string[]; tags: TagsOption}> {
   if (typeof configTags === 'object') {
     const tags = tagSchema.validate(configTags);
     if (tags.error) {
@@ -48,7 +48,7 @@ export async function getTagsList({
       );
     }
     return {
-      tagkeys: Object.keys(tags.value),
+      tagKeys: Object.keys(tags.value),
       tags: tags.value,
     };
   }
@@ -68,7 +68,7 @@ export async function getTagsList({
     }
 
     return {
-      tagkeys: Object.keys(tags.value),
+      tagKeys: Object.keys(tags.value),
       tags: tags.value,
     };
   } catch (error) {
