@@ -15,9 +15,9 @@ export const createShowcaseItemSchema = (tags: string[]): Joi.ObjectSchema => {
   return Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
-    preview: Joi.string().required(),
+    preview: Joi.string().required().allow(null),
     website: Joi.string().required(),
-    source: Joi.string().required(),
+    source: Joi.string().required().allow(null),
     tags: tagsSchema,
   });
 };
