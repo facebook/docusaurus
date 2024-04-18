@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useRef,
-  useState,
-  type ComponentProps,
-  type ReactElement,
-} from 'react';
+import React, {useRef, type ComponentProps, type ReactElement} from 'react';
 import clsx from 'clsx';
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -56,9 +51,6 @@ export function Details({
   const {collapsed, setCollapsed} = useCollapsible({
     initialState: !props.open,
   });
-  // Use a separate state for the actual details prop, because it must be set
-  // only after animation completes, otherwise close animations won't work
-  const [open, setOpen] = useState(props.open);
 
   const summaryElement = React.isValidElement(summary) ? (
     summary
@@ -66,12 +58,21 @@ export function Details({
     <summary>{summary ?? 'Details'}</summary>
   );
 
+  function toggle() {
+    if (collapsed) {
+      setCollapsed(false);
+      detailsRef.current!.open = true;
+    } else {
+      setCollapsed(true);
+      // Don't remove "open" it breaks close animation!
+    }
+  }
+
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <details
       {...props}
       ref={detailsRef}
-      open={open}
       data-collapsed={collapsed}
       className={clsx(
         styles.details,
@@ -85,7 +86,16 @@ export function Details({
           e.preventDefault();
         }
       }}
+      onToggle={(e) => {
+        console.log('toggle', e.currentTarget.open);
+
+        // For isolation of multiple nested details/summary
+        e.stopPropagation();
+        e.preventDefault();
+        toggle();
+      }}
       onClick={(e) => {
+        console.log('click', e);
         e.stopPropagation(); // For isolation of multiple nested details/summary
         const target = e.target as HTMLElement;
         const shouldToggle =
@@ -96,11 +106,10 @@ export function Details({
         e.preventDefault();
         if (collapsed) {
           setCollapsed(false);
-          setOpen(true);
+          detailsRef.current!.open = true;
         } else {
           setCollapsed(true);
-          // Don't do this, it breaks close animation!
-          // setOpen(false);
+          // Don't remove "open" it breaks close animation!
         }
       }}>
       {summaryElement}
@@ -111,7 +120,7 @@ export function Details({
         disableSSRStyle // Allows component to work fine even with JS disabled!
         onCollapseTransitionEnd={(newCollapsed) => {
           setCollapsed(newCollapsed);
-          setOpen(!newCollapsed);
+          detailsRef.current!.open = !newCollapsed;
         }}>
         <div className={styles.collapsibleContent}>{children}</div>
       </Collapsible>

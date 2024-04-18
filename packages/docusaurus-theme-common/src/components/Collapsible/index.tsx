@@ -48,7 +48,7 @@ export function useCollapsible({
 }
 
 const CollapsedStyles = {
-  display: 'none',
+  display: 'block',
   overflow: 'hidden',
   height: '0px',
 } as const;
