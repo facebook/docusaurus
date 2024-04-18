@@ -39,6 +39,9 @@ jobs:
       - name: AutoFix Spelling
         run: yarn lint:spelling:fix
 
+      - name: Print Diff
+        run: git diff
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'refactor: apply lint autofix'

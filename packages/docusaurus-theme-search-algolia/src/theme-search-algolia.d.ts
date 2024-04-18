@@ -21,6 +21,7 @@ declare module '@docusaurus/theme-search-algolia' {
         from: string;
         to: string;
       };
+      insights?: boolean;
     };
   };
   export type UserThemeConfig = DeepPartial<ThemeConfig>;
