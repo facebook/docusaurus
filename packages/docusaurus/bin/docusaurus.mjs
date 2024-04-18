@@ -117,7 +117,7 @@ cli
   )
   .option(
     '--target-dir <dir>',
-    'path to the target directory to deploy (default: `.`)',
+    'path to the target directory to deploy to (default: `.`)',
   )
   .action(deploy);
 
