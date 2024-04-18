@@ -47,7 +47,7 @@ export async function deploy(
 ): Promise<void> {
   const siteDir = await fs.realpath(siteDirParam);
 
-  const {outDir, siteConfig, siteConfigPath, targetDir} = await loadContext({
+  const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,
     config: cliOptions.config,
     outDir: cliOptions.outDir,
@@ -186,7 +186,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
   const runDeploy = async (outputDirectory: string) => {
-    const targetDirectory = cliOptions.targetDir;
+    const targetDirectory = cliOptions.targetDir ?? '.';
     const fromPath = outputDirectory;
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
@@ -264,6 +264,6 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     }
   } else {
     // Push current build to deploymentBranch branch of specified repo.
-    await runDeploy(outDir, targetDir);
+    await runDeploy(outDir);
   }
 }
