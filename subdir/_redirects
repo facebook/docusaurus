@@ -1,0 +1,59 @@
+# Server redirects for Netlify
+
+
+# Renamed doc routes
+/docs/docusaurus.config.js                       /docs/api/docusaurus-config
+/docs/next/docusaurus.config.js                  /docs/next/api/docusaurus-config
+/docs/lifecycle-apis                             /docs/api/plugin-methods/
+/docs/next/lifecycle-apis                        /docs/next/api/plugin-methods/
+/docs/using-themes                               /docs/swizzling
+/docs/next/using-themes                          /docs/next/swizzling
+/docs/advanced/swizzling                         /docs/swizzling
+/docs/next/advanced/swizzling                    /docs/next/swizzling
+/docs/markdown-features/inline-toc               /docs/markdown-features/toc
+/docs/next/markdown-features/inline-toc          /docs/next/markdown-features/toc
+/docs/markdown-features/headings                 /docs/markdown-features/toc
+/docs/next/markdown-features/headings            /docs/next/markdown-features/toc
+
+
+# v2.docusaurus.io domain redirect after we put v2 on docusaurus.io
+https://v2.docusaurus.io/*      https://docusaurus.io/:splat 301!
+
+
+# Redirect older Docusaurus v1 links that do not exist anymore in v2
+https://docusaurus.io/docs/en/*         https://v1.docusaurus.io/docs/en/:splat
+https://docusaurus.io/docs/fr/*         https://v1.docusaurus.io/docs/fr/:splat
+https://docusaurus.io/docs/ko/*         https://v1.docusaurus.io/docs/ko/:splat
+https://docusaurus.io/docs/ro/*         https://v1.docusaurus.io/docs/ro/:splat
+https://docusaurus.io/docs/ru/*         https://v1.docusaurus.io/docs/ru/:splat
+https://docusaurus.io/docs/pt-br/*      https://v1.docusaurus.io/docs/pt-br/:splat
+https://docusaurus.io/docs/zh-cn/*      https://v1.docusaurus.io/docs/zh-cn/:splat
+
+
+
+# Redirect Docusaurus v1 blog RSS feed
+/blog/feed.xml   /blog/rss.xml
+
+
+# Feature requests redirects
+/feedback/*                 /feature-requests/:splat           301!
+/fr/feedback/*              /fr/feature-requests/:splat        301!
+/pt-BR/feedback/*           /pt-BR/feature-requests/:splat     301!
+/ko/feedback/*              /ko/feature-requests/:splat        301!
+/zh-CN/feedback/*           /zh-CN/feature-requests/:splat     301!
+/feature-requests/*         /feature-requests                  200
+/fr/feature-requests/*      /fr/feature-requests               200
+/pt-BR/feature-requests/*   /pt-BR/feature-requests            200
+/ko/feature-requests/*      /ko/feature-requests               200
+/zh-CN/feature-requests/*   /zh-CN/feature-requests            200
+
+
+# FALLBACK: PUT THIS LAST (rules above are more important)
+# Redirect each country sub-path to appropriate localized 404 file
+# Note: the 404 won't be served if the path match an existing static file
+# Note: useless for /* => Netlify already serve /404.html
+# See https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling
+/fr/*             /fr/404             404
+/pt-BR/*          /pt-BR/404          404
+/ko/*             /ko/404             404
+/zh-CN/*          /zh-CN/404          404
