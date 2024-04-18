@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 import path from 'path';
-
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -523,6 +522,7 @@ export default async function createConfigAsync() {
           'haskell',
           'matlab',
           'PHp',
+          'powershell',
           'bash',
           'diff',
           'json',
