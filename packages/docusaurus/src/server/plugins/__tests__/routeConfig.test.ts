@@ -202,7 +202,7 @@ describe('sortRoutes', () => {
       },
     ];
 
-    sortRoutes(routes);
+    sortRoutes(routes, '/');
 
     expect(routes).toMatchSnapshot();
   });
@@ -248,7 +248,7 @@ describe('sortRoutes', () => {
       },
     ];
 
-    sortRoutes(routes);
+    sortRoutes(routes, '/');
 
     expect(routes).toMatchSnapshot();
   });

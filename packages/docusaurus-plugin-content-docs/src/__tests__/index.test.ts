@@ -83,7 +83,7 @@ const createFakeActions = (contentDir: string) => {
     expectSnapshot: () => {
       // Sort the route config like in src/server/plugins/index.ts for
       // consistent snapshot ordering
-      sortRoutes(routeConfigs);
+      sortRoutes(routeConfigs, '/');
       expect(routeConfigs).not.toEqual([]);
       expect(routeConfigs).toMatchSnapshot('route config');
       expect(dataContainer).toMatchSnapshot('data');

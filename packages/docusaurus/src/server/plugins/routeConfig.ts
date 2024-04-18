@@ -27,10 +27,7 @@ export function applyRouteTrailingSlash<Route extends RouteConfig>(
   };
 }
 
-export function sortRoutes(
-  routeConfigs: RouteConfig[],
-  baseUrl: string = '/',
-): void {
+export function sortRoutes(routeConfigs: RouteConfig[], baseUrl: string): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
