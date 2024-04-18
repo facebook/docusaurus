@@ -67,9 +67,11 @@ Datagit
 datagit
 Datagit's
 dedup
+Déja
 devto
 dingers
 Dmitry
+Docsearch
 docsearch
 Docsify
 Docu
@@ -83,7 +85,6 @@ dogfooding
 Dojocat
 Dyte
 dyte
-Déja
 easyops
 Endi
 endi
@@ -118,14 +119,14 @@ Hamel
 Hasura
 hasura
 Heavener
+Héctor
+héllô
 Hideable
 hideable
 hola
 Hostman
 hoverable
 Husain
-Héctor
-héllô
 IANAD
 idempotency
 Iframes
@@ -220,6 +221,7 @@ noninteractive
 npmjs
 nprogress
 Nuxt
+ödingers
 opensearch
 opensearchdescription
 opensource
@@ -305,6 +307,7 @@ saurus
 Scaleway
 Sebastien
 sebastien
+Sébastien
 sebastienlorber
 sensical
 setaf
@@ -350,7 +353,6 @@ supabase
 SVGR
 svgr
 swizzlable
-Sébastien
 Teik
 templating
 Thanos
@@ -408,4 +410,3 @@ yangshunz
 Zhou
 zoomable
 zpao
-ödingers
