@@ -26,6 +26,7 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
+  readLastUpdateData,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -57,12 +58,14 @@ export function paginateBlogPosts({
   blogTitle,
   blogDescription,
   postsPerPageOption,
+  pageBasePath,
 }: {
   blogPosts: BlogPost[];
   basePageUrl: string;
   blogTitle: string;
   blogDescription: string;
   postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
 }): BlogPaginated[] {
   const totalCount = blogPosts.length;
   const postsPerPage =
@@ -73,7 +76,7 @@ export function paginateBlogPosts({
 
   function permalink(page: number) {
     return page > 0
-      ? normalizeUrl([basePageUrl, `page/${page + 1}`])
+      ? normalizeUrl([basePageUrl, pageBasePath, `${page + 1}`])
       : basePageUrl;
   }
 
@@ -111,6 +114,7 @@ export function getBlogTags({
   blogTitle: string;
   blogDescription: string;
   postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
 }): BlogTags {
   const groups = groupTaggedItems(
     blogPosts,
@@ -159,25 +163,6 @@ export function parseBlogFileName(
   const text = blogSourceRelative.replace(/(?:\/index)?\.mdx?$/, '');
   const slug = `/${text}`;
   return {date: undefined, text, slug};
-}
-
-function formatBlogPostDate(
-  locale: string,
-  date: Date,
-  calendar: string,
-): string {
-  try {
-    return new Intl.DateTimeFormat(locale, {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-      timeZone: 'UTC',
-      calendar,
-    }).format(date);
-  } catch (err) {
-    logger.error`Can't format blog post date "${String(date)}"`;
-    throw err;
-  }
 }
 
 async function parseBlogPostMarkdownFile({
@@ -247,6 +232,12 @@ async function processBlogSourceFile(
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
+  const lastUpdate = await readLastUpdateData(
+    blogSourceAbsolute,
+    options,
+    frontMatter.last_update,
+  );
+
   const draft = isDraft({frontMatter});
   const unlisted = isUnlisted({frontMatter});
 
@@ -274,10 +265,11 @@ async function processBlogSourceFile(
     }
 
     try {
-      const result = getFileCommitDate(blogSourceAbsolute, {
+      const result = await getFileCommitDate(blogSourceAbsolute, {
         age: 'oldest',
         includeAuthor: false,
       });
+
       return result.date;
     } catch (err) {
       logger.warn(err);
@@ -286,11 +278,6 @@ async function processBlogSourceFile(
   }
 
   const date = await getDate();
-  const formattedDate = formatBlogPostDate(
-    i18n.currentLocale,
-    date,
-    i18n.localeConfigs[i18n.currentLocale]!.calendar,
-  );
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';
@@ -345,7 +332,6 @@ async function processBlogSourceFile(
       title,
       description,
       date,
-      formattedDate,
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime
         ? options.readingTime({
@@ -358,6 +344,8 @@ async function processBlogSourceFile(
       authors,
       frontMatter,
       unlisted,
+      lastUpdatedAt: lastUpdate.lastUpdatedAt,
+      lastUpdatedBy: lastUpdate.lastUpdatedBy,
     },
     content,
   };
@@ -442,4 +430,20 @@ export function linkify({
   brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
+}
+
+export async function applyProcessBlogPosts({
+  blogPosts,
+  processBlogPosts,
+}: {
+  blogPosts: BlogPost[];
+  processBlogPosts: PluginOptions['processBlogPosts'];
+}): Promise<BlogPost[]> {
+  const processedBlogPosts = await processBlogPosts({blogPosts});
+
+  if (Array.isArray(processedBlogPosts)) {
+    return processedBlogPosts;
+  }
+
+  return blogPosts;
 }

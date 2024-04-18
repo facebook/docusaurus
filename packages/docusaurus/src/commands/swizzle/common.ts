@@ -63,6 +63,7 @@ export type SwizzleContext = {plugins: SwizzlePlugin[]};
 
 export type SwizzleCLIOptions = {
   typescript: boolean;
+  javascript: boolean;
   danger: boolean;
   list: boolean;
   wrap: boolean;
@@ -75,6 +76,7 @@ export function normalizeOptions(
 ): SwizzleCLIOptions {
   return {
     typescript: options.typescript ?? false,
+    javascript: options.javascript ?? false,
     danger: options.danger ?? false,
     list: options.list ?? false,
     wrap: options.wrap ?? false,

@@ -36,12 +36,7 @@ export {
   getPluginI18nPath,
   localizePath,
 } from './i18nUtils';
-export {
-  removeSuffix,
-  removePrefix,
-  mapAsyncSequential,
-  findAsyncSequential,
-} from './jsUtils';
+export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
 export {
   normalizeUrl,
   getEditUrl,
@@ -51,9 +46,6 @@ export {
   resolvePathname,
   parseURLPath,
   serializeURLPath,
-  addLeadingSlash,
-  addTrailingSlash,
-  removeTrailingSlash,
   hasSSHProtocol,
   buildHttpsUrl,
   buildSshUrl,
@@ -92,6 +84,7 @@ export {
   posixPath,
   toMessageRelativeFilePath,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   escapePath,
   addTrailingPathSeparator,
 } from './pathUtils';
@@ -118,3 +111,14 @@ export {
 } from './dataFileUtils';
 export {isDraft, isUnlisted} from './contentVisibilityUtils';
 export {escapeRegexp} from './regExpUtils';
+export {askPreferredLanguage} from './cliUtils';
+export {flattenRoutes} from './routeUtils';
+
+export {
+  getGitLastUpdate,
+  getLastUpdate,
+  readLastUpdateData,
+  LAST_UPDATE_FALLBACK,
+  type LastUpdateData,
+  type FrontMatterLastUpdate,
+} from './lastUpdateUtils';

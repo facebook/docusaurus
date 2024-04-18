@@ -150,6 +150,7 @@ function DocSearch({
   const onClose = useCallback(() => {
     setIsOpen(false);
     searchContainer.current?.remove();
+    searchButtonRef.current?.focus();
   }, [setIsOpen]);
 
   const onInput = useCallback(

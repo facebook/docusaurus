@@ -11,14 +11,15 @@ import os from 'os';
 import logger from '@docusaurus/logger';
 import shell from 'shelljs';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
-import {loadContext, type LoadContextOptions} from '../server';
+import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build';
 
 export type DeployCLIOptions = Pick<
-  LoadContextOptions,
-  'config' | 'locale' | 'outDir' | 'targetDir'
+  LoadContextParams,
+  'config' | 'locale' | 'outDir'
 > & {
   skipBuild?: boolean;
+  targetDir?: string;
 };
 
 // GIT_PASS env variable should not appear in logs
@@ -50,7 +51,6 @@ export async function deploy(
     siteDir,
     config: cliOptions.config,
     outDir: cliOptions.outDir,
-    targetDir: cliOptions.targetDir,
   });
 
   if (typeof siteConfig.trailingSlash === 'undefined') {
@@ -185,10 +185,8 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   // out to deployment branch.
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
-  const runDeploy = async (
-    outputDirectory: string,
-    targetDirectory: string,
-  ) => {
+  const runDeploy = async (outputDirectory: string) => {
+    const targetDirectory = cliOptions.targetDir;
     const fromPath = outputDirectory;
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
@@ -258,9 +256,8 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   if (!cliOptions.skipBuild) {
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
-      await build(siteDir, cliOptions, false).then((buildDir) =>
-        runDeploy(buildDir, targetDir),
-      );
+      await build(siteDir, cliOptions, false);
+      await runDeploy(outDir);
     } catch (err) {
       logger.error('Deployment of the build output failed.');
       throw err;

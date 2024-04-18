@@ -222,9 +222,11 @@ function TopBanner() {
     <div className={styles.topBanner}>
       <div className={styles.topBannerTitle}>
         {'🎉\xa0'}
-        <Link to="/blog/releases/3.0" className={styles.topBannerTitleText}>
-          <Translate id="homepage.banner.launch.3.0">
-            {'Docusaurus\xa03.0 is\xa0out!️'}
+        <Link to="/blog/releases/3.2" className={styles.topBannerTitleText}>
+          <Translate
+            id="homepage.banner.launch.newVersion"
+            values={{newVersion: '3.2'}}>
+            {'Docusaurus\xa0{newVersion} is\xa0out!️'}
           </Translate>
         </Link>
         {'\xa0🥳'}

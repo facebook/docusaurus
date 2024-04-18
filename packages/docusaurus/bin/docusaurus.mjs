@@ -8,6 +8,7 @@
 
 // @ts-check
 
+import {inspect} from 'node:util';
 import logger from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
@@ -61,8 +62,6 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  // @ts-expect-error: Promise<string> is not assignable to Promise<void>... but
-  // good enough here.
   .action(build);
 
 cli
@@ -85,6 +84,10 @@ cli
   .option(
     '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
+  )
+  .option(
+    '-j, --javascript',
+    'copy JavaScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for unsafe component of themes')
   .option(
@@ -273,9 +276,11 @@ cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
   console.log('');
-  // Do not use logger.error here: it does not print error causes
-  console.error(err);
-  console.log('');
+
+  // We need to use inspect with increased depth to log the full causal chain
+  // By default Node logging has depth=2
+  // see also https://github.com/nodejs/node/issues/51637
+  logger.error(inspect(err, {depth: Infinity}));
 
   logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
 Node version: number=${process.version}`;

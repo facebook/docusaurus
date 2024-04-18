@@ -45,6 +45,7 @@ export {
 
 export {
   Plugin,
+  PluginIdentifier,
   InitializedPlugin,
   LoadedPlugin,
   PluginModule,
@@ -69,6 +70,8 @@ export {
 
 export {
   RouteConfig,
+  PluginRouteConfig,
+  RouteMetadata,
   RouteContext,
   PluginRouteContext,
   Registry,

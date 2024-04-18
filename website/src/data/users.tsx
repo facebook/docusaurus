@@ -251,7 +251,7 @@ const Users: User[] = [
     title: "Bruce's Wiki",
     description: 'A personal wiki by Bruce Song',
     preview: require('./showcase/bruce-wiki.png'),
-    website: 'https://wiki.bruceworld.top/',
+    website: 'https://wiki.brucesong.xyz/',
     source: 'https://github.com/recallwei/wiki',
     tags: ['opensource', 'design', 'personal'],
   },
@@ -2110,14 +2110,6 @@ const Users: User[] = [
     website: 'https://stylable.io',
     source: 'https://github.com/wixplosives/stylable.io',
     tags: ['opensource'],
-  },
-  {
-    title: 'Supabase',
-    description: 'Open Source Realtime and RESTful APIs for Postgres',
-    preview: require('./showcase/supabase.png'),
-    website: 'https://www.supabase.io/docs',
-    source: 'https://github.com/supabase/supabase/tree/master/web',
-    tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
   {
     title: 'Svix',

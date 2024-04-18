@@ -39,6 +39,11 @@ export {
   filterDocCardListItems,
 } from './utils/docsUtils';
 
+export {
+  useBlogListPageStructuredData,
+  useBlogPostStructuredData,
+} from './utils/structuredDataUtils';
+
 export {usePluralForm} from './utils/usePluralForm';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
@@ -92,6 +97,13 @@ export {usePrismTheme} from './hooks/usePrismTheme';
 export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';
 
 export {processAdmonitionProps} from './utils/admonitionUtils';
+
+export {
+  useHistorySelector,
+  useQueryString,
+  useQueryStringList,
+  useClearQueryString,
+} from './utils/historyUtils';
 
 export {
   SkipToContentFallbackId,

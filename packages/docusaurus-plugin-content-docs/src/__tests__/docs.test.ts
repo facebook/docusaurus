@@ -7,8 +7,13 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
-import {loadContext} from '@docusaurus/core/src/server/index';
-import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {loadContext} from '@docusaurus/core/src/server/site';
+import {
+  createSlugger,
+  posixPath,
+  DEFAULT_PLUGIN_ID,
+  LAST_UPDATE_FALLBACK,
+} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {
   processDocMetadata,
@@ -474,9 +479,8 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: 1539502055,
-      formattedLastUpdatedAt: 'Oct 14, 2018',
-      lastUpdatedBy: 'Author',
+      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdatedBy: LAST_UPDATE_FALLBACK.lastUpdatedBy,
       tags: [],
       unlisted: false,
     });
@@ -572,8 +576,7 @@ describe('simple site', () => {
         },
         title: 'Custom Last Update',
       },
-      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
-      formattedLastUpdatedAt: 'Jan 1, 2000',
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
@@ -611,8 +614,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: 1539502055,
-      formattedLastUpdatedAt: 'Oct 14, 2018',
+      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
@@ -650,8 +652,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Date Only',
       },
-      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
-      formattedLastUpdatedAt: 'Jan 1, 2000',
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
       lastUpdatedBy: 'Author',
       sidebarPosition: undefined,
       tags: [],
@@ -691,7 +692,6 @@ describe('simple site', () => {
         title: 'Custom Last Update',
       },
       lastUpdatedAt: undefined,
-      formattedLastUpdatedAt: undefined,
       lastUpdatedBy: undefined,
       sidebarPosition: undefined,
       tags: [],

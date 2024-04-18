@@ -6,104 +6,90 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import merge from 'webpack-merge';
-import {
-  NODE_MAJOR_VERSION,
-  NODE_MINOR_VERSION,
-  DOCUSAURUS_VERSION,
-} from '@docusaurus/utils';
-// Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
-import StaticSiteGeneratorPlugin, {
-  type Locals,
-} from '@slorber/static-site-generator-webpack-plugin';
+import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
 import WebpackBar from 'webpackbar';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import {createBaseConfig} from './base';
-import WaitPlugin from './plugins/WaitPlugin';
-import ssrDefaultTemplate from './templates/ssr.html.template';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
-export default async function createServerConfig({
-  props,
-  onLinksCollected,
-  onHeadTagsCollected,
-}: Pick<Locals, 'onLinksCollected' | 'onHeadTagsCollected'> & {
+export default async function createServerConfig(params: {
   props: Props;
-}): Promise<Configuration> {
-  const {
-    baseUrl,
-    routesPaths,
-    generatedFilesDir,
-    headTags,
-    preBodyTags,
-    postBodyTags,
-    siteConfig: {noIndex, trailingSlash, ssrTemplate},
-  } = props;
-  const config = await createBaseConfig(props, true);
+}): Promise<{config: Configuration; serverBundlePath: string}> {
+  const {props} = params;
 
-  const routesLocation: {[filePath: string]: string} = {};
-  // Array of paths to be rendered. Relative to output directory
-  const ssgPaths = routesPaths.map((str) => {
-    const ssgPath =
-      baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/');
-    routesLocation[ssgPath] = str;
-    return ssgPath;
+  const baseConfig = await createBaseConfig({
+    props,
+    isServer: true,
+
+    // Minification of server bundle reduces size but doubles bundle time :/
+    minify: false,
   });
-  const serverConfig = merge(config, {
+
+  const outputFilename = 'server.bundle.js';
+  const serverBundlePath = path.join(props.outDir, outputFilename);
+
+  const config = merge(baseConfig, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
     output: {
-      filename: 'server.bundle.js',
+      filename: outputFilename,
       libraryTarget: 'commonjs2',
       // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
       globalObject: 'this',
     },
     plugins: [
-      // Wait until manifest from client bundle is generated
-      new WaitPlugin({
-        filepath: path.join(generatedFilesDir, 'client-manifest.json'),
-      }),
-
-      // Static site generator webpack plugin.
-      new StaticSiteGeneratorPlugin({
-        entry: 'main',
-        locals: {
-          baseUrl,
-          generatedFilesDir,
-          routesLocation,
-          headTags,
-          preBodyTags,
-          postBodyTags,
-          onLinksCollected,
-          onHeadTagsCollected,
-          ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
-          noIndex,
-          DOCUSAURUS_VERSION,
-        },
-        paths: ssgPaths,
-        preferFoldersOutput: trailingSlash,
-
-        // When using "new URL('file.js', import.meta.url)", Webpack will emit
-        // __filename, and this plugin will throw. not sure the __filename value
-        // has any importance for this plugin, just using an empty string to
-        // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
-        globals: {__filename: ''},
-
-        // Secret way to set SSR plugin concurrency option
-        // Waiting for feedback before documenting this officially?
-        concurrency: process.env.DOCUSAURUS_SSR_CONCURRENCY
-          ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
-          : undefined,
-      }),
-
       // Show compilation progress bar.
       new WebpackBar({
         name: 'Server',
         color: 'yellow',
       }),
-    ],
+      await createStaticDirectoriesCopyPlugin(params),
+    ].filter(Boolean),
   });
-  return serverConfig;
+
+  return {config, serverBundlePath};
+}
+
+async function createStaticDirectoriesCopyPlugin({props}: {props: Props}) {
+  const {
+    outDir,
+    siteDir,
+    siteConfig: {staticDirectories: staticDirectoriesOption},
+  } = props;
+
+  // The staticDirectories option can contain empty directories, or non-existent
+  // directories (e.g. user deleted `static`). Instead of issuing an error, we
+  // just silently filter them out, because user could have never configured it
+  // in the first place (the default option should always "work").
+  const staticDirectories: string[] = (
+    await Promise.all(
+      staticDirectoriesOption.map(async (dir) => {
+        const staticDir = path.resolve(siteDir, dir);
+        if (
+          (await fs.pathExists(staticDir)) &&
+          (await fs.readdir(staticDir)).length > 0
+        ) {
+          return staticDir;
+        }
+        return '';
+      }),
+    )
+  ).filter(Boolean);
+
+  if (staticDirectories.length === 0) {
+    return undefined;
+  }
+
+  return new CopyWebpackPlugin({
+    patterns: staticDirectories.map((dir) => ({
+      from: dir,
+      to: outDir,
+      toType: 'dir',
+    })),
+  });
 }

@@ -71,6 +71,21 @@ some **markdown** *content*
       expect(result.data.contentTitle).toBeUndefined();
     });
 
+    it('ignore contentTitle if after thematic break', async () => {
+      const result = await process(`
+
+Hey
+
+---
+
+# contentTitle 1
+
+some **markdown** *content*
+  `);
+
+      expect(result.data.contentTitle).toBeUndefined();
+    });
+
     it('is able to decently serialize Markdown syntax', async () => {
       const result = await process(`
 # some **markdown** \`content\` _italic_

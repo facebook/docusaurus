@@ -7,13 +7,13 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {loadContext, type LoadContextOptions} from '../server';
+import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {
   writePluginTranslations,
   writeCodeTranslations,
   type WriteTranslationsOptions,
-  getPluginsDefaultCodeTranslationMessages,
+  loadPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../server/translations/translations';
 import {
@@ -24,7 +24,7 @@ import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 import type {InitializedPlugin} from '@docusaurus/types';
 
 export type WriteTranslationsCLIOptions = Pick<
-  LoadContextOptions,
+  LoadContextParams,
   'config' | 'locale'
 > &
   WriteTranslationsOptions;
@@ -114,7 +114,7 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     await getExtraSourceCodeFilePaths(),
   );
 
-  const defaultCodeMessages = await getPluginsDefaultCodeTranslationMessages(
+  const defaultCodeMessages = await loadPluginsDefaultCodeTranslationMessages(
     plugins,
   );
 

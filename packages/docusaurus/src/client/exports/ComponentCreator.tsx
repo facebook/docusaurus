@@ -85,7 +85,8 @@ export default function ComponentCreator(
       const loadedModules = JSON.parse(JSON.stringify(chunkNames)) as {
         __comp?: React.ComponentType<object>;
         __context?: RouteContext;
-        [propName: string]: unknown;
+        __props?: {[propName: string]: unknown};
+        [attributeName: string]: unknown;
       };
       Object.entries(loaded).forEach(([keyPath, loadedModule]) => {
         // JSON modules are also loaded as `{ default: ... }` (`import()`
@@ -127,12 +128,18 @@ export default function ComponentCreator(
       delete loadedModules.__comp;
       const routeContext = loadedModules.__context!;
       delete loadedModules.__context;
+      const routeProps = loadedModules.__props;
+      delete loadedModules.__props;
       /* eslint-enable no-underscore-dangle */
 
       // Is there any way to put this RouteContextProvider upper in the tree?
       return (
         <RouteContextProvider value={routeContext}>
-          <Component {...loadedModules} {...(props as object)} />
+          <Component
+            {...loadedModules}
+            {...routeProps}
+            {...(props as object)}
+          />
         </RouteContextProvider>
       );
     },

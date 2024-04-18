@@ -45,11 +45,15 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   routeBasePath: 'blog',
   tagsBasePath: 'tags',
   archiveBasePath: 'archive',
+  pageBasePath: 'page',
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
   sortPosts: 'descending',
+  showLastUpdateTime: false,
+  showLastUpdateAuthor: false,
+  processBlogPosts: async () => undefined,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -59,6 +63,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .allow(null),
   routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
+  pageBasePath: Joi.string().default(DEFAULT_OPTIONS.pageBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   postsPerPage: Joi.alternatives()
@@ -132,6 +137,13 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   sortPosts: Joi.string()
     .valid('descending', 'ascending')
     .default(DEFAULT_OPTIONS.sortPosts),
+  showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
+  showLastUpdateAuthor: Joi.bool().default(
+    DEFAULT_OPTIONS.showLastUpdateAuthor,
+  ),
+  processBlogPosts: Joi.function()
+    .optional()
+    .default(() => DEFAULT_OPTIONS.processBlogPosts),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

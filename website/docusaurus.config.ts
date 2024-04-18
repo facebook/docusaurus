@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 import path from 'path';
-
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -190,16 +189,23 @@ export default async function createConfigAsync() {
       preprocessor: ({filePath, fileContent}) => {
         let result = fileContent;
 
+        // This fixes Crowdin bug altering MDX comments on i18n sites...
+        // https://github.com/facebook/docusaurus/pull/9220
         result = result.replaceAll('{/_', '{/*');
         result = result.replaceAll('_/}', '*/}');
 
-        if (isDev) {
-          // "vscode://file/${projectPath}${filePath}:${line}:${column}",
-          // "webstorm://open?file=${projectPath}${filePath}&line=${line}&column=${column}",
-          const vscodeLink = `vscode://file/${filePath}`;
-          const webstormLink = `webstorm://open?file=${filePath}`;
-          const intellijLink = `idea://open?file=${filePath}`;
-          result = `${result}\n\n---\n\n**DEV**: open this file in [VSCode](<${vscodeLink}>) | [WebStorm](<${webstormLink}>) | [IntelliJ](<${intellijLink}>)\n`;
+        const showDevLink = false;
+
+        if (isDev && showDevLink) {
+          const isPartial = path.basename(filePath).startsWith('_');
+          if (!isPartial) {
+            // "vscode://file/${projectPath}${filePath}:${line}:${column}",
+            // "webstorm://open?file=${projectPath}${filePath}&line=${line}&column=${column}",
+            const vscodeLink = `vscode://file/${filePath}`;
+            const webstormLink = `webstorm://open?file=${filePath}`;
+            const intellijLink = `idea://open?file=${filePath}`;
+            result = `${result}\n\n---\n\n**DEV**: open this file in [VSCode](<${vscodeLink}>) | [WebStorm](<${webstormLink}>) | [IntelliJ](<${intellijLink}>)\n`;
+          }
         }
 
         return result;
@@ -436,6 +442,8 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
             editUrl: ({locale, blogDirPath, blogPath}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -448,11 +456,21 @@ export default async function createConfigAsync() {
               type: 'all',
               copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
             },
+            blogTitle: 'Docusaurus blog',
+            blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
           } satisfies BlogOptions,
           pages: {
             remarkPlugins: [npm2yarn],
+            editUrl: ({locale, pagesPath}) => {
+              if (locale !== defaultLocale) {
+                return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+              }
+              return `https://github.com/facebook/docusaurus/edit/main/website/src/pages/${pagesPath}`;
+            },
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
           } satisfies PageOptions,
           theme: {
             customCss: [
@@ -469,6 +487,9 @@ export default async function createConfigAsync() {
           sitemap: {
             // Note: /tests/docs already has noIndex: true
             ignorePatterns: ['/tests/{blog,pages}/**'],
+            lastmod: 'date',
+            priority: null,
+            changefreq: null,
           },
         } satisfies Preset.Options,
       ],
@@ -490,9 +511,9 @@ export default async function createConfigAsync() {
         respectPrefersColorScheme: true,
       },
       announcementBar: {
-        id: 'announcementBar-3', // Increment on change
+        id: 'announcementBar-v3.2', // Increment on change
         // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
-        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">Docusaurus v3.0</a> is now out!</b> 🥳️`,
+        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.2">Docusaurus v3.2</a> is out!</b> 🥳️`,
       },
       prism: {
         additionalLanguages: [
@@ -501,6 +522,7 @@ export default async function createConfigAsync() {
           'haskell',
           'matlab',
           'PHp',
+          'powershell',
           'bash',
           'diff',
           'json',
