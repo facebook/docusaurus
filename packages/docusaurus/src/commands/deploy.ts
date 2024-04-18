@@ -19,6 +19,7 @@ export type DeployCLIOptions = Pick<
   'config' | 'locale' | 'outDir'
 > & {
   skipBuild?: boolean;
+  targetDir?: string;
 };
 
 // GIT_PASS env variable should not appear in logs
@@ -185,32 +186,33 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
   const runDeploy = async (outputDirectory: string) => {
+    const targetDirectory = cliOptions.targetDir ?? '.';
     const fromPath = outputDirectory;
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
     shell.cd(toPath);
 
-    // Check out deployment branch when cloning repository, and then remove all
-    // the files in the directory. If the 'clone' command fails, assume that
-    // the deployment branch doesn't exist, and initialize git in an empty
-    // directory, check out a clean deployment branch and add remote.
+    // Clones the repo into the temp folder and checks out the target branch.
+    // If the branch doesn't exist, it creates a new one based on the
+    // repository default branch.
     if (
       shellExecLog(
         `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
-      ).code === 0
+      ).code !== 0
     ) {
-      shellExecLog('git rm -rf .');
-    } else {
-      shellExecLog('git init');
+      shellExecLog(`git clone --depth 1 ${deploymentRepoURL} "${toPath}"`);
       shellExecLog(`git checkout -b ${deploymentBranch}`);
-      shellExecLog(`git remote add origin ${deploymentRepoURL}`);
     }
 
+    // Clear out any existing contents in the target directory
+    shellExecLog(`git rm -rf ${targetDirectory}`);
+
+    const targetPath = path.join(toPath, targetDirectory);
     try {
-      await fs.copy(fromPath, toPath);
+      await fs.copy(fromPath, targetPath);
     } catch (err) {
-      logger.error`Copying build assets from path=${fromPath} to path=${toPath} failed.`;
+      logger.error`Copying build assets from path=${fromPath} to path=${targetPath} failed.`;
       throw err;
     }
     shellExecLog('git add --all');
@@ -254,7 +256,8 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   if (!cliOptions.skipBuild) {
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
-      await build(siteDir, cliOptions, false).then(() => runDeploy(outDir));
+      await build(siteDir, cliOptions, false);
+      await runDeploy(outDir);
     } catch (err) {
       logger.error('Deployment of the build output failed.');
       throw err;
