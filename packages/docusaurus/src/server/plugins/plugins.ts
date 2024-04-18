@@ -232,11 +232,10 @@ function mergeResults({
   plugins: LoadedPlugin[];
   allContentLoadedResult: AllContentLoadedResult;
 }) {
-  const routes: PluginRouteConfig[] = [
-    ...aggregateRoutes(plugins),
-    ...allContentLoadedResult.routes,
-  ];
-  sortRoutes(routes, baseUrl);
+  const routes: PluginRouteConfig[] = sortRoutes(
+    [...aggregateRoutes(plugins), ...allContentLoadedResult.routes],
+    baseUrl,
+  );
 
   const globalData: GlobalData = mergeGlobalData(
     aggregateGlobalData(plugins),
