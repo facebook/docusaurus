@@ -7,9 +7,10 @@
 
 import {useState, useEffect, useMemo, useRef} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
-import mermaid from 'mermaid';
-import type {RenderResult, MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
+
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {RenderResult, MermaidConfig} from 'mermaid';
 
 // Stable className to allow users to easily target with CSS
 export const MermaidContainerClassName = 'docusaurus-mermaid-container';
@@ -67,6 +68,7 @@ async function renderMermaid({
   To use a new mermaid config (on colorMode change for example) we should
   update siteConfig, and it can only be done with initialize()
    */
+  const mermaid = (await import('mermaid')).default;
   mermaid.mermaidAPI.initialize(config);
 
   try {

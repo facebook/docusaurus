@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "composite": true,
+    "incremental": true,
+    "importHelpers": true,
+    "noEmitHelpers": false,
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "target": "es2022",
+    "jsx": "react-jsx"
+  }
+}
