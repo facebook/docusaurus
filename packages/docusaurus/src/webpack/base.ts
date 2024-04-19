@@ -21,7 +21,7 @@ import type {Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
-export const clientDir = path.join(__dirname, '..', 'client');
+export const CoreClientDir = path.join(__dirname, '..', 'client');
 
 const LibrariesToTranspile = [
   'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
@@ -32,9 +32,9 @@ const LibrariesToTranspileRegex = new RegExp(
 );
 
 export function excludeJS(modulePath: string): boolean {
-  // Always transpile client dir
-  if (modulePath.startsWith(clientDir)) {
-    return false;
+  // Never transpile Docusaurus core client dir
+  if (modulePath.startsWith(CoreClientDir)) {
+    return true;
   }
   // Don't transpile node_modules except any docusaurus npm package
   return (

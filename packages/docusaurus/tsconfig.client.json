@@ -5,9 +5,10 @@
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
-    "moduleResolution": "bundler",
-    "module": "esnext",
-    "target": "esnext",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "target": "es2022",
+    "jsx": "react-jsx",
     "rootDir": "src",
     "outDir": "lib"
   },

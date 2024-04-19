@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
-import {excludeJS, clientDir, createBaseConfig} from '../base';
+import {excludeJS, CoreClientDir, createBaseConfig} from '../base';
 import type {Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
@@ -22,7 +22,7 @@ describe('babel transpilation exclude logic', () => {
       path.join('exports', 'Link.js'),
     ];
     clientFiles.forEach((file) => {
-      expect(excludeJS(path.join(clientDir, file))).toBe(false);
+      expect(excludeJS(path.join(CoreClientDir, file))).toBe(false);
     });
   });
 
