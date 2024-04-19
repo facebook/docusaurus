@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "references": [
     {"path": "./tsconfig.client.json"},
     {"path": "./tsconfig.worker.json"}
@@ -7,7 +7,7 @@
   "compilerOptions": {
     "noEmit": false,
     "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib"
   },
