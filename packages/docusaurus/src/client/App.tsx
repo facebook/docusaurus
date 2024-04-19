@@ -29,20 +29,22 @@ export default function App(): JSX.Element {
   const routeElement = renderRoutes(routes);
   const location = useLocation();
   return (
-    <ErrorBoundary>
-      <DocusaurusContextProvider>
-        <BrowserContextProvider>
-          <Root>
-            <SiteMetadataDefaults />
-            <SiteMetadata />
-            <BaseUrlIssueBanner />
-            <PendingNavigation location={normalizeLocation(location)}>
-              {routeElement}
-            </PendingNavigation>
-          </Root>
-          <HasHydratedDataAttribute />
-        </BrowserContextProvider>
-      </DocusaurusContextProvider>
-    </ErrorBoundary>
+    <div id="__docusaurus-app">
+      <ErrorBoundary>
+        <DocusaurusContextProvider>
+          <BrowserContextProvider>
+            <Root>
+              <SiteMetadataDefaults />
+              <SiteMetadata />
+              <BaseUrlIssueBanner />
+              <PendingNavigation location={normalizeLocation(location)}>
+                {routeElement}
+              </PendingNavigation>
+            </Root>
+            <HasHydratedDataAttribute />
+          </BrowserContextProvider>
+        </DocusaurusContextProvider>
+      </ErrorBoundary>
+    </div>
   );
 }
