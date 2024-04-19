@@ -12,7 +12,13 @@ import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import type {Transformer} from 'unified';
 import type {Heading, Text} from 'mdast';
 
-export default function plugin(): Transformer {
+export interface PluginOptions {
+  maintainCase: boolean;
+}
+
+export default function plugin(
+  {maintainCase}: PluginOptions = {maintainCase: false},
+): Transformer {
   return async (root) => {
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
@@ -38,7 +44,7 @@ export default function plugin(): Transformer {
         // Support explicit heading IDs
         const parsedHeading = parseMarkdownHeadingId(heading);
 
-        id = parsedHeading.id ?? slugs.slug(heading);
+        id = parsedHeading.id ?? slugs.slug(heading, {maintainCase});
 
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node

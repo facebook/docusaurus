@@ -47,11 +47,6 @@ type SimpleProcessor = {
   }) => Promise<SimpleProcessorResult>;
 };
 
-async function getDefaultRemarkPlugins(): Promise<MDXPlugin[]> {
-  const {default: emoji} = await import('remark-emoji');
-  return [headings, emoji, toc];
-}
-
 export type MDXPlugin = Pluggable;
 
 export type MDXOptions = {
@@ -86,8 +81,7 @@ async function createProcessorFactory() {
   const {default: comment} = await import('@slorber/remark-comment');
   const {default: directive} = await import('remark-directive');
   const {VFile} = await import('vfile');
-
-  const defaultRemarkPlugins = await getDefaultRemarkPlugins();
+  const {default: emoji} = await import('remark-emoji');
 
   // /!\ this method is synchronous on purpose
   // Using async code here can create cache entry race conditions!
@@ -104,7 +98,9 @@ async function createProcessorFactory() {
       directive,
       [contentTitle, {removeContentTitle: options.removeContentTitle}],
       ...getAdmonitionsPlugins(options.admonitions ?? false),
-      ...defaultRemarkPlugins,
+      [headings, options.markdownConfig.anchors],
+      emoji,
+      toc,
       details,
       head,
       ...(options.markdownConfig.mermaid ? [mermaid] : []),

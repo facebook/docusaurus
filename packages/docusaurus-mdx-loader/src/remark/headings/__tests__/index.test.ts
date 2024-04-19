@@ -12,12 +12,19 @@ import {removePosition} from 'unist-util-remove-position';
 import {toString} from 'mdast-util-to-string';
 import {visit} from 'unist-util-visit';
 import slug from '../index';
+import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
 
-async function process(doc: string, plugins: Plugin[] = []) {
+async function process(
+  doc: string,
+  plugins: Plugin[] = [],
+  options: PluginOptions = {maintainCase: false},
+) {
   const {remark} = await import('remark');
-  const processor = await remark().use({plugins: [...plugins, slug]});
+  const processor = await remark().use({
+    plugins: [...plugins, [slug, options]],
+  });
   const result = await processor.run(processor.parse(doc));
   removePosition(result, {force: true});
   return result;
@@ -311,5 +318,21 @@ describe('headings remark plugin', () => {
         text: '{#text-after} custom ID',
       },
     ]);
+  });
+
+  it('preserve anchors case then "maintainCase" option is set', async () => {
+    const result = await process('# Normal\n', [], {maintainCase: true});
+    const expected = u('root', [
+      u(
+        'heading',
+        {
+          depth: 1,
+          data: {hProperties: {id: 'Normal'}, id: 'Normal'},
+        },
+        [u('text', 'Normal')],
+      ),
+    ]);
+
+    expect(result).toEqual(expected);
   });
 });
