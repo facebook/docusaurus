@@ -125,15 +125,15 @@ jobs:
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         working-directory: ../test-website
         run: |
-          yarn workspace website add typescript@5.1.6 --exact
-          yarn workspace website typecheck
+          yarn add typescript@5.1.6 --exact
+          yarn typecheck
       - name: TypeCheck website - max version - Latest
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         working-directory: ../test-website
         run: |
-          yarn workspace website add typescript@latest --exact
-          yarn workspace website typecheck
+          yarn add typescript@latest --exact
+          yarn typecheck
 
       - name: Build test-website project
         run: yarn build
