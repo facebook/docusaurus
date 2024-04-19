@@ -6,8 +6,8 @@
     "incremental": true,
     "importHelpers": true,
     "noEmitHelpers": false,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+    "moduleResolution": "bundler",
+    "module": "esnext",
     "target": "es2022",
     "jsx": "react-jsx"
   }

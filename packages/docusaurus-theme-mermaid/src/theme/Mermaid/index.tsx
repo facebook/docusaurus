@@ -14,8 +14,6 @@ import {
   useMermaidRenderResult,
 } from '@docusaurus/theme-mermaid/client';
 import type {Props} from '@theme/Mermaid';
-
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {RenderResult} from 'mermaid';
 
 import styles from './styles.module.css';

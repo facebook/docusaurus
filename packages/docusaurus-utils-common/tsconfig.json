@@ -5,7 +5,10 @@
     "outDir": "lib",
     "tsBuildInfoFile": "lib/.tsbuildinfo-client",
     "sourceMap": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "noEmitHelpers": false
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**"]
