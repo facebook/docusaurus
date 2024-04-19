@@ -25,9 +25,19 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import HasHydratedDataAttribute from './hasHydratedDataAttribute';
 
-export default function App(): JSX.Element {
-  const routeElement = renderRoutes(routes);
+const routesElement = renderRoutes(routes);
+
+function AppNavigation() {
   const location = useLocation();
+  const normalizedLocation = normalizeLocation(location);
+  return (
+    <PendingNavigation location={normalizedLocation}>
+      {routesElement}
+    </PendingNavigation>
+  );
+}
+
+export default function App(): JSX.Element {
   return (
     <ErrorBoundary>
       <DocusaurusContextProvider>
@@ -36,9 +46,7 @@ export default function App(): JSX.Element {
             <SiteMetadataDefaults />
             <SiteMetadata />
             <BaseUrlIssueBanner />
-            <PendingNavigation location={normalizeLocation(location)}>
-              {routeElement}
-            </PendingNavigation>
+            <AppNavigation />
           </Root>
           <HasHydratedDataAttribute />
         </BrowserContextProvider>
