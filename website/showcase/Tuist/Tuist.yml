@@ -1,0 +1,7 @@
+title: Tuist
+description: A tool to maintain and interact with Xcode projects at scale
+preview: ./showcase/tuist.png
+website: https://docs.tuist.io/
+source: https://github.com/tuist/tuist/tree/main/projects/docs
+tags:
+  - opensource

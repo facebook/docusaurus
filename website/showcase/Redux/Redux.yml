@@ -1,0 +1,7 @@
+title: Redux
+description: A Predictable State Container for JS Apps
+preview: ./showcase/redux.png
+website: https://redux.js.org/
+source: https://github.com/reduxjs/redux/tree/master/website
+tags:
+  - opensource

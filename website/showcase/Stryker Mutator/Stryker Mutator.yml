@@ -1,0 +1,7 @@
+title: Stryker Mutator
+description: Mutation testing for JavaScript, .NET and JVM
+preview: ./showcase/stryker-mutator.png
+website: https://stryker-mutator.io
+source: https://github.com/stryker-mutator/stryker-mutator.github.io
+tags:
+  - opensource

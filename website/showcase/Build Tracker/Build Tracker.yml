@@ -1,0 +1,7 @@
+title: Build Tracker
+description: Track performance budgets & prevent unexpected bloat in your app
+preview: ./showcase/build-tracker.png
+website: https://buildtracker.dev
+source: https://github.com/paularmstrong/build-tracker/tree/main/docs
+tags:
+  - opensource

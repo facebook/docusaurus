@@ -1,0 +1,9 @@
+title: Saleor
+description: Saleor Documentation
+preview: ./showcase/saleor.png
+website: https://docs.getsaleor.com/
+source: https://github.com/mirumee/saleor-docs
+tags:
+  - opensource
+  - product
+  - versioning

@@ -1,0 +1,11 @@
+title: Country State City API
+description: >-
+  Get simplified countries, states & cities data without bloating up your database.
+
+
+preview: ./showcase/countrystatecity.png
+website: https://countrystatecity.in/
+source: https://github.com/dr5hn/csc-website
+tags:
+  - opensource
+  - product

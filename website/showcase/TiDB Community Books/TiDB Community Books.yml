@@ -1,0 +1,7 @@
+title: TiDB Community Books
+description: A website for co-created books by TiDB Community users.
+preview: ./showcase/tidb-community-book.png
+website: https://tidb.net/book/tidb-monthly
+source: https://github.com/pingcap/book.tidb.net/tree/main/website
+tags:
+  - opensource

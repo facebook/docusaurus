@@ -1,0 +1,8 @@
+title: Draft.js
+description: Rich Text Editor Framework for React
+preview: ./showcase/draftjs.png
+website: https://draftjs.org/
+source: https://github.com/facebook/draft-js/tree/main/website
+tags:
+  - opensource
+  - meta

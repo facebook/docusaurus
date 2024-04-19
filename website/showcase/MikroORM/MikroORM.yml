@@ -1,0 +1,12 @@
+title: MikroORM
+description: >-
+  TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.
+
+
+preview: ./showcase/mikro-orm.png
+website: https://mikro-orm.io
+source: https://github.com/mikro-orm/mikro-orm/tree/master/docs
+tags:
+  - opensource
+  - large
+  - versioning

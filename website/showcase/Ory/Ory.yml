@@ -1,0 +1,10 @@
+title: Ory
+description: >-
+  Authentication, authorization, access control, and delegation (OAuth2 & OpenID Connect) services and APIs
+
+
+preview: ./showcase/ory.png
+website: https://www.ory.sh/docs
+source: https://github.com/ory/docs/
+tags:
+  - opensource

@@ -1,0 +1,7 @@
+title: Flarum
+description: Forums made simple. Modern, fast, and free!
+preview: ./showcase/flarum.png
+website: https://docs.flarum.org
+source: https://github.com/flarum/docs
+tags:
+  - opensource

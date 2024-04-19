@@ -1,0 +1,11 @@
+title: Files Gallery
+description: >-
+  Single-file PHP app that can be dropped into any folder, instantly creating a gallery of files and folders.
+
+
+preview: ./showcase/files-gallery.png
+website: https://www.files.gallery/
+source: null
+tags:
+  - product
+  - design

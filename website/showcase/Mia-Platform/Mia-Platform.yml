@@ -1,0 +1,9 @@
+title: Mia-Platform
+description: The simplest way to develop and operate modern applications on Kubernetes.
+preview: ./showcase/mia-platform.png
+website: https://docs.mia-platform.eu/
+source: null
+tags:
+  - product
+  - large
+  - versioning

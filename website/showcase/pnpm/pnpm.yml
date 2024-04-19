@@ -1,0 +1,8 @@
+title: pnpm
+description: Fast, disk space efficient package manager
+preview: ./showcase/pnpm.png
+website: https://pnpm.io/
+source: https://github.com/pnpm/pnpm.io
+tags:
+  - opensource
+  - i18n

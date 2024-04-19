@@ -1,0 +1,8 @@
+title: FireCMS
+description: Firebase/Firestore based headless CMS
+preview: ./showcase/firecms.png
+website: https://firecms.co
+source: https://github.com/Camberi/firecms/tree/master/website
+tags:
+  - opensource
+  - design
