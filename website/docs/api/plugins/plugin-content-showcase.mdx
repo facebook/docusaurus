@@ -1,0 +1,184 @@
+---
+# TODO change sidebar
+sidebar_position: 2
+slug: /api/plugins/@docusaurus/plugin-content-showcase
+---
+
+# 📦 plugin-content-showcase
+
+import APITable from '@site/src/components/APITable';
+
+Provides the Showcase feature and is the default blog plugin for Docusaurus.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-showcase
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Accepted fields:
+
+```mdx-code-block
+<APITable>
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `path` | `string` | `'showcase'` | Path to the blog content directory on the file system, relative to site dir. |
+| `routeBasePath` | `string` | `'/showcase'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
+| `include` | `string[]` | `['**/*.{yml,yaml}']` | Array of glob patterns matching Markdown files to be built, relative to the content path. |
+| `exclude` | `string[]` | _See example configuration_ | Array of glob patterns matching Markdown files to be excluded. Serves as refinement based on the `include` option. |
+| `tags` | `string \| [TagOption](#TagsOption)` | `string` |  |
+
+```mdx-code-block
+</APITable>
+```
+
+### Types {#types}
+
+#### `TagsOption` {#TagsOption}
+
+```ts
+type Tag = {
+  label: string;
+  description: {
+    message: string;
+    id: string;
+  };
+  color: string;
+};
+
+type TagsOption = {
+  [key: string]: Tag;
+};
+```
+
+### Example configuration {#ex-config}
+
+You can configure this plugin through preset options or plugin options.
+
+:::tip
+
+Most Docusaurus users configure this plugin through the preset options.
+
+:::
+
+```js config-tabs
+// Preset Options: blog
+// Plugin Options: @docusaurus/plugin-content-showcase
+
+const config = {
+  path: 'showcase',
+  routeBasePath: 'showcase',
+  include: ['**/*.{yml,yaml}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  // tags: 'tags.yml'
+  // or
+  tags: {
+    hello: {
+      label: 'Hello',
+      description: {
+        message: 'Hello',
+        id: 'Hello',
+      },
+      color: '#FF0000',
+    },
+    docusaurus: {
+      label: 'Docusaurus',
+      description: {
+        message: 'Docusaurus',
+        id: 'Docusaurus',
+      },
+      color: '#00FF00',
+    },
+  },
+};
+```
+
+## Markdown front matter {#markdown-front-matter}
+
+Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
+
+Accepted fields:
+
+```mdx-code-block
+<APITable>
+
+
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | `undefined` | Title of the showcase item. |
+| `description` | `string` | `undefined` | Description on the showcase item. |
+| `preview` | `string \| null` | `undefined` | Image preview of the showcase item, either an url or link to a file |
+| `website` | `string` | `undefined` |  |
+| `source` | `string \| null` | `undefined` | Link of the showcase item's source code |
+| `tags` | `string[]` | `undefined` | ⚠️ Prefer using `authors`. A description of the author. |
+
+```mdx-code-block
+</APITable>
+```
+
+Example:
+
+```md
+---
+title: Dyte
+description: The most developer friendly live video SDK
+preview: ./showcase/dyte.png
+website: https://docs.dyte.io
+source: https://github.com/dyte-in/docs
+tags:
+  - favorite
+  - product
+  - design
+  - versioning
+  - large
+  - opensource
+---
+
+A Markdown blog post
+```
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-showcase`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-showcase-[pluginId]`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-showcase`
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-showcase
+│
+│ # translations for website/blog
+├── authors.yml
+├── first-blog-post.md
+├── second-blog-post.md
+│
+│ # translations for the plugin options that will be rendered
+└── options.json
+```
+
+import {tagSchema} from '../../../../packages/docusaurus-plugin-content-showcase/src/tags';

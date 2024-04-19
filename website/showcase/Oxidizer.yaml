@@ -1,7 +1,0 @@
-title: Oxidizer
-description: A Rust ORM based on tokio-postgres and refinery
-preview: ./showcase/oxidizer.png
-website: https://oxidizer-rs.github.io
-source: https://github.com/oxidizer-rs/website
-tags:
-  - opensource

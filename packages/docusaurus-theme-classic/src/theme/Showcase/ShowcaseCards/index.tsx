@@ -12,7 +12,7 @@ import {
   useFilteredItems,
   sortItems,
 } from '@docusaurus/plugin-content-showcase/client';
-import {useShowcase} from '@docusaurus/theme-common/internal';
+import {useShowcaseItems} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';
@@ -74,7 +74,7 @@ function NoResultSection() {
 }
 
 export default function ShowcaseCards(): JSX.Element {
-  const {showcaseItems: items} = useShowcase();
+  const items = useShowcaseItems();
 
   const filteredItems = useFilteredItems(items);
 

@@ -1,8 +1,0 @@
-title: Pyre
-description: A performant type-checker for Python 3
-preview: ./showcase/pyre.png
-website: https://pyre-check.org
-source: https://github.com/facebook/pyre-check/tree/main/documentation/website
-tags:
-  - opensource
-  - meta

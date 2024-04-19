@@ -1,7 +1,0 @@
-title: Clutch
-description: An extensible API and UI platform for infrastructure tooling
-preview: ./showcase/clutch.png
-website: https://clutch.sh/
-source: https://github.com/lyft/clutch/tree/main/docs/_website
-tags:
-  - opensource

@@ -1,9 +1,0 @@
-title: Tremor
-description: Tremor Event Processing Engine
-preview: ./showcase/tremor.png
-website: https://www.tremor.rs/
-source: https://github.com/tremor-rs/tremor-www
-tags:
-  - opensource
-  - versioning
-  - large

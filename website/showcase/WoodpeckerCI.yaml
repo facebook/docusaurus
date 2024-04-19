@@ -1,7 +1,0 @@
-title: WoodpeckerCI
-description: A simple CI engine with great extensibility.
-preview: ./showcase/woodpecker.png
-website: https://woodpecker-ci.org/
-source: https://github.com/woodpecker-ci/woodpecker/tree/master/docs
-tags:
-  - opensource

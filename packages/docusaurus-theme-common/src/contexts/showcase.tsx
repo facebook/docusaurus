@@ -12,38 +12,57 @@ import type {
   TagsOption,
 } from '@docusaurus/plugin-content-showcase';
 
-const Context = React.createContext<{
-  showcaseItems: ShowcaseItem[];
-  tags: TagsOption;
-} | null>(null);
+const ItemsContext = React.createContext<ShowcaseItem[] | null>(null);
+const TagsContext = React.createContext<TagsOption | null>(null);
 
-function useContextValue(
-  content: ShowcaseItem[],
-  tags: TagsOption,
-): {showcaseItems: ShowcaseItem[]; tags: TagsOption} {
-  return useMemo(() => ({showcaseItems: content, tags}), [content, tags]);
+function useItemsContextValue(content: ShowcaseItem[]): ShowcaseItem[] {
+  return useMemo(() => content, [content]);
 }
 
-export function ShowcaseProvider({
+function useTagsContextValue(tags: TagsOption): TagsOption {
+  return useMemo(() => tags, [tags]);
+}
+
+export function ItemsProvider({
   children,
-  content,
+  items,
+}: {
+  children: ReactNode;
+  items: ShowcaseItem[];
+}): JSX.Element {
+  const contextValue = useItemsContextValue(items);
+  return (
+    <ItemsContext.Provider value={contextValue}>
+      {children}
+    </ItemsContext.Provider>
+  );
+}
+
+export function TagsProvider({
+  children,
   tags,
 }: {
   children: ReactNode;
-  content: ShowcaseItem[];
   tags: TagsOption;
 }): JSX.Element {
-  const contextValue = useContextValue(content, tags);
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  const contextValue = useTagsContextValue(tags);
+  return (
+    <TagsContext.Provider value={contextValue}>{children}</TagsContext.Provider>
+  );
 }
 
-export function useShowcase(): {
-  showcaseItems: ShowcaseItem[];
-  tags: TagsOption;
-} {
-  const showcase = useContext(Context);
-  if (showcase === null) {
-    throw new ReactContextError('ShowcaseProvider');
+export function useShowcaseItems(): ShowcaseItem[] {
+  const showcaseItems = useContext(ItemsContext);
+  if (showcaseItems === null) {
+    throw new ReactContextError('ItemsProvider');
   }
-  return showcase;
+  return showcaseItems;
+}
+
+export function useShowcaseTags(): TagsOption {
+  const tags = useContext(TagsContext);
+  if (tags === null) {
+    throw new ReactContextError('TagsProvider');
+  }
+  return tags;
 }

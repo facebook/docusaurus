@@ -1,7 +1,0 @@
-title: Kosko
-description: Organize Kubernetes manifests in JavaScript
-preview: ./showcase/kosko.png
-website: https://kosko.dev
-source: https://github.com/tommy351/kosko/tree/master/website
-tags:
-  - opensource

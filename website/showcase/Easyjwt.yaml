@@ -1,8 +1,0 @@
-title: Easyjwt
-description: JWT creation and validation library
-preview: ./showcase/easyjwt.png
-website: https://www.easyjwt.org
-source: https://github.com/authdog/easyjwt/tree/master/docs
-tags:
-  - opensource
-  - i18n

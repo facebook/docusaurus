@@ -1,8 +1,0 @@
-title: Gotenberg
-description: A Docker-powered stateless API for PDF files
-preview: ./showcase/gotenberg.png
-website: https://gotenberg.dev/
-source: https://github.com/gotenberg/gotenberg.dev
-tags:
-  - opensource
-  - versioning

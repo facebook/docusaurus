@@ -1,7 +1,0 @@
-title: Dart Code Metrics
-description: Static analysis tool that helps analyse and improve Dart code quality.
-preview: ./showcase/dart-code-metrics.png
-website: https://dartcodemetrics.dev/
-source: https://github.com/dart-code-checker/dart-code-metrics
-tags:
-  - opensource

@@ -1,9 +1,0 @@
-title: Flipper
-description: Extensible mobile app debugger
-preview: ./showcase/flipper.png
-website: https://fbflipper.com
-source: https://github.com/facebook/flipper/tree/main/website
-tags:
-  - opensource
-  - design
-  - meta

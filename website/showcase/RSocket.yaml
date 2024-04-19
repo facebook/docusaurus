@@ -1,7 +1,0 @@
-title: RSocket
-description: Application protocol providing Reactive Streams semantics.
-preview: ./showcase/rsocket.png
-website: https://rsocket.io/
-source: https://github.com/rsocket/rsocket-website
-tags:
-  - opensource

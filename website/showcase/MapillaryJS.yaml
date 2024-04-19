@@ -1,8 +1,0 @@
-title: MapillaryJS
-description: Interactive, extendable street imagery map experiences
-preview: ./showcase/mapillaryjs.png
-website: https://mapillary.github.io/mapillary-js/
-source: https://github.com/mapillary/mapillary-js/tree/main/doc
-tags:
-  - opensource
-  - meta

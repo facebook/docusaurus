@@ -1,7 +1,0 @@
-title: httpin
-description: Decode an HTTP request into a custom struct in Go
-preview: ./showcase/httpin.png
-website: https://ggicci.github.io/httpin/
-source: https://github.com/ggicci/httpin/tree/documentation/docs
-tags:
-  - opensource

@@ -1,7 +1,0 @@
-title: replicad
-description: The library to build browser based 3D models with code.
-preview: ./showcase/replicad.png
-website: https://replicad.xyz/
-source: https://github.com/sgenoud/replicad/tree/main/packages/replicad-docs
-tags:
-  - opensource

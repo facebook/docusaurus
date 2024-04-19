@@ -1,8 +1,0 @@
-title: Flux
-description: Application architecture for building user interfaces
-preview: ./showcase/flux.png
-website: https://facebook.github.io/flux/
-source: https://github.com/facebook/flux/tree/main/website
-tags:
-  - opensource
-  - meta

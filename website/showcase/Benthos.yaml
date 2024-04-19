@@ -1,8 +1,0 @@
-title: Benthos
-description: A stream processor for mundane tasks
-preview: ./showcase/benthos.png
-website: https://benthos.dev/
-source: https://github.com/Jeffail/benthos/tree/main/website
-tags:
-  - opensource
-  - large

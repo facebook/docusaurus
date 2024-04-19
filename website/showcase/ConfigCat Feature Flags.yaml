@@ -1,8 +1,0 @@
-title: ConfigCat Feature Flags
-description: A feature flag and remote configuration service.
-preview: ./showcase/configcat.png
-website: https://configcat.com/docs/
-source: https://github.com/configcat/docs
-tags:
-  - opensource
-  - product

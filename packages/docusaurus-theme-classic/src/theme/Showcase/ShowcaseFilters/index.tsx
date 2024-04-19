@@ -12,7 +12,10 @@ import {
   useFilteredItems,
   useSiteCountPlural,
 } from '@docusaurus/plugin-content-showcase/client';
-import {useShowcase} from '@docusaurus/theme-common/internal';
+import {
+  useShowcaseItems,
+  useShowcaseTags,
+} from '@docusaurus/theme-common/internal';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import Heading from '@theme/Heading';
 import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';
@@ -36,7 +39,7 @@ function TagCircleIcon({color, style}: {color: string; style?: CSSProperties}) {
 }
 
 function ShowcaseTagListItem({tag}: {tag: TagType}) {
-  const {tags} = useShowcase();
+  const tags = useShowcaseTags();
   const {label, description, color} = tags[tag];
   return (
     <li className={styles.tagListItem}>
@@ -63,7 +66,7 @@ function ShowcaseTagListItem({tag}: {tag: TagType}) {
 }
 
 function ShowcaseTagList() {
-  const {tags} = useShowcase();
+  const tags = useShowcaseTags();
   const TagList = Object.keys(tags) as TagType[];
   return (
     <ul className={clsx('clean-list', styles.tagList)}>
@@ -75,7 +78,7 @@ function ShowcaseTagList() {
 }
 
 function HeadingText() {
-  const {showcaseItems: items} = useShowcase();
+  const items = useShowcaseItems();
   const filteredItems = useFilteredItems(items);
   const siteCountPlural = useSiteCountPlural();
   return (

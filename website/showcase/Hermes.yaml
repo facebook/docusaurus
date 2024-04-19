@@ -1,8 +1,0 @@
-title: Hermes
-description: JavaScript engine optimized for React Native
-preview: ./showcase/hermes.png
-website: https://hermesengine.dev
-source: https://github.com/facebook/hermes/tree/main/website
-tags:
-  - opensource
-  - meta

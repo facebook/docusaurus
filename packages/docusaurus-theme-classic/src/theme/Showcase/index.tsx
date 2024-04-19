@@ -7,7 +7,7 @@
 
 import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
-import {ShowcaseProvider} from '@docusaurus/theme-common/internal';
+import {TagsProvider, ItemsProvider} from '@docusaurus/theme-common/internal';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import ShowcaseSearchBar from '@theme/Showcase/ShowcaseSearchBar';
@@ -37,19 +37,21 @@ function ShowcaseHeader() {
 
 export default function Showcase(props: Props): JSX.Element {
   return (
-    <ShowcaseProvider content={props.items} tags={props.tags}>
-      <Layout title={TITLE} description={DESCRIPTION}>
-        <main className="margin-vert--lg">
-          <ShowcaseHeader />
-          <ShowcaseFilters />
-          <div
-            style={{display: 'flex', marginLeft: 'auto'}}
-            className="container">
-            <ShowcaseSearchBar />
-          </div>
-          <ShowcaseCards />
-        </main>
-      </Layout>
-    </ShowcaseProvider>
+    <ItemsProvider items={props.items}>
+      <TagsProvider tags={props.tags}>
+        <Layout title={TITLE} description={DESCRIPTION}>
+          <main className="margin-vert--lg">
+            <ShowcaseHeader />
+            <ShowcaseFilters />
+            <div
+              style={{display: 'flex', marginLeft: 'auto'}}
+              className="container">
+              <ShowcaseSearchBar />
+            </div>
+            <ShowcaseCards />
+          </main>
+        </Layout>
+      </TagsProvider>
+    </ItemsProvider>
   );
 }

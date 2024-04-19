@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import {sortBy} from '@docusaurus/plugin-content-showcase/client';
-import {useShowcase} from '@docusaurus/theme-common/internal';
+import {useShowcaseTags} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import type {ShowcaseItem, TagType} from '@docusaurus/plugin-content-showcase';
@@ -37,7 +37,7 @@ function TagItem({
 }
 
 function ShowcaseCardTag({tags}: {tags: TagType[]}) {
-  const {tags: Tags} = useShowcase();
+  const Tags = useShowcaseTags();
   const TagList = Object.keys(Tags) as TagType[];
 
   const tagObjects = tags.map((tag) => ({tag, ...Tags[tag]}));

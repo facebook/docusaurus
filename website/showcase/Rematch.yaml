@@ -1,8 +1,0 @@
-title: Rematch
-description: Redux best practices without the boilerplate in less than 2kb
-preview: ./showcase/rematch.png
-website: https://rematchjs.org
-source: https://github.com/rematch/rematch/tree/main/website
-tags:
-  - opensource
-  - design

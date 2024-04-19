@@ -1,7 +1,0 @@
-title: Spicetify
-description: Powerful CLI tool to take control of the Spotify client.
-preview: ./showcase/spicetify.png
-website: https://spicetify.app/
-source: https://github.com/spicetify/spicetify-docs
-tags:
-  - opensource

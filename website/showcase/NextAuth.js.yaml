@@ -1,8 +1,0 @@
-title: NextAuth.js
-description: An open source serverless authentication library for next.js
-preview: ./showcase/nextauthjs.png
-website: https://next-auth.js.org/
-source: https://github.com/nextauthjs/next-auth/tree/main/docs
-tags:
-  - opensource
-  - design
