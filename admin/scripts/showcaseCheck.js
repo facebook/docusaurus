@@ -7,39 +7,46 @@
 import fs from 'fs-extra';
 import path from 'path';
 import yaml from 'js-yaml';
-import axios from 'axios';
 import {load} from 'cheerio';
-
-// TODO remove axois
-// TODO recursive yml search in showcase folder
-// TODO filter out tags.yml
 
 async function processYamlFiles(directoryPath) {
   try {
-    const files = await fs.readdir(directoryPath);
+    const files = await fs.promises.readdir(directoryPath);
 
     for (const file of files) {
       const filePath = path.join(directoryPath, file);
-      const data = await fs.readFile(filePath, 'utf8');
-      const yamlData = yaml.load(data);
-      const websiteUrl = yamlData.website;
+      const stat = await fs.promises.stat(filePath);
 
-      try {
-        const response = await axios.get(websiteUrl, {
-          headers: {
-            'Accept-Encoding': 'gzip, deflate',
-          },
-        });
+      if (stat.isDirectory()) {
+        await processYamlFiles(filePath); // Recursive call for subdirectory
+      } else {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        const yamlData = yaml.load(data);
+        const websiteUrl = yamlData.website;
 
-        const html = response.data;
-        const $ = load(html);
-        const generatorMeta = $('meta[name="generator"]');
+        try {
+          const response = await fetch(websiteUrl, {
+            headers: {
+              'Accept-Encoding': 'gzip, deflate',
+            },
+          });
 
-        if (generatorMeta.length === 0) {
-          console.log(`Website ${websiteUrl} is not a Docusaurus site.`);
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch ${websiteUrl}: ${response.statusText}`,
+            );
+          }
+
+          const html = await response.text();
+          const $ = load(html);
+          const generatorMeta = $('meta[name="generator"]');
+
+          if (generatorMeta.length === 0) {
+            console.log(`Website ${websiteUrl} is not a Docusaurus site.`);
+          }
+        } catch (error) {
+          console.error(`Error fetching website ${websiteUrl}:`, error.message);
         }
-      } catch (error) {
-        console.error(`Error fetching website ${websiteUrl}:`, error.message);
       }
     }
   } catch (err) {
@@ -47,4 +54,5 @@ async function processYamlFiles(directoryPath) {
   }
 }
 
+// processYamlFiles('./admin/scripts/showcase');
 processYamlFiles('../../website/showcase');
