@@ -202,9 +202,7 @@ describe('sortRoutes', () => {
       },
     ];
 
-    sortRoutes(routes);
-
-    expect(routes).toMatchSnapshot();
+    expect(sortRoutes(routes, '/')).toMatchSnapshot();
   });
 
   it('sorts route config recursively', () => {
@@ -248,9 +246,7 @@ describe('sortRoutes', () => {
       },
     ];
 
-    sortRoutes(routes);
-
-    expect(routes).toMatchSnapshot();
+    expect(sortRoutes(routes, '/')).toMatchSnapshot();
   });
 
   it('sorts route config given a baseURL', () => {
@@ -290,8 +286,27 @@ describe('sortRoutes', () => {
       },
     ];
 
-    sortRoutes(routes, baseURL);
+    expect(sortRoutes(routes, baseURL)).toMatchSnapshot();
+  });
 
-    expect(routes).toMatchSnapshot();
+  it('sorts parent route configs when one included in another', () => {
+    const r1: RouteConfig = {
+      path: '/one',
+      component: '',
+      routes: [{path: `/one/myDoc`, component: ''}],
+    };
+    const r2: RouteConfig = {
+      path: '/',
+      component: '',
+      routes: [{path: `/someDoc`, component: ''}],
+    };
+    const r3: RouteConfig = {
+      path: '/one/another',
+      component: '',
+      routes: [{path: `/one/another/myDoc`, component: ''}],
+    };
+
+    expect(sortRoutes([r1, r2, r3], '/')).toEqual([r3, r1, r2]);
+    expect(sortRoutes([r3, r1, r2], '/')).toEqual([r3, r1, r2]);
   });
 });

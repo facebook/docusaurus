@@ -224,17 +224,18 @@ async function executeAllPluginsAllContentLoaded({
 // - contentLoaded()
 // - allContentLoaded()
 function mergeResults({
+  baseUrl,
   plugins,
   allContentLoadedResult,
 }: {
+  baseUrl: string;
   plugins: LoadedPlugin[];
   allContentLoadedResult: AllContentLoadedResult;
 }) {
-  const routes: PluginRouteConfig[] = [
-    ...aggregateRoutes(plugins),
-    ...allContentLoadedResult.routes,
-  ];
-  sortRoutes(routes);
+  const routes: PluginRouteConfig[] = sortRoutes(
+    [...aggregateRoutes(plugins), ...allContentLoadedResult.routes],
+    baseUrl,
+  );
 
   const globalData: GlobalData = mergeGlobalData(
     aggregateGlobalData(plugins),
@@ -279,6 +280,7 @@ export async function loadPlugins(
     });
 
     const {routes, globalData} = mergeResults({
+      baseUrl: context.baseUrl,
       plugins,
       allContentLoadedResult,
     });
@@ -324,6 +326,7 @@ export async function reloadPlugin({
       });
 
       const {routes, globalData} = mergeResults({
+        baseUrl: context.baseUrl,
         plugins,
         allContentLoadedResult,
       });

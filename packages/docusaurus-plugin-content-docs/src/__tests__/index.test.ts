@@ -58,7 +58,7 @@ Available ids are:\n- ${version.docs.map((d) => d.id).join('\n- ')}`,
 }
 
 const createFakeActions = (contentDir: string) => {
-  const routeConfigs: RouteConfig[] = [];
+  let routeConfigs: RouteConfig[] = [];
   const dataContainer: {[key: string]: unknown} = {};
   const globalDataContainer: {pluginName?: {pluginId: unknown}} = {};
 
@@ -83,7 +83,7 @@ const createFakeActions = (contentDir: string) => {
     expectSnapshot: () => {
       // Sort the route config like in src/server/plugins/index.ts for
       // consistent snapshot ordering
-      sortRoutes(routeConfigs);
+      routeConfigs = sortRoutes(routeConfigs, '/');
       expect(routeConfigs).not.toEqual([]);
       expect(routeConfigs).toMatchSnapshot('route config');
       expect(dataContainer).toMatchSnapshot('data');

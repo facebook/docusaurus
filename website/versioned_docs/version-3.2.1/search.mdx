@@ -47,9 +47,17 @@ You can read more about migration from the legacy DocSearch infra in [our blog p
 
 After your application has been approved and deployed, you will receive an email with all the details for you to add DocSearch to your project. Editing and managing your crawls can be done via [the web interface](https://crawler.algolia.com/). Indices are readily available after deployment, so manual configuration usually isn't necessary.
 
-:::tip
+:::danger Use the recommended crawler config
 
-It is highly recommended to use a config similar to the [**Docusaurus v3 website config**](https://docsearch.algolia.com/docs/templates/#docusaurus-v2-template).
+It is highly recommended to use our official [**Docusaurus v3 crawler configuration**](https://docsearch.algolia.com/docs/templates/#docusaurus-v3-template). We cannot support you if you choose a different crawler configuration.
+
+:::
+
+:::warning When updating your crawler config
+
+The crawler configuration contains a `initialIndexSettings`, which will only be used to initialize your Algolia index if it does not exist yet.
+
+If you update your `initialIndexSettings` crawler setting, it is possible to update the index manually through the interface, but [the Algolia team recommends to delete your index and then restart a crawl](https://github.com/facebook/docusaurus/issues/9200#issuecomment-1667338492) to fully reinitialize it with the new settings.
 
 :::
 
@@ -115,6 +123,9 @@ export default {
 
       // Optional: path for search page that enabled by default (`false` to disable it)
       searchPagePath: 'search',
+
+      // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
+      insights: false,
 
       //... other Algolia params
     },
@@ -197,6 +208,12 @@ Refer to the relevant [Algolia faceting documentation](https://www.algolia.com/d
 
 :::
 
+:::warning Contextual search doesn't work?
+
+If you only get search results when Contextual Search is disabled, this is very likely because of an [index configuration issue](#algolia-no-search-results).
+
+:::
+
 ### Styling your Algolia search {#styling-your-algolia-search}
 
 By default, DocSearch comes with a fine-tuned theme that was designed for accessibility, making sure that colors and contrasts respect standards.
@@ -271,6 +288,53 @@ If you prefer to edit the Algolia search React component, [swizzle](swizzling.md
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-search-algolia SearchBar
 ```
+
+### Troubleshooting {#algolia-troubleshooting}
+
+Here are the most common issues Docusaurus users face when using Algolia DocSearch.
+
+#### No Search Results {#algolia-no-search-results}
+
+Seeing no search results is usually related to an **index configuration problem**.
+
+<details>
+  <summary>How to check if I have an config problem?</summary>
+
+Docusaurus uses [Algolia faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/) for its [Contextual Search](#contextual-search) feature, to create dynamic queries such as:
+
+```json
+[
+  "language:en",
+  [
+    "docusaurus_tag:default",
+    "docusaurus_tag:docs-default-3.2.1",
+    "docusaurus_tag:docs-community-current",
+    "docusaurus_tag:docs-docs-tests-current"
+  ]
+]
+```
+
+On the Algolia UI, your index should allow to create facet queries on fields `docusaurus_tag`, `language`, `lang`, `version`, `type`, as shown in the screenshot below:
+
+![Algolia index showing appropriate faceting fields](/img/docsearch-troubleshoot-index-facets.jpg)
+
+Alternatively, if you disable [Contextual Search](#contextual-search) with `{contextualSearch: false}` (which we don't particularly recommend), Docusaurus will not use facet queries, and you should start seeing results.
+
+</details>
+
+:::danger Use the recommended configuration
+
+We [recommend a specific crawler configuration](#algolia-index-configuration) for a good reason. We cannot support you if you choose to use a different configuration.
+
+:::
+
+You can fix index configuration problems by following those steps:
+
+1. Use the [recommend crawler configuration](#algolia-index-configuration)
+2. Delete your index through the UI
+3. Trigger a new crawl through the UI
+4. Check your index is recreated with the appropriate faceting fields: `docusaurus_tag`, `language`, `lang`, `version`, `type`
+5. See that you now get search results, even with [Contextual Search](#contextual-search) enabled
 
 ### Support {#algolia-support}
 

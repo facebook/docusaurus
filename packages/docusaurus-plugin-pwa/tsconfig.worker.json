@@ -1,11 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": false,
     "composite": true,
     "incremental": true,
     "lib": ["webworker", "esnext"],
-    "tsBuildInfoFile": "./lib/.tsbuildinfo-worker",
+    "tsBuildInfoFile": "lib/.tsbuildinfo-worker",
     "rootDir": "src",
     "outDir": "lib",
     "moduleResolution": "bundler",
