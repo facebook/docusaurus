@@ -27,10 +27,10 @@ export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
 export {
-  ItemsProvider,
-  TagsProvider,
   useShowcaseItems,
   useShowcaseTags,
+  useShowcaseApiScreenshot,
+  ShowcaseProvider,
 } from './contexts/showcase';
 export {
   BlogPostProvider,

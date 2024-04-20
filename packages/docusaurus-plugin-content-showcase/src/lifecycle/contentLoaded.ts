@@ -15,11 +15,13 @@ export async function processContentLoaded({
   content,
   tags,
   routeBasePath,
+  screenshotApi,
   addRoute,
 }: {
   content: ShowcaseItems;
   routeBasePath: string;
   tags: TagsOption;
+  screenshotApi: string;
   addRoute: PluginContentLoadedActions['addRoute'];
 }): Promise<void> {
   addRoute({
@@ -28,6 +30,7 @@ export async function processContentLoaded({
     props: {
       items: content.items,
       tags,
+      screenshotApi,
     },
     exact: true,
   });

@@ -10,7 +10,10 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import {sortBy} from '@docusaurus/plugin-content-showcase/client';
-import {useShowcaseTags} from '@docusaurus/theme-common/internal';
+import {
+  useShowcaseTags,
+  useShowcaseApiScreenshot,
+} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import type {ShowcaseItem, TagType} from '@docusaurus/plugin-content-showcase';
@@ -36,6 +39,7 @@ function TagItem({
   );
 }
 
+// TODO move tag reorder logic into hook
 function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   const Tags = useShowcaseTags();
   const TagList = Object.keys(Tags) as TagType[];
@@ -56,18 +60,13 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   );
 }
 
-function getCardImage(item: ShowcaseItem): string {
-  return (
-    item.preview ??
-    // TODO make it configurable
-    `https://slorber-api-screenshot.netlify.app/${encodeURIComponent(
-      item.website,
-    )}/showcase`
-  );
+function getCardImage(item: ShowcaseItem, api: string): string {
+  return item.preview ?? `${api}/${encodeURIComponent(item.website)}/showcase`;
 }
 
 function ShowcaseCard({item}: {item: ShowcaseItem}) {
-  const image = getCardImage(item);
+  const api = useShowcaseApiScreenshot();
+  const image = getCardImage(item, api);
   return (
     <li key={item.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>

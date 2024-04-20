@@ -256,6 +256,7 @@ declare module '@theme/Showcase' {
   export type Props = {
     items: ShowcaseItem[];
     tags: TagsOption;
+    screenshotApi: string;
   };
 
   export default function Showcase(props: Props): JSX.Element;

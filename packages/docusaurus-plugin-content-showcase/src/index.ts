@@ -31,7 +31,15 @@ export default async function pluginContentShowcase(
 ): Promise<Plugin<ShowcaseItems>> {
   const {siteDir, localizationDir} = context;
   // todo check for better naming of path: sitePath
-  const {include, exclude, tags, routeBasePath, path: sitePath, id} = options;
+  const {
+    include,
+    exclude,
+    tags,
+    routeBasePath,
+    path: sitePath,
+    id,
+    screenshotApi,
+  } = options;
 
   const contentPaths: ShowcaseContentPaths = {
     contentPath: path.resolve(siteDir, sitePath),
@@ -81,6 +89,7 @@ export default async function pluginContentShowcase(
       await processContentLoaded({
         content,
         tags: validatedTags,
+        screenshotApi,
         routeBasePath,
         addRoute,
       });
