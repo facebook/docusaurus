@@ -22,7 +22,6 @@ Autogen
 autogenerating
 autohide
 Autolinks
-axois
 Bartosz
 bedly
 beforeinstallprompt
