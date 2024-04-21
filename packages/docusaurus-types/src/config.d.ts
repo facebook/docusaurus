@@ -103,10 +103,7 @@ export type MarkdownConfig = {
   remarkRehypeOptions: RemarkRehypeOptions;
 
   anchors?: {
-    /**
-     * Ability to preserve the case of the heading anchor links.
-     */
-    maintainCase: boolean;
+    maintainCase?: boolean;
   };
 };
 
