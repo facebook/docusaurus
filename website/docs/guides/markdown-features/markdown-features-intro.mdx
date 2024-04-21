@@ -220,3 +220,33 @@ Markdown can embed HTML elements, and [`details`](https://developer.mozilla.org/
 
 </BrowserWindow>
 ```
+
+## Code Comments {#code-comments}
+
+Since MDX allows usage of React JSX, and JSX is like opening a window to JavaScript essentially,
+you might sometimes have the need to write comments to document your logic
+or provide info about properties you are using in your HTML markup.
+But you cannot use HTML block comments `<!-- -->`, since we're in a JavaScript context at that point.
+
+So, you must use JavaScript multi-line style comment blocks `/*` and put them inside curly braces such as:
+
+```mdx-code-block
+<BrowserWindow>
+
+<h3>List Our Goals</h3>
+
+  <ul style={{
+    backgroundColor: 'black',
+    {/* We used pink here because green
+        can cause accessibility a11y issues
+        with color blindness /*}
+    color: 'pink'
+  }}>
+    <li>Improve</li>
+    <li>Prepare</li>
+    {/* Our CTO preferred Work, but we might change this to Play in the future */}
+    <li>Work</li>
+  </ul>
+
+</BrowserWindow>
+```
