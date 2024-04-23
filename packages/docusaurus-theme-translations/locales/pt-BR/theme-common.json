@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Marcadores:",
   "theme.tags.tagsPageLink": "Ver todas os Marcadores",
   "theme.tags.tagsPageTitle": "Marcadores",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.message": "Esta página não está listada. Mecanismos de busca não a armazenarão nenhum informação, e somente usuários que possuem o link direto poderão acessá-la",
   "theme.unlistedContent.title": "Página não listada"
 }
