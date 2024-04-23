@@ -1,6 +1,6 @@
 {
   "theme.SearchBar.label": "Buscar",
-  "theme.SearchBar.seeAll": "Veja todos os {count} resultados",
+  "theme.SearchBar.seeAll": "Ver todos os {count} resultados",
   "theme.SearchModal.errorScreen.helpText": "Talvez você deva verificar sua conexão de rede.",
   "theme.SearchModal.errorScreen.titleText": "Não foi possível obter resultados",
   "theme.SearchModal.footer.closeKeyAriaLabel": "Tecla Esc",
