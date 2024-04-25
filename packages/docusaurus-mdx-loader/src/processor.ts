@@ -83,6 +83,17 @@ async function createProcessorFactory() {
   const {VFile} = await import('vfile');
   const {default: emoji} = await import('remark-emoji');
 
+  function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
+    return [
+      [
+        headings,
+        {anchorsMaintainCase: options.markdownConfig.anchors.maintainCase},
+      ],
+      emoji,
+      toc,
+    ];
+  }
+
   // /!\ this method is synchronous on purpose
   // Using async code here can create cache entry race conditions!
   function createProcessorSync({
@@ -98,7 +109,7 @@ async function createProcessorFactory() {
       directive,
       [contentTitle, {removeContentTitle: options.removeContentTitle}],
       ...getAdmonitionsPlugins(options.admonitions ?? false),
-      [headings, options.markdownConfig.anchors],
+      ...getDefaultRemarkPlugins({options}),
       emoji,
       toc,
       details,

@@ -45,6 +45,13 @@ export type ParseFrontMatter = (
   },
 ) => Promise<ParseFrontMatterResult>;
 
+export type MarkdownAnchorsConfig = {
+  /**
+   * Preserves the case of the heading text when generating anchor ids.
+   */
+  maintainCase: boolean;
+};
+
 export type MarkdownConfig = {
   /**
    * The Markdown format to use by default.
@@ -102,9 +109,7 @@ export type MarkdownConfig = {
    */
   remarkRehypeOptions: RemarkRehypeOptions;
 
-  anchors?: {
-    maintainCase?: boolean;
-  };
+  anchors: MarkdownAnchorsConfig;
 };
 
 /**

@@ -13,12 +13,12 @@ import type {Transformer} from 'unified';
 import type {Heading, Text} from 'mdast';
 
 export interface PluginOptions {
-  maintainCase: boolean;
+  anchorsMaintainCase: boolean;
 }
 
-export default function plugin(
-  {maintainCase}: PluginOptions = {maintainCase: false},
-): Transformer {
+export default function plugin({
+  anchorsMaintainCase,
+}: PluginOptions): Transformer {
   return async (root) => {
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
@@ -44,7 +44,9 @@ export default function plugin(
         // Support explicit heading IDs
         const parsedHeading = parseMarkdownHeadingId(heading);
 
-        id = parsedHeading.id ?? slugs.slug(heading, {maintainCase});
+        id =
+          parsedHeading.id ??
+          slugs.slug(heading, {maintainCase: anchorsMaintainCase});
 
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node

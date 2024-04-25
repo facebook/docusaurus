@@ -11,7 +11,7 @@ import u from 'unist-builder';
 import {removePosition} from 'unist-util-remove-position';
 import {toString} from 'mdast-util-to-string';
 import {visit} from 'unist-util-visit';
-import slug from '../index';
+import plugin from '../index';
 import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
@@ -19,11 +19,11 @@ import type {Parent} from 'unist';
 async function process(
   doc: string,
   plugins: Plugin[] = [],
-  options: PluginOptions = {maintainCase: false},
+  options: PluginOptions = {anchorsMaintainCase: false},
 ) {
   const {remark} = await import('remark');
   const processor = await remark().use({
-    plugins: [...plugins, [slug, options]],
+    plugins: [...plugins, [plugin, options]],
   });
   const result = await processor.run(processor.parse(doc));
   removePosition(result, {force: true});
@@ -320,16 +320,21 @@ describe('headings remark plugin', () => {
     ]);
   });
 
-  it('preserve anchors case then "maintainCase" option is set', async () => {
-    const result = await process('# Normal\n', [], {maintainCase: true});
+  it('preserve anchors case then "anchorsMaintainCase" option is set', async () => {
+    const result = await process('# Case Sensitive Heading', [], {
+      anchorsMaintainCase: true,
+    });
     const expected = u('root', [
       u(
         'heading',
         {
           depth: 1,
-          data: {hProperties: {id: 'Normal'}, id: 'Normal'},
+          data: {
+            hProperties: {id: 'Case-Sensitive-Heading'},
+            id: 'Case-Sensitive-Heading',
+          },
         },
-        [u('text', 'Normal')],
+        [u('text', 'Case Sensitive Heading')],
       ),
     ]);
 

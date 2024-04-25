@@ -325,9 +325,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       Joi.object().unknown(),
     anchors: Joi.object({
       maintainCase: Joi.boolean().default(
-        DEFAULT_CONFIG.markdown.anchors?.maintainCase,
+        DEFAULT_CONFIG.markdown.anchors.maintainCase,
       ),
-    }),
+    }).default(DEFAULT_CONFIG.markdown.anchors),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
