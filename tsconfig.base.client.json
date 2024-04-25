@@ -6,6 +6,7 @@
     "incremental": true,
     "moduleResolution": "bundler",
     "module": "esnext",
-    "target": "esnext"
+    "target": "es2022",
+    "jsx": "react-jsx"
   }
 }

@@ -63,7 +63,7 @@ function shouldBeTranspiled(modulePath: string): boolean {
 
   // TODO POC pretranspiled modules
   if (
-    // modulePath.includes('docusaurus-') ||
+    modulePath.includes('docusaurus-') ||
     modulePath.includes('docusaurus-theme-classic') ||
     modulePath.includes('@docusaurus/theme-classic') ||
     modulePath.includes('docusaurus-theme-common') ||
