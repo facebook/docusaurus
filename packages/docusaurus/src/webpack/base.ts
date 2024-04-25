@@ -36,6 +36,15 @@ export function excludeJS(modulePath: string): boolean {
   if (modulePath.startsWith(CoreClientDir)) {
     return true;
   }
+
+  // TODO POC
+  if (
+    modulePath.includes('docusaurus-theme-classic') ||
+    modulePath.includes('@docusaurus/theme-classic')
+  ) {
+    return true;
+  }
+
   // Don't transpile node_modules except any docusaurus npm package
   return (
     modulePath.includes('node_modules') &&

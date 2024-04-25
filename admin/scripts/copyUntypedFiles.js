@@ -11,6 +11,7 @@ import chokidar from 'chokidar';
 
 const srcDir = path.join(process.cwd(), 'src');
 const libDir = path.join(process.cwd(), 'lib');
+const libPretranspiledDir = path.join(process.cwd(), 'lib-pretranspiled');
 
 const ignoredPattern = /(?:__tests__|\.tsx?$)/;
 
@@ -20,6 +21,14 @@ async function copy() {
       return !ignoredPattern.test(testedPath);
     },
   });
+
+  if (await fs.pathExists(libPretranspiledDir)) {
+    await fs.copy(srcDir, libPretranspiledDir, {
+      filter(testedPath) {
+        return !ignoredPattern.test(testedPath);
+      },
+    });
+  }
 }
 
 if (process.argv.includes('--watch')) {

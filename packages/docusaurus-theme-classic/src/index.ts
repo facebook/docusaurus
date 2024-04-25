@@ -140,7 +140,8 @@ export default function themeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return '../lib/theme';
+      // TODO POC
+      return '../lib-pretranspiled/theme';
     },
 
     getTypeScriptThemePath() {
