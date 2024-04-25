@@ -110,8 +110,6 @@ async function createProcessorFactory() {
       [contentTitle, {removeContentTitle: options.removeContentTitle}],
       ...getAdmonitionsPlugins(options.admonitions ?? false),
       ...getDefaultRemarkPlugins({options}),
-      emoji,
-      toc,
       details,
       head,
       ...(options.markdownConfig.mermaid ? [mermaid] : []),
