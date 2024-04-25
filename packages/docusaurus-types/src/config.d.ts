@@ -109,6 +109,9 @@ export type MarkdownConfig = {
    */
   remarkRehypeOptions: RemarkRehypeOptions;
 
+  /**
+   * Options to control the behavior of anchors generated from Markdown headings
+   */
   anchors: MarkdownAnchorsConfig;
 };
 
