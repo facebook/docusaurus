@@ -4,11 +4,8 @@
     "noEmit": false,
     "composite": true,
     "incremental": true,
-    "importHelpers": true,
-    "noEmitHelpers": false,
     "moduleResolution": "bundler",
     "module": "esnext",
-    "target": "es2022",
-    "jsx": "react-jsx"
+    "target": "esnext"
   }
 }

@@ -14,7 +14,7 @@ import {excludeJS, CoreClientDir, createBaseConfig} from '../base';
 import type {Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
-  it('always transpiles client dir files', () => {
+  it('never transpiles client dir files', () => {
     const clientFiles = [
       'App.js',
       'clientEntry.js',
@@ -22,7 +22,7 @@ describe('babel transpilation exclude logic', () => {
       path.join('exports', 'Link.js'),
     ];
     clientFiles.forEach((file) => {
-      expect(excludeJS(path.join(CoreClientDir, file))).toBe(false);
+      expect(excludeJS(path.join(CoreClientDir, file))).toBe(true);
     });
   });
 
