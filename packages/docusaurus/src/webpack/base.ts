@@ -21,36 +21,62 @@ import type {Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
+
 export const CoreClientDir = path.join(__dirname, '..', 'client');
+function isCoreClientModule(modulePath: string): boolean {
+  return modulePath.startsWith(CoreClientDir);
+}
 
 const LibrariesToTranspile = [
   'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
 ];
-
 const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
+function isLibraryToTranspileModule(modulePath: string): boolean {
+  return LibrariesToTranspileRegex.test(modulePath);
+}
+
+// Returns true when a node_module package has docusaurus in its name
+// /node_modules/docusaurus-xyz/node_modules/other/index.js => false
+// /node_modules/other/node_modules/docusaurus-xyz/index.js => true
+function isInDocusaurusNamedPackage(modulePath: string): boolean {
+  return /docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath);
+}
 
 export function excludeJS(modulePath: string): boolean {
   // Never transpile Docusaurus core client dir
-  if (modulePath.startsWith(CoreClientDir)) {
+  // It's already pre-transpiled
+  if (isCoreClientModule(modulePath)) {
     return true;
+  }
+
+  if (isLibraryToTranspileModule(modulePath)) {
+    return false;
   }
 
   // TODO POC
   if (
     modulePath.includes('docusaurus-theme-classic') ||
-    modulePath.includes('@docusaurus/theme-classic')
+    modulePath.includes('@docusaurus/theme-classic') ||
+    modulePath.includes('docusaurus-theme-common') ||
+    modulePath.includes('@docusaurus/theme-common') ||
+    modulePath.includes('docusaurus-utils-common') ||
+    modulePath.includes('@docusaurus/utils-common')
   ) {
+    // console.log('excluded', modulePath);
     return true;
   }
 
-  // Don't transpile node_modules except any docusaurus npm package
-  return (
-    modulePath.includes('node_modules') &&
-    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
-    !LibrariesToTranspileRegex.test(modulePath)
-  );
+  if (modulePath.includes('node_modules')) {
+    // we only transpile Docusaurus-named packages
+    // If it's a JS/React package it's usually pre-transpiled
+    return !isInDocusaurusNamedPackage(modulePath);
+  }
+  // if it's not a dependency, we always transpile it
+  else {
+    return false;
+  }
 }
 
 export async function createBaseConfig({

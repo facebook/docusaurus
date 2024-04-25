@@ -26,6 +26,16 @@ describe('babel transpilation exclude logic', () => {
     });
   });
 
+  it('always transpiles copy-text-to-clipboard', () => {
+    const clientFiles = [
+      '/whatever/copy-text-to-clipboard/lib.js',
+      '/whatever/node_modules/copy-text-to-clipboard/lib.js',
+    ];
+    clientFiles.forEach((file) => {
+      expect(excludeJS(file)).toBe(false);
+    });
+  });
+
   it('always transpiles non node_module files', () => {
     const moduleFiles = [
       '/pages/user/App.jsx',
@@ -40,7 +50,7 @@ describe('babel transpilation exclude logic', () => {
   it('transpiles docusaurus npm packages even in node_modules', () => {
     const moduleFiles = [
       '/website/node_modules/docusaurus-theme-search/theme/Navbar/index.js',
-      'node_modules/@docusaurus/theme-classic/theme/Layout.js',
+      'node_modules/@docusaurus/some-theme/lib/theme/Layout.js',
       '/docusaurus/website/node_modules/@docusaurus/theme-search-algolia/theme/SearchBar.js',
     ];
     moduleFiles.forEach((file) => {
