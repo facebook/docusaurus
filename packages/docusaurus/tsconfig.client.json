@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.client.json",
+  "extends": "../../tsconfig.base.client.pretranspiled.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",

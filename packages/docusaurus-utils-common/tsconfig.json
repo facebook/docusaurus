@@ -6,6 +6,8 @@
     "tsBuildInfoFile": "lib/.tsbuildinfo",
     "sourceMap": true,
     "declarationMap": true,
+    "importHelpers": true,
+    "noEmitHelpers": false,
     "moduleResolution": "NodeNext",
     "module": "NodeNext"
   },

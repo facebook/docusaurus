@@ -34,13 +34,15 @@ const tsconfigSchema = Joi.object({
   extends: Joi.valid(
     '../../tsconfig.base.json',
     '../../tsconfig.base.client.json',
+    '../../tsconfig.base.client.pretranspiled.json',
   ),
   compilerOptions: Joi.object({
     rootDir: Joi.valid('src').required(),
-    outDir: Joi.valid('lib').required(),
+    outDir: Joi.valid('lib', 'lib-pretranspiled').required(),
     tsBuildInfoFile: Joi.valid(
       'lib/.tsbuildinfo',
       'lib/.tsbuildinfo-client',
+      'lib/.tsbuildinfo-client-pretranspiled',
       'lib/.tsbuildinfo-worker',
     ),
   }).unknown(),
