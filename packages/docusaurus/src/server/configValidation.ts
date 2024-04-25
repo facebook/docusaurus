@@ -41,6 +41,9 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     admonitions: true,
     headingIds: true,
   },
+  anchors: {
+    maintainCase: false,
+  },
   remarkRehypeOptions: undefined,
 };
 
@@ -320,6 +323,11 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       // Not sure if it's a good idea, validation is likely to become stale
       // See https://github.com/remarkjs/remark-rehype#options
       Joi.object().unknown(),
+    anchors: Joi.object({
+      maintainCase: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.anchors.maintainCase,
+      ),
+    }).default(DEFAULT_CONFIG.markdown.anchors),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
