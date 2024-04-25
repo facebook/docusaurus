@@ -71,7 +71,6 @@ function shouldBeTranspiled(modulePath: string): boolean {
     modulePath.includes('docusaurus-utils-common') ||
     modulePath.includes('@docusaurus/utils-common')
   ) {
-    // console.log('excluded', modulePath);
     return false;
   }
 
@@ -87,9 +86,13 @@ function shouldBeTranspiled(modulePath: string): boolean {
 }
 
 export function excludeJS(modulePath: string): boolean {
-  const isExcluded = !shouldBeTranspiled(modulePath);
-  // modulePath.includes('docusaurus-') && console.log('excluded', modulePath);
-  return isExcluded;
+  const excluded = !shouldBeTranspiled(modulePath);
+  /*
+  modulePath.includes('docusaurus-') &&
+    console.log('excluded?', excluded ? '✅' : '⚠️', modulePath);
+
+   */
+  return excluded;
 }
 
 export async function createBaseConfig({
