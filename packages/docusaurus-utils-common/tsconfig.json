@@ -3,12 +3,11 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "tsBuildInfoFile": "lib/.tsbuildinfo-client",
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
     "sourceMap": true,
     "declarationMap": true,
     "moduleResolution": "NodeNext",
-    "module": "NodeNext",
-    "noEmitHelpers": false
+    "module": "NodeNext"
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**"]

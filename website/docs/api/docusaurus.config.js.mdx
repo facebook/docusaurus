@@ -438,6 +438,10 @@ export type ParseFrontMatter = (params: {
   content: string;
 }>;
 
+type MarkdownAnchorsConfig = {
+  maintainCase: boolean;
+};
+
 type MarkdownConfig = {
   format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
@@ -445,6 +449,7 @@ type MarkdownConfig = {
   parseFrontMatter?: ParseFrontMatter;
   mdx1Compat: MDX1CompatOptions;
   remarkRehypeOptions: object; // see https://github.com/remarkjs/remark-rehype#options
+  anchors: MarkdownAnchorsConfig;
 };
 ```
 
@@ -469,6 +474,9 @@ export default {
       admonitions: true,
       headingIds: true,
     },
+    anchors: {
+      maintainCase: true,
+    },
   },
 };
 ```
@@ -484,6 +492,7 @@ export default {
 | `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
 | `parseFrontMatter` | `ParseFrontMatter` | `undefined` | Gives you the ability to provide your own front matter parser, or to enhance the default parser. Read our [front matter guide](../guides/markdown-features/markdown-features-intro.mdx#front-matter) for details. |
 | `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. |
+| `anchors` | `MarkdownAnchorsConfig` | `{maintainCase: false}` | Options to control the behavior of anchors generated from Markdown headings |
 | `remarkRehypeOptions` | `object` | `undefined` | Makes it possible to pass custom [`remark-rehype` options](https://github.com/remarkjs/remark-rehype#options). |
 
 ```mdx-code-block

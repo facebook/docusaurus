@@ -10,7 +10,7 @@ on:
       - yarn.lock
       - jest.config.mjs
       - packages/**
-      - tsconfig.json
+      - tsconfig.*.json
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -39,9 +39,18 @@ jobs:
         run: yarn
       - name: Test
         run: yarn test
-      - name: TypeCheck website
-        run: yarn workspace website typecheck
       - name: Remove Theme Internal Re-export
         run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         run: yarn build:website:fast
+
+      - name: TypeCheck website
+        run: yarn workspace website typecheck
+      - name: TypeCheck website - min version - v5.1
+        run: |
+          yarn workspace website add typescript@5.1.6 --exact
+          yarn workspace website typecheck
+      - name: TypeCheck website - max version - Latest
+        run: |
+          yarn workspace website add typescript@latest --exact
+          yarn workspace website typecheck

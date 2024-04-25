@@ -69,6 +69,9 @@ describe('normalizeConfig', () => {
           admonitions: false,
           headingIds: true,
         },
+        anchors: {
+          maintainCase: true,
+        },
         remarkRehypeOptions: {
           footnoteLabel: 'Pied de page',
         },
@@ -516,6 +519,9 @@ describe('markdown', () => {
         comments: false,
         admonitions: true,
         headingIds: false,
+      },
+      anchors: {
+        maintainCase: true,
       },
       remarkRehypeOptions: {
         footnoteLabel: 'Notes de bas de page',

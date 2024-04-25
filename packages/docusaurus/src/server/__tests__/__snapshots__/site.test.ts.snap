@@ -97,6 +97,9 @@ exports[`load loads props for site with custom i18n path 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,

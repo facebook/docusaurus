@@ -45,6 +45,13 @@ export type ParseFrontMatter = (
   },
 ) => Promise<ParseFrontMatterResult>;
 
+export type MarkdownAnchorsConfig = {
+  /**
+   * Preserves the case of the heading text when generating anchor ids.
+   */
+  maintainCase: boolean;
+};
+
 export type MarkdownConfig = {
   /**
    * The Markdown format to use by default.
@@ -101,6 +108,11 @@ export type MarkdownConfig = {
    * See also https://github.com/remarkjs/remark-rehype#options
    */
   remarkRehypeOptions: RemarkRehypeOptions;
+
+  /**
+   * Options to control the behavior of anchors generated from Markdown headings
+   */
+  anchors: MarkdownAnchorsConfig;
 };
 
 /**
