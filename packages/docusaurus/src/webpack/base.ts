@@ -38,25 +38,32 @@ function isLibraryToTranspileModule(modulePath: string): boolean {
 }
 
 // Returns true when a node_module package has docusaurus in its name
+// Not super robust logic, but it's what we use historically
 // /node_modules/docusaurus-xyz/node_modules/other/index.js => false
 // /node_modules/other/node_modules/docusaurus-xyz/index.js => true
 function isInDocusaurusNamedPackage(modulePath: string): boolean {
   return /docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath);
 }
 
-export function excludeJS(modulePath: string): boolean {
+function shouldBeTranspiled(modulePath: string): boolean {
   // Never transpile Docusaurus core client dir
   // It's already pre-transpiled
   if (isCoreClientModule(modulePath)) {
-    return true;
-  }
-
-  if (isLibraryToTranspileModule(modulePath)) {
     return false;
   }
 
-  // TODO POC
+  if (isLibraryToTranspileModule(modulePath)) {
+    return true;
+  }
+
+  // A TS module should always be transpiled
+  if (modulePath.endsWith('.ts') || modulePath.endsWith('.tsx')) {
+    return true;
+  }
+
+  // TODO POC pretranspiled modules
   if (
+    // modulePath.includes('docusaurus-') ||
     modulePath.includes('docusaurus-theme-classic') ||
     modulePath.includes('@docusaurus/theme-classic') ||
     modulePath.includes('docusaurus-theme-common') ||
@@ -65,18 +72,24 @@ export function excludeJS(modulePath: string): boolean {
     modulePath.includes('@docusaurus/utils-common')
   ) {
     // console.log('excluded', modulePath);
-    return true;
+    return false;
   }
 
   if (modulePath.includes('node_modules')) {
     // we only transpile Docusaurus-named packages
     // If it's a JS/React package it's usually pre-transpiled
-    return !isInDocusaurusNamedPackage(modulePath);
+    return isInDocusaurusNamedPackage(modulePath);
   }
   // if it's not a dependency, we always transpile it
   else {
-    return false;
+    return true;
   }
+}
+
+export function excludeJS(modulePath: string): boolean {
+  const isExcluded = !shouldBeTranspiled(modulePath);
+  // modulePath.includes('docusaurus-') && console.log('excluded', modulePath);
+  return isExcluded;
 }
 
 export async function createBaseConfig({

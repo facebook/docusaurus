@@ -30,6 +30,7 @@ export function formatStatsErrorMessage(
   statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
 ): string | undefined {
   if (statsJson?.errors?.length) {
+    console.log({statsJsonErrors: statsJson.errors});
     // TODO formatWebpackMessages does not print stack-traces
     // Also the error causal chain is lost here
     // We log the stacktrace inside serverEntry.tsx for now (not ideal)
