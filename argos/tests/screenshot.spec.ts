@@ -104,7 +104,8 @@ function throwOnConsole(page: Page) {
       throw new Error(`Docusaurus site page unexpectedly logged something to the browser console
 Type=${message.type()}
 Text=${message.text()}
-Location=${message.location()}`);
+Args=${JSON.stringify(message.args())}
+Location=${JSON.stringify(message.location())}`);
     }
   });
 }
