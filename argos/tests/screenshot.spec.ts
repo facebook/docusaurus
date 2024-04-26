@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import {test} from '@playwright/test';
 import {argosScreenshot} from '@argos-ci/playwright';
 import * as cheerio from 'cheerio';
+import type {Page} from '@playwright/test';
 
 const siteUrl = 'http://localhost:3000';
 const sitemapPath = '../website/build/sitemap.xml';
@@ -91,8 +92,26 @@ function waitForDocusaurusHydration() {
   return document.documentElement.dataset.hasHydrated === 'true';
 }
 
+// Ensure that Docusaurus site pages do not emit unexpected errors/warnings
+// See https://github.com/microsoft/playwright/issues/27277
+// TODO this shouldn't be the responsibility of Argos tests to do this
+//  but this is convenient to do this here for now
+function throwOnConsole(page: Page) {
+  const forbiddenMessageTypes = ['error', 'warning'];
+
+  page.on('console', (message) => {
+    if (forbiddenMessageTypes.includes(message.type())) {
+      throw new Error(`Docusaurus site page unexpectedly logged something to the browser console
+Type=${message.type()}
+Text=${message.text()}
+Location=${message.location()}`);
+    }
+  });
+}
+
 function createPathnameTest(pathname: string) {
   test(`pathname ${pathname}`, async ({page}) => {
+    throwOnConsole(page);
     const url = siteUrl + pathname;
     await page.goto(url);
     await page.waitForFunction(waitForDocusaurusHydration);
