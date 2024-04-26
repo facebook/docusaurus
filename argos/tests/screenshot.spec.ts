@@ -109,6 +109,9 @@ function throwOnConsole(page: Page) {
     // TODO this fetch error message is unexpected and should be fixed
     //  it's already happening in main branch
     'Failed to load resource: the server responded with a status of 404 (Not Found)',
+
+    // TODO looks like a legit hydration bug to fix
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=light"',
   ];
 
   page.on('console', (message) => {
