@@ -1639,13 +1639,6 @@
     "@docsearch/css" "3.5.2"
     algoliasearch "^4.19.1"
 
-"@docusaurus/react-loadable@6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@docusaurus/react-loadable/-/react-loadable-6.0.0.tgz#de6c7f73c96542bd70786b8e522d535d69069dc4"
-  integrity sha512-YMMxTUQV/QFSnbgrP3tjDzLHRg7vsbMn8e9HAa8o/1iXoiomo48b7sk/kkmWEuWNDPJVlKSJRB6Y2fHqdJk+SQ==
-  dependencies:
-    "@types/react" "*"
-
 "@docusaurus/responsive-loader@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@docusaurus/responsive-loader/-/responsive-loader-1.7.0.tgz#508df2779e04311aa2a38efb67cf743109afd681"
