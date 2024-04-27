@@ -333,11 +333,19 @@ test
 
 ::::
 
-:::
+```mdx-code-block
+import Admonition from '@theme/Admonition';
 
-Admonition content without heading
+export function AdmonitionWithoutHeading(props) {
+  return (
+    <Admonition {...props} type="info" icon={null} title={null}>
+      Admonition content without heading
+    </Admonition>
+  );
+}
+```
 
-:::
+<AdmonitionWithoutHeading />
 
 ## Linking
 
