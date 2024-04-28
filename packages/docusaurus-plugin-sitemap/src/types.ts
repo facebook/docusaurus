@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
+import type {HelmetServerState} from 'react-helmet-async';
+import type {PluginOptions} from './options';
+
 export const LastModOptionList = ['date', 'datetime'] as const;
 
 export type LastModOption = (typeof LastModOptionList)[number];
@@ -64,4 +68,11 @@ export type SitemapItem = {
    * See also https://github.com/facebook/docusaurus/issues/2604
    */
   priority?: number | null;
+};
+
+export type DefaultCreateSitemapParams = {
+  siteConfig: DocusaurusConfig;
+  routes: RouteConfig[];
+  head: {[location: string]: HelmetServerState};
+  options: PluginOptions;
 };

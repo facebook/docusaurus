@@ -9,17 +9,9 @@ import type {ReactElement} from 'react';
 import {createMatcher, flattenRoutes} from '@docusaurus/utils';
 import {sitemapItemsToXmlString} from './xml';
 import {createSitemapItem} from './createSitemapItem';
-import type {SitemapItem} from './types';
-import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
+import type {SitemapItem, DefaultCreateSitemapParams} from './types';
+import type {RouteConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
-import type {PluginOptions} from './options';
-
-type CreateSitemapParams = {
-  siteConfig: DocusaurusConfig;
-  routes: RouteConfig[];
-  head: {[location: string]: HelmetServerState};
-  options: PluginOptions;
-};
 
 // Maybe we want to add a routeConfig.metadata.noIndex instead?
 // But using Helmet is more reliable for third-party plugins...
@@ -61,7 +53,7 @@ function isNoIndexMetaRoute({
 // - parent routes, used for layouts
 // - routes matching options.ignorePatterns
 // - routes with no index metadata
-function getSitemapRoutes({routes, head, options}: CreateSitemapParams) {
+function getSitemapRoutes({routes, head, options}: DefaultCreateSitemapParams) {
   const {ignorePatterns} = options;
 
   const ignoreMatcher = createMatcher(ignorePatterns);
@@ -75,8 +67,8 @@ function getSitemapRoutes({routes, head, options}: CreateSitemapParams) {
   return flattenRoutes(routes).filter((route) => !isRouteExcluded(route));
 }
 
-async function createSitemapItems(
-  params: CreateSitemapParams,
+async function defaultCreateSitemapItems(
+  params: DefaultCreateSitemapParams,
 ): Promise<SitemapItem[]> {
   const sitemapRoutes = getSitemapRoutes(params);
   if (sitemapRoutes.length === 0) {
@@ -94,13 +86,24 @@ async function createSitemapItems(
 }
 
 export default async function createSitemap(
-  params: CreateSitemapParams,
+  params: DefaultCreateSitemapParams,
 ): Promise<string | null> {
-  const items = await createSitemapItems(params);
-  if (items.length === 0) {
+  const {head, options, routes, siteConfig} = params;
+  const createSitemapItems =
+    params.options.createSitemapItems ?? defaultCreateSitemapItems;
+
+  const sitemapItems = await createSitemapItems({
+    head,
+    options,
+    routes,
+    siteConfig,
+    defaultCreateSitemapItems,
+  });
+  if (sitemapItems.length === 0) {
     return null;
   }
-  const xmlString = await sitemapItemsToXmlString(items, {
+
+  const xmlString = await sitemapItemsToXmlString(sitemapItems, {
     lastmod: params.options.lastmod,
   });
   return xmlString;

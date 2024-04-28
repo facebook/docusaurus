@@ -84,6 +84,37 @@ describe('createSitemap', () => {
     expect(sitemap).not.toContain('/tags');
   });
 
+  it('excludes items that createSitemapItems configures to be ignored', async () => {
+    const sitemap = await createSitemap({
+      siteConfig,
+      routes: routes([
+        '/',
+        '/search/',
+        '/tags/',
+        '/search/foo',
+        '/tags/foo/bar',
+      ]),
+      head: {},
+      options: {
+        ...options,
+        createSitemapItems: async (params) => {
+          const {defaultCreateSitemapItems, ...rest} = params;
+          const sitemapItems = await defaultCreateSitemapItems(rest);
+          const sitemapsWithoutPageAndTags = sitemapItems.filter(
+            (sitemapItem) =>
+              !sitemapItem.url.includes('/tags/') &&
+              !sitemapItem.url.endsWith('/search/'),
+          );
+          return sitemapsWithoutPageAndTags;
+        },
+      },
+    });
+
+    expect(sitemap).not.toContain('/search/</loc>');
+    expect(sitemap).toContain('/search/foo');
+    expect(sitemap).not.toContain('/tags');
+  });
+
   it('keep trailing slash unchanged', async () => {
     const sitemap = await createSitemap({
       siteConfig,
