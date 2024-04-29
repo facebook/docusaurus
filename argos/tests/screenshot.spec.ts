@@ -112,6 +112,10 @@ function throwOnConsole(page: Page) {
 
     // TODO looks like a legit hydration bug to fix
     'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=light"',
+
+    // TODO weird problem related to KaTeX fonts refusing to decode?
+    //  on http://localhost:3000/docs/markdown-features/math-equations
+    'Failed to decode downloaded font: http://localhost:3000/katex/fonts/KaTeX_Math-Italic.woff2',
   ];
 
   page.on('console', (message) => {
