@@ -313,6 +313,7 @@ sensical
 setaf
 setext
 setlocal
+SFNT
 shiki
 Shiki
 shortcodes
