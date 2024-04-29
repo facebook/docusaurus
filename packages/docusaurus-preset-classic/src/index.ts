@@ -89,7 +89,7 @@ export default function preset(
       ),
     );
   }
-  if (isProd && sitemap !== false) {
+  if (sitemap !== false && (isProd || debug)) {
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
   }
   if (Object.keys(rest).length > 0) {
