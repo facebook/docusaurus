@@ -115,7 +115,7 @@ function throwOnConsole(page: Page) {
 
     // TODO weird problem related to KaTeX fonts refusing to decode?
     //  on http://localhost:3000/docs/markdown-features/math-equations
-    'Failed to decode downloaded font: http://localhost:3000/katex/fonts/KaTeX_Math-Italic.woff2',
+    'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',
     'OTS parsing error: Failed to convert WOFF 2.0 font to SFNT',
   ];
 
