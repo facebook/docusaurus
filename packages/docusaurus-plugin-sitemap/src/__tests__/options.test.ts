@@ -249,4 +249,44 @@ describe('validateOptions', () => {
       );
     });
   });
+
+  describe('createSitemapItems', () => {
+    it('accept createSitemapItems undefined', () => {
+      const userOptions: Options = {
+        createSitemapItems: undefined,
+      };
+      expect(testValidate(userOptions)).toEqual(defaultOptions);
+    });
+
+    it('accept createSitemapItems valid', () => {
+      const userOptions: Options = {
+        createSitemapItems: async (params) => {
+          const {defaultCreateSitemapItems, ...rest} = params;
+          const sitemapItems = await defaultCreateSitemapItems(rest);
+          const sitemapsWithoutPageAndTags = sitemapItems.filter(
+            (sitemapItem) =>
+              !sitemapItem.url.includes('/tags/') &&
+              !sitemapItem.url.includes('/page/'),
+          );
+          return sitemapsWithoutPageAndTags;
+        },
+      };
+      expect(testValidate(userOptions)).toEqual({
+        ...defaultOptions,
+        ...userOptions,
+      });
+    });
+
+    it('rejects createSitemapItems bad input type', () => {
+      const userOptions: Options = {
+        // @ts-expect-error: test
+        createSitemapItems: 'not a function',
+      };
+      expect(() =>
+        testValidate(userOptions),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""createSitemapItems" must be of type function"`,
+      );
+    });
+  });
 });

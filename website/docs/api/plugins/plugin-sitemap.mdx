@@ -44,9 +44,22 @@ Accepted fields:
 | `priority` | `number \| null` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
 | `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
 | `filename` | `string` | `sitemap.xml` | The path to the created sitemap file, relative to the output directory. Useful if you have two plugin instances outputting two files. |
+| `createSitemapItems` | <code>[CreateSitemapItemsFn](#CreateSitemapItemsFn) \| undefined</code> | `undefined` | An optional function which can be used to transform and / or filter the items in the sitemap. |
 
 ```mdx-code-block
 </APITable>
+```
+
+### Types {#types}
+
+#### `CreateSitemapItemsFn` {#CreateSitemapItemsFn}
+
+```ts
+type CreateSitemapItemsFn = (params: {
+  siteConfig: DocusaurusConfig;
+  routes: RouteConfig[];
+  defaultCreateSitemapItems: CreateSitemapItemsFn;
+}) => Promise<SitemapItem[]>;
 ```
 
 :::info
@@ -86,6 +99,11 @@ const config = {
   priority: 0.5,
   ignorePatterns: ['/tags/**'],
   filename: 'sitemap.xml',
+  createSitemapItems: async (params) => {
+    const {defaultCreateSitemapItems, ...rest} = params;
+    const items = await defaultCreateSitemapItems(rest);
+    return items.filter((item) => !item.url.includes('/page/'));
+  },
 };
 ```
 
