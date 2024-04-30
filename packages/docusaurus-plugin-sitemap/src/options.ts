@@ -10,9 +10,10 @@ import {ChangeFreqList, LastModOptionList} from './types';
 import type {OptionValidationContext} from '@docusaurus/types';
 import type {
   ChangeFreq,
-  DefaultCreateSitemapParams,
   LastModOption,
   SitemapItem,
+  CreateSitemapItemsFn,
+  CreateSitemapItemsParams,
 } from './types';
 
 export type PluginOptions = {
@@ -51,21 +52,14 @@ export type PluginOptions = {
   priority: number | null;
 
   /** Allow control over the construction of SitemapItems */
-  createSitemapItems?: CreateSitemapItemsFn;
+  createSitemapItems?: CreateSitemapItemsOption;
 };
 
-type CreateSitemapItemsFn = (
-  params: CreateSitemapItemsParams,
+type CreateSitemapItemsOption = (
+  params: CreateSitemapItemsParams & {
+    defaultCreateSitemapItems: CreateSitemapItemsFn;
+  },
 ) => Promise<SitemapItem[]>;
-
-type CreateSitemapItemsParams = Omit<
-  DefaultCreateSitemapParams,
-  'head' | 'options'
-> & {
-  defaultCreateSitemapItems: (
-    params: Omit<DefaultCreateSitemapParams, 'head' | 'options'>,
-  ) => Promise<SitemapItem[]>;
-};
 
 export type Options = Partial<PluginOptions>;
 

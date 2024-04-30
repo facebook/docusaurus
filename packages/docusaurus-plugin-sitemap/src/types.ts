@@ -6,8 +6,6 @@
  */
 
 import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
-import type {HelmetServerState} from 'react-helmet-async';
-import type {PluginOptions} from './options';
 
 export const LastModOptionList = ['date', 'datetime'] as const;
 
@@ -70,9 +68,11 @@ export type SitemapItem = {
   priority?: number | null;
 };
 
-export type DefaultCreateSitemapParams = {
+export type CreateSitemapItemsParams = {
   siteConfig: DocusaurusConfig;
   routes: RouteConfig[];
-  head: {[location: string]: HelmetServerState};
-  options: PluginOptions;
 };
+
+export type CreateSitemapItemsFn = (
+  params: CreateSitemapItemsParams,
+) => Promise<SitemapItem[]>;
