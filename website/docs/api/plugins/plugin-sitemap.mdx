@@ -58,6 +58,7 @@ Accepted fields:
 type CreateSitemapItemsFn = (params: {
   siteConfig: DocusaurusConfig;
   routes: RouteConfig[];
+  defaultCreateSitemapItems: CreateSitemapItemsFn;
 }) => Promise<SitemapItem[]>;
 ```
 
