@@ -490,16 +490,6 @@ export default async function createConfigAsync() {
             lastmod: 'date',
             priority: null,
             changefreq: null,
-            createSitemapItems: async (params) => {
-              const {defaultCreateSitemapItems, ...rest} = params;
-              const sitemapItems = await defaultCreateSitemapItems(rest);
-              const sitemapsWithoutPageAndTags = sitemapItems.filter(
-                (sitemapItem) =>
-                  !sitemapItem.url.includes('/tags/') &&
-                  !sitemapItem.url.includes('/page/'),
-              );
-              return sitemapsWithoutPageAndTags;
-            },
           },
         } satisfies Preset.Options,
       ],
