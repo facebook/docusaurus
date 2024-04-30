@@ -58,9 +58,12 @@ type CreateSitemapItemsFn = (
   params: CreateSitemapItemsParams,
 ) => Promise<SitemapItem[]>;
 
-type CreateSitemapItemsParams = DefaultCreateSitemapParams & {
+type CreateSitemapItemsParams = Omit<
+  DefaultCreateSitemapParams,
+  'head' | 'options'
+> & {
   defaultCreateSitemapItems: (
-    params: DefaultCreateSitemapParams,
+    params: Omit<DefaultCreateSitemapParams, 'head' | 'options'>,
   ) => Promise<SitemapItem[]>;
 };
 

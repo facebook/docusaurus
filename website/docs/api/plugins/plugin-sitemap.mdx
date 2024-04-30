@@ -58,8 +58,6 @@ Accepted fields:
 type CreateSitemapItemsFn = (params: {
   siteConfig: DocusaurusConfig;
   routes: RouteConfig[];
-  head: {[location: string]: HelmetServerState};
-  options: PluginOptions;
 }) => Promise<SitemapItem[]>;
 ```
 

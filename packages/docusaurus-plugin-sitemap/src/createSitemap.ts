@@ -10,7 +10,7 @@ import {createMatcher, flattenRoutes} from '@docusaurus/utils';
 import {sitemapItemsToXmlString} from './xml';
 import {createSitemapItem} from './createSitemapItem';
 import type {SitemapItem, DefaultCreateSitemapParams} from './types';
-import type {RouteConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 import type {HelmetServerState} from 'react-helmet-async';
 
 // Maybe we want to add a routeConfig.metadata.noIndex instead?
@@ -89,16 +89,28 @@ export default async function createSitemap(
   params: DefaultCreateSitemapParams,
 ): Promise<string | null> {
   const {head, options, routes, siteConfig} = params;
-  const createSitemapItems =
-    params.options.createSitemapItems ?? defaultCreateSitemapItems;
 
-  const sitemapItems = await createSitemapItems({
-    head,
-    options,
-    routes,
-    siteConfig,
-    defaultCreateSitemapItems,
-  });
+  const sitemapItems = params.options.createSitemapItems
+    ? await params.options.createSitemapItems({
+        routes,
+        siteConfig,
+        defaultCreateSitemapItems: (userParams: {
+          routes: RouteConfig[];
+          siteConfig: DocusaurusConfig;
+        }) =>
+          defaultCreateSitemapItems({
+            head,
+            options,
+            ...userParams,
+          }),
+      })
+    : await defaultCreateSitemapItems({
+        head,
+        options,
+        routes,
+        siteConfig,
+      });
+
   if (sitemapItems.length === 0) {
     return null;
   }
