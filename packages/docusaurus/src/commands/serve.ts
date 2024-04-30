@@ -87,6 +87,7 @@ export async function serve(
     // Note server-handler is really annoying here:
     // - no easy way to do rewrites such as "/baseUrl/:path" => "/:path"
     // - no easy way to "reapply" the baseUrl to the redirect "Location" header
+    // See also https://github.com/facebook/docusaurus/pull/10090
     req.url = req.url.replace(baseUrl, '/');
 
     serveHandler(req, res, {
