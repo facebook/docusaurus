@@ -101,11 +101,8 @@ const config = {
   filename: 'sitemap.xml',
   createSitemapItems: async (params) => {
     const {defaultCreateSitemapItems, ...rest} = params;
-    const sitemapItems = await defaultCreateSitemapItems(rest);
-    const sitemapsWithoutPage = sitemapItems.filter(
-      (sitemapItem) => !sitemapItem.url.includes('/page/'),
-    );
-    return sitemapsWithoutPage;
+    const items = await defaultCreateSitemapItems(rest);
+    return items.filter((item) => !item.url.includes('/page/'));
   },
 };
 ```
