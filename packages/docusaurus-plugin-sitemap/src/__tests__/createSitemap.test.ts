@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import {createElement} from 'react';
 import {fromPartial} from '@total-typescript/shoehorn';
 import createSitemap from '../createSitemap';
 import type {PluginOptions} from '../options';
@@ -115,6 +115,22 @@ describe('createSitemap', () => {
     expect(sitemap).not.toContain('/tags');
   });
 
+  it('returns null when createSitemapItems returns no items', async () => {
+    const sitemap = await createSitemap({
+      siteConfig,
+      routes: routes(['/', '/docs/myDoc/', '/blog/post']),
+      head: {},
+      options: {
+        ...options,
+        createSitemapItems: async () => {
+          return [];
+        },
+      },
+    });
+
+    expect(sitemap).toBeNull();
+  });
+
   it('keep trailing slash unchanged', async () => {
     const sitemap = await createSitemap({
       siteConfig,
@@ -171,7 +187,7 @@ describe('createSitemap', () => {
           meta: {
             // @ts-expect-error: bad lib def
             toComponent: () => [
-              React.createElement('meta', {
+              createElement('meta', {
                 name: 'robots',
                 content: 'NoFolloW, NoiNDeX',
               }),
@@ -195,7 +211,7 @@ describe('createSitemap', () => {
           meta: {
             // @ts-expect-error: bad lib def
             toComponent: () => [
-              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+              createElement('meta', {name: 'robots', content: 'noindex'}),
             ],
           },
         },
@@ -203,7 +219,7 @@ describe('createSitemap', () => {
           meta: {
             // @ts-expect-error: bad lib def
             toComponent: () => [
-              React.createElement('meta', {name: 'robots', content: 'noindex'}),
+              createElement('meta', {name: 'robots', content: 'noindex'}),
             ],
           },
         },
