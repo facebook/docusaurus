@@ -443,7 +443,7 @@ export default async function createConfigAsync() {
               isBranchDeploy ||
               isBuildFast
                 ? 'current'
-                : getLastVersion(),
+                : getLastStableVersion(),
 
             onlyIncludeVersions: (() => {
               if (isBuildFast) {
