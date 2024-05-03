@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-showcase",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "Showcase plugin for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": false,
