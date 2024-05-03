@@ -8,7 +8,7 @@ date: 2024-05-03
 
 We are happy to announce **Docusaurus 3.3**.
 
-The upgrade should be easy. Our [release process](/community/release-process) respects [Semantic Versioning](https://semver.org/). Minor versions do not include any breaking changes.
+Upgrading should be easy. Our [release process](/community/release-process) respects [Semantic Versioning](https://semver.org/). Minor versions do not include any breaking changes.
 
 ![Docusaurus blog post social card](./img/social-card.png)
 
@@ -16,39 +16,95 @@ The upgrade should be easy. Our [release process](/community/release-process) re
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
-import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton';
 
 ## Highlights
 
-### Faster builds
+### Prepare for React 19
+
+The React core team recently [released the first **React 19 beta**](https://react.dev/blog/2024/04/25/react-19). They also [published an upgrade guide and a ** React v18.3 release**](https://react.dev/blog/2024/04/25/react-19-upgrade-guide) with new warnings to help us identify issues **before upgrading to React 19**.
+
+Docusaurus v3 depends on React `18.x`. When initializing a new Docusaurus sites, it will use that new React `18.3` release. It's also the case if you decide to upgrade your dependencies, or re-generate your package manager lockfile.
+
+It turns out in its current state, **Docusaurus had a few of those extra warnings to fix**, notably this one immediately appearing on your dev console on any page load and navigation:
+
+> Warning: LoadableComponent uses the legacy contextTypes API which is no longer supported and will be removed in the next major release. Use React.createContext() with static contextType instead.
+
+In [#10079](https://github.com/facebook/docusaurus/pull/10079), we tried to get Docusaurus ready for React 19. We fixed all the React 18.3 warnings we encountered (but may have [missed some](https://github.com/facebook/docusaurus/issues/10099#issuecomment-2092671770)). Don't hesitate to [**report new warnings**](https://github.com/facebook/docusaurus/issues/10099) if you see them, to us but also to other Docusaurus third-party plugin authors.
+
+### `createSitemapItems`
+
+In [#10083](https://github.com/facebook/docusaurus/pull/10083), we introduced a new flexible `createSitemapItems()` hook to the sitemap plugin. This enables users to create/filter/transform/enhance the sitemap items with their own custom logic.
+
+```ts
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        sitemap: {
+          // highlight-start
+          createSitemapItems: async ({
+            defaultCreateSitemapItems,
+            ...params
+          }) => {
+            const items = await defaultCreateSitemapItems(params);
+            return items.filter((item) => !item.url.includes('/tags/'));
+          },
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+### Pages plugin improvements
+
+The Docusaurus [pages plugin](/docs/api/plugins/@docusaurus/plugin-content-pages) has historically been lagging behind the docs and blog plugins in terms of available feature.
+
+In [#10032](https://github.com/facebook/docusaurus/pull/10032) we normalized the options available on each core content plugins by adding a few the missing page plugins APIs related to the edit url and the last update metadata displayed at the bottom on Markdown pages.
+
+```js
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        pages: {
+          // highlight-start
+          editUrl:
+            'https://github.com/facebook/docusaurus/tree/main/website/src/pages',
+          editLocalizedFiles: true,
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+<IframeWindow url="/examples/markdownPageExample" />
+
+:::note Only for Markdown pages
+
+These new plugin options only apply to Markdown pages, and have no effect on React pages for which you have full control over the layout with JSX.
+
+:::
 
 ## Other changes
 
-- [#111](https://github.com/facebook/docusaurus/pull/9687): text
+Other notable changes include:
+
+- [#10064](https://github.com/facebook/docusaurus/pull/10064): new site config option `siteConfig.markdown.anchors.maintainCase`
+- [#9767](https://github.com/facebook/docusaurus/pull/9767): new `docusaurus deploy --target-dir` option
+- [#10042](https://github.com/facebook/docusaurus/pull/10042): new (experimental) plugin API: `route.props`
+- [#10060](https://github.com/facebook/docusaurus/pull/10060): optimizes the App entrypoint, avoid useless re-renders on navigations
+- [#10080](https://github.com/facebook/docusaurus/pull/10080): `<Admonition>` component can render properly without heading/icon
+- [#10091](https://github.com/facebook/docusaurus/pull/10091): `<Tabs>` props can now override defaults
+- [#10090](https://github.com/facebook/docusaurus/pull/10090): `docusaurus serve` works better with a `/baseUrl/` pathname prefix
+- [#10070](https://github.com/facebook/docusaurus/pull/10070): add missing theme translations for `pt-BR`
+- [#10025](https://github.com/facebook/docusaurus/pull/10025): doc sidebar item label now impacts the doc pagination label
 
 Check the **[3.3.0 changelog entry](/changelog/3.3.0)** for an exhaustive list of changes.
-
----
-
-#### :rocket: New Feature
-
-- [#10083](https://github.com/facebook/docusaurus/pull/10083) feat: add createSitemapItems hook ([@johnnyreilly](https://github.com/johnnyreilly))
-- [#10064](https://github.com/facebook/docusaurus/pull/10064) feat(core): add new site config option `siteConfig.markdown.anchors.maintainCase` ([@iAdramelk](https://github.com/iAdramelk))
-- [#9767](https://github.com/facebook/docusaurus/pull/9767) feat(cli): docusaurus deploy should support a --target-dir option ([@SandPod](https://github.com/SandPod))
-- [#10042](https://github.com/facebook/docusaurus/pull/10042) feat(core): simplify plugin API, support route.props ([@slorber](https://github.com/slorber))
-- [#10032](https://github.com/facebook/docusaurus/pull/10032) feat(pages): add LastUpdateAuthor & LastUpdateTime & editUrl ([@OzakIOne](https://github.com/OzakIOne))
-
-#### :bug: Bug Fix
-
-- [#10092](https://github.com/facebook/docusaurus/pull/10092) chore: Upgrade svgr / svgo / cssnano ([@slorber](https://github.com/slorber))
-- [#10091](https://github.com/facebook/docusaurus/pull/10091) fix(theme): `<Tabs>` props should allow overriding defaults ([@gagdiez](https://github.com/gagdiez))
-- [#10080](https://github.com/facebook/docusaurus/pull/10080) fix(theme): `<Admonition>` should render properly without heading/icon ([@andrmaz](https://github.com/andrmaz))
-- [#10090](https://github.com/facebook/docusaurus/pull/10090) fix(core): `docusaurus serve` redirects should include the site `/baseUrl/` prefix ([@slorber](https://github.com/slorber))
-- [#10079](https://github.com/facebook/docusaurus/pull/10079) fix: handle React v18.3 warnings ([@slorber](https://github.com/slorber))
-- [#10070](https://github.com/facebook/docusaurus/pull/10070) fix(theme-translations): add missing theme translations for pt-BR ([@h3nr1ke](https://github.com/h3nr1ke))
-- [#10025](https://github.com/facebook/docusaurus/pull/10025) fix(docs): sidebar item label impact the pagination label of docs ([@Abdullah-03](https://github.com/Abdullah-03))
-- [#10022](https://github.com/facebook/docusaurus/pull/10022) fix(utils): getFileCommitDate should support `log.showSignature=true` ([@slorber](https://github.com/slorber))
-
-#### :running_woman: Performance
-
-- [#10060](https://github.com/facebook/docusaurus/pull/10060): optimize App entrypoint, it should not re-render when navigating ([@slorber](https://github.com/slorber))
