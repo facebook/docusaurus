@@ -1,5 +1,16 @@
 # Docusaurus Changelog
 
+## 3.3.1 (2024-05-03)
+
+#### :bug: Bug Fix
+
+- `docusaurus-module-type-aliases`, `docusaurus`
+  - [#10103](https://github.com/facebook/docusaurus/pull/10103) fix(core): do not recreate ReactDOM Root, fix React warning on hot reload ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.3.0 (2024-05-03)
 
 #### :rocket: New Feature
