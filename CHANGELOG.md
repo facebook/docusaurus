@@ -1,6 +1,6 @@
 # Docusaurus Changelog
 
-## 3.3.1 (2024-05-03)
+## 3.3.2 (2024-05-03)
 
 #### :bug: Bug Fix
 
@@ -10,6 +10,10 @@
 #### Committers: 1
 
 - Sébastien Lorber ([@slorber](https://github.com/slorber))
+
+## 3.3.1 (2024-05-03)
+
+Failed release
 
 ## 3.3.0 (2024-05-03)
 
