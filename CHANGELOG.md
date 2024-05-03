@@ -1,4 +1,4 @@
-# Docusaurus 2 Changelog
+# Docusaurus Changelog
 
 ## 3.3.0 (2024-05-03)
 
