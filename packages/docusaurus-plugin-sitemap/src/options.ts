@@ -8,7 +8,13 @@
 import {Joi} from '@docusaurus/utils-validation';
 import {ChangeFreqList, LastModOptionList} from './types';
 import type {OptionValidationContext} from '@docusaurus/types';
-import type {ChangeFreq, LastModOption} from './types';
+import type {
+  ChangeFreq,
+  LastModOption,
+  SitemapItem,
+  CreateSitemapItemsFn,
+  CreateSitemapItemsParams,
+} from './types';
 
 export type PluginOptions = {
   /**
@@ -44,7 +50,16 @@ export type PluginOptions = {
    * @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions
    */
   priority: number | null;
+
+  /** Allow control over the construction of SitemapItems */
+  createSitemapItems?: CreateSitemapItemsOption;
 };
+
+type CreateSitemapItemsOption = (
+  params: CreateSitemapItemsParams & {
+    defaultCreateSitemapItems: CreateSitemapItemsFn;
+  },
+) => Promise<SitemapItem[]>;
 
 export type Options = Partial<PluginOptions>;
 
@@ -89,6 +104,8 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   lastmod: Joi.string()
     .valid(null, ...LastModOptionList)
     .default(DEFAULT_OPTIONS.lastmod),
+
+  createSitemapItems: Joi.function(),
 
   ignorePatterns: Joi.array()
     .items(Joi.string())

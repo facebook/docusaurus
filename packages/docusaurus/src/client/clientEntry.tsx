@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {startTransition} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
@@ -46,21 +46,24 @@ if (ExecutionEnvironment.canUseDOM) {
   };
 
   const renderApp = () => {
+    if (window.docusaurusRoot) {
+      window.docusaurusRoot.render(app);
+      return;
+    }
     if (hydrate) {
-      React.startTransition(() => {
-        ReactDOM.hydrateRoot(container, app, {
-          onRecoverableError,
-        });
+      window.docusaurusRoot = ReactDOM.hydrateRoot(container, app, {
+        onRecoverableError,
       });
     } else {
       const root = ReactDOM.createRoot(container, {onRecoverableError});
-      React.startTransition(() => {
-        root.render(app);
-      });
+      root.render(app);
+      window.docusaurusRoot = root;
     }
   };
 
-  preload(window.location.pathname).then(renderApp);
+  preload(window.location.pathname).then(() => {
+    startTransition(renderApp);
+  });
 
   // Webpack Hot Module Replacement API
   if (module.hot) {

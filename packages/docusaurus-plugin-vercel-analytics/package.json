@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-vercel-analytics",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "Global vercel analytics plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,11 +18,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.2.1",
-    "@docusaurus/logger": "3.2.1",
-    "@docusaurus/types": "3.2.1",
-    "@docusaurus/utils": "3.2.1",
-    "@docusaurus/utils-validation": "3.2.1",
+    "@docusaurus/core": "3.3.2",
+    "@docusaurus/logger": "3.3.2",
+    "@docusaurus/types": "3.3.2",
+    "@docusaurus/utils": "3.3.2",
+    "@docusaurus/utils-validation": "3.3.2",
     "@vercel/analytics": "^1.1.1",
     "tslib": "^2.6.0"
   },

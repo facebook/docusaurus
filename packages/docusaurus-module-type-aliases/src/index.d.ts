@@ -387,4 +387,5 @@ interface Window {
     prefetch: (url: string) => false | Promise<void[]>;
     preload: (url: string) => false | Promise<void[]>;
   };
+  docusaurusRoot?: import('react-dom/client').Root;
 }

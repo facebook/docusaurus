@@ -41,7 +41,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Build website fast
-        run: yarn build:website:fast
+        run: yarn build:website:fast --dev
 
       - name: Take Argos screenshots
         run: yarn argos:screenshot

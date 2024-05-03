@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "Docusaurus live code block component.",
   "main": "lib/index.js",
   "types": "src/theme-live-codeblock.d.ts",
@@ -23,18 +23,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.2.1",
-    "@docusaurus/theme-common": "3.2.1",
-    "@docusaurus/theme-translations": "3.2.1",
-    "@docusaurus/utils-validation": "3.2.1",
+    "@docusaurus/core": "3.3.2",
+    "@docusaurus/theme-common": "3.3.2",
+    "@docusaurus/theme-translations": "3.3.2",
+    "@docusaurus/utils-validation": "3.3.2",
     "@philpl/buble": "^0.19.7",
     "clsx": "^2.0.0",
     "fs-extra": "^11.1.1",
-    "react-live": "^4.1.5",
+    "react-live": "^4.1.6",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "3.2.1",
+    "@docusaurus/types": "3.3.2",
     "@types/buble": "^0.20.1"
   },
   "peerDependencies": {

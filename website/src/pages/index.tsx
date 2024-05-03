@@ -203,29 +203,21 @@ function FeaturesContainer() {
 }
 
 function TopBanner() {
-  /* TODO restore Ukraine banner after launch
-    <Translate
-        id="homepage.banner"
-        values={{
-          link: (
-            <Link to="https://opensource.facebook.com/support-ukraine">
-              <Translate id="homepage.banner.link">
-                Help Provide Humanitarian Aid to Ukraine
-              </Translate>
-            </Link>
-          ),
-        }}>
-        {'Support Ukraine 🇺🇦 {link}.'}
-      </Translate>
-   */
+  // TODO We should be able to strongly type customFields
+  //  Refactor to use a CustomFields interface + TS declaration merging
+  const announcedVersion = useDocusaurusContext().siteConfig.customFields
+    ?.announcedVersion as string;
+
   return (
     <div className={styles.topBanner}>
       <div className={styles.topBannerTitle}>
         {'🎉\xa0'}
-        <Link to="/blog/releases/3.2" className={styles.topBannerTitleText}>
+        <Link
+          to={`/blog/releases/${announcedVersion}`}
+          className={styles.topBannerTitleText}>
           <Translate
             id="homepage.banner.launch.newVersion"
-            values={{newVersion: '3.2'}}>
+            values={{newVersion: announcedVersion}}>
             {'Docusaurus\xa0{newVersion} is\xa0out!️'}
           </Translate>
         </Link>

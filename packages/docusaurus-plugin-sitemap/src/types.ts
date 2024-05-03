@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
+
 export const LastModOptionList = ['date', 'datetime'] as const;
 
 export type LastModOption = (typeof LastModOptionList)[number];
@@ -65,3 +67,12 @@ export type SitemapItem = {
    */
   priority?: number | null;
 };
+
+export type CreateSitemapItemsParams = {
+  siteConfig: DocusaurusConfig;
+  routes: RouteConfig[];
+};
+
+export type CreateSitemapItemsFn = (
+  params: CreateSitemapItemsParams,
+) => Promise<SitemapItem[]>;

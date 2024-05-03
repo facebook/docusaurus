@@ -68,7 +68,6 @@ datagit
 Datagit
 Datagit's
 dedup
-Déja
 devto
 dingers
 Dmitry
@@ -317,6 +316,7 @@ sensical
 setaf
 setext
 setlocal
+SFNT
 shiki
 Shiki
 shortcodes
