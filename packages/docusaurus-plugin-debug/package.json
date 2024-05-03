@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-debug",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Debug plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-debug.d.ts",
@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.3.0",
+    "@docusaurus/core": "3.3.1",
     "@docusaurus/types": "3.3.0",
     "@docusaurus/utils": "3.3.0",
     "fs-extra": "^11.1.1",

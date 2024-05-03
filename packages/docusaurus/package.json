@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -103,7 +103,7 @@
     "webpackbar": "^5.0.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.3.0",
+    "@docusaurus/module-type-aliases": "3.3.1",
     "@docusaurus/types": "3.3.0",
     "@total-typescript/shoehorn": "^0.1.2",
     "@types/detect-port": "^1.3.3",

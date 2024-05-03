@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": false,
@@ -35,10 +35,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.3.0",
+    "@docusaurus/core": "3.3.1",
     "@docusaurus/logger": "3.3.0",
     "@docusaurus/mdx-loader": "3.3.0",
-    "@docusaurus/module-type-aliases": "3.3.0",
+    "@docusaurus/module-type-aliases": "3.3.1",
     "@docusaurus/types": "3.3.0",
     "@docusaurus/utils": "3.3.0",
     "@docusaurus/utils-common": "3.3.0",
