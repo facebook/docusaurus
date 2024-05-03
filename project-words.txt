@@ -67,7 +67,6 @@ datagit
 Datagit
 Datagit's
 dedup
-Déja
 devto
 dingers
 Dmitry
