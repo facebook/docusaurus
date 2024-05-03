@@ -68,7 +68,7 @@ yarn serve
 
 This local test step is optional because it will be run by the CI on your release PR ([see](https://github.com/facebook/docusaurus/pull/2954/checks?check_run_id=780871959))
 
-### 3. Update the v2 changelog
+### 3. Update the changelog
 
 The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `pr:`, otherwise the PR won't appear in the changelog.
 
