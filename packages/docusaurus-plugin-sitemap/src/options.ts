@@ -55,7 +55,7 @@ export type PluginOptions = {
   createSitemapItems?: CreateSitemapItemsOption;
 };
 
-type CreateSitemapItemsOption = (
+export type CreateSitemapItemsOption = (
   params: CreateSitemapItemsParams & {
     defaultCreateSitemapItems: CreateSitemapItemsFn;
   },
