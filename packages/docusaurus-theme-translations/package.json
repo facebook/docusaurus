@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-translations",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "Docusaurus theme translations.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,8 +23,8 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@docusaurus/core": "3.2.1",
-    "@docusaurus/logger": "3.2.1",
+    "@docusaurus/core": "3.3.2",
+    "@docusaurus/logger": "3.3.2",
     "lodash": "^4.17.21"
   },
   "engines": {

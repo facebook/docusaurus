@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils-validation",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "Node validation utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "3.2.1",
-    "@docusaurus/utils": "3.2.1",
-    "@docusaurus/utils-common": "3.2.1",
+    "@docusaurus/logger": "3.3.2",
+    "@docusaurus/utils": "3.3.2",
+    "@docusaurus/utils-common": "3.3.2",
     "joi": "^17.9.2",
     "js-yaml": "^4.1.0",
     "tslib": "^2.6.0"

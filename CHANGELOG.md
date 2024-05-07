@@ -1,4 +1,119 @@
-# Docusaurus 2 Changelog
+# Docusaurus Changelog
+
+## 3.3.2 (2024-05-03)
+
+#### :bug: Bug Fix
+
+- `docusaurus-module-type-aliases`, `docusaurus`
+  - [#10103](https://github.com/facebook/docusaurus/pull/10103) fix(core): do not recreate ReactDOM Root, fix React warning on hot reload ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
+## 3.3.1 (2024-05-03)
+
+Failed release
+
+## 3.3.0 (2024-05-03)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-sitemap`
+  - [#10083](https://github.com/facebook/docusaurus/pull/10083) feat: add createSitemapItems hook ([@johnnyreilly](https://github.com/johnnyreilly))
+- `docusaurus-mdx-loader`, `docusaurus-types`, `docusaurus`
+  - [#10064](https://github.com/facebook/docusaurus/pull/10064) feat(core): add new site config option `siteConfig.markdown.anchors.maintainCase` ([@iAdramelk](https://github.com/iAdramelk))
+- `docusaurus`
+  - [#9767](https://github.com/facebook/docusaurus/pull/9767) feat(cli): docusaurus deploy should support a --target-dir option ([@SandPod](https://github.com/SandPod))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-types`, `docusaurus`
+  - [#10042](https://github.com/facebook/docusaurus/pull/10042) feat(core): simplify plugin API, support route.props ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#10032](https://github.com/facebook/docusaurus/pull/10032) feat(pages): add LastUpdateAuthor & LastUpdateTime & editUrl ([@OzakIOne](https://github.com/OzakIOne))
+
+#### :bug: Bug Fix
+
+- `docusaurus-cssnano-preset`, `docusaurus-utils`, `docusaurus`
+  - [#10092](https://github.com/facebook/docusaurus/pull/10092) chore: Upgrade svgr / svgo / cssnano ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#10091](https://github.com/facebook/docusaurus/pull/10091) fix(theme): `<Tabs>` props should allow overriding defaults ([@gagdiez](https://github.com/gagdiez))
+  - [#10080](https://github.com/facebook/docusaurus/pull/10080) fix(theme): `<Admonition>` should render properly without heading/icon ([@andrmaz](https://github.com/andrmaz))
+- `docusaurus`
+  - [#10090](https://github.com/facebook/docusaurus/pull/10090) fix(core): `docusaurus serve` redirects should include the site `/baseUrl/` prefix ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#10079](https://github.com/facebook/docusaurus/pull/10079) fix: handle React v18.3 warnings ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#10070](https://github.com/facebook/docusaurus/pull/10070) fix(theme-translations): add missing theme translations for pt-BR ([@h3nr1ke](https://github.com/h3nr1ke))
+  - [#10051](https://github.com/facebook/docusaurus/pull/10051) fix(theme-translations): correct label for tip admonition in italian ([@tomsotte](https://github.com/tomsotte))
+- `docusaurus-theme-search-algolia`
+  - [#10048](https://github.com/facebook/docusaurus/pull/10048) fix(algolia): add insights property on Algolia Theme Config object TS definition ([@Virgil993](https://github.com/Virgil993))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#10054](https://github.com/facebook/docusaurus/pull/10054) fix(core): sortRoutes shouldn't have a default baseUrl value, this led to a bug ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#10025](https://github.com/facebook/docusaurus/pull/10025) fix(docs): sidebar item label impact the pagination label of docs ([@Abdullah-03](https://github.com/Abdullah-03))
+- `docusaurus-utils`
+  - [#10022](https://github.com/facebook/docusaurus/pull/10022) fix(utils): getFileCommitDate should support `log.showSignature=true` ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus`
+  - [#10060](https://github.com/facebook/docusaurus/pull/10060) refactor(core): optimize App entrypoint, it should not re-render when navigating ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#10061](https://github.com/facebook/docusaurus/pull/10061) refactor(theme): simplify CSS solution to solve empty search container ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-common`
+  - [#10023](https://github.com/facebook/docusaurus/pull/10023) refactor(website): refactor showcase components ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#10096](https://github.com/facebook/docusaurus/pull/10096) docs: Fix `déja` to `déjà` in `swizzling.mdx` ([@Zwyx](https://github.com/Zwyx))
+- [#10093](https://github.com/facebook/docusaurus/pull/10093) docs: Fix dead Typesense links ([@kaihoffman](https://github.com/kaihoffman))
+- [#10085](https://github.com/facebook/docusaurus/pull/10085) docs: make `ThemedImage` example work out of the box ([@lebalz](https://github.com/lebalz))
+- [#10082](https://github.com/facebook/docusaurus/pull/10082) docs: add note regarding ts extension for config file. ([@homotechsual](https://github.com/homotechsual))
+- [#9490](https://github.com/facebook/docusaurus/pull/9490) docs: add troubleshooting steps to migration/upgrade page ([@homotechsual](https://github.com/homotechsual))
+- [#10056](https://github.com/facebook/docusaurus/pull/10056) docs(search): Algolia troubleshooting section for index configuration problems ([@slorber](https://github.com/slorber))
+- [#10039](https://github.com/facebook/docusaurus/pull/10039) docs: visit is a named export of unist-util-visit ([@pearmini](https://github.com/pearmini))
+- [#10020](https://github.com/facebook/docusaurus/pull/10020) docs: Fix wrong path example ([@tomy0000000](https://github.com/tomy0000000))
+- [#10011](https://github.com/facebook/docusaurus/pull/10011) docs: add stormkit as deployment platform ([@eldemcan](https://github.com/eldemcan))
+
+#### :robot: Dependencies
+
+- [#10097](https://github.com/facebook/docusaurus/pull/10097) chore(deps): bump ejs from 3.1.9 to 3.1.10 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#10089](https://github.com/facebook/docusaurus/pull/10089) chore(deps): bump actions/dependency-review-action from 4.2.5 to 4.3.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#10088](https://github.com/facebook/docusaurus/pull/10088) chore(deps): bump preactjs/compressed-size-action from 2.5.0 to 2.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#10034](https://github.com/facebook/docusaurus/pull/10034) chore(deps): bump semver from 7.3.4 to 7.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :wrench: Maintenance
+
+- `create-docusaurus`, `docusaurus-cssnano-preset`, `docusaurus-logger`, `docusaurus-mdx-loader`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-google-tag-manager`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-plugin-vercel-analytics`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-mermaid`, `docusaurus-theme-search-algolia`, `docusaurus-theme-translations`, `docusaurus-utils-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `eslint-plugin`, `lqip-loader`, `stylelint-copyright`
+  - [#10065](https://github.com/facebook/docusaurus/pull/10065) refactor: extract base TS client config + upgrade TS + refactor TS setup ([@slorber](https://github.com/slorber))
+- Other
+  - [#10063](https://github.com/facebook/docusaurus/pull/10063) test(e2e): TypeCheck website/starter in min/max range of TS versions ([@slorber](https://github.com/slorber))
+  - [#10049](https://github.com/facebook/docusaurus/pull/10049) fix(website): fix website manifest.json name "Docusaurus v2" to just "Docusaurus" ([@volcanofr](https://github.com/volcanofr))
+
+#### Committers: 20
+
+- Abdullah Saud ([@Abdullah-03](https://github.com/Abdullah-03))
+- Alexander Sandor ([@SandPod](https://github.com/SandPod))
+- Alexey Ivanov ([@iAdramelk](https://github.com/iAdramelk))
+- Andrea Mazzucchelli ([@andrmaz](https://github.com/andrmaz))
+- Bairui Su ([@pearmini](https://github.com/pearmini))
+- Balthasar Hofer ([@lebalz](https://github.com/lebalz))
+- Can Eldem ([@eldemcan](https://github.com/eldemcan))
+- Daniel Li ([@d4nyll](https://github.com/d4nyll))
+- Guille ([@gagdiez](https://github.com/gagdiez))
+- H3NR1KE ([@h3nr1ke](https://github.com/h3nr1ke))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Kai Hoffman ([@kaihoffman](https://github.com/kaihoffman))
+- Mikey O'Toole ([@homotechsual](https://github.com/homotechsual))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tommaso Sotte ([@tomsotte](https://github.com/tomsotte))
+- Tomy Hsieh ([@tomy0000000](https://github.com/tomy0000000))
+- Zwyx ([@Zwyx](https://github.com/Zwyx))
+- [@Virgil993](https://github.com/Virgil993)
+- [@volcanofr](https://github.com/volcanofr)
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
 
 ## 3.2.1 (2024-04-04)
 

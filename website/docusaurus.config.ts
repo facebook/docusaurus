@@ -39,15 +39,37 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
 
 function isPrerelease(version: string) {
   return (
+    version.includes('-') ||
     version.includes('alpha') ||
     version.includes('beta') ||
     version.includes('rc')
   );
 }
 
-function getLastVersion() {
-  const firstStableVersion = versions.find((version) => !isPrerelease(version));
-  return firstStableVersion ?? versions[0];
+function getLastStableVersion() {
+  const lastStableVersion = versions.find((version) => !isPrerelease(version));
+  if (!lastStableVersion) {
+    throw new Error('unexpected, no stable Docusaurus version?');
+  }
+  return lastStableVersion;
+}
+const announcedVersion = getAnnouncedVersion();
+
+function getLastStableVersionTuple(): [string, string, string] {
+  const lastStableVersion = getLastStableVersion();
+  const parts = lastStableVersion.split('.');
+  if (parts.length !== 3) {
+    throw new Error(`Unexpected stable version name: ${lastStableVersion}`);
+  }
+  return [parts[0]!, parts[1]!, parts[2]!];
+}
+
+// The version announced on the homepage hero and announcement banner
+// 3.3.2 => 3.3
+// 3.0.5 => 3.0
+function getAnnouncedVersion() {
+  const [major, minor] = getLastStableVersionTuple();
+  return `${major}.${minor}`;
 }
 
 // This probably only makes sense for the alpha/beta/rc phase, temporary
@@ -228,6 +250,7 @@ export default async function createConfigAsync() {
       isDeployPreview,
       description:
         'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
+      announcedVersion,
     },
     staticDirectories: [
       'static',
@@ -420,7 +443,7 @@ export default async function createConfigAsync() {
               isBranchDeploy ||
               isBuildFast
                 ? 'current'
-                : getLastVersion(),
+                : getLastStableVersion(),
 
             onlyIncludeVersions: (() => {
               if (isBuildFast) {
@@ -511,9 +534,9 @@ export default async function createConfigAsync() {
         respectPrefersColorScheme: true,
       },
       announcementBar: {
-        id: 'announcementBar-v3.2', // Increment on change
+        id: `announcementBar-v${announcedVersion}`,
         // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
-        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.2">Docusaurus v3.2</a> is out!</b> 🥳️`,
+        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/${announcedVersion}">Docusaurus v${announcedVersion}</a> is out!</b> 🥳️`,
       },
       prism: {
         additionalLanguages: [

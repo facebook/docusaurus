@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-common",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "Common code for Docusaurus themes.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -30,13 +30,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/mdx-loader": "3.2.1",
-    "@docusaurus/module-type-aliases": "3.2.1",
-    "@docusaurus/plugin-content-blog": "3.2.1",
-    "@docusaurus/plugin-content-docs": "3.2.1",
-    "@docusaurus/plugin-content-pages": "3.2.1",
-    "@docusaurus/utils": "3.2.1",
-    "@docusaurus/utils-common": "3.2.1",
+    "@docusaurus/mdx-loader": "3.3.2",
+    "@docusaurus/module-type-aliases": "3.3.2",
+    "@docusaurus/plugin-content-blog": "3.3.2",
+    "@docusaurus/plugin-content-docs": "3.3.2",
+    "@docusaurus/plugin-content-pages": "3.3.2",
+    "@docusaurus/utils": "3.3.2",
+    "@docusaurus/utils-common": "3.3.2",
     "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",
@@ -47,8 +47,8 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/core": "3.2.1",
-    "@docusaurus/types": "3.2.1",
+    "@docusaurus/core": "3.3.2",
+    "@docusaurus/types": "3.3.2",
     "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",
     "schema-dts": "^1.1.2"
