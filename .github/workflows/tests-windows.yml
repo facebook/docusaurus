@@ -26,7 +26,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: ['18.0', '18', '20']
+        node: ['18.0', '20', '22']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
