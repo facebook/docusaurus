@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Rediger denne side",
   "theme.common.headingLinkTitle": "Direkte link til {heading}",
   "theme.common.skipToMainContent": "Hop til hovedindhold",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Dokumentside",
