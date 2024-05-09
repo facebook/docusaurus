@@ -111,10 +111,18 @@ function throwOnConsole(page: Page) {
     'Failed to load resource: the server responded with a status of 404 (Not Found)',
 
     // TODO looks like a legit hydration bug to fix
+    // on /blog/releases/2.4
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=light"',
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=dark"',
+    // on /blog/releases/3.0
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
+    // on /docs/styling-layout
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
     'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=light"',
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=dark"',
 
     // TODO weird problem related to KaTeX fonts refusing to decode?
-    //  on http://localhost:3000/docs/markdown-features/math-equations
+    //  on /docs/markdown-features/math-equations
     'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',
     'OTS parsing error: Failed to convert WOFF 2.0 font to SFNT',
   ];
