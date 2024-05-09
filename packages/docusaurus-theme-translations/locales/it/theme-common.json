@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Modifica questa pagina",
   "theme.common.headingLinkTitle": "Link diretto a {heading}",
   "theme.common.skipToMainContent": "Passa al contenuto principale",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} elementi",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 elemento|{count} elementi",
   "theme.docs.breadcrumbs.home": "Pagina principale",
   "theme.docs.breadcrumbs.navAriaLabel": "Briciole di pane",
   "theme.docs.paginator.navAriaLabel": "Pagina del documento",

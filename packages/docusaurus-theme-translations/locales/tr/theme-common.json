@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Bu sayfayı düzenle",
   "theme.common.headingLinkTitle": "{heading} doğrudan bağlantı",
   "theme.common.skipToMainContent": "Ana içeriğe geç",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} öğe",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 öğe|{count} öğe",
   "theme.docs.breadcrumbs.home": "Ana sayfa",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Dokümanlar sayfası",
