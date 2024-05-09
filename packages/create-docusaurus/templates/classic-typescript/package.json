@@ -27,7 +27,7 @@
     "@docusaurus/module-type-aliases": "3.3.2",
     "@docusaurus/tsconfig": "3.3.2",
     "@docusaurus/types": "3.3.2",
-    "typescript": "~5.2.2"
+    "typescript": "~5.4.5"
   },
   "browserslist": {
     "production": [
