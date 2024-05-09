@@ -10,8 +10,6 @@ import {
   localizePath,
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
-  normalizeUrl,
-  simpleHash,
 } from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
@@ -27,6 +25,7 @@ import {
 import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
+import {createSiteStorage} from './storage';
 import type {LoadPluginsResult} from './plugins/plugins';
 import type {
   DocusaurusConfig,
@@ -34,7 +33,6 @@ import type {
   LoadContext,
   Props,
   PluginIdentifier,
-  SiteStorage,
 } from '@docusaurus/types';
 
 export type LoadContextParams = {
@@ -61,21 +59,6 @@ export type Site = {
   props: Props;
   params: LoadSiteParams;
 };
-
-function defaultNamespace(config: DocusaurusConfig): string {
-  return simpleHash(normalizeUrl([config.url, config.baseUrl]), 3);
-}
-
-function createSiteStorage(config: DocusaurusConfig): SiteStorage {
-  // TODO make it configurable, default to ""
-  const namespaceSuffix = defaultNamespace(config);
-
-  const namespace = `-${namespaceSuffix}`;
-  return {
-    type: 'localStorage',
-    namespace,
-  };
-}
 
 /**
  * Loading context is the very first step in site building. Its params are

@@ -27,16 +27,13 @@ export type SiteMetadata = {
   readonly pluginVersions: {[pluginName: string]: PluginVersionInformation};
 };
 
-// Should we have a value to disable storage?
-export type SiteStorageType = 'localStorage' | 'sessionStorage';
-
 export type SiteStorage = {
   /**
    * Which browser storage do you want to use?
    * Between "localStorage" and "sessionStorage".
    * The default is "localStorage".
    */
-  type: SiteStorageType;
+  type: 'localStorage' | 'sessionStorage';
 
   /**
    * Applies a namespace to the theme storage key
