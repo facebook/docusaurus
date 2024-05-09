@@ -10,10 +10,36 @@ import {getLangDir} from 'rtl-detect';
 import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import type {LoadContextParams} from './site';
 
+function inferLanguageDisplayName(locale: string) {
+  const tryLocale = (l: string) => {
+    try {
+      return new Intl.DisplayNames(l, {
+        type: 'language',
+        fallback: 'code',
+      }).of(l)!;
+    } catch (e) {
+      // This is to compensate "of()" that is a bit strict
+      // Looks like starting Node 22, this locale throws: "en-US-u-ca-buddhist"
+      // RangeError: invalid_argument
+      return null;
+    }
+  };
+
+  const parts = locale.split('-');
+
+  // This is a best effort, we try various locale forms that could give a result
+  return (
+    tryLocale(locale) ??
+    tryLocale(`${parts[0]}-${parts[1]}`) ??
+    tryLocale(parts[0]!)
+  );
+}
+
 function getDefaultLocaleLabel(locale: string) {
-  const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
-    locale,
-  )!;
+  const languageName = inferLanguageDisplayName(locale);
+  if (!languageName) {
+    return locale;
+  }
   return (
     languageName.charAt(0).toLocaleUpperCase(locale) + languageName.substring(1)
   );
@@ -44,13 +70,20 @@ function getDefaultCalendar(localeStr: string) {
 }
 
 export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
-  return {
-    label: getDefaultLocaleLabel(locale),
-    direction: getLangDir(locale),
-    htmlLang: locale,
-    calendar: getDefaultCalendar(locale),
-    path: locale,
-  };
+  try {
+    return {
+      label: getDefaultLocaleLabel(locale),
+      direction: getLangDir(locale),
+      htmlLang: locale,
+      calendar: getDefaultCalendar(locale),
+      path: locale,
+    };
+  } catch (e) {
+    throw new Error(
+      `Docusaurus couldn't get default locale config for ${locale}`,
+      {cause: e},
+    );
+  }
 }
 
 export async function loadI18n(
