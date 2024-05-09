@@ -20,6 +20,7 @@ export {
   DocusaurusContext,
   GlobalData,
   LoadContext,
+  SiteStorage,
   Props,
 } from './context';
 
