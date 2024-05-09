@@ -62,9 +62,15 @@ export type Site = {
   params: LoadSiteParams;
 };
 
+function defaultNamespace(config: DocusaurusConfig): string {
+  return simpleHash(normalizeUrl([config.url, config.baseUrl]), 3);
+}
+
 function createSiteStorage(config: DocusaurusConfig): SiteStorage {
   // TODO make it configurable, default to ""
-  const namespace = simpleHash(normalizeUrl([config.url, config.baseUrl]), 3);
+  const namespaceSuffix = defaultNamespace(config);
+
+  const namespace = `-${namespaceSuffix}`;
   return {
     type: 'localStorage',
     namespace,

@@ -137,6 +137,10 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "pluginVersions": {},
     "siteVersion": undefined,
   },
+  "siteStorage": {
+    "namespace": "-182",
+    "type": "localStorage",
+  },
   "siteVersion": undefined,
 }
 `;
