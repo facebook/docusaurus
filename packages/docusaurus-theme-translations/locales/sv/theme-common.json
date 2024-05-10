@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Redigera denna sida",
   "theme.common.headingLinkTitle": "Direktlänk till {heading}",
   "theme.common.skipToMainContent": "Hoppa till huvudinnehåll",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} artiklar",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 artikel|{count} artiklar",
   "theme.docs.breadcrumbs.home": "Hemsida",
   "theme.docs.breadcrumbs.navAriaLabel": "Sökväg",
   "theme.docs.paginator.navAriaLabel": "Dokumentsidor",

@@ -16,6 +16,7 @@ import {
   addLeadingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
+import type {FutureConfig, StorageConfig} from '@docusaurus/types/src/config';
 import type {
   DocusaurusConfig,
   I18nConfig,
@@ -29,6 +30,15 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   path: DEFAULT_I18N_DIR_NAME,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
+};
+
+export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
+  type: 'localStorage',
+  namespace: false,
+};
+
+export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
+  experimental_storage: DEFAULT_STORAGE_CONFIG,
 };
 
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
@@ -50,6 +60,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
+  | 'future'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
   | 'onBrokenMarkdownLinks'
@@ -71,6 +82,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
+  future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
   onBrokenMarkdownLinks: 'warn',
@@ -181,6 +193,23 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+const STORAGE_CONFIG_SCHEMA = Joi.object({
+  type: Joi.string()
+    .equal('localStorage', 'sessionStorage')
+    .default(DEFAULT_STORAGE_CONFIG.type),
+  namespace: Joi.alternatives()
+    .try(Joi.string(), Joi.boolean())
+    .default(DEFAULT_STORAGE_CONFIG.namespace),
+})
+  .optional()
+  .default(DEFAULT_STORAGE_CONFIG);
+
+const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+  experimental_storage: STORAGE_CONFIG_SCHEMA,
+})
+  .optional()
+  .default(DEFAULT_FUTURE_CONFIG);
+
 const SiteUrlSchema = Joi.string()
   .required()
   .custom((value: string, helpers) => {
@@ -215,6 +244,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
+  future: FUTURE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
