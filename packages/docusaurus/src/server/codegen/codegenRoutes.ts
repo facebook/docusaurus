@@ -323,6 +323,8 @@ type GenerateRouteFilesParams = {
 // The generated filename per route must be unique to avoid conflicts
 // See also https://github.com/facebook/docusaurus/issues/10125
 export function generateRoutePropFilename(route: RouteConfig): string {
+  // TODO if possible, we could try to shorten the filename by removing
+  //  the plugin routeBasePath prefix from the name
   return `${docuHash(
     route.path,
     // Note: using hash(route.path + route.component) is not technically
