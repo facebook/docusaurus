@@ -39,7 +39,7 @@ describe('load', () => {
           baseUrl: '/zh-Hans/',
         },
         siteStorage: {
-          namespace: '-3c3',
+          namespace: '',
           type: 'localStorage',
         },
         plugins: site2.props.plugins,

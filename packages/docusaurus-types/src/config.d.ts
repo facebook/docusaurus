@@ -116,13 +116,13 @@ export type MarkdownConfig = {
   anchors: MarkdownAnchorsConfig;
 };
 
-export type StorageOption = {
+export type StorageConfig = {
   type: SiteStorage['type'];
   namespace: boolean | string;
 };
 
-export type DocusaurusFuture = {
-  experimental_storage: StorageOption;
+export type FutureConfig = {
+  experimental_storage: StorageConfig;
 };
 
 /**
@@ -185,7 +185,7 @@ export type DocusaurusConfig = {
    * Docusaurus future flags and experimental features.
    * Similar to Remix future flags, see https://remix.run/blog/future-flags
    */
-  future: DocusaurusFuture;
+  future: FutureConfig;
   /**
    * This option adds `<meta name="robots" content="noindex, nofollow">` to
    * every page to tell search engines to avoid indexing your site.
