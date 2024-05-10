@@ -13,7 +13,6 @@ import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
 import {
-  executePluginsConfigurePostCss,
   executePluginsConfigureWebpack,
   formatStatsErrorMessage,
   getHttpsConfig,
@@ -135,7 +134,6 @@ async function getStartClientConfig({
     minify,
     poll,
   });
-  config = executePluginsConfigurePostCss({plugins, config});
   config = executePluginsConfigureWebpack({
     plugins,
     config,

@@ -254,7 +254,7 @@ export function applyConfigurePostCss(
 }
 
 // Plugin Lifecycle - configurePostCss()
-export function executePluginsConfigurePostCss({
+function executePluginsConfigurePostCss({
   plugins,
   config,
 }: {
@@ -286,8 +286,8 @@ export function executePluginsConfigureWebpack({
   isServer: boolean;
   jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined;
 }): Configuration {
+  // Step1 - Configure Webpack
   let resultConfig = config;
-
   plugins.forEach((plugin) => {
     const {configureWebpack} = plugin;
     if (configureWebpack) {
@@ -300,6 +300,18 @@ export function executePluginsConfigureWebpack({
       );
     }
   });
+
+  // Step2 - For client code, configure PostCSS
+  // The order matters! We want to configure PostCSS on loaders
+  // that were potentially added by configureWebpack
+  // See https://github.com/facebook/docusaurus/issues/10106
+  // Note: it's useless to configure postCSS for the server
+  if (!isServer) {
+    resultConfig = executePluginsConfigurePostCss({
+      plugins,
+      config: resultConfig,
+    });
+  }
 
   return resultConfig;
 }
