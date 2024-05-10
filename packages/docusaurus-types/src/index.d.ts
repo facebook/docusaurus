@@ -12,6 +12,8 @@ export {
   DefaultParseFrontMatter,
   ParseFrontMatter,
   DocusaurusConfig,
+  FutureConfig,
+  StorageConfig,
   Config,
 } from './config';
 
