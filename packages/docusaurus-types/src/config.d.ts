@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {SiteStorage} from './context';
 import type {RuleSetRule} from 'webpack';
 import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
@@ -115,6 +116,15 @@ export type MarkdownConfig = {
   anchors: MarkdownAnchorsConfig;
 };
 
+export type StorageConfig = {
+  type: SiteStorage['type'];
+  namespace: boolean | string;
+};
+
+export type FutureConfig = {
+  experimental_storage: StorageConfig;
+};
+
 /**
  * Docusaurus config, after validation/normalization.
  */
@@ -171,6 +181,11 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#i18n
    */
   i18n: I18nConfig;
+  /**
+   * Docusaurus future flags and experimental features.
+   * Similar to Remix future flags, see https://remix.run/blog/future-flags
+   */
+  future: FutureConfig;
   /**
    * This option adds `<meta name="robots" content="noindex, nofollow">` to
    * every page to tell search engines to avoid indexing your site.

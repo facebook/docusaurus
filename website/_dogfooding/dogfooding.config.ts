@@ -104,6 +104,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
         return [
           require.resolve('./clientModuleExample.ts'),
           require.resolve('./clientModuleCSS.css'),
+          require.resolve('./migrateStorageNamespace.ts'),
         ];
       },
     };
