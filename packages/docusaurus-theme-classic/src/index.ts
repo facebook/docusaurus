@@ -58,7 +58,7 @@ const noFlashColorMode = ({
 
     function getStoredTheme() {
       try {
-        return window[${siteStorage.type}].getItem('${themeStorageKey}');
+        return window['${siteStorage.type}'].getItem('${themeStorageKey}');
       } catch (err) {
       }
     }
