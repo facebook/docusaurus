@@ -7,9 +7,14 @@
 
 import * as path from 'path';
 import * as webpack from 'webpack';
-import {applyConfigureWebpack, applyConfigurePostCss} from '../configure';
+import {fromPartial} from '@total-typescript/shoehorn';
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  executePluginsConfigureWebpack,
+} from '../configure';
 import type {Configuration} from 'webpack';
-import type {Plugin} from '@docusaurus/types';
+import type {LoadedPlugin, Plugin} from '@docusaurus/types';
 
 describe('extending generated webpack config', () => {
   it('direct mutation on generated webpack config object', async () => {
@@ -257,5 +262,197 @@ describe('extending PostCSS', () => {
       'postcss-plugin-1',
       'postcss-plugin-3',
     ]);
+  });
+});
+
+describe('executePluginsConfigureWebpack', () => {
+  function fakePlugin(partialPlugin: Partial<LoadedPlugin>): LoadedPlugin {
+    return fromPartial({
+      ...partialPlugin,
+    });
+  }
+
+  it('can merge Webpack aliases of 2 plugins into base config', () => {
+    const config = executePluginsConfigureWebpack({
+      config: {resolve: {alias: {'initial-alias': 'initial-alias-value'}}},
+      isServer: false,
+      jsLoader: 'babel',
+      plugins: [
+        fakePlugin({
+          configureWebpack: () => {
+            return {resolve: {alias: {'p1-alias': 'p1-alias-value'}}};
+          },
+        }),
+        fakePlugin({
+          configureWebpack: () => {
+            return {resolve: {alias: {'p2-alias': 'p2-alias-value'}}};
+          },
+        }),
+      ],
+    });
+
+    expect(config).toMatchInlineSnapshot(
+      {},
+      `
+      {
+        "resolve": {
+          "alias": {
+            "initial-alias": "initial-alias-value",
+            "p1-alias": "p1-alias-value",
+            "p2-alias": "p2-alias-value",
+          },
+        },
+      }
+    `,
+    );
+  });
+
+  it('can configurePostCSS() for all loaders added through configureWebpack()', () => {
+    const config = executePluginsConfigureWebpack({
+      config: {},
+      isServer: false,
+      jsLoader: 'babel',
+      plugins: [
+        fakePlugin({
+          configurePostCss: (postCssOptions) => {
+            // Imperative mutation should work
+            postCssOptions.plugins.push('p1-added-postcss-plugin');
+            return postCssOptions;
+          },
+          configureWebpack: () => {
+            return {
+              module: {
+                rules: [
+                  {
+                    test: /\.module.scss$/,
+                    use: 'some-loader',
+                    options: {
+                      postcssOptions: {
+                        plugins: ['p1-initial-postcss-plugin'],
+                      },
+                    },
+                  },
+                ],
+              },
+            };
+          },
+        }),
+        fakePlugin({
+          configurePostCss: (postCssOptions) => {
+            postCssOptions.plugins.push('p2-added-postcss-plugin');
+            return postCssOptions;
+          },
+          configureWebpack: () => {
+            return {
+              module: {
+                rules: [
+                  {
+                    test: /\.module.scss$/,
+                    use: [
+                      {
+                        loader: 'postcss-loader',
+                        options: {
+                          postcssOptions: {
+                            plugins: ['p2-initial-postcss-plugin'],
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            };
+          },
+        }),
+        fakePlugin({
+          configurePostCss: (postCssOptions) => {
+            // Functional/immutable copy mutation should work
+            return {
+              ...postCssOptions,
+              plugins: [...postCssOptions.plugins, 'p3-added-postcss-plugin'],
+            };
+          },
+          configureWebpack: () => {
+            return {
+              module: {
+                rules: [
+                  {
+                    test: /\.module.scss$/,
+                    oneOf: [
+                      {
+                        use: 'some-loader',
+                        options: {
+                          postcssOptions: {
+                            plugins: ['p3-initial-postcss-plugin'],
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            };
+          },
+        }),
+      ],
+    });
+
+    expect(config.module.rules).toHaveLength(3);
+    expect(config.module.rules[0]).toMatchInlineSnapshot(`
+      {
+        "options": {
+          "postcssOptions": {
+            "plugins": [
+              "p1-initial-postcss-plugin",
+              "p1-added-postcss-plugin",
+              "p2-added-postcss-plugin",
+              "p3-added-postcss-plugin",
+            ],
+          },
+        },
+        "test": /\\\\\\.module\\.scss\\$/,
+        "use": "some-loader",
+      }
+    `);
+    expect(config.module.rules[1]).toMatchInlineSnapshot(`
+      {
+        "test": /\\\\\\.module\\.scss\\$/,
+        "use": [
+          {
+            "loader": "postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  "p2-initial-postcss-plugin",
+                  "p1-added-postcss-plugin",
+                  "p2-added-postcss-plugin",
+                  "p3-added-postcss-plugin",
+                ],
+              },
+            },
+          },
+        ],
+      }
+    `);
+    expect(config.module.rules[2]).toMatchInlineSnapshot(`
+      {
+        "oneOf": [
+          {
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  "p3-initial-postcss-plugin",
+                  "p1-added-postcss-plugin",
+                  "p2-added-postcss-plugin",
+                  "p3-added-postcss-plugin",
+                ],
+              },
+            },
+            "use": "some-loader",
+          },
+        ],
+        "test": /\\\\\\.module\\.scss\\$/,
+      }
+    `);
   });
 });
