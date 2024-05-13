@@ -15,11 +15,8 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {
-  executePluginsConfigurePostCss,
-  executePluginsConfigureWebpack,
-  compile,
-} from '../webpack/utils';
+import {executePluginsConfigureWebpack} from '../webpack/configure';
+import {compile} from '../webpack/utils';
 import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
@@ -325,10 +322,6 @@ async function getBuildClientConfig({
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
-  config = executePluginsConfigurePostCss({
-    plugins,
-    config,
-  });
   config = executePluginsConfigureWebpack({
     plugins,
     config,
