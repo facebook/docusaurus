@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "ערוך דף זה",
   "theme.common.headingLinkTitle": "קישור ישיר אל {heading}",
   "theme.common.skipToMainContent": "דלג לתוכן הראשי",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "רשימת דוקומנטאציה",

@@ -38,6 +38,10 @@ describe('load', () => {
         siteConfig: {
           baseUrl: '/zh-Hans/',
         },
+        siteStorage: {
+          namespace: '',
+          type: 'localStorage',
+        },
         plugins: site2.props.plugins,
       }),
     );

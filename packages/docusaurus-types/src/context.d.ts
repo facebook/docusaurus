@@ -27,6 +27,25 @@ export type SiteMetadata = {
   readonly pluginVersions: {[pluginName: string]: PluginVersionInformation};
 };
 
+export type SiteStorage = {
+  /**
+   * Which browser storage do you want to use?
+   * Between "localStorage" and "sessionStorage".
+   * The default is "localStorage".
+   */
+  type: 'localStorage' | 'sessionStorage';
+
+  /**
+   * Applies a namespace to the theme storage key
+   * For readability, the namespace is applied at the end of the key
+   * The final storage key will be = `${key}${namespace}`
+   *
+   * The default namespace is "" for retro-compatibility reasons
+   * If you want a separator, the namespace should contain it ("-myNamespace")
+   */
+  namespace: string;
+};
+
 export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
 export type LoadContext = {
@@ -50,6 +69,11 @@ export type LoadContext = {
   baseUrl: string;
   i18n: I18n;
   codeTranslations: CodeTranslations;
+
+  /**
+   * Defines the default browser storage behavior for a site
+   */
+  siteStorage: SiteStorage;
 };
 
 export type Props = LoadContext & {

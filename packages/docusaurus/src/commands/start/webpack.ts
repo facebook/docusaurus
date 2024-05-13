@@ -13,12 +13,11 @@ import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
 import {
-  executePluginsConfigurePostCss,
-  executePluginsConfigureWebpack,
   formatStatsErrorMessage,
   getHttpsConfig,
   printStatsWarnings,
 } from '../../webpack/utils';
+import {executePluginsConfigureWebpack} from '../../webpack/configure';
 import {createStartClientConfig} from '../../webpack/client';
 import type {StartCLIOptions} from './start';
 import type {Props} from '@docusaurus/types';
@@ -135,7 +134,6 @@ async function getStartClientConfig({
     minify,
     poll,
   });
-  config = executePluginsConfigurePostCss({plugins, config});
   config = executePluginsConfigureWebpack({
     plugins,
     config,

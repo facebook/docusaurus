@@ -147,6 +147,11 @@ export default async function createConfigAsync() {
     baseUrl,
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
+    future: {
+      experimental_storage: {
+        namespace: true,
+      },
+    },
     // Dogfood both settings:
     // - force trailing slashes for deploy previews
     // - avoid trailing slashes in prod

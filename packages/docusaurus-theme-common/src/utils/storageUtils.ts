@@ -6,12 +6,15 @@
  */
 
 import {useCallback, useRef, useSyncExternalStore} from 'react';
+import SiteStorage from '@generated/site-storage';
 
-const StorageTypes = ['localStorage', 'sessionStorage', 'none'] as const;
+export type StorageType = (typeof SiteStorage)['type'] | 'none';
 
-export type StorageType = (typeof StorageTypes)[number];
+const DefaultStorageType: StorageType = SiteStorage.type;
 
-const DefaultStorageType: StorageType = 'localStorage';
+function applyNamespace(storageKey: string): string {
+  return `${storageKey}${SiteStorage.namespace}`;
+}
 
 // window.addEventListener('storage') only works for different windows...
 // so for current window we have to dispatch the event manually
@@ -134,9 +137,10 @@ Please only call storage APIs in effects and event handlers.`);
  * this API can be a no-op. See also https://github.com/facebook/docusaurus/issues/6036
  */
 export function createStorageSlot(
-  key: string,
+  keyInput: string,
   options?: {persistence?: StorageType},
 ): StorageSlot {
+  const key = applyNamespace(keyInput);
   if (typeof window === 'undefined') {
     return createServerStorageSlot(key);
   }

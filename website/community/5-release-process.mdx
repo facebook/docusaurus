@@ -156,6 +156,12 @@ We will outline what accounts as the public API surface.
 - `@docusaurus/types` TypeScript types
   - We still retain the freedom to make types stricter (which may break type-checking).
 
+❌ Our public API **excludes**:
+
+- Docusaurus config `future`
+- All features prefixed by `experimental_` or `unstable_`
+- All features prefixed by `v<MajorVersion>_` (`v6_` `v7_`, etc.)
+
 :::tip
 
 For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.

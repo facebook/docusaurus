@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Szerkesztés GitHub-on",
   "theme.common.headingLinkTitle": "Közvetlen hivatkozás erre: {heading}",
   "theme.common.skipToMainContent": "Ugrás a fő tartalomhoz",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} elemek",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 elem|{count} elemek",
   "theme.docs.breadcrumbs.home": "Kezdőlap",
   "theme.docs.breadcrumbs.navAriaLabel": "Navigációs sáv a jelenlegi oldalhoz",
   "theme.docs.paginator.navAriaLabel": "Dokumentációs oldal",

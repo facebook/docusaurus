@@ -77,6 +77,12 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -136,6 +142,10 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "docusaurusVersion": "<CURRENT_VERSION>",
     "pluginVersions": {},
     "siteVersion": undefined,
+  },
+  "siteStorage": {
+    "namespace": "",
+    "type": "localStorage",
   },
   "siteVersion": undefined,
 }

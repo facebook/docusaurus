@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Уреди ову страницу",
   "theme.common.headingLinkTitle": "Веза до {heading}",
   "theme.common.skipToMainContent": "Пређи на главни садржај",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "странице докумената",

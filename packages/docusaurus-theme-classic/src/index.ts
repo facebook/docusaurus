@@ -10,7 +10,7 @@ import {createRequire} from 'module';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import {getTranslationFiles, translateThemeConfig} from './translations';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, SiteStorage} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import type {PluginOptions} from '@docusaurus/theme-classic';
@@ -23,58 +23,66 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
   'webpack/lib/ContextReplacementPlugin',
 ) as typeof webpack.ContextReplacementPlugin;
 
-// Need to be inlined to prevent dark mode FOUC
-// Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
-const ThemeStorageKey = 'theme';
 // Support for ?docusaurus-theme=dark
 const ThemeQueryStringKey = 'docusaurus-theme';
 // Support for ?docusaurus-data-mode=embed&docusaurus-data-myAttr=42
 const DataQueryStringPrefixKey = 'docusaurus-data-';
 
 const noFlashColorMode = ({
-  defaultMode,
-  respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) =>
+  colorMode: {defaultMode, respectPrefersColorScheme},
+  siteStorage,
+}: {
+  colorMode: ThemeConfig['colorMode'];
+  siteStorage: SiteStorage;
+}) => {
+  // Need to be inlined to prevent dark mode FOUC
+  // Make sure the key is the same as the one in the color mode React context
+  // Currently defined in: `docusaurus-theme-common/src/contexts/colorMode.tsx`
+  const themeStorageKey = `theme${siteStorage.namespace}`;
+
   /* language=js */
-  `(function() {
-  var defaultMode = '${defaultMode}';
-  var respectPrefersColorScheme = ${respectPrefersColorScheme};
+  return `(function() {
+    var defaultMode = '${defaultMode}';
+    var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
-  function setDataThemeAttribute(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-  }
-
-  function getQueryStringTheme() {
-    try {
-      return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
-    } catch(e) {}
-  }
-
-  function getStoredTheme() {
-    try {
-      return localStorage.getItem('${ThemeStorageKey}');
-    } catch (err) {}
-  }
-
-  var initialTheme = getQueryStringTheme() || getStoredTheme();
-  if (initialTheme !== null) {
-    setDataThemeAttribute(initialTheme);
-  } else {
-    if (
-      respectPrefersColorScheme &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      setDataThemeAttribute('dark');
-    } else if (
-      respectPrefersColorScheme &&
-      window.matchMedia('(prefers-color-scheme: light)').matches
-    ) {
-      setDataThemeAttribute('light');
-    } else {
-      setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
+    function setDataThemeAttribute(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
     }
-  }
-})();`;
+
+    function getQueryStringTheme() {
+      try {
+        return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
+      } catch (e) {
+      }
+    }
+
+    function getStoredTheme() {
+      try {
+        return window['${siteStorage.type}'].getItem('${themeStorageKey}');
+      } catch (err) {
+      }
+    }
+
+    var initialTheme = getQueryStringTheme() || getStoredTheme();
+    if (initialTheme !== null) {
+      setDataThemeAttribute(initialTheme);
+    } else {
+      if (
+        respectPrefersColorScheme &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      ) {
+        setDataThemeAttribute('dark');
+      } else if (
+        respectPrefersColorScheme &&
+        window.matchMedia('(prefers-color-scheme: light)').matches
+      ) {
+        setDataThemeAttribute('light');
+      } else {
+        setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
+      }
+    }
+  })();`;
+};
 
 /* language=js */
 const DataAttributeQueryStringInlineJavaScript = `
@@ -126,6 +134,7 @@ export default function themeClassic(
 ): Plugin<undefined> {
   const {
     i18n: {currentLocale, localeConfigs},
+    siteStorage,
   } = context;
   const themeConfig = context.siteConfig.themeConfig as ThemeConfig;
   const {
@@ -218,7 +227,7 @@ export default function themeClassic(
           {
             tagName: 'script',
             innerHTML: `
-${noFlashColorMode(colorMode)}
+${noFlashColorMode({colorMode, siteStorage})}
 ${DataAttributeQueryStringInlineJavaScript}
 ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
             `,
