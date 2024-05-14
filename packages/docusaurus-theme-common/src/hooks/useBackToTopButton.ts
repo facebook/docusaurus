@@ -46,19 +46,12 @@ export function useBackToTopButton({
       // This scroll position change is triggered by navigating to an anchor.
       // Ignore it.
       isFocusedAnchor.current = false;
-    } else if (scrollTop >= lastScrollTop) {
-      // The user has scrolled down to "fight against" the animation. Cancel any
-      // animation under progress.
       cancelScroll();
+    } else if(scrollTop <= threshold && scrollTop >=0){
       setShown(false);
-    } else if (scrollTop < threshold) {
-      // Scrolled to the minimum position; hide the button.
-      setShown(false);
-    } else if (
-      scrollTop + window.innerHeight <
-      document.documentElement.scrollHeight
-    ) {
-      setShown(true);
+    } 
+    else{
+      setShown(true)
     }
   });
 
