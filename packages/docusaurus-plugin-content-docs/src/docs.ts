@@ -22,10 +22,13 @@ import {
   isDraft,
   readLastUpdateData,
 } from '@docusaurus/utils';
+import YAML from 'js-yaml';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
+import {createTagSchema, validateTags} from './tags';
+import type {FrontMatterTag} from '@docusaurus/utils';
 import type {
   MetadataOptions,
   PluginOptions,
@@ -75,6 +78,44 @@ export async function readVersionDocs(
 }
 
 export type DocEnv = 'production' | 'development';
+
+async function processFileTagsPath(
+  options: MetadataOptions,
+  contentPath: string,
+  frontMatterTags: FrontMatterTag[] | undefined,
+) {
+  if (options.tagsFilePath && !contentPath.includes('versioned_docs')) {
+    const tagsPath = path.join(contentPath, options.tagsFilePath);
+    const tagsFileContent = await fs.readFile(tagsPath, 'utf-8');
+    const data = YAML.load(tagsFileContent);
+    const tags = validateTags(data);
+    const validTagsSchema = createTagSchema(Object.keys(tags.value));
+    console.log('frontMatterTags', frontMatterTags);
+    if (frontMatterTags !== undefined && Array.isArray(frontMatterTags)) {
+      const labels = frontMatterTags.map((tag) =>
+        typeof tag === 'string' ? tag : tag.label,
+      );
+      const tagList = validTagsSchema.validate(labels);
+
+      if (tagList.error) {
+        throw new Error(
+          `There was an error validating tags: ${tagList.error.message}`,
+          {cause: tagList},
+        );
+      }
+      console.log('tagList:', tagList.value);
+    }
+    if (tags.error) {
+      throw new Error(
+        `There was an error extracting tags: ${tags.error.message}`,
+        {cause: tags},
+      );
+    }
+    // console.log('tags:', tags);
+    return tags.value;
+  }
+  return [];
+}
 
 async function doProcessDocMetadata({
   docFile,
@@ -206,6 +247,10 @@ async function doProcessDocMetadata({
   const draft = isDraft({env, frontMatter});
   const unlisted = isUnlisted({env, frontMatter});
 
+  const blogTags = options.tagsFilePath
+    ? await processFileTagsPath(options, contentPath, frontMatter.tags)
+    : normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags);
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -221,7 +266,7 @@ async function doProcessDocMetadata({
     draft,
     unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
-    tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
+    tags: blogTags,
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,

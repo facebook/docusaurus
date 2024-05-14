@@ -101,6 +101,7 @@ declare module '@docusaurus/plugin-content-docs' {
     numberPrefixParser: NumberPrefixParser;
     /** Enable or disable the breadcrumbs on doc pages. */
     breadcrumbs: boolean;
+    tagsFilePath: string;
   };
 
   export type PathOptions = {
@@ -224,6 +225,7 @@ declare module '@docusaurus/plugin-content-docs' {
        * `routeBasePath`. **DO NOT** include a trailing slash.
        */
       tagsBasePath: string;
+      onBrokenTags: 'ignore' | 'log' | 'warn' | 'throw';
     };
   export type Options = Partial<
     Overwrite<

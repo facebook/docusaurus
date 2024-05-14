@@ -54,6 +54,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   sidebarCollapsible: true,
   sidebarCollapsed: true,
   breadcrumbs: true,
+  onBrokenTags: 'warn',
+  tagsFilePath: '',
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -140,6 +142,10 @@ const OptionsSchema = Joi.object<PluginOptions>({
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
   breadcrumbs: Joi.bool().default(DEFAULT_OPTIONS.breadcrumbs),
+  onBrokenTags: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onBrokenTags),
+  tagsFilePath: Joi.string().default(DEFAULT_OPTIONS.tagsFilePath),
 });
 
 export function validateOptions({

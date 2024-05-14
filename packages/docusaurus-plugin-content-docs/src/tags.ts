@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 import {getTagVisibility, groupTaggedItems} from '@docusaurus/utils';
+import {Joi} from '@docusaurus/utils-validation';
 import type {VersionTags} from './types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
@@ -24,4 +25,20 @@ export function getVersionTags(docs: DocMetadata[]): VersionTags {
       unlisted: tagVisibility.unlisted,
     };
   });
+}
+
+export const tagSchema = Joi.object().pattern(
+  Joi.string(),
+  Joi.object({
+    label: Joi.string().required(),
+    description: Joi.string().required(),
+  }),
+);
+
+export function validateTags(tags: unknown): Joi.ValidationResult {
+  return tagSchema.validate(tags);
+}
+
+export function createTagSchema(tags: string[]): Joi.Schema {
+  return Joi.array().items(Joi.string().valid(...tags));
 }
