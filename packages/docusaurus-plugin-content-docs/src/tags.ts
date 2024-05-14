@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import {getTagVisibility, groupTaggedItems} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
+import type {FrontMatterTag} from '@docusaurus/utils';
 import type {VersionTags} from './types';
 import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
@@ -41,4 +42,26 @@ export function validateTags(tags: unknown): Joi.ValidationResult {
 
 export function createTagSchema(tags: string[]): Joi.Schema {
   return Joi.array().items(Joi.string().valid(...tags));
+}
+
+export function validateFrontMatterTags(
+  frontMatterTags: FrontMatterTag[] | undefined,
+  validTagsSchema: Joi.Schema<string[]>,
+): void {
+  if (frontMatterTags === undefined || !Array.isArray(frontMatterTags)) {
+    return;
+  }
+
+  const labels = frontMatterTags.map((tag) =>
+    typeof tag === 'string' ? tag : tag.permalink,
+  );
+
+  const tagList = validTagsSchema.validate(labels);
+
+  if (tagList.error) {
+    throw new Error(
+      `There was an error validating tags: ${tagList.error.message}`,
+      {cause: tagList},
+    );
+  }
 }
