@@ -100,11 +100,15 @@ async function processFileTagsPath(
   options: MetadataOptions,
   contentPath: string,
   frontMatterTags: FrontMatterTag[] | undefined,
-) {
+): Promise<Tag[]> {
   const tags = await getTagsFilePath(options, contentPath);
   const validTagsSchema = createTagSchema(Object.keys(tags));
   validateFrontMatterTags(frontMatterTags, validTagsSchema);
-  return tags;
+  const transformedTags = Object.entries(tags).map(([key, value]) => ({
+    label: value.label,
+    permalink: key,
+  }));
+  return transformedTags;
 }
 
 async function doProcessDocMetadata({
@@ -237,22 +241,10 @@ async function doProcessDocMetadata({
   const draft = isDraft({env, frontMatter});
   const unlisted = isUnlisted({env, frontMatter});
 
-  // console.log(
-  //   'blogtags check:',
-  //   options.tagsFilePath || options.onBrokenTags === 'ignore',
-  // );
-
-  console.log(
-    'normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags):',
-    normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
-  );
   const blogTags =
     !options.tagsFilePath || options.onBrokenTags === 'ignore'
       ? normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags)
       : await processFileTagsPath(options, contentPath, frontMatter.tags);
-
-  // console.log('blogTags:', blogTags);
-  // console.log('versionMetadata.tagsPath:', versionMetadata.tagsPath);
 
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
