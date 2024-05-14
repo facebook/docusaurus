@@ -467,6 +467,7 @@ export default async function createConfigAsync() {
               },
             },
             tagsFilePath: 'tags.yml',
+            onBrokenTags: 'throw',
           },
           blog: {
             // routeBasePath: '/',
