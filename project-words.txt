@@ -27,6 +27,7 @@ beforeinstallprompt
 Bhatt
 blockquotes
 Blockquotes
+blogtags
 Bokmål
 browserstack
 buble
