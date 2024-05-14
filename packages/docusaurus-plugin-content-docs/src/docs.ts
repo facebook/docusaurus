@@ -89,22 +89,34 @@ async function getTagsFilePath(
   const tags = validateTags(data);
   if (tags.error) {
     throw new Error(
-      `There was an error extracting tags: ${tags.error.message}`,
+      `There was an error extracting tags from file: ${tags.error.message}`,
       {cause: tags},
     );
   }
   return tags.value;
 }
 
-async function processFileTagsPath(
-  options: MetadataOptions,
-  contentPath: string,
-  frontMatterTags: FrontMatterTag[] | undefined,
-  versionTagsPath: string,
-): Promise<Tag[]> {
+async function processFileTagsPath({
+  options,
+  contentPath,
+  source,
+  frontMatterTags,
+  versionTagsPath,
+}: {
+  options: MetadataOptions;
+  contentPath: string;
+  source: string;
+  frontMatterTags: FrontMatterTag[] | undefined;
+  versionTagsPath: string;
+}): Promise<Tag[]> {
   const tags = await getTagsFilePath(options, contentPath);
   const validTagsSchema = createTagSchema(Object.keys(tags));
-  validateFrontMatterTags(frontMatterTags, validTagsSchema);
+  validateFrontMatterTags({
+    frontMatterTags,
+    validTagsSchema,
+    source,
+    onBrokenTags: options.onBrokenTags,
+  });
   const transformedTags = Object.entries(tags).map(([key, value]) => ({
     label: value.label,
     permalink: key,
@@ -246,12 +258,13 @@ async function doProcessDocMetadata({
   const blogTags =
     !options.tagsFilePath || options.onBrokenTags === 'ignore'
       ? normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags)
-      : await processFileTagsPath(
+      : await processFileTagsPath({
           options,
           contentPath,
-          frontMatter.tags,
-          versionMetadata.tagsPath,
-        );
+          source,
+          frontMatterTags: frontMatter.tags,
+          versionTagsPath: versionMetadata.tagsPath,
+        });
 
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
