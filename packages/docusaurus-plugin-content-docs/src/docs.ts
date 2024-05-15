@@ -79,7 +79,7 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-async function getTagsFilePath(
+async function getTagDefinition(
   options: MetadataOptions,
   contentPath: string,
 ): Promise<Tag[]> {
@@ -96,7 +96,7 @@ async function getTagsFilePath(
   return tags.value;
 }
 
-async function processFileTagsPath({
+export async function processFileTagsPath({
   options,
   contentPath,
   source,
@@ -109,15 +109,25 @@ async function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
 }): Promise<Tag[]> {
-  const tags = await getTagsFilePath(options, contentPath);
-  const validTagsSchema = createTagSchema(Object.keys(tags));
+  // console.log('options:', options);
+  // console.log('=====================================================');
+  // console.log('contentPath:', contentPath);
+  // console.log('source:', source);
+  // console.log('frontMatterTags:', frontMatterTags);
+  // console.log('versionTagsPath:', versionTagsPath);
+  if (!options.tagsFilePath || options.onBrokenTags === 'ignore') {
+    return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
+  }
+
+  const definedTags = await getTagDefinition(options, contentPath);
+  const validTagsSchema = createTagSchema(Object.keys(definedTags));
   validateFrontMatterTags({
     frontMatterTags,
     validTagsSchema,
     source,
     onBrokenTags: options.onBrokenTags,
   });
-  const transformedTags = Object.entries(tags).map(([key, value]) => ({
+  const transformedTags = Object.entries(definedTags).map(([key, value]) => ({
     label: value.label,
     permalink: key,
   }));
@@ -255,17 +265,6 @@ async function doProcessDocMetadata({
   const draft = isDraft({env, frontMatter});
   const unlisted = isUnlisted({env, frontMatter});
 
-  const blogTags =
-    !options.tagsFilePath || options.onBrokenTags === 'ignore'
-      ? normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags)
-      : await processFileTagsPath({
-          options,
-          contentPath,
-          source,
-          frontMatterTags: frontMatter.tags,
-          versionTagsPath: versionMetadata.tagsPath,
-        });
-
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -281,7 +280,13 @@ async function doProcessDocMetadata({
     draft,
     unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
-    tags: blogTags,
+    tags: await processFileTagsPath({
+      options,
+      contentPath,
+      source,
+      frontMatterTags: frontMatter.tags,
+      versionTagsPath: versionMetadata.tagsPath,
+    }),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
