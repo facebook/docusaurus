@@ -6,15 +6,14 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import {fromPartial} from '@total-typescript/shoehorn';
+import {parseMarkdownFile} from '@docusaurus/utils';
 import {processFileTagsPath} from '../docs';
+import {validateDocFrontMatter} from '../frontMatter';
 
 describe('processFileTagsPath', () => {
   it('docs with valid tags', async () => {
-    // const siteDir = path.join(__dirname, '__fixtures__', 'simple-tags');
-    // const context = await loadContext({siteDir});
-    // console.log('context:', context);
-
     const contentPath = path.join(
       __dirname,
       '__fixtures__',
@@ -23,6 +22,18 @@ describe('processFileTagsPath', () => {
     );
 
     const tagsFilePath = 'tags.yml';
+    const filePath = path.join(contentPath, 'hello.md');
+    const {frontMatter: unsafeFrontMatter} = await parseMarkdownFile({
+      filePath,
+      fileContent: await fs.readFile(filePath, 'utf-8'),
+      parseFrontMatter: async (params) => {
+        const result = await params.defaultParseFrontMatter(params);
+        return {
+          ...result,
+        };
+      },
+    });
+    const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
     const process = processFileTagsPath({
       contentPath,
@@ -30,13 +41,12 @@ describe('processFileTagsPath', () => {
         tagsFilePath,
         onBrokenTags: 'throw',
       }),
-      source: path.join(contentPath, 'hello.md'),
+      source: filePath,
       versionTagsPath: '/processFileTagsPath/tags',
-      frontMatterTags: ['tag1', 'tag2'],
+      frontMatterTags: frontMatter.tags,
     });
-    console.log('process:', process);
     await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Broken tags found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/docs/hello.md [tag1,tag2] : "[0]" must be [open]"`,
+      `"Broken tags found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/docs/hello.md [hello,world] : "[0]" must be [open]"`,
     );
   });
 });

@@ -109,12 +109,6 @@ export async function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
 }): Promise<Tag[]> {
-  // console.log('options:', options);
-  // console.log('=====================================================');
-  // console.log('contentPath:', contentPath);
-  // console.log('source:', source);
-  // console.log('frontMatterTags:', frontMatterTags);
-  // console.log('versionTagsPath:', versionTagsPath);
   if (!options.tagsFilePath || options.onBrokenTags === 'ignore') {
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
