@@ -32,7 +32,7 @@ export function getVersionTags(docs: DocMetadata[]): VersionTags {
   });
 }
 
-export const tagSchema = Joi.object().pattern(
+export const tagDefinitionSchema = Joi.object().pattern(
   Joi.string(),
   Joi.object({
     label: Joi.string().required(),
@@ -40,8 +40,8 @@ export const tagSchema = Joi.object().pattern(
   }),
 );
 
-export function validateTags(tags: unknown): Joi.ValidationResult {
-  return tagSchema.validate(tags);
+export function validateDefinedTags(tags: unknown): Joi.ValidationResult {
+  return tagDefinitionSchema.validate(tags);
 }
 
 export function createTagSchema(tags: string[]): Joi.Schema {

@@ -27,7 +27,11 @@ import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
-import {createTagSchema, validateFrontMatterTags, validateTags} from './tags';
+import {
+  createTagSchema,
+  validateFrontMatterTags,
+  validateDefinedTags,
+} from './tags';
 import type {FrontMatterTag, Tag} from '@docusaurus/utils';
 import type {
   MetadataOptions,
@@ -79,21 +83,21 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-async function getTagDefinition(
+async function getDefinedTags(
   options: MetadataOptions,
   contentPath: string,
 ): Promise<Tag[]> {
-  const tagsPath = path.join(contentPath, options.tagsFilePath);
-  const tagsFileContent = await fs.readFile(tagsPath, 'utf-8');
-  const data = YAML.load(tagsFileContent);
-  const tags = validateTags(data);
-  if (tags.error) {
+  const tagDefinitionPath = path.join(contentPath, options.tagsFilePath);
+  const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
+  const data = YAML.load(tagDefinitionContent);
+  const definedTags = validateDefinedTags(data);
+  if (definedTags.error) {
     throw new Error(
-      `There was an error extracting tags from file: ${tags.error.message}`,
-      {cause: tags},
+      `There was an error extracting tags from file: ${definedTags.error.message}`,
+      {cause: definedTags},
     );
   }
-  return tags.value;
+  return definedTags.value;
 }
 
 export async function processFileTagsPath({
@@ -113,7 +117,7 @@ export async function processFileTagsPath({
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
 
-  const definedTags = await getTagDefinition(options, contentPath);
+  const definedTags = await getDefinedTags(options, contentPath);
   const validTagsSchema = createTagSchema(Object.keys(definedTags));
   validateFrontMatterTags({
     frontMatterTags,
