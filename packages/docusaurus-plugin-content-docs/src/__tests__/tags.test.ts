@@ -12,41 +12,84 @@ import {parseMarkdownFile} from '@docusaurus/utils';
 import {processFileTagsPath} from '../docs';
 import {validateDocFrontMatter} from '../frontMatter';
 
+const createTest = async ({
+  filePath,
+  onBrokenTags,
+}: {
+  filePath: string;
+  onBrokenTags: 'ignore' | 'log' | 'warn' | 'throw' | undefined;
+}) => {
+  const contentPath = path.join(__dirname, '__fixtures__', 'simple-tags');
+  const tagsFilePath = 'tags.yml';
+
+  const {frontMatter: unsafeFrontMatter} = await parseMarkdownFile({
+    filePath,
+    fileContent: await fs.readFile(filePath, 'utf-8'),
+    parseFrontMatter: async (params) => {
+      const result = await params.defaultParseFrontMatter(params);
+      return {...result};
+    },
+  });
+  const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
+
+  return processFileTagsPath({
+    contentPath,
+    options: fromPartial({
+      tagsFilePath,
+      onBrokenTags,
+    }),
+    source: filePath,
+    versionTagsPath: '/processFileTagsPath/tags',
+    frontMatterTags: frontMatter.tags,
+  });
+};
+
 describe('processFileTagsPath', () => {
-  it('docs with valid tags', async () => {
-    const contentPath = path.join(
-      __dirname,
-      '__fixtures__',
-      'simple-tags',
-      'docs',
-    );
+  const testFolder = path.join(__dirname, '__fixtures__', 'simple-tags');
 
-    const tagsFilePath = 'tags.yml';
-    const filePath = path.join(contentPath, 'hello.md');
-    const {frontMatter: unsafeFrontMatter} = await parseMarkdownFile({
-      filePath,
-      fileContent: await fs.readFile(filePath, 'utf-8'),
-      parseFrontMatter: async (params) => {
-        const result = await params.defaultParseFrontMatter(params);
-        return {
-          ...result,
-        };
-      },
+  it('throw when docs has invalid tags', async () => {
+    const process = createTest({
+      filePath: path.join(testFolder, 'wrong.md'),
+      onBrokenTags: 'throw',
     });
-    const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
-    const process = processFileTagsPath({
-      contentPath,
-      options: fromPartial({
-        tagsFilePath,
-        onBrokenTags: 'throw',
-      }),
-      source: filePath,
-      versionTagsPath: '/processFileTagsPath/tags',
-      frontMatterTags: frontMatter.tags,
-    });
     await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Broken tags found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/docs/hello.md [hello,world] : "[0]" must be [open]"`,
+      `"Broken tags found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/wrong.md [hello,world] : "[0]" must be [open]"`,
     );
+  });
+
+  it('warns when docs has invalid tags', async () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    const process = createTest({
+      filePath: path.join(testFolder, 'wrong.md'),
+      onBrokenTags: 'warn',
+    });
+
+    await process;
+
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /.*\[WARNING\].*Broken tags found in .*wrong\.md.*\[hello,world\] : "\[0\]" must be \[open\].*/,
+      ),
+    );
+    consoleWarnSpy.mockRestore();
+  });
+
+  it('ignore when docs has invalid tags', async () => {
+    const process = createTest({
+      filePath: path.join(testFolder, 'wrong.md'),
+      onBrokenTags: 'ignore',
+    });
+    await expect(process).resolves.toBeDefined();
+  });
+
+  it('does not throw when docs has valid tags', async () => {
+    const process = createTest({
+      filePath: path.join(testFolder, 'good.md'),
+      onBrokenTags: 'throw',
+    });
+    await expect(process).resolves.toBeDefined();
   });
 });
