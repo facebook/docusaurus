@@ -13,10 +13,12 @@ import {
   useQueryStringList,
   type ListUpdateFunction,
 } from '@docusaurus/theme-common';
+import useRouteContext from '@docusaurus/useRouteContext';
 import type {
   TagType,
   Operator,
   ShowcaseItem,
+  TagsOption,
 } from '@docusaurus/plugin-content-showcase';
 
 export function filterItems({
@@ -129,4 +131,35 @@ export function sortItems(params: ShowcaseItem[]): ShowcaseItem[] {
   // Sort by favorite tag, favorites first
   result = sortBy(result, (user) => !user.tags.includes('favorite'));
   return result;
+}
+
+export interface ShowcaseContextType {
+  items: ShowcaseItem[];
+  tags: TagsOption;
+  screenshotApi: string;
+}
+
+function useShowcase() {
+  const routeContext = useRouteContext();
+  console.log('routeContext:', routeContext);
+  const showcase = routeContext?.data?.showcase;
+  console.log('showcase:', showcase);
+  if (!showcase) {
+    throw new Error(
+      'showcase-related hooks can only be called on the showcase page',
+    );
+  }
+  return showcase as ShowcaseContextType;
+}
+
+export function useShowcaseItems(): ShowcaseItem[] {
+  return useShowcase().items;
+}
+
+export function useShowcaseApiScreenshot(): string {
+  return useShowcase().screenshotApi;
+}
+
+export function useShowcaseTags(): TagsOption {
+  return useShowcase().tags;
 }

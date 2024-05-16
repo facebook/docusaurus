@@ -9,11 +9,11 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-import {sortBy} from '@docusaurus/plugin-content-showcase/client';
 import {
+  sortBy,
   useShowcaseTags,
   useShowcaseApiScreenshot,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-showcase/client';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import type {ShowcaseItem, TagType} from '@docusaurus/plugin-content-showcase';

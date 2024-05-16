@@ -11,11 +11,9 @@ import Translate from '@docusaurus/Translate';
 import {
   useFilteredItems,
   useSiteCountPlural,
-} from '@docusaurus/plugin-content-showcase/client';
-import {
   useShowcaseItems,
   useShowcaseTags,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-showcase/client';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import Heading from '@theme/Heading';
 import ShowcaseTagSelect from '@theme/Showcase/ShowcaseTagSelect';

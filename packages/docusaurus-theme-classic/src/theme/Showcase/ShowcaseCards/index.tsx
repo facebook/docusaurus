@@ -11,8 +11,8 @@ import Translate from '@docusaurus/Translate';
 import {
   useFilteredItems,
   sortItems,
+  useShowcaseItems,
 } from '@docusaurus/plugin-content-showcase/client';
-import {useShowcaseItems} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import FavoriteIcon from '@theme/Showcase/FavoriteIcon';
 import ShowcaseCard from '@theme/Showcase/ShowcaseCard';

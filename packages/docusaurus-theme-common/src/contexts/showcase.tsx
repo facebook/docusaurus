@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useMemo, type ReactNode, useContext} from 'react';
-import {ReactContextError} from '../utils/reactUtils';
+import React, {createContext, useMemo, type ReactNode} from 'react';
 import type {
   ShowcaseItem,
   TagsOption,
@@ -20,62 +19,25 @@ type Props = {
   children: ReactNode;
 };
 
-const ItemsContext = React.createContext<ShowcaseItem[] | null>(null);
-const ApiContext = React.createContext<string | null>(null);
-const TagsContext = React.createContext<TagsOption | null>(null);
-
-function useItemsContextValue(content: ShowcaseItem[]): ShowcaseItem[] {
-  return useMemo(() => content, [content]);
-}
-
-function useApiScreenshotContextValue(content: string): string {
-  return useMemo(() => content, [content]);
-}
-
-function useTagsContextValue(tags: TagsOption): TagsOption {
-  return useMemo(() => tags, [tags]);
-}
-
-function ItemsProvider({
-  children,
-  items,
-}: {
-  children: ReactNode;
+export interface ShowcaseContextType {
   items: ShowcaseItem[];
-}): JSX.Element {
-  const contextValue = useItemsContextValue(items);
-  return (
-    <ItemsContext.Provider value={contextValue}>
-      {children}
-    </ItemsContext.Provider>
-  );
-}
-
-function ApiScreenshotProvider({
-  children,
-  api,
-}: {
-  children: ReactNode;
-  api: string;
-}): JSX.Element {
-  const contextValue = useApiScreenshotContextValue(api);
-  return (
-    <ApiContext.Provider value={contextValue}>{children}</ApiContext.Provider>
-  );
-}
-
-function TagsProvider({
-  children,
-  tags,
-}: {
-  children: ReactNode;
   tags: TagsOption;
-}): JSX.Element {
-  const contextValue = useTagsContextValue(tags);
-  return (
-    <TagsContext.Provider value={contextValue}>{children}</TagsContext.Provider>
-  );
+  screenshotApi: string;
 }
+
+const ShowcaseContext = createContext<ShowcaseContextType | undefined>(
+  undefined,
+);
+
+// const useShowcaseContext = (): ShowcaseContextType => {
+//   const context = useContext(ShowcaseContext);
+//   if (!context) {
+//     throw new Error(
+//       'useShowcaseContext must be used within a ShowcaseProvider',
+//     );
+//   }
+//   return context;
+// };
 
 export function ShowcaseProvider({
   items,
@@ -83,37 +45,14 @@ export function ShowcaseProvider({
   screenshotApi,
   children,
 }: Props): JSX.Element {
-  return (
-    <ItemsProvider items={items}>
-      <TagsProvider tags={tags}>
-        <ApiScreenshotProvider api={screenshotApi}>
-          {children}
-        </ApiScreenshotProvider>
-      </TagsProvider>
-    </ItemsProvider>
+  const contextValue = useMemo(
+    () => ({items, tags, screenshotApi}),
+    [items, tags, screenshotApi],
   );
-}
 
-export function useShowcaseItems(): ShowcaseItem[] {
-  const showcaseItems = useContext(ItemsContext);
-  if (showcaseItems === null) {
-    throw new ReactContextError('ItemsProvider');
-  }
-  return showcaseItems;
-}
-
-export function useShowcaseApiScreenshot(): string {
-  const showcaseItems = useContext(ApiContext);
-  if (showcaseItems === null) {
-    throw new ReactContextError('ItemsProvider');
-  }
-  return showcaseItems;
-}
-
-export function useShowcaseTags(): TagsOption {
-  const tags = useContext(TagsContext);
-  if (tags === null) {
-    throw new ReactContextError('TagsProvider');
-  }
-  return tags;
+  return (
+    <ShowcaseContext.Provider value={contextValue}>
+      {children}
+    </ShowcaseContext.Provider>
+  );
 }

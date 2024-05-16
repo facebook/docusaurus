@@ -26,12 +26,7 @@ export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
-export {
-  useShowcaseItems,
-  useShowcaseTags,
-  useShowcaseApiScreenshot,
-  ShowcaseProvider,
-} from './contexts/showcase';
+export {ShowcaseProvider} from './contexts/showcase';
 export {
   BlogPostProvider,
   useBlogPost,
