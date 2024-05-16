@@ -23,7 +23,6 @@ autogenerating
 autohide
 Autolinks
 Bartosz
-bedly
 beforeinstallprompt
 Bhatt
 blockquotes
