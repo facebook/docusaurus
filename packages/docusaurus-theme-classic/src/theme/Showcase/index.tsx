@@ -7,13 +7,11 @@
 
 import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
-import {ShowcaseProvider} from '@docusaurus/theme-common/internal';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import ShowcaseSearchBar from '@theme/Showcase/ShowcaseSearchBar';
 import ShowcaseCards from '@theme/Showcase/ShowcaseCards';
 import ShowcaseFilters from '@theme/Showcase/ShowcaseFilters';
-import type {Props} from '@theme/Showcase';
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
 const DESCRIPTION = translate({
@@ -35,24 +33,19 @@ function ShowcaseHeader() {
   );
 }
 
-export default function Showcase(props: Props): JSX.Element {
+export default function Showcase(): JSX.Element {
   return (
-    <ShowcaseProvider
-      items={props.items}
-      tags={props.tags}
-      screenshotApi={props.screenshotApi}>
-      <Layout title={TITLE} description={DESCRIPTION}>
-        <main className="margin-vert--lg">
-          <ShowcaseHeader />
-          <ShowcaseFilters />
-          <div
-            style={{display: 'flex', marginLeft: 'auto'}}
-            className="container">
-            <ShowcaseSearchBar />
-          </div>
-          <ShowcaseCards />
-        </main>
-      </Layout>
-    </ShowcaseProvider>
+    <Layout title={TITLE} description={DESCRIPTION}>
+      <main className="margin-vert--lg">
+        <ShowcaseHeader />
+        <ShowcaseFilters />
+        <div
+          style={{display: 'flex', marginLeft: 'auto'}}
+          className="container">
+          <ShowcaseSearchBar />
+        </div>
+        <ShowcaseCards />
+      </main>
+    </Layout>
   );
 }

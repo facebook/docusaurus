@@ -17,20 +17,24 @@ export async function processContentLoaded({
   routeBasePath,
   screenshotApi,
   addRoute,
+  createData,
 }: {
   content: ShowcaseItems;
   routeBasePath: string;
   tags: TagsOption;
   screenshotApi: string;
   addRoute: PluginContentLoadedActions['addRoute'];
+  createData: PluginContentLoadedActions['createData'];
 }): Promise<void> {
   addRoute({
     path: routeBasePath,
     component: '@theme/Showcase',
-    props: {
-      items: content.items,
-      tags,
-      screenshotApi,
+    context: {
+      showcase: await createData('showcase.json', {
+        items: content.items,
+        tags,
+        screenshotApi,
+      }),
     },
     exact: true,
   });

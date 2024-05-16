@@ -81,7 +81,7 @@ export default async function pluginContentShowcase(
       });
     },
 
-    async contentLoaded({content, actions: {addRoute}}) {
+    async contentLoaded({content, actions: {addRoute, createData}}) {
       if (!content) {
         return;
       }
@@ -92,6 +92,7 @@ export default async function pluginContentShowcase(
         screenshotApi,
         routeBasePath,
         addRoute,
+        createData,
       });
     },
   };

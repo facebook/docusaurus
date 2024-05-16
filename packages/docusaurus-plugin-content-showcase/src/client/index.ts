@@ -136,9 +136,7 @@ export function sortItems(params: ShowcaseItem[]): ShowcaseItem[] {
 
 function useShowcase() {
   const routeContext = useRouteContext();
-  console.log('routeContext:', routeContext);
   const showcase = routeContext?.data?.showcase;
-  console.log('showcase:', showcase);
   if (!showcase) {
     throw new Error(
       'showcase-related hooks can only be called on the showcase page',
