@@ -108,7 +108,7 @@ describe('normalizeShowcasePluginOptions', () => {
     });
   });
 
-  it('reject bedly defined tags object options', () => {
+  it('reject badly defined tags object options', () => {
     const userOptions = {
       tags: {
         favorite: {
