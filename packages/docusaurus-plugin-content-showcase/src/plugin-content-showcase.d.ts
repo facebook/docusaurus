@@ -8,6 +8,12 @@
 declare module '@docusaurus/plugin-content-showcase' {
   import type {LoadContext, Plugin} from '@docusaurus/types';
 
+  export type ShowcaseContextType = {
+    items: ShowcaseItem[];
+    tags: TagsOption;
+    screenshotApi: string;
+  };
+
   type Tag = {
     label: string;
     description: {

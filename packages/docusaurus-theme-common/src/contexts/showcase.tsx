@@ -9,42 +9,22 @@ import React, {createContext, useMemo, type ReactNode} from 'react';
 import type {
   ShowcaseItem,
   TagsOption,
+  ShowcaseContextType,
 } from '@docusaurus/plugin-content-showcase';
 
-// duplicated from theme classic showcase
-type Props = {
-  items: ShowcaseItem[];
-  tags: TagsOption;
-  screenshotApi: string;
-  children: ReactNode;
-};
-
-export interface ShowcaseContextType {
-  items: ShowcaseItem[];
-  tags: TagsOption;
-  screenshotApi: string;
-}
-
-const ShowcaseContext = createContext<ShowcaseContextType | undefined>(
-  undefined,
-);
-
-// const useShowcaseContext = (): ShowcaseContextType => {
-//   const context = useContext(ShowcaseContext);
-//   if (!context) {
-//     throw new Error(
-//       'useShowcaseContext must be used within a ShowcaseProvider',
-//     );
-//   }
-//   return context;
-// };
+const ShowcaseContext = createContext<ShowcaseContextType | null>(null);
 
 export function ShowcaseProvider({
   items,
   tags,
   screenshotApi,
   children,
-}: Props): JSX.Element {
+}: {
+  items: ShowcaseItem[];
+  tags: TagsOption;
+  screenshotApi: string;
+  children: ReactNode;
+}): JSX.Element {
   const contextValue = useMemo(
     () => ({items, tags, screenshotApi}),
     [items, tags, screenshotApi],

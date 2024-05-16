@@ -19,6 +19,7 @@ import type {
   Operator,
   ShowcaseItem,
   TagsOption,
+  ShowcaseContextType,
 } from '@docusaurus/plugin-content-showcase';
 
 export function filterItems({
@@ -131,12 +132,6 @@ export function sortItems(params: ShowcaseItem[]): ShowcaseItem[] {
   // Sort by favorite tag, favorites first
   result = sortBy(result, (user) => !user.tags.includes('favorite'));
   return result;
-}
-
-export interface ShowcaseContextType {
-  items: ShowcaseItem[];
-  tags: TagsOption;
-  screenshotApi: string;
 }
 
 function useShowcase() {
