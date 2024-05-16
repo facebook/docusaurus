@@ -466,8 +466,6 @@ export default async function createConfigAsync() {
                 label: `${getNextVersionName()} 🚧`,
               },
             },
-            tagsFilePath: 'tags.yml',
-            onBrokenTags: 'throw',
           },
           blog: {
             // routeBasePath: '/',

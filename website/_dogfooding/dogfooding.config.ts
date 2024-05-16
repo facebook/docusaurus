@@ -35,6 +35,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       id: 'docs-tests',
       routeBasePath: '/tests/docs',
       sidebarPath: '_dogfooding/docs-tests-sidebars.js',
+      tagsFilePath: 'tags.yml',
+      onUnknownTags: 'throw',
       versions: {
         current: {
           noIndex: true,
