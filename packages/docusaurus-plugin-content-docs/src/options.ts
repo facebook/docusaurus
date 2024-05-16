@@ -54,7 +54,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   sidebarCollapsible: true,
   sidebarCollapsed: true,
   breadcrumbs: true,
-  onUnknownTags: 'warn',
+  onUnknownTags: 'throw',
   tagsFilePath: 'tags.yml',
 };
 
