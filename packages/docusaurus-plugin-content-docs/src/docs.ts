@@ -87,10 +87,7 @@ async function getDefinedTags(
   options: MetadataOptions,
   contentPath: string,
 ): Promise<Tag[]> {
-  const tagDefinitionPath = path.join(
-    contentPath,
-    options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
-  );
+  const tagDefinitionPath = path.join(contentPath, options.tagsFilePath);
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
   const data = YAML.load(tagDefinitionContent);
   const definedTags = validateDefinedTags(data);
@@ -116,11 +113,7 @@ export async function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
 }): Promise<Tag[]> {
-  if (
-    options.tagsFilePath === false ||
-    options.tagsFilePath === null ||
-    options.onUnknownTags === 'ignore'
-  ) {
+  if (!options.tagsFilePath || options.onBrokenTags === 'ignore') {
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
 
@@ -130,7 +123,7 @@ export async function processFileTagsPath({
     frontMatterTags,
     validTagsSchema,
     source,
-    onBrokenTags: options.onUnknownTags,
+    onBrokenTags: options.onBrokenTags,
   });
   const transformedTags = Object.entries(definedTags).map(([key, value]) => ({
     label: value.label,

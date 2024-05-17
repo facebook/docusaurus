@@ -57,7 +57,7 @@ export function validateFrontMatterTags({
   frontMatterTags: FrontMatterTag[] | undefined;
   validTagsSchema: Joi.Schema<string[]>;
   source: string;
-  onBrokenTags: MetadataOptions['onUnknownTags'];
+  onBrokenTags: MetadataOptions['onBrokenTags'];
 }): void {
   if (frontMatterTags === undefined || !Array.isArray(frontMatterTags)) {
     return;
