@@ -16,7 +16,7 @@ import {
   applyTrailingSlash,
 } from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
-import type {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, HtmlTags, LoadContext} from '@docusaurus/types';
 import type {
   FeedType,
   PluginOptions,
@@ -253,4 +253,60 @@ export async function createBlogFeedFiles({
       }),
     ),
   );
+}
+
+export function createFeedHtmlHeadTags({
+  context,
+  options,
+}: {
+  context: LoadContext;
+  options: PluginOptions;
+}): HtmlTags {
+  const feedTypes = options.feedOptions.type;
+  if (!feedTypes) {
+    return [];
+  }
+  const feedTitle = options.feedOptions.title ?? context.siteConfig.title;
+  const feedsConfig = {
+    rss: {
+      type: 'application/rss+xml',
+      path: 'rss.xml',
+      title: `${feedTitle} RSS Feed`,
+    },
+    atom: {
+      type: 'application/atom+xml',
+      path: 'atom.xml',
+      title: `${feedTitle} Atom Feed`,
+    },
+    json: {
+      type: 'application/json',
+      path: 'feed.json',
+      title: `${feedTitle} JSON Feed`,
+    },
+  };
+  const headTags: HtmlTags = [];
+
+  feedTypes.forEach((feedType) => {
+    const {
+      type,
+      path: feedConfigPath,
+      title: feedConfigTitle,
+    } = feedsConfig[feedType];
+
+    headTags.push({
+      tagName: 'link',
+      attributes: {
+        rel: 'alternate',
+        type,
+        href: normalizeUrl([
+          context.siteConfig.baseUrl,
+          options.routeBasePath,
+          feedConfigPath,
+        ]),
+        title: feedConfigTitle,
+      },
+    });
+  });
+
+  return headTags;
 }
