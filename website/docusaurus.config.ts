@@ -306,6 +306,8 @@ export default async function createConfigAsync() {
           sidebarPath: './sidebarsCommunity.js',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
+          onUnknownTags: 'ignore',
+          tagsFilePath: 'tags.yml',
         } satisfies DocsOptions,
       ],
       [
@@ -467,7 +469,7 @@ export default async function createConfigAsync() {
               },
             },
             tagsFilePath: 'tags.yml',
-            onUnknownTags: 'throw',
+            onUnknownTags: 'ignore',
           },
           blog: {
             // routeBasePath: '/',

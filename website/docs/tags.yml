@@ -1,6 +1,3 @@
-getting-started:
-  description: Get started with the basics of using the API.
-  label: Getting Started
-installation:
-  description: How to install the API.
-  label: installation
+docs:
+  description: Docs website
+  label: docs

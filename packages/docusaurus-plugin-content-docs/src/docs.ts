@@ -83,7 +83,7 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-async function getDefinedTags(
+export async function getDefinedTags(
   options: MetadataOptions,
   contentPath: string,
 ): Promise<Tag[]> {
@@ -102,22 +102,21 @@ async function getDefinedTags(
 
 export async function processFileTagsPath({
   options,
-  contentPath,
   source,
   frontMatterTags,
   versionTagsPath,
+  definedTags,
 }: {
   options: MetadataOptions;
-  contentPath: string;
   source: string;
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
+  definedTags: Tag[];
 }): Promise<Tag[]> {
   if (!options.tagsFilePath || options.onUnknownTags === 'ignore') {
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
 
-  const definedTags = await getDefinedTags(options, contentPath);
   const validTagsSchema = createTagSchema(Object.keys(definedTags));
   validateFrontMatterTags({
     frontMatterTags,
@@ -139,12 +138,14 @@ async function doProcessDocMetadata({
   context,
   options,
   env,
+  definedTags,
 }: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
+  definedTags: Tag[];
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {
@@ -280,10 +281,10 @@ async function doProcessDocMetadata({
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags: await processFileTagsPath({
       options,
-      contentPath,
       source,
       frontMatterTags: frontMatter.tags,
       versionTagsPath: versionMetadata.tagsPath,
+      definedTags,
     }),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
@@ -299,6 +300,7 @@ export async function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
+  definedTags: Tag[];
 }): Promise<DocMetadataBase> {
   try {
     return await doProcessDocMetadata(args);

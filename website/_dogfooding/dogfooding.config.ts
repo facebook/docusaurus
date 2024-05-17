@@ -40,6 +40,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
           noIndex: true,
         },
       },
+      onUnknownTags: 'ignore',
+      tagsFilePath: 'tags.yml',
 
       // Using a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
       path: '_dogfooding/_docs tests',
