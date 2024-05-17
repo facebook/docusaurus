@@ -10,4 +10,5 @@ import {HashRouter, BrowserRouter} from 'react-router-dom';
 
 export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 
-export const Router = siteConfig.router === 'hash' ? HashRouter : BrowserRouter;
+export const Router =
+  siteConfig.future.experimental_router === 'hash' ? HashRouter : BrowserRouter;

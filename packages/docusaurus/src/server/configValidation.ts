@@ -39,6 +39,7 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_storage: DEFAULT_STORAGE_CONFIG,
+  experimental_router: 'browser',
 };
 
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
@@ -61,7 +62,6 @@ export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
   | 'future'
-  | 'router'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
   | 'onBrokenMarkdownLinks'
@@ -83,7 +83,6 @@ export const DEFAULT_CONFIG: Pick<
   | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
-  router: 'browser',
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
@@ -208,6 +207,9 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   experimental_storage: STORAGE_CONFIG_SCHEMA,
+  experimental_router: Joi.string()
+    .equal('browser', 'hash')
+    .default(DEFAULT_FUTURE_CONFIG.experimental_router),
 })
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
@@ -244,7 +246,6 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
   url: SiteUrlSchema,
-  router: Joi.string().equal('browser', 'hash').default(DEFAULT_CONFIG.router),
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,

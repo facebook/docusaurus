@@ -42,6 +42,7 @@ describe('normalizeConfig', () => {
           type: 'sessionStorage',
           namespace: true,
         },
+        experimental_router: 'hash',
       },
       tagline: 'my awesome site',
       organizationName: 'facebook',
@@ -648,6 +649,7 @@ describe('future', () => {
         type: 'sessionStorage',
         namespace: 'myNamespace',
       },
+      experimental_router: 'hash',
     };
     expect(
       normalizeConfig({
@@ -673,6 +675,97 @@ describe('future', () => {
       If you still want these fields to be in your configuration, put them in the "customFields" field.
       See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
     `);
+  });
+
+  describe('router', () => {
+    it('accepts router - undefined', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_router: undefined,
+          },
+        }),
+      ).toEqual(
+        expect.objectContaining({
+          future: expect.objectContaining({experimental_router: 'browser'}),
+        }),
+      );
+    });
+
+    it('accepts router - hash', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_router: 'hash',
+          },
+        }),
+      ).toEqual(
+        expect.objectContaining({
+          future: expect.objectContaining({experimental_router: 'hash'}),
+        }),
+      );
+    });
+
+    it('accepts router - browser', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_router: 'browser',
+          },
+        }),
+      ).toEqual(
+        expect.objectContaining({
+          future: expect.objectContaining({experimental_router: 'browser'}),
+        }),
+      );
+    });
+
+    it('rejects router - invalid enum value', () => {
+      // @ts-expect-error: invalid
+      const router: DocusaurusConfig['future']['experimental_router'] =
+        'badRouter';
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_router: router,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.experimental_router" must be one of [browser, hash]
+        "
+      `);
+    });
+
+    it('rejects router - null', () => {
+      const router: DocusaurusConfig['future']['experimental_router'] = null;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_router: router,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.experimental_router" must be one of [browser, hash]
+        "future.experimental_router" must be a string
+        "
+      `);
+    });
+
+    it('rejects router - number', () => {
+      // @ts-expect-error: invalid
+      const router: DocusaurusConfig['future']['experimental_router'] = 42;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_router: router,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.experimental_router" must be one of [browser, hash]
+        "future.experimental_router" must be a string
+        "
+      `);
+    });
   });
 
   describe('storage', () => {
@@ -707,9 +800,9 @@ describe('future', () => {
         }),
       ).toEqual(
         expect.objectContaining({
-          future: {
+          future: expect.objectContaining({
             experimental_storage: storage,
-          },
+          }),
         }),
       );
     });
@@ -757,12 +850,12 @@ describe('future', () => {
           }),
         ).toEqual(
           expect.objectContaining({
-            future: {
+            future: expect.objectContaining({
               experimental_storage: {
                 ...DEFAULT_STORAGE_CONFIG,
                 ...storage,
               },
-            },
+            }),
           }),
         );
       });
@@ -779,12 +872,12 @@ describe('future', () => {
           }),
         ).toEqual(
           expect.objectContaining({
-            future: {
+            future: expect.objectContaining({
               experimental_storage: {
                 ...DEFAULT_STORAGE_CONFIG,
                 type: 'localStorage',
               },
-            },
+            }),
           }),
         );
       });
@@ -850,12 +943,12 @@ describe('future', () => {
           }),
         ).toEqual(
           expect.objectContaining({
-            future: {
+            future: expect.objectContaining({
               experimental_storage: {
                 ...DEFAULT_STORAGE_CONFIG,
                 ...storage,
               },
-            },
+            }),
           }),
         );
       });
@@ -872,12 +965,12 @@ describe('future', () => {
           }),
         ).toEqual(
           expect.objectContaining({
-            future: {
+            future: expect.objectContaining({
               experimental_storage: {
                 ...DEFAULT_STORAGE_CONFIG,
                 ...storage,
               },
-            },
+            }),
           }),
         );
       });

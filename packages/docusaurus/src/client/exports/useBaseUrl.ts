@@ -54,9 +54,9 @@ function addBaseUrl({
 }
 
 export function useBaseUrlUtils(): BaseUrlUtils {
-  const {
-    siteConfig: {baseUrl, url: siteUrl, router},
-  } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
+  const {baseUrl, url: siteUrl} = siteConfig;
+  const router = siteConfig.future.experimental_router;
 
   const withBaseUrl = useCallback(
     (url: string, options?: BaseUrlOptions) =>

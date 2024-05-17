@@ -18,7 +18,7 @@ export default function pluginSitemap(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
-  if (context.siteConfig.router === 'hash') {
+  if (context.siteConfig.future.experimental_router === 'hash') {
     logger.warn(
       `${PluginName} does not support the Hash Router and will be disabled.`,
     );

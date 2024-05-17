@@ -58,8 +58,9 @@ export default async function pluginContentBlog(
     i18n: {currentLocale},
   } = context;
 
+  const router = siteConfig.future.experimental_router;
   const isBlogFeedDisabledBecauseOfHashRouter =
-    siteConfig.router === 'hash' && !!options.feedOptions.type;
+    router === 'hash' && !!options.feedOptions.type;
   if (isBlogFeedDisabledBecauseOfHashRouter) {
     logger.warn(
       `${PluginName} feed feature does not support the Hash Router. Feeds won't be generated.`,

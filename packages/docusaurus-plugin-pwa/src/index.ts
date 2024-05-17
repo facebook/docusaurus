@@ -50,7 +50,7 @@ export default function pluginPWA(
     outDir,
     baseUrl,
     i18n: {currentLocale},
-    siteConfig: {router},
+    siteConfig,
   } = context;
   const {
     debug,
@@ -61,7 +61,7 @@ export default function pluginPWA(
     swRegister,
   } = options;
 
-  if (router === 'hash') {
+  if (siteConfig.future.experimental_router === 'hash') {
     logger.warn(
       `${PluginName} does not support the Hash Router and will be disabled.`,
     );

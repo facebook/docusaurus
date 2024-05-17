@@ -22,7 +22,8 @@ export default function pluginClientRedirectsPages(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
-  const {trailingSlash, router} = context.siteConfig;
+  const {trailingSlash} = context.siteConfig;
+  const router = context.siteConfig.future.experimental_router;
 
   if (router === 'hash') {
     logger.warn(

@@ -40,9 +40,9 @@ function Link(
   }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
-  const {
-    siteConfig: {trailingSlash, baseUrl, router},
-  } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
+  const {trailingSlash, baseUrl} = siteConfig;
+  const router = siteConfig.future.experimental_router;
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);

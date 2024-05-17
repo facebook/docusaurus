@@ -172,11 +172,9 @@ async function buildLocale({
   );
 
   const {props} = site;
-  const {
-    outDir,
-    plugins,
-    siteConfig: {router},
-  } = props;
+  const {outDir, plugins, siteConfig} = props;
+
+  const router = siteConfig.future.experimental_router;
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
@@ -193,7 +191,6 @@ async function buildLocale({
     );
 
   // Run webpack to build JS bundle (client) and static html files (server).
-
   await PerfLogger.async('Bundling with Webpack', () => {
     if (router === 'hash') {
       return compile([clientConfig]);
