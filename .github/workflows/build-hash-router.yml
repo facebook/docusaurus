@@ -1,0 +1,42 @@
+name: Build Hash Router
+
+on:
+  pull_request:
+    branches:
+      - main
+      - docusaurus-v**
+    paths:
+      - packages/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Hash Router
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Set up Node
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: '18'
+          cache: yarn
+
+      - name: Installation
+        run: yarn
+      - name: Build Hash Router
+        run: yarn workspace website build:website:fast
+        env:
+          DOCUSAURUS_ROUTER: hash
+      - name: Upload Website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: website/build
