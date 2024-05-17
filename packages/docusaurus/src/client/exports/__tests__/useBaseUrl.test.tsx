@@ -7,10 +7,15 @@
 
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
+import {fromPartial} from '@total-typescript/shoehorn';
 import useBaseUrl, {useBaseUrlUtils} from '../useBaseUrl';
 import {Context} from '../../docusaurusContext';
-import type {DocusaurusContext} from '@docusaurus/types';
+import type {DocusaurusContext, FutureConfig} from '@docusaurus/types';
 import type {BaseUrlOptions} from '@docusaurus/useBaseUrl';
+
+const future: FutureConfig = fromPartial({
+  experimental_router: 'browser',
+});
 
 const forcePrepend = {forcePrependBaseUrl: true};
 
@@ -27,6 +32,7 @@ describe('useBaseUrl', () => {
       siteConfig: {
         baseUrl: '/',
         url: 'https://docusaurus.io',
+        future,
       },
     } as DocusaurusContext);
 
@@ -55,6 +61,7 @@ describe('useBaseUrl', () => {
       siteConfig: {
         baseUrl: '/docusaurus/',
         url: 'https://docusaurus.io',
+        future,
       },
     } as DocusaurusContext);
 
@@ -96,6 +103,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
       siteConfig: {
         baseUrl: '/',
         url: 'https://docusaurus.io',
+        future,
       },
     } as DocusaurusContext);
 
@@ -124,6 +132,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
       siteConfig: {
         baseUrl: '/docusaurus/',
         url: 'https://docusaurus.io',
+        future,
       },
     } as DocusaurusContext);
 

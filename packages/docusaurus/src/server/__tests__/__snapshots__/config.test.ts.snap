@@ -8,6 +8,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -44,7 +45,6 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -69,6 +69,7 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -105,7 +106,6 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -130,6 +130,7 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -166,7 +167,6 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -191,6 +191,7 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -227,7 +228,6 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -252,6 +252,7 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -288,7 +289,6 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -313,6 +313,7 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -349,7 +350,6 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -374,6 +374,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -412,7 +413,6 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "plugins": [],
     "presets": [],
     "projectName": "hello",
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -437,6 +437,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -475,7 +476,6 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "plugins": [],
     "presets": [],
     "projectName": "hello",
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -500,6 +500,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -538,7 +539,6 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "plugins": [],
     "presets": [],
     "projectName": "hello",
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
@@ -566,6 +566,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "customFields": {},
     "favicon": "img/docusaurus.ico",
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
@@ -612,7 +613,6 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     ],
     "presets": [],
     "projectName": "hello",
-    "router": "browser",
     "scripts": [],
     "staticDirectories": [
       "static",
