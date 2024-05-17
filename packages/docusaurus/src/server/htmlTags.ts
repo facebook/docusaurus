@@ -14,6 +14,7 @@ import type {
   HtmlTagObject,
   HtmlTags,
   LoadedPlugin,
+  RouterType,
 } from '@docusaurus/types';
 
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
@@ -36,14 +37,23 @@ function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   }
 }
 
-function absoluteToRelativeTagAttribute(name: string, value: string): string {
+function hashRouterAbsoluteToRelativeTagAttribute(
+  name: string,
+  value: string,
+): string {
   if ((name === 'src' || name === 'href') && value.startsWith('/')) {
-    return `.${value}`; // TODO would only work for homepage
+    return `.${value}`;
   }
   return value;
 }
 
-function htmlTagObjectToString(tag: unknown): string {
+function htmlTagObjectToString({
+  tag,
+  router,
+}: {
+  tag: unknown;
+  router: RouterType;
+}): string {
   assertIsHtmlTagObject(tag);
   const isVoidTag = (voidHtmlTags as string[]).includes(tag.tagName);
   const tagAttributes = tag.attributes ?? {};
@@ -53,7 +63,9 @@ function htmlTagObjectToString(tag: unknown): string {
       if (typeof value === 'boolean') {
         return value ? attr : undefined;
       }
-      value = absoluteToRelativeTagAttribute(attr, value);
+      if (router === 'hash') {
+        value = hashRouterAbsoluteToRelativeTagAttribute(attr, value);
+      }
       return `${attr}="${escapeHTML(value)}"`;
     })
     .filter((str): str is string => Boolean(str));
@@ -63,10 +75,18 @@ function htmlTagObjectToString(tag: unknown): string {
   return openingTag + innerHTML + closingTag;
 }
 
-function createHtmlTagsString(tags: HtmlTags | undefined): string {
+function createHtmlTagsString({
+  tags,
+  router,
+}: {
+  tags: HtmlTags | undefined;
+  router: RouterType;
+}): string {
   return (Array.isArray(tags) ? tags : [tags])
     .filter(Boolean)
-    .map((val) => (typeof val === 'string' ? val : htmlTagObjectToString(val)))
+    .map((val) =>
+      typeof val === 'string' ? val : htmlTagObjectToString({tag: val, router}),
+    )
     .join('\n');
 }
 
@@ -74,9 +94,13 @@ function createHtmlTagsString(tags: HtmlTags | undefined): string {
  * Runs the `injectHtmlTags` lifecycle, and aggregates all plugins' tags into
  * directly render-able HTML markup.
  */
-export function loadHtmlTags(
-  plugins: LoadedPlugin[],
-): Pick<Props, 'headTags' | 'preBodyTags' | 'postBodyTags'> {
+export function loadHtmlTags({
+  plugins,
+  router,
+}: {
+  plugins: LoadedPlugin[];
+  router: RouterType;
+}): Pick<Props, 'headTags' | 'preBodyTags' | 'postBodyTags'> {
   const pluginHtmlTags = plugins.map(
     (plugin) => plugin.injectHtmlTags?.({content: plugin.content}) ?? {},
   );
@@ -86,7 +110,7 @@ export function loadHtmlTags(
       tagTypes,
       tagTypes.map((type) =>
         pluginHtmlTags
-          .map((tags) => createHtmlTagsString(tags[type]))
+          .map((tags) => createHtmlTagsString({tags: tags[type], router}))
           .join('\n')
           .trim(),
       ),
