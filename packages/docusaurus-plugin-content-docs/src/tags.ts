@@ -37,6 +37,7 @@ export const tagDefinitionSchema = Joi.object().pattern(
   Joi.object({
     label: Joi.string().required(),
     description: Joi.string().required(),
+    permalink: Joi.string(),
   }),
 );
 
@@ -44,18 +45,14 @@ export function validateDefinedTags(tags: unknown): Joi.ValidationResult {
   return tagDefinitionSchema.validate(tags);
 }
 
-export function createTagSchema(tags: string[]): Joi.Schema {
-  return Joi.array().items(Joi.string().valid(...tags));
-}
-
 export function validateFrontMatterTags({
   frontMatterTags,
-  validTagsSchema,
+  validTagList,
   source,
   onUnknownTags,
 }: {
   frontMatterTags: FrontMatterTag[] | undefined;
-  validTagsSchema: Joi.Schema<string[]>;
+  validTagList: string[];
   source: string;
   onUnknownTags: MetadataOptions['onUnknownTags'];
 }): void {
@@ -67,11 +64,13 @@ export function validateFrontMatterTags({
     typeof tag === 'string' ? tag : tag.permalink,
   );
 
-  const tagList = validTagsSchema.validate(labels);
+  const unknownTags = _.difference(labels, validTagList);
 
-  if (tagList.error) {
+  if (unknownTags.length > 0) {
+    const uniqueUnknownTags = [...new Set(unknownTags)];
+    const tagListString = uniqueUnknownTags.join(', ');
     logger.report(onUnknownTags)(
-      `Broken tags found in ${source} [${labels}] : ${tagList.error.message}`,
+      `Tags [${tagListString}] used in ${source} are not defined in tags.yml`,
     );
   }
 }

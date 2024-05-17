@@ -27,11 +27,7 @@ import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
-import {
-  createTagSchema,
-  validateFrontMatterTags,
-  validateDefinedTags,
-} from './tags';
+import {validateFrontMatterTags, validateDefinedTags} from './tags';
 import type {FrontMatterTag, Tag} from '@docusaurus/utils';
 import type {
   MetadataOptions,
@@ -127,13 +123,13 @@ export async function processFileTagsPath({
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
 
-  const validTagsSchema = createTagSchema(Object.keys(definedTags));
   validateFrontMatterTags({
     frontMatterTags,
-    validTagsSchema,
+    validTagList: Object.keys(definedTags),
     source,
     onUnknownTags: options.onUnknownTags,
   });
+
   const transformedTags = Object.entries(definedTags).map(([key, value]) => ({
     label: value.label,
     permalink: key,
