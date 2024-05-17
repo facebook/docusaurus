@@ -5,14 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import siteConfig from '@generated/docusaurus.config';
-import {HashRouter, BrowserRouter} from 'react-router-dom';
-
 export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
-
-export const Router =
-  process.env.NODE_ENV === 'test' // Ensures unit tests don't fail
-    ? BrowserRouter
-    : siteConfig.future.experimental_router === 'hash'
-    ? HashRouter
-    : BrowserRouter;
