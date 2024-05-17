@@ -6,15 +6,10 @@
  */
 
 import _ from 'lodash';
-import {
-  getTagVisibility,
-  groupTaggedItems
-} from '@docusaurus/utils';
+import {getTagVisibility, groupTaggedItems} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
-import type {
-  NormalizedTag,
-  TagsFile} from '@docusaurus/utils';
+import type {NormalizedTag, TagsFile} from '@docusaurus/utils';
 import type {VersionTags} from './types';
 import type {
   DocMetadata,

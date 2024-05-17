@@ -17,7 +17,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
   createSlugger,
-  DEFAULT_PLUGIN_ID
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
@@ -39,8 +39,7 @@ import {
 } from './translations';
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
-import type {
-  TagsFile} from '@docusaurus/utils';
+import type {TagsFile} from '@docusaurus/utils';
 
 import type {
   PluginOptions,
