@@ -52,19 +52,6 @@ declare module '@generated/routes' {
   export default routes;
 }
 
-declare module '@generated/router' {
-  import type {ReactNode, ComponentType} from 'react';
-
-  export type Props = {
-    basename?: string | undefined;
-    children?: ReactNode;
-  };
-
-  const Router: ComponentType<Props>;
-
-  export default Router;
-}
-
 declare module '@generated/routesChunkNames' {
   import type {RouteChunkNames} from '@docusaurus/types';
 
@@ -258,8 +245,12 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
+  import {ComponentType} from 'react';
+
   // eslint-disable-next-line import/no-extraneous-dependencies
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
+
+  export const Router = ComponentType<Record<string, never>>;
 }
 
 declare module '@docusaurus/useIsomorphicLayoutEffect' {

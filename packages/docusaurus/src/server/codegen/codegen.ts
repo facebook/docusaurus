@@ -146,22 +146,6 @@ function genSiteStorage({
   );
 }
 
-function genRouter({
-  generatedFilesDir,
-  siteConfig,
-}: {
-  generatedFilesDir: string;
-  siteConfig: DocusaurusConfig;
-}) {
-  const routerImport =
-    siteConfig.router === 'hash' ? 'HashRouter' : 'BrowserRouter';
-  return generate(
-    generatedFilesDir,
-    'router.js',
-    `export {${routerImport} as default} from 'react-router-dom';`,
-  );
-}
-
 type CodegenParams = {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
@@ -186,6 +170,5 @@ export async function generateSiteFiles(params: CodegenParams): Promise<void> {
     genSiteStorage(params),
     genI18n(params),
     genCodeTranslations(params),
-    genRouter(params),
   ]);
 }

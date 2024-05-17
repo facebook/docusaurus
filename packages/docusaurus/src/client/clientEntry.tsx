@@ -7,7 +7,7 @@
 
 import React, {startTransition} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
-import Router from '@generated/router';
+import {Router} from '@docusaurus/router';
 import {HelmetProvider} from 'react-helmet-async';
 
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
