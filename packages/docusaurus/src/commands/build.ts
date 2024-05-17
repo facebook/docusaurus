@@ -251,12 +251,6 @@ async function executeSSG({
     compileSSRTemplate(props.siteConfig.ssrTemplate ?? defaultSSRTemplate),
   );
 
-  const renderer = await PerfLogger.async('Load App renderer', () =>
-    loadAppRenderer({
-      serverBundlePath,
-    }),
-  );
-
   const params: SSGParams = {
     trailingSlash: props.siteConfig.trailingSlash,
     outDir: props.outDir,
@@ -277,6 +271,12 @@ async function executeSSG({
     PerfLogger.end('Generate Hash Router entry point');
     return {collectedData: {}};
   }
+
+  const renderer = await PerfLogger.async('Load App renderer', () =>
+    loadAppRenderer({
+      serverBundlePath,
+    }),
+  );
 
   const ssgResult = await PerfLogger.async('Generate static files', () =>
     generateStaticFiles({
