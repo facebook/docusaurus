@@ -101,7 +101,7 @@ declare module '@docusaurus/plugin-content-docs' {
     numberPrefixParser: NumberPrefixParser;
     /** Enable or disable the breadcrumbs on doc pages. */
     breadcrumbs: boolean;
-    tagsFilePath: string;
+    tagsFilePath: string | false | null | undefined;
     onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
   };
 

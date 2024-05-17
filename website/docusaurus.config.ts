@@ -306,8 +306,6 @@ export default async function createConfigAsync() {
           sidebarPath: './sidebarsCommunity.js',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          onUnknownTags: 'ignore',
-          tagsFilePath: 'tags.yml',
         } satisfies DocsOptions,
       ],
       [
