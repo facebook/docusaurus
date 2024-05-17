@@ -1,3 +1,36 @@
-dogfood:
-  label: Dogfooding
-  description: Learn about dogfooding
+a:
+  label: a
+  description: a
+b:
+  label: b
+  description: b
+c:
+  label: c
+  description: c
+e:
+  label: e
+  description: e
+some tag:
+  label: some tag
+  description: some tag
+some-tag:
+  label: some-tag
+  description: some-tag
+some_tag:
+  label: some_tag
+  description: some_tag
+visibility:
+  label: visibility
+  description: visibility
+draft:
+  label: draft
+  description: draft
+listed:
+  label: listed
+  description: listed
+unlisted:
+  label: unlisted
+  description: unlisted
+d-custom-permalink:
+  label: d-custom-permalink
+  description: d-custom-permalink

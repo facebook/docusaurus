@@ -219,8 +219,6 @@ export default async function pluginContentDocs(
             options,
             versionMetadata.contentPath,
           );
-          console.log('versionMetadata:', versionMetadata);
-          console.log('definedTags:', definedTags);
           return await doLoadVersion(versionMetadata, definedTags);
         } catch (err) {
           logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
