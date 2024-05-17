@@ -106,7 +106,7 @@ export async function getDefinedTags(
   return definedTags.value;
 }
 
-export async function processFileTagsPath({
+export function processFileTagsPath({
   options,
   source,
   frontMatterTags,
@@ -118,7 +118,7 @@ export async function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
   definedTags: Tag[];
-}): Promise<Tag[]> {
+}): Tag[] {
   if (definedTags.length === 0) {
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
@@ -285,7 +285,7 @@ async function doProcessDocMetadata({
     draft,
     unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
-    tags: await processFileTagsPath({
+    tags: processFileTagsPath({
       options,
       source,
       frontMatterTags: frontMatter.tags,
