@@ -23,8 +23,8 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
+import type {Config, DocusaurusConfig} from '@docusaurus/types';
 
-import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
@@ -95,7 +95,8 @@ function getNextVersionName() {
 // Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
-const router = process.env.DOCUSAURUS_ROUTER as Config['router'];
+const router = process.env
+  .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -149,11 +150,11 @@ export default async function createConfigAsync() {
     baseUrl,
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
-    router,
     future: {
       experimental_storage: {
         namespace: true,
       },
+      experimental_router: router,
     },
     // Dogfood both settings:
     // - force trailing slashes for deploy previews
