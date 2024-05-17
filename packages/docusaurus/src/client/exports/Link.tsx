@@ -81,7 +81,11 @@ function Link(
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
-  // TODO temporary hack
+  // TODO find a way to solve this problem properly
+  // Fix edge case when useBaseUrl is used on a link
+  // "./" is useful for images and other resources
+  // But we don't need it for <Link>
+  // unfortunately we can't really make the difference :/
   if (router === 'hash' && targetLink?.startsWith('./')) {
     targetLink = targetLink?.slice(1);
   }
