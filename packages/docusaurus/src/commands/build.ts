@@ -282,18 +282,7 @@ async function executeSSG({
     generateStaticFiles({
       pathnames: props.routesPaths,
       renderer,
-      params: {
-        trailingSlash: props.siteConfig.trailingSlash,
-        outDir: props.outDir,
-        baseUrl: props.baseUrl,
-        manifest,
-        headTags: props.headTags,
-        preBodyTags: props.preBodyTags,
-        postBodyTags: props.postBodyTags,
-        ssrTemplate,
-        noIndex: props.siteConfig.noIndex,
-        DOCUSAURUS_VERSION,
-      },
+      params,
     }),
   );
 
