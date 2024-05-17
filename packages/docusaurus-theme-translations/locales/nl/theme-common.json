@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Bewerk deze pagina",
   "theme.common.headingLinkTitle": "Direct link naar {heading}",
   "theme.common.skipToMainContent": "Ga naar hoofdinhoud",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} artikelen",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 artikel|{count} artikelen",
   "theme.docs.breadcrumbs.home": "Homepagina",
   "theme.docs.breadcrumbs.navAriaLabel": "Broodkruimels",
   "theme.docs.paginator.navAriaLabel": "Documentatie pagina",

@@ -12,7 +12,7 @@ import {
   normalizePluginOptions,
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
-import {getPluginVersion} from '../siteMetadata';
+import {loadPluginVersion} from '../siteMetadata';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {loadPluginConfigs, type NormalizedPluginConfig} from './configs';
 import type {
@@ -61,14 +61,14 @@ export async function initPlugins(
   const pluginRequire = createRequire(context.siteConfigPath);
   const pluginConfigs = await loadPluginConfigs(context);
 
-  async function doGetPluginVersion(
+  async function doLoadPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<PluginVersionInformation> {
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
         normalizedPluginConfig.pluginModule.path,
       );
-      return getPluginVersion(pluginPath, context.siteDir);
+      return loadPluginVersion(pluginPath, context.siteDir);
     }
     return {type: 'local'};
   }
@@ -109,7 +109,7 @@ export async function initPlugins(
   async function initializePlugin(
     normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<InitializedPlugin> {
-    const pluginVersion: PluginVersionInformation = await doGetPluginVersion(
+    const pluginVersion: PluginVersionInformation = await doLoadPluginVersion(
       normalizedPluginConfig,
     );
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);

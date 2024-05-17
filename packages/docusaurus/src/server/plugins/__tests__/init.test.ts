@@ -7,11 +7,11 @@
 
 import path from 'path';
 
-import {loadContext, type LoadContextOptions} from '../../index';
+import {loadContext, type LoadContextParams} from '../../site';
 import {initPlugins} from '../init';
 
 describe('initPlugins', () => {
-  async function loadSite(options: Omit<LoadContextOptions, 'siteDir'> = {}) {
+  async function loadSite(options: Omit<LoadContextParams, 'siteDir'> = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
     const context = await loadContext({...options, siteDir});
     const plugins = await initPlugins(context);

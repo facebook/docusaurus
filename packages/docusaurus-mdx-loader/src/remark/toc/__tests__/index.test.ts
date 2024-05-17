@@ -25,7 +25,7 @@ const processFixture = async (name: string) => {
 
   const result = await compile(file, {
     format: 'mdx',
-    remarkPlugins: [headings, gfm, plugin],
+    remarkPlugins: [[headings, {anchorsMaintainCase: false}], gfm, plugin],
     rehypePlugins: [],
   });
 

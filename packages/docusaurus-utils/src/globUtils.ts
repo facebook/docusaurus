@@ -9,8 +9,7 @@
 
 import path from 'path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
-import {addSuffix} from './jsUtils';
-
+import {addSuffix} from '@docusaurus/utils-common';
 /** A re-export of the globby instance. */
 export {default as Globby} from 'globby';
 

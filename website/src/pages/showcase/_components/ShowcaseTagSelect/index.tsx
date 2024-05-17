@@ -7,90 +7,65 @@
 
 import React, {
   useCallback,
-  useState,
-  useEffect,
   type ComponentProps,
   type ReactNode,
   type ReactElement,
+  useId,
 } from 'react';
-import {useHistory, useLocation} from '@docusaurus/router';
-import {toggleListItem} from '@site/src/utils/jsUtils';
 import type {TagType} from '@site/src/data/users';
+import {useTags} from '../../_utils';
 
-import {prepareUserState} from '../../index';
 import styles from './styles.module.css';
 
-interface Props extends ComponentProps<'input'> {
-  icon: ReactElement<ComponentProps<'svg'>>;
-  label: ReactNode;
-  tag: TagType;
-}
-
-const TagQueryStringKey = 'tags';
-
-export function readSearchTags(search: string): TagType[] {
-  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
-}
-
-function replaceSearchTags(search: string, newTags: TagType[]) {
-  const searchParams = new URLSearchParams(search);
-  searchParams.delete(TagQueryStringKey);
-  newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
-  return searchParams.toString();
-}
-
-function ShowcaseTagSelect(
-  {id, icon, label, tag, ...rest}: Props,
-  ref: React.ForwardedRef<HTMLLabelElement>,
-) {
-  const location = useLocation();
-  const history = useHistory();
-  const [selected, setSelected] = useState(false);
-  useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelected(tags.includes(tag));
-  }, [tag, location]);
-  const toggleTag = useCallback(() => {
-    const tags = readSearchTags(location.search);
-    const newTags = toggleListItem(tags, tag);
-    const newSearch = replaceSearchTags(location.search, newTags);
-    history.push({
-      ...location,
-      search: newSearch,
-      state: prepareUserState(),
+function useTagState(tag: string) {
+  const [tags, setTags] = useTags();
+  const isSelected = tags.includes(tag);
+  const toggle = useCallback(() => {
+    setTags((list) => {
+      return list.includes(tag)
+        ? list.filter((t) => t !== tag)
+        : [...list, tag];
     });
-  }, [tag, location, history]);
+  }, [tag, setTags]);
+
+  return [isSelected, toggle] as const;
+}
+
+interface Props extends ComponentProps<'input'> {
+  tag: TagType;
+  label: string;
+  description: string;
+  icon: ReactElement<ComponentProps<'svg'>>;
+}
+
+export default function ShowcaseTagSelect({
+  icon,
+  label,
+  description,
+  tag,
+  ...rest
+}: Props): ReactNode {
+  const id = useId();
+  const [isSelected, toggle] = useTagState(tag);
   return (
     <>
       <input
         type="checkbox"
         id={id}
+        checked={isSelected}
+        onChange={toggle}
         className="screen-reader-only"
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            toggleTag();
+            toggle();
           }
         }}
-        onFocus={(e) => {
-          if (e.relatedTarget) {
-            e.target.nextElementSibling?.dispatchEvent(
-              new KeyboardEvent('focus'),
-            );
-          }
-        }}
-        onBlur={(e) => {
-          e.target.nextElementSibling?.dispatchEvent(new KeyboardEvent('blur'));
-        }}
-        onChange={toggleTag}
-        checked={selected}
         {...rest}
       />
-      <label ref={ref} htmlFor={id} className={styles.checkboxLabel}>
+      <label htmlFor={id} className={styles.checkboxLabel} title={description}>
         {label}
         {icon}
       </label>
     </>
   );
 }
-
-export default React.forwardRef(ShowcaseTagSelect);

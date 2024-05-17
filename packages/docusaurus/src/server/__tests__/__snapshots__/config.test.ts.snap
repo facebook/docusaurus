@@ -7,6 +7,12 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -17,6 +23,9 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -59,6 +68,12 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -69,6 +84,9 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -111,6 +129,12 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -121,6 +145,9 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -163,6 +190,12 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -173,6 +206,9 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -215,6 +251,12 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -225,6 +267,9 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -267,6 +312,12 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -277,6 +328,9 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -319,6 +373,12 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -329,6 +389,9 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -373,6 +436,12 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -383,6 +452,9 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -427,6 +499,12 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "baseUrlIssueBanner": true,
     "clientModules": [],
     "customFields": {},
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -437,6 +515,9 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,
@@ -484,6 +565,12 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     ],
     "customFields": {},
     "favicon": "img/docusaurus.ico",
+    "future": {
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
     "headTags": [],
     "i18n": {
       "defaultLocale": "en",
@@ -494,6 +581,9 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "path": "i18n",
     },
     "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
       "format": "mdx",
       "mdx1Compat": {
         "admonitions": true,

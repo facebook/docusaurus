@@ -90,6 +90,10 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       id: 'pages-tests',
       path: '_dogfooding/_pages tests',
       routeBasePath: '/tests/pages',
+      showLastUpdateTime: true,
+      showLastUpdateAuthor: true,
+      editUrl: ({pagesPath}) =>
+        `https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_pages tests/${pagesPath}`,
     } satisfies PageOptions,
   ],
 
@@ -100,6 +104,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
         return [
           require.resolve('./clientModuleExample.ts'),
           require.resolve('./clientModuleCSS.css'),
+          require.resolve('./migrateStorageNamespace.ts'),
         ];
       },
     };

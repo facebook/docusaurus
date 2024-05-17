@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {TranslationFile} from './i18n';
+import type {CodeTranslations, TranslationFile} from './i18n';
 import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
@@ -18,11 +18,11 @@ import type {RouteConfig} from './routing';
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
-export type PluginConfig =
+export type PluginConfig<Content = unknown> =
   | string
   | [string, PluginOptions]
-  | [PluginModule, PluginOptions]
-  | PluginModule
+  | [PluginModule<Content>, PluginOptions]
+  | PluginModule<Content>
   | false
   | null;
 
@@ -49,7 +49,7 @@ export type PluginVersionInformation =
 
 export type PluginContentLoadedActions = {
   addRoute: (config: RouteConfig) => void;
-  createData: (name: string, data: string) => Promise<string>;
+  createData: (name: string, data: string | object) => Promise<string>;
   setGlobalData: (data: unknown) => void;
 };
 
@@ -110,7 +110,9 @@ export type Plugin<Content = unknown> = {
   contentLoaded?: (args: {
     /** The content loaded by this plugin instance */
     content: Content; //
-    /** Content loaded by ALL the plugins */
+    actions: PluginContentLoadedActions;
+  }) => Promise<void> | void;
+  allContentLoaded?: (args: {
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
@@ -163,6 +165,15 @@ export type Plugin<Content = unknown> = {
   }) => ThemeConfig;
 };
 
+/**
+ * Data required to uniquely identify a plugin
+ * The name or instance id alone is not enough
+ */
+export type PluginIdentifier = {
+  readonly name: string;
+  readonly id: string;
+};
+
 export type InitializedPlugin = Plugin & {
   readonly options: Required<PluginOptions>;
   readonly version: PluginVersionInformation;
@@ -172,10 +183,15 @@ export type InitializedPlugin = Plugin & {
 
 export type LoadedPlugin = InitializedPlugin & {
   readonly content: unknown;
+  readonly globalData: unknown;
+  readonly routes: RouteConfig[];
+  readonly defaultCodeTranslations: CodeTranslations;
 };
 
-export type PluginModule = {
-  (context: LoadContext, options: unknown): Plugin | Promise<Plugin>;
+export type PluginModule<Content = unknown> = {
+  (context: LoadContext, options: unknown):
+    | Plugin<Content>
+    | Promise<Plugin<Content>>;
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 

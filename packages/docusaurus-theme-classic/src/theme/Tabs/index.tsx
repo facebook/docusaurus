@@ -140,8 +140,8 @@ function TabsComponent(props: Props): JSX.Element {
   const tabs = useTabs(props);
   return (
     <div className={clsx('tabs-container', styles.tabList)}>
-      <TabList {...props} {...tabs} />
-      <TabContent {...props} {...tabs} />
+      <TabList {...tabs} {...props} />
+      <TabContent {...tabs} {...props} />
     </div>
   );
 }

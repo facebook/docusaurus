@@ -13,6 +13,8 @@ export {
   DefaultParseFrontMatter,
   ParseFrontMatter,
   DocusaurusConfig,
+  FutureConfig,
+  StorageConfig,
   Config,
 } from './config';
 
@@ -21,6 +23,7 @@ export {
   DocusaurusContext,
   GlobalData,
   LoadContext,
+  SiteStorage,
   Props,
 } from './context';
 
@@ -46,6 +49,7 @@ export {
 
 export {
   Plugin,
+  PluginIdentifier,
   InitializedPlugin,
   LoadedPlugin,
   PluginModule,
@@ -70,6 +74,8 @@ export {
 
 export {
   RouteConfig,
+  PluginRouteConfig,
+  RouteMetadata,
   RouteContext,
   PluginRouteContext,
   Registry,

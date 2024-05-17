@@ -47,12 +47,11 @@ export async function loadAppRenderer({
 }: {
   serverBundlePath: string;
 }): Promise<AppRenderer> {
-  console.log(`SSG - Load server bundle`);
-  PerfLogger.start(`SSG - Load server bundle`);
-  const source = await fs.readFile(serverBundlePath);
-  PerfLogger.end(`SSG - Load server bundle`);
+  const source = await PerfLogger.async(`Load server bundle`, () =>
+    fs.readFile(serverBundlePath),
+  );
   PerfLogger.log(
-    `SSG - Server bundle size = ${(source.length / 1024000).toFixed(3)} MB`,
+    `Server bundle size = ${(source.length / 1024000).toFixed(3)} MB`,
   );
 
   const filename = path.basename(serverBundlePath);
@@ -69,14 +68,16 @@ export async function loadAppRenderer({
     require: createRequire(serverBundlePath),
   };
 
-  PerfLogger.start(`SSG - Evaluate server bundle`);
-  const serverEntry = evaluate(
-    source,
-    /* filename: */ filename,
-    /* scope: */ globals,
-    /* includeGlobals: */ true,
-  ) as {default?: AppRenderer};
-  PerfLogger.end(`SSG - Evaluate server bundle`);
+  const serverEntry = await PerfLogger.async(
+    `Evaluate server bundle`,
+    () =>
+      evaluate(
+        source,
+        /* filename: */ filename,
+        /* scope: */ globals,
+        /* includeGlobals: */ true,
+      ) as {default?: AppRenderer},
+  );
 
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(

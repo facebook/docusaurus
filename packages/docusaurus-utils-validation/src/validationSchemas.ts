@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  isValidPathname,
-  DEFAULT_PLUGIN_ID,
-  type Tag,
-  addLeadingSlash,
-} from '@docusaurus/utils';
+import {isValidPathname, DEFAULT_PLUGIN_ID, type Tag} from '@docusaurus/utils';
+import {addLeadingSlash} from '@docusaurus/utils-common';
 import Joi from './Joi';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
@@ -167,3 +163,16 @@ export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
       "Can't be draft and unlisted at the same time.",
   })
   .unknown();
+
+export const FrontMatterLastUpdateErrorMessage =
+  '{{#label}} does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.';
+
+export const FrontMatterLastUpdateSchema = Joi.object({
+  author: Joi.string(),
+  date: Joi.date().raw(),
+})
+  .or('author', 'date')
+  .messages({
+    'object.missing': FrontMatterLastUpdateErrorMessage,
+    'object.base': FrontMatterLastUpdateErrorMessage,
+  });

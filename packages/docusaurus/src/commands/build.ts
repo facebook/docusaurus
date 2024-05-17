@@ -10,16 +10,13 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
-import {load, loadContext, type LoadContextOptions} from '../server';
+import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {
-  executePluginsConfigurePostCss,
-  executePluginsConfigureWebpack,
-  compile,
-} from '../webpack/utils';
+import {executePluginsConfigureWebpack} from '../webpack/configure';
+import {compile} from '../webpack/utils';
 import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
@@ -40,7 +37,7 @@ import type {LoadedPlugin, Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
-  LoadContextOptions,
+  LoadContextParams,
   'config' | 'locale' | 'outDir'
 > & {
   bundleAnalyzer?: boolean;
@@ -72,23 +69,15 @@ export async function build(
     process.on(sig, () => process.exit());
   });
 
-  async function tryToBuildLocale({
-    locale,
-    isLastLocale,
-  }: {
-    locale: string;
-    isLastLocale: boolean;
-  }) {
+  async function tryToBuildLocale({locale}: {locale: string}) {
     try {
-      PerfLogger.start(`Building site for locale ${locale}`);
-      await buildLocale({
-        siteDir,
-        locale,
-        cliOptions,
-        forceTerminate,
-        isLastLocale,
-      });
-      PerfLogger.end(`Building site for locale ${locale}`);
+      await PerfLogger.async(`${logger.name(locale)}`, () =>
+        buildLocale({
+          siteDir,
+          locale,
+          cliOptions,
+        }),
+      );
     } catch (err) {
       throw new Error(
         logger.interpolate`Unable to build website for locale name=${locale}.`,
@@ -99,20 +88,28 @@ export async function build(
     }
   }
 
-  PerfLogger.start(`Get locales to build`);
-  const locales = await getLocalesToBuild({siteDir, cliOptions});
-  PerfLogger.end(`Get locales to build`);
+  const locales = await PerfLogger.async('Get locales to build', () =>
+    getLocalesToBuild({siteDir, cliOptions}),
+  );
 
   if (locales.length > 1) {
     logger.info`Website will be built for all these locales: ${locales}`;
   }
 
-  PerfLogger.start(`Building ${locales.length} locales`);
-  await mapAsyncSequential(locales, (locale) => {
-    const isLastLocale = locales.indexOf(locale) === locales.length - 1;
-    return tryToBuildLocale({locale, isLastLocale});
-  });
-  PerfLogger.end(`Building ${locales.length} locales`);
+  await PerfLogger.async(`Build`, () =>
+    mapAsyncSequential(locales, async (locale) => {
+      const isLastLocale = locales.indexOf(locale) === locales.length - 1;
+      await tryToBuildLocale({locale});
+      if (isLastLocale) {
+        logger.info`Use code=${'npm run serve'} command to test your build locally.`;
+      }
+
+      // TODO do we really need this historical forceTerminate exit???
+      if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
+        process.exit(0);
+      }
+    }),
+  );
 }
 
 async function getLocalesToBuild({
@@ -152,14 +149,10 @@ async function buildLocale({
   siteDir,
   locale,
   cliOptions,
-  forceTerminate,
-  isLastLocale,
 }: {
   siteDir: string;
   locale: string;
   cliOptions: Partial<BuildCLIOptions>;
-  forceTerminate: boolean;
-  isLastLocale: boolean;
 }): Promise<string> {
   // Temporary workaround to unlock the ability to translate the site config
   // We'll remove it if a better official API can be designed
@@ -168,17 +161,17 @@ async function buildLocale({
 
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  PerfLogger.start('Loading site');
-  const props: Props = await load({
-    siteDir,
-    outDir: cliOptions.outDir,
-    config: cliOptions.config,
-    locale,
-    localizePath: cliOptions.locale ? false : undefined,
-  });
-  PerfLogger.end('Loading site');
+  const site = await PerfLogger.async('Load site', () =>
+    loadSite({
+      siteDir,
+      outDir: cliOptions.outDir,
+      config: cliOptions.config,
+      locale,
+      localizePath: cliOptions.locale ? false : undefined,
+    }),
+  );
 
-  // Apply user webpack config.
+  const {props} = site;
   const {
     outDir,
     plugins,
@@ -186,71 +179,57 @@ async function buildLocale({
   } = props;
 
   // We can build the 2 configs in parallel
-  PerfLogger.start('Creating webpack configs');
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
-    await Promise.all([
-      getBuildClientConfig({
-        props,
-        cliOptions,
-      }),
-      getBuildServerConfig({
-        props,
-      }),
-    ]);
-  PerfLogger.end('Creating webpack configs');
-
-  // Make sure generated client-manifest is cleaned first, so we don't reuse
-  // the one from previous builds.
-  // TODO do we really need this? .docusaurus folder is cleaned between builds
-  PerfLogger.start('Deleting previous client manifest');
-  await ensureUnlink(clientManifestPath);
-  PerfLogger.end('Deleting previous client manifest');
+    await PerfLogger.async('Creating webpack configs', () =>
+      Promise.all([
+        getBuildClientConfig({
+          props,
+          cliOptions,
+        }),
+        getBuildServerConfig({
+          props,
+        }),
+      ]),
+    );
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  PerfLogger.start('Bundling');
-  if (router === 'hash') {
-    await compile([clientConfig]);
-  } else {
-    await compile([clientConfig, serverConfig]);
-  }
-  PerfLogger.end('Bundling');
 
-  PerfLogger.start('Executing static site generation');
-  const {collectedData} = await executeSSG({
-    props,
-    serverBundlePath,
-    clientManifestPath,
-    router,
+  await PerfLogger.async('Bundling with Webpack', () => {
+    if (router === 'hash') {
+      return compile([clientConfig]);
+    } else {
+      return compile([clientConfig, serverConfig]);
+    }
   });
-  PerfLogger.end('Executing static site generation');
+
+  const {collectedData} = await PerfLogger.async('SSG', () =>
+    executeSSG({
+      props,
+      serverBundlePath,
+      clientManifestPath,
+      router,
+    }),
+  );
 
   // Remove server.bundle.js because it is not needed.
-  PerfLogger.start('Deleting server bundle');
-  await ensureUnlink(serverBundlePath);
-  PerfLogger.end('Deleting server bundle');
+  await PerfLogger.async('Deleting server bundle', () =>
+    ensureUnlink(serverBundlePath),
+  );
 
   // Plugin Lifecycle - postBuild.
-  PerfLogger.start('Executing postBuild()');
-  await executePluginsPostBuild({plugins, props, collectedData});
-  PerfLogger.end('Executing postBuild()');
+  await PerfLogger.async('postBuild()', () =>
+    executePluginsPostBuild({plugins, props, collectedData}),
+  );
 
   // TODO execute this in parallel to postBuild?
-  PerfLogger.start('Executing broken links checker');
-  await executeBrokenLinksCheck({props, collectedData});
-  PerfLogger.end('Executing broken links checker');
+  await PerfLogger.async('Broken links checker', () =>
+    executeBrokenLinksCheck({props, collectedData}),
+  );
 
   logger.success`Generated static files in path=${path.relative(
     process.cwd(),
     outDir,
   )}.`;
-
-  if (isLastLocale) {
-    logger.info`Use code=${'npm run serve'} command to test your build locally.`;
-  }
-
-  if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
-    process.exit(0);
-  }
 
   return outDir;
 }
@@ -266,15 +245,20 @@ async function executeSSG({
   clientManifestPath: string;
   router: RouterType;
 }): Promise<{collectedData: SiteCollectedData}> {
-  PerfLogger.start('Reading client manifest');
-  const manifest: Manifest = await fs.readJSON(clientManifestPath, 'utf-8');
-  PerfLogger.end('Reading client manifest');
-
-  PerfLogger.start('Compiling SSR template');
-  const ssrTemplate = await compileSSRTemplate(
-    props.siteConfig.ssrTemplate ?? defaultSSRTemplate,
+  const manifest: Manifest = await PerfLogger.async(
+    'Read client manifest',
+    () => fs.readJSON(clientManifestPath, 'utf-8'),
   );
-  PerfLogger.end('Compiling SSR template');
+
+  const ssrTemplate = await PerfLogger.async('Compile SSR template', () =>
+    compileSSRTemplate(props.siteConfig.ssrTemplate ?? defaultSSRTemplate),
+  );
+
+  const renderer = await PerfLogger.async('Load App renderer', () =>
+    loadAppRenderer({
+      serverBundlePath,
+    }),
+  );
 
   const params: SSGParams = {
     trailingSlash: props.siteConfig.trailingSlash,
@@ -297,19 +281,24 @@ async function executeSSG({
     return {collectedData: {}};
   }
 
-  PerfLogger.start('Loading App renderer');
-  const renderer = await loadAppRenderer({
-    serverBundlePath,
-  });
-  PerfLogger.end('Loading App renderer');
-
-  PerfLogger.start('Generate static files');
-  const ssgResult = await generateStaticFiles({
-    pathnames: props.routesPaths,
-    renderer,
-    params,
-  });
-  PerfLogger.end('Generate static files');
+  const ssgResult = await PerfLogger.async('Generate static files', () =>
+    generateStaticFiles({
+      pathnames: props.routesPaths,
+      renderer,
+      params: {
+        trailingSlash: props.siteConfig.trailingSlash,
+        outDir: props.outDir,
+        baseUrl: props.baseUrl,
+        manifest,
+        headTags: props.headTags,
+        preBodyTags: props.preBodyTags,
+        postBodyTags: props.postBodyTags,
+        ssrTemplate,
+        noIndex: props.siteConfig.noIndex,
+        DOCUSAURUS_VERSION,
+      },
+    }),
+  );
 
   return ssgResult;
 }
@@ -389,10 +378,6 @@ async function getBuildServerConfig({props}: {props: Props}) {
     props,
   });
   let {config} = result;
-  config = executePluginsConfigurePostCss({
-    plugins,
-    config,
-  });
   config = executePluginsConfigureWebpack({
     plugins,
     config,

@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import {test} from '@playwright/test';
 import {argosScreenshot} from '@argos-ci/playwright';
 import * as cheerio from 'cheerio';
+import type {Page} from '@playwright/test';
 
 const siteUrl = 'http://localhost:3000';
 const sitemapPath = '../website/build/sitemap.xml';
@@ -61,9 +62,12 @@ function getPathnames(): string[] {
     (pathname) => !isBlacklisted(pathname),
   );
   pathnames.sort();
+  /*
   console.log('Pathnames:\n', JSON.stringify(pathnames, null, 2));
   console.log('Pathnames before filtering', pathnamesUnfiltered.length);
   console.log('Pathnames after filtering', pathnames.length);
+
+   */
   return pathnames;
 }
 
@@ -91,8 +95,55 @@ function waitForDocusaurusHydration() {
   return document.documentElement.dataset.hasHydrated === 'true';
 }
 
+// Ensure that Docusaurus site pages do not emit unexpected errors/warnings
+// See https://github.com/microsoft/playwright/issues/27277
+// TODO this shouldn't be the responsibility of Argos tests to do this
+//  but this is convenient to do this here for now
+function throwOnConsole(page: Page) {
+  const typesToCheck = ['error', 'warning'];
+
+  const ignoreMessages = [
+    // This mismatch warning looks like a React 18 bug to me
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s className "null" ""',
+
+    // TODO this fetch error message is unexpected and should be fixed
+    //  it's already happening in main branch
+    'Failed to load resource: the server responded with a status of 404 (Not Found)',
+
+    // TODO looks like a legit hydration bug to fix
+    // on /blog/releases/2.4
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=light"',
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=dark"',
+    // on /blog/releases/3.0
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
+    // on /docs/styling-layout
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=light"',
+    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=dark"',
+
+    // TODO weird problem related to KaTeX fonts refusing to decode?
+    //  on /docs/markdown-features/math-equations
+    'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',
+    'OTS parsing error: Failed to convert WOFF 2.0 font to SFNT',
+  ];
+
+  page.on('console', (message) => {
+    if (!typesToCheck.includes(message.type())) {
+      return;
+    }
+    if (ignoreMessages.some((msg) => message.text().includes(msg))) {
+      return;
+    }
+    throw new Error(`Docusaurus site page unexpectedly logged something to the browser console
+Type=${message.type()}
+Text=${message.text()}
+Location=${message.location().url}`);
+  });
+}
+
 function createPathnameTest(pathname: string) {
   test(`pathname ${pathname}`, async ({page}) => {
+    throwOnConsole(page);
     const url = siteUrl + pathname;
     await page.goto(url);
     await page.waitForFunction(waitForDocusaurusHydration);
@@ -101,6 +152,10 @@ function createPathnameTest(pathname: string) {
     await argosScreenshot(page, pathnameToArgosName(pathname));
   });
 }
+
+// Allow parallel execution within a single test file
+// See https://playwright.dev/docs/test-parallel
+test.describe.configure({mode: 'parallel'});
 
 test.describe('Docusaurus site screenshots', () => {
   const pathnames = getPathnames();

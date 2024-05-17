@@ -25,11 +25,28 @@ export function simpleHash(str: string, length: number): string {
  * collision. Also removes part of the string if its larger than the allowed
  * filename per OS, avoiding `ERRNAMETOOLONG` error.
  */
-export function docuHash(str: string): string {
-  if (str === '/') {
+export function docuHash(
+  strInput: string,
+  options?: {
+    // String that contributes to the hash value
+    // but does not contribute to the returned string
+    hashExtra?: string;
+    // Length of the hash to append
+    hashLength?: number;
+  },
+): string {
+  // TODO check this historical behavior
+  //  I'm not sure it makes sense to keep it...
+  if (strInput === '/' && typeof options?.hashExtra === 'undefined') {
     return 'index';
   }
-  const shortHash = simpleHash(str, 3);
+  const str = strInput === '/' ? 'index' : strInput;
+
+  const hashExtra = options?.hashExtra ?? '';
+  const hashLength = options?.hashLength ?? 3;
+
+  const stringToHash = str + hashExtra;
+  const shortHash = simpleHash(stringToHash, hashLength);
   const parsedPath = `${_.kebabCase(str)}-${shortHash}`;
   if (isNameTooLong(parsedPath)) {
     return `${shortName(_.kebabCase(str))}-${shortHash}`;

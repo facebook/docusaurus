@@ -333,6 +333,20 @@ test
 
 ::::
 
+```mdx-code-block
+import Admonition from '@theme/Admonition';
+
+export function AdmonitionWithoutHeading(props) {
+  return (
+    <Admonition {...props} type="info" icon={null} title={null}>
+      Admonition content without heading
+    </Admonition>
+  );
+}
+```
+
+<AdmonitionWithoutHeading />
+
 ## Linking
 
 This is a test page to see if Docusaurus Markdown features are working properly

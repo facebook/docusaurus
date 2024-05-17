@@ -6,7 +6,16 @@
  */
 
 import path from 'path';
-import shell from 'shelljs';
+import fs from 'fs-extra';
+import _ from 'lodash';
+import shell from 'shelljs'; // TODO replace with async-first version
+
+const realHasGitFn = () => !!shell.which('git');
+
+// The hasGit call is synchronous IO so we memoize it
+// The user won't install Git in the middle of a build anyway...
+const hasGit =
+  process.env.NODE_ENV === 'test' ? realHasGitFn : _.memoize(realHasGitFn);
 
 /** Custom error thrown when git is not found in `PATH`. */
 export class GitNotFoundError extends Error {}
@@ -24,7 +33,7 @@ export class FileNotTrackedError extends Error {}
  * @throws Also throws when `git log` exited with non-zero, or when it outputs
  * unexpected text.
  */
-export function getFileCommitDate(
+export async function getFileCommitDate(
   /** Absolute path to the file. */
   file: string,
   args: {
@@ -36,12 +45,12 @@ export function getFileCommitDate(
     /** Use `includeAuthor: true` to get the author information as well. */
     includeAuthor?: false;
   },
-): {
+): Promise<{
   /** Relevant commit date. */
   date: Date;
-  /** Timestamp in **seconds**, as returned from git. */
+  /** Timestamp returned from git, converted to **milliseconds**. */
   timestamp: number;
-};
+}>;
 /**
  * Fetches the git history of a file and returns a relevant commit date.
  * It gets the commit date instead of author date so that amended commits
@@ -52,7 +61,7 @@ export function getFileCommitDate(
  * @throws Also throws when `git log` exited with non-zero, or when it outputs
  * unexpected text.
  */
-export function getFileCommitDate(
+export async function getFileCommitDate(
   /** Absolute path to the file. */
   file: string,
   args: {
@@ -63,15 +72,16 @@ export function getFileCommitDate(
     age?: 'oldest' | 'newest';
     includeAuthor: true;
   },
-): {
+): Promise<{
   /** Relevant commit date. */
   date: Date;
-  /** Timestamp in **seconds**, as returned from git. */
+  /** Timestamp returned from git, converted to **milliseconds**. */
   timestamp: number;
   /** The author's name, as returned from git. */
   author: string;
-};
-export function getFileCommitDate(
+}>;
+
+export async function getFileCommitDate(
   file: string,
   {
     age = 'oldest',
@@ -80,45 +90,68 @@ export function getFileCommitDate(
     age?: 'oldest' | 'newest';
     includeAuthor?: boolean;
   },
-): {
+): Promise<{
   date: Date;
   timestamp: number;
   author?: string;
-} {
-  if (!shell.which('git')) {
+}> {
+  if (!hasGit()) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
     );
   }
 
-  if (!shell.test('-f', file)) {
+  if (!(await fs.pathExists(file))) {
     throw new Error(
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
     );
   }
 
+  // We add a "RESULT:" prefix to make parsing easier
+  // See why: https://github.com/facebook/docusaurus/pull/10022
+  const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
+
   const args = [
-    `--format=%ct${includeAuthor ? ',%an' : ''}`,
+    `--format=${resultFormat}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const result = shell.exec(`git log ${args} -- "${path.basename(file)}"`, {
-    // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-    cwd: path.dirname(file),
-    silent: true,
+  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
+    file,
+  )}"`;
+
+  const result = await new Promise<{
+    code: number;
+    stdout: string;
+    stderr: string;
+  }>((resolve) => {
+    shell.exec(
+      command,
+      {
+        // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
+        cwd: path.dirname(file),
+        silent: true,
+      },
+      (code, stdout, stderr) => {
+        resolve({code, stdout, stderr});
+      },
+    );
   });
+
   if (result.code !== 0) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
     );
   }
-  let regex = /^(?<timestamp>\d+)$/;
-  if (includeAuthor) {
-    regex = /^(?<timestamp>\d+),(?<author>.+)$/;
-  }
+
+  // We only parse the output line starting with our "RESULT:" prefix
+  // See why https://github.com/facebook/docusaurus/pull/10022
+  const regex = includeAuthor
+    ? /(?:^|\n)RESULT:(?<timestamp>\d+),(?<author>.+)(?:$|\n)/
+    : /(?:^|\n)RESULT:(?<timestamp>\d+)(?:$|\n)/;
 
   const output = result.stdout.trim();
 
@@ -136,8 +169,9 @@ export function getFileCommitDate(
     );
   }
 
-  const timestamp = Number(match.groups!.timestamp);
-  const date = new Date(timestamp * 1000);
+  const timestampInSeconds = Number(match.groups!.timestamp);
+  const timestamp = timestampInSeconds * 1_000;
+  const date = new Date(timestamp);
 
   if (includeAuthor) {
     return {date, timestamp, author: match.groups!.author!};

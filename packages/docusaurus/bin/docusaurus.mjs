@@ -115,6 +115,10 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
+  .option(
+    '--target-dir <dir>',
+    'path to the target directory to deploy to (default: `.`)',
+  )
   .action(deploy);
 
 /**

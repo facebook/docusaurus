@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadContext} from '../../server';
+import {loadContext} from '../../server/site';
 import {initPlugins} from '../../server/plugins/init';
 import {loadPluginConfigs} from '../../server/plugins/configs';
 import type {SwizzleCLIOptions, SwizzleContext} from './common';

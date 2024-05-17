@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Editar essa página",
   "theme.common.headingLinkTitle": "Link direto para {heading}",
   "theme.common.skipToMainContent": "Pular para o conteúdo principal",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Página Inicial",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Páginas de documentação",
@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Marcadores:",
   "theme.tags.tagsPageLink": "Ver todas os Marcadores",
   "theme.tags.tagsPageTitle": "Marcadores",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.unlistedContent.message": "Esta página não está listada. Mecanismos de busca não armazenarão nenhuma informação, e somente usuários que possuam o link direto poderão acessá-la",
   "theme.unlistedContent.title": "Página não listada"
 }

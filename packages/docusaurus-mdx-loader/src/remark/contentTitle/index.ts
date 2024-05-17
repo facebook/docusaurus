@@ -34,17 +34,24 @@ const plugin: Plugin = function plugin(
     const {toString} = await import('mdast-util-to-string');
     const {visit, EXIT} = await import('unist-util-visit');
 
-    visit(root, 'heading', (headingNode: Heading, index, parent) => {
-      if (headingNode.depth === 1) {
-        vfile.data.contentTitle = toString(headingNode);
-        if (removeContentTitle) {
-          // @ts-expect-error: TODO how to fix?
-          parent!.children.splice(index, 1);
+    visit(root, ['heading', 'thematicBreak'], (node, index, parent) => {
+      if (node.type === 'heading') {
+        const headingNode = node as Heading;
+        if (headingNode.depth === 1) {
+          vfile.data.contentTitle = toString(headingNode);
+          if (removeContentTitle) {
+            // @ts-expect-error: TODO how to fix?
+            parent!.children.splice(index, 1);
+          }
+          return EXIT; // We only handle the very first heading
         }
-        return EXIT; // We only handle the very first heading
+        // We only handle contentTitle if it's the very first heading found
+        if (headingNode.depth >= 1) {
+          return EXIT;
+        }
       }
-      // We only handle contentTitle if it's the very first heading found
-      if (headingNode.depth >= 1) {
+      // We only handle contentTitle when it's above the first thematic break
+      if (node.type === 'thematicBreak') {
         return EXIT;
       }
       return undefined;

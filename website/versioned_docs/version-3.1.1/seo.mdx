@@ -24,31 +24,31 @@ export default {
       {name: 'keywords', content: 'cooking, blog'},
       {name: 'twitter:card', content: 'summary_large_image'},
     ],
-    headTags: [
-      // Declare a <link> preconnect tag
-      {
-        tagName: 'link',
-        attributes: {
-          rel: 'preconnect',
-          href: 'https://example.com',
-        },
-      },
-      // Declare some json-ld structured data
-      {
-        tagName: 'script',
-        attributes: {
-          type: 'application/ld+json',
-        },
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org/',
-          '@type': 'Organization',
-          name: 'Meta Open Source',
-          url: 'https://opensource.fb.com/',
-          logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
-        }),
-      },
-    ],
   },
+  headTags: [
+    // Declare a <link> preconnect tag
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://example.com',
+      },
+    },
+    // Declare some json-ld structured data
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org/',
+        '@type': 'Organization',
+        name: 'Meta Open Source',
+        url: 'https://opensource.fb.com/',
+        logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+      }),
+    },
+  ],
 };
 ```
 

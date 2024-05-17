@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadRoutes loads flat route config 1`] = `
+{
+  "registry": {
+    "__comp---theme-blog-list-pagea-6-a-7ba": "@theme/BlogListPage",
+    "content---blog-0-b-4-09e": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
+    "content---blog-7-b-8-fd9": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
+    "metadata---blog-0-b-6-74c": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
+  },
+  "routesChunkNames": {
+    "/blog-030": {
+      "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
+      "items": [
+        {
+          "content": "content---blog-0-b-4-09e",
+          "metadata": "metadata---blog-0-b-6-74c",
+        },
+        {
+          "content": "content---blog-7-b-8-fd9",
+        },
+        {
+          "content": "content---blog-7-b-8-fd9",
+        },
+      ],
+    },
+  },
+  "routesConfig": "import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+  {
+    path: '/blog',
+    component: ComponentCreator('/blog', '030'),
+    exact: true
+  },
+  {
+    path: '*',
+    component: ComponentCreator('*'),
+  },
+];
+",
+}
+`;
+
+exports[`loadRoutes loads nested route config 1`] = `
+{
+  "registry": {
+    "__comp---theme-doc-item-178-a40": "@theme/DocItem",
+    "__comp---theme-doc-roota-94-67a": "@theme/DocRoot",
+    "content---docs-foo-baz-8-ce-61e": "docs/foo/baz.md",
+    "content---docs-helloaff-811": "docs/hello.md",
+    "docsMetadata---docs-routef-34-881": "docs-b5f.json",
+    "metadata---docs-foo-baz-2-cf-fa7": "docs-foo-baz-dd9.json",
+    "metadata---docs-hello-956-741": "docs-hello-da2.json",
+    "plugin---docs-hello-665-3ca": "pluginRouteContextModule-100.json",
+  },
+  "routesChunkNames": {
+    "/docs/hello-ab4": {
+      "__comp": "__comp---theme-doc-item-178-a40",
+      "__context": {
+        "plugin": "plugin---docs-hello-665-3ca",
+      },
+      "content": "content---docs-helloaff-811",
+      "metadata": "metadata---docs-hello-956-741",
+    },
+    "/docs:route-001": {
+      "__comp": "__comp---theme-doc-roota-94-67a",
+      "docsMetadata": "docsMetadata---docs-routef-34-881",
+    },
+    "docs/foo/baz-125": {
+      "__comp": "__comp---theme-doc-item-178-a40",
+      "__context": {
+        "plugin": "plugin---docs-hello-665-3ca",
+      },
+      "content": "content---docs-foo-baz-8-ce-61e",
+      "metadata": "metadata---docs-foo-baz-2-cf-fa7",
+    },
+  },
+  "routesConfig": "import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+  {
+    path: '/docs:route',
+    component: ComponentCreator('/docs:route', '001'),
+    routes: [
+      {
+        path: '/docs/hello',
+        component: ComponentCreator('/docs/hello', 'ab4'),
+        exact: true,
+        sidebar: "main"
+      },
+      {
+        path: 'docs/foo/baz',
+        component: ComponentCreator('docs/foo/baz', '125'),
+        sidebar: "secondary",
+        "key:a": "containing colon",
+        "key'b": "containing quote",
+        "key\\"c": "containing double quote",
+        "key,d": "containing comma",
+        字段: "containing unicode"
+      }
+    ]
+  },
+  {
+    path: '*',
+    component: ComponentCreator('*'),
+  },
+];
+",
+}
+`;
+
+exports[`loadRoutes loads route config with empty (but valid) path string 1`] = `
+{
+  "registry": {
+    "__comp---hello-world-jse-0-f-b6c": "hello/world.js",
+  },
+  "routesChunkNames": {
+    "-b2a": {
+      "__comp": "__comp---hello-world-jse-0-f-b6c",
+    },
+  },
+  "routesConfig": "import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+  {
+    path: '',
+    component: ComponentCreator('', 'b2a')
+  },
+  {
+    path: '*',
+    component: ComponentCreator('*'),
+  },
+];
+",
+}
+`;

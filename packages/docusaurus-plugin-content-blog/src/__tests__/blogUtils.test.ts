@@ -8,12 +8,14 @@
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
   parseBlogFileName,
   linkify,
   getSourceToPermalink,
   paginateBlogPosts,
+  applyProcessBlogPosts,
   type LinkifyParams,
 } from '../blogUtils';
 import type {BlogBrokenMarkdownLink, BlogContentPaths} from '../types';
@@ -236,7 +238,7 @@ describe('linkify', () => {
         hasTruncateMarker: false,
         frontMatter: {},
         authors: [],
-        formattedDate: '',
+        unlisted: false,
       },
       content: '',
     },
@@ -293,5 +295,83 @@ describe('linkify', () => {
       contentPaths,
       link: './postNotExist2.mdx',
     } as BlogBrokenMarkdownLink);
+  });
+});
+
+describe('processBlogPosts', () => {
+  const blogPost2022: BlogPost = fromPartial({
+    metadata: {date: new Date('2022-01-01')},
+  });
+  const blogPost2023: BlogPost = fromPartial({
+    metadata: {date: new Date('2023-01-01')},
+  });
+  const blogPost2024: BlogPost = fromPartial({
+    metadata: {date: new Date('2024-01-01')},
+  });
+
+  it('filter blogs only from 2024', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2022, blogPost2023, blogPost2024],
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.filter(
+          (blogPost) => blogPost.metadata.date.getFullYear() === 2024,
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([blogPost2024]);
+  });
+
+  it('sort blogs by date in ascending order', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.sort(
+          (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2022,
+      blogPost2023,
+      blogPost2024,
+    ]);
+  });
+
+  it('sort blogs by date in descending order', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.sort(
+          (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2024,
+      blogPost2023,
+      blogPost2022,
+    ]);
+  });
+
+  it('processBlogPosts return 2022 only', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async () => [blogPost2022],
+    });
+
+    expect(processedBlogPosts).toEqual([blogPost2022]);
+  });
+
+  it('processBlogPosts return undefined', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async () => {},
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2023,
+      blogPost2022,
+      blogPost2024,
+    ]);
   });
 });

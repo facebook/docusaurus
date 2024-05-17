@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "इस पेज को बदलें",
   "theme.common.headingLinkTitle": "{heading} का सीधा लिंक",
   "theme.common.skipToMainContent": "मुख्य कंटेंट तक स्किप करें",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "डॉक्स पेज",

@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Upravit tuto stránku",
   "theme.common.headingLinkTitle": "Přímý odkaz na {heading}",
   "theme.common.skipToMainContent": "Přeskočit na hlavní obsah",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Stránka dokumentace",

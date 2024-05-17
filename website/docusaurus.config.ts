@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 import path from 'path';
-
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -40,15 +39,37 @@ const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
 
 function isPrerelease(version: string) {
   return (
+    version.includes('-') ||
     version.includes('alpha') ||
     version.includes('beta') ||
     version.includes('rc')
   );
 }
 
-function getLastVersion() {
-  const firstStableVersion = versions.find((version) => !isPrerelease(version));
-  return firstStableVersion ?? versions[0];
+function getLastStableVersion() {
+  const lastStableVersion = versions.find((version) => !isPrerelease(version));
+  if (!lastStableVersion) {
+    throw new Error('unexpected, no stable Docusaurus version?');
+  }
+  return lastStableVersion;
+}
+const announcedVersion = getAnnouncedVersion();
+
+function getLastStableVersionTuple(): [string, string, string] {
+  const lastStableVersion = getLastStableVersion();
+  const parts = lastStableVersion.split('.');
+  if (parts.length !== 3) {
+    throw new Error(`Unexpected stable version name: ${lastStableVersion}`);
+  }
+  return [parts[0]!, parts[1]!, parts[2]!];
+}
+
+// The version announced on the homepage hero and announcement banner
+// 3.3.2 => 3.3
+// 3.0.5 => 3.0
+function getAnnouncedVersion() {
+  const [major, minor] = getLastStableVersionTuple();
+  return `${major}.${minor}`;
 }
 
 // This probably only makes sense for the alpha/beta/rc phase, temporary
@@ -129,6 +150,11 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     router,
+    future: {
+      experimental_storage: {
+        namespace: true,
+      },
+    },
     // Dogfood both settings:
     // - force trailing slashes for deploy previews
     // - avoid trailing slashes in prod
@@ -198,7 +224,9 @@ export default async function createConfigAsync() {
         result = result.replaceAll('{/_', '{/*');
         result = result.replaceAll('_/}', '*/}');
 
-        if (isDev) {
+        const showDevLink = false;
+
+        if (isDev && showDevLink) {
           const isPartial = path.basename(filePath).startsWith('_');
           if (!isPartial) {
             // "vscode://file/${projectPath}${filePath}:${line}:${column}",
@@ -230,6 +258,7 @@ export default async function createConfigAsync() {
       isDeployPreview,
       description:
         'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
+      announcedVersion,
     },
     staticDirectories: [
       'static',
@@ -422,7 +451,7 @@ export default async function createConfigAsync() {
               isBranchDeploy ||
               isBuildFast
                 ? 'current'
-                : getLastVersion(),
+                : getLastStableVersion(),
 
             onlyIncludeVersions: (() => {
               if (isBuildFast) {
@@ -444,6 +473,8 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
             editUrl: ({locale, blogDirPath, blogPath}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -463,6 +494,14 @@ export default async function createConfigAsync() {
           } satisfies BlogOptions,
           pages: {
             remarkPlugins: [npm2yarn],
+            editUrl: ({locale, pagesPath}) => {
+              if (locale !== defaultLocale) {
+                return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+              }
+              return `https://github.com/facebook/docusaurus/edit/main/website/src/pages/${pagesPath}`;
+            },
+            showLastUpdateAuthor: true,
+            showLastUpdateTime: true,
           } satisfies PageOptions,
           theme: {
             customCss: [
@@ -479,6 +518,9 @@ export default async function createConfigAsync() {
           sitemap: {
             // Note: /tests/docs already has noIndex: true
             ignorePatterns: ['/tests/{blog,pages}/**'],
+            lastmod: 'date',
+            priority: null,
+            changefreq: null,
           },
         } satisfies Preset.Options,
       ],
@@ -500,9 +542,9 @@ export default async function createConfigAsync() {
         respectPrefersColorScheme: true,
       },
       announcementBar: {
-        id: 'announcementBar-3', // Increment on change
+        id: `announcementBar-v${announcedVersion}`,
         // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
-        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/3.0">Docusaurus v3.0</a> is now out!</b> 🥳️`,
+        content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/${announcedVersion}">Docusaurus v${announcedVersion}</a> is out!</b> 🥳️`,
       },
       prism: {
         additionalLanguages: [
@@ -511,6 +553,7 @@ export default async function createConfigAsync() {
           'haskell',
           'matlab',
           'PHp',
+          'powershell',
           'bash',
           'diff',
           'json',

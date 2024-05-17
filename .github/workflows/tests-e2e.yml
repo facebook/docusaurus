@@ -10,7 +10,7 @@ on:
       - yarn.lock
       - jest.config.mjs
       - packages/**
-      - tsconfig.json
+      - tsconfig.*.json
   pull_request:
     branches:
       - main
@@ -20,7 +20,7 @@ on:
       - yarn.lock
       - jest.config.mjs
       - packages/**
-      - tsconfig.json
+      - tsconfig.*.json
       - admin/verdaccio.yaml
       - .github/workflows/tests-e2e.yml
 
@@ -114,11 +114,27 @@ jobs:
         working-directory: ../test-website
         env:
           E2E_TEST: true
-      - name: Type check
+
+      - name: TypeCheck website
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
-        run: yarn typecheck
         working-directory: ../test-website
+        run: yarn typecheck
+      - name: TypeCheck website - min version - v5.1
+        # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
+        if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
+        working-directory: ../test-website
+        run: |
+          yarn add typescript@5.1.6 --exact
+          yarn typecheck
+      - name: TypeCheck website - max version - Latest
+        # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
+        if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
+        working-directory: ../test-website
+        run: |
+          yarn add typescript@latest --exact
+          yarn typecheck
+
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
