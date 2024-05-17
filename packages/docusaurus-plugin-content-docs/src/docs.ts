@@ -17,18 +17,18 @@ import {
   parseMarkdownFile,
   posixPath,
   Globby,
-  normalizeFrontMatterTags,
   isUnlisted,
   isDraft,
   readLastUpdateData,
 } from '@docusaurus/utils';
 import YAML from 'js-yaml';
+import {normalizeTags} from '@docusaurus/utils/lib/tags';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
 import {validateFrontMatterTags, validateDefinedTags} from './tags';
-import type {FrontMatterTag, Tag} from '@docusaurus/utils';
+import type {FrontMatterTag, TagsFile, NormalizedTag} from '@docusaurus/utils';
 import type {
   MetadataOptions,
   PluginOptions,
@@ -79,16 +79,16 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-export async function getDefinedTags(
+export async function getTagsFile(
   options: MetadataOptions,
   contentPath: string,
-): Promise<Tag[]> {
+): Promise<TagsFile> {
   if (
     options.tagsFilePath === false ||
-    options.tagsFilePath === null ||
-    options.onUnknownTags === 'ignore'
+    options.tagsFilePath === null
+    // options.onUnknownTags === 'ignore' // TODO that looks wrong
   ) {
-    return [];
+    return {}; // TODO should return null
   }
   const tagDefinitionPath = path.join(
     contentPath,
@@ -111,31 +111,27 @@ export function processFileTagsPath({
   source,
   frontMatterTags,
   versionTagsPath,
-  definedTags,
+  tagsFile,
 }: {
   options: MetadataOptions;
   source: string;
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
-  definedTags: Tag[];
-}): Tag[] {
-  if (definedTags.length === 0) {
-    return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
-  }
+  tagsFile: TagsFile | null;
+}): NormalizedTag[] {
+  const tags = normalizeTags({
+    versionTagsPath,
+    tagsFile,
+    frontMatterTags: frontMatterTags ?? [],
+  });
 
   validateFrontMatterTags({
-    frontMatterTags,
-    validTagList: Object.keys(definedTags),
+    tags,
     source,
     onUnknownTags: options.onUnknownTags,
   });
 
-  const transformedTags = Object.entries(definedTags).map(([key, value]) => ({
-    label: value.label,
-    permalink: value.permalink ? value.permalink : key,
-  }));
-
-  return normalizeFrontMatterTags(versionTagsPath, transformedTags);
+  return tags;
 }
 
 async function doProcessDocMetadata({
@@ -144,14 +140,14 @@ async function doProcessDocMetadata({
   context,
   options,
   env,
-  definedTags,
+  tagsFile,
 }: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  definedTags: Tag[];
+  tagsFile: TagsFile;
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {
@@ -270,6 +266,14 @@ async function doProcessDocMetadata({
   const draft = isDraft({env, frontMatter});
   const unlisted = isUnlisted({env, frontMatter});
 
+  const tags = processFileTagsPath({
+    options,
+    source,
+    frontMatterTags: frontMatter.tags,
+    versionTagsPath: versionMetadata.tagsPath,
+    tagsFile,
+  });
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -285,13 +289,7 @@ async function doProcessDocMetadata({
     draft,
     unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
-    tags: processFileTagsPath({
-      options,
-      source,
-      frontMatterTags: frontMatter.tags,
-      versionTagsPath: versionMetadata.tagsPath,
-      definedTags,
-    }),
+    tags,
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
@@ -306,7 +304,7 @@ export async function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  definedTags: Tag[];
+  tagsFile: TagsFile;
 }): Promise<DocMetadataBase> {
   try {
     return await doProcessDocMetadata(args);

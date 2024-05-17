@@ -17,7 +17,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
   createSlugger,
-  DEFAULT_PLUGIN_ID,
+  DEFAULT_PLUGIN_ID
 } from '@docusaurus/utils';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
@@ -27,7 +27,7 @@ import {
   addDocNavigation,
   type DocEnv,
   createDocsByIdIndex,
-  getDefinedTags,
+  getTagsFile,
 } from './docs';
 import {readVersionsMetadata, toFullVersion} from './versions';
 import {cliDocsVersionCommand} from './cli';
@@ -39,7 +39,8 @@ import {
 } from './translations';
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
-import type {Tag} from '@docusaurus/utils';
+import type {
+  TagsFile} from '@docusaurus/utils';
 
 import type {
   PluginOptions,
@@ -134,7 +135,7 @@ export default async function pluginContentDocs(
     async loadContent() {
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
-        definedTags: Tag[],
+        tagsFile: TagsFile,
       ): Promise<DocMetadataBase[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
@@ -154,7 +155,7 @@ export default async function pluginContentDocs(
             context,
             options,
             env,
-            definedTags,
+            tagsFile,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -162,11 +163,15 @@ export default async function pluginContentDocs(
 
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
-        definedTags: Tag[],
       ): Promise<LoadedVersion> {
+        const tagsFile = await getTagsFile(
+          options,
+          versionMetadata.contentPath,
+        );
+
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
-          definedTags,
+          tagsFile,
         );
 
         // TODO we only ever need draftIds in further code, not full draft items
@@ -215,11 +220,7 @@ export default async function pluginContentDocs(
 
       async function loadVersion(versionMetadata: VersionMetadata) {
         try {
-          const definedTags = await getDefinedTags(
-            options,
-            versionMetadata.contentPath,
-          );
-          return await doLoadVersion(versionMetadata, definedTags);
+          return await doLoadVersion(versionMetadata);
         } catch (err) {
           logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
           throw err;

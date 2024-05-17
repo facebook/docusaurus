@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {parseMarkdownFile} from '@docusaurus/utils';
-import {getDefinedTags, processFileTagsPath} from '../docs';
+import {getTagsFile, processFileTagsPath} from '../docs';
 import {validateDocFrontMatter} from '../frontMatter';
 
 const createTest = async ({
@@ -31,7 +31,7 @@ const createTest = async ({
     },
   });
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
-  const definedTags = await getDefinedTags(
+  const definedTags = await getTagsFile(
     fromPartial({
       onUnknownTags,
       tagsFilePath,
@@ -40,7 +40,7 @@ const createTest = async ({
   );
 
   return processFileTagsPath({
-    definedTags,
+    tagsFile: definedTags,
     options: fromPartial({
       tagsFilePath,
       onUnknownTags,

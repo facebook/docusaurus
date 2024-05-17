@@ -6,10 +6,15 @@
  */
 
 import _ from 'lodash';
-import {getTagVisibility, groupTaggedItems} from '@docusaurus/utils';
+import {
+  getTagVisibility,
+  groupTaggedItems
+} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
-import type {FrontMatterTag} from '@docusaurus/utils';
+import type {
+  NormalizedTag,
+  TagsFile} from '@docusaurus/utils';
 import type {VersionTags} from './types';
 import type {
   DocMetadata,
@@ -32,7 +37,7 @@ export function getVersionTags(docs: DocMetadata[]): VersionTags {
   });
 }
 
-export const tagDefinitionSchema = Joi.object().pattern(
+export const tagDefinitionSchema = Joi.object<TagsFile>().pattern(
   Joi.string(),
   Joi.object({
     label: Joi.string().required(),
@@ -41,33 +46,24 @@ export const tagDefinitionSchema = Joi.object().pattern(
   }),
 );
 
-export function validateDefinedTags(tags: unknown): Joi.ValidationResult {
+export function validateDefinedTags(
+  tags: unknown,
+): Joi.ValidationResult<TagsFile> {
   return tagDefinitionSchema.validate(tags);
 }
 
 export function validateFrontMatterTags({
-  frontMatterTags,
-  validTagList,
+  tags,
   source,
   onUnknownTags,
 }: {
-  frontMatterTags: FrontMatterTag[] | undefined;
-  validTagList: string[];
+  tags: NormalizedTag[];
   source: string;
   onUnknownTags: MetadataOptions['onUnknownTags'];
 }): void {
-  if (frontMatterTags === undefined || !Array.isArray(frontMatterTags)) {
-    return;
-  }
-
-  const labels = frontMatterTags.map((tag) =>
-    typeof tag === 'string' ? tag : tag.permalink,
-  );
-
-  const unknownTags = _.difference(labels, validTagList);
-
-  if (unknownTags.length > 0) {
-    const uniqueUnknownTags = [...new Set(unknownTags)];
+  const inlineTags = tags.filter((tag) => tag.inline);
+  if (inlineTags.length > 0 && onUnknownTags !== 'ignore') {
+    const uniqueUnknownTags = [...new Set(inlineTags)];
     const tagListString = uniqueUnknownTags.join(', ');
     logger.report(onUnknownTags)(
       `Tags [${tagListString}] used in ${source} are not defined in tags.yml`,

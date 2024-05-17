@@ -8,11 +8,17 @@
 import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
 
+export type TagsFile = Record<string, Tag>;
+
 /** What the user configures. */
 export type Tag = {
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
+};
+
+export type NormalizedTag = Tag & {
+  inline: boolean;
 };
 
 /** What the tags list page should know about each tag. */
@@ -70,6 +76,7 @@ function normalizeFrontMatterTag(
  * The result will always be unique by permalinks. The behavior with colliding
  * permalinks is undetermined.
  */
+// TODO does this method still make sense? probably not
 export function normalizeFrontMatterTags(
   /** Base path to append the tag permalinks to. */
   tagsPath: string,
@@ -81,6 +88,47 @@ export function normalizeFrontMatterTags(
   );
 
   return _.uniqBy(tags, (tag) => tag.permalink);
+}
+
+export function normalizeTags({
+  // versionTagsPath,
+  tagsFile,
+  frontMatterTags,
+}: {
+  versionTagsPath: string;
+  tagsFile: TagsFile | null;
+  frontMatterTags: FrontMatterTag[];
+}): NormalizedTag[] {
+  // TODO do merge/normalization here
+
+  function normalizeTag(tag: FrontMatterTag): NormalizedTag {
+    if (typeof tag === 'string') {
+      const tagDescription = tagsFile?.[tag];
+      if (tagDescription) {
+        return {
+          label: tagDescription.label,
+          permalink: tagDescription.permalink,
+          inline: false,
+        };
+      } else {
+        return {
+          // TODO Fix this, retro-compatible code
+          label: tag,
+          permalink: `/${tag}`,
+          inline: false,
+        };
+      }
+    }
+    // legacy inline tag object, always inline
+    else {
+      return {
+        ...tag,
+        inline: true,
+      };
+    }
+  }
+
+  return frontMatterTags.map(normalizeTag);
 }
 
 type TaggedItemGroup<Item> = {

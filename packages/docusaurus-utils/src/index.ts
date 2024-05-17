@@ -52,6 +52,8 @@ export {
 export type {URLPath} from './urlUtils';
 export {
   type Tag,
+  type TagsFile,
+  type NormalizedTag,
   type TagsListItem,
   type TagModule,
   type FrontMatterTag,
