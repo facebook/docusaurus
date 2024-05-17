@@ -62,7 +62,9 @@ export default function pluginPWA(
   } = options;
 
   if (router === 'hash') {
-    logger.warn(`${PluginName} does not support the Hash Router`);
+    logger.warn(
+      `${PluginName} does not support the Hash Router and will be disabled.`,
+    );
     return {name: PluginName};
   }
 
