@@ -245,12 +245,12 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  import {ComponentType} from 'react';
+  import type {ComponentType, ReactNode} from 'react';
 
   // eslint-disable-next-line import/no-extraneous-dependencies
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 
-  export const Router = ComponentType<Record<string, never>>;
+  export const Router: ComponentType<{children: ReactNode}>;
 }
 
 declare module '@docusaurus/useIsomorphicLayoutEffect' {
