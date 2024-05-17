@@ -14,10 +14,10 @@ import {validateDocFrontMatter} from '../frontMatter';
 
 const createTest = async ({
   filePath,
-  onBrokenTags,
+  onUnknownTags,
 }: {
   filePath: string;
-  onBrokenTags: 'ignore' | 'log' | 'warn' | 'throw' | undefined;
+  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw' | undefined;
 }) => {
   const contentPath = path.join(__dirname, '__fixtures__', 'simple-tags');
   const tagsFilePath = 'tags.yml';
@@ -36,7 +36,7 @@ const createTest = async ({
     contentPath,
     options: fromPartial({
       tagsFilePath,
-      onBrokenTags,
+      onUnknownTags,
     }),
     source: filePath,
     versionTagsPath: '/processFileTagsPath/tags',
@@ -50,7 +50,7 @@ describe('processFileTagsPath', () => {
   it('throw when docs has invalid tags', async () => {
     const process = createTest({
       filePath: path.join(testFolder, 'wrong.md'),
-      onBrokenTags: 'throw',
+      onUnknownTags: 'throw',
     });
 
     await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
@@ -63,7 +63,7 @@ describe('processFileTagsPath', () => {
 
     const process = createTest({
       filePath: path.join(testFolder, 'wrong.md'),
-      onBrokenTags: 'warn',
+      onUnknownTags: 'warn',
     });
 
     await process;
@@ -80,7 +80,7 @@ describe('processFileTagsPath', () => {
   it('ignore when docs has invalid tags', async () => {
     const process = createTest({
       filePath: path.join(testFolder, 'wrong.md'),
-      onBrokenTags: 'ignore',
+      onUnknownTags: 'ignore',
     });
     await expect(process).resolves.toBeDefined();
   });
@@ -88,7 +88,7 @@ describe('processFileTagsPath', () => {
   it('does not throw when docs has valid tags', async () => {
     const process = createTest({
       filePath: path.join(testFolder, 'good.md'),
-      onBrokenTags: 'throw',
+      onUnknownTags: 'throw',
     });
     await expect(process).resolves.toBeDefined();
   });

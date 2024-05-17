@@ -52,12 +52,12 @@ export function validateFrontMatterTags({
   frontMatterTags,
   validTagsSchema,
   source,
-  onBrokenTags,
+  onUnknownTags,
 }: {
   frontMatterTags: FrontMatterTag[] | undefined;
   validTagsSchema: Joi.Schema<string[]>;
   source: string;
-  onBrokenTags: MetadataOptions['onBrokenTags'];
+  onUnknownTags: MetadataOptions['onUnknownTags'];
 }): void {
   if (frontMatterTags === undefined || !Array.isArray(frontMatterTags)) {
     return;
@@ -70,7 +70,7 @@ export function validateFrontMatterTags({
   const tagList = validTagsSchema.validate(labels);
 
   if (tagList.error) {
-    logger.report(onBrokenTags)(
+    logger.report(onUnknownTags)(
       `Broken tags found in ${source} [${labels}] : ${tagList.error.message}`,
     );
   }

@@ -113,7 +113,7 @@ export async function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
 }): Promise<Tag[]> {
-  if (!options.tagsFilePath || options.onBrokenTags === 'ignore') {
+  if (!options.tagsFilePath || options.onUnknownTags === 'ignore') {
     return normalizeFrontMatterTags(versionTagsPath, frontMatterTags);
   }
 
@@ -123,7 +123,7 @@ export async function processFileTagsPath({
     frontMatterTags,
     validTagsSchema,
     source,
-    onBrokenTags: options.onBrokenTags,
+    onUnknownTags: options.onUnknownTags,
   });
   const transformedTags = Object.entries(definedTags).map(([key, value]) => ({
     label: value.label,

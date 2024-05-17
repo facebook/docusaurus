@@ -102,7 +102,7 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Enable or disable the breadcrumbs on doc pages. */
     breadcrumbs: boolean;
     tagsFilePath: string;
-    onBrokenTags: 'ignore' | 'log' | 'warn' | 'throw';
+    onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
   };
 
   export type PathOptions = {
