@@ -11,7 +11,7 @@ import {hasProtocol} from './isInternalUrl';
 import type {BaseUrlOptions, BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import type {RouterType} from '@docusaurus/types';
 
-function addBaseUrl({
+export function addBaseUrl({
   siteUrl,
   baseUrl,
   url,
@@ -30,9 +30,11 @@ function addBaseUrl({
     return url;
   }
 
-  // TODO temp hack
-  if (router === 'hash' && url.startsWith('/')) {
-    return `.${url}`;
+  // TODO hash router + /baseUrl/ is unlikely to work well in all situations
+  // This will support most cases, but not all
+  // See https://github.com/facebook/docusaurus/pull/9859
+  if (router === 'hash') {
+    return url.startsWith('/') ? `.${url}` : `./${url}`;
   }
 
   if (forcePrependBaseUrl) {
