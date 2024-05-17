@@ -129,10 +129,8 @@ export async function createBuildClientConfig({
   bundleAnalyzer: boolean;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
-  const {
-    generatedFilesDir,
-    siteConfig: {router},
-  } = props;
+  const {generatedFilesDir, siteConfig} = props;
+  const router = siteConfig.future.experimental_router;
 
   // With the hash router, we don't hydrate the React app, even in build mode!
   // This is because it will always be a client-rendered React app
