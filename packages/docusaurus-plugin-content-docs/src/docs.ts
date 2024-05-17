@@ -132,7 +132,7 @@ export async function processFileTagsPath({
 
   const transformedTags = Object.entries(definedTags).map(([key, value]) => ({
     label: value.label,
-    permalink: key,
+    permalink: value.permalink ? value.permalink : key,
   }));
 
   return normalizeFrontMatterTags(versionTagsPath, transformedTags);
