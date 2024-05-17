@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {parseMarkdownFile} from '@docusaurus/utils';
-import {processFileTagsPath} from '../docs';
+import {getDefinedTags, processFileTagsPath} from '../docs';
 import {validateDocFrontMatter} from '../frontMatter';
 
 const createTest = async ({
@@ -17,7 +17,7 @@ const createTest = async ({
   onUnknownTags,
 }: {
   filePath: string;
-  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw' | undefined;
+  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
 }) => {
   const contentPath = path.join(__dirname, '__fixtures__', 'simple-tags');
   const tagsFilePath = 'tags.yml';
@@ -31,9 +31,16 @@ const createTest = async ({
     },
   });
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
+  const definedTags = await getDefinedTags(
+    fromPartial({
+      onUnknownTags,
+      tagsFilePath,
+    }),
+    contentPath,
+  );
 
   return processFileTagsPath({
-    contentPath,
+    definedTags,
     options: fromPartial({
       tagsFilePath,
       onUnknownTags,
@@ -54,25 +61,21 @@ describe('processFileTagsPath', () => {
     });
 
     await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Broken tags found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/wrong.md [hello,world] : "[0]" must be [open]"`,
+      `"Tags [hello, world] used in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/wrong.md are not defined in tags.yml"`,
     );
   });
 
   it('warns when docs has invalid tags', async () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
-    const process = createTest({
+    await createTest({
       filePath: path.join(testFolder, 'wrong.md'),
       onUnknownTags: 'warn',
     });
 
-    await process;
-
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /.*\[WARNING\].*Broken tags found in .*wrong\.md.*\[hello,world\] : "\[0\]" must be \[open\].*/,
-      ),
+      expect.stringMatching(/.*\[WARNING\].*Tags.*/),
     );
     consoleWarnSpy.mockRestore();
   });
