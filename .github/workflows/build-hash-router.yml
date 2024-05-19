@@ -35,8 +35,9 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: build
+          path: website/build
 
+  # See https://docusaurus.io/docs/deployment#triggering-deployment-with-github-actions
   deploy:
     name: Deploy to GitHub Pages
     # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
