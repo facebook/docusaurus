@@ -12,9 +12,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   build:
     name: Build Hash Router
@@ -33,16 +30,25 @@ jobs:
       - name: Build Hash Router
         run: yarn build:website:fast
         env:
-          DOCUSAURUS_ROUTER: hash
-      - name: Upload Website artifact
-        uses: actions/upload-artifact@v4
+          DOCUSAURUS_ROUTER: 'hash'
+          BASE_URL: '/docusaurus/' # GH pages deploys under https://facebook.github.io/docusaurus/
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: my-artifact
-          path: website/build
+          path: build
+
+  deploy:
+    name: Deploy to GitHub Pages
+    # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
-        # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
-        run: yarn workspace website deploy --skip-build
-        env:
-          USE_SSH: true
-          DOCUSAURUS_ROUTER: hash
-          BASE_URL: '/docusaurus/' # deployed under https://facebook.github.io/docusaurus/
+        id: deployment
+        uses: actions/deploy-pages@v4
