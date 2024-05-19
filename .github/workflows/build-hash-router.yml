@@ -45,7 +45,7 @@ jobs:
   # See https://docusaurus.io/docs/deployment#triggering-deployment-with-github-actions
   deploy:
     name: Deploy to GitHub Pages
-    # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
+    if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
     needs: build
     permissions:
       pages: write
