@@ -43,5 +43,6 @@ jobs:
         # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
         run: yarn workspace website deploy --skip-build
         env:
+          USE_SSH: true
           DOCUSAURUS_ROUTER: hash
           BASE_URL: '/docusaurus/' # deployed under https://facebook.github.io/docusaurus/
