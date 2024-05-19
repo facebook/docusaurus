@@ -33,7 +33,7 @@ jobs:
           DOCUSAURUS_ROUTER: 'hash'
           BASE_URL: '/docusaurus/' # GH pages deploys under https://facebook.github.io/docusaurus/
       - name: Upload Build Artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: website/build
 
