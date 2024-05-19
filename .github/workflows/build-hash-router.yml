@@ -28,7 +28,6 @@ jobs:
         with:
           node-version: '18'
           cache: yarn
-
       - name: Installation
         run: yarn
       - name: Build Hash Router
@@ -40,3 +39,9 @@ jobs:
         with:
           name: my-artifact
           path: website/build
+      - name: Deploy to GitHub Pages
+        # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main')}}
+        run: yarn workspace website deploy --skip-build
+        env:
+          DOCUSAURUS_ROUTER: hash
+          BASE_URL: '/docusaurus/' # deployed under https://facebook.github.io/docusaurus/
