@@ -81,7 +81,8 @@ async function createDevServerConfig({
       'access-control-allow-origin': '*',
     },
     devMiddleware: {
-      publicPath: baseUrl,
+      publicPath:
+        siteConfig.future.experimental_router === 'hash' ? 'auto' : baseUrl,
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       stats: 'summary',
     },

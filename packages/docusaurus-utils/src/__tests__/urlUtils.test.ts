@@ -91,6 +91,30 @@ describe('normalizeUrl', () => {
         output: 'http://foobar.com/test/',
       },
       {
+        input: ['http://foobar.com/', '', 'test', '/'],
+        output: 'http://foobar.com/test/',
+      },
+      {
+        input: ['http://foobar.com', '#', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com/', '#', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com', '/#/', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com', '#/', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com', '/#', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
         input: ['/', '', 'hello', '', '/', '/', '', '/', '/world'],
         output: '/hello/world',
       },

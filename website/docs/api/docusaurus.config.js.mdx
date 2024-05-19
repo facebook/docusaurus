@@ -201,6 +201,7 @@ export default {
       type: 'localStorage',
       namespace: true,
     },
+    experimental_router: 'hash',
   },
 };
 ```
@@ -208,6 +209,7 @@ export default {
 - `experimental_storage`: Site-wide browser storage options that theme authors should strive to respect.
   - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
   - `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior).
+- `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
 
 ### `noIndex` {#noIndex}
 

@@ -29,11 +29,11 @@ import {
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
-import {createBlogFeedFiles} from './feed';
+import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
@@ -43,6 +43,8 @@ import type {
   BlogContent,
   BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
+
+const PluginName = 'docusaurus-plugin-content-blog';
 
 export default async function pluginContentBlog(
   context: LoadContext,
@@ -55,22 +57,29 @@ export default async function pluginContentBlog(
     localizationDir,
     i18n: {currentLocale},
   } = context;
+
+  const router = siteConfig.future.experimental_router;
+  const isBlogFeedDisabledBecauseOfHashRouter =
+    router === 'hash' && !!options.feedOptions.type;
+  if (isBlogFeedDisabledBecauseOfHashRouter) {
+    logger.warn(
+      `${PluginName} feed feature does not support the Hash Router. Feeds won't be generated.`,
+    );
+  }
+
   const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
       localizationDir,
-      pluginName: 'docusaurus-plugin-content-blog',
+      pluginName: PluginName,
       pluginId: options.id,
     }),
   };
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
-  const pluginDataDirRoot = path.join(
-    generatedFilesDir,
-    'docusaurus-plugin-content-blog',
-  );
+  const pluginDataDirRoot = path.join(generatedFilesDir, PluginName);
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   // TODO Docusaurus v4 breaking change
   //  module aliasing should be automatic
@@ -84,7 +93,7 @@ export default async function pluginContentBlog(
   });
 
   return {
-    name: 'docusaurus-plugin-content-blog',
+    name: PluginName,
 
     getPathsToWatch() {
       const {include} = options;
@@ -295,15 +304,16 @@ export default async function pluginContentBlog(
     },
 
     async postBuild({outDir, content}) {
-      if (!options.feedOptions.type) {
+      if (
+        !content.blogPosts.length ||
+        !options.feedOptions.type ||
+        isBlogFeedDisabledBecauseOfHashRouter
+      ) {
         return;
       }
-      const {blogPosts} = content;
-      if (!blogPosts.length) {
-        return;
-      }
+
       await createBlogFeedFiles({
-        blogPosts,
+        blogPosts: content.blogPosts,
         options,
         outDir,
         siteConfig,
@@ -312,56 +322,15 @@ export default async function pluginContentBlog(
     },
 
     injectHtmlTags({content}) {
-      if (!content.blogPosts.length || !options.feedOptions.type) {
+      if (
+        !content.blogPosts.length ||
+        !options.feedOptions.type ||
+        isBlogFeedDisabledBecauseOfHashRouter
+      ) {
         return {};
       }
 
-      const feedTypes = options.feedOptions.type;
-      const feedTitle = options.feedOptions.title ?? context.siteConfig.title;
-      const feedsConfig = {
-        rss: {
-          type: 'application/rss+xml',
-          path: 'rss.xml',
-          title: `${feedTitle} RSS Feed`,
-        },
-        atom: {
-          type: 'application/atom+xml',
-          path: 'atom.xml',
-          title: `${feedTitle} Atom Feed`,
-        },
-        json: {
-          type: 'application/json',
-          path: 'feed.json',
-          title: `${feedTitle} JSON Feed`,
-        },
-      };
-      const headTags: HtmlTags = [];
-
-      feedTypes.forEach((feedType) => {
-        const {
-          type,
-          path: feedConfigPath,
-          title: feedConfigTitle,
-        } = feedsConfig[feedType];
-
-        headTags.push({
-          tagName: 'link',
-          attributes: {
-            rel: 'alternate',
-            type,
-            href: normalizeUrl([
-              baseUrl,
-              options.routeBasePath,
-              feedConfigPath,
-            ]),
-            title: feedConfigTitle,
-          },
-        });
-      });
-
-      return {
-        headTags,
-      };
+      return {headTags: createFeedHtmlHeadTags({context, options})};
     },
   };
 }

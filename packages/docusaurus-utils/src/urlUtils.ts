@@ -90,7 +90,7 @@ export function normalizeUrl(rawUrls: string[]): string {
   // first plain protocol part.
 
   // Remove trailing slash before parameters or hash.
-  str = str.replace(/\/(?<search>\?|&|#[^!])/g, '$1');
+  str = str.replace(/\/(?<search>\?|&|#[^!/])/g, '$1');
 
   // Replace ? in parameters with &.
   const parts = str.split('?');

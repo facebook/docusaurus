@@ -227,6 +227,20 @@ It might also require to wrap your client code in ${logger.code(
   return parts.join('\n');
 }
 
+export async function generateHashRouterEntrypoint({
+  content,
+  params,
+}: {
+  content: string;
+  params: SSGParams;
+}): Promise<void> {
+  await writeStaticFile({
+    pathname: '/',
+    content,
+    params,
+  });
+}
+
 async function writeStaticFile({
   content,
   pathname,

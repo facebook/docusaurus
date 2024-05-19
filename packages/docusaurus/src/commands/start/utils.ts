@@ -20,12 +20,18 @@ import {
 } from '../../server/site';
 import {formatPluginName} from '../../server/plugins/pluginsUtils';
 import type {StartCLIOptions} from './start';
-import type {LoadedPlugin} from '@docusaurus/types';
+import type {LoadedPlugin, RouterType} from '@docusaurus/types';
 
 export type OpenUrlContext = {
   host: string;
   port: number;
-  getOpenUrl: ({baseUrl}: {baseUrl: string}) => string;
+  getOpenUrl: ({
+    baseUrl,
+    router,
+  }: {
+    baseUrl: string;
+    router: RouterType;
+  }) => string;
 };
 
 export async function createOpenUrlContext({
@@ -40,9 +46,13 @@ export async function createOpenUrlContext({
     return process.exit();
   }
 
-  const getOpenUrl: OpenUrlContext['getOpenUrl'] = ({baseUrl}) => {
+  const getOpenUrl: OpenUrlContext['getOpenUrl'] = ({baseUrl, router}) => {
     const urls = prepareUrls(protocol, host, port);
-    return normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+    return normalizeUrl([
+      urls.localUrlForBrowser,
+      router === 'hash' ? '/#/' : '',
+      baseUrl,
+    ]);
   };
 
   return {host, port, getOpenUrl};
@@ -83,6 +93,7 @@ export async function createReloadableSite(startParams: StartParams) {
   const getOpenUrl = () =>
     openUrlContext.getOpenUrl({
       baseUrl: site.props.baseUrl,
+      router: site.props.siteConfig.future.experimental_router,
     });
 
   const printOpenUrlMessage = () => {
