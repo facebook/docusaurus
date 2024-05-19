@@ -1,6 +1,8 @@
 name: Build Hash Router
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches:
       - main
