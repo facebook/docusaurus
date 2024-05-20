@@ -37,7 +37,7 @@ jobs:
         run: yarn build:website:fast
         env:
           DOCUSAURUS_ROUTER: 'hash'
-          BASE_URL: '/docusaurus/' # GH pages deploys under https://facebook.github.io/docusaurus/
+          # BASE_URL: '/docusaurus/' # GH pages deploys under https://facebook.github.io/docusaurus/
       - name: Upload Website artifact
         uses: actions/upload-artifact@v4
         with:
@@ -47,15 +47,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: website/build
-
-      #- name: Deploy to GitHub Pages
-      # if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
-      #  run: |
-      #    git config --global user.email "actions@github.com"
-      #    git config --global user.name "gh-actions"
-      #    yarn workspace website deploy --skip-build
-      #  env:
-      #    USE_SSH: true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
