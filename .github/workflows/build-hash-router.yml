@@ -33,22 +33,29 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
+
       - name: Build Hash Router
         run: yarn build:website:fast
         env:
           DOCUSAURUS_ROUTER: 'hash'
-          # BASE_URL: '/docusaurus/' # GH pages deploys under https://facebook.github.io/docusaurus/
+          # Note: hash router + baseUrl do not play well together
+          # This would host at https://facebook.github.io/docusaurus/#/docusaurus/
+          # BASE_URL: '/docusaurus/' # hash router +
+
       - name: Upload Website artifact
         uses: actions/upload-artifact@v4
         with:
           name: website-hash-router-archive
           path: website/build
-      - name: Upload Website Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: website/build
 
+      #- name: Upload Website Pages artifact
+      #  uses: actions/upload-pages-artifact@v3
+      #  with:
+      #    path: website/build
+
+      # Deploy to https://facebook.github.io/docusaurus/
       - name: Deploy to GitHub Pages
+        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
