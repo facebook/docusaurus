@@ -9,6 +9,7 @@ on:
       - docusaurus-v**
     paths:
       - packages/**
+      - .github/workflows/build-hash-router.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
