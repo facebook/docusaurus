@@ -62,7 +62,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Bu {siteTitle} {versionLabel} wersiýasy üçin geljekki dokumentler.",
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " {user} tarapyndan",
-  "theme.lastUpdated.lastUpdatedAtBy": "Soňky täzelenme {atDate} {byUser} tarapyndan",
+  "theme.lastUpdated.lastUpdatedAtBy": "Soňky täzelenme{atDate}{byUser} tarapyndan",
   "theme.navbar.mobileLanguageDropdown.label": "Diller",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Esasy menýua geç",
   "theme.navbar.mobileVersionsDropdown.label": "Wersiýalar",
