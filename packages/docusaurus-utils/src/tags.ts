@@ -100,6 +100,9 @@ export function normalizeTags({
   frontMatterTags: FrontMatterTag[];
 }): NormalizedTag[] {
   // TODO do merge/normalization here
+  const normalizedFrontMatterTags = frontMatterTags.map((tag) =>
+    normalizeFrontMatterTag(versionTagsPath, tag),
+  );
 
   function normalizeTag(tag: FrontMatterTag): NormalizedTag {
     if (typeof tag === 'string') {
@@ -114,7 +117,7 @@ export function normalizeTags({
         return {
           // TODO Fix this, retro-compatible code
           label: tag,
-          permalink: normalizeUrl([versionTagsPath, _.kebabCase(tag)]),
+          permalink: _.kebabCase(tag),
           inline: false,
         };
       }
@@ -123,13 +126,13 @@ export function normalizeTags({
     else {
       return {
         ...tag,
-        permalink: normalizeUrl([versionTagsPath, tag.permalink]),
+        permalink: tag.permalink,
         inline: true,
       };
     }
   }
 
-  return frontMatterTags.map(normalizeTag);
+  return normalizedFrontMatterTags.map(normalizeTag);
 }
 
 type TaggedItemGroup<Item> = {
