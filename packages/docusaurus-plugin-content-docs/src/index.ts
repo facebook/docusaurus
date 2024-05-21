@@ -134,7 +134,7 @@ export default async function pluginContentDocs(
     async loadContent() {
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
-        tagsFile: TagsFile,
+        tagsFile: TagsFile | null,
       ): Promise<DocMetadataBase[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {

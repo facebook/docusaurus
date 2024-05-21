@@ -12,6 +12,7 @@ import {parseMarkdownFile} from '@docusaurus/utils';
 import {getTagsFile, processFileTagsPath} from '../docs';
 import {validateDocFrontMatter} from '../frontMatter';
 
+// TODO remove fixtures and use inline strings
 const createTest = async ({
   filePath,
   onUnknownTags,

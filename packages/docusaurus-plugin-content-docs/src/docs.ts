@@ -82,13 +82,13 @@ export type DocEnv = 'production' | 'development';
 export async function getTagsFile(
   options: MetadataOptions,
   contentPath: string,
-): Promise<TagsFile> {
+): Promise<TagsFile | null> {
   if (
     options.tagsFilePath === false ||
     options.tagsFilePath === null
     // options.onUnknownTags === 'ignore' // TODO that looks wrong
   ) {
-    return {}; // TODO should return null
+    return null;
   }
   const tagDefinitionPath = path.join(
     contentPath,
@@ -147,7 +147,7 @@ async function doProcessDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  tagsFile: TagsFile;
+  tagsFile: TagsFile | null;
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {
@@ -304,7 +304,7 @@ export async function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  tagsFile: TagsFile;
+  tagsFile: TagsFile | null;
 }): Promise<DocMetadataBase> {
   try {
     return await doProcessDocMetadata(args);
