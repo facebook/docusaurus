@@ -7,6 +7,9 @@ b:
 c:
   label: c
   description: c
+d:
+  label: d
+  description: d
 e:
   label: e
   description: e

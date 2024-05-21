@@ -310,12 +310,12 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag-1',
-          inline: true,
+          inline: false,
           permalink: '/docs/tags/tag-1',
         },
         {
           label: 'tag 3',
-          inline: true,
+          inline: false,
           permalink: '/docs/tags/tag-3',
         },
       ],
@@ -338,7 +338,6 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    // TODO test receives 2 times the tag 1
     await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
       version: 'current',
       id: 'foo/baz',
@@ -364,7 +363,7 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag 1',
-          inline: true,
+          inline: false,
           permalink: '/docs/tags/tag-1',
         },
         {
@@ -417,7 +416,6 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    // TODO test receives 2 times the tag 1
     await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
       version: 'current',
       id: 'foo/baz',
@@ -442,7 +440,7 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag 1',
-          inline: true,
+          inline: false,
           permalink: '/docs/tags/tag-1',
         },
         {
@@ -883,6 +881,7 @@ describe('versioned site', () => {
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
+      sidebarPosition: undefined,
       frontMatter: {
         slug: 'barSlug',
         tags: [
@@ -897,17 +896,16 @@ describe('versioned site', () => {
       tags: [
         {
           label: 'barTag 1',
-          inline: true,
+          inline: false,
           permalink: '/docs/next/tags/bar-tag-1',
         },
         {
           label: 'barTag-2',
-          inline: true,
+          inline: false,
           permalink: '/docs/next/tags/bar-tag-2',
         },
         {
           label: 'barTag 3',
-          // TODO shouldn't it be false ?
           inline: true,
           permalink: '/docs/next/tags/barTag-3-permalink',
         },

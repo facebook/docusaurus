@@ -99,11 +99,6 @@ export function normalizeTags({
   tagsFile: TagsFile | null;
   frontMatterTags: FrontMatterTag[];
 }): NormalizedTag[] {
-  // TODO do merge/normalization here
-  const normalizedFrontMatterTags = frontMatterTags.map((tag) =>
-    normalizeFrontMatterTag(versionTagsPath, tag),
-  );
-
   function normalizeTag(tag: FrontMatterTag): NormalizedTag {
     if (typeof tag === 'string') {
       const tagDescription = tagsFile?.[tag];
@@ -115,9 +110,8 @@ export function normalizeTags({
         };
       } else {
         return {
-          // TODO Fix this, retro-compatible code
           label: tag,
-          permalink: _.kebabCase(tag),
+          permalink: normalizeFrontMatterTag(versionTagsPath, tag).permalink,
           inline: false,
         };
       }
@@ -126,13 +120,14 @@ export function normalizeTags({
     else {
       return {
         ...tag,
-        permalink: tag.permalink,
+        permalink: normalizeFrontMatterTag(versionTagsPath, tag).permalink,
         inline: true,
       };
     }
   }
 
-  return normalizedFrontMatterTags.map(normalizeTag);
+  const tags = frontMatterTags.map(normalizeTag);
+  return _.uniqBy(tags, (tag) => tag.permalink);
 }
 
 type TaggedItemGroup<Item> = {
