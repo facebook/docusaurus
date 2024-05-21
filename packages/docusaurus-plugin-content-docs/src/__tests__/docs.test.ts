@@ -338,7 +338,7 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    // TODO test recieves 2 times the tag 1
+    // TODO test receives 2 times the tag 1
     await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
       version: 'current',
       id: 'foo/baz',
@@ -417,7 +417,7 @@ describe('simple site', () => {
       versionMetadata: currentVersion,
     });
 
-    // TODO test recieves 2 times the tag 1
+    // TODO test receives 2 times the tag 1
     await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
       version: 'current',
       id: 'foo/baz',
