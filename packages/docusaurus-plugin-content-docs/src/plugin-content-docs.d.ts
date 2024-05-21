@@ -15,9 +15,9 @@ declare module '@docusaurus/plugin-content-docs' {
     FrontMatterTag,
     TagsListItem,
     TagModule,
-    Tag,
     FrontMatterLastUpdate,
     LastUpdateData,
+    NormalizedTag,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
@@ -448,7 +448,7 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editUrl?: string | null;
     /** Tags, normalized. */
-    tags: Tag[];
+    tags: NormalizedTag[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
   };

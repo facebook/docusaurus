@@ -93,6 +93,7 @@ function createTestUtils({
       options,
       context,
       env,
+      tagsFile: null,
     });
   }
 
@@ -139,6 +140,7 @@ function createTestUtils({
       context,
       options,
       env,
+      tagsFile: null,
     });
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
@@ -159,6 +161,7 @@ function createTestUtils({
           context,
           options,
           env,
+          tagsFile: null,
         }),
       ),
     );
@@ -296,6 +299,7 @@ describe('simple site', () => {
       slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      sidebarPosition: undefined,
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
@@ -306,10 +310,12 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag-1',
+          inline: false,
           permalink: '/docs/tags/tag-1',
         },
         {
           label: 'tag 3',
+          inline: false,
           permalink: '/docs/tags/tag-3',
         },
       ],
@@ -339,6 +345,7 @@ describe('simple site', () => {
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
+      sidebarPosition: undefined,
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/foo/baz.md',
       description: 'Images',
@@ -356,10 +363,12 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag 1',
+          inline: false,
           permalink: '/docs/tags/tag-1',
         },
         {
           label: 'tag 2',
+          inline: true,
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
@@ -416,6 +425,7 @@ describe('simple site', () => {
       title: 'baz',
       editUrl: hardcodedEditUrl,
       description: 'Images',
+      sidebarPosition: undefined,
       frontMatter: {
         id: 'baz',
         slug: 'bazSlug.html',
@@ -430,10 +440,12 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag 1',
+          inline: false,
           permalink: '/docs/tags/tag-1',
         },
         {
           label: 'tag 2',
+          inline: true,
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
@@ -883,14 +895,17 @@ describe('versioned site', () => {
       tags: [
         {
           label: 'barTag 1',
+          inline: false,
           permalink: '/docs/next/tags/bar-tag-1',
         },
         {
           label: 'barTag-2',
+          inline: false,
           permalink: '/docs/next/tags/bar-tag-2',
         },
         {
           label: 'barTag 3',
+          inline: true,
           permalink: '/docs/next/tags/barTag-3-permalink',
         },
       ],

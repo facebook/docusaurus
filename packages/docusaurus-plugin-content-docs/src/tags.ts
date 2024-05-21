@@ -61,6 +61,7 @@ export function validateFrontMatterTags({
     const uniqueUnknownTags = [...new Set(inlineTags)];
     const tagListString = uniqueUnknownTags.join(', ');
     logger.report(onUnknownTags)(
+      // TODO tagListString is an object + change default file name tags.yml
       `Tags [${tagListString}] used in ${source} are not defined in tags.yml`,
     );
   }

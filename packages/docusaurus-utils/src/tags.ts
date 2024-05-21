@@ -91,7 +91,7 @@ export function normalizeFrontMatterTags(
 }
 
 export function normalizeTags({
-  // versionTagsPath,
+  versionTagsPath,
   tagsFile,
   frontMatterTags,
 }: {
@@ -114,7 +114,7 @@ export function normalizeTags({
         return {
           // TODO Fix this, retro-compatible code
           label: tag,
-          permalink: `/${tag}`,
+          permalink: normalizeUrl([versionTagsPath, _.kebabCase(tag)]),
           inline: false,
         };
       }
@@ -123,6 +123,7 @@ export function normalizeTags({
     else {
       return {
         ...tag,
+        permalink: normalizeUrl([versionTagsPath, tag.permalink]),
         inline: true,
       };
     }
