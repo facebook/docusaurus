@@ -283,6 +283,7 @@ rachelnabors
 Ramón
 reactjs
 rearchitecture
+recieves
 recrawl
 redirections
 Redoc
