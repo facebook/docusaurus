@@ -6,32 +6,24 @@
  */
 
 import path from 'path';
-import fs from 'fs-extra';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {parseMarkdownFile} from '@docusaurus/utils';
 import {getTagsFile, processFileTagsPath} from '../docs';
-import {validateDocFrontMatter} from '../frontMatter';
+import {validateFrontMatterTags} from '../tags';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {FrontMatterTag} from '@docusaurus/utils';
 
-// TODO remove fixtures and use inline strings
 const createTest = async ({
   filePath,
   onUnknownTags,
+  tags,
 }: {
   filePath: string;
-  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
+  onUnknownTags: PluginOptions['onUnknownTags'];
+  tags: FrontMatterTag[];
 }) => {
   const contentPath = path.join(__dirname, '__fixtures__', 'simple-tags');
   const tagsFilePath = 'tags.yml';
 
-  const {frontMatter: unsafeFrontMatter} = await parseMarkdownFile({
-    filePath,
-    fileContent: await fs.readFile(filePath, 'utf-8'),
-    parseFrontMatter: async (params) => {
-      const result = await params.defaultParseFrontMatter(params);
-      return {...result};
-    },
-  });
-  const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
   const definedTags = await getTagsFile(
     fromPartial({
       onUnknownTags,
@@ -48,31 +40,57 @@ const createTest = async ({
     }),
     source: filePath,
     versionTagsPath: '/processFileTagsPath/tags',
-    frontMatterTags: frontMatter.tags,
+    frontMatterTags: tags,
   });
 };
 
 describe('processFileTagsPath', () => {
-  const testFolder = path.join(__dirname, '__fixtures__', 'simple-tags');
-
   it('throw when docs has invalid tags', async () => {
-    const process = createTest({
-      filePath: path.join(testFolder, 'wrong.md'),
-      onUnknownTags: 'throw',
-    });
+    const testFn = () =>
+      validateFrontMatterTags(
+        fromPartial({
+          tags: [
+            {
+              label: 'hello',
+              permalink: 'hello',
+              inline: true,
+            },
+            {
+              label: 'world',
+              permalink: 'world',
+              inline: true,
+            },
+          ],
+          source: 'wrong.md',
+          options: {onUnknownTags: 'throw', tagsFilePath: 'tags.yml'},
+        }),
+      );
 
-    await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Tags [hello, world] used in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-tags/wrong.md are not defined in tags.yml"`,
+    expect(testFn).toThrowErrorMatchingInlineSnapshot(
+      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
     );
   });
 
   it('warns when docs has invalid tags', async () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
-    await createTest({
-      filePath: path.join(testFolder, 'wrong.md'),
-      onUnknownTags: 'warn',
-    });
+    validateFrontMatterTags(
+      fromPartial({
+        tags: [
+          {
+            label: 'hello',
+            permalink: 'hello',
+            inline: true,
+          },
+          {
+            label: 'world',
+            permalink: 'world',
+            inline: true,
+          },
+        ],
+        options: {onUnknownTags: 'warn', tagsFilePath: 'tags.yml'},
+      }),
+    );
 
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
     expect(consoleWarnSpy).toHaveBeenCalledWith(
@@ -83,7 +101,8 @@ describe('processFileTagsPath', () => {
 
   it('ignore when docs has invalid tags', async () => {
     const process = createTest({
-      filePath: path.join(testFolder, 'wrong.md'),
+      filePath: 'wrong.md',
+      tags: ['hello', 'world'],
       onUnknownTags: 'ignore',
     });
     await expect(process).resolves.toBeDefined();
@@ -91,7 +110,8 @@ describe('processFileTagsPath', () => {
 
   it('does not throw when docs has valid tags', async () => {
     const process = createTest({
-      filePath: path.join(testFolder, 'good.md'),
+      filePath: 'good.md',
+      tags: ['open'],
       onUnknownTags: 'throw',
     });
     await expect(process).resolves.toBeDefined();

@@ -50,19 +50,18 @@ export function validateDefinedTags(
 export function validateFrontMatterTags({
   tags,
   source,
-  onUnknownTags,
+  options,
 }: {
   tags: NormalizedTag[];
   source: string;
-  onUnknownTags: MetadataOptions['onUnknownTags'];
+  options: MetadataOptions;
 }): void {
   const inlineTags = tags.filter((tag) => tag.inline);
-  if (inlineTags.length > 0 && onUnknownTags !== 'ignore') {
-    const uniqueUnknownTags = [...new Set(inlineTags)];
+  if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
+    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
     const tagListString = uniqueUnknownTags.join(', ');
-    logger.report(onUnknownTags)(
-      // TODO tagListString is an object + change default file name tags.yml
-      `Tags [${tagListString}] used in ${source} are not defined in tags.yml`,
+    logger.report(options.onUnknownTags)(
+      `Tags [${tagListString}] used in ${source} are not defined in ${options.tagsFilePath}`,
     );
   }
 }

@@ -128,7 +128,7 @@ export function processFileTagsPath({
   validateFrontMatterTags({
     tags,
     source,
-    onUnknownTags: options.onUnknownTags,
+    options,
   });
 
   return tags;
