@@ -105,13 +105,13 @@ export function normalizeTags({
       if (tagDescription) {
         return {
           label: tagDescription.label,
-          permalink: tagDescription.permalink,
+          permalink:
+            tagDescription.permalink ?? _.kebabCase(tagDescription.label),
           inline: false,
         };
       } else {
         return {
-          label: tag,
-          permalink: normalizeFrontMatterTag(versionTagsPath, tag).permalink,
+          ...normalizeFrontMatterTag(versionTagsPath, tag),
           inline: false,
         };
       }
@@ -119,8 +119,7 @@ export function normalizeTags({
     // legacy inline tag object, always inline
     else {
       return {
-        ...tag,
-        permalink: normalizeFrontMatterTag(versionTagsPath, tag).permalink,
+        ...normalizeFrontMatterTag(versionTagsPath, tag),
         inline: true,
       };
     }

@@ -85,8 +85,8 @@ export async function getTagsFile(
 ): Promise<TagsFile | null> {
   if (
     options.tagsFilePath === false ||
-    options.tagsFilePath === null
-    // options.onUnknownTags === 'ignore' // TODO that looks wrong
+    options.tagsFilePath === null ||
+    options.onUnknownTags === 'ignore' // TODO that looks wrong
   ) {
     return null;
   }
