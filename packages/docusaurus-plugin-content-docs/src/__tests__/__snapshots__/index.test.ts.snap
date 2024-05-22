@@ -85,7 +85,7 @@ exports[`simple website content 1`] = `
   "sourceDirName": "foo",
   "tags": [
     {
-      "inline": false,
+      "inline": true,
       "label": "tag 1",
       "permalink": "/docs/tags/tag-1",
     },
@@ -132,12 +132,12 @@ exports[`simple website content 2`] = `
   "sourceDirName": ".",
   "tags": [
     {
-      "inline": false,
+      "inline": true,
       "label": "tag-1",
       "permalink": "/docs/tags/tag-1",
     },
     {
-      "inline": false,
+      "inline": true,
       "label": "tag 3",
       "permalink": "/docs/tags/tag-3",
     },
@@ -598,7 +598,7 @@ exports[`simple website content: data 1`] = `
     "sourceDirName": "foo",
     "tags": [
       {
-        "inline": false,
+        "inline": true,
         "label": "tag 1",
         "permalink": "/docs/tags/tag-1",
       },
@@ -669,12 +669,12 @@ exports[`simple website content: data 1`] = `
     "sourceDirName": ".",
     "tags": [
       {
-        "inline": false,
+        "inline": true,
         "label": "tag-1",
         "permalink": "/docs/tags/tag-1",
       },
       {
-        "inline": false,
+        "inline": true,
         "label": "tag 3",
         "permalink": "/docs/tags/tag-3",
       },
@@ -3297,12 +3297,12 @@ exports[`versioned website content 1`] = `
   "sourceDirName": "foo",
   "tags": [
     {
-      "inline": false,
+      "inline": true,
       "label": "barTag 1",
       "permalink": "/docs/next/tags/bar-tag-1",
     },
     {
-      "inline": false,
+      "inline": true,
       "label": "barTag-2",
       "permalink": "/docs/next/tags/bar-tag-2",
     },
@@ -3569,12 +3569,12 @@ exports[`versioned website content: data 1`] = `
     "sourceDirName": "foo",
     "tags": [
       {
-        "inline": false,
+        "inline": true,
         "label": "barTag 1",
         "permalink": "/docs/next/tags/bar-tag-1",
       },
       {
-        "inline": false,
+        "inline": true,
         "label": "barTag-2",
         "permalink": "/docs/next/tags/bar-tag-2",
       },

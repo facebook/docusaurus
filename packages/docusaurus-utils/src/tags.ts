@@ -103,20 +103,24 @@ export function normalizeTags({
     if (typeof tag === 'string') {
       const tagDescription = tagsFile?.[tag];
       if (tagDescription) {
+        // inline string known tag
         return {
           label: tagDescription.label,
-          permalink:
+          permalink: normalizeFrontMatterTag(
+            versionTagsPath,
             tagDescription.permalink ?? _.kebabCase(tagDescription.label),
+          ).permalink,
           inline: false,
         };
       } else {
+        // inline string unknown tag
         return {
           ...normalizeFrontMatterTag(versionTagsPath, tag),
-          inline: false,
+          inline: true,
         };
       }
     }
-    // legacy inline tag object, always inline
+    // legacy inline tag object, always inline, unknown because isn't a string
     else {
       return {
         ...normalizeFrontMatterTag(versionTagsPath, tag),

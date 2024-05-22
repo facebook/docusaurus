@@ -310,12 +310,12 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag-1',
-          inline: false,
+          inline: true,
           permalink: '/docs/tags/tag-1',
         },
         {
           label: 'tag 3',
-          inline: false,
+          inline: true,
           permalink: '/docs/tags/tag-3',
         },
       ],
@@ -363,7 +363,7 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag 1',
-          inline: false,
+          inline: true,
           permalink: '/docs/tags/tag-1',
         },
         {
@@ -440,7 +440,7 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag 1',
-          inline: false,
+          inline: true,
           permalink: '/docs/tags/tag-1',
         },
         {
@@ -896,12 +896,12 @@ describe('versioned site', () => {
       tags: [
         {
           label: 'barTag 1',
-          inline: false,
+          inline: true,
           permalink: '/docs/next/tags/bar-tag-1',
         },
         {
           label: 'barTag-2',
-          inline: false,
+          inline: true,
           permalink: '/docs/next/tags/bar-tag-2',
         },
         {
