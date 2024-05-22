@@ -441,6 +441,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      *  (filter, modify, delete, etc...).
      */
     processBlogPosts: ProcessBlogPostsFn;
+    tagsFilePath: string | false | null | undefined;
+    onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
   };
 
   /**

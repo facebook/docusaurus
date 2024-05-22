@@ -1,0 +1,48 @@
+blog:
+  label: blog
+  description: blog
+release:
+  label: Release
+  description: release
+recap:
+  label: Recap
+  description: recap
+birth:
+  label: Birth
+  description: birth
+endi:
+  label: Endi
+  description: endi
+tribute:
+  label: Tribute
+  description: tribute
+i18n:
+  label: I18n
+  description: i18n
+beta:
+  label: Beta
+  description: beta
+search:
+  label: Search
+  description: search
+maintenance:
+  label: Maintenance
+  description: maintenance
+documentation:
+  label: Documentation
+  description: documentation
+docusaurus:
+  label: Docusaurus
+  description: docusaurus
+profilo:
+  label: Profilo
+  description: profilo
+adoption:
+  label: Adoption
+  description: adoption
+unlisted:
+  label: Unlisted
+  description: unlisted
+new:
+  label: New
+  description: new

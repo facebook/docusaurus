@@ -1,0 +1,36 @@
+paginated-tag:
+  label: Paginated Tag
+  description: paginated-tag
+blog:
+  label: Blog
+  description: blog
+docusaurus:
+  label: Docusaurus
+  description: docusaurus
+long:
+  label: Long
+  description: long
+long-long:
+  label: Long Long
+  description: long-long
+long-long-long:
+  label: Long Long Long
+  description: long-long-long
+long-long-long-long:
+  label: Long Long Long Long
+  description: long-long-long-long
+long-long-long-long-long:
+  label: Long Long Long Long Long
+  description: long-long-long-long-long
+visibility:
+  label: Visibility
+  description: visibility
+unlisted:
+  label: Unlisted
+  description: unlisted
+draft:
+  label: Draft
+  description: draft
+new:
+  label: New
+  description: new

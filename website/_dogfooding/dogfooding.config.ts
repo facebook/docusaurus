@@ -83,6 +83,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
         frontMatter.hide_reading_time
           ? undefined
           : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
+      onUnknownTags: 'warn',
+      tagsFilePath: 'tags.yml',
     } satisfies BlogOptions,
   ],
 
