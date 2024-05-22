@@ -86,12 +86,14 @@ export async function getTagsFile(
   if (
     options.tagsFilePath === false ||
     options.tagsFilePath === null ||
+    // TODO doesn't work if not set
     options.onUnknownTags === 'ignore' // TODO that looks wrong
   ) {
     return null;
   }
   const tagDefinitionPath = path.join(
     contentPath,
+    // TODO default value isn't used ?
     options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
   );
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');

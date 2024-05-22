@@ -7,29 +7,38 @@
 
 import path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
+import {normalizeTags} from '@docusaurus/utils/lib/tags';
 import {getTagsFile, processFileTagsPath} from '../docs';
 import {validateFrontMatterTags} from '../tags';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {FrontMatterTag} from '@docusaurus/utils';
 
+async function getTagsFileDefinition(options: PluginOptions) {
+  const contentPath = path.join(__dirname, '__fixtures__', 'simple-tags');
+
+  return getTagsFile(
+    fromPartial({
+      onUnknownTags: options.onUnknownTags,
+      tagsFilePath: options.tagsFilePath,
+    }),
+    contentPath,
+  );
+}
+
 const createTest = async ({
-  filePath,
   onUnknownTags,
   tags,
 }: {
-  filePath: string;
   onUnknownTags: PluginOptions['onUnknownTags'];
   tags: FrontMatterTag[];
 }) => {
-  const contentPath = path.join(__dirname, '__fixtures__', 'simple-tags');
   const tagsFilePath = 'tags.yml';
 
-  const definedTags = await getTagsFile(
+  const definedTags = await getTagsFileDefinition(
     fromPartial({
       onUnknownTags,
       tagsFilePath,
     }),
-    contentPath,
   );
 
   return processFileTagsPath({
@@ -38,7 +47,7 @@ const createTest = async ({
       tagsFilePath,
       onUnknownTags,
     }),
-    source: filePath,
+    source: 'default.md',
     versionTagsPath: '/processFileTagsPath/tags',
     frontMatterTags: tags,
   });
@@ -101,19 +110,88 @@ describe('processFileTagsPath', () => {
 
   it('ignore when docs has invalid tags', async () => {
     const process = createTest({
-      filePath: 'wrong.md',
-      tags: ['hello', 'world'],
+      tags: ['unknownTag'],
       onUnknownTags: 'ignore',
     });
     await expect(process).resolves.toBeDefined();
   });
 
+  it('throw for unknown string and object tag', async () => {
+    const process = createTest({
+      tags: [
+        'open',
+        'world',
+        {label: 'hello', permalink: 'hello'},
+        {label: 'open', permalink: 'open'},
+      ],
+      onUnknownTags: 'throw',
+    });
+    await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Tags [world, hello, open] used in default.md are not defined in tags.yml"`,
+    );
+  });
+
   it('does not throw when docs has valid tags', async () => {
     const process = createTest({
-      filePath: 'good.md',
       tags: ['open'],
       onUnknownTags: 'throw',
     });
     await expect(process).resolves.toBeDefined();
+  });
+});
+
+describe('normalize tags', () => {
+  it('normalize tags', async () => {
+    const tagsFile = await getTagsFileDefinition(
+      fromPartial({
+        onUnknownTags: 'throw',
+        tagsFilePath: 'tags.yml',
+      }),
+    );
+
+    const tags = [
+      'hello',
+      'world',
+      {label: 'hello', permalink: 'hello'},
+      {label: 'world', permalink: 'world'},
+      'hello',
+      'open',
+      {label: 'open', permalink: 'open'},
+      'test',
+    ];
+
+    const normalizedTags = normalizeTags({
+      versionTagsPath: '/tags',
+      tagsFile,
+      frontMatterTags: tags,
+    });
+
+    expect(normalizedTags).toEqual([
+      {
+        label: 'hello',
+        permalink: '/tags/hello',
+        inline: true,
+      },
+      {
+        label: 'world',
+        permalink: '/tags/world',
+        inline: true,
+      },
+      {
+        label: 'Open Source',
+        permalink: '/tags/open-source',
+        inline: false,
+      },
+      {
+        inline: true,
+        label: 'open',
+        permalink: '/tags/open',
+      },
+      {
+        label: 'Test',
+        permalink: '/tags/custom-test',
+        inline: false,
+      },
+    ]);
   });
 });
