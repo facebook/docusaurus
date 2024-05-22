@@ -21,14 +21,12 @@ import {
   isDraft,
   readLastUpdateData,
 } from '@docusaurus/utils';
-import YAML from 'js-yaml';
-import {normalizeTags} from '@docusaurus/utils/lib/tags';
+import {processFileTagsPath} from '@docusaurus/utils/lib/tags';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
-import {validateFrontMatterTags, validateDefinedTags} from './tags';
-import type {FrontMatterTag, TagsFile, NormalizedTag} from '@docusaurus/utils';
+import type {TagsFile} from '@docusaurus/utils';
 import type {
   MetadataOptions,
   PluginOptions,
@@ -79,63 +77,6 @@ export async function readVersionDocs(
 
 export type DocEnv = 'production' | 'development';
 
-export async function getTagsFile(
-  options: MetadataOptions,
-  contentPath: string,
-): Promise<TagsFile | null> {
-  if (
-    options.tagsFilePath === false ||
-    options.tagsFilePath === null ||
-    // TODO doesn't work if not set
-    options.onUnknownTags === 'ignore' // TODO that looks wrong
-  ) {
-    return null;
-  }
-  const tagDefinitionPath = path.join(
-    contentPath,
-    // TODO default value isn't used ?
-    options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
-  );
-  const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
-  const data = YAML.load(tagDefinitionContent);
-  const definedTags = validateDefinedTags(data);
-  if (definedTags.error) {
-    throw new Error(
-      `There was an error extracting tags from file: ${definedTags.error.message}`,
-      {cause: definedTags},
-    );
-  }
-  return definedTags.value;
-}
-
-export function processFileTagsPath({
-  options,
-  source,
-  frontMatterTags,
-  versionTagsPath,
-  tagsFile,
-}: {
-  options: MetadataOptions;
-  source: string;
-  frontMatterTags: FrontMatterTag[] | undefined;
-  versionTagsPath: string;
-  tagsFile: TagsFile | null;
-}): NormalizedTag[] {
-  const tags = normalizeTags({
-    versionTagsPath,
-    tagsFile,
-    frontMatterTags: frontMatterTags ?? [],
-  });
-
-  validateFrontMatterTags({
-    tags,
-    source,
-    options,
-  });
-
-  return tags;
-}
-
 async function doProcessDocMetadata({
   docFile,
   versionMetadata,
@@ -149,7 +90,7 @@ async function doProcessDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  tagsFile: TagsFile | null;
+  tagsFile: TagsFile | undefined;
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {
@@ -306,7 +247,7 @@ export async function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  tagsFile: TagsFile | null;
+  tagsFile: TagsFile | undefined;
 }): Promise<DocMetadataBase> {
   try {
     return await doProcessDocMetadata(args);

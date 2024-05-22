@@ -7,14 +7,8 @@
 
 import _ from 'lodash';
 import {getTagVisibility, groupTaggedItems} from '@docusaurus/utils';
-import {Joi} from '@docusaurus/utils-validation';
-import logger from '@docusaurus/logger';
-import type {NormalizedTag, TagsFile} from '@docusaurus/utils';
 import type {VersionTags} from './types';
-import type {
-  DocMetadata,
-  MetadataOptions,
-} from '@docusaurus/plugin-content-docs';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 export function getVersionTags(docs: DocMetadata[]): VersionTags {
   const groups = groupTaggedItems(docs, (doc) => doc.tags);
@@ -30,38 +24,4 @@ export function getVersionTags(docs: DocMetadata[]): VersionTags {
       unlisted: tagVisibility.unlisted,
     };
   });
-}
-
-export const tagDefinitionSchema = Joi.object<TagsFile>().pattern(
-  Joi.string(),
-  Joi.object({
-    label: Joi.string().required(),
-    description: Joi.string().required(),
-    permalink: Joi.string(),
-  }),
-);
-
-export function validateDefinedTags(
-  tags: unknown,
-): Joi.ValidationResult<TagsFile> {
-  return tagDefinitionSchema.validate(tags);
-}
-
-export function validateFrontMatterTags({
-  tags,
-  source,
-  options,
-}: {
-  tags: NormalizedTag[];
-  source: string;
-  options: MetadataOptions;
-}): void {
-  const inlineTags = tags.filter((tag) => tag.inline);
-  if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
-    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
-    const tagListString = uniqueUnknownTags.join(', ');
-    logger.report(options.onUnknownTags)(
-      `Tags [${tagListString}] used in ${source} are not defined in ${options.tagsFilePath}`,
-    );
-  }
 }

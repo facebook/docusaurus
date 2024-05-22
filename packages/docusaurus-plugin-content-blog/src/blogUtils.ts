@@ -19,7 +19,6 @@ import {
   posixPath,
   replaceMarkdownLinks,
   Globby,
-  // normalizeFrontMatterTags,
   groupTaggedItems,
   getTagVisibility,
   getFileCommitDate,
@@ -28,11 +27,11 @@ import {
   isDraft,
   readLastUpdateData,
 } from '@docusaurus/utils';
-import {normalizeTags} from '@docusaurus/utils/lib/tags';
-import YAML from 'js-yaml';
-import {validateBlogPostFrontMatter, validateDefinedTags} from './frontMatter';
+import {getTagsFile, processFileTagsPath} from '@docusaurus/utils/lib/tags';
+import {validateDefinedTags} from '@docusaurus/utils-validation';
+import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import type {NormalizedTag, TagsFile, FrontMatterTag} from '@docusaurus/utils';
+import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
   PluginOptions,
@@ -196,88 +195,12 @@ async function parseBlogPostMarkdownFile({
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
-export async function getTagsFile(
-  options: PluginOptions,
-  contentPath: string,
-): Promise<TagsFile | null> {
-  if (
-    options.tagsFilePath === false ||
-    options.tagsFilePath === null ||
-    // TODO doesn't work if not set
-    options.onUnknownTags === 'ignore' // TODO that looks wrong
-  ) {
-    return null;
-  }
-  const tagDefinitionPath = path.join(
-    contentPath,
-    // TODO default value isn't used ?
-    options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
-  );
-  const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
-  const data = YAML.load(tagDefinitionContent);
-  const definedTags = validateDefinedTags(data);
-  if (definedTags.error) {
-    throw new Error(
-      `There was an error extracting tags from file: ${definedTags.error.message}`,
-      {cause: definedTags},
-    );
-  }
-  return definedTags.value;
-}
-
-function validateFrontMatterTags({
-  tags,
-  source,
-  options,
-}: {
-  tags: NormalizedTag[];
-  source: string;
-  options: PluginOptions;
-}): void {
-  const inlineTags = tags.filter((tag) => tag.inline);
-  if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
-    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
-    const tagListString = uniqueUnknownTags.join(', ');
-    logger.report(options.onUnknownTags)(
-      `Tags [${tagListString}] used in ${source} are not defined in ${options.tagsFilePath}`,
-    );
-  }
-}
-
-export function processFileTagsPath({
-  options,
-  source,
-  frontMatterTags,
-  versionTagsPath,
-  tagsFile,
-}: {
-  options: PluginOptions;
-  source: string;
-  frontMatterTags: FrontMatterTag[] | undefined;
-  versionTagsPath: string;
-  tagsFile: TagsFile | null;
-}): NormalizedTag[] {
-  const tags = normalizeTags({
-    versionTagsPath,
-    tagsFile,
-    frontMatterTags: frontMatterTags ?? [],
-  });
-
-  validateFrontMatterTags({
-    tags,
-    source,
-    options,
-  });
-
-  return tags;
-}
-
 async function processBlogSourceFile(
   blogSourceRelative: string,
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
-  tagsFile: TagsFile | null,
+  tagsFile: TagsFile | undefined,
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
@@ -461,15 +384,20 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  const tagsFile = await getTagsFile(
+    options,
+    contentPaths.contentPath,
+    validateDefinedTags,
+  );
+
   async function doProcessBlogSourceFile(blogSourceFile: string) {
     try {
-      const tagsFile = await getTagsFile(options, contentPaths.contentPath);
       return await processBlogSourceFile(
         blogSourceFile,
         contentPaths,
         context,
         options,
-        tagsFile,
+        tagsFile?.value,
         authorsMap,
       );
     } catch (err) {

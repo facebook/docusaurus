@@ -5,8 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import fs from 'fs-extra';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import YAML from 'js-yaml';
 import {normalizeUrl} from './urlUtils';
+import type {PluginOptions} from '@docusaurus/types';
 
 export type TagsFile = Record<string, Tag>;
 
@@ -96,7 +101,7 @@ export function normalizeTags({
   frontMatterTags,
 }: {
   versionTagsPath: string;
-  tagsFile: TagsFile | null;
+  tagsFile: TagsFile | undefined;
   frontMatterTags: FrontMatterTag[];
 }): NormalizedTag[] {
   function normalizeTag(tag: FrontMatterTag): NormalizedTag {
@@ -208,4 +213,83 @@ export function getTagVisibility<Item>({
     unlisted: false,
     listedItems: items.filter((item) => !isUnlisted(item)),
   };
+}
+
+export function validateFrontMatterTags({
+  tags,
+  source,
+  options,
+}: {
+  tags: NormalizedTag[];
+  source: string;
+  options: Pick<PluginOptions, 'tagsFilePath' | 'onUnknownTags'>;
+}): void {
+  const inlineTags = tags.filter((tag) => tag.inline);
+  if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
+    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
+    const tagListString = uniqueUnknownTags.join(', ');
+    // @ts-expect-error: onUnknownTags is not 'ignore'
+    logger.report(options.onUnknownTags)(
+      `Tags [${tagListString}] used in ${source} are not defined in ${options.tagsFilePath}`,
+    );
+  }
+}
+
+export function processFileTagsPath({
+  options,
+  source,
+  frontMatterTags,
+  versionTagsPath,
+  tagsFile,
+}: {
+  options: Pick<PluginOptions, 'tagsFilePath' | 'onUnknownTags'>;
+  source: string;
+  frontMatterTags: FrontMatterTag[] | undefined;
+  versionTagsPath: string;
+  tagsFile: TagsFile | undefined;
+}): NormalizedTag[] {
+  const tags = normalizeTags({
+    versionTagsPath,
+    tagsFile,
+    frontMatterTags: frontMatterTags ?? [],
+  });
+
+  validateFrontMatterTags({
+    tags,
+    source,
+    options,
+  });
+
+  return tags;
+}
+
+export async function getTagsFile<T>(
+  options: Pick<PluginOptions, 'tagsFilePath' | 'onUnknownTags'>,
+  contentPath: string,
+  validateDefinedTags: (data: unknown) => T,
+): Promise<T | null> {
+  if (
+    options.tagsFilePath === false ||
+    options.tagsFilePath === null ||
+    // TODO doesn't work if not set
+    options.onUnknownTags === 'ignore' // TODO that looks wrong
+  ) {
+    return null;
+  }
+  const tagDefinitionPath = path.join(
+    contentPath,
+    // TODO default value isn't used ?
+    // @ts-expect-error: tagsFilePath is not ''
+    options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
+  );
+  const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
+  const data = YAML.load(tagDefinitionContent);
+  return validateDefinedTags(data);
+  // if (definedTags.error) {
+  //   throw new Error(
+  //     `There was an error extracting tags from file: ${definedTags.error.message}`,
+  //     {cause: definedTags},
+  //   );
+  // }
+  // return definedTags.value;
 }

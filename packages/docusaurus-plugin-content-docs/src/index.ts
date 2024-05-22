@@ -19,6 +19,8 @@ import {
   createSlugger,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
+import {getTagsFile} from '@docusaurus/utils/lib/tags';
+import {validateDefinedTags} from '@docusaurus/utils-validation';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
@@ -27,7 +29,6 @@ import {
   addDocNavigation,
   type DocEnv,
   createDocsByIdIndex,
-  getTagsFile,
 } from './docs';
 import {readVersionsMetadata, toFullVersion} from './versions';
 import {cliDocsVersionCommand} from './cli';
@@ -134,7 +135,7 @@ export default async function pluginContentDocs(
     async loadContent() {
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
-        tagsFile: TagsFile | null,
+        tagsFile: TagsFile | undefined,
       ): Promise<DocMetadataBase[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
@@ -166,11 +167,12 @@ export default async function pluginContentDocs(
         const tagsFile = await getTagsFile(
           options,
           versionMetadata.contentPath,
+          validateDefinedTags,
         );
 
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
-          tagsFile,
+          tagsFile?.value,
         );
 
         // TODO we only ever need draftIds in further code, not full draft items
