@@ -13,6 +13,7 @@ export {
   ParseFrontMatter,
   DocusaurusConfig,
   FutureConfig,
+  TagsFeature,
   StorageConfig,
   Config,
 } from './config';

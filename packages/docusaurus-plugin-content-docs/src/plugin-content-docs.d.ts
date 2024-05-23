@@ -19,7 +19,7 @@ declare module '@docusaurus/plugin-content-docs' {
     LastUpdateData,
     NormalizedTag,
   } from '@docusaurus/utils';
-  import type {Plugin, LoadContext} from '@docusaurus/types';
+  import type {Plugin, LoadContext, TagsFeature} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
@@ -64,7 +64,7 @@ declare module '@docusaurus/plugin-content-docs' {
     locale: string;
   }) => string | undefined;
 
-  export type MetadataOptions = {
+  export type MetadataOptions = TagsFeature & {
     /**
      * URL route for the docs section of your site. **DO NOT** include a
      * trailing slash. Use `/` for shipping docs without base path.
@@ -101,8 +101,6 @@ declare module '@docusaurus/plugin-content-docs' {
     numberPrefixParser: NumberPrefixParser;
     /** Enable or disable the breadcrumbs on doc pages. */
     breadcrumbs: boolean;
-    tagsFilePath: string | false | null | undefined;
-    onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
   };
 
   export type PathOptions = {

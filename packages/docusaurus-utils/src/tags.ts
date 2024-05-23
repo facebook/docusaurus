@@ -11,7 +11,7 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import YAML from 'js-yaml';
 import {normalizeUrl} from './urlUtils';
-import type {PluginOptions} from '@docusaurus/types';
+import type {TagsFeature} from '@docusaurus/types';
 
 export type TagsFile = Record<string, Tag>;
 
@@ -222,13 +222,12 @@ export function validateFrontMatterTags({
 }: {
   tags: NormalizedTag[];
   source: string;
-  options: Pick<PluginOptions, 'tagsFilePath' | 'onUnknownTags'>;
+  options: TagsFeature;
 }): void {
   const inlineTags = tags.filter((tag) => tag.inline);
   if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
     const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
     const tagListString = uniqueUnknownTags.join(', ');
-    // @ts-expect-error: onUnknownTags is not 'ignore'
     logger.report(options.onUnknownTags)(
       `Tags [${tagListString}] used in ${source} are not defined in ${options.tagsFilePath}`,
     );
@@ -242,7 +241,7 @@ export function processFileTagsPath({
   versionTagsPath,
   tagsFile,
 }: {
-  options: Pick<PluginOptions, 'tagsFilePath' | 'onUnknownTags'>;
+  options: TagsFeature;
   source: string;
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
@@ -264,7 +263,7 @@ export function processFileTagsPath({
 }
 
 export async function getTagsFile<T>(
-  options: Pick<PluginOptions, 'tagsFilePath' | 'onUnknownTags'>,
+  options: TagsFeature,
   contentPath: string,
   validateDefinedTags: (data: unknown) => T,
 ): Promise<T | null> {
@@ -279,7 +278,6 @@ export async function getTagsFile<T>(
   const tagDefinitionPath = path.join(
     contentPath,
     // TODO default value isn't used ?
-    // @ts-expect-error: tagsFilePath is not ''
     options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
   );
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
