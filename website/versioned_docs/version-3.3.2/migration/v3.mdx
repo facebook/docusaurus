@@ -357,6 +357,19 @@ If you don't want an extra `<p>` tag, refactor content on a case by case basis t
  </figure>
 ```
 
+You can also wrap such content with `{` and `}` to avoid extra `<p>` tags if you don't intend to use Markdown syntax there yet.
+
+```diff
+-<figure>
++{<figure>
+   <img src="/img/myImage.png" alt="My alt" />
+   <figcaption>
+     My image caption
+   </figcaption>
+-</figure>
++</figure>}
+```
+
 :::
 
 #### Unintended usage of directives
