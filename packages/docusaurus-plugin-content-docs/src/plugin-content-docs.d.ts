@@ -18,8 +18,9 @@ declare module '@docusaurus/plugin-content-docs' {
     FrontMatterLastUpdate,
     LastUpdateData,
     NormalizedTag,
+    TagsPluginOptions,
   } from '@docusaurus/utils';
-  import type {Plugin, LoadContext, TagsFeature} from '@docusaurus/types';
+  import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
@@ -64,7 +65,7 @@ declare module '@docusaurus/plugin-content-docs' {
     locale: string;
   }) => string | undefined;
 
-  export type MetadataOptions = TagsFeature & {
+  export type MetadataOptions = TagsPluginOptions & {
     /**
      * URL route for the docs section of your site. **DO NOT** include a
      * trailing slash. Use `/` for shipping docs without base path.

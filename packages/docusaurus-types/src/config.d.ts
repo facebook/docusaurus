@@ -125,11 +125,6 @@ export type FutureConfig = {
   experimental_storage: StorageConfig;
 };
 
-export type TagsFeature = {
-  tagsFilePath: string | false | null | undefined;
-  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
-};
-
 /**
  * Docusaurus config, after validation/normalization.
  */

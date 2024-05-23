@@ -11,15 +11,23 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import YAML from 'js-yaml';
 import {normalizeUrl} from './urlUtils';
-import type {TagsFeature} from '@docusaurus/types';
-
-export type TagsFile = Record<string, Tag>;
 
 /** What the user configures. */
 export type Tag = {
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
+};
+
+export type TagsFile = Record<string, Tag>;
+
+// Tags plugins options shared between docs/blog
+export type TagsPluginOptions = {
+  // TODO rename to tags?
+  // TODO allow option tags later? | TagsFile;
+  tagsFilePath: string | false | null | undefined;
+  // TODO rename to onInlineTags
+  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
 };
 
 export type NormalizedTag = Tag & {
@@ -222,7 +230,7 @@ export function validateFrontMatterTags({
 }: {
   tags: NormalizedTag[];
   source: string;
-  options: TagsFeature;
+  options: TagsPluginOptions;
 }): void {
   const inlineTags = tags.filter((tag) => tag.inline);
   if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
@@ -241,7 +249,7 @@ export function processFileTagsPath({
   versionTagsPath,
   tagsFile,
 }: {
-  options: TagsFeature;
+  options: TagsPluginOptions;
   source: string;
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
@@ -263,7 +271,7 @@ export function processFileTagsPath({
 }
 
 export async function getTagsFile<T>(
-  options: TagsFeature,
+  options: TagsPluginOptions,
   contentPath: string,
   validateDefinedTags: (data: unknown) => T,
 ): Promise<T | null> {

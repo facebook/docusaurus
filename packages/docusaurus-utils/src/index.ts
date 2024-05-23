@@ -57,6 +57,7 @@ export {
   type TagsListItem,
   type TagModule,
   type FrontMatterTag,
+  type TagsPluginOptions,
   normalizeFrontMatterTags,
   groupTaggedItems,
   getTagVisibility,
