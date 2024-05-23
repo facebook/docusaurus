@@ -1,7 +1,0 @@
-open:
-  label: Open Source
-  description: Learn about the open source
-test:
-  label: Test
-  description: Test
-  permalink: /custom-test

@@ -10,7 +10,6 @@ import {fromPartial} from '@total-typescript/shoehorn';
 import {validateDefinedTags} from '@docusaurus/utils-validation';
 import {
   getTagsFile,
-  normalizeTags,
   processFileTagsPath,
   validateFrontMatterTags,
 } from '@docusaurus/utils';
@@ -47,7 +46,7 @@ const createTest = async ({
   );
 
   return processFileTagsPath({
-    tagsFile: definedTags?.value,
+    tagsFile: definedTags?.value as any, // TODO
     options: fromPartial({
       tagsFilePath,
       onUnknownTags,
@@ -142,61 +141,5 @@ describe('processFileTagsPath', () => {
       onUnknownTags: 'throw',
     });
     await expect(process).resolves.toBeDefined();
-  });
-});
-
-describe('normalize tags', () => {
-  it('normalize tags', async () => {
-    const tagsFile = await getTagsFileDefinition(
-      fromPartial({
-        onUnknownTags: 'throw',
-        tagsFilePath: 'tags.yml',
-      }),
-    );
-
-    const tags = [
-      'hello',
-      'world',
-      {label: 'hello', permalink: 'hello'},
-      {label: 'world', permalink: 'world'},
-      'hello',
-      'open',
-      {label: 'open', permalink: 'open'},
-      'test',
-    ];
-
-    const normalizedTags = normalizeTags({
-      versionTagsPath: '/tags',
-      tagsFile: tagsFile?.value,
-      frontMatterTags: tags,
-    });
-
-    expect(normalizedTags).toEqual([
-      {
-        label: 'hello',
-        permalink: '/tags/hello',
-        inline: true,
-      },
-      {
-        label: 'world',
-        permalink: '/tags/world',
-        inline: true,
-      },
-      {
-        label: 'Open Source',
-        permalink: '/tags/open-source',
-        inline: false,
-      },
-      {
-        inline: true,
-        label: 'open',
-        permalink: '/tags/open',
-      },
-      {
-        label: 'Test',
-        permalink: '/tags/custom-test',
-        inline: false,
-      },
-    ]);
   });
 });

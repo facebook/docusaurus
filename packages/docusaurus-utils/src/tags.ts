@@ -17,7 +17,13 @@ export type Tag = {
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
+
+  // TODO do we use it in practice?
+  description?: string;
 };
+
+// TODO add TagsFileInput=>TagsFile transformation + unit tests
+export type TagsFileInput = Record<string, Partial<Tag>>;
 
 export type TagsFile = Record<string, Tag>;
 
@@ -50,23 +56,32 @@ export type TagModule = TagsListItem & {
 
 export type FrontMatterTag = string | Tag;
 
-function normalizeFrontMatterTag(
+// TODO maybe make ensure the permalink is valid url path?
+function normalizeTagPermalink({
+  tagsPath,
+  permalink,
+}: {
+  tagsPath: string;
+  permalink: string;
+}): string {
+  // Note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
+  // and v2/doc.md tags with custom permalinks don't lead to the same created
+  // page. tagsPath is different for each doc version
+  return normalizeUrl([tagsPath, permalink]);
+}
+
+// TODO old legacy method, to refactor
+function normalizeInlineTag(
   tagsPath: string,
   frontMatterTag: FrontMatterTag,
-): Tag {
-  function toTagObject(tagString: string): Tag {
+): NormalizedTag {
+  function toTagObject(tagString: string): NormalizedTag {
     return {
+      inline: true,
       label: tagString,
       permalink: _.kebabCase(tagString),
+      description: undefined,
     };
-  }
-
-  // TODO maybe make ensure the permalink is valid url path?
-  function normalizeTagPermalink(permalink: string): string {
-    // Note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
-    // and v2/doc.md tags with custom permalinks don't lead to the same created
-    // page. tagsPath is different for each doc version
-    return normalizeUrl([tagsPath, permalink]);
   }
 
   const tag: Tag =
@@ -75,51 +90,56 @@ function normalizeFrontMatterTag(
       : frontMatterTag;
 
   return {
+    inline: true,
     label: tag.label,
-    permalink: normalizeTagPermalink(tag.permalink),
+    permalink: normalizeTagPermalink({permalink: tag.permalink, tagsPath}),
+    description: tag.description,
   };
 }
 
-export function normalizeTags({
-  versionTagsPath,
+export function normalizeTag({
+  tag,
   tagsFile,
-  frontMatterTags,
+  tagsPath,
 }: {
-  versionTagsPath: string;
+  tag: FrontMatterTag;
+  tagsPath: string;
   tagsFile: TagsFile | undefined;
-  frontMatterTags: FrontMatterTag[];
-}): NormalizedTag[] {
-  function normalizeTag(tag: FrontMatterTag): NormalizedTag {
-    if (typeof tag === 'string') {
-      const tagDescription = tagsFile?.[tag];
-      if (tagDescription) {
-        // pre-defined tag from tags.yml
-        return {
-          label: tagDescription.label,
-          permalink: normalizeFrontMatterTag(
-            versionTagsPath,
-            tagDescription.permalink ?? _.kebabCase(tagDescription.label),
-          ).permalink,
-          inline: false,
-        };
-      } else {
-        // inline tag
-        return {
-          ...normalizeFrontMatterTag(versionTagsPath, tag),
-          inline: true,
-        };
-      }
-    }
-    // legacy inline tag object, always inline, unknown because isn't a string
-    else {
+}): NormalizedTag {
+  if (typeof tag === 'string') {
+    const tagDescription = tagsFile?.[tag];
+    if (tagDescription) {
+      // pre-defined tag from tags.yml
       return {
-        ...normalizeFrontMatterTag(versionTagsPath, tag),
-        inline: true,
+        inline: false,
+        label: tagDescription.label,
+        permalink: normalizeTagPermalink({
+          permalink: tagDescription.permalink,
+          tagsPath,
+        }),
+        description: tagDescription.description,
       };
     }
   }
+  // legacy inline tag object, always inline, unknown because isn't a string
+  return normalizeInlineTag(tagsPath, tag);
+}
 
-  const tags = frontMatterTags.map(normalizeTag);
+export function normalizeTags({
+  tagsPath,
+  tagsFile,
+  frontMatterTags,
+}: {
+  tagsPath: string;
+  tagsFile: TagsFile | undefined;
+  frontMatterTags: FrontMatterTag[];
+}): NormalizedTag[] {
+  const tags = frontMatterTags.map((tag) =>
+    normalizeTag({tag, tagsPath, tagsFile}),
+  );
+
+  // TODO old legacy behavior
+  //  emit errors in case of conflicts instead
   return _.uniqBy(tags, (tag) => tag.permalink);
 }
 
@@ -233,7 +253,7 @@ export function processFileTagsPath({
   tagsFile: TagsFile | undefined;
 }): NormalizedTag[] {
   const tags = normalizeTags({
-    versionTagsPath,
+    tagsPath: versionTagsPath,
     tagsFile,
     frontMatterTags: frontMatterTags ?? [],
   });
@@ -247,11 +267,13 @@ export function processFileTagsPath({
   return tags;
 }
 
-export async function getTagsFile<T>(
+// TODO move to utils-validation
+export async function getTagsFile(
   options: TagsPluginOptions,
   contentPath: string,
-  validateDefinedTags: (data: unknown) => T,
-): Promise<T | null> {
+  // TODO find a better solution
+  validateDefinedTags: (data: unknown) => TagsFile,
+): Promise<TagsFile | null> {
   if (
     options.tagsFilePath === false ||
     options.tagsFilePath === null ||
@@ -268,6 +290,10 @@ export async function getTagsFile<T>(
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
   const data = YAML.load(tagDefinitionContent);
   return validateDefinedTags(data);
+  // TODO + normalize partial input => full input
+  // TODO unit tests covering all forms of partial inputs
+  // TODO handle conflicts, verify unique permalink etc
+
   // if (definedTags.error) {
   //   throw new Error(
   //     `There was an error extracting tags from file: ${definedTags.error.message}`,

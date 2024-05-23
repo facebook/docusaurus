@@ -6,117 +6,131 @@
  */
 
 import {
-  normalizeFrontMatterTags,
   groupTaggedItems,
-  type Tag,
   getTagVisibility,
+  normalizeTags,
+  normalizeTag
 } from '../tags';
+import type {TagsFile, Tag,
+  NormalizedTag,
+  FrontMatterTag} from '../tags';
+
+describe('normalize tags', () => {
+  it('normalize tags', async () => {
+    const tagsFile: TagsFile = {
+      open: {
+        label: 'Open Source',
+        permalink: '/custom-open-source',
+        description: 'Learn about the open source',
+      },
+      test: {label: 'Test', permalink: '/custom-test', description: 'Test'},
+    };
+
+    const tags = [
+      'hello',
+      'world',
+      {label: 'hello', permalink: 'hello'},
+      {label: 'world', permalink: 'world'},
+      'hello',
+      'open',
+      {label: 'open', permalink: 'open'},
+      'test',
+    ];
+
+    const normalizedTags = normalizeTags({
+      tagsPath: '/tags',
+      tagsFile,
+      frontMatterTags: tags,
+    });
+
+    const expected: NormalizedTag[] = [
+      {
+        inline: true,
+        label: 'hello',
+        permalink: '/tags/hello',
+      },
+      {
+        inline: true,
+        label: 'world',
+        permalink: '/tags/world',
+      },
+      {
+        inline: false,
+        label: 'Open Source',
+        permalink: '/tags/custom-open-source',
+        description: 'Learn about the open source',
+      },
+      {
+        inline: true,
+        label: 'open',
+        permalink: '/tags/open',
+      },
+      {
+        inline: false,
+        label: 'Test',
+        permalink: '/tags/custom-test',
+        description: 'Test',
+      },
+    ];
+
+    expect(normalizedTags).toEqual(expected);
+  });
+});
 
 describe('normalizeFrontMatterTags', () => {
-  it('normalizes simple string tag', () => {
-    const tagsPath = '/all/tags';
-    const input = 'tag';
-    const expectedOutput = {
-      label: 'tag',
-      permalink: `${tagsPath}/tag`,
-    };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
-      expectedOutput,
-    ]);
-  });
+  const tagsPath = '/all/tags';
 
-  it('normalizes complex string tag', () => {
-    const tagsPath = '/all/tags';
-    const input = 'some more Complex_tag';
-    const expectedOutput = {
-      label: 'some more Complex_tag',
-      permalink: `${tagsPath}/some-more-complex-tag`,
-    };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
-      expectedOutput,
-    ]);
-  });
+  describe('inline', () => {
+    it('normalizes simple string tag', () => {
+      const input: FrontMatterTag = 'tag';
+      const expectedOutput: NormalizedTag = {
+        inline: true,
+        label: 'tag',
+        permalink: `${tagsPath}/tag`,
+      };
+      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
 
-  it('normalizes simple object tag', () => {
-    const tagsPath = '/all/tags';
-    const input = {label: 'tag', permalink: 'tagPermalink'};
-    const expectedOutput = {
-      label: 'tag',
-      permalink: `${tagsPath}/tagPermalink`,
-    };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
-      expectedOutput,
-    ]);
-  });
+    it('normalizes complex string tag', () => {
+      const input: FrontMatterTag = 'some more Complex_tag';
+      const expectedOutput: NormalizedTag = {
+        inline: true,
+        label: 'some more Complex_tag',
+        permalink: `${tagsPath}/some-more-complex-tag`,
+      };
+      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
 
-  it('normalizes complex string tag with object tag', () => {
-    const tagsPath = '/all/tags';
-    const input = {
-      label: 'tag complex Label',
-      permalink: '/MoreComplex/Permalink',
-    };
-    const expectedOutput = {
-      label: 'tag complex Label',
-      permalink: `${tagsPath}/MoreComplex/Permalink`,
-    };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
-      expectedOutput,
-    ]);
-  });
+    it('normalizes simple object tag', () => {
+      const input: FrontMatterTag = {label: 'tag', permalink: 'tagPermalink'};
+      const expectedOutput: NormalizedTag = {
+        inline: true,
+        label: 'tag',
+        permalink: `${tagsPath}/tagPermalink`,
+      };
+      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
 
-  type Input = Parameters<typeof normalizeFrontMatterTags>[1];
-  type Output = ReturnType<typeof normalizeFrontMatterTags>;
-
-  it('normalizes string list', () => {
-    const tagsPath = '/all/tags';
-    const input: Input = ['tag 1', 'tag-1', 'tag 3', 'tag1', 'tag-2'];
-    // Keep user input order but remove tags that lead to same permalink
-    const expectedOutput: Output = [
-      {
-        label: 'tag 1',
-        permalink: `${tagsPath}/tag-1`,
-      },
-      {
-        label: 'tag 3',
-        permalink: `${tagsPath}/tag-3`,
-      },
-      {
-        label: 'tag-2',
-        permalink: `${tagsPath}/tag-2`,
-      },
-    ];
-    expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
-  });
-
-  it('succeeds for empty list', () => {
-    expect(normalizeFrontMatterTags('/foo')).toEqual([]);
-  });
-
-  it('normalizes complex mixed list', () => {
-    const tagsPath = '/all/tags';
-    const input: Input = [
-      'tag 1',
-      {label: 'tag-1', permalink: '/tag-1'},
-      'tag 3',
-      'tag1',
-      {label: 'tag 4', permalink: '/tag4Permalink'},
-    ];
-    // Keep user input order but remove tags that lead to same permalink
-    const expectedOutput: Output = [
-      {
-        label: 'tag 1',
-        permalink: `${tagsPath}/tag-1`,
-      },
-      {
-        label: 'tag 3',
-        permalink: `${tagsPath}/tag-3`,
-      },
-      {
-        label: 'tag 4',
-        permalink: `${tagsPath}/tag4Permalink`,
-      },
-    ];
-    expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
+    it('normalizes complex string tag with object tag', () => {
+      const input: FrontMatterTag = {
+        label: 'tag complex Label',
+        permalink: '/MoreComplex/Permalink',
+      };
+      const expectedOutput: NormalizedTag = {
+        inline: true,
+        label: 'tag complex Label',
+        permalink: `${tagsPath}/MoreComplex/Permalink`,
+      };
+      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
   });
 });
 
