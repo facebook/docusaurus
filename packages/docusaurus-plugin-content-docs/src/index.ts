@@ -18,8 +18,8 @@ import {
   createAbsoluteFilePathMatcher,
   createSlugger,
   DEFAULT_PLUGIN_ID,
+  getTagsFile,
 } from '@docusaurus/utils';
-import {getTagsFile} from '@docusaurus/utils/lib/tags';
 import {validateDefinedTags} from '@docusaurus/utils-validation';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';

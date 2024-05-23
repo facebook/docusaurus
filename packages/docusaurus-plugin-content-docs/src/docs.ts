@@ -20,8 +20,8 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  processFileTagsPath,
 } from '@docusaurus/utils';
-import {processFileTagsPath} from '@docusaurus/utils/lib/tags';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';

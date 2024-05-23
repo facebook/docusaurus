@@ -7,9 +7,13 @@
 
 import path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {normalizeTags} from '@docusaurus/utils/lib/tags';
-import {getTagsFile, processFileTagsPath} from '../docs';
-import {validateFrontMatterTags} from '../tags';
+import {validateDefinedTags} from '@docusaurus/utils-validation';
+import {
+  getTagsFile,
+  normalizeTags,
+  processFileTagsPath,
+  validateFrontMatterTags,
+} from '@docusaurus/utils';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {FrontMatterTag} from '@docusaurus/utils';
 
@@ -22,6 +26,7 @@ async function getTagsFileDefinition(options: PluginOptions) {
       tagsFilePath: options.tagsFilePath,
     }),
     contentPath,
+    validateDefinedTags,
   );
 }
 
@@ -42,7 +47,7 @@ const createTest = async ({
   );
 
   return processFileTagsPath({
-    tagsFile: definedTags,
+    tagsFile: definedTags?.value,
     options: fromPartial({
       tagsFilePath,
       onUnknownTags,
@@ -162,7 +167,7 @@ describe('normalize tags', () => {
 
     const normalizedTags = normalizeTags({
       versionTagsPath: '/tags',
-      tagsFile,
+      tagsFile: tagsFile?.value,
       frontMatterTags: tags,
     });
 

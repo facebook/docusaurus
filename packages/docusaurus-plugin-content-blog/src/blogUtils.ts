@@ -26,8 +26,9 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  getTagsFile,
+  processFileTagsPath,
 } from '@docusaurus/utils';
-import {getTagsFile, processFileTagsPath} from '@docusaurus/utils/lib/tags';
 import {validateDefinedTags} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';

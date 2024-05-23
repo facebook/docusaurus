@@ -123,3 +123,10 @@ export {
   type LastUpdateData,
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
+
+export {
+  getTagsFile,
+  normalizeTags,
+  processFileTagsPath,
+  validateFrontMatterTags,
+} from './tags';
