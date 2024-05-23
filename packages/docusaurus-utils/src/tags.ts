@@ -80,29 +80,6 @@ function normalizeFrontMatterTag(
   };
 }
 
-/**
- * Takes tag objects as they are defined in front matter, and normalizes each
- * into a standard tag object. The permalink is created by appending the
- * sluggified label to `tagsPath`. Front matter tags already containing
- * permalinks would still have `tagsPath` prepended.
- *
- * The result will always be unique by permalinks. The behavior with colliding
- * permalinks is undetermined.
- */
-// TODO does this method still make sense? probably not
-export function normalizeFrontMatterTags(
-  /** Base path to append the tag permalinks to. */
-  tagsPath: string,
-  /** Can be `undefined`, so that we can directly pipe in `frontMatter.tags`. */
-  frontMatterTags: FrontMatterTag[] | undefined = [],
-): Tag[] {
-  const tags = frontMatterTags.map((tag) =>
-    normalizeFrontMatterTag(tagsPath, tag),
-  );
-
-  return _.uniqBy(tags, (tag) => tag.permalink);
-}
-
 export function normalizeTags({
   versionTagsPath,
   tagsFile,
@@ -116,7 +93,7 @@ export function normalizeTags({
     if (typeof tag === 'string') {
       const tagDescription = tagsFile?.[tag];
       if (tagDescription) {
-        // inline string known tag
+        // pre-defined tag from tags.yml
         return {
           label: tagDescription.label,
           permalink: normalizeFrontMatterTag(
@@ -126,7 +103,7 @@ export function normalizeTags({
           inline: false,
         };
       } else {
-        // inline string unknown tag
+        // inline tag
         return {
           ...normalizeFrontMatterTag(versionTagsPath, tag),
           inline: true,

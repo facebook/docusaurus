@@ -58,7 +58,6 @@ export {
   type TagModule,
   type FrontMatterTag,
   type TagsPluginOptions,
-  normalizeFrontMatterTags,
   groupTaggedItems,
   getTagVisibility,
 } from './tags';
