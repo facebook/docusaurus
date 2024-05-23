@@ -7,8 +7,12 @@
 
 import {replaceMarkdownLinks, getContentPathList} from '@docusaurus/utils';
 import type {DocsMarkdownOption} from '../types';
+import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 
-function getVersion(filePath: string, options: DocsMarkdownOption) {
+export function getVersion(
+  filePath: string,
+  options: DocsMarkdownOption,
+): VersionMetadata {
   const versionFound = options.versionsMetadata.find((version) =>
     getContentPathList(version).some((docsDirPath) =>
       filePath.startsWith(docsDirPath),

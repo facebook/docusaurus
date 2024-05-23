@@ -10,6 +10,7 @@ import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
+import linkify from './remark/linkify';
 import details from './remark/details';
 import head from './remark/head';
 import mermaid from './remark/mermaid';
@@ -120,6 +121,10 @@ async function createProcessorFactory() {
           siteDir: options.siteDir,
         },
       ],
+      // TODO merge this with transformLinks?
+      options.resolveMarkdownLink
+        ? [linkify, {resolveMarkdownLink: options.resolveMarkdownLink}]
+        : undefined,
       [
         transformLinks,
         {

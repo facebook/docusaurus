@@ -69,6 +69,7 @@ function parseCodeFence(line: string): CodeFence | null {
  * `<siteDir>/docs/tutorials/intro.md`). Links that contain the `http(s):` or
  * `@site/` prefix will always be ignored.
  */
+// TODO remove this
 export function replaceMarkdownLinks<T extends ContentPaths>({
   siteDir,
   fileString,

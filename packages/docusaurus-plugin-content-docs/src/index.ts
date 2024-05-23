@@ -38,6 +38,8 @@ import {
 } from './translations';
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
+import {getVersion} from './markdown/linkify';
+import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 import type {
   PluginOptions,
@@ -251,6 +253,8 @@ export default async function pluginContentDocs(
         beforeDefaultRemarkPlugins,
       } = options;
 
+      // TODO this does not re-run when content gets updated in dev!
+      //  it's probably better to restore a mutable cache in the plugin
       function getSourceToPermalink(): SourceToPermalink {
         const allDocs = content.loadedVersions.flatMap((v) => v.docs);
         return Object.fromEntries(
@@ -310,7 +314,34 @@ export default async function pluginContentDocs(
                   image: frontMatter.image,
                 }),
                 markdownConfig: siteConfig.markdown,
-              },
+                resolveMarkdownLink: ({link, filePath}) => {
+                  // TODO temporary, POC with historical code
+                  const mdLink = link;
+                  const {sourceToPermalink} = docsMarkdownOptions;
+                  const version = getVersion(filePath, docsMarkdownOptions);
+
+                  const sourcesToTry: string[] = [];
+                  // ./file.md and ../file.md are always relative to the current file
+                  if (!mdLink.startsWith('./') && !mdLink.startsWith('../')) {
+                    sourcesToTry.push(...getContentPathList(version), siteDir);
+                  }
+                  // /file.md is always relative to the content path
+                  if (!mdLink.startsWith('/')) {
+                    sourcesToTry.push(path.dirname(filePath));
+                  }
+
+                  const aliasedSourceMatch = sourcesToTry
+                    .map((p) => path.join(p, decodeURIComponent(mdLink)))
+                    .map((source) => aliasedSitePath(source, siteDir))
+                    .find((source) => sourceToPermalink[source]);
+
+                  const permalink: string | undefined = aliasedSourceMatch
+                    ? sourceToPermalink[aliasedSourceMatch]
+                    : undefined;
+
+                  return permalink;
+                },
+              } satisfies MDXLoaderOptions,
             },
             {
               loader: path.resolve(__dirname, './markdown/index.js'),
