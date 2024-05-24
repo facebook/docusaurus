@@ -10,11 +10,10 @@ import {
   serializeURLPath,
   type URLPath,
 } from '@docusaurus/utils';
-import {stringifyContent} from '../utils';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
-import type {Link} from 'mdast';
+import type {Definition, Link} from 'mdast';
 
 type ResolveMarkdownLinkParams = {
   /**
@@ -64,17 +63,6 @@ function parseMarkdownLinkURLPath(link: string): URLPath | null {
   return urlPath;
 }
 
-type BrokenMarkdownLink = {
-  /**
-   * Absolute path to the file containing this Markdown link.
-   */
-  filePath: string;
-  /**
-   * The broken Markdown link
-   */
-  link: Link;
-};
-
 /**
  * A remark plugin to extract the h1 heading found in Markdown files
  * This is exposed as "data.contentTitle" to the processed vfile
@@ -83,13 +71,10 @@ type BrokenMarkdownLink = {
 const plugin: Plugin = function plugin(options: PluginOptions): Transformer {
   const {resolveMarkdownLink} = options;
   return async (root, file) => {
-    const {toString} = await import('mdast-util-to-string');
-
     const {visit} = await import('unist-util-visit');
 
-    const brokenMarkdownLinks: BrokenMarkdownLink[] = [];
-
-    visit(root, 'link', (link: Link) => {
+    visit(root, ['link', 'definition'], (node) => {
+      const link = node as unknown as Link | Definition;
       const linkURLPath = parseMarkdownLinkURLPath(link.url);
       if (!linkURLPath) {
         return;
@@ -106,23 +91,9 @@ const plugin: Plugin = function plugin(options: PluginOptions): Transformer {
           ...linkURLPath,
           pathname: permalink,
         });
-        // console.log(`✅ Markdown link resolved: ${link.url} => ${resolvedUrl}`);
         link.url = resolvedUrl;
-      } else {
-        const linkContent = stringifyContent(link, toString);
-        console.log(`❌ Markdown link broken: [${linkContent}](${link.url})`);
-        brokenMarkdownLinks.push({
-          filePath: file.path,
-          link,
-        });
       }
     });
-
-    if (brokenMarkdownLinks.length > 0) {
-      console.log(
-        `❌ ${brokenMarkdownLinks.length} broken Markdown links for ${file.path}\n`,
-      );
-    }
   };
 };
 

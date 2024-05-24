@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseMarkdownFile deletes only first heading 1`] = `
+{
+  "content": "# Markdown Title
+
+test test test # test bar
+
+# Markdown Title 2
+
+### Markdown Title h3",
+  "contentTitle": "Markdown Title",
+  "excerpt": "test test test # test bar",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile deletes only first heading 2 1`] = `
+{
+  "content": "# test
+
+test test test test test test
+test test test # test bar
+# test2
+### test
+test3",
+  "contentTitle": "test",
+  "excerpt": "test test test test test test",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile does not warn for duplicate title if markdown title is not at the top 1`] = `
+{
+  "content": "foo
+
+# Markdown Title",
+  "contentTitle": undefined,
+  "excerpt": "foo",
+  "frontMatter": {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownFile handles code blocks 1`] = `
+{
+  "content": "\`\`\`js
+code
+\`\`\`
+
+Content",
+  "contentTitle": undefined,
+  "excerpt": "Content",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile handles code blocks 2`] = `
+{
+  "content": "\`\`\`\`js
+Foo
+\`\`\`diff
+code
+\`\`\`
+Bar
+\`\`\`\`
+
+Content",
+  "contentTitle": undefined,
+  "excerpt": "Content",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile handles code blocks 3`] = `
+{
+  "content": "\`\`\`\`js
+Foo
+\`\`\`diff
+code
+\`\`\`\`
+
+Content",
+  "contentTitle": undefined,
+  "excerpt": "Content",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile ignores markdown title if its not a first text 1`] = `
+{
+  "content": "foo
+# test",
+  "contentTitle": undefined,
+  "excerpt": "foo",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile parse markdown with custom front matter parser 1`] = `
+{
+  "content": "Some text",
+  "contentTitle": undefined,
+  "excerpt": "Some text",
+  "frontMatter": {
+    "age": 84,
+    "extra": "value",
+    "great": true,
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownFile parse markdown with front matter 1`] = `
+{
+  "content": "Some text",
+  "contentTitle": undefined,
+  "excerpt": "Some text",
+  "frontMatter": {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownFile parses first heading as contentTitle 1`] = `
+{
+  "content": "# Markdown Title
+
+Some text",
+  "contentTitle": "Markdown Title",
+  "excerpt": "Some text",
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile parses front-matter and ignore h2 1`] = `
+{
+  "content": "## test",
+  "contentTitle": undefined,
+  "excerpt": "test",
+  "frontMatter": {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownFile parses title only 1`] = `
+{
+  "content": "# test",
+  "contentTitle": "test",
+  "excerpt": undefined,
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile parses title only alternate 1`] = `
+{
+  "content": "test
+===",
+  "contentTitle": "test",
+  "excerpt": undefined,
+  "frontMatter": {},
+}
+`;
+
+exports[`parseMarkdownFile reads front matter only 1`] = `
+{
+  "content": "",
+  "contentTitle": undefined,
+  "excerpt": undefined,
+  "frontMatter": {
+    "title": "test",
+  },
+}
+`;
+
+exports[`parseMarkdownFile warns about duplicate titles (front matter + markdown alternate) 1`] = `
+{
+  "content": "Markdown Title alternate
+================
+
+Some text",
+  "contentTitle": "Markdown Title alternate",
+  "excerpt": "Some text",
+  "frontMatter": {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownFile warns about duplicate titles (front matter + markdown) 1`] = `
+{
+  "content": "# Markdown Title
+
+Some text",
+  "contentTitle": "Markdown Title",
+  "excerpt": "Some text",
+  "frontMatter": {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownFile warns about duplicate titles 1`] = `
+{
+  "content": "# test",
+  "contentTitle": "test",
+  "excerpt": undefined,
+  "frontMatter": {
+    "title": "Frontmatter title",
+  },
+}
+`;
