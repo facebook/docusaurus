@@ -116,5 +116,6 @@
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
     "typescript": "~5.4.5"
-  }
+  },
+  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
 }

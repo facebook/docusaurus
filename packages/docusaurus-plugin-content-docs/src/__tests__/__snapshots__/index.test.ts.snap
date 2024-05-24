@@ -93,6 +93,12 @@ exports[`simple website content 1`] = `
     {
       "description": undefined,
       "inline": true,
+      "label": "tag-1",
+      "permalink": "/docs/tags/tag-1",
+    },
+    {
+      "description": undefined,
+      "inline": true,
       "label": "tag 2",
       "permalink": "/docs/tags/tag2-custom-permalink",
     },
@@ -605,6 +611,12 @@ exports[`simple website content: data 1`] = `
         "description": undefined,
         "inline": true,
         "label": "tag 1",
+        "permalink": "/docs/tags/tag-1",
+      },
+      {
+        "description": undefined,
+        "inline": true,
+        "label": "tag-1",
         "permalink": "/docs/tags/tag-1",
       },
       {

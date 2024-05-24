@@ -33,7 +33,7 @@ function validateDefinedTags(tags: unknown): Joi.ValidationResult<TagsFile> {
   return tagDefinitionSchema.validate(tags);
 }
 
-function ensureUniquePermalinks(tags: TagsFile) {
+function ensureUniquePermalinks(tags: TagsFile): void {
   const permalinks = new Set<string>();
   for (const [, tag] of Object.entries(tags)) {
     const {permalink} = tag;
@@ -51,9 +51,9 @@ function normalizeTags(data: TagsFileInput): TagsFile {
       // Use type assertion to tell TypeScript that tag is of type Partial<Tag>
       const partialTag = tag as Partial<Tag>;
       normalizedData[key] = {
-        label: partialTag.label || key,
-        description: partialTag.description || `${key} description`,
-        permalink: partialTag.permalink || `/${key}`,
+        label: partialTag?.label || key,
+        description: partialTag?.description || `${key} description`,
+        permalink: partialTag?.permalink || `/${key}`,
       };
     }
   }

@@ -134,10 +134,9 @@ export function normalizeTags({
     normalizeTag({tag, tagsPath, tagsFile}),
   );
 
-  // TODO old legacy behavior
-  //  emit errors in case of conflicts instead
-  return _.uniqBy(tags, (tag) => tag.permalink);
-  // return tags;
+  return tags;
+  // TODO old legacy behavior emit errors in case of conflicts instead
+  // return _.uniqBy(tags, (tag) => tag.permalink);
 }
 
 type TaggedItemGroup<Item> = {
