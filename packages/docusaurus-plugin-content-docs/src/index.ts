@@ -55,7 +55,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {SourceToPermalink, DocFile, FullVersion} from './types';
-import type {RuleSetRule} from 'webpack';
+import type {RuleSetUseItem} from 'webpack';
 
 export default async function pluginContentDocs(
   context: LoadContext,
@@ -262,7 +262,7 @@ export default async function pluginContentDocs(
       }
       const sourceToPermalink = getSourceToPermalink();
 
-      function createMDXLoaderRule(): RuleSetRule {
+      function createMDXLoader(): RuleSetUseItem {
         const contentDirs = versionsMetadata
           .flatMap(getContentPathList)
           // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
@@ -339,7 +339,7 @@ export default async function pluginContentDocs(
           },
         },
         module: {
-          rules: [createMDXLoaderRule()],
+          rules: [createMDXLoader()],
         },
       };
     },

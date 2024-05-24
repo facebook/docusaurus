@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import linkify from '..';
+import plugin from '..';
 import type {PluginOptions} from '../index';
 
 async function process(
@@ -19,12 +19,12 @@ async function process(
     ...pluginOptions,
   };
 
-  const result = await remark().use(linkify, options).process(content);
+  const result = await remark().use(plugin, options).process(content);
 
   return result.value;
 }
 
-describe('linkify remark plugin', () => {
+describe('resolveMarkdownLinks remark plugin', () => {
   it('resolves Markdown and MDX links', async () => {
     /* language=markdown */
     const content = `[link1](link1.mdx)

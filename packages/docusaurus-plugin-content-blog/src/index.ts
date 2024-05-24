@@ -304,9 +304,7 @@ export default async function pluginContentBlog(
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
-              use: [createMDXLoader(), createBlogMarkdownLoader()].filter(
-                Boolean,
-              ),
+              use: [createMDXLoader(), createBlogMarkdownLoader()],
             },
           ],
         },

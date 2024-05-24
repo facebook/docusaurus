@@ -17,7 +17,7 @@ import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
 import {createProcessorCached} from './processor';
-import type {ResolveMarkdownLink} from './remark/linkify';
+import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
