@@ -252,6 +252,11 @@ export default async function pluginContentDocs(
         beforeDefaultRemarkPlugins,
       } = options;
 
+      const contentDirs = versionsMetadata
+        .flatMap(getContentPathList)
+        // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+        .map(addTrailingPathSeparator);
+
       // TODO this does not re-run when content gets updated in dev!
       //  it's probably better to restore a mutable cache in the plugin
       function getSourceToPermalink(): SourceToPermalink {
@@ -263,11 +268,6 @@ export default async function pluginContentDocs(
       const sourceToPermalink = getSourceToPermalink();
 
       function createMDXLoader(): RuleSetUseItem {
-        const contentDirs = versionsMetadata
-          .flatMap(getContentPathList)
-          // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
-          .map(addTrailingPathSeparator);
-
         const loaderOptions: MDXLoaderOptions = {
           admonitions: options.admonitions,
           remarkPlugins,
@@ -315,14 +315,8 @@ export default async function pluginContentDocs(
         };
 
         return {
-          test: /\.mdx?$/i,
-          include: contentDirs,
-          use: [
-            {
-              loader: require.resolve('@docusaurus/mdx-loader'),
-              options: loaderOptions,
-            },
-          ].filter(Boolean),
+          loader: require.resolve('@docusaurus/mdx-loader'),
+          options: loaderOptions,
         };
       }
 
@@ -339,7 +333,13 @@ export default async function pluginContentDocs(
           },
         },
         module: {
-          rules: [createMDXLoader()],
+          rules: [
+            {
+              test: /\.mdx?$/i,
+              include: contentDirs,
+              use: [createMDXLoader()],
+            },
+          ],
         },
       };
     },
