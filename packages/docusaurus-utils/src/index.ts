@@ -53,6 +53,7 @@ export type {URLPath} from './urlUtils';
 export {
   type Tag,
   type TagsFile,
+  type TagsFileInput,
   type NormalizedTag,
   type TagsListItem,
   type TagModule,
@@ -125,7 +126,6 @@ export {
 } from './lastUpdateUtils';
 
 export {
-  getTagsFile,
   normalizeTags,
   processFileTagsPath,
   validateFrontMatterTags,

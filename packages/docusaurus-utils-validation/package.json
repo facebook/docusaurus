@@ -21,6 +21,7 @@
     "@docusaurus/logger": "3.3.2",
     "@docusaurus/utils": "3.3.2",
     "@docusaurus/utils-common": "3.3.2",
+    "fs-extra": "^11.2.0",
     "joi": "^17.9.2",
     "js-yaml": "^4.1.0",
     "tslib": "^2.6.0"

@@ -90,7 +90,7 @@ async function doProcessDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  tagsFile: TagsFile | undefined;
+  tagsFile: TagsFile | null;
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {
@@ -247,7 +247,7 @@ export async function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
-  tagsFile: TagsFile | undefined;
+  tagsFile: TagsFile | null;
 }): Promise<DocMetadataBase> {
   try {
     return await doProcessDocMetadata(args);

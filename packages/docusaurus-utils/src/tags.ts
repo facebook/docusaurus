@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import fs from 'fs-extra';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import YAML from 'js-yaml';
 import {normalizeUrl} from './urlUtils';
 
 /** What the user configures. */
@@ -17,7 +14,6 @@ export type Tag = {
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
-
   // TODO do we use it in practice?
   description?: string;
 };
@@ -104,7 +100,7 @@ export function normalizeTag({
 }: {
   tag: FrontMatterTag;
   tagsPath: string;
-  tagsFile: TagsFile | undefined;
+  tagsFile: TagsFile | null;
 }): NormalizedTag {
   if (typeof tag === 'string') {
     const tagDescription = tagsFile?.[tag];
@@ -131,7 +127,7 @@ export function normalizeTags({
   frontMatterTags,
 }: {
   tagsPath: string;
-  tagsFile: TagsFile | undefined;
+  tagsFile: TagsFile | null;
   frontMatterTags: FrontMatterTag[];
 }): NormalizedTag[] {
   const tags = frontMatterTags.map((tag) =>
@@ -141,6 +137,7 @@ export function normalizeTags({
   // TODO old legacy behavior
   //  emit errors in case of conflicts instead
   return _.uniqBy(tags, (tag) => tag.permalink);
+  // return tags;
 }
 
 type TaggedItemGroup<Item> = {
@@ -250,7 +247,7 @@ export function processFileTagsPath({
   source: string;
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
-  tagsFile: TagsFile | undefined;
+  tagsFile: TagsFile | null;
 }): NormalizedTag[] {
   const tags = normalizeTags({
     tagsPath: versionTagsPath,
@@ -265,40 +262,4 @@ export function processFileTagsPath({
   });
 
   return tags;
-}
-
-// TODO move to utils-validation
-export async function getTagsFile(
-  options: TagsPluginOptions,
-  contentPath: string,
-  // TODO find a better solution
-  validateDefinedTags: (data: unknown) => TagsFile,
-): Promise<TagsFile | null> {
-  if (
-    options.tagsFilePath === false ||
-    options.tagsFilePath === null ||
-    // TODO doesn't work if not set
-    options.onUnknownTags === 'ignore' // TODO that looks wrong
-  ) {
-    return null;
-  }
-  const tagDefinitionPath = path.join(
-    contentPath,
-    // TODO default value isn't used ?
-    options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
-  );
-  const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
-  const data = YAML.load(tagDefinitionContent);
-  return validateDefinedTags(data);
-  // TODO + normalize partial input => full input
-  // TODO unit tests covering all forms of partial inputs
-  // TODO handle conflicts, verify unique permalink etc
-
-  // if (definedTags.error) {
-  //   throw new Error(
-  //     `There was an error extracting tags from file: ${definedTags.error.message}`,
-  //     {cause: definedTags},
-  //   );
-  // }
-  // return definedTags.value;
 }

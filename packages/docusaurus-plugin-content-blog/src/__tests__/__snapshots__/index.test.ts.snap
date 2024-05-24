@@ -148,6 +148,7 @@ exports[`blog plugin process blog posts load content 2`] = `
       "source": "@site/blog/another-simple-slug-with-tags.md",
       "tags": [
         {
+          "description": undefined,
           "inline": true,
           "label": "tag1",
           "permalink": "/blog/tags/tag-1",
@@ -190,11 +191,13 @@ exports[`blog plugin process blog posts load content 2`] = `
       "source": "@site/blog/another-with-tags.md",
       "tags": [
         {
+          "description": undefined,
           "inline": true,
           "label": "tag1",
           "permalink": "/blog/tags/tag-1",
         },
         {
+          "description": undefined,
           "inline": true,
           "label": "tag2",
           "permalink": "/blog/tags/tag-2",
@@ -233,11 +236,13 @@ exports[`blog plugin process blog posts load content 2`] = `
       "source": "@site/blog/another-with-tags2.md",
       "tags": [
         {
+          "description": undefined,
           "inline": true,
           "label": "tag1",
           "permalink": "/blog/tags/tag-1",
         },
         {
+          "description": undefined,
           "inline": true,
           "label": "tag2",
           "permalink": "/blog/tags/tag-2",

@@ -85,11 +85,13 @@ exports[`simple website content 1`] = `
   "sourceDirName": "foo",
   "tags": [
     {
+      "description": undefined,
       "inline": true,
       "label": "tag 1",
       "permalink": "/docs/tags/tag-1",
     },
     {
+      "description": undefined,
       "inline": true,
       "label": "tag 2",
       "permalink": "/docs/tags/tag2-custom-permalink",
@@ -132,11 +134,13 @@ exports[`simple website content 2`] = `
   "sourceDirName": ".",
   "tags": [
     {
+      "description": undefined,
       "inline": true,
       "label": "tag-1",
       "permalink": "/docs/tags/tag-1",
     },
     {
+      "description": undefined,
       "inline": true,
       "label": "tag 3",
       "permalink": "/docs/tags/tag-3",
@@ -598,11 +602,13 @@ exports[`simple website content: data 1`] = `
     "sourceDirName": "foo",
     "tags": [
       {
+        "description": undefined,
         "inline": true,
         "label": "tag 1",
         "permalink": "/docs/tags/tag-1",
       },
       {
+        "description": undefined,
         "inline": true,
         "label": "tag 2",
         "permalink": "/docs/tags/tag2-custom-permalink",
@@ -669,11 +675,13 @@ exports[`simple website content: data 1`] = `
     "sourceDirName": ".",
     "tags": [
       {
+        "description": undefined,
         "inline": true,
         "label": "tag-1",
         "permalink": "/docs/tags/tag-1",
       },
       {
+        "description": undefined,
         "inline": true,
         "label": "tag 3",
         "permalink": "/docs/tags/tag-3",
@@ -3297,16 +3305,19 @@ exports[`versioned website content 1`] = `
   "sourceDirName": "foo",
   "tags": [
     {
+      "description": undefined,
       "inline": true,
       "label": "barTag 1",
       "permalink": "/docs/next/tags/bar-tag-1",
     },
     {
+      "description": undefined,
       "inline": true,
       "label": "barTag-2",
       "permalink": "/docs/next/tags/bar-tag-2",
     },
     {
+      "description": undefined,
       "inline": true,
       "label": "barTag 3",
       "permalink": "/docs/next/tags/barTag-3-permalink",
@@ -3569,16 +3580,19 @@ exports[`versioned website content: data 1`] = `
     "sourceDirName": "foo",
     "tags": [
       {
+        "description": undefined,
         "inline": true,
         "label": "barTag 1",
         "permalink": "/docs/next/tags/bar-tag-1",
       },
       {
+        "description": undefined,
         "inline": true,
         "label": "barTag-2",
         "permalink": "/docs/next/tags/bar-tag-2",
       },
       {
+        "description": undefined,
         "inline": true,
         "label": "barTag 3",
         "permalink": "/docs/next/tags/barTag-3-permalink",

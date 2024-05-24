@@ -7,12 +7,8 @@
 
 import path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {validateDefinedTags} from '@docusaurus/utils-validation';
-import {
-  getTagsFile,
-  processFileTagsPath,
-  validateFrontMatterTags,
-} from '@docusaurus/utils';
+import {getTagsFile} from '@docusaurus/utils-validation';
+import {processFileTagsPath, validateFrontMatterTags} from '@docusaurus/utils';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {FrontMatterTag} from '@docusaurus/utils';
 
@@ -25,7 +21,6 @@ async function getTagsFileDefinition(options: PluginOptions) {
       tagsFilePath: options.tagsFilePath,
     }),
     contentPath,
-    validateDefinedTags,
   );
 }
 

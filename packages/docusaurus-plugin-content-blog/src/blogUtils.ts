@@ -26,10 +26,9 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
-  getTagsFile,
   processFileTagsPath,
 } from '@docusaurus/utils';
-import {validateDefinedTags} from '@docusaurus/utils-validation';
+import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import type {TagsFile} from '@docusaurus/utils';
@@ -201,7 +200,7 @@ async function processBlogSourceFile(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
-  tagsFile: TagsFile | undefined,
+  tagsFile: TagsFile | null,
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
@@ -345,7 +344,6 @@ async function processBlogSourceFile(
       description,
       date,
       tags,
-      // tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime
         ? options.readingTime({
             content,
@@ -385,11 +383,7 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
-  const tagsFile = await getTagsFile(
-    options,
-    contentPaths.contentPath,
-    validateDefinedTags,
-  );
+  const tagsFile = await getTagsFile(options, contentPaths.contentPath);
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {
     try {
@@ -398,7 +392,7 @@ export async function generateBlogPosts(
         contentPaths,
         context,
         options,
-        tagsFile?.value,
+        tagsFile,
         authorsMap,
       );
     } catch (err) {
