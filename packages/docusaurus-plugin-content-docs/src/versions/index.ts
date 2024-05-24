@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import {getContentPathList, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {validateVersionsOptions} from './validation';
 import {
@@ -267,4 +267,25 @@ export function toFullVersion(version: LoadedVersion): FullVersion {
       sidebarsUtils,
     }),
   };
+}
+
+export function getVersionFromSourceFilePath(
+  filePath: string,
+  versionsMetadata: VersionMetadata[],
+): VersionMetadata {
+  const versionFound = versionsMetadata.find((version) =>
+    getContentPathList(version).some((docsDirPath) =>
+      filePath.startsWith(docsDirPath),
+    ),
+  );
+  // At this point, this should never happen, because the MDX loaders' paths are
+  // literally using the version content paths; but if we allow sourcing content
+  // from outside the docs directory (through the `include` option, for example;
+  // is there a compelling use-case?), this would actually be testable
+  if (!versionFound) {
+    throw new Error(
+      `Unexpected error: file at "${filePath}" does not belong to any docs version!`,
+    );
+  }
+  return versionFound;
 }

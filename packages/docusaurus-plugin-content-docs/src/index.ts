@@ -29,7 +29,11 @@ import {
   type DocEnv,
   createDocsByIdIndex,
 } from './docs';
-import {readVersionsMetadata, toFullVersion} from './versions';
+import {
+  getVersionFromSourceFilePath,
+  readVersionsMetadata,
+  toFullVersion,
+} from './versions';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
@@ -39,7 +43,6 @@ import {
 } from './translations';
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
-import {getVersion} from './markdown/linkify';
 import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 import type {
@@ -51,12 +54,7 @@ import type {
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {
-  SourceToPermalink,
-  DocFile,
-  DocsMarkdownOption,
-  FullVersion,
-} from './types';
+import type {SourceToPermalink, DocFile, FullVersion} from './types';
 import type {RuleSetRule} from 'webpack';
 
 export default async function pluginContentDocs(
@@ -262,17 +260,7 @@ export default async function pluginContentDocs(
           allDocs.map(({source, permalink}) => [source, permalink]),
         );
       }
-
-      const docsMarkdownOptions: DocsMarkdownOption = {
-        siteDir,
-        sourceToPermalink: getSourceToPermalink(),
-        versionsMetadata,
-        onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          logger.report(
-            siteConfig.onBrokenMarkdownLinks,
-          )`Docs markdown link couldn't be resolved: (url=${brokenMarkdownLink.link}) in path=${brokenMarkdownLink.filePath} for version number=${brokenMarkdownLink.contentPaths.versionName}`;
-        },
-      };
+      const sourceToPermalink = getSourceToPermalink();
 
       function createMDXLoaderRule(): RuleSetRule {
         const contentDirs = versionsMetadata
@@ -307,15 +295,22 @@ export default async function pluginContentDocs(
           }),
           markdownConfig: siteConfig.markdown,
           resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-            return resolveMarkdownLinkPathname({
-              linkPathname,
+            const version = getVersionFromSourceFilePath(
               sourceFilePath,
-              sourceToPermalink: docsMarkdownOptions.sourceToPermalink,
+              content.loadedVersions,
+            );
+            const permalink = resolveMarkdownLinkPathname(linkPathname, {
+              sourceFilePath,
+              sourceToPermalink,
               siteDir,
-              contentPathRoots: getContentPathList(
-                getVersion(sourceFilePath, docsMarkdownOptions),
-              ),
+              contentPaths: version,
             });
+            if (permalink === null) {
+              logger.report(
+                siteConfig.onBrokenMarkdownLinks,
+              )`Docs markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath} for version number=${version.versionName}`;
+            }
+            return permalink;
           },
         };
 
@@ -326,10 +321,6 @@ export default async function pluginContentDocs(
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
               options: loaderOptions,
-            },
-            {
-              loader: path.resolve(__dirname, './markdown/index.js'),
-              options: docsMarkdownOptions,
             },
           ].filter(Boolean),
         };

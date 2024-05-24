@@ -74,12 +74,7 @@ export {
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from './markdownUtils';
-export {
-  type ContentPaths,
-  type BrokenMarkdownLink,
-  replaceMarkdownLinks,
-  resolveMarkdownLinkPathname,
-} from './markdownLinks';
+export {type ContentPaths, resolveMarkdownLinkPathname} from './markdownLinks';
 export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
 export {
   isNameTooLong,

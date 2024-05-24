@@ -16,6 +16,10 @@ Also proves that [#9048](https://github.com/facebook/docusaurus/issues/9048) lin
 
 [./target.mdx?age=42#target-heading](./target.mdx?age=42#target-heading)
 
+[\<./target.mdx?qs=value with space>](<./target.mdx?qs=value with space>)
+
+[target.mdx 'link title'](target.mdx 'link title')
+
 ## Complex resolvable links
 
 Some of those are edge cases reported in [#9048](https://github.com/facebook/docusaurus/issues/9048)
@@ -51,6 +55,32 @@ lines
 
 ## Links in comments
 
+MDX/HTML comments with invalid file references should not be resolved nor reported by the broken link checker:
+
+```mdx
 {/* [doesNotExist.mdx](doesNotExist.mdx) */}
 
 <!-- [doesNotExist.mdx](doesNotExist.mdx) -->
+```
+
+{/* [doesNotExist.mdx](doesNotExist.mdx) */}
+
+<!-- [doesNotExist.mdx](doesNotExist.mdx) -->
+
+## Reference-style links
+
+The following should also work:
+
+```md
+Testing some link refs: [link-ref1], [link-ref2], [link-ref3]
+
+[link-ref1]: target.mdx
+[link-ref2]: ./target.mdx
+[link-ref3]: ../links/target.mdx?qs#target-heading
+```
+
+Testing some link refs: [link-ref1], [link-ref2], [link-ref3]
+
+[link-ref1]: target.mdx
+[link-ref2]: ./target.mdx
+[link-ref3]: ../links/target.mdx?qs#target-heading

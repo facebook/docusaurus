@@ -17,7 +17,6 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
-  replaceMarkdownLinks,
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
@@ -38,7 +37,7 @@ import type {
   BlogTags,
   BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
-import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
+import type {BlogContentPaths} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -401,35 +400,6 @@ export async function generateBlogPosts(
     return blogPosts.reverse();
   }
   return blogPosts;
-}
-
-export type LinkifyParams = {
-  filePath: string;
-  fileString: string;
-} & Pick<
-  BlogMarkdownLoaderOptions,
-  'sourceToPermalink' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
->;
-
-export function linkify({
-  filePath,
-  contentPaths,
-  fileString,
-  siteDir,
-  sourceToPermalink,
-  onBrokenMarkdownLink,
-}: LinkifyParams): string {
-  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
-    siteDir,
-    fileString,
-    filePath,
-    contentPaths,
-    sourceToPermalink,
-  });
-
-  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
-
-  return newContent;
 }
 
 export async function applyProcessBlogPosts({
