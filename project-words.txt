@@ -320,7 +320,6 @@ showinfo
 Sida
 Simen
 slorber
-sluggified
 sluggifies
 sluggify
 solana

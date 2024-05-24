@@ -9,11 +9,9 @@ import {
   groupTaggedItems,
   getTagVisibility,
   normalizeTags,
-  normalizeTag
+  normalizeTag,
 } from '../tags';
-import type {TagsFile, Tag,
-  NormalizedTag,
-  FrontMatterTag} from '../tags';
+import type {TagsFile, Tag, NormalizedTag, FrontMatterTag} from '../tags';
 
 describe('normalize tags', () => {
   it('normalize tags', async () => {
