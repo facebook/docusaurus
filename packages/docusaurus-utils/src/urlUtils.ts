@@ -164,27 +164,22 @@ export function isValidPathname(str: string): boolean {
   }
 }
 
+export function parseURLOrPath(url: string, base?: string | URL): URL {
+  try {
+    // TODO when Node supports it, use URL.parse could be faster?
+    //  see https://kilianvalkhof.com/2024/javascript/the-problem-with-new-url-and-how-url-parse-fixes-that/
+    return new URL(url, base ?? 'https://example.com');
+  } catch (e) {
+    throw new Error(
+      `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
+      {cause: e},
+    );
+  }
+}
+
 export type URLPath = {pathname: string; search?: string; hash?: string};
 
-// Let's name the concept of (pathname + search + hash) as URLPath
-// See also https://twitter.com/kettanaito/status/1741768992866308120
-// Note: this function also resolves relative pathnames while parsing!
-export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
-  function parseURL(url: string, base?: string | URL): URL {
-    try {
-      // A possible alternative? https://github.com/unjs/ufo#url
-      return new URL(url, base ?? 'https://example.com');
-    } catch (e) {
-      throw new Error(
-        `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
-        {cause: e},
-      );
-    }
-  }
-
-  const base = fromPath ? parseURL(fromPath) : undefined;
-  const url = parseURL(urlPath, base);
-
+export function toURLPath(url: URL): URLPath {
   const {pathname} = url;
 
   // Fixes annoying url.search behavior
@@ -193,17 +188,17 @@ export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
   // "?param => "param"
   const search = url.search
     ? url.search.slice(1)
-    : urlPath.includes('?')
+    : url.href.includes('?')
     ? ''
     : undefined;
 
   // Fixes annoying url.hash behavior
   // "" => undefined
   // "#" => ""
-  // "?param => "param"
+  // "#param => "param"
   const hash = url.hash
     ? url.hash.slice(1)
-    : urlPath.includes('#')
+    : url.href.includes('#')
     ? ''
     : undefined;
 
@@ -212,6 +207,15 @@ export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
     search,
     hash,
   };
+}
+
+// Let's name the concept of (pathname + search + hash) as URLPath
+// See also https://twitter.com/kettanaito/status/1741768992866308120
+// Note: this function also resolves relative pathnames while parsing!
+export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
+  const base = fromPath ? parseURLOrPath(fromPath) : undefined;
+  const url = parseURLOrPath(urlPath, base);
+  return toURLPath(url);
 }
 
 export function serializeURLPath(urlPath: URLPath): string {

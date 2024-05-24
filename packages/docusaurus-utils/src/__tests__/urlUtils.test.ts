@@ -17,6 +17,8 @@ import {
   hasSSHProtocol,
   parseURLPath,
   serializeURLPath,
+  parseURLOrPath,
+  toURLPath,
 } from '../urlUtils';
 
 describe('normalizeUrl', () => {
@@ -225,6 +227,53 @@ describe('isValidPathname', () => {
     expect(isValidPathname('https://fb.com/hey')).toBe(false);
     expect(isValidPathname('//hey')).toBe(false);
     expect(isValidPathname('////')).toBe(false);
+  });
+});
+
+describe('toURLPath', () => {
+  it('url', () => {
+    const url = new URL('https://example.com/pathname?qs#hash');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: 'qs',
+      hash: 'hash',
+    });
+  });
+
+  it('pathname + qs', () => {
+    const url = parseURLOrPath('/pathname?qs');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: 'qs',
+      hash: undefined,
+    });
+  });
+
+  it('pathname + hash', () => {
+    const url = parseURLOrPath('/pathname#hash');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: undefined,
+      hash: 'hash',
+    });
+  });
+
+  it('pathname + qs + hash', () => {
+    const url = parseURLOrPath('/pathname?qs#hash');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: 'qs',
+      hash: 'hash',
+    });
+  });
+
+  it('pathname + empty qs + empty hash', () => {
+    const url = parseURLOrPath('/pathname?#');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: '',
+      hash: '',
+    });
   });
 });
 
