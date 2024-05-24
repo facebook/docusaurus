@@ -5,63 +5,131 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import remark2rehype from 'remark-rehype';
-import stringify from 'rehype-stringify';
-import mermaid from '..';
+import linkify from '..';
+import type {PluginOptions} from '../index';
 
-async function process(content: string) {
+async function process(
+  content: string,
+  pluginOptions?: Partial<PluginOptions>,
+) {
   const {remark} = await import('remark');
 
-  // const {default: mdx} = await import('remark-mdx');
-  // const result = await remark().use(mermaid).use(mdx).process(content);
+  const options: PluginOptions = {
+    resolveMarkdownLink: ({linkPathname}) => `RESOLVED---${linkPathname}`,
+    ...pluginOptions,
+  };
 
-  const result = await remark()
-    .use(mermaid)
-    .use(remark2rehype)
-    .use(stringify)
-    .process(content);
+  const result = await remark().use(linkify, options).process(content);
 
   return result.value;
 }
 
-describe('mermaid remark plugin', () => {
-  it("does nothing if there's no mermaid code block", async () => {
-    const result = await process(
-      `# Heading 1
+describe('linkify remark plugin', () => {
+  it('resolves Markdown and MDX links', async () => {
+    /* language=markdown */
+    const content = `[link1](link1.mdx)
 
-No Mermaid diagram :(
+    [link2](../myLink2.md) [link3](myLink3.md)
 
-\`\`\`js
-this is not mermaid
-\`\`\`
-`,
-    );
+    [link4](../myLink4.mdx?qs#hash) [link5](./../my/great/link5.md?#)
+
+    [link6](../myLink6.mdx?qs#hash)
+
+    [link7](<link with spaces 7.md?qs#hash>)
+
+    <b>[link8](/link8.md)</b>
+
+    [**link** \`9\`](/link9.md)
+    `;
+
+    const result = await process(content);
 
     expect(result).toMatchInlineSnapshot(`
-      "<h1>Heading 1</h1>
-      <p>No Mermaid diagram :(</p>
-      <pre><code class="language-js">this is not mermaid
-      </code></pre>"
+      "[link1](RESOLVED---link1.mdx)
+
+      \`\`\`
+      [link2](../myLink2.md) [link3](myLink3.md)
+
+      [link4](../myLink4.mdx?qs#hash) [link5](./../my/great/link5.md?#)
+
+      [link6](../myLink6.mdx?qs#hash)
+
+      [link7](<link with spaces 7.md?qs#hash>)
+
+      <b>[link8](/link8.md)</b>
+
+      [**link** \`9\`](/link9.md)
+      \`\`\`
+      "
     `);
   });
 
-  it('works for basic mermaid code blocks', async () => {
-    const result = await process(`# Heading 1
+  it('skips non-Markdown links', async () => {
+    /* language=markdown */
+    const content = `[link1](./myLink1.m)
 
-\`\`\`mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-\`\`\``);
+[link2](../myLink2mdx)
+
+[link3](https://github.com/facebook/docusaurus/blob/main/README.md)
+
+[link4](ftp:///README.mdx)
+
+[link5](../link5.js)
+
+[link6](../link6.jsx)
+
+[link7](../link7.tsx)
+
+<!--
+[link8](link8.mdx)
+-->
+
+\`\`\`md
+[link9](link9.md)
+\`\`\`
+`;
+
+    const result = await process(content);
+
     expect(result).toMatchInlineSnapshot(`
-      "<h1>Heading 1</h1>
-      <mermaid value="graph TD;
-          A-->B;
-          A-->C;
-          B-->D;
-          C-->D;"></mermaid>"
+      "[link1](./myLink1.m)
+
+      [link2](../myLink2mdx)
+
+      [link3](https://github.com/facebook/docusaurus/blob/main/README.md)
+
+      [link4](ftp:///README.mdx)
+
+      [link5](../link5.js)
+
+      [link6](../link6.jsx)
+
+      [link7](../link7.tsx)
+
+      <!--
+      [link8](link8.mdx)
+      -->
+
+      \`\`\`md
+      [link9](link9.md)
+      \`\`\`
+      "
     `);
+  });
+
+  it('keeps regular Markdown unmodified', async () => {
+    /* language=markdown */
+    const content = `# Title
+
+Simple link
+
+\`\`\`js
+this is a code block
+\`\`\`
+`;
+
+    const result = await process(content);
+
+    expect(result).toEqual(content);
   });
 });

@@ -279,54 +279,53 @@ export default async function pluginContentDocs(
           .flatMap(getContentPathList)
           // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
           .map(addTrailingPathSeparator);
+
+        const loaderOptions: MDXLoaderOptions = {
+          admonitions: options.admonitions,
+          remarkPlugins,
+          rehypePlugins,
+          beforeDefaultRehypePlugins,
+          beforeDefaultRemarkPlugins,
+          staticDirs: siteConfig.staticDirectories.map((dir) =>
+            path.resolve(siteDir, dir),
+          ),
+          siteDir,
+          isMDXPartial: createAbsoluteFilePathMatcher(
+            options.exclude,
+            contentDirs,
+          ),
+          metadataPath: (mdxPath: string) => {
+            // Note that metadataPath must be the same/in-sync as
+            // the path from createData for each MDX.
+            const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+            return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+          },
+          // Assets allow to convert some relative images paths to
+          // require(...) calls
+          createAssets: ({frontMatter}: {frontMatter: DocFrontMatter}) => ({
+            image: frontMatter.image,
+          }),
+          markdownConfig: siteConfig.markdown,
+          resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+            return resolveMarkdownLinkPathname({
+              linkPathname,
+              sourceFilePath,
+              sourceToPermalink: docsMarkdownOptions.sourceToPermalink,
+              siteDir,
+              contentPathRoots: getContentPathList(
+                getVersion(sourceFilePath, docsMarkdownOptions),
+              ),
+            });
+          },
+        };
+
         return {
           test: /\.mdx?$/i,
           include: contentDirs,
           use: [
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
-              options: {
-                admonitions: options.admonitions,
-                remarkPlugins,
-                rehypePlugins,
-                beforeDefaultRehypePlugins,
-                beforeDefaultRemarkPlugins,
-                staticDirs: siteConfig.staticDirectories.map((dir) =>
-                  path.resolve(siteDir, dir),
-                ),
-                siteDir,
-                isMDXPartial: createAbsoluteFilePathMatcher(
-                  options.exclude,
-                  contentDirs,
-                ),
-                metadataPath: (mdxPath: string) => {
-                  // Note that metadataPath must be the same/in-sync as
-                  // the path from createData for each MDX.
-                  const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-                  return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
-                },
-                // Assets allow to convert some relative images paths to
-                // require(...) calls
-                createAssets: ({
-                  frontMatter,
-                }: {
-                  frontMatter: DocFrontMatter;
-                }) => ({
-                  image: frontMatter.image,
-                }),
-                markdownConfig: siteConfig.markdown,
-                resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-                  return resolveMarkdownLinkPathname({
-                    linkPathname,
-                    sourceFilePath,
-                    sourceToPermalink: docsMarkdownOptions.sourceToPermalink,
-                    siteDir,
-                    contentPathRoots: getContentPathList(
-                      getVersion(sourceFilePath, docsMarkdownOptions),
-                    ),
-                  });
-                },
-              } satisfies MDXLoaderOptions,
+              options: loaderOptions,
             },
             {
               loader: path.resolve(__dirname, './markdown/index.js'),
