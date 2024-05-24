@@ -4,19 +4,33 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+import {
+  parseLocalURLPath,
+  serializeURLPath,
+  type URLPath,
+} from '@docusaurus/utils';
 import {stringifyContent} from '../utils';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Link} from 'mdast';
 
-export type ResolveMarkdownLink = ({
-  link,
-  filePath,
-}: {
-  link: string;
-  filePath: string;
-}) => string | undefined;
+type ResolveMarkdownLinkParams = {
+  /**
+   * Absolute path to the source file containing this Markdown link.
+   */
+  sourceFilePath: string;
+  /**
+   * The Markdown link pathname to resolve, as found in the source file.
+   * If the link is "./myFile.mdx?qs#hash", this will be "./myFile.mdx"
+   */
+  linkPathname: string;
+};
+
+export type ResolveMarkdownLink = (
+  params: ResolveMarkdownLinkParams,
+) => string | null;
 
 // TODO: this plugin shouldn't be in the core MDX loader
 // After we allow plugins to provide Remark/Rehype plugins (see
@@ -32,22 +46,31 @@ export interface PluginOptions {
 // import type {Plugin} from 'unified';
 type Plugin = any; // TODO fix this asap
 
-const LINK_PATTERN = /\.mdx?$/g;
+const HAS_MARKDOWN_EXTENSION = /\.mdx?$/i;
 
-function ignoreLink(link: Link) {
-  // Probably not 100% accurate, but this is faster than proper url parsing
-  // Historical code, nobody complained about it so far
-  const hasProtocol =
-    link.url.toLowerCase().startsWith('http://') ||
-    link.url.toLowerCase().startsWith('https://');
-  return hasProtocol || !LINK_PATTERN.test(link.url);
+function parseMarkdownLinkURLPath(link: string): URLPath | null {
+  const urlPath = parseLocalURLPath(link);
+
+  // If it's not local, we don't resolve it even if it's a Markdown file
+  // Example, we don't resolve https://github.com/project/README.md
+  if (!urlPath) {
+    return null;
+  }
+
+  // Ignore links without a Markdown file extension (ignoring qs/hash)
+  if (!HAS_MARKDOWN_EXTENSION.test(urlPath.pathname)) {
+    return null;
+  }
+  return urlPath;
 }
 
-export type BrokenMarkdownLink = {
-  /** Absolute path to the file containing this link. */
+type BrokenMarkdownLink = {
+  /**
+   * Absolute path to the file containing this Markdown link.
+   */
   filePath: string;
   /**
-   * The content of the link, like `"./brokenFile.md"`
+   * The broken Markdown link
    */
   link: Link;
 };
@@ -67,38 +90,24 @@ const plugin: Plugin = function plugin(options: PluginOptions): Transformer {
     const brokenMarkdownLinks: BrokenMarkdownLink[] = [];
 
     visit(root, 'link', (link: Link) => {
-      if (ignoreLink(link)) {
+      const linkURLPath = parseMarkdownLinkURLPath(link.url);
+      if (!linkURLPath) {
         return;
       }
+
       const permalink = resolveMarkdownLink({
-        link: link.url,
-        filePath: file.path,
+        sourceFilePath: file.path,
+        linkPathname: linkURLPath.pathname,
       });
 
-      /*
-            const sourcesToTry: string[] = [];
-      // ./file.md and ../file.md are always relative to the current file
-      if (!mdLink.startsWith('./') && !mdLink.startsWith('../')) {
-        sourcesToTry.push(...getContentPathList(contentPaths), siteDir);
-      }
-      // /file.md is always relative to the content path
-      if (!mdLink.startsWith('/')) {
-        sourcesToTry.push(path.dirname(filePath));
-      }
-
-      const aliasedSourceMatch = sourcesToTry
-        .map((p) => path.join(p, decodeURIComponent(mdLink)))
-        .map((source) => aliasedSitePath(source, siteDir))
-        .find((source) => sourceToPermalink[source]);
-
-      const permalink: string | undefined = aliasedSourceMatch
-        ? sourceToPermalink[aliasedSourceMatch]
-        : undefined;
-
-       */
       if (permalink) {
-        console.log(`✅ Markdown link resolved: ${link.url} => ${permalink}`);
-        link.url = permalink;
+        // This reapplies the link ?qs#hash part to the resolved pathname
+        const resolvedUrl = serializeURLPath({
+          ...linkURLPath,
+          pathname: permalink,
+        });
+        // console.log(`✅ Markdown link resolved: ${link.url} => ${resolvedUrl}`);
+        link.url = resolvedUrl;
       } else {
         const linkContent = stringifyContent(link, toString);
         console.log(`❌ Markdown link broken: [${linkContent}](${link.url})`);

@@ -17,6 +17,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
   createSlugger,
+  resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
@@ -314,32 +315,16 @@ export default async function pluginContentDocs(
                   image: frontMatter.image,
                 }),
                 markdownConfig: siteConfig.markdown,
-                resolveMarkdownLink: ({link, filePath}) => {
-                  // TODO temporary, POC with historical code
-                  const mdLink = link;
-                  const {sourceToPermalink} = docsMarkdownOptions;
-                  const version = getVersion(filePath, docsMarkdownOptions);
-
-                  const sourcesToTry: string[] = [];
-                  // ./file.md and ../file.md are always relative to the current file
-                  if (!mdLink.startsWith('./') && !mdLink.startsWith('../')) {
-                    sourcesToTry.push(...getContentPathList(version), siteDir);
-                  }
-                  // /file.md is always relative to the content path
-                  if (!mdLink.startsWith('/')) {
-                    sourcesToTry.push(path.dirname(filePath));
-                  }
-
-                  const aliasedSourceMatch = sourcesToTry
-                    .map((p) => path.join(p, decodeURIComponent(mdLink)))
-                    .map((source) => aliasedSitePath(source, siteDir))
-                    .find((source) => sourceToPermalink[source]);
-
-                  const permalink: string | undefined = aliasedSourceMatch
-                    ? sourceToPermalink[aliasedSourceMatch]
-                    : undefined;
-
-                  return permalink;
+                resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+                  return resolveMarkdownLinkPathname({
+                    linkPathname,
+                    sourceFilePath,
+                    sourceToPermalink: docsMarkdownOptions.sourceToPermalink,
+                    siteDir,
+                    contentPathRoots: getContentPathList(
+                      getVersion(sourceFilePath, docsMarkdownOptions),
+                    ),
+                  });
                 },
               } satisfies MDXLoaderOptions,
             },

@@ -58,6 +58,39 @@ function parseCodeFence(line: string): CodeFence | null {
   };
 }
 
+export function resolveMarkdownLinkPathname({
+  linkPathname,
+  sourceFilePath,
+  sourceToPermalink,
+  contentPathRoots,
+  siteDir,
+}: {
+  linkPathname: string;
+  sourceFilePath: string;
+  sourceToPermalink: {[aliasedFilePath: string]: string};
+  contentPathRoots: string[];
+  siteDir: string;
+}): string | null {
+  const sourceDirsToTry: string[] = [];
+  // ./file.md and ../file.md are always relative to the current file
+  if (!linkPathname.startsWith('./') && !linkPathname.startsWith('../')) {
+    sourceDirsToTry.push(...contentPathRoots, siteDir);
+  }
+  // /file.md is never relative to the source file path
+  if (!linkPathname.startsWith('/')) {
+    sourceDirsToTry.push(path.dirname(sourceFilePath));
+  }
+
+  const aliasedSourceMatch = sourceDirsToTry
+    .map((sourceDir) => path.join(sourceDir, decodeURIComponent(linkPathname)))
+    .map((source) => aliasedSitePath(source, siteDir))
+    .find((source) => sourceToPermalink[source]);
+
+  return aliasedSourceMatch
+    ? sourceToPermalink[aliasedSourceMatch] ?? null
+    : null;
+}
+
 /**
  * Takes a Markdown file and replaces relative file references with their URL
  * counterparts, e.g. `[link](./intro.md)` => `[link](/docs/intro)`, preserving
@@ -146,24 +179,13 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
         continue;
       }
 
-      const sourcesToTry: string[] = [];
-      // ./file.md and ../file.md are always relative to the current file
-      if (!mdLink.startsWith('./') && !mdLink.startsWith('../')) {
-        sourcesToTry.push(...getContentPathList(contentPaths), siteDir);
-      }
-      // /file.md is always relative to the content path
-      if (!mdLink.startsWith('/')) {
-        sourcesToTry.push(path.dirname(filePath));
-      }
-
-      const aliasedSourceMatch = sourcesToTry
-        .map((p) => path.join(p, decodeURIComponent(mdLink)))
-        .map((source) => aliasedSitePath(source, siteDir))
-        .find((source) => sourceToPermalink[source]);
-
-      const permalink: string | undefined = aliasedSourceMatch
-        ? sourceToPermalink[aliasedSourceMatch]
-        : undefined;
+      const permalink: string | null = resolveMarkdownLinkPathname({
+        siteDir,
+        linkPathname: mdLink,
+        sourceFilePath: filePath,
+        sourceToPermalink,
+        contentPathRoots: getContentPathList(contentPaths),
+      });
 
       if (permalink) {
         // MDX won't be happy if the permalink contains a space, we need to

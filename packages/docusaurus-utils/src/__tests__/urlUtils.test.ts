@@ -360,6 +360,11 @@ describe('parseLocalURLPath', () => {
       search: 'qs1',
       hash: 'hash1?qs2#hash2',
     });
+    expect(parseLocalURLPath('../swizzling.mdx#wrapping')).toEqual({
+      pathname: '../swizzling.mdx',
+      search: undefined,
+      hash: 'wrapping',
+    });
   });
 
   it('parses is isomorphic with serialize', () => {

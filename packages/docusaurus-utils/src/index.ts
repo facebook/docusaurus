@@ -78,6 +78,7 @@ export {
   type ContentPaths,
   type BrokenMarkdownLink,
   replaceMarkdownLinks,
+  resolveMarkdownLinkPathname,
 } from './markdownLinks';
 export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
 export {
