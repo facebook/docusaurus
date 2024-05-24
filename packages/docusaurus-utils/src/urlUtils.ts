@@ -209,13 +209,63 @@ export function toURLPath(url: URL): URLPath {
   };
 }
 
-// Let's name the concept of (pathname + search + hash) as URLPath
-// See also https://twitter.com/kettanaito/status/1741768992866308120
-// Note: this function also resolves relative pathnames while parsing!
+/**
+ * Let's name the concept of (pathname + search + hash) as URLPath
+ * See also https://twitter.com/kettanaito/status/1741768992866308120
+ * Note: this function also resolves relative pathnames while parsing!
+ */
 export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
   const base = fromPath ? parseURLOrPath(fromPath) : undefined;
   const url = parseURLOrPath(urlPath, base);
   return toURLPath(url);
+}
+
+/**
+ * This returns results for strings like "foo", "../foo", "./foo.mdx?qs#hash"
+ * Unlike "parseURLPath()" above, this will not resolve the pathnames
+ * Te returned pathname of "../../foo.mdx" will be "../../foo.mdx", not "/foo"
+ * This returns null if the url is not "local" (contains domain/protocol etc)
+ */
+export function parseLocalURLPath(urlPath: string): URLPath | null {
+  // Workaround because URL("") requires a protocol
+  const unspecifiedProtocol = 'unspecified:';
+
+  const url = parseURLOrPath(urlPath, `${unspecifiedProtocol}//`);
+  // Ignore links with specified protocol / host
+  // (usually fully qualified links starting with https://)
+  if (
+    url.protocol !== unspecifiedProtocol ||
+    url.host !== '' ||
+    url.username !== '' ||
+    url.password !== ''
+  ) {
+    return null;
+  }
+
+  // We can't use "new URL()" result because it always tries to resolve urls
+  // IE it will remove any "./" or "../" in the pathname, which we don't want
+  // We have to parse it manually...
+  let localUrlPath = urlPath;
+
+  // Extract and remove the #hash part
+  const hashIndex = localUrlPath.indexOf('#');
+  const hash =
+    hashIndex !== -1 ? localUrlPath.substring(hashIndex + 1) : undefined;
+  localUrlPath =
+    hashIndex !== -1 ? localUrlPath.substring(0, hashIndex) : localUrlPath;
+
+  // Extract and remove ?search part
+  const searchIndex = localUrlPath.indexOf('?');
+  const search =
+    searchIndex !== -1 ? localUrlPath.substring(searchIndex + 1) : undefined;
+  localUrlPath =
+    searchIndex !== -1 ? localUrlPath.substring(0, searchIndex) : localUrlPath;
+
+  return {
+    pathname: localUrlPath,
+    search,
+    hash,
+  };
 }
 
 export function serializeURLPath(urlPath: URLPath): string {
