@@ -31,10 +31,6 @@ export type ResolveMarkdownLink = (
   params: ResolveMarkdownLinkParams,
 ) => string | null;
 
-// TODO: this plugin shouldn't be in the core MDX loader
-// After we allow plugins to provide Remark/Rehype plugins (see
-// https://github.com/facebook/docusaurus/issues/6370), this should be provided
-// by theme-mermaid itself
 export interface PluginOptions {
   resolveMarkdownLink: ResolveMarkdownLink;
 }
