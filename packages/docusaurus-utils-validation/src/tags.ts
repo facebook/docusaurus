@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import _ from 'lodash';
 import Joi from 'joi';
 import YAML from 'js-yaml';
 import type {Tag, TagsFile, TagsFileInput} from '@docusaurus/utils';
@@ -33,7 +34,7 @@ function validateDefinedTags(tags: unknown): Joi.ValidationResult<TagsFile> {
   return tagDefinitionSchema.validate(tags);
 }
 
-function ensureUniquePermalinks(tags: TagsFile): void {
+export function ensureUniquePermalinks(tags: TagsFile): void {
   const permalinks = new Set<string>();
   for (const [, tag] of Object.entries(tags)) {
     const {permalink} = tag;
@@ -44,16 +45,16 @@ function ensureUniquePermalinks(tags: TagsFile): void {
   }
 }
 
-function normalizeTags(data: TagsFileInput): TagsFile {
+export function normalizeTags(data: TagsFileInput): TagsFile {
   const normalizedData: TagsFile = {};
   for (const [key, tag] of Object.entries(data)) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       // Use type assertion to tell TypeScript that tag is of type Partial<Tag>
       const partialTag = tag as Partial<Tag>;
       normalizedData[key] = {
-        label: partialTag?.label || key,
+        label: partialTag?.label || _.capitalize(key),
         description: partialTag?.description || `${key} description`,
-        permalink: partialTag?.permalink || `/${key}`,
+        permalink: partialTag?.permalink || `/${_.kebabCase(key)}`,
       };
     }
   }
@@ -64,7 +65,6 @@ function normalizeTags(data: TagsFileInput): TagsFile {
 export async function getTagsFile(
   options: TagsPluginOptions,
   contentPath: string,
-  // TODO find a better solution
 ): Promise<TagsFile | null> {
   if (
     options.tagsFilePath === false ||
@@ -82,20 +82,20 @@ export async function getTagsFile(
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
   // TODO is it fine?
   const data = YAML.load(tagDefinitionContent) as TagsFileInput;
-  const normalizedData = normalizeTags(data);
+  const definedTags = validateDefinedTags(data);
 
-  // return validateDefinedTags(data);
   // TODO + normalize partial input => full input
   // TODO unit tests covering all forms of partial inputs
   // TODO handle conflicts, verify unique permalink etc
-  const definedTags = validateDefinedTags(normalizedData);
   if (definedTags.error) {
     throw new Error(
       `There was an error extracting tags from file: ${definedTags.error.message}`,
       {cause: definedTags},
     );
   }
-  ensureUniquePermalinks(definedTags.value);
+  const normalizedData = normalizeTags(definedTags.value);
 
-  return definedTags.value;
+  ensureUniquePermalinks(normalizedData);
+
+  return normalizedData;
 }

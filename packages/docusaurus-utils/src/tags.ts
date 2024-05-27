@@ -19,7 +19,7 @@ export type Tag = {
 };
 
 // TODO add TagsFileInput=>TagsFile transformation + unit tests
-export type TagsFileInput = Record<string, Partial<Tag>>;
+export type TagsFileInput = Record<string, Partial<Tag> | null>;
 
 export type TagsFile = Record<string, Tag>;
 
@@ -135,8 +135,6 @@ export function normalizeTags({
   );
 
   return tags;
-  // TODO old legacy behavior emit errors in case of conflicts instead
-  // return _.uniqBy(tags, (tag) => tag.permalink);
 }
 
 type TaggedItemGroup<Item> = {

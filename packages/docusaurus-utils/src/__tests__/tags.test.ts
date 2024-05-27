@@ -15,8 +15,13 @@ import {
   normalizeTags,
   normalizeTag,
 } from '../tags';
-import type {PluginOptions} from '@docusaurus/types';
-import type {TagsFile, Tag, NormalizedTag, FrontMatterTag} from '../tags';
+import type {
+  TagsFile,
+  Tag,
+  NormalizedTag,
+  FrontMatterTag,
+  TagsPluginOptions,
+} from '../tags';
 
 describe('normalize tags', () => {
   it('normalize tags', async () => {
@@ -26,24 +31,18 @@ describe('normalize tags', () => {
         permalink: '/custom-open-source',
         description: 'Learn about the open source',
       },
-      test: {label: 'Test', permalink: '/custom-test', description: 'Test'},
     };
 
-    const tags = [
+    const frontMatterTags = [
       'hello',
-      'world',
-      {label: 'hello', permalink: 'hello'},
       {label: 'world', permalink: 'world'},
-      'hello',
       'open',
-      {label: 'open', permalink: 'open'},
-      'test',
     ];
 
     const normalizedTags = normalizeTags({
       tagsPath: '/tags',
       tagsFile,
-      frontMatterTags: tags,
+      frontMatterTags,
     });
 
     const expected: NormalizedTag[] = [
@@ -51,28 +50,19 @@ describe('normalize tags', () => {
         inline: true,
         label: 'hello',
         permalink: '/tags/hello',
+        description: undefined,
       },
       {
         inline: true,
         label: 'world',
         permalink: '/tags/world',
+        description: undefined,
       },
       {
         inline: false,
         label: 'Open Source',
         permalink: '/tags/custom-open-source',
         description: 'Learn about the open source',
-      },
-      {
-        inline: true,
-        label: 'open',
-        permalink: '/tags/open',
-      },
-      {
-        inline: false,
-        label: 'Test',
-        permalink: '/tags/custom-test',
-        description: 'Test',
       },
     ];
 
@@ -259,7 +249,7 @@ const createTest = async ({
   onUnknownTags,
   tags,
 }: {
-  onUnknownTags: PluginOptions['onUnknownTags'];
+  onUnknownTags: TagsPluginOptions['onUnknownTags'];
   tags: FrontMatterTag[];
 }) => {
   const tagsFilePath = 'tags.yml';
