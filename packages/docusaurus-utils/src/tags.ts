@@ -245,7 +245,15 @@ export function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
   tagsFile: TagsFile | null;
-}): NormalizedTag[] {
+}): NormalizedTag[] | FrontMatterTag[] {
+  if (tagsFile === null) {
+    return normalizeTags({
+      tagsPath: versionTagsPath,
+      tagsFile: null,
+      frontMatterTags: frontMatterTags ?? [],
+    });
+  }
+
   const tags = normalizeTags({
     tagsPath: versionTagsPath,
     tagsFile,

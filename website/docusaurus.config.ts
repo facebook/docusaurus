@@ -466,8 +466,6 @@ export default async function createConfigAsync() {
                 label: `${getNextVersionName()} 🚧`,
               },
             },
-            tags: 'tags.yml',
-            onInlineTags: 'ignore',
           },
           blog: {
             // routeBasePath: '/',
@@ -490,8 +488,6 @@ export default async function createConfigAsync() {
             blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
-            onInlineTags: 'warn',
-            tags: 'tags.yml',
           } satisfies BlogOptions,
           pages: {
             remarkPlugins: [npm2yarn],

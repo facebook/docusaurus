@@ -71,36 +71,43 @@ export async function getTagsFile(
   options: TagsPluginOptions,
   contentPath: string,
 ): Promise<TagsFile | null> {
+  const filename = options.tags || 'tags.yml';
+  const tagDefinitionPath = path.join(contentPath, filename);
+  const isFileExists = await fs.pathExists(tagDefinitionPath);
+
   if (
-    options.tags === false ||
-    options.tags === null ||
-    // TODO doesn't work if not set
-    options.onInlineTags === 'ignore' // TODO that looks wrong
+    (options.tags === false ||
+      options.tags === null ||
+      options.tags === undefined) &&
+    !isFileExists
   ) {
     return null;
   }
-  const tagDefinitionPath = path.join(
-    contentPath,
-    // TODO default value isn't used ?
-    options.tags ? options.tags : 'tags.yml',
-  );
+
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
-  // TODO is it fine?
+  if (!tagDefinitionContent.trim()) {
+    throw new Error(`Tags file at path ${tagDefinitionPath} is empty`);
+  }
+  // TODO is it fine to use as TagsFileInput?
   const data = YAML.load(tagDefinitionContent) as TagsFileInput;
   const definedTags = validateDefinedTags(data);
 
-  // TODO + normalize partial input => full input
-  // TODO unit tests covering all forms of partial inputs
-  // TODO handle conflicts, verify unique permalink etc
-  if (definedTags.error) {
-    throw new Error(
-      `There was an error extracting tags from file: ${definedTags.error.message}`,
-      {cause: definedTags},
-    );
+  if (options.onInlineTags !== 'ignore') {
+    // TODO + normalize partial input => full input
+    // TODO unit tests covering all forms of partial inputs
+    // TODO handle conflicts, verify unique permalink etc
+    if (definedTags.error) {
+      throw new Error(
+        `There was an error extracting tags from file: ${definedTags.error.message}`,
+        {cause: definedTags},
+      );
+    }
+    const normalizedData = normalizeTags(definedTags.value);
+
+    ensureUniquePermalinks(normalizedData);
+
+    return normalizedData;
   }
-  const normalizedData = normalizeTags(definedTags.value);
 
-  ensureUniquePermalinks(normalizedData);
-
-  return normalizedData;
+  return null;
 }
