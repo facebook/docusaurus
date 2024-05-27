@@ -119,6 +119,7 @@ hasura
 Hasura
 Heavener
 Héctor
+hellllo
 héllô
 hideable
 Hideable
@@ -354,6 +355,7 @@ SVGR
 swizzlable
 Teik
 templating
+testdesc
 Thanos
 Therox
 toolset
@@ -373,6 +375,7 @@ typesafe
 typesense
 Typesense
 Unavatar
+undefiend
 unlinkable
 unlisteds
 Unlisteds
