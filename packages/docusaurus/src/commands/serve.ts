@@ -76,10 +76,21 @@ export async function serve(
 
     // We do the redirect ourselves for a good reason
     // server-handler is annoying and won't include /baseUrl/ in redirects
-    const normalizedUrl = applyTrailingSlash(req.url, {trailingSlash, baseUrl});
-    if (req.url !== normalizedUrl) {
-      redirect(res, normalizedUrl);
-      return;
+    // See https://github.com/facebook/docusaurus/issues/10078#issuecomment-2084932934
+    if (baseUrl !== '/') {
+      // Not super robust, but should be good enough for our use case
+      // See https://github.com/facebook/docusaurus/pull/10090
+      const looksLikeAsset = !!req.url.match(/.[a-zA-Z\d]{1,4}$/);
+      if (!looksLikeAsset) {
+        const normalizedUrl = applyTrailingSlash(req.url, {
+          trailingSlash,
+          baseUrl,
+        });
+        if (req.url !== normalizedUrl) {
+          redirect(res, normalizedUrl);
+          return;
+        }
+      }
     }
 
     // Remove baseUrl before calling serveHandler, because /baseUrl/ should

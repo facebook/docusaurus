@@ -23,6 +23,7 @@
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
     "@docusaurus/core": "3.3.2",
+    "@docusaurus/logger": "3.3.2",
     "@docusaurus/theme-common": "3.3.2",
     "@docusaurus/theme-translations": "3.3.2",
     "@docusaurus/types": "3.3.2",

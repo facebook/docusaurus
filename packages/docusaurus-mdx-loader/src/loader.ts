@@ -17,6 +17,7 @@ import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
 import {createProcessorCached} from './processor';
+import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
@@ -45,6 +46,7 @@ export type Options = Partial<MDXOptions> & {
     frontMatter: {[key: string]: unknown};
     metadata: {[key: string]: unknown};
   }) => {[key: string]: unknown};
+  resolveMarkdownLink?: ResolveMarkdownLink;
 };
 
 /**

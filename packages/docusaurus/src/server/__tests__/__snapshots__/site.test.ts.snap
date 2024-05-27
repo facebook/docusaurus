@@ -78,6 +78,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",

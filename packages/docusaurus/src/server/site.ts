@@ -147,7 +147,10 @@ function createSiteProps(
     codeTranslations: siteCodeTranslations,
   } = context;
 
-  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags({
+    plugins,
+    router: siteConfig.future.experimental_router,
+  });
 
   const siteMetadata = createSiteMetadata({plugins, siteVersion});
 

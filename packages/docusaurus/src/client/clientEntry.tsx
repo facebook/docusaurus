@@ -5,15 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {startTransition} from 'react';
+import React, {startTransition, type ReactNode} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
-import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
-
+import {BrowserRouter, HashRouter} from 'react-router-dom';
+import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
+
+function Router({children}: {children: ReactNode}): ReactNode {
+  return siteConfig.future.experimental_router === 'hash' ? (
+    <HashRouter>{children}</HashRouter>
+  ) : (
+    <BrowserRouter>{children}</BrowserRouter>
+  );
+}
 
 declare global {
   interface NodeModule {
@@ -31,9 +39,9 @@ if (ExecutionEnvironment.canUseDOM) {
 
   const app = (
     <HelmetProvider>
-      <BrowserRouter>
+      <Router>
         <App />
-      </BrowserRouter>
+      </Router>
     </HelmetProvider>
   );
 

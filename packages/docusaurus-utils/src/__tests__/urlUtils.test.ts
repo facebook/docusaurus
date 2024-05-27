@@ -17,6 +17,9 @@ import {
   hasSSHProtocol,
   parseURLPath,
   serializeURLPath,
+  parseURLOrPath,
+  toURLPath,
+  parseLocalURLPath,
 } from '../urlUtils';
 
 describe('normalizeUrl', () => {
@@ -89,6 +92,30 @@ describe('normalizeUrl', () => {
       {
         input: ['http://foobar.com', '', 'test', '/'],
         output: 'http://foobar.com/test/',
+      },
+      {
+        input: ['http://foobar.com/', '', 'test', '/'],
+        output: 'http://foobar.com/test/',
+      },
+      {
+        input: ['http://foobar.com', '#', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com/', '#', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com', '/#/', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com', '#/', 'test'],
+        output: 'http://foobar.com/#/test',
+      },
+      {
+        input: ['http://foobar.com', '/#', 'test'],
+        output: 'http://foobar.com/#/test',
       },
       {
         input: ['/', '', 'hello', '', '/', '/', '', '/', '/world'],
@@ -201,6 +228,166 @@ describe('isValidPathname', () => {
     expect(isValidPathname('https://fb.com/hey')).toBe(false);
     expect(isValidPathname('//hey')).toBe(false);
     expect(isValidPathname('////')).toBe(false);
+  });
+});
+
+describe('toURLPath', () => {
+  it('url', () => {
+    const url = new URL('https://example.com/pathname?qs#hash');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: 'qs',
+      hash: 'hash',
+    });
+  });
+
+  it('pathname + qs', () => {
+    const url = parseURLOrPath('/pathname?qs');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: 'qs',
+      hash: undefined,
+    });
+  });
+
+  it('pathname + hash', () => {
+    const url = parseURLOrPath('/pathname#hash');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: undefined,
+      hash: 'hash',
+    });
+  });
+
+  it('pathname + qs + hash', () => {
+    const url = parseURLOrPath('/pathname?qs#hash');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: 'qs',
+      hash: 'hash',
+    });
+  });
+
+  it('pathname + empty qs + empty hash', () => {
+    const url = parseURLOrPath('/pathname?#');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: '',
+      hash: '',
+    });
+  });
+});
+
+describe('parseLocalURLPath', () => {
+  it('returns null for non-local URLs', () => {
+    expect(parseLocalURLPath('https://example')).toBeNull();
+    expect(parseLocalURLPath('https://example:80')).toBeNull();
+    expect(parseLocalURLPath('https://example.com/xyz')).toBeNull();
+    expect(parseLocalURLPath('https://example.com/xyz?qs#hash')).toBeNull();
+    expect(parseLocalURLPath('https://example.com:80/xyz?qs#hash')).toBeNull();
+    expect(parseLocalURLPath('https://u:p@example:80/xyz?qs#hash')).toBeNull();
+  });
+
+  it('parses pathname', () => {
+    expect(parseLocalURLPath('/pathname')).toEqual({
+      pathname: '/pathname',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseLocalURLPath('pathname.md')).toEqual({
+      pathname: 'pathname.md',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseLocalURLPath('./pathname')).toEqual({
+      pathname: './pathname',
+      search: undefined,
+      hash: undefined,
+    });
+    expect(parseLocalURLPath('../../pathname.mdx')).toEqual({
+      pathname: '../../pathname.mdx',
+      search: undefined,
+      hash: undefined,
+    });
+  });
+
+  it('parses qs', () => {
+    expect(parseLocalURLPath('?')).toEqual({
+      pathname: '',
+      search: '',
+      hash: undefined,
+    });
+    expect(parseLocalURLPath('?qs')).toEqual({
+      pathname: '',
+      search: 'qs',
+      hash: undefined,
+    });
+    expect(parseLocalURLPath('?age=42')).toEqual({
+      pathname: '',
+      search: 'age=42',
+      hash: undefined,
+    });
+  });
+
+  it('parses hash', () => {
+    expect(parseLocalURLPath('#')).toEqual({
+      pathname: '',
+      search: undefined,
+      hash: '',
+    });
+    expect(parseLocalURLPath('#hash')).toEqual({
+      pathname: '',
+      search: undefined,
+      hash: 'hash',
+    });
+  });
+
+  it('parses complex local paths', () => {
+    expect(
+      parseLocalURLPath('../../great/path name/doc.mdx?age=42#hash'),
+    ).toEqual({
+      pathname: '../../great/path name/doc.mdx',
+      search: 'age=42',
+      hash: 'hash',
+    });
+    expect(parseLocalURLPath('my great path?=42#hash?qsInHash')).toEqual({
+      pathname: 'my great path',
+      search: '=42',
+      hash: 'hash?qsInHash',
+    });
+    expect(parseLocalURLPath('?qs1#hash1?qs2#hash2')).toEqual({
+      pathname: '',
+      search: 'qs1',
+      hash: 'hash1?qs2#hash2',
+    });
+    expect(parseLocalURLPath('../swizzling.mdx#wrapping')).toEqual({
+      pathname: '../swizzling.mdx',
+      search: undefined,
+      hash: 'wrapping',
+    });
+  });
+
+  it('parses is isomorphic with serialize', () => {
+    const testLocalPath = (url: string) => {
+      expect(serializeURLPath(parseLocalURLPath(url)!)).toBe(url);
+    };
+    [
+      '',
+      'doc',
+      'doc.mdx',
+      './doc.mdx',
+      '.././doc.mdx',
+      '/some pathname/.././doc.mdx',
+      '?',
+      '?qs',
+      '#',
+      '#hash',
+      '?qs#hash',
+      '?qs#hash',
+      'doc.mdx?qs#hash',
+      '/some pathname/.././doc.mdx?qs#hash',
+      '/some pathname/.././doc.mdx?qs#hash?qs2#hash2',
+    ].forEach(testLocalPath);
   });
 });
 

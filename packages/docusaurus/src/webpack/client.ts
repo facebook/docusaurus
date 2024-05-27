@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import logger from '@docusaurus/logger';
 import merge from 'webpack-merge';
 import WebpackBar from 'webpackbar';
 import webpack from 'webpack';
@@ -15,28 +14,11 @@ import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
-import {formatStatsErrorMessage} from './utils';
 import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
+import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
+import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
 import type {Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
-
-// When building, include the plugin to force terminate building if errors
-// happened in the client bundle.
-class ForceTerminatePlugin implements webpack.WebpackPluginInstance {
-  apply(compiler: webpack.Compiler) {
-    compiler.hooks.done.tap('client:done', (stats) => {
-      if (stats.hasErrors()) {
-        const errorsWarnings = stats.toJson('errors-warnings');
-        logger.error(
-          `Client bundle compiled with errors therefore further build is impossible.\n${formatStatsErrorMessage(
-            errorsWarnings,
-          )}`,
-        );
-        process.exit(1);
-      }
-    });
-  }
-}
 
 async function createBaseClientConfig({
   props,
@@ -68,6 +50,7 @@ async function createBaseClientConfig({
       new WebpackBar({
         name: 'Client',
       }),
+      await createStaticDirectoriesCopyPlugin({props}),
     ],
   });
 }
@@ -129,7 +112,12 @@ export async function createBuildClientConfig({
   bundleAnalyzer: boolean;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
-  const {generatedFilesDir} = props;
+  const {generatedFilesDir, siteConfig} = props;
+  const router = siteConfig.future.experimental_router;
+
+  // With the hash router, we don't hydrate the React app, even in build mode!
+  // This is because it will always be a client-rendered React app
+  const hydrate = router !== 'hash';
 
   const clientManifestPath = path.join(
     generatedFilesDir,
@@ -137,7 +125,7 @@ export async function createBuildClientConfig({
   );
 
   const config: Configuration = merge(
-    await createBaseClientConfig({props, minify, hydrate: true}),
+    await createBaseClientConfig({props, minify, hydrate}),
     {
       plugins: [
         new ForceTerminatePlugin(),

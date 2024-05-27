@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import {getContentPathList, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {validateVersionsOptions} from './validation';
 import {
@@ -267,4 +267,21 @@ export function toFullVersion(version: LoadedVersion): FullVersion {
       sidebarsUtils,
     }),
   };
+}
+
+export function getVersionFromSourceFilePath(
+  filePath: string,
+  versionsMetadata: VersionMetadata[],
+): VersionMetadata {
+  const versionFound = versionsMetadata.find((version) =>
+    getContentPathList(version).some((docsDirPath) =>
+      filePath.startsWith(docsDirPath),
+    ),
+  );
+  if (!versionFound) {
+    throw new Error(
+      `Unexpected error: file at "${filePath}" does not belong to any docs version!`,
+    );
+  }
+  return versionFound;
 }
