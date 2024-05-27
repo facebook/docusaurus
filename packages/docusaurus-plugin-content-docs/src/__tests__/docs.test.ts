@@ -362,12 +362,20 @@ describe('simple site', () => {
       },
       tags: [
         {
-          label: 'tag 1',
+          description: undefined,
           inline: true,
+          label: 'tag 1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          description: undefined,
+          inline: true,
+          label: 'tag-1',
           permalink: '/docs/tags/tag-1',
         },
         {
           label: 'tag 2',
+          description: undefined,
           inline: true,
           permalink: '/docs/tags/tag2-custom-permalink',
         },
@@ -439,13 +447,21 @@ describe('simple site', () => {
       },
       tags: [
         {
-          label: 'tag 1',
+          description: undefined,
           inline: true,
+          label: 'tag 1',
           permalink: '/docs/tags/tag-1',
         },
         {
-          label: 'tag 2',
+          description: undefined,
           inline: true,
+          label: 'tag-1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          description: undefined,
+          inline: true,
+          label: 'tag 2',
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],

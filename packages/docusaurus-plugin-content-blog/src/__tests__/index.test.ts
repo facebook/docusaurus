@@ -187,6 +187,8 @@ describe('blog plugin', () => {
       prevItem: undefined,
       tags: [
         {
+          description: undefined,
+          inline: true,
           label: 'date',
           permalink: '/blog/tags/date',
         },
@@ -268,10 +270,14 @@ describe('blog plugin', () => {
       },
       tags: [
         {
+          description: undefined,
+          inline: true,
           label: 'date',
           permalink: '/blog/tags/date',
         },
         {
+          description: undefined,
+          inline: true,
           label: 'complex',
           permalink: '/blog/tags/complex',
         },
