@@ -36,12 +36,21 @@ function validateDefinedTags(tags: unknown): Joi.ValidationResult<TagsFile> {
 
 export function ensureUniquePermalinks(tags: TagsFile): void {
   const permalinks = new Set<string>();
+  const duplicates = new Set<string>();
+
   for (const [, tag] of Object.entries(tags)) {
     const {permalink} = tag;
     if (permalinks.has(permalink)) {
-      throw new Error(`Duplicate permalink found: ${permalink}`);
+      duplicates.add(permalink);
+    } else {
+      permalinks.add(permalink);
     }
-    permalinks.add(permalink);
+  }
+
+  if (duplicates.size > 0) {
+    throw new Error(
+      `Duplicate permalinks found: ${Array.from(duplicates).join(', ')}`,
+    );
   }
 }
 

@@ -35,7 +35,7 @@ describe('ensureUniquePermalinks', () => {
     expect(() =>
       ensureUniquePermalinks(definedTags),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Duplicate permalink found: /custom-open-source"`,
+      `"Duplicate permalinks found: /custom-open-source, /world"`,
     );
   });
 });
