@@ -245,7 +245,7 @@ export function processFileTagsPath({
   frontMatterTags: FrontMatterTag[] | undefined;
   versionTagsPath: string;
   tagsFile: TagsFile | null;
-}): NormalizedTag[] | FrontMatterTag[] {
+}): NormalizedTag[] {
   if (tagsFile === null) {
     return normalizeTags({
       tagsPath: versionTagsPath,
