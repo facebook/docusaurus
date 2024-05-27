@@ -23,6 +23,7 @@ import type {
   TagsPluginOptions,
 } from '../tags';
 
+// TODO one by one test small
 describe('normalize tags', () => {
   it('normalize tags', async () => {
     const tagsFile: TagsFile = {
@@ -246,19 +247,19 @@ describe('getTagVisibility', () => {
 });
 
 const createTest = async ({
-  onUnknownTags,
-  tags,
+  onInlineTags,
+  frontMatterTags,
 }: {
-  onUnknownTags: TagsPluginOptions['onUnknownTags'];
-  tags: FrontMatterTag[];
+  onInlineTags: TagsPluginOptions['onInlineTags'];
+  frontMatterTags: FrontMatterTag[];
 }) => {
-  const tagsFilePath = 'tags.yml';
+  const tagFile = 'tags.yml';
   const contentPath = path.join(__dirname, '__fixtures__', 'tags');
 
   const definedTags = await getTagsFile(
     fromPartial({
-      onUnknownTags,
-      tagsFilePath,
+      onInlineTags,
+      tags: tagFile,
     }),
     contentPath,
   );
@@ -266,12 +267,12 @@ const createTest = async ({
   return processFileTagsPath({
     tagsFile: definedTags,
     options: fromPartial({
-      tagsFilePath,
-      onUnknownTags,
+      tags: tagFile,
+      onInlineTags,
     }),
     source: 'default.md',
     versionTagsPath: '/processFileTagsPath/tags',
-    frontMatterTags: tags,
+    frontMatterTags,
   });
 };
 
@@ -293,7 +294,7 @@ describe('processFileTagsPath', () => {
             },
           ],
           source: 'wrong.md',
-          options: {onUnknownTags: 'throw', tagsFilePath: 'tags.yml'},
+          options: {onInlineTags: 'throw', tags: 'tags.yml'},
         }),
       );
 
@@ -319,7 +320,7 @@ describe('processFileTagsPath', () => {
             inline: true,
           },
         ],
-        options: {onUnknownTags: 'warn', tagsFilePath: 'tags.yml'},
+        options: {onInlineTags: 'warn', tags: 'tags.yml'},
       }),
     );
 
@@ -332,21 +333,21 @@ describe('processFileTagsPath', () => {
 
   it('ignore when docs has invalid tags', async () => {
     const process = createTest({
-      tags: ['unknownTag'],
-      onUnknownTags: 'ignore',
+      frontMatterTags: ['unknownTag'],
+      onInlineTags: 'ignore',
     });
     await expect(process).resolves.toBeDefined();
   });
 
   it('throw for unknown string and object tag', async () => {
     const process = createTest({
-      tags: [
+      frontMatterTags: [
         'open',
         'world',
         {label: 'hello', permalink: 'hello'},
         {label: 'open', permalink: 'open'},
       ],
-      onUnknownTags: 'throw',
+      onInlineTags: 'throw',
     });
     await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Tags [world, hello, open] used in default.md are not defined in tags.yml"`,
@@ -355,8 +356,8 @@ describe('processFileTagsPath', () => {
 
   it('does not throw when docs has valid tags', async () => {
     const process = createTest({
-      tags: ['open'],
-      onUnknownTags: 'throw',
+      frontMatterTags: ['open'],
+      onInlineTags: 'throw',
     });
     await expect(process).resolves.toBeDefined();
   });

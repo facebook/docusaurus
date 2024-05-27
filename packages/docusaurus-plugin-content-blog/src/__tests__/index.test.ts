@@ -521,8 +521,8 @@ describe('blog plugin', () => {
         postsPerPage: 1,
         processBlogPosts: async ({blogPosts}) =>
           blogPosts.filter((blog) => blog.metadata.tags[0]?.label === 'tag1'),
-        onUnknownTags: 'ignore',
-        tagsFilePath: false,
+        onInlineTags: 'ignore',
+        tags: false,
       },
       DefaultI18N,
     );

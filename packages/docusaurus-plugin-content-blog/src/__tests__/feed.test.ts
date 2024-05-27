@@ -100,8 +100,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
-        onUnknownTags: 'ignore',
-        tagsFilePath: false,
+        onInlineTags: 'ignore',
+        tags: false,
       } as PluginOptions,
     );
 
@@ -143,8 +143,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
-        onUnknownTags: 'ignore',
-        tagsFilePath: false,
+        onInlineTags: 'ignore',
+        tags: false,
       } as PluginOptions,
     );
 
@@ -198,8 +198,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
-        onUnknownTags: 'ignore',
-        tagsFilePath: false,
+        onInlineTags: 'ignore',
+        tags: false,
       } as PluginOptions,
     );
 
@@ -244,8 +244,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
-        onUnknownTags: 'ignore',
-        tagsFilePath: false,
+        onInlineTags: 'ignore',
+        tags: false,
       } as PluginOptions,
     );
 
@@ -290,8 +290,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
-        onUnknownTags: 'ignore',
-        tagsFilePath: false,
+        onInlineTags: 'ignore',
+        tags: false,
       } as PluginOptions,
     );
 

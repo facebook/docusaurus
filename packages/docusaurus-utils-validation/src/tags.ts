@@ -10,16 +10,12 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import Joi from 'joi';
 import YAML from 'js-yaml';
-import type {Tag, TagsFile, TagsFileInput} from '@docusaurus/utils';
-
-// Tags plugins options shared between docs/blog
-export type TagsPluginOptions = {
-  // TODO rename to tags?
-  // TODO allow option tags later? | TagsFile;
-  tagsFilePath: string | false | null | undefined;
-  // TODO rename to onInlineTags
-  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
-};
+import type {
+  Tag,
+  TagsFile,
+  TagsFileInput,
+  TagsPluginOptions,
+} from '@docusaurus/utils';
 
 const tagDefinitionSchema = Joi.object<TagsFile>().pattern(
   Joi.string(),
@@ -76,17 +72,17 @@ export async function getTagsFile(
   contentPath: string,
 ): Promise<TagsFile | null> {
   if (
-    options.tagsFilePath === false ||
-    options.tagsFilePath === null ||
+    options.tags === false ||
+    options.tags === null ||
     // TODO doesn't work if not set
-    options.onUnknownTags === 'ignore' // TODO that looks wrong
+    options.onInlineTags === 'ignore' // TODO that looks wrong
   ) {
     return null;
   }
   const tagDefinitionPath = path.join(
     contentPath,
     // TODO default value isn't used ?
-    options.tagsFilePath ? options.tagsFilePath : 'tags.yml',
+    options.tags ? options.tags : 'tags.yml',
   );
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
   // TODO is it fine?

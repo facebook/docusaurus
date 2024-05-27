@@ -11,8 +11,10 @@ import {normalizeUrl} from './urlUtils';
 
 /** What the user configures. */
 export type Tag = {
+  // TODO isn't it also possibly undefiend ? (label?: string)
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
+  // TODO same as label comment?
   permalink: string;
   // TODO do we use it in practice?
   description?: string;
@@ -25,11 +27,9 @@ export type TagsFile = Record<string, Tag>;
 
 // Tags plugins options shared between docs/blog
 export type TagsPluginOptions = {
-  // TODO rename to tags?
   // TODO allow option tags later? | TagsFile;
-  tagsFilePath: string | false | null | undefined;
-  // TODO rename to onInlineTags
-  onUnknownTags: 'ignore' | 'log' | 'warn' | 'throw';
+  tags: string | false | null | undefined;
+  onInlineTags: 'ignore' | 'log' | 'warn' | 'throw';
 };
 
 export type NormalizedTag = Tag & {
@@ -224,11 +224,11 @@ export function validateFrontMatterTags({
   options: TagsPluginOptions;
 }): void {
   const inlineTags = tags.filter((tag) => tag.inline);
-  if (inlineTags.length > 0 && options.onUnknownTags !== 'ignore') {
+  if (inlineTags.length > 0 && options.onInlineTags !== 'ignore') {
     const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
     const tagListString = uniqueUnknownTags.join(', ');
-    logger.report(options.onUnknownTags)(
-      `Tags [${tagListString}] used in ${source} are not defined in ${options.tagsFilePath}`,
+    logger.report(options.onInlineTags)(
+      `Tags [${tagListString}] used in ${source} are not defined in ${options.tags}`,
     );
   }
 }
