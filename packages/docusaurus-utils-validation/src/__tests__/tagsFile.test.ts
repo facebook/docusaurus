@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ensureUniquePermalinks, normalizeTags} from '../../lib/tags';
+import {ensureUniquePermalinks, normalizeTagsFile} from '../tagsFile';
 import type {TagsFile, TagsFileInput} from '@docusaurus/utils';
 
 describe('ensureUniquePermalinks', () => {
@@ -79,7 +79,7 @@ describe('ensureUniquePermalinks', () => {
   });
 });
 
-describe('normalizeTags', () => {
+describe('normalizeTagsFile', () => {
   it('normalize null tag', () => {
     const input: TagsFileInput = {
       'kebab case test': null,
@@ -93,7 +93,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 
   it('normalize partial tag with label', () => {
@@ -109,7 +109,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 
   it('normalize partial tag with description', () => {
@@ -125,7 +125,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 
   it('normalize partial tag with permalink', () => {
@@ -141,7 +141,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 
   it('does not modify fully defined tags', () => {
@@ -153,7 +153,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(input);
+    expect(normalizeTagsFile(input)).toEqual(input);
   });
 
   it('handle special characters in keys', () => {
@@ -169,7 +169,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 
   it('handle special characters in keys with chinese characters', () => {
@@ -185,7 +185,7 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 
   it('normalize test', () => {
@@ -207,6 +207,6 @@ describe('normalizeTags', () => {
       },
     };
 
-    expect(normalizeTags(input)).toEqual(expectedOutput);
+    expect(normalizeTagsFile(input)).toEqual(expectedOutput);
   });
 });

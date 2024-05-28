@@ -50,7 +50,7 @@ export function ensureUniquePermalinks(tags: TagsFile): void {
   }
 }
 
-export function normalizeTags(data: TagsFileInput): TagsFile {
+export function normalizeTagsFile(data: TagsFileInput): TagsFile {
   const normalizedData: TagsFile = {};
   for (const [key, tag] of Object.entries(data)) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
@@ -102,7 +102,7 @@ export async function getTagsFile(
     // TODO + normalize partial input => full input
     // TODO unit tests covering all forms of partial inputs
     // TODO handle conflicts, verify unique permalink etc
-    const normalizedData = normalizeTags(definedTags.value);
+    const normalizedData = normalizeTagsFile(definedTags.value);
 
     ensureUniquePermalinks(normalizedData);
 
