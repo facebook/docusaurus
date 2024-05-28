@@ -43,8 +43,11 @@ export function ensureUniquePermalinks(tags: TagsFile): void {
   }
 
   if (duplicates.size > 0) {
+    const duplicateList = Array.from(duplicates)
+      .map((permalink) => `  - ${permalink}`)
+      .join('\n');
     throw new Error(
-      `Duplicate permalinks found: ${Array.from(duplicates).join(', ')}`,
+      `Duplicate permalinks found in tags file:\n${duplicateList}`,
     );
   }
 }

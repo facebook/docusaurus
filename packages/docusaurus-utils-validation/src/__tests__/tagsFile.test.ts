@@ -23,11 +23,11 @@ describe('ensureUniquePermalinks', () => {
       },
     };
 
-    expect(() =>
-      ensureUniquePermalinks(definedTags),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Duplicate permalinks found: /custom-open-source"`,
-    );
+    expect(() => ensureUniquePermalinks(definedTags))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Duplicate permalinks found in tags file:
+        - /custom-open-source"
+    `);
   });
 
   it('throw when multiple duplicate permalink found', () => {
@@ -54,11 +54,12 @@ describe('ensureUniquePermalinks', () => {
       },
     };
 
-    expect(() =>
-      ensureUniquePermalinks(definedTags),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Duplicate permalinks found: /custom-open-source, /hello"`,
-    );
+    expect(() => ensureUniquePermalinks(definedTags))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Duplicate permalinks found in tags file:
+        - /custom-open-source
+        - /hello"
+    `);
   });
 
   it('do not throw when no duplicate permalink found', () => {
@@ -203,7 +204,7 @@ describe('normalizeTagsFile', () => {
       hello: {
         description: undefined,
         label: 'Hello',
-        permalink: 'h-e-l-l-o',
+        permalink: 'h e l l o',
       },
     };
 
