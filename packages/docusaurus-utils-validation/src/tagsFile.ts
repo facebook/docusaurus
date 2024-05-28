@@ -87,8 +87,7 @@ export async function getTagsFile(
   if (!tagDefinitionContent.trim()) {
     throw new Error(`Tags file at path ${tagDefinitionPath} is empty`);
   }
-  // TODO is it fine to use as TagsFileInput?
-  const data = YAML.load(tagDefinitionContent) as TagsFileInput;
+  const data = YAML.load(tagDefinitionContent);
   const definedTags = validateDefinedTags(data);
 
   if (definedTags.error) {
