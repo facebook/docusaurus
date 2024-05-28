@@ -87,7 +87,7 @@ describe('normalizeTagsFile', () => {
 
     const expectedOutput = {
       'kebab case test': {
-        description: 'kebab case test default description',
+        description: undefined,
         label: 'Kebab case test',
         permalink: '/kebab-case-test',
       },
@@ -103,7 +103,7 @@ describe('normalizeTagsFile', () => {
 
     const expectedOutput = {
       world: {
-        description: 'world default description',
+        description: undefined,
         label: 'WORLD',
         permalink: '/world',
       },
@@ -135,7 +135,7 @@ describe('normalizeTagsFile', () => {
 
     const expectedOutput = {
       world: {
-        description: 'world default description',
+        description: undefined,
         label: 'World',
         permalink: 'world',
       },
@@ -163,7 +163,7 @@ describe('normalizeTagsFile', () => {
 
     const expectedOutput = {
       'special@char$!key': {
-        description: 'special@char$!key default description',
+        description: undefined,
         label: 'Special@char$!key',
         permalink: '/special-char-key',
       },
@@ -179,7 +179,7 @@ describe('normalizeTagsFile', () => {
 
     const expectedOutput = {
       特殊字符测试: {
-        description: '特殊字符测试 default description',
+        description: undefined,
         label: '特殊字符测试',
         permalink: '/特殊字符测试',
       },
@@ -196,12 +196,12 @@ describe('normalizeTagsFile', () => {
 
     const expectedOutput = {
       world: {
-        description: 'world default description',
+        description: undefined,
         label: 'World',
         permalink: 'aze',
       },
       hello: {
-        description: 'hello default description',
+        description: undefined,
         label: 'Hello',
         permalink: 'h-e-l-l-o',
       },
