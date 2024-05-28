@@ -121,22 +121,6 @@ export function normalizeTag({
   return normalizeInlineTag(tagsBaseRoutePath, tag);
 }
 
-export function normalizeTags({
-  tagsBaseRoutePath,
-  tagsFile,
-  frontMatterTags,
-}: {
-  tagsBaseRoutePath: string;
-  tagsFile: TagsFile | null;
-  frontMatterTags: FrontMatterTag[];
-}): NormalizedTag[] {
-  const tags = frontMatterTags.map((tag) =>
-    normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
-  );
-
-  return tags;
-}
-
 type TaggedItemGroup<Item> = {
   tag: Tag;
   items: Item[];
@@ -246,25 +230,19 @@ export function processFileTagsPath({
   tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
 }): NormalizedTag[] {
+  const normalizedFrontMatterTags = frontMatterTags ?? [];
+
   if (tagsFile === null) {
-    return normalizeTags({
-      tagsBaseRoutePath,
-      tagsFile: null,
-      frontMatterTags: frontMatterTags ?? [],
-    });
+    return normalizedFrontMatterTags.map((tag) =>
+      normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
+    );
   }
 
-  const tags = normalizeTags({
-    tagsBaseRoutePath,
-    tagsFile,
-    frontMatterTags: frontMatterTags ?? [],
-  });
+  const tags = normalizedFrontMatterTags.map((tag) =>
+    normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
+  );
 
-  reportInlineTags({
-    tags,
-    source,
-    options,
-  });
+  reportInlineTags({tags, source, options});
 
   return tags;
 }
