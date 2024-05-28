@@ -65,7 +65,7 @@ Accepted fields:
 | `lastVersion` | `string` | First version in `versions.json` | The version navigated to in priority and displayed by default for docs navbar items. |
 | `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. |
 | `versions` | <code>[VersionsConfig](#VersionsConfig)</code> | `{}` | Independent customization of each version's properties. |
-| `tags` | `string \| false \| null \| undefined` | `tags.yml` | A path to the file that defines tags. |
+| `tags` | `string \| false \| null \| undefined` | `tags.yml` | Path to a YAML file listing pre-defined tags. Relative to the docs version content directories. |
 | `onInlineTags` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The plugin behavior when docs contain inline tags (not appearing in the list of pre-defined tags, usually `docs/tags.yml`). |
 
 ```mdx-code-block
