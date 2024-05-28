@@ -50,17 +50,13 @@ export function ensureUniquePermalinks(tags: TagsFile): void {
 }
 
 export function normalizeTagsFile(data: TagsFileInput): TagsFile {
-  const normalizedData: TagsFile = {};
-  for (const [key, tag] of Object.entries(data)) {
-    const partialTag = tag;
-    normalizedData[key] = {
-      label: partialTag?.label || _.capitalize(key),
-      description: partialTag?.description,
-      permalink: _.kebabCase(partialTag?.permalink) || `/${_.kebabCase(key)}`,
+  return _.mapValues(data, (tag, key) => {
+    return {
+      label: tag?.label || _.capitalize(key),
+      description: tag?.description,
+      permalink: _.kebabCase(tag?.permalink) || `/${_.kebabCase(key)}`,
     };
-  }
-
-  return normalizedData;
+  });
 }
 
 export async function getTagsFile(
