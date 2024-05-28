@@ -11,7 +11,6 @@ import _ from 'lodash';
 import Joi from 'joi';
 import YAML from 'js-yaml';
 import type {
-  Tag,
   TagsFile,
   TagsFileInput,
   TagsPluginOptions,
@@ -54,8 +53,7 @@ export function normalizeTagsFile(data: TagsFileInput): TagsFile {
   const normalizedData: TagsFile = {};
   for (const [key, tag] of Object.entries(data)) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
-      // Use type assertion to tell TypeScript that tag is of type Partial<Tag>
-      const partialTag = tag as Partial<Tag>;
+      const partialTag = tag;
       normalizedData[key] = {
         label: partialTag?.label || _.capitalize(key),
         description: partialTag?.description || `${key} default description`,
