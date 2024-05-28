@@ -354,7 +354,6 @@ SVGR
 swizzlable
 Teik
 templating
-testdesc
 Thanos
 Therox
 toolset
@@ -374,7 +373,6 @@ typesafe
 typesense
 Typesense
 Unavatar
-undefiend
 unlinkable
 unlisteds
 Unlisteds
