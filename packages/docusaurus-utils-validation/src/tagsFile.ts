@@ -71,15 +71,15 @@ export async function getTagsFile(
   options: TagsPluginOptions,
   contentPath: string,
 ): Promise<TagsFile | null> {
+  if (options.tags === false || options.tags === null) {
+    return null;
+  }
+
   const filename = options.tags || 'tags.yml';
   const tagDefinitionPath = path.join(contentPath, filename);
   const isFileExists = await fs.pathExists(tagDefinitionPath);
 
-  if (
-    options.tags === false ||
-    options.tags === null ||
-    (options.tags === undefined && !isFileExists)
-  ) {
+  if (options.tags === undefined && !isFileExists) {
     return null;
   }
 
