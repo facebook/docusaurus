@@ -24,20 +24,10 @@ import type {
 
 // TODO one by one test small
 describe('normalize tags', () => {
-  it('normalize tags', async () => {
-    const tagsFile: TagsFile = {
-      open: {
-        label: 'Open Source',
-        permalink: '/custom-open-source',
-        description: 'Learn about the open source',
-      },
-    };
+  it('normalize single inline tag', async () => {
+    const tagsFile: TagsFile = {};
 
-    const frontMatterTags = [
-      'hello',
-      {label: 'world', permalink: 'world'},
-      'open',
-    ];
+    const frontMatterTags = ['hello'];
 
     const normalizedTags = normalizeTags({
       tagsPath: '/tags',
@@ -52,17 +42,85 @@ describe('normalize tags', () => {
         permalink: '/tags/hello',
         description: undefined,
       },
-      {
-        inline: true,
-        label: 'world',
-        permalink: '/tags/world',
-        description: undefined,
+    ];
+
+    expect(normalizedTags).toEqual(expected);
+  });
+
+  it('normalize single defined tag', async () => {
+    const tagsFile: TagsFile = {
+      hello: {
+        label: 'hello',
+        permalink: '/hello',
       },
+    };
+
+    const frontMatterTags = ['hello'];
+
+    const normalizedTags = normalizeTags({
+      tagsPath: '/tags',
+      tagsFile,
+      frontMatterTags,
+    });
+
+    const expected: NormalizedTag[] = [
       {
         inline: false,
-        label: 'Open Source',
-        permalink: '/tags/custom-open-source',
-        description: 'Learn about the open source',
+        label: 'hello',
+        permalink: '/tags/hello',
+        description: undefined,
+      },
+    ];
+
+    expect(normalizedTags).toEqual(expected);
+  });
+
+  it('normalize single inline tag object', async () => {
+    const tagsFile: TagsFile = {};
+
+    const frontMatterTags = [{label: 'hello', permalink: 'hello'}];
+
+    const normalizedTags = normalizeTags({
+      tagsPath: '/tags',
+      tagsFile,
+      frontMatterTags,
+    });
+
+    const expected: NormalizedTag[] = [
+      {
+        inline: true,
+        label: 'hello',
+        permalink: '/tags/hello',
+        description: undefined,
+      },
+    ];
+
+    expect(normalizedTags).toEqual(expected);
+  });
+
+  it('normalize single defined tag with description', async () => {
+    const tagsFile: TagsFile = {
+      hello: {
+        label: 'hello',
+        permalink: '/hello',
+        description: 'hello description',
+      },
+    };
+
+    const frontMatterTags = ['hello'];
+
+    const normalizedTags = normalizeTags({
+      tagsPath: '/tags',
+      tagsFile,
+      frontMatterTags,
+    });
+
+    const expected: NormalizedTag[] = [
+      {
+        inline: false,
+        label: 'hello',
+        permalink: '/tags/hello',
+        description: 'hello description',
       },
     ];
 
