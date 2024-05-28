@@ -94,14 +94,10 @@ export async function getTagsFile(
     );
   }
 
+  const normalizedData = normalizeTagsFile(definedTags.value);
+  ensureUniquePermalinks(normalizedData);
+
   if (options.onInlineTags !== 'ignore') {
-    // TODO + normalize partial input => full input
-    // TODO unit tests covering all forms of partial inputs
-    // TODO handle conflicts, verify unique permalink etc
-    const normalizedData = normalizeTagsFile(definedTags.value);
-
-    ensureUniquePermalinks(normalizedData);
-
     return normalizedData;
   }
 
