@@ -232,17 +232,13 @@ export function normalizeTags({
 }): NormalizedTag[] {
   const normalizedFrontMatterTags = frontMatterTags ?? [];
 
-  if (tagsFile === null) {
-    return normalizedFrontMatterTags.map((tag) =>
-      normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
-    );
-  }
-
   const tags = normalizedFrontMatterTags.map((tag) =>
     normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
   );
 
-  reportInlineTags({tags, source, options});
+  if (tagsFile !== null) {
+    reportInlineTags({tags, source, options});
+  }
 
   return tags;
 }
