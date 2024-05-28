@@ -16,7 +16,7 @@ import type {
   TagsPluginOptions,
 } from '@docusaurus/utils';
 
-const tagDefinitionSchema = Joi.object<TagsFile>().pattern(
+const tagDefinitionSchema = Joi.object<TagsFileInput>().pattern(
   Joi.string(),
   Joi.object({
     label: Joi.string(),
@@ -25,7 +25,9 @@ const tagDefinitionSchema = Joi.object<TagsFile>().pattern(
   }).allow(null),
 );
 
-function validateDefinedTags(tags: unknown): Joi.ValidationResult<TagsFile> {
+function validateDefinedTags(
+  tags: unknown,
+): Joi.ValidationResult<TagsFileInput> {
   return tagDefinitionSchema.validate(tags);
 }
 
