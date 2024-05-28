@@ -66,7 +66,7 @@ Accepted fields:
 | `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. |
 | `versions` | <code>[VersionsConfig](#VersionsConfig)</code> | `{}` | Independent customization of each version's properties. |
 | `tags` | `string \| false \| null \| undefined` | `tags.yml` | A path to the file that defines tags. |
-| `onInlineTags` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The behavior of Docusaurus when it found inline tags. |
+| `onInlineTags` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The plugin behavior when docs contain inline tags (not appearing in the list of pre-defined tags, usually `docs/tags.yml`). |
 
 ```mdx-code-block
 </APITable>
