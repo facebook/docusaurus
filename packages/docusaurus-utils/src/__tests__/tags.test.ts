@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import {fromPartial} from '@total-typescript/shoehorn';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {processFileTagsPath, validateFrontMatterTags} from '@docusaurus/utils';
 import {
@@ -257,19 +256,19 @@ const createTest = async ({
   const contentPath = path.join(__dirname, '__fixtures__', 'tags');
 
   const definedTags = await getTagsFile(
-    fromPartial({
+    {
       onInlineTags,
       tags: tagFile,
-    }),
+    },
     contentPath,
   );
 
   return processFileTagsPath({
     tagsFile: definedTags,
-    options: fromPartial({
+    options: {
       tags: tagFile,
       onInlineTags,
-    }),
+    },
     source: 'default.md',
     versionTagsPath: '/processFileTagsPath/tags',
     frontMatterTags,
@@ -279,35 +278,7 @@ const createTest = async ({
 describe('processFileTagsPath', () => {
   it('throw when docs has invalid tags', async () => {
     const testFn = () =>
-      validateFrontMatterTags(
-        fromPartial({
-          tags: [
-            {
-              label: 'hello',
-              permalink: 'hello',
-              inline: true,
-            },
-            {
-              label: 'world',
-              permalink: 'world',
-              inline: true,
-            },
-          ],
-          source: 'wrong.md',
-          options: {onInlineTags: 'throw', tags: 'tags.yml'},
-        }),
-      );
-
-    expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
-    );
-  });
-
-  it('warns when docs has invalid tags', async () => {
-    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
-
-    validateFrontMatterTags(
-      fromPartial({
+      validateFrontMatterTags({
         tags: [
           {
             label: 'hello',
@@ -320,9 +291,34 @@ describe('processFileTagsPath', () => {
             inline: true,
           },
         ],
-        options: {onInlineTags: 'warn', tags: 'tags.yml'},
-      }),
+        source: 'wrong.md',
+        options: {onInlineTags: 'throw', tags: 'tags.yml'},
+      });
+
+    expect(testFn).toThrowErrorMatchingInlineSnapshot(
+      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
     );
+  });
+
+  it('warns when docs has invalid tags', async () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    validateFrontMatterTags({
+      tags: [
+        {
+          label: 'hello',
+          permalink: 'hello',
+          inline: true,
+        },
+        {
+          label: 'world',
+          permalink: 'world',
+          inline: true,
+        },
+      ],
+      source: 'wrong.md',
+      options: {onInlineTags: 'warn', tags: 'tags.yml'},
+    });
 
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
     expect(consoleWarnSpy).toHaveBeenCalledWith(
