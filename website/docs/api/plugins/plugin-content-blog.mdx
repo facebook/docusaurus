@@ -78,7 +78,7 @@ Accepted fields:
 | `processBlogPosts` | <code>[ProcessBlogPostsFn](#ProcessBlogPostsFn)</code> | `undefined` | An optional function which can be used to transform blog posts (filter, modify, delete, etc...). |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the blog post. |
 | `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
-| `tags` | `string \| false \| null \| undefined` | `tags.yml` | A path to the file that defines tags. |
+| `tags` | `string \| false \| null \| undefined` | `tags.yml` | Path to the YAML tags file listing pre-defined tags. Relative to the blog content directory. |
 | `onInlineTags` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The behavior of Docusaurus when it found inline tags. |
 
 ```mdx-code-block
