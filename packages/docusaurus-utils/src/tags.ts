@@ -11,16 +11,12 @@ import {normalizeUrl} from './urlUtils';
 
 /** What the user configures. */
 export type Tag = {
-  // TODO isn't it also possibly undefined ? (label?: string)
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
-  // TODO same as label comment?
   permalink: string;
-  // TODO do we use it in practice?
   description?: string;
 };
 
-// TODO add TagsFileInput=>TagsFile transformation + unit tests
 export type TagsFileInput = Record<string, Partial<Tag> | null>;
 
 export type TagsFile = Record<string, Tag>;
