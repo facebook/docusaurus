@@ -97,9 +97,5 @@ export async function getTagsFile(
   const normalizedData = normalizeTagsFile(definedTags.value);
   ensureUniquePermalinks(normalizedData);
 
-  if (options.onInlineTags !== 'ignore') {
-    return normalizedData;
-  }
-
-  return null;
+  return options.onInlineTags !== 'ignore' ? normalizedData : null;
 }
