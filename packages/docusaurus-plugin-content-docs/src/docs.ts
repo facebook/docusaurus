@@ -213,7 +213,7 @@ async function doProcessDocMetadata({
     options,
     source,
     frontMatterTags: frontMatter.tags,
-    versionTagsPath: versionMetadata.tagsPath,
+    tagsBaseRoutePath: versionMetadata.tagsPath,
     tagsFile,
   });
 

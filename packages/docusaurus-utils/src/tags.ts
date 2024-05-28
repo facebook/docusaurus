@@ -11,7 +11,7 @@ import {normalizeUrl} from './urlUtils';
 
 /** What the user configures. */
 export type Tag = {
-  // TODO isn't it also possibly undefiend ? (label?: string)
+  // TODO isn't it also possibly undefined ? (label?: string)
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   // TODO same as label comment?
@@ -56,21 +56,20 @@ export type FrontMatterTag = string | Tag;
 
 // TODO maybe make ensure the permalink is valid url path?
 function normalizeTagPermalink({
-  tagsPath,
+  tagsBaseRoutePath,
   permalink,
 }: {
-  tagsPath: string;
+  tagsBaseRoutePath: string;
   permalink: string;
 }): string {
-  // Note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
+  // Note: we always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md
   // and v2/doc.md tags with custom permalinks don't lead to the same created
-  // page. tagsPath is different for each doc version
-  return normalizeUrl([tagsPath, permalink]);
+  // page. tagsBaseRoutePath is different for each doc version
+  return normalizeUrl([tagsBaseRoutePath, permalink]);
 }
 
-// TODO old legacy method, to refactor
 function normalizeInlineTag(
-  tagsPath: string,
+  tagsBaseRoutePath: string,
   frontMatterTag: FrontMatterTag,
 ): NormalizedTag {
   function toTagObject(tagString: string): NormalizedTag {
@@ -90,7 +89,10 @@ function normalizeInlineTag(
   return {
     inline: true,
     label: tag.label,
-    permalink: normalizeTagPermalink({permalink: tag.permalink, tagsPath}),
+    permalink: normalizeTagPermalink({
+      permalink: tag.permalink,
+      tagsBaseRoutePath,
+    }),
     description: tag.description,
   };
 }
@@ -98,10 +100,10 @@ function normalizeInlineTag(
 export function normalizeTag({
   tag,
   tagsFile,
-  tagsPath,
+  tagsBaseRoutePath,
 }: {
   tag: FrontMatterTag;
-  tagsPath: string;
+  tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
 }): NormalizedTag {
   if (typeof tag === 'string') {
@@ -113,27 +115,27 @@ export function normalizeTag({
         label: tagDescription.label,
         permalink: normalizeTagPermalink({
           permalink: tagDescription.permalink,
-          tagsPath,
+          tagsBaseRoutePath,
         }),
         description: tagDescription.description,
       };
     }
   }
   // legacy inline tag object, always inline, unknown because isn't a string
-  return normalizeInlineTag(tagsPath, tag);
+  return normalizeInlineTag(tagsBaseRoutePath, tag);
 }
 
 export function normalizeTags({
-  tagsPath,
+  tagsBaseRoutePath,
   tagsFile,
   frontMatterTags,
 }: {
-  tagsPath: string;
+  tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
   frontMatterTags: FrontMatterTag[];
 }): NormalizedTag[] {
   const tags = frontMatterTags.map((tag) =>
-    normalizeTag({tag, tagsPath, tagsFile}),
+    normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
   );
 
   return tags;
@@ -216,7 +218,7 @@ export function getTagVisibility<Item>({
   };
 }
 
-export function validateFrontMatterTags({
+export function reportInlineTags({
   tags,
   source,
   options,
@@ -239,30 +241,30 @@ export function processFileTagsPath({
   options,
   source,
   frontMatterTags,
-  versionTagsPath,
+  tagsBaseRoutePath,
   tagsFile,
 }: {
   options: TagsPluginOptions;
   source: string;
   frontMatterTags: FrontMatterTag[] | undefined;
-  versionTagsPath: string;
+  tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
 }): NormalizedTag[] {
   if (tagsFile === null) {
     return normalizeTags({
-      tagsPath: versionTagsPath,
+      tagsBaseRoutePath,
       tagsFile: null,
       frontMatterTags: frontMatterTags ?? [],
     });
   }
 
   const tags = normalizeTags({
-    tagsPath: versionTagsPath,
+    tagsBaseRoutePath,
     tagsFile,
     frontMatterTags: frontMatterTags ?? [],
   });
 
-  validateFrontMatterTags({
+  reportInlineTags({
     tags,
     source,
     options,

@@ -318,7 +318,7 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([
+  const tagsBaseRoutePath = normalizeUrl([
     baseUrl,
     routeBasePath,
     tagsRouteBasePath,
@@ -329,7 +329,7 @@ async function processBlogSourceFile(
     options,
     source: blogSourceRelative,
     frontMatterTags: frontMatter.tags,
-    versionTagsPath: tagsBasePath,
+    tagsBaseRoutePath,
     tagsFile,
   });
 

@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {getTagsFile} from '@docusaurus/utils-validation';
-import {processFileTagsPath, validateFrontMatterTags} from '@docusaurus/utils';
+import {processFileTagsPath, reportInlineTags} from '@docusaurus/utils';
 import {
   groupTaggedItems,
   getTagVisibility,
@@ -30,7 +30,7 @@ describe('normalize tags', () => {
     const frontMatterTags = ['hello'];
 
     const normalizedTags = normalizeTags({
-      tagsPath: '/tags',
+      tagsBaseRoutePath: '/tags',
       tagsFile,
       frontMatterTags,
     });
@@ -58,7 +58,7 @@ describe('normalize tags', () => {
     const frontMatterTags = ['hello'];
 
     const normalizedTags = normalizeTags({
-      tagsPath: '/tags',
+      tagsBaseRoutePath: '/tags',
       tagsFile,
       frontMatterTags,
     });
@@ -81,7 +81,7 @@ describe('normalize tags', () => {
     const frontMatterTags = [{label: 'hello', permalink: 'hello'}];
 
     const normalizedTags = normalizeTags({
-      tagsPath: '/tags',
+      tagsBaseRoutePath: '/tags',
       tagsFile,
       frontMatterTags,
     });
@@ -110,7 +110,7 @@ describe('normalize tags', () => {
     const frontMatterTags = ['hello'];
 
     const normalizedTags = normalizeTags({
-      tagsPath: '/tags',
+      tagsBaseRoutePath: '/tags',
       tagsFile,
       frontMatterTags,
     });
@@ -129,7 +129,7 @@ describe('normalize tags', () => {
 });
 
 describe('normalizeFrontMatterTags', () => {
-  const tagsPath = '/all/tags';
+  const tagsBaseRoutePath = '/all/tags';
 
   describe('inline', () => {
     it('normalizes simple string tag', () => {
@@ -137,11 +137,11 @@ describe('normalizeFrontMatterTags', () => {
       const expectedOutput: NormalizedTag = {
         inline: true,
         label: 'tag',
-        permalink: `${tagsPath}/tag`,
+        permalink: `${tagsBaseRoutePath}/tag`,
       };
-      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
-        expectedOutput,
-      );
+      expect(
+        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
+      ).toEqual(expectedOutput);
     });
 
     it('normalizes complex string tag', () => {
@@ -149,11 +149,11 @@ describe('normalizeFrontMatterTags', () => {
       const expectedOutput: NormalizedTag = {
         inline: true,
         label: 'some more Complex_tag',
-        permalink: `${tagsPath}/some-more-complex-tag`,
+        permalink: `${tagsBaseRoutePath}/some-more-complex-tag`,
       };
-      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
-        expectedOutput,
-      );
+      expect(
+        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
+      ).toEqual(expectedOutput);
     });
 
     it('normalizes simple object tag', () => {
@@ -161,11 +161,11 @@ describe('normalizeFrontMatterTags', () => {
       const expectedOutput: NormalizedTag = {
         inline: true,
         label: 'tag',
-        permalink: `${tagsPath}/tagPermalink`,
+        permalink: `${tagsBaseRoutePath}/tagPermalink`,
       };
-      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
-        expectedOutput,
-      );
+      expect(
+        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
+      ).toEqual(expectedOutput);
     });
 
     it('normalizes complex string tag with object tag', () => {
@@ -176,11 +176,11 @@ describe('normalizeFrontMatterTags', () => {
       const expectedOutput: NormalizedTag = {
         inline: true,
         label: 'tag complex Label',
-        permalink: `${tagsPath}/MoreComplex/Permalink`,
+        permalink: `${tagsBaseRoutePath}/MoreComplex/Permalink`,
       };
-      expect(normalizeTag({tagsPath, tagsFile: null, tag: input})).toEqual(
-        expectedOutput,
-      );
+      expect(
+        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
+      ).toEqual(expectedOutput);
     });
   });
 });
@@ -328,7 +328,7 @@ const createTest = async ({
       onInlineTags,
     },
     source: 'default.md',
-    versionTagsPath: '/processFileTagsPath/tags',
+    tagsBaseRoutePath: '/processFileTagsPath/tags',
     frontMatterTags,
   });
 };
@@ -336,7 +336,7 @@ const createTest = async ({
 describe('processFileTagsPath', () => {
   it('throw when docs has invalid tags', async () => {
     const testFn = () =>
-      validateFrontMatterTags({
+      reportInlineTags({
         tags: [
           {
             label: 'hello',
@@ -361,7 +361,7 @@ describe('processFileTagsPath', () => {
   it('warns when docs has invalid tags', async () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
-    validateFrontMatterTags({
+    reportInlineTags({
       tags: [
         {
           label: 'hello',
