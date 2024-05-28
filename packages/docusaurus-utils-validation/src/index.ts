@@ -29,4 +29,4 @@ export {
   FrontMatterLastUpdateErrorMessage,
   FrontMatterLastUpdateSchema,
 } from './validationSchemas';
-export {getTagsFile} from './tags';
+export {getTagsFile} from './tagsFile.ts';
