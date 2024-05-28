@@ -54,7 +54,7 @@ export function normalizeTagsFile(data: TagsFileInput): TagsFile {
     return {
       label: tag?.label || _.capitalize(key),
       description: tag?.description,
-      permalink: _.kebabCase(tag?.permalink) || `/${_.kebabCase(key)}`,
+      permalink: tag?.permalink || `/${_.kebabCase(key)}`,
     };
   });
 }
