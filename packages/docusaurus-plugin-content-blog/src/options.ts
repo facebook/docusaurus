@@ -55,7 +55,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateAuthor: false,
   processBlogPosts: async () => undefined,
   onInlineTags: 'warn',
-  tags: false,
+  tags: undefined,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -152,7 +152,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   tags: Joi.string()
     .disallow('')
     .allow(null, false)
-    .default(DEFAULT_OPTIONS.tags),
+    .default(() => DEFAULT_OPTIONS.tags),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

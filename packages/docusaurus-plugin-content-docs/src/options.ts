@@ -55,7 +55,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   sidebarCollapsed: true,
   breadcrumbs: true,
   onInlineTags: 'warn',
-  tags: false,
+  tags: undefined,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -148,7 +148,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
   tags: Joi.string()
     .disallow('')
     .allow(null, false)
-    .default(DEFAULT_OPTIONS.tags),
+    .default(() => DEFAULT_OPTIONS.tags),
 });
 
 export function validateOptions({

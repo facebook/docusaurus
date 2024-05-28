@@ -76,10 +76,9 @@ export async function getTagsFile(
   const isFileExists = await fs.pathExists(tagDefinitionPath);
 
   if (
-    (options.tags === false ||
-      options.tags === null ||
-      options.tags === undefined) &&
-    !isFileExists
+    options.tags === false ||
+    options.tags === null ||
+    (options.tags === undefined && !isFileExists)
   ) {
     return null;
   }
@@ -92,16 +91,17 @@ export async function getTagsFile(
   const data = YAML.load(tagDefinitionContent) as TagsFileInput;
   const definedTags = validateDefinedTags(data);
 
+  if (definedTags.error) {
+    throw new Error(
+      `There was an error extracting tags from file: ${definedTags.error.message}`,
+      {cause: definedTags},
+    );
+  }
+
   if (options.onInlineTags !== 'ignore') {
     // TODO + normalize partial input => full input
     // TODO unit tests covering all forms of partial inputs
     // TODO handle conflicts, verify unique permalink etc
-    if (definedTags.error) {
-      throw new Error(
-        `There was an error extracting tags from file: ${definedTags.error.message}`,
-        {cause: definedTags},
-      );
-    }
     const normalizedData = normalizeTags(definedTags.value);
 
     ensureUniquePermalinks(normalizedData);
