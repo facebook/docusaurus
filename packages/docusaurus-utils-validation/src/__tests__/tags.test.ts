@@ -6,10 +6,11 @@
  */
 
 import {ensureUniquePermalinks, normalizeTags} from '../../lib/tags';
+import type {TagsFile, TagsFileInput} from '@docusaurus/utils';
 
 describe('ensureUniquePermalinks', () => {
-  it('throw when duplicate permalink found', () => {
-    const definedTags = {
+  it('throw when one duplicate permalink found', () => {
+    const definedTags: TagsFile = {
       open: {
         label: 'Open Source',
         permalink: '/custom-open-source',
@@ -20,14 +21,35 @@ describe('ensureUniquePermalinks', () => {
         permalink: '/custom-open-source',
         description: 'Learn about the closed source',
       },
-      world: {
-        label: 'World',
-        permalink: '/world',
-        description: 'Learn about the world',
+    };
+
+    expect(() =>
+      ensureUniquePermalinks(definedTags),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Duplicate permalinks found: /custom-open-source"`,
+    );
+  });
+
+  it('throw when multiple duplicate permalink found', () => {
+    const definedTags: TagsFile = {
+      open: {
+        label: 'Open Source',
+        permalink: '/custom-open-source',
+        description: 'Learn about the open source',
       },
-      world2: {
-        label: 'World',
-        permalink: '/world',
+      closed: {
+        label: 'Closed Source',
+        permalink: '/custom-open-source',
+        description: 'Learn about the closed source',
+      },
+      hello: {
+        label: 'Hello',
+        permalink: '/hello',
+        description: 'Learn about the hello',
+      },
+      world: {
+        label: 'Hello',
+        permalink: '/hello',
         description: 'Learn about the world',
       },
     };
@@ -35,20 +57,37 @@ describe('ensureUniquePermalinks', () => {
     expect(() =>
       ensureUniquePermalinks(definedTags),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Duplicate permalinks found: /custom-open-source, /world"`,
+      `"Duplicate permalinks found: /custom-open-source, /hello"`,
     );
+  });
+
+  it('do not throw when no duplicate permalink found', () => {
+    const definedTags: TagsFile = {
+      open: {
+        label: 'Open Source',
+        permalink: '/open-source',
+        description: 'Learn about the open source',
+      },
+      closed: {
+        label: 'Closed Source',
+        permalink: '/closed-source',
+        description: 'Learn about the closed source',
+      },
+    };
+
+    expect(() => ensureUniquePermalinks(definedTags)).not.toThrow();
   });
 });
 
 describe('normalizeTags', () => {
   it('normalize null tag', () => {
-    const input = {
+    const input: TagsFileInput = {
       'kebab case test': null,
     };
 
     const expectedOutput = {
       'kebab case test': {
-        description: 'kebab case test description',
+        description: 'kebab case test default description',
         label: 'Kebab case test',
         permalink: '/kebab-case-test',
       },
@@ -57,14 +96,14 @@ describe('normalizeTags', () => {
     expect(normalizeTags(input)).toEqual(expectedOutput);
   });
 
-  it('normalize permalink and description', () => {
-    const input = {
+  it('normalize partial tag with label', () => {
+    const input: TagsFileInput = {
       world: {label: 'WORLD'},
     };
 
     const expectedOutput = {
       world: {
-        description: 'world description',
+        description: 'world default description',
         label: 'WORLD',
         permalink: '/world',
       },
@@ -73,16 +112,76 @@ describe('normalizeTags', () => {
     expect(normalizeTags(input)).toEqual(expectedOutput);
   });
 
-  it('normalize kebab case permalink and capitalize label', () => {
-    const input = {
-      'kebab case': null,
+  it('normalize partial tag with description', () => {
+    const input: TagsFileInput = {
+      world: {description: 'World description test'},
     };
 
     const expectedOutput = {
-      'kebab case': {
-        description: 'kebab case description',
-        label: 'Kebab case',
-        permalink: '/kebab-case',
+      world: {
+        description: 'World description test',
+        label: 'World',
+        permalink: '/world',
+      },
+    };
+
+    expect(normalizeTags(input)).toEqual(expectedOutput);
+  });
+
+  it('normalize partial tag with permalink', () => {
+    const input: TagsFileInput = {
+      world: {permalink: 'world'},
+    };
+
+    const expectedOutput = {
+      world: {
+        description: 'world default description',
+        label: 'World',
+        permalink: 'world',
+      },
+    };
+
+    expect(normalizeTags(input)).toEqual(expectedOutput);
+  });
+
+  it('does not modify fully defined tags', () => {
+    const input = {
+      tag1: {
+        label: 'Custom Label',
+        description: 'Custom Description',
+        permalink: 'custom-permalink',
+      },
+    };
+
+    expect(normalizeTags(input)).toEqual(input);
+  });
+
+  it('handle special characters in keys', () => {
+    const input = {
+      'special@char$!key': null,
+    };
+
+    const expectedOutput = {
+      'special@char$!key': {
+        description: 'special@char$!key default description',
+        label: 'Special@char$!key',
+        permalink: '/special-char-key',
+      },
+    };
+
+    expect(normalizeTags(input)).toEqual(expectedOutput);
+  });
+
+  it('handle special characters in keys with chinese characters', () => {
+    const input = {
+      特殊字符测试: null,
+    };
+
+    const expectedOutput = {
+      特殊字符测试: {
+        description: '特殊字符测试 default description',
+        label: '特殊字符测试',
+        permalink: '/特殊字符测试',
       },
     };
 
@@ -90,22 +189,21 @@ describe('normalizeTags', () => {
   });
 
   it('normalize test', () => {
-    const input = {
+    const input: TagsFileInput = {
       world: {permalink: 'aze'},
       hello: {permalink: 'h e l l o'},
     };
 
     const expectedOutput = {
       world: {
-        description: 'world description',
+        description: 'world default description',
         label: 'World',
         permalink: 'aze',
       },
       hello: {
-        description: 'hello description',
+        description: 'hello default description',
         label: 'Hello',
-        // TODO should we allow this ?
-        permalink: 'h e l l o',
+        permalink: 'h-e-l-l-o',
       },
     };
 

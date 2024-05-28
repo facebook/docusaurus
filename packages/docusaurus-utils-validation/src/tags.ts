@@ -58,8 +58,8 @@ export function normalizeTags(data: TagsFileInput): TagsFile {
       const partialTag = tag as Partial<Tag>;
       normalizedData[key] = {
         label: partialTag?.label || _.capitalize(key),
-        description: partialTag?.description || `${key} description`,
-        permalink: partialTag?.permalink || `/${_.kebabCase(key)}`,
+        description: partialTag?.description || `${key} default description`,
+        permalink: _.kebabCase(partialTag?.permalink) || `/${_.kebabCase(key)}`,
       };
     }
   }
