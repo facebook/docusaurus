@@ -20,7 +20,7 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
-  processFileTagsPath,
+  normalizeTags,
 } from '@docusaurus/utils';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
@@ -209,7 +209,7 @@ async function doProcessDocMetadata({
   const draft = isDraft({env, frontMatter});
   const unlisted = isUnlisted({env, frontMatter});
 
-  const tags = processFileTagsPath({
+  const tags = normalizeTags({
     options,
     source,
     frontMatterTags: frontMatter.tags,

@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {getTagsFile} from '@docusaurus/utils-validation';
-import {processFileTagsPath, reportInlineTags} from '@docusaurus/utils';
+import {normalizeTags, reportInlineTags} from '@docusaurus/utils';
 import {groupTaggedItems, getTagVisibility, normalizeTag} from '../tags';
 import type {
   Tag,
@@ -315,19 +315,19 @@ const createTest = async ({
     contentPath,
   );
 
-  return processFileTagsPath({
+  return normalizeTags({
     tagsFile: definedTags,
     options: {
       tags: tagFile,
       onInlineTags,
     },
     source: 'default.md',
-    tagsBaseRoutePath: '/processFileTagsPath/tags',
+    tagsBaseRoutePath: '/normalizeTags/tags',
     frontMatterTags,
   });
 };
 
-describe('processFileTagsPath', () => {
+describe('normalizeTags', () => {
   it('throw when docs has invalid tags', async () => {
     const testFn = () =>
       reportInlineTags({

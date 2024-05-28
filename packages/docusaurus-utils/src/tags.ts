@@ -217,7 +217,7 @@ export function reportInlineTags({
   }
 }
 
-export function processFileTagsPath({
+export function normalizeTags({
   options,
   source,
   frontMatterTags,

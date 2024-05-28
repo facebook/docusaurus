@@ -124,4 +124,4 @@ export {
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
 
-export {processFileTagsPath, reportInlineTags} from './tags';
+export {normalizeTags, reportInlineTags} from './tags';

@@ -25,7 +25,7 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
-  processFileTagsPath,
+  normalizeTags,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
@@ -325,7 +325,7 @@ async function processBlogSourceFile(
   ]);
   const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
 
-  const tags = processFileTagsPath({
+  const tags = normalizeTags({
     options,
     source: blogSourceRelative,
     frontMatterTags: frontMatter.tags,
