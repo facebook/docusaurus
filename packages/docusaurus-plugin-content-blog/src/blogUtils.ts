@@ -130,6 +130,7 @@ export function getBlogTags({
       label: tag.label,
       items: tagVisibility.listedItems.map((item) => item.id),
       permalink: tag.permalink,
+      description: tag.description,
       pages: paginateBlogPosts({
         blogPosts: tagVisibility.listedItems,
         basePageUrl: tag.permalink,
