@@ -3,6 +3,7 @@
 exports[`blog plugin process blog posts load content 1`] = `
 {
   "/blog/tags/tag-1": {
+    "description": undefined,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -63,6 +64,7 @@ exports[`blog plugin process blog posts load content 1`] = `
     "unlisted": false,
   },
   "/blog/tags/tag-2": {
+    "description": undefined,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -258,6 +260,7 @@ exports[`blog plugin process blog posts load content 2`] = `
 exports[`blog plugin works on blog tags without pagination 1`] = `
 {
   "/blog/tags/tag-1": {
+    "description": undefined,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -288,6 +291,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
     "unlisted": false,
   },
   "/blog/tags/tag-2": {
+    "description": undefined,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -316,6 +320,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
     "unlisted": false,
   },
   "/blog/tags/unlisted": {
+    "description": undefined,
     "items": [
       "/another/blog-with-tags-unlisted",
     ],
@@ -347,6 +352,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
 exports[`blog plugin works with blog tags 1`] = `
 {
   "/blog/tags/tag-1": {
+    "description": undefined,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -392,6 +398,7 @@ exports[`blog plugin works with blog tags 1`] = `
     "unlisted": false,
   },
   "/blog/tags/tag-2": {
+    "description": undefined,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -420,6 +427,7 @@ exports[`blog plugin works with blog tags 1`] = `
     "unlisted": false,
   },
   "/blog/tags/unlisted": {
+    "description": undefined,
     "items": [
       "/another/blog-with-tags-unlisted",
     ],

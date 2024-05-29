@@ -9,11 +9,10 @@ import {
   FrontMatterLastUpdateSchema,
   FrontMatterTOCHeadingLevels,
   FrontMatterTagsSchema,
-  Joi, // Custom instance for front matter
+  JoiFrontMatter as Joi, // Custom instance for front matter
   URISchema,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
-import type {TagsFile} from '@docusaurus/utils';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 const BlogPostFrontMatterAuthorSchema = Joi.object({
@@ -82,19 +81,4 @@ export function validateBlogPostFrontMatter(frontMatter: {
   [key: string]: unknown;
 }): BlogPostFrontMatter {
   return validateFrontMatter(frontMatter, BlogFrontMatterSchema);
-}
-
-export const tagDefinitionSchema = Joi.object<TagsFile>().pattern(
-  Joi.string(),
-  Joi.object({
-    label: Joi.string().required(),
-    description: Joi.string().required(),
-    permalink: Joi.string(),
-  }),
-);
-
-export function validateDefinedTags(
-  tags: unknown,
-): Joi.ValidationResult<TagsFile> {
-  return tagDefinitionSchema.validate(tags);
 }
