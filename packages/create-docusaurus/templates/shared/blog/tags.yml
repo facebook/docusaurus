@@ -1,0 +1,12 @@
+facebook:
+  label: Facebook
+  permalink: /facebook
+hello:
+  label: Hello
+  permalink: /hello
+docusaurus:
+  label: Docusaurus
+  permalink: /docusaurus
+hola:
+  label: Hola
+  permalink: /hola
