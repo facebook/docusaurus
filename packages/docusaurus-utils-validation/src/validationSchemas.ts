@@ -117,12 +117,11 @@ export const RouteBasePathSchema = Joi
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()
   .try(
     JoiFrontMatter.string().required(),
-    // TODO Docusaurus v4 remove this front matter tag form
+    // TODO Docusaurus v4 remove this legacy front matter tag object form
     //  users should use tags.yml instead
     JoiFrontMatter.object<FrontMatterTag>({
       label: JoiFrontMatter.string().required(),
       permalink: JoiFrontMatter.string().required(),
-      description: JoiFrontMatter.string().required(),
     }).required(),
   )
   .messages({
