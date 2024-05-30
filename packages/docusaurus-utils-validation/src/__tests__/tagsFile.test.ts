@@ -86,7 +86,7 @@ describe('normalizeTagsFile', () => {
       'kebab case test': null,
     };
 
-    const expectedOutput = {
+    const expectedOutput: TagsFile = {
       'kebab case test': {
         description: undefined,
         label: 'Kebab case test',
@@ -102,7 +102,7 @@ describe('normalizeTagsFile', () => {
       world: {label: 'WORLD'},
     };
 
-    const expectedOutput = {
+    const expectedOutput: TagsFile = {
       world: {
         description: undefined,
         label: 'WORLD',
@@ -118,7 +118,7 @@ describe('normalizeTagsFile', () => {
       world: {description: 'World description test'},
     };
 
-    const expectedOutput = {
+    const expectedOutput: TagsFile = {
       world: {
         description: 'World description test',
         label: 'World',
@@ -134,7 +134,7 @@ describe('normalizeTagsFile', () => {
       world: {permalink: 'world'},
     };
 
-    const expectedOutput = {
+    const expectedOutput: TagsFile = {
       world: {
         description: undefined,
         label: 'World',
@@ -146,7 +146,7 @@ describe('normalizeTagsFile', () => {
   });
 
   it('does not modify fully defined tags', () => {
-    const input = {
+    const input: TagsFileInput = {
       tag1: {
         label: 'Custom Label',
         description: 'Custom Description',
@@ -158,11 +158,11 @@ describe('normalizeTagsFile', () => {
   });
 
   it('handle special characters in keys', () => {
-    const input = {
+    const input: TagsFileInput = {
       'special@char$!key': null,
     };
 
-    const expectedOutput = {
+    const expectedOutput: TagsFile = {
       'special@char$!key': {
         description: undefined,
         label: 'Special@char$!key',
@@ -174,11 +174,11 @@ describe('normalizeTagsFile', () => {
   });
 
   it('handle special characters in keys with chinese characters', () => {
-    const input = {
+    const input: TagsFileInput = {
       特殊字符测试: null,
     };
 
-    const expectedOutput = {
+    const expectedOutput: TagsFile = {
       特殊字符测试: {
         description: undefined,
         label: '特殊字符测试',

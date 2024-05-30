@@ -16,7 +16,7 @@ import type {
   TagsPluginOptions,
 } from '@docusaurus/utils';
 
-const tagDefinitionSchema = Joi.object<TagsFileInput>().pattern(
+const TagsFileInputSchema = Joi.object<TagsFileInput>().pattern(
   Joi.string(),
   Joi.object({
     label: Joi.string(),
@@ -24,12 +24,6 @@ const tagDefinitionSchema = Joi.object<TagsFileInput>().pattern(
     permalink: Joi.string(),
   }).allow(null),
 );
-
-function validateDefinedTags(
-  tags: unknown,
-): Joi.ValidationResult<TagsFileInput> {
-  return tagDefinitionSchema.validate(tags);
-}
 
 export function ensureUniquePermalinks(tags: TagsFile): void {
   const permalinks = new Set<string>();
@@ -84,18 +78,17 @@ export async function getTagsFile(
   if (!tagDefinitionContent.trim()) {
     throw new Error(`Tags file at path ${tagDefinitionPath} is empty`);
   }
-  const data = YAML.load(tagDefinitionContent);
-  const definedTags = validateDefinedTags(data);
-
-  if (definedTags.error) {
+  const yamlContent = YAML.load(tagDefinitionContent);
+  const tagsFileInputResult = TagsFileInputSchema.validate(yamlContent);
+  if (tagsFileInputResult.error) {
     throw new Error(
-      `There was an error extracting tags from file: ${definedTags.error.message}`,
-      {cause: definedTags},
+      `There was an error extracting tags from file: ${tagsFileInputResult.error.message}`,
+      {cause: tagsFileInputResult},
     );
   }
 
-  const normalizedData = normalizeTagsFile(definedTags.value);
-  ensureUniquePermalinks(normalizedData);
+  const tagsFile = normalizeTagsFile(tagsFileInputResult.value);
+  ensureUniquePermalinks(tagsFile);
 
-  return options.onInlineTags !== 'ignore' ? normalizedData : null;
+  return options.onInlineTags !== 'ignore' ? tagsFile : null;
 }
