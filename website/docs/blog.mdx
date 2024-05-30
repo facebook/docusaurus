@@ -382,17 +382,17 @@ An author, either declared through front matter or through the authors map, need
 
 ## Blog post tags {#blog-post-tags}
 
-Use the `tags` front matter field use tags declared in `tags.yml`. Tags are a way to categorize your blog posts.
+Optionally, you can add tags to your blog pages. Tags are passed in the front matter as a list of labels:
 
 ### Inline tags {#inline-tags}
 
-Tags are considered inline when they are not defined in a global configuration file. They will be reported as per the `onInlineTags` configuration in `docusaurus.config.js`.
+Tags are considered inline when they are not defined in a global configuration file. You can configure how to report inline tags with [`onInlineTags`](./api/plugins/plugin-content-blog.mdx#onInlineTags).
 
 Blog post tags can be declared directly inside the front matter in different ways:
 
 ```md title="my-blog-post.md"
 ---
-tags: [hello, docusaurus, {label: 'Open Source', permalink: '/open-source'}]
+tags: [hello, docusaurus]
 ---
 ```
 
@@ -401,8 +401,6 @@ tags: [hello, docusaurus, {label: 'Open Source', permalink: '/open-source'}]
 tags:
   - hello
   - docusaurus
-  - label: Open Source
-    permalink: /open-source
 ---
 ```
 
