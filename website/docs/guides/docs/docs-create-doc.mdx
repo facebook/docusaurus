@@ -72,6 +72,19 @@ tags:
 ---
 ```
 
+You can use pre defined tags in docs with `tags.yml` file. For example, if you have a `tags.yml` file with the following content:
+
+```yml title="tags.yml"
+tag:
+  Demo: null
+  Getting started:
+    label: Getting started
+    permalink: /getting-started
+    description: Things to get you started
+```
+
+Depending on the configuration of onInlineTags in `docusaurus.config.js`, you can throw, warn, log or ignore if a tag is not defined in `tags.yml`:
+
 :::tip
 
 Tags can also be declared with `tags: [Demo, Getting started]`.

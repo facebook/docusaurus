@@ -380,6 +380,35 @@ An author, either declared through front matter or through the authors map, need
 
 :::
 
+## Blog post tags {#blog-post-tags}
+
+Use the `tags` front matter field use tags declared in `tags.yml`. Tags are a way to categorize your blog posts.
+
+### Inline tags {#inline-tags}
+
+Blog post tags can be declared directly inside the front matter:
+
+```md title="my-blog-post.md"
+---
+tags: [hello, docusaurus-v2]
+---
+```
+
+### Global tags {#global-tags}
+
+For regular blog post tags, it can be tedious to maintain tags inlined in each blog post.
+
+It is possible to declare those tags globally in a configuration file:
+
+```yml title="website/blog/tags.yml"
+tag:
+  hello: null
+  docusaurus-v2:
+    label: Docusaurus v2
+    permalink: /docusaurus-v2
+    description: Docusaurus v2 related posts
+```
+
 ## Reading time {#reading-time}
 
 Docusaurus generates a reading time estimation for each blog post based on word count. We provide an option to customize this.

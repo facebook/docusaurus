@@ -226,7 +226,7 @@ Accepted fields:
 | `author_title` | `string` | `undefined` | ⚠️ Prefer using `authors`. A description of the author. |
 | `title` | `string` | Markdown title | The blog post title. |
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
-| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
+| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. Strings can be a reference to keys in `tags.yml` |
 | `draft` | `boolean` | `false` | Draft blog posts will only be available during development. |
 | `unlisted` | `boolean` | `false` | Unlisted blog posts will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
@@ -274,7 +274,7 @@ authors:
     title: Co-creator of Docusaurus 1
     url: https://github.com/JoelMarcey
     image_url: https://github.com/JoelMarcey.png
-tags: [hello, docusaurus-v2]
+tags: [hello, docusaurus]
 description: This is my first post on Docusaurus.
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
@@ -282,6 +282,10 @@ hide_table_of_contents: false
 
 A Markdown blog post
 ```
+
+import TagsFile from './_tags-partials-example.mdx';
+
+<TagsFile />
 
 ## i18n {#i18n}
 
