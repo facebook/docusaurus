@@ -1548,16 +1548,19 @@ exports[`simple website content: route config 1`] = `
               "tags": [
                 {
                   "count": 2,
+                  "description": undefined,
                   "label": "tag 1",
                   "permalink": "/docs/tags/tag-1",
                 },
                 {
                   "count": 1,
+                  "description": undefined,
                   "label": "tag 2",
                   "permalink": "/docs/tags/tag2-custom-permalink",
                 },
                 {
                   "count": 1,
+                  "description": undefined,
                   "label": "tag 3",
                   "permalink": "/docs/tags/tag-3",
                 },
@@ -1572,6 +1575,7 @@ exports[`simple website content: route config 1`] = `
               "tag": {
                 "allTagsPath": "/docs/tags",
                 "count": 2,
+                "description": undefined,
                 "items": [
                   {
                     "description": "Images",
@@ -1600,6 +1604,7 @@ exports[`simple website content: route config 1`] = `
               "tag": {
                 "allTagsPath": "/docs/tags",
                 "count": 1,
+                "description": undefined,
                 "items": [
                   {
                     "description": "Hi, Endilie here :)",
@@ -1622,6 +1627,7 @@ exports[`simple website content: route config 1`] = `
               "tag": {
                 "allTagsPath": "/docs/tags",
                 "count": 1,
+                "description": undefined,
                 "items": [
                   {
                     "description": "Images",
@@ -4470,16 +4476,19 @@ exports[`versioned website content: route config 1`] = `
               "tags": [
                 {
                   "count": 1,
+                  "description": undefined,
                   "label": "barTag 1",
                   "permalink": "/docs/next/tags/bar-tag-1",
                 },
                 {
                   "count": 1,
+                  "description": undefined,
                   "label": "barTag-2",
                   "permalink": "/docs/next/tags/bar-tag-2",
                 },
                 {
                   "count": 1,
+                  "description": undefined,
                   "label": "barTag 3",
                   "permalink": "/docs/next/tags/barTag-3-permalink",
                 },
@@ -4494,6 +4503,7 @@ exports[`versioned website content: route config 1`] = `
               "tag": {
                 "allTagsPath": "/docs/next/tags",
                 "count": 1,
+                "description": undefined,
                 "items": [
                   {
                     "description": "This is next version of bar.",
@@ -4516,6 +4526,7 @@ exports[`versioned website content: route config 1`] = `
               "tag": {
                 "allTagsPath": "/docs/next/tags",
                 "count": 1,
+                "description": undefined,
                 "items": [
                   {
                     "description": "This is next version of bar.",
@@ -4538,6 +4549,7 @@ exports[`versioned website content: route config 1`] = `
               "tag": {
                 "allTagsPath": "/docs/next/tags",
                 "count": 1,
+                "description": undefined,
                 "items": [
                   {
                     "description": "This is next version of bar.",
