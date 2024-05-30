@@ -75,6 +75,60 @@ describe('normalizeTag', () => {
       ).toEqual(expectedOutput);
     });
   });
+
+  describe('with tags file', () => {
+    const tagsFile: TagsFile = {
+      tag1: {
+        label: 'Tag 1 label',
+        permalink: 'tag-1-permalink',
+        description: 'Tag 1 description',
+      },
+      tag2: {
+        label: 'Tag 2 label',
+        permalink: '/tag-2-permalink',
+        description: undefined,
+      },
+    };
+
+    it('normalizes tag1 ref', () => {
+      const input: FrontMatterTag = 'tag1';
+      const expectedOutput: NormalizedTag = {
+        inline: false,
+        label: tagsFile.tag1.label,
+        description: tagsFile.tag1.description,
+        permalink: `${tagsBaseRoutePath}/tag-1-permalink`,
+      };
+      expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
+
+    it('normalizes tag2 ref', () => {
+      const input: FrontMatterTag = 'tag2';
+      const expectedOutput: NormalizedTag = {
+        inline: false,
+        label: tagsFile.tag2.label,
+        description: tagsFile.tag2.description,
+        permalink: `${tagsBaseRoutePath}/tag-2-permalink`,
+      };
+      expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
+
+    it('normalizes inline tag not declared in tags file', () => {
+      const input: FrontMatterTag = 'inlineTag';
+      const expectedOutput: NormalizedTag = {
+        inline: true,
+        label: 'inlineTag',
+        description: undefined,
+        permalink: `${tagsBaseRoutePath}/inline-tag`,
+      };
+      expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
+        expectedOutput,
+      );
+    });
+  });
 });
 
 describe('reportInlineTags', () => {
