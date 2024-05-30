@@ -22,7 +22,6 @@ function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
         {letterEntry.tags.map((tag) => (
           <li key={tag.permalink} className={styles.tag}>
             <Tag {...tag} />
-            <span>{tag.description}</span>
           </li>
         ))}
       </ul>
