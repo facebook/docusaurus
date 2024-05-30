@@ -50,7 +50,6 @@ export type TagModule = TagsListItem & {
 
 export type FrontMatterTag = string | Tag;
 
-// TODO maybe make ensure the permalink is valid url path?
 function normalizeTagPermalink({
   tagsBaseRoutePath,
   permalink,
@@ -119,6 +118,51 @@ export function normalizeTag({
   }
   // legacy inline tag object, always inline, unknown because isn't a string
   return normalizeInlineTag(tagsBaseRoutePath, tag);
+}
+
+export function reportInlineTags({
+  tags,
+  source,
+  options,
+}: {
+  tags: NormalizedTag[];
+  source: string;
+  options: TagsPluginOptions;
+}): void {
+  const inlineTags = tags.filter((tag) => tag.inline);
+  if (inlineTags.length > 0 && options.onInlineTags !== 'ignore') {
+    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
+    const tagListString = uniqueUnknownTags.join(', ');
+    logger.report(options.onInlineTags)(
+      `Tags [${tagListString}] used in ${source} are not defined in ${options.tags}`,
+    );
+  }
+}
+
+export function normalizeTags({
+  options,
+  source,
+  frontMatterTags,
+  tagsBaseRoutePath,
+  tagsFile,
+}: {
+  options: TagsPluginOptions;
+  source: string;
+  frontMatterTags: FrontMatterTag[] | undefined;
+  tagsBaseRoutePath: string;
+  tagsFile: TagsFile | null;
+}): NormalizedTag[] {
+  const normalizedFrontMatterTags = frontMatterTags ?? [];
+
+  const tags = normalizedFrontMatterTags.map((tag) =>
+    normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
+  );
+
+  if (tagsFile !== null) {
+    reportInlineTags({tags, source, options});
+  }
+
+  return tags;
 }
 
 type TaggedItemGroup<Item> = {
@@ -196,49 +240,4 @@ export function getTagVisibility<Item>({
     unlisted: false,
     listedItems: items.filter((item) => !isUnlisted(item)),
   };
-}
-
-export function reportInlineTags({
-  tags,
-  source,
-  options,
-}: {
-  tags: NormalizedTag[];
-  source: string;
-  options: TagsPluginOptions;
-}): void {
-  const inlineTags = tags.filter((tag) => tag.inline);
-  if (inlineTags.length > 0 && options.onInlineTags !== 'ignore') {
-    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
-    const tagListString = uniqueUnknownTags.join(', ');
-    logger.report(options.onInlineTags)(
-      `Tags [${tagListString}] used in ${source} are not defined in ${options.tags}`,
-    );
-  }
-}
-
-export function normalizeTags({
-  options,
-  source,
-  frontMatterTags,
-  tagsBaseRoutePath,
-  tagsFile,
-}: {
-  options: TagsPluginOptions;
-  source: string;
-  frontMatterTags: FrontMatterTag[] | undefined;
-  tagsBaseRoutePath: string;
-  tagsFile: TagsFile | null;
-}): NormalizedTag[] {
-  const normalizedFrontMatterTags = frontMatterTags ?? [];
-
-  const tags = normalizedFrontMatterTags.map((tag) =>
-    normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
-  );
-
-  if (tagsFile !== null) {
-    reportInlineTags({tags, source, options});
-  }
-
-  return tags;
 }
