@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import Joi from 'joi';
 import YAML from 'js-yaml';
+import {getContentPathList, getDataFilePath} from '@docusaurus/utils';
 import type {
+  ContentPaths,
   TagsFile,
   TagsFileInput,
   TagsPluginOptions,
@@ -59,30 +60,38 @@ export function normalizeTagsFile(data: TagsFileInput): TagsFile {
 }
 
 export async function getTagsFile({
-  contentPath,
   tags,
+  contentPaths,
 }: {
   tags: TagsPluginOptions['tags'];
-  contentPath: string;
+  contentPaths: ContentPaths;
 }): Promise<TagsFile | null> {
   if (tags === false || tags === null) {
     return null;
   }
 
-  const defaultFileName = 'tags.yml';
+  const relativeFilePath = tags || 'tags.yml';
 
-  const filename = tags || defaultFileName;
-  const tagDefinitionPath = path.join(contentPath, filename);
-  const isFileExists = await fs.pathExists(tagDefinitionPath);
+  // if returned path is defined, the file exists (localized or not)
+  const yamlFilePath = await getDataFilePath({
+    contentPaths,
+    filePath: relativeFilePath,
+  });
 
-  if (tags === undefined && !isFileExists) {
+  // If the tags option is undefined, don't throw when the file does not exist
+  // Retro-compatible behavior: existing sites do not yet have tags.yml
+  if (tags === undefined && !yamlFilePath) {
     return null;
   }
-  if (!isFileExists) {
-    throw new Error(`No tags file could be found at path ${tagDefinitionPath}`);
+  if (!yamlFilePath) {
+    throw new Error(
+      `No tags file '${relativeFilePath}' could be found in any of those directories:\n- ${getContentPathList(
+        contentPaths,
+      ).join('\n- ')}`,
+    );
   }
 
-  const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
+  const tagDefinitionContent = await fs.readFile(yamlFilePath, 'utf-8');
   if (!tagDefinitionContent.trim()) {
     return {};
   }

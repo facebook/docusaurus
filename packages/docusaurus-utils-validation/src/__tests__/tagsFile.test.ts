@@ -227,7 +227,7 @@ describe('getTagsFile', () => {
   }: {
     filePath: string;
     tagsFileInput: TagsFileInput;
-  }): Promise<{contentPath: string}> {
+  }): Promise<{dir: string}> {
     async function createTmpDir() {
       return (
         await tmp.dir({
@@ -239,13 +239,13 @@ describe('getTagsFile', () => {
     const finalFilePath = path.join(contentPath, filePath);
     const fileContent = YAML.dump(tagsFileInput);
     await fs.writeFile(finalFilePath, fileContent);
-    return {contentPath};
+    return {dir: contentPath};
   }
 
   type Params = Parameters<typeof getTagsFile>[0];
 
   it('reads tags file - regular', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'tags.yml',
       tagsFileInput: {
         tag1: {label: 'Tag1 Label'},
@@ -258,7 +258,10 @@ describe('getTagsFile', () => {
       },
     });
 
-    const params: Params = {contentPath, tags: 'tags.yml'};
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: 'tags.yml',
+    };
 
     await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
       {
@@ -282,14 +285,17 @@ describe('getTagsFile', () => {
   });
 
   it('reads tags file - only keys', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'tags.yml',
       tagsFileInput: {
         tagKey: null,
       },
     });
 
-    const params: Params = {contentPath, tags: 'tags.yml'};
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: 'tags.yml',
+    };
 
     await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
       {
@@ -303,14 +309,17 @@ describe('getTagsFile', () => {
   });
 
   it('reads tags file - tags option undefined', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'tags.yml',
       tagsFileInput: {
         tag: {label: 'tag label'},
       },
     });
 
-    const params: Params = {contentPath, tags: undefined};
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: undefined,
+    };
 
     await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
       {
@@ -324,25 +333,62 @@ describe('getTagsFile', () => {
   });
 
   it('reads tags file - empty file', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'tags.yml',
       tagsFileInput: {},
     });
 
-    const params: Params = {contentPath, tags: undefined};
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: undefined,
+    };
 
     await expect(getTagsFile(params)).resolves.toEqual({});
   });
 
+  it('reads tags file - prioritizes reading from localized content path', async () => {
+    const {dir} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tag: {label: 'tag label'},
+      },
+    });
+
+    const {dir: dirLocalized} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tag: {label: 'tag label (localized)'},
+      },
+    });
+
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dirLocalized},
+      tags: undefined,
+    };
+
+    await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
+      {
+        "tag": {
+          "description": undefined,
+          "label": "tag label (localized)",
+          "permalink": "/tag",
+        },
+      }
+    `);
+  });
+
   it('reads tags file - custom tags file path', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'custom-tags-path.yml',
       tagsFileInput: {
         tag: {label: 'tag label'},
       },
     });
 
-    const params: Params = {contentPath, tags: 'custom-tags-path.yml'};
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: 'custom-tags-path.yml',
+    };
 
     await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
       {
@@ -355,38 +401,75 @@ describe('getTagsFile', () => {
     `);
   });
 
-  it('throws if custom tags file path does not exist', async () => {
-    const params: Params = {contentPath: 'any', tags: 'custom-tags-path.yml'};
+  it('throws if duplicate permalink', async () => {
+    const {dir} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tag1: {permalink: '/duplicate'},
+        tag2: {permalink: '/duplicate'},
+      },
+    });
 
-    await expect(
-      getTagsFile(params),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"No tags file could be found at path any/custom-tags-path.yml"`,
-    );
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: undefined,
+    };
+
+    await expect(getTagsFile(params)).rejects.toMatchInlineSnapshot(`
+      [Error: Duplicate permalinks found in tags file:
+        - /duplicate]
+    `);
+  });
+
+  it('throws if custom tags file path does not exist', async () => {
+    const params: Params = {
+      contentPaths: {contentPath: 'any', contentPathLocalized: 'localizedAny'},
+      tags: 'custom-tags-path.yml',
+    };
+
+    await expect(getTagsFile(params)).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "No tags file 'custom-tags-path.yml' could be found in any of those directories:
+      - localizedAny
+      - any"
+    `);
   });
 
   it('does not read tags file - tags option null/false', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'tags.yml',
       tagsFileInput: {
         tag: {label: 'tag label'},
       },
     });
 
-    await expect(getTagsFile({contentPath, tags: null})).resolves.toBeNull();
-    await expect(getTagsFile({contentPath, tags: false})).resolves.toBeNull();
+    await expect(
+      getTagsFile({
+        contentPaths: {contentPath: dir, contentPathLocalized: dir},
+        tags: null,
+      }),
+    ).resolves.toBeNull();
+    await expect(
+      getTagsFile({
+        contentPaths: {contentPath: dir, contentPathLocalized: dir},
+        tags: false,
+      }),
+    ).resolves.toBeNull();
   });
 
   it('does not read tags file - tags files has non-default name', async () => {
-    const {contentPath} = await createTestTagsFile({
+    const {dir} = await createTestTagsFile({
       filePath: 'bad-tags-file-name.yml',
       tagsFileInput: {
         tag: {label: 'tag label'},
       },
     });
 
-    await expect(
-      getTagsFile({contentPath, tags: undefined}),
-    ).resolves.toBeNull();
+    const params: Params = {
+      contentPaths: {contentPath: dir, contentPathLocalized: dir},
+      tags: undefined,
+    };
+
+    await expect(getTagsFile(params)).resolves.toBeNull();
   });
 });
