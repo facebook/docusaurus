@@ -409,7 +409,7 @@ function SearchPageContent(): JSX.Element {
             />
           </div>
 
-          {docsSearchVersionsHelpers.versioningEnabled && (
+          {contextualSearch && docsSearchVersionsHelpers.versioningEnabled && (
             <SearchVersionSelectList
               docsSearchVersionsHelpers={docsSearchVersionsHelpers}
             />
