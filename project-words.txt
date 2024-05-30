@@ -353,6 +353,7 @@ Supabase
 svgr
 SVGR
 swizzlable
+Tagkey
 Teik
 templating
 Thanos
