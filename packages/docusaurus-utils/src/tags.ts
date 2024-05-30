@@ -14,7 +14,7 @@ export type Tag = {
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
-  description?: string;
+  description: string | undefined;
 };
 
 export type TagsFileInput = Record<string, Partial<Tag> | null>;
