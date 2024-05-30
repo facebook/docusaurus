@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {normalizeUrl} from './urlUtils';
+import type {Optional} from 'utility-types';
 
 /** What the user configures. */
 export type Tag = {
@@ -48,7 +49,7 @@ export type TagModule = TagsListItem & {
   unlisted: boolean;
 };
 
-export type FrontMatterTag = string | Tag;
+export type FrontMatterTag = string | Optional<Tag, 'description'>;
 
 function normalizeTagPermalink({
   tagsBaseRoutePath,

@@ -11,7 +11,7 @@ import {
   getTagVisibility,
 } from '@docusaurus/utils';
 import {normalizeTag} from '../tags';
-import type {Tag, NormalizedTag, FrontMatterTag} from '../tags';
+import type {Tag, NormalizedTag, FrontMatterTag, TagsFile} from '../tags';
 
 describe('normalizeTag', () => {
   const tagsBaseRoutePath = '/all/tags';
@@ -23,6 +23,7 @@ describe('normalizeTag', () => {
         inline: true,
         label: 'tag',
         permalink: `${tagsBaseRoutePath}/tag`,
+        description: undefined,
       };
       expect(
         normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
@@ -35,6 +36,7 @@ describe('normalizeTag', () => {
         inline: true,
         label: 'some more Complex_tag',
         permalink: `${tagsBaseRoutePath}/some-more-complex-tag`,
+        description: undefined,
       };
       expect(
         normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
@@ -42,11 +44,15 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes simple object tag', () => {
-      const input: FrontMatterTag = {label: 'tag', permalink: 'tagPermalink'};
+      const input: FrontMatterTag = {
+        label: 'tag',
+        permalink: 'tagPermalink',
+      };
       const expectedOutput: NormalizedTag = {
         inline: true,
         label: 'tag',
         permalink: `${tagsBaseRoutePath}/tagPermalink`,
+        description: undefined,
       };
       expect(
         normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
@@ -62,11 +68,135 @@ describe('normalizeTag', () => {
         inline: true,
         label: 'tag complex Label',
         permalink: `${tagsBaseRoutePath}/MoreComplex/Permalink`,
+        description: undefined,
       };
       expect(
         normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
       ).toEqual(expectedOutput);
     });
+  });
+});
+
+describe('reportInlineTags', () => {
+  const tagsFile: TagsFile = {
+    hello: {
+      label: 'Hello',
+      permalink: '/hello',
+      description: undefined,
+    },
+    test: {
+      label: 'Test',
+      permalink: '/test',
+      description: undefined,
+    },
+    open: {
+      label: 'Open Source',
+      permalink: '/open',
+      description: undefined,
+    },
+  };
+
+  it('throw when inline tags found', () => {
+    const testFn = () =>
+      reportInlineTags({
+        tags: [
+          {
+            label: 'hello',
+            permalink: 'hello',
+            inline: true,
+            description: undefined,
+          },
+          {
+            label: 'world',
+            permalink: 'world',
+            inline: true,
+            description: undefined,
+          },
+        ],
+        source: 'wrong.md',
+        options: {onInlineTags: 'throw', tags: 'tags.yml'},
+      });
+
+    expect(testFn).toThrowErrorMatchingInlineSnapshot(
+      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
+    );
+  });
+
+  it('ignore when docs has invalid tags', () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+    reportInlineTags({
+      tags: [
+        {
+          label: 'hello',
+          permalink: 'hello',
+          inline: false,
+          description: undefined,
+        },
+        {
+          label: 'world',
+          permalink: 'world',
+          inline: true,
+          description: undefined,
+        },
+      ],
+      source: 'wrong.md',
+      options: {onInlineTags: 'ignore', tags: 'tags.yml'},
+    });
+    expect(errorSpy).not.toHaveBeenCalled();
+    expect(warnSpy).not.toHaveBeenCalled();
+    expect(logSpy).not.toHaveBeenCalled();
+
+    errorSpy.mockRestore();
+    warnSpy.mockRestore();
+    logSpy.mockRestore();
+  });
+
+  it('throw for unknown string and object tag', () => {
+    const frontmatter = ['open', 'world'];
+    const tags = frontmatter.map((tag) =>
+      normalizeTag({
+        tagsBaseRoutePath: '/tags',
+        tagsFile,
+        tag,
+      }),
+    );
+
+    const testFn = () =>
+      reportInlineTags({
+        tags,
+        source: 'default.md',
+        options: {
+          onInlineTags: 'throw',
+          tags: 'tags.yml',
+        },
+      });
+    expect(testFn).toThrowErrorMatchingInlineSnapshot(
+      `"Tags [world] used in default.md are not defined in tags.yml"`,
+    );
+  });
+
+  it('does not throw when docs has valid tags', () => {
+    const frontmatter = ['open'];
+    const tags = frontmatter.map((tag) =>
+      normalizeTag({
+        tagsBaseRoutePath: '/tags',
+        tagsFile,
+        tag,
+      }),
+    );
+    const testFn = () =>
+      reportInlineTags({
+        tags,
+        source: 'wrong.md',
+        options: {
+          onInlineTags: 'throw',
+          tags: 'tags.yml',
+        },
+      });
+    expect(testFn).not.toThrow();
   });
 });
 
@@ -85,14 +215,23 @@ describe('groupTaggedItems', () => {
   type Output = ReturnType<typeof groupItems>;
 
   it('groups items by tag permalink', () => {
-    const tagGuide = {label: 'Guide', permalink: '/guide'};
-    const tagTutorial = {label: 'Tutorial', permalink: '/tutorial'};
-    const tagAPI = {label: 'API', permalink: '/api'};
+    const tagGuide = {
+      label: 'Guide',
+      permalink: '/guide',
+      description: undefined,
+    };
+    const tagTutorial = {
+      label: 'Tutorial',
+      permalink: '/tutorial',
+      description: undefined,
+    };
+    const tagAPI = {label: 'API', permalink: '/api', description: undefined};
 
     // This one will be grouped under same permalink and label is ignored
     const tagTutorialOtherLabel = {
       label: 'TutorialOtherLabel',
       permalink: '/tutorial',
+      description: undefined,
     };
 
     const item1: SomeTaggedItem = {
@@ -185,125 +324,5 @@ describe('getTagVisibility', () => {
       listedItems: [item1, item3],
       unlisted: false,
     });
-  });
-});
-
-describe('reportInlineTags', () => {
-  const tagsFile = {
-    hello: {
-      label: 'Hello',
-      permalink: '/hello',
-      description: undefined,
-    },
-    test: {
-      label: 'Test',
-      permalink: '/test',
-      description: undefined,
-    },
-    open: {
-      label: 'Open Source',
-      permalink: '/open',
-      description: undefined,
-    },
-  };
-
-  it('throw when inline tags found', () => {
-    const testFn = () =>
-      reportInlineTags({
-        tags: [
-          {
-            label: 'hello',
-            permalink: 'hello',
-            inline: true,
-          },
-          {
-            label: 'world',
-            permalink: 'world',
-            inline: true,
-          },
-        ],
-        source: 'wrong.md',
-        options: {onInlineTags: 'throw', tags: 'tags.yml'},
-      });
-
-    expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
-    );
-  });
-
-  it('ignore when docs has invalid tags', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-    const testFn = reportInlineTags({
-      tags: [
-        {
-          label: 'hello',
-          permalink: 'hello',
-          inline: false,
-        },
-        {
-          label: 'world',
-          permalink: 'world',
-          inline: true,
-        },
-      ],
-      source: 'wrong.md',
-      options: {onInlineTags: 'ignore', tags: 'tags.yml'},
-    });
-    expect(testFn).toBeUndefined();
-    expect(errorSpy).not.toHaveBeenCalled();
-    expect(warnSpy).not.toHaveBeenCalled();
-    expect(logSpy).not.toHaveBeenCalled();
-
-    errorSpy.mockRestore();
-    warnSpy.mockRestore();
-    logSpy.mockRestore();
-  });
-
-  it('throw for unknown string and object tag', () => {
-    const frontmatter = ['open', 'world'];
-    const tags = frontmatter.map((tag) =>
-      normalizeTag({
-        tagsBaseRoutePath: '/tags',
-        tagsFile,
-        tag,
-      }),
-    );
-
-    const testFn = () =>
-      reportInlineTags({
-        tags,
-        source: 'default.md',
-        options: {
-          onInlineTags: 'throw',
-          tags: 'tags.yml',
-        },
-      });
-    expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [world] used in default.md are not defined in tags.yml"`,
-    );
-  });
-
-  it('does not throw when docs has valid tags', () => {
-    const frontmatter = ['open'];
-    const tags = frontmatter.map((tag) =>
-      normalizeTag({
-        tagsBaseRoutePath: '/tags',
-        tagsFile,
-        tag,
-      }),
-    );
-    const testFn = () =>
-      reportInlineTags({
-        tags,
-        source: 'wrong.md',
-        options: {
-          onInlineTags: 'throw',
-          tags: 'tags.yml',
-        },
-      });
-    expect(testFn).not.toThrow();
   });
 });
