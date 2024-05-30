@@ -159,8 +159,9 @@ function SearchPageContent(): JSX.Element {
     i18n: {currentLocale},
   } = useDocusaurusContext();
   const {
-    algolia: {appId, apiKey, indexName},
+    algolia: {appId, apiKey, indexName, contextualSearch},
   } = useAlgoliaThemeConfig();
+
   const processSearchResultUrl = useSearchResultUrlProcessor();
   const documentsFoundPlural = useDocumentsFoundPlural();
 
@@ -213,11 +214,16 @@ function SearchPageContent(): JSX.Element {
     initialSearchResultState,
   );
 
+  // respect settings from the theme config for facets
+  const disjunctiveFacets = contextualSearch
+    ? ['language', 'docusaurus_tag']
+    : [];
+
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
     advancedSyntax: true,
-    disjunctiveFacets: ['language', 'docusaurus_tag'],
+    disjunctiveFacets,
   });
 
   algoliaHelper.on(
@@ -313,17 +319,19 @@ function SearchPageContent(): JSX.Element {
         });
 
   const makeSearch = useEvent((page: number = 0) => {
-    algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
-    algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
+    if (contextualSearch) {
+      algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+      algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
-    Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
-      ([pluginId, searchVersion]) => {
-        algoliaHelper.addDisjunctiveFacetRefinement(
-          'docusaurus_tag',
-          `docs-${pluginId}-${searchVersion}`,
-        );
-      },
-    );
+      Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
+        ([pluginId, searchVersion]) => {
+          algoliaHelper.addDisjunctiveFacetRefinement(
+            'docusaurus_tag',
+            `docs-${pluginId}-${searchVersion}`,
+          );
+        },
+      );
+    }
 
     algoliaHelper.setQuery(searchQuery).setPage(page).search();
   });
@@ -401,7 +409,7 @@ function SearchPageContent(): JSX.Element {
             />
           </div>
 
-          {docsSearchVersionsHelpers.versioningEnabled && (
+          {contextualSearch && docsSearchVersionsHelpers.versioningEnabled && (
             <SearchVersionSelectList
               docsSearchVersionsHelpers={docsSearchVersionsHelpers}
             />
