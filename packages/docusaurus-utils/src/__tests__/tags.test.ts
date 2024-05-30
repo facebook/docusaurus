@@ -176,6 +176,39 @@ describe('reportInlineTags', () => {
     );
   });
 
+  it('warn when docs has invalid tags', () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    reportInlineTags({
+      tags: [
+        {
+          label: 'hello',
+          permalink: 'hello',
+          inline: false,
+          description: undefined,
+        },
+        {
+          label: 'world',
+          permalink: 'world',
+          inline: true,
+          description: undefined,
+        },
+      ],
+      source: 'wrong.md',
+      options: {onInlineTags: 'warn', tags: 'tags.yml'},
+    });
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Tags [world] used in wrong.md are not defined in tags.yml",
+        ],
+      ]
+    `);
+
+    warnSpy.mockRestore();
+  });
+
   it('ignore when docs has invalid tags', () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});

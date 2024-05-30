@@ -10,11 +10,12 @@ import logger from '@docusaurus/logger';
 import {normalizeUrl} from './urlUtils';
 import type {Optional} from 'utility-types';
 
-/** What the user configures. */
 export type Tag = {
+  /** The display label of a tag */
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
+  /** An optional description of the tag */
   description: string | undefined;
 };
 
@@ -121,25 +122,6 @@ export function normalizeTag({
   return normalizeInlineTag(tagsBaseRoutePath, tag);
 }
 
-export function reportInlineTags({
-  tags,
-  source,
-  options,
-}: {
-  tags: NormalizedTag[];
-  source: string;
-  options: TagsPluginOptions;
-}): void {
-  const inlineTags = tags.filter((tag) => tag.inline);
-  if (inlineTags.length > 0 && options.onInlineTags !== 'ignore') {
-    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
-    const tagListString = uniqueUnknownTags.join(', ');
-    logger.report(options.onInlineTags)(
-      `Tags [${tagListString}] used in ${source} are not defined in ${options.tags}`,
-    );
-  }
-}
-
 export function normalizeTags({
   options,
   source,
@@ -153,17 +135,37 @@ export function normalizeTags({
   tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
 }): NormalizedTag[] {
-  const normalizedFrontMatterTags = frontMatterTags ?? [];
-
-  const tags = normalizedFrontMatterTags.map((tag) =>
+  const tags = (frontMatterTags ?? []).map((tag) =>
     normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
   );
-
   if (tagsFile !== null) {
     reportInlineTags({tags, source, options});
   }
-
   return tags;
+}
+
+export function reportInlineTags({
+  tags,
+  source,
+  options,
+}: {
+  tags: NormalizedTag[];
+  source: string;
+  options: TagsPluginOptions;
+}): void {
+  if (options.onInlineTags === 'ignore') {
+    return;
+  }
+  const inlineTags = tags.filter((tag) => tag.inline);
+  if (inlineTags.length > 0) {
+    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
+    const tagListString = uniqueUnknownTags.join(', ');
+    logger.report(options.onInlineTags)(
+      `Tags [${tagListString}] used in ${source} are not defined in ${
+        options.tags ?? 'tags.yml'
+      }`,
+    );
+  }
 }
 
 type TaggedItemGroup<Item> = {
