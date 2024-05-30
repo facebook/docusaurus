@@ -383,7 +383,7 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
-  const tagsFile = await getTagsFile(options, contentPaths.contentPath);
+  const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {
     try {

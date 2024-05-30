@@ -164,10 +164,10 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const tagsFile = await getTagsFile(
-          options,
-          versionMetadata.contentPath,
-        );
+        const tagsFile = await getTagsFile({
+          contentPaths: versionMetadata,
+          tags: options.tags,
+        });
 
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
