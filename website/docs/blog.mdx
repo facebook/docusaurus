@@ -386,28 +386,31 @@ Use the `tags` front matter field use tags declared in `tags.yml`. Tags are a wa
 
 ### Inline tags {#inline-tags}
 
-Blog post tags can be declared directly inside the front matter:
+Tags are considered inline when they are not defined in a global configuration file. They will be reported as per the `onInlineTags` configuration in `docusaurus.config.js`.
+
+Blog post tags can be declared directly inside the front matter in different ways:
 
 ```md title="my-blog-post.md"
 ---
-tags: [hello, docusaurus-v2]
+tags: [hello, docusaurus, {label: 'Open Source', permalink: '/open-source'}]
+---
+```
+
+```md title="my-blog-post.md"
+---
+tags:
+  - hello
+  - docusaurus
+  - label: Open Source
+    permalink: /open-source
 ---
 ```
 
 ### Global tags {#global-tags}
 
-For regular blog post tags, it can be tedious to maintain tags inlined in each blog post.
+Global tags are declared in a configuration file which then tag's key can be referenced in the blog post front matter.
 
-It is possible to declare those tags globally in a configuration file:
-
-```yml title="website/blog/tags.yml"
-tag:
-  hello: null
-  docusaurus-v2:
-    label: Docusaurus v2
-    permalink: /docusaurus-v2
-    description: Docusaurus v2 related posts
-```
+See [the API documentation](./api/plugins/plugin-content-blog.mdx#markdown-front-matter) to learn about `tags.yml`.
 
 ## Reading time {#reading-time}
 

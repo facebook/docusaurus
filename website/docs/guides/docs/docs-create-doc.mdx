@@ -62,26 +62,33 @@ The [front matter](../markdown-features/markdown-features-intro.mdx#front-matter
 
 Optionally, you can add tags to your doc pages, which introduces another dimension of categorization in addition to the [docs sidebar](./sidebar/index.mdx). Tags are passed in the front matter as a list of labels:
 
-```md "your-doc-page.md"
+### Inline tags {#inline-tags}
+
+Tags are considered inline when they are not defined in a global configuration file. They will be reported as per the `onInlineTags` configuration in `docusaurus.config.js`.
+
+Blog post tags can be declared directly inside the front matter in different ways:
+
+```md title="my-blog-post.md"
 ---
-id: doc-with-tags
-title: A doc with tags
+tags: [hello, docusaurus, {label: 'Open Source', permalink: '/open-source'}]
+---
+```
+
+```md title="my-blog-post.md"
+---
 tags:
-  - Demo
-  - Getting started
+  - hello
+  - docusaurus
+  - label: Open Source
+    permalink: /open-source
 ---
 ```
 
-You can use pre defined tags in docs with `tags.yml` file. For example, if you have a `tags.yml` file with the following content:
+### Global tags {#global-tags}
 
-```yml title="tags.yml"
-tag:
-  Demo: null
-  Getting started:
-    label: Getting started
-    permalink: /getting-started
-    description: Things to get you started
-```
+Global tags are declared in a configuration file which then tag's key can be referenced in the blog post front matter.
+
+See [the API documentation](../../api/plugins/plugin-content-docs.mdx#markdown-front-matter) to learn about `tags.yml`.
 
 Depending on the configuration of onInlineTags in `docusaurus.config.js`, you can throw, warn, log or ignore if a tag is not defined in `tags.yml`:
 
