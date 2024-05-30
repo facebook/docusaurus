@@ -223,7 +223,7 @@ function SearchPageContent(): JSX.Element {
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
     advancedSyntax: true,
-    disjunctiveFacets: disjunctiveFacets,
+    disjunctiveFacets,
   });
 
   algoliaHelper.on(
