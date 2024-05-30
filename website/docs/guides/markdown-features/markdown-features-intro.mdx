@@ -181,42 +181,57 @@ Markdown quotes are beautifully styled:
 
 Markdown can embed HTML elements, and [`details`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) HTML elements are beautifully styled:
 
-```md
+{/* prettier-ignore */}
+````md
 ### Details element example
 
 <details>
   <summary>Toggle me!</summary>
-  <div>
-    <div>This is the detailed content</div>
-    <br/>
-    <details>
-      <summary>
-        Nested toggle! Some surprise inside...
-      </summary>
-      <div>😲😲😲😲😲</div>
-    </details>
-  </div>
-</details>
-```
 
-```mdx-code-block
+  This is the detailed content
+
+  ```js
+  console.log("Markdown features including the code block are available");
+  ```
+
+  You can use Markdown here including **bold** and _italic_ text, and [inline link](https://docusaurus.io)
+  <details>
+    <summary>Nested toggle! Some surprise inside...</summary>
+
+    😲😲😲😲😲
+  </details>
+</details>
+````
+
+````mdx-code-block
 <BrowserWindow>
 
 <h3>Details element example</h3>
 
 <details>
   <summary>Toggle me!</summary>
-  <div>
-    <div>This is the detailed content</div>
-    <br/>
-    <details>
-      <summary>
-        Nested toggle! Some surprise inside...
-      </summary>
-      <div>😲😲😲😲😲</div>
-    </details>
-  </div>
+
+  This is the detailed content
+
+  ```js
+  console.log("Markdown features including the code block are available");
+  ```
+
+  You can use Markdown here including **bold** and _italic_ text, and [inline link](https://docusaurus.io)
+  <details>
+    <summary>Nested toggle! Some surprise inside...</summary>
+
+    😲😲😲😲😲
+  </details>
 </details>
 
 </BrowserWindow>
-```
+````
+
+:::info
+
+- You should not break lines between the starting or ending tag of the `<summary>` element and its content or an extra `<p>` element is inserted.
+- Blank lines between the `<summary>` element and the first paragraph of the detailed content are optional in Docusaurus but strongly recommended to ensure MDX portability with other site generators.
+- Blank lines between the nested `<details>` element and the paragraphs just around it are optional.
+
+:::
