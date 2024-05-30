@@ -27,6 +27,9 @@
     "lodash": "^4.17.21",
     "tslib": "^2.6.0"
   },
+  "devDependencies": {
+    "tmp-promise": "^3.0.3"
+  },
   "engines": {
     "node": ">=18.0"
   }

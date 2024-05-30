@@ -58,26 +58,35 @@ export function normalizeTagsFile(data: TagsFileInput): TagsFile {
   });
 }
 
-export async function getTagsFile(
-  options: TagsPluginOptions,
-  contentPath: string,
-): Promise<TagsFile | null> {
-  if (options.tags === false || options.tags === null) {
+export async function getTagsFile({
+  contentPath,
+  tags,
+}: {
+  tags: TagsPluginOptions['tags'];
+  contentPath: string;
+}): Promise<TagsFile | null> {
+  if (tags === false || tags === null) {
     return null;
   }
 
-  const filename = options.tags || 'tags.yml';
+  const defaultFileName = 'tags.yml';
+
+  const filename = tags || defaultFileName;
   const tagDefinitionPath = path.join(contentPath, filename);
   const isFileExists = await fs.pathExists(tagDefinitionPath);
 
-  if (options.tags === undefined && !isFileExists) {
+  if (tags === undefined && !isFileExists) {
     return null;
+  }
+  if (!isFileExists) {
+    throw new Error(`No tags file could be found at path ${tagDefinitionPath}`);
   }
 
   const tagDefinitionContent = await fs.readFile(tagDefinitionPath, 'utf-8');
   if (!tagDefinitionContent.trim()) {
-    throw new Error(`Tags file at path ${tagDefinitionPath} is empty`);
+    return {};
   }
+
   const yamlContent = YAML.load(tagDefinitionContent);
   const tagsFileInputResult = TagsFileInputSchema.validate(yamlContent);
   if (tagsFileInputResult.error) {
@@ -90,5 +99,5 @@ export async function getTagsFile(
   const tagsFile = normalizeTagsFile(tagsFileInputResult.value);
   ensureUniquePermalinks(tagsFile);
 
-  return options.onInlineTags !== 'ignore' ? tagsFile : null;
+  return tagsFile;
 }

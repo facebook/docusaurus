@@ -5,7 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ensureUniquePermalinks, normalizeTagsFile} from '../tagsFile';
+import * as path from 'path';
+import * as fs from 'fs-extra';
+import * as tmp from 'tmp-promise';
+import * as YAML from 'js-yaml';
+import {
+  ensureUniquePermalinks,
+  getTagsFile,
+  normalizeTagsFile,
+} from '../tagsFile';
 import type {TagsFile, TagsFileInput} from '@docusaurus/utils';
 
 describe('ensureUniquePermalinks', () => {
@@ -209,5 +217,176 @@ describe('normalizeTagsFile', () => {
     };
 
     expect(normalizeTagsFile(input)).toEqual(expectedOutput);
+  });
+});
+
+describe('getTagsFile', () => {
+  async function createTestTagsFile({
+    filePath,
+    tagsFileInput,
+  }: {
+    filePath: string;
+    tagsFileInput: TagsFileInput;
+  }): Promise<{contentPath: string}> {
+    async function createTmpDir() {
+      return (
+        await tmp.dir({
+          prefix: 'jest-createTmpSiteDir',
+        })
+      ).path;
+    }
+    const contentPath = await createTmpDir();
+    const finalFilePath = path.join(contentPath, filePath);
+    const fileContent = YAML.dump(tagsFileInput);
+    await fs.writeFile(finalFilePath, fileContent);
+    return {contentPath};
+  }
+
+  type Params = Parameters<typeof getTagsFile>[0];
+
+  it('reads tags file - regular', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tag1: {label: 'Tag1 Label'},
+        tag2: {description: 'Tag2 Description'},
+        tag3: {
+          label: 'Tag3 Label',
+          permalink: '/tag-3',
+          description: 'Tag3 Description',
+        },
+      },
+    });
+
+    const params: Params = {contentPath, tags: 'tags.yml'};
+
+    await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
+      {
+        "tag1": {
+          "description": undefined,
+          "label": "Tag1 Label",
+          "permalink": "/tag-1",
+        },
+        "tag2": {
+          "description": "Tag2 Description",
+          "label": "Tag2",
+          "permalink": "/tag-2",
+        },
+        "tag3": {
+          "description": "Tag3 Description",
+          "label": "Tag3 Label",
+          "permalink": "/tag-3",
+        },
+      }
+    `);
+  });
+
+  it('reads tags file - only keys', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tagKey: null,
+      },
+    });
+
+    const params: Params = {contentPath, tags: 'tags.yml'};
+
+    await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
+      {
+        "tagKey": {
+          "description": undefined,
+          "label": "Tagkey",
+          "permalink": "/tag-key",
+        },
+      }
+    `);
+  });
+
+  it('reads tags file - tags option undefined', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tag: {label: 'tag label'},
+      },
+    });
+
+    const params: Params = {contentPath, tags: undefined};
+
+    await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
+      {
+        "tag": {
+          "description": undefined,
+          "label": "tag label",
+          "permalink": "/tag",
+        },
+      }
+    `);
+  });
+
+  it('reads tags file - empty file', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {},
+    });
+
+    const params: Params = {contentPath, tags: undefined};
+
+    await expect(getTagsFile(params)).resolves.toEqual({});
+  });
+
+  it('reads tags file - custom tags file path', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'custom-tags-path.yml',
+      tagsFileInput: {
+        tag: {label: 'tag label'},
+      },
+    });
+
+    const params: Params = {contentPath, tags: 'custom-tags-path.yml'};
+
+    await expect(getTagsFile(params)).resolves.toMatchInlineSnapshot(`
+      {
+        "tag": {
+          "description": undefined,
+          "label": "tag label",
+          "permalink": "/tag",
+        },
+      }
+    `);
+  });
+
+  it('throws if custom tags file path does not exist', async () => {
+    const params: Params = {contentPath: 'any', tags: 'custom-tags-path.yml'};
+
+    await expect(
+      getTagsFile(params),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"No tags file could be found at path any/custom-tags-path.yml"`,
+    );
+  });
+
+  it('does not read tags file - tags option null/false', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'tags.yml',
+      tagsFileInput: {
+        tag: {label: 'tag label'},
+      },
+    });
+
+    await expect(getTagsFile({contentPath, tags: null})).resolves.toBeNull();
+    await expect(getTagsFile({contentPath, tags: false})).resolves.toBeNull();
+  });
+
+  it('does not read tags file - tags files has non-default name', async () => {
+    const {contentPath} = await createTestTagsFile({
+      filePath: 'bad-tags-file-name.yml',
+      tagsFileInput: {
+        tag: {label: 'tag label'},
+      },
+    });
+
+    await expect(
+      getTagsFile({contentPath, tags: undefined}),
+    ).resolves.toBeNull();
   });
 });
