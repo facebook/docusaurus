@@ -85,6 +85,7 @@ function DocTagDocListPageContent({
             {tag.unlisted && <Unlisted />}
             <header className="margin-bottom--xl">
               <Heading as="h1">{title}</Heading>
+              {tag.description && <p>{tag.description}</p>}
               <Link href={tag.allTagsPath}>
                 <Translate
                   id="theme.tags.tagsPageLink"
