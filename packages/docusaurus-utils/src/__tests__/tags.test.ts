@@ -5,124 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import {getTagsFile} from '@docusaurus/utils-validation';
-import {normalizeTags, reportInlineTags} from '@docusaurus/utils';
-import {groupTaggedItems, getTagVisibility, normalizeTag} from '../tags';
-import type {
-  Tag,
-  NormalizedTag,
-  FrontMatterTag,
-  TagsPluginOptions,
-} from '../tags';
+import {
+  reportInlineTags,
+  groupTaggedItems,
+  getTagVisibility,
+} from '@docusaurus/utils';
+import {normalizeTag} from '../tags';
+import type {Tag, NormalizedTag, FrontMatterTag} from '../tags';
 
-// TODO one by one test small
-// describe('normalize tags', () => {
-//   it('normalize single inline tag', async () => {
-//     const tagsFile: TagsFile = {};
-
-//     const frontMatterTags = ['hello'];
-
-//     const normalizedTags = normalizeTags({
-//       tagsBaseRoutePath: '/tags',
-//       tagsFile,
-//       frontMatterTags,
-//     });
-
-//     const expected: NormalizedTag[] = [
-//       {
-//         inline: true,
-//         label: 'hello',
-//         permalink: '/tags/hello',
-//         description: undefined,
-//       },
-//     ];
-
-//     expect(normalizedTags).toEqual(expected);
-//   });
-
-//   it('normalize single defined tag', async () => {
-//     const tagsFile: TagsFile = {
-//       hello: {
-//         label: 'hello',
-//         permalink: '/hello',
-//       },
-//     };
-
-//     const frontMatterTags = ['hello'];
-
-//     const normalizedTags = normalizeTags({
-//       tagsBaseRoutePath: '/tags',
-//       tagsFile,
-//       frontMatterTags,
-//     });
-
-//     const expected: NormalizedTag[] = [
-//       {
-//         inline: false,
-//         label: 'hello',
-//         permalink: '/tags/hello',
-//         description: undefined,
-//       },
-//     ];
-
-//     expect(normalizedTags).toEqual(expected);
-//   });
-
-//   it('normalize single inline tag object', async () => {
-//     const tagsFile: TagsFile = {};
-
-//     const frontMatterTags = [{label: 'hello', permalink: 'hello'}];
-
-//     const normalizedTags = normalizeTags({
-//       tagsBaseRoutePath: '/tags',
-//       tagsFile,
-//       frontMatterTags,
-//     });
-
-//     const expected: NormalizedTag[] = [
-//       {
-//         inline: true,
-//         label: 'hello',
-//         permalink: '/tags/hello',
-//         description: undefined,
-//       },
-//     ];
-
-//     expect(normalizedTags).toEqual(expected);
-//   });
-
-//   it('normalize single defined tag with description', async () => {
-//     const tagsFile: TagsFile = {
-//       hello: {
-//         label: 'hello',
-//         permalink: '/hello',
-//         description: 'hello description',
-//       },
-//     };
-
-//     const frontMatterTags = ['hello'];
-
-//     const normalizedTags = normalizeTags({
-//       tagsBaseRoutePath: '/tags',
-//       tagsFile,
-//       frontMatterTags,
-//     });
-
-//     const expected: NormalizedTag[] = [
-//       {
-//         inline: false,
-//         label: 'hello',
-//         permalink: '/tags/hello',
-//         description: 'hello description',
-//       },
-//     ];
-
-//     expect(normalizedTags).toEqual(expected);
-//   });
-// });
-
-describe('normalizeFrontMatterTags', () => {
+describe('normalizeTag', () => {
   const tagsBaseRoutePath = '/all/tags';
 
   describe('inline', () => {
@@ -297,38 +188,26 @@ describe('getTagVisibility', () => {
   });
 });
 
-const createTest = async ({
-  onInlineTags,
-  frontMatterTags,
-}: {
-  onInlineTags: TagsPluginOptions['onInlineTags'];
-  frontMatterTags: FrontMatterTag[];
-}) => {
-  const tagFile = 'tags.yml';
-  const contentPath = path.join(__dirname, '__fixtures__', 'tags');
-
-  const definedTags = await getTagsFile(
-    {
-      onInlineTags,
-      tags: tagFile,
+describe('reportInlineTags', () => {
+  const tagsFile = {
+    hello: {
+      label: 'Hello',
+      permalink: '/hello',
+      description: undefined,
     },
-    contentPath,
-  );
-
-  return normalizeTags({
-    tagsFile: definedTags,
-    options: {
-      tags: tagFile,
-      onInlineTags,
+    test: {
+      label: 'Test',
+      permalink: '/test',
+      description: undefined,
     },
-    source: 'default.md',
-    tagsBaseRoutePath: '/normalizeTags/tags',
-    frontMatterTags,
-  });
-};
+    open: {
+      label: 'Open Source',
+      permalink: '/open',
+      description: undefined,
+    },
+  };
 
-describe('normalizeTags', () => {
-  it('throw when docs has invalid tags', async () => {
+  it('throw when inline tags found', () => {
     const testFn = () =>
       reportInlineTags({
         tags: [
@@ -352,15 +231,17 @@ describe('normalizeTags', () => {
     );
   });
 
-  it('warns when docs has invalid tags', async () => {
-    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  it('ignore when docs has invalid tags', () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
-    reportInlineTags({
+    const testFn = reportInlineTags({
       tags: [
         {
           label: 'hello',
           permalink: 'hello',
-          inline: true,
+          inline: false,
         },
         {
           label: 'world',
@@ -369,44 +250,60 @@ describe('normalizeTags', () => {
         },
       ],
       source: 'wrong.md',
-      options: {onInlineTags: 'warn', tags: 'tags.yml'},
+      options: {onInlineTags: 'ignore', tags: 'tags.yml'},
     });
+    expect(testFn).toBeUndefined();
+    expect(errorSpy).not.toHaveBeenCalled();
+    expect(warnSpy).not.toHaveBeenCalled();
+    expect(logSpy).not.toHaveBeenCalled();
 
-    expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
-      expect.stringMatching(/.*\[WARNING\].*Tags.*/),
+    errorSpy.mockRestore();
+    warnSpy.mockRestore();
+    logSpy.mockRestore();
+  });
+
+  it('throw for unknown string and object tag', () => {
+    const frontmatter = ['open', 'world'];
+    const tags = frontmatter.map((tag) =>
+      normalizeTag({
+        tagsBaseRoutePath: '/tags',
+        tagsFile,
+        tag,
+      }),
     );
-    consoleWarnSpy.mockRestore();
-  });
 
-  it('ignore when docs has invalid tags', async () => {
-    const process = createTest({
-      frontMatterTags: ['unknownTag'],
-      onInlineTags: 'ignore',
-    });
-    await expect(process).resolves.toBeDefined();
-  });
-
-  it('throw for unknown string and object tag', async () => {
-    const process = createTest({
-      frontMatterTags: [
-        'open',
-        'world',
-        {label: 'hello', permalink: 'hello'},
-        {label: 'open', permalink: 'open'},
-      ],
-      onInlineTags: 'throw',
-    });
-    await expect(process).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Tags [world, hello, open] used in default.md are not defined in tags.yml"`,
+    const testFn = () =>
+      reportInlineTags({
+        tags,
+        source: 'default.md',
+        options: {
+          onInlineTags: 'throw',
+          tags: 'tags.yml',
+        },
+      });
+    expect(testFn).toThrowErrorMatchingInlineSnapshot(
+      `"Tags [world] used in default.md are not defined in tags.yml"`,
     );
   });
 
-  it('does not throw when docs has valid tags', async () => {
-    const process = createTest({
-      frontMatterTags: ['open'],
-      onInlineTags: 'throw',
-    });
-    await expect(process).resolves.toBeDefined();
+  it('does not throw when docs has valid tags', () => {
+    const frontmatter = ['open'];
+    const tags = frontmatter.map((tag) =>
+      normalizeTag({
+        tagsBaseRoutePath: '/tags',
+        tagsFile,
+        tag,
+      }),
+    );
+    const testFn = () =>
+      reportInlineTags({
+        tags,
+        source: 'wrong.md',
+        options: {
+          onInlineTags: 'throw',
+          tags: 'tags.yml',
+        },
+      });
+    expect(testFn).not.toThrow();
   });
 });
