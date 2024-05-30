@@ -51,6 +51,9 @@ export type TagModule = TagsListItem & {
 
 export type FrontMatterTag = string | Optional<Tag, 'description'>;
 
+// We always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md
+// and v2/doc.md tags with custom permalinks don't lead to the same created
+// page. tagsBaseRoutePath is different for each doc version
 function normalizeTagPermalink({
   tagsBaseRoutePath,
   permalink,
@@ -58,9 +61,6 @@ function normalizeTagPermalink({
   tagsBaseRoutePath: string;
   permalink: string;
 }): string {
-  // Note: we always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md
-  // and v2/doc.md tags with custom permalinks don't lead to the same created
-  // page. tagsBaseRoutePath is different for each doc version
   return normalizeUrl([tagsBaseRoutePath, permalink]);
 }
 
