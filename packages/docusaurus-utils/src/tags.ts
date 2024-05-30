@@ -80,7 +80,7 @@ function normalizeInlineTag(
   const tag: Tag =
     typeof frontMatterTag === 'string'
       ? toTagObject(frontMatterTag)
-      : frontMatterTag;
+      : {...frontMatterTag, description: frontMatterTag.description};
 
   return {
     inline: true,
