@@ -63,10 +63,11 @@ function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
 
 function DocTagDocListPageMetadata({
   title,
+  tag,
 }: Props & {title: string}): JSX.Element {
   return (
     <>
-      <PageMetadata title={title} />
+      <PageMetadata title={title} description={tag.description} />
       <SearchMetadata tag="doc_tag_doc_list" />
     </>
   );
