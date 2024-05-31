@@ -97,7 +97,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * Front matter tags, unnormalized.
      * @see {@link BlogPostMetadata.tags}
      */
-    // TODO NormalizedTag ??
     tags?: FrontMatterTag[];
     /** Custom slug appended after `/<baseUrl>/<routeBasePath>/` */
     slug?: string;
