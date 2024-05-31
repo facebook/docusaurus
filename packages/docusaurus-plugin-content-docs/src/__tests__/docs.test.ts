@@ -363,6 +363,7 @@ describe('simple site', () => {
         pagination_label: 'baz pagination_label',
         tags: [
           'tag 1',
+          'globalTag1',
           'tag-1',
           {label: 'tag 2', permalink: 'tag2-custom-permalink'},
         ],
@@ -373,6 +374,12 @@ describe('simple site', () => {
           inline: true,
           label: 'tag 1',
           permalink: '/docs/tags/tag-1',
+        },
+        {
+          description: 'Global Tag 1 description',
+          inline: false,
+          label: 'Global Tag 1 label',
+          permalink: '/docs/tags/global-tag-1-permalink',
         },
         {
           description: undefined,
@@ -448,6 +455,7 @@ describe('simple site', () => {
         pagination_label: 'baz pagination_label',
         tags: [
           'tag 1',
+          'globalTag1',
           'tag-1',
           {label: 'tag 2', permalink: 'tag2-custom-permalink'},
         ],
@@ -458,6 +466,12 @@ describe('simple site', () => {
           inline: true,
           label: 'tag 1',
           permalink: '/docs/tags/tag-1',
+        },
+        {
+          description: 'Global Tag 1 description',
+          inline: false,
+          label: 'Global Tag 1 label',
+          permalink: '/docs/tags/global-tag-1-permalink',
         },
         {
           description: undefined,
