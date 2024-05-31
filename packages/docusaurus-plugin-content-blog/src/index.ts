@@ -21,6 +21,7 @@ import {
   resolveMarkdownLinkPathname,
   type SourceToPermalink,
 } from '@docusaurus/utils';
+import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {
   getBlogTags,
   paginateBlogPosts,
@@ -133,9 +134,16 @@ export default async function pluginContentBlog(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
-        Boolean,
-      ) as string[];
+      const tagsFilePaths = getTagsFilePathsToWatch({
+        contentPaths,
+        tags: options.tags,
+      });
+
+      return [
+        authorsMapFilePath,
+        ...tagsFilePaths,
+        ...contentMarkdownGlobs,
+      ].filter(Boolean) as string[];
     },
 
     getTranslationFiles() {

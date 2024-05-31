@@ -60,16 +60,32 @@ The [front matter](../markdown-features/markdown-features-intro.mdx#front-matter
 
 ## Doc tags {#doc-tags}
 
-Optionally, you can add tags to your doc pages, which introduces another dimension of categorization in addition to the [docs sidebar](./sidebar/index.mdx). Tags are passed in the front matter as a list of labels:
+Tags are declared in the front matter and introduce another dimension of categorization in addition to the [docs sidebar](./sidebar/index.mdx).
 
-```md "your-doc-page.md"
+It is possible to define tags inline, or to reference predefined tags declared in a [`tags file`](../../api/plugins/plugin-content-docs.mdx#tags-file) (optional, usually `docs/tags.yml`).
+
+In the following example:
+
+- `docusaurus` references a predefined tag key declared in `docs/tags.yml`
+- `Releases` is an inline tag, because it does not exist in `docs/tags.yml`
+
+```md title="docs/my-doc.md"
 ---
-id: doc-with-tags
-title: A doc with tags
 tags:
-  - Demo
-  - Getting started
+  - Releases
+  - docusaurus
 ---
+
+# Title
+
+Content
+```
+
+```yml title="docs/tags.yml"
+docusaurus:
+  label: 'Docusaurus'
+  permalink: '/docusaurus'
+  description: 'Docs related to the Docusaurus framework'
 ```
 
 :::tip

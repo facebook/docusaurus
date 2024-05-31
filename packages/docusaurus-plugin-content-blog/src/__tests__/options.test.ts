@@ -36,13 +36,15 @@ describe('validateOptions', () => {
   });
 
   it('accepts correctly defined user options', () => {
-    const userOptions = {
+    const userOptions: Options = {
       ...defaultOptions,
       feedOptions: {type: 'rss' as const, title: 'myTitle'},
       path: 'not_blog',
       routeBasePath: '/myBlog',
       postsPerPage: 5,
       include: ['api/*', 'docs/*'],
+      tags: 'customTags.yml',
+      onInlineTags: 'warn',
     };
     expect(testValidate(userOptions)).toEqual({
       ...userOptions,
@@ -171,5 +173,69 @@ describe('validateOptions', () => {
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
       `""blogSidebarTitle" must be a string"`,
     );
+  });
+
+  describe('tags', () => {
+    it('accepts tags - undefined', () => {
+      expect(testValidate({tags: undefined}).tags).toBeUndefined();
+    });
+
+    it('accepts tags - null', () => {
+      expect(testValidate({tags: null}).tags).toBeNull();
+    });
+
+    it('accepts tags - false', () => {
+      expect(testValidate({tags: false}).tags).toBeFalsy();
+    });
+
+    it('accepts tags - customTags.yml', () => {
+      expect(testValidate({tags: 'customTags.yml'}).tags).toBe(
+        'customTags.yml',
+      );
+    });
+
+    it('rejects tags - 42', () => {
+      // @ts-expect-error: test
+      expect(() => testValidate({tags: 42})).toThrowErrorMatchingInlineSnapshot(
+        `""tags" must be a string"`,
+      );
+    });
+  });
+
+  describe('onInlineTags', () => {
+    it('accepts onInlineTags - undefined', () => {
+      expect(testValidate({onInlineTags: undefined}).onInlineTags).toBe('warn');
+    });
+
+    it('accepts onInlineTags - "throw"', () => {
+      expect(testValidate({onInlineTags: 'throw'}).onInlineTags).toBe('throw');
+    });
+
+    it('rejects onInlineTags - "trace"', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onInlineTags: 'trace'}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onInlineTags - null', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onInlineTags: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onInlineTags - 42', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onInlineTags: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
   });
 });
