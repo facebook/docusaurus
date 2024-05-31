@@ -19,10 +19,6 @@ export type DocFile = {
   content: string;
 };
 
-export type SourceToPermalink = {
-  [source: string]: string;
-};
-
 export type VersionTag = TagMetadata & {
   /** All doc ids having this tag. */
   docIds: string[];
