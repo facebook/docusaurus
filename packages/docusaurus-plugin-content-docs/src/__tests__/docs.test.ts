@@ -1021,8 +1021,22 @@ describe('versioned site', () => {
       version: '1.0.1',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag', 'globalTag-v1.0.1'],
       },
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag',
+          permalink: '/docs/tags/inline-tag',
+        },
+        {
+          description: 'globalTag-v1.0.1 description',
+          inline: false,
+          label: 'globalTag-v1.0.1 label',
+          permalink: '/docs/tags/globalTag-v1.0.1 permalink',
+        },
+      ],
       unlisted: false,
     });
   });
