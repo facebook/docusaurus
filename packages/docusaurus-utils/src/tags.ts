@@ -32,7 +32,7 @@ export type TagsPluginOptions = {
   onInlineTags: 'ignore' | 'log' | 'warn' | 'throw';
 };
 
-export type NormalizedTag = Tag & {
+export type TagMetadata = Tag & {
   inline: boolean;
 };
 
@@ -68,8 +68,8 @@ function normalizeTagPermalink({
 function normalizeInlineTag(
   tagsBaseRoutePath: string,
   frontMatterTag: FrontMatterTag,
-): NormalizedTag {
-  function toTagObject(tagString: string): NormalizedTag {
+): TagMetadata {
+  function toTagObject(tagString: string): TagMetadata {
     return {
       inline: true,
       label: tagString,
@@ -102,7 +102,7 @@ export function normalizeTag({
   tag: FrontMatterTag;
   tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
-}): NormalizedTag {
+}): TagMetadata {
   if (typeof tag === 'string') {
     const tagDescription = tagsFile?.[tag];
     if (tagDescription) {
@@ -134,7 +134,7 @@ export function normalizeTags({
   frontMatterTags: FrontMatterTag[] | undefined;
   tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
-}): NormalizedTag[] {
+}): TagMetadata[] {
   const tags = (frontMatterTags ?? []).map((tag) =>
     normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
   );
@@ -149,7 +149,7 @@ export function reportInlineTags({
   source,
   options,
 }: {
-  tags: NormalizedTag[];
+  tags: TagMetadata[];
   source: string;
   options: TagsPluginOptions;
 }): void {

@@ -57,7 +57,7 @@ export {
   type Tag,
   type TagsFile,
   type TagsFileInput,
-  type NormalizedTag,
+  type TagMetadata,
   type TagsListItem,
   type TagModule,
   type FrontMatterTag,

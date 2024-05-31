@@ -17,7 +17,7 @@ declare module '@docusaurus/plugin-content-docs' {
     TagModule,
     FrontMatterLastUpdate,
     LastUpdateData,
-    NormalizedTag,
+    TagMetadata,
     TagsPluginOptions,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
@@ -447,7 +447,7 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editUrl?: string | null;
     /** Tags, normalized. */
-    tags: NormalizedTag[];
+    tags: TagMetadata[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
   };
