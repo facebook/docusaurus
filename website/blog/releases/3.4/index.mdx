@@ -1,0 +1,45 @@
+---
+title: Docusaurus 3.4
+authors: [slorber]
+tags: [release]
+image: ./img/social-card.png
+date: 2024-05-31
+---
+
+We are happy to announce **Docusaurus 3.4**.
+
+Upgrading should be easy. Our [release process](/community/release-process) respects [Semantic Versioning](https://semver.org/). Minor versions do not include any breaking changes.
+
+![Docusaurus blog post social card](./img/social-card.png)
+
+<!--truncate-->
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+
+## Highlights
+
+### Tags files
+
+https://github.com/facebook/docusaurus/pull/10137
+
+### Hash Router - Offline browsing
+
+[#9859](https://github.com/facebook/docusaurus/pull/9859) feat(core): hash router option - browse site offline (experimental) ([@slorber](https://github.com/slorber))
+
+### Site Storage - Experimental
+
+[#10121](https://github.com/facebook/docusaurus/pull/10121) feat(core): site storage config options (experimental) ([@slorber](https://github.com/slorber))
+
+## Other changes
+
+Other notable changes include:
+
+- [#10151](https://github.com/facebook/docusaurus/pull/10151): add Turkmen (tk) theme translations
+- [#10111](https://github.com/facebook/docusaurus/pull/10111): add Bulgarian (bg) theme translations
+- [#10168](https://github.com/facebook/docusaurus/pull/10168): fix many long overdue Markdown link resolution bugs
+- [#10178](https://github.com/facebook/docusaurus/pull/10178): the `/search` page now respects the `contextualSearch: false` setting
+- [#10118](https://github.com/facebook/docusaurus/pull/10118): fix bad pluralization on docs generated index category card description
+- [#10130](https://github.com/facebook/docusaurus/pull/10130): fix false positives reported by the broken anchor checker due to trailing slashes
+
+Check the **[3.4.0 changelog entry](/changelog/3.4.0)** for an exhaustive list of changes.
