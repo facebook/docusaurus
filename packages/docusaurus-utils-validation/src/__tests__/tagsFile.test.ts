@@ -12,6 +12,7 @@ import * as YAML from 'js-yaml';
 import {
   ensureUniquePermalinks,
   getTagsFile,
+  getTagsFilePathsToWatch,
   normalizeTagsFile,
 } from '../tagsFile';
 import type {TagsFile, TagsFileInput} from '@docusaurus/utils';
@@ -217,6 +218,68 @@ describe('normalizeTagsFile', () => {
     };
 
     expect(normalizeTagsFile(input)).toEqual(expectedOutput);
+  });
+});
+
+describe('getTagsFilePathsToWatch', () => {
+  it('returns tags file paths - tags undefined', () => {
+    expect(
+      getTagsFilePathsToWatch({
+        tags: undefined,
+        contentPaths: {
+          contentPath: '/user/blog',
+          contentPathLocalized: '/i18n/blog',
+        },
+      }),
+    ).toEqual(['/i18n/blog/tags.yml', '/user/blog/tags.yml']);
+  });
+
+  it('returns tags file paths - tags.yml', () => {
+    expect(
+      getTagsFilePathsToWatch({
+        tags: 'tags.yml',
+        contentPaths: {
+          contentPath: '/user/blog',
+          contentPathLocalized: '/i18n/blog',
+        },
+      }),
+    ).toEqual(['/i18n/blog/tags.yml', '/user/blog/tags.yml']);
+  });
+
+  it('returns tags file paths - customTags.yml', () => {
+    expect(
+      getTagsFilePathsToWatch({
+        tags: 'customTags.yml',
+        contentPaths: {
+          contentPath: '/user/blog',
+          contentPathLocalized: '/i18n/blog',
+        },
+      }),
+    ).toEqual(['/i18n/blog/customTags.yml', '/user/blog/customTags.yml']);
+  });
+
+  it('returns [] - tags: null', () => {
+    expect(
+      getTagsFilePathsToWatch({
+        tags: null,
+        contentPaths: {
+          contentPath: '/user/blog',
+          contentPathLocalized: '/i18n/blog',
+        },
+      }),
+    ).toEqual([]);
+  });
+
+  it('returns [] - tags: false', () => {
+    expect(
+      getTagsFilePathsToWatch({
+        tags: false,
+        contentPaths: {
+          contentPath: '/user/blog',
+          contentPathLocalized: '/i18n/blog',
+        },
+      }),
+    ).toEqual([]);
   });
 });
 

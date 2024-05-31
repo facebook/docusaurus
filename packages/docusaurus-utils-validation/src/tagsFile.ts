@@ -6,6 +6,7 @@
  */
 
 import fs from 'fs-extra';
+import path from 'node:path';
 import _ from 'lodash';
 import Joi from 'joi';
 import YAML from 'js-yaml';
@@ -59,18 +60,36 @@ export function normalizeTagsFile(data: TagsFileInput): TagsFile {
   });
 }
 
+type GetTagsFileParams = {
+  tags: TagsPluginOptions['tags'];
+  contentPaths: ContentPaths;
+};
+
+const DefaultTagsFileName = 'tags.yml';
+
+export function getTagsFilePathsToWatch({
+  tags,
+  contentPaths,
+}: GetTagsFileParams): string[] {
+  if (tags === false || tags === null) {
+    return [];
+  }
+  const relativeFilePath = tags ?? DefaultTagsFileName;
+
+  return getContentPathList(contentPaths).map((contentPath) =>
+    path.join(contentPath, relativeFilePath),
+  );
+}
+
 export async function getTagsFile({
   tags,
   contentPaths,
-}: {
-  tags: TagsPluginOptions['tags'];
-  contentPaths: ContentPaths;
-}): Promise<TagsFile | null> {
+}: GetTagsFileParams): Promise<TagsFile | null> {
   if (tags === false || tags === null) {
     return null;
   }
 
-  const relativeFilePath = tags || 'tags.yml';
+  const relativeFilePath = tags ?? DefaultTagsFileName;
 
   // if returned path is defined, the file exists (localized or not)
   const yamlFilePath = await getDataFilePath({

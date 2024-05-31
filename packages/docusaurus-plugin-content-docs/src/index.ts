@@ -20,7 +20,10 @@ import {
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {getTagsFile} from '@docusaurus/utils-validation';
+import {
+  getTagsFile,
+  getTagsFilePathsToWatch,
+} from '@docusaurus/utils-validation';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
@@ -121,6 +124,10 @@ export default async function pluginContentDocs(
               (docsDirPath) => `${docsDirPath}/${pattern}`,
             ),
           ),
+          ...getTagsFilePathsToWatch({
+            contentPaths: version,
+            tags: options.tags,
+          }),
           `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
         ];
         if (typeof version.sidebarFilePath === 'string') {
