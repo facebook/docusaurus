@@ -160,6 +160,8 @@ describe('blog plugin', () => {
     );
     expect(relativePathsToWatch).toEqual([
       'i18n/en/docusaurus-plugin-content-blog/authors.yml',
+      'i18n/en/docusaurus-plugin-content-blog/tags.yml',
+      'blog/tags.yml',
       'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
       'blog/**/*.{md,mdx}',
     ]);
