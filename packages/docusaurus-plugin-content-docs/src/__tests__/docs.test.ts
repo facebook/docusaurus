@@ -992,11 +992,25 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
@@ -1021,14 +1035,14 @@ describe('versioned site', () => {
       version: '1.0.1',
       frontMatter: {
         slug: '/',
-        tags: ['inlineTag', 'globalTag-v1.0.1'],
+        tags: ['inlineTag-v1.0.1', 'globalTag-v1.0.1'],
       },
       tags: [
         {
           description: undefined,
           inline: true,
-          label: 'inlineTag',
-          permalink: '/docs/tags/inline-tag',
+          label: 'inlineTag-v1.0.1',
+          permalink: '/docs/tags/inline-tag-v-1-0-1',
         },
         {
           description: 'globalTag-v1.0.1 description',
@@ -1127,12 +1141,26 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl: hardcodedEditUrl,
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
 
@@ -1169,13 +1197,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1204,13 +1246,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1240,13 +1296,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated fr)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/fr/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (fr)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (fr)',
+          permalink: '/fr/docs/1.0.0/tags/globalTag-v1.0.0 permalink (fr)',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1277,13 +1347,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated fr)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/fr/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (fr)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (fr)',
+          permalink: '/fr/docs/1.0.0/tags/globalTag-v1.0.0 permalink (fr)',
+        },
+      ],
       unlisted: false,
     });
   });
