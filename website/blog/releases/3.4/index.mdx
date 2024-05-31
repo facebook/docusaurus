@@ -21,15 +21,102 @@ import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 
 ### Tags files
 
-https://github.com/facebook/docusaurus/pull/10137
+The docs and blog plugins both already supported a `tags` front matter attribute, enabling you to group related content. But tags declared inline in the front matter are not always ideal.
 
-### Hash Router - Offline browsing
+With [#10137](https://github.com/facebook/docusaurus/pull/10137), you can now declare a list of pre-defined tags in a `tags.yml` file:
 
-[#9859](https://github.com/facebook/docusaurus/pull/9859) feat(core): hash router option - browse site offline (experimental) ([@slorber](https://github.com/slorber))
+```yml title="blog/tags.yml"
+tag1:
+  label: 'Tag 1'
+  description: 'Tag 1 description'
+  permalink: /tag-1-permalink
+
+tag2:
+  label: 'Tag 2'
+  description: 'Tag 2 description'
+  permalink: /tag-2-permalink
+```
+
+These predefined tags can be used in the front matter of your blog or docs files:
+
+```md title="blog/2024-05-31-my-blog-post.md"
+---
+tags: [tag1, tag2]
+---
+
+# Title
+
+Content
+```
+
+:::tip Keeping tags usage consistent
+
+Use the new `onInlineTags: 'throw' plugin option to enforce the usage of predefined tags and prevent contributors from creating new unwanted tags.
+
+:::
+
+### Hash Router - Experimental
+
+With [9859](https://github.com/facebook/docusaurus/pull/9859), we added a new **experimental** hash router config option, useful for **offline browsing** by opening your site locally through the `file://` protocol.
+
+```tsx title="docusaurus.config.js"
+export default {
+  future: {
+    experimental_router: 'hash',
+  },
+};
+```
+
+:::warning
+
+This mode is **not recommended for sites deployed through a web server**.
+
+:::
+
+When this mode is turned on, Docusaurus will opt out of static site rendering, and build a client-side single page application where all routes are prefixed with `/#/`. A single `index.html` file is generated. This file can be opened locally in your browser by simply clicking it, using the browser `file://` protocol. This makes it possible to distribute a Docusaurus site as a `.zip` file so that readers can browse it offline, without having to install anything complex on their computer apart a web browser.
+
+![Docusaurus hash router - local browsing using the file:// protocol](./img/hash.png)
+
+Try browsing our own Docusaurus site built with the hash router:
+
+- [Docusaurus website - Hash Router web deployment](https://facebook.github.io/docusaurus/#/)
+- [Docusaurus website - Hash Router downloadable GitHub artifacts](https://github.com/facebook/docusaurus/actions/workflows/build-hash-router.yml)
+
+:::caution Experimental
+
+This feature is **experimental**. If you try it out, please let us know how it works for you [here](https://github.com/facebook/docusaurus/issues/3825).
+
+:::
 
 ### Site Storage - Experimental
 
-[#10121](https://github.com/facebook/docusaurus/pull/10121) feat(core): site storage config options (experimental) ([@slorber](https://github.com/slorber))
+Docusaurus uses the browser `localStorage` API to persist UI state.
+
+But sometimes the storage space is "shared" between multiple sites using the same domain, leading to **storage key conflicts**. This generally happens in two cases
+
+- when working on multiple `http://localhost:3000` sites
+- when hosting multiple sites under the same domain: `https://example.com/site1/` and `https://example.com/site2/`
+
+For this reason, we introduced a new **experimental** `siteStorage` configuration option:
+
+```tsx
+export default {
+  future: {
+    experimental_storage: {
+      type: 'localStorage',
+      namespace: true,
+    },
+  },
+};
+```
+
+When `namespace: true` is set, we apply a hash suffix to all the storage keys, making them unique to the current site (based on `config.url` and `config.baseUrl`. For example, the `theme` storage key becomes `theme-x6f`. It is also possible to provide your own custom suffix `namespace: 'suffix'`. We also made it possible to use `type: 'sessionStorage'` instead of the default `localStorage`.
+
+:::caution Experimental
+
+This feature is **experimental**. If you try it out, please let us know how it works for you [here](https://github.com/facebook/docusaurus/pull/10121).
+
+:::
 
 ## Other changes
 
