@@ -20,6 +20,7 @@ import {
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
   type SourceToPermalink,
+  type TagsFile,
 } from '@docusaurus/utils';
 import {
   getTagsFile,
@@ -48,7 +49,6 @@ import {
 } from './translations';
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
-import type {TagsFile} from '@docusaurus/utils';
 import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 import type {
