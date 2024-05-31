@@ -40,6 +40,11 @@ export type BrokenMarkdownLink<T extends ContentPaths> = {
   link: string;
 };
 
+export type SourceToPermalink = Map<
+  string, // Aliased source path: "@site/docs/content.mdx"
+  string // Permalink: "/docs/content"
+>;
+
 // Note this is historical logic extracted during a 2024 refactor
 // The algo has been kept exactly as before for retro compatibility
 // See also https://github.com/facebook/docusaurus/pull/10168
@@ -47,7 +52,7 @@ export function resolveMarkdownLinkPathname(
   linkPathname: string,
   context: {
     sourceFilePath: string;
-    sourceToPermalink: {[aliasedFilePath: string]: string};
+    sourceToPermalink: SourceToPermalink;
     contentPaths: ContentPaths;
     siteDir: string;
   },
@@ -66,9 +71,9 @@ export function resolveMarkdownLinkPathname(
   const aliasedSourceMatch = sourceDirsToTry
     .map((sourceDir) => path.join(sourceDir, decodeURIComponent(linkPathname)))
     .map((source) => aliasedSitePath(source, siteDir))
-    .find((source) => sourceToPermalink[source]);
+    .find((source) => sourceToPermalink.has(source));
 
   return aliasedSourceMatch
-    ? sourceToPermalink[aliasedSourceMatch] ?? null
+    ? sourceToPermalink.get(aliasedSourceMatch) ?? null
     : null;
 }

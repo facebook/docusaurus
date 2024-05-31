@@ -19,6 +19,7 @@ import {
   createSlugger,
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
+  type SourceToPermalink,
 } from '@docusaurus/utils';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
@@ -54,7 +55,7 @@ import type {
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {SourceToPermalink, DocFile, FullVersion} from './types';
+import type {DocFile, FullVersion} from './types';
 import type {RuleSetUseItem} from 'webpack';
 
 export default async function pluginContentDocs(
@@ -261,7 +262,7 @@ export default async function pluginContentDocs(
       //  it's probably better to restore a mutable cache in the plugin
       function getSourceToPermalink(): SourceToPermalink {
         const allDocs = content.loadedVersions.flatMap((v) => v.docs);
-        return Object.fromEntries(
+        return new Map(
           allDocs.map(({source, permalink}) => [source, permalink]),
         );
       }
