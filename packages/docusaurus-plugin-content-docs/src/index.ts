@@ -61,6 +61,7 @@ import type {RuleSetUseItem} from 'webpack';
 // TODO this is bad, we should have a better way to do this (new lifecycle?)
 //  The source to permalink is currently a mutable map passed to the mdx loader
 //  for link resolution
+//  see https://github.com/facebook/docusaurus/pull/10185
 function createSourceToPermalinkHelper() {
   const sourceToPermalink: SourceToPermalink = new Map();
 
