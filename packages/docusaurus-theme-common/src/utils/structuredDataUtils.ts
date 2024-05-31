@@ -7,6 +7,9 @@
 
 import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+// TODO Docusaurus v4: remove theme-common > content-plugin/client dependency
+//  Move every plugin-specific code to content-plugin/client directly
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
 import type {Props as BlogListPageStructuredDataProps} from '@theme/BlogListPage/StructuredData';
 import {useBlogPost} from '../contexts/blogPost';

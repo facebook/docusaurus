@@ -26,6 +26,7 @@
     "@docusaurus/plugin-content-blog": "3.3.2",
     "@docusaurus/plugin-content-docs": "3.3.2",
     "@docusaurus/plugin-content-pages": "3.3.2",
+    "@docusaurus/plugin-content-showcase": "3.3.2",
     "@docusaurus/theme-common": "3.3.2",
     "@docusaurus/theme-translations": "3.3.2",
     "@docusaurus/types": "3.3.2",

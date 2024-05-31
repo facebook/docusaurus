@@ -271,6 +271,12 @@ export default async function createConfigAsync() {
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
       [
+        'content-showcase',
+        {
+          routeBasePath: '/showcaseAll',
+        },
+      ],
+      [
         './src/plugins/changelog/index.js',
         {
           blogTitle: 'Docusaurus changelog',

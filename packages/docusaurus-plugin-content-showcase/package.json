@@ -1,0 +1,51 @@
+{
+  "name": "@docusaurus/plugin-content-showcase",
+  "version": "3.3.2",
+  "description": "Showcase plugin for Docusaurus.",
+  "main": "lib/index.js",
+  "sideEffects": false,
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-showcase.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "types": "src/plugin-content-showcase.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-content-showcase"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "3.3.2",
+    "@docusaurus/types": "3.3.2",
+    "@docusaurus/utils": "3.3.2",
+    "@docusaurus/utils-validation": "3.3.2",
+    "@docusaurus/theme-common": "3.3.2",
+    "fs-extra": "^11.1.1",
+    "js-yaml": "^4.1.0",
+    "tslib": "^2.6.0",
+    "webpack": "^5.88.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

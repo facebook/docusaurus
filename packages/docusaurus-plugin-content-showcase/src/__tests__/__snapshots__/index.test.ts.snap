@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docusaurus-plugin-content-showcase loads simple showcase 1`] = `
+{
+  "items": [
+    {
+      "description": "World",
+      "preview": "github.com/ozakione.png",
+      "source": "https://github.com/facebook/docusaurus",
+      "tags": [
+        "opensource",
+        "meta",
+      ],
+      "title": "Hello",
+      "website": "https://docusaurus.io/",
+    },
+  ],
+}
+`;
+
+exports[`docusaurus-plugin-content-showcase loads simple showcase with tags in options 1`] = `
+{
+  "items": [
+    {
+      "description": "World",
+      "preview": "github.com/ozakione.png",
+      "source": "https://github.com/facebook/docusaurus",
+      "tags": [
+        "opensource",
+        "meta",
+      ],
+      "title": "Hello",
+      "website": "https://docusaurus.io/",
+    },
+  ],
+}
+`;

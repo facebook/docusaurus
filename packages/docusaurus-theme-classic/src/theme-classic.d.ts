@@ -247,6 +247,76 @@ declare module '@theme/BlogPostItems' {
   export default function BlogPostItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/Showcase' {
+  import type {
+    ShowcaseItem,
+    TagsOption,
+  } from '@docusaurus/plugin-content-showcase';
+
+  export type Props = {
+    items: ShowcaseItem[];
+    tags: TagsOption;
+    screenshotApi: string;
+  };
+
+  export default function Showcase(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase/FavoriteIcon' {
+  export interface Props {
+    className?: string;
+    style?: React.ComponentProps<'svg'>['style'];
+    size: 'small' | 'medium' | 'large';
+  }
+
+  export default function FavoriteIcon(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase/ShowcaseCard' {
+  import type {ShowcaseItem} from '@docusaurus/plugin-content-showcase';
+
+  export interface Props {
+    readonly item: ShowcaseItem;
+  }
+
+  export default function ShowcaseCard(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase/ShowcaseCards' {
+  export default function ShowcaseCards(): JSX.Element;
+}
+
+declare module '@theme/Showcase/ShowcaseTagSelect' {
+  import {type ComponentProps, type ReactElement} from 'react';
+  import type {TagType} from '@docusaurus/plugin-content-showcase';
+
+  interface Props extends ComponentProps<'input'> {
+    tag: TagType;
+    label: string;
+    description: string;
+    icon: ReactElement<ComponentProps<'svg'>>;
+    // TODO: update this type
+    rest?: any;
+  }
+
+  export default function ShowcaseTagSelect(props: Props): JSX.Element;
+}
+
+declare module '@theme/Showcase/ShowcaseFilters' {
+  export default function ShowcaseFilters(): JSX.Element;
+}
+
+declare module '@theme/Showcase/OperatorButton' {
+  export default function OperatorButton(): JSX.Element;
+}
+declare module '@theme/Showcase/ClearAllButton' {
+  export default function ClearAllButton(): JSX.Element;
+}
+
+declare module '@theme/Showcase/ShowcaseSearchBar' {
+  export default function ShowcaseSearchBar(): JSX.Element;
+}
+
 declare module '@theme/BlogPostItem/Container' {
   import type {ReactNode} from 'react';
 

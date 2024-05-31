@@ -13,6 +13,8 @@ import React, {
   useCallback,
   type ReactNode,
 } from 'react';
+// TODO Docusaurus v4: remove theme-common > content-plugin/client dependency
+//  Move every plugin-specific code to content-plugin/client directly
 import {
   useAllDocsData,
   useDocsData,

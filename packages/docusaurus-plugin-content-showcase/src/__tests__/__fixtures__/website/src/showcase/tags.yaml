@@ -1,0 +1,12 @@
+opensource:
+  label: "Open-Source"
+  description:
+    message: "Open-Source Docusaurus sites can be useful for inspiration!"
+    id: "showcase.tag.opensource.description"
+  color: "#39ca30"
+meta:
+  label: "Meta"
+  description:
+    message: "Docusaurus sites of Meta (formerly Facebook) projects"
+    id: "showcase.tag.meta.description"
+  color: "#4267b2"

@@ -103,6 +103,7 @@ export {
   useQueryString,
   useQueryStringList,
   useClearQueryString,
+  type ListUpdateFunction,
 } from './utils/historyUtils';
 
 export {
