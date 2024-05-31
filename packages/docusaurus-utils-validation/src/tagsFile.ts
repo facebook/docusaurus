@@ -77,7 +77,7 @@ export function getTagsFilePathsToWatch({
   const relativeFilePath = tags ?? DefaultTagsFileName;
 
   return getContentPathList(contentPaths).map((contentPath) =>
-    path.join(contentPath, relativeFilePath),
+    path.posix.join(contentPath, relativeFilePath),
   );
 }
 
