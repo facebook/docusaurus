@@ -4,6 +4,7 @@ exports[`blog plugin process blog posts load content 1`] = `
 {
   "/blog/tags/tag-1": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -65,6 +66,7 @@ exports[`blog plugin process blog posts load content 1`] = `
   },
   "/blog/tags/tag-2": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -261,6 +263,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
 {
   "/blog/tags/tag-1": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -292,6 +295,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
   },
   "/blog/tags/tag-2": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -321,6 +325,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
   },
   "/blog/tags/unlisted": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/another/blog-with-tags-unlisted",
     ],
@@ -353,6 +358,7 @@ exports[`blog plugin works with blog tags 1`] = `
 {
   "/blog/tags/tag-1": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -399,6 +405,7 @@ exports[`blog plugin works with blog tags 1`] = `
   },
   "/blog/tags/tag-2": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -428,6 +435,7 @@ exports[`blog plugin works with blog tags 1`] = `
   },
   "/blog/tags/unlisted": {
     "description": undefined,
+    "inline": true,
     "items": [
       "/another/blog-with-tags-unlisted",
     ],
