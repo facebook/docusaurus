@@ -380,6 +380,35 @@ An author, either declared through front matter or through the authors map, need
 
 :::
 
+## Blog post tags {#blog-post-tags}
+
+Tags are declared in the front matter and introduce another dimension of categorization.
+
+It is possible to define tags inline, or to reference predefined tags declared in a [`tags file`](api/plugins/plugin-content-blog.mdx#tags-file) (optional, usually `blog/tags.yml`).
+
+In the following example:
+
+- `docusaurus` references a predefined tag key declared in `blog/tags.yml`
+- `Releases` is an inline tag, because it does not exist in `blog/tags.yml`
+
+```md title="blog/my-post.md"
+---
+title: 'My blog post'
+tags:
+  - Releases
+  - docusaurus
+---
+
+Content
+```
+
+```yml title="blog/tags.yml"
+docusaurus:
+  label: 'Docusaurus'
+  permalink: '/docusaurus'
+  description: 'Blog posts related to the Docusaurus framework'
+```
+
 ## Reading time {#reading-time}
 
 Docusaurus generates a reading time estimation for each blog post based on word count. We provide an option to customize this.

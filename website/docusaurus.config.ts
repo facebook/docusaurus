@@ -492,6 +492,7 @@ export default async function createConfigAsync() {
             blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
+            onInlineTags: 'throw',
           } satisfies BlogOptions,
           pages: {
             remarkPlugins: [npm2yarn],

@@ -20,6 +20,10 @@ import {
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
+import {
+  getTagsFile,
+  getTagsFilePathsToWatch,
+} from '@docusaurus/utils-validation';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
@@ -43,6 +47,7 @@ import {
 } from './translations';
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
+import type {TagsFile} from '@docusaurus/utils';
 import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 import type {
@@ -119,6 +124,10 @@ export default async function pluginContentDocs(
               (docsDirPath) => `${docsDirPath}/${pattern}`,
             ),
           ),
+          ...getTagsFilePathsToWatch({
+            contentPaths: version,
+            tags: options.tags,
+          }),
           `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
         ];
         if (typeof version.sidebarFilePath === 'string') {
@@ -133,6 +142,7 @@ export default async function pluginContentDocs(
     async loadContent() {
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
+        tagsFile: TagsFile | null,
       ): Promise<DocMetadataBase[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
@@ -152,6 +162,7 @@ export default async function pluginContentDocs(
             context,
             options,
             env,
+            tagsFile,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -160,8 +171,14 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
+        const tagsFile = await getTagsFile({
+          contentPaths: versionMetadata,
+          tags: options.tags,
+        });
+
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
+          tagsFile,
         );
 
         // TODO we only ever need draftIds in further code, not full draft items

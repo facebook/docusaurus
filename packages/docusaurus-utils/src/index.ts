@@ -55,10 +55,13 @@ export {
 export type {URLPath} from './urlUtils';
 export {
   type Tag,
+  type TagsFile,
+  type TagsFileInput,
+  type TagMetadata,
   type TagsListItem,
   type TagModule,
   type FrontMatterTag,
-  normalizeFrontMatterTags,
+  type TagsPluginOptions,
   groupTaggedItems,
   getTagVisibility,
 } from './tags';
@@ -120,3 +123,5 @@ export {
   type LastUpdateData,
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
+
+export {normalizeTags, reportInlineTags} from './tags';

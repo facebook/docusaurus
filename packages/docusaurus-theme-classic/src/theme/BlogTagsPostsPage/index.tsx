@@ -57,7 +57,7 @@ function BlogTagsPostsPageMetadata({tag}: Props): JSX.Element {
   const title = useBlogTagsPostsPageTitle(tag);
   return (
     <>
-      <PageMetadata title={title} />
+      <PageMetadata title={title} description={tag.description} />
       <SearchMetadata tag="blog_tags_posts" />
     </>
   );
@@ -75,6 +75,7 @@ function BlogTagsPostsPageContent({
       {tag.unlisted && <Unlisted />}
       <header className="margin-bottom--xl">
         <Heading as="h1">{title}</Heading>
+        {tag.description && <p>{tag.description}</p>}
         <Link href={tag.allTagsPath}>
           <Translate
             id="theme.tags.tagsPageLink"
