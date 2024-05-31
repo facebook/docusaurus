@@ -121,10 +121,11 @@ function getVersionTags(docs: DocMetadata[]): VersionTags {
       isUnlisted: (item) => item.unlisted,
     });
     return {
+      inline: tag.inline,
       label: tag.label,
-      docIds: tagVisibility.listedItems.map((item) => item.id),
       permalink: tag.permalink,
       description: tag.description,
+      docIds: tagVisibility.listedItems.map((item) => item.id),
       unlisted: tagVisibility.unlisted,
     };
   });

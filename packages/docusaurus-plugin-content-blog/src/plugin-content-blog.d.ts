@@ -495,7 +495,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     [permalink: string]: BlogTag;
   };
 
-  export type BlogTag = Tag & {
+  export type BlogTag = TagMetadata & {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];

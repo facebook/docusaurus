@@ -169,7 +169,7 @@ export function reportInlineTags({
 }
 
 type TaggedItemGroup<Item> = {
-  tag: Tag;
+  tag: TagMetadata;
   items: Item[];
 };
 
@@ -187,7 +187,7 @@ export function groupTaggedItems<Item>(
    * A callback telling me how to get the tags list of the current item. Usually
    * simply getting it from some metadata of the current item.
    */
-  getItemTags: (item: Item) => readonly Tag[],
+  getItemTags: (item: Item) => readonly TagMetadata[],
 ): {[permalink: string]: TaggedItemGroup<Item>} {
   const result: {[permalink: string]: TaggedItemGroup<Item>} = {};
 

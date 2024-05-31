@@ -127,10 +127,11 @@ export function getBlogTags({
       isUnlisted: (item) => item.metadata.unlisted,
     });
     return {
+      inline: tag.inline,
       label: tag.label,
-      items: tagVisibility.listedItems.map((item) => item.id),
       permalink: tag.permalink,
       description: tag.description,
+      items: tagVisibility.listedItems.map((item) => item.id),
       pages: paginateBlogPosts({
         blogPosts: tagVisibility.listedItems,
         basePageUrl: tag.permalink,
