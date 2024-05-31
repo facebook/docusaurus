@@ -26,7 +26,6 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
-  type SourceToPermalink,
 } from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
@@ -42,12 +41,6 @@ import type {BlogContentPaths} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
-}
-
-export function getSourceToPermalink(blogPosts: BlogPost[]): SourceToPermalink {
-  return new Map(
-    blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
-  );
 }
 
 export function paginateBlogPosts({

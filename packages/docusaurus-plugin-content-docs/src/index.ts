@@ -58,6 +58,28 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {DocFile, FullVersion} from './types';
 import type {RuleSetUseItem} from 'webpack';
 
+// TODO this is bad, we should have a better way to do this (new lifecycle?)
+//  The source to permalink is currently a mutable map passed to the mdx loader
+//  for link resolution
+function createSourceToPermalinkHelper() {
+  const sourceToPermalink: SourceToPermalink = new Map();
+
+  function computeSourceToPermalink(content: LoadedContent): SourceToPermalink {
+    const allDocs = content.loadedVersions.flatMap((v) => v.docs);
+    return new Map(allDocs.map(({source, permalink}) => [source, permalink]));
+  }
+
+  // Mutable map update :/
+  function update(content: LoadedContent): void {
+    sourceToPermalink.clear();
+    computeSourceToPermalink(content).forEach((value, key) => {
+      sourceToPermalink.set(key, value);
+    });
+  }
+
+  return {get: () => sourceToPermalink, update};
+}
+
 export default async function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
@@ -83,6 +105,8 @@ export default async function pluginContentDocs(
 
   // TODO env should be injected into all plugins
   const env = process.env.NODE_ENV as DocEnv;
+
+  const sourceToPermalinkHelper = createSourceToPermalinkHelper();
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -228,6 +252,8 @@ export default async function pluginContentDocs(
     },
 
     async contentLoaded({content, actions}) {
+      sourceToPermalinkHelper.update(content);
+
       const versions: FullVersion[] = content.loadedVersions.map(toFullVersion);
 
       await createAllRoutes({
@@ -257,16 +283,6 @@ export default async function pluginContentDocs(
         .flatMap(getContentPathList)
         // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
         .map(addTrailingPathSeparator);
-
-      // TODO this does not re-run when content gets updated in dev!
-      //  it's probably better to restore a mutable cache in the plugin
-      function getSourceToPermalink(): SourceToPermalink {
-        const allDocs = content.loadedVersions.flatMap((v) => v.docs);
-        return new Map(
-          allDocs.map(({source, permalink}) => [source, permalink]),
-        );
-      }
-      const sourceToPermalink = getSourceToPermalink();
 
       function createMDXLoader(): RuleSetUseItem {
         const loaderOptions: MDXLoaderOptions = {
@@ -302,7 +318,7 @@ export default async function pluginContentDocs(
             );
             const permalink = resolveMarkdownLinkPathname(linkPathname, {
               sourceFilePath,
-              sourceToPermalink,
+              sourceToPermalink: sourceToPermalinkHelper.get(),
               siteDir,
               contentPaths: version,
             });

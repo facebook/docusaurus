@@ -19,9 +19,9 @@ import {
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
+  type SourceToPermalink,
 } from '@docusaurus/utils';
 import {
-  getSourceToPermalink,
   getBlogTags,
   paginateBlogPosts,
   shouldBeListed,
@@ -48,6 +48,32 @@ import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader/lib/loade
 import type {RuleSetUseItem} from 'webpack';
 
 const PluginName = 'docusaurus-plugin-content-blog';
+
+// TODO this is bad, we should have a better way to do this (new lifecycle?)
+//  The source to permalink is currently a mutable map passed to the mdx loader
+//  for link resolution
+function createSourceToPermalinkHelper() {
+  const sourceToPermalink: SourceToPermalink = new Map();
+
+  function computeSourceToPermalink(content: BlogContent): SourceToPermalink {
+    return new Map(
+      content.blogPosts.map(({metadata: {source, permalink}}) => [
+        source,
+        permalink,
+      ]),
+    );
+  }
+
+  // Mutable map update :/
+  function update(content: BlogContent): void {
+    sourceToPermalink.clear();
+    computeSourceToPermalink(content).forEach((value, key) => {
+      sourceToPermalink.set(key, value);
+    });
+  }
+
+  return {get: () => sourceToPermalink, update};
+}
 
 export default async function pluginContentBlog(
   context: LoadContext,
@@ -94,6 +120,8 @@ export default async function pluginContentBlog(
     filePath: options.authorsMapPath,
     contentPaths,
   });
+
+  const sourceToPermalinkHelper = createSourceToPermalinkHelper();
 
   return {
     name: PluginName,
@@ -193,6 +221,8 @@ export default async function pluginContentBlog(
     },
 
     async contentLoaded({content, actions}) {
+      sourceToPermalinkHelper.update(content);
+
       await createAllRoutes({
         baseUrl,
         content,
@@ -206,7 +236,7 @@ export default async function pluginContentBlog(
       return translateContent(content, translationFiles);
     },
 
-    configureWebpack(_config, isServer, utils, content) {
+    configureWebpack() {
       const {
         admonitions,
         rehypePlugins,
@@ -216,7 +246,6 @@ export default async function pluginContentBlog(
         beforeDefaultRehypePlugins,
       } = options;
 
-      const sourceToPermalink = getSourceToPermalink(content.blogPosts);
       const contentDirs = getContentPathList(contentPaths);
 
       function createMDXLoader(): RuleSetUseItem {
@@ -263,7 +292,7 @@ export default async function pluginContentBlog(
           resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
             const permalink = resolveMarkdownLinkPathname(linkPathname, {
               sourceFilePath,
-              sourceToPermalink,
+              sourceToPermalink: sourceToPermalinkHelper.get(),
               siteDir,
               contentPaths,
             });
