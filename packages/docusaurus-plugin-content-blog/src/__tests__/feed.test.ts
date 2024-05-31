@@ -101,7 +101,6 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
-        tags: false,
       } as PluginOptions,
     );
 
@@ -144,7 +143,6 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
-        tags: false,
       } as PluginOptions,
     );
 
@@ -199,7 +197,6 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
-        tags: false,
       } as PluginOptions,
     );
 
@@ -245,7 +242,6 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
-        tags: false,
       } as PluginOptions,
     );
 
@@ -291,7 +287,6 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
-        tags: false,
       } as PluginOptions,
     );
 

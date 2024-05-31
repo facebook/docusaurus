@@ -11,7 +11,7 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {
     FrontMatterTag,
-    Tag,
+    NormalizedTag,
     LastUpdateData,
     FrontMatterLastUpdate,
     TagsPluginOptions,
@@ -236,7 +236,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Front matter, as-is. */
     readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
     /** Tags, normalized. */
-    readonly tags: Tag[];
+    readonly tags: NormalizedTag[];
     /**
      * Marks the post as unlisted and visibly hides it unless directly accessed.
      */
