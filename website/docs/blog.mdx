@@ -382,33 +382,32 @@ An author, either declared through front matter or through the authors map, need
 
 ## Blog post tags {#blog-post-tags}
 
-Optionally, you can add tags to your blog pages. Tags are passed in the front matter as a list of labels:
+Tags are declared in the front matter and introduce another dimension of categorization.
 
-### Inline tags {#inline-tags}
+It is possible to define tags inline, or to reference predefined tags declared in a [`tags file`](api/plugins/plugin-content-blog.mdx#tags-file) (optional, usually `blog/tags.yml`).
 
-Tags are considered inline when they are not defined in a global configuration file. You can configure how to report inline tags with [`onInlineTags`](./api/plugins/plugin-content-blog.mdx#onInlineTags).
+In the following example:
 
-Blog post tags can be declared directly inside the front matter in different ways:
+- `docusaurus` references a predefined tag key declared in `blog/tags.yml`
+- `Releases` is an inline tag, because it does not exist in `blog/tags.yml`
 
-```md title="my-blog-post.md"
+```md title="blog/my-post.md"
 ---
-tags: [hello, docusaurus]
----
-```
-
-```md title="my-blog-post.md"
----
+title: 'My blog post'
 tags:
-  - hello
+  - Releases
   - docusaurus
 ---
+
+Content
 ```
 
-### Global tags {#global-tags}
-
-Global tags are declared in a configuration file which then tag's key can be referenced in the blog post front matter.
-
-See [the API documentation](./api/plugins/plugin-content-blog.mdx#markdown-front-matter) to learn about `tags.yml`.
+```yml title="blog/tags.yml"
+docusaurus:
+  label: 'Docusaurus'
+  permalink: '/docusaurus'
+  description: 'Blog posts related to the Docusaurus framework'
+```
 
 ## Reading time {#reading-time}
 

@@ -62,14 +62,14 @@ The [front matter](../markdown-features/markdown-features-intro.mdx#front-matter
 
 Tags are declared in the front matter and introduce another dimension of categorization in addition to the [docs sidebar](./sidebar/index.mdx).
 
-It is possible to define tags inline, or to reference predefined tags declared in a [`tags file`](../../api/plugins/plugin-content-blog.mdx#tags-file) (optional, usually `docs/tags.yml`).
+It is possible to define tags inline, or to reference predefined tags declared in a [`tags file`](../../api/plugins/plugin-content-docs.mdx#tags-file) (optional, usually `docs/tags.yml`).
 
 In the following example:
 
 - `docusaurus` references a predefined tag key declared in `docs/tags.yml`
 - `Releases` is an inline tag, because it does not exist in `docs/tags.yml`
 
-```md title="my-doc.md"
+```md title="docs/my-doc.md"
 ---
 tags:
   - Releases
