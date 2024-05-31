@@ -234,9 +234,23 @@ describe('blog plugin', () => {
           },
           'slorber',
         ],
+        tags: ['inlineTag', 'globalTag'],
         title: 'Happy 1st Birthday Slash! (translated)',
       },
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag',
+          permalink: '/blog/tags/inline-tag',
+        },
+        {
+          description: 'Global Tag description (en)',
+          inline: false,
+          label: 'Global Tag label (en)',
+          permalink: '/blog/tags/global-tag-permalink (en)',
+        },
+      ],
       prevItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
