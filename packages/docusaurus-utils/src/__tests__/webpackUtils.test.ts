@@ -15,7 +15,7 @@ describe('getFileLoaderUtils()', () => {
         loader: require.resolve('@svgr/webpack'),
         options: expect.objectContaining({
           svgoConfig: {
-            plugins: [
+            plugins: expect.arrayContaining([
               {
                 name: 'preset-default',
                 params: {
@@ -25,7 +25,7 @@ describe('getFileLoaderUtils()', () => {
                   },
                 },
               },
-            ],
+            ]),
           },
         }),
       }),

@@ -12,6 +12,7 @@ import {
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from './constants';
 import type {RuleSetRule, LoaderContext} from 'webpack';
+import type {PluginsParams} from 'svgo/plugins/plugins-types';
 
 export type WebpackCompilerName = 'server' | 'client';
 
@@ -145,6 +146,13 @@ export function getFileLoaderUtils(): FileLoaderUtils {
                           removeViewBox: false,
                         },
                       },
+                    },
+                    {
+                      name: 'prefixIds',
+                      params: {
+                        delim: '',
+                        prefix: (_, info) => path.parse(info.path!).name,
+                      } as PluginsParams['prefixIds'],
                     },
                   ],
                 },
