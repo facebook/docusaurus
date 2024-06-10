@@ -131,7 +131,7 @@ describe('loadFreshModule', () => {
       );
 
       // Should be able to read the initial module graph
-      await expect(entryFile.load()).resolves.toEqual({
+      expect(entryFile.load()).toEqual({
         someEntryValue: 'entryVal',
         dependency1: {
           dep1Export: 'dep1 val1',
@@ -141,11 +141,11 @@ describe('loadFreshModule', () => {
           dep2Val: 'dep2 val',
         },
       });
-      await expect(dependency1.load()).resolves.toEqual({
+      expect(dependency1.load()).toEqual({
         dep1Export: 'dep1 val1',
         dep1Val: 'dep1 val2',
       });
-      await expect(dependency2.load()).resolves.toEqual({
+      expect(dependency2.load()).toEqual({
         dep2Val: 'dep2 val',
       });
 
@@ -158,7 +158,7 @@ describe('loadFreshModule', () => {
           export default {dep1Val: "dep1 val2 updated"}
         `,
       );
-      await expect(entryFile.load()).resolves.toEqual({
+      expect(entryFile.load()).toEqual({
         someEntryValue: 'entryVal',
         dependency1: {
           dep1Export: 'dep1 val1 updated',
@@ -168,11 +168,11 @@ describe('loadFreshModule', () => {
           dep2Val: 'dep2 val',
         },
       });
-      await expect(dependency1.load()).resolves.toEqual({
+      expect(dependency1.load()).toEqual({
         dep1Export: 'dep1 val1 updated',
         dep1Val: 'dep1 val2 updated',
       });
-      await expect(dependency2.load()).resolves.toEqual({
+      expect(dependency2.load()).toEqual({
         dep2Val: 'dep2 val',
       });
 
@@ -183,7 +183,7 @@ describe('loadFreshModule', () => {
           export default {dep2Val: "dep2 val updated"} satisfies {dep2Val: string}
         `,
       );
-      await expect(entryFile.load()).resolves.toEqual({
+      expect(entryFile.load()).toEqual({
         someEntryValue: 'entryVal',
         dependency1: {
           dep1Export: 'dep1 val1 updated',
@@ -193,11 +193,11 @@ describe('loadFreshModule', () => {
           dep2Val: 'dep2 val updated',
         },
       });
-      await expect(dependency1.load()).resolves.toEqual({
+      expect(dependency1.load()).toEqual({
         dep1Export: 'dep1 val1 updated',
         dep1Val: 'dep1 val2 updated',
       });
-      await expect(dependency2.load()).resolves.toEqual({
+      expect(dependency2.load()).toEqual({
         dep2Val: 'dep2 val updated',
       });
 
@@ -216,7 +216,7 @@ describe('loadFreshModule', () => {
         }
         `,
       );
-      await expect(entryFile.load()).resolves.toEqual({
+      expect(entryFile.load()).toEqual({
         someEntryValue: 'entryVal updated',
         newAttribute: 'is there',
         dependency1: {
@@ -227,11 +227,11 @@ describe('loadFreshModule', () => {
           dep2Val: 'dep2 val updated',
         },
       });
-      await expect(dependency1.load()).resolves.toEqual({
+      expect(dependency1.load()).toEqual({
         dep1Export: 'dep1 val1 updated',
         dep1Val: 'dep1 val2 updated',
       });
-      await expect(dependency2.load()).resolves.toEqual({
+      expect(dependency2.load()).toEqual({
         dep2Val: 'dep2 val updated',
       });
     });
@@ -239,48 +239,48 @@ describe('loadFreshModule', () => {
 
   describe('invalid module path param', () => {
     it('throws if module path does not exist', async () => {
-      await expect(() => loadFreshModule('/some/unknown/module/path.js'))
-        .rejects.toThrowErrorMatchingInlineSnapshot(`
+      expect(() => loadFreshModule('/some/unknown/module/path.js'))
+        .toThrowErrorMatchingInlineSnapshot(`
         "Docusaurus could not load module at path "/some/unknown/module/path.js"
         Cause: Cannot find module '/some/unknown/module/path.js' from 'packages/docusaurus-utils/src/moduleUtils.ts'"
       `);
     });
 
     it('throws if module path is undefined', async () => {
-      await expect(() =>
+      expect(() =>
         // @ts-expect-error: undefined is invalid
         loadFreshModule(undefined),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      ).toThrowErrorMatchingInlineSnapshot(`
               "Docusaurus could not load module at path "undefined"
               Cause: Invalid module path of type undefined"
           `);
     });
 
     it('throws if module path is null', async () => {
-      await expect(() =>
+      expect(() =>
         // @ts-expect-error: null is invalid
         loadFreshModule(null),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      ).toThrowErrorMatchingInlineSnapshot(`
               "Docusaurus could not load module at path "null"
               Cause: Invalid module path of type null"
           `);
     });
 
     it('throws if module path is number', async () => {
-      await expect(() =>
+      expect(() =>
         // @ts-expect-error: number is invalid
         loadFreshModule(42),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      ).toThrowErrorMatchingInlineSnapshot(`
               "Docusaurus could not load module at path "42"
               Cause: Invalid module path of type 42"
           `);
     });
 
     it('throws if module path is object', async () => {
-      await expect(() =>
+      expect(() =>
         // @ts-expect-error: object is invalid
         loadFreshModule({}),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      ).toThrowErrorMatchingInlineSnapshot(`
               "Docusaurus could not load module at path "[object Object]"
               Cause: Invalid module path of type [object Object]"
           `);

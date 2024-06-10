@@ -6,11 +6,16 @@
  */
 
 import path from 'path';
+import logger from '@docusaurus/logger';
 import {escapePath} from './pathUtils';
 import {
+  GENERATED_FILES_DIR_NAME,
   WEBPACK_URL_LOADER_LIMIT,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
+  SVGO_CONFIG_FILE_NAME,
+  SVGO_DEFAULT_CONFIG,
 } from './constants';
+import {loadFreshModule} from './moduleUtils';
 import type {RuleSetRule, LoaderContext} from 'webpack';
 
 export type WebpackCompilerName = 'server' | 'client';
@@ -59,6 +64,18 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   // Files/images < urlLoaderLimit will be inlined as base64 strings directly in
   // the html
   const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
+
+  const svgoConfigPath = path.resolve(
+    GENERATED_FILES_DIR_NAME,
+    SVGO_CONFIG_FILE_NAME,
+  );
+  let svgoConfig;
+  try {
+    svgoConfig = loadFreshModule(svgoConfigPath);
+  } catch {
+    logger.interpolate`Docusaurus could not load SVGO config at path path=${svgoConfigPath}\nUsing default configuration`;
+    svgoConfig = SVGO_DEFAULT_CONFIG;
+  }
 
   const fileLoaderFileName = (folder: AssetFolder) =>
     path.posix.join(
@@ -135,19 +152,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
               options: {
                 prettier: false,
                 svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    {
-                      name: 'preset-default',
-                      params: {
-                        overrides: {
-                          removeTitle: false,
-                          removeViewBox: false,
-                        },
-                      },
-                    },
-                  ],
-                },
+                svgoConfig,
                 titleProp: true,
                 ref: ![path],
               },

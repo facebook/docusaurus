@@ -11,7 +11,7 @@ import logger from '@docusaurus/logger';
 /*
 jiti is able to load ESM, CJS, JSON, TS modules
  */
-export async function loadFreshModule(modulePath: string): Promise<unknown> {
+export function loadFreshModule(modulePath: string): unknown {
   try {
     if (typeof modulePath !== 'string') {
       throw new Error(

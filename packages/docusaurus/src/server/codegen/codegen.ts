@@ -5,10 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import {
   generate,
   escapePath,
   DEFAULT_CONFIG_FILE_NAME,
+  SVGO_CONFIG_FILE_NAME,
+  SVGO_DEFAULT_CONFIG,
 } from '@docusaurus/utils';
 import {generateRouteFiles} from './codegenRoutes';
 import type {
@@ -146,6 +149,24 @@ function genSiteStorage({
   );
 }
 
+async function getSvgoConfig({generatedFilesDir}: {generatedFilesDir: string}) {
+  let svgoConfig;
+
+  if (await fs.pathExists(SVGO_CONFIG_FILE_NAME)) {
+    svgoConfig = await fs.readFile(SVGO_CONFIG_FILE_NAME, 'utf-8');
+  } else {
+    svgoConfig = `export default ${JSON.stringify(
+      {
+        SVGO_DEFAULT_CONFIG,
+      },
+      null,
+      2,
+    )}`;
+  }
+
+  return generate(generatedFilesDir, SVGO_CONFIG_FILE_NAME, svgoConfig);
+}
+
 type CodegenParams = {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
@@ -170,5 +191,6 @@ export async function generateSiteFiles(params: CodegenParams): Promise<void> {
     genSiteStorage(params),
     genI18n(params),
     genCodeTranslations(params),
+    getSvgoConfig(params),
   ]);
 }
