@@ -28,6 +28,7 @@ import {
   shouldBeListed,
   applyProcessBlogPosts,
   generateBlogPosts,
+  getBlogPageAuthors,
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
@@ -44,6 +45,7 @@ import type {
   BlogTags,
   BlogContent,
   BlogPaginated,
+  BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
 import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader/lib/loader';
 import type {RuleSetUseItem} from 'webpack';
@@ -156,6 +158,7 @@ export default async function pluginContentBlog(
         postsPerPage: postsPerPageOption,
         routeBasePath,
         tagsBasePath,
+        authorsPageBasePath,
         blogDescription,
         blogTitle,
         blogSidebarTitle,
@@ -164,6 +167,10 @@ export default async function pluginContentBlog(
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
+      const blogAuthorsListPath = normalizeUrl([
+        baseBlogUrl,
+        authorsPageBasePath,
+      ]);
       let blogPosts = await generateBlogPosts(contentPaths, context, options);
       blogPosts = await applyProcessBlogPosts({
         blogPosts,
@@ -178,6 +185,8 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
+          blogPageAuthors: {},
+          blogAuthorsListPath,
         };
       }
 
@@ -220,12 +229,23 @@ export default async function pluginContentBlog(
         pageBasePath,
       });
 
+      const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
+        // TODO shouldn't we use listedBlogPosts here? (same for tags)
+        blogPosts,
+        postsPerPageOption,
+        blogDescription,
+        blogTitle,
+        pageBasePath,
+      });
+
       return {
         blogSidebarTitle,
         blogPosts,
         blogListPaginated,
         blogTags,
         blogTagsListPath,
+        blogPageAuthors,
+        blogAuthorsListPath,
       };
     },
 

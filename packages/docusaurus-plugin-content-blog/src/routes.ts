@@ -13,7 +13,12 @@ import {
 } from '@docusaurus/utils';
 import {shouldBeListed} from './blogUtils';
 
-import {toTagProp, toTagsProp} from './props';
+import {
+  toPageAuthorProp,
+  toPageAuthorsProp,
+  toTagProp,
+  toTagsProp,
+} from './props';
 import type {
   PluginContentLoadedActions,
   RouteConfig,
@@ -27,6 +32,7 @@ import type {
   PluginOptions,
   BlogPost,
   BlogSidebar,
+  BlogPageAuthor,
 } from '@docusaurus/plugin-content-blog';
 
 type CreateAllRoutesParam = {
@@ -55,6 +61,8 @@ export async function buildAllRoutes({
     blogListComponent,
     blogPostComponent,
     blogTagsListComponent,
+    blogAuthorsListComponent,
+    blogAuthorsPostsComponent,
     blogTagsPostsComponent,
     blogArchiveComponent,
     routeBasePath,
@@ -68,7 +76,9 @@ export async function buildAllRoutes({
     blogPosts,
     blogListPaginated,
     blogTags,
+    blogPageAuthors,
     blogTagsListPath,
+    blogAuthorsListPath,
   } = content;
 
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
@@ -254,10 +264,59 @@ export async function buildAllRoutes({
     return [tagsListRoute, ...tagsPaginatedRoutes];
   }
 
+  function createAuthorsRoutes(): RouteConfig[] {
+    // Check if we should generate the authors page and if there are authors.
+    if (
+      !options.generateAuthorsPage ||
+      Object.keys(blogPageAuthors).length === 0
+    ) {
+      return [];
+    }
+
+    const authorsListRoute: RouteConfig = {
+      path: blogAuthorsListPath,
+      component: blogAuthorsListComponent,
+      exact: true,
+      modules: {
+        sidebar: sidebarModulePath,
+      },
+      props: {
+        authors: toPageAuthorsProp({blogPageAuthors}),
+      },
+    };
+
+    function createAuthorPaginatedRoutes(
+      author: BlogPageAuthor,
+    ): RouteConfig[] {
+      return author.pages.map(({metadata, items}) => {
+        return {
+          path: metadata.permalink,
+          component: blogAuthorsPostsComponent,
+          exact: true,
+          modules: {
+            items: blogPostItemsModule(items),
+            sidebar: sidebarModulePath,
+          },
+          props: {
+            author: toPageAuthorProp({author, blogAuthorsListPath}),
+            listMetadata: metadata,
+          },
+        };
+      });
+    }
+
+    const authorsPaginatedRoutes: RouteConfig[] = Object.values(
+      blogPageAuthors,
+    ).flatMap(createAuthorPaginatedRoutes);
+
+    return [authorsListRoute, ...authorsPaginatedRoutes];
+  }
+
   return [
     ...createBlogPostRoutes(),
     ...createBlogPostsPaginatedRoutes(),
     ...createTagsRoutes(),
     ...createArchiveRoute(),
+    ...createAuthorsRoutes(),
   ];
 }

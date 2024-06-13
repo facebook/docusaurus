@@ -15,6 +15,7 @@ declare module '@docusaurus/plugin-content-blog' {
     LastUpdateData,
     FrontMatterLastUpdate,
     TagsPluginOptions,
+    PageAuthor,
   } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
@@ -41,37 +42,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * should be accessed through `authors.imageURL`.
      */
     authorsImageUrls: (string | undefined)[];
-  };
-
-  export type Author = {
-    /**
-     * If `name` doesn't exist, an `imageURL` is expected.
-     */
-    name?: string;
-    /**
-     * The image path could be collocated, in which case
-     * `metadata.assets.authorsImageUrls` should be used instead. If `imageURL`
-     * doesn't exist, a `name` is expected.
-     */
-    imageURL?: string;
-    /**
-     * Used to generate the author's link.
-     */
-    url?: string;
-    /**
-     * Used as a subtitle for the author, e.g. "maintainer of Docusaurus"
-     */
-    title?: string;
-    /**
-     * Mainly used for RSS feeds; if `url` doesn't exist, `email` can be used
-     * to generate a fallback `mailto:` URL.
-     */
-    email?: string;
-    /**
-     * Unknown keys are allowed, so that we can pass custom fields to authors,
-     * e.g., `twitter`.
-     */
-    [key: string]: unknown;
   };
 
   /**
@@ -238,6 +208,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Tags, normalized. */
     readonly tags: TagMetadata[];
     /**
+     * Page authors, for use in the Authors grouping page.
+     */
+    readonly pageAuthors: PageAuthor[];
+    /**
      * Marks the post as unlisted and visibly hides it unless directly accessed.
      */
     readonly unlisted: boolean;
@@ -398,6 +372,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
       blogTagsListComponent: string;
       /** Root component of the "posts containing tag" page. */
       blogTagsPostsComponent: string;
+      /** Root component of the authors list page. */
+      blogAuthorsListComponent: string;
+      /** Root component of the "posts containing author" page. */
+      blogAuthorsPostsComponent: string;
       /** Root component of the blog archive page. */
       blogArchiveComponent: string;
       /** Blog page title for better SEO. */
@@ -442,6 +420,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
        *  (filter, modify, delete, etc...).
        */
       processBlogPosts: ProcessBlogPostsFn;
+      /* Whether to show the authors page */
+      generateAuthorsPage: boolean;
+      /* Base path for the authors page */
+      authorsPageBasePath: string;
     };
 
   /**
@@ -482,6 +464,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
+    blogPageAuthors: BlogPageAuthors;
+    blogAuthorsListPath: string;
   };
 
   export type BlogMetadata = {
@@ -496,6 +480,17 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
   };
 
   export type BlogTag = TagMetadata & {
+    /** Blog post permalinks. */
+    items: string[];
+    pages: BlogPaginated[];
+    unlisted: boolean;
+  };
+
+  export type BlogPageAuthors = {
+    [permalink: string]: BlogPageAuthor;
+  };
+
+  export type BlogPageAuthor = PageAuthor & {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];
@@ -645,6 +640,45 @@ declare module '@theme/BlogTagsListPage' {
   }
 
   export default function BlogTagsListPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogAuthorsListPage' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+  import type {PageAuthorsListItem} from '@docusaurus/utils';
+
+  export interface Props {
+    /** Blog sidebar. */
+    readonly sidebar: BlogSidebar;
+    /** All authors declared in this blog. */
+    readonly authors: PageAuthorsListItem[];
+  }
+
+  export default function BlogAuthorsListPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogAuthorsPostsPage' {
+  import type {Content} from '@theme/BlogPostPage';
+  import type {
+    BlogSidebar,
+    BlogPaginatedMetadata,
+  } from '@docusaurus/plugin-content-blog';
+  import type {AuthorModule} from '@docusaurus/utils';
+
+  export interface Props {
+    /** Blog sidebar. */
+    readonly sidebar: BlogSidebar;
+    /** Metadata of this author. */
+    readonly author: AuthorModule;
+    /** Looks exactly the same as the posts list page */
+    readonly listMetadata: BlogPaginatedMetadata;
+    /**
+     * Array of blog posts included on this page. Every post's metadata is also
+     * available.
+     */
+    readonly items: readonly {readonly content: Content}[];
+  }
+
+  export default function BlogAuthorsPostsPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogTagsPostsPage' {

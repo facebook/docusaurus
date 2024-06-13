@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
+import {getDataFileData, normalizeUrl, type Author} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import logger from '@docusaurus/logger';
 import type {BlogContentPaths} from './types';
 import type {
-  Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
@@ -123,6 +123,11 @@ function normalizeFrontMatterAuthors(
       // we only support keys, otherwise, a typo in a key would fallback to
       // becoming a name and may end up unnoticed
       return {key: authorInput};
+    } else if (typeof authorInput === 'object' && !('key' in authorInput)) {
+      return {
+        ...authorInput,
+        inline: true,
+      };
     }
     return authorInput;
   }
@@ -171,7 +176,7 @@ ${Object.keys(authorsMap)
 function fixAuthorImageBaseURL(
   authors: Author[],
   {baseUrl}: {baseUrl: string},
-) {
+): Author[] {
   return authors.map((author) => ({
     ...author,
     imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
@@ -194,6 +199,34 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
       );
     }
     return [authorLegacy];
+  }
+
+  const inlineAuthors = updatedAuthors.filter((author) => author.inline);
+
+  const duplicateList = updatedAuthors.filter(
+    (author, index, self) =>
+      index !== self.findIndex((t) => t.name === author.name),
+  );
+
+  // TODO need title check otherwise reports weird cases
+  if (inlineAuthors.length > 0 && params.frontMatter.title) {
+    logger.warn(
+      `Inline authors found in blog [${
+        params.frontMatter.title
+      }] ${inlineAuthors.map((author) => author.name).join(', ')}`,
+    );
+  }
+
+  // TODO need title check otherwise reports weird cases
+  if (duplicateList.length > 0 && params.frontMatter.title) {
+    console.log('duplicateList', duplicateList);
+    logger.error(
+      `Duplicate authors found in blog post ${params.frontMatter.title} [${
+        params.frontMatter.slug
+      }] front matter: ${duplicateList
+        .map((author) => author.name)
+        .join(', ')}`,
+    );
   }
 
   return updatedAuthors;

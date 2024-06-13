@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {Feed, type Author as FeedAuthor} from 'feed';
 import * as srcset from 'srcset';
-import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
+import {normalizeUrl, readOutputHTMLFile, type Author} from '@docusaurus/utils';
 import {
   blogPostContainerID,
   applyTrailingSlash,
@@ -20,7 +20,6 @@ import type {DocusaurusConfig, HtmlTags, LoadContext} from '@docusaurus/types';
 import type {
   FeedType,
   PluginOptions,
-  Author,
   BlogPost,
   BlogFeedItem,
 } from '@docusaurus/plugin-content-blog';

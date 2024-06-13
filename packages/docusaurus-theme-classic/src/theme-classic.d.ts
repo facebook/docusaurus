@@ -281,8 +281,12 @@ declare module '@theme/BlogPostItem/Header/Info' {
 declare module '@theme/BlogPostItem/Header/Author' {
   import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
+  type AuthorProps = PropBlogPostContent['metadata']['authors'][number] & {
+    twitter?: string;
+    github?: string;
+  };
   export interface Props {
-    readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly author: AuthorProps;
     readonly className?: string;
   }
 
@@ -1526,6 +1530,33 @@ declare module '@theme/Tag' {
   export interface Props extends Optional<TagsListItem, 'count'> {}
 
   export default function Tag(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogAuthorPage/AuthorsListByLetter' {
+  import type {PageAuthorsListItem} from '@docusaurus/utils';
+
+  export interface Props {
+    readonly authors: readonly PageAuthorsListItem[];
+  }
+  export default function AuthorsListByLetter(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogAuthorPage/AuthorsListInline' {
+  import type {PageAuthor} from '@docusaurus/utils';
+
+  export interface Props {
+    readonly authors: readonly PageAuthor[];
+  }
+  export default function AuthorsListInline(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogAuthorPage/Author' {
+  import type {PageAuthorsListItem} from '@docusaurus/utils';
+  import type {Optional} from 'utility-types';
+
+  export interface Props extends Optional<PageAuthorsListItem, 'count'> {}
+
+  export default function Author(props: Props): JSX.Element;
 }
 
 declare module '@theme/Unlisted' {

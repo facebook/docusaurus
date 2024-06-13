@@ -4,8 +4,18 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import type {TagsListItem, TagModule} from '@docusaurus/utils';
-import type {BlogTag, BlogTags} from '@docusaurus/plugin-content-blog';
+import type {
+  TagsListItem,
+  TagModule,
+  AuthorsListItem,
+  AuthorModule,
+} from '@docusaurus/utils';
+import type {
+  BlogPageAuthor,
+  BlogPageAuthors,
+  BlogTag,
+  BlogTags,
+} from '@docusaurus/plugin-content-blog';
 
 export function toTagsProp({blogTags}: {blogTags: BlogTags}): TagsListItem[] {
   return Object.values(blogTags)
@@ -32,5 +42,41 @@ export function toTagProp({
     allTagsPath: blogTagsListPath,
     count: tag.items.length,
     unlisted: tag.unlisted,
+  };
+}
+
+export function toPageAuthorsProp({
+  blogPageAuthors,
+}: {
+  blogPageAuthors: BlogPageAuthors;
+}): AuthorsListItem[] {
+  return Object.values(blogPageAuthors)
+    .filter((author) => !author.unlisted)
+    .map((author) => ({
+      name: author.name,
+      permalink: author.permalink,
+      count: author.items.length,
+      url: author.url,
+      email: author.email,
+      title: author.title,
+    }));
+}
+
+export function toPageAuthorProp({
+  blogAuthorsListPath,
+  author,
+}: {
+  blogAuthorsListPath: string;
+  author: BlogPageAuthor;
+}): AuthorModule {
+  return {
+    name: author.name,
+    permalink: author.permalink,
+    allAuthorsPath: blogAuthorsListPath,
+    count: author.items.length,
+    unlisted: author.unlisted,
+    url: author.url,
+    email: author.email,
+    title: author.title,
   };
 }

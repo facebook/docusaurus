@@ -26,6 +26,9 @@ import {
   isDraft,
   readLastUpdateData,
   normalizeTags,
+  getAuthorVisibility,
+  groupAuthoredItems,
+  normalizeFrontMatterPageAuthors,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
@@ -38,6 +41,7 @@ import type {
   BlogPost,
   BlogTags,
   BlogPaginated,
+  BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths} from './types';
 
@@ -133,6 +137,59 @@ export function getBlogTags({
     };
   });
 }
+
+export function getBlogPageAuthors({
+  blogPosts,
+  ...params
+}: {
+  blogPosts: BlogPost[];
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
+}): BlogPageAuthors {
+  const getPostPageAuthors = (blogPost: BlogPost) =>
+    blogPost.metadata.pageAuthors;
+
+  const groups = groupAuthoredItems(blogPosts, getPostPageAuthors);
+
+  return _.mapValues(groups, ({author, items: authorBlogPosts}) => {
+    const authorVisibility = getAuthorVisibility({
+      items: authorBlogPosts,
+      isUnlisted: (item: BlogPost) => item.metadata.unlisted,
+    });
+    return {
+      name: author.name,
+      url: author.url,
+      title: author.title,
+      email: author.email,
+      items: authorVisibility.listedItems.map((item: BlogPost) => item.id),
+      permalink: author.permalink,
+      pages: author.permalink
+        ? paginateBlogPosts({
+            blogPosts: authorVisibility.listedItems,
+            basePageUrl: author.permalink,
+            ...params,
+          })
+        : [],
+      unlisted: authorVisibility.unlisted,
+    };
+  });
+}
+
+// // ? is it useful ?
+// function filterPageAuthors(authors: Author[]): PageAuthor[] {
+//   return authors
+//     .filter((author) => author.name !== undefined && author.name.length > 0)
+//     .map((author) => ({
+//       name: author.name!,
+//       permalink: _.kebabCase(author.key as string),
+//       url: author.url,
+//       title: author.title,
+//       email: author.email,
+//     }))
+//     .filter((pageAuthor) => pageAuthor.permalink.length > 0);
+// }
 
 const DATE_FILENAME_REGEX =
   /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(?:\/index)?.mdx?$/;
@@ -317,7 +374,6 @@ async function processBlogSourceFile(
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
 
   const tags = normalizeTags({
     options,
@@ -326,6 +382,17 @@ async function processBlogSourceFile(
     tagsBaseRoutePath,
     tagsFile,
   });
+
+  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+  const authorsBaseRoutePath = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    options.authorsPageBasePath,
+  ]);
+
+  const pageAuthors = options.generateAuthorsPage
+    ? normalizeFrontMatterPageAuthors(authorsBaseRoutePath, authors)
+    : [];
 
   return {
     id: slug,
@@ -350,6 +417,7 @@ async function processBlogSourceFile(
       unlisted,
       lastUpdatedAt: lastUpdate.lastUpdatedAt,
       lastUpdatedBy: lastUpdate.lastUpdatedBy,
+      pageAuthors,
     },
     content,
   };
