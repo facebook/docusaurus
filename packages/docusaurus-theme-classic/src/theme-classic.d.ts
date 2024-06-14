@@ -1533,10 +1533,10 @@ declare module '@theme/Tag' {
 }
 
 declare module '@theme/BlogAuthorPage/AuthorsListByLetter' {
-  import type {PageAuthorsListItem} from '@docusaurus/utils';
+  import type {AuthorsListItem} from '@docusaurus/utils';
 
   export interface Props {
-    readonly authors: readonly PageAuthorsListItem[];
+    readonly authors: readonly AuthorsListItem[];
   }
   export default function AuthorsListByLetter(props: Props): JSX.Element;
 }
@@ -1551,10 +1551,10 @@ declare module '@theme/BlogAuthorPage/AuthorsListInline' {
 }
 
 declare module '@theme/BlogAuthorPage/Author' {
-  import type {PageAuthorsListItem} from '@docusaurus/utils';
+  import type {AuthorsListItem} from '@docusaurus/utils';
   import type {Optional} from 'utility-types';
 
-  export interface Props extends Optional<PageAuthorsListItem, 'count'> {}
+  export interface Props extends Optional<AuthorsListItem, 'count'> {}
 
   export default function Author(props: Props): JSX.Element;
 }

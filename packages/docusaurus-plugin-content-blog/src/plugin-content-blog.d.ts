@@ -644,13 +644,13 @@ declare module '@theme/BlogTagsListPage' {
 
 declare module '@theme/BlogAuthorsListPage' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
-  import type {PageAuthorsListItem} from '@docusaurus/utils';
+  import type {AuthorsListItem} from '@docusaurus/utils';
 
   export interface Props {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** All authors declared in this blog. */
-    readonly authors: PageAuthorsListItem[];
+    readonly authors: AuthorsListItem[];
   }
 
   export default function BlogAuthorsListPage(props: Props): JSX.Element;
