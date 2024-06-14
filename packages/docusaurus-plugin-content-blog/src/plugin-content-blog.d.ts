@@ -16,6 +16,7 @@ declare module '@docusaurus/plugin-content-blog' {
     FrontMatterLastUpdate,
     TagsPluginOptions,
     PageAuthor,
+    Author,
   } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
