@@ -12,6 +12,8 @@ import Link, {type Props as LinkProps} from '@docusaurus/Link';
 import {useBlogPost} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogPostItem/Header/Author';
 
+import styles from './styles.module.css';
+
 type SocialProps = SVGProps<SVGSVGElement> & {
   user: string;
 };
@@ -24,12 +26,17 @@ function Twitter(props: SocialProps) {
   const twitterUrl = getUrl(props.user, 'https://x.com/');
   return (
     // eslint-disable-next-line @docusaurus/no-html-links
-    <a href={twitterUrl} target="_blank" rel="noreferrer noopener">
+    <a
+      href={twitterUrl}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={clsx(styles.socialIcon)}>
       <svg
         viewBox="0 0 256 209"
         width="1.5em"
         height="1.5em"
         xmlns="http://www.w3.org/2000/svg"
+        className={clsx(styles.socialIcon)}
         preserveAspectRatio="xMidYMid"
         {...props}>
         <path
@@ -45,12 +52,16 @@ function Github(props: SocialProps) {
   const githubUrl = getUrl(props.user, 'https://github.com/');
   return (
     // eslint-disable-next-line @docusaurus/no-html-links
-    <a href={githubUrl} target="_blank" rel="noreferrer noopener">
+    <a
+      href={githubUrl}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={clsx(styles.socialIcon)}>
       <svg
+        className={clsx(styles.socialIcon)}
         viewBox="0 0 256 250"
         width="1.5em"
         height="1.5em"
-        fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid"
         {...props}>
@@ -84,7 +95,7 @@ export default function BlogPostItemHeaderAuthor({
     authorPermalink || url || (email && `mailto:${email}`) || undefined;
 
   const renderSocialMedia = () => (
-    <div>
+    <div className={clsx(styles.authorSocial)}>
       {twitter && <Twitter user={twitter as string} />}
       {github && <Github user={github as string} />}
     </div>
