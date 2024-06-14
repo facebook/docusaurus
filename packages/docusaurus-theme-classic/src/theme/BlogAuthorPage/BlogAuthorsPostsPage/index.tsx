@@ -84,7 +84,7 @@ function BlogAuthorsPostsPageContent({
           )}
           {author.url && (
             <li>
-              <Link href={author.url}>Personnal website</Link>
+              <Link href={author.url}>Personal website</Link>
             </li>
           )}
         </ul>

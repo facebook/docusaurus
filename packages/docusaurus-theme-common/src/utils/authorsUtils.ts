@@ -25,7 +25,7 @@ function getAuthorLetter(author: string): string {
 }
 
 /**
- * Takes a list of auuthors (as provided by the content plugins), and groups
+ * Takes a list of authors (as provided by the content plugins), and groups
  * them by their initials.
  */
 export function listAuthorsByLetters(
