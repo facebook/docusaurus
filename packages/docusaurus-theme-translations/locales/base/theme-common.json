@@ -138,6 +138,8 @@
   "theme.tags.tagsPageLink___DESCRIPTION": "The label of the link targeting the tag list page",
   "theme.tags.tagsPageTitle": "Tags",
   "theme.tags.tagsPageTitle___DESCRIPTION": "The title of the tag list page",
+  "theme.authors.authorsPageLink": "View All Authors",
+  "theme.blog.authorTitle": "{nPosts} contributed by \"{authorName}\"",
   "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
   "theme.unlistedContent.message___DESCRIPTION": "The unlisted content banner message",
   "theme.unlistedContent.title": "Unlisted page",

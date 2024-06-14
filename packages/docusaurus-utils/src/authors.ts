@@ -62,10 +62,6 @@ export type AuthorModule = AuthorsListItem & {
   allAuthorsPath: string;
   /** Is this author unlisted? (when it only contains unlisted items) */
   unlisted: boolean;
-
-  title: string | undefined;
-  email: string | undefined;
-  url: string | undefined;
 };
 
 // We always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md

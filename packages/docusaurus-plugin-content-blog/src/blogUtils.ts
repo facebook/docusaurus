@@ -384,11 +384,9 @@ async function processBlogSourceFile(
   });
 
   const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
-  const authorsBaseRoutePath = normalizeUrl([
-    baseUrl,
-    routeBasePath,
-    options.authorsPageBasePath,
-  ]);
+  const authorsBaseRoutePath = options.generateAuthorsPage
+    ? normalizeUrl([baseUrl, routeBasePath, options.authorsPageBasePath])
+    : '';
 
   const pageAuthors = options.generateAuthorsPage
     ? normalizeFrontMatterPageAuthors(authorsBaseRoutePath, authors)

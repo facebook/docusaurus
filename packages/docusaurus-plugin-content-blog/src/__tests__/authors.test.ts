@@ -202,7 +202,14 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        inline: true,
+        imageURL: undefined,
+      },
+    ]);
   });
 
   it('can read authors Author[]', () => {
@@ -218,8 +225,13 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toEqual([
-      {name: 'Sébastien Lorber', title: 'maintainer'},
-      {name: 'Yangshun Tay'},
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        inline: true,
+        imageURL: undefined,
+      },
+      {name: 'Yangshun Tay', inline: true, imageURL: undefined},
     ]);
   });
 
@@ -250,8 +262,9 @@ describe('getBlogPostAuthors', () => {
         name: 'Yangshun Tay',
         title: 'Yangshun title local override',
         extra: 42,
+        imageURL: undefined,
       },
-      {name: 'Alexey'},
+      {name: 'Alexey', inline: true, imageURL: undefined},
     ]);
   });
 
