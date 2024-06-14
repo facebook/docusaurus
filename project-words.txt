@@ -22,7 +22,6 @@ Autogen
 autogenerating
 autohide
 Autolinks
-auuthors
 Bartosz
 beforeinstallprompt
 Bhatt
@@ -245,7 +244,6 @@ paraiso
 Paraiso
 pathinfo
 paularmstrong
-Personnal
 philpl
 photoshop
 Photoshop
