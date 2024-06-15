@@ -123,7 +123,9 @@ function TabContent({
       // fail-safe or fail-fast? not sure what's best here
       return null;
     }
-    return cloneElement(selectedTabItem, {className: clsx('margin-top--md', className)});
+    return cloneElement(selectedTabItem, {
+      className: clsx('margin-top--md', className),
+    });
   }
   return (
     <div className="margin-top--md">
