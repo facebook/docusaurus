@@ -643,7 +643,7 @@ declare module '@theme/BlogTagsListPage' {
   export default function BlogTagsListPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorsListPage' {
+declare module '@theme/BlogAuthorPage/BlogAuthorsListPage' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
   import type {AuthorsListItem} from '@docusaurus/utils';
 
@@ -657,7 +657,7 @@ declare module '@theme/BlogAuthorsListPage' {
   export default function BlogAuthorsListPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorsPostsPage' {
+declare module '@theme/BlogAuthorPage/BlogAuthorsPostsPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
     BlogSidebar,
