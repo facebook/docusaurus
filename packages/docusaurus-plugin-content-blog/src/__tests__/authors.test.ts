@@ -206,7 +206,6 @@ describe('getBlogPostAuthors', () => {
       {
         name: 'Sébastien Lorber',
         title: 'maintainer',
-        inline: true,
         imageURL: undefined,
       },
     ]);
@@ -228,10 +227,9 @@ describe('getBlogPostAuthors', () => {
       {
         name: 'Sébastien Lorber',
         title: 'maintainer',
-        inline: true,
         imageURL: undefined,
       },
-      {name: 'Yangshun Tay', inline: true, imageURL: undefined},
+      {name: 'Yangshun Tay', imageURL: undefined},
     ]);
   });
 
@@ -264,7 +262,7 @@ describe('getBlogPostAuthors', () => {
         extra: 42,
         imageURL: undefined,
       },
-      {name: 'Alexey', inline: true, imageURL: undefined},
+      {name: 'Alexey', imageURL: undefined},
     ]);
   });
 

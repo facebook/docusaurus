@@ -221,7 +221,6 @@ describe('blog plugin', () => {
       authors: [
         {
           name: 'Yangshun Tay (translated)',
-          inline: true,
           imageURL: undefined,
         },
         {
@@ -263,6 +262,7 @@ describe('blog plugin', () => {
           name: 'Sébastien Lorber (translated)',
           permalink: '/blog/authors/slorber',
           title: 'Docusaurus maintainer (translated)',
+          key: 'slorber',
           url: undefined,
         },
       ],
