@@ -84,7 +84,7 @@ export default function BlogPostItemHeaderAuthor({
   const {name, title, twitter, github, url, imageURL, email} = author;
   const link = url || (email && `mailto:${email}`) || undefined;
   const renderSocialMedia = () => (
-    <div className={clsx(styles.authorSocial)}>
+    <div className={clsx(styles.authorSocial, 'avatar__subtitle')}>
       {(twitter as string) && <Twitter user={twitter as string} />}
       {(github as string) && <Github user={github as string} />}
     </div>
@@ -99,6 +99,7 @@ export default function BlogPostItemHeaderAuthor({
           <img className="avatar__photo" src={imageURL} alt={name} />
         </MaybeLink>
       )}
+
       {name && (
         <div className="avatar__intro">
           <div className="avatar__name">
