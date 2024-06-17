@@ -107,7 +107,6 @@ function TabList({
 }
 
 function TabContent({
-  className,
   lazy,
   children,
   selectedValue,
@@ -124,7 +123,7 @@ function TabContent({
       return null;
     }
     return cloneElement(selectedTabItem, {
-      className: clsx('margin-top--md', className),
+      className: clsx('margin-top--md', selectedTabItem.props.className),
     });
   }
   return (
