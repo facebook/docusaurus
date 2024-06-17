@@ -59,6 +59,7 @@ export function toPageAuthorsProp({
       url: author.url,
       email: author.email,
       title: author.title,
+      key: author.key,
     }));
 }
 
@@ -78,5 +79,6 @@ export function toPageAuthorProp({
     url: author.url,
     email: author.email,
     title: author.title,
+    key: author.key,
   };
 }

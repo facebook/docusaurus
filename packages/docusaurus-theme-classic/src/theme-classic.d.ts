@@ -281,12 +281,8 @@ declare module '@theme/BlogPostItem/Header/Info' {
 declare module '@theme/BlogPostItem/Header/Author' {
   import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
 
-  type AuthorProps = PropBlogPostContent['metadata']['authors'][number] & {
-    twitter?: string;
-    github?: string;
-  };
   export interface Props {
-    readonly author: AuthorProps;
+    readonly author: PropBlogPostContent['metadata']['authors'][number];
     readonly className?: string;
   }
 

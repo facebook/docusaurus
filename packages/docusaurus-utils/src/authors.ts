@@ -45,6 +45,7 @@ export type PageAuthor = {
   /** Permalink to this author's page, without the `/authors/` base path. */
   permalink: string;
 
+  key: string | undefined;
   title: string | undefined;
   email: string | undefined;
   url: string | undefined;
@@ -88,6 +89,7 @@ function normalizeFrontMatterAuthor(
       url: undefined,
       title: undefined,
       email: undefined,
+      key: authorString,
     };
   }
 
@@ -105,6 +107,7 @@ function normalizeFrontMatterAuthor(
     url: author.url,
     title: author.title,
     email: author.email,
+    key: author.key,
   };
 }
 
@@ -125,12 +128,12 @@ export function normalizeFrontMatterPageAuthors(
   frontMatterPageAuthors: Author[] | undefined = [],
 ): PageAuthor[] {
   const pageAuthors = frontMatterPageAuthors
-    .filter((author) => author.name !== undefined && author.name.length > 0)
     .map((author) => ({
-      name: author.name!,
+      name: author.name || (author.key as string),
       url: author.url,
       title: author.title,
       email: author.email,
+      key: author.key as string,
       permalink: _.kebabCase(author.key as string),
     }))
     .filter((pageAuthor) => pageAuthor.permalink.length > 0);

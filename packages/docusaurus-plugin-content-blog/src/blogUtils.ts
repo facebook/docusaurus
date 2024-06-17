@@ -163,6 +163,7 @@ export function getBlogPageAuthors({
       url: author.url,
       title: author.title,
       email: author.email,
+      key: author.key,
       items: authorVisibility.listedItems.map((item: BlogPost) => item.id),
       permalink: author.permalink,
       pages: author.permalink
@@ -176,20 +177,6 @@ export function getBlogPageAuthors({
     };
   });
 }
-
-// // ? is it useful ?
-// function filterPageAuthors(authors: Author[]): PageAuthor[] {
-//   return authors
-//     .filter((author) => author.name !== undefined && author.name.length > 0)
-//     .map((author) => ({
-//       name: author.name!,
-//       permalink: _.kebabCase(author.key as string),
-//       url: author.url,
-//       title: author.title,
-//       email: author.email,
-//     }))
-//     .filter((pageAuthor) => pageAuthor.permalink.length > 0);
-// }
 
 const DATE_FILENAME_REGEX =
   /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(?:\/index)?.mdx?$/;
