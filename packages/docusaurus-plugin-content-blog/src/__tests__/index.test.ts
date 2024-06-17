@@ -220,9 +220,11 @@ describe('blog plugin', () => {
       authors: [
         {
           name: 'Yangshun Tay (translated)',
+          inline: true,
         },
         {
           email: 'lorber.sebastien@gmail.com',
+          imageURL: undefined,
           key: 'slorber',
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',

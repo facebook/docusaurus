@@ -218,8 +218,17 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toEqual([
-      {name: 'Sébastien Lorber', title: 'maintainer'},
-      {name: 'Yangshun Tay'},
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        inline: true,
+      },
+      {
+        name: 'Yangshun Tay',
+        imageURL: undefined,
+        inline: true,
+      },
     ]);
   });
 
@@ -250,8 +259,9 @@ describe('getBlogPostAuthors', () => {
         name: 'Yangshun Tay',
         title: 'Yangshun title local override',
         extra: 42,
+        imageURL: undefined,
       },
-      {name: 'Alexey'},
+      {name: 'Alexey', inline: true, imageURL: undefined},
     ]);
   });
 
