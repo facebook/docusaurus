@@ -202,7 +202,14 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        inline: true,
+      },
+    ]);
   });
 
   it('can read authors Author[]', () => {
