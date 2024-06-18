@@ -421,8 +421,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
        *  (filter, modify, delete, etc...).
        */
       processBlogPosts: ProcessBlogPostsFn;
-      /* Whether to show the authors page */
-      generateAuthorsPage: boolean;
       /* Base path for the authors page */
       authorsPageBasePath: string;
     };

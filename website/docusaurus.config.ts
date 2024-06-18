@@ -291,7 +291,6 @@ export default async function createConfigAsync() {
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
             language: defaultLocale,
           },
-          generateAuthorsPage: false,
         },
       ],
       [

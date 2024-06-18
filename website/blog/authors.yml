@@ -5,6 +5,7 @@ JMarcey:
   image_url: https://github.com/JoelMarcey.png
   email: jimarcey@gmail.com
   twitter: JoelMarcey
+  generateAuthorPage: true
 
 zpao:
   name: Paul O’Shannessy
@@ -13,6 +14,7 @@ zpao:
   image_url: https://github.com/zpao.png
   email: jimarcey@gmail.com
   twitter: zpao
+  generateAuthorPage: true
 
 slorber:
   name: Sébastien Lorber
@@ -22,6 +24,7 @@ slorber:
   twitter: sebastienlorber
   github: slorber
   email: sebastien@thisweekinreact.com
+  generateAuthorPage: true
 
 yangshun:
   name: Yangshun Tay
@@ -30,6 +33,7 @@ yangshun:
   image_url: https://github.com/yangshun.png
   twitter: yangshunz
   email: tay.yang.shun@gmail.com
+  generateAuthorPage: true
 
 lex111:
   name: Alexey Pyltsyn
@@ -37,6 +41,7 @@ lex111:
   url: https://github.com/lex111
   image_url: https://github.com/lex111.png
   email: lex@php.net
+  generateAuthorPage: true
 
 Josh-Cena:
   name: Joshua Chen
@@ -44,3 +49,4 @@ Josh-Cena:
   url: https://joshcena.com/
   image_url: https://github.com/josh-cena.png
   email: sidachen2003@gmail.com
+  generateAuthorPage: true

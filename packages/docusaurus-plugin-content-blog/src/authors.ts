@@ -25,6 +25,8 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>()
       imageURL: URISchema,
       title: Joi.string(),
       email: Joi.string(),
+      generateAuthorPage: Joi.bool(),
+      permalink: Joi.string(),
     })
       .rename('image_url', 'imageURL')
       .or('name', 'imageURL')
@@ -196,4 +198,35 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
   }
 
   return updatedAuthors;
+}
+
+export function checkPermalinkCollisions(
+  authorsMap: _.Dictionary<Author>,
+): void {
+  const permalinkCounts: {[key: string]: string[]} = {};
+
+  for (const [key, author] of Object.entries(authorsMap)) {
+    if (author.permalink) {
+      if (!permalinkCounts[author.permalink]) {
+        permalinkCounts[author.permalink] = [];
+      }
+      permalinkCounts[author.permalink]?.push(author.name ?? key);
+    }
+  }
+
+  const collisions = Object.entries(permalinkCounts).filter(
+    ([, authors]) => authors.length > 1,
+  );
+
+  if (collisions.length > 0) {
+    let errorMessage = 'The following permalinks are duplicated:\n';
+
+    collisions.forEach(([permalink, authors]) => {
+      errorMessage += `Permalink: ${permalink}\nAuthors: ${authors.join(
+        ', ',
+      )}\n\n`;
+    });
+
+    throw new Error(errorMessage.trim());
+  }
 }

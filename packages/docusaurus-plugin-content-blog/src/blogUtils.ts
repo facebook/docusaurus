@@ -32,7 +32,12 @@ import {
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
-import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {
+  type AuthorsMap,
+  getAuthorsMap,
+  getBlogPostAuthors,
+  checkPermalinkCollisions,
+} from './authors';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
@@ -371,13 +376,16 @@ async function processBlogSourceFile(
   });
 
   const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
-  const authorsBaseRoutePath = options.generateAuthorsPage
-    ? normalizeUrl([baseUrl, routeBasePath, options.authorsPageBasePath])
-    : '';
+  const authorsBaseRoutePath = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    options.authorsPageBasePath,
+  ]);
 
-  const pageAuthors = options.generateAuthorsPage
-    ? normalizeFrontMatterPageAuthors(authorsBaseRoutePath, authors)
-    : [];
+  const pageAuthors = normalizeFrontMatterPageAuthors(
+    authorsBaseRoutePath,
+    authors,
+  );
 
   return {
     id: slug,
@@ -428,6 +436,12 @@ export async function generateBlogPosts(
     contentPaths,
     authorsMapPath: options.authorsMapPath,
   });
+  const pageAuthorsMap = _.pickBy(
+    authorsMap,
+    (author) => author.generateAuthorPage === true,
+  );
+
+  checkPermalinkCollisions(pageAuthorsMap);
 
   const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
 

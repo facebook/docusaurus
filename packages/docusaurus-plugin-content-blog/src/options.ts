@@ -58,7 +58,6 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   processBlogPosts: async () => undefined,
   onInlineTags: 'warn',
   tags: undefined,
-  generateAuthorsPage: true,
   authorsPageBasePath: 'authors',
 };
 
@@ -163,9 +162,6 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .disallow('')
     .allow(null, false)
     .default(() => DEFAULT_OPTIONS.tags),
-  generateAuthorsPage: Joi.boolean().default(
-    DEFAULT_OPTIONS.generateAuthorsPage,
-  ),
   authorsPageBasePath: Joi.string()
     .default(DEFAULT_OPTIONS.authorsPageBasePath)
     .disallow(''),

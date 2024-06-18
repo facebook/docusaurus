@@ -265,11 +265,8 @@ export async function buildAllRoutes({
   }
 
   function createAuthorsRoutes(): RouteConfig[] {
-    // Check if we should generate the authors page and if there are authors.
-    if (
-      !options.generateAuthorsPage ||
-      Object.keys(blogPageAuthors).length === 0
-    ) {
+    // Authors. This is the last part so we early-return if there are no tags.
+    if (Object.keys(blogPageAuthors).length === 0) {
       return [];
     }
 

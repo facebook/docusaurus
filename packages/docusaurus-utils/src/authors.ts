@@ -32,6 +32,9 @@ export type Author = {
    * to generate a fallback `mailto:` URL.
    */
   email?: string;
+  // TODO add description
+  generateAuthorPage?: boolean;
+  permalink?: string;
   /**
    * Unknown keys are allowed, so that we can pass custom fields to authors,
    * e.g., `twitter`.
@@ -128,15 +131,18 @@ export function normalizeFrontMatterPageAuthors(
   frontMatterPageAuthors: Author[] | undefined = [],
 ): PageAuthor[] {
   const pageAuthors = frontMatterPageAuthors
+    .filter((author) => author.generateAuthorPage === true)
     .map((author) => ({
       name: author.name || (author.key as string),
       url: author.url,
       title: author.title,
       email: author.email,
+      // TODO investigate if the user put a key in file what will happen
       key: author.key as string,
-      permalink: _.kebabCase(author.key as string),
-    }))
-    .filter((pageAuthor) => pageAuthor.permalink.length > 0);
+      permalink: author.permalink
+        ? author.permalink
+        : _.kebabCase(author.key as string),
+    }));
 
   const authors = pageAuthors.map((author) =>
     normalizeFrontMatterAuthor(authorsBaseRoutePath, author),
