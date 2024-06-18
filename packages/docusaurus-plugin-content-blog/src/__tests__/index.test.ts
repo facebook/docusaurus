@@ -256,16 +256,7 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/global-tag-permalink (en)',
         },
       ],
-      pageAuthors: [
-        {
-          email: 'lorber.sebastien@gmail.com',
-          name: 'Sébastien Lorber (translated)',
-          permalink: '/blog/authors/slorber',
-          title: 'Docusaurus maintainer (translated)',
-          key: 'slorber',
-          url: undefined,
-        },
-      ],
+      pageAuthors: [],
       prevItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',

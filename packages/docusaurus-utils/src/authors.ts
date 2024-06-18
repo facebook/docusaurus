@@ -35,6 +35,8 @@ export type Author = {
   // TODO add description
   generateAuthorPage?: boolean;
   permalink?: string;
+  description?: string;
+
   /**
    * Unknown keys are allowed, so that we can pass custom fields to authors,
    * e.g., `twitter`.
@@ -48,7 +50,9 @@ export type PageAuthor = {
   /** Permalink to this author's page, without the `/authors/` base path. */
   permalink: string;
 
+  imageURL: string | undefined;
   key: string | undefined;
+  description: string | undefined;
   title: string | undefined;
   email: string | undefined;
   url: string | undefined;
@@ -93,6 +97,8 @@ function normalizeFrontMatterAuthor(
       title: undefined,
       email: undefined,
       key: authorString,
+      description: undefined,
+      imageURL: undefined,
     };
   }
 
@@ -111,6 +117,8 @@ function normalizeFrontMatterAuthor(
     title: author.title,
     email: author.email,
     key: author.key,
+    description: author.description,
+    imageURL: author.imageURL,
   };
 }
 
@@ -136,12 +144,14 @@ export function normalizeFrontMatterPageAuthors(
       name: author.name || (author.key as string),
       url: author.url,
       title: author.title,
+      description: author.description,
       email: author.email,
       // TODO investigate if the user put a key in file what will happen
       key: author.key as string,
       permalink: author.permalink
         ? author.permalink
         : _.kebabCase(author.key as string),
+      imageURL: author.imageURL,
     }));
 
   const authors = pageAuthors.map((author) =>

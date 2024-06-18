@@ -12,7 +12,12 @@ import type {Props} from '@theme/BlogAuthorPage/Author';
 
 import styles from './styles.module.css';
 
-export default function Author({permalink, name, count}: Props): JSX.Element {
+export default function Author({
+  permalink,
+  name,
+  count,
+  imageURL,
+}: Props): JSX.Element {
   return (
     <Link
       href={permalink}
@@ -20,6 +25,13 @@ export default function Author({permalink, name, count}: Props): JSX.Element {
         styles.author,
         count ? styles.authorWithCount : styles.authorRegular,
       )}>
+      {imageURL && (
+        <img
+          className={clsx('avatar__photo', styles.authorImage)}
+          src={imageURL}
+          alt={name}
+        />
+      )}
       {name}
       {count && <span>{count}</span>}
     </Link>

@@ -10,9 +10,9 @@ import type {AuthorsListItem} from '@docusaurus/utils';
 
 export const translateAuthorsPageTitle = (): string =>
   translate({
-    id: 'theme.tags.tagsPageTitle',
-    message: 'Tags',
-    description: 'The title of the tag list page',
+    id: 'theme.authors.authorsPageTitle',
+    message: 'Authors',
+    description: 'The title of the author list page',
   });
 
 export type AuthorLetterEntry = {

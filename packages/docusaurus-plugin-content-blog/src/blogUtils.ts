@@ -164,13 +164,8 @@ export function getBlogPageAuthors({
       isUnlisted: (item: BlogPost) => item.metadata.unlisted,
     });
     return {
-      name: author.name,
-      url: author.url,
-      title: author.title,
-      email: author.email,
-      key: author.key,
+      ...author,
       items: authorVisibility.listedItems.map((item: BlogPost) => item.id),
-      permalink: author.permalink,
       pages: author.permalink
         ? paginateBlogPosts({
             blogPosts: authorVisibility.listedItems,
@@ -376,11 +371,9 @@ async function processBlogSourceFile(
   });
 
   const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
-  const authorsBaseRoutePath = normalizeUrl([
-    baseUrl,
-    routeBasePath,
-    options.authorsPageBasePath,
-  ]);
+  const authorsBaseRoutePath = options.authorsPageBasePath
+    ? normalizeUrl([baseUrl, routeBasePath, options.authorsPageBasePath])
+    : '';
 
   const pageAuthors = normalizeFrontMatterPageAuthors(
     authorsBaseRoutePath,

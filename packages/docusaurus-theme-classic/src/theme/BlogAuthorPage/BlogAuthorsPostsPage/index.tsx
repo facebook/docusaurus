@@ -76,17 +76,12 @@ function BlogAuthorsPostsPageContent({
       <header className="margin-bottom--xl">
         <Heading as="h1">{title}</Heading>
         <ul>
-          {author.title && <li>{author.title}</li>}
-          {author.email && (
-            <li>
-              <Link href={`mailto:${author.email}`}>{author.email}</Link>
-            </li>
-          )}
           {author.url && (
             <li>
               <Link href={author.url}>Personal website</Link>
             </li>
           )}
+          {author.description && <li>{author.description}</li>}
         </ul>
         <Link href={author.allAuthorsPath}>
           <Translate

@@ -53,13 +53,8 @@ export function toPageAuthorsProp({
   return Object.values(blogPageAuthors)
     .filter((author) => !author.unlisted)
     .map((author) => ({
-      name: author.name,
-      permalink: author.permalink,
+      ...author,
       count: author.items.length,
-      url: author.url,
-      email: author.email,
-      title: author.title,
-      key: author.key,
     }));
 }
 
@@ -71,14 +66,8 @@ export function toPageAuthorProp({
   author: BlogPageAuthor;
 }): AuthorModule {
   return {
-    name: author.name,
-    permalink: author.permalink,
+    ...author,
     allAuthorsPath: blogAuthorsListPath,
     count: author.items.length,
-    unlisted: author.unlisted,
-    url: author.url,
-    email: author.email,
-    title: author.title,
-    key: author.key,
   };
 }

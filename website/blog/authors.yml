@@ -25,6 +25,9 @@ slorber:
   github: slorber
   email: sebastien@thisweekinreact.com
   generateAuthorPage: true
+  description: >
+    A freelance React and React-Native developer near Paris and Docusaurus maintainer. Also runs ThisWeekInReact.com, a newsletter to stay updated with the React ecosystem.
+
 
 yangshun:
   name: Yangshun Tay

@@ -27,6 +27,7 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>()
       email: Joi.string(),
       generateAuthorPage: Joi.bool(),
       permalink: Joi.string(),
+      description: Joi.string(),
     })
       .rename('image_url', 'imageURL')
       .or('name', 'imageURL')
