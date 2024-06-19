@@ -200,12 +200,11 @@ export function checkPermalinkCollisions(
   const permalinkCounts: {[key: string]: string[]} = {};
 
   for (const [key, author] of Object.entries(authorsMap)) {
-    if (author.permalink) {
-      if (!permalinkCounts[author.permalink]) {
-        permalinkCounts[author.permalink] = [];
-      }
-      permalinkCounts[author.permalink]?.push(author.name ?? key);
+    const permalink = normalizeUrl(['/', author.permalink || key, '/']);
+    if (!permalinkCounts[permalink]) {
+      permalinkCounts[permalink] = [];
     }
+    permalinkCounts[permalink]?.push(author.name || key);
   }
 
   const collisions = Object.entries(permalinkCounts).filter(
@@ -216,11 +215,9 @@ export function checkPermalinkCollisions(
     let errorMessage = 'The following permalinks are duplicated:\n';
 
     collisions.forEach(([permalink, authors]) => {
-      errorMessage += `Permalink: ${permalink}\nAuthors: ${authors.join(
-        ', ',
-      )}\n\n`;
+      errorMessage += `Permalink: ${permalink}\nAuthors: ${authors.join(', ')}`;
     });
 
-    throw new Error(errorMessage.trim());
+    throw new Error(errorMessage);
   }
 }
