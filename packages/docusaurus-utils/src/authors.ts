@@ -7,36 +7,10 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
+import type {Optional} from 'utility-types';
 
-export type Author = {
-  /**
-   * If `name` doesn't exist, an `imageURL` is expected.
-   */
-  name?: string;
-  /**
-   * The image path could be collocated, in which case
-   * `metadata.assets.authorsImageUrls` should be used instead. If `imageURL`
-   * doesn't exist, a `name` is expected.
-   */
-  imageURL?: string;
-  /**
-   * Used to generate the author's link.
-   */
-  url?: string;
-  /**
-   * Used as a subtitle for the author, e.g. "maintainer of Docusaurus"
-   */
-  title?: string;
-  /**
-   * Mainly used for RSS feeds; if `url` doesn't exist, `email` can be used
-   * to generate a fallback `mailto:` URL.
-   */
-  email?: string;
-  // TODO add description
+export type Author = Optional<PageAuthor> & {
   generateAuthorPage?: boolean;
-  permalink?: string;
-  description?: string;
-
   /**
    * Unknown keys are allowed, so that we can pass custom fields to authors,
    * e.g., `twitter`.
@@ -45,17 +19,34 @@ export type Author = {
 };
 
 export type PageAuthor = {
-  /** User name */
+  /**
+   * If `name` doesn't exist, an `imageURL` is expected.
+   */
   name: string;
+  /**
+   * The image path could be collocated, in which case
+   * `metadata.assets.authorsImageUrls` should be used instead. If `imageURL`
+   * doesn't exist, a `name` is expected.
+   */
+  imageURL: string;
   /** Permalink to this author's page, without the `/authors/` base path. */
   permalink: string;
+  /**
+   * Used as a subtitle for the author, e.g. "maintainer of Docusaurus"
+   */
+  title: string | undefined;
+  /**
+   * Mainly used for RSS feeds; if `url` doesn't exist, `email` can be used
+   * to generate a fallback `mailto:` URL.
+   */
+  email: string | undefined;
+  /**
+   * Used to generate the author's link.
+   */
+  url: string | undefined;
 
-  imageURL: string | undefined;
   key: string | undefined;
   description: string | undefined;
-  title: string | undefined;
-  email: string | undefined;
-  url: string | undefined;
 };
 
 /** What the authors list page should know about each author. */
@@ -72,19 +63,6 @@ export type AuthorModule = AuthorsListItem & {
   unlisted: boolean;
 };
 
-// We always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md
-// and v2/doc.md tags with custom permalinks don't lead to the same created
-// page. tagsBaseRoutePath is different for each doc version
-function normalizeAuthorPermalink({
-  authorsBaseRoutePath,
-  permalink,
-}: {
-  authorsBaseRoutePath: string;
-  permalink: string;
-}): string {
-  return normalizeUrl([authorsBaseRoutePath, permalink]);
-}
-
 function normalizeFrontMatterAuthor(
   authorsPath: string,
   author: Author,
@@ -94,17 +72,14 @@ function normalizeFrontMatterAuthor(
   const permalink = author.permalink || _.kebabCase(key);
 
   return {
-    imageURL: author.imageURL,
+    imageURL: author.imageURL ?? '',
     url: author.url,
     title: author.title,
     email: author.email,
     description: author.description,
     name,
     key,
-    permalink: normalizeAuthorPermalink({
-      permalink,
-      authorsBaseRoutePath: authorsPath,
-    }),
+    permalink: normalizeUrl([authorsPath, permalink]),
   };
 }
 
@@ -181,7 +156,6 @@ export function groupAuthoredItems<Item>(
   return result;
 }
 
-// TODO is it useful?
 /**
  * Permits to get the "author visibility" (hard to find a better name)
  * IE, is this author listed or unlisted

@@ -230,7 +230,6 @@ export default async function pluginContentBlog(
       });
 
       const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
-        // TODO shouldn't we use listedBlogPosts here? (same for tags)
         blogPosts,
         postsPerPageOption,
         blogDescription,
