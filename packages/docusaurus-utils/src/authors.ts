@@ -87,30 +87,22 @@ function normalizeAuthorPermalink({
 
 function normalizeFrontMatterAuthor(
   authorsPath: string,
-  frontMatterPageAuthor: PageAuthor,
+  author: Author,
 ): PageAuthor {
-  function toPageAuthorObject(authorString: string): PageAuthor {
-    return {
-      name: authorString,
-      permalink: _.kebabCase(authorString),
-      url: undefined,
-      title: undefined,
-      email: undefined,
-      key: authorString,
-      description: undefined,
-      imageURL: undefined,
-    };
-  }
-
-  const author: PageAuthor =
-    typeof frontMatterPageAuthor === 'string'
-      ? toPageAuthorObject(frontMatterPageAuthor)
-      : frontMatterPageAuthor;
+  const key = author.key as string;
+  const name = author.name || key;
+  const permalink = author.permalink || _.kebabCase(key);
 
   return {
-    ...author,
+    imageURL: author.imageURL,
+    url: author.url,
+    title: author.title,
+    email: author.email,
+    description: author.description,
+    name,
+    key,
     permalink: normalizeAuthorPermalink({
-      permalink: author.permalink,
+      permalink,
       authorsBaseRoutePath: authorsPath,
     }),
   };
@@ -132,25 +124,9 @@ export function normalizeFrontMatterPageAuthors(
    * `frontMatter.authors`. */
   frontMatterPageAuthors: Author[] | undefined = [],
 ): PageAuthor[] {
-  const pageAuthors = frontMatterPageAuthors
-    .filter((author) => author.generateAuthorPage === true)
-    .map((author) => ({
-      name: author.name || (author.key as string),
-      url: author.url,
-      title: author.title,
-      description: author.description,
-      email: author.email,
-      // TODO investigate if the user put a key in file what will happen
-      key: author.key as string,
-      permalink: author.permalink
-        ? author.permalink
-        : _.kebabCase(author.key as string),
-      imageURL: author.imageURL,
-    }));
-
-  const authors = pageAuthors.map((author) =>
-    normalizeFrontMatterAuthor(authorsBaseRoutePath, author),
-  );
+  const authors = frontMatterPageAuthors
+    .filter((author) => author.generateAuthorPage)
+    .map((author) => normalizeFrontMatterAuthor(authorsBaseRoutePath, author));
 
   return _.uniqBy(authors, 'permalink');
 }
