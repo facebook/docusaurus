@@ -135,7 +135,7 @@ function normalizeFrontMatterAuthors(
 }
 
 function getFrontMatterAuthors(params: AuthorsParam): Author[] {
-  const {authorsMap} = params;
+  const {authorsMap, baseUrl} = params;
   const frontMatterAuthors = normalizeFrontMatterAuthors(
     params.frontMatter.authors,
   );
@@ -160,36 +160,29 @@ ${Object.keys(authorsMap)
   }
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
-    return {
+    const author = {
       // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
+    };
+
+    return {
+      ...author,
+      imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
     };
   }
 
   return frontMatterAuthors.map(toAuthor);
 }
 
-function fixAuthorImageBaseURL(
-  authors: Author[],
-  {baseUrl}: {baseUrl: string},
-): Author[] {
-  return authors.map((author) => ({
-    ...author,
-    imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
-  }));
-}
-
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
 
-  const updatedAuthors = fixAuthorImageBaseURL(authors, params);
-
   if (authorLegacy) {
     // Technically, we could allow mixing legacy/authors front matter, but do we
     // really want to?
-    if (updatedAuthors.length > 0) {
+    if (authors.length > 0) {
       throw new Error(
         `To declare blog post authors, use the 'authors' front matter in priority.
 Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
@@ -198,7 +191,7 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
     return [authorLegacy];
   }
 
-  return updatedAuthors;
+  return authors;
 }
 
 export function checkPermalinkCollisions(
