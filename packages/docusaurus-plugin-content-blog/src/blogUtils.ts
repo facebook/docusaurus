@@ -28,7 +28,7 @@ import {
   normalizeTags,
   getAuthorVisibility,
   groupAuthoredItems,
-  normalizeFrontMatterPageAuthors,
+  normalizePageAuthors,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
@@ -375,10 +375,10 @@ async function processBlogSourceFile(
     ? normalizeUrl([baseUrl, routeBasePath, options.authorsPageBasePath])
     : '';
 
-  const pageAuthors = normalizeFrontMatterPageAuthors(
+  const pageAuthors = normalizePageAuthors({
     authorsBaseRoutePath,
     authors,
-  );
+  });
 
   return {
     id: slug,

@@ -137,5 +137,5 @@ export {
   type Author,
   getAuthorVisibility,
   groupAuthoredItems,
-  normalizeFrontMatterPageAuthors,
+  normalizePageAuthors,
 } from './authors';

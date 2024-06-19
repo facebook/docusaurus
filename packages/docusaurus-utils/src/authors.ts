@@ -63,10 +63,13 @@ export type AuthorModule = AuthorsListItem & {
   unlisted: boolean;
 };
 
-function normalizeFrontMatterAuthor(
-  authorsPath: string,
-  author: Author,
-): PageAuthor {
+function normalizePageAuthor({
+  authorsBaseRoutePath,
+  author,
+}: {
+  authorsBaseRoutePath: string;
+  author: Author;
+}): PageAuthor {
   const key = author.key as string;
   const name = author.name || key;
   const permalink = author.permalink || _.kebabCase(key);
@@ -79,31 +82,20 @@ function normalizeFrontMatterAuthor(
     description: author.description,
     name,
     key,
-    permalink: normalizeUrl([authorsPath, permalink]),
+    permalink: normalizeUrl([authorsBaseRoutePath, permalink]),
   };
 }
 
-/**
- * Takes author objects as they are defined in front matter, and normalizes each
- * into a standard author object. The permalink is created by appending the
- * sluggified label to `authorsPath`. Front matter authors already containing
- * permalinks would still have `authorsPath` prepended.
- *
- * The result will always be unique by permalinks. The behavior with colliding
- * permalinks is undetermined.
- */
-export function normalizeFrontMatterPageAuthors(
-  /** Base path to append the author permalinks to. */
-  authorsBaseRoutePath: string,
-  /** Can be `undefined`, so that we can directly pipe in
-   * `frontMatter.authors`. */
-  frontMatterPageAuthors: Author[] | undefined = [],
-): PageAuthor[] {
-  const authors = frontMatterPageAuthors
+export function normalizePageAuthors({
+  authorsBaseRoutePath,
+  authors,
+}: {
+  authorsBaseRoutePath: string;
+  authors: Author[] | undefined;
+}): PageAuthor[] {
+  return (authors ?? [])
     .filter((author) => author.generateAuthorPage)
-    .map((author) => normalizeFrontMatterAuthor(authorsBaseRoutePath, author));
-
-  return _.uniqBy(authors, 'permalink');
+    .map((author) => normalizePageAuthor({authorsBaseRoutePath, author}));
 }
 
 type AuthoredItemGroup<Item> = {
@@ -148,7 +140,7 @@ export function groupAuthoredItems<Item>(
 
   // If user add twice the same author to a md doc (weird but possible),
   // we don't want the item to appear twice in the list...
-  // TODO remove this and warn the user if we detect duplicates?
+  // TODO wait for #10224 and remove below code
   Object.values(result).forEach((group) => {
     group.items = _.uniq(group.items);
   });
