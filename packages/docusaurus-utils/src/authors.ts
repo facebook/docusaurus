@@ -108,17 +108,11 @@ function normalizeFrontMatterAuthor(
       : frontMatterPageAuthor;
 
   return {
-    name: author.name,
+    ...author,
     permalink: normalizeAuthorPermalink({
       permalink: author.permalink,
       authorsBaseRoutePath: authorsPath,
     }),
-    url: author.url,
-    title: author.title,
-    email: author.email,
-    key: author.key,
-    description: author.description,
-    imageURL: author.imageURL,
   };
 }
 
@@ -158,7 +152,7 @@ export function normalizeFrontMatterPageAuthors(
     normalizeFrontMatterAuthor(authorsBaseRoutePath, author),
   );
 
-  return _.uniqBy(authors, (author) => author.permalink);
+  return _.uniqBy(authors, 'permalink');
 }
 
 type AuthoredItemGroup<Item> = {
