@@ -206,6 +206,7 @@ export function toTagDocListProp({
   return {
     label: tag.label,
     permalink: tag.permalink,
+    description: tag.description,
     allTagsPath,
     count: tag.docIds.length,
     items: toDocListProp(),
@@ -221,6 +222,7 @@ export function toTagsListTagsProp(
     .map((tagValue) => ({
       label: tagValue.label,
       permalink: tagValue.permalink,
+      description: tagValue.description,
       count: tagValue.docIds.length,
     }));
 }

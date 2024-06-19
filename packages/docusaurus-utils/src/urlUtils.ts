@@ -90,7 +90,7 @@ export function normalizeUrl(rawUrls: string[]): string {
   // first plain protocol part.
 
   // Remove trailing slash before parameters or hash.
-  str = str.replace(/\/(?<search>\?|&|#[^!])/g, '$1');
+  str = str.replace(/\/(?<search>\?|&|#[^!/])/g, '$1');
 
   // Replace ? in parameters with &.
   const parts = str.split('?');
@@ -164,27 +164,22 @@ export function isValidPathname(str: string): boolean {
   }
 }
 
+export function parseURLOrPath(url: string, base?: string | URL): URL {
+  try {
+    // TODO when Node supports it, use URL.parse could be faster?
+    //  see https://kilianvalkhof.com/2024/javascript/the-problem-with-new-url-and-how-url-parse-fixes-that/
+    return new URL(url, base ?? 'https://example.com');
+  } catch (e) {
+    throw new Error(
+      `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
+      {cause: e},
+    );
+  }
+}
+
 export type URLPath = {pathname: string; search?: string; hash?: string};
 
-// Let's name the concept of (pathname + search + hash) as URLPath
-// See also https://twitter.com/kettanaito/status/1741768992866308120
-// Note: this function also resolves relative pathnames while parsing!
-export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
-  function parseURL(url: string, base?: string | URL): URL {
-    try {
-      // A possible alternative? https://github.com/unjs/ufo#url
-      return new URL(url, base ?? 'https://example.com');
-    } catch (e) {
-      throw new Error(
-        `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
-        {cause: e},
-      );
-    }
-  }
-
-  const base = fromPath ? parseURL(fromPath) : undefined;
-  const url = parseURL(urlPath, base);
-
+export function toURLPath(url: URL): URLPath {
   const {pathname} = url;
 
   // Fixes annoying url.search behavior
@@ -193,22 +188,81 @@ export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
   // "?param => "param"
   const search = url.search
     ? url.search.slice(1)
-    : urlPath.includes('?')
+    : url.href.includes('?')
     ? ''
     : undefined;
 
   // Fixes annoying url.hash behavior
   // "" => undefined
   // "#" => ""
-  // "?param => "param"
+  // "#param => "param"
   const hash = url.hash
     ? url.hash.slice(1)
-    : urlPath.includes('#')
+    : url.href.includes('#')
     ? ''
     : undefined;
 
   return {
     pathname,
+    search,
+    hash,
+  };
+}
+
+/**
+ * Let's name the concept of (pathname + search + hash) as URLPath
+ * See also https://twitter.com/kettanaito/status/1741768992866308120
+ * Note: this function also resolves relative pathnames while parsing!
+ */
+export function parseURLPath(urlPath: string, fromPath?: string): URLPath {
+  const base = fromPath ? parseURLOrPath(fromPath) : undefined;
+  const url = parseURLOrPath(urlPath, base);
+  return toURLPath(url);
+}
+
+/**
+ * This returns results for strings like "foo", "../foo", "./foo.mdx?qs#hash"
+ * Unlike "parseURLPath()" above, this will not resolve the pathnames
+ * Te returned pathname of "../../foo.mdx" will be "../../foo.mdx", not "/foo"
+ * This returns null if the url is not "local" (contains domain/protocol etc)
+ */
+export function parseLocalURLPath(urlPath: string): URLPath | null {
+  // Workaround because URL("") requires a protocol
+  const unspecifiedProtocol = 'unspecified:';
+
+  const url = parseURLOrPath(urlPath, `${unspecifiedProtocol}//`);
+  // Ignore links with specified protocol / host
+  // (usually fully qualified links starting with https://)
+  if (
+    url.protocol !== unspecifiedProtocol ||
+    url.host !== '' ||
+    url.username !== '' ||
+    url.password !== ''
+  ) {
+    return null;
+  }
+
+  // We can't use "new URL()" result because it always tries to resolve urls
+  // IE it will remove any "./" or "../" in the pathname, which we don't want
+  // We have to parse it manually...
+  let localUrlPath = urlPath;
+
+  // Extract and remove the #hash part
+  const hashIndex = localUrlPath.indexOf('#');
+  const hash =
+    hashIndex !== -1 ? localUrlPath.substring(hashIndex + 1) : undefined;
+  localUrlPath =
+    hashIndex !== -1 ? localUrlPath.substring(0, hashIndex) : localUrlPath;
+
+  // Extract and remove ?search part
+  const searchIndex = localUrlPath.indexOf('?');
+  const search =
+    searchIndex !== -1 ? localUrlPath.substring(searchIndex + 1) : undefined;
+  localUrlPath =
+    searchIndex !== -1 ? localUrlPath.substring(0, searchIndex) : localUrlPath;
+
+  return {
+    pathname: localUrlPath,
     search,
     hash,
   };

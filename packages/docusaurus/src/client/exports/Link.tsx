@@ -40,9 +40,9 @@ function Link(
   }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
-  const {
-    siteConfig: {trailingSlash, baseUrl},
-  } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
+  const {trailingSlash, baseUrl} = siteConfig;
+  const router = siteConfig.future.experimental_router;
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
@@ -80,6 +80,15 @@ function Link(
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
+
+  // TODO find a way to solve this problem properly
+  // Fix edge case when useBaseUrl is used on a link
+  // "./" is useful for images and other resources
+  // But we don't need it for <Link>
+  // unfortunately we can't really make the difference :/
+  if (router === 'hash' && targetLink?.startsWith('./')) {
+    targetLink = targetLink?.slice(1);
+  }
 
   if (targetLink && isInternal) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
@@ -148,8 +157,7 @@ function Link(
   const hasInternalTarget = !props.target || props.target === '_self';
 
   // Should we use a regular <a> tag instead of React-Router Link component?
-  const isRegularHtmlLink =
-    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
+  const isRegularHtmlLink = !targetLink || !isInternal || !hasInternalTarget;
 
   if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);

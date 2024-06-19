@@ -26,6 +26,13 @@ declare module '@generated/site-metadata' {
   export = siteMetadata;
 }
 
+declare module '@generated/site-storage' {
+  import type {SiteStorage} from '@docusaurus/types';
+
+  const siteStorage: SiteStorage;
+  export = siteStorage;
+}
+
 declare module '@generated/registry' {
   import type {Registry} from '@docusaurus/types';
 

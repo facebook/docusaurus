@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Edytuj tę stronę",
   "theme.common.headingLinkTitle": "Bezpośredni link do {heading}",
   "theme.common.skipToMainContent": "Przejdź do głównej zawartości",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} elementów",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 element|{count} elementy|{count} elementów",
   "theme.docs.breadcrumbs.home": "Strona główna",
   "theme.docs.breadcrumbs.navAriaLabel": "Pasek nawigacji",
   "theme.docs.paginator.navAriaLabel": "Strona dokumentacji",

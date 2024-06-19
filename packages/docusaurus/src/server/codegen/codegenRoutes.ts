@@ -320,6 +320,22 @@ type GenerateRouteFilesParams = {
   baseUrl: string;
 };
 
+// The generated filename per route must be unique to avoid conflicts
+// See also https://github.com/facebook/docusaurus/issues/10125
+export function generateRoutePropFilename(route: RouteConfig): string {
+  // TODO if possible, we could try to shorten the filename by removing
+  //  the plugin routeBasePath prefix from the name
+  return `${docuHash(
+    route.path,
+    // Note: using hash(route.path + route.component) is not technically
+    // as robust as hashing the entire prop content object.
+    // But it's faster and should be good enough considering it's very unlikely
+    // anyone would have 2 routes on the same path also rendering the exact
+    // same component.
+    {hashExtra: route.component},
+  )}.json`;
+}
+
 async function generateRoutePropModule({
   generatedFilesDir,
   route,
@@ -339,7 +355,7 @@ async function generateRoutePropModule({
     plugin.name,
     plugin.id,
     'p',
-    `${docuHash(route.path)}.json`,
+    generateRoutePropFilename(route),
   );
   const modulePath = path.posix.join(generatedFilesDir, relativePath);
   const aliasedPath = path.posix.join('@generated', relativePath);
@@ -376,29 +392,31 @@ async function preprocessRouteProps({
   route: RouteConfig;
   plugin: PluginIdentifier;
 }): Promise<RouteConfig> {
-  const propsModulePathPromise = route.props
-    ? generateRoutePropModule({
-        generatedFilesDir,
-        route,
-        plugin,
-      })
-    : undefined;
+  const getPropsModulePathPromise = () =>
+    route.props
+      ? generateRoutePropModule({
+          generatedFilesDir,
+          route,
+          plugin,
+        })
+      : undefined;
 
-  const subRoutesPromise = route.routes
-    ? Promise.all(
-        route.routes.map((subRoute: RouteConfig) => {
-          return preprocessRouteProps({
-            generatedFilesDir,
-            route: subRoute,
-            plugin,
-          });
-        }),
-      )
-    : undefined;
+  const getSubRoutesPromise = () =>
+    route.routes
+      ? Promise.all(
+          route.routes.map((subRoute: RouteConfig) => {
+            return preprocessRouteProps({
+              generatedFilesDir,
+              route: subRoute,
+              plugin,
+            });
+          }),
+        )
+      : undefined;
 
   const [propsModulePath, subRoutes] = await Promise.all([
-    propsModulePathPromise,
-    subRoutesPromise,
+    getPropsModulePathPromise(),
+    getSubRoutesPromise(),
   ]);
 
   const newRoute: RouteConfig = {

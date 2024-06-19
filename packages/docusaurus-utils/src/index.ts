@@ -44,6 +44,9 @@ export {
   isValidPathname,
   resolvePathname,
   parseURLPath,
+  parseLocalURLPath,
+  parseURLOrPath,
+  toURLPath,
   serializeURLPath,
   hasSSHProtocol,
   buildHttpsUrl,
@@ -52,10 +55,13 @@ export {
 export type {URLPath} from './urlUtils';
 export {
   type Tag,
+  type TagsFile,
+  type TagsFileInput,
+  type TagMetadata,
   type TagsListItem,
   type TagModule,
   type FrontMatterTag,
-  normalizeFrontMatterTags,
+  type TagsPluginOptions,
   groupTaggedItems,
   getTagVisibility,
 } from './tags';
@@ -73,8 +79,8 @@ export {
 } from './markdownUtils';
 export {
   type ContentPaths,
-  type BrokenMarkdownLink,
-  replaceMarkdownLinks,
+  type SourceToPermalink,
+  resolveMarkdownLinkPathname,
 } from './markdownLinks';
 export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
 export {
@@ -121,3 +127,5 @@ export {
   type LastUpdateData,
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
+
+export {normalizeTags, reportInlineTags} from './tags';

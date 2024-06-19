@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Editar esta página",
   "theme.common.headingLinkTitle": "Link direto para {heading}",
   "theme.common.skipToMainContent": "Saltar para o conteúdo principal",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.navAriaLabel": "Breadcrumbs",
   "theme.docs.paginator.navAriaLabel": "Páginas de documento",

@@ -357,6 +357,19 @@ If you don't want an extra `<p>` tag, refactor content on a case by case basis t
  </figure>
 ```
 
+You can also wrap such content with `{` and `}` to avoid extra `<p>` tags if you don't intend to use Markdown syntax there yet.
+
+```diff
+-<figure>
++{<figure>
+   <img src="/img/myImage.png" alt="My alt" />
+   <figcaption>
+     My image caption
+   </figcaption>
+-</figure>
++</figure>}
+```
+
 :::
 
 #### Unintended usage of directives
@@ -915,6 +928,8 @@ Make sure to use `remark-math 6` and `rehype-katex 7` for Docusaurus v3 (using M
 +  "rehype-katex": "^7.0.0"
 }
 ```
+
+`hast-util-is-element` is now unnecessary in Docusaurus v3. If you have installed it and don't use it somewhere else, you can just remove it by running `npm uninstall hast-util-is-element`.
 
 ### Turn off MDX v1 compat
 

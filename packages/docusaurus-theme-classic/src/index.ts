@@ -10,6 +10,11 @@ import {createRequire} from 'module';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import {getTranslationFiles, translateThemeConfig} from './translations';
+import {
+  getThemeInlineScript,
+  getAnnouncementBarInlineScript,
+  DataAttributeQueryStringInlineJavaScript,
+} from './inlineScripts';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
@@ -23,97 +28,6 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
   'webpack/lib/ContextReplacementPlugin',
 ) as typeof webpack.ContextReplacementPlugin;
 
-// Need to be inlined to prevent dark mode FOUC
-// Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
-const ThemeStorageKey = 'theme';
-// Support for ?docusaurus-theme=dark
-const ThemeQueryStringKey = 'docusaurus-theme';
-// Support for ?docusaurus-data-mode=embed&docusaurus-data-myAttr=42
-const DataQueryStringPrefixKey = 'docusaurus-data-';
-
-const noFlashColorMode = ({
-  defaultMode,
-  respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) =>
-  /* language=js */
-  `(function() {
-  var defaultMode = '${defaultMode}';
-  var respectPrefersColorScheme = ${respectPrefersColorScheme};
-
-  function setDataThemeAttribute(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-  }
-
-  function getQueryStringTheme() {
-    try {
-      return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
-    } catch(e) {}
-  }
-
-  function getStoredTheme() {
-    try {
-      return localStorage.getItem('${ThemeStorageKey}');
-    } catch (err) {}
-  }
-
-  var initialTheme = getQueryStringTheme() || getStoredTheme();
-  if (initialTheme !== null) {
-    setDataThemeAttribute(initialTheme);
-  } else {
-    if (
-      respectPrefersColorScheme &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      setDataThemeAttribute('dark');
-    } else if (
-      respectPrefersColorScheme &&
-      window.matchMedia('(prefers-color-scheme: light)').matches
-    ) {
-      setDataThemeAttribute('light');
-    } else {
-      setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
-    }
-  }
-})();`;
-
-/* language=js */
-const DataAttributeQueryStringInlineJavaScript = `
-(function() {
-  try {
-    const entries = new URLSearchParams(window.location.search).entries();
-    for (var [searchKey, value] of entries) {
-      if (searchKey.startsWith('${DataQueryStringPrefixKey}')) {
-        var key = searchKey.replace('${DataQueryStringPrefixKey}',"data-")
-        document.documentElement.setAttribute(key, value);
-      }
-    }
-  } catch(e) {}
-})();
-`;
-
-// Duplicated constant. Unfortunately we can't import it from theme-common, as
-// we need to support older nodejs versions without ESM support
-// TODO: import from theme-common once we only support Node.js with ESM support
-// + move all those announcementBar stuff there too
-export const AnnouncementBarDismissStorageKey =
-  'docusaurus.announcement.dismiss';
-const AnnouncementBarDismissDataAttribute =
-  'data-announcement-bar-initially-dismissed';
-// We always render the announcement bar html on the server, to prevent layout
-// shifts on React hydration. The theme can use CSS + the data attribute to hide
-// the announcement bar asap (before React hydration)
-/* language=js */
-const AnnouncementBarInlineJavaScript = `
-(function() {
-  function isDismissed() {
-    try {
-      return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
-    } catch (err) {}
-    return false;
-  }
-  document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
-})();`;
-
 function getInfimaCSSFile(direction: string) {
   return `infima/dist/css/default/default${
     direction === 'rtl' ? '-rtl' : ''
@@ -126,6 +40,7 @@ export default function themeClassic(
 ): Plugin<undefined> {
   const {
     i18n: {currentLocale, localeConfigs},
+    siteStorage,
   } = context;
   const themeConfig = context.siteConfig.themeConfig as ThemeConfig;
   const {
@@ -218,9 +133,9 @@ export default function themeClassic(
           {
             tagName: 'script',
             innerHTML: `
-${noFlashColorMode(colorMode)}
+${getThemeInlineScript({colorMode, siteStorage})}
 ${DataAttributeQueryStringInlineJavaScript}
-${announcementBar ? AnnouncementBarInlineJavaScript : ''}
+${announcementBar ? getAnnouncementBarInlineScript({siteStorage}) : ''}
             `,
           },
         ],

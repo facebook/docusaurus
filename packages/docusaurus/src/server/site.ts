@@ -25,6 +25,7 @@ import {
 import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
+import {createSiteStorage} from './storage';
 import type {LoadPluginsResult} from './plugins/plugins';
 import type {
   DocusaurusConfig,
@@ -111,9 +112,12 @@ export async function loadContext(
 
   const codeTranslations = await loadSiteCodeTranslations({localizationDir});
 
+  const siteStorage = createSiteStorage(siteConfig);
+
   return {
     siteDir,
     siteVersion,
+    siteStorage,
     generatedFilesDir,
     localizationDir,
     siteConfig,
@@ -135,6 +139,7 @@ function createSiteProps(
     siteVersion,
     siteConfig,
     siteConfigPath,
+    siteStorage,
     outDir,
     baseUrl,
     i18n,
@@ -142,7 +147,10 @@ function createSiteProps(
     codeTranslations: siteCodeTranslations,
   } = context;
 
-  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags({
+    plugins,
+    router: siteConfig.future.experimental_router,
+  });
 
   const siteMetadata = createSiteMetadata({plugins, siteVersion});
 
@@ -159,6 +167,7 @@ function createSiteProps(
     siteConfigPath,
     siteMetadata,
     siteVersion,
+    siteStorage,
     siteDir,
     outDir,
     baseUrl,
@@ -190,6 +199,7 @@ async function createSiteFiles({
         generatedFilesDir,
         siteConfig,
         siteMetadata,
+        siteStorage,
         i18n,
         codeTranslations,
         routes,
@@ -202,6 +212,7 @@ async function createSiteFiles({
       clientModules,
       siteConfig,
       siteMetadata,
+      siteStorage,
       i18n,
       codeTranslations,
       globalData,
@@ -224,7 +235,7 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
 
   const {plugins, routes, globalData} = await loadPlugins(context);
 
-  const props = await createSiteProps({plugins, routes, globalData, context});
+  const props = createSiteProps({plugins, routes, globalData, context});
 
   const site: Site = {props, params};
 
@@ -253,7 +264,7 @@ export async function reloadSitePlugin(
     context: site.props,
   });
 
-  const newProps = await createSiteProps({
+  const newProps = createSiteProps({
     plugins,
     routes,
     globalData,

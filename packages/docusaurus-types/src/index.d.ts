@@ -7,11 +7,14 @@
 
 export {
   ReportingSeverity,
+  RouterType,
   ThemeConfig,
   MarkdownConfig,
   DefaultParseFrontMatter,
   ParseFrontMatter,
   DocusaurusConfig,
+  FutureConfig,
+  StorageConfig,
   Config,
 } from './config';
 
@@ -20,6 +23,7 @@ export {
   DocusaurusContext,
   GlobalData,
   LoadContext,
+  SiteStorage,
   Props,
 } from './context';
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {SiteStorage} from './context';
 import type {RuleSetRule} from 'webpack';
 import type {Required as RequireKeys, DeepPartial} from 'utility-types';
 import type {I18nConfig} from './i18n';
@@ -15,6 +16,8 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+
+export type RouterType = 'browser' | 'hash';
 
 export type ThemeConfig = {
   [key: string]: unknown;
@@ -115,6 +118,33 @@ export type MarkdownConfig = {
   anchors: MarkdownAnchorsConfig;
 };
 
+export type StorageConfig = {
+  type: SiteStorage['type'];
+  namespace: boolean | string;
+};
+
+export type FutureConfig = {
+  experimental_storage: StorageConfig;
+
+  /**
+   * Docusaurus can work with 2 router types.
+   *
+   * - The "browser" router is the main/default router of Docusaurus.
+   *   It will use the browser history and regular urls to navigate from
+   *   one page to another. A static file will be emitted for each page.
+   *
+   * - The "hash" router can be useful in very specific situations (such as
+   *   distributing your app for offline-first usage), but should be avoided
+   *   in most cases. All pages paths will be prefixed with a /#/.
+   *   It will opt out of static site generation, only emit a single index.html
+   *   entry point, and use the browser hash for routing. The Docusaurus site
+   *   content will be rendered client-side, like a regular single page
+   *   application.
+   *   @see https://github.com/facebook/docusaurus/issues/3825
+   */
+  experimental_router: RouterType;
+};
+
 /**
  * Docusaurus config, after validation/normalization.
  */
@@ -171,6 +201,11 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#i18n
    */
   i18n: I18nConfig;
+  /**
+   * Docusaurus future flags and experimental features.
+   * Similar to Remix future flags, see https://remix.run/blog/future-flags
+   */
+  future: FutureConfig;
   /**
    * This option adds `<meta name="robots" content="noindex, nofollow">` to
    * every page to tell search engines to avoid indexing your site.

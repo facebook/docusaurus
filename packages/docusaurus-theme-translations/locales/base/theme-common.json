@@ -81,7 +81,7 @@
   "theme.common.headingLinkTitle___DESCRIPTION": "Title for link to heading",
   "theme.common.skipToMainContent": "Skip to main content",
   "theme.common.skipToMainContent___DESCRIPTION": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} items",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.DocCard.categoryDescription.plurals___DESCRIPTION": "The default description for a category card in the generated index about how many items this category includes",
   "theme.docs.breadcrumbs.home": "Home page",
   "theme.docs.breadcrumbs.home___DESCRIPTION": "The ARIA label for the home page in the breadcrumbs",

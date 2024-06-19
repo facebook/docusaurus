@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Uredi to stran",
   "theme.common.headingLinkTitle": "Direktna povezava na {heading}",
   "theme.common.skipToMainContent": "Preskoči na vsebino",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} vnosov",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 vnos|2 vnosy|{count} vnosy|{count} vnosov",
   "theme.docs.breadcrumbs.home": "Domača stran",
   "theme.docs.breadcrumbs.navAriaLabel": "Drobtine",
   "theme.docs.paginator.navAriaLabel": "Strani z dokumenti",

@@ -15,20 +15,25 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {
-  executePluginsConfigurePostCss,
-  executePluginsConfigureWebpack,
-  compile,
-} from '../webpack/utils';
+import {executePluginsConfigureWebpack} from '../webpack/configure';
+import {compile} from '../webpack/utils';
 import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
-import {generateStaticFiles, loadAppRenderer} from '../ssg';
-import {compileSSRTemplate} from '../templates/templates';
+import {
+  generateHashRouterEntrypoint,
+  generateStaticFiles,
+  loadAppRenderer,
+} from '../ssg';
+import {
+  compileSSRTemplate,
+  renderHashRouterTemplate,
+} from '../templates/templates';
 import defaultSSRTemplate from '../templates/ssr.html.template';
+import type {SSGParams} from '../ssg';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {LoadedPlugin, Props} from '@docusaurus/types';
+import type {LoadedPlugin, Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
@@ -167,7 +172,9 @@ async function buildLocale({
   );
 
   const {props} = site;
-  const {outDir, plugins} = props;
+  const {outDir, plugins, siteConfig} = props;
+
+  const router = siteConfig.future.experimental_router;
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
@@ -184,15 +191,20 @@ async function buildLocale({
     );
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  await PerfLogger.async('Bundling with Webpack', () =>
-    compile([clientConfig, serverConfig]),
-  );
+  await PerfLogger.async('Bundling with Webpack', () => {
+    if (router === 'hash') {
+      return compile([clientConfig]);
+    } else {
+      return compile([clientConfig, serverConfig]);
+    }
+  });
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({
       props,
       serverBundlePath,
       clientManifestPath,
+      router,
     }),
   );
 
@@ -223,11 +235,13 @@ async function executeSSG({
   props,
   serverBundlePath,
   clientManifestPath,
+  router,
 }: {
   props: Props;
   serverBundlePath: string;
   clientManifestPath: string;
-}) {
+  router: RouterType;
+}): Promise<{collectedData: SiteCollectedData}> {
   const manifest: Manifest = await PerfLogger.async(
     'Read client manifest',
     () => fs.readJSON(clientManifestPath, 'utf-8'),
@@ -236,6 +250,27 @@ async function executeSSG({
   const ssrTemplate = await PerfLogger.async('Compile SSR template', () =>
     compileSSRTemplate(props.siteConfig.ssrTemplate ?? defaultSSRTemplate),
   );
+
+  const params: SSGParams = {
+    trailingSlash: props.siteConfig.trailingSlash,
+    outDir: props.outDir,
+    baseUrl: props.baseUrl,
+    manifest,
+    headTags: props.headTags,
+    preBodyTags: props.preBodyTags,
+    postBodyTags: props.postBodyTags,
+    ssrTemplate,
+    noIndex: props.siteConfig.noIndex,
+    DOCUSAURUS_VERSION,
+  };
+
+  if (router === 'hash') {
+    PerfLogger.start('Generate Hash Router entry point');
+    const content = renderHashRouterTemplate({params});
+    await generateHashRouterEntrypoint({content, params});
+    PerfLogger.end('Generate Hash Router entry point');
+    return {collectedData: {}};
+  }
 
   const renderer = await PerfLogger.async('Load App renderer', () =>
     loadAppRenderer({
@@ -247,18 +282,7 @@ async function executeSSG({
     generateStaticFiles({
       pathnames: props.routesPaths,
       renderer,
-      params: {
-        trailingSlash: props.siteConfig.trailingSlash,
-        outDir: props.outDir,
-        baseUrl: props.baseUrl,
-        manifest,
-        headTags: props.headTags,
-        preBodyTags: props.preBodyTags,
-        postBodyTags: props.postBodyTags,
-        ssrTemplate,
-        noIndex: props.siteConfig.noIndex,
-        DOCUSAURUS_VERSION,
-      },
+      params,
     }),
   );
 
@@ -325,10 +349,6 @@ async function getBuildClientConfig({
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
-  config = executePluginsConfigurePostCss({
-    plugins,
-    config,
-  });
   config = executePluginsConfigureWebpack({
     plugins,
     config,

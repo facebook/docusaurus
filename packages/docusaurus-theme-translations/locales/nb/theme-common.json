@@ -40,7 +40,7 @@
   "theme.common.editThisPage": "Rediger denne siden",
   "theme.common.headingLinkTitle": "Direkte lenke til {heading}",
   "theme.common.skipToMainContent": "Gå til hovedinnhold",
-  "theme.docs.DocCard.categoryDescription.plurals": "{count} artikler",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 artikkel|{count} artikler",
   "theme.docs.breadcrumbs.home": "Hjemmeside",
   "theme.docs.breadcrumbs.navAriaLabel": "Søkvei",
   "theme.docs.paginator.navAriaLabel": "Dokumenter side",
