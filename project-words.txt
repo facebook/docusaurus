@@ -109,7 +109,6 @@ froms
 funboxteam
 gabrielcsapo
 Gifs
-githubsvg
 Goss
 Goyal
 gtag
