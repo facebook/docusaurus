@@ -153,14 +153,10 @@ export function getBlogPageAuthors({
   postsPerPageOption: number | 'ALL';
   pageBasePath: string;
 }): BlogPageAuthors {
-  const getPostPageAuthors = (blogPost: BlogPost) => blogPost.metadata.authors;
+  const getPostPageAuthors = (blogPost: BlogPost) =>
+    blogPost.metadata.pageAuthors;
 
-  const groups = groupAuthoredItems(
-    blogPosts.filter((blog) =>
-      blog.metadata.authors.map((author) => author.generateAuthorPage),
-    ),
-    getPostPageAuthors,
-  );
+  const groups = groupAuthoredItems(blogPosts, getPostPageAuthors);
 
   return _.mapValues(groups, ({author, items: authorBlogPosts}) => {
     const authorVisibility = getAuthorVisibility({
@@ -402,11 +398,12 @@ async function processBlogSourceFile(
           })
         : undefined,
       hasTruncateMarker: truncateMarker.test(content),
-      authors: pageAuthors,
+      authors,
       frontMatter,
       unlisted,
       lastUpdatedAt: lastUpdate.lastUpdatedAt,
       lastUpdatedBy: lastUpdate.lastUpdatedBy,
+      pageAuthors,
     },
     content,
   };
