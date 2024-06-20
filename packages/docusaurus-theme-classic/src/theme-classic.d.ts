@@ -1501,6 +1501,38 @@ declare module '@theme/Icon/WordWrap' {
   export default function IconWordWrap(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Socials/Twitter' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Twitter(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/Github' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Github(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/LinkedIn' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function LinkedIn(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/StackOverflow' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function StackOverflow(props: Props): JSX.Element;
+}
+
 declare module '@theme/TagsListByLetter' {
   import type {TagsListItem} from '@docusaurus/utils';
 

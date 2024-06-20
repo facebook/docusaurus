@@ -19,9 +19,11 @@ slorber:
   title: Docusaurus maintainer, This Week In React editor
   url: https://thisweekinreact.com
   image_url: https://github.com/slorber.png
-  twitter: sebastienlorber
-  github: slorber
   email: sebastien@thisweekinreact.com
+  socials:
+    github: slorber
+    twitter: sebastienlorber
+    stackoverflow: /82609/sebastien-lorber
 
 yangshun:
   name: Yangshun Tay

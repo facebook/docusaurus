@@ -71,6 +71,13 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * Unknown keys are allowed, so that we can pass custom fields to authors,
      * e.g., `twitter`.
      */
+    socials?: {
+      twitter: string;
+      linkedin: string;
+      github: string;
+      stackoverflow: string;
+      [key: string]: string;
+    };
     [key: string]: unknown;
   };
 
