@@ -127,7 +127,8 @@ export async function initPlugins(
 
     if (!pluginInstance.name) {
       throw new Error(
-        `A Docusaurus plugin is missing a 'name' property. Note that even inline/anonymous plugin functions require a 'name' property.`,
+        `A Docusaurus plugin is missing a 'name' property.
+Note that even inline/anonymous plugin functions require a 'name' property.`,
       );
     }
 
