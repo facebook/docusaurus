@@ -429,12 +429,8 @@ export async function generateBlogPosts(
     contentPaths,
     authorsMapPath: options.authorsMapPath,
   });
-  const pageAuthorsMap = _.pickBy(
-    authorsMap,
-    (author) => author.generateAuthorPage === true,
-  );
 
-  checkPermalinkCollisions(pageAuthorsMap);
+  checkPermalinkCollisions(authorsMap);
 
   const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
 

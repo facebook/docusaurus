@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {getDataFileData, normalizeUrl, type Author} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {BlogContentPaths} from './types';
@@ -195,11 +196,16 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
 }
 
 export function checkPermalinkCollisions(
-  authorsMap: _.Dictionary<Author>,
+  authorsMap: AuthorsMap | undefined,
 ): void {
+  const pageAuthorsMap = _.pickBy(
+    authorsMap,
+    (author) => author.generateAuthorPage === true,
+  );
+
   const permalinkCounts: {[key: string]: string[]} = {};
 
-  for (const [key, author] of Object.entries(authorsMap)) {
+  for (const [key, author] of Object.entries(pageAuthorsMap)) {
     const permalink = normalizeUrl(['/', author.permalink || key, '/']);
     if (!permalinkCounts[permalink]) {
       permalinkCounts[permalink] = [];
