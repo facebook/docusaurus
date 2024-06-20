@@ -28,7 +28,7 @@ export type PageAuthor = {
    * `metadata.assets.authorsImageUrls` should be used instead. If `imageURL`
    * doesn't exist, a `name` is expected.
    */
-  imageURL: string;
+  imageURL?: string;
   /** Permalink to this author's page, without the `/authors/` base path. */
   permalink: string;
   /**
@@ -50,7 +50,7 @@ export type PageAuthor = {
 };
 
 /** What the authors list page should know about each author. */
-export type AuthorsListItem = PageAuthor & {
+export type AuthorsListItem = Author & {
   /** Number of posts/docs with this author. */
   count: number;
 };
@@ -75,7 +75,7 @@ function normalizePageAuthor({
   const permalink = author.permalink || _.kebabCase(key);
 
   return {
-    imageURL: author.imageURL ?? '',
+    imageURL: author.imageURL,
     url: author.url,
     title: author.title,
     email: author.email,
@@ -93,13 +93,13 @@ export function normalizePageAuthors({
   authorsBaseRoutePath: string;
   authors: Author[] | undefined;
 }): PageAuthor[] {
-  return (authors ?? [])
-    .filter((author) => author.generateAuthorPage)
-    .map((author) => normalizePageAuthor({authorsBaseRoutePath, author}));
+  return (authors ?? []).map((author) =>
+    normalizePageAuthor({authorsBaseRoutePath, author}),
+  );
 }
 
 type AuthoredItemGroup<Item> = {
-  author: PageAuthor;
+  author: Author;
   items: Item[];
 };
 
@@ -118,12 +118,15 @@ export function groupAuthoredItems<Item>(
    * A callback telling me how to get the authors list of the current item.
    * Usually simply getting it from some metadata of the current item.
    */
-  getItemPageAuthors: (item: Item) => readonly PageAuthor[],
+  getItemPageAuthors: (item: Item) => readonly Author[],
 ): {[permalink: string]: AuthoredItemGroup<Item>} {
   const result: {[permalink: string]: AuthoredItemGroup<Item>} = {};
 
   items.forEach((item) => {
     getItemPageAuthors(item).forEach((author) => {
+      if (!author.permalink) {
+        return;
+      }
       // Init missing author groups
       // TODO: it's not really clear what should be the behavior if 2
       // authors have the same permalink but the label is different for each

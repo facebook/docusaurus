@@ -120,8 +120,12 @@ exports[`blog plugin process blog posts load content 2`] = `
     "metadata": {
       "authors": [
         {
+          "description": undefined,
+          "email": undefined,
           "imageURL": undefined,
+          "key": undefined,
           "name": "Sébastien Lorber",
+          "permalink": "/blog/authors",
           "title": "Docusaurus maintainer",
           "url": "https://sebastienlorber.com",
         },
@@ -147,7 +151,6 @@ exports[`blog plugin process blog posts load content 2`] = `
         "permalink": "/blog/another/tags",
         "title": "Another With Tag",
       },
-      "pageAuthors": [],
       "permalink": "/blog/simple/slug/another",
       "readingTime": 0.015,
       "source": "@site/blog/another-simple-slug-with-tags.md",
@@ -187,7 +190,6 @@ exports[`blog plugin process blog posts load content 2`] = `
         "permalink": "/blog/another/tags2",
         "title": "Another With Tag",
       },
-      "pageAuthors": [],
       "permalink": "/blog/another/tags",
       "prevItem": {
         "permalink": "/blog/simple/slug/another",
@@ -233,7 +235,6 @@ exports[`blog plugin process blog posts load content 2`] = `
       "hasTruncateMarker": false,
       "lastUpdatedAt": undefined,
       "lastUpdatedBy": undefined,
-      "pageAuthors": [],
       "permalink": "/blog/another/tags2",
       "prevItem": {
         "permalink": "/blog/another/tags",

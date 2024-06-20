@@ -15,7 +15,6 @@ declare module '@docusaurus/plugin-content-blog' {
     LastUpdateData,
     FrontMatterLastUpdate,
     TagsPluginOptions,
-    PageAuthor,
     Author,
   } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
@@ -208,10 +207,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
     /** Tags, normalized. */
     readonly tags: TagMetadata[];
-    /**
-     * Page authors, for use in the Authors grouping page.
-     */
-    readonly pageAuthors: PageAuthor[];
     /**
      * Marks the post as unlisted and visibly hides it unless directly accessed.
      */
@@ -489,7 +484,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     [permalink: string]: BlogPageAuthor;
   };
 
-  export type BlogPageAuthor = PageAuthor & {
+  export type BlogPageAuthor = Author & {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];
