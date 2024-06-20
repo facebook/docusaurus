@@ -1229,6 +1229,36 @@ text\r
     `);
   });
 
+  it('can unwrap indented mdx code block', () => {
+    expect(
+      unwrapMdxCodeBlocks(dedent`
+        # Title
+
+        <div>
+            \`\`\`mdx-code-block
+            content
+            \`\`\`
+        </div>
+
+          \`\`\`\`mdx-code-block
+          content2
+          \`\`\`\`
+
+        text
+    `),
+    ).toEqual(dedent`
+      # Title
+
+      <div>
+          content
+      </div>
+
+        content2
+
+      text
+    `);
+  });
+
   it('works for realistic example', () => {
     expect(
       unwrapMdxCodeBlocks(dedent`
