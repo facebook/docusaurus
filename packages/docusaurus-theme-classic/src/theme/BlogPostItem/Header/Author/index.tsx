@@ -39,7 +39,7 @@ export default function BlogPostItemHeaderAuthor({
       )}
       {github && (
         <Link href={github}>
-          <Github className={clsx(styles.socialIcon, 'githubsvg')} />
+          <Github className={clsx(styles.socialIcon)} />
         </Link>
       )}
       {linkedin && (
