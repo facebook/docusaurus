@@ -317,7 +317,11 @@ async function processBlogSourceFile(
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+  const authors = getBlogPostAuthors(
+    {authorsMap, frontMatter, baseUrl},
+    options.onInlineAuthors,
+    blogSourceRelative,
+  );
 
   const tags = normalizeTags({
     options,

@@ -8,6 +8,7 @@
 import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
+import type {ReportingSeverity} from '@docusaurus/types';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
@@ -184,7 +185,52 @@ function fixAuthorImageBaseURL(
   }));
 }
 
-export function getBlogPostAuthors(params: AuthorsParam): Author[] {
+export function reportInlineAuthors({
+  authors,
+  blogSourceRelative,
+  onInlineAuthors,
+}: {
+  authors: Author[];
+  blogSourceRelative: string;
+  onInlineAuthors: ReportingSeverity;
+}): void {
+  const inlineAuthors = authors.filter((author) => author.inline);
+  if (inlineAuthors.length > 0 && onInlineAuthors !== 'ignore') {
+    logger.report(onInlineAuthors)(
+      `Inline authors found in blog ${blogSourceRelative} ${inlineAuthors
+        .map((author) => author.name ?? author.imageURL)
+        .join(', ')}`,
+    );
+  }
+}
+
+export function reportDuplicateAuthors({
+  authors,
+  blogSourceRelative,
+  onInlineAuthors,
+}: {
+  authors: Author[];
+  blogSourceRelative: string;
+  onInlineAuthors: ReportingSeverity;
+}): void {
+  const duplicateList = authors.filter(
+    (author, index, self) =>
+      index !== self.findIndex((t) => t.name === author.name),
+  );
+  if (duplicateList.length > 0) {
+    logger.report(onInlineAuthors)(
+      `Duplicate authors found in blog post  ${blogSourceRelative} front matter: ${duplicateList
+        .map((author) => author.name)
+        .join(', ')}`,
+    );
+  }
+}
+
+export function getBlogPostAuthors(
+  params: AuthorsParam,
+  onInlineAuthors: ReportingSeverity,
+  blogSourceRelative: string,
+): Author[] {
   const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
 
@@ -202,33 +248,17 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
     return [authorLegacy];
   }
 
-  const inlineAuthors = updatedAuthors.filter((author) => author.inline);
+  reportInlineAuthors({
+    authors: updatedAuthors,
+    blogSourceRelative,
+    onInlineAuthors,
+  });
 
-  const duplicateList = updatedAuthors.filter(
-    (author, index, self) =>
-      index !== self.findIndex((t) => t.name === author.name),
-  );
-
-  // TODO need title check otherwise reports weird cases
-  if (inlineAuthors.length > 0 && params.frontMatter.title) {
-    logger.warn(
-      `Inline authors found in blog [${
-        params.frontMatter.title
-      }] ${inlineAuthors.map((author) => author.name).join(', ')}`,
-    );
-  }
-
-  // TODO need title check otherwise reports weird cases
-  if (duplicateList.length > 0 && params.frontMatter.title) {
-    console.log('duplicateList', duplicateList);
-    logger.error(
-      `Duplicate authors found in blog post ${params.frontMatter.title} [${
-        params.frontMatter.slug
-      }] front matter: ${duplicateList
-        .map((author) => author.name)
-        .join(', ')}`,
-    );
-  }
+  reportDuplicateAuthors({
+    authors: updatedAuthors,
+    blogSourceRelative,
+    onInlineAuthors,
+  });
 
   return updatedAuthors;
 }

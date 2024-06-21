@@ -85,6 +85,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
           : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
       onInlineTags: 'warn',
       tags: 'tags.yml',
+      onInlineAuthors: 'throw',
     } satisfies BlogOptions,
   ],
 
