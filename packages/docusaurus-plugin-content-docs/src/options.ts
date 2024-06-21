@@ -10,6 +10,7 @@ import {
   Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
   URISchema,
@@ -40,6 +41,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   docCategoryGeneratedIndexComponent: '@theme/DocCategoryGeneratedIndexPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  recmaPlugins: [],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
   showLastUpdateTime: false,
@@ -123,6 +125,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
   ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  recmaPlugins: RecmaPluginsSchema.default(DEFAULT_OPTIONS.recmaPlugins),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
   ),

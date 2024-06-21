@@ -54,6 +54,7 @@ export type MDXOptions = {
   admonitions: boolean | Partial<AdmonitionOptions>;
   remarkPlugins: MDXPlugin[];
   rehypePlugins: MDXPlugin[];
+  recmaPlugins: MDXPlugin[];
   beforeDefaultRemarkPlugins: MDXPlugin[];
   beforeDefaultRehypePlugins: MDXPlugin[];
 };
@@ -150,6 +151,10 @@ async function createProcessorFactory() {
       ...(options.rehypePlugins ?? []),
     ];
 
+    // Maybe we'll want to introduce default recma plugins later?
+    // For example https://github.com/domdomegg/recma-mdx-displayname ?
+    const recmaPlugins = [...(options.recmaPlugins ?? [])];
+
     if (format === 'md') {
       // This is what permits to embed HTML elements with format 'md'
       // See https://github.com/facebook/docusaurus/pull/8960
@@ -173,6 +178,7 @@ async function createProcessorFactory() {
       ...options,
       remarkPlugins,
       rehypePlugins,
+      recmaPlugins,
       providerImportSource: '@mdx-js/react',
     };
 

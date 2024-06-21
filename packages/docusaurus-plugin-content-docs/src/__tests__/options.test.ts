@@ -60,6 +60,7 @@ describe('normalizeDocsPluginOptions', () => {
       // @ts-expect-error: it seems to work in practice?
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
+      recmaPlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],
       beforeDefaultRemarkPlugins: [],
       breadcrumbs: true,

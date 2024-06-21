@@ -14055,6 +14055,11 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
+recma-mdx-displayname@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/recma-mdx-displayname/-/recma-mdx-displayname-0.4.1.tgz#45ba59d2ac573795233d20a0bda1c2f03e85e301"
+  integrity sha512-2apUFDEAiqkz4QmQboOVrLdvWyyR5dC6Is4S4gwxCFxznNfDk+W4bNBWK+9oWUO91olFZg7Edd7Lw5XkRTOuRQ==
+
 recursive-readdir@^2.2.2:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/recursive-readdir/-/recursive-readdir-2.2.3.tgz#e726f328c0d69153bcabd5c322d3195252379372"

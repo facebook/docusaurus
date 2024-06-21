@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import RecmaMDXDisplayName from 'recma-mdx-displayname';
 import type {PluginConfig, Plugin} from '@docusaurus/types';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
@@ -42,6 +44,13 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       },
       onInlineTags: 'warn',
       tags: 'tags.yml',
+      recmaPlugins: [
+        [
+          RecmaMDXDisplayName,
+          (vfile: {path: string}) =>
+            `MDXContent(${path.relative(process.cwd(), vfile.path)})`,
+        ],
+      ],
 
       // Using a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
       path: '_dogfooding/_docs tests',
