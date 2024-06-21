@@ -40,7 +40,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '18'
+          node-version: 20
           cache: yarn
       - name: Track build size changes
         uses: preactjs/compressed-size-action@f780fd104362cfce9e118f9198df2ee37d12946c # v2

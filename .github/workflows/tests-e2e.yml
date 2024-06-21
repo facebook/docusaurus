@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['18.0', '18', '20']
+        node: ['18.0', '20', '22']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
@@ -76,10 +76,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Use Node.js 18
+      - name: Use Node.js LTS
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '18'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn
@@ -146,10 +146,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Use Node.js 18
+      - name: Use Node.js LTS
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '18'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn
@@ -176,10 +176,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Use Node.js 18
+      - name: Use Node.js LTS
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '18'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn
