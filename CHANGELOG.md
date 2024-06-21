@@ -1,5 +1,72 @@
 # Docusaurus Changelog
 
+## 3.4.0 (2024-05-31)
+
+#### :rocket: New Feature
+
+- `create-docusaurus`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils-validation`, `docusaurus-utils`
+  - [#10137](https://github.com/facebook/docusaurus/pull/10137) feat(docs, blog): add support for `tags.yml`, predefined list of tags ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-theme-translations`
+  - [#10151](https://github.com/facebook/docusaurus/pull/10151) feat(theme-translations): Added Turkmen (tk) default theme translations ([@ilmedova](https://github.com/ilmedova))
+  - [#10111](https://github.com/facebook/docusaurus/pull/10111) feat(theme-translations): Add Bulgarian default theme translations (bg) ([@PetarMc1](https://github.com/PetarMc1))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#9859](https://github.com/facebook/docusaurus/pull/9859) feat(core): hash router option - browse site offline (experimental) ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-types`, `docusaurus`
+  - [#10121](https://github.com/facebook/docusaurus/pull/10121) feat(core): site storage config options (experimental) ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#10185](https://github.com/facebook/docusaurus/pull/10185) fix(docs, blog): Markdown link resolution does not support hot reload ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#10178](https://github.com/facebook/docusaurus/pull/10178) fix(theme): SearchPage should respect `contextualSearch: false` setting ([@ncoughlin](https://github.com/ncoughlin))
+  - [#10164](https://github.com/facebook/docusaurus/pull/10164) fix(search): fix algolia search container bug ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils`
+  - [#10168](https://github.com/facebook/docusaurus/pull/10168) fix(mdx-loader): resolve Markdown/MDX links with Remark instead of RegExp ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#10165](https://github.com/facebook/docusaurus/pull/10165) fix(theme-translation): add missing Korean (ko) theme translations ([@revi](https://github.com/revi))
+  - [#10157](https://github.com/facebook/docusaurus/pull/10157) fix(theme-translations): complete Vietnamese theme translations ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
+- `docusaurus`
+  - [#10145](https://github.com/facebook/docusaurus/pull/10145) fix(core): fix serve workaround regexp ([@slorber](https://github.com/slorber))
+  - [#10142](https://github.com/facebook/docusaurus/pull/10142) fix(core): fix `docusaurus serve` broken for assets when using trailingSlash ([@slorber](https://github.com/slorber))
+  - [#10130](https://github.com/facebook/docusaurus/pull/10130) fix(core): the broken anchor checker should not be sensitive pathname trailing slashes ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#10144](https://github.com/facebook/docusaurus/pull/10144) fix(theme): fix announcement bar layout shift due to missing storage key namespace ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#10132](https://github.com/facebook/docusaurus/pull/10132) fix(core): `configurePostCss()` should run after `configureWebpack()` ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`, `docusaurus`
+  - [#10131](https://github.com/facebook/docusaurus/pull/10131) fix(core): codegen should generate unique route prop filenames ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-translations`
+  - [#10118](https://github.com/facebook/docusaurus/pull/10118) fix(theme-translations): fix missing pluralization for label DocCard.categoryDescription.plurals ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#10176](https://github.com/facebook/docusaurus/pull/10176) docs: add community plugin docusaurus-graph ([@Arsero](https://github.com/Arsero))
+- [#10173](https://github.com/facebook/docusaurus/pull/10173) docs: improve how to use `<details>` ([@tats-u](https://github.com/tats-u))
+- [#10167](https://github.com/facebook/docusaurus/pull/10167) docs: suggest using `{<...>...</...>}` if don't use Markdown in migra… ([@tats-u](https://github.com/tats-u))
+- [#10143](https://github.com/facebook/docusaurus/pull/10143) docs: recommend users to remove hast-util-is-element in migration to v3 ([@tats-u](https://github.com/tats-u))
+- [#10124](https://github.com/facebook/docusaurus/pull/10124) docs: v3 prepare your site blog post should point users to the upgrade guide ([@homotechsual](https://github.com/homotechsual))
+
+#### :robot: Dependencies
+
+- [#10155](https://github.com/facebook/docusaurus/pull/10155) chore(deps): bump peaceiris/actions-gh-pages from 3 to 4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#10154](https://github.com/facebook/docusaurus/pull/10154) chore(deps): bump github/codeql-action from 2.13.4 to 3.25.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#10112](https://github.com/facebook/docusaurus/pull/10112) chore(deps): bump actions/dependency-review-action from 4.3.1 to 4.3.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 11
+
+- Azzedine E. ([@Arsero](https://github.com/Arsero))
+- CodeDoctor ([@CodeDoctorDE](https://github.com/CodeDoctorDE))
+- Mahri Ilmedova ([@ilmedova](https://github.com/ilmedova))
+- Mikey O'Toole ([@homotechsual](https://github.com/homotechsual))
+- Nguyễn Thành Nam ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
+- Nick Coughlin ([@ncoughlin](https://github.com/ncoughlin))
+- Petar_mc ([@PetarMc1](https://github.com/PetarMc1))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tatsunori Uchino ([@tats-u](https://github.com/tats-u))
+- Yongmin ([@revi](https://github.com/revi))
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
+
 ## 3.3.2 (2024-05-03)
 
 #### :bug: Bug Fix

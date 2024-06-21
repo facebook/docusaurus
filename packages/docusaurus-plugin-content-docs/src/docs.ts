@@ -17,15 +17,16 @@ import {
   parseMarkdownFile,
   posixPath,
   Globby,
-  normalizeFrontMatterTags,
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  normalizeTags,
 } from '@docusaurus/utils';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
+import type {TagsFile} from '@docusaurus/utils';
 import type {
   MetadataOptions,
   PluginOptions,
@@ -82,12 +83,14 @@ async function doProcessDocMetadata({
   context,
   options,
   env,
+  tagsFile,
 }: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
+  tagsFile: TagsFile | null;
 }): Promise<DocMetadataBase> {
   const {source, content, contentPath, filePath} = docFile;
   const {
@@ -206,6 +209,14 @@ async function doProcessDocMetadata({
   const draft = isDraft({env, frontMatter});
   const unlisted = isUnlisted({env, frontMatter});
 
+  const tags = normalizeTags({
+    options,
+    source,
+    frontMatterTags: frontMatter.tags,
+    tagsBaseRoutePath: versionMetadata.tagsPath,
+    tagsFile,
+  });
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -221,7 +232,7 @@ async function doProcessDocMetadata({
     draft,
     unlisted,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
-    tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
+    tags,
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
@@ -236,6 +247,7 @@ export async function processDocMetadata(args: {
   context: LoadContext;
   options: MetadataOptions;
   env: DocEnv;
+  tagsFile: TagsFile | null;
 }): Promise<DocMetadataBase> {
   try {
     return await doProcessDocMetadata(args);

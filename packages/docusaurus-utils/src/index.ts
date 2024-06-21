@@ -55,10 +55,13 @@ export {
 export type {URLPath} from './urlUtils';
 export {
   type Tag,
+  type TagsFile,
+  type TagsFileInput,
+  type TagMetadata,
   type TagsListItem,
   type TagModule,
   type FrontMatterTag,
-  normalizeFrontMatterTags,
+  type TagsPluginOptions,
   groupTaggedItems,
   getTagVisibility,
 } from './tags';
@@ -74,7 +77,11 @@ export {
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from './markdownUtils';
-export {type ContentPaths, resolveMarkdownLinkPathname} from './markdownLinks';
+export {
+  type ContentPaths,
+  type SourceToPermalink,
+  resolveMarkdownLinkPathname,
+} from './markdownLinks';
 export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
 export {
   isNameTooLong,
@@ -120,3 +127,5 @@ export {
   type LastUpdateData,
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
+
+export {normalizeTags, reportInlineTags} from './tags';

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Tag} from '@docusaurus/utils';
+import type {TagMetadata} from '@docusaurus/utils';
 import type {
   LoadedVersion,
   CategoryGeneratedIndexMetadata,
@@ -19,11 +19,7 @@ export type DocFile = {
   content: string;
 };
 
-export type SourceToPermalink = {
-  [source: string]: string;
-};
-
-export type VersionTag = Tag & {
+export type VersionTag = TagMetadata & {
   /** All doc ids having this tag. */
   docIds: string[];
   unlisted: boolean;

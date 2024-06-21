@@ -13,6 +13,7 @@ export function toTagsProp({blogTags}: {blogTags: BlogTags}): TagsListItem[] {
     .map((tag) => ({
       label: tag.label,
       permalink: tag.permalink,
+      description: tag.description,
       count: tag.items.length,
     }));
 }
@@ -27,6 +28,7 @@ export function toTagProp({
   return {
     label: tag.label,
     permalink: tag.permalink,
+    description: tag.description,
     allTagsPath: blogTagsListPath,
     count: tag.items.length,
     unlisted: tag.unlisted,

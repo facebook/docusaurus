@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 /// <reference types="@docusaurus/module-type-aliases" />
 
 declare module '@docusaurus/plugin-content-blog' {
@@ -12,9 +11,10 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {
     FrontMatterTag,
-    Tag,
+    TagMetadata,
     LastUpdateData,
     FrontMatterLastUpdate,
+    TagsPluginOptions,
   } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
@@ -236,7 +236,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /** Front matter, as-is. */
     readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
     /** Tags, normalized. */
-    readonly tags: Tag[];
+    readonly tags: TagMetadata[];
     /**
      * Marks the post as unlisted and visibly hides it unless directly accessed.
      */
@@ -345,103 +345,104 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
   /**
    * Plugin options after normalization.
    */
-  export type PluginOptions = MDXOptions & {
-    /** Plugin ID. */
-    id?: string;
-    /**
-     * Path to the blog content directory on the file system, relative to site
-     * directory.
-     */
-    path: string;
-    /**
-     * URL route for the blog section of your site. **DO NOT** include a
-     * trailing slash. Use `/` to put the blog at root path.
-     */
-    routeBasePath: string;
-    /**
-     * URL route for the tags section of your blog. Will be appended to
-     * `routeBasePath`.
-     */
-    tagsBasePath: string;
-    /**
-     * URL route for the pages section of your blog. Will be appended to
-     * `routeBasePath`.
-     */
-    pageBasePath: string;
-    /**
-     * URL route for the archive section of your blog. Will be appended to
-     * `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to
-     * disable generation of archive.
-     */
-    archiveBasePath: string | null;
-    /**
-     * Array of glob patterns matching Markdown files to be built, relative to
-     * the content path.
-     */
-    include: string[];
-    /**
-     * Array of glob patterns matching Markdown files to be excluded. Serves as
-     * refinement based on the `include` option.
-     */
-    exclude: string[];
-    /**
-     *  Number of posts to show per page in the listing page. Use `'ALL'` to
-     * display all posts on one listing page.
-     */
-    postsPerPage: number | 'ALL';
-    /** Root component of the blog listing page. */
-    blogListComponent: string;
-    /** Root component of each blog post page. */
-    blogPostComponent: string;
-    /** Root component of the tags list page. */
-    blogTagsListComponent: string;
-    /** Root component of the "posts containing tag" page. */
-    blogTagsPostsComponent: string;
-    /** Root component of the blog archive page. */
-    blogArchiveComponent: string;
-    /** Blog page title for better SEO. */
-    blogTitle: string;
-    /** Blog page meta description for better SEO. */
-    blogDescription: string;
-    /**
-     * Number of blog post elements to show in the blog sidebar. `'ALL'` to show
-     * all blog posts; `0` to disable.
-     */
-    blogSidebarCount: number | 'ALL';
-    /** Title of the blog sidebar. */
-    blogSidebarTitle: string;
-    /** Truncate marker marking where the summary ends. */
-    truncateMarker: RegExp;
-    /** Show estimated reading time for the blog post. */
-    showReadingTime: boolean;
-    /** Blog feed. */
-    feedOptions: FeedOptions;
-    /**
-     * Base URL to edit your site. The final URL is computed by `editUrl +
-     * relativePostPath`. Using a function allows more nuanced control for each
-     * file. Omitting this variable entirely will disable edit links.
-     */
-    editUrl?: string | EditUrlFunction;
-    /**
-     * The edit URL will target the localized file, instead of the original
-     * unlocalized file. Ignored when `editUrl` is a function.
-     */
-    editLocalizedFiles?: boolean;
-    /** Path to the authors map file, relative to the blog content directory. */
-    authorsMapPath: string;
-    /** A callback to customize the reading time number displayed. */
-    readingTime: ReadingTimeFunctionOption;
-    /** Governs the direction of blog post sorting. */
-    sortPosts: 'ascending' | 'descending';
-    /**	Whether to display the last date the doc was updated. */
-    showLastUpdateTime: boolean;
-    /** Whether to display the author who last updated the doc. */
-    showLastUpdateAuthor: boolean;
-    /** An optional function which can be used to transform blog posts
-     *  (filter, modify, delete, etc...).
-     */
-    processBlogPosts: ProcessBlogPostsFn;
-  };
+  export type PluginOptions = MDXOptions &
+    TagsPluginOptions & {
+      /** Plugin ID. */
+      id?: string;
+      /**
+       * Path to the blog content directory on the file system, relative to site
+       * directory.
+       */
+      path: string;
+      /**
+       * URL route for the blog section of your site. **DO NOT** include a
+       * trailing slash. Use `/` to put the blog at root path.
+       */
+      routeBasePath: string;
+      /**
+       * URL route for the tags section of your blog. Will be appended to
+       * `routeBasePath`.
+       */
+      tagsBasePath: string;
+      /**
+       * URL route for the pages section of your blog. Will be appended to
+       * `routeBasePath`.
+       */
+      pageBasePath: string;
+      /**
+       * URL route for the archive section of your blog. Will be appended to
+       * `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to
+       * disable generation of archive.
+       */
+      archiveBasePath: string | null;
+      /**
+       * Array of glob patterns matching Markdown files to be built, relative to
+       * the content path.
+       */
+      include: string[];
+      /**
+       * Array of glob patterns matching Markdown files to be excluded. Serves as
+       * refinement based on the `include` option.
+       */
+      exclude: string[];
+      /**
+       *  Number of posts to show per page in the listing page. Use `'ALL'` to
+       * display all posts on one listing page.
+       */
+      postsPerPage: number | 'ALL';
+      /** Root component of the blog listing page. */
+      blogListComponent: string;
+      /** Root component of each blog post page. */
+      blogPostComponent: string;
+      /** Root component of the tags list page. */
+      blogTagsListComponent: string;
+      /** Root component of the "posts containing tag" page. */
+      blogTagsPostsComponent: string;
+      /** Root component of the blog archive page. */
+      blogArchiveComponent: string;
+      /** Blog page title for better SEO. */
+      blogTitle: string;
+      /** Blog page meta description for better SEO. */
+      blogDescription: string;
+      /**
+       * Number of blog post elements to show in the blog sidebar. `'ALL'` to show
+       * all blog posts; `0` to disable.
+       */
+      blogSidebarCount: number | 'ALL';
+      /** Title of the blog sidebar. */
+      blogSidebarTitle: string;
+      /** Truncate marker marking where the summary ends. */
+      truncateMarker: RegExp;
+      /** Show estimated reading time for the blog post. */
+      showReadingTime: boolean;
+      /** Blog feed. */
+      feedOptions: FeedOptions;
+      /**
+       * Base URL to edit your site. The final URL is computed by `editUrl +
+       * relativePostPath`. Using a function allows more nuanced control for each
+       * file. Omitting this variable entirely will disable edit links.
+       */
+      editUrl?: string | EditUrlFunction;
+      /**
+       * The edit URL will target the localized file, instead of the original
+       * unlocalized file. Ignored when `editUrl` is a function.
+       */
+      editLocalizedFiles?: boolean;
+      /** Path to the authors map file, relative to the blog content directory. */
+      authorsMapPath: string;
+      /** A callback to customize the reading time number displayed. */
+      readingTime: ReadingTimeFunctionOption;
+      /** Governs the direction of blog post sorting. */
+      sortPosts: 'ascending' | 'descending';
+      /**	Whether to display the last date the doc was updated. */
+      showLastUpdateTime: boolean;
+      /** Whether to display the author who last updated the doc. */
+      showLastUpdateAuthor: boolean;
+      /** An optional function which can be used to transform blog posts
+       *  (filter, modify, delete, etc...).
+       */
+      processBlogPosts: ProcessBlogPostsFn;
+    };
 
   /**
    * Feed options, as provided by user config. `type` accepts `all` as shortcut
@@ -494,7 +495,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     [permalink: string]: BlogTag;
   };
 
-  export type BlogTag = Tag & {
+  export type BlogTag = TagMetadata & {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];

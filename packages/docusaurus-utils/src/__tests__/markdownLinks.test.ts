@@ -18,12 +18,14 @@ describe('resolveMarkdownLinkPathname', () => {
         contentPath: 'docs',
         contentPathLocalized: 'i18n/docs-localized',
       },
-      sourceToPermalink: {
-        '@site/docs/intro.md': '/docs/intro',
-        '@site/docs/foo.md': '/doc/foo',
-        '@site/docs/bar/baz.md': '/doc/baz',
-        '@site/docs/http.foo.md': '/doc/http',
-      },
+      sourceToPermalink: new Map(
+        Object.entries({
+          '@site/docs/intro.md': '/docs/intro',
+          '@site/docs/foo.md': '/doc/foo',
+          '@site/docs/bar/baz.md': '/doc/baz',
+          '@site/docs/http.foo.md': '/doc/http',
+        }),
+      ),
     };
 
     function test(linkPathname: string, expectedOutput: string) {
@@ -50,11 +52,13 @@ describe('resolveMarkdownLinkPathname', () => {
         contentPathLocalized: 'i18n/docs-localized',
       },
 
-      sourceToPermalink: {
-        '@site/docs/intro/intro.md': '/docs/intro',
-        '@site/docs/intro/another.md': '/docs/another',
-        '@site/docs/api/classes/divine_uri.URI.md': '/docs/api/classes/uri',
-      },
+      sourceToPermalink: new Map(
+        Object.entries({
+          '@site/docs/intro/intro.md': '/docs/intro',
+          '@site/docs/intro/another.md': '/docs/another',
+          '@site/docs/api/classes/divine_uri.URI.md': '/docs/api/classes/uri',
+        }),
+      ),
     };
 
     function test(linkPathname: string, expectedOutput: string) {

@@ -15,9 +15,10 @@ declare module '@docusaurus/plugin-content-docs' {
     FrontMatterTag,
     TagsListItem,
     TagModule,
-    Tag,
     FrontMatterLastUpdate,
     LastUpdateData,
+    TagMetadata,
+    TagsPluginOptions,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
@@ -64,7 +65,7 @@ declare module '@docusaurus/plugin-content-docs' {
     locale: string;
   }) => string | undefined;
 
-  export type MetadataOptions = {
+  export type MetadataOptions = TagsPluginOptions & {
     /**
      * URL route for the docs section of your site. **DO NOT** include a
      * trailing slash. Use `/` for shipping docs without base path.
@@ -446,7 +447,7 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editUrl?: string | null;
     /** Tags, normalized. */
-    tags: Tag[];
+    tags: TagMetadata[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
   };

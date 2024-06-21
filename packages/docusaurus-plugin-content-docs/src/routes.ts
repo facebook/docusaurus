@@ -11,19 +11,20 @@ import {
   docuHash,
   normalizeUrl,
   aliasedSitePathToRelativePath,
+  groupTaggedItems,
+  getTagVisibility,
 } from '@docusaurus/utils';
 import {
   toTagDocListProp,
   toTagsListTagsProp,
   toVersionMetadataProp,
 } from './props';
-import {getVersionTags} from './tags';
 import type {
   PluginContentLoadedActions,
   RouteConfig,
   RouteMetadata,
 } from '@docusaurus/types';
-import type {FullVersion, VersionTag} from './types';
+import type {FullVersion, VersionTag, VersionTags} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
@@ -112,6 +113,23 @@ async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
     routes: subRoutes,
   };
 }
+function getVersionTags(docs: DocMetadata[]): VersionTags {
+  const groups = groupTaggedItems(docs, (doc) => doc.tags);
+  return _.mapValues(groups, ({tag, items: tagDocs}) => {
+    const tagVisibility = getTagVisibility({
+      items: tagDocs,
+      isUnlisted: (item) => item.unlisted,
+    });
+    return {
+      inline: tag.inline,
+      label: tag.label,
+      permalink: tag.permalink,
+      description: tag.description,
+      docIds: tagVisibility.listedItems.map((item) => item.id),
+      unlisted: tagVisibility.unlisted,
+    };
+  });
+}
 
 async function buildVersionTagsRoutes(
   param: BuildVersionRoutesParam,
@@ -120,8 +138,9 @@ async function buildVersionTagsRoutes(
   const versionTags = getVersionTags(version.docs);
 
   async function buildTagsListRoute(): Promise<RouteConfig | null> {
+    const tags = toTagsListTagsProp(versionTags);
     // Don't create a tags list page if there's no tag
-    if (Object.keys(versionTags).length === 0) {
+    if (tags.length === 0) {
       return null;
     }
     return {
@@ -129,7 +148,7 @@ async function buildVersionTagsRoutes(
       exact: true,
       component: options.docTagsListComponent,
       props: {
-        tags: toTagsListTagsProp(versionTags),
+        tags,
       },
     };
   }

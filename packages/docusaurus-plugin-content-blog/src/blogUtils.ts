@@ -18,7 +18,6 @@ import {
   getFolderContainingFile,
   posixPath,
   Globby,
-  normalizeFrontMatterTags,
   groupTaggedItems,
   getTagVisibility,
   getFileCommitDate,
@@ -26,9 +25,12 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  normalizeTags,
 } from '@docusaurus/utils';
+import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
   PluginOptions,
@@ -41,14 +43,6 @@ import type {BlogContentPaths} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
-}
-
-export function getSourceToPermalink(blogPosts: BlogPost[]): {
-  [aliasedPath: string]: string;
-} {
-  return Object.fromEntries(
-    blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
-  );
 }
 
 export function paginateBlogPosts({
@@ -125,9 +119,11 @@ export function getBlogTags({
       isUnlisted: (item) => item.metadata.unlisted,
     });
     return {
+      inline: tag.inline,
       label: tag.label,
-      items: tagVisibility.listedItems.map((item) => item.id),
       permalink: tag.permalink,
+      description: tag.description,
+      items: tagVisibility.listedItems.map((item) => item.id),
       pages: paginateBlogPosts({
         blogPosts: tagVisibility.listedItems,
         basePageUrl: tag.permalink,
@@ -197,6 +193,7 @@ async function processBlogSourceFile(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  tagsFile: TagsFile | null,
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
@@ -315,12 +312,20 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([
+  const tagsBaseRoutePath = normalizeUrl([
     baseUrl,
     routeBasePath,
     tagsRouteBasePath,
   ]);
   const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+
+  const tags = normalizeTags({
+    options,
+    source: blogSourceRelative,
+    frontMatterTags: frontMatter.tags,
+    tagsBaseRoutePath,
+    tagsFile,
+  });
 
   return {
     id: slug,
@@ -331,7 +336,7 @@ async function processBlogSourceFile(
       title,
       description,
       date,
-      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
+      tags,
       readingTime: showReadingTime
         ? options.readingTime({
             content,
@@ -371,6 +376,8 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
+
   async function doProcessBlogSourceFile(blogSourceFile: string) {
     try {
       return await processBlogSourceFile(
@@ -378,6 +385,7 @@ export async function generateBlogPosts(
         contentPaths,
         context,
         options,
+        tagsFile,
         authorsMap,
       );
     } catch (err) {
