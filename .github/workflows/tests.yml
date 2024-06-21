@@ -49,9 +49,9 @@ jobs:
         run: yarn workspace website typecheck
       - name: TypeCheck website - min version - v5.1
         run: |
-          yarn workspace website add typescript@5.1.6 --exact
+          yarn add typescript@5.1.6 --exact -D -W
           yarn workspace website typecheck
       - name: TypeCheck website - max version - Latest
         run: |
-          yarn workspace website add typescript@latest --exact
+          yarn add typescript@latest --exact -D -W
           yarn workspace website typecheck
