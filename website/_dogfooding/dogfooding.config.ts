@@ -47,7 +47,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       recmaPlugins: [
         [
           RecmaMDXDisplayName,
-          (vfile) => `MDXContent(${path.relative(process.cwd(), vfile.path)})`,
+          (vfile: {path: string}) =>
+            `MDXContent(${path.relative(process.cwd(), vfile.path)})`,
         ],
       ],
 
