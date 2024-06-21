@@ -317,11 +317,14 @@ async function processBlogSourceFile(
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors(
-    {authorsMap, frontMatter, baseUrl},
-    options.onInlineAuthors,
+  const authors = getBlogPostAuthors({
+    params: {authorsMap, frontMatter, baseUrl},
+    options: {
+      onInlineAuthors: options.onInlineAuthors,
+      authorsMapPath: options.authorsMapPath,
+    },
     blogSourceRelative,
-  );
+  });
 
   const tags = normalizeTags({
     options,

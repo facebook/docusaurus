@@ -188,18 +188,21 @@ function fixAuthorImageBaseURL(
 export function reportInlineAuthors({
   authors,
   blogSourceRelative,
-  onInlineAuthors,
+  options,
 }: {
   authors: Author[];
   blogSourceRelative: string;
-  onInlineAuthors: ReportingSeverity;
+  options: {onInlineAuthors: ReportingSeverity; authorsMapPath: string};
 }): void {
+  if (options.onInlineAuthors === 'ignore') {
+    return;
+  }
+
   const inlineAuthors = authors.filter((author) => author.inline);
-  if (inlineAuthors.length > 0 && onInlineAuthors !== 'ignore') {
-    logger.report(onInlineAuthors)(
-      `Inline authors found in blog ${blogSourceRelative} ${inlineAuthors
-        .map((author) => author.name ?? author.imageURL)
-        .join(', ')}`,
+
+  if (inlineAuthors.length > 0) {
+    logger.report(options.onInlineAuthors)(
+      `Authors used in ${blogSourceRelative} are not defined in ${options.authorsMapPath}`,
     );
   }
 }
@@ -213,24 +216,41 @@ export function reportDuplicateAuthors({
   blogSourceRelative: string;
   onInlineAuthors: ReportingSeverity;
 }): void {
-  const duplicateList = authors.filter(
-    (author, index, self) =>
-      index !== self.findIndex((t) => t.name === author.name),
-  );
+  if (onInlineAuthors === 'ignore') {
+    return;
+  }
+
+  const seen = new Set<string>();
+  const duplicateList = authors.filter(({name, email, imageURL}) => {
+    const identifier = name || email || imageURL;
+    if (!identifier) {
+      return false;
+    }
+    if (seen.has(identifier)) {
+      return true;
+    }
+    seen.add(identifier);
+    return false;
+  });
+
   if (duplicateList.length > 0) {
     logger.report(onInlineAuthors)(
-      `Duplicate authors found in blog post  ${blogSourceRelative} front matter: ${duplicateList
-        .map((author) => author.name)
+      `Duplicate authors found in blog post ${blogSourceRelative} front matter: ${duplicateList
+        .map(({name, email, imageURL}) => name || email || imageURL)
         .join(', ')}`,
     );
   }
 }
 
-export function getBlogPostAuthors(
-  params: AuthorsParam,
-  onInlineAuthors: ReportingSeverity,
-  blogSourceRelative: string,
-): Author[] {
+export function getBlogPostAuthors({
+  params,
+  options,
+  blogSourceRelative,
+}: {
+  params: AuthorsParam;
+  options: {onInlineAuthors: ReportingSeverity; authorsMapPath: string};
+  blogSourceRelative: string;
+}): Author[] {
   const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
 
@@ -251,13 +271,13 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
   reportInlineAuthors({
     authors: updatedAuthors,
     blogSourceRelative,
-    onInlineAuthors,
+    options,
   });
 
   reportDuplicateAuthors({
     authors: updatedAuthors,
     blogSourceRelative,
-    onInlineAuthors,
+    onInlineAuthors: options.onInlineAuthors,
   });
 
   return updatedAuthors;
