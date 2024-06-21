@@ -63,6 +63,7 @@ describe('validateOptions', () => {
         markdownPluginsObjectStub,
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
+      recmaPlugins: [markdownPluginsFunctionStub],
     };
     expect(testValidate(userOptions)).toEqual(userOptions);
   });
