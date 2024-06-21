@@ -221,6 +221,7 @@ function SearchPageContent(): JSX.Element {
 
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
+    // @ts-expect-error: why errors happens after upgrading to TS 5.5 ?
     hitsPerPage: 15,
     advancedSyntax: true,
     disjunctiveFacets,
