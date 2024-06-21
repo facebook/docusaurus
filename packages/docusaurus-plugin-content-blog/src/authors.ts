@@ -221,8 +221,10 @@ export function reportDuplicateAuthors({
   }
 
   const seen = new Set<string>();
-  const duplicateList = authors.filter(({name, email, imageURL}) => {
-    const identifier = name || email || imageURL;
+  const duplicateList = authors.filter(({name, imageURL}) => {
+    // TODO check with the string that is used in the authors map
+    // TODO check with the key if author is overwriten
+    const identifier = name || imageURL;
     if (!identifier) {
       return false;
     }
@@ -236,7 +238,7 @@ export function reportDuplicateAuthors({
   if (duplicateList.length > 0) {
     logger.report(onInlineAuthors)(
       `Duplicate authors found in blog post ${blogSourceRelative} front matter: ${duplicateList
-        .map(({name, email, imageURL}) => name || email || imageURL)
+        .map(({name, imageURL}) => name || imageURL)
         .join(', ')}`,
     );
   }
@@ -275,7 +277,7 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
   });
 
   reportDuplicateAuthors({
-    authors: updatedAuthors,
+    authors: updatedAuthors.filter((author) => !author.inline),
     blogSourceRelative,
     onInlineAuthors: options.onInlineAuthors,
   });

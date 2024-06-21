@@ -681,10 +681,10 @@ describe('ozaki duplicate authors', () => {
         name: 'Sébastien Lorber',
       },
       {
-        name: 'Ozaki',
+        name: 'ozaki',
       },
       {
-        name: 'Ozaki',
+        name: 'ozaki',
       },
     ];
 
@@ -695,7 +695,7 @@ describe('ozaki duplicate authors', () => {
         onInlineAuthors: 'throw',
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Duplicate authors found in blog post doc.md front matter: Sébastien Lorber, Ozaki"`,
+      `"Duplicate authors found in blog post doc.md front matter: Sébastien Lorber, ozaki"`,
     );
   });
 
@@ -737,7 +737,7 @@ describe('ozaki duplicate authors', () => {
         imageURL: 'https://github.com/slorber.png',
       },
       {
-        name: 'Ozaki',
+        name: 'ozaki',
         imageURL: 'https://github.com/ozakione.png',
       },
       {
@@ -765,7 +765,7 @@ describe('ozaki duplicate authors', () => {
         imageURL: 'https://github.com/slorber.png',
       },
       {
-        name: 'Ozaki',
+        name: 'ozaki',
         imageURL: 'https://github.com/ozakione.png',
       },
       {
