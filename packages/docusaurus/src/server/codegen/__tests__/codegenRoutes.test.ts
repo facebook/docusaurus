@@ -5,8 +5,74 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generateRoutesCode, genChunkName} from '../codegenRoutes';
+import {
+  generateRoutesCode,
+  genChunkName,
+  generateRoutePropFilename,
+} from '../codegenRoutes';
 import type {RouteConfig} from '@docusaurus/types';
+
+describe('generateRoutePropFilename', () => {
+  it('generate filename based on route path', () => {
+    expect(
+      generateRoutePropFilename({
+        path: '/some/route-path/',
+        component: '@theme/Home',
+      }),
+    ).toEqual(expect.stringMatching(/^some-route-path-[a-z\d]{3}.json$/));
+  });
+
+  it('generate filename for /', () => {
+    expect(
+      generateRoutePropFilename({
+        path: '/',
+        component: '@theme/Home',
+      }),
+    ).toEqual(expect.stringMatching(/^index-[a-z\d]{3}.json$/));
+  });
+
+  it('generate filename for /category/', () => {
+    expect(
+      generateRoutePropFilename({
+        path: '/category/',
+        component: '@theme/Home',
+      }),
+    ).toEqual(expect.stringMatching(/^category-[a-z\d]{3}.json$/));
+  });
+
+  it('generate unique filenames for /', () => {
+    expect(
+      generateRoutePropFilename({path: '/', component: '@theme/Home'}),
+    ).toEqual(generateRoutePropFilename({path: '/', component: '@theme/Home'}));
+    expect(
+      generateRoutePropFilename({path: '/', component: '@theme/Home'}),
+    ).not.toEqual(
+      generateRoutePropFilename({
+        path: '/',
+        component: '@theme/AnotherComponent',
+      }),
+    );
+  });
+
+  it('generate unique filenames for /some/path', () => {
+    expect(
+      generateRoutePropFilename({path: '/some/path', component: '@theme/Home'}),
+    ).toEqual(
+      generateRoutePropFilename({path: '/some/path', component: '@theme/Home'}),
+    );
+    expect(
+      generateRoutePropFilename({
+        path: '/some/path',
+        component: '@theme/Home',
+      }),
+    ).not.toEqual(
+      generateRoutePropFilename({
+        path: '/some/path',
+        component: '@theme/AnotherComponent',
+      }),
+    );
+  });
+});
 
 describe('genChunkName', () => {
   it('works', () => {

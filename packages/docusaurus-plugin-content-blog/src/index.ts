@@ -18,9 +18,11 @@ import {
   getContentPathList,
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
+  resolveMarkdownLinkPathname,
+  type SourceToPermalink,
 } from '@docusaurus/utils';
+import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {
-  getSourceToPermalink,
   getBlogTags,
   paginateBlogPosts,
   shouldBeListed,
@@ -29,11 +31,11 @@ import {
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
-import {createBlogFeedFiles} from './feed';
+import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
@@ -43,6 +45,37 @@ import type {
   BlogContent,
   BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
+import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader/lib/loader';
+import type {RuleSetUseItem} from 'webpack';
+
+const PluginName = 'docusaurus-plugin-content-blog';
+
+// TODO this is bad, we should have a better way to do this (new lifecycle?)
+//  The source to permalink is currently a mutable map passed to the mdx loader
+//  for link resolution
+//  see https://github.com/facebook/docusaurus/pull/10185
+function createSourceToPermalinkHelper() {
+  const sourceToPermalink: SourceToPermalink = new Map();
+
+  function computeSourceToPermalink(content: BlogContent): SourceToPermalink {
+    return new Map(
+      content.blogPosts.map(({metadata: {source, permalink}}) => [
+        source,
+        permalink,
+      ]),
+    );
+  }
+
+  // Mutable map update :/
+  function update(content: BlogContent): void {
+    sourceToPermalink.clear();
+    computeSourceToPermalink(content).forEach((value, key) => {
+      sourceToPermalink.set(key, value);
+    });
+  }
+
+  return {get: () => sourceToPermalink, update};
+}
 
 export default async function pluginContentBlog(
   context: LoadContext,
@@ -55,22 +88,29 @@ export default async function pluginContentBlog(
     localizationDir,
     i18n: {currentLocale},
   } = context;
+
+  const router = siteConfig.future.experimental_router;
+  const isBlogFeedDisabledBecauseOfHashRouter =
+    router === 'hash' && !!options.feedOptions.type;
+  if (isBlogFeedDisabledBecauseOfHashRouter) {
+    logger.warn(
+      `${PluginName} feed feature does not support the Hash Router. Feeds won't be generated.`,
+    );
+  }
+
   const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
       localizationDir,
-      pluginName: 'docusaurus-plugin-content-blog',
+      pluginName: PluginName,
       pluginId: options.id,
     }),
   };
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
-  const pluginDataDirRoot = path.join(
-    generatedFilesDir,
-    'docusaurus-plugin-content-blog',
-  );
+  const pluginDataDirRoot = path.join(generatedFilesDir, PluginName);
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   // TODO Docusaurus v4 breaking change
   //  module aliasing should be automatic
@@ -83,8 +123,10 @@ export default async function pluginContentBlog(
     contentPaths,
   });
 
+  const sourceToPermalinkHelper = createSourceToPermalinkHelper();
+
   return {
-    name: 'docusaurus-plugin-content-blog',
+    name: PluginName,
 
     getPathsToWatch() {
       const {include} = options;
@@ -92,9 +134,16 @@ export default async function pluginContentBlog(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
-        Boolean,
-      ) as string[];
+      const tagsFilePaths = getTagsFilePathsToWatch({
+        contentPaths,
+        tags: options.tags,
+      });
+
+      return [
+        authorsMapFilePath,
+        ...tagsFilePaths,
+        ...contentMarkdownGlobs,
+      ].filter(Boolean) as string[];
     },
 
     getTranslationFiles() {
@@ -181,6 +230,8 @@ export default async function pluginContentBlog(
     },
 
     async contentLoaded({content, actions}) {
+      sourceToPermalinkHelper.update(content);
+
       await createAllRoutes({
         baseUrl,
         content,
@@ -194,7 +245,7 @@ export default async function pluginContentBlog(
       return translateContent(content, translationFiles);
     },
 
-    configureWebpack(_config, isServer, utils, content) {
+    configureWebpack() {
       const {
         admonitions,
         rehypePlugins,
@@ -204,22 +255,80 @@ export default async function pluginContentBlog(
         beforeDefaultRehypePlugins,
       } = options;
 
-      const markdownLoaderOptions: BlogMarkdownLoaderOptions = {
-        siteDir,
-        contentPaths,
-        truncateMarker,
-        sourceToPermalink: getSourceToPermalink(content.blogPosts),
-        onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          if (onBrokenMarkdownLinks === 'ignore') {
-            return;
-          }
-          logger.report(
-            onBrokenMarkdownLinks,
-          )`Blog markdown link couldn't be resolved: (url=${brokenMarkdownLink.link}) in path=${brokenMarkdownLink.filePath}`;
-        },
-      };
-
       const contentDirs = getContentPathList(contentPaths);
+
+      function createMDXLoader(): RuleSetUseItem {
+        const loaderOptions: MDXLoaderOptions = {
+          admonitions,
+          remarkPlugins,
+          rehypePlugins,
+          beforeDefaultRemarkPlugins: [
+            footnoteIDFixer,
+            ...beforeDefaultRemarkPlugins,
+          ],
+          beforeDefaultRehypePlugins,
+          staticDirs: siteConfig.staticDirectories.map((dir) =>
+            path.resolve(siteDir, dir),
+          ),
+          siteDir,
+          isMDXPartial: createAbsoluteFilePathMatcher(
+            options.exclude,
+            contentDirs,
+          ),
+          metadataPath: (mdxPath: string) => {
+            // Note that metadataPath must be the same/in-sync as
+            // the path from createData for each MDX.
+            const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+            return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+          },
+          // For blog posts a title in markdown is always removed
+          // Blog posts title are rendered separately
+          removeContentTitle: true,
+          // Assets allow to convert some relative images paths to
+          // require() calls
+          // @ts-expect-error: TODO fix typing issue
+          createAssets: ({
+            frontMatter,
+            metadata,
+          }: {
+            frontMatter: BlogPostFrontMatter;
+            metadata: BlogPostMetadata;
+          }): Assets => ({
+            image: frontMatter.image,
+            authorsImageUrls: metadata.authors.map((author) => author.imageURL),
+          }),
+          markdownConfig: siteConfig.markdown,
+          resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+            const permalink = resolveMarkdownLinkPathname(linkPathname, {
+              sourceFilePath,
+              sourceToPermalink: sourceToPermalinkHelper.get(),
+              siteDir,
+              contentPaths,
+            });
+            if (permalink === null) {
+              logger.report(
+                onBrokenMarkdownLinks,
+              )`Blog markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath}`;
+            }
+            return permalink;
+          },
+        };
+        return {
+          loader: require.resolve('@docusaurus/mdx-loader'),
+          options: loaderOptions,
+        };
+      }
+
+      function createBlogMarkdownLoader(): RuleSetUseItem {
+        const loaderOptions: BlogMarkdownLoaderOptions = {
+          truncateMarker,
+        };
+        return {
+          loader: path.resolve(__dirname, './markdownLoader.js'),
+          options: loaderOptions,
+        };
+      }
+
       return {
         resolve: {
           alias: {
@@ -233,61 +342,7 @@ export default async function pluginContentBlog(
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
-              use: [
-                {
-                  loader: require.resolve('@docusaurus/mdx-loader'),
-                  options: {
-                    admonitions,
-                    remarkPlugins,
-                    rehypePlugins,
-                    beforeDefaultRemarkPlugins: [
-                      footnoteIDFixer,
-                      ...beforeDefaultRemarkPlugins,
-                    ],
-                    beforeDefaultRehypePlugins,
-                    staticDirs: siteConfig.staticDirectories.map((dir) =>
-                      path.resolve(siteDir, dir),
-                    ),
-                    siteDir,
-                    isMDXPartial: createAbsoluteFilePathMatcher(
-                      options.exclude,
-                      contentDirs,
-                    ),
-                    metadataPath: (mdxPath: string) => {
-                      // Note that metadataPath must be the same/in-sync as
-                      // the path from createData for each MDX.
-                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-                      return path.join(
-                        dataDir,
-                        `${docuHash(aliasedPath)}.json`,
-                      );
-                    },
-                    // For blog posts a title in markdown is always removed
-                    // Blog posts title are rendered separately
-                    removeContentTitle: true,
-
-                    // Assets allow to convert some relative images paths to
-                    // require() calls
-                    createAssets: ({
-                      frontMatter,
-                      metadata,
-                    }: {
-                      frontMatter: BlogPostFrontMatter;
-                      metadata: BlogPostMetadata;
-                    }): Assets => ({
-                      image: frontMatter.image,
-                      authorsImageUrls: metadata.authors.map(
-                        (author) => author.imageURL,
-                      ),
-                    }),
-                    markdownConfig: siteConfig.markdown,
-                  },
-                },
-                {
-                  loader: path.resolve(__dirname, './markdownLoader.js'),
-                  options: markdownLoaderOptions,
-                },
-              ].filter(Boolean),
+              use: [createMDXLoader(), createBlogMarkdownLoader()],
             },
           ],
         },
@@ -295,15 +350,16 @@ export default async function pluginContentBlog(
     },
 
     async postBuild({outDir, content}) {
-      if (!options.feedOptions.type) {
+      if (
+        !content.blogPosts.length ||
+        !options.feedOptions.type ||
+        isBlogFeedDisabledBecauseOfHashRouter
+      ) {
         return;
       }
-      const {blogPosts} = content;
-      if (!blogPosts.length) {
-        return;
-      }
+
       await createBlogFeedFiles({
-        blogPosts,
+        blogPosts: content.blogPosts,
         options,
         outDir,
         siteConfig,
@@ -312,56 +368,15 @@ export default async function pluginContentBlog(
     },
 
     injectHtmlTags({content}) {
-      if (!content.blogPosts.length || !options.feedOptions.type) {
+      if (
+        !content.blogPosts.length ||
+        !options.feedOptions.type ||
+        isBlogFeedDisabledBecauseOfHashRouter
+      ) {
         return {};
       }
 
-      const feedTypes = options.feedOptions.type;
-      const feedTitle = options.feedOptions.title ?? context.siteConfig.title;
-      const feedsConfig = {
-        rss: {
-          type: 'application/rss+xml',
-          path: 'rss.xml',
-          title: `${feedTitle} RSS Feed`,
-        },
-        atom: {
-          type: 'application/atom+xml',
-          path: 'atom.xml',
-          title: `${feedTitle} Atom Feed`,
-        },
-        json: {
-          type: 'application/json',
-          path: 'feed.json',
-          title: `${feedTitle} JSON Feed`,
-        },
-      };
-      const headTags: HtmlTags = [];
-
-      feedTypes.forEach((feedType) => {
-        const {
-          type,
-          path: feedConfigPath,
-          title: feedConfigTitle,
-        } = feedsConfig[feedType];
-
-        headTags.push({
-          tagName: 'link',
-          attributes: {
-            rel: 'alternate',
-            type,
-            href: normalizeUrl([
-              baseUrl,
-              options.routeBasePath,
-              feedConfigPath,
-            ]),
-            title: feedConfigTitle,
-          },
-        });
-      });
-
-      return {
-        headTags,
-      };
+      return {headTags: createFeedHtmlHeadTags({context, options})};
     },
   };
 }

@@ -136,31 +136,32 @@ function DocSearch({
     });
   }, []);
 
-  const onOpen = useCallback(() => {
-    importDocSearchModalIfNeeded().then(() => {
-      searchContainer.current = document.createElement('div');
-      document.body.insertBefore(
-        searchContainer.current,
-        document.body.firstChild,
-      );
-      setIsOpen(true);
-    });
-  }, [importDocSearchModalIfNeeded, setIsOpen]);
+  const prepareSearchContainer = useCallback(() => {
+    if (!searchContainer.current) {
+      const divElement = document.createElement('div');
+      searchContainer.current = divElement;
+      document.body.insertBefore(divElement, document.body.firstChild);
+    }
+  }, []);
 
-  const onClose = useCallback(() => {
+  const openModal = useCallback(() => {
+    prepareSearchContainer();
+    importDocSearchModalIfNeeded().then(() => setIsOpen(true));
+  }, [importDocSearchModalIfNeeded, prepareSearchContainer]);
+
+  const closeModal = useCallback(() => {
     setIsOpen(false);
-    searchContainer.current?.remove();
     searchButtonRef.current?.focus();
-  }, [setIsOpen]);
+  }, []);
 
-  const onInput = useCallback(
+  const handleInput = useCallback(
     (event: KeyboardEvent) => {
-      importDocSearchModalIfNeeded().then(() => {
-        setIsOpen(true);
-        setInitialQuery(event.key);
-      });
+      // prevents duplicate key insertion in the modal input
+      event.preventDefault();
+      setInitialQuery(event.key);
+      openModal();
     },
-    [importDocSearchModalIfNeeded, setIsOpen, setInitialQuery],
+    [openModal],
   );
 
   const navigator = useRef({
@@ -192,8 +193,8 @@ function DocSearch({
       () =>
         // eslint-disable-next-line react/no-unstable-nested-components
         (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element =>
-          <ResultsFooter {...footerProps} onClose={onClose} />,
-      [onClose],
+          <ResultsFooter {...footerProps} onClose={closeModal} />,
+      [closeModal],
     );
 
   const transformSearchClient = useCallback(
@@ -210,9 +211,9 @@ function DocSearch({
 
   useDocSearchKeyboardEvents({
     isOpen,
-    onOpen,
-    onClose,
-    onInput,
+    onOpen: openModal,
+    onClose: closeModal,
+    onInput: handleInput,
     searchButtonRef,
   });
 
@@ -233,7 +234,7 @@ function DocSearch({
         onTouchStart={importDocSearchModalIfNeeded}
         onFocus={importDocSearchModalIfNeeded}
         onMouseOver={importDocSearchModalIfNeeded}
-        onClick={onOpen}
+        onClick={openModal}
         ref={searchButtonRef}
         translations={translations.button}
       />
@@ -243,7 +244,7 @@ function DocSearch({
         searchContainer.current &&
         createPortal(
           <DocSearchModal
-            onClose={onClose}
+            onClose={closeModal}
             initialScrollY={window.scrollY}
             initialQuery={initialQuery}
             navigator={navigator}

@@ -265,14 +265,6 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Butterfly',
-    description: 'The note taking app Linwood Butterfly',
-    preview: require('./showcase/docs-butterfly.png'),
-    website: 'https://docs.butterfly.linwood.dev',
-    source: 'https://github.com/LinwoodCloud/Butterfly/tree/develop/docs',
-    tags: ['opensource', 'i18n', 'versioning'],
-  },
-  {
     title: 'Chaos Mesh',
     description: 'A Powerful Chaos Engineering Platform for Kubernetes.',
     preview: require('./showcase/chaos-mesh.png'),

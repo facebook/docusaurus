@@ -39,6 +39,7 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_storage: DEFAULT_STORAGE_CONFIG,
+  experimental_router: 'browser',
 };
 
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
@@ -206,6 +207,9 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   experimental_storage: STORAGE_CONFIG_SCHEMA,
+  experimental_router: Joi.string()
+    .equal('browser', 'hash')
+    .default(DEFAULT_FUTURE_CONFIG.experimental_router),
 })
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
