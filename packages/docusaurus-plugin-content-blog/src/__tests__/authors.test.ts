@@ -651,7 +651,7 @@ describe('validateAuthorsMap', () => {
 describe('ozaki duplicate authors', () => {
   const blogSourceRelative = 'doc.md';
 
-  it('basic duplicate authors', () => {
+  it('one duplicated name authors', () => {
     const authors: Author[] = [
       {
         name: 'Sébastien Lorber',
@@ -671,6 +671,116 @@ describe('ozaki duplicate authors', () => {
       `"Duplicate authors found in blog post doc.md front matter: Sébastien Lorber"`,
     );
   });
+
+  it('multiple duplicated name authors', () => {
+    const authors: Author[] = [
+      {
+        name: 'Sébastien Lorber',
+      },
+      {
+        name: 'Sébastien Lorber',
+      },
+      {
+        name: 'Ozaki',
+      },
+      {
+        name: 'Ozaki',
+      },
+    ];
+
+    expect(() =>
+      reportDuplicateAuthors({
+        authors,
+        blogSourceRelative,
+        onInlineAuthors: 'throw',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Duplicate authors found in blog post doc.md front matter: Sébastien Lorber, Ozaki"`,
+    );
+  });
+
+  it('multiple duplicated image authors', () => {
+    const authors: Author[] = [
+      {
+        imageURL: 'https://github.com/slorber.png',
+      },
+      {
+        imageURL: 'https://github.com/slorber.png',
+      },
+      {
+        imageURL: 'https://github.com/ozakione.png',
+      },
+      {
+        imageURL: 'https://github.com/ozakione.png',
+      },
+    ];
+
+    expect(() =>
+      reportDuplicateAuthors({
+        authors,
+        blogSourceRelative,
+        onInlineAuthors: 'throw',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Duplicate authors found in blog post doc.md front matter: https://github.com/slorber.png, https://github.com/ozakione.png"`,
+    );
+  });
+
+  it('multiple duplicated mixed authors', () => {
+    const authors: Author[] = [
+      {
+        name: 'Sébastien',
+        imageURL: 'https://github.com/slorber.png',
+      },
+      {
+        name: 'Lorber',
+        imageURL: 'https://github.com/slorber.png',
+      },
+      {
+        name: 'Ozaki',
+        imageURL: 'https://github.com/ozakione.png',
+      },
+      {
+        name: 'one',
+        imageURL: 'https://github.com/ozakione.png',
+      },
+    ];
+
+    expect(() =>
+      reportDuplicateAuthors({
+        authors,
+        blogSourceRelative,
+        onInlineAuthors: 'throw',
+      }),
+    ).not.toThrow();
+  });
+
+  it('multiple duplicated mixed authors 2', () => {
+    const authors: Author[] = [
+      {
+        name: 'Sébastien',
+        imageURL: 'https://github.com/slorber.png',
+      },
+      {
+        imageURL: 'https://github.com/slorber.png',
+      },
+      {
+        name: 'Ozaki',
+        imageURL: 'https://github.com/ozakione.png',
+      },
+      {
+        imageURL: 'https://github.com/ozakione.png',
+      },
+    ];
+
+    expect(() =>
+      reportDuplicateAuthors({
+        authors,
+        blogSourceRelative,
+        onInlineAuthors: 'throw',
+      }),
+    ).not.toThrow();
+  });
 });
 
 // TODO remove ozaki
@@ -683,7 +793,10 @@ describe('ozaki inline authors', () => {
     const authors: Author[] = [
       {
         name: 'Sébastien Lorber',
-        title: 'maintainer',
+        inline: true,
+      },
+      {
+        imageURL: 'https://github.com/slorber.png',
         inline: true,
       },
     ];
