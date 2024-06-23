@@ -26,9 +26,6 @@ import {
   isDraft,
   readLastUpdateData,
   normalizeTags,
-  getAuthorVisibility,
-  groupAuthoredItems,
-  normalizePageAuthors,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
@@ -37,6 +34,7 @@ import {
   getAuthorsMap,
   getBlogPostAuthors,
   checkPermalinkCollisions,
+  normalizePageAuthors,
 } from './authors';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
@@ -46,7 +44,6 @@ import type {
   BlogPost,
   BlogTags,
   BlogPaginated,
-  BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
 import type {BlogContentPaths} from './types';
 
@@ -139,41 +136,6 @@ export function getBlogTags({
         ...params,
       }),
       unlisted: tagVisibility.unlisted,
-    };
-  });
-}
-
-export function getBlogPageAuthors({
-  blogPosts,
-  ...params
-}: {
-  blogPosts: BlogPost[];
-  blogTitle: string;
-  blogDescription: string;
-  postsPerPageOption: number | 'ALL';
-  pageBasePath: string;
-}): BlogPageAuthors {
-  const getPostPageAuthors = (blogPost: BlogPost) =>
-    blogPost.metadata.pageAuthors;
-
-  const groups = groupAuthoredItems(blogPosts, getPostPageAuthors);
-
-  return _.mapValues(groups, ({author, items: authorBlogPosts}) => {
-    const authorVisibility = getAuthorVisibility({
-      items: authorBlogPosts,
-      isUnlisted: (item: BlogPost) => item.metadata.unlisted,
-    });
-    return {
-      ...author,
-      items: authorVisibility.listedItems.map((item: BlogPost) => item.id),
-      pages: author.permalink
-        ? paginateBlogPosts({
-            blogPosts: authorVisibility.listedItems,
-            basePageUrl: author.permalink,
-            ...params,
-          })
-        : [],
-      unlisted: authorVisibility.unlisted,
     };
   });
 }

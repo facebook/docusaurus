@@ -17,9 +17,11 @@ import type {
   Person,
   ImageObject,
 } from 'schema-dts';
-import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+import type {
+  Author,
+  PropBlogPostContent,
+} from '@docusaurus/plugin-content-blog';
 import type {DocusaurusConfig} from '@docusaurus/types';
-import type {Author} from '@docusaurus/utils';
 
 const convertDate = (dateMs: number) => new Date(dateMs).toISOString();
 

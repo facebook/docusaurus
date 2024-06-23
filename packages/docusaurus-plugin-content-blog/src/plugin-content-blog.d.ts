@@ -15,12 +15,10 @@ declare module '@docusaurus/plugin-content-blog' {
     LastUpdateData,
     FrontMatterLastUpdate,
     TagsPluginOptions,
-    PageAuthor,
-    Author,
   } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
-  import type {Overwrite} from 'utility-types';
+  import type {Optional, Overwrite} from 'utility-types';
 
   export type Assets = {
     /**
@@ -43,6 +41,60 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      * should be accessed through `authors.imageURL`.
      */
     authorsImageUrls: (string | undefined)[];
+  };
+
+  export type Author = Optional<PageAuthor> & {
+    generateAuthorPage?: boolean;
+    /**
+     * Unknown keys are allowed, so that we can pass custom fields to authors,
+     * e.g., `twitter`.
+     */
+    [key: string]: unknown;
+  };
+
+  export type PageAuthor = {
+    /**
+     * If `name` doesn't exist, an `imageURL` is expected.
+     */
+    name: string;
+    /**
+     * The image path could be collocated, in which case
+     * `metadata.assets.authorsImageUrls` should be used instead. If `imageURL`
+     * doesn't exist, a `name` is expected.
+     */
+    imageURL: string;
+    /** Permalink to this author's page, without the `/authors/` base path. */
+    permalink: string;
+    /**
+     * Used as a subtitle for the author, e.g. "maintainer of Docusaurus"
+     */
+    title: string | undefined;
+    /**
+     * Mainly used for RSS feeds; if `url` doesn't exist, `email` can be used
+     * to generate a fallback `mailto:` URL.
+     */
+    email: string | undefined;
+    /**
+     * Used to generate the author's link.
+     */
+    url: string | undefined;
+
+    key: string | undefined;
+    description: string | undefined;
+  };
+
+  /** What the authors list page should know about each author. */
+  export type AuthorsListItem = PageAuthor & {
+    /** Number of posts/docs with this author. */
+    count: number;
+  };
+
+  /** What the author's own page should know about the author. */
+  export type AuthorModule = AuthorsListItem & {
+    /** The authors list page's permalink. */
+    allAuthorsPath: string;
+    /** Is this author unlisted? (when it only contains unlisted items) */
+    unlisted: boolean;
   };
 
   /**

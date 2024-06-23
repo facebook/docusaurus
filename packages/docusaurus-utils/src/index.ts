@@ -129,13 +129,3 @@ export {
 } from './lastUpdateUtils';
 
 export {normalizeTags, reportInlineTags} from './tags';
-
-export {
-  type PageAuthor,
-  type AuthorsListItem,
-  type AuthorModule,
-  type Author,
-  getAuthorVisibility,
-  groupAuthoredItems,
-  normalizePageAuthors,
-} from './authors';

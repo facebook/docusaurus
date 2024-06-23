@@ -28,13 +28,13 @@ import {
   shouldBeListed,
   applyProcessBlogPosts,
   generateBlogPosts,
-  getBlogPageAuthors,
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
+import {getBlogPageAuthors} from './authors';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {

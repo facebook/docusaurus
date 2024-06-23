@@ -6,7 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import type {AuthorsListItem} from '@docusaurus/utils';
+import type {AuthorsListItem} from '@docusaurus/plugin-content-blog';
 
 export const translateAuthorsPageTitle = (): string =>
   translate({

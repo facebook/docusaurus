@@ -6,13 +6,18 @@
  */
 
 import _ from 'lodash';
-import {getDataFileData, normalizeUrl, type Author} from '@docusaurus/utils';
+import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import {paginateBlogPosts} from './blogUtils';
 import type {BlogContentPaths} from './types';
 import type {
+  Author,
+  BlogPageAuthors,
+  BlogPost,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
+  PageAuthor,
 } from '@docusaurus/plugin-content-blog';
 
 export type AuthorsMap = {[authorKey: string]: Author};
@@ -226,4 +231,153 @@ export function checkPermalinkCollisions(
 
     throw new Error(errorMessage);
   }
+}
+
+function normalizePageAuthor({
+  authorsBaseRoutePath,
+  author,
+}: {
+  authorsBaseRoutePath: string;
+  author: Author;
+}): PageAuthor {
+  const key = author.key as string;
+  const name = author.name || key;
+  const permalink = author.permalink || _.kebabCase(key);
+
+  return {
+    imageURL: author.imageURL ?? '',
+    url: author.url,
+    title: author.title,
+    email: author.email,
+    description: author.description,
+    name,
+    key,
+    permalink: normalizeUrl([authorsBaseRoutePath, permalink]),
+  };
+}
+
+export function normalizePageAuthors({
+  authorsBaseRoutePath,
+  authors,
+}: {
+  authorsBaseRoutePath: string;
+  authors: Author[] | undefined;
+}): PageAuthor[] {
+  return (authors ?? [])
+    .filter((author) => author.generateAuthorPage)
+    .map((author) => normalizePageAuthor({authorsBaseRoutePath, author}));
+}
+
+type AuthoredItemGroup<Item> = {
+  author: PageAuthor;
+  items: Item[];
+};
+
+/**
+ * Permits to group docs/blog posts by author (provided by front matter).
+ *
+ * @returns a map from author permalink to the items and other relevant author
+ * data.
+ * The record is indexed by permalink, because routes must be unique in the end.
+ * Labels may vary on 2 MD files but they are normalized. Docs with
+ * label='some label' and label='some-label' should end up in the same page.
+ */
+export function groupAuthoredItems<Item>(
+  items: readonly Item[],
+  /**
+   * A callback telling me how to get the authors list of the current item.
+   * Usually simply getting it from some metadata of the current item.
+   */
+  getItemPageAuthors: (item: Item) => readonly PageAuthor[],
+): {[permalink: string]: AuthoredItemGroup<Item>} {
+  const result: {[permalink: string]: AuthoredItemGroup<Item>} = {};
+
+  items.forEach((item) => {
+    getItemPageAuthors(item).forEach((author) => {
+      // Init missing author groups
+      // TODO: it's not really clear what should be the behavior if 2
+      // authors have the same permalink but the label is different for each
+      // For now, the first author found wins
+      result[author.permalink] ??= {
+        author,
+        items: [],
+      };
+
+      // Add item to group
+      result[author.permalink]!.items.push(item);
+    });
+  });
+
+  // If user add twice the same author to a md doc (weird but possible),
+  // we don't want the item to appear twice in the list...
+  // TODO wait for #10224 and remove below code
+  Object.values(result).forEach((group) => {
+    group.items = _.uniq(group.items);
+  });
+
+  return result;
+}
+
+/**
+ * Permits to get the "author visibility" (hard to find a better name)
+ * IE, is this author listed or unlisted
+ * And which items should be listed when this author is browsed
+ */
+export function getAuthorVisibility<Item>({
+  items,
+  isUnlisted,
+}: {
+  items: Item[];
+  isUnlisted: (item: Item) => boolean;
+}): {
+  unlisted: boolean;
+  listedItems: Item[];
+} {
+  const allItemsUnlisted = items.every(isUnlisted);
+  // When a author is full of unlisted items, we display all the items
+  // when author is browsed, but we mark the author as unlisted
+  if (allItemsUnlisted) {
+    return {unlisted: true, listedItems: items};
+  }
+  // When a author has some listed items, the author remains listed
+  // but we filter its unlisted items
+  return {
+    unlisted: false,
+    listedItems: items.filter((item) => !isUnlisted(item)),
+  };
+}
+
+export function getBlogPageAuthors({
+  blogPosts,
+  ...params
+}: {
+  blogPosts: BlogPost[];
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
+}): BlogPageAuthors {
+  const getPostPageAuthors = (blogPost: BlogPost) =>
+    blogPost.metadata.pageAuthors;
+
+  const groups = groupAuthoredItems(blogPosts, getPostPageAuthors);
+
+  return _.mapValues(groups, ({author, items: authorBlogPosts}) => {
+    const authorVisibility = getAuthorVisibility({
+      items: authorBlogPosts,
+      isUnlisted: (item: BlogPost) => item.metadata.unlisted,
+    });
+    return {
+      ...author,
+      items: authorVisibility.listedItems.map((item: BlogPost) => item.id),
+      pages: author.permalink
+        ? paginateBlogPosts({
+            blogPosts: authorVisibility.listedItems,
+            basePageUrl: author.permalink,
+            ...params,
+          })
+        : [],
+      unlisted: authorVisibility.unlisted,
+    };
+  });
 }
