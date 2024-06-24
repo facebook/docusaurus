@@ -51,7 +51,7 @@ async function createBaseClientConfig({
         name: 'Client',
       }),
       await createStaticDirectoriesCopyPlugin({props}),
-    ],
+    ].filter(Boolean),
   });
 }
 

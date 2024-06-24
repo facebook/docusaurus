@@ -230,8 +230,6 @@ Markdown can embed HTML elements, and [`details`](https://developer.mozilla.org/
 
 :::info
 
-- You should not break lines between the starting or ending tag of the `<summary>` element and its content or an extra `<p>` element is inserted.
-- Blank lines between the `<summary>` element and the first paragraph of the detailed content are optional in Docusaurus but strongly recommended to ensure MDX portability with other site generators.
-- Blank lines between the nested `<details>` element and the paragraphs just around it are optional.
+You may want to keep your `<summary>` on a single line. Keep in mind that [MDX creates extra HTML `<p>` paragraphs for line breaks.](https://mdxjs.com/migrating/v2/#jsx). When in doubt, use the [MDX playground](https://mdxjs.com/playground/) to troubleshoot `<details>` rendering problems.
 
 :::

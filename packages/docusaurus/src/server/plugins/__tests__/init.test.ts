@@ -10,17 +10,20 @@ import path from 'path';
 import {loadContext, type LoadContextParams} from '../../site';
 import {initPlugins} from '../init';
 
+async function loadSite(
+  fixtureName: string,
+  options: Omit<LoadContextParams, 'siteDir'> = {},
+) {
+  const siteDir = path.join(__dirname, '__fixtures__', fixtureName);
+  const context = await loadContext({...options, siteDir});
+  const plugins = await initPlugins(context);
+
+  return {siteDir, context, plugins};
+}
+
 describe('initPlugins', () => {
-  async function loadSite(options: Omit<LoadContextParams, 'siteDir'> = {}) {
-    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
-    const context = await loadContext({...options, siteDir});
-    const plugins = await initPlugins(context);
-
-    return {siteDir, context, plugins};
-  }
-
   it('parses plugins correctly and loads them in correct order', async () => {
-    const {context, plugins} = await loadSite();
+    const {context, plugins} = await loadSite('site-with-plugin');
     expect(context.siteConfig.plugins).toHaveLength(6);
     expect(plugins).toHaveLength(10);
 
@@ -45,7 +48,41 @@ describe('initPlugins', () => {
 
   it('throws user-friendly error message for plugins with bad values', async () => {
     await expect(() =>
-      loadSite({config: 'badPlugins.docusaurus.config.js'}),
-    ).rejects.toThrowErrorMatchingSnapshot();
+      loadSite('site-with-plugin', {config: 'badPlugins.docusaurus.config.js'}),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      " => Bad Docusaurus plugin value plugins[0].
+      Example valid plugin config:
+      {
+        plugins: [
+          ["@docusaurus/plugin-content-docs",options],
+          "./myPlugin",
+          ["./myPlugin",{someOption: 42}],
+          function myPlugin() { },
+          [function myPlugin() { },options]
+        ],
+      };
+
+       => Bad Docusaurus plugin value plugins[1].
+      Example valid plugin config:
+      {
+        plugins: [
+          ["@docusaurus/plugin-content-docs",options],
+          "./myPlugin",
+          ["./myPlugin",{someOption: 42}],
+          function myPlugin() { },
+          [function myPlugin() { },options]
+        ],
+      };
+
+      "
+    `);
+  });
+
+  it('throws user-friendly error message for plugins with no name', async () => {
+    await expect(() => loadSite('site-with-unnamed-plugin')).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "A Docusaurus plugin is missing a 'name' property.
+      Note that even inline/anonymous plugin functions require a 'name' property."
+    `);
   });
 });

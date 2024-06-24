@@ -181,42 +181,55 @@ Markdown quotes are beautifully styled:
 
 Markdown can embed HTML elements, and [`details`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) HTML elements are beautifully styled:
 
-```md
+{/* prettier-ignore */}
+````md
 ### Details element example
 
 <details>
   <summary>Toggle me!</summary>
-  <div>
-    <div>This is the detailed content</div>
-    <br/>
-    <details>
-      <summary>
-        Nested toggle! Some surprise inside...
-      </summary>
-      <div>😲😲😲😲😲</div>
-    </details>
-  </div>
-</details>
-```
 
-```mdx-code-block
+  This is the detailed content
+
+  ```js
+  console.log("Markdown features including the code block are available");
+  ```
+
+  You can use Markdown here including **bold** and _italic_ text, and [inline link](https://docusaurus.io)
+  <details>
+    <summary>Nested toggle! Some surprise inside...</summary>
+
+    😲😲😲😲😲
+  </details>
+</details>
+````
+
+````mdx-code-block
 <BrowserWindow>
 
 <h3>Details element example</h3>
 
 <details>
   <summary>Toggle me!</summary>
-  <div>
-    <div>This is the detailed content</div>
-    <br/>
-    <details>
-      <summary>
-        Nested toggle! Some surprise inside...
-      </summary>
-      <div>😲😲😲😲😲</div>
-    </details>
-  </div>
+
+  This is the detailed content
+
+  ```js
+  console.log("Markdown features including the code block are available");
+  ```
+
+  You can use Markdown here including **bold** and _italic_ text, and [inline link](https://docusaurus.io)
+  <details>
+    <summary>Nested toggle! Some surprise inside...</summary>
+
+    😲😲😲😲😲
+  </details>
 </details>
 
 </BrowserWindow>
-```
+````
+
+:::info
+
+You may want to keep your `<summary>` on a single line. Keep in mind that [MDX creates extra HTML `<p>` paragraphs for line breaks.](https://mdxjs.com/migrating/v2/#jsx). When in doubt, use the [MDX playground](https://mdxjs.com/playground/) to troubleshoot `<details>` rendering problems.
+
+:::

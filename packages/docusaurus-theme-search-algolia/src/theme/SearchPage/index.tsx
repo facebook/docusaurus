@@ -221,6 +221,8 @@ function SearchPageContent(): JSX.Element {
 
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: why errors happens after upgrading to TS 5.5 ?
     hitsPerPage: 15,
     advancedSyntax: true,
     disjunctiveFacets,
