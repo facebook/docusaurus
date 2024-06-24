@@ -6,72 +6,16 @@
  */
 
 import _ from 'lodash';
-import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
-import {Joi, URISchema} from '@docusaurus/utils-validation';
+import {normalizeUrl} from '@docusaurus/utils';
 import {paginateBlogPosts} from './blogUtils';
-import type {BlogContentPaths} from './types';
 import type {
   Author,
   BlogPageAuthors,
   BlogPost,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
-  BlogPostFrontMatterAuthors,
-  PageAuthor,
 } from '@docusaurus/plugin-content-blog';
-
-export type AuthorsMap = {[authorKey: string]: Author};
-
-const AuthorsMapSchema = Joi.object<AuthorsMap>()
-  .pattern(
-    Joi.string(),
-    Joi.object({
-      name: Joi.string(),
-      url: URISchema,
-      imageURL: URISchema,
-      title: Joi.string(),
-      email: Joi.string(),
-      generateAuthorPage: Joi.bool(),
-      permalink: Joi.string(),
-      description: Joi.string(),
-    })
-      .rename('image_url', 'imageURL')
-      .or('name', 'imageURL')
-      .unknown()
-      .required()
-      .messages({
-        'object.base':
-          '{#label} should be an author object containing properties like name, title, and imageURL.',
-        'any.required':
-          '{#label} cannot be undefined. It should be an author object containing properties like name, title, and imageURL.',
-      }),
-  )
-  .messages({
-    'object.base':
-      "The authors map file should contain an object where each entry contains an author key and the corresponding author's data.",
-  });
-
-export function validateAuthorsMap(content: unknown): AuthorsMap {
-  const {error, value} = AuthorsMapSchema.validate(content);
-  if (error) {
-    throw error;
-  }
-  return value;
-}
-
-export async function getAuthorsMap(params: {
-  authorsMapPath: string;
-  contentPaths: BlogContentPaths;
-}): Promise<AuthorsMap | undefined> {
-  return getDataFileData(
-    {
-      filePath: params.authorsMapPath,
-      contentPaths: params.contentPaths,
-      fileType: 'authors map',
-    },
-    validateAuthorsMap,
-  );
-}
+import type {AuthorsMap} from './authorsMap';
 
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;
@@ -93,6 +37,7 @@ function normalizeImageUrl({
 
 // Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
+// TODO Docusaurus v4: remove this legacy front matter
 function getFrontMatterAuthorLegacy({
   baseUrl,
   frontMatter,
@@ -114,37 +59,40 @@ function getFrontMatterAuthorLegacy({
       title,
       url,
       imageURL,
+      // legacy front matter authors do not have an author key/page
+      key: null,
+      page: null,
     };
   }
 
   return undefined;
 }
 
-function normalizeFrontMatterAuthors(
-  frontMatterAuthors: BlogPostFrontMatterAuthors = [],
-): BlogPostFrontMatterAuthor[] {
-  function normalizeAuthor(
-    authorInput: string | Author,
-  ): BlogPostFrontMatterAuthor {
-    if (typeof authorInput === 'string') {
-      // Technically, we could allow users to provide an author's name here, but
-      // we only support keys, otherwise, a typo in a key would fallback to
-      // becoming a name and may end up unnoticed
-      return {key: authorInput};
-    }
-    return authorInput;
-  }
-
-  return Array.isArray(frontMatterAuthors)
-    ? frontMatterAuthors.map(normalizeAuthor)
-    : [normalizeAuthor(frontMatterAuthors)];
-}
-
 function getFrontMatterAuthors(params: AuthorsParam): Author[] {
-  const {authorsMap, baseUrl} = params;
-  const frontMatterAuthors = normalizeFrontMatterAuthors(
-    params.frontMatter.authors,
-  );
+  const {authorsMap, frontMatter, baseUrl} = params;
+  return normalizeFrontMatterAuthors().map(toAuthor);
+
+  function normalizeFrontMatterAuthors(): BlogPostFrontMatterAuthor[] {
+    if (frontMatter.authors === undefined) {
+      return [];
+    }
+
+    function normalizeAuthor(
+      authorInput: string | BlogPostFrontMatterAuthor,
+    ): BlogPostFrontMatterAuthor {
+      if (typeof authorInput === 'string') {
+        // We could allow users to provide an author's name here, but we only
+        // support keys, otherwise, a typo in a key would fall back to
+        // becoming a name and may end up unnoticed
+        return {key: authorInput};
+      }
+      return authorInput;
+    }
+
+    return Array.isArray(frontMatter.authors)
+      ? frontMatter.authors.map(normalizeAuthor)
+      : [normalizeAuthor(frontMatter.authors)];
+  }
 
   function getAuthorsMapAuthor(key: string | undefined): Author | undefined {
     if (key) {
@@ -174,11 +122,11 @@ ${Object.keys(authorsMap)
 
     return {
       ...author,
+      key: author.key ?? null,
+      page: author.page ?? null,
       imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
     };
   }
-
-  return frontMatterAuthors.map(toAuthor);
 }
 
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
@@ -200,111 +148,36 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
   return authors;
 }
 
-export function checkPermalinkCollisions(
-  authorsMap: AuthorsMap | undefined,
-): void {
-  const pageAuthorsMap = _.pickBy(
-    authorsMap,
-    (author) => author.generateAuthorPage === true,
-  );
-
-  const permalinkCounts: {[key: string]: string[]} = {};
-
-  for (const [key, author] of Object.entries(pageAuthorsMap)) {
-    const permalink = normalizeUrl(['/', author.permalink || key, '/']);
-    if (!permalinkCounts[permalink]) {
-      permalinkCounts[permalink] = [];
-    }
-    permalinkCounts[permalink]?.push(author.name || key);
-  }
-
-  const collisions = Object.entries(permalinkCounts).filter(
-    ([, authors]) => authors.length > 1,
-  );
-
-  if (collisions.length > 0) {
-    let errorMessage = 'The following permalinks are duplicated:\n';
-
-    collisions.forEach(([permalink, authors]) => {
-      errorMessage += `Permalink: ${permalink}\nAuthors: ${authors.join(', ')}`;
-    });
-
-    throw new Error(errorMessage);
-  }
-}
-
-function normalizePageAuthor({
-  authorsBaseRoutePath,
-  author,
-}: {
-  authorsBaseRoutePath: string;
+type AuthoredItemGroup = {
   author: Author;
-}): PageAuthor {
-  const key = author.key as string;
-  const name = author.name || key;
-  const permalink = author.permalink || _.kebabCase(key);
-
-  return {
-    imageURL: author.imageURL ?? '',
-    url: author.url,
-    title: author.title,
-    email: author.email,
-    description: author.description,
-    name,
-    key,
-    permalink: normalizeUrl([authorsBaseRoutePath, permalink]),
-  };
-}
-
-export function normalizePageAuthors({
-  authorsBaseRoutePath,
-  authors,
-}: {
-  authorsBaseRoutePath: string;
-  authors: Author[] | undefined;
-}): PageAuthor[] {
-  return (authors ?? [])
-    .filter((author) => author.generateAuthorPage)
-    .map((author) => normalizePageAuthor({authorsBaseRoutePath, author}));
-}
-
-type AuthoredItemGroup<Item> = {
-  author: PageAuthor;
-  items: Item[];
+  items: BlogPost[];
 };
 
 /**
- * Permits to group docs/blog posts by author (provided by front matter).
- *
- * @returns a map from author permalink to the items and other relevant author
- * data.
- * The record is indexed by permalink, because routes must be unique in the end.
- * Labels may vary on 2 MD files but they are normalized. Docs with
- * label='some label' and label='some-label' should end up in the same page.
+ * Blog posts are grouped by permalink
+ * @param blogPosts
  */
-export function groupAuthoredItems<Item>(
-  items: readonly Item[],
-  /**
-   * A callback telling me how to get the authors list of the current item.
-   * Usually simply getting it from some metadata of the current item.
-   */
-  getItemPageAuthors: (item: Item) => readonly PageAuthor[],
-): {[permalink: string]: AuthoredItemGroup<Item>} {
-  const result: {[permalink: string]: AuthoredItemGroup<Item>} = {};
+// TODO would be better if iterated over the AuthorsMap instead of the blogPosts
+export function groupBlogPostsByPermalink(blogPosts: readonly BlogPost[]): {
+  [permalink: string]: AuthoredItemGroup;
+} {
+  const result: {[permalink: string]: AuthoredItemGroup} = {};
 
-  items.forEach((item) => {
-    getItemPageAuthors(item).forEach((author) => {
-      // Init missing author groups
-      // TODO: it's not really clear what should be the behavior if 2
-      // authors have the same permalink but the label is different for each
-      // For now, the first author found wins
-      result[author.permalink] ??= {
-        author,
-        items: [],
-      };
+  blogPosts.forEach((item) => {
+    item.metadata.authors.forEach((author) => {
+      if (author.page) {
+        // Init missing author groups
+        // TODO: it's not really clear what should be the behavior if 2
+        // authors have the same permalink but the label is different for each
+        // For now, the first author found wins
+        result[author.page.permalink] ??= {
+          author,
+          items: [],
+        };
 
-      // Add item to group
-      result[author.permalink]!.items.push(item);
+        // Add item to group
+        result[author.page.permalink]!.items.push(item);
+      }
     });
   });
 
@@ -318,35 +191,6 @@ export function groupAuthoredItems<Item>(
   return result;
 }
 
-/**
- * Permits to get the "author visibility" (hard to find a better name)
- * IE, is this author listed or unlisted
- * And which items should be listed when this author is browsed
- */
-export function getAuthorVisibility<Item>({
-  items,
-  isUnlisted,
-}: {
-  items: Item[];
-  isUnlisted: (item: Item) => boolean;
-}): {
-  unlisted: boolean;
-  listedItems: Item[];
-} {
-  const allItemsUnlisted = items.every(isUnlisted);
-  // When a author is full of unlisted items, we display all the items
-  // when author is browsed, but we mark the author as unlisted
-  if (allItemsUnlisted) {
-    return {unlisted: true, listedItems: items};
-  }
-  // When a author has some listed items, the author remains listed
-  // but we filter its unlisted items
-  return {
-    unlisted: false,
-    listedItems: items.filter((item) => !isUnlisted(item)),
-  };
-}
-
 export function getBlogPageAuthors({
   blogPosts,
   ...params
@@ -357,27 +201,22 @@ export function getBlogPageAuthors({
   postsPerPageOption: number | 'ALL';
   pageBasePath: string;
 }): BlogPageAuthors {
-  const getPostPageAuthors = (blogPost: BlogPost) =>
-    blogPost.metadata.pageAuthors;
+  const groups = groupBlogPostsByPermalink(blogPosts);
 
-  const groups = groupAuthoredItems(blogPosts, getPostPageAuthors);
-
-  return _.mapValues(groups, ({author, items: authorBlogPosts}) => {
-    const authorVisibility = getAuthorVisibility({
-      items: authorBlogPosts,
-      isUnlisted: (item: BlogPost) => item.metadata.unlisted,
-    });
+  return _.mapValues(groups, ({author, items}) => {
+    const authorBlogPosts = items.filter(
+      (blogPost) => !blogPost.metadata.unlisted,
+    );
     return {
       ...author,
-      items: authorVisibility.listedItems.map((item: BlogPost) => item.id),
-      pages: author.permalink
+      items: authorBlogPosts.map((blogPost) => blogPost.id),
+      pages: author.page
         ? paginateBlogPosts({
-            blogPosts: authorVisibility.listedItems,
-            basePageUrl: author.permalink,
+            blogPosts: authorBlogPosts,
+            basePageUrl: author.page.permalink,
             ...params,
           })
         : [],
-      unlisted: authorVisibility.unlisted,
     };
   });
 }

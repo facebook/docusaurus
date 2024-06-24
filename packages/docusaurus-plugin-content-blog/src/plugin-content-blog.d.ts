@@ -18,17 +18,11 @@ declare module '@docusaurus/plugin-content-blog' {
   } from '@docusaurus/utils';
   import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
-  import type {Optional, Overwrite} from 'utility-types';
+  import type {Overwrite} from 'utility-types';
 
   export type Assets = {
     /**
-     * If `metadata.yarn workspace website typecheck
-4
-yarn workspace v1.22.19yarn workspace website typecheck
-4
-yarn workspace v1.22.19yarn workspace website typecheck
-4
-yarn workspace v1.22.19image` is a collocated image path, this entry will be the
+     * If `metadata.image` is a collocated image path, this entry will be the
      * bundler-generated image path. Otherwise, it's empty, and the image URL
      * should be accessed through `frontMatter.image`.
      */
@@ -43,48 +37,59 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     authorsImageUrls: (string | undefined)[];
   };
 
-  export type Author = Optional<PageAuthor> & {
-    generateAuthorPage?: boolean;
-    /**
-     * Unknown keys are allowed, so that we can pass custom fields to authors,
-     * e.g., `twitter`.
-     */
-    [key: string]: unknown;
-  };
-
-  export type PageAuthor = {
+  export type AuthorAttributes = {
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
      */
-    name: string;
+    name?: string;
     /**
      * The image path could be collocated, in which case
      * `metadata.assets.authorsImageUrls` should be used instead. If `imageURL`
      * doesn't exist, a `name` is expected.
      */
-    imageURL: string;
-    /** Permalink to this author's page, without the `/authors/` base path. */
-    permalink: string;
+    imageURL?: string;
+    /**
+     * Used to generate the author's link.
+     */
+    url?: string;
     /**
      * Used as a subtitle for the author, e.g. "maintainer of Docusaurus"
      */
-    title: string | undefined;
+    title?: string;
     /**
      * Mainly used for RSS feeds; if `url` doesn't exist, `email` can be used
      * to generate a fallback `mailto:` URL.
      */
-    email: string | undefined;
+    email?: string;
     /**
-     * Used to generate the author's link.
+     * Unknown keys are allowed, so that we can pass custom fields to authors.
      */
-    url: string | undefined;
+    [attribute: string]: unknown;
+  };
 
-    key: string | undefined;
-    description: string | undefined;
+  /**
+   * Metadata of the author's page, if it exists.
+   */
+  export type AuthorPage = {permalink: string};
+
+  /**
+   * Normalized author metadata.
+   */
+  export type Author = AuthorAttributes & {
+    /**
+     * Author key, if the author was loaded from the authors map.
+     * `null` means the author was declared inline.
+     */
+    key: string | null;
+    /**
+     * Metadata of the author's page.
+     * `null` means the author doesn't have a dedicated author page.
+     */
+    page: AuthorPage | null;
   };
 
   /** What the authors list page should know about each author. */
-  export type AuthorsListItem = PageAuthor & {
+  export type AuthorsListItem = Author & {
     /** Number of posts/docs with this author. */
     count: number;
   };
@@ -93,8 +98,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
   export type AuthorModule = AuthorsListItem & {
     /** The authors list page's permalink. */
     allAuthorsPath: string;
-    /** Is this author unlisted? (when it only contains unlisted items) */
-    unlisted: boolean;
   };
 
   /**
@@ -188,7 +191,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     last_update?: FrontMatterLastUpdate;
   };
 
-  export type BlogPostFrontMatterAuthor = Author & {
+  export type BlogPostFrontMatterAuthor = AuthorAttributes & {
     /**
      * Will be normalized into the `imageURL` prop.
      */
@@ -260,10 +263,6 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
     /** Tags, normalized. */
     readonly tags: TagMetadata[];
-    /**
-     * Page authors, for use in the Authors grouping page.
-     */
-    readonly pageAuthors: PageAuthor[];
     /**
      * Marks the post as unlisted and visibly hides it unless directly accessed.
      */
@@ -541,11 +540,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     [permalink: string]: BlogPageAuthor;
   };
 
-  export type BlogPageAuthor = PageAuthor & {
+  export type BlogPageAuthor = Author & {
     /** Blog post permalinks. */
     items: string[];
     pages: BlogPaginated[];
-    unlisted: boolean;
   };
 
   export type BlogPost = {

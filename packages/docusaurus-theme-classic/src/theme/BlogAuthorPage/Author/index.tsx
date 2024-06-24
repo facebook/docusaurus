@@ -20,12 +20,13 @@ function MaybeLink(props: LinkProps): JSX.Element {
 }
 
 export default function Author({
-  permalink,
+  page,
   name,
   count,
   title,
   imageURL,
 }: Props): JSX.Element {
+  const permalink = page?.permalink;
   return (
     <div className={clsx('avatar margin-bottom--sm')}>
       {imageURL && (

@@ -5,7 +5,7 @@ JMarcey:
   image_url: https://github.com/JoelMarcey.png
   email: jimarcey@gmail.com
   twitter: JoelMarcey
-  generateAuthorPage: true
+  page: true
 
 zpao:
   name: Paul O’Shannessy
@@ -14,7 +14,7 @@ zpao:
   image_url: https://github.com/zpao.png
   email: jimarcey@gmail.com
   twitter: zpao
-  generateAuthorPage: true
+  page: true
 
 slorber:
   name: Sébastien Lorber
@@ -23,7 +23,7 @@ slorber:
   image_url: https://github.com/slorber.png
   twitter: sebastienlorber
   email: sebastien@thisweekinreact.com
-  generateAuthorPage: true
+  page: true
   description: >
     A freelance React and React-Native developer near Paris and Docusaurus maintainer. Also runs ThisWeekInReact.com, a newsletter to stay updated with the React ecosystem.
 
@@ -35,7 +35,7 @@ yangshun:
   image_url: https://github.com/yangshun.png
   twitter: yangshunz
   email: tay.yang.shun@gmail.com
-  generateAuthorPage: true
+  page: true
 
 lex111:
   name: Alexey Pyltsyn
@@ -43,7 +43,7 @@ lex111:
   url: https://github.com/lex111
   image_url: https://github.com/lex111.png
   email: lex@php.net
-  generateAuthorPage: true
+  page: true
 
 Josh-Cena:
   name: Joshua Chen
@@ -51,4 +51,4 @@ Josh-Cena:
   url: https://joshcena.com/
   image_url: https://github.com/josh-cena.png
   email: sidachen2003@gmail.com
-  generateAuthorPage: true
+  page: true

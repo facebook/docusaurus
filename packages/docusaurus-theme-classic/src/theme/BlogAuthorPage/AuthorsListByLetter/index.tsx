@@ -27,7 +27,7 @@ function AuthorLetterEntryItem({
       </Heading>
       <ul className="padding--none">
         {letterEntry.authors.map((author) => (
-          <li key={author.permalink} className={styles.author}>
+          <li key={author.key} className={styles.author}>
             <Author {...author} />
           </li>
         ))}

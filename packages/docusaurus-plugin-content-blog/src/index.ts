@@ -229,6 +229,8 @@ export default async function pluginContentBlog(
         pageBasePath,
       });
 
+      // TODO: put "AuthorsMap" in Content
+      //  Move blog post author pages aggregation logic in contentLoaded()
       const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
         blogPosts,
         postsPerPageOption,

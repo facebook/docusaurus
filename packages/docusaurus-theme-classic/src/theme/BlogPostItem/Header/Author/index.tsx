@@ -8,7 +8,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
-import {useBlogPost} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogPostItem/Header/Author';
 
 function MaybeLink(props: LinkProps): JSX.Element {
@@ -22,17 +21,10 @@ export default function BlogPostItemHeaderAuthor({
   author,
   className,
 }: Props): JSX.Element {
-  const {name, key, title, url, imageURL, email} = author;
-  const {
-    metadata: {pageAuthors},
-  } = useBlogPost();
-
-  const authorPermalink = pageAuthors.find(
-    (pageAuthor) => pageAuthor.name === name || pageAuthor.key === key,
-  )?.permalink;
+  const {name, title, url, imageURL, email, page} = author;
 
   const link =
-    authorPermalink || url || (email && `mailto:${email}`) || undefined;
+    page?.permalink || url || (email && `mailto:${email}`) || undefined;
 
   return (
     <div className={clsx('avatar margin-bottom--sm', className)}>
