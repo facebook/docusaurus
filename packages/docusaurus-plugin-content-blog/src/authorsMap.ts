@@ -133,7 +133,7 @@ function normalizeAuthorsMap({
   });
 }
 
-function validateAuthorsMapInput(content: unknown): AuthorsMapInput {
+export function validateAuthorsMapInput(content: unknown): AuthorsMapInput {
   const {error, value} = AuthorsMapInputSchema.validate(content);
   if (error) {
     throw error;

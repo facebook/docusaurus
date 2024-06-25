@@ -6,12 +6,9 @@
  */
 
 import path from 'path';
-import {
-  type AuthorsMap,
-  getAuthorsMap,
-  getBlogPostAuthors,
-  validateAuthorsMap,
-} from '../authors';
+import {getBlogPostAuthors} from '../authors';
+import {getAuthorsMap, validateAuthorsMapInput} from '../authorsMap';
+import type {AuthorsMap} from '../authorsMap';
 
 describe('getBlogPostAuthors', () => {
   it('can read no authors', () => {
@@ -109,7 +106,9 @@ describe('getBlogPostAuthors', () => {
         frontMatter: {
           authors: 'slorber',
         },
-        authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+        authorsMap: {
+          slorber: {name: 'Sébastien Lorber', key: 'slorber', page: null},
+        },
         baseUrl: '/',
       }),
     ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
@@ -122,6 +121,8 @@ describe('getBlogPostAuthors', () => {
           slorber: {
             name: 'Sébastien Lorber',
             imageURL: 'https://github.com/slorber.png',
+            key: 'slorber',
+            page: null,
           },
         },
         baseUrl: '/',
@@ -142,6 +143,8 @@ describe('getBlogPostAuthors', () => {
           slorber: {
             name: 'Sébastien Lorber',
             imageURL: '/img/slorber.png',
+            key: 'slorber',
+            page: null,
           },
         },
         baseUrl: '/',
@@ -162,6 +165,8 @@ describe('getBlogPostAuthors', () => {
           slorber: {
             name: 'Sébastien Lorber',
             imageURL: '/img/slorber.png',
+            key: 'slorber',
+            page: null,
           },
         },
         baseUrl: '/baseUrl',
@@ -182,8 +187,13 @@ describe('getBlogPostAuthors', () => {
           authors: ['slorber', 'yangshun'],
         },
         authorsMap: {
-          slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
-          yangshun: {name: 'Yangshun Tay'},
+          slorber: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            key: 'slorber',
+            page: null,
+          },
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
         },
         baseUrl: '/',
       }),
@@ -248,8 +258,18 @@ describe('getBlogPostAuthors', () => {
           ],
         },
         authorsMap: {
-          slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
-          yangshun: {name: 'Yangshun Tay', title: 'Yangshun title original'},
+          slorber: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            key: 'slorber',
+            page: null,
+          },
+          yangshun: {
+            name: 'Yangshun Tay',
+            title: 'Yangshun title original',
+            key: 'yangshun',
+            page: null,
+          },
         },
         baseUrl: '/',
       }),
@@ -304,8 +324,8 @@ describe('getBlogPostAuthors', () => {
         },
 
         authorsMap: {
-          yangshun: {name: 'Yangshun Tay'},
-          jmarcey: {name: 'Joel Marcey'},
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
+          jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
         },
         baseUrl: '/',
       }),
@@ -325,8 +345,8 @@ describe('getBlogPostAuthors', () => {
         },
 
         authorsMap: {
-          yangshun: {name: 'Yangshun Tay'},
-          jmarcey: {name: 'Joel Marcey'},
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
+          jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
         },
         baseUrl: '/',
       }),
@@ -346,8 +366,8 @@ describe('getBlogPostAuthors', () => {
         },
 
         authorsMap: {
-          yangshun: {name: 'Yangshun Tay'},
-          jmarcey: {name: 'Joel Marcey'},
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
+          jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
         },
         baseUrl: '/',
       }),
@@ -380,7 +400,9 @@ describe('getBlogPostAuthors', () => {
           authors: [{key: 'slorber'}],
           author_title: 'legacy title',
         },
-        authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+        authorsMap: {
+          slorber: {name: 'Sébastien Lorber', key: 'slorber', page: null},
+        },
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -402,6 +424,7 @@ describe('getAuthorsMap', () => {
       getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.yml',
+        authorsBaseRoutePath: '/authors',
       }),
     ).resolves.toBeDefined();
   });
@@ -411,6 +434,7 @@ describe('getAuthorsMap', () => {
       getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.json',
+        authorsBaseRoutePath: '/authors',
       }),
     ).resolves.toBeDefined();
   });
@@ -420,12 +444,13 @@ describe('getAuthorsMap', () => {
       getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
+        authorsBaseRoutePath: '/authors',
       }),
     ).resolves.toBeUndefined();
   });
 });
 
-describe('validateAuthorsMap', () => {
+describe('validateAuthorsMapInput', () => {
   it('accept valid authors map', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
@@ -433,19 +458,25 @@ describe('validateAuthorsMap', () => {
         title: 'maintainer',
         url: 'https://sebastienlorber.com',
         imageURL: 'https://github.com/slorber.png',
+        key: 'slorber',
+        page: null,
       },
       yangshun: {
         name: 'Yangshun Tay',
         imageURL: 'https://github.com/yangshun.png',
         randomField: 42,
+        key: 'yangshun',
+        page: null,
       },
       jmarcey: {
         name: 'Joel',
         title: 'creator of Docusaurus',
         hello: new Date(),
+        key: 'jmarcey',
+        page: null,
       },
     };
-    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+    expect(validateAuthorsMapInput(authorsMap)).toEqual(authorsMap);
   });
 
   it('rename snake case image_url to camelCase imageURL', () => {
@@ -453,9 +484,11 @@ describe('validateAuthorsMap', () => {
       slorber: {
         name: 'Sébastien Lorber',
         image_url: 'https://github.com/slorber.png',
+        key: 'slorber',
+        page: null,
       },
     };
-    expect(validateAuthorsMap(authorsMap)).toEqual({
+    expect(validateAuthorsMapInput(authorsMap)).toEqual({
       slorber: {
         name: 'Sébastien Lorber',
         imageURL: 'https://github.com/slorber.png',
@@ -468,19 +501,23 @@ describe('validateAuthorsMap', () => {
       slorber: {
         imageURL: 'https://github.com/slorber.png',
         url: 'https://github.com/slorber',
+        key: 'slorber',
+        page: null,
       },
     };
-    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+    expect(validateAuthorsMapInput(authorsMap)).toEqual(authorsMap);
   });
 
   it('reject author without name or image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         title: 'foo',
+        key: 'slorber',
+        page: null,
       },
     };
     expect(() =>
-      validateAuthorsMap(authorsMap),
+      validateAuthorsMapInput(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
       `""slorber" must contain at least one of [name, imageURL]"`,
     );
@@ -488,7 +525,7 @@ describe('validateAuthorsMap', () => {
 
   it('reject undefined author', () => {
     expect(() =>
-      validateAuthorsMap({
+      validateAuthorsMapInput({
         slorber: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -498,7 +535,7 @@ describe('validateAuthorsMap', () => {
 
   it('reject null author', () => {
     expect(() =>
-      validateAuthorsMap({
+      validateAuthorsMapInput({
         slorber: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -508,21 +545,23 @@ describe('validateAuthorsMap', () => {
 
   it('reject array author', () => {
     expect(() =>
-      validateAuthorsMap({slorber: []}),
+      validateAuthorsMapInput({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
   it('reject array content', () => {
-    expect(() => validateAuthorsMap([])).toThrowErrorMatchingInlineSnapshot(
+    expect(() =>
+      validateAuthorsMapInput([]),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"The authors map file should contain an object where each entry contains an author key and the corresponding author's data."`,
     );
   });
 
   it('reject flat author', () => {
     expect(() =>
-      validateAuthorsMap({name: 'Sébastien'}),
+      validateAuthorsMapInput({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""name" should be an author object containing properties like name, title, and imageURL."`,
     );
@@ -534,7 +573,7 @@ describe('validateAuthorsMap', () => {
       slorber: [],
     };
     expect(() =>
-      validateAuthorsMap(authorsMap),
+      validateAuthorsMapInput(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
       `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
