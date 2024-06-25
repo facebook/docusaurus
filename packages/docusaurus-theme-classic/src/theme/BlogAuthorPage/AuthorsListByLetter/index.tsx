@@ -6,10 +6,8 @@
  */
 
 import React from 'react';
-import {
-  listAuthorsByLetters,
-  type AuthorLetterEntry,
-} from '@docusaurus/theme-common';
+import {type AuthorLetterEntry} from '@docusaurus/theme-common';
+import {listAuthorsByLetters} from '@docusaurus/theme-common/internal';
 import Author from '@theme/BlogAuthorPage/Author';
 import type {Props} from '@theme/BlogAuthorPage/AuthorsListByLetter';
 import Heading from '@theme/Heading';

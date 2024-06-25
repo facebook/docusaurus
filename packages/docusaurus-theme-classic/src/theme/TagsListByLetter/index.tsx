@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
+import {type TagLetterEntry} from '@docusaurus/theme-common';
+import {listTagsByLetters} from '@docusaurus/theme-common/internal';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
 import Heading from '@theme/Heading';
