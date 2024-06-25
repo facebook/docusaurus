@@ -1528,7 +1528,7 @@ declare module '@theme/Tag' {
   export default function Tag(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorPage/AuthorsListByLetter' {
+declare module '@theme/AuthorsListByLetter' {
   import type {AuthorsListItem} from '@docusaurus/utils';
 
   export interface Props {
@@ -1537,7 +1537,7 @@ declare module '@theme/BlogAuthorPage/AuthorsListByLetter' {
   export default function AuthorsListByLetter(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorPage/AuthorsListInline' {
+declare module '@theme/AuthorsListInline' {
   import type {PageAuthor} from '@docusaurus/utils';
 
   export interface Props {
@@ -1546,7 +1546,7 @@ declare module '@theme/BlogAuthorPage/AuthorsListInline' {
   export default function AuthorsListInline(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorPage/Author' {
+declare module '@theme/Author' {
   import type {AuthorsListItem} from '@docusaurus/utils';
   import type {Optional} from 'utility-types';
 

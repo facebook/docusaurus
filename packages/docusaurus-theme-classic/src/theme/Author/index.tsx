@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
-import type {Props} from '@theme/BlogAuthorPage/Author';
+import type {Props} from '@theme/Author';
 
 import styles from './styles.module.css';
 

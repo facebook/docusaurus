@@ -8,8 +8,8 @@
 import React from 'react';
 import {type AuthorLetterEntry} from '@docusaurus/theme-common';
 import {listAuthorsByLetters} from '@docusaurus/theme-common/internal';
-import Author from '@theme/BlogAuthorPage/Author';
-import type {Props} from '@theme/BlogAuthorPage/AuthorsListByLetter';
+import Author from '@theme/Author';
+import type {Props} from '@theme/AuthorsListByLetter';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 

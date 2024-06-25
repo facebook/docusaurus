@@ -13,7 +13,7 @@ import {
   ThemeClassNames,
 } from '@docusaurus/theme-common';
 import BlogLayout from '@theme/BlogLayout';
-import AuthorsListByLetter from '@theme/BlogAuthorPage/AuthorsListByLetter';
+import AuthorsListByLetter from '@theme/AuthorsListByLetter';
 import type {Props} from '@theme/BlogAuthorsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
 import Heading from '@theme/Heading';
