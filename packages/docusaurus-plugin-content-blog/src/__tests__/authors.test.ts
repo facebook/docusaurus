@@ -39,7 +39,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{name: 'Sébastien Lorber'}]);
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        imageURL: undefined,
+        key: null,
+        page: null,
+        title: undefined,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -48,7 +56,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{title: 'maintainer'}]);
+    ).toEqual([
+      {
+        title: 'maintainer',
+        imageURL: undefined,
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -57,7 +73,14 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{imageURL: 'https://github.com/slorber.png'}]);
+    ).toEqual([
+      {
+        imageURL: 'https://github.com/slorber.png',
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -66,7 +89,14 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{imageURL: '/img/slorber.png'}]);
+    ).toEqual([
+      {
+        imageURL: '/img/slorber.png',
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -75,7 +105,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/baseURL',
       }),
-    ).toEqual([{imageURL: '/baseURL/img/slorber.png'}]);
+    ).toEqual([
+      {
+        imageURL: '/baseURL/img/slorber.png',
+
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -96,6 +134,8 @@ describe('getBlogPostAuthors', () => {
         title: 'maintainer1',
         imageURL: 'https://github.com/slorber1.png',
         url: 'https://github.com/slorber1',
+        key: null,
+        page: null,
       },
     ]);
   });
@@ -111,7 +151,14 @@ describe('getBlogPostAuthors', () => {
         },
         baseUrl: '/',
       }),
-    ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
+    ).toEqual([
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        imageURL: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -132,6 +179,7 @@ describe('getBlogPostAuthors', () => {
         key: 'slorber',
         name: 'Sébastien Lorber',
         imageURL: 'https://github.com/slorber.png',
+        page: null,
       },
     ]);
     expect(
@@ -154,6 +202,7 @@ describe('getBlogPostAuthors', () => {
         key: 'slorber',
         name: 'Sébastien Lorber',
         imageURL: '/img/slorber.png',
+        page: null,
       },
     ]);
     expect(
@@ -176,6 +225,7 @@ describe('getBlogPostAuthors', () => {
         key: 'slorber',
         name: 'Sébastien Lorber',
         imageURL: '/baseUrl/img/slorber.png',
+        page: null,
       },
     ]);
   });
@@ -198,8 +248,20 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toEqual([
-      {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
-      {key: 'yangshun', name: 'Yangshun Tay'},
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        page: null,
+      },
+      {
+        key: 'yangshun',
+        name: 'Yangshun Tay',
+        imageURL: undefined,
+
+        page: null,
+      },
     ]);
   });
 
@@ -217,6 +279,8 @@ describe('getBlogPostAuthors', () => {
         name: 'Sébastien Lorber',
         title: 'maintainer',
         imageURL: undefined,
+        key: null,
+        page: null,
       },
     ]);
   });
@@ -238,8 +302,10 @@ describe('getBlogPostAuthors', () => {
         name: 'Sébastien Lorber',
         title: 'maintainer',
         imageURL: undefined,
+        key: null,
+        page: null,
       },
-      {name: 'Yangshun Tay', imageURL: undefined},
+      {name: 'Yangshun Tay', imageURL: undefined, key: null, page: null},
     ]);
   });
 
@@ -274,15 +340,22 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toEqual([
-      {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        page: null,
+      },
       {
         key: 'yangshun',
         name: 'Yangshun Tay',
         title: 'Yangshun title local override',
         extra: 42,
         imageURL: undefined,
+        page: null,
       },
-      {name: 'Alexey', imageURL: undefined},
+      {name: 'Alexey', imageURL: undefined, key: null, page: null},
     ]);
   });
 
@@ -492,6 +565,8 @@ describe('validateAuthorsMapInput', () => {
       slorber: {
         name: 'Sébastien Lorber',
         imageURL: 'https://github.com/slorber.png',
+        page: null,
+        key: 'slorber',
       },
     });
   });
