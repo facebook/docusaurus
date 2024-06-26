@@ -223,7 +223,7 @@ export function reportDuplicateAuthors({
   const seen = new Set<string>();
   const duplicateList = authors.filter(({name, imageURL}) => {
     // TODO check with the string that is used in the authors map
-    // TODO check with the key if author is overwriten
+    // TODO check with the key if author is overwritten
     const identifier = name || imageURL;
     if (!identifier) {
       return false;
