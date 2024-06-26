@@ -126,10 +126,6 @@ function normalizeFrontMatterAuthors(
       // we only support keys, otherwise, a typo in a key would fallback to
       // becoming a name and may end up unnoticed
       return {key: authorInput};
-    } else if (typeof authorInput === 'object' && !('key' in authorInput)) {
-      return {
-        ...authorInput,
-      };
     }
     return authorInput;
   }
@@ -201,7 +197,7 @@ export function reportAuthorsProblems({
     if (onInlineAuthors === 'ignore') {
       return;
     }
-    const inlineAuthors = authors.filter((author) => author.inline);
+    const inlineAuthors = authors.filter((author) => !author.key);
     if (inlineAuthors.length > 0) {
       logger.report(onInlineAuthors)(
         `Authors used in ${blogSourceRelative} are not defined in ${authorsMapPath}`,
@@ -225,7 +221,7 @@ export function reportAuthorsProblems({
     console.log({result});
 
     // for now we only check for predefined authors duplicates
-    const predefinedAuthors = authors.filter((author) => !author.inline);
+    const predefinedAuthors = authors.filter((author) => !!author.key);
 
     const seen = new Set<string>();
     const duplicateList = predefinedAuthors.filter(({name, imageURL}) => {
