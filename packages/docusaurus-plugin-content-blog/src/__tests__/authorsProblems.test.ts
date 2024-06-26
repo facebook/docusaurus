@@ -55,9 +55,9 @@ describe('duplicate authors', () => {
         authors,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-        "Duplicate blog authors found in blog post doc.md front matter:
-        - {"key":"slorber","name":"Sébastien Lorber 2","imageURL":"/slorber.png"}"
-      `);
+      "Duplicate blog post authors were found in blog post "doc.md" front matter:
+      - {"key":"slorber","name":"Sébastien Lorber 2","imageURL":"/slorber.png"}"
+    `);
   });
 });
 
@@ -124,15 +124,15 @@ describe('inline authors', () => {
         authors,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-        "Some blog authors used in doc.md are not defined in authors.yml:
-        - {"name":"Inline author 1"}
-        - {"imageURL":"/inline-author2.png"}
+      "Some blog authors used in "doc.md" are not defined in "authors.yml":
+      - {"name":"Inline author 1"}
+      - {"imageURL":"/inline-author2.png"}
 
-        Note that we recommend to declare authors once in a authors.yml file and reference them by key in blog posts front matter to avoid author info duplication.
-        But if you want to allow inline blog authors, you can disable this message by setting onInlineAuthors: 'ignore' in your blog plugin options.
-        More info at https://docusaurus.io/docs/blog
-        "
-      `);
+      Note that we recommend to declare authors once in a "authors.yml" file and reference them by key in blog posts front matter to avoid author info duplication.
+      But if you want to allow inline blog authors, you can disable this message by setting onInlineAuthors: 'ignore' in your blog plugin options.
+      More info at https://docusaurus.io/docs/blog
+      "
+    `);
   });
 
   it('warn inline authors', () => {
@@ -164,11 +164,11 @@ describe('inline authors', () => {
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock.mock.calls[0]).toMatchInlineSnapshot(`
       [
-        "[WARNING] Some blog authors used in doc.md are not defined in authors.yml:
+        "[WARNING] Some blog authors used in "doc.md" are not defined in "authors.yml":
       - {"name":"Inline author 1"}
       - {"imageURL":"/inline-author2.png"}
 
-      Note that we recommend to declare authors once in a authors.yml file and reference them by key in blog posts front matter to avoid author info duplication.
+      Note that we recommend to declare authors once in a "authors.yml" file and reference them by key in blog posts front matter to avoid author info duplication.
       But if you want to allow inline blog authors, you can disable this message by setting onInlineAuthors: 'ignore' in your blog plugin options.
       More info at https://docusaurus.io/docs/blog
       ",

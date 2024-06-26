@@ -33,12 +33,12 @@ export function reportInlineAuthors({
   const inlineAuthors = authors.filter((author) => !author.key);
   if (inlineAuthors.length > 0) {
     logger.report(onInlineAuthors)(
-      `Some blog authors used in ${blogSourceRelative} are not defined in ${authorsMapPath}:
+      logger.interpolate`Some blog authors used in path=${blogSourceRelative} are not defined in path=${authorsMapPath}:
 - ${inlineAuthors.map(authorToString).join('\n- ')}
 
-Note that we recommend to declare authors once in a ${authorsMapPath} file and reference them by key in blog posts front matter to avoid author info duplication.
+Note that we recommend to declare authors once in a path=${authorsMapPath} file and reference them by key in blog posts front matter to avoid author info duplication.
 But if you want to allow inline blog authors, you can disable this message by setting onInlineAuthors: 'ignore' in your blog plugin options.
-More info at https://docusaurus.io/docs/blog
+More info at url=${'https://docusaurus.io/docs/blog'}
 `,
     );
   }
@@ -62,7 +62,7 @@ export function reportDuplicateAuthors({
     .value();
 
   if (duplicateAuthors.length > 0) {
-    throw new Error(`Duplicate blog authors found in blog post ${blogSourceRelative} front matter:
+    throw new Error(logger.interpolate`Duplicate blog post authors were found in blog post path=${blogSourceRelative} front matter:
 - ${duplicateAuthors.map(authorToString).join('\n- ')}`);
   }
 }
