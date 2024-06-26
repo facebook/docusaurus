@@ -44,6 +44,8 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
   };
 
   export type Author = {
+    key?: string; // TODO temporary, need refactor
+
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
      */

@@ -29,7 +29,12 @@ import {
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
-import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {
+  type AuthorsMap,
+  getAuthorsMap,
+  getBlogPostAuthors,
+  reportAuthorsProblems,
+} from './authors';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
@@ -317,13 +322,12 @@ async function processBlogSourceFile(
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({
-    params: {authorsMap, frontMatter, baseUrl},
-    options: {
-      onInlineAuthors: options.onInlineAuthors,
-      authorsMapPath: options.authorsMapPath,
-    },
+
+  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+  reportAuthorsProblems({
+    authors,
     blogSourceRelative,
+    options,
   });
 
   const tags = normalizeTags({

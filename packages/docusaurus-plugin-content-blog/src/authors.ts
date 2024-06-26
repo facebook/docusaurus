@@ -5,16 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
-import type {ReportingSeverity} from '@docusaurus/types';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
+  PluginOptions,
 } from '@docusaurus/plugin-content-blog';
 
 export type AuthorsMap = {[authorKey: string]: Author};
@@ -128,7 +129,6 @@ function normalizeFrontMatterAuthors(
     } else if (typeof authorInput === 'object' && !('key' in authorInput)) {
       return {
         ...authorInput,
-        inline: true,
       };
     }
     return authorInput;
@@ -159,7 +159,7 @@ ${Object.keys(authorsMap)
   .map((validKey) => `- ${validKey}`)
   .join('\n')}`);
       }
-      return author;
+      return {...author, key};
     }
     return undefined;
   }
@@ -185,74 +185,74 @@ function fixAuthorImageBaseURL(
   }));
 }
 
-export function reportInlineAuthors({
+export function reportAuthorsProblems({
   authors,
   blogSourceRelative,
-  options,
+  options: {onInlineAuthors, authorsMapPath},
 }: {
   authors: Author[];
   blogSourceRelative: string;
-  options: {onInlineAuthors: ReportingSeverity; authorsMapPath: string};
+  options: Pick<PluginOptions, 'onInlineAuthors' | 'authorsMapPath'>;
 }): void {
-  if (options.onInlineAuthors === 'ignore') {
-    return;
+  reportInlineAuthors();
+  reportDuplicateAuthors();
+
+  function reportInlineAuthors(): void {
+    if (onInlineAuthors === 'ignore') {
+      return;
+    }
+    const inlineAuthors = authors.filter((author) => author.inline);
+    if (inlineAuthors.length > 0) {
+      logger.report(onInlineAuthors)(
+        `Authors used in ${blogSourceRelative} are not defined in ${authorsMapPath}`,
+      );
+    }
   }
 
-  const inlineAuthors = authors.filter((author) => author.inline);
+  function reportDuplicateAuthors(): void {
+    if (onInlineAuthors === 'ignore') {
+      return;
+    }
 
-  if (inlineAuthors.length > 0) {
-    logger.report(options.onInlineAuthors)(
-      `Authors used in ${blogSourceRelative} are not defined in ${options.authorsMapPath}`,
-    );
-  }
-}
+    const result = _(authors)
+      // for now we only check for predefined authors duplicates
+      .filter((author) => !!author.key)
+      .groupBy((author) => author.key)
+      .pickBy((authorsByKey) => authorsByKey.length > 1)
+      .flatMap((authorsByKey) => [authorsByKey[0]!])
+      .value();
 
-export function reportDuplicateAuthors({
-  authors,
-  blogSourceRelative,
-  onInlineAuthors,
-}: {
-  authors: Author[];
-  blogSourceRelative: string;
-  onInlineAuthors: ReportingSeverity;
-}): void {
-  if (onInlineAuthors === 'ignore') {
-    return;
-  }
+    console.log({result});
 
-  const seen = new Set<string>();
-  const duplicateList = authors.filter(({name, imageURL}) => {
-    // TODO check with the string that is used in the authors map
-    // TODO check with the key if author is overwritten
-    const identifier = name || imageURL;
-    if (!identifier) {
+    // for now we only check for predefined authors duplicates
+    const predefinedAuthors = authors.filter((author) => !author.inline);
+
+    const seen = new Set<string>();
+    const duplicateList = predefinedAuthors.filter(({name, imageURL}) => {
+      // TODO check with the string that is used in the authors map
+      // TODO check with the key if author is overwritten
+      const identifier = name || imageURL;
+      if (!identifier) {
+        return false;
+      }
+      if (seen.has(identifier)) {
+        return true;
+      }
+      seen.add(identifier);
       return false;
-    }
-    if (seen.has(identifier)) {
-      return true;
-    }
-    seen.add(identifier);
-    return false;
-  });
+    });
 
-  if (duplicateList.length > 0) {
-    logger.report(onInlineAuthors)(
-      `Duplicate authors found in blog post ${blogSourceRelative} front matter: ${duplicateList
-        .map(({name, imageURL}) => name || imageURL)
-        .join(', ')}`,
-    );
+    if (duplicateList.length > 0) {
+      logger.report(onInlineAuthors)(
+        `Duplicate authors found in blog post ${blogSourceRelative} front matter: ${duplicateList
+          .map(({name, imageURL}) => name || imageURL)
+          .join(', ')}`,
+      );
+    }
   }
 }
 
-export function getBlogPostAuthors({
-  params,
-  options,
-  blogSourceRelative,
-}: {
-  params: AuthorsParam;
-  options: {onInlineAuthors: ReportingSeverity; authorsMapPath: string};
-  blogSourceRelative: string;
-}): Author[] {
+export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
 
@@ -269,18 +269,6 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
     }
     return [authorLegacy];
   }
-
-  reportInlineAuthors({
-    authors: updatedAuthors,
-    blogSourceRelative,
-    options,
-  });
-
-  reportDuplicateAuthors({
-    authors: updatedAuthors.filter((author) => !author.inline),
-    blogSourceRelative,
-    onInlineAuthors: options.onInlineAuthors,
-  });
 
   return updatedAuthors;
 }
