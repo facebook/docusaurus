@@ -442,7 +442,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
        *  (filter, modify, delete, etc...).
        */
       processBlogPosts: ProcessBlogPostsFn;
-      /** The behavior of Docusaurus when it found inline authors. */
+      /** The behavior of Docusaurus when it finds inline authors. */
       onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
     };
 

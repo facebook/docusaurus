@@ -28,7 +28,7 @@ export type TagsPluginOptions = {
   // TODO allow option tags later? | TagsFile;
   /** Path to the tags file. */
   tags: string | false | null | undefined;
-  /** The behavior of Docusaurus when it found inline tags. */
+  /** The behavior of Docusaurus when it finds inline tags. */
   onInlineTags: 'ignore' | 'log' | 'warn' | 'throw';
 };
 
