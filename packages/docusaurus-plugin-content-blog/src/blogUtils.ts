@@ -29,12 +29,8 @@ import {
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
-import {
-  type AuthorsMap,
-  getAuthorsMap,
-  getBlogPostAuthors,
-  reportAuthorsProblems,
-} from './authors';
+import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {reportAuthorsProblems} from './authorsProblems';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
