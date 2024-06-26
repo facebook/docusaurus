@@ -171,7 +171,7 @@ ${Object.keys(authorsMap)
 function fixAuthorImageBaseURL(
   authors: Author[],
   {baseUrl}: {baseUrl: string},
-): Author[] {
+) {
   return authors.map((author) => ({
     ...author,
     imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
