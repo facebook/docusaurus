@@ -5,17 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
 import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import logger from '@docusaurus/logger';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
-  PluginOptions,
 } from '@docusaurus/plugin-content-blog';
 
 export type AuthorsMap = {[authorKey: string]: Author};
@@ -155,7 +152,7 @@ ${Object.keys(authorsMap)
   .map((validKey) => `- ${validKey}`)
   .join('\n')}`);
       }
-      return {...author, key};
+      return author;
     }
     return undefined;
   }
@@ -179,73 +176,6 @@ function fixAuthorImageBaseURL(
     ...author,
     imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
   }));
-}
-
-export function reportAuthorsProblems({
-  authors,
-  blogSourceRelative,
-  options: {onInlineAuthors, authorsMapPath},
-}: {
-  authors: Author[];
-  blogSourceRelative: string;
-  options: Pick<PluginOptions, 'onInlineAuthors' | 'authorsMapPath'>;
-}): void {
-  reportInlineAuthors();
-  reportDuplicateAuthors();
-
-  function reportInlineAuthors(): void {
-    if (onInlineAuthors === 'ignore') {
-      return;
-    }
-    const inlineAuthors = authors.filter((author) => !author.key);
-    if (inlineAuthors.length > 0) {
-      logger.report(onInlineAuthors)(
-        `Authors used in ${blogSourceRelative} are not defined in ${authorsMapPath}`,
-      );
-    }
-  }
-
-  function reportDuplicateAuthors(): void {
-    if (onInlineAuthors === 'ignore') {
-      return;
-    }
-
-    const result = _(authors)
-      // for now we only check for predefined authors duplicates
-      .filter((author) => !!author.key)
-      .groupBy((author) => author.key)
-      .pickBy((authorsByKey) => authorsByKey.length > 1)
-      .flatMap((authorsByKey) => [authorsByKey[0]!])
-      .value();
-
-    console.log({result});
-
-    // for now we only check for predefined authors duplicates
-    const predefinedAuthors = authors.filter((author) => !!author.key);
-
-    const seen = new Set<string>();
-    const duplicateList = predefinedAuthors.filter(({name, imageURL}) => {
-      // TODO check with the string that is used in the authors map
-      // TODO check with the key if author is overwritten
-      const identifier = name || imageURL;
-      if (!identifier) {
-        return false;
-      }
-      if (seen.has(identifier)) {
-        return true;
-      }
-      seen.add(identifier);
-      return false;
-    });
-
-    if (duplicateList.length > 0) {
-      logger.report(onInlineAuthors)(
-        `Duplicate authors found in blog post ${blogSourceRelative} front matter: ${duplicateList
-          .map(({name, imageURL}) => name || imageURL)
-          .join(', ')}`,
-      );
-    }
-  }
 }
 
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
