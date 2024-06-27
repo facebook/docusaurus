@@ -58,6 +58,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   processBlogPosts: async () => undefined,
   onInlineTags: 'warn',
   tags: undefined,
+  onInlineAuthors: 'warn',
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -156,6 +157,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .disallow('')
     .allow(null, false)
     .default(() => DEFAULT_OPTIONS.tags),
+  onInlineAuthors: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onInlineAuthors),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

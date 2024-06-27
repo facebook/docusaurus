@@ -43,3 +43,23 @@ Josh-Cena:
   url: https://joshcena.com/
   image_url: https://github.com/josh-cena.png
   email: sidachen2003@gmail.com
+
+endiliey:
+  name: Endilie Yacop Sucipto
+  title: Maintainer of Docusaurus
+  url: https://github.com/endiliey
+  image_url: https://github.com/endiliey.png
+  twitter: endiliey
+
+abernathyca:
+  name: Christine Abernathy
+  url: http://twitter.com/abernathyca
+  image_url: https://github.com/caabernathy.png
+  twitter: abernathyca
+
+shortcuts:
+  name: Clément Vannicatte
+  title: Software Engineer @ Algolia
+  url: https://github.com/shortcuts
+  image_url: https://github.com/shortcuts.png
+  twitter: sh0rtcts
