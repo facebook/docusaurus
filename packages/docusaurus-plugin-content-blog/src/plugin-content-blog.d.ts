@@ -38,7 +38,7 @@ declare module '@docusaurus/plugin-content-blog' {
   };
 
   export type AuthorAttributes = {
-    key?: string; // TODO temporary, need refactor
+    key: string | null; // TODO temporary, need refactor
 
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
