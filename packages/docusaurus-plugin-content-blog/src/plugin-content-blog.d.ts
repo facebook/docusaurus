@@ -469,6 +469,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     title: string;
     permalink: string;
     unlisted: boolean;
+    date: date | string;
   };
 
   export type BlogSidebar = {

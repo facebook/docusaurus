@@ -94,6 +94,7 @@ export async function buildAllRoutes({
         title: blogPost.metadata.title,
         permalink: blogPost.metadata.permalink,
         unlisted: blogPost.metadata.unlisted,
+        date: blogPost.metadata.date,
       })),
     };
     const modulePath = await createData(
