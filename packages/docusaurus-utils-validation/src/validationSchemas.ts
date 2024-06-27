@@ -36,6 +36,7 @@ const MarkdownPluginsSchema = Joi.array()
 
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
+export const RecmaPluginsSchema = MarkdownPluginsSchema;
 
 export const AdmonitionsSchema = JoiFrontMatter.alternatives()
   .try(

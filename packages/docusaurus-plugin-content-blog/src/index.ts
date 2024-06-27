@@ -271,6 +271,7 @@ export default async function pluginContentBlog(
         admonitions,
         rehypePlugins,
         remarkPlugins,
+        recmaPlugins,
         truncateMarker,
         beforeDefaultRemarkPlugins,
         beforeDefaultRehypePlugins,
@@ -283,6 +284,7 @@ export default async function pluginContentBlog(
           admonitions,
           remarkPlugins,
           rehypePlugins,
+          recmaPlugins,
           beforeDefaultRemarkPlugins: [
             footnoteIDFixer,
             ...beforeDefaultRemarkPlugins,

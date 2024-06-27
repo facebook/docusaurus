@@ -38,6 +38,8 @@ declare module '@docusaurus/plugin-content-blog' {
   };
 
   export type AuthorAttributes = {
+    key?: string; // TODO temporary, need refactor
+
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
      */
@@ -474,6 +476,8 @@ declare module '@docusaurus/plugin-content-blog' {
       processBlogPosts: ProcessBlogPostsFn;
       /* Base path for the authors page */
       authorsPageBasePath: string;
+      /** The behavior of Docusaurus when it finds inline authors. */
+      onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
     };
 
   /**

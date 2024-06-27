@@ -293,6 +293,7 @@ export default async function pluginContentDocs(
       const {
         rehypePlugins,
         remarkPlugins,
+        recmaPlugins,
         beforeDefaultRehypePlugins,
         beforeDefaultRemarkPlugins,
       } = options;
@@ -307,6 +308,7 @@ export default async function pluginContentDocs(
           admonitions: options.admonitions,
           remarkPlugins,
           rehypePlugins,
+          recmaPlugins,
           beforeDefaultRehypePlugins,
           beforeDefaultRemarkPlugins,
           staticDirs: siteConfig.staticDirectories.map((dir) =>

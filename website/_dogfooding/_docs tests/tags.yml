@@ -4,6 +4,7 @@ b:
   label: 'Label for tag b'
 c:
   permalink: '/permalink-for-tag-c'
+d:
 e:
   label: 'Label for tag e'
   description: 'Description for tag e'
