@@ -5,14 +5,99 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogSidebar/Desktop';
+import Heading from '@theme/Heading';
+import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
 
 import styles from './styles.module.css';
+
+// TODO 2025: replace by Object.groupBy ?
+function groupBy<Item, Key extends string | number>(
+  items: Item[],
+  getGroup: (item: Item) => Key,
+): Record<Key, Item[]> {
+  // @ts-expect-error: TS complains for weird reasons, it's fine
+  const result: Record<Key, Item[]> = {};
+  items.forEach((item) => {
+    const key = getGroup(item);
+    result[key] ??= [];
+    result[key]!.push(item);
+  });
+  return result;
+}
+
+function groupBlogSidebarItemsByYear(
+  items: BlogSidebarItem[],
+): [string, BlogSidebarItem[]][] {
+  const groupedByYear = groupBy(items, (item) => {
+    return new Date(item.date).getFullYear();
+  });
+  const entries = Object.entries(groupedByYear);
+  // We have to use entries because of https://x.com/sebastienlorber/status/1806371668614369486
+  // Objects with string/number keys are automatically sorted asc...
+  // Even if keys are strings like "2024"
+  // We want descending order for years
+  entries.reverse();
+  return entries;
+}
+
+function useItemsByYear(
+  items: BlogSidebarItem[],
+): [string, BlogSidebarItem[]][] {
+  return useMemo(() => groupBlogSidebarItemsByYear(items), [items]);
+}
+
+function BlogSidebarItemList({
+  year,
+  items,
+}: {
+  year?: string;
+  items: BlogSidebarItem[];
+}): JSX.Element {
+  return (
+    <>
+      <Heading as="h3">{year}</Heading>
+      <ul className={clsx(styles.sidebarItemList, 'clean-list')}>
+        {items.map((item) => (
+          <li key={item.permalink} className={styles.sidebarItem}>
+            <Link
+              isNavLink
+              to={item.permalink}
+              className={styles.sidebarItemLink}
+              activeClassName={styles.sidebarItemLinkActive}>
+              {item.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function BlogSidebarItemsByYear({items}: {items: BlogSidebarItem[]}) {
+  const itemsByYear = useItemsByYear(items);
+  return (
+    <div>
+      {itemsByYear.map(([year, yearItems]) => (
+        <BlogSidebarItemList key={year} year={year} items={yearItems} />
+      ))}
+    </div>
+  );
+}
+
+function BlogSidebarItems({items}: {items: BlogSidebarItem[]}) {
+  const groupByYear = true; // TODO wire appropriate config here
+  if (groupByYear) {
+    return <BlogSidebarItemsByYear items={items} />;
+  } else {
+    return <BlogSidebarItemList items={items} />;
+  }
+}
 
 export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
   const items = useVisibleBlogSidebarItems(sidebar.items);
@@ -28,19 +113,7 @@ export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
         <div className={clsx(styles.sidebarItemTitle, 'margin-bottom--md')}>
           {sidebar.title}
         </div>
-        <ul className={clsx(styles.sidebarItemList, 'clean-list')}>
-          {items.map((item) => (
-            <li key={item.permalink} className={styles.sidebarItem}>
-              <Link
-                isNavLink
-                to={item.permalink}
-                className={styles.sidebarItemLink}
-                activeClassName={styles.sidebarItemLinkActive}>
-                {item.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <BlogSidebarItems items={items} />
       </nav>
     </aside>
   );
