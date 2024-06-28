@@ -5,79 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useMemo} from 'react';
+import React, {memo} from 'react';
 import clsx from 'clsx';
-import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
-import {groupBy} from '@docusaurus/theme-common';
-import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
-import type {Props} from '@theme/BlogSidebar/Desktop';
+import {
+  useVisibleBlogSidebarItems,
+  groupBlogSidebarItemsByYear,
+  BlogSidebarItemList,
+} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
+
+import type {Props} from '@theme/BlogSidebar/Desktop';
 import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
 
 import styles from './styles.module.css';
 
-function groupBlogSidebarItemsByYear(
-  items: BlogSidebarItem[],
-): [string, BlogSidebarItem[]][] {
-  const groupedByYear = groupBy(items, (item) => {
-    return `${new Date(item.date).getFullYear()}`;
-  });
-  // "as" is safe here
-  // see https://github.com/microsoft/TypeScript/pull/56805#issuecomment-2196526425
-  const entries = Object.entries(groupedByYear) as [
-    string,
-    BlogSidebarItem[],
-  ][];
-  // We have to use entries because of https://x.com/sebastienlorber/status/1806371668614369486
-  // Objects with string/number keys are automatically sorted asc...
-  // Even if keys are strings like "2024"
-  // We want descending order for years
-  // Alternative: using Map.groupBy (not affected by this "reordering")
-  entries.reverse();
-  return entries;
-}
-
-function useItemsByYear(
-  items: BlogSidebarItem[],
-): [string, BlogSidebarItem[]][] {
-  return useMemo(() => groupBlogSidebarItemsByYear(items), [items]);
-}
-
-function BlogSidebarItemList({
+function BlogSidebarItemListDesktop({
   year,
   items,
 }: {
   year?: string;
   items: BlogSidebarItem[];
-}): JSX.Element {
-  return (
-    <>
-      <Heading as="h3">{year}</Heading>
-      <ul className={clsx(styles.sidebarItemList, 'clean-list')}>
-        {items.map((item) => (
-          <li key={item.permalink} className={styles.sidebarItem}>
-            <Link
-              isNavLink
-              to={item.permalink}
-              className={styles.sidebarItemLink}
-              activeClassName={styles.sidebarItemLinkActive}>
-              {item.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
+}) {
+  const list = (
+    <BlogSidebarItemList
+      items={items}
+      ulClassName={clsx(styles.sidebarItemList, 'clean-list')}
+      liClassName={styles.sidebarItem}
+      linkClassName={styles.sidebarItemLink}
+      linkActiveClassName={styles.sidebarItemLinkActive}
+    />
   );
-}
 
-function BlogSidebarItemsByYear({items}: {items: BlogSidebarItem[]}) {
-  const itemsByYear = useItemsByYear(items);
+  if (typeof year === 'undefined') {
+    return list;
+  }
   return (
-    <div>
-      {itemsByYear.map(([year, yearItems]) => (
-        <BlogSidebarItemList key={year} year={year} items={yearItems} />
-      ))}
+    <div role="group">
+      <Heading as="h3" className={styles.sidebarItemYearSeparator}>
+        {year}
+      </Heading>
+      {list}
     </div>
   );
 }
@@ -85,13 +53,24 @@ function BlogSidebarItemsByYear({items}: {items: BlogSidebarItem[]}) {
 function BlogSidebarItems({items}: {items: BlogSidebarItem[]}) {
   const groupByYear = true; // TODO wire appropriate config here
   if (groupByYear) {
-    return <BlogSidebarItemsByYear items={items} />;
+    const itemsByYear = groupBlogSidebarItemsByYear(items);
+    return (
+      <>
+        {itemsByYear.map(([year, yearItems]) => (
+          <BlogSidebarItemListDesktop
+            key={year}
+            year={year}
+            items={yearItems}
+          />
+        ))}
+      </>
+    );
   } else {
-    return <BlogSidebarItemList items={items} />;
+    return <BlogSidebarItemListDesktop items={items} />;
   }
 }
 
-export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
+function BlogSidebarDesktop({sidebar}: Props) {
   const items = useVisibleBlogSidebarItems(sidebar.items);
   return (
     <aside className="col col--3">
@@ -110,3 +89,5 @@ export default function BlogSidebarDesktop({sidebar}: Props): JSX.Element {
     </aside>
   );
 }
+
+export default memo(BlogSidebarDesktop);
