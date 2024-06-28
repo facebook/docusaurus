@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React, {type ReactNode} from 'react';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import {groupBlogSidebarItemsByYear} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
 import type {Props} from '@theme/BlogSidebar/Content';
@@ -34,9 +35,8 @@ export default function BlogSidebarContent({
   yearGroupHeadingClassName,
   ListComponent,
 }: Props): ReactNode {
-  const groupByYear = true; // TODO wire appropriate config here
-
-  if (groupByYear) {
+  const themeConfig = useThemeConfig();
+  if (themeConfig.blog.sidebar.groupByYear) {
     const itemsByYear = groupBlogSidebarItemsByYear(items);
     return (
       <>
