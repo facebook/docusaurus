@@ -33,6 +33,7 @@ function groupBlogSidebarItemsByYear(
   // Objects with string/number keys are automatically sorted asc...
   // Even if keys are strings like "2024"
   // We want descending order for years
+  // Alternative: using Map.groupBy (not affected by this "reordering")
   entries.reverse();
   return entries;
 }
