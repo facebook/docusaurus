@@ -10,24 +10,19 @@ import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {
   useVisibleBlogSidebarItems,
-  groupBlogSidebarItemsByYear,
   BlogSidebarItemList,
 } from '@docusaurus/theme-common/internal';
-import Heading from '@theme/Heading';
+import type {
+  Props as BlogSidebarContentProps,
+} from '@theme/BlogSidebar/Content';
+import BlogSidebarContent from '@theme/BlogSidebar/Content';
 
 import type {Props} from '@theme/BlogSidebar/Desktop';
-import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
 
 import styles from './styles.module.css';
 
-function BlogSidebarItemListDesktop({
-  year,
-  items,
-}: {
-  year?: string;
-  items: BlogSidebarItem[];
-}) {
-  const list = (
+const ListComponent: BlogSidebarContentProps['ListComponent'] = ({items}) => {
+  return (
     <BlogSidebarItemList
       items={items}
       ulClassName={clsx(styles.sidebarItemList, 'clean-list')}
@@ -36,39 +31,7 @@ function BlogSidebarItemListDesktop({
       linkActiveClassName={styles.sidebarItemLinkActive}
     />
   );
-
-  if (typeof year === 'undefined') {
-    return list;
-  }
-  return (
-    <div role="group">
-      <Heading as="h3" className={styles.sidebarItemYearSeparator}>
-        {year}
-      </Heading>
-      {list}
-    </div>
-  );
-}
-
-function BlogSidebarItems({items}: {items: BlogSidebarItem[]}) {
-  const groupByYear = true; // TODO wire appropriate config here
-  if (groupByYear) {
-    const itemsByYear = groupBlogSidebarItemsByYear(items);
-    return (
-      <>
-        {itemsByYear.map(([year, yearItems]) => (
-          <BlogSidebarItemListDesktop
-            key={year}
-            year={year}
-            items={yearItems}
-          />
-        ))}
-      </>
-    );
-  } else {
-    return <BlogSidebarItemListDesktop items={items} />;
-  }
-}
+};
 
 function BlogSidebarDesktop({sidebar}: Props) {
   const items = useVisibleBlogSidebarItems(sidebar.items);
@@ -84,7 +47,11 @@ function BlogSidebarDesktop({sidebar}: Props) {
         <div className={clsx(styles.sidebarItemTitle, 'margin-bottom--md')}>
           {sidebar.title}
         </div>
-        <BlogSidebarItems items={items} />
+        <BlogSidebarContent
+          items={items}
+          ListComponent={ListComponent}
+          yearGroupHeadingClassName={styles.yearGroupHeading}
+        />
       </nav>
     </aside>
   );
