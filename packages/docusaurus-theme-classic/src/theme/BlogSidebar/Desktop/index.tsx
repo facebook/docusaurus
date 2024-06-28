@@ -9,6 +9,7 @@ import React, {useMemo} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
+import {groupBy} from '@docusaurus/theme-common';
 import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/BlogSidebar/Desktop';
 import Heading from '@theme/Heading';
@@ -16,28 +17,18 @@ import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
 
 import styles from './styles.module.css';
 
-// TODO 2025: replace by Object.groupBy ?
-function groupBy<Item, Key extends string | number>(
-  items: Item[],
-  getGroup: (item: Item) => Key,
-): Record<Key, Item[]> {
-  // @ts-expect-error: TS complains for weird reasons, it's fine
-  const result: Record<Key, Item[]> = {};
-  items.forEach((item) => {
-    const key = getGroup(item);
-    result[key] ??= [];
-    result[key]!.push(item);
-  });
-  return result;
-}
-
 function groupBlogSidebarItemsByYear(
   items: BlogSidebarItem[],
 ): [string, BlogSidebarItem[]][] {
   const groupedByYear = groupBy(items, (item) => {
-    return new Date(item.date).getFullYear();
+    return `${new Date(item.date).getFullYear()}`;
   });
-  const entries = Object.entries(groupedByYear);
+  // "as" is safe here
+  // see https://github.com/microsoft/TypeScript/pull/56805#issuecomment-2196526425
+  const entries = Object.entries(groupedByYear) as [
+    string,
+    BlogSidebarItem[],
+  ][];
   // We have to use entries because of https://x.com/sebastienlorber/status/1806371668614369486
   // Objects with string/number keys are automatically sorted asc...
   // Even if keys are strings like "2024"
