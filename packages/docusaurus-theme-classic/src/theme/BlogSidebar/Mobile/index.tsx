@@ -11,11 +11,9 @@ import {
   BlogSidebarItemList,
 } from '@docusaurus/theme-common/internal';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
-import type {Props} from '@theme/BlogSidebar/Mobile';
-import type {
-  Props as BlogSidebarContentProps,
-} from '@theme/BlogSidebar/Content';
 import BlogSidebarContent from '@theme/BlogSidebar/Content';
+import type {Props} from '@theme/BlogSidebar/Mobile';
+import type {Props as BlogSidebarContentProps} from '@theme/BlogSidebar/Content';
 
 import styles from './styles.module.css';
 
