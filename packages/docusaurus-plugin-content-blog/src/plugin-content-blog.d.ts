@@ -38,7 +38,7 @@ declare module '@docusaurus/plugin-content-blog' {
   };
 
   export type AuthorAttributes = {
-    key: string | null; // TODO temporary, need refactor
+    key?: string | null; // TODO temporary, need refactor
 
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
@@ -63,6 +63,10 @@ declare module '@docusaurus/plugin-content-blog' {
      * to generate a fallback `mailto:` URL.
      */
     email?: string;
+    /**
+     * Description of the author.
+     */
+    description?: string;
     /**
      * Unknown keys are allowed, so that we can pass custom fields to authors.
      */
@@ -696,8 +700,10 @@ declare module '@theme/BlogTagsListPage' {
 }
 
 declare module '@theme/BlogAuthorsListPage' {
-  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
-  import type {AuthorsListItem} from '@docusaurus/utils';
+  import type {
+    AuthorsListItem,
+    BlogSidebar,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     /** Blog sidebar. */
@@ -712,10 +718,10 @@ declare module '@theme/BlogAuthorsListPage' {
 declare module '@theme/BlogAuthorsPostsPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
+    AuthorModule,
     BlogSidebar,
     BlogPaginatedMetadata,
   } from '@docusaurus/plugin-content-blog';
-  import type {AuthorModule} from '@docusaurus/utils';
 
   export interface Props {
     /** Blog sidebar. */

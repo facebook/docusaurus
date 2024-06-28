@@ -36,7 +36,7 @@ const AuthorsMapInputSchema = Joi.object<AuthorsMapInput>()
       imageURL: URISchema,
       title: Joi.string(),
       email: Joi.string(),
-      page: Joi.alternatives(Joi.bool(), null, AuthorPageSchema),
+      page: Joi.alternatives(Joi.bool(), AuthorPageSchema),
       permalink: Joi.string(),
       description: Joi.string(),
     })
