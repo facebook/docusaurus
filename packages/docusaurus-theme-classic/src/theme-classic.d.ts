@@ -204,7 +204,7 @@ declare module '@theme/BlogSidebar/Content' {
     readonly yearGroupHeadingClassName?: string;
   }
 
-  export default function BlogSidebarYearGroup(props: Props): ReactNode;
+  export default function BlogSidebarContent(props: Props): ReactNode;
 }
 
 declare module '@theme/BlogSidebar/Desktop' {

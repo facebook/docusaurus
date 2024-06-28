@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {memo} from 'react';
 import {
   useVisibleBlogSidebarItems,
   BlogSidebarItemList,
@@ -40,7 +40,7 @@ function BlogSidebarMobileSecondaryMenu({sidebar}: Props): JSX.Element {
   );
 }
 
-export default function BlogSidebarMobile(props: Props): JSX.Element {
+function BlogSidebarMobile(props: Props): JSX.Element {
   return (
     <NavbarSecondaryMenuFiller
       component={BlogSidebarMobileSecondaryMenu}
@@ -48,3 +48,5 @@ export default function BlogSidebarMobile(props: Props): JSX.Element {
     />
   );
 }
+
+export default memo(BlogSidebarMobile);

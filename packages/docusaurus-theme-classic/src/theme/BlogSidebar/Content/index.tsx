@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, {type ReactNode} from 'react';
+import React, {memo, type ReactNode} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import {groupBlogSidebarItemsByYear} from '@docusaurus/theme-common/internal';
 import Heading from '@theme/Heading';
@@ -17,7 +17,6 @@ function BlogSidebarYearGroup({
 }: {
   year: string;
   yearGroupHeadingClassName?: string;
-
   children: ReactNode;
 }) {
   return (
@@ -30,7 +29,7 @@ function BlogSidebarYearGroup({
   );
 }
 
-export default function BlogSidebarContent({
+function BlogSidebarContent({
   items,
   yearGroupHeadingClassName,
   ListComponent,
@@ -54,3 +53,5 @@ export default function BlogSidebarContent({
     return <ListComponent items={items} />;
   }
 }
+
+export default memo(BlogSidebarContent);
