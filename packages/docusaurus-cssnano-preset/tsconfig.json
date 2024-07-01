@@ -3,6 +3,6 @@
   "compilerOptions": {
     "noEmit": false
   },
-  "include": ["src"],
+  "include": ["package.json", "src"],
   "exclude": ["**/__tests__/**"]
 }
