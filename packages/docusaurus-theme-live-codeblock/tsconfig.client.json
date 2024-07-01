@@ -1,10 +1,5 @@
 {
   "extends": "../../tsconfig.base.client.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "lib",
-    "tsBuildInfoFile": "lib/.tsbuildinfo-client"
-  },
   "include": ["src/theme", "src/*.d.ts", "src/custom-buble.ts"],
   "exclude": ["**/__tests__/**"]
 }

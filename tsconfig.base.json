@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "rootDir": "${configDir}/src",
+    "outDir": "${configDir}/lib",
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo",
+
     /* Emit */
     "target": "ES2020",
     "lib": ["ESNext"],
