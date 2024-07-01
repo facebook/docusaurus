@@ -2,10 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": false,
-    "incremental": true,
     "sourceMap": true,
     "declarationMap": true
   },
-  "include": ["src"],
+  "include": ["package.json", "src"],
   "exclude": ["**/__tests__/**"]
 }

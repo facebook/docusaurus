@@ -5,8 +5,7 @@
     {"path": "./tsconfig.worker.json"}
   ],
   "compilerOptions": {
-    "noEmit": false,
-    "incremental": true
+    "noEmit": false
   },
   "include": ["src"],
   "exclude": [

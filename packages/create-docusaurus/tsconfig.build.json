@@ -2,8 +2,6 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": false,
-    "composite": true,
-    "incremental": true,
     "tsBuildInfoFile": "lib/.tsbuildinfo-build"
   },
   "include": ["src"],

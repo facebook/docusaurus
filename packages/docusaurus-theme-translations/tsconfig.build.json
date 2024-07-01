@@ -3,8 +3,6 @@
   "compilerOptions": {
     "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-build",
     "noEmit": false,
-    "composite": true,
-    "incremental": true,
     "sourceMap": true,
     "declarationMap": true
   },

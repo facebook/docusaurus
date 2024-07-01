@@ -9,6 +9,6 @@
     "checkJs": true,
     "rootDir": "."
   },
-  "include": ["bin"],
+  "include": ["package.json", "bin"],
   "exclude": ["**/__tests__/**"]
 }

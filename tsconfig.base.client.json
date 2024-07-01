@@ -3,8 +3,6 @@
   "compilerOptions": {
     "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-client",
     "noEmit": false,
-    "composite": true,
-    "incremental": true,
     "moduleResolution": "bundler",
     "module": "esnext",
     "target": "esnext"
