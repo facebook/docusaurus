@@ -13,9 +13,8 @@ import type {
   Author,
   AuthorAttributes,
   AuthorPage,
+  AuthorsMap,
 } from '@docusaurus/plugin-content-blog';
-
-export type AuthorsMap = {[authorKey: string]: Author};
 
 type AuthorInput = AuthorAttributes & {
   page: boolean | AuthorPage;

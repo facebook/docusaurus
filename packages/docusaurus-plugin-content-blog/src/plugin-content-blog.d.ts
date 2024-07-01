@@ -517,7 +517,7 @@ declare module '@docusaurus/plugin-content-blog' {
     items: BlogSidebarItem[];
   };
 
-  import type {AuthorsMap} from './authorsMap';
+  export type AuthorsMap = {[authorKey: string]: Author};
 
   export type BlogContent = {
     blogSidebarTitle: string;
@@ -525,7 +525,7 @@ declare module '@docusaurus/plugin-content-blog' {
     blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
-    authorsMap: AuthorsMap;
+    authorsMap?: AuthorsMap;
   };
 
   export type BlogMetadata = {

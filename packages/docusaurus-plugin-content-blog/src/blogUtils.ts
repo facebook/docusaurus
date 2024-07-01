@@ -31,10 +31,10 @@ import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
-import type {AuthorsMap} from './authorsMap';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
+  AuthorsMap,
   PluginOptions,
   ReadingTimeFunction,
   BlogPost,

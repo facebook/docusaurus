@@ -10,12 +10,12 @@ import {normalizeUrl} from '@docusaurus/utils';
 import {paginateBlogPosts} from './blogUtils';
 import type {
   Author,
+  AuthorsMap,
   BlogPageAuthors,
   BlogPost,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
 } from '@docusaurus/plugin-content-blog';
-import type {AuthorsMap} from './authorsMap';
 
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;
