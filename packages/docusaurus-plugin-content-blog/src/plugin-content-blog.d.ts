@@ -509,6 +509,7 @@ declare module '@docusaurus/plugin-content-blog' {
     title: string;
     permalink: string;
     unlisted: boolean;
+    date: Date | string;
   };
 
   export type BlogSidebar = {

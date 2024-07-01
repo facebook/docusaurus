@@ -16,6 +16,7 @@ import {shouldBeListed} from './blogUtils';
 import {
   toPageAuthorProp,
   toPageAuthorsProp,
+  toBlogSidebarProp,
   toTagProp,
   toTagsProp,
 } from './props';
@@ -32,7 +33,6 @@ import type {
   BlogContent,
   PluginOptions,
   BlogPost,
-  BlogSidebar,
   BlogPageAuthor,
   BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
@@ -102,17 +102,13 @@ export async function buildAllRoutes({
       : blogPosts.slice(0, options.blogSidebarCount);
 
   async function createSidebarModule() {
-    const sidebar: BlogSidebar = {
-      title: blogSidebarTitle,
-      items: sidebarBlogPosts.map((blogPost) => ({
-        title: blogPost.metadata.title,
-        permalink: blogPost.metadata.permalink,
-        unlisted: blogPost.metadata.unlisted,
-      })),
-    };
+    const sidebarProp = toBlogSidebarProp({
+      blogSidebarTitle,
+      blogPosts: sidebarBlogPosts,
+    });
     const modulePath = await createData(
       `blog-post-list-prop-${pluginId}.json`,
-      sidebar,
+      sidebarProp,
     );
     return aliasedSource(modulePath);
   }

@@ -194,6 +194,19 @@ declare module '@theme/BlogListPaginator' {
   export default function BlogListPaginator(props: Props): JSX.Element;
 }
 
+declare module '@theme/BlogSidebar/Content' {
+  import type {ReactNode, ComponentType} from 'react';
+  import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly items: BlogSidebarItem[];
+    readonly ListComponent: ComponentType<{items: BlogSidebarItem[]}>;
+    readonly yearGroupHeadingClassName?: string;
+  }
+
+  export default function BlogSidebarContent(props: Props): ReactNode;
+}
+
 declare module '@theme/BlogSidebar/Desktop' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
