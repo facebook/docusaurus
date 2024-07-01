@@ -3,10 +3,7 @@
   "references": [{"path": "./tsconfig.client.json"}],
   "compilerOptions": {
     "noEmit": false,
-    "incremental": true,
-    "tsBuildInfoFile": "lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib"
+    "incremental": true
   },
   "include": ["src"],
   "exclude": ["src/analytics.ts", "**/__tests__/**"]

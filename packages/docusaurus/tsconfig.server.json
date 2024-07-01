@@ -4,9 +4,7 @@
     "noEmit": false,
     "composite": true,
     "incremental": true,
-    "tsBuildInfoFile": "lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib"
+    "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-server"
   },
   "include": ["src"],
   "exclude": ["src/client", "**/__tests__/**"]
