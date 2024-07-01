@@ -85,20 +85,6 @@ export async function buildAllRoutes({
     blogTagsListPath,
   } = content;
 
-  const blogAuthorsListPath = normalizeUrl([
-    baseUrl,
-    routeBasePath,
-    authorsPageBasePath,
-  ]);
-
-  const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
-    blogPosts,
-    postsPerPageOption: postsPerPage,
-    blogDescription,
-    blogTitle,
-    pageBasePath,
-  });
-
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
 
   const blogPostsById = _.keyBy(blogPosts, (post) => post.id);
@@ -283,6 +269,20 @@ export async function buildAllRoutes({
   }
 
   function createAuthorsRoutes(): RouteConfig[] {
+    const blogAuthorsListPath = normalizeUrl([
+      baseUrl,
+      routeBasePath,
+      authorsPageBasePath,
+    ]);
+
+    const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
+      blogPosts,
+      postsPerPageOption: postsPerPage,
+      blogDescription,
+      blogTitle,
+      pageBasePath,
+    });
+
     // Authors. This is the last part so we early-return if there are no tags.
     if (Object.keys(blogPageAuthors).length === 0) {
       return [];
