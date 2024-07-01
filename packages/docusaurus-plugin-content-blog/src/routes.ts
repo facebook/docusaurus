@@ -19,6 +19,7 @@ import {
   toTagProp,
   toTagsProp,
 } from './props';
+import {getBlogPageAuthors} from './authors';
 import type {
   PluginContentLoadedActions,
   RouteConfig,
@@ -33,6 +34,7 @@ import type {
   BlogPost,
   BlogSidebar,
   BlogPageAuthor,
+  BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
 
 type CreateAllRoutesParam = {
@@ -68,6 +70,10 @@ export async function buildAllRoutes({
     routeBasePath,
     archiveBasePath,
     blogTitle,
+    authorsPageBasePath,
+    postsPerPage,
+    blogDescription,
+    pageBasePath,
   } = options;
   const pluginId = options.id!;
   const {createData} = actions;
@@ -76,10 +82,22 @@ export async function buildAllRoutes({
     blogPosts,
     blogListPaginated,
     blogTags,
-    blogPageAuthors,
     blogTagsListPath,
-    blogAuthorsListPath,
   } = content;
+
+  const blogAuthorsListPath = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    authorsPageBasePath,
+  ]);
+
+  const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
+    blogPosts,
+    postsPerPageOption: postsPerPage,
+    blogDescription,
+    blogTitle,
+    pageBasePath,
+  });
 
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
 

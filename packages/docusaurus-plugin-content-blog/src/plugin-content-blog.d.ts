@@ -516,14 +516,15 @@ declare module '@docusaurus/plugin-content-blog' {
     items: BlogSidebarItem[];
   };
 
+  import type {AuthorsMap} from './authorsMap';
+
   export type BlogContent = {
     blogSidebarTitle: string;
     blogPosts: BlogPost[];
     blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
-    blogPageAuthors: BlogPageAuthors;
-    blogAuthorsListPath: string;
+    authorsMap: AuthorsMap;
   };
 
   export type BlogMetadata = {
