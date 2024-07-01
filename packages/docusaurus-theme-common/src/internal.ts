@@ -113,7 +113,11 @@ export {
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
 
-export {useVisibleBlogSidebarItems} from './utils/blogUtils';
+export {
+  useVisibleBlogSidebarItems,
+  groupBlogSidebarItemsByYear,
+  BlogSidebarItemList,
+} from './utils/blogUtils';
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';

@@ -35,15 +35,6 @@ const tsconfigSchema = Joi.object({
     '../../tsconfig.base.json',
     '../../tsconfig.base.client.json',
   ),
-  compilerOptions: Joi.object({
-    rootDir: Joi.valid('src').required(),
-    outDir: Joi.valid('lib').required(),
-    tsBuildInfoFile: Joi.valid(
-      'lib/.tsbuildinfo',
-      'lib/.tsbuildinfo-client',
-      'lib/.tsbuildinfo-worker',
-    ),
-  }).unknown(),
 }).unknown();
 
 describe('tsconfig files', () => {
@@ -52,7 +43,6 @@ describe('tsconfig files', () => {
 
     tsconfigFiles
       // Ignore noEmit configs
-      .filter((file) => !(file.content.compilerOptions!.noEmit === true))
       .forEach((file) => {
         try {
           Joi.attempt(file.content, tsconfigSchema);

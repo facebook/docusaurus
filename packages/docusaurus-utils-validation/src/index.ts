@@ -19,6 +19,7 @@ export {
   PluginIdSchema,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
   URISchema,

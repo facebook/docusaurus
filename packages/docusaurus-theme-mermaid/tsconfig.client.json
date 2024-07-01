@@ -1,10 +1,5 @@
 {
   "extends": "../../tsconfig.base.client.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "lib",
-    "tsBuildInfoFile": "lib/.tsbuildinfo-client"
-  },
   "include": ["src/client", "src/theme", "src/*.d.ts"],
   "exclude": ["**/__tests__/**"]
 }

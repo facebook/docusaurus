@@ -9,6 +9,7 @@ import {
   Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
   URISchema,
@@ -25,6 +26,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   mdxPageComponent: '@theme/MDXPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  recmaPlugins: [],
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
@@ -41,6 +43,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   mdxPageComponent: Joi.string().default(DEFAULT_OPTIONS.mdxPageComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  recmaPlugins: RecmaPluginsSchema.default(DEFAULT_OPTIONS.recmaPlugins),
   beforeDefaultRehypePlugins: RehypePluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),

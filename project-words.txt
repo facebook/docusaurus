@@ -285,6 +285,8 @@ rachelnabors
 Ramón
 reactjs
 rearchitecture
+recma
+Recma
 recrawl
 redirections
 Redoc

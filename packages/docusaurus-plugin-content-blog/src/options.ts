@@ -9,6 +9,7 @@ import {
   Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
   URISchema,
@@ -29,6 +30,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   truncateMarker: /<!--\s*truncate\s*-->|\{\/\*\s*truncate\s*\*\/\}/,
   rehypePlugins: [],
   remarkPlugins: [],
+  recmaPlugins: [],
   showReadingTime: true,
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   blogTagsListComponent: '@theme/BlogTagsListPage',
@@ -56,6 +58,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   processBlogPosts: async () => undefined,
   onInlineTags: 'warn',
   tags: undefined,
+  onInlineAuthors: 'warn',
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -93,6 +96,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  recmaPlugins: RecmaPluginsSchema.default(DEFAULT_OPTIONS.recmaPlugins),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
@@ -153,6 +157,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .disallow('')
     .allow(null, false)
     .default(() => DEFAULT_OPTIONS.tags),
+  onInlineAuthors: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onInlineAuthors),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

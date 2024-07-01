@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 import type {TagsListItem, TagModule} from '@docusaurus/utils';
-import type {BlogTag, BlogTags} from '@docusaurus/plugin-content-blog';
+import type {
+  BlogPost,
+  BlogSidebar,
+  BlogTag,
+  BlogTags,
+} from '@docusaurus/plugin-content-blog';
 
 export function toTagsProp({blogTags}: {blogTags: BlogTags}): TagsListItem[] {
   return Object.values(blogTags)
@@ -32,5 +37,23 @@ export function toTagProp({
     allTagsPath: blogTagsListPath,
     count: tag.items.length,
     unlisted: tag.unlisted,
+  };
+}
+
+export function toBlogSidebarProp({
+  blogSidebarTitle,
+  blogPosts,
+}: {
+  blogSidebarTitle: string;
+  blogPosts: BlogPost[];
+}): BlogSidebar {
+  return {
+    title: blogSidebarTitle,
+    items: blogPosts.map((blogPost) => ({
+      title: blogPost.metadata.title,
+      permalink: blogPost.metadata.permalink,
+      unlisted: blogPost.metadata.unlisted,
+      date: blogPost.metadata.date,
+    })),
   };
 }

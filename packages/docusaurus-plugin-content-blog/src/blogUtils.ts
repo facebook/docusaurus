@@ -30,6 +30,7 @@ import {
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {reportAuthorsProblems} from './authorsProblems';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
@@ -317,7 +318,13 @@ async function processBlogSourceFile(
     routeBasePath,
     tagsRouteBasePath,
   ]);
+
   const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+  reportAuthorsProblems({
+    authors,
+    blogSourceRelative,
+    options,
+  });
 
   const tags = normalizeTags({
     options,

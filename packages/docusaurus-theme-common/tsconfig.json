@@ -1,9 +1,6 @@
 {
   "extends": "../../tsconfig.base.client.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "lib",
-    "tsBuildInfoFile": "lib/.tsbuildinfo-client",
     "sourceMap": true,
     "declarationMap": true
   },
