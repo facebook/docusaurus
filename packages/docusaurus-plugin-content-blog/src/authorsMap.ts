@@ -18,7 +18,7 @@ import type {
 export type AuthorsMap = {[authorKey: string]: Author};
 
 type AuthorInput = AuthorAttributes & {
-  page: boolean | AuthorPage;
+  page?: boolean | AuthorPage;
 };
 
 type AuthorsMapInput = {[authorKey: string]: AuthorInput};
