@@ -7,7 +7,7 @@
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {TagLetterEntry} from './tagsUtils';
-import type {AuthorsListItem} from '@docusaurus/plugin-content-blog';
+import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 import type {TagsListItem} from '@docusaurus/utils';
 import type {AuthorLetterEntry} from './authorsUtils';
 
@@ -79,7 +79,7 @@ export function listTagsByLetters(
 }
 
 export function listAuthorsByLetters(
-  authors: readonly AuthorsListItem[],
+  authors: readonly AuthorItemProp[],
 ): AuthorLetterEntry[] {
   return listByLetters(
     authors,

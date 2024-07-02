@@ -1542,10 +1542,10 @@ declare module '@theme/Tag' {
 }
 
 declare module '@theme/AuthorsListByLetter' {
-  import type {AuthorsListItem} from '@docusaurus/plugin-content-blog';
+  import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly authors: readonly AuthorsListItem[];
+    readonly authors: readonly AuthorItemProp[];
   }
   export default function AuthorsListByLetter(props: Props): JSX.Element;
 }
@@ -1560,9 +1560,9 @@ declare module '@theme/AuthorsListInline' {
 }
 
 declare module '@theme/Author' {
-  import type {AuthorsListItem} from '@docusaurus/plugin-content-blog';
+  import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 
-  export interface Props extends AuthorsListItem {}
+  export interface Props extends AuthorItemProp {}
 
   export default function Author(props: Props): JSX.Element;
 }

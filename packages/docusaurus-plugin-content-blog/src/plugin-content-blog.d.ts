@@ -93,13 +93,13 @@ declare module '@docusaurus/plugin-content-blog' {
   };
 
   /** What the authors list page should know about each author. */
-  export type AuthorsListItem = Author & {
-    /** Number of posts/docs with this author. */
+  export type AuthorItemProp = Author & {
+    /** Number of blog posts with this author. */
     count: number;
   };
 
   /** What the author's own page should know about the author. */
-  export type AuthorModule = AuthorsListItem & {
+  export type AuthorPageProp = AuthorItemProp & {
     /** The authors list page's permalink. */
     allAuthorsPath: string;
   };
@@ -701,7 +701,7 @@ declare module '@theme/BlogTagsListPage' {
 
 declare module '@theme/BlogAuthorsListPage' {
   import type {
-    AuthorsListItem,
+    AuthorItemProp,
     BlogSidebar,
   } from '@docusaurus/plugin-content-blog';
 
@@ -709,7 +709,7 @@ declare module '@theme/BlogAuthorsListPage' {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** All authors declared in this blog. */
-    readonly authors: AuthorsListItem[];
+    readonly authors: AuthorItemProp[];
   }
 
   export default function BlogAuthorsListPage(props: Props): JSX.Element;
@@ -718,7 +718,7 @@ declare module '@theme/BlogAuthorsListPage' {
 declare module '@theme/BlogAuthorsPostsPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
-    AuthorModule,
+    AuthorPageProp,
     BlogSidebar,
     BlogPaginatedMetadata,
   } from '@docusaurus/plugin-content-blog';
@@ -727,7 +727,7 @@ declare module '@theme/BlogAuthorsPostsPage' {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** Metadata of this author. */
-    readonly author: AuthorModule;
+    readonly author: AuthorPageProp;
     /** Looks exactly the same as the posts list page */
     readonly listMetadata: BlogPaginatedMetadata;
     /**

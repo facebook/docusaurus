@@ -14,8 +14,8 @@ import {
 import {shouldBeListed} from './blogUtils';
 
 import {
-  toPageAuthorProp,
-  toPageAuthorsProp,
+  toAuthorPageProp,
+  toAuthorItemsProp,
   toBlogSidebarProp,
   toTagProp,
   toTagsProp,
@@ -292,7 +292,7 @@ export async function buildAllRoutes({
         sidebar: sidebarModulePath,
       },
       props: {
-        authors: toPageAuthorsProp({blogPageAuthors}),
+        authors: toAuthorItemsProp({blogPageAuthors}),
       },
     };
 
@@ -309,7 +309,7 @@ export async function buildAllRoutes({
             sidebar: sidebarModulePath,
           },
           props: {
-            author: toPageAuthorProp({author, blogAuthorsListPath}),
+            author: toAuthorPageProp({author, blogAuthorsListPath}),
             listMetadata: metadata,
           },
         };
