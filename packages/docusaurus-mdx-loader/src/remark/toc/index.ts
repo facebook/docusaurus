@@ -7,6 +7,8 @@
 
 import {
   addTocSliceImportIfNeeded,
+  createPartialPropsObjAST,
+  createPropsPlacerAST,
   createTOCExportNodeAST,
   findDefaultImportName,
   getImportDeclarations,
@@ -21,7 +23,7 @@ import type {
   MdxJsxFlowElement,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
-import type {TOCItems} from './types';
+import type {TOCItems, PartialProp} from './types';
 import type {ImportDeclaration} from 'estree';
 
 interface PluginOptions {
@@ -97,11 +99,15 @@ async function collectTOCItems({
 }): Promise<{
   // The toc items we collected in the tree
   tocItems: TOCItems;
+  partialProps: PartialProp[];
 }> {
   const {toString} = await import('mdast-util-to-string');
   const {visit} = await import('unist-util-visit');
 
   const tocItems: TOCItems = [];
+  const partialProps: PartialProp[] = [];
+
+  const propsPlacerName = 'placeProps';
 
   visit(root, (child) => {
     if (child.type === 'heading') {
@@ -111,7 +117,10 @@ async function collectTOCItems({
     }
   });
 
-  return {tocItems};
+  return {
+    tocItems,
+    partialProps,
+  };
 
   // Visit Markdown headings
   function visitHeading(node: Heading) {
@@ -137,6 +146,16 @@ async function collectTOCItems({
       return;
     }
 
+    for (const prop of node.attributes) {
+      if (prop.type === 'mdxJsxAttribute' && typeof prop.value === 'string') {
+        partialProps.push({
+          componentName,
+          propName: prop.name,
+          propValue: prop.value,
+        });
+      }
+    }
+
     const tocSliceImportName = createTocSliceImportName({
       tocExportName,
       componentName,
@@ -144,7 +163,7 @@ async function collectTOCItems({
 
     tocItems.push({
       type: 'slice',
-      importName: tocSliceImportName,
+      value: `${propsPlacerName}(${tocSliceImportName}, '${componentName}')`,
     });
 
     addTocSliceImportIfNeeded({
@@ -157,6 +176,8 @@ async function collectTOCItems({
 
 export default function plugin(options: PluginOptions = {}): Transformer<Root> {
   const tocExportName = options.name || 'toc';
+  const partialPropsName = 'partialProps';
+  const propsPlacerName = 'placeProps';
 
   return async (root) => {
     const {markdownImports, existingTocExport} = await collectImportsExports({
@@ -171,11 +192,18 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       return;
     }
 
-    const {tocItems} = await collectTOCItems({
+    const {tocItems, partialProps} = await collectTOCItems({
       root,
       tocExportName,
       markdownImports,
     });
+
+    root.children.push(
+      await createPartialPropsObjAST({
+        partialProps,
+        partialPropsName,
+      }),
+    );
 
     root.children.push(
       await createTOCExportNodeAST({
@@ -183,5 +211,7 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
         tocItems,
       }),
     );
+
+    root.children.push(createPropsPlacerAST({propsPlacerName}));
   };
 }

@@ -23,6 +23,7 @@
     "@docusaurus/utils-validation": "3.4.0",
     "@mdx-js/mdx": "^3.0.0",
     "@slorber/remark-comment": "^1.0.0",
+    "acorn": "^8.11.3",
     "escape-html": "^1.0.3",
     "estree-util-value-to-estree": "^3.0.1",
     "file-loader": "^6.2.0",
