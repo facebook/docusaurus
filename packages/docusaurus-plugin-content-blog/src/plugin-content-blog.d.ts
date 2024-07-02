@@ -43,6 +43,10 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     authorsImageUrls: (string | undefined)[];
   };
 
+  type SocialPlatform = 'twitter' | 'github' | 'linkedin' | 'stackoverflow';
+
+  export type AuthorSocials = Partial<Record<SocialPlatform, string>>;
+
   export type Author = {
     key?: string; // TODO temporary, need refactor
 
@@ -70,17 +74,12 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
      */
     email?: string;
     /**
-     * Unknown keys are allowed, so that we can pass custom fields to authors,
-     * e.g., `twitter`.
+     * TODO write a description
      */
-    socials?: {
-      twitter: string;
-      linkedin: string;
-      github: string;
-      stackoverflow: string;
-      [key: string]: string;
+    socials?: Partial<Record<SocialPlatform, string>> & {
+      [customAuthorSocialPlatform: string]: string;
     };
-    [key: string]: unknown;
+    [customAuthorAttribute: string]: unknown;
   };
 
   /**

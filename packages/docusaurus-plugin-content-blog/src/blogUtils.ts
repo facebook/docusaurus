@@ -31,6 +31,7 @@ import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
+import {normalizeSocials} from './authorsSocials';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
@@ -383,6 +384,13 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  if (authorsMap) {
+    Object.entries(authorsMap).forEach(([, author]) => {
+      if (author.socials) {
+        author.socials = normalizeSocials(author.socials);
+      }
+    });
+  }
   const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {
