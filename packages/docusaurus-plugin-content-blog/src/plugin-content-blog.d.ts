@@ -38,8 +38,6 @@ declare module '@docusaurus/plugin-content-blog' {
   };
 
   export type AuthorAttributes = {
-    key?: string | null; // TODO temporary, need refactor
-
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
      */
@@ -70,7 +68,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /**
      * Unknown keys are allowed, so that we can pass custom fields to authors.
      */
-    [attribute: string]: unknown;
+    [customAuthorAttribute: string]: unknown;
   };
 
   /**
