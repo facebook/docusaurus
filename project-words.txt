@@ -166,6 +166,7 @@ linkify
 Linkify
 Localizable
 lockb
+lorber
 Lorber
 Lorber's
 lqip
@@ -330,6 +331,7 @@ Solana
 spâce
 stackblitz
 stackblitzrc
+stackoverflow
 Stormkit
 Strikethrough
 strikethroughs

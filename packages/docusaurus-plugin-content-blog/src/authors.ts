@@ -17,6 +17,34 @@ import type {
 
 export type AuthorsMap = {[authorKey: string]: Author};
 
+interface Socials {
+  twitter: string;
+  github: string;
+}
+
+const normalizeSocials = (value: Socials) => {
+  const socialPlatforms = {
+    twitter: 'https://twitter.com/',
+    github: 'https://github.com/',
+    linkedin: 'https://www.linkedin.com/in/',
+    stackoverflow: 'https://stackoverflow.com/users/',
+  };
+
+  (Object.keys(socialPlatforms) as (keyof Socials)[]).forEach((platform) => {
+    if (
+      value[platform] &&
+      !value[platform]!.startsWith(socialPlatforms[platform])
+    ) {
+      value[platform] = normalizeUrl([
+        socialPlatforms[platform],
+        value[platform],
+      ]);
+    }
+  });
+
+  return value;
+};
+
 const AuthorsMapSchema = Joi.object<AuthorsMap>()
   .pattern(
     Joi.string(),
@@ -26,6 +54,12 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>()
       imageURL: URISchema,
       title: Joi.string(),
       email: Joi.string(),
+      socials: Joi.object({
+        twitter: Joi.string(),
+        github: Joi.string(),
+        linkedin: Joi.string(),
+        stackoverflow: Joi.string(),
+      }).custom(normalizeSocials, 'Normalize social media URLs'),
     })
       .rename('image_url', 'imageURL')
       .or('name', 'imageURL')
