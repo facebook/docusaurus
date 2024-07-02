@@ -20,7 +20,6 @@ import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogAuthorsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
-import Unlisted from '@theme/Unlisted';
 import Heading from '@theme/Heading';
 
 function useBlogAuthorsPostsPageTitle(author: Props['author']): string {
@@ -31,7 +30,10 @@ function useBlogAuthorsPostsPageTitle(author: Props['author']): string {
       description: 'The title of the page for a blog author',
       message: '{nPosts} contributed by "{authorName}"',
     },
-    {nPosts: blogPostsPlural(author.count), authorName: author.name},
+    {
+      nPosts: blogPostsPlural(author.count),
+      authorName: author.name || author.imageURL || '',
+    },
   );
 }
 
@@ -54,13 +56,18 @@ function BlogAuthorsPostsPageContent({
   const title = useBlogAuthorsPostsPageTitle(author);
   return (
     <BlogLayout sidebar={sidebar}>
-      {author.unlisted && <Unlisted />}
       <header className="margin-bottom--xl">
         <Heading as="h1">{title}</Heading>
         <ul>
           {author.url && (
             <li>
-              <Link href={author.url}>Personal website</Link>
+              <Link href={author.url}>
+                <Translate
+                  id="theme.authors.website"
+                  description="The label of the author website link in the author page.">
+                  Personal website
+                </Translate>
+              </Link>
             </li>
           )}
           {author.description && <li>{author.description}</li>}

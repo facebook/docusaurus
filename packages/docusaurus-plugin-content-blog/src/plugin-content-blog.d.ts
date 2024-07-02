@@ -38,6 +38,8 @@ declare module '@docusaurus/plugin-content-blog' {
   };
 
   export type AuthorAttributes = {
+    key?: string | null; // TODO temporary, need refactor
+
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
      */
@@ -61,6 +63,10 @@ declare module '@docusaurus/plugin-content-blog' {
      * to generate a fallback `mailto:` URL.
      */
     email?: string;
+    /**
+     * Description of the author.
+     */
+    description?: string;
     /**
      * Unknown keys are allowed, so that we can pass custom fields to authors.
      */
@@ -474,6 +480,8 @@ declare module '@docusaurus/plugin-content-blog' {
       processBlogPosts: ProcessBlogPostsFn;
       /* Base path for the authors page */
       authorsPageBasePath: string;
+      /** The behavior of Docusaurus when it finds inline authors. */
+      onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
     };
 
   /**
@@ -501,6 +509,7 @@ declare module '@docusaurus/plugin-content-blog' {
     title: string;
     permalink: string;
     unlisted: boolean;
+    date: Date | string;
   };
 
   export type BlogSidebar = {
@@ -508,14 +517,15 @@ declare module '@docusaurus/plugin-content-blog' {
     items: BlogSidebarItem[];
   };
 
+  export type AuthorsMap = {[authorKey: string]: Author};
+
   export type BlogContent = {
     blogSidebarTitle: string;
     blogPosts: BlogPost[];
     blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
-    blogPageAuthors: BlogPageAuthors;
-    blogAuthorsListPath: string;
+    authorsMap?: AuthorsMap;
   };
 
   export type BlogMetadata = {
@@ -692,8 +702,10 @@ declare module '@theme/BlogTagsListPage' {
 }
 
 declare module '@theme/BlogAuthorsListPage' {
-  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
-  import type {AuthorsListItem} from '@docusaurus/utils';
+  import type {
+    AuthorsListItem,
+    BlogSidebar,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     /** Blog sidebar. */
@@ -708,10 +720,10 @@ declare module '@theme/BlogAuthorsListPage' {
 declare module '@theme/BlogAuthorsPostsPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
+    AuthorModule,
     BlogSidebar,
     BlogPaginatedMetadata,
   } from '@docusaurus/plugin-content-blog';
-  import type {AuthorModule} from '@docusaurus/utils';
 
   export interface Props {
     /** Blog sidebar. */

@@ -16,9 +16,11 @@ import {shouldBeListed} from './blogUtils';
 import {
   toPageAuthorProp,
   toPageAuthorsProp,
+  toBlogSidebarProp,
   toTagProp,
   toTagsProp,
 } from './props';
+import {getBlogPageAuthors} from './authors';
 import type {
   PluginContentLoadedActions,
   RouteConfig,
@@ -31,8 +33,8 @@ import type {
   BlogContent,
   PluginOptions,
   BlogPost,
-  BlogSidebar,
   BlogPageAuthor,
+  BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
 
 type CreateAllRoutesParam = {
@@ -68,6 +70,10 @@ export async function buildAllRoutes({
     routeBasePath,
     archiveBasePath,
     blogTitle,
+    authorsPageBasePath,
+    postsPerPage,
+    blogDescription,
+    pageBasePath,
   } = options;
   const pluginId = options.id!;
   const {createData} = actions;
@@ -76,9 +82,7 @@ export async function buildAllRoutes({
     blogPosts,
     blogListPaginated,
     blogTags,
-    blogPageAuthors,
     blogTagsListPath,
-    blogAuthorsListPath,
   } = content;
 
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
@@ -98,17 +102,13 @@ export async function buildAllRoutes({
       : blogPosts.slice(0, options.blogSidebarCount);
 
   async function createSidebarModule() {
-    const sidebar: BlogSidebar = {
-      title: blogSidebarTitle,
-      items: sidebarBlogPosts.map((blogPost) => ({
-        title: blogPost.metadata.title,
-        permalink: blogPost.metadata.permalink,
-        unlisted: blogPost.metadata.unlisted,
-      })),
-    };
+    const sidebarProp = toBlogSidebarProp({
+      blogSidebarTitle,
+      blogPosts: sidebarBlogPosts,
+    });
     const modulePath = await createData(
       `blog-post-list-prop-${pluginId}.json`,
-      sidebar,
+      sidebarProp,
     );
     return aliasedSource(modulePath);
   }
@@ -265,6 +265,20 @@ export async function buildAllRoutes({
   }
 
   function createAuthorsRoutes(): RouteConfig[] {
+    const blogAuthorsListPath = normalizeUrl([
+      baseUrl,
+      routeBasePath,
+      authorsPageBasePath,
+    ]);
+
+    const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
+      blogPosts,
+      postsPerPageOption: postsPerPage,
+      blogDescription,
+      blogTitle,
+      pageBasePath,
+    });
+
     // Authors. This is the last part so we early-return if there are no tags.
     if (Object.keys(blogPageAuthors).length === 0) {
       return [];

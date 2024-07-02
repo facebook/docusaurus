@@ -72,6 +72,7 @@ export default function pluginContentPages(
         admonitions,
         rehypePlugins,
         remarkPlugins,
+        recmaPlugins,
         beforeDefaultRehypePlugins,
         beforeDefaultRemarkPlugins,
       } = options;
@@ -82,6 +83,7 @@ export default function pluginContentPages(
           admonitions,
           remarkPlugins,
           rehypePlugins,
+          recmaPlugins,
           beforeDefaultRehypePlugins,
           beforeDefaultRemarkPlugins,
           staticDirs: siteConfig.staticDirectories.map((dir) =>

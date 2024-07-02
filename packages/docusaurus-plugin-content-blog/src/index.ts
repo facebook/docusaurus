@@ -34,7 +34,7 @@ import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
-import {getBlogPageAuthors} from './authors';
+import {getAuthorsMap} from './authorsMap';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -45,7 +45,6 @@ import type {
   BlogTags,
   BlogContent,
   BlogPaginated,
-  BlogPageAuthors,
 } from '@docusaurus/plugin-content-blog';
 import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader/lib/loader';
 import type {RuleSetUseItem} from 'webpack';
@@ -158,7 +157,6 @@ export default async function pluginContentBlog(
         postsPerPage: postsPerPageOption,
         routeBasePath,
         tagsBasePath,
-        authorsPageBasePath,
         blogDescription,
         blogTitle,
         blogSidebarTitle,
@@ -167,11 +165,23 @@ export default async function pluginContentBlog(
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
-      const blogAuthorsListPath = normalizeUrl([
-        baseBlogUrl,
-        authorsPageBasePath,
-      ]);
-      let blogPosts = await generateBlogPosts(contentPaths, context, options);
+
+      const authorsMap = await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: options.authorsMapPath,
+        authorsBaseRoutePath: normalizeUrl([
+          context.baseUrl,
+          options.routeBasePath,
+          options.authorsPageBasePath,
+        ]),
+      });
+
+      let blogPosts = await generateBlogPosts(
+        contentPaths,
+        context,
+        options,
+        authorsMap,
+      );
       blogPosts = await applyProcessBlogPosts({
         blogPosts,
         processBlogPosts: options.processBlogPosts,
@@ -185,8 +195,7 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
-          blogPageAuthors: {},
-          blogAuthorsListPath,
+          authorsMap: {},
         };
       }
 
@@ -231,13 +240,6 @@ export default async function pluginContentBlog(
 
       // TODO: put "AuthorsMap" in Content
       //  Move blog post author pages aggregation logic in contentLoaded()
-      const blogPageAuthors: BlogPageAuthors = getBlogPageAuthors({
-        blogPosts,
-        postsPerPageOption,
-        blogDescription,
-        blogTitle,
-        pageBasePath,
-      });
 
       return {
         blogSidebarTitle,
@@ -245,8 +247,7 @@ export default async function pluginContentBlog(
         blogListPaginated,
         blogTags,
         blogTagsListPath,
-        blogPageAuthors,
-        blogAuthorsListPath,
+        authorsMap,
       };
     },
 
@@ -271,6 +272,7 @@ export default async function pluginContentBlog(
         admonitions,
         rehypePlugins,
         remarkPlugins,
+        recmaPlugins,
         truncateMarker,
         beforeDefaultRemarkPlugins,
         beforeDefaultRehypePlugins,
@@ -283,6 +285,7 @@ export default async function pluginContentBlog(
           admonitions,
           remarkPlugins,
           rehypePlugins,
+          recmaPlugins,
           beforeDefaultRemarkPlugins: [
             footnoteIDFixer,
             ...beforeDefaultRemarkPlugins,

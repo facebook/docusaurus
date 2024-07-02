@@ -158,6 +158,74 @@ export default {
 };
 ```
 
+## Plugins
+
+Our [main themes](./overview.mdx) offer additional theme configuration options for Docusaurus core content plugins.
+
+### Docs
+
+```mdx-code-block
+<APITable name="navbar-overview">
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `versionPersistence` | `'localStorage' \| 'none'` | `undefined` | Defines the browser persistence of the preferred docs version. |
+| `sidebar.hideable` | `boolean` | `false` | Show a hide button at the bottom of the sidebar. |
+| `sidebar.autoCollapseCategories` | `boolean` | `false` | Automatically collapse all sibling categories of the one you navigate to. |
+
+```mdx-code-block
+</APITable>
+```
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    docs: {
+      // highlight-start
+      versionPersistence: 'localStorage',
+      sidebar: {
+        hideable: false,
+        autoCollapseCategories: false,
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
+### Blog
+
+```mdx-code-block
+<APITable name="navbar-overview">
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sidebar.groupByYear` | `boolean` | `true` | Group sidebar blog posts by years. |
+
+```mdx-code-block
+</APITable>
+```
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    blog: {
+      // highlight-start
+      sidebar: {
+        groupByYear: true,
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
 ## Navbar {#navbar}
 
 Accepted fields:

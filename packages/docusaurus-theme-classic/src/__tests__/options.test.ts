@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import {
   normalizeThemeConfig,
@@ -32,6 +32,10 @@ function testValidateOptions(options: Options) {
 }
 
 describe('themeConfig', () => {
+  it('accepts empty theme config', () => {
+    expect(testValidateThemeConfig({})).toEqual(DEFAULT_CONFIG);
+  });
+
   it('accepts valid theme config', () => {
     const userConfig = {
       prism: {
@@ -52,6 +56,11 @@ describe('themeConfig', () => {
         sidebar: {
           hideable: true,
           autoCollapseCategories: false,
+        },
+      },
+      blog: {
+        sidebar: {
+          groupByYear: false,
         },
       },
       announcementBar: {

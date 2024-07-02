@@ -30,10 +30,11 @@ import {
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
-import {getAuthorsMap, type AuthorsMap} from './authorsMap';
+import {reportAuthorsProblems} from './authorsProblems';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
+  AuthorsMap,
   PluginOptions,
   ReadingTimeFunction,
   BlogPost,
@@ -319,6 +320,13 @@ async function processBlogSourceFile(
     tagsRouteBasePath,
   ]);
 
+  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+  reportAuthorsProblems({
+    authors,
+    blogSourceRelative,
+    options,
+  });
+
   const tags = normalizeTags({
     options,
     source: blogSourceRelative,
@@ -326,8 +334,6 @@ async function processBlogSourceFile(
     tagsBaseRoutePath,
     tagsFile,
   });
-
-  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
 
   return {
     id: slug,
@@ -361,6 +367,7 @@ export async function generateBlogPosts(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  authorsMap?: AuthorsMap,
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
 
@@ -371,16 +378,6 @@ export async function generateBlogPosts(
   const blogSourceFiles = await Globby(include, {
     cwd: contentPaths.contentPath,
     ignore: exclude,
-  });
-
-  const authorsMap = await getAuthorsMap({
-    contentPaths,
-    authorsMapPath: options.authorsMapPath,
-    authorsBaseRoutePath: normalizeUrl([
-      context.baseUrl,
-      options.routeBasePath,
-      options.authorsPageBasePath,
-    ]),
   });
 
   const tagsFile = await getTagsFile({contentPaths, tags: options.tags});

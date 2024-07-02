@@ -10,6 +10,8 @@ import type {
   AuthorModule,
   BlogPageAuthor,
   BlogPageAuthors,
+  BlogPost,
+  BlogSidebar,
   BlogTag,
   BlogTags,
 } from '@docusaurus/plugin-content-blog';
@@ -66,5 +68,23 @@ export function toPageAuthorProp({
     ...author,
     allAuthorsPath: blogAuthorsListPath,
     count: author.items.length,
+  };
+}
+
+export function toBlogSidebarProp({
+  blogSidebarTitle,
+  blogPosts,
+}: {
+  blogSidebarTitle: string;
+  blogPosts: BlogPost[];
+}): BlogSidebar {
+  return {
+    title: blogSidebarTitle,
+    items: blogPosts.map((blogPost) => ({
+      title: blogPost.metadata.title,
+      permalink: blogPost.metadata.permalink,
+      unlisted: blogPost.metadata.unlisted,
+      date: blogPost.metadata.date,
+    })),
   };
 }
