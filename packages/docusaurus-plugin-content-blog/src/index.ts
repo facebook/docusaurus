@@ -34,6 +34,7 @@ import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
+import {getAuthorsMap} from './authorsMap';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -164,7 +165,23 @@ export default async function pluginContentBlog(
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
-      let blogPosts = await generateBlogPosts(contentPaths, context, options);
+
+      const authorsMap = await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: options.authorsMapPath,
+        authorsBaseRoutePath: normalizeUrl([
+          context.baseUrl,
+          options.routeBasePath,
+          options.authorsPageBasePath,
+        ]),
+      });
+
+      let blogPosts = await generateBlogPosts(
+        contentPaths,
+        context,
+        options,
+        authorsMap,
+      );
       blogPosts = await applyProcessBlogPosts({
         blogPosts,
         processBlogPosts: options.processBlogPosts,
@@ -178,6 +195,7 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
+          authorsMap: {},
         };
       }
 
@@ -220,12 +238,16 @@ export default async function pluginContentBlog(
         pageBasePath,
       });
 
+      // TODO: put "AuthorsMap" in Content
+      //  Move blog post author pages aggregation logic in contentLoaded()
+
       return {
         blogSidebarTitle,
         blogPosts,
         blogListPaginated,
         blogTags,
         blogTagsListPath,
+        authorsMap,
       };
     },
 

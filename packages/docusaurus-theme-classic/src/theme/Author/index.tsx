@@ -8,7 +8,9 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
-import type {Props} from '@theme/BlogPostItem/Header/Author';
+import type {Props} from '@theme/Author';
+
+import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
   if (props.href) {
@@ -17,19 +19,18 @@ function MaybeLink(props: LinkProps): JSX.Element {
   return <>{props.children}</>;
 }
 
-export default function BlogPostItemHeaderAuthor({
-  author,
-  className,
+export default function Author({
+  page,
+  name,
+  count,
+  title,
+  imageURL,
 }: Props): JSX.Element {
-  const {name, title, url, imageURL, email, page} = author;
-
-  const link =
-    page?.permalink || url || (email && `mailto:${email}`) || undefined;
-
+  const permalink = page?.permalink;
   return (
-    <div className={clsx('avatar margin-bottom--sm', className)}>
+    <div className={clsx('avatar margin-bottom--sm')}>
       {imageURL && (
-        <MaybeLink href={link} className="avatar__photo-link">
+        <MaybeLink href={permalink} className="avatar__photo-link">
           <img className="avatar__photo" src={imageURL} alt={name} />
         </MaybeLink>
       )}
@@ -37,9 +38,10 @@ export default function BlogPostItemHeaderAuthor({
       {name && (
         <div className="avatar__intro">
           <div className="avatar__name">
-            <MaybeLink href={link}>
+            <MaybeLink href={permalink}>
               <span>{name}</span>
             </MaybeLink>
+            <span className={clsx(styles.count)}>{count}</span>
           </div>
           <small className="avatar__subtitle">{title}</small>
         </div>

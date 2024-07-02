@@ -6,6 +6,10 @@
  */
 import type {TagsListItem, TagModule} from '@docusaurus/utils';
 import type {
+  AuthorItemProp,
+  AuthorPageProp,
+  BlogPageAuthor,
+  BlogPageAuthors,
   BlogPost,
   BlogSidebar,
   BlogTag,
@@ -37,6 +41,31 @@ export function toTagProp({
     allTagsPath: blogTagsListPath,
     count: tag.items.length,
     unlisted: tag.unlisted,
+  };
+}
+
+export function toAuthorItemsProp({
+  blogPageAuthors,
+}: {
+  blogPageAuthors: BlogPageAuthors;
+}): AuthorItemProp[] {
+  return Object.values(blogPageAuthors).map((author) => ({
+    ...author,
+    count: author.items.length,
+  }));
+}
+
+export function toAuthorPageProp({
+  blogAuthorsListPath,
+  author,
+}: {
+  blogAuthorsListPath: string;
+  author: BlogPageAuthor;
+}): AuthorPageProp {
+  return {
+    ...author,
+    allAuthorsPath: blogAuthorsListPath,
+    count: author.items.length,
   };
 }
 

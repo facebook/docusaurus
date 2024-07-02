@@ -5,65 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
-import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {BlogContentPaths} from './types';
+import _ from 'lodash';
+import {normalizeUrl} from '@docusaurus/utils';
+import {paginateBlogPosts} from './blogUtils';
 import type {
   Author,
+  AuthorsMap,
+  BlogPageAuthors,
+  BlogPost,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
-  BlogPostFrontMatterAuthors,
 } from '@docusaurus/plugin-content-blog';
-
-export type AuthorsMap = {[authorKey: string]: Author};
-
-const AuthorsMapSchema = Joi.object<AuthorsMap>()
-  .pattern(
-    Joi.string(),
-    Joi.object({
-      name: Joi.string(),
-      url: URISchema,
-      imageURL: URISchema,
-      title: Joi.string(),
-      email: Joi.string(),
-    })
-      .rename('image_url', 'imageURL')
-      .or('name', 'imageURL')
-      .unknown()
-      .required()
-      .messages({
-        'object.base':
-          '{#label} should be an author object containing properties like name, title, and imageURL.',
-        'any.required':
-          '{#label} cannot be undefined. It should be an author object containing properties like name, title, and imageURL.',
-      }),
-  )
-  .messages({
-    'object.base':
-      "The authors map file should contain an object where each entry contains an author key and the corresponding author's data.",
-  });
-
-export function validateAuthorsMap(content: unknown): AuthorsMap {
-  const {error, value} = AuthorsMapSchema.validate(content);
-  if (error) {
-    throw error;
-  }
-  return value;
-}
-
-export async function getAuthorsMap(params: {
-  authorsMapPath: string;
-  contentPaths: BlogContentPaths;
-}): Promise<AuthorsMap | undefined> {
-  return getDataFileData(
-    {
-      filePath: params.authorsMapPath,
-      contentPaths: params.contentPaths,
-      fileType: 'authors map',
-    },
-    validateAuthorsMap,
-  );
-}
 
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;
@@ -85,6 +37,7 @@ function normalizeImageUrl({
 
 // Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
+// TODO Docusaurus v4: remove this legacy front matter
 function getFrontMatterAuthorLegacy({
   baseUrl,
   frontMatter,
@@ -106,37 +59,40 @@ function getFrontMatterAuthorLegacy({
       title,
       url,
       imageURL,
+      // legacy front matter authors do not have an author key/page
+      key: null,
+      page: null,
     };
   }
 
   return undefined;
 }
 
-function normalizeFrontMatterAuthors(
-  frontMatterAuthors: BlogPostFrontMatterAuthors = [],
-): BlogPostFrontMatterAuthor[] {
-  function normalizeAuthor(
-    authorInput: string | Author,
-  ): BlogPostFrontMatterAuthor {
-    if (typeof authorInput === 'string') {
-      // Technically, we could allow users to provide an author's name here, but
-      // we only support keys, otherwise, a typo in a key would fallback to
-      // becoming a name and may end up unnoticed
-      return {key: authorInput};
-    }
-    return authorInput;
-  }
-
-  return Array.isArray(frontMatterAuthors)
-    ? frontMatterAuthors.map(normalizeAuthor)
-    : [normalizeAuthor(frontMatterAuthors)];
-}
-
 function getFrontMatterAuthors(params: AuthorsParam): Author[] {
-  const {authorsMap} = params;
-  const frontMatterAuthors = normalizeFrontMatterAuthors(
-    params.frontMatter.authors,
-  );
+  const {authorsMap, frontMatter, baseUrl} = params;
+  return normalizeFrontMatterAuthors().map(toAuthor);
+
+  function normalizeFrontMatterAuthors(): BlogPostFrontMatterAuthor[] {
+    if (frontMatter.authors === undefined) {
+      return [];
+    }
+
+    function normalizeAuthor(
+      authorInput: string | BlogPostFrontMatterAuthor,
+    ): BlogPostFrontMatterAuthor {
+      if (typeof authorInput === 'string') {
+        // We could allow users to provide an author's name here, but we only
+        // support keys, otherwise, a typo in a key would fall back to
+        // becoming a name and may end up unnoticed
+        return {key: authorInput};
+      }
+      return authorInput;
+    }
+
+    return Array.isArray(frontMatter.authors)
+      ? frontMatter.authors.map(normalizeAuthor)
+      : [normalizeAuthor(frontMatter.authors)];
+  }
 
   function getAuthorsMapAuthor(key: string | undefined): Author | undefined {
     if (key) {
@@ -158,36 +114,29 @@ ${Object.keys(authorsMap)
   }
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
-    return {
+    const author = {
       // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
     };
+
+    return {
+      ...author,
+      key: author.key ?? null,
+      page: author.page ?? null,
+      imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+    };
   }
-
-  return frontMatterAuthors.map(toAuthor);
-}
-
-function fixAuthorImageBaseURL(
-  authors: Author[],
-  {baseUrl}: {baseUrl: string},
-) {
-  return authors.map((author) => ({
-    ...author,
-    imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
-  }));
 }
 
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
 
-  const updatedAuthors = fixAuthorImageBaseURL(authors, params);
-
   if (authorLegacy) {
     // Technically, we could allow mixing legacy/authors front matter, but do we
     // really want to?
-    if (updatedAuthors.length > 0) {
+    if (authors.length > 0) {
       throw new Error(
         `To declare blog post authors, use the 'authors' front matter in priority.
 Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
@@ -196,5 +145,78 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
     return [authorLegacy];
   }
 
-  return updatedAuthors;
+  return authors;
+}
+
+type AuthoredItemGroup = {
+  author: Author;
+  items: BlogPost[];
+};
+
+/**
+ * Blog posts are grouped by permalink
+ * @param blogPosts
+ */
+// TODO would be better if iterated over the AuthorsMap instead of the blogPosts
+export function groupBlogPostsByPermalink(blogPosts: readonly BlogPost[]): {
+  [permalink: string]: AuthoredItemGroup;
+} {
+  const result: {[permalink: string]: AuthoredItemGroup} = {};
+
+  blogPosts.forEach((item) => {
+    item.metadata.authors.forEach((author) => {
+      if (author.page) {
+        // Init missing author groups
+        // TODO: it's not really clear what should be the behavior if 2
+        // authors have the same permalink but the label is different for each
+        // For now, the first author found wins
+        result[author.page.permalink] ??= {
+          author,
+          items: [],
+        };
+
+        // Add item to group
+        result[author.page.permalink]!.items.push(item);
+      }
+    });
+  });
+
+  // If user add twice the same author to a md doc (weird but possible),
+  // we don't want the item to appear twice in the list...
+  // TODO wait for #10224 and remove below code
+  Object.values(result).forEach((group) => {
+    group.items = _.uniq(group.items);
+  });
+
+  return result;
+}
+
+export function getBlogPageAuthors({
+  blogPosts,
+  ...params
+}: {
+  blogPosts: BlogPost[];
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
+}): BlogPageAuthors {
+  const groups = groupBlogPostsByPermalink(blogPosts);
+
+  return _.mapValues(groups, ({author, items}) => {
+    const authorBlogPosts = items.filter(
+      (blogPost) => !blogPost.metadata.unlisted,
+    );
+    return {
+      ...author,
+      items: authorBlogPosts.map((blogPost) => blogPost.id),
+      pages: author.page
+        ? paginateBlogPosts({
+            blogPosts: authorBlogPosts,
+            basePageUrl: author.page.permalink,
+            ...params,
+          })
+        : [],
+    };
+  });
 }

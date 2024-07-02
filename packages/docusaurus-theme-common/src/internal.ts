@@ -76,7 +76,11 @@ export {
   useDocRootMetadata,
 } from './utils/docsUtils';
 
-export {useTitleFormatter} from './utils/generalUtils';
+export {
+  useTitleFormatter,
+  listTagsByLetters,
+  listAuthorsByLetters,
+} from './utils/generalUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 

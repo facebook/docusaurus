@@ -7,6 +7,7 @@
 
 import {useMemo} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {translate} from '@docusaurus/Translate';
 
 // We want to ensurer a stable plural form order in all cases
 // It is more convenient and natural to handle "small values" first
@@ -128,4 +129,22 @@ export function usePluralForm(): {
     selectMessage: (count: number, pluralMessages: string): string =>
       selectPluralMessage(pluralMessages, count, localePluralForm),
   };
+}
+
+// Very simple pluralization: probably good enough for now
+export function useBlogPostsPlural(): (count: number) => string {
+  const {selectMessage} = usePluralForm();
+  return (count: number) =>
+    selectMessage(
+      count,
+      translate(
+        {
+          id: 'theme.blog.post.plurals',
+          description:
+            'Pluralized label for "{count} posts". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One post|{count} posts',
+        },
+        {count},
+      ),
+    );
 }

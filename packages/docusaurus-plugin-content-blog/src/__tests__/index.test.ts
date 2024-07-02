@@ -196,6 +196,7 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/date',
         },
       ],
+      pageAuthors: [],
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
@@ -220,12 +221,14 @@ describe('blog plugin', () => {
       authors: [
         {
           name: 'Yangshun Tay (translated)',
+          imageURL: undefined,
         },
         {
           email: 'lorber.sebastien@gmail.com',
           key: 'slorber',
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
+          imageURL: undefined,
         },
       ],
       date: new Date('2018-12-14'),
@@ -253,6 +256,7 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/global-tag-permalink (en)',
         },
       ],
+      pageAuthors: [],
       prevItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
@@ -299,6 +303,7 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/complex',
         },
       ],
+      pageAuthors: [],
       hasTruncateMarker: false,
       unlisted: false,
     });
@@ -336,6 +341,7 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       tags: [],
+      pageAuthors: [],
       hasTruncateMarker: false,
       unlisted: false,
     });
@@ -357,6 +363,7 @@ describe('blog plugin', () => {
       },
       prevItem: undefined,
       tags: [],
+      pageAuthors: [],
       nextItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
@@ -481,6 +488,7 @@ describe('blog plugin', () => {
       date: noDateSourceTime,
       frontMatter: {},
       tags: [],
+      pageAuthors: [],
       prevItem: undefined,
       nextItem: undefined,
       hasTruncateMarker: false,

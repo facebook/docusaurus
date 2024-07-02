@@ -44,7 +44,7 @@ export {
   useBlogPostStructuredData,
 } from './utils/structuredDataUtils';
 
-export {usePluralForm} from './utils/usePluralForm';
+export {usePluralForm, useBlogPostsPlural} from './utils/usePluralForm';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
 
@@ -75,11 +75,12 @@ export {useWindowSize} from './hooks/useWindowSize';
  * Note: we still guarantee retro-compatibility on those
  */
 
+export {translateTagsPageTitle, type TagLetterEntry} from './utils/tagsUtils';
+
 export {
-  translateTagsPageTitle,
-  listTagsByLetters,
-  type TagLetterEntry,
-} from './utils/tagsUtils';
+  type AuthorLetterEntry,
+  translateAuthorsPageTitle,
+} from './utils/authorsUtils';
 
 export {
   useSearchQueryString,
