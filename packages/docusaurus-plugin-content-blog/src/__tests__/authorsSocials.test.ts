@@ -88,4 +88,12 @@ describe('normalizeSocials', () => {
       }
     `);
   });
+
+  it('allow other form of urls', () => {
+    const socials: AuthorSocials = {
+      twitter: 'https://bit.ly/sebastienlorber-twitter',
+    };
+
+    expect(normalizeSocials(socials)).toEqual(socials);
+  });
 });
