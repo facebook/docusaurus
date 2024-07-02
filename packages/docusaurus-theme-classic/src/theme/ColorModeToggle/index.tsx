@@ -46,7 +46,7 @@ function ColorModeToggle({
   );
 
   return (
-    <div className={clsx(styles.toggle, className)}>
+    <div title={title} className={clsx(styles.toggle, className)}>
       <button
         className={clsx(
           'clean-btn',
@@ -57,9 +57,7 @@ function ColorModeToggle({
         type="button"
         onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}
         disabled={!isBrowser}
-        title={title}
-        aria-label={title}
-        aria-live="polite">
+        aria-label={title}>
         <IconLightMode
           className={clsx(styles.toggleIcon, styles.lightToggleIcon)}
         />
