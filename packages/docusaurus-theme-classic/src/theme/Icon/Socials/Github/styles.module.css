@@ -4,16 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-.githubSvg {
-  width: 1.375em;
-  height: 1.375em;
-  margin-right: 0.5em;
-}
 
 [data-theme='dark'] .githubSvg {
-  fill: var(--dark);
+  fill: var(--light);
 }
 
 [data-theme='light'] .githubSvg {
-  fill: var(--light);
+  fill: var(--dark);
 }
