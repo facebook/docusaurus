@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ComponentType} from 'react';
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
@@ -14,6 +15,7 @@ import Twitter from '@theme/Icon/Socials/Twitter';
 import Github from '@theme/Icon/Socials/Github';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
+import DefaultSocial from '@theme/Icon/Socials/Default';
 import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
@@ -23,35 +25,36 @@ function MaybeLink(props: LinkProps): JSX.Element {
   return <>{props.children}</>;
 }
 
+const PlatformIconsMap: Record<string, ComponentType<{className: string}>> = {
+  twitter: Twitter,
+  github: Github,
+  stackoverflow: StackOverflow,
+  linkedin: LinkedIn,
+};
+
+function PlatformLink({platform, link}: {platform: string; link: string}) {
+  const Icon = PlatformIconsMap[platform] ?? DefaultSocial;
+  return (
+    <Link href={link}>
+      <Icon className={clsx(styles.socialIcon)} />
+    </Link>
+  );
+}
+
 export default function BlogPostItemHeaderAuthor({
   author,
   className,
 }: Props): JSX.Element {
   const {name, title, url, socials, imageURL, email} = author;
-  const {github, twitter, stackoverflow, linkedin} = socials || {};
   const link = url || (email && `mailto:${email}`) || undefined;
+
   const renderSocialMedia = () => (
     <div className={clsx(styles.authorSocial, 'avatar__subtitle')}>
-      {twitter && (
-        <Link href={twitter}>
-          <Twitter className={clsx(styles.socialIcon)} />
-        </Link>
-      )}
-      {github && (
-        <Link href={github}>
-          <Github className={clsx(styles.socialIcon)} />
-        </Link>
-      )}
-      {linkedin && (
-        <Link href={linkedin}>
-          <LinkedIn className={clsx(styles.socialIcon)} />
-        </Link>
-      )}
-      {stackoverflow && (
-        <Link href={stackoverflow}>
-          <StackOverflow className={clsx(styles.socialIcon)} />
-        </Link>
-      )}
+      {Object.entries(socials ?? {}).map(([platform, linkUrl]) => {
+        return (
+          <PlatformLink key={platform} platform={platform} link={linkUrl} />
+        );
+      })}
     </div>
   );
 

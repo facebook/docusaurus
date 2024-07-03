@@ -1538,6 +1538,14 @@ declare module '@theme/Icon/Socials/LinkedIn' {
   export default function LinkedIn(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Socials/Default' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function DefaultSocial(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/Socials/StackOverflow' {
   import type {ComponentProps} from 'react';
 
