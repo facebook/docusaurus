@@ -105,7 +105,7 @@ export function admonitionTitleToDirectiveLabel(
     'gm',
   );
 
-  return content.replaceAll(regexp, (substring, ...args: any[]) => {
+  return content.replaceAll(regexp, (substring, ...args) => {
     const groups = args.at(-1);
 
     return `${groups.quote ?? ''}${groups.indentation ?? ''}${

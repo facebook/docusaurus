@@ -29,6 +29,7 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Pluggable = any; // TODO fix this asap
 
 type SimpleProcessorResult = {content: string; data: {[key: string]: unknown}};

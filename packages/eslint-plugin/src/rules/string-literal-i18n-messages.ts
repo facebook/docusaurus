@@ -10,7 +10,7 @@ import {
   isStringWithoutExpressions,
   createRule,
 } from '../util';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import type {TSESTree} from '@typescript-eslint/types';
 
 type Options = [];
 type MessageIds = 'translateChildren' | 'translateArg';
@@ -21,7 +21,6 @@ export default createRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'enforce translate APIs to be called on plain text labels',
-      recommended: 'error',
     },
     schema: [],
     messages: {

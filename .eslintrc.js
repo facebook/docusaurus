@@ -379,7 +379,6 @@ module.exports = {
     // function placeholder params are always ignored, and any other unused
     // locals must be justified with a disable comment.
     '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
-    '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-html-links': ERROR,
     '@docusaurus/prefer-docusaurus-heading': ERROR,
     '@docusaurus/no-untranslated-text': [
