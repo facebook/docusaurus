@@ -16,6 +16,7 @@ const socialPlatforms: Record<SocialPlatform, string> = {
   github: 'https://github.com/',
   linkedin: 'https://www.linkedin.com/',
   stackoverflow: 'https://stackoverflow.com/',
+  x: 'https://x.com/',
 };
 
 export const normalizeSocials = (value: AuthorSocials): AuthorSocials => {

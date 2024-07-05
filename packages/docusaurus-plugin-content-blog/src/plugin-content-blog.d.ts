@@ -43,7 +43,12 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     authorsImageUrls: (string | undefined)[];
   };
 
-  type SocialPlatform = 'twitter' | 'github' | 'linkedin' | 'stackoverflow';
+  type SocialPlatform =
+    | 'twitter'
+    | 'github'
+    | 'linkedin'
+    | 'stackoverflow'
+    | 'x';
 
   export type AuthorSocials = Partial<Record<SocialPlatform, string>>;
 

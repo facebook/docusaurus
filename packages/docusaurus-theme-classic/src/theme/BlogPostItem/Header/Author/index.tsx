@@ -13,6 +13,7 @@ import Link, {type Props as LinkProps} from '@docusaurus/Link';
 import type {Props} from '@theme/BlogPostItem/Header/Author';
 import Twitter from '@theme/Icon/Socials/Twitter';
 import Github from '@theme/Icon/Socials/Github';
+import X from '@theme/Icon/Socials/X';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
 import DefaultSocial from '@theme/Icon/Socials/Default';
@@ -30,6 +31,7 @@ const PlatformIconsMap: Record<string, ComponentType<{className: string}>> = {
   github: Github,
   stackoverflow: StackOverflow,
   linkedin: LinkedIn,
+  x: X,
 };
 
 function PlatformLink({platform, link}: {platform: string; link: string}) {

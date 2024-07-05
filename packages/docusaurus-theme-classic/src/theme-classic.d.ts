@@ -1530,6 +1530,14 @@ declare module '@theme/Icon/Socials/Github' {
   export default function Github(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Socials/X' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function X(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/Socials/LinkedIn' {
   import type {ComponentProps} from 'react';
 

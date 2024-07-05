@@ -529,3 +529,68 @@ describe('validateAuthorsMap', () => {
     );
   });
 });
+
+describe('authors socials', () => {
+  it('valid known author map socials', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          twitter: 'ozakione',
+          github: 'ozakione',
+        },
+      },
+    };
+
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+
+  it('throw socials that are not strings', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          // @ts-expect-error: for tests
+          twitter: 42,
+        },
+      },
+    };
+
+    expect(() =>
+      validateAuthorsMap(authorsMap),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials.twitter" must be a string"`,
+    );
+  });
+
+  it('throw socials that are objects', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          // @ts-expect-error: for tests
+          twitter: {link: 'ozakione'},
+        },
+      },
+    };
+
+    expect(() =>
+      validateAuthorsMap(authorsMap),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials.twitter" must be a string"`,
+    );
+  });
+
+  it('valid unknown author map socials', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          random: 'ozakione',
+        },
+      },
+    };
+
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+});

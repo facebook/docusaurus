@@ -31,6 +31,7 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>()
         github: Joi.string(),
         linkedin: Joi.string(),
         stackoverflow: Joi.string(),
+        x: Joi.string(),
       }).unknown(),
     })
       .rename('image_url', 'imageURL')
