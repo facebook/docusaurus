@@ -93,3 +93,25 @@
   margin-left: 6px;
   margin-right: 6px;
 }
+
+.card {
+  transition: all 0.3s ease-in-out;
+  animation: appear 1s ease-in-out;
+}
+
+.card:hover {
+  cursor: pointer;
+  scale: 1.05;
+}
+
+/* keyframes */
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

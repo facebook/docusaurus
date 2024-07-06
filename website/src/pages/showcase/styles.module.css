@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.button_showcase {
+  transition: all 0.3s ease-in-out;
+  animation: appear 0.5s ease-in-out;
+}
+
+.button_showcase:hover {
+  cursor: pointer;
+  scale: 1.05;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

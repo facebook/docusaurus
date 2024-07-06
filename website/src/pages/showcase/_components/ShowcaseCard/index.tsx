@@ -63,7 +63,7 @@ function getCardImage(user: User): string {
 function ShowcaseCard({user}: {user: User}) {
   const image = getCardImage(user);
   return (
-    <li key={user.title} className="card shadow--md">
+    <li key={user.title} className={clsx(styles.card, 'shadow--md')}>
       <div className={clsx('card__image', styles.showcaseCardImage)}>
         <Image img={image} alt={user.title} />
       </div>

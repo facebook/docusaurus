@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import clsx from 'clsx';
 import Translate, {translate} from '@docusaurus/Translate';
 
 import Link from '@docusaurus/Link';
@@ -14,6 +15,7 @@ import Heading from '@theme/Heading';
 import ShowcaseSearchBar from '@site/src/pages/showcase/_components/ShowcaseSearchBar';
 import ShowcaseCards from './_components/ShowcaseCards';
 import ShowcaseFilters from './_components/ShowcaseFilters';
+import styles from './styles.module.css';
 
 const TITLE = translate({message: 'Docusaurus Site Showcase'});
 const DESCRIPTION = translate({
@@ -26,7 +28,9 @@ function ShowcaseHeader() {
     <section className="margin-top--lg margin-bottom--lg text--center">
       <Heading as="h1">{TITLE}</Heading>
       <p>{DESCRIPTION}</p>
-      <Link className="button button--primary" to={SUBMIT_URL}>
+      <Link
+        className={clsx(styles.button_showcase, 'button', 'button--primary')}
+        to={SUBMIT_URL}>
         <Translate id="showcase.header.button">
           🙏 Please add your site
         </Translate>

@@ -128,6 +128,12 @@ html[data-theme='dark'] .topBannerTitleText {
 
 .heroTitleTextHtml b {
   color: var(--ifm-color-primary);
+  animation: appear 1s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.heroTitleTextHtml b:hover {
+  text-decoration: underline;
 }
 
 @keyframes jack-in-the-box {
@@ -168,9 +174,18 @@ html[data-theme='dark'] .topBannerTitleText {
   margin-top: 24px;
 }
 
+.indexCtas a {
+  transition: all 0.2s ease-in-out;
+  animation: appear 1s ease-in-out;
+}
+
 .indexCtas a,
 .indexCtas a:hover {
   color: black;
+}
+
+.indexCtas a:hover {
+  scale: 1.05;
 }
 
 .indexCtas a:last-of-type {
@@ -225,6 +240,13 @@ html[data-theme='dark'] .topBannerTitleText {
 
 .tweetsSection > :global(.col) > * {
   margin-bottom: 2rem;
+  animation: appear 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.tweetsSection > :global(.col) > *:hover {
+  cursor: pointer;
+  scale: 1.05;
 }
 
 @media (max-width: 996px) {
@@ -242,4 +264,16 @@ html[data-theme='dark'] .topBannerTitleText {
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
   content: 'site-index-page';
+}
+
+/* keyframes */
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
