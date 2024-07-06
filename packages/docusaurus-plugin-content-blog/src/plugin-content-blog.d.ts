@@ -81,7 +81,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     /**
      * TODO write a description
      */
-    socials?: Partial<Record<SocialPlatform, string>> & {
+    socials?: AuthorSocials & {
       [customAuthorSocialPlatform: string]: string;
     };
     [customAuthorAttribute: string]: unknown;
