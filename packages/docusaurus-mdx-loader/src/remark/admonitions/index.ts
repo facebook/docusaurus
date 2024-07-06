@@ -15,7 +15,6 @@ import type {Parent} from 'mdast';
 // This might change soon, likely after TS 5.2
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 // import type {Plugin} from 'unified';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Plugin = any; // TODO fix this asap
 
 export type AdmonitionOptions = {

@@ -13,7 +13,6 @@ import type {Heading} from 'mdast';
 // TODO upgrade to TS 5.3
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 // import type {Plugin} from 'unified';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Plugin = any; // TODO fix this asap
 
 interface PluginOptions {

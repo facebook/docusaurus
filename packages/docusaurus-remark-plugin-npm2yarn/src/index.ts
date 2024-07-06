@@ -17,7 +17,7 @@ import type {Transformer} from 'unified';
 // This might change soon, likely after TS 5.2
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 // import type {Plugin} from 'unified';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Plugin<T> = any; // TODO fix this asap
 
 type KnownConverter = 'yarn' | 'pnpm';

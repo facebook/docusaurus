@@ -20,7 +20,6 @@ export default function CodeBlockContainer<T extends 'div' | 'pre'>({
   return (
     <As
       // Polymorphic components are hard to type, without `oneOf` generics
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       style={prismCssVariables}
       className={clsx(

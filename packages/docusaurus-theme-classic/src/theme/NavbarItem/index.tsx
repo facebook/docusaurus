@@ -24,6 +24,5 @@ export default function NavbarItem({type, ...props}: Props): JSX.Element {
   if (!NavbarItemComponent) {
     throw new Error(`No NavbarItem component found for type "${type}".`);
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <NavbarItemComponent {...(props as any)} />;
 }

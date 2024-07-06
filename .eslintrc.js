@@ -342,6 +342,7 @@ module.exports = {
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
 
     '@typescript-eslint/consistent-type-definitions': OFF,
+    '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/require-await': OFF,
 
     '@typescript-eslint/ban-ts-comment': [
