@@ -1,0 +1,186 @@
+Contribuyendo a Docusaurus
+Docusaurus es nuestra forma de ayudar a que la documentación de código abierto sea más sencilla. Actualmente, tenemos varios proyectos de código abierto que lo utilizan y tenemos muchos más planeados. Si estás interesado en contribuir con Docusaurus, esperamos que este documento aclare el proceso para hacerlo.
+
+El sitio web Open Source Guides cuenta con una colección de recursos para personas, comunidades y empresas que desean aprender a dirigir y contribuir a un proyecto de código abierto. Tanto los colaboradores como las personas que recién comienzan a trabajar en código abierto encontrarán las siguientes guías especialmente útiles:
+
+Cómo contribuir al código abierto
+Construyendo comunidades acogedoras
+Código de conducta
+Facebook ha adoptado un Código de conducta que esperamos que cumplan los participantes del proyecto. Lee el texto completo para saber qué acciones se tolerarán y cuáles no.
+
+Involucrarse
+Hay muchas maneras de contribuir a Docusaurus y muchas de ellas no implican escribir código. A continuación, se ofrecen algunas ideas para comenzar:
+
+Simplemente comience a usar Docusaurus. Siga la guía de introducción . ¿Todo funciona como se espera? Si no es así, siempre estamos buscando mejoras. Infórmenos abriendo un problema .
+Revise los problemas abiertos . Proporcione soluciones alternativas, solicite aclaraciones o sugiera etiquetas. Ayude a clasificar los problemas .
+Si encuentra un problema que desea solucionar, abra una solicitud de incorporación de cambios . Los problemas etiquetados como Buen primer problema son un buen punto de partida.
+Lee la documentación de Docusaurus . Si encuentras algo que te resulte confuso o que se pueda mejorar, puedes hacer clic en "Editar esta página" en la parte inferior de la mayoría de los documentos, lo que te llevará a la interfaz de GitHub para realizar y proponer cambios.
+Eche un vistazo a las características solicitadas por otros en la comunidad y considere abrir una solicitud de extracción si ve algo en lo que desea trabajar.
+Las contribuciones son bienvenidas. Si cree que necesita ayuda para planificar su contribución, envíenos un mensaje en Twitter a @docusaurus y díganos que necesita ayuda.
+
+Únete a nuestro canal de Discord
+Contamos con un #contributorscanal en Discord para discutir todo lo relacionado con el desarrollo de Docusaurus. También puedes ser de gran ayuda ayudando a otros usuarios en el #help-and-questionscanal.
+
+Clasificación de problemas y solicitudes de incorporación de cambios
+Una excelente manera de contribuir al proyecto sin escribir ningún código es ayudar a clasificar los problemas y las solicitudes de extracción a medida que llegan.
+
+Solicite más información si considera que el problema no proporciona todos los detalles necesarios para resolverlo.
+Sugiera etiquetas que puedan ayudar a categorizar los problemas.
+Marcar los problemas que están obsoletos o que deberían cerrarse.
+Solicite planes de prueba y revise el código.
+Nuestro proceso de desarrollo
+Docusaurus utiliza GitHub como fuente de información. El equipo central trabajará directamente allí. Todos los cambios serán públicos desde el principio.
+
+Todas las solicitudes de incorporación de cambios se comprobarán mediante el sistema de integración continua, GitHub Actions. Hay pruebas unitarias, pruebas de extremo a extremo, pruebas de rendimiento, pruebas de estilo y mucho más.
+
+Organización de la sucursal
+Docusaurus tiene una rama principal mainy usamos ramas de funciones con vistas previas de implementación para entregar nuevas funciones con solicitudes de extracción.
+
+Asuntos
+Al abrir un nuevo problema , asegúrese siempre de completar la plantilla de problemas. ¡ Este paso es muy importante! Si no lo hace, es posible que su problema no se resuelva de manera oportuna. No se lo tome como algo personal si esto sucede y no dude en abrir un nuevo problema una vez que haya reunido toda la información que requiere la plantilla.
+
+No utilice el rastreador de problemas de GitHub para realizar preguntas. Si tiene preguntas sobre el uso de Docusaurus, utilice cualquiera de nuestros canales de soporte y haremos todo lo posible por responderlas.
+
+Insectos
+Usamos GitHub Issues para nuestros errores públicos. Si desea informar un problema, eche un vistazo y vea si alguien ya abrió un problema al respecto. Si está seguro de que se trata de un error nuevo y no informado, puede enviar un informe de error .
+
+Un problema, un error: informe un solo error por problema.
+Proporcionar pasos de reproducción: enumera todos los pasos necesarios para reproducir el problema. La persona que lea el informe de errores debería poder seguir estos pasos para reproducir el problema con el mínimo esfuerzo.
+Si solo estás solucionando un error, está bien enviar una solicitud de incorporación de cambios de inmediato, pero igualmente recomendamos que presentes un problema que detalle lo que estás solucionando. Esto es útil en caso de que no aceptemos esa solución específica, pero queramos realizar un seguimiento del problema.
+
+Errores de seguridad
+Facebook tiene un programa de recompensas para la divulgación segura de errores de seguridad. Teniendo esto en cuenta, no envíes problemas públicos; sigue el proceso que se describe en esa página.
+
+Peticiones de características
+Si desea solicitar una nueva característica o mejora, pero aún no está pensando en abrir una solicitud de incorporación de cambios, puede presentar un problema con la plantilla de características en forma de RFC elaborado . Alternativamente, puede utilizar el foro de Canny para solicitudes de características más informales y obtener suficiente impulso antes de proponer una RFC.
+
+Propuestas
+Si tiene la intención de realizar cambios no triviales en las implementaciones existentes, le recomendamos que presente un problema con la plantilla de propuesta . Esto nos permitirá llegar a un acuerdo sobre su propuesta antes de que dedique un esfuerzo significativo a ella. Este tipo de problemas deberían ser poco frecuentes.
+
+Reclamaciones sobre cuestiones
+Contamos con una lista de problemas para principiantes que te ayudarán a familiarizarte con el código base de Docusaurus y con nuestro proceso de contribución. Este es un excelente lugar para comenzar.
+
+Además de las good first issueetiquetas , también vale la pena mirar las siguientes:
+
+help wanted:Si tienes conocimientos específicos en un dominio, trabajar en estos temas puede hacer que tu experiencia brille.
+status: accepting pr:Los contribuyentes de la comunidad pueden sentirse libres de reclamar cualquiera de estos.
+Si quieres trabajar en alguno de estos problemas, simplemente envía un mensaje que diga "Me gustaría trabajar en esto" y te asignaremos el problema y actualizaremos el estado del problema a "reclamado". Se espera que envíes una solicitud de incorporación de cambios dentro de los siete días posteriores a eso, por lo que aún podemos delegar el problema a otra persona si no estás disponible.
+
+Alternativamente, al abrir un problema, también puede hacer clic en la casilla de verificación "autoservicio" para indicar que desea trabajar en el problema usted mismo, lo que también nos hará ver el problema como "reclamado".
+
+Desarrollo
+Configuración en línea con un solo clic para contribuir
+Puedes usar Gitpod (un IDE gratuito, en línea, similar a VS Code) para contribuir. Con un solo clic, se iniciará un espacio de trabajo (para Docusaurus 2) y automáticamente:
+
+Clonar el repositorio de docusaurus.
+Instalar las dependencias.
+correryarn start
+Para que puedas empezar a contribuir inmediatamente.
+
+Abrir en Gitpod
+
+También puedes probar a usar la nueva función github.dev . Mientras navegas por cualquier archivo, si cambias el nombre de dominio de github.coma, github.devtu navegador se convertirá en un editor en línea. Puedes comenzar a realizar cambios y enviar solicitudes de extracción de inmediato.
+
+Instalación
+Asegúrese de tener Yarn instalado.
+Después de clonar el repositorio, ejecútelo yarn installen la raíz del repositorio. Esto instalará todas las dependencias y generará todos los paquetes locales.
+Para iniciar un servidor de desarrollo, ejecute yarn workspace website start.
+Convenciones de código
+Lo más importante: mira a tu alrededor. Utiliza el mismo estilo que ves en el resto del proyecto. Esto incluye el formato, los nombres de los archivos, los nombres de las cosas en el código, los nombres de las cosas en la documentación, etc.
+"Atractivo"
+Contamos con Prettier (un formateador) y ESLint (un analizador de sintaxis) para detectar la mayoría de los problemas de estilo. Si trabajas localmente, deberían solucionar automáticamente algunos problemas durante cada confirmación de Git.
+Para la documentación : no ajuste líneas a los 80 caracteres: configure su editor para realizar un ajuste suave al editar documentación.
+No te preocupes demasiado por los estilos en general: los mantenedores te ayudarán a corregirlos a medida que revisen tu código.
+
+Solicitudes de extracción
+Entonces, ha decidido contribuir con código al desarrollo mediante la apertura de una solicitud de incorporación de cambios. Ha invertido una buena cantidad de tiempo y lo agradecemos. Haremos todo lo posible para trabajar con usted y lograr que se analice la solicitud de incorporación de cambios.
+
+¿Estás trabajando en tu primera solicitud de incorporación de cambios? Puedes aprender cómo hacerlo con esta serie de videos gratuitos:
+
+Cómo contribuir a un proyecto de código abierto en GitHub
+
+Asegúrese de realizar lo siguiente al enviar una solicitud de extracción:
+
+Mantenga su PR pequeña. Las solicitudes de incorporación de cambios pequeñas (aproximadamente 300 líneas de diferencias) son mucho más fáciles de revisar y tienen más probabilidades de fusionarse. Asegúrese de que la solicitud de incorporación de cambios haga solo una cosa; de lo contrario, divídala.
+Utilice títulos descriptivos. Se recomienda seguir este estilo de mensaje de confirmación .
+Pruebe los cambios. Describa su plan de prueba en la descripción de la solicitud de incorporación de cambios.
+CLA. Si aún no lo has hecho, firma el CLA .
+Todas las solicitudes de extracción deben abrirse contra la mainrama.
+
+Contamos con muchos sistemas de integración que ejecutan pruebas automatizadas para evitar errores. Los encargados del mantenimiento también revisarán su código y solucionarán los problemas obvios. El deber de estos sistemas es hacer que usted se preocupe lo menos posible por las tareas. Sus contribuciones al código son más importantes que cumplir con los procedimientos, aunque completar la lista de verificación seguramente ahorrará tiempo a todos.
+
+Mensajes de confirmación semánticos
+Vea cómo un pequeño cambio en el estilo de su mensaje de confirmación puede convertirlo en un mejor programador.
+
+Formato:<type>(<scope>): <subject>
+
+<scope>es opcional. Si el cambio es específico para uno o dos paquetes, considere agregar el alcance. Los alcances deben ser breves pero reconocibles, por ejemplo content-docs, theme-classic, ,core
+
+Los distintos tipos de commits:
+
+feat:una nueva API o comportamiento para el usuario final .
+fix:una corrección de errores para el usuario final .
+docs:un cambio en el sitio web u otros documentos Markdown en nuestro repositorio.
+refactor:un cambio en el código de producción que no produce ninguna diferencia de comportamiento, por ejemplo, dividir archivos, cambiar el nombre de variables internas, mejorar el estilo del código, etc.
+test:agregar pruebas faltantes, refactorizar pruebas; sin cambios en el código de producción.
+chore:actualizar dependencias, lanzar nuevas versiones... Tareas que se realizan periódicamente con fines de mantenimiento.
+misc: cualquier otra cosa que no cambie el código de producción, pero que no sea testo chore. por ejemplo, actualizar el flujo de trabajo de acciones de GitHub.
+Sin embargo, no te estreses demasiado por los títulos de las PR. Tu PR se fusionará y tu confirmación a la mainrama recibirá el título de tu PR, por lo que las confirmaciones dentro de una rama no necesitan tener un nombre semántico. Los encargados del mantenimiento te ayudarán a obtener el título de la PR correcto, y también tenemos un sistema de etiquetas de PR que no se corresponde con los tipos de mensajes de confirmación. ¡Tu código es más importante que las convenciones!
+
+Ejemplo:
+
+feat(core): allow overriding of webpack config
+^--^^----^  ^------------^
+|   |       |
+|   |       +-> Summary in present tense. Use lower case not title case!
+|   |
+|   +-> The package(s) that this change affected.
+|
++-------> Type: see above for the list we use.
+Documentos versionados
+Si solo desea realizar cambios en los documentos, solo debe tener en cuenta los documentos versionados.
+
+website/docs- Los archivos aquí son responsables de la "próxima" versión en https://docusaurus.io/docs/next/installation .
+website/versioned_docs/version-X.Y.Z- Estos son los documentos para la versión XYZ en https://docusaurus.io/docs/XYZ/installation .
+No edite los archivos generados automáticamente dentro de versioned_docs/o versioned_sidebars/a menos que esté seguro de que es necesario. Por ejemplo, la información sobre nuevas funciones no debe documentarse en documentos con versiones. Las modificaciones realizadas en versiones anteriores no se propagarán a las versiones más nuevas de los documentos.
+
+Plan de prueba
+Un buen plan de pruebas incluye los comandos exactos que ejecutaste y su resultado, y proporciona capturas de pantalla o videos si la solicitud de incorporación de cambios cambia la interfaz de usuario. Si cambiaste las API, actualiza la documentación.
+
+Las pruebas están integradas en nuestro sistema de integración continua, por lo que no siempre es necesario ejecutar pruebas locales. Sin embargo, en el caso de cambios de código significativos, ahorrará tiempo tanto a usted como a los encargados del mantenimiento si primero puede realizar pruebas exhaustivas de forma local para asegurarse de que su PR esté en buenas condiciones. Existen muchos tipos de pruebas:
+
+Generación y verificación de tipos. Usamos TypeScript en nuestra base de código, lo que garantiza la coherencia del código y detecta errores obvios de forma temprana.
+Pruebas unitarias. Usamos Jest para realizar pruebas unitarias del comportamiento de los puntos finales de la API. Puedes ejecutarlo yarn testen el directorio raíz para ejecutar todas las pruebas o yarn test path/to/your/file.test.tspara ejecutar una prueba específica.
+Pruebas internas. Nuestro sitio web cubre todo tipo de posibles casos de configuración e incluso tenemos un área de pruebas dedicada . No tenga miedo de actualizar la configuración de nuestro sitio web en su PR: puede ayudar a los encargados del mantenimiento a obtener una vista previa de los efectos. Podemos decidir si el cambio del sitio web debe conservarse al fusionarlo y desplegarlo para producción.
+Pruebas E2E. Puedes simular la distribución e instalación del código con los cambios nuevos. Si necesitas ayuda para probar los cambios localmente, puedes consultar la documentación sobre cómo realizar pruebas locales de terceros .
+Licencia
+Al contribuir a Docusaurus, acepta que sus contribuciones se publicarán bajo la licencia MIT. Copie y pegue esto en la parte superior de su(s) nuevo(s) archivo(s):
+
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+Esto también se puede solucionar automáticamente con la header/headerregla ESLint.
+
+Acuerdo de licencia de colaborador (CLA)
+Para poder aceptar tu solicitud de incorporación de cambios, necesitamos que envíes un CLA. Solo necesitas hacerlo una vez, por lo que si ya lo has hecho para otro proyecto de código abierto de Facebook, estás listo para comenzar. Si estás enviando una solicitud de incorporación de cambios por primera vez, el bot de GitHub de Facebook te responderá con un enlace al formulario CLA. También puedes completar tu CLA aquí .
+
+Una vez que haya firmado el CLA, el robot del CLA actualizará automáticamente el estado de la PR. No es necesario abrir una nueva PR.
+
+Se requieren los CLA para que podamos fusionar su solicitud de incorporación de cambios. Si bien valoramos su esfuerzo y estamos dispuestos a esperar a que regrese y aborde las revisiones en caso de que no esté disponible después de enviar la solicitud de incorporación de cambios, las solicitudes de incorporación de cambios que estén listas para fusionarse pero que no tengan el CLA y no hayan recibido respuesta del autor se cerrarán dentro de las dos semanas posteriores a su apertura . Si tiene más preguntas sobre el CLA, manténgase en contacto con nosotros.
+
+Si no estabas disponible y tu solicitud de relaciones públicas se cierra, ¡no dudes en volver a abrirla una vez que esté lista! Estaremos encantados de revisarla, ayudarte a completarla y, finalmente, fusionarla.
+
+Cambios de última hora
+Al agregar un nuevo cambio importante, siga esta plantilla en su solicitud de extracción:
+
+### New breaking change here
+
+- **Who does this affect**:
+- **How to migrate**:
+- **Why make this breaking change**:
+- **Severity (number of people affected x effort)**:
+¿Qué pasa después?
+El equipo principal de Docusaurus supervisará las solicitudes de incorporación de cambios. Ayúdenos a mantener la coherencia de las solicitudes de incorporación de cambios siguiendo las pautas anteriores
