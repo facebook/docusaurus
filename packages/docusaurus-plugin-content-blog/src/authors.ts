@@ -7,11 +7,9 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
-import {paginateBlogPosts} from './blogUtils';
 import type {
   Author,
   AuthorsMap,
-  BlogPageAuthors,
   BlogPost,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
@@ -148,75 +146,18 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
   return authors;
 }
 
-type AuthoredItemGroup = {
-  author: Author;
-  items: BlogPost[];
-};
-
 /**
- * Blog posts are grouped by permalink
- * @param blogPosts
+ * Blog posts are grouped by author page permalink (if page exists)
  */
 // TODO would be better if iterated over the AuthorsMap instead of the blogPosts
-export function groupBlogPostsByPermalink(blogPosts: readonly BlogPost[]): {
-  [permalink: string]: AuthoredItemGroup;
-} {
-  const result: {[permalink: string]: AuthoredItemGroup} = {};
-
-  blogPosts.forEach((item) => {
-    item.metadata.authors.forEach((author) => {
-      if (author.page) {
-        // Init missing author groups
-        // TODO: it's not really clear what should be the behavior if 2
-        // authors have the same permalink but the label is different for each
-        // For now, the first author found wins
-        result[author.page.permalink] ??= {
-          author,
-          items: [],
-        };
-
-        // Add item to group
-        result[author.page.permalink]!.items.push(item);
-      }
-    });
-  });
-
-  // If user add twice the same author to a md doc (weird but possible),
-  // we don't want the item to appear twice in the list...
-  // TODO wait for #10224 and remove below code
-  Object.values(result).forEach((group) => {
-    group.items = _.uniq(group.items);
-  });
-
-  return result;
-}
-
-export function getBlogPageAuthors({
+export function getBlogPostsForAuthorKey({
   blogPosts,
-  ...params
+  authorsMap,
 }: {
   blogPosts: BlogPost[];
-  blogTitle: string;
-  blogDescription: string;
-  postsPerPageOption: number | 'ALL';
-  pageBasePath: string;
-}): BlogPageAuthors {
-  const groups = groupBlogPostsByPermalink(blogPosts);
-
-  return _.mapValues(groups, ({author, items}) => {
-    const authorBlogPosts = items.filter(
-      (blogPost) => !blogPost.metadata.unlisted,
-    );
-    return {
-      ...author,
-      items: authorBlogPosts.map((blogPost) => blogPost.id),
-      pages: author.page
-        ? paginateBlogPosts({
-            blogPosts: authorBlogPosts,
-            basePageUrl: author.page.permalink,
-            ...params,
-          })
-        : [],
-    };
-  });
+  authorsMap: AuthorsMap | undefined;
+}): Record<string, BlogPost[]> {
+  return _.mapValues(authorsMap, (author, key) =>
+    blogPosts.filter((p) => p.metadata.authors.some((a) => a.key === key)),
+  );
 }

@@ -98,12 +98,6 @@ declare module '@docusaurus/plugin-content-blog' {
     count: number;
   };
 
-  /** What the author's own page should know about the author. */
-  export type AuthorPageProp = AuthorItemProp & {
-    /** The authors list page's permalink. */
-    allAuthorsPath: string;
-  };
-
   /**
    * Everything is partial/unnormalized, because front matter is always
    * preserved as-is. Default values will be applied when generating metadata
@@ -718,7 +712,7 @@ declare module '@theme/BlogAuthorsListPage' {
 declare module '@theme/BlogAuthorsPostsPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
-    AuthorPageProp,
+    AuthorItemProp,
     BlogSidebar,
     BlogPaginatedMetadata,
   } from '@docusaurus/plugin-content-blog';
@@ -727,7 +721,10 @@ declare module '@theme/BlogAuthorsPostsPage' {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** Metadata of this author. */
-    readonly author: AuthorPageProp;
+    readonly author: AuthorItemProp;
+    // TODO
+    /** Link to the page of all authors. */
+    readonly allAuthorsPath: string;
     /** Looks exactly the same as the posts list page */
     readonly listMetadata: BlogPaginatedMetadata;
     /**
