@@ -38,33 +38,25 @@ type Entry = HasLabel | HasName;
  */
 function listByLetters<T extends Entry, R>(
   items: readonly T[],
-  getLetter: (item: T) => string,
   getLabel: (item: T) => string,
   mapResult: (letter: string, items: T[]) => R,
 ): R[] {
   const groups: {[initial: string]: T[]} = {};
   items.forEach((item) => {
-    const initial = getLetter(item);
+    const label = getLabel(item);
+    const initial = label[0]!.toUpperCase();
     groups[initial] ??= [];
     groups[initial]!.push(item);
   });
 
-  return (
-    Object.entries(groups)
-      // Sort letters
-      .sort(([letter1], [letter2]) => letter1.localeCompare(letter2))
-      .map(([letter, groupedItems]) => {
-        // Sort items inside a letter
-        const sortedItems = groupedItems.sort((item1, item2) =>
-          getLabel(item1).localeCompare(getLabel(item2)),
-        );
-        return mapResult(letter, sortedItems);
-      })
-  );
-}
-
-function getItemLetter(item: string): string {
-  return item[0]!.toUpperCase();
+  return Object.entries(groups)
+    .sort(([letter1], [letter2]) => letter1.localeCompare(letter2))
+    .map(([letter, groupedItems]) => {
+      const sortedItems = groupedItems.sort((item1, item2) =>
+        getLabel(item1).localeCompare(getLabel(item2)),
+      );
+      return mapResult(letter, sortedItems);
+    });
 }
 
 export function listTagsByLetters(
@@ -72,7 +64,6 @@ export function listTagsByLetters(
 ): TagLetterEntry[] {
   return listByLetters(
     tags,
-    (tag) => getItemLetter(tag.label),
     (tag) => tag.label,
     (letter, items) => ({letter, tags: items}),
   );
@@ -83,7 +74,6 @@ export function listAuthorsByLetters(
 ): AuthorLetterEntry[] {
   return listByLetters(
     authors,
-    (author) => getItemLetter(author.name ?? author.imageURL ?? ''),
     (author) => author.name ?? author.imageURL ?? '',
     (letter, items) => ({letter, authors: items}),
   );
