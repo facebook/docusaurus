@@ -98,8 +98,6 @@ function normalizeAuthor({
   authorKey: string;
   author: AuthorInput;
 }): Author {
-  const name = author.name || authorKey;
-
   function getAuthorPage(): AuthorPage | null {
     if (!author.page) {
       return null;
@@ -112,14 +110,9 @@ function normalizeAuthor({
   }
 
   return {
+    ...author,
     key: authorKey,
     page: getAuthorPage(),
-    name,
-    imageURL: author.imageURL,
-    url: author.url,
-    title: author.title,
-    email: author.email,
-    description: author.description,
   };
 }
 
