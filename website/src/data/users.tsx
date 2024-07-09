@@ -3014,7 +3014,15 @@ const Users: User[] = [
     website: 'https://dynamoosejs.com/',
     source: 'https://github.com/dynamoose/dynamoose/tree/main/docs',
     tags: ['opensource'],
-  },
+  },  
+  {
+    title: 'CodeHarborHub',
+    description: 'Free tech courses and tutorials for all levels. Learn from experts and boost your career skills today!',
+    preview: require('./showcase/codeharborhub.png'),
+    website: 'https://codeharborhub.github.io/',
+    source: 'https://github.com/CodeHarborHub/codeharborhub.github.io',
+    tags: ['opensource', 'personal'],
+  },   
 
   /*
   Pro Tip: add your site in alphabetical order.
