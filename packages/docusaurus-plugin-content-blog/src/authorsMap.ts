@@ -58,31 +58,34 @@ const AuthorsMapInputSchema = Joi.object<AuthorsMapInput>()
 export function checkPermalinkCollisions(
   authorsMap: AuthorsMap | undefined,
 ): void {
-  const pageAuthorsMap = _.pickBy(authorsMap, (author) => !!author.page);
-
-  const permalinkCounts: {[key: string]: string[]} = {};
-  for (const [key, author] of Object.entries(pageAuthorsMap)) {
-    if (author.page) {
-      const {permalink} = author.page;
-      if (!permalinkCounts[permalink]) {
-        permalinkCounts[permalink] = [];
-      }
-      permalinkCounts[permalink]?.push(author.name || key);
-    }
+  if (!authorsMap) {
+    return;
   }
 
-  const collisions = Object.entries(permalinkCounts).filter(
-    ([, authors]) => authors.length > 1,
-  );
+  const permalinkCounts = _(authorsMap)
+    // Filter to keep only authors with a page
+    .pickBy((author) => !!author.page)
+    // Group authors by their permalink
+    .groupBy((author) => author.page?.permalink)
+    // Filter to keep only permalinks with more than one author
+    .pickBy((authors) => authors.length > 1)
+    // Transform the object into an array of [permalink, authors] pairs
+    .toPairs()
+    .value();
 
-  if (collisions.length > 0) {
-    let errorMessage = 'The following permalinks are duplicated:\n';
+  if (permalinkCounts.length > 0) {
+    const errorMessage = permalinkCounts
+      .map(
+        ([permalink, authors]) =>
+          `Permalink: ${permalink}\nAuthors: ${authors
+            .map((author) => author.name || 'Unknown')
+            .join(', ')}`,
+      )
+      .join('\n');
 
-    collisions.forEach(([permalink, authors]) => {
-      errorMessage += `Permalink: ${permalink}\nAuthors: ${authors.join(', ')}`;
-    });
-
-    throw new Error(errorMessage);
+    throw new Error(
+      `The following permalinks are duplicated:\n${errorMessage}`,
+    );
   }
 }
 

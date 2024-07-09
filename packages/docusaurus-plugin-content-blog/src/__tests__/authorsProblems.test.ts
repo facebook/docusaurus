@@ -7,9 +7,12 @@
 
 import {jest} from '@jest/globals';
 import {reportDuplicateAuthors, reportInlineAuthors} from '../authorsProblems';
-import type {Author} from '@docusaurus/plugin-content-blog';
+import {checkPermalinkCollisions} from '../authorsMap';
+import type {Author, AuthorsMap} from '@docusaurus/plugin-content-blog';
 
 const blogSourceRelative = 'doc.md';
+
+// TODO update TS types
 
 describe('duplicate authors', () => {
   function testReport({authors}: {authors: Author[]}) {
@@ -173,6 +176,59 @@ describe('inline authors', () => {
       More info at https://docusaurus.io/docs/blog
       ",
       ]
+    `);
+  });
+});
+
+// TODO move to authorsMap.test.ts ?
+describe('authors permalink collision', () => {
+  it('no collision', () => {
+    const authors: AuthorsMap = {
+      author1: {
+        name: 'author1',
+        key: 'author1',
+        page: {
+          permalink: '/author1',
+        },
+      },
+      author2: {
+        name: 'author2',
+        key: 'author2',
+        page: {
+          permalink: '/author2',
+        },
+      },
+    };
+
+    expect(() => {
+      checkPermalinkCollisions(authors);
+    }).not.toThrow();
+  });
+
+  it('collision', () => {
+    const authors: AuthorsMap = {
+      author1: {
+        name: 'author1',
+        key: 'author1',
+        page: {
+          permalink: '/author1',
+        },
+      },
+      author2: {
+        name: 'author1',
+        key: 'author1',
+        page: {
+          permalink: '/author1',
+        },
+      },
+    };
+
+    expect(() => {
+      checkPermalinkCollisions(authors);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "The following permalinks are duplicated:
+      Permalink: /author1
+      Authors: author1, author1"
     `);
   });
 });

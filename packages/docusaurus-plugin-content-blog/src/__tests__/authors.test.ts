@@ -644,7 +644,6 @@ describe('validateAuthorsMapInput', () => {
 
   it('reject non-map author', () => {
     const authorsMap: AuthorsMap = {
-      // @ts-expect-error: for tests
       slorber: [],
     };
     expect(() =>

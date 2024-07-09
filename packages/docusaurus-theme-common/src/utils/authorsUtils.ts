@@ -16,6 +16,6 @@ export const translateAuthorsPageTitle = (): string =>
   });
 
 export type AuthorLetterEntry = {
-  letter: string;
+  letter: string | undefined;
   authors: AuthorItemProp[];
 };

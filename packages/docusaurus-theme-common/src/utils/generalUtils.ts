@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {TagLetterEntry} from './tagsUtils';
 import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
@@ -38,25 +39,31 @@ type Entry = HasLabel | HasName;
  */
 function listByLetters<T extends Entry, R>(
   items: readonly T[],
-  getLabel: (item: T) => string,
-  mapResult: (letter: string, items: T[]) => R,
+  getLabel: (item: T) => string | undefined,
+  mapResult: (letter: string | undefined, items: T[]) => R,
 ): R[] {
-  const groups: {[initial: string]: T[]} = {};
-  items.forEach((item) => {
+  // Group items by their initial letter or undefined
+  const groups = _.groupBy(items, (item) => {
     const label = getLabel(item);
-    const initial = label[0]!.toUpperCase();
-    groups[initial] ??= [];
-    groups[initial]!.push(item);
+    return label ? label[0]!.toUpperCase() : 'undefined';
   });
 
-  return Object.entries(groups)
-    .sort(([letter1], [letter2]) => letter1.localeCompare(letter2))
+  // Convert groups object to array and sort
+  return _.chain(groups)
+    .toPairs()
+    .sortBy(([letter]) => (letter === 'undefined' ? '' : letter))
     .map(([letter, groupedItems]) => {
-      const sortedItems = groupedItems.sort((item1, item2) =>
-        getLabel(item1).localeCompare(getLabel(item2)),
+      // Sort items within each group
+      const sortedItems = _.sortBy(
+        groupedItems,
+        (item) => getLabel(item) ?? '',
       );
-      return mapResult(letter, sortedItems);
-    });
+      return mapResult(
+        letter === 'undefined' ? undefined : letter,
+        sortedItems,
+      );
+    })
+    .value();
 }
 
 export function listTagsByLetters(
@@ -74,7 +81,7 @@ export function listAuthorsByLetters(
 ): AuthorLetterEntry[] {
   return listByLetters(
     authors,
-    (author) => author.name ?? author.imageURL ?? '',
+    (author) => author.name,
     (letter, items) => ({letter, authors: items}),
   );
 }

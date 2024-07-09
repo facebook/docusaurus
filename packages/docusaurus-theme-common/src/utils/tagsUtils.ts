@@ -15,4 +15,4 @@ export const translateTagsPageTitle = (): string =>
     description: 'The title of the tag list page',
   });
 
-export type TagLetterEntry = {letter: string; tags: TagsListItem[]};
+export type TagLetterEntry = {letter: string | undefined; tags: TagsListItem[]};
