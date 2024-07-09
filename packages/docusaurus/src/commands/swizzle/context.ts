@@ -18,6 +18,8 @@ export async function initSwizzleContext(
   const plugins = await initPlugins(context);
   const pluginConfigs = await loadPluginConfigs(context);
 
+  // TODO same index assumption is now wrong!
+
   return {
     plugins: plugins.map((plugin, pluginIndex) => ({
       plugin: pluginConfigs[pluginIndex]!,

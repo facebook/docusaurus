@@ -17,12 +17,12 @@ const PluginName = 'docusaurus-plugin-sitemap';
 export default function pluginSitemap(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<void> {
+): Plugin<void> | null {
   if (context.siteConfig.future.experimental_router === 'hash') {
     logger.warn(
       `${PluginName} does not support the Hash Router and will be disabled.`,
     );
-    return {name: PluginName};
+    return null;
   }
 
   return {

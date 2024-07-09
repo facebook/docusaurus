@@ -108,29 +108,33 @@ export async function initPlugins(
 
   async function initializePlugin(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ): Promise<InitializedPlugin> {
+  ): Promise<InitializedPlugin | null> {
     const pluginVersion: PluginVersionInformation = await doLoadPluginVersion(
       normalizedPluginConfig,
     );
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
-
-    // Side-effect: merge the normalized theme config in the original one
-    context.siteConfig.themeConfig = {
-      ...context.siteConfig.themeConfig,
-      ...doValidateThemeConfig(normalizedPluginConfig),
-    };
 
     const pluginInstance = await normalizedPluginConfig.plugin(
       context,
       pluginOptions,
     );
 
-    if (!pluginInstance.name) {
+    if (pluginInstance === null) {
+      return null;
+    }
+
+    if (!pluginInstance?.name) {
       throw new Error(
         `A Docusaurus plugin is missing a 'name' property.
 Note that even inline/anonymous plugin functions require a 'name' property.`,
       );
     }
+
+    // Side-effect: merge the normalized theme config in the original one
+    context.siteConfig.themeConfig = {
+      ...context.siteConfig.themeConfig,
+      ...doValidateThemeConfig(normalizedPluginConfig),
+    };
 
     return {
       ...pluginInstance,
@@ -140,9 +144,9 @@ Note that even inline/anonymous plugin functions require a 'name' property.`,
     };
   }
 
-  const plugins: InitializedPlugin[] = await Promise.all(
-    pluginConfigs.map(initializePlugin),
-  );
+  const plugins: InitializedPlugin[] = (
+    await Promise.all(pluginConfigs.map(initializePlugin))
+  ).filter((p) => p !== null);
 
   ensureUniquePluginInstanceIds(plugins);
 
