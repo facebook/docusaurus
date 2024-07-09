@@ -6,17 +6,18 @@
  */
 
 import React from 'react';
-import {type AuthorLetterEntry} from '@docusaurus/theme-common';
+import {type LetterEntry} from '@docusaurus/theme-common';
 import {listAuthorsByLetters} from '@docusaurus/theme-common/internal';
 import Author from '@theme/Author';
 import type {Props} from '@theme/AuthorsListByLetter';
 import Heading from '@theme/Heading';
+import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 import styles from './styles.module.css';
 
 function AuthorLetterEntryItem({
   letterEntry,
 }: {
-  letterEntry: AuthorLetterEntry;
+  letterEntry: LetterEntry<AuthorItemProp>;
 }) {
   return (
     <article>
@@ -24,7 +25,7 @@ function AuthorLetterEntryItem({
         {letterEntry.letter}
       </Heading>
       <ul className="padding--none">
-        {letterEntry.authors.map((author) => (
+        {letterEntry.items.map((author) => (
           <li key={author.key} className={styles.author}>
             <Author {...author} />
           </li>

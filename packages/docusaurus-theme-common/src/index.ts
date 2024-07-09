@@ -75,12 +75,11 @@ export {useWindowSize} from './hooks/useWindowSize';
  * Note: we still guarantee retro-compatibility on those
  */
 
-export {translateTagsPageTitle, type TagLetterEntry} from './utils/tagsUtils';
+export {translateTagsPageTitle} from './utils/tagsUtils';
 
-export {
-  type AuthorLetterEntry,
-  translateAuthorsPageTitle,
-} from './utils/authorsUtils';
+export {translateAuthorsPageTitle} from './utils/authorsUtils';
+
+export {type LetterEntry} from './utils/generalUtils';
 
 export {
   useSearchQueryString,

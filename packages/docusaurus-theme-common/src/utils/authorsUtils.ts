@@ -6,7 +6,6 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 
 export const translateAuthorsPageTitle = (): string =>
   translate({
@@ -14,8 +13,3 @@ export const translateAuthorsPageTitle = (): string =>
     message: 'Authors',
     description: 'The title of the author list page',
   });
-
-export type AuthorLetterEntry = {
-  letter: string | undefined;
-  authors: AuthorItemProp[];
-};

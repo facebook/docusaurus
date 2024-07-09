@@ -6,7 +6,6 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
   translate({
@@ -14,5 +13,3 @@ export const translateTagsPageTitle = (): string =>
     message: 'Tags',
     description: 'The title of the tag list page',
   });
-
-export type TagLetterEntry = {letter: string | undefined; tags: TagsListItem[]};

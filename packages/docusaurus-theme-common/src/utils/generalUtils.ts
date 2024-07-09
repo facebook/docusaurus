@@ -7,10 +7,8 @@
 
 import _ from 'lodash';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import type {TagLetterEntry} from './tagsUtils';
 import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 import type {TagsListItem} from '@docusaurus/utils';
-import type {AuthorLetterEntry} from './authorsUtils';
 
 /**
  * Formats the page's title based on relevant site config and other contexts.
@@ -33,15 +31,16 @@ interface HasName {
 
 type Entry = HasLabel | HasName;
 
+export type LetterEntry<T> = {letter: string | undefined; items: T[]};
+
 /**
  * Takes a list of tags or author (as provided by the content plugins),
  * and groups them by their initials.
  */
-function listByLetters<T extends Entry, R>(
+function listByLetters<T extends Entry>(
   items: readonly T[],
   getLabel: (item: T) => string | undefined,
-  mapResult: (letter: string | undefined, items: T[]) => R,
-): R[] {
+): LetterEntry<T>[] {
   // Group items by their initial letter or undefined
   const groups = _.groupBy(items, (item) => {
     const label = getLabel(item);
@@ -58,30 +57,22 @@ function listByLetters<T extends Entry, R>(
         groupedItems,
         (item) => getLabel(item) ?? '',
       );
-      return mapResult(
-        letter === 'undefined' ? undefined : letter,
-        sortedItems,
-      );
+      return {
+        letter: letter === 'undefined' ? undefined : letter,
+        items: sortedItems,
+      };
     })
     .value();
 }
 
 export function listTagsByLetters(
   tags: readonly TagsListItem[],
-): TagLetterEntry[] {
-  return listByLetters(
-    tags,
-    (tag) => tag.label,
-    (letter, items) => ({letter, tags: items}),
-  );
+): LetterEntry<TagsListItem>[] {
+  return listByLetters(tags, (tag) => tag.label);
 }
 
 export function listAuthorsByLetters(
   authors: readonly AuthorItemProp[],
-): AuthorLetterEntry[] {
-  return listByLetters(
-    authors,
-    (author) => author.name,
-    (letter, items) => ({letter, authors: items}),
-  );
+): LetterEntry<AuthorItemProp>[] {
+  return listByLetters(authors, (author) => author.name);
 }
