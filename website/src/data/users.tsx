@@ -3018,7 +3018,7 @@ const Users: User[] = [
   {
     title: 'CodeHarborHub',
     description: 'Free tech courses and tutorials for all levels. Learn from experts and boost your career skills today!',
-    preview: require('./showcase/codeharborhub.png'),
+    preview: null,
     website: 'https://codeharborhub.github.io/',
     source: 'https://github.com/CodeHarborHub/codeharborhub.github.io',
     tags: ['opensource', 'personal'],
