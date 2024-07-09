@@ -7,12 +7,8 @@
 
 import path from 'path';
 import {getBlogPostAuthors} from '../authors';
-import {
-  getAuthorsMap,
-  validateAuthorsMapInput,
-} from '../authorsMap';
-import type {
-  AuthorsMapInput} from '../authorsMap';
+import {getAuthorsMap, validateAuthorsMapInput} from '../authorsMap';
+import type {AuthorsMapInput} from '../authorsMap';
 
 describe('getBlogPostAuthors', () => {
   it('can read no authors', () => {
