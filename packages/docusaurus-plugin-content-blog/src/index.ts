@@ -161,6 +161,7 @@ export default async function pluginContentBlog(
         blogTitle,
         blogSidebarTitle,
         pageBasePath,
+        authorsPageBasePath,
       } = options;
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
@@ -171,8 +172,8 @@ export default async function pluginContentBlog(
         authorsMapPath: options.authorsMapPath,
         authorsBaseRoutePath: normalizeUrl([
           context.baseUrl,
-          options.routeBasePath,
-          options.authorsPageBasePath,
+          routeBasePath,
+          authorsPageBasePath,
         ]),
       });
 
@@ -195,7 +196,7 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
-          authorsMap: {},
+          authorsMap,
         };
       }
 
