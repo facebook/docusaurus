@@ -7,8 +7,12 @@
 
 import path from 'path';
 import {getBlogPostAuthors} from '../authors';
-import {getAuthorsMap, validateAuthorsMapInput} from '../authorsMap';
-import type {AuthorsMap} from '../authorsMap';
+import {
+  getAuthorsMap,
+  validateAuthorsMapInput,
+} from '../authorsMap';
+import type {
+  AuthorsMapInput} from '../authorsMap';
 
 describe('getBlogPostAuthors', () => {
   it('can read no authors', () => {
@@ -525,70 +529,70 @@ describe('getAuthorsMap', () => {
 
 describe('validateAuthorsMapInput', () => {
   it('accept valid authors map', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       slorber: {
         name: 'Sébastien Lorber',
         title: 'maintainer',
         url: 'https://sebastienlorber.com',
         imageURL: 'https://github.com/slorber.png',
         key: 'slorber',
-        page: null,
+        page: false,
       },
       yangshun: {
         name: 'Yangshun Tay',
         imageURL: 'https://github.com/yangshun.png',
         randomField: 42,
         key: 'yangshun',
-        page: null,
+        page: false,
       },
       jmarcey: {
         name: 'Joel',
         title: 'creator of Docusaurus',
         hello: new Date(),
         key: 'jmarcey',
-        page: null,
+        page: false,
       },
     };
     expect(validateAuthorsMapInput(authorsMap)).toEqual(authorsMap);
   });
 
   it('rename snake case image_url to camelCase imageURL', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       slorber: {
         name: 'Sébastien Lorber',
         image_url: 'https://github.com/slorber.png',
         key: 'slorber',
-        page: null,
+        page: false,
       },
     };
     expect(validateAuthorsMapInput(authorsMap)).toEqual({
       slorber: {
         name: 'Sébastien Lorber',
         imageURL: 'https://github.com/slorber.png',
-        page: null,
+        page: false,
         key: 'slorber',
       },
     });
   });
 
   it('accept author with only image', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       slorber: {
         imageURL: 'https://github.com/slorber.png',
         url: 'https://github.com/slorber',
         key: 'slorber',
-        page: null,
+        page: false,
       },
     };
     expect(validateAuthorsMapInput(authorsMap)).toEqual(authorsMap);
   });
 
   it('reject author without name or image', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       slorber: {
         title: 'foo',
         key: 'slorber',
-        page: null,
+        page: false,
       },
     };
     expect(() =>
@@ -643,7 +647,8 @@ describe('validateAuthorsMapInput', () => {
   });
 
   it('reject non-map author', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
+      // @ts-expect-error: intentionally invalid
       slorber: [],
     };
     expect(() =>
