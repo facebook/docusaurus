@@ -310,17 +310,25 @@ export async function buildAllRoutes({
       if (!author.page || authorBlogPosts === undefined) {
         return [];
       }
-      const pages = paginateBlogPosts({
-        blogPosts: authorBlogPosts,
-        basePageUrl: author.page.permalink,
-        blogDescription,
-        blogTitle,
-        pageBasePath: authorsPageBasePath,
-        postsPerPageOption: postsPerPage,
-      });
-      return pages.map(({metadata, items}) => {
+
+      // TODO ugly ?
+      const data = {
+        items: authorBlogPosts.map((post) => post.id),
+        pages: paginateBlogPosts({
+          blogPosts: authorBlogPosts,
+          basePageUrl: author.page.permalink,
+          blogDescription,
+          blogTitle,
+          pageBasePath: authorsPageBasePath,
+          postsPerPageOption: postsPerPage,
+        }),
+      };
+
+      return data.pages.map(({metadata, items}) => {
         return {
           path: metadata.permalink,
+          component: blogAuthorsPostsComponent,
+          exact: true,
           modules: {
             items: blogPostItemsModule(items),
             sidebar: sidebarModulePath,
@@ -330,7 +338,6 @@ export async function buildAllRoutes({
             listMetadata: metadata,
             allAuthorsPath: blogAuthorsListPath,
           },
-          component: blogAuthorsPostsComponent,
         };
       });
     }
