@@ -31,9 +31,16 @@ jobs:
         # run: yarn install --immutable # Fails if yarn.lock is modified (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
       - name: Check immutable yarn.lock
         run: git diff --exit-code
+
+      - name: Check for suspicious yarn.lock
+        run: >
+          yarn lockfile-lint --path yarn.lock --type yarn --allowed-hosts yarn --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable string-width-cjs strip-ansi-cjs wrap-ansi-cjs
+
+
       - name: Lint
         run: |
           echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
           yarn lint:ci
+
       - name: Prettier Code
         run: yarn format:diff
