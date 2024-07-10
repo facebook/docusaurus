@@ -196,7 +196,8 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/date',
         },
       ],
-      pageAuthors: [],
+      lastUpdatedAt: undefined,
+      lastUpdatedBy: undefined,
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
@@ -222,6 +223,8 @@ describe('blog plugin', () => {
         {
           name: 'Yangshun Tay (translated)',
           imageURL: undefined,
+          key: null,
+          page: null,
         },
         {
           email: 'lorber.sebastien@gmail.com',
@@ -229,6 +232,7 @@ describe('blog plugin', () => {
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
           imageURL: undefined,
+          page: null,
         },
       ],
       date: new Date('2018-12-14'),
@@ -256,7 +260,8 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/global-tag-permalink (en)',
         },
       ],
-      pageAuthors: [],
+      lastUpdatedAt: undefined,
+      lastUpdatedBy: undefined,
       prevItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
@@ -303,7 +308,6 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/complex',
         },
       ],
-      pageAuthors: [],
       hasTruncateMarker: false,
       unlisted: false,
     });
@@ -324,6 +328,8 @@ describe('blog plugin', () => {
           title: 'Docusaurus maintainer',
           url: 'https://sebastienlorber.com',
           imageURL: undefined,
+          page: null,
+          key: null,
         },
       ],
       prevItem: undefined,
@@ -341,7 +347,8 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       tags: [],
-      pageAuthors: [],
+      lastUpdatedAt: undefined,
+      lastUpdatedBy: undefined,
       hasTruncateMarker: false,
       unlisted: false,
     });
@@ -363,7 +370,6 @@ describe('blog plugin', () => {
       },
       prevItem: undefined,
       tags: [],
-      pageAuthors: [],
       nextItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
@@ -488,9 +494,10 @@ describe('blog plugin', () => {
       date: noDateSourceTime,
       frontMatter: {},
       tags: [],
-      pageAuthors: [],
       prevItem: undefined,
       nextItem: undefined,
+      lastUpdatedAt: undefined,
+      lastUpdatedBy: undefined,
       hasTruncateMarker: false,
       unlisted: false,
     });

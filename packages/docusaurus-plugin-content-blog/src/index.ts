@@ -162,6 +162,7 @@ export default async function pluginContentBlog(
         blogSidebarTitle,
         pageBasePath,
         authorsPageBasePath,
+        authorsMapPath,
       } = options;
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
@@ -169,9 +170,9 @@ export default async function pluginContentBlog(
 
       const authorsMap = await getAuthorsMap({
         contentPaths,
-        authorsMapPath: options.authorsMapPath,
+        authorsMapPath,
         authorsBaseRoutePath: normalizeUrl([
-          context.baseUrl,
+          baseUrl,
           routeBasePath,
           authorsPageBasePath,
         ]),
@@ -238,9 +239,6 @@ export default async function pluginContentBlog(
         blogTitle,
         pageBasePath,
       });
-
-      // TODO: put "AuthorsMap" in Content
-      //  Move blog post author pages aggregation logic in contentLoaded()
 
       return {
         blogSidebarTitle,
