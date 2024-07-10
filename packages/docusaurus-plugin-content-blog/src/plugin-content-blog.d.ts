@@ -712,9 +712,8 @@ declare module '@theme/BlogAuthorsPostsPage' {
     readonly sidebar: BlogSidebar;
     /** Metadata of this author. */
     readonly author: AuthorItemProp;
-    // TODO
     /** Link to the page of all authors. */
-    readonly allAuthorsPath: string;
+    readonly authorsPageLink: string;
     /** Looks exactly the same as the posts list page */
     readonly listMetadata: BlogPaginatedMetadata;
     /**

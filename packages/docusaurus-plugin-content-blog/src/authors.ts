@@ -147,9 +147,8 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
 }
 
 /**
- * Blog posts are grouped by author page permalink (if page exists)
+ * Blog posts grouped by author page permalink (if page exists)
  */
-// TODO would be better if iterated over the AuthorsMap instead of the blogPosts
 export function getBlogPostsForAuthorKey({
   blogPosts,
   authorsMap,

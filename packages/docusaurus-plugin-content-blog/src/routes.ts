@@ -258,11 +258,15 @@ export async function buildAllRoutes({
   }
 
   async function createAuthorsRoutes(): Promise<RouteConfig[]> {
+    if (authorsMap === undefined) {
+      return [];
+    }
+
     const blogPostsByAuthorKey = getBlogPostsForAuthorKey({
       authorsMap,
       blogPosts,
     });
-    const authors = Object.values(authorsMap ?? {});
+    const authors = Object.values(authorsMap);
 
     const blogAuthorsListPath = normalizeUrl([
       baseUrl,
@@ -272,7 +276,9 @@ export async function buildAllRoutes({
 
     return Promise.all([
       createAuthorListRoute(),
-      ...authors.flatMap(createAuthorPaginatedRoute),
+      ...Object.entries(authorsMap).flatMap(([authorKey, author]) =>
+        createAuthorPaginatedRoute(authorKey, author),
+      ),
     ]).then((routes) => routes.flat());
 
     // Maybe authors with page: false could even appear on the list?
@@ -292,15 +298,14 @@ export async function buildAllRoutes({
     }
 
     async function createAuthorPaginatedRoute(
+      authorKey: string,
       author: Author,
     ): Promise<RouteConfig[]> {
-      const authorBlogPosts = blogPostsByAuthorKey[author.key ?? ''];
-      // TODO
-      if (!author.page || authorBlogPosts === undefined) {
+      const authorBlogPosts = blogPostsByAuthorKey[authorKey];
+      if (!author.page || !authorBlogPosts) {
         return [];
       }
 
-      // TODO ugly ?
       const data = {
         items: authorBlogPosts.map((post) => post.id),
         pages: paginateBlogPosts({
@@ -325,7 +330,7 @@ export async function buildAllRoutes({
           props: {
             author: toAuthorProp({author, count: authorBlogPosts.length}),
             listMetadata: metadata,
-            allAuthorsPath: blogAuthorsListPath,
+            authorsPageLink: blogAuthorsListPath,
           },
         };
       });

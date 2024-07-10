@@ -52,7 +52,7 @@ function BlogAuthorsPostsPageContent({
   items,
   sidebar,
   listMetadata,
-  allAuthorsPath,
+  authorsPageLink,
 }: Props): JSX.Element {
   const title = useBlogAuthorsPostsPageTitle(author);
   return (
@@ -73,7 +73,7 @@ function BlogAuthorsPostsPageContent({
           )}
           {author.description && <li>{author.description}</li>}
         </ul>
-        <Link href={allAuthorsPath}>
+        <Link href={authorsPageLink}>
           <Translate
             id="theme.authors.authorsPageLink"
             description="The label of the link targeting the author list page">
@@ -87,6 +87,7 @@ function BlogAuthorsPostsPageContent({
   );
 }
 export default function BlogAuthorsPostsPage(props: Props): JSX.Element {
+  console.log('props: ', props);
   return (
     <HtmlClassNameProvider
       className={clsx(
