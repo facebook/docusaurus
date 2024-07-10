@@ -114,11 +114,22 @@ export async function initPlugins(
     );
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
+    // Side-effect: merge the normalized theme config in the original one
+    // Note: it's important to do this before calling the plugin constructor
+    // Example: the theme classic plugin will read siteConfig.themeConfig
+    context.siteConfig.themeConfig = {
+      ...context.siteConfig.themeConfig,
+      ...doValidateThemeConfig(normalizedPluginConfig),
+    };
+
     const pluginInstance = await normalizedPluginConfig.plugin(
       context,
       pluginOptions,
     );
 
+    // Returning null has been explicitly allowed
+    // It's a way for plugins to self-disable depending on context
+    // See https://github.com/facebook/docusaurus/pull/10286
     if (pluginInstance === null) {
       return null;
     }
@@ -129,12 +140,6 @@ export async function initPlugins(
 Note that even inline/anonymous plugin functions require a 'name' property.`,
       );
     }
-
-    // Side-effect: merge the normalized theme config in the original one
-    context.siteConfig.themeConfig = {
-      ...context.siteConfig.themeConfig,
-      ...doValidateThemeConfig(normalizedPluginConfig),
-    };
 
     return {
       ...pluginInstance,
