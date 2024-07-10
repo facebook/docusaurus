@@ -133,6 +133,13 @@ export async function initPlugins(
     if (pluginInstance === null) {
       return null;
     }
+    if (pluginInstance === undefined) {
+      throw new Error(
+        `A Docusaurus plugin returned 'undefined', which is forbidden.
+A plugin is expected to return an object having at least a 'name' property.
+If you want a plugin to self-disable depending on context/options, you can explicitly return 'null' instead of 'undefined'`,
+      );
+    }
 
     if (!pluginInstance?.name) {
       throw new Error(
