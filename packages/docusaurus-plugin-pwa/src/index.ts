@@ -47,12 +47,17 @@ export default function pluginPWA(
   if (process.env.NODE_ENV !== 'production') {
     return null;
   }
+  if (context.siteConfig.future.experimental_router === 'hash') {
+    logger.warn(
+      `${PluginName} does not support the Hash Router and will be disabled.`,
+    );
+    return null;
+  }
 
   const {
     outDir,
     baseUrl,
     i18n: {currentLocale},
-    siteConfig,
   } = context;
   const {
     debug,
@@ -62,13 +67,6 @@ export default function pluginPWA(
     swCustom,
     swRegister,
   } = options;
-
-  if (siteConfig.future.experimental_router === 'hash') {
-    logger.warn(
-      `${PluginName} does not support the Hash Router and will be disabled.`,
-    );
-    return null;
-  }
 
   return {
     name: PluginName,
