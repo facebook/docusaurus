@@ -24,7 +24,7 @@ async function loadSite(
 describe('initPlugins', () => {
   it('parses plugins correctly and loads them in correct order', async () => {
     const {context, plugins} = await loadSite('site-with-plugin');
-    expect(context.siteConfig.plugins).toHaveLength(6);
+    expect(context.siteConfig.plugins).toHaveLength(7);
     expect(plugins).toHaveLength(10);
 
     expect(plugins[0]!.name).toBe('preset-plugin1');
@@ -83,6 +83,15 @@ describe('initPlugins', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "A Docusaurus plugin is missing a 'name' property.
       Note that even inline/anonymous plugin functions require a 'name' property."
+    `);
+  });
+
+  it('throws user-friendly error message for plugins returning undefined', async () => {
+    await expect(() => loadSite('site-with-undefined-plugin')).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "A Docusaurus plugin returned 'undefined', which is forbidden.
+      A plugin is expected to return an object having at least a 'name' property.
+      If you want a plugin to self-disable depending on context/options, you can explicitly return 'null' instead of 'undefined'"
     `);
   });
 });
