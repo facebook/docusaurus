@@ -9,7 +9,7 @@ import {checkPermalinkCollisions} from '../authorsMap';
 import type {AuthorsMap} from '@docusaurus/plugin-content-blog';
 
 describe('authors permalink collision', () => {
-  it('dont throw when permalinks are unique', () => {
+  it('do not throw when permalinks are unique', () => {
     const authors: AuthorsMap = {
       author1: {
         name: 'author1',
