@@ -49,17 +49,32 @@ function getThemeValidationFunction(
   return normalizedPluginConfig.plugin.validateThemeConfig;
 }
 
+type PluginConfigInitResult = {
+  config: NormalizedPluginConfig;
+  // Plugins might self-disable during initialization by returning null
+  plugin: InitializedPlugin | null;
+};
+
+// This filters self-disabling plugins and returns only the initialized ones
+function onlyInitializedPlugins(
+  initPluginsConfigsResults: PluginConfigInitResult[],
+): InitializedPlugin[] {
+  return initPluginsConfigsResults
+    .map((results) => results.plugin)
+    .filter((p) => p !== null);
+}
+
 /**
  * Runs the plugin constructors and returns their return values. It would load
  * plugin configs from `plugins`, `themes`, and `presets`.
  */
-export async function initPlugins(
+export async function initPluginsConfigs(
   context: LoadContext,
-): Promise<InitializedPlugin[]> {
+  pluginConfigs: NormalizedPluginConfig[],
+): Promise<PluginConfigInitResult[]> {
   // We need to resolve plugins from the perspective of the site config, as if
   // we are using `require.resolve` on those module names.
   const pluginRequire = createRequire(context.siteConfigPath);
-  const pluginConfigs = await loadPluginConfigs(context);
 
   async function doLoadPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
@@ -108,7 +123,7 @@ export async function initPlugins(
 
   async function initializePlugin(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ): Promise<InitializedPlugin | null> {
+  ): Promise<PluginConfigInitResult> {
     const pluginVersion: PluginVersionInformation = await doLoadPluginVersion(
       normalizedPluginConfig,
     );
@@ -131,7 +146,7 @@ export async function initPlugins(
     // It's a way for plugins to self-disable depending on context
     // See https://github.com/facebook/docusaurus/pull/10286
     if (pluginInstance === null) {
-      return null;
+      return {config: normalizedPluginConfig, plugin: null};
     }
     if (pluginInstance === undefined) {
       throw new Error(
@@ -148,19 +163,40 @@ Note that even inline/anonymous plugin functions require a 'name' property.`,
       );
     }
 
-    return {
+    const plugin: InitializedPlugin = {
       ...pluginInstance,
       options: pluginOptions,
       version: pluginVersion,
       path: path.dirname(normalizedPluginConfig.entryPath),
     };
+
+    return {
+      config: normalizedPluginConfig,
+      plugin,
+    };
   }
 
-  const plugins: InitializedPlugin[] = (
+  const plugins: PluginConfigInitResult[] = (
     await Promise.all(pluginConfigs.map(initializePlugin))
   ).filter((p) => p !== null);
 
-  ensureUniquePluginInstanceIds(plugins);
+  ensureUniquePluginInstanceIds(onlyInitializedPlugins(plugins));
 
   return plugins;
+}
+
+/**
+ * Runs the plugin constructors and returns their return values
+ * for all the site context plugins that do not return null to self-disable.
+ */
+export async function initPlugins(
+  context: LoadContext,
+): Promise<InitializedPlugin[]> {
+  const pluginConfigs = await loadPluginConfigs(context);
+  const initPluginsConfigsResults = await initPluginsConfigs(
+    context,
+    pluginConfigs,
+  );
+
+  return onlyInitializedPlugins(initPluginsConfigsResults);
 }
