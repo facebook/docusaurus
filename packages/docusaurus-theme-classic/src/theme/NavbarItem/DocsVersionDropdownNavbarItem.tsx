@@ -8,7 +8,7 @@
 import React from 'react';
 import {
   useVersions,
-  useActiveDocContext
+  useActiveDocContext,
 } from '@docusaurus/plugin-content-docs/client';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {useDocsVersionCandidates} from '@docusaurus/theme-common/internal';
@@ -18,9 +18,11 @@ import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
-import type {GlobalVersion,
+import type {
+  GlobalVersion,
   GlobalDoc,
-  ActiveDocContext} from '@docusaurus/plugin-content-docs/client';
+  ActiveDocContext,
+} from '@docusaurus/plugin-content-docs/client';
 
 function getVersionMainDoc(version: GlobalVersion): GlobalDoc {
   return version.docs.find((doc) => doc.id === version.mainDocId)!;
