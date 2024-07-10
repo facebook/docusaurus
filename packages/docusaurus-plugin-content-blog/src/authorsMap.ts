@@ -160,6 +160,5 @@ export async function getAuthorsMap(params: {
     return undefined;
   }
   const authorsMap = normalizeAuthorsMap({authorsMapInput, ...params});
-  checkPermalinkCollisions(authorsMap);
   return authorsMap;
 }

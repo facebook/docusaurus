@@ -22,12 +22,12 @@ describe('duplicate authors', () => {
     const authors: Author[] = [
       {
         name: 'Sébastien Lorber',
-        key: 'slorber',
+        key: null,
         page: null,
       },
       {
         name: 'Sébastien Lorber',
-        key: 'slorber',
+        key: null,
         page: null,
       },
     ];
@@ -61,7 +61,7 @@ describe('duplicate authors', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Duplicate blog post authors were found in blog post "doc.md" front matter:
-      - {"key":"slorber","name":"Sébastien Lorber 2","imageURL":"/slorber.png"}"
+      - {"key":"slorber","name":"Sébastien Lorber 2","imageURL":"/slorber.png","page":null}"
     `);
   });
 });
@@ -134,8 +134,8 @@ describe('inline authors', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Some blog authors used in "doc.md" are not defined in "authors.yml":
-      - {"name":"Inline author 1"}
-      - {"imageURL":"/inline-author2.png"}
+      - {"name":"Inline author 1","page":null,"key":null}
+      - {"imageURL":"/inline-author2.png","page":null,"key":null}
 
       Note that we recommend to declare authors once in a "authors.yml" file and reference them by key in blog posts front matter to avoid author info duplication.
       But if you want to allow inline blog authors, you can disable this message by setting onInlineAuthors: 'ignore' in your blog plugin options.
