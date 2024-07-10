@@ -20,7 +20,7 @@ type AuthorInput = AuthorAttributes & {
   page?: boolean | AuthorPage;
 };
 
-type AuthorsMapInput = {[authorKey: string]: AuthorInput};
+export type AuthorsMapInput = {[authorKey: string]: AuthorInput};
 
 const AuthorPageSchema = Joi.object<AuthorPage>({
   permalink: Joi.string().required(),

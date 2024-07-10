@@ -538,16 +538,6 @@ declare module '@docusaurus/plugin-content-blog' {
     unlisted: boolean;
   };
 
-  export type BlogPageAuthors = {
-    [permalink: string]: BlogPageAuthor;
-  };
-
-  export type BlogPageAuthor = Author & {
-    /** Blog post permalinks. */
-    items: string[];
-    pages: BlogPaginated[];
-  };
-
   export type BlogPost = {
     id: string;
     metadata: BlogPostMetadata;
