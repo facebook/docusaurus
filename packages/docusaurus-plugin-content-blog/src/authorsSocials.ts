@@ -5,34 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
 import type {
   AuthorSocials,
   SocialPlatformKey,
 } from '@docusaurus/plugin-content-blog';
 
-const socialPlatforms: Record<SocialPlatformKey, string> = {
-  twitter: 'https://twitter.com/',
-  github: 'https://github.com/',
-  linkedin: 'https://www.linkedin.com/',
-  stackoverflow: 'https://stackoverflow.com/',
-  x: 'https://x.com/',
+type PredefinedPlatformNormalizer = (value: string) => string;
+
+const PredefinedPlatformNormalizers: Record<
+  SocialPlatformKey | string,
+  PredefinedPlatformNormalizer
+> = {
+  x: (handle: string) => `https://x.com/${handle}`,
+  twitter: (handle: string) => `https://twitter.com/${handle}`,
+  github: (handle: string) => `https://github.com/${handle}`,
+  linkedin: (handle: string) => `https://www.linkedin.com/in/${handle}/`,
+  stackoverflow: (userId: string) =>
+    `https://stackoverflow.com/users/${userId}`,
 };
 
-const SocialPlatformKeys = Object.keys(socialPlatforms) as SocialPlatformKey[];
+type SocialEntry = [string, string];
 
-export const normalizeSocials = (value: AuthorSocials): AuthorSocials => {
-  SocialPlatformKeys.forEach((platform) => {
-    if (
-      value[platform] &&
-      !value[platform]!.startsWith(socialPlatforms[platform])
-    ) {
-      value[platform] = normalizeUrl([
-        socialPlatforms[platform],
-        value[platform]!,
-      ]);
-    }
-  });
+function normalizeSocialEntry([platform, value]: SocialEntry): SocialEntry {
+  const normalizer = PredefinedPlatformNormalizers[platform.toLowerCase()];
+  const isAbsoluteUrl =
+    value.startsWith('http://') || value.startsWith('https://');
+  if (isAbsoluteUrl) {
+    return [platform, value];
+  } else if (value.includes('/')) {
+    throw new Error(
+      `Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+Social platform '${platform}' has illegal value '${value}'`,
+    );
+  }
+  if (normalizer && !isAbsoluteUrl) {
+    const normalizedPlatform = platform.toLowerCase();
+    const normalizedValue = normalizer(value);
+    return [normalizedPlatform as SocialPlatformKey, normalizedValue];
+  }
+  return [platform, value];
+}
 
-  return value;
+export const normalizeSocials = (socials: AuthorSocials): AuthorSocials => {
+  return Object.fromEntries(Object.entries(socials).map(normalizeSocialEntry));
 };

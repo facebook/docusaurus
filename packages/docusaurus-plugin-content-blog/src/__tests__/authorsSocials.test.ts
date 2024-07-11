@@ -20,8 +20,26 @@ describe('normalizeSocials', () => {
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
         "github": "https://github.com/ozakione",
-        "linkedin": "https://www.linkedin.com/ozakione",
-        "stackoverflow": "https://stackoverflow.com/ozakione",
+        "linkedin": "https://www.linkedin.com/in/ozakione/",
+        "stackoverflow": "https://stackoverflow.com/users/ozakione",
+        "twitter": "https://twitter.com/ozakione",
+      }
+    `);
+  });
+
+  it('only username - case insensitive', () => {
+    const socials: AuthorSocials = {
+      Twitter: 'ozakione',
+      linkedIn: 'ozakione',
+      gitHub: 'ozakione',
+      STACKoverflow: 'ozakione',
+    };
+
+    expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
+      {
+        "github": "https://github.com/ozakione",
+        "linkedin": "https://www.linkedin.com/in/ozakione/",
+        "stackoverflow": "https://stackoverflow.com/users/ozakione",
         "twitter": "https://twitter.com/ozakione",
       }
     `);
@@ -49,7 +67,7 @@ describe('normalizeSocials', () => {
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
         "github": "https://github.com/ozakione",
-        "linkedin": "https://www.linkedin.com/ozakione",
+        "linkedin": "https://www.linkedin.com/in/ozakione/",
         "stackoverflow": "https://stackoverflow.com/ozakione",
         "twitter": "https://twitter.com/ozakione",
       }
@@ -68,24 +86,14 @@ describe('normalizeSocials', () => {
     `);
   });
 
-  it('normalize link url', () => {
-    // stackoverflow doesn't like multiple slashes, as we have trailing slash
-    // in socialPlatforms, if the user add a prefix slash the url will contain
-    // multiple slashes causing a 404
+  it('rejects strings that do not look like username/userId/handle or fully-qualified URLs', () => {
     const socials: AuthorSocials = {
-      twitter: '//ozakione',
-      github: '/ozakione///',
-      linkedin: '//ozakione///',
-      stackoverflow: '///users///82609/sebastien-lorber',
+      twitter: '/ozakione/XYZ',
     };
 
-    expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
-      {
-        "github": "https://github.com/ozakione/",
-        "linkedin": "https://www.linkedin.com/ozakione/",
-        "stackoverflow": "https://stackoverflow.com/users/82609/sebastien-lorber",
-        "twitter": "https://twitter.com/ozakione",
-      }
+    expect(() => normalizeSocials(socials)).toThrowErrorMatchingInlineSnapshot(`
+      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value '/ozakione/XYZ'"
     `);
   });
 
