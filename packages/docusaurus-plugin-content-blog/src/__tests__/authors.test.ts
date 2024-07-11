@@ -255,6 +255,52 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
+  it('can normalize inline authors', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [
+            {
+              name: 'Seb1',
+              socials: {
+                x: 'https://x.com/sebastienlorber',
+                twitter: 'sebastienlorber',
+                github: 'slorber',
+              },
+            },
+            {
+              name: 'Seb2',
+              socials: {
+                x: 'sebastienlorber',
+                twitter: 'https://twitter.com/sebastienlorber',
+                github: 'https://github.com/slorber',
+              },
+            },
+          ],
+        },
+        authorsMap: {},
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        name: 'Seb1',
+        socials: {
+          x: 'https://x.com/sebastienlorber',
+          twitter: 'https://twitter.com/sebastienlorber',
+          github: 'https://github.com/slorber',
+        },
+      },
+      {
+        name: 'Seb2',
+        socials: {
+          x: 'https://x.com/sebastienlorber',
+          twitter: 'https://twitter.com/sebastienlorber',
+          github: 'https://github.com/slorber',
+        },
+      },
+    ]);
+  });
+
   it('throw when using author key with no authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
@@ -411,6 +457,27 @@ describe('getAuthorsMap', () => {
         authorsMapPath: 'authors_does_not_exist.yml',
       }),
     ).resolves.toBeUndefined();
+  });
+
+  describe('getAuthorsMap returns normalized', () => {
+    it('socials', async () => {
+      const authorsMap = await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: 'authors.yml',
+      });
+      expect(authorsMap.slorber.socials).toMatchInlineSnapshot(`
+        {
+          "twitter": "https://twitter.com/sebastienlorber",
+          "x": "https://x.com/sebastienlorber",
+        }
+      `);
+      expect(authorsMap.JMarcey.socials).toMatchInlineSnapshot(`
+        {
+          "twitter": "https://twitter.com/JoelMarcey",
+          "x": "https://x.com/JoelMarcey",
+        }
+      `);
+    });
   });
 });
 

@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as _ from 'lodash';
 import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import {normalizeSocials} from './authorsSocials';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
@@ -58,18 +60,32 @@ export function validateAuthorsMap(content: unknown): AuthorsMap {
   return value;
 }
 
+function normalizeAuthor(author: Author): Author {
+  return {
+    ...author,
+    socials: author.socials ? normalizeSocials(author.socials) : undefined,
+  };
+}
+
+function normalizeAuthorsMap(authorsMap: AuthorsMap): AuthorsMap {
+  return _.mapValues(authorsMap, normalizeAuthor);
+}
+
 export async function getAuthorsMap(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
 }): Promise<AuthorsMap | undefined> {
-  return getDataFileData(
+  const authorsMap = await getDataFileData(
     {
       filePath: params.authorsMapPath,
       contentPaths: params.contentPaths,
       fileType: 'authors map',
     },
+    // TODO annoying to test: tightly coupled FS reads + validation...
     validateAuthorsMap,
   );
+
+  return authorsMap ? normalizeAuthorsMap(authorsMap) : undefined;
 }
 
 type AuthorsParam = {
@@ -122,7 +138,7 @@ function getFrontMatterAuthorLegacy({
 function normalizeFrontMatterAuthors(
   frontMatterAuthors: BlogPostFrontMatterAuthors = [],
 ): BlogPostFrontMatterAuthor[] {
-  function normalizeAuthor(
+  function normalizeFrontMatterAuthor(
     authorInput: string | Author,
   ): BlogPostFrontMatterAuthor {
     if (typeof authorInput === 'string') {
@@ -135,8 +151,8 @@ function normalizeFrontMatterAuthors(
   }
 
   return Array.isArray(frontMatterAuthors)
-    ? frontMatterAuthors.map(normalizeAuthor)
-    : [normalizeAuthor(frontMatterAuthors)];
+    ? frontMatterAuthors.map(normalizeFrontMatterAuthor)
+    : [normalizeFrontMatterAuthor(frontMatterAuthors)];
 }
 
 function getFrontMatterAuthors(params: AuthorsParam): Author[] {
@@ -165,11 +181,11 @@ ${Object.keys(authorsMap)
   }
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
-    return {
+    return normalizeAuthor({
       // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
-    };
+    });
   }
 
   return frontMatterAuthors.map(toAuthor);
