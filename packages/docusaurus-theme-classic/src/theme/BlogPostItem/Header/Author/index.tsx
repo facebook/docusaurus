@@ -16,7 +16,7 @@ import Github from '@theme/Icon/Socials/Github';
 import X from '@theme/Icon/Socials/X';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
-import DefaultSocial from '@theme/Icon/Socials/Default';
+import DefaultSocialIcon from '@theme/Icon/Socials/Default';
 import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
@@ -34,33 +34,40 @@ const PlatformIconsMap: Record<string, ComponentType<{className: string}>> = {
   x: X,
 };
 
-function PlatformLink({platform, link}: {platform: string; link: string}) {
-  const Icon = PlatformIconsMap[platform] ?? DefaultSocial;
+function SocialLink({platform, link}: {platform: string; link: string}) {
+  const Icon = PlatformIconsMap[platform] ?? DefaultSocialIcon;
   return (
-    <Link href={link}>
-      <Icon className={clsx(styles.socialIcon)} />
+    <Link className={styles.authorSocialLink} href={link} title={platform}>
+      <Icon className={clsx(styles.authorSocialLink)} />
     </Link>
   );
 }
 
+function AuthorSocials({author}: {author: Props['author']}) {
+  return <div className={styles.authorSocials}>
+    {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
+      return <SocialLink key={platform} platform={platform} link={linkUrl} />;
+    })}
+  </div>
+}
+
+function AuthorTitle({title}: {title: string}) {
+  return (
+    <small className={styles.authorTitle} title={title}>
+      {title}
+    </small>
+  );
+}
+
 export default function BlogPostItemHeaderAuthor({
+  // singleAuthor,
   author,
   className,
 }: Props): JSX.Element {
   const {name, title, url, socials, imageURL, email} = author;
   const link = url || (email && `mailto:${email}`) || undefined;
 
-  const renderSocialMedia = () => (
-    <div className={clsx(styles.authorSocial, 'avatar__subtitle')}>
-      {Object.entries(socials ?? {}).map(([platform, linkUrl]) => {
-        return (
-          <PlatformLink key={platform} platform={platform} link={linkUrl} />
-        );
-      })}
-    </div>
-  );
-
-  const hasSocialMedia = socials && Object.keys(socials).length > 0;
+  const hasSocials = socials && Object.keys(socials).length > 0;
 
   return (
     <div className={clsx('avatar margin-bottom--sm', className)}>
@@ -70,18 +77,15 @@ export default function BlogPostItemHeaderAuthor({
         </MaybeLink>
       )}
 
-      {name && (
+      {(name || title) && (
         <div className="avatar__intro">
           <div className="avatar__name">
             <MaybeLink href={link}>
-              <span>{name}</span>
+              <span className={styles.authorName}>{name}</span>
             </MaybeLink>
           </div>
-          {hasSocialMedia ? (
-            renderSocialMedia()
-          ) : (
-            <small className="avatar__subtitle">{title}</small>
-          )}
+          {!!title && <AuthorTitle title={title} />}
+          {hasSocials && <AuthorSocials author={author} />}
         </div>
       )}
     </div>

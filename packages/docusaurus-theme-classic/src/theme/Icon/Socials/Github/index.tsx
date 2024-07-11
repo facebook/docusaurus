@@ -15,8 +15,8 @@ function Github(props: SVGProps<SVGSVGElement>): JSX.Element {
   return (
     <svg
       viewBox="0 0 256 250"
-      width="256"
-      height="250"
+      width="1em"
+      height="1em"
       {...props}
       className={clsx(props.className, styles.githubSvg)}
       xmlns="http://www.w3.org/2000/svg"

@@ -296,6 +296,7 @@ declare module '@theme/BlogPostItem/Header/Author' {
 
   export interface Props {
     readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly singleAuthor: boolean;
     readonly className?: string;
   }
 
@@ -1551,7 +1552,7 @@ declare module '@theme/Icon/Socials/Default' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function DefaultSocial(props: Props): JSX.Element;
+  export default function DefaultSocialIcon(props: Props): JSX.Element;
 }
 
 declare module '@theme/Icon/Socials/StackOverflow' {

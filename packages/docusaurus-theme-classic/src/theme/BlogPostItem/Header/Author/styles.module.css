@@ -5,14 +5,51 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.authorSocial {
+:root {
+  --docusaurus-blog-social-icon-size: 1rem;
+}
+
+.authorName {
+  font-size: 1.1rem;
+}
+
+.singleAuthor .authorName {
+  font-size: 1.3rem;
+}
+
+.authorSocials {
+  margin-top: 0.2rem;
+
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  line-height: 0;
+
+  overflow: hidden;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
-.socialIcon {
-  width: 1.375em;
-  height: 1.375em;
-  margin-right: 0.5em;
+.authorSocialLink {
+  height: var(--docusaurus-blog-social-icon-size);
+  width: var(--docusaurus-blog-social-icon-size);
+  line-height: 0;
+  margin-right: 0.2rem;
+}
+
+.authorSocialIcon {
+  width: var(--docusaurus-blog-social-icon-size);
+  height: var(--docusaurus-blog-social-icon-size);
+}
+
+.authorTitle {
+  margin-top: 0.06rem;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  display: -webkit-box;
+  overflow: hidden;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
