@@ -21,7 +21,7 @@ const PluginName = 'docusaurus-plugin-client-redirects';
 export default function pluginClientRedirectsPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<void> {
+): Plugin<void> | null {
   const {trailingSlash} = context.siteConfig;
   const router = context.siteConfig.future.experimental_router;
 
@@ -29,7 +29,7 @@ export default function pluginClientRedirectsPages(
     logger.warn(
       `${PluginName} does not support the Hash Router and will be disabled.`,
     );
-    return {name: PluginName};
+    return null;
   }
 
   return {

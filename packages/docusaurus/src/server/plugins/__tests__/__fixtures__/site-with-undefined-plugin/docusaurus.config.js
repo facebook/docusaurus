@@ -13,22 +13,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   plugins: [
     function (context, options) {
-      return {name: 'first-plugin'};
+      return undefined;
     },
-    [
-      function (context, options) {
-        return {name: 'second-plugin'};
-      },
-      {it: 'should work'},
-    ],
-    function (context, options) {
-      // it's ok for a plugin to self-disable
-      return null;
-    },
-    './plugin3.js',
-    ['./plugin4.js', {}],
-    './pluginEsm',
-    './pluginTypeScript',
   ],
-  presets: ['./preset.js'],
 };
