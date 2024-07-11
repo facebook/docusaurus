@@ -44,11 +44,13 @@ function SocialLink({platform, link}: {platform: string; link: string}) {
 }
 
 function AuthorSocials({author}: {author: Props['author']}) {
-  return <div className={styles.authorSocials}>
-    {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
-      return <SocialLink key={platform} platform={platform} link={linkUrl} />;
-    })}
-  </div>
+  return (
+    <div className={styles.authorSocials}>
+      {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
+        return <SocialLink key={platform} platform={platform} link={linkUrl} />;
+      })}
+    </div>
+  );
 }
 
 function AuthorTitle({title}: {title: string}) {
