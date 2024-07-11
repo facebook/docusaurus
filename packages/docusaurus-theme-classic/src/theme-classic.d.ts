@@ -1523,7 +1523,7 @@ declare module '@theme/Icon/Socials/Twitter' {
   export default function Twitter(props: Props): JSX.Element;
 }
 
-declare module '@theme/Icon/Socials/Github' {
+declare module '@theme/Icon/Socials/GitHub' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}

@@ -12,7 +12,7 @@ import Link, {type Props as LinkProps} from '@docusaurus/Link';
 
 import type {Props} from '@theme/BlogPostItem/Header/Author';
 import Twitter from '@theme/Icon/Socials/Twitter';
-import Github from '@theme/Icon/Socials/Github';
+import GitHub from '@theme/Icon/Socials/GitHub';
 import X from '@theme/Icon/Socials/X';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
@@ -28,7 +28,7 @@ function MaybeLink(props: LinkProps): JSX.Element {
 
 const PlatformIconsMap: Record<string, ComponentType<{className: string}>> = {
   twitter: Twitter,
-  github: Github,
+  github: GitHub,
   stackoverflow: StackOverflow,
   linkedin: LinkedIn,
   x: X,
@@ -44,11 +44,13 @@ function SocialLink({platform, link}: {platform: string; link: string}) {
 }
 
 function AuthorSocials({author}: {author: Props['author']}) {
-  return <div className={styles.authorSocials}>
-    {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
-      return <SocialLink key={platform} platform={platform} link={linkUrl} />;
-    })}
-  </div>
+  return (
+    <div className={styles.authorSocials}>
+      {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
+        return <SocialLink key={platform} platform={platform} link={linkUrl} />;
+      })}
+    </div>
+  );
 }
 
 function AuthorTitle({title}: {title: string}) {

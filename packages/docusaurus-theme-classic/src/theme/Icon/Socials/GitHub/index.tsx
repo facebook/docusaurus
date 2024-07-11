@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import styles from './styles.module.css';
 
 // SVG Source: https://svgl.app/
-function Github(props: SVGProps<SVGSVGElement>): JSX.Element {
+function GitHub(props: SVGProps<SVGSVGElement>): JSX.Element {
   return (
     <svg
       viewBox="0 0 256 250"
@@ -26,4 +26,4 @@ function Github(props: SVGProps<SVGSVGElement>): JSX.Element {
     </svg>
   );
 }
-export default Github;
+export default GitHub;
